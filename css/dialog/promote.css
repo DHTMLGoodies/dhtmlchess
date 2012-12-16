@@ -1,0 +1,39 @@
+.chess-promote-piece{
+    cursor:pointer;
+    padding:5px;
+
+}
+
+.chess-promote-piece .ludo-body{
+    border-radius:5px;
+    border:1px solid !important;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-color:#FFF;
+}
+
+.chess-promote-white-queen .ludo-body{
+    background-image:url('../images/alphapale90wq.png');
+}
+.chess-promote-white-rook .ludo-body{
+    background-image:url('../images/alphapale90wr.png');
+}
+.chess-promote-white-bishop .ludo-body{
+    background-image:url('../images/alphapale90wb.png');
+}
+.chess-promote-white-knight .ludo-body{
+    background-image:url('../images/alphapale90wn.png');
+}
+
+.chess-promote-black-queen .ludo-body{
+    background-image:url('../images/alphapale90bq.png');
+}
+.chess-promote-black-rook .ludo-body{
+    background-image:url('../images/alphapale90br.png');
+}
+.chess-promote-black-bishop .ludo-body{
+    background-image:url('../images/alphapale90bb.png');
+}
+.chess-promote-black-knight .ludo-body{
+    background-image:url('../images/alphapale90bn.png');
+}

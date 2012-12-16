@@ -1,0 +1,94 @@
+[Event "Blitz:120'"]
+[Site "privat"]
+[Date "2007.03.19"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "*"]
+[ECO "B00"]
+[Annotator "Magne,Alf"]
+[PlyCount "92"]
+[TimeControl "7200"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. e4 a5 2. d4 e5 3. dxe5 Nc6 4. Nc3 Nf6
+5. exf6 Qxf6 6. Nf3 Qxc3+ 7. bxc3 Bc5 8. Bb5 O-O 9. O-O Re8 10. Ba3 Bxa3 11.
+Bxc6 bxc6 12. e5 Rxe5 13. Nxe5 d6 14. Nxc6 Bd7 15. h3 Bxc6 16. Qc1 Bxc1 17.
+Raxc1 Bxg2 18. Kxg2 Re8 19. a4 Re1 20. Rfxe1 g5 21. Re7 Kg7 22. Rxc7 h5 23. Rc6
+h4 24. Rxd6 f6 25. Ra6 g4 26. Rxa5 g3 27. f3 f5 28. Rb5 Kg6 29. a5 Kg7 30. a6
+Kg6 31. a7 Kg7 32. a8=R Kg6 33. c4 Kg7 34. c5 Kg6 35. c6 Kg5 36. c7 Kg6 37.
+c8=B Kh6 38. Kf1 g2+ 39. Ke2 g1=Q 40. Kd2 Qg2+ 41. Kc3 Qxf3+ 42. Kb2 Qe2 43.
+Bd7 f4 44. Rb4 f3 45. Bc6 f2 46. Rb5 f1=Q *
+
+[Event "Blitz:120'"]
+[Site "privat"]
+[Date "2007.03.19"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "*"]
+[ECO "B00"]
+[Annotator "Magne,Alf"]
+[PlyCount "97"]
+[TimeControl "7200"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. e4 a5 2. d4 e5 3. dxe5 Nc6 4. Nc3 Nf6
+5. exf6 Qxf6 6. Nf3 Qxc3+ 7. bxc3 Bc5 8. Bb5 O-O 9. O-O Re8 10. Ba3 Bxa3 11.
+Bxc6 bxc6 12. e5 Rxe5 13. Nxe5 d6 14. Nxc6 Bd7 15. h3 Bxc6 16. Qc1 Bxc1 17.
+Raxc1 Bxg2 18. Kxg2 Re8 19. a4 Re1 20. Rfxe1 g5 21. Re7 Kg7 22. Rxc7 h5 23. Rc6
+h4 24. Rxd6 f6 25. Ra6 g4 26. Rxa5 g3 27. f3 f5 28. Rb5 Kg6 29. a5 Kg7 30. a6
+Kg6 31. a7 Kg7 32. a8=R Kg6 33. c4 Kg7 34. c5 Kg6 35. c6 Kg5 36. c7 Kg6 37.
+c8=B Kh6 38. Kf1 g2+ 39. Ke2 g1=Q 40. Kd2 Qg2+ 41. Kc3 Qxf3+ 42. Kb2 Qe2 43.
+Bd7 f4 44. Rb4 f3 45. Bc6 f2 46. Rb5 f1=Q 47. Bd7 Qff2 48. Rb7 Qee1 49. Rd8 *
+
+[Event "Blitz:120'"]
+[Site "privat"]
+[Date "2007.03.19"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "0-1"]
+[ECO "B00"]
+[Annotator "Magne,Alf"]
+[PlyCount "97"]
+[TimeControl "7200"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. e4 a5 2. d4 e5 3. dxe5 Nc6 4. Nc3 Nf6
+5. exf6 Qxf6 6. Nf3 Qxc3+ 7. bxc3 Bc5 8. Bb5 O-O 9. O-O Re8 10. Ba3 Bxa3 11.
+Bxc6 bxc6 12. e5 Rxe5 13. Nxe5 d6 14. Nxc6 Bd7 15. h3 Bxc6 16. Qc1 Bxc1 17.
+Raxc1 Bxg2 18. Kxg2 Re8 19. a4 Re1 20. Rfxe1 g5 21. Re7 Kg7 22. Rxc7 h5 23. Rc6
+h4 24. Rxd6 f6 25. Ra6 g4 26. Rxa5 g3 27. f3 f5 28. Rb5 Kg6 29. a5 Kg7 30. a6
+Kg6 31. a7 Kg7 32. a8=R Kg6 33. c4 Kg7 34. c5 Kg6 35. c6 Kg5 36. c7 Kg6 37.
+c8=B Kh6 38. Kf1 g2+ 39. Ke2 g1=Q 40. Kd2 Qg2+ 41. Kc3 Qxf3+ 42. Kb2 Qe2 43.
+Bd7 f4 44. Rb4 f3 45. Bc6 f2 46. Rb5 f1=Q 47. Bd7 Qff2 48. Rb7 Qee1 49. Rd8 0-1
+
+[Event "Blitz:120'"]
+[Site "privat"]
+[Date "2007.03.20"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "*"]
+[ECO "B01"]
+[Annotator "Magne,Alf"]
+[PlyCount "30"]
+[TimeControl "7200"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. e4 d5 2. exd5 Nf6 3. d4 Ng4 4. f4 f6 5.
+d6 e5 6. fxe5 fxe5 7. dxe5 c5 8. e6 Nc6 9. Bb5 h5 10. h3 a6 11. Nf3 Rh7 12. Nc3
+g5 13. hxg4 hxg4 14. Rxh7 g3 15. a3 g4 *
+
+[Event "Blitz:120'"]
+[Site "privat"]
+[Date "2007.03.20"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "*"]
+[ECO "A00"]
+[Annotator "Magne,Alf"]
+[PlyCount "16"]
+[TimeControl "7200"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. a4 e5 2. f3 e4 3. Na3 e3 4. dxe3 Nf6 5.
+e4 d6 6. e5 h6 7. exf6 gxf6 8. b3 f5 *
+

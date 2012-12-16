@@ -1,0 +1,16 @@
+div.position-setup-piece{
+    background-color:#FFF;
+    border:1px solid #AAA;
+    border-radius:5px;
+    padding:1px;
+    margin:2px;
+}
+div.position-setup-piece-over{
+    background-color:#EEE;
+}
+
+div.position-setup-selected-piece{
+    background-color:#cbf8a2;
+    border:2px solid blue;
+    padding:0px;
+}

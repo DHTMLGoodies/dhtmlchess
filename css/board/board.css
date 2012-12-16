@@ -1,0 +1,69 @@
+.ludo-chess-board-container {
+    position: relative;
+    margin: 0 auto;
+    background-color: #FFF;
+    padding: 2px;
+    border:1px solid #000;
+    cursor:default;
+}
+
+.ludo-chess-board-label-files-container {
+    height: 20px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.ludo-chess-board-label-file {
+    text-align: center;
+}
+
+.ludo-chess-board-label-ranks-container {
+    width: 20px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.ludo-chess-board {
+    border: 1px solid #000;
+}
+
+.ludo-chess-square-white {
+    background-color: #e7f1fa;
+}
+
+.ludo-chess-square-black {
+    background-color: #a2bdd9;
+}
+
+.ludo-chess-piece {
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.ludo-chess-square-highlight {
+    border: 3px solid red;
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+
+}
+.ludo-chess-board-container-plain{
+    border:0;
+    background-color:transparent;
+}
+
+.ludo-chess-board-container-wood .ludo-chess-square-white {
+    background-image: url(../images/board/light-wood.png);
+}
+
+.ludo-chess-board-container-wood .ludo-chess-square-black {
+    background-image: url(../images/board/dark-wood.png);
+}
+
+.ludo-chess-board-container-bluewood .ludo-chess-square-white {
+    background-image: url(../images/board/light-blue-wood.png);
+}
+
+.ludo-chess-board-container-bluewood .ludo-chess-square-black {
+    background-image: url(../images/board/dark-blue-wood.png);
+}
+

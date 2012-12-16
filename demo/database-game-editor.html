@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Example of a game viewer</title>
+    <?
+    $keywords = "DHTML Chess, Chess,Broadcast games,Pgn viewer,Pgn parser";
+    @include("../../php/log-visitors.php");
+    ?>
+    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
+    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../js/chess-app-config.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+
+
+    <link rel="stylesheet" href="../ludojs/css/ludo-all.css" type="text/css">
+    <link rel="stylesheet" href="../css/buttonbar/blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/chess.css" type="text/css">
+    <link rel="stylesheet" href="../ludojs/css/ludo-all-blue-skin.css" type="text/css">
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: arial !important;
+        }
+
+        .ludo-tree-node span {
+            -moz-user-select: none;
+            line-height: 16px;
+            height: 18px;
+        }
+
+        .ludo-tree-node-expand {
+            top: 4px;
+        }
+
+        span.ludo-tree-node-spacer {
+            height: 10px;
+            background-position: left bottom;
+        }
+
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+var databaseDialog;
+function showDatabaseDialog() {
+	if (!databaseDialog) {
+		databaseDialog = new ludo.dialog.Dialog({
+			id:'databaseDialog',
+			width:600,
+			height:500,
+			autoDispose:false,
+			title:'Load game',
+			layout:'cols',
+			children:[
+				{
+					type:'chess.view.folder.Tree',
+					width:200,
+					resizable:true,
+					containerCss:{
+						'border-right':'1px solid #A6CBF5'
+					}
+				},
+				{
+					layout:'rows',
+					weight:1,
+					containerCss:{
+						'border-left':'1px solid #A6CBF5'
+					},
+					children:[
+
+						{
+							type:'form.Text',
+							label:'Search games',
+							labelWidth:90,
+							containerCss:{
+								'border-bottom':'1px solid #A6CBF5'
+							},
+							listeners:{
+								key:function (value) {
+									ludo.get('gameList').getDataSource().search(value);
+								}
+							}
+						},
+						{
+							titleBar:false,
+							title:'Games',
+							type:'chess.view.gamelist.Grid',
+							weight:1,
+							fillview:true,
+							id:'gameList',
+							cols:['white', 'black', 'result'],
+							listeners:{
+								selectGame:function () {
+									var obj = ludo.get('databaseDialog')
+									obj.hide.delay(300, obj);
+								}
+							}
+						}
+					]
+				}
+
+			],
+			buttonConfig:'Close'
+
+		});
+	}
+	databaseDialog.show();
+
+}
+var app = new ludo.Application({
+	layout:{
+		type:'rows'
+	},
+	css:{
+		'margin-bottom':'5px'
+	},
+	children:[
+		{
+			height:50,
+			layout:'cols',
+			children:[
+				{
+					weight:1,
+					type:'chess.view.metadata.Game',
+					height:30,
+					containerCss:{
+						'color':'#000'
+					},
+					tpl:'<h2 style="line-height:30px;text-align:center;margin:0">{white} vs {black}</h2>'
+				},
+				{
+					html:'<img src="images/logo.png">',
+					width:280
+				}
+			]
+		},
+		{
+			weight:1,
+			layout:'cols',
+			minHeight:100,
+			children:[
+				{
+					weight:1,
+					layout:'rows',
+
+					children:[
+						{
+							type:'chess.view.board.Board',
+							frame:true,
+							boardCss:{
+								'background-color':'transparent',
+								border:0
+							},
+							addons:[
+								{
+									type:'chess.view.highlight.Arrow'
+								}
+							],
+							labels:true,
+							pieceLayout:'alphapale',
+							boardLayout:'wood',
+							weight:1,
+							containerCss:{
+								'margin-bottom':5
+							}
+						},
+						{
+							type:'chess.view.buttonbar.Game',
+							width:200
+						}
+					]
+				},
+
+				{
+					width:300,
+					layout:'rows',
+                    resizable:true,
+					children:[
+						{
+							type:'RichView',
+							title:'Info',
+
+                            resizable:false,
+							children:[
+								{
+
+									type:'chess.view.metadata.Game',
+									tpl:'<table>'
+										+ '<tr><td><b>White:</b></td><td>: {white}</td></tr>'
+										+ '<tr><td><b>Black:</b></td><td>: {black}</td></tr>'
+										+ '<tr><td><b>Result:</b></td><td>: {result}</td></tr>'
+										+ '<tr><td><b>ECO:</b></td><td>: {eco}</td></tr>'
+										+ '<tr><td><b>Event:</b></td><td>: {event}</td></tr>'
+										+ '<tr><td><b>Site:</b></td><td>: {site}</td></tr>'
+										+ '<tr><td><b>Date:</b></td><td>: {date}</td></tr>'
+										+ '<tr><td><b>Round:</b></td><td>: {round}</td></tr>',
+									css:{
+										'overflow-y':'auto',
+										'background-color':'#FFF'
+									}
+								}
+							],
+
+							height:180
+						},
+						{
+							type:'chess.view.metadata.FenField',
+							height:27,
+
+							tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+						},
+
+						{
+							layout:'fill',
+							type:'RichView',
+							title:'Notations',
+                            resizable:false,
+                            minimizable:false,
+							weight:1,
+							children:[
+								{
+
+									type:'chess.view.notation.Panel',
+									notations:'long',
+									showContextMenu:true
+								}
+							]
+						},
+						{
+							height:30,
+							layout:'cols',
+							css:{
+								'margin-top':2
+							},
+							children:[
+								{
+									weight:1
+								},
+								{
+									type:'form.Button',
+									value:'Load game',
+									listeners:{
+										click:showDatabaseDialog
+									}
+								},
+								{
+									type:'chess.view.button.SaveGame'
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	statusBar:false
+});
+
+var d2 = new Date();
+// console.log('Time to render view: ' + (d2.getTime() - d.getTime()));
+var controller = new chess.controller.AnalysisController({
+	id:'myChessController'
+});
+
+new chess.view.user.Controller();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+.ludo-chess-view-notation-panel .ludo-body{
+    background-color:#FFF;
+}
+.notation-chess-move {
+    cursor: pointer;
+    color: #354150;
+}
+
+span.notation-chess-move-highlighted {
+    background-color: #354150;
+    color: #FFF;
+}
+
+div.chess-notation-panel {
+    background-color: #FFF;
+    cursor: default;
+}
+
+div.chess-notation-panel div{
+    font-size:14px;
+    line-height:140%;
+}
+
+div.chess-notation-panel div.ludo-body {
+    padding: 5px;
+}
+
+div.ludo-grid-data-cell {
+    font-size: 12px !important;
+}
+
+.notation-branch-depth-0 {
+    font-weight: bold;
+}
+
+.notation-comment {
+    color: blue;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.notation-chess-move-highlighted .notation-comment {
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+.notation-branch-depth-1 {
+    font-weight: normal;
+    display: block;
+    margin-left: 10px;
+}
+
+.notation-branch-depth-2 {
+    font-weight: normal;
+}
+
+.notation-branch-depth-3 {
+    font-weight: normal;
+}
+
+div.chess-notation-panel .ludo-body {
+    overflow-y: auto;
+}
+

@@ -1,0 +1,17 @@
+.chess-command-panel-message, .chess-command-panel-error-message{
+    margin:2px;
+}
+.chess-command-panel-error-message{
+    color:#F00;
+}
+.chess-command-panel .ludo-body{
+    padding:2px;
+    overflow-y:auto;
+}
+.chess-command-help-label{
+    font-weight:bold;
+}
+.chess-command-panel-message-old{
+    font-style:italic;
+    color:#555;
+}

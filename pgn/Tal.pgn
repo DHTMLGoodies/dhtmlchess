@@ -1,0 +1,507 @@
+[Event "?"]
+[Site "Riga"]
+[Date "1957.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Koblentz"]
+[Result "1-0"]
+[ECO "B63"]
+
+1. e4 c5 {Sicilian opening } 2. Nf3 Nc6 { Standard moves so far } 3. d4 { Also a standard move } cxd4 { Black takes as usual } 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 
+Be7 8. O-O-O O-O 9. Nb3 Qb6 10. f3 a6 11. g4 Rd8 12. Be3 Qc7 13. h4 b5 
+14. g5 Nd7 15. g6 hxg6 16. h5 gxh5 17. Rxh5 Nf6 18. Rh1 d5 $1 19. e5 $1 
+Nxe5 (19... Qxe5 20. Bf4 Qf5 21. Bd3 $16) 20. Bf4 Bd6 21. Qh2 Kf8 22. 
+Qh8+ Ng8 23. Rh7 f5 24. Bh6 Rd7 25. Bxb5 $1 Rf7 26. Rg1 Ra7 27. Nd4 Ng4 $3 (
+27... Qb6 28. Bd7 $3 Raxd7 29. Nxe6+ Ke8 30. Nxg7+ Rxg7 31. Qxg8+ $1 $16) 
+28. fxg4 Be5 {B seems safe. Although a piece down, W has 3 pieces
+en-prise. What can be done} (28... Bf4+ 29. Bxf4 Qxf4+ 30. Kb1 Qxd4 31. 
+Rgh1 {/\ Qxg7+} 31... Rfb7 32. Be8 {Renewing the threat}) 29. Nc6 $1 {To
+attack the Be5} 29... Bxc3 30. Be3 $1 {/\ not the R but c5 with check} (
+30. bxc3 axb5 31. Nxa7 Qxa7 $15) 30... d4 31. Rgh1 {/\ Qxg7+} 31... Rd7 
+32. Bg5 $1 axb5 33. R1h6 $1 d3 (33... Bxb2+ 34. Kxb2 (34. Kb1 Qxc6 35. 
+Rf6+ gxf6 36. Bh6+ Rg7 37. Bxg7+ Ke7 38. Qxg8 Kd6 39. Bf8+ Ke5 40. Rxa7 
+d3) 34... Qxc6 35. Rf6+ gxf6 36. Bh6+ Rg7 37. Bxg7+ Ke7 38. Qxg8 (38. 
+Bxf6+ Kd6 39. Be5+ Kd5 40. Rxa7 Qc3+ 41. Kb1 Qe1+ 42. Kb2 Qxe5 43. Qxg8 
+d3+ 44. Kb3 d2 45. Qxc8 Qe3+ 46. Qc3 Qxa7 47. Qxd2+ Qd4) 38... Qc3+ 39. 
+Kb1 Qe1+ 40. Kb2 Qb4+ 41. Ka1) 34. bxc3 d2+ 35. Kd1 Qxc6 36. Rf6+ Rf7 
+37. Qxg7+ 1-0
+
+
+[Event "?"]
+[Site "Portoroz izt"]
+[Date "1958.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Panno, O."]
+[Result "1-0"]
+[ECO "C92"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 
+8. c3 O-O 9. h3 Nd7 10. d4 Nb6 11. Be3 exd4 12. cxd4 Na5 13. Bc2 c5 
+14. e5 $1 dxe5 $1 (14... Nac4 15. exd6 Qxd6 16. Bg5 $1 Bxg5 17. Nxg5 $40) 
+15. Nxe5 Nbc4 16. Qd3 f5 17. Bb3 $1 f4 18. Bd2 Nxb3 $1 19. Nc6 $5 Nxa1 
+20. Nxd8 Bf5 21. Qf3 Raxd8 22. Rxe7 Bxb1 23. Bxf4 Rxd4 (23... cxd4 24. 
+b3 Bg6 25. bxc4 d3 {Is suggested by Vukovic as good for B. /\ Rxf4.
+However Tal suggests now...} 26. Qg4 $1 Rxf4 (26... d2 27. Rd7) 27. Qxf4 
+d2 28. Rxg7+ $1 Kh8 29. Rd7 $1) 24. Qg4 $1 Bg6 25. Qe6+ Bf7 26. Qf5 Nc2 (
+26... Bg6 27. Rxg7+ Kxg7 28. Bh6+ Kxh6 29. Qxf8+ $14) 27. b3 Bg6 28. 
+Rxg7+ Kxg7 29. Bh6+ Kxh6 30. Qxf8+ Kg5 31. bxc4 bxc4 32. g3 Be4 33. h4+ 
+Kg4 34. Kh2 Bf5 $1 (34... Bd5 35. f3+ Bxf3 36. Qc8+ {& mates}) 35. Qf6 h6 
+36. Qe5 Re4 37. Qg7+ Kf3 38. Qc3+ Ne3 39. Kg1 Bg4 40. fxe3 h5 41. Qe1 
+Rxe3 $2 42. Qf1+ Ke4 43. Qxc4+ Kf3 44. Qf1+ Ke4 45. Qxa6 Kd4 46. Qd6+ 
+Kc4 47. a4 Re1+ 48. Kf2 Re2+ 49. Kf1 Ra2 50. Qa6+ Kd4 51. a5 c4 52. 
+Qb6+ Kd5 53. a6 Ra1+ 54. Kf2 c3 55. a7 c2 56. Qb3+ Kd6 57. Qd3+ (57. 
+Qd3+ Ke7 (57... Ke6 58. Qxc2 Rxa7 59. Qe4+ {& again the R is lost}) 58. 
+Qxc2 $16) 1-0
+
+[Event "?"]
+[Site "Munich Ol"]
+[Date "1958.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Russell"]
+[Result "1-0"]
+[ECO "C44"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. c3 dxc3 5. Nxc3 d6 6. Bc4 Be7 $2 7. 
+Qb3 Na5 8. Bxf7+ Kf8 9. Qa4 Kxf7 10. Qxa5 Be6 11. O-O Kf8 12. Nd5 $1 c6 
+13. Nc7 Bf7 14. Nd4 Qc8 15. Nxa8 Qxa8 16. Nf5 b6 17. Qc3 Bf6 18. Qg3 
+Ne7 19. Qxd6 Ke8 20. Bh6 Rg8 21. Rad1 Qc8 22. Bxg7 Nxf5 23. exf5 Be7 
+24. Rfe1 Be6 25. Rxe6 Rxg7 26. f6 1-0
+
+[Event "?"]
+[Site "25th USSR ch"]
+[Date "1958.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Giplis"]
+[Result "1-0"]
+[ECO "B43"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 a6 5. Nc3 b5 6. Bd3 Bb7 7. O-O 
+Qc7 8. Re1 Nc6 9. Nxc6 Qxc6 $2 10. a4 $1 b4 (10... bxa4 11. Rxa4 Nf6 
+12. Rc4 Qb6 13. Be3) 11. Nd5 $1 Nf6 (11... h6 {B is in great danger, as
+can be seen if we make a trivial move such as this for him.} 12. Bd2 a5 
+13. Bf4 Rc8 14. Bb5 Qxc2 (14... Qc5 15. Nb6 $1 (15. Bxd7+ $5 Kxd7 16. 
+Nb6+ Kc6 17. Qd7+ Kxb6 18. Be3) 15... Rd8 16. Nxd7 $18) 15. Bxd7+ Kxd7 
+16. Nb6+ Ke7 17. Nxc8+ Qxc8 18. Rc1 Bc6 19. Qd6+ Kf6 20. Qxc6 Qxc6 21. 
+Rxc6) 12. Bd2 $1 Nxd5 (12... a5 13. Bb5 Qc5 14. Be3 Qd6 15. Bf4 e5 16. 
+Bxe5 Qxe5 17. Nxf6+ Ke7 18. Nxd7 $16) 13. exd5 Qc5 14. Be4 $1 f5 (14... 
+Bxd5 15. Be3 Qc6 16. Bxd5 Qxd5 17. Qxd5 exd5 18. Bg5+) 15. Bf3 (15. Bxf5 
+Bxd5 16. Bxb4 Qxb4 17. Qxd5 $16) 15... Bxd5 16. Bxb4 Bxf3 17. Qxf3 Qc8 
+18. Bc3 Kf7 19. Rad1 Be7 20. g4 $1 Rf8 (20... Qc6 21. Qxc6 dxc6 22. gxf5 
+exf5 23. Rd7 Rhe8 24. Bb4 $16) 21. gxf5 Kg8 22. Qg2 Bf6 23. Bxf6 Rxf6 
+24. Rxd7 Qxd7 25. Qxa8+ Rf8 26. Qxa6 1-0
+
+[Event "?"]
+[Site "26th USSR ch"]
+[Date "1959.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Bronstein, D."]
+[Result "1-0"]
+[ECO "C96"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 d6 
+8. c3 O-O 9. h3 Na5 10. Bc2 c5 11. d4 Nc6 12. Nbd2 Qb6 13. dxc5 dxc5 
+14. Nf1 Be6 15. Ne3 Rad8 16. Qe2 g6 17. Ng5 c4 $1 18. a4 Kg7 $1 19. 
+axb5 axb5 20. Rb1 (20. b3 cxb3 21. Nxe6+ fxe6 22. Bxb3 Nxe4 23. Ng4 Nxc3 {
+Because of B's 18th W does not now have a check with Bxe6} 24. Bh6+ Kh8 
+25. Qb2 b4 26. Bxf8 {& B has compensation for his exchange}) 20... Na5 (
+20... Nd4 21. cxd4 exd4 22. Nd5 Bxd5 23. exd5 d3 24. Qxe7 dxc2 25. Be3 $1 
+cxb1=Q 26. Bxb6 Qf5 27. Ne6+ $16) 21. Nf3 $1 Qc7 22. Nd5 Bxd5 (22... Nxd5 
+23. exd5 Bxd5 24. Nxe5 $40 {/\ 25.Nxg6 or Ng4 or Qe3}) 23. exd5 Rfe8 $1 
+24. Qxe5 Qxe5 25. Nxe5 Nxd5 (25... Bd6 {creates interesting complications} 
+26. Bh6+ Kxh6 27. Nxf7+ Kg7 28. Rxe8 Rxe8 29. Nxd6 Re2 30. Ra1 Rxc2 
+31. Rxa5 Rxb2 {& B has chances of a draw}) 26. Ra1 Nb3 (26... Nb4 $5 {
+suggested post game by Bronstein. however..} 27. cxb4 Bxb4 28. Re3 Bc5 
+29. Rxa5 Bxe3 30. Bxe3 $14) 27. Bxb3 cxb3 28. Bh6+ $1 Kg8 (28... Kxh6 
+29. Nxf7+ Kg7 30. Nxd8 Rxd8 31. Ra5 $16) 29. Nc6 Rc8 30. Rad1 $1 Rxc6 
+31. Rxd5 {No answer to /\ Rxe7 or Rxb5} 31... f6 32. Rxb5 g5 33. Rxb3 
+Kf7 34. Rb7 Re6 35. Rxe6 Kxe6 36. h4 Rg8 37. f4 Bc5+ 38. Kf1 gxh4 39. 
+Rb5 Rc8 40. f5+ Kd6 41. b4 h3 42. Rxc5 h2 43. Bf4+ 1-0
+
+[Event "?"]
+[Site "JUG ct"]
+[Date "1959.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Smyslov, V."]
+[Result "1-0"]
+[ECO "B10"]
+
+1. e4 c6 2. d3 d5 3. Nd2 e5 4. Ngf3 Nd7 5. d4 dxe4 6. Nxe4 exd4 7. Qxd4 
+Ngf6 8. Bg5 Be7 9. O-O-O O-O 10. Nd6 Qa5 11. Bc4 $3 b5 $1 12. Bd2 $1 
+Qa6 (12... Qc7 13. Bxf7+ Rxf7 14. Nxf7 Kxf7 15. Ng5+ Kg8 16. Rhe1 Nf8 
+17. Bf4 Qb7 18. Bd6 $1) 13. Nf5 Bd8 (13... Bc5 14. Qh4 bxc4 15. Bc3 $1 
+Qxa2 16. Rxd7 Bxd7 17. Nh6+ Kh8 18. Qxf6 $1 $18) 14. Qh4 $1 bxc4 (14... 
+Ne5 15. Nh6+ gxh6 16. Bxh6 Ng6 17. Rxd8 $1 $18) 15. Qg5 $1 Nh5 $1 (15... 
+g6 16. Nh6+ Kg7 17. Bc3 Qxa2 18. Rhe1 $16) (15... Ne8 16. Qxd8 Qxa2 17. 
+Bc3 Nef6 18. Rxd7 Bxd7 19. Nh6+ gxh6 20. Qxf6 $18) 16. Nh6+ $1 Kh8 17. 
+Qxh5 Qxa2 (17... Bf6 18. Bc3 Bxc3 19. Ng5 g6 20. Nhxf7+ Rxf7 21. Nxf7+ 
+Kg7 22. Qf3 Bf6 23. Nd6 {& B is still struggling to finish his q-side
+development}) (17... Nf6 18. Qc5 Nd7 19. Qd6) 18. Bc3 Nf6 $2 (18... f6 19. 
+Rhe1 gxh6 (19... g6 20. Qh4 Qa1+ 21. Kd2 Qa4 22. Ng5 $16) 20. Qxh6 Rg8 
+21. Ng5 $1 $16) (18... Bf6 {Possibly best though the position is highly
+complex} 19. Ng5 Bxg5+ 20. Qxg5 f6 21. Qh4 gxh6 22. Rhe1 $13 {One
+possible line is as follows} 22... Qa1+ 23. Kd2 Qa4 24. Re7 Ne5 25. Ke1 $1 
+Be6 26. Qxh6 Rf7 27. Rxf7 Bxf7 28. Qxf6+ Kg8 29. Bxe5 Kf8 30. Rd7 $18) 
+19. Qxf7 $1 Qa1+ 20. Kd2 Rxf7 21. Nxf7+ Kg8 22. Rxa1 Kxf7 23. Ne5+ Ke6 
+24. Nxc6 Ne4+ 25. Ke3 Bb6+ 26. Bd4 1-0
+
+[Event "?"]
+[Site "JUG ct"]
+[Date "1959.??.??"]
+[Round "20"]
+[White "Tal, M."]
+[Black "Fischer, R."]
+[Result "1-0"]
+[ECO "E93"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Be2 O-O 6. Nf3 e5 7. d5 Nbd7 
+8. Bg5 h6 9. Bh4 a6 10. O-O Qe8 11. Nd2 Nh7 12. b4 Bf6 13. Bxf6 Nhxf6 
+14. Nb3 Qe7 15. Qd2 Kh7 16. Qe3 Ng8 $1 17. c5 f5 18. exf5 gxf5 19. f4 $1 
+exf4 20. Qxf4 {Tal now expected Ne5, & did not even consider de,
+thinking it obviously suicidal. Fischer, famous for grabbing material,
+automatically took, thinking that the extra P would help the defense.} 
+20... dxc5 21. Bd3 $1 {Tal spent a long time on the other line before
+deciding on this. Apparently this convinced Fischer that the pawn loss
+had been an oversight!} (21. bxc5 Nxc5 22. Rac1 Bd7 $1 23. Qxc7 Rac8 
+24. Qf4 Nxb3 25. axb3 Rxc3 26. Rxc3 Qxe2 27. Rc7 Qe7 28. d6 Qe6 {&
+although W's pieces are actively placed there is nothing decisive}) 
+21... cxb4 (21... Qg7 22. Bxf5+ Kh8 23. Ne4 Ne5 24. Ng3 Ne7 25. Rae1 
+Bxf5 (25... Nd3 26. Rxe7 Nxf4 27. Rxg7 Kxg7 28. Rxf4 cxb4 $14) 26. Qxe5 $16) 
+22. Rae1 Qf6 $2 (22... Qd6 23. Bxf5+ Kh8 24. Qd4+ Qf6 25. Qxb4 Qb6+ 26. 
+Qd4+ Qxd4+ 27. Nxd4 $14) 23. Re6 Qxc3 24. Bxf5+ Rxf5 25. Qxf5+ Kh8 26. 
+Rf3 Qb2 27. Re8 Ndf6 28. Qxf6+ Qxf6 29. Rxf6 Kg7 30. Rff8 Ne7 31. Na5 {
+Zugswang} 31... h5 32. h4 Rb8 33. Nc4 b5 34. Ne5 1-0
+
+[Event "?"]
+[Site "Leipzig ol"]
+[Date "1960.??.??"]
+[Round "?"]
+[White "Fischer, R."]
+[Black "Tal, M."]
+[Result "1/2-1/2"]
+[ECO "C17"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Ba5 6. b4 cxd4 7. Qg4 Ne7 
+8. bxa5 dxc3 9. Qxg7 Rg8 10. Qxh7 Nbc6 11. Nf3 Qc7 12. Bb5 Bd7 13. O-O 
+O-O-O 14. Bg5 $2 (14. Bxc6 $1 Bxc6 15. Qxf7 d4 16. Qxe6+ Bd7 17. Qxe7 
+Rxg2+ 18. Kxg2 Bh3+ 19. Kxh3 Qxe7 20. Bg5 {....should win!}) 14... Nxe5 $1 
+15. Nxe5 Bxb5 16. Nxf7 Bxf1 17. Nxd8 Rxg5 18. Nxe6 Rxg2+ 19. Kh1 $1 (
+19. Kxf1 $2 Rxh2 $1 20. Qf7 Rh1+ $1 21. Ke2 (21. Kg2 Qh2+ 22. Kf3 Qh3+ 
+23. Kf4 Qh4+ 24. Ke5 Qe4+ 25. Kf6 Qf5+ 26. Kxe7 Qxf7+ 27. Kxf7 Rxa1) 
+21... Qc4+ 22. Kf3 Rh3+ 23. Kg2 Qg4+ 24. Kf1 Rh1#) 19... Qe5 20. Rxf1 
+Qxe6 21. Kxg2 Qg4+ 1/2-1/2
+
+
+[Event "?"]
+[Site "sf USSR tch"]
+[Date "1964.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Lutikov"]
+[Result "1-0"]
+[ECO "C40"]
+
+1. e4 e5 2. Nf3 d5 3. exd5 e4 4. Qe2 f5 5. d3 Nf6 6. dxe4 fxe4 7. Nc3 
+Bb4 8. Qb5+ c6 9. Qxb4 exf3 10. Bg5 $1 cxd5 11. O-O-O Nc6 12. Qa3 Be6 
+13. Bc4 Qe7 14. Nxd5 Qxa3 15. Nc7+ Ke7 16. Rhe1 $1 (16. Bxe6 Qd6 $1 17. 
+Rxd6 Kxd6 18. Bf4+ Ne5 19. Nxa8 Kxe6 20. Nc7+ Kf5 21. Bxe5 Kxe5 22. 
+gxf3 {But the ending still requires accurate play}) 16... Qc5 (16... Qa5 
+17. Rxe6+ Kf8 18. Bf4 Rd8 19. Rxd8+ Nxd8 20. Bd6+ Kf7 21. Re5+ Kg6 (
+21... Nd5 22. Rxd5 Qa4 23. Rd4+ Kf6 24. Nd5+ Ke6 25. Nb6+ Qxc4 26. Nxc4 
+fxg2 27. Rd1 b5 28. Na3 g1=Q 29. Rxg1 Kxd6 30. Nxb5+ $16) 22. Rxa5 fxg2 
+23. Bd3+ Kf7 24. Rg5 $16) 17. Rxe6+ Kf8 18. Rxf6+ gxf6 19. Ne6+ Ke7 20. 
+Nxc5 fxg5 21. Rd7+ Kf6 22. Rd6+ Ke7 23. Re6+ Kd8 24. Nxb7+ Kc7 25. Bd5 
+Nb4 (25... fxg2 26. Rxc6+ Kxb7 27. Rg6+ Kc7 28. Rxg5 $14) 26. Bxf3 Rae8 
+27. Nc5 Nxa2+ 28. Kb1 Rxe6 29. Nxe6+ Kd7 30. Nc5+ Kd6 31. Nd3 1-0
+
+[Event "?"]
+[Site "ct qf"]
+[Date "1965.??.??"]
+[Round "2"]
+[White "Tal, M."]
+[Black "Portisch"]
+[Result "1-0"]
+[ECO "B10"]
+
+1. e4 c6 2. Nc3 d5 3. Nf3 dxe4 4. Nxe4 Bg4 5. h3 Bxf3 6. Qxf3 Nd7 7. d4 
+Ngf6 8. Bd3 Nxe4 9. Qxe4 e6 10. O-O Be7 11. c3 Nf6 12. Qh4 Nd5 13. Qg4 
+Bf6 (13... O-O 14. Bh6 Bf6 15. Qe4) 14. Re1 (14. Qe4 Ne7 $1 $10) 14... Qb6 (
+14... O-O 15. Bh6 Re8 16. Rad1 Qb6 17. Bc1 $14) 15. c4 $5 {a3 would be
+the normal strategic line but Tal feeling that Portisch would be happy
+in such a line has an astonishing tactical ploy lined up.} 15... Nb4 (
+15... Ne7 16. d5 $1 cxd5 17. cxd5 Nxd5 18. Qa4+ {was Tal's intention,
+with B's K unable to castle compensating for the P.}) 16. Rxe6+ $3 fxe6 
+17. Qxe6+ Kf8 (17... Kd8 18. Qd6+ Ke8 19. Qe6+ {is a draw but was hardly
+likely when B is a R up!}) (17... Be7 18. Bg6+ $1 (18. Bg5 $2 Qc7 19. Re1 
+Nxd3 $1 20. Bxe7 Qd7 $1 $17) (18. Bxh7 c5 $1 19. Qg6+ Qxg6 20. Bxg6+ Kd8 
+21. d5 Bf6 22. a3 Na6 $17) 18... hxg6 (18... Kd8 19. Bf5 Qxd4 (19... Qc7 
+20. Bf4 Qc8 21. Qe4) 20. Bf4 {Tal had seen this position before the R
+sacrifice & liked it a lot. He had further seen the following "main
+line" as a possibility that he found very attractive.} 20... Re8 21. 
+Re1 g6 22. Be3 (22. Bg4 $1 {Dvoretsky's improvment} 22... Nd3 (22... h5 $2 
+23. Rd1 Nd3 24. Be5 $1) 23. Re4 Qxf2+ 24. Kh2 Qg1+ $3 (24... Nc5 $2 25. 
+Qe5) 25. Kxg1 Bc5+ 26. Be3 $1 Rxe6 27. Rxe6 Bxe3+ (27... a5 $1 {Chernin's
+defensive plan, when the N gets the c5 square.}) 28. Rxe3 Nxb2 29. Rb3 
+Nxc4 30. Rxb7 Ne5 31. Rxh7 Rb8 32. Be6 $14) 22... Qd6 23. Bxa7 Qxe6 {
+Here however there is a flaw, Dvoretsky has pointed out that instead of
+this black should play Kc7 & stays a R up. But he has further pointed
+out the improvement for white on move 22 mentioned earlier.} 24. Bb6+ 
+Kc8 25. Bxe6+ Kb8 26. Bd7) 19. Bg5 Qc7 20. Re1 {/\ both Bxe7+ & Qxg6+.}) 
+18. Bf4 Rd8 $1 (18... Re8 $2 19. Bd6+ Be7 20. Re1 Qd8 21. Re3 $1) (18... 
+Qd8 $2 19. Re1 g5 (19... Be7 20. Bb1 {/\ Re3 or Re5}) 20. Bd6+ Kg7 21. 
+Bxb4 $40) 19. c5 Nxd3 $1 20. cxb6 {Tal had forseen the Bh6 line some time
+ago & had originally planned to take it with a draw if Black found the right
+line, but his tremendous will to win keeps him going. After all the cpawn
+reaches a7!} (20. Bh6 $5 Qxb2 $1 (20... Qc7 21. Qxf6+ Ke8 22. Bxg7 Rg8 
+23. Qe6+ $16) 21. Qxf6+ Ke8 {& W must take perpetual.}) 20... Nxf4 21. 
+Qg4 Nd5 22. bxa7 Ke7 $6 {Having defended well for so long in the face of
+such complication Portisch goes wrong. g6 & Kg7 was stronger & could
+well have drawn although W still has chances.} 23. b4 $1 Ra8 $2 {Nc7 or
+Kd6 were stronger.} 24. Re1+ Kd6 25. b5 $1 {/\ 26.bc bc, 27.Qe6+ Kc7 Rc1
+& 26.b6 Nxb6 27.Rb1} 25... Rxa7 $2 (25... Rhe8 26. Rxe8 Rxe8 27. Qg3+ 
+Kd7 28. Qb8) (25... Kc7 26. Qg3+ Kd7 27. b6 Nxb6 28. Rb1) 26. Re6+ Kc7 
+27. Rxf6 $1 1-0
+
+[Event "?"]
+[Site "ct sf"]
+[Date "1965.??.??"]
+[Round "10"]
+[White "Tal, M."]
+[Black "Larsen, B."]
+[Result "1-0"]
+[ECO "B82"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 e6 5. Nc3 d6 6. Be3 Nf6 7. f4 
+Be7 8. Qf3 O-O 9. O-O-O (9. Be2 Bd7 10. O-O-O Nxd4 11. Bxd4 Bc6 12. g4 
+Qa5 13. g5 Nd7 14. Rhg1 b5 15. Qh5 b4 16. Rd3 bxc3 17. Bxc3 Qxa2 18. 
+Rh3 Bxe4 19. g6 Bxg6 20. Qxh7+ Bxh7 21. Rxg7+ Kh8 22. Rhxh7# {this was a
+game played between Tal & Koblentz on the morning of this Larsen game &
+shows very well the dangers of the line for B.}) 9... Qc7 {a normal move
+in this sort of position but here it is not so good. Better was first
+Bd7.} 10. Ndb5 $1 (10. g4 Nxd4 11. Rxd4 e5 12. Rc4 Bxg4 $1 $15) 10... Qb8 
+11. g4 a6 12. Nd4 Nxd4 13. Bxd4 b5 (13... e5 {Tal felt that this was best
+for B when he would have replied...} 14. g5 Bg4 15. Qg3 Bxd1 $2 (15... 
+exd4 16. gxf6 dxc3 17. fxe7 cxb2+ 18. Kb1 Bxd1 $10) 16. gxf6 Bxf6 17. 
+Nd5) 14. g5 Nd7 {At this point W must decide how to pursue the attack.
+Tal says that at first he planned to play a3 to keep the N on c3. Then
+he saw the N sac idea & easily pursuaded himself. If he was to lose it
+would not be through cowardice!} 15. Bd3 (15. a3 b4 16. axb4 Qxb4 17. 
+Qh5 Rb8 18. Rd3 Qxb2+ 19. Kd1 {was one possibility.}) 15... b4 16. Nd5 $1 
+exd5 {If not then Nf6 is even more dangerous.} 17. exd5 {The B pieces
+are mostly on the Q-side and cannot easily help the defence. W's Bs are
+very powerful.} 17... f5 (17... g6 18. h4) (17... Re8 18. Bxh7+ Kxh7 19. 
+Qh5+ Kg8 20. Bxg7 $1 Kxg7 21. Qh6+ Kg8 22. g6 Nf6 23. Rhg1 Rd8 24. Rde1 
+Be6 (24... Qc7 25. gxf7+ Kxf7 26. Rg7+ Ke8 27. Qg6+ Kf8 28. Qf7#) 25. 
+gxf7+ Kxf7 26. dxe6+ Ke8 27. Qg6+ Kf8 28. Qg7+) 18. Rde1 Rf7 (18... Bd8 
+19. Qh5 Nc5 20. Bxg7 $1 Nxd3+ 21. Kb1 Nxe1 22. g6 Kxg7 23. Qxh7+ Kf6 
+24. g7 Rf7 25. g8=N# {is one rather odd line.}) 19. h4 Bb7 20. Bxf5 (20. 
+g6 hxg6 21. h5 g5 22. Bxf5 {This was the sort of line Tal wanted to play
+but he could not see a forced win after Bf6 & did not want to waste time
+looking unsucessfully.} 22... Rxf5 (22... Bf6 23. Be6 Qf8) 23. Rxe7 Ne5 
+24. h6 Nxf3 25. h7+ Kf8 26. Rxg7 {& mates.}) 20... Rxf5 21. Rxe7 Ne5 (
+21... Rf7 22. Rxf7 Kxf7 23. g6+ hxg6 24. h5) (21... Bxd5 22. Rxg7+ Kf8 
+23. Qh5 Rxf4 24. Qxh7 Rf7 25. Bf6 Nxf6 26. gxf6 Ke8 27. Re1+ Kd7 28. 
+Rxf7+ Kc6 29. Rfe7) 22. Qe4 Qf8 $1 23. fxe5 $1 Rf4 24. Qe3 Rf3 {Larsen
+has only 5 minutes left for 16 moves, but that is the least of his
+worries.} (24... Bxd5 25. exd6 Rxd4 26. Qxd4 Bxh1 27. b3 {/\ h5-h6} 
+27... Re8 28. Qe5 Rxe7 29. dxe7 Qe8 30. Qe6+ Kh8 31. h5 Bc6 32. g6 hxg6 
+33. hxg6 {& mates.}) 25. Qe2 Qxe7 (25... Qf4+ 26. Qd2 Rf1+ 27. Rxf1 Qxf1+ 
+28. Qd1) 26. Qxf3 dxe5 27. Re1 Rd8 (27... Rf8 28. Rxe5 Qxe5 29. Qxf8+ 
+Kxf8 30. Bxe5 $16) 28. Rxe5 Qd6 29. Qf4 $1 Rf8 (29... Bxd5 30. Re8+) 30. 
+Qe4 b3 31. axb3 Rf1+ 32. Kd2 Qb4+ 33. c3 Qd6 34. Bc5 $1 Qxc5 35. Re8+ 
+Rf8 36. Qe6+ Kh8 37. Qf7 $1 1-0
+
+
+[Event "?"]
+[Site "Havana ol"]
+[Date "1966.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Byrne, R."]
+[Result "1-0"]
+[ECO "B69"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 e6 7. Qd2 
+a6 8. O-O-O Bd7 9. f4 Be7 10. Nf3 b5 11. Bxf6 gxf6 12. f5 Qa5 13. Kb1 
+O-O-O 14. g3 Kb8 15. Bh3 Bc8 16. Rhe1 h5 17. Qe3 Bd7 (17... b4 $1 18. 
+Ne2 Qc5 19. Nf4 (19. Ned4 Nxd4 20. Nxd4 e5 $1) 19... Qxe3 20. Rxe3 d5 $1 
+21. exd5 e5) 18. Ne2 Ne5 19. Nf4 Ng4 20. Qe2 Rdg8 {Nxh5 was threatened.}
+21. Nd4 $1 Qb6 (21... e5 22. Nb3 {& Nd5 gives W a fine game.}) 22. Rd2 $1 (
+22. fxe6 fxe6 23. Nfxe6 Bxe6 24. Nxe6 Nf2 25. Nf4 {is an interesting
+exchange sac but as this was a team tournament Tal felt he had to play
+without risk (!??)}) 22... e5 (22... d5 23. fxe6 fxe6 24. exd5 e5 25. 
+Nc6+ $1 Bxc6 26. dxc6) 23. Nd5 Qd8 24. Nb3 Bc6 25. c4 $1 Qd7 26. Na5 {to
+exchange off B's only good defender.} 26... Bd8 27. Nxc6+ Qxc6 28. Rc1 
+Kb7 29. cxb5 Qxb5 30. Rd3 Ka7 31. Bxg4 hxg4 32. Qe3+ Ka8 33. Rb3 (33. 
+Rc8+ Kb7 34. Rxd8 Rxd8 35. Rb3 Rd7 {While obviously winning does still
+leave some work to be done.}) (33. Rc7 Qxd3+ 34. Qxd3 Bxc7 35. Nxc7+ Kb7 
+36. Nxa6 {is also possible.}) 33... Qd7 34. Qd3 Ka7 35. Qe3+ (35. Nb4 {is
+even better.} 35... Qb5 36. Nc6+ Kb7 37. Qd5) 35... Ka8 36. Rb6 $1 (36. 
+Rb6 $1 a5 37. Ra6+ Kb8 38. Rc8+ Kxc8 39. Ra8+ Kb7 40. Qa7+ Kc6 41. Qa6+ 
+Kc5 42. b3 Qb5 43. Rc8+ Kd4 44. Rc4+ Kd3 45. Qxb5) 1-0
+
+[Event "?"]
+[Site "Moscow"]
+[Date "1967.??.??"]
+[Round "?"]
+[White "Bilek"]
+[Black "Tal, M."]
+[Result "0-1"]
+[ECO "A05"]
+
+1. Nf3 Nf6 2. g3 b5 3. Bg2 Bb7 4. O-O e6 5. d3 d5 6. Nbd2 Be7 7. e4 O-O 
+8. Qe2 c5 9. Re1 Nc6 10. c3 a5 11. exd5 exd5 12. d4 Qb6 13. dxc5 Bxc5 
+14. Nb3 Rfe8 15. Qc2 d4 16. Qf5 Rxe1+ 17. Nxe1 Re8 18. Nf3 (18. Bf4 Bf8 
+19. Nxd4 Nxd4 20. cxd4 Ne4 {<-/->}) 18... Bd6 19. Bg5 Ne4 (19... dxc3 
+20. Bxf6 gxf6 21. bxc3 {Looks weakening for B but is in fact ok.}) 20. 
+Re1 Ne7 21. Bxe7 (21. Rxe4 Nxf5 22. Rxe8+ Bf8 23. Ne5 Qc7 24. Bd8 $16) 
+21... g6 22. Qh3 dxc3 23. Rxe4 (23. Bxd6 Qxf2+ 24. Kh1 Qxe1+ 25. Nxe1 
+Nf2+ 26. Kg1 Nxh3+ 27. Kf1 Bxg2+ 28. Kxg2 cxb2 29. Nd2 Re2+ $19) 23... 
+cxb2 {This is the point. Ng5 is not a threat as B has h5.} 24. Re1 (24. 
+Qh6 b1=Q+ 25. Bf1 Qxe4 26. Ng5 Qh1# {This is the line Bilek overlooked.}) (
+24. Nbd2 Bxe4 25. Ng5 h5 26. Bxd6 Bf5 $1) 24... Rxe7 25. Rb1 a4 26. Nbd4 
+Bxf3 27. Nxf3 Re2 28. Rf1 (28. Qc8+ Kg7 29. Qc3+ Be5 $17) 28... Rxf2 29. 
+Qc8+ Kg7 30. Qc3+ f6 0-1
+
+[Event "?"]
+[Site "Tallin"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Barcza, G."]
+[Black "Tal, M."]
+[Result "0-1"]
+[ECO "A04"]
+
+1. Nf3 g6 2. g3 Bg7 3. Bg2 d6 4. d3 e5 5. e4 Nc6 $1 6. Nc3 Nge7 7. Be3 
+O-O 8. Qd2 $2 Nd4 $1 9. Ne2 $2 Bh3 $1 10. Nfxd4 Bxg2 11. Rg1 exd4 12. 
+Nxd4 c5 $1 13. Nb5 Bf3 14. g4 d5 $5 15. Bxc5 Rc8 16. Ba3 dxe4 17. dxe4 
+Qb6 $1 18. Bxe7 Qxb5 $1 19. Bxf8 Qxb2 $1 20. Bxg7 Kxg7 21. Rc1 Rd8 $1 
+22. Qe3 Qxc2 $3 23. Kf1 Rd1+ 0-1
+
+[Event "?"]
+[Site "Tallin"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Vooremaa"]
+[Result "1-0"]
+[ECO "B48"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 a6 5. Bd3 Nc6 6. Be3 Nf6 7. O-O 
+Qc7 8. Nc3 Bd6 9. Kh1 h5 10. f4 Ng4 11. Qf3 Nxe3 12. Qxe3 Qb6 13. Nce2 
+e5 14. Qg3 exd4 15. Qxg7 Rf8 16. e5 Be7 17. f5 f6 18. Nf4 Rf7 19. exf6 
+Ne5 (19... Rxg7 20. fxg7 Kf7 21. f6 Bxf6 22. Nxh5 Ne7 23. Bh7 Ng8 24. 
+Rae1 Nh6 25. Rxf6+ Qxf6 26. g8=Q+ Nxg8 27. Bxg8+ Kxg8 28. Nxf6+ $16) 
+20. Bc4 Nxc4 21. Qg8+ Bf8 22. Nxh5 Nd6 23. Rae1+ Kd8 24. Re7 Qb5 25. 
+Rfe1 Qd5 26. Nf4 Qxa2 (26... Qa5 27. c3 Qxa2 28. cxd4 Kc7 29. Ne6+ Kb8 
+30. Qg3 Ka7 31. Qxd6 Rxe7 32. Qc5+ Kb8 33. fxe7 Bxe7 34. Qxe7 dxe6) 27. 
+Ne6+ Qxe6 28. fxe6 Rxf6 29. Rf7 1-0
+
+[Event "?"]
+[Site "USSR t-ch"]
+[Date "1974.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Petrosian, T."]
+[Result "1-0"]
+[ECO "B08"]
+
+{Games between these two can take on the feel of the irrisistable force
+vs the immovable object. This time Petrosian makes one mistake in the
+opening & is torn apart by an attack straight out of the romantic
+period.} 1. e4 g6 2. d4 Bg7 3. Nc3 d6 4. Nf3 Nf6 5. Be2 O-O 6. O-O Nc6 
+7. d5 Nb8 8. Re1 e5 $6 {Possibly the losing move! more usual would be a
+plan involving ..c6.} 9. dxe6 Bxe6 10. Bf4 h6 11. Nd4 Bd7 12. Qd2 Kh7 
+13. e5 $1 {Tal realizes that by exchanging this centre pawn and giving
+up the B pair he can achieve a fine centralised position while B cannot
+easily develop his pieces.} 13... dxe5 14. Bxe5 Ne4 15. Nxe4 Bxe5 16. 
+Nf3 Bg7 17. Rad1 {The pin on the d7 B and the N stuck defending it make
+B's position difficult. Nc5 is threatened.} 17... Qc8 18. Bc4 Be8 19. 
+Neg5+ $1 hxg5 20. Nxg5+ Kg8 21. Qf4 {B's pieces are so tied up that the
+simple threat of Q-h4-h7 coupled with the pressure on f7 is
+unanswerable.} 21... Nd7 {At last the N moves. If it could get to f6 it
+could shore up the defence, but against someone with Tal's disregard of
+material it is never going to get the chance.} (21... Bh6 22. Rxe8 $1 
+Qxe8 23. Qf6 Bxg5 24. Qxg6+ Kh8 25. Qh5+ Kg8 26. Qxg5+ Kh8 27. Rd4 {&
+mates}) 22. Rxd7 $1 Bxd7 (22... Qxd7 23. Qh4 $16) 23. Bxf7+ (23. Bxf7+ Rxf7 
+24. Qxf7+ Kh8 25. Re7 Qf8 26. Qxg6 Bf5 27. Nf7+ Kg8 28. Nh6+ Kh8 29. 
+Nxf5 $16) 1-0
+
+[Event "?"]
+[Site "USSR-Yugoslavia"]
+[Date "1979.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Velimirovic, D."]
+[Result "1-0"]
+[ECO "A30"]
+
+1. c4 c5 2. b3 Nc6 3. Bb2 e5 4. g3 d6 5. Bg2 Be6 $6 6. Nc3 Qd7 7. Nf3 
+Bh3 8. Bxh3 Qxh3 9. Nd5 Qd7 (9... O-O-O 10. b4 {opening the b-file.}) 
+10. e3 Nce7 (10... Nge7 11. d4 cxd4 12. exd4 e4 13. Nd2 Nxd5 14. cxd5 
+Nb4 15. Nxe4 Nxd5 16. O-O Be7 17. Qh5 $14) 11. Nc3 $1 Nf6 12. O-O e4 $5 {
+to prevent d4.} 13. Ng5 $1 d5 $5 (13... Qf5 14. Nb5 $1 Rd8 (14... Qxg5 
+15. Nxd6+ Kd7 16. Nxf7 $16) 15. Nc7+ Kd7 16. Nxf7 Kxc7 17. Nxh8 {& W will
+open the f-file decisivly.}) 14. cxd5 Qf5 15. Nxf7 $1 Kxf7 16. f3 Nexd5 (
+16... exf3 17. e4 $1) 17. fxe4 Nxc3 18. Bxc3 Qxe4 19. Qh5+ Ke6 (19... Kg8 
+20. Bxf6 gxf6 21. Rxf6 Qe7 22. Qd5+ Kg7 23. Qg5#) 20. Qh3+ Kd6 21. b4 $1 (
+21. Bxf6 gxf6 22. Rxf6+ Kc7 23. Rf7+ Be7 $15) 21... Kc7 22. Rac1 Rc8 
+23. Rf5 $3 Qg4 24. Be5+ Kd7 25. Qf1 $1 Qe4 26. Rc4 Qc6 27. Qh3 Qe6 28. 
+Bxf6 gxf6 29. Re4 $1 Qxa2 30. Rxc5+ 1-0
+
+[Event "?"]
+[Site "Subotica izt"]
+[Date "1987.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Speelman, J."]
+[Result "1-0"]
+[ECO "B17"]
+
+1. e4 c6 2. d4 d5 3. Nd2 dxe4 4. Nxe4 Nd7 5. Bc4 Ngf6 6. Ng5 e6 7. Qe2 
+Nb6 8. Bb3 h6 9. N5f3 a5 10. a3 Be7 11. Bd2 Nbd5 12. c4 Nc7 13. Bc2 O-O 
+14. Ne5 Qxd4 15. Bc3 Qd8 16. Ngf3 Nce8 17. g4 b5 18. g5 hxg5 19. Nxg5 
+Ra6 20. Qf3 b4 21. Qh3 g6 22. Bxg6 bxc3 23. Nexf7 Qd2+ 24. Kf1 Rxf7 
+25. Bxf7+ Kg7 26. Rg1 Qxg5 27. Rxg5+ Kxf7 28. bxc3 e5 1-0
+
+
+[Event "?"]
+[Site "Reykjavik WCup"]
+[Date "1988.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Speelman, J."]
+[Result "1-0"]
+[ECO "A43"]
+[WhiteElo "2610"]
+[BlackElo "2645"]
+
+1. e4 d6 2. d4 g6 3. Nf3 Bg7 4. Be2 Nf6 5. Nc3 O-O 6. O-O c5 7. d5 Na6 
+8. Re1 Nc7 9. Bf4 b5 10. Nxb5 Nxe4 11. Nxc7 Qxc7 12. Bc4 Nf6 13. h3 Re8 
+14. Rb1 a5 15. Qd2 Qb6 16. Re3 Ba6 17. Bxa6 Qxa6 18. Rbe1 Kf8 19. Ng5 
+Qb7 20. c4 Qb4 21. Qe2 h6 22. Nxf7 Kxf7 23. Rb3 Qa4 24. Qe6+ Kf8 25. 
+Rb7 Qxc4 26. Bxd6 Ng8 27. Re3 Bf6 28. Rf3 Kg7 29. Bxe7 Rxe7 30. Rxe7+ 
+Nxe7 31. Qxf6+ Kg8 32. Qf7+ Kh8 33. Qxe7 Qxd5 34. Rf7 1-0
+
+
+[Event "?"]
+[Site "Barcelona"]
+[Date "1992.??.??"]
+[Round "?"]
+[White "Tal, M."]
+[Black "Akopyan, V."]
+[Result "1-0"]
+[ECO "B51"]
+
+{Tal's last Tournament game. He went out playing the same wonderful
+style that he had always played} 1. e4 c5 2. Nf3 Nc6 3. Bb5 d6 4. O-O 
+Bd7 5. Re1 Nf6 6. c3 a6 7. Ba4 c4 8. d4 cxd3 9. Bg5 e6 10. Qxd3 Be7 
+11. Bxf6 gxf6 12. Bxc6 Bxc6 13. c4 O-O 14. Nc3 Kh8 15. Rad1 Rg8 16. Qe3 
+Qf8 17. Nd4 Rc8 18. f4 Bd7 19. b3 Bd8 20. Nf3 b5 21. Qa7 Bc7 22. Qxa6 
+bxc4 23. b4 Qg7 24. g3 d5 25. exd5 Bxf4 26. Kf2 f5 27. gxf4 Qxc3 28. 
+Qd6 Ba4 29. Rd4 Rg7 30. dxe6 Bc6 31. Ng5 Rxg5 32. Qe5+ Rg7 33. Rd8+ 
+Rxd8 34. Qxc3 f6 35. e7 Ra8 36. Qxf6 Be4 37. Rg1 Rxa2+ 38. Ke1 1-0
