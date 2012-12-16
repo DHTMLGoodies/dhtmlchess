@@ -1,0 +1,677 @@
+[Event "Arizona Open"]
+[Site "Phoenix, Arizona"]
+[Date "2002.06.22"]
+[Round "2"]
+[White "Bryan Paulsen"]
+[Black "Leopold Lacrimosa"]
+[Result "1-0"]
+[ECO "A04"]
+[WhiteElo "1995"]
+[BlackElo "1610"]
+[Annotator "Lacrimosa,Leopold"]
+[PlyCount "95"]
+[EventDate "2002.06.04"]
+[SourceDate "2002.06.04"]
+
+1. Nf3 Nc6 2. c4 (2. d4 d5 3. c4) (2. e4 d6 3. d4 Bg4) 2... e6 3. d4 d5 4. Nc3
+Nf6 5. Bg5 Be7 6. e3 a6 7. a3 O-O 8. Bd3 dxc4 9. Bxc4 b5 10. Be2 Bb7 11. O-O
+Nd7 12. Bf4 (12. Bxe7 Nxe7) 12... Bd6 13. Bxd6 cxd6 14. d5 Nce5 15. dxe6 Nxf3+
+(15... fxe6 16. Qxd6 Nxf3+ 17. Bxf3 Bxf3 18. Qxe6+ Kh8 19. gxf3) 16. Bxf3 Bxf3
+17. Qxf3 (17. Qxd6 Nb6 18. Qxd8 Rfxd8 19. gxf3 fxe6) 17... fxe6 18. Qg4 Qe7 19.
+Rad1 Ne5 (19... Rac8) (19... Rad8) 20. Qg3 Rf6 21. f4 (21. Qh4 Nf3+ 22. gxf3
+Rg6+) 21... Rg6 22. Qf2 Rf8 23. Qe2 Ng4 (23... Nc4 24. b3 Nxa3) 24. h3 Nf6 (
+24... Nh6 25. e4 Nf7 26. f5 Rg5) 25. e4 Ne8 26. Qf2 Qb7 (26... Kh8 27. Qb6 Qh4)
+(26... Rgf6) 27. Rd2 b4 (27... Rgf6) 28. axb4 Qxb4 29. f5 Rgf6 (29... exf5 30.
+exf5 -- (30... Rg5) 31. Qe3 Rgf6 32. Nd5) 30. g4 Qb7 (30... Nc7 31. Qd4 Qxd4+
+32. Rxd4 exf5 33. Rxf5 Rh6) 31. Qe3 exf5 (31... Qe7 32. Rdf2 exf5 33. Rxf5 Rxf5
+34. Rxf5 Nc7 35. Rxf8+ Kxf8) 32. exf5 Nc7 (32... R6f7 33. Re1) 33. Ne4 Re8 (
+33... Rh6 34. g5 Rh5 35. Nxd6 Qb4) 34. Nxf6+ gxf6 35. Qd4 Nb5 36. Qxf6 Qe4 37.
+Qg5+ Kf7 38. f6 Rg8 39. Qh5+ Kf8 40. Qh6+ Kf7 41. Qf4 Qe6 42. Qf3 Qd7 43. Re1
+Re8 44. Rde2 Rxe2 45. Rxe2 Qa7+ 46. Kg2 Qc5 47. Re7+ Kg6 48. Rg7+ 1-0
+
+
+[Event "Casual Email Game @ IYT"]
+[Site "?"]
+[Date "2001.05.??"]
+[Round "?"]
+[White "ChessDaddy"]
+[Black "licenser"]
+[Result "1/2-1/2"]
+[ECO "C10"]
+[PlyCount "90"]
+
+1. e4 e6 
+2. d4 d5 
+3. Nc3 dxe4 
+4. Nxe4 Nf6 
+5. Nxf6+ gxf6 
+(5... Qxf6) 
+6. Be3 Nc6 
+7. Nf3 Bd7 
+8. Bc4 Bd6 
+9. Qe2 Qe7 
+10. O-O O-O-O 
+11. c3 Rdg8
+12. Rfe1 Kb8 
+(12... Rg4 13. h3 (13. Ne5) 13... Rg7)
+(12... Rg7 13. d5 Rhg8 14. g3 Ne5 15. dxe6 Bxe6 16. Bxe6+ Qxe6 17. Bxa7 Qh3) 
+13. a4 Rg4 
+(13... Rg7) 
+14. h3 
+(14. b4 Rhg8 15. g3 f5) 
+14... Rg7 
+15. Bh6 Rg6 
+16. Qe3 f5 
+(16... Rhg8 17. Nh4) 
+(16... e5 17. Nh4 Rgg8) 
+17. b4 Rhg8 
+18. g3 Bxg3  
+(18... f4 19. Bxf4 Bxf4 20. Qxf4) 
+(18... f6 19. Kh2 Rxg3 20. fxg3 Bxg3+ 21. Kh1 Bxe1 22. Rxe1 Nd8) 
+(18... Rxg3+ 19. fxg3 Bxg3 20. Kh1 Bxe1 21. Rxe1) 
+19. fxg3 Rxg3+ 
+20. Kh2 Rg2+ 
+21. Kh1 R2g3 
+22. Re2 
+(22. Kh2 Rg2+ 23. Kh1 R2g3) 
+22... Rxh3+ 
+(22... e5 23. b5 (23. dxe5 Rxh3+ 24. Rh2 Rxf3 25. Qxf3 Nxe5)) 
+23. Rh2 Rxf3 
+(23... Rxh2+ 24. Kxh2) 
+24. Qxf3 Ne5 
+25. dxe5 
+(25. Qe2 Nxc4 26. b5 Nd6) 
+25... Bc6 
+26. Qxc6 bxc6 
+27. Be3 Rg4 
+(27... Kb7)
+(27... f6 28. Bc5 Qf7 29. exf6 Qxf6 30. Bd4 Qe7) 
+28. Bd4 
+(28. Ba6 Qd8 29. Bf1 (29. Bd4 Qd5+) 29... Qd5+ 30. Bg2 Qxe5) 
+28... Rh4  
+(28... Rxd4 29. cxd4 Qxb4 30. Ba6 Qb6 31. Rxh7 Qxa6 32. Rh8+ Kb7 33. Rb1+) 
+(28... h5 29. Rxh5 Rh4+ 30. Rxh4 Qxh4+ 31. Kg2 a5) 
+(28... Kb7 29. Rxh7 Qg5 30. Be2) 
+29. Raa2 Kb7 
+(29... Rxh2+ 30. Rxh2 Qg5 31. Rxh7 Qc1+ 32. Kg2 Qc2+ 33. Kg1 c5 34. Bxc5 Qxc3 35. Ba6 Qg3+ 36. Kf1 Qf4+ 37. Bf2 Qc1+) 
+30. Rag2 
+(30. Rxh4 Qxh4+ 31. Rh2 Qe1+ 32. Kg2 a5) 
+30... Qd8 
+(30... h5 31. Be2 Rxh2+ 32. Rxh2 Qg5 33. Bxh5 Qg3 34. a5 a6 35. Bxf7 Qe1+ 36. Kg2 Qe2+) 
+31. Bf1 
+(31. Rg7 Rxh2+ 32. Kxh2 Qh4+ 33. Kg2 a5) 
+(31. a5 a6) 
+31... Rxh2+ 
+(31... Rxd4 32. cxd4 Qxd4) 
+32. Rxh2 a5 33. bxa5 Qd5+ 34. Bg2 Qxa5 35. Rxh7 Qxa4 36. Bf3 
+(36. Rxf7 Qd1+ 37. Kh2 Qh5+) 
+36... Qc4 
+(36... Qa8) 
+37. Kg2 Qa2+ 
+(37... Kc8 38. Rxf7 c5 39. Rf8+ Kd7 40. Rf7+ Kc8 41. Bf2 Qxc3) 
+38. Kg3 Qa8 
+(38... Qd2 39. Rxf7 Qg5+ 40. Kf2 Qd2+) 
+(38... Qc4 39. Rxf7 Kc8) 
+39. Kf4 Qg8 
+(39... Qa3 40. Rxf7 (40. Kg5 Qe7+) 40... Qc1+ 41. Kg3 Qg5+ 42. Kf2 Qd2+ 43. Kf1) 
+40. Rh1 Qa8 
+(40... Qg7 41. Rb1+ Kc8 42. Bxc6 Qg4+ 43. Ke3) 
+41. Rb1+ 
+(41. Kg5 Qd8+) 
+41... Kc8 
+(41... Ka6 42. Be2+ Ka5 43. Ra1#) 
+42. Rb5 Qa1 
+(42... Kd7 43. Rc5 Qa6 44. Bxc6+ Qxc6 45. Rxc6 Kxc6 46. c4) 
+(42... Qa6 43. Rc5 Qf1 44. Rxc6 Kd7 45. Rc5 Qc1+ 46. Be3 (46. Kg3) 46... Qe1) 
+43. Rc5 Qc1+
+44. Be3 Qf1 
+45. Rxc6 
+(45. Kg3 Qe1+ 46. Bf2 Qd2 (46... f4+ 47. Kg2 Qb1)) 
+45... Qh3
+1/2-1/2
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "fantasy chess"]
+[Black "rattlesnake"]
+[Result "1-0"]
+[ECO "C06"]
+[PlyCount "41"]
+
+1. e4 e6 
+2. d4 d5 
+3. Nd2 Nf6 
+(3... c5) 
+4. e5 Nfd7 
+5. Bd3 
+(5. f4) 
+5... c5 
+6. c3 Nc6 
+7. Ne2 Qb6 
+(7... cxd4 8. cxd4 f6 9. exf6 Nxf6 10. Nf3 Bd6 11. O-O O-O) 
+8. Nf3 cxd4 
+9. cxd4 f6 
+10. exf6 Nxf6 
+11. O-O Bd6 
+12. Nc3 O-O 
+13. Bg5 Qxb2 
+14. Nb5 Bb8 
+(14... Ne4 15. a4 (15. Bxe4 dxe4 16. Rb1 Qxa2 17. Nc3 Qc4 18. Nxe4 Bb4) 15... Nc3 16. Bxh7+ Kxh7 17. Qd3+ Kg8 18. Nxc3 (18. Qxc3 Qxc3 19. Nxc3 Rxf3 20. gxf3 Nxd4) 18... Nb4 19. Qe3 Nc2 20. Qd2 Bb4 21. Rac1 (21. Rfc1 Bxc3 22. Qxc2 Qxc2 23. Rxc2 Bxa1) 21... Bxc3 22. Qxc2 Qxc2 23. Rxc2) 
+15. a3 
+(15. Rb1 Qxa2 16. Ra1 Qb2 17. Ra4 Ne4 18. Bc1 Nc3 19. Bxb2 Nxd1 20. Rxd1) 
+15... Ne4 
+16. Rb1 Qa2
+17. Qc1 
+(17. Ra1 Qb2 18. Rb1 Qa2) 
+17... Nxg5 18. Nxg5 
+(18. Rb2 Nxf3+ 19. gxf3 Qxb2 20. Qxb2 a6 21. Nc3 Nxd4) 
+(18. Qxg5 a6 19. Ra1 Qb3 20. Qe3 Qa4) 
+18... Bxh2+ 
+(18... Bf4 19. Qc3 Qd2 20. Qxd2 Bxd2 21. Nc7 Bxg5 22. Nxa8 Nxd4) 
+19. Kxh2 Rxf2 20. Rb2 Qxb2 
+(20... Rxb2 21. Bxh7+ Kh8 22. Rf8#) 
+21. Qxb2 
+1-0
+
+[Event "JJ Game 1"]
+[Site "?"]
+[Date "2002.05.??"]
+[Round "?"]
+[White "janitor jim"]
+[Black "licenser"]
+[Result "0-1"]
+[ECO "C00"]
+[PlyCount "50"]
+
+1. e4 e6 
+2. d4 d5 
+3. Qe2 Be7 
+(3... Nf6) 
+4. c3 Nf6 
+5. f3 O-O 
+6. e5 Nfd7 
+7. a4 c5
+8. Ra3 
+(8. f4) 
+8... cxd4 
+9. cxd4 
+(9. Ra1 dxc3 10. Nxc3) 
+9... Bxa3 
+10. Nxa3 a6
+11. Qc2 Nc6 
+12. Qc3 
+(12. Be3) 
+12... f6 
+(12... Qh4+) 
+13. f4 fxe5 
+14. g3 exd4
+15. Qd2 e5 
+16. Nh3 e4 
+17. b4 d3 
+18. Ng5 Nf6 
+19. h3 h6 
+20. Nxe4 dxe4 
+21. Qc3 Ne7
+22. Qc4+ Ned5 
+23. Bg2 Be6 
+24. O-O Nxf4 
+25. Qc3 Ne2+ 
+0-1
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.03.15"]
+[Round "1"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1-0"]
+[ECO "C62"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "119"]
+[EventDate "1894.03.15"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. Nc3 Nge7 6. Bc4 Nxd4 7. Nxd4 exd4 8.
+Qxd4 Nc6 9. Qe3 Ne5 10. Bb3 c6 11. Qg3 Ng6 (11... Be7) 12. h4 Be6 13. Bxe6 fxe6
+14. Bg5 Be7 15. O-O-O e5 16. Be3 O-O (16... Bxh4 17. Qg4 Be7 18. Rxh7) 17. Ne2
+Rf7 18. h5 Nf4 19. Bxf4 exf4 20. Qf3 (20. Nxf4 Rxf4 21. Qxf4 Bg5) 20... Qa5 21.
+Kb1 Qe5 22. Nd4 Bf6 23. c3 Re8 24. Rhe1 Bd8 25. Qg4 Bc7 26. Nf3 Qf6 27. Nd2
+Rfe7 28. f3 d5 29. Rh1 Re5 30. g3 Rg5 (30... fxg3 31. f4) 31. Qd7 Qf7 32. Qxf7+
+Kxf7 33. g4 Bb6 (33... Rge5) 34. exd5 cxd5 (34... Rxd5) 35. Nb3 Re6 36. Rhf1
+Rge5 37. Nc1 Bc7 38. Nd3 Rg5 39. Nb4 Ree5 40. Rd4 Bb6 41. Rxf4+ Kg8 42. Nd3 (
+42. Nc2) 42... Re2 43. Rd1 Be3 44. Rb4 b6 45. Ra4 a5 46. b4 d4 47. c4 (47. cxd4
+Rb5) 47... Bd2 48. b5 Bc3 49. Rg1 Rd2 (49... Kf7 50. f4 Rc5 51. Nxc5 bxc5) 50.
+f4 Rxg4 51. Rxg4 Rxd3 52. c5 Re3 (52... Rd1+ 53. Kc2 Rd2+ 54. Kb3 (54. Kb1 d3)
+54... bxc5 55. Kc4) 53. Rc4 d3 54. Rg1 d2 55. Rd1 bxc5 56. b6 Bd4 57. b7 Re8
+58. Kc2 Rb8 59. Rb1 Kf7 60. Ra4 1-0
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.03.21"]
+[Round "3"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1-0"]
+[ECO "C62"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "103"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. Nc3 Nge7 6. Bc4 exd4 7. Nxd4 Nxd4 8.
+Qxd4 Nc6 9. Qe3 Ne5 10. Bb3 Be6 11. f4 Nc4 12. Qg3 Nb6 13. Be3 c6 14. f5 Bxb3
+15. axb3 Nd7 16. Bf4 Qc7 (16... Nf6 17. e5 Nh5 18. Qe3 Nxf4 19. exd6+ Be7 (
+19... Kd7 20. Qxf4 Bxd6 21. O-O-O Kc7 22. Qc4) 20. dxe7 Qxe7 21. Qxe7+ Kxe7 22.
+O-O) 17. b4 f6 18. Ne2 Ne5 19. Nd4 Qb6 20. c3 O-O-O 21. Ne6 Rd7 22. Be3 Qb5 (
+22... c5 23. O-O a6 24. bxc5 dxc5 25. b4) (22... c5 23. Nf4) 23. Rxa7 b6 (23...
+Kb8 24. Ra5) ({or if} 23... Rc7 24. Ra8+ Kd7 25. Rd8+ Ke7 26. Bd4) 24. Ra8+ Kb7
+25. Rxf8 Rxf8 26. Nxf8 Qd3 27. Rf1 Qc2 28. Bd2 Re7 (28... Nc4 29. Qf4 Rd8 30.
+Ne6 Ra8 31. Ke2 Ra2) 29. Ne6 Qxe4+ 30. Qe3 (30. Kd1 Qb1+ 31. Bc1 Nd3 32. Qxd6
+Nxb2+ 33. Ke2 Qe4+ 34. Be3 Qxe3+ 35. Kxe3 Nc4+) 30... Qxg2 31. b3 Re8 32. Qe2
+Qh3 33. Kd1 Ra8 34. Rf2 Ra2 35. b5 c5 36. Nxg7 d5 37. Kc1 Qd3 38. Qxd3 Nxd3+
+39. Kb1 Rb2+ 40. Ka1 Rxb3 41. Rf3 c4 42. Ne8 Nb4 43. Rg3 Ra3+ 44. Kb1 Rb3+ 45.
+Kc1 Nd3+ 46. Rxd3 (46. Kc2 Rb2+ 47. Kd1 Nf2+ 48. Kc1) 46... cxd3 47. Nxf6 Rxb5
+48. Ne8 Kc6 49. f6 d4 50. Ng7 dxc3 51. Bxc3 Rg5 52. f7 (52. f7 Rg1+ 53. Kd2 Rf1
+54. Ne6) 1-0
+
+[Event "World Championship Match"]
+[Site "New York, NY"]
+[Date "1894.03.27"]
+[Round "5"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1/2-1/2"]
+[ECO "C62"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "99"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. Nc3 Nge7 6. Bc4 exd4 7. Nxd4 Nxd4 8.
+Qxd4 Nc6 9. Qe3 Be6 10. Nd5 Be7 11. Bd2 O-O 12. O-O Ne5 13. Bb3 Bxd5 14. Bxd5
+c6 15. Bb3 Nd7 16. Rad1 a5 17. c3 a4 18. Bc2 Re8 19. Qh3 Nf8 20. Be3 Qa5 21. a3
+Qb5 22. Bc1 Rad8 23. Rd4 d5 24. exd5 Bc5 25. Rf4 (25. Bxa4 Qe2 26. Rd2) (25.
+Bxa4 Qa6 26. Rf4 Ng6 27. Bb3) 25... Ng6 26. c4 (26. dxc6 bxc6 27. Re4 (27. Rxa4
+Bxf2+ 28. Kxf2 (28. Rxf2 Re1+ 29. Rf1 Rxf1#) 28... Qe2+)) 26... Qa6 27. Bxg6
+fxg6 28. Rh4 h5 29. Bg5 Rd6 30. dxc6 Qxc6 (30... Bxf2+ 31. Kxf2 Qb6+ 32. Kg3
+Rd3+ 33. Rf3) 31. Qf3 Qxf3 32. gxf3 Re2 33. Bc1 Rxf2 34. Rxf2 Rd1+ 35. Kg2 Bxf2
+36. Kxf2 Rxc1 37. Kg3 b6 38. Rd4 Rc2 39. Rd8+ Kh7 40. Rb8 Rxb2 41. Ra8 g5 42.
+Rxa4 h4+ 43. Kh3 Rf2 44. Rb4 Rxf3+ 45. Kg4 Rxa3 46. Rxb6 Ra2 47. Kxg5 Rxh2 48.
+Rb3 Rh1 49. Rc3 h3 50. Kg4 1/2-1/2
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.04.03"]
+[Round "7"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1-0"]
+[ECO "C62"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "91"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. Nc3 Nge7 6. Be3 Ng6 7. Qd2 Be7 8.
+O-O-O a6 9. Be2 exd4 10. Nxd4 Nxd4 11. Qxd4 Bf6 12. Qd2 Bc6 13. Nd5 O-O 14. g4
+Re8 15. g5 Bxd5 16. Qxd5 Re5 17. Qd2 Bxg5 18. f4 Rxe4 19. fxg5 Qe7 20. Rdf1
+Rxe3 21. Bc4 Nh8 22. h4 c6 23. g6 d5 (23... hxg6 24. h5 g5) (23... Nxg6 24.
+Rxf7 d5 25. Rxe7 Rxe7 26. Bd3) 24. gxh7+ Kxh7 25. Bd3+ Kg8 26. h5 Re8 27. h6 g6
+28. h7+ Kg7 29. Kb1 Qe5 30. a3 c5 31. Qf2 c4 32. Qh4 (32. Bxg6 fxg6 33. Qh4 Nf7
+34. h8=Q+ Rxh8 35. Rxf7+ Kxf7 36. Qxh8 Qxh8) 32... f6 (32... Kf8 33. Bf5 gxf5
+34. Rhg1) 33. Bf5 Kf7 34. Rhg1 gxf5 35. Qh5+ Ke7 36. Rg8 Kd6 37. Rxf5 Qe6 38.
+Rxe8 Qxe8 39. Rxf6+ Kc5 40. Qh6 Re7 41. Qh2 Qd7 (41... Re6) 42. Qg1+ d4 43.
+Qg5+ Qd5 44. Rf5 Qxf5 45. Qxf5+ Kd6 46. Qf6+ 1-0
+
+[Event "World Championship Match"]
+[Site "Philadelphia"]
+[Date "1894.04.14"]
+[Round "9"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1-0"]
+[ECO "C62"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "97"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. Nc3 a6 (4... Bd7 5. d4 Nge7 6. Bg5 f6 7. Be3)
+5. Bc4 Be6 6. Bxe6 fxe6 7. d4 exd4 8. Nxd4 Nxd4 9. Qxd4 Ne7 10. Bg5 Nc6 11.
+Bxd8 Nxd4 12. O-O-O Nb5 13. Nxb5 axb5 14. Bxc7 Rxa2 (14... Ra6 15. e5 d5 16. a3
+Kd7 17. Bd6 Bxd6 18. exd6 Rf8) 15. Bb6 Be7 16. c3 Kf7 (16... Ra4 17. Rhe1 b4) (
+16... Kd7 17. Bd4 (17. Bc5 Kc6 18. Ba3 Ra1+ 19. Kc2 Rxd1) 17... Rf8) 17. Kc2
+Rha8 18. Kb3 R2a4 19. f3 R8a6 20. Bd4 g6 21. Rd3 Ke8 22. Rhd1 e5 23. Be3 Kd7
+24. Bc5 Ra1 25. R1d2 Ke6 26. Ba3 g5 27. Rd5 Rb6 28. Kb4 g4 29. Ka5 Ra6+ 30.
+Kxb5 h5 (30... Rh1 31. fxg4 Re1 32. h3 Rxe4 33. c4) 31. Rd1 Rxd1 32. Rxd1 gxf3
+33. gxf3 Ra8 34. Kb6 Rg8 35. Kxb7 (35. Rd2 Rg7) 35... Rg2 36. h4 Rh2 37. Kc6
+Bxh4 38. Rxd6+ Kf7 39. Kd5 (39. Rh6 Bg5 40. Rh8 Kg7 41. Re8 Bf4 42. Bd6 Kf7 43.
+Rh8 Kg7 44. Re8 Kf7 45. Re7+ Kf6 46. Rh7 Kg6) 39... Bf6 (39... Rd2+ 40. Kxe5
+Rxd6 41. Bxd6 Bg3+ 42. f4 h4 43. Bc5 h3 44. Bg1 h2) 40. Rd7+ Kg6 41. Ke6 h4 42.
+Rd1 h3 43. Rg1+ Rg2 44. Rxg2+ hxg2 45. Bc5 Bd8 46. b4 Kg5 47. Kd7 Bf6 48. b5
+Kf4 49. b6 1-0
+
+[Event "Arizona Open"]
+[Site "Phoenix, Arizona"]
+[Date "2002.06.22"]
+[Round "3"]
+[White "Leopold Lacrimosa"]
+[Black "Jeff Harden"]
+[Result "1/2-1/2"]
+[ECO "D63"]
+[WhiteElo "1610"]
+[BlackElo "1976"]
+[Annotator "Lacrimosa,Leopold"]
+[PlyCount "93"]
+[EventDate "2002.06.04"]
+[SourceDate "2002.06.04"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 d5
+(3... Bb4 4. e3)
+4. Bg5 Be7 5. e3 Nbd7 6. Nf3 O-O
+7. Rc1 a6 8. Bd3
+(8. Qc2 Re8 9. Bd3 dxc4 10. Bxc4 b5 11. Bd3 Bb7 12. a4 b4 13. Bxf6 Nxf6 14. Ne4 Nxe4 15. Bxe4 Bxe4 16. Qxe4 c5 17. dxc5 Qa5 18. b3 Bxc5 19. Ng5 h6 
+(19... g6 20. Qh4 h5 21. Ne4 Rec8 22. Qg5 Bb6 23. Qxa5 Bxa5 
+(23... Rxc1+ 24. Kd2 Bxa5 25. Rxc1) 
+24. Ke2 Bd8 25. Nd6 Rc7 26. Rc4 Rd7 27. Ne4 Be7 28. Rd1 Rxd1 29. Kxd1 Rd8+ 30. Ke2 Rd5 31. Rc6 a5 32. Nd2 Kg7 33. Nc4 Bd8 34. e4 Rd4 35. f3 Rd7 36. Ra6 Kf6 37. Nxa5 Bxa5 38. Rxa5 Rd4 39. Rb5 e5 40. a5 Ke6 41. a6 Rd6 42. a7 Ra6 43. Rb6+) 
+20. Qh7+ Kf8 21. Qh8+ Ke7 22. Qxg7 hxg5 23. Qxg5+ Kd6 24. Ke2 Kc6 25. Rc4 Rac8 26. Rhc1 Kb6 27. h4 f5 28. Qg7 Re7 29. Qe5 Rc6 30. Rxc5) 
+(8. cxd5 exd5 9. Bd3 c6) 
+8... dxc4 9. Bxc4 b5 10. Bd3 Bb7 11. Qc2 h6 12. Bxf6 Nxf6 13. Ne4 Nxe4 14. Bxe4 Bb4+ 15. Ke2 Bxe4 16. Qxe4 Rc8 17. a3 
+(17. Rhd1) 
+17... Bd6 18. b4 a5 19. Ne5 axb4 
+(19... Bxe5 20. Qxe5 axb4 21. axb4 Qd7 22. Rhd1 Ra8 23. Ra1 Ra4 24. Rxa4 bxa4 25. Qa5) 
+20. Nc6 
+(20. Qc6 Rb8 21. Nd7) 
+20... Qg5 21. h4 Qd5 
+(21... Qh5+ 22. g4 Qd5 23. Qxd5 exd5) 
+22. Qxd5 exd5 23. Nxb4 c5 24. dxc5 
+(24. Nxd5 cxd4 25. Rxc8 Rxc8 26. exd4 Bxa3 27. Rb1) 
+24... Bxc5 
+(24... Rxc5 25. Rxc5 Bxc5 26. Nxd5 Bxa3 27. Rb1) 
+25. Nxd5 Bxa3 26. Rb1 Rc2+ 27. Kf3 Rb8 28. Rb3 
+(28. Rhd1 Kf8 29. Rb3) 
+28... Rd2 29. Rxa3 
+(29. Nf6+ gxf6 30. Rxa3) 
+(29. e4 f5) 
+29... Rxd5 30. Rb1 Rb6 31. Rab3 Rd2 32. R1b2 Rf6+ 33. Kg3 Rfxf2 34. Rxd2 Rxd2 35. Rxb5 g6 36. Kf3 h5 37. e4 Kg7 38. Rd5 Rb2 39. g3 Rb1 40. e5 Rf1+ 41. Ke4 Re1+ 42. Kf4 Ra1 43. Rb5 Ra4+ 44. Kf3 Kf8 45. Rb7 Rc4 46. Ra7 Rb4 47. Rc7 
+1/2-1/2
+
+[Event "JJ Game 2"]
+[Site "?"]
+[Date "2000.10.??"]
+[Round "?"]
+[White "licenser"]
+[Black "Janitor Jim"]
+[Result "1-0"]
+[ECO "C65"]
+[PlyCount "31"]
+[EventDate "2000.10.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 (3... a6 4. Bxc6 dxc6 5. Nxe5 Qd4) 4. d3 (4. O-O
+Nxe4 5. d4 Be7 (5... Nd6 6. Bxc6 dxc6 7. dxe5 Nf5 8. Qxd8+ Kxd8 9. Nc3 Ke8 10.
+b3 h6 11. h3 Be6) 6. Qe2 Nd6 7. Bxc6 bxc6 8. dxe5 Nb7 9. Nc3 O-O 10. Nd4) 4...
+Bc5 5. Bxc6 bxc6  (5... dxc6 6. Nxe5  Qd4 7. Be3 (7. Ng4 Bxg4) 7... Qxe5 8.
+d4 Qxe4 9. dxc5 Qxg2) 6. Nxe5 d6 7. Nf3 (7. Nxc6 Qd7 8. Na5) 7... O-O 8. O-O h6
+9. h3 a6 10. c3 Qe8 (10... d5 11. e5 Nh7 12. d4 Be7) 11. Re1 Rb8 (11... Bd7)
+12. d4 Bb6 13. e5 dxe5 14. Nxe5 c5  15. Ng6 Qc6  16. Ne7+ 1-0
+
+[Event "JJ Game 3"]
+[Site "?"]
+[Date "2002.08.??"]
+[Round "?"]
+[White "licenser"]
+[Black "Janitor Jim"]
+[Result "1-0"]
+[ECO "D00"]
+[PlyCount "47"]
+
+1. d4 d5 2. e3 e6 3. Bd3 a6 4. f4 Nc6 5. c3 Qd6 6. Nf3 Bd7 7. O-O O-O-O 8.
+b4
+h6 (8... Nb8 9. a4 Nf6 10. b5 (10. Qe2 Qe7 11. Na3) 10... a5) 9. a4 a5 10.
+Ba3
+(10. bxa5 Nxa5 11. Ba3) 10... Qe7 (10... axb4 11. cxb4 Nxb4) 11. b5 Qe8 12.
+bxc6 Bxc6 13. Nbd2 Bxa4 14. Qb1 b6 $2 15. Bxf8 Qxf8 (15... Bc6 16. Bxg7) 16.
+Rxa4 Qe8 17. Bb5 (17. Ba6+ Kb8 18. Rxa5) 17... c6 18. Ba6+ Kc7 19. c4 Ne7 (
+19... Rb8) 20. Rxa5 Nc8 (20... bxa5 $2 21. Qb7+ Kd6 22. c5#) (20... Rb8) 21.
+Bxc8 Rxc8 22. Ra7+ Kd6 23. Qxb6 (23. Qb4+) 23... Ra8 (23... e5 24. f5) 24.
+c5#
+1-0
+
+
+ 
+
+[Event "Paris m2"]
+[Site "Paris"]
+[Date "1858.12.20"]
+[Round "9"]
+[White "Morphy, Paul"]
+[Black "Anderssen, Adolf"]
+[Result "1-0"]
+[ECO "B44"]
+[Annotator "Atkins"]
+[PlyCount "33"]
+[EventDate "1858.12.20"]
+[SourceDate "1997.08.01"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 e6 5. Nb5 d6 6. Bf4 e5 7. Be3 f5 (7...
+Nf6 8. Bg5 a6) 8. N1c3 f4 9. Nd5 fxe3 10. Nbc7+ Kf7 (10... Kd7 11. Qg4#) 11.
+Qf3+ Nf6 12. Bc4 Nd4 13. Nxf6+ d5 (13... Kg6 14. Qh5+ Kxf6 15. Ne8+ Qxe8 16.
+Qxe8 Nxc2+ (16... d5 17. O-O-O) 17. Kf1 e2+ (17... Nxa1 18. g4) 18. Bxe2 Nxa1
+19. g4) 14. Bxd5+ Kg6 (14... Qxd5 15. Nfxd5+ Nxf3+ 16. gxf3 exf2+ 17. Kxf2) (
+14... Ke7 15. Qh5 gxf6 16. Qf7+ Kd6 17. Nxa8) 15. Qh5+ Kxf6 16. fxe3 (16. Ne8+
+Qxe8 17. Qxe8 Bb4+) 16... Nxc2+ (16... Qxc7 17. Rf1+ Nf5 18. Rxf5+ Bxf5 19.
+Qxf5+ Ke7 20. Qe6+ Kd8 21. O-O-O Bd6 22. Bxb7) 17. Ke2 1-0
+
+[Event "FICS rated standard game"]
+[Site "FICS, Fremont, California USA"]
+[Date "2002.05.11"]
+[Round "?"]
+[White "mrbishop"]
+[Black "ormong"]
+[Result "1-0"]
+[ECO "C23"]
+[WhiteElo "1621"]
+[BlackElo "1567"]
+
+1. e4 e5 2. Bc4 c6 3. Nf3 d6 4. d4 exd4 (4... d5) 5. Qxd4 Qf6 6. e5 dxe5 7.
+Nxe5 (7. Qxe5+ Qxe5+ 8. Nxe5 Be6 9. Bxe6 fxe6) 7... Be6 8. Bxe6 Qxe6 9. O-O Nf6
+10. Bg5 Be7 11. Nc3 O-O 12. Rad1 (12. Rfe1) 12... h6 (12... Nbd7 13. Nxd7 Nxd7
+14. Bxe7 (14. Rfe1)) 13. Bh4 Rd8 14. Qe3 Nd5 15. Bxe7 (15. Nxd5 Rxd5) 15...
+Nxe3 16. Rxd8+ Kh7 17. fxe3 Qxe7 (17... Qxe5 18. Bd6 Qxe3+ 19. Kh1 Qb6 20. Rxb8
+Rxb8 21. Bxb8 Qxb2 22. Nd1 Qxa2) 18. Nxf7 Qxe3+ 19. Kh1 Qb6 (19... b5 20. Rh8+
+(20. h4 Qg3 (20... Qe7)) 20... Kg6 21. Nd6) 20. Rh8+ Kg6 21. Ne5+ Kh5 22. Rf5+
+Kh4 23. g3+ Kh3 24. Rh5# 1-0
+
+[Event "ICC 20 20"]
+[Site "Internet Chess Club"]
+[Date "2002.08.22"]
+[Round "?"]
+[White "SlowMoe"]
+[Black "DA"]
+[Result "1-0"]
+[ECO "C06"]
+[WhiteElo "1723"]
+[BlackElo "1536"]
+[PlyCount "33"]
+[EventDate "2002.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. Bd3 c5 6. c3 Nc6 (6... b6) 7. Ne2
+cxd4 8. cxd4 Qb6 (8... f6) 9. Nf3 f6 10. exf6 Nxf6 11. O-O Bd6 12. Nc3 (12. b3)
+(12. a3) (12. Bd2) (12. Re1) (12. Bf4) 12... O-O 13. Be3 Qc7 (13... Qxb2 $2 14.
+Nb5 Be7 15. Rb1 Qxa2 16. Ra1 Qb2 17. Ra4 $1) (13... Bd7) (13... a6) 14. Re1 (
+14. Nb5) 14... e5 (14... Bd7 15. Nb5 Qb8 16. Nxd6 Qxd6) (14... Ng4 15. Bxh7+
+Kh8 (15... Kxh7 16. Ng5+ Kg8 17. Qxg4 Bxh2+ 18. Kh1 Bf4 19. Bxf4 Rxf4 (19...
+Qxf4 20. Qh5 Qf5 21. g4) 20. Qh3 Qd8 21. Qh7+ Kf8 22. Rxe6 Bxe6 23. Nxe6+)) (
+14... a6) 15. Qb3 (15. Nb5 Qd8 16. Nxd6 e4 (16... Qxd6 17. dxe5 Nxe5 18. Nxe5
+Qxe5 19. Bc5 Qxb2 20. Re2 Qc3 21. Rc1 Qa5 22. Bxf8 Kxf8 23. Qb3) 17. Nxe4 dxe4
+18. Bc4+ Kh8 19. Ng5 Qe8) 15... e4 (15... exd4) 16. Nxd5 Kh8 (16... Be6 17.
+Nxc7 Bxb3 18. axb3 Bxc7 19. Bc4+ Kh8 20. Ng5) 17. Nxc7 1-0
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.03.19"]
+[Round "2"]
+[White "Steinitz, Wilhelm"]
+[Black "Lasker, Emanuel"]
+[Result "1-0"]
+[ECO "C65"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "83"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d3 d6 5. c3 Bd7 6. Ba4 g6 7. Nbd2 Bg7 8. Nc4
+O-O 9. Ne3 Ne7 10. Bb3 c6 11. h4 Qc7 12. Ng5 d5 13. f3 Rad8 14. g4 dxe4 15.
+fxe4 h6 16. Qf3 Be8 (16... hxg5 17. hxg5 Nh7 18. Ng2 Qd6 19. Qh3) 17. Bc2 Nd7 (
+17... hxg5 18. hxg5 Nh7 19. Nf5 gxf5 20. gxf5 f6 21. Bb3+ Bf7 22. Bxf7+ Rxf7
+23. g6) 18. Nh3 Nc5 19. Nf2 b5 20. g5 h5 21. Nf5 gxf5 22. exf5 f6 (22... Nd5
+23. Qxh5 Bh8 24. Ng4) (22... Nd5 23. f6 Bh8 24. Qxh5) 23. g6 Nxg6 (23... Bd7
+24. Qxh5 Rfe8 25. Qh7+ Kf8 26. h5) 24. fxg6 Bxg6 25. Rg1 e4 (25... Kh7 26. Rxg6
+Kxg6 27. d4+) (25... Bxd3 26. Bxd3 Rxd3 27. Nxd3 e4) 26. dxe4 Kh7 27. Rxg6 Kxg6
+28. Qf5+ Kf7 29. Qxh5+ Kg8 30. Qxc5 Qe5 31. Be3 a6 32. a4 Rfe8 33. axb5 axb5
+34. Qxe5 Rxe5 35. Ra6 Rc8 (35... c5 36. Ng4) 36. Ng4 Re7 37. Bc5 Ree8 38. Ne3
+Bf8 39. Bd4 Kf7 40. h5 Be7 41. Bb3+ Kf8 42. Nf5 1-0
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.03.24"]
+[Round "4"]
+[White "Steinitz, Wilhelm"]
+[Black "Lasker, Emanuel"]
+[Result "1-0"]
+[ECO "C54"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "119"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. e5 d5 7. Bb5 Ne4 8. cxd4
+Be7 9. Nc3 O-O 10. Bd3 f5 11. exf6 Nxf6 12. Be3 Nb4 13. Bb1 Ng4 14. a3 Nxe3 15.
+fxe3 Bh4+ 16. g3 (16. Kd2 Nc6 17. Nxd5 Qxd5 18. Ba2) 16... Bg4 17. O-O Qe8 18.
+axb4 Qh5 19. Nxd5 Rxf3 (19... Bxg3 20. hxg3 Rxf3 (20... Bxf3 21. Rxf3 Rxf3 22.
+Kg2) 21. Qe1) 20. Nf4 Rxf4 21. Qb3+ Rf7 22. Rxf7 Qxf7 23. Ba2 Qxb3 24. Bxb3+
+Kf8 25. gxh4 Ke7 26. Bd5 c6 27. Be4 a6 28. Ra5 h6 29. b5 cxb5 30. Bxb7 Ra7 31.
+Bc6 Bd7 32. Bxd7 Kxd7 33. Kf2 Kc6 34. Ke2 Kb6 35. Ra1 a5 36. Kd3 a4 37. e4 Rf7
+38. e5 Rf3+ 39. Ke4 Rf2 40. Rb1 Kc6 41. d5+ Kd7 42. Kd4 Rd2+ 43. Kc5 Rc2+ 44.
+Kxb5 Re2 45. e6+ Kd6 46. Rd1 Rxb2+ 47. Kxa4 Rxh2 48. Re1 Ra2+ 49. Kb3 Ra8 50.
+Kc4 g5 51. hxg5 hxg5 52. Kd4 Ra4+ 53. Kd3 Ra3+ 54. Ke4 g4 55. Kf5 Ra8 56. e7
+Re8 57. Kf6 g3 58. Kf7 Kd7 59. d6 g2 60. Rg1 1-0
+
+[Event "World Championship Match"]
+[Site "New York, NY"]
+[Date "1894.03.29"]
+[Round "6"]
+[White "Steinitz, Wilhelm"]
+[Black "Lasker, Emanuel"]
+[Result "1/2-1/2"]
+[ECO "C54"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "142"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. e5 d5 7. Bb5 Ne4 8. cxd4
+Bb6 9. Nc3 O-O 10. Be3 f5 11. exf6 Nxf6 12. Rc1 Qd6 13. O-O Bg4 (13... Ng4 14.
+h3 Rxf3 15. hxg4 Rf7 16. f3) 14. Be2 Rae8 15. h3 Bxf3 16. Bxf3 Ne7 17. Ne2 Ng6
+18. g3 c6 19. Bg2 Ne4 20. Qb3 Qf6 21. a4 Nd6 (21... Nd2 22. Bxd2 Rxe2 23. Be3
+Bxd4 24. Qxb7 Bxe3 25. fxe3 Rf2) 22. Qb4 (22. a5 Bxa5 23. Bxd5+ cxd5 24. Qxd5+
+Kh8 25. Qxa5 Qf3) 22... Nc4 23. Rxc4 dxc4 24. a5 Bd8 25. Qxb7 Bxa5 26. Qxa7 Bd2
+27. Qc5 Bxe3 28. fxe3 Qe6 29. Rxf8+ Rxf8 30. e4 Qf7 31. Kh2 Rb8 32. Qxc6 Ne7 (
+32... Rxb2 33. Qc8+ Nf8 34. Nf4 g5 35. Qg4) (32... Rxb2 33. Qc8+ Nf8 34. Nf4 g5
+35. Qg4 c3 36. Qxg5+ Ng6 37. Nd3 Qa2) 33. Qc7 Rxb2 34. Nf4 g5 35. Nd5 Nxd5 36.
+Qd8+ Kg7 37. Qxg5+ Kh8 38. exd5 Re2 39. Qd8+ Re8 40. Qg5 Qg7 41. Qd2 Qf6 42.
+Qc3 Rc8 43. Bf3 Rb8 44. Bg2 Rc8 45. h4 Qd6 46. Bh3 Rc7 47. Be6 Qf8 48. Kg2 Qf6
+49. Qa5 Re7 50. Qc5 Re8 51. Qxc4 Rf8 52. Qe2 (52. d6 Qf2+ 53. Kh3 Rf3 54. Qc8+
+Rf8 55. Qc7 Qf1+) 52... Qxd4 53. d6 Rd8 54. d7 (54. Qf3 Qb2+ 55. Kh3 Qe5) 54...
+Rxd7 55. Bxd7 Qxd7 56. Qe5+ Kg8 57. h5 Qg7 58. Qe8+ Qf8 59. Qxf8+ Kxf8 60. Kf3
+Kf7 61. Kg4 Kg7 62. Kg5 Kf7 {.} (62... Kg8 63. Kh6 Kh8 64. g4 Kg8 65. g5 Kh8
+66. g6 hxg6 67. hxg6 Kg8 68. g7 Kf7 69. Kh7) 63. Kh6 Kg8 64. Kg5 (64. g4 Kh8
+65. g5 Kg8 66. g6 Kh8) 64... Kf7 65. Kf4 Kg7 66. Kf5 Kf7 67. g4 h6 68. Ke5 Ke7
+69. Kd5 Kf6 70. Ke4 Ke6 71. Kd4 Kf6 1/2-1/2
+
+
+[Event "World Championship Match"]
+[Site "New York"]
+[Date "1894.04.05"]
+[Round "8"]
+[White "Steinitz, Wilhelm"]
+[Black "Lasker, Emanuel"]
+[Result "0-1"]
+[ECO "C10"]
+[Annotator "Lasker & Steinitz"]
+[PlyCount "152"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. e4 e6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nd7 5. Nf3 Ngf6 6. Ng3 c5 7. Be2 cxd4 8.
+Nxd4 Bc5 9. Nb3 Be7 10. O-O O-O 11. Bd2 Qc7 12. c4 Ne5 13. Qc2 Ng6 14. Rfe1 Bd7
+15. Rac1 Rfc8 16. Bf1 Ba4 17. Bc3 Ng4 (17... Ng4 18. h3 Bxb3 19. axb3 Bc5 20.
+hxg4 Qxg3 21. b4 Nf4 22. bxc5 Nh3+ 23. Kh1 Nxf2+ 24. Kg1 Nxg4) 18. Qe2 Nf6 19.
+Nd4 Bd7 20. b4 Rd8 21. Qb2 Rac8 22. Nb3 Qf4 23. Bd2 Qb8 (23... Qh4 24. Nd4 Bc6
+25. Ngf5) 24. b5 b6 25. Bc3 Ne8 26. Nh5 (26. Ne4 f6 ({or} 26... f5 27. Ned2)
+27. c5 bxc5 28. Ba5 Nc7 29. Nbxc5) 26... f6 27. a4 e5 28. a5 Bg4 29. Ng3 Be6
+30. Nd2 Nf4 31. Qb1 Bf7 32. Nf5 Bf8 33. Bb4 Nd6 34. Nxd6 Bxd6 35. Ne4 (35. Bxd6
+Rxd6 36. Ne4 Bg6 37. axb6 axb6 38. Nxd6 Bxb1 39. Nxc8 Bg6 40. Nxb6 Qxb6 41. c5)
+35... Bxb4 36. Qxb4 Rd4 37. axb6 axb6 38. g3 Nd3 39. Bxd3 Rxd3 40. c5 Rd4 (
+40... Rb3 41. Qa4 bxc5 42. Nxc5 Rxb5 (42... Qxb5 43. Nxb3) 43. Nd7 Rxc1 44.
+Rxc1 Qb7 45. Nc5) 41. Qb1 bxc5 42. Nxc5 Rc4 43. Nd7 (43. Na6 Rxc1 44. Rxc1
+Rxc1+ 45. Qxc1 Qxb5 46. Qc8+) 43... Qb7 44. Rcd1 Be6 45. Nxe5 fxe5 46. Rxe5 Bh3
+47. Red5 Rc1 48. Qd3 h6 (48... Rxd1+ 49. Qxd1 Rc1 50. Rd8+ Kf7 51. Rd7+ Qxd7
+52. Qxc1) 49. g4 (49. f3 Qb6+ 50. Kh1 ({or} 50. Rd4 Rxd1+) 50... Rxd1+ 51. Qxd1
+Qf2 52. Rd8+ Rxd8 53. Qxd8+ Kh7 54. Qd3+ g6) 49... Bxg4 50. f3 Rxd1+ 51. Qxd1
+Be6 52. Rd6 Qe7 53. b6 Rc1 54. Qxc1 Qxd6 55. Qe3 Bd5 56. Kg2 Qg6+ 57. Kf2 Qc2+
+58. Kg3 Qg6+ 59. Kf2 Qc2+ 60. Kg3 Qg6+ 61. Kf2 Bb7 62. Qb3+ Qf7 63. Qd3 Qd5 64.
+Qe3 Qd6 65. Kg2 Kf7 66. h4 Qe6 67. Qf4+ Kg6 68. Qg3+ Kh7 69. Qf2 Qg4+ 70. Kh2
+Qxf3 71. Qc2+ Qe4 72. Qf2 Qf3 73. Qc2+ Be4 74. Qd2 Qf6 75. Qe3 Qxh4+ 76. Kg1
+Qg5+ 0-1
+
+[Event "World Championship Match"]
+[Site "USA Philadelphia, PA  (Frankl"]
+[Date "1894.04.19"]
+[Round "10"]
+[White "Steinitz, Wilhelm"]
+[Black "Lasker, Emanuel"]
+[Result "0-1"]
+[ECO "D35"]
+[Annotator "Lasker & Jackson Showalter"]
+[PlyCount "68"]
+[EventDate "1894.??.??"]
+[Source "New York Record"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. f3 c5 (4... c5 5. e3 cxd4 6. exd4 (6. Qxd4 Nc6)
+6... dxc4) 5. dxc5 Bxc5 6. cxd5 Nxd5 7. e4 (7. Nxd5 Qxd5 8. Qxd5 exd5 9. e3)
+7... Nxc3 8. Qxd8+ Kxd8 9. bxc3 Nc6 10. Nh3 Kc7 11. Nf4 Rd8 12. Nd3 Bd6 13. f4
+b6 14. Nf2 Bc5 15. Be2 Bb7 16. Nd3 Bf8 17. f5 (17. e5 Ne7 18. O-O Ba6 19. Rd1
+Rd7 20. Ba3 (20. Bb2 Rad8 21. Nc1 Bxe2 22. Rxd7+ Rxd7 23. Nxe2 Rd2) 20... Nd5
+21. Bxf8 Rxf8 22. g3 Ne3 23. Rd2 Rfd8 24. Kf2 Ng4+ 25. Bxg4 Rxd3 26. Rxd3 Rxd3)
+17... e5 (17... exf5) 18. Bg5 (18. Be3) 18... f6 19. Be3 Rac8 20. O-O-O Kb8 21.
+Nf2 (21. Kb2 Na5 22. Nf2 Rxd1 (22... Bd6)) (21. Kb2 Na5 22. Nf2 Ba3+ 23. Kc2
+Bc6) 21... Nd4 22. Bxd4 exd4 23. Bd3 dxc3 24. g4 Ba3+ 25. Kc2 (25. Kb1 Rxd3)
+25... Bc6 26. Kb3 Bc5 27. Nh3 (27. Rhf1 Bxf2 28. Rxf2 Bxe4) 27... Be3 28. Bc2
+Bd2 29. Nf2 Rd4 30. Ka3 Be8 31. Nd3 Rxe4 32. Nb4 Rd4 33. Bb3 a5 34. Nc2 b5 0-1
+
+
+
+[Event "World Championship Match"]
+[Site "USA Philadelphia, PA (Union L"]
+[Date "1894.04.21"]
+[Round "11"]
+[White "Lasker, Emanuel"]
+[Black "Steinitz, Wilhelm"]
+[Result "1-0"]
+[ECO "D40"]
+[Annotator "Lasker & Jackson Showalter"]
+[PlyCount "75"]
+[EventDate "1894.??.??"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 Be7 5. e3 O-O 6. Bd3 c5 7. dxc5 dxc4 8. Bxc4 Qxd1+ 9. Kxd1 {Showalter: The sacrifice of the castling privilege is of little moment in this opening, generally speaking, while in the present instance the position of the king in the center even proves of great advantage to White in the later stages of the game. The newly crowned king of chess evidently approves of the Steinitzian maxim that "the king is also a fighting piece." It is significant that the overthrow of the apostle of the "modern
+school" was accomplished by that disciple who has shown in his play the
+keenest appreciation of "modern school" principles and who has adhered to those principles with more tenacious consistency than any other master who has yet appeared, not even excepting the great founder of that "school" himself.} 9... Nc6 10. a3 Bxc5 {Lasker: With the one exception of White leaving his king in the center, the opening is played up to the tenth move on conservative and well-known lines, resulting in an even position.} 11. b4 Bb6 {Showalter: Probably reserving the square at e7 for the retreat of the knight.} 12. Ke2 Bd7 13. Bb3 Rac8 14. Bb2 a5 {Showalter: Creating subsequent difficulties.} (14... Rfd8 {looks much better and more consistent.}) 15. b5 Ne7 {Lasker: On his fifteenth move, Black, as the sequel shows, made a premature move, and got into a rather difficult game;} ({for instance, if he had played} 15... Kh8 16. Na4 Bc7 17. Nc5 {with a decided advantage.}) 16. Ne5 Be8 {Showalter: For now this bishop, which Black is loath to give up for the opposing knight, temporarily blocks
+the development of the f-rook.} 17. a4 {Showalter: Black threatens now to win the pawn by ...Ned5, etc.} 17... Bc7 18. Nc4 Bd7 19. Rac1 ({Lasker: Of course, when I had to consider my nineteenth move, I did not proceed with} 19. b6 Bd8 20. Nxa5 Bxb6 21. Nxb7 Rb8 22. Nd6 Bxe3 {recovering his material.}) ({Showalter: If} 19. b6 Bd8 20. Nd6 ({or}
+20. Nxa5 Bxb6 {and Black presently gets an advantage.}) 20... Rc6 {winning the pawn at least.}) 19... Ned5 {Showalter: Which turns out badly.} (19... Rfd8 {is now out of the question, however, on account of} 20. b6 {etc.}) ({We believe that the proper course was} 19... b6) 20. Nxd5 Nxd5 21. Ne5 Bxe5 ({Showalter: The only alternative was} 21... Nf6 {and that seems to give Black a bad game by} 22. Nxd7 Nxd7 23. Rhd1 ({or} 23. Rc2)) (21... Be8 {loses at once by} 22. Bxd5 ({or by} 22. Ba3 Nb4 23. b6) 22... exd5 23. Ba3 {etc.}) ({while} 21... Rfd8 {is bad on account of} 22. Nxd7 Rxd7 23. Bxd5 Rxd5 ({or} 23... exd5 24. b6) 24. b6) 22. Bxe5 f6 23. e4 fxe5 ({Lasker: Black's twenty-third move was forced; if, for instance} 23... Ne7 24. Bc7 Ra8 25. Bd6 {followed by 26.Rc7.}) ({Showalter: This is certainly bad, but Black's game is already somewhat compromised. His best chance, however, was
+certainly} 23... Ne7 {If, then} 24. Bd6 {Black seems to come off with an even game by either} 24... Kf7 ({or} 24... Rxc1 25. Rxc1 Rc8 {etc.})) ({and if} 23... Ne7 24. Bc3 Ra8 ({not} 24... b6 25. Rhd1
+{to which there is no defense, as the bishop cannot be supported by either rook without the loss of a piece}) 25. Rhd1 Bc8 {and though Black has the inferior position he may yet hope to draw. Of course all other moves with the knight are weak and lose at least a pawn.}) 24. exd5 Kf7 ({Lasker: On his next turn Black played the best possible variation, for, if} 24... Rxc1 25. Rxc1 Re8 26. dxe6 Bxe6 27. Rc8 {and wins the exchange.}) 25. Rhd1 Ke7 {Showalter: He should now have played 25...Rxc1 by all means. The next move increases his difficulties most seriously.} ({Lasker: Many people thought that Steinitz could have proceeded on his twenty-fifth turn with} 25... Rxc1 {then the following variation would have been the result:} 26. Rxc1 Rc8 27. dxe6+ Ke7 28. Rxc8 Bxc8 29. Ke3 Bxe6 30. Bxe6 Kxe6 31. Ke4 {and White would have probably won. For instance, let us continue} 31... b6 32. h4 g6 33. h5 Kd6 34. hxg6 hxg6 35. g4 Ke6 36. f3 Kd6 37. f4 exf4 38. Kxf4 Ke6 39. Kg5 Kf7 40. Kh6 Kf6 41. Kh7 Kg5 42. Kg7 Kxg4 43. Kxg6 Kf4 44. Kf6 Ke4
+45. Ke6 Kd4 46. Kd6 Kc4 47. Kc6 Kb4 48. Kxb6 Kxa4 49. Kc5 {and wins.}) 26. d6+ Kf6 27. Ke3 Rxc1 {Showalter: Again bad. The position is peculiar and simplification aids White materially. Black's only hope to draw was in keeping the rooks on the board, or at least one of them.} 28. Rxc1 Rc8 29. Rxc8 Bxc8 {The game was adjourned here, with Lasker sealing} 30. Bc2 {Showalter: A beautiful move, against which Black has no defense.} 30... Kf7 ({Lasker: My opinion is that at his thirtieth move Steinitz's best play was} 30... e4 {but should lose after} 31. Bxe4 e5 32. d7 {etc.}) ({Showalter: If} 30... h6 31. Be4 Kf7 ({or} 31... g5 32. g4) ({or} 31... h5 32. h4) 32. Bf3 Kf6 33. Kd3 Kf7 (33... Kf5 34. Bxb7 {and wins.}) ({or if} 33... b6 34. Bc6 {and wins.}) 34. h4 Kf6 35. Kc4 Kf7 36. Kc5 Ke8 37. Kb6 Kd7 38. Bxb7 {and wins.} ) 31. Bxh7 b6 ({Lasker: If} 31... g6 32. Ke4 Kg7 33. Kxe5 Kxh7 34. Kf6 e5 35. Ke7 {and wins.}) ({Showalter:} 31... g6 32. Ke4 {and Black dare not win the
+bishop, as the white king meanwhile marches to d8 and wins the other bishop and the game.}) 32. Ke4 ({Showalter: Here White, who has played with consummate skill throughout, misses his shortest course to victory, viz.} 32. Be4 Ke8 {(forced)} 33. Bc6+ Kd8 ({or} 33... Bd7 34. Ke4) 34. Ke4 {etc.}) 32... Kf6 {Lasker: About Black's thirty-second move, little can be said. The remaining moves are not of special interest, as White's superior forces must win.} 33. g4 g5 34. Kf3 Kf7 35. Be4 Ke8 36. h4 Kd7 37. h5 Ke8 38. Ke3 1-0

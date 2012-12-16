@@ -1,0 +1,6048 @@
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/1p5p/6p1/p2q1p2/P1Q5/1P5P/1P6/5RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rd1 {[%emt 0:00:04]} Qxc4 {[%emt 0:00:02]} 2. Rxd8+ {[%emt 0:00:01]} Kg7 {
+[%emt 0:00:01]} 3. bxc4 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq4/1p4kp/3p1n2/5pB1/p1pQ4/8/1P4PP/4RRK1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Re8 {[%emt 0:00:02]} Qxe8 {[%emt 0:00:00]} 2. Qxf6+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Bh6 {[%emt 0:00:00]} Qe3+ {[%emt 0:00:00]} 4. Bxe3 {
+[%emt 0:00:00]} a3 {[%emt 0:00:00]} 5. Bh6 {[%emt 0:00:00]} axb2 {
+[%emt 0:00:00]} 6. Qg7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2k4/1pp2rpp/pn1b1p2/3n4/8/P4NB1/1PP3PP/2KRR3 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. c4 {[%emt 0:00:04]} Nxc4 {[%emt 0:00:02]} 2. Rxd5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4k1r/pp3ppp/1bppbq2/4n3/3pPB2/1B1P2Q1/PPPN2PP/R4RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxe5 {[%emt 0:00:02]} Qxe5 {[%emt 0:00:01]} 2. Qxe5 {[%emt 0:00:01]} dxe5 {
+[%emt 0:00:00]} 3. Bxe6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/ppp1qn1p/3pB1pr/3Pp3/2P1Pn2/PPB5/1Q4RP/5RK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf4 {[%emt 0:00:02]} exf4 {[%emt 0:00:00]} 2. Bh8 {[%emt 0:00:00]} Qf6 {
+[%emt 0:00:00]} 3. Qxf6 {[%emt 0:00:00]} Rxh2 {[%emt 0:00:00]} 4. Qg7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r1k/4R3/p1pp4/3p1bQ1/3q1P2/7P/P2B2P1/7K w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Qh4+ {[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 2. Qg3+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Bc3 {[%emt 0:00:00]} Qxc3 {[%emt 0:00:00]} 4. Qxc3+ {
+[%emt 0:00:00]} d4 {[%emt 0:00:00]} 5. Qxd4+ {[%emt 0:00:00]} Rf6 {
+[%emt 0:00:00]} 6. Qxf6+ {[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 7. Qg7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1rk2/pp3ppQ/1np5/4q3/2B4N/4P3/PP3PP1/2R2K1R w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Qg8+ {[%emt 0:00:04]} Kxg8 {[%emt 0:00:00]} 2. Ng6 {[%emt 0:00:00]} Bh3 {
+[%emt 0:00:00]} 3. Rxh3 {[%emt 0:00:00]} Qh2 {[%emt 0:00:00]} 4. Rxh2 {
+[%emt 0:00:00]} Nxc4 {[%emt 0:00:00]} 5. Rh8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn3b1r/pQpk2p1/2qnppB1/8/6PP/2N1B3/PPP2P2/2KR3R w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Be4 {[%emt 0:00:06]} Qxb7 {[%emt 0:00:01]} 2. Bxb7 {[%emt 0:00:01]} Nc6 {
+[%emt 0:00:00]} 3. Bxa8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rr2k1/1pbb1ppp/4p3/pP1nN3/P7/1B2P3/1B2KPPP/2R4R w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxd7 {[%emt 0:00:02]} Rxd7 {[%emt 0:00:01]} 2. Bxd5 {[%emt 0:00:02]} exd5 {
+[%emt 0:00:00]} 3. b6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3nrrk1/2nb3p/1p5b/p1p1pp2/4N2N/P1PP2PP/1PB4K/4RRB1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd6 {[%emt 0:00:05]} f4 {[%emt 0:00:00]} 2. g4 {[%emt 0:00:00]} Bg7 {
+[%emt 0:00:00]} 3. Nxe8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1n2kbnr/3q1ppp/2N1p3/2p5/Q1pP4/4P3/5PPP/1NB1KB1R w Kk - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qa8 {[%emt 0:00:05]} Qc8 {[%emt 0:00:01]} 2. Nxb8 {[%emt 0:00:01]} f6 {
+[%emt 0:00:00]} 3. Bxc4 {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3q2kr/1p3pnp/p5rQ/3N1p2/3P4/6R1/PP3P1P/4R1K1 w - - 0 1"]
+[PlyCount "14"]
+[EventDate "1998.??.??"]
+
+1. Ne7+ {[%emt 0:00:02]} Kf8 {[%emt 0:00:00]} 2. Nxg6+ {[%emt 0:00:00]} fxg6 {
+[%emt 0:00:00]} 3. Rxg6 {[%emt 0:00:00]} Qc7 {[%emt 0:00:00]} 4. Rf6+ {
+[%emt 0:00:00]} Qf7 {[%emt 0:00:00]} 5. Rd6 {[%emt 0:00:00]} Qg6+ {
+[%emt 0:00:00]} 6. Rxg6 {[%emt 0:00:00]} hxg6 {[%emt 0:00:00]} 7. Qxh8+ {
+[%emt 0:00:00]} Kf7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/p3qppn/2p1b2p/1p1r4/3N4/1PP4P/1P3BP1/R2QR1K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxc6 {[%emt 0:00:05]} Qg5 {[%emt 0:00:01]} 2. Ne7+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:00]} 3. Nxd5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3q1r1k/2r3np/p1p1P1b1/Pp1p1pN1/1P1Q1P2/3B3R/7P/6RK w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nf7+ {[%emt 0:00:01]} Rcxf7 {[%emt 0:00:01]} 2. exf7 {[%emt 0:00:00]} Rxf7 {
+[%emt 0:00:01]} 3. Rxg6 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/pp1b2p1/2p4n/2Qp1p1R/3P4/3BP3/PP2NPq1/1K5R w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Rxh6 {[%emt 0:00:00]} gxh6 {[%emt 0:00:02]} 2. Rg1 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn3R2/pp4p1/2p3k1/8/8/2P1B3/PPP3PP/6K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bf4 {[%emt 0:00:00]} a5 {[%emt 0:00:02]} 2. Rxb8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn3rk1/ppp3pp/4bq2/2b1Np2/2B2P2/8/PPP1Q1PP/R1B1K2R w KQ - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Ng4 {[%emt 0:00:00]} fxg4 {[%emt 0:00:01]} 2. Qxe6+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:00]} 3. Qxf6 {[%emt 0:00:01]} gxf6 {[%emt 0:00:00]} 4. Be2 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1r3k1/3R1p1p/p3p1qp/1p6/3R4/P1P3P1/1P3Q1P/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rg4 {[%emt 0:00:03]} Qxg4 {[%emt 0:00:00]} 2. Qxf7+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Qxh7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1p2r1kp/q1pRbpp1/2Pn4/r7/P3P1P1/1Q1N1PBP/1R4K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bxd5 {[%emt 0:00:05]} cxd5 {[%emt 0:00:00]} 2. Rxa6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/pp1R2pp/2p5/4P3/1bP2P1P/1P2pPq1/P1Q1P3/5K1R w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxg7+ {[%emt 0:00:01]} Kxg7 {[%emt 0:00:01]} 2. Rg1 {[%emt 0:00:00]} Qxg1+ {
+[%emt 0:00:00]} 3. Kxg1 {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r3/5qpk/ppR2B1p/3p3P/n2P4/P2P2Q1/5PP1/2R3K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bxg7 {[%emt 0:00:02]} Qxg7 {[%emt 0:00:00]} 2. Rc7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2n1r2k/ppp3pp/2n3q1/3Q2N1/3P1p2/2P4P/PP3PP1/R4NK1 w - - 0 1"]
+[PlyCount "6"]
+[EventDate "1998.??.??"]
+
+1. Nf7+ {[%emt 0:00:01]} Kg8 {[%emt 0:00:01]} 2. Nd6+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:01]} 3. Nxe8 {[%emt 0:00:01]} Qxe8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4r1k/p6p/1pq2bb1/n2pB3/2pP2Q1/2P3N1/PP4PP/R4RK1 w - - 0 1"]
+[PlyCount "6"]
+[EventDate "1998.??.??"]
+
+1. Rxf6 {[%emt 0:00:01]} Rxf6 {[%emt 0:00:02]} 2. Rf1 {[%emt 0:00:02]} Raf8 {
+[%emt 0:00:01]} 3. Qg5 {[%emt 0:00:02]} Kg8 {[%emt 0:00:01]} (3... Kg8 {
+[%emt 0:00:01]} 4. Bxf6 {[%emt 0:00:01]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q1b1k1/p3bppp/N1p1pn2/1r6/4P3/P3B1P1/4QPBP/R1R3K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nc7 {[%emt 0:00:04]} Qxc7 {[%emt 0:00:01]} 2. Qxb5 {[%emt 0:00:03]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1kb1r/1p3ppp/p1q1pn2/8/P1B5/8/1PPNQPPP/R1B2RK1 w kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bb5 {[%emt 0:00:02]} axb5 {[%emt 0:00:01]} 2. axb5 {[%emt 0:00:00]} Qxc2 {
+[%emt 0:00:00]} 3. Rxa8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2kr1r2/p6p/5Pp1/2p5/1qp2Q1P/7R/PP6/1KR5 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rb3 {[%emt 0:00:04]} Rd4 {[%emt 0:00:01]} 2. Qxd4 {[%emt 0:00:00]} cxd4 {
+[%emt 0:00:01]} 3. Rxb4 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qkbnr/ppp1pppp/8/3Pn3/6b1/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:12]} Bxd1 {[%emt 0:00:01]} 2. Bb5+ {[%emt 0:00:01]} c6 {
+[%emt 0:00:00]} 3. dxc6 {[%emt 0:00:01]} a6 {[%emt 0:00:01]} 4. c7+ {
+[%emt 0:00:00]} axb5 {[%emt 0:00:00]} 5. cxd8=R+ {[%emt 0:00:01]} Rxd8 {
+[%emt 0:00:00]} 6. Nxd1 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1bpk2b1/1p2p3/1qn3N1/1p1pPP2/3P3B/1PPKQ2R/r2N4 w - - 0 1"]
+[PlyCount "25"]
+[EventDate "1998.??.??"]
+
+1. Nxe6 {[%emt 0:00:07]} Nxe6 {[%emt 0:00:00]} 2. Bxe6+ {[%emt 0:00:01]} Kxe6 {
+[%emt 0:00:00]} 3. Qg4+ {[%emt 0:00:01]} Kf6 {[%emt 0:00:00]} 4. Rh7 {
+[%emt 0:00:00]} Rxd1+ {[%emt 0:00:00]} 5. Kxd1 {[%emt 0:00:00]} Bxe4 {
+[%emt 0:00:00]} 6. Qxg7+ {[%emt 0:00:00]} Kf5 {[%emt 0:00:00]} 7. Qg5+ {
+[%emt 0:00:00]} Ke6 {[%emt 0:00:00]} 8. Qe7+ {[%emt 0:00:00]} Kf5 {
+[%emt 0:00:00]} 9. Qxe4+ {[%emt 0:00:00]} Kf6 {[%emt 0:00:00]} 10. Qe7+ {
+[%emt 0:00:00]} Kf5 {[%emt 0:00:00]} 11. Qg5+ {[%emt 0:00:00]} Ke6 {
+[%emt 0:00:00]} 12. Qg6+ {[%emt 0:00:00]} Kd5 {[%emt 0:00:00]} 13. Rh5# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qk2r/pp1bbp1p/2n1p3/1Bp2p1N/Q7/2P2N2/PP3PPP/2KR3R w kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxc6 {[%emt 0:00:00]} bxc6 {[%emt 0:00:00]} 2. Ne5 {[%emt 0:00:02]} Rg8 {
+[%emt 0:00:04]} 3. Nxd7 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4kb1r/1b3p1p/p1qp1np1/B1n1p3/2N1P3/1PN3PB/2P2P1P/3QR1K1 w k - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:05]} dxe5 {[%emt 0:00:04]} 2. Qd8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r1k2/pb2qp2/1n2p2p/1p3pN1/3p3P/1B1P2Q1/PPP3P1/4RRK1 w - - 0 1"]
+[PlyCount "17"]
+[EventDate "1998.??.??"]
+
+1. Nxe6+ {[%emt 0:00:03]} fxe6 {[%emt 0:00:00]} 2. Rxf5+ {[%emt 0:00:00]} Qf7 {
+[%emt 0:00:00]} 3. Rxf7+ {[%emt 0:00:00]} Kxf7 {[%emt 0:00:00]} 4. Bxe6+ {
+[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 5. Qg6 {[%emt 0:00:00]} Ke7 {
+[%emt 0:00:00]} 6. Bc8+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 7. Rf1+ {
+[%emt 0:00:00]} Bf3 {[%emt 0:00:00]} 8. Rxf3+ {[%emt 0:00:00]} Ke7 {
+[%emt 0:00:00]} 9. Qe6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "Q1b3k1/pq3pp1/1pN1p2p/3n4/1P1PB2P/P7/5PP1/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Ne7+ {[%emt 0:00:01]} Kf8 {[%emt 0:00:01]} 2. Qxc8+ {[%emt 0:00:01]} Qxc8 {
+[%emt 0:00:01]} 3. Nxc8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6r1/p3r2k/2p1q1pp/1pPnNp1b/1P1P1P2/P5RQ/7P/1B4RK w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxg6 {[%emt 0:00:02]} Rxg6 {[%emt 0:00:03]} 2. Qxh5 {[%emt 0:00:02]} Rf6 {
+[%emt 0:00:01]} 3. Rg6 {[%emt 0:00:02]} Rxg6 {[%emt 0:00:01]} 4. Bxf5 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1k2r/pp2qppp/2pb1n2/3p4/4P3/3B1N2/PPP2PPP/R1BQ1RK1 w kq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. e5 {[%emt 0:00:07]} Bxe5 {[%emt 0:00:01]} 2. Nxe5 {[%emt 0:00:02]} Qxe5 {
+[%emt 0:00:01]} 3. Re1 {[%emt 0:00:01]} Ne4 {[%emt 0:00:01]} 4. f3 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q1r2/pb2bpkp/1p2pnp1/nP2Q3/6N1/P2B2N1/1BP2PPP/R4RK1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Nh5+ {[%emt 0:00:07]} gxh5 {[%emt 0:00:00]} 2. Qg5+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Bxf6+ {[%emt 0:00:00]} Bxf6 {[%emt 0:00:00]} 4. Qh6 {
+[%emt 0:00:00]} Qxd3 {[%emt 0:00:00]} 5. Qxf6+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 6. Nh6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/2q1bppp/p3pn2/1pn3B1/8/P1N1PN2/BPQ2PPP/3RK2R w K - 0 1"]
+[PlyCount "8"]
+[EventDate "1998.??.??"]
+
+1. Bb1 {[%emt 0:00:10]} Rd8 {[%emt 0:00:04]} 2. Bxf6 {[%emt 0:00:02]} Bxf6 {
+[%emt 0:00:03]} 3. Qxh7+ {[%emt 0:00:03]} Kf8 {[%emt 0:00:01]} 4. Rxd8+ {
+[%emt 0:00:04]} Qxd8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q1k1r/p1pbbp1p/3p1npN/2pN4/4P3/5Q2/PPP2PPP/R1B1K2R w KQ - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. e5 {[%emt 0:00:04]} dxe5 {[%emt 0:00:02]} 2. Nxe7 {[%emt 0:00:02]} Qxe7 {
+[%emt 0:00:00]} 3. Qxa8+ {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3b1k1r/pp4p1/1qn1bpQp/1B2p3/8/2N2N2/PPP2PPP/5RK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:04]} fxe5 {[%emt 0:00:00]} 2. Qxe6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1nb1rk2/p3q1pp/1n3p2/1p1p1N2/2pP1PQ1/1PP3P1/P5BP/R1B1rRK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Ba3 {[%emt 0:00:03]} Bxf5 {[%emt 0:00:06]} 2. Bxe7+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3k1nr/pb2qppp/2n1p3/4N3/Q1pP4/2B1P3/1P3PPP/R3K2R w KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxc6 {[%emt 0:00:01]} Qd7 {[%emt 0:00:04]} 2. Ne5 {[%emt 0:00:02]} Qxa4 {
+[%emt 0:00:02]} 3. Rxa4 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q1rk1/1bp2p2/1p1p1npp/3P4/PpP2P1B/3Q4/2B3PP/4RRK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Re6 {[%emt 0:00:02]} fxe6 {[%emt 0:00:00]} 2. Qxg6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Bxf6+ {[%emt 0:00:00]} Qxf6 {[%emt 0:00:00]} 4. Qh7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rkb1r/p2nqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/2KR3R w k - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxd7 {[%emt 0:00:02]} Rxd7 {[%emt 0:00:01]} 2. Rd1 {[%emt 0:00:01]} Kd8 {
+[%emt 0:00:01]} 3. Rxd7+ {[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/pp1Rbpnp/q1p1p1p1/4P3/1PP2QP1/P3B2P/4BP2/R5K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bc5 {[%emt 0:00:07]} Rad8 {[%emt 0:00:01]} 2. Rxe7 {[%emt 0:00:00]} Rxe7 {
+[%emt 0:00:01]} 3. Bxe7 {[%emt 0:00:00]} Rd7 {[%emt 0:00:00]} 4. Bc5 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3kb1r/pp2pppp/1q3n2/3p4/3n4/3BBQ1P/PPP2PP1/RN3RK1 w kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qf4 {[%emt 0:00:09]} Ne4 {[%emt 0:00:02]} 2. Rd1 {[%emt 0:00:02]} (2. Rd1 {
+[%emt 0:00:06]} e6 {[%emt 0:00:03]} 3. Bxd4 {[%emt 0:00:01]} Bc5 {
+[%emt 0:00:01]} 4. Bxc5 {[%emt 0:00:00]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3qk2r/1pp1nppp/1p6/r7/8/5Q2/PP3PPP/R1B1R1K1 w k - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bg5 {[%emt 0:00:06]} Rxg5 {[%emt 0:00:01]} 2. Rad1 {[%emt 0:00:04]} Qa8 {
+[%emt 0:00:02]} 3. Qe3 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q2k1/pp5p/4b1pQ/3Nn3/8/6PP/P5B1/3R2K1 w - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1. Qf4 {[%emt 0:00:09]} (1. Qf4 {[%emt 0:00:03]} Qb8 {[%emt 0:00:02]} 2. Qf6 {
+[%emt 0:00:03]} Nf7 {[%emt 0:00:03]} 3. Qxe6 {[%emt 0:00:02]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1q2kb1r/1r1n1ppp/2Qpp3/8/N7/8/1PP2PPP/R1BR2K1 w k - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nc5 {[%emt 0:00:04]} Rc7 {[%emt 0:00:02]} 2. Nxd7 {[%emt 0:00:02]} Rxc6 {
+[%emt 0:00:00]} 3. Nxb8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/ppp1qpp1/1bnp3p/5PNQ/2BPP3/4n3/PP4PP/RN3RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. f6 {[%emt 0:00:02]} gxf6 {[%emt 0:00:00]} 2. Qg6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Qh7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rq1rk1/pp2bppp/2n2n2/4NRB1/3P4/PB5Q/1P4PP/3R2K1 w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Bxf6 {[%emt 0:00:04]} Bxf6 {[%emt 0:00:00]} 2. Qxh7+ {[%emt 0:00:00]} Kxh7 {
+[%emt 0:00:00]} 3. Rh5+ {[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 4. Ng6 {
+[%emt 0:00:00]} Qxd4+ {[%emt 0:00:00]} 5. Rxd4 {[%emt 0:00:00]} Bxd4+ {
+[%emt 0:00:00]} 6. Kf1 {[%emt 0:00:00]} Bxb2 {[%emt 0:00:00]} 7. Rh8# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qkbnr/pp2pppp/3p4/3Pn3/4P1b1/5N2/PP3PPP/RNBQKB1R w KQkq - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:02]} Bxd1 {[%emt 0:00:00]} 2. Bb5+ {[%emt 0:00:01]} Qd7 {
+[%emt 0:00:00]} 3. Bxd7+ {[%emt 0:00:01]} Kd8 {[%emt 0:00:00]} 4. Nxf7+ {
+[%emt 0:00:01]} Kxd7 {[%emt 0:00:00]} 5. Kxd1 {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rkr1/1p1Rn1pp/p3p2B/4Qp2/8/8/PPq2PPP/3R2K1 w - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1. Qf6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6rk/1p4q1/p3p3/3b4/4p3/1P2B2P/P4PP1/2QR2K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bd4 {[%emt 0:00:04]} Kh7 {[%emt 0:00:01]} 2. Bxg7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1rk1/pp2bp1p/2p2np1/3p2B1/3P4/2NQ2N1/PPP2PPP/4RRK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Rxe7 {[%emt 0:00:05]} Qxe7 {[%emt 0:00:02]} 2. Qf3 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2q2b2/5k2/4bP1r/2pB1Q1p/pp6/8/PPP3PP/2K2R2 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Re1 {[%emt 0:00:06]} Rxf6 {[%emt 0:00:03]} 2. Bxe6+ {[%emt 0:00:02]} Qxe6 {
+[%emt 0:00:02]} 3. Qh7+ {[%emt 0:00:04]} Ke8 {[%emt 0:00:01]} 4. Qxh5+ {
+[%emt 0:00:01]} (4. Qxh5+ {[%emt 0:00:01]} Kd7 {[%emt 0:00:02]} 5. Rxe6 {
+[%emt 0:00:01]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/6b1/1p1r3p/3q2pP/4Q3/8/4BPP1/1R4K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bc4 {[%emt 0:00:03]} Qxc4 {[%emt 0:00:01]} 2. Qxc4+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rk2r/1pp1qppp/2n3n1/p3P3/2PN3P/P5P1/1P2PPB1/R2QK2R w KQk - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bxc6+ {[%emt 0:00:04]} bxc6 {[%emt 0:00:01]} 2. Nxc6 {[%emt 0:00:01]} Rxd1+
+{[%emt 0:00:01]} 3. Rxd1 {[%emt 0:00:01]} Qd7 {[%emt 0:00:03]} 4. Rxd7 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2rk/p4p1p/3p1Pp1/3R4/2p1B2Q/8/1q4PP/4R1K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qxh7+ {[%emt 0:00:00]} Kxh7 {[%emt 0:00:00]} 2. Rh5# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rn1/p5bk/b2pP2p/q2P1p2/1p2nP1N/3QB2P/PP4B1/3NRRK1 w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Qxe4 {[%emt 0:00:02]} fxe4 {[%emt 0:00:00]} 2. Bxe4+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Ng6+ {[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 4. Nxf8+ {
+[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 5. Ng6+ {[%emt 0:00:00]} Kh7 {
+[%emt 0:00:00]} 6. Ne5+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 7. Nf7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6r1/R2b2qk/2p1p2p/1pPpPrp1/1P1Qp3/4P3/4N1PP/5RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxf5 {[%emt 0:00:04]} exf5 {[%emt 0:00:00]} 2. e6 {[%emt 0:00:01]} Bxe6 {
+[%emt 0:00:00]} 3. Rxg7+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/1ppb4/p1pb4/6q1/3P1p1r/2P1R2P/PP1BQ1P1/5RKN w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Rg3 {[%emt 0:00:03]} Rg4 {[%emt 0:00:01]} 2. hxg4 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r1r4/1b3pk1/5qp1/pP1p3p/2pN3P/3nP1P1/PQR2PB1/3R2K1 w - - 0 1"]
+[PlyCount "15"]
+[EventDate "1998.??.??"]
+
+1. Rxd3 {[%emt 0:00:07]} cxd3 {[%emt 0:00:00]} 2. Ne6+ {[%emt 0:00:00]} Kh6 {
+[%emt 0:00:00]} 3. Qxf6 {[%emt 0:00:00]} Rg8 {[%emt 0:00:00]} 4. Qf4+ {
+[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 5. Qxf7+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 6. Qf6+ {[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 7. Rc7+ {
+[%emt 0:00:00]} Rg7 {[%emt 0:00:00]} 8. Qxg7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6rk/1b4rp/2q2n2/p1n5/4p2Q/1PN2N2/PBP1R3/K3R3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd5 {[%emt 0:00:11]} Qxd5 {[%emt 0:00:00]} 2. Bxf6 {[%emt 0:00:02]} Nd7 {
+[%emt 0:00:01]} 3. Bxg7+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r2bqk1/2p1rpbn/3p3p/1p4n1/3PP2N/1BP1B2P/1P1N1R1K/3Q1R2 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Ng6 {[%emt 0:00:03]} Bc6 {[%emt 0:00:02]} 2. Nxf8 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r3/1p4pk/2b2pq1/7p/3B1P2/7P/4RQP1/7K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxg2+ {[%emt 0:00:03]} 2. Qxg2 {[%emt 0:00:00]} Rxe2 {[%emt 0:00:01]} 3.
+Qxc6 {[%emt 0:00:01]} bxc6 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/5pp1/p1p4p/2Pp4/8/q1NQP1BP/5PP1/4K2R b K - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... d4 {[%emt 0:00:03]} 2. O-O {[%emt 0:00:01]} dxc3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1p3k2/8/p2qp1QP/P1Bpb3/1P3r2/2P5/1K6 b - - 0 1"]
+[PlyCount "19"]
+[EventDate "1998.??.??"]
+
+1... Rxb3+ {[%emt 0:00:02]} 2. Bxb3 {[%emt 0:00:00]} Qxb3+ {[%emt 0:00:00]} 3.
+Ka1 {[%emt 0:00:00]} Qxa4+ {[%emt 0:00:00]} 4. Kb2 {[%emt 0:00:00]} Qxc2+ {
+[%emt 0:00:00]} 5. Ka3 {[%emt 0:00:00]} Qd3+ {[%emt 0:00:00]} 6. Ka2 {
+[%emt 0:00:00]} Qb1+ {[%emt 0:00:00]} 7. Ka3 {[%emt 0:00:00]} Qb4+ {
+[%emt 0:00:00]} 8. Ka2 {[%emt 0:00:00]} Bd5+ {[%emt 0:00:00]} 9. Ka1 {
+[%emt 0:00:00]} Qa3+ {[%emt 0:00:00]} 10. Kb1 {[%emt 0:00:00]} Be4# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1rr3k1/p3ppbp/3pbnp1/7P/qP1BP1P1/5P2/1PPQ4/1NKR1B1R b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Bh6 {[%emt 0:00:06]} 2. Qxh6 {[%emt 0:00:00]} Qxc2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/1bpq1ppp/p7/4P3/3bnP2/4B3/PPP1Q1PP/R4R1K b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Ng3+ {[%emt 0:00:03]} 2. hxg3 {[%emt 0:00:00]} Qh3+ {[%emt 0:00:00]} 3.
+Kg1 {[%emt 0:00:00]} Bxe3+ {[%emt 0:00:00]} 4. Qxe3 {[%emt 0:00:00]} Qxg2# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1rk1/1p2bppp/p1nppn2/5P2/3NP3/1BN5/PPP3PP/R1BQ1RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Qb6 {[%emt 0:00:09]} 2. fxe6 {[%emt 0:00:03]} Qxd4+ {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rnbqk2r/pppp1ppp/5n2/2bPp1B1/2P5/8/PP2PPPP/RN1QKBNR b KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Bxf2+ {[%emt 0:00:03]} 2. Kxf2 {[%emt 0:00:01]} Ng4+ {[%emt 0:00:01]} 3.
+Ke1 {[%emt 0:00:01]} Qxg5 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/pb3ppp/1p3q2/1Nb5/2p1BP2/P5P1/1PQ4P/R1B2R1K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qf5 {[%emt 0:00:09]} 2. Nc3 {[%emt 0:00:01]} Rfe8 {[%emt 0:00:01]} 3. Bxb7
+{[%emt 0:00:01]} Qxc2 {[%emt 0:00:02]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r1k1/3br1bp/p2p3q/P1pP1p2/2P1nP2/3Q3P/4N1B1/2B1RRK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nc3 {[%emt 0:00:08]} 2. Nxc3 {[%emt 0:00:01]} Rxe1 {[%emt 0:00:01]} 3.
+Rxe1 {[%emt 0:00:00]} Rxe1+ {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1r1k1/ppp2ppp/2n2n2/8/1bq5/1PN2NP1/P1QBPPBP/R3K2R b KQ - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rxe2+ {[%emt 0:00:03]} 2. Nxe2 {[%emt 0:00:00]} Qxc2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r3k1/2rb1pp1/5n1p/q1BPp3/p3Pn2/2R4P/2Q2PPK/1NR2B2 b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... N4xd5 {[%emt 0:00:06]} 2. exd5 {[%emt 0:00:01]} Nxd5 {[%emt 0:00:01]} 3.
+Rc4 {[%emt 0:00:01]} Bb5 {[%emt 0:00:01]} 4. Re4 {[%emt 0:00:01]} Bxf1 {
+[%emt 0:00:01]} 5. Rxf1 {[%emt 0:00:02]} Rxc5 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r1k1/ppp2pPp/3b1q2/4Nn2/Q1pPrpb1/2P5/PP4PP/R1B2RNK b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... R8xe5 {[%emt 0:00:03]} 2. dxe5 {[%emt 0:00:00]} Qxe5 {[%emt 0:00:02]} 3.
+Rd1 {[%emt 0:00:02]} f3 {[%emt 0:00:00]} 4. Qe8+ {[%emt 0:00:00]} Qxe8 {
+[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/pp2q1bp/5np1/4p3/4P1P1/2N1BB2/PPP4P/R2QK2R b KQ - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Nxg4 {[%emt 0:00:01]} 2. Bxg4 {[%emt 0:00:01]} Qh4+ {[%emt 0:00:02]} 3.
+Kd2 {[%emt 0:00:01]} Rd8+ {[%emt 0:00:00]} 4. Nd5 {[%emt 0:00:01]} Bxg4 {
+[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rrk1/ppp2qpp/3b4/3p4/6b1/2P1B3/PP1Q1PPP/R3KN1R b KQ - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... d4 {[%emt 0:00:03]} 2. cxd4 {[%emt 0:00:00]} Bb4 {[%emt 0:00:02]} 3. Qxb4
+{[%emt 0:00:00]} Qxf2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/p1p1p1bp/2Q1p1p1/8/4r2P/3qN3/PP1PNPP1/R1B2K2 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rxe3 {[%emt 0:00:01]} 2. dxe3 {[%emt 0:00:00]} Qd1# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/4q1pp/3p4/p1p1n3/4Q3/1P4P1/PNP4P/3RR1K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nf3+ {[%emt 0:00:04]} 2. Qxf3 {[%emt 0:00:03]} Qxe1+ {[%emt 0:00:00]} 3.
+Rxe1 {[%emt 0:00:00]} Rxf3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/6p1/p7/3Pn3/5p2/4rBqP/P4RP1/5QK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Re1 {[%emt 0:00:04]} 2. Qxe1 {[%emt 0:00:04]} Nxf3+ {[%emt 0:00:01]} 3.
+Rxf3 {[%emt 0:00:00]} Qxe1+ {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2q3k1/pbR1bppp/4r3/1Q2p3/8/4P1P1/P4PPK/1BBR4 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Rh6+ {[%emt 0:00:00]} 2. Kg1 {[%emt 0:00:00]} Rh1+ {[%emt 0:00:00]} 3.
+Kxh1 {[%emt 0:00:00]} Qh3+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Qxg2# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7k/pp2q3/2p2n2/4pr1p/1P1B2pQ/P2R2P1/5r1P/4R1K1 b - - 0 1"]
+[PlyCount "21"]
+[EventDate "1998.??.??"]
+
+1... exd4 {[%emt 0:00:00]} 2. Rdd1 {[%emt 0:00:00]} Re2 {[%emt 0:00:00]} 3.
+Rxe2 {[%emt 0:00:00]} Qxe2 {[%emt 0:00:00]} 4. Ra1 {[%emt 0:00:00]} Qe3+ {
+[%emt 0:00:00]} 5. Kh1 {[%emt 0:00:00]} Qf3+ {[%emt 0:00:00]} 6. Kg1 {
+[%emt 0:00:00]} Qc3 {[%emt 0:00:00]} 7. Qxf6+ {[%emt 0:00:00]} Rxf6 {
+[%emt 0:00:00]} 8. Rd1 {[%emt 0:00:00]} Qe3+ {[%emt 0:00:00]} 9. Kh1 {
+[%emt 0:00:00]} Qf3+ {[%emt 0:00:00]} 10. Kg1 {[%emt 0:00:00]} Qxd1+ {
+[%emt 0:00:00]} 11. Kg2 {[%emt 0:00:00]} Qf1# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r3/1p4pk/2b2pqp/8/8/P6P/3BRQP1/6K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Bxg2 {[%emt 0:00:03]} 2. Qxg2 {[%emt 0:00:00]} Rxe2 {[%emt 0:00:02]} 3.
+Qxg6+ {[%emt 0:00:01]} Kxg6 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/b4pp1/q1pp1nr1/1p5p/1P1BP2P/3P1P2/4N1PQ/5RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Bxd4+ {[%emt 0:00:04]} 2. Nxd4 {[%emt 0:00:00]} Qa7 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r3k/pp3rp1/1bp4p/4Q3/4PqP1/2PP1N2/P4PP1/R3R1K1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Bxf2+ {[%emt 0:00:03]} 2. Kxf2 {[%emt 0:00:00]} Qxe5 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k5/ppp2pp1/1b5p/1P6/R2PP3/7P/1P3RP1/2rr1NK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxd4 {[%emt 0:00:06]} 2. Rxd4 {[%emt 0:00:00]} Bxd4 {[%emt 0:00:01]} 3. b4
+{[%emt 0:00:01]} Rc2 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/6p1/p4Q1p/1p1P1b2/8/1P4RP/PBr3PK/4q3 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Qxg3+ {[%emt 0:00:02]} 2. Kxg3 {[%emt 0:00:01]} gxf6 {[%emt 0:00:02]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r4k1/p3bppp/1qp1b3/8/4P3/P1NP4/1P1Q1PPP/2KR3R b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Bg5 {[%emt 0:00:03]} 2. Qxg5 {[%emt 0:00:03]} Qxb2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rr2k1/5pp1/p1q2n1p/4pP2/2p1P1P1/2P5/2PNQ2P/R5RK b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxd2 {[%emt 0:00:03]} 2. Qxd2 {[%emt 0:00:00]} Nxe4 {[%emt 0:00:02]} 3.
+Qe1 {[%emt 0:00:00]} Nf2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/p3q2p/4n1p1/3BR3/3p2P1/8/P2Q3P/7K b - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1... Rxd5 {[%emt 0:00:02]} 2. Rxd5 {[%emt 0:00:00]} Qb7 {[%emt 0:00:00]} 3. Qg2
+{[%emt 0:00:01]} Qb1+ {[%emt 0:00:01]} 4. Qg1 {[%emt 0:00:00]} Qe4+ {
+[%emt 0:00:01]} 5. Qg2 {[%emt 0:00:00]} Qxg2+ {[%emt 0:00:01]} 6. Kxg2 {
+[%emt 0:00:00]} Nf4+ {[%emt 0:00:00]} 7. Kf3 {[%emt 0:00:00]} Nxd5 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "k4rr1/pp5p/2b5/2P2p1Q/2pp1B2/2P2R1B/2P1q2P/5R1K b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rg4 {[%emt 0:00:02]} 2. Bg3 {[%emt 0:00:01]} Bxf3+ {[%emt 0:00:01]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qk2r/pp3ppp/4p3/5b2/1Pp1n3/1P1pPQ2/5PPP/RN1K1B1R b kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Bg4 {[%emt 0:00:02]} 2. Qxg4 {[%emt 0:00:01]} Nxf2+ {[%emt 0:00:01]} 3.
+Kc1 {[%emt 0:00:00]} Nxg4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/pp4pk/6qp/1P1p4/r2N2r1/1RP1R3/P1Q4K/8 b - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1... Rxa2 {[%emt 0:00:00]} 2. Rb2 {[%emt 0:00:00]} Rxb2 {[%emt 0:00:00]} 3. Rg3
+{[%emt 0:00:00]} Rxg3 {[%emt 0:00:00]} 4. Qxb2 {[%emt 0:00:00]} Rg4 {
+[%emt 0:00:00]} 5. Qg2 {[%emt 0:00:00]} Rxg2+ {[%emt 0:00:00]} 6. Kh1 {
+[%emt 0:00:00]} Rg1+ {[%emt 0:00:00]} 7. Kh2 {[%emt 0:00:00]} Qg3# {
+[%emt 0:00:00]} (7... Qg2# {[%emt 0:00:00]}) 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/pp1b1rp1/2p2n2/3p2qp/3P4/1P1QPPN1/P3R1BP/R5K1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... h4 {[%emt 0:00:03]} 2. Nf1 {[%emt 0:00:02]} h3 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r3k1/1p3pp1/4p2p/3nP3/8/2PQ4/qP4PP/rNKRR3 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxc3 {[%emt 0:00:01]} 2. Kd2 {[%emt 0:00:02]} Qxb2+ {[%emt 0:00:00]} 3.
+Ke3 {[%emt 0:00:00]} Nxd1+ {[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/pp4p1/6r1/3p4/2nPNpPq/2P4P/P3Q2K/1R4R1 b - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1... Qe7 {[%emt 0:00:06]} (1... Qe7 {[%emt 0:00:02]} 2. Rge1 {[%emt 0:00:02]}
+Qxe4 {[%emt 0:00:01]}) *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7r/2pR1bkp/1r6/p1N2qp1/P1QP4/2P5/5PPP/4R1K1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qxd7 {[%emt 0:00:02]} 2. Nxd7 {[%emt 0:00:01]} Bxc4 {[%emt 0:00:01]} 3.
+Re7+ {[%emt 0:00:00]} Bf7 {[%emt 0:00:00]} 4. Nxb6 {[%emt 0:00:01]} cxb6 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/1q2bppp/p1n5/1p1NP3/8/2Q5/PP3PPP/R1BR2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxc6 {[%emt 0:00:04]} Qxc6 {[%emt 0:00:00]} 2. Nxe7+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Nxc6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qk2r/1b1nbppp/p3p3/1p1nP1B1/3pN3/3B1N2/PP3PPP/R2Q1RK1 w kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nd6+ {[%emt 0:00:02]} Kf8 {[%emt 0:00:01]} 2. Nxb7 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r1kb2/pNn2n1p/2p4B/3p1p1B/P7/1P2P3/4KP1P/6R1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bxf8 {[%emt 0:00:03]} Kxf8 {[%emt 0:00:01]} 2. Bxf7 {[%emt 0:00:02]} Kxf7 {
+[%emt 0:00:00]} 3. Nd6+ {[%emt 0:00:00]} Kf6 {[%emt 0:00:00]} 4. Nxc8 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2kr1b1r/pp1b1ppp/n1n1p3/1N6/4N3/P5P1/1P1BPP1P/R3KB1R w KQ - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nbd6+ {[%emt 0:00:03]} Kc7 {[%emt 0:00:01]} 2. Nxf7 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r1r1k/pp2N1qp/3p2p1/2n1b3/8/4BR1Q/PPP4P/5R1K w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf8+ {[%emt 0:00:03]} Rxf8 {[%emt 0:00:01]} 2. Rxf8+ {[%emt 0:00:01]} Qxf8
+{[%emt 0:00:01]} 3. Nxg6+ {[%emt 0:00:01]} Kg8 {[%emt 0:00:00]} 4. Nxf8 {
+[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rrk3/6p1/p4pp1/P1bN4/3R4/4P2P/5KP1/3R4 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nc7+ {[%emt 0:00:01]} Rxc7 {[%emt 0:00:01]} 2. Rxd8+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1k3r1r/pp2Rppp/2pp1q2/5Pp1/2QP4/2N5/PP4PP/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd5 {[%emt 0:00:03]} cxd5 {[%emt 0:00:00]} 2. Qc7+ {[%emt 0:00:00]} Ka8 {
+[%emt 0:00:00]} 3. Qxb7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4b3/5Nk1/7p/3p3P/3r4/4R3/5PPK/8 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd6 {[%emt 0:00:03]} Rh4+ {[%emt 0:00:01]} 2. Kg3 {[%emt 0:00:00]} Rxh5 {
+[%emt 0:00:01]} 3. Rxe8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/2p2pp1/1p3n2/6rp/3P3q/P3PQ1P/6PN/5R1K w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qa8+ {[%emt 0:00:06]} Kh7 {[%emt 0:00:01]} 2. Nf3 {[%emt 0:00:02]} Qg3 {
+[%emt 0:00:00]} 3. Nxg5+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rrb1k/pq5p/Q5p1/2pbN3/4NP2/8/PP4PP/3R1R1K w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxb7 {[%emt 0:00:03]} Bxb7 {[%emt 0:00:01]} 2. Nf7+ {[%emt 0:00:02]} Kg8 {
+[%emt 0:00:00]} 3. Rxd8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3rk2/5ppQ/np1bbq1p/p1ppN3/3P4/P1N1P3/1P3PPP/1BR2RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd7+ {[%emt 0:00:02]} Bxd7 {[%emt 0:00:00]} 2. Nxd5 {[%emt 0:00:01]} Qe6 {
+[%emt 0:00:00]} 3. Qh8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/pp4p1/2p4n/2Qp1pq1/3P1N1n/3BP1N1/PP3PP1/1K1R3R w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxh4 {[%emt 0:00:02]} Qxh4 {[%emt 0:00:01]} 2. Qxf8+ {[%emt 0:00:01]} Kxf8 {
+[%emt 0:00:01]} 3. Ng6+ {[%emt 0:00:01]} Kf7 {[%emt 0:00:00]} 4. Nxh4 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rr1/pp1b1P1p/5Q2/3p3k/5K2/8/2P3P1/8 w - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1. fxg8=Q {[%emt 0:00:03]} (1. fxg8=N {[%emt 0:00:04]} Rxf6+ {[%emt 0:00:01]}
+2. Nxf6+ {[%emt 0:00:01]} Kh4 {[%emt 0:00:01]} 3. Nxd7 {[%emt 0:00:01]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1rb2rk1/p2n4/1p2pqp1/2p3Np/3P1P2/P2B2P1/1P3P2/2RQK2R w K - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nh7 {[%emt 0:00:04]} Kxh7 {[%emt 0:00:00]} 2. Qxh5+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Qh7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7r/1bk2q2/2p2p2/p1Q1pP1p/4P2P/2N3r1/PPPR4/2K5 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nb5+ {[%emt 0:00:02]} Kc8 {[%emt 0:00:01]} 2. Nd6+ {[%emt 0:00:01]} Kc7 {
+[%emt 0:00:00]} 3. Nxf7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k4r/1bpq2b1/p1np2p1/1p1N4/4QP1p/1B5P/PPP2BP1/2KR4 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nb6+ {[%emt 0:00:02]} cxb6 {[%emt 0:00:01]} 2. Be6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r2/2q2b2/2p5/1pPp1pk1/1P1P1NnR/3BPK2/3Q2P1/8 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rh5+ {[%emt 0:00:04]} Bxh5 {[%emt 0:00:01]} 2. Ne6+ {[%emt 0:00:00]} Kf6 {
+[%emt 0:00:00]} 3. Nxc7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/p1r3n1/R1p2k2/4p3/8/1P2NPP1/P6P/6K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nd5+ {[%emt 0:00:02]} Ke6 {[%emt 0:00:00]} 2. Nxc7+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4nk2/1p3rb1/2qp2Rp/3Np3/p1r1Pp1P/3N1P2/PP2Q3/1K4R1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:02]} dxe5 {[%emt 0:00:01]} 2. Rxc6 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r3/1qrnpk2/p1Np1pp1/1p6/1P2Q3/2P4P/P5PK/3RR3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd8+ {[%emt 0:00:02]} Rxd8 {[%emt 0:00:01]} 2. Qxe7+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Qxd8+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bn1k1r/4bppp/pq6/1ppBNQ2/5B2/8/PP3PPP/R2R2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxc8 {[%emt 0:00:03]} Rxc8 {[%emt 0:00:01]} 2. Nd7+ {[%emt 0:00:00]} Ke8 {
+[%emt 0:00:00]} 3. Nxb6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rk1/p1pb1pp1/2pp3p/q1n2N2/3NP3/1P2Q3/P1P2PPP/3RR1K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Ne7+ {[%emt 0:00:02]} Kh7 {[%emt 0:00:00]} 2. Nexc6 {[%emt 0:00:01]} Bxc6 {
+[%emt 0:00:00]} 3. Nxc6 {[%emt 0:00:00]} Qxa2 {[%emt 0:00:00]} 4. Nxb8 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2kr3r/ppp2pp1/2np2qp/2bNp3/2B1P1b1/2PP1N2/PP2QPPP/R3K2R w KQ - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. b4 {[%emt 0:00:02]} Bb6 {[%emt 0:00:00]} 2. b5 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7k/6pp/2p5/4Nr2/pp2pPQb/4q2P/1P1R2K1/8 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Nf7+ {[%emt 0:00:02]} Kg8 {[%emt 0:00:02]} 2. Nh6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Qxg7+ {[%emt 0:00:00]} Kxg7 {[%emt 0:00:00]} 4. Nxf5+ {
+[%emt 0:00:00]} Kf7 {[%emt 0:00:01]} 5. Nxe3 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4b1r/pp1k1ppp/5p2/3N4/3pq3/8/PPP2QPP/2KR3R w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Rxd4 {[%emt 0:00:03]} Qe5 {[%emt 0:00:04]} 2. Nxf6+ {[%emt 0:00:03]} Ke6 {
+[%emt 0:00:03]} 3. Nd7 {[%emt 0:00:06]} Qg5+ {[%emt 0:00:01]} 4. Kb1 {
+[%emt 0:00:02]} f6 {[%emt 0:00:02]} 5. Qe2+ {[%emt 0:00:03]} Kf7 {
+[%emt 0:00:01]} 6. Qc4+ {[%emt 0:00:03]} Kg6 {[%emt 0:00:01]} 7. Rg4 {
+[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k5/r2n3p/1Rp1qpp1/2pN4/4P3/1P1P3P/2P2QP1/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxc6+ {[%emt 0:00:02]} Qxc6 {[%emt 0:00:01]} 2. Ne7+ {[%emt 0:00:01]} Kb7 {
+[%emt 0:00:00]} 3. Nxc6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/pb1qrpb1/1pn3pn/2p1p1Np/2B1NP1P/PP2P1P1/1BQP1K2/1R2R3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nf6+ {[%emt 0:00:02]} Bxf6 {[%emt 0:00:00]} 2. Qxg6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Qh7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rbk1/pppqrppp/1n1p4/3P4/2PBN3/3Q3P/PP3PP1/R4RK1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Nf6+ {[%emt 0:00:00]} gxf6 {[%emt 0:00:00]} 2. Qg3+ {[%emt 0:00:00]} Qg4 {
+[%emt 0:00:00]} 3. Qxg4+ {[%emt 0:00:00]} Bg7 {[%emt 0:00:00]} 4. Bxf6 {
+[%emt 0:00:00]} Nxc4 {[%emt 0:00:00]} 5. Qxg7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r6/RN1nbkpp/5p2/3p4/3N4/4P3/1P2KPPP/8 w - - 0 1"]
+[PlyCount "2"]
+[EventDate "1998.??.??"]
+
+1. Nd6+ {[%emt 0:00:02]} Kf8 {[%emt 0:00:01]} (1... Bxd6 {[%emt 0:00:00]} 2.
+Rxd7+ {[%emt 0:00:01]} Ke8 {[%emt 0:00:00]} 3. Rxd6 {[%emt 0:00:00]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "R4n2/pp2qpp1/2p3pk/6N1/7P/2P2P2/P5P1/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf8 {[%emt 0:00:03]} Qxf8 {[%emt 0:00:01]} 2. Rd8 {[%emt 0:00:01]} Qxd8 {
+[%emt 0:00:00]} 3. Nxf7+ {[%emt 0:00:00]} Kh5 {[%emt 0:00:00]} 4. Nxd8 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r2/6p1/PNk5/2N1p2p/1PP5/6P1/6K1/8 w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Nbd7 {[%emt 0:00:04]} Rg8 {[%emt 0:00:01]} 2. a7 {[%emt 0:00:01]} Ra8 {
+[%emt 0:00:01]} 3. b5+ {[%emt 0:00:01]} Kd6 {[%emt 0:00:01]} 4. b6 {
+[%emt 0:00:01]} Ke7 {[%emt 0:00:01]} 5. Nxe5 {[%emt 0:00:01]} h4 {
+[%emt 0:00:00]} 6. gxh4 {[%emt 0:00:01]} Rd8 {[%emt 0:00:01]} 7. Nc6+ {
+[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2brk1r1/p3bp1q/2p4p/1p2PP2/2p1N3/5Q1B/PP6/2KR3R w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Nf6+ {[%emt 0:00:02]} Bxf6 {[%emt 0:00:00]} 2. Qxc6+ {[%emt 0:00:00]} Bd7 {
+[%emt 0:00:00]} 3. exf6 {[%emt 0:00:00]} Bxc6 {[%emt 0:00:00]} 4. Rhe1+ {
+[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 5. Rxd8+ {[%emt 0:00:00]} Be8 {
+[%emt 0:00:00]} 6. Rexe8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1k3rr1/1pp2p2/p6p/b3q2P/3pN2R/PB1P1Q2/1PP1RP1n/1K6 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Qf6 {[%emt 0:00:07]} Qxf6 {[%emt 0:00:01]} 2. Nxf6 {[%emt 0:00:01]} Rh8 {
+[%emt 0:00:00]} 3. Nd7+ {[%emt 0:00:00]} Ka7 {[%emt 0:00:00]} 4. Nxf8 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3qnk2/pp3pb1/6p1/8/3pN3/1P5Q/1Pr3PP/4RRK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf7+ {[%emt 0:00:03]} Kxf7 {[%emt 0:00:01]} 2. Ng5+ {[%emt 0:00:02]} Kf8 {
+[%emt 0:00:01]} 3. Ne6+ {[%emt 0:00:01]} Kg8 {[%emt 0:00:00]} 4. Nxd8 {
+[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qn2k/pp3p1p/3p1nr1/2pP2N1/2P5/P1P4P/2Q5/R1B2RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxg6 {[%emt 0:00:03]} fxg6 {[%emt 0:00:01]} 2. Nf7+ {[%emt 0:00:00]} Kg7 {
+[%emt 0:00:00]} 3. Nxd8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bnkbnr/pp1q1p1p/2pp4/3N4/2BPP3/6Q1/PPP3PP/R1B2RK1 w kq - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Qxg8 {[%emt 0:00:02]} Rxg8 {[%emt 0:00:00]} 2. Nf6+ {[%emt 0:00:00]} Ke7 {
+[%emt 0:00:00]} 3. Nxg8+ {[%emt 0:00:00]} Ke8 {[%emt 0:00:00]} 4. Nf6+ {
+[%emt 0:00:00]} Ke7 {[%emt 0:00:00]} 5. Nxd7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rrq1k3/2p2p2/3pb1p1/3N2Pp/p1PpPR2/P2P3P/1P6/K2Q1R2 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Rxf7 {[%emt 0:00:05]} Bxf7 {[%emt 0:00:00]} 2. Qf3 {[%emt 0:00:01]} Be6 {
+[%emt 0:00:01]} 3. Qf8+ {[%emt 0:00:01]} Kd7 {[%emt 0:00:00]} 4. Qg7+ {
+[%emt 0:00:01]} Kc6 {[%emt 0:00:00]} 5. Ne7+ {[%emt 0:00:01]} Kb7 {
+[%emt 0:00:00]} 6. Nxc8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2k2/1pr3q1/p2pQ3/3PpPN1/8/1P2P3/1P6/6RK w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxc8+ {[%emt 0:00:01]} Rxc8 {[%emt 0:00:00]} 2. Ne6+ {[%emt 0:00:00]} Kf7 {
+[%emt 0:00:00]} 3. Rxg7+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1n1r/pp4k1/2p3pp/5p2/2BP1N2/6Q1/PP3PPP/R3R1K1 w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Re8 {[%emt 0:00:02]} Qxe8 {[%emt 0:00:00]} 2. Nh5+ {[%emt 0:00:00]} Kh7 {
+[%emt 0:00:00]} 3. Nf6+ {[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 4. Nxe8+ {
+[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 5. Qe5 {[%emt 0:00:00]} Ne6 {
+[%emt 0:00:00]} 6. Qg7+ {[%emt 0:00:00]} Nxg7 {[%emt 0:00:00]} 7. Nf6# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2rk1/pb1nq1pp/1p2p3/2ppN2P/2PPpPP1/4P3/PPQ5/2KR1B1R w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Ng6 {[%emt 0:00:01]} hxg6 {[%emt 0:00:00]} 2. hxg6 {[%emt 0:00:00]} Rf6 {
+[%emt 0:00:00]} 3. Rh8+ {[%emt 0:00:00]} Kxh8 {[%emt 0:00:00]} 4. Qh2+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qh7+ {[%emt 0:00:00]} Kf8 {
+[%emt 0:00:00]} 6. Qh8# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r2r1k1/2q2p1p/b2p1npB/2pP4/3bNP2/1P4PB/3Q3P/1R2R1K1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Qxd4 {[%emt 0:00:01]} cxd4 {[%emt 0:00:00]} 2. Nxf6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 3. Rxe8+ {[%emt 0:00:00]} Rxe8 {[%emt 0:00:00]} 4. Bg7+ {
+[%emt 0:00:00]} Kxg7 {[%emt 0:00:00]} 5. Nxe8+ {[%emt 0:00:00]} Kf8 {
+[%emt 0:00:00]} 6. Nxc7 {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rn2/pp4k1/5qp1/4pp1P/P1Pb3N/6Q1/1B3PP1/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxd4 {[%emt 0:00:01]} exd4 {[%emt 0:00:00]} 2. Bxd4 {[%emt 0:00:00]} Qxd4 {
+[%emt 0:00:00]} 3. Nxf5+ {[%emt 0:00:01]} Kg8 {[%emt 0:00:00]} 4. Nxd4 {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1b2k2p/p3npp1/1pp1p3/4P2P/2P2KP1/PPBNnP2/5N2 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... N2d4+ {[%emt 0:00:01]} 2. cxd4 {[%emt 0:00:00]} Nxd4+ {[%emt 0:00:00]} 3.
+Ke3 {[%emt 0:00:00]} Nxc2+ {[%emt 0:00:00]} 4. Ke2 {[%emt 0:00:00]} Nd4+ {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/4q1pp/3p4/R2Ppr2/1p2Qn2/5BP1/1P1R1P1P/6K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nh3+ {[%emt 0:00:01]} 2. Kg2 {[%emt 0:00:00]} Ng5 {[%emt 0:00:00]} 3. Qe3
+{[%emt 0:00:00]} Rxf3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "N1b2r1k/pp4bp/6p1/3Q3n/3P4/2N1P1qP/PP2KnP1/R1B2R2 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nf4+ {[%emt 0:00:02]} 2. exf4 {[%emt 0:00:00]} Re8+ {[%emt 0:00:00]} 3.
+Qe5 {[%emt 0:00:00]} Bxe5 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2rb1k1/pp3pp1/4p1p1/1P2B3/2PnR2q/2Q3NP/P4PP1/R5K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxe4 {[%emt 0:00:01]} 2. Nxe4 {[%emt 0:00:01]} Ne2+ {[%emt 0:00:00]} 3.
+Kh2 {[%emt 0:00:00]} Nxc3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/1p1q1pp1/p2p1b1p/2pP2n1/3nPP2/6QP/PP4P1/RBB1RNK1 b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... Ngf3+ {[%emt 0:00:03]} 2. gxf3 {[%emt 0:00:00]} Bh4 {[%emt 0:00:01]} 3.
+Qg4 {[%emt 0:00:00]} Qxg4+ {[%emt 0:00:00]} 4. fxg4 {[%emt 0:00:00]} Nf3+ {
+[%emt 0:00:00]} 5. Kg2 {[%emt 0:00:00]} Nxe1+ {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k1r3/p1q3pp/2R2p2/3pP3/1b1N1n2/6Q1/PP3PPP/6K1 b - - 0 1"]
+[PlyCount "2"]
+[EventDate "1998.??.??"]
+
+1... Qxc6 {[%emt 0:00:01]} 2. Qxf4 {[%emt 0:00:00]} (2. Nxc6 {[%emt 0:00:00]}
+Ne2+ {[%emt 0:00:00]} 3. Kf1 {[%emt 0:00:00]} Nxg3+ {[%emt 0:00:00]} 4. fxg3 {
+[%emt 0:00:00]} Bc5 {[%emt 0:00:00]}) *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/p2r2pk/2q2p1p/2P1p1n1/4P3/6P1/PBQ4P/1R4K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rd2 {[%emt 0:00:04]} 2. Qxd2 {[%emt 0:00:01]} Nf3+ {[%emt 0:00:01]} 3. Kg2
+{[%emt 0:00:01]} Nxd2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1r1k1/ppp2ppp/3B4/8/2P1N1P1/P1np3P/1P3P2/R3KB1R b KQ - 0 1"]
+[PlyCount "4"]
+[EventDate "1998.??.??"]
+
+1... Nxe4 {[%emt 0:00:09]} 2. Bxc7 {[%emt 0:00:01]} Ng3+ {[%emt 0:00:01]} 3.
+Kd2 {[%emt 0:00:00]} (3. Kd2 {[%emt 0:00:00]} Nxh1 {[%emt 0:00:00]}) *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2rk1/1pq1pp1p/6p1/1n1N4/p2RP3/2P5/P4PPP/2Q2RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxd4 {[%emt 0:00:07]} 2. Nxc7 {[%emt 0:00:00]} Ne2+ {[%emt 0:00:01]} 3.
+Kh1 {[%emt 0:00:00]} Nxc1 {[%emt 0:00:01]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/1p3p1p/2n1p1p1/p4n2/2B1pP2/7P/P1N1K1P1/8 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... b5 {[%emt 0:00:03]} 2. g4 {[%emt 0:00:01]} Nd6 {[%emt 0:00:01]} 3. Bb3 {
+[%emt 0:00:01]} a4 {[%emt 0:00:01]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/3n2kp/p3p1p1/4P1P1/4Nr2/PK6/2B5/8 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxe4 {[%emt 0:00:02]} 2. Bxe4 {[%emt 0:00:00]} Nc5+ {[%emt 0:00:01]} 3.
+Kc4 {[%emt 0:00:00]} Nxe4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r3k1/1p3pBp/8/qN1p4/3Qn3/P3PB2/2rnRPPb/R2K4 b - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1... Qxb5 {[%emt 0:00:00]} 2. Qxe4 {[%emt 0:00:00]} Nxe4 {[%emt 0:00:00]} 3.
+Bc3 {[%emt 0:00:00]} Nxc3+ {[%emt 0:00:00]} 4. Kxc2 {[%emt 0:00:00]} Nb1+ {
+[%emt 0:00:00]} 5. Kd1 {[%emt 0:00:00]} Qd3+ {[%emt 0:00:00]} 6. Ke1 {
+[%emt 0:00:00]} Rc1# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/pb3ppp/4p3/qBn5/1p2P3/5P2/PP2Q1PP/R1B2RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Nb3 {[%emt 0:00:04]} 2. axb3 {[%emt 0:00:01]} Qxa1 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/8/8/1p3B1p/p6k/P3p2P/1P1n4/4K3 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Nf3+ {[%emt 0:00:03]} 2. Kf1 {[%emt 0:00:01]} e2+ {[%emt 0:00:01]} 3. Kxe2
+{[%emt 0:00:00]} Nd4+ {[%emt 0:00:00]} 4. Kd3 {[%emt 0:00:00]} Nxf5 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r7/pp1n1k2/2pbpp2/3n4/P1BP4/5NNr/1P3PK1/R2R4 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxg3+ {[%emt 0:00:02]} 2. fxg3 {[%emt 0:00:00]} Ne3+ {[%emt 0:00:00]} 3.
+Kf2 {[%emt 0:00:00]} Nxc4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2r2/p6k/1p4pb/2p1pp2/3n2p1/P1BPN1P1/1P2PPKP/3RR3 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Bxe3 {[%emt 0:00:02]} 2. fxe3 {[%emt 0:00:00]} Nc2 {[%emt 0:00:01]} 3.
+Bxe5 {[%emt 0:00:00]} Nxe3+ {[%emt 0:00:00]} 4. Kf2 {[%emt 0:00:00]} Nxd1+ {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1r3k1/1R3ppp/p3pb2/8/2P1nB2/5N2/P4PPP/2R3K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nc5 {[%emt 0:00:01]} 2. Rbb1 {[%emt 0:00:00]} Nd3 {[%emt 0:00:01]} 3. Bd6
+{[%emt 0:00:00]} Nxc1 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2rk1/pp1b2pp/4pb2/q1np4/7P/P1NB1N2/1PPQ1PP1/2K1R2R b - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1... Nxd3+ {[%emt 0:00:01]} 2. Qxd3 {[%emt 0:00:00]} Bxc3 {[%emt 0:00:01]} 3.
+bxc3 {[%emt 0:00:00]} Rxc3 {[%emt 0:00:00]} 4. Qd4 {[%emt 0:00:00]} Qxa3+ {
+[%emt 0:00:00]} 5. Kd2 {[%emt 0:00:00]} Rfc8 {[%emt 0:00:00]} 6. Rc1 {
+[%emt 0:00:01]} R8c4 {[%emt 0:00:00]} 7. Rhe1 {[%emt 0:00:00]} Rxd4+ {
+[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r4k1/p1p2ppp/2p5/Pn1p4/1BbP4/2P1PP2/1r2NKPP/1R2R3 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Rxb1 {[%emt 0:00:03]} 2. Rxb1 {[%emt 0:00:00]} Bxe2 {[%emt 0:00:01]} 3.
+Kxe2 {[%emt 0:00:00]} Nxc3+ {[%emt 0:00:01]} 4. Bxc3 {[%emt 0:00:01]} Rxb1 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r2/2p4p/1p1p1k1r/p2Pn1p1/P1P1PpP1/1P3P2/3R2KP/2RN4 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxh2+ {[%emt 0:00:01]} 2. Kxh2 {[%emt 0:00:00]} Nxf3+ {[%emt 0:00:00]} 3.
+Kg2 {[%emt 0:00:00]} Nxd2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rr2k1/1b3p1p/pq2pp1Q/1p2n3/1P2P2N/P2nN1P1/3p1PBP/R4RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxf2 {[%emt 0:00:03]} 2. Kxf2 {[%emt 0:00:00]} Ng4+ {[%emt 0:00:00]} 3.
+Ke2 {[%emt 0:00:00]} Nxh6 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2k2r/pp6/4pQp1/qb1pP2p/3P4/P1n1BP2/2P2KPP/R5NR b kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Ne4+ {[%emt 0:00:02]} 2. fxe4 {[%emt 0:00:00]} Rf8 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r1k1/p2b1p2/1p1q1n1p/3p2p1/P1pP2P1/2P1rPNP/3Q1K2/R3RB2 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxg3+ {[%emt 0:00:02]} 2. Kxg3 {[%emt 0:00:00]} Ne4+ {[%emt 0:00:01]} 3.
+Kg2 {[%emt 0:00:00]} Nxd2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/pp3ppp/2p2q2/2Ppn3/B2Qn3/4B3/PPP2PPP/RN2R1K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Bh3 {[%emt 0:00:06]} 2. gxh3 {[%emt 0:00:00]} Nf3+ {[%emt 0:00:00]} 3. Kg2
+{[%emt 0:00:00]} Nxd4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3kb1r/ppp3pp/2n5/4PQ2/3P4/2p5/P1P1N1qP/R1B1KR2 b Qkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxe2+ {[%emt 0:00:02]} 2. Kxe2 {[%emt 0:00:00]} Nxd4+ {[%emt 0:00:00]} 3.
+Kd3 {[%emt 0:00:00]} Nxf5 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/6pk/7p/2r2p2/5Pqn/1P6/P2Q2PP/2B2RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxc1 {[%emt 0:00:04]} 2. Rxc1 {[%emt 0:00:00]} Nf3+ {[%emt 0:00:01]} 3.
+Kf2 {[%emt 0:00:00]} Nxd2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1r3k1/1b3ppp/1p2p3/8/2NQPn2/1q3B2/1P3PPP/2R2RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxf3 {[%emt 0:00:02]} 2. gxf3 {[%emt 0:00:00]} Ne2+ {[%emt 0:00:00]} 3.
+Kg2 {[%emt 0:00:00]} Nxd4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/pp1B2b1/8/3p3p/3Pq3/BP1n1R2/P6P/3Q1N1K b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Nf2+ {[%emt 0:00:01]} 2. Kg2 {[%emt 0:00:00]} Nxd1 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1Q2ppk1/6p1/2qN4/p1r3n1/6P1/P5KP/5R2 b - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1... Rc2+ {[%emt 0:00:02]} 2. Kh3 {[%emt 0:00:00]} f5 {[%emt 0:00:00]} 3. Rxf5
+{[%emt 0:00:00]} gxf5 {[%emt 0:00:00]} 4. Qb2+ {[%emt 0:00:00]} Rxb2 {
+[%emt 0:00:00]} 5. Kh4 {[%emt 0:00:00]} Qd6 {[%emt 0:00:00]} 6. Nf4 {
+[%emt 0:00:00]} Rxh2+ {[%emt 0:00:00]} 7. Nh3 {[%emt 0:00:00]} Qh6# {
+[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2rk1/n2b1p2/p2Pp2p/3n2p1/1P6/8/P4PPP/B2QR1K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qd4 {[%emt 0:00:05]} f6 {[%emt 0:00:01]} 2. Qxa7 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/5ppp/bn6/ppp2N2/3Pq3/P1P5/1B1Q2PP/2R3K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qg5 {[%emt 0:00:04]} Kf8 {[%emt 0:00:03]} 2. Qxd8+ {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/1q1b1ppp/pnn1p3/1p6/1b1NP3/1P1QBN2/P3BPPP/2R2RK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxc6 {[%emt 0:00:03]} Bxc6 {[%emt 0:00:02]} 2. Qd4 {[%emt 0:00:01]} Ba3 {
+[%emt 0:00:01]} 3. Rxc6 {[%emt 0:00:01]} Qxc6 {[%emt 0:00:00]} 4. Qxb6 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2k2r/2q2ppp/bn1p4/2p5/4P3/1Q3N2/1P1N1PPP/R3KB1R w KQkq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxa6 {[%emt 0:00:05]} Nxa6 {[%emt 0:00:01]} 2. Bxa6 {[%emt 0:00:01]} Rxa6 {
+[%emt 0:00:00]} 3. Qb5+ {[%emt 0:00:00]} Nd7 {[%emt 0:00:00]} 4. Qxa6 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r1k2/2rP1ppp/5b2/pp6/n7/P1NR1P2/1PK2P1P/4RB2 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Re8+ {[%emt 0:00:01]} Rxe8 {[%emt 0:00:00]} 2. dxe8=R+ {[%emt 0:00:03]} Kxe8
+{[%emt 0:00:00]} 3. Re3+ {[%emt 0:00:01]} Kd8 {[%emt 0:00:01]} 4. Bxb5 {
+[%emt 0:00:01]} Nb6 {[%emt 0:00:00]} 5. Re8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2rnk/2q1bppp/p2pp3/1b4P1/4PP1P/2B1n1N1/1P2N1B1/2RQ1R1K w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qd4 {[%emt 0:00:03]} f6 {[%emt 0:00:01]} 2. Qxe3 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r7/pp4k1/2p1b1p1/8/7r/1P1Q4/P5PP/5R1K w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Qc3+ {[%emt 0:00:02]} Kg8 {[%emt 0:00:01]} 2. Qf6 {[%emt 0:00:02]} Rh7 {
+[%emt 0:00:01]} 3. Qxg6+ {[%emt 0:00:01]} Kh8 {[%emt 0:00:00]} 4. Qxe6 {
+[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1rk1/ppp2ppp/4p3/8/3b4/3B1N2/PPP1QPPP/R3K2R w KQ - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qe4 {[%emt 0:00:02]} Bxf2+ {[%emt 0:00:00]} 2. Kxf2 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2b4R/4rkp1/1p1Q3p/p1p2q2/2P1p1p1/1P2P1P1/PB3P1P/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qd8 {[%emt 0:00:04]} Qd7 {[%emt 0:00:01]} 2. Rf8+ {[%emt 0:00:01]} Kg6 {
+[%emt 0:00:01]} 3. Qxc8 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bnr2k/4q1pp/p2Rp3/1p2Qp2/1P5P/P3P3/1B3PP1/1BR3K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rc7 {[%emt 0:00:03]} Qxc7 {[%emt 0:00:00]} 2. Rxd8 {[%emt 0:00:01]} Rxd8 {
+[%emt 0:00:00]} 3. Qxc7 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/ppppbppp/8/2q5/8/2PB1Q2/PPP2PPP/R1B1R1K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qe4 {[%emt 0:00:03]} f5 {[%emt 0:00:01]} 2. Qxe7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r3k1/4bppp/1q6/1p1Pp3/nP1p4/3B1Q1P/5PP1/R4NK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qf5 {[%emt 0:00:01]} g6 {[%emt 0:00:02]} 2. Qxc8+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/R4pp1/1p5p/4p3/6b1/1P1n2P1/P4PBP/4N1K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxd3 {[%emt 0:00:04]} Rxd3 {[%emt 0:00:00]} 2. Ra8+ {[%emt 0:00:00]} Kh7 {
+[%emt 0:00:00]} 3. Be4+ {[%emt 0:00:00]} f5 {[%emt 0:00:00]} 4. Bxd3 {
+[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/pppn1ppp/2b2n2/q7/4PP2/2NBB2P/PP2Q1P1/1K1R3R w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. e5 {[%emt 0:00:05]} Nd5 {[%emt 0:00:00]} 2. Bxh7+ {[%emt 0:00:01]} Kxh7 {
+[%emt 0:00:01]} 3. Nxd5 {[%emt 0:00:01]} Bxd5 {[%emt 0:00:01]} 4. Qd3+ {
+[%emt 0:00:01]} Kg8 {[%emt 0:00:00]} 5. Qxd5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3rbk1/3n1pp1/2N4p/2pP4/qpN2B2/5Q2/1P3PPP/2RR2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxh6 {[%emt 0:00:04]} gxh6 {[%emt 0:00:00]} 2. Qg4+ {[%emt 0:00:00]} Bg7 {
+[%emt 0:00:01]} 3. Qxd7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4k2r/2pq1p1p/3p1np1/8/2Q1P3/7P/PrP2PP1/RN3RK1 w k - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qc3 {[%emt 0:00:03]} Qb5 {[%emt 0:00:01]} 2. Qxf6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/ppp2ppp/7q/4P3/1bB3b1/2NQ4/PPP3PP/4RR1K w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf7 {[%emt 0:00:02]} Rxf7 {[%emt 0:00:01]} 2. Bxf7+ {[%emt 0:00:02]} Kxf7 {
+[%emt 0:00:01]} 3. Qc4+ {[%emt 0:00:01]} Be6 {[%emt 0:00:01]} 4. Qxb4 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bbr1k1/p2n1ppp/1p1Bp3/3q3Q/3PNP2/3B4/PP4PP/2R2R1K w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Ng5 {[%emt 0:00:00]} Qxg2+ {[%emt 0:00:00]} 2. Kxg2 {[%emt 0:00:00]} Bb7+ {
+[%emt 0:00:00]} 3. Kg1 {[%emt 0:00:00]} Be4 {[%emt 0:00:00]} 4. Qxf7+ {
+[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 5. Qxe8+ {[%emt 0:00:00]} Nf8 {
+[%emt 0:00:00]} 6. Qxf8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q4/1bp1p1k1/1pn1pbB1/4N1B1/p2p3P/7R/PP2QPP1/1K6 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Bh6+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 2. Nf7+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Bh7+ {[%emt 0:00:00]} Kxh7 {[%emt 0:00:00]} 4. Qd3+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qg6+ {[%emt 0:00:00]} Bg7 {
+[%emt 0:00:00]} 6. Qxg7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q2r1k/p1pp1pbp/6p1/2P5/4P3/4B3/PnBQ1PPP/4RRK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bd4 {[%emt 0:00:03]} Qa6 {[%emt 0:00:02]} 2. Bxg7+ {[%emt 0:00:01]} Kxg7 {
+[%emt 0:00:00]} 3. Qd4+ {[%emt 0:00:00]} f6 {[%emt 0:00:01]} 4. Qxb2 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/1p1P1p1p/p1q2bp1/1N3n2/8/1P4PB/P2Q1P2/4R1K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rc1 {[%emt 0:00:06]} Qxb5 {[%emt 0:00:01]} 2. Rc8+ {[%emt 0:00:02]} Kg7 {
+[%emt 0:00:01]} 3. Rxa8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/3nrppp/2B5/p1b2P2/5Q2/1P5P/Pr6/5R1K w - - 0 1"]
+[PlyCount "4"]
+[EventDate "1998.??.??"]
+
+1. f6 {[%emt 0:00:03]} Ree2 {[%emt 0:00:03]} 2. Bxd7 {[%emt 0:00:03]} Rxa2 {
+[%emt 0:00:07]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1n6/2pq1kp1/p2pNpp1/b2r4/2R1Q3/7P/1B3PP1/6K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nd8+ {[%emt 0:00:02]} Qxd8 {[%emt 0:00:01]} 2. Qxd5+ {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqk2r/2pp1ppp/p4n2/1p2b3/4P3/1B6/PPP2PPP/RNBQ1RK1 w kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. f4 {[%emt 0:00:04]} Bd6 {[%emt 0:00:02]} 2. e5 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/p1pr2p1/1p3p1q/4b3/4Q3/3N1P2/PPP3PP/4R2K w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. f4 {[%emt 0:00:05]} Bd6 {[%emt 0:00:00]} 2. Qe8+ {[%emt 0:00:01]} Kh7 {
+[%emt 0:00:00]} 3. Qxd7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r7/3p4/2n1k3/4q3/4p3/4N1P1/2R2P2/2Q3K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxc6+ {[%emt 0:00:01]} dxc6 {[%emt 0:00:00]} 2. Qxc6+ {[%emt 0:00:01]} Kf7 {
+[%emt 0:00:00]} 3. Qb7+ {[%emt 0:00:01]} Kg6 {[%emt 0:00:00]} 4. Qxa8 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/r4pbk/4p2p/8/p5R1/Pq3N1P/1P1Q1PP1/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxg7+ {[%emt 0:00:02]} Kxg7 {[%emt 0:00:01]} 2. Qd4+ {[%emt 0:00:01]} e5 {
+[%emt 0:00:00]} 3. Qxa7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3rqk1/3n1pbp/b2p2p1/p1pP4/1p2PP1N/6nP/PPQB3N/R3RBK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bxa6 {[%emt 0:00:02]} Rxa6 {[%emt 0:00:00]} 2. Qd3 {[%emt 0:00:01]} Nxe4 {
+[%emt 0:00:01]} 3. Rxe4 {[%emt 0:00:00]} Rxe4 {[%emt 0:00:00]} 4. Qxe4 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2kb1r/p3pppp/b4n2/3qN3/2pP4/4P3/5PPP/RNBQKB1R w KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxa6 {[%emt 0:00:00]} Nxa6 {[%emt 0:00:00]} 2. Qa4+ {[%emt 0:00:00]} Nd7 {
+[%emt 0:00:00]} 3. Qxa6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r6k/6p1/7p/4p3/3rb3/1P5P/6PK/2Q1R3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxe4 {[%emt 0:00:02]} Rxe4 {[%emt 0:00:00]} 2. Qc6 {[%emt 0:00:01]} Rb8 {
+[%emt 0:00:00]} 3. Qxe4 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/p1p2ppp/2r1b3/4P1Nq/3Q2n1/1P3N2/P5PP/R4RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. h3 {[%emt 0:00:03]} Nh6 {[%emt 0:00:00]} 2. Qe4 {[%emt 0:00:01]} Qg6 {
+[%emt 0:00:00]} 3. Qxc6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1r2nk1/7p/p2p1Q2/3p1R2/1PpP4/P1P4P/4b1P1/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rg5+ {[%emt 0:00:05]} Ng6 {[%emt 0:00:00]} 2. Qe6+ {[%emt 0:00:01]} Kg7 {
+[%emt 0:00:01]} 3. Qxe2 {[%emt 0:00:03]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/2p1q1pp/p2p1n2/n3p1B1/Pp2P3/5N2/1PP2PPP/R2Q1RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxf6 {[%emt 0:00:04]} Qxf6 {[%emt 0:00:01]} 2. Qd5+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:01]} 3. Qxa5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/pq1n1p1p/1r5p/8/4bQ2/5NP1/P4PBP/R4RK1 w - - 0 1"]
+[PlyCount "4"]
+[EventDate "1998.??.??"]
+
+1. Ng5 {[%emt 0:00:05]} Bd5 {[%emt 0:00:01]} 2. Nxf7 {[%emt 0:00:01]} Rf8 {
+[%emt 0:00:01]} (2... Rf8 {[%emt 0:00:00]} 3. Nxh6+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:00]} 4. Qd4+ {[%emt 0:00:01]} Nf6 {[%emt 0:00:01]} 5. Bxd5 {
+[%emt 0:00:01]} Qxd5 {[%emt 0:00:01]} 6. Qxd5 {[%emt 0:00:01]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/3qNrpk/1bpnRpNp/pp1p1P2/3P2P1/P1P4P/1P2Q1K1/8 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxd5 {[%emt 0:00:05]} cxd5 {[%emt 0:00:00]} 2. Rxd6 {[%emt 0:00:01]} Qxd6 {
+[%emt 0:00:00]} 3. Qe8 {[%emt 0:00:01]} Qd8 {[%emt 0:00:00]} 4. Qxf7 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqkbnr/2pp2pp/p1n5/4p3/N3p3/1B3N2/PPPP1PPP/R1BQK2R w KQkq - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:01]} Nxe5 {[%emt 0:00:00]} 2. Qh5+ {[%emt 0:00:00]} Ng6 {
+[%emt 0:00:00]} 3. Qd5 {[%emt 0:00:01]} Ne5 {[%emt 0:00:00]} 4. Qxe5+ {
+[%emt 0:00:01]} Qe7 {[%emt 0:00:00]} 5. Qxc7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/1p3pbp/p1q3p1/3n4/2N5/1PB2P2/P5PP/3RQ2K w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxg7 {[%emt 0:00:03]} Kxg7 {[%emt 0:00:00]} 2. Qe5+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:01]} 3. Qxd5 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r4k1/p4p1p/1p1r1n2/4p1B1/8/1P3P1P/P1Q3PK/8 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qc7 {[%emt 0:00:02]} Rbd8 {[%emt 0:00:01]} 2. Bxf6 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/2qn2pp/p3b3/1pp1pn2/7N/2P1B3/PPB2PPP/3QR1KR w - - 0 1"]
+[PlyCount "6"]
+[EventDate "1998.??.??"]
+
+1. Nxf5 {[%emt 0:00:02]} Bxf5 {[%emt 0:00:00]} 2. Qd5+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:00]} 3. Bxf5 {[%emt 0:00:01]} Rad8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b4r/p1ppkppp/2n3q1/bp1B4/4P3/1QP2N2/P4PPP/RN3RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bxc6 {[%emt 0:00:03]} dxc6 {[%emt 0:00:01]} 2. Qa3+ {[%emt 0:00:01]} c5 {
+[%emt 0:00:00]} 3. Qxa5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqkb1r/ppp2ppp/2np4/4p3/3Pn3/2P2N2/PP2BPPP/RNBQK2R w KQkq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. d5 {[%emt 0:00:02]} Ne7 {[%emt 0:00:00]} 2. Qa4+ {[%emt 0:00:00]} c6 {
+[%emt 0:00:01]} 3. dxc6 {[%emt 0:00:01]} Nxc6 {[%emt 0:00:00]} 4. Qxe4 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4nk1/1b3qpp/p4p2/np1p4/2pP1PNQ/2P5/PPBNr1PP/R4RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nh6+ {[%emt 0:00:03]} gxh6 {[%emt 0:00:01]} 2. Qg4+ {[%emt 0:00:02]} Kh8 {
+[%emt 0:00:00]} 3. Qxe2 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q3rk/1ppbb1pp/4Np2/p4P2/P3P3/2N2R2/1PP1Q1PP/3R2K1 w - - 0 1"]
+[PlyCount "27"]
+[EventDate "1998.??.??"]
+
+1. Rh3 {[%emt 0:00:02]} Be8 {[%emt 0:00:01]} 2. Nd5 {[%emt 0:00:02]} Bc5+ {
+[%emt 0:00:01]} 3. Kh1 {[%emt 0:00:04]} Qd7 {[%emt 0:00:01]} 4. Rxh7+ {
+[%emt 0:00:02]} Kxh7 {[%emt 0:00:00]} 5. Nxf6+ {[%emt 0:00:00]} Kh6 {
+[%emt 0:00:00]} 6. Rxd7 {[%emt 0:00:00]} gxf6 {[%emt 0:00:00]} 7. Qd2+ {
+[%emt 0:00:00]} Be3 {[%emt 0:00:00]} 8. Qxe3+ {[%emt 0:00:00]} Rg5 {
+[%emt 0:00:00]} 9. Nxg5 {[%emt 0:00:00]} Bxd7 {[%emt 0:00:00]} 10. Ne6+ {
+[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 11. Qh3+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 12. Qg3+ {[%emt 0:00:00]} Kf7 {[%emt 0:00:00]} 13. Qg7+ {
+[%emt 0:00:00]} Ke8 {[%emt 0:00:00]} 14. Qf8# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rk2/ppp3pp/8/4b1n1/6N1/2N4P/PPP2PP1/3R2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:01]} Rxe5 {[%emt 0:00:01]} 2. f4 {[%emt 0:00:01]} Nxh3+ {
+[%emt 0:00:00]} 3. gxh3 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5k2/1r3p2/1P4p1/2P2q2/8/5N1P/3Q2PK/8 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. c6 {[%emt 0:00:02]} Rxb6 {[%emt 0:00:01]} 2. Qd8+ {[%emt 0:00:01]} Kg7 {
+[%emt 0:00:01]} 3. Qxb6 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4r2/p1p3Qp/4kp2/2pp1N1q/5P2/7P/PPP3P1/5RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxc7 {[%emt 0:00:01]} Qxf5 {[%emt 0:00:01]} 2. g4 {[%emt 0:00:01]} Qxf4 {
+[%emt 0:00:01]} 3. Rxf4 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/1p2r1k1/1p1rPp2/P1pPnP1p/1PP2Kp1/1B2R3/8/3R4 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxe5 {[%emt 0:00:04]} fxe5+ {[%emt 0:00:00]} 2. Kxe5 {[%emt 0:00:00]} Rexe6+
+{[%emt 0:00:01]} 3. dxe6 {[%emt 0:00:01]} Rxe6+ {[%emt 0:00:01]} 4. fxe6 {
+[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rbr2/pp2ppkp/2q1P1p1/5P2/6PP/2N2R2/PPP2Q2/2K2R2 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. f6+ {[%emt 0:00:01]} exf6 {[%emt 0:00:01]} 2. e7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5k1/3rbpnp/p3q1pB/1pp1P3/3p1PP1/3P2NP/PP2Q3/R1R3K1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Bxg7 {[%emt 0:00:02]} Kxg7 {[%emt 0:00:01]} 2. f5 {[%emt 0:00:01]} gxf5 {
+[%emt 0:00:01]} 3. gxf5 {[%emt 0:00:01]} Qd5 {[%emt 0:00:01]} 4. f6+ {
+[%emt 0:00:01]} Kh8 {[%emt 0:00:01]} 5. fxe7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r3/pp3k1p/2p1p3/3n1bp1/P1BPq3/4P1Q1/1P1B1PP1/R1R3K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. f3 {[%emt 0:00:04]} Qh4 {[%emt 0:00:01]} 2. Qxh4 {[%emt 0:00:01]} gxh4 {
+[%emt 0:00:01]} 3. e4 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1rq2n2/1pp2kbr/p1n1p1pp/2N1P3/5P2/1Q2B2B/PP3P1P/2RR2K1 w - - 0 1"]
+[PlyCount "23"]
+[EventDate "1998.??.??"]
+
+1. Nxe6 {[%emt 0:00:02]} Nxe6 {[%emt 0:00:01]} 2. Rxc6 {[%emt 0:00:01]} bxc6 {
+[%emt 0:00:01]} 3. Bxe6+ {[%emt 0:00:01]} Qxe6 {[%emt 0:00:00]} 4. Rd7+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qxe6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 6. Qxg6 {[%emt 0:00:00]} Rg8 {[%emt 0:00:00]} 7. f5 {
+[%emt 0:00:00]} Rb8 {[%emt 0:00:00]} 8. Bxh6 {[%emt 0:00:00]} Rg8 {
+[%emt 0:00:00]} 9. f6 {[%emt 0:00:00]} c5 {[%emt 0:00:00]} 10. fxg7+ {
+[%emt 0:00:00]} Rhxg7 {[%emt 0:00:00]} 11. Bxg7+ {[%emt 0:00:00]} Rxg7 {
+[%emt 0:00:00]} 12. Qxg7# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r2k/6np/3P2q1/1b4p1/6p1/8/1B1Q1PBP/5RK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. d7 {[%emt 0:00:02]} Bxd7 {[%emt 0:00:02]} 2. Qxd7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2b1rn1k/p4Rbp/1p6/3p2B1/8/P5N1/1q2B1PP/5Q1K w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Rxg7 {[%emt 0:00:03]} Qxg7 {[%emt 0:00:02]} 2. Bf6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1rb2nk1/p1q2ppp/1p1Np3/8/4B3/4Q3/PP3PPP/3R2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Ne8 {[%emt 0:00:02]} Qe7 {[%emt 0:00:00]} 2. Qg3 {[%emt 0:00:03]} Qxe8 {
+[%emt 0:00:00]} 3. Qxb8 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2k1r/pp4pp/1b1p1q1n/4n3/8/BBPN4/P4PPP/RN1Q1RK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:01]} Qxe5 {[%emt 0:00:00]} 2. Bxd6+ {[%emt 0:00:00]} Qe7 {
+[%emt 0:00:00]} 3. Re1 {[%emt 0:00:00]} Bd8 {[%emt 0:00:00]} 4. Bxe7+ {
+[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/pb1q3k/1p1r3p/8/8/1P2Q1N1/P5PP/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Qxh6+ {[%emt 0:00:01]} Kxh6 {[%emt 0:00:00]} 2. Rxd6+ {[%emt 0:00:01]} Qxd6
+{[%emt 0:00:00]} 3. Nf5+ {[%emt 0:00:00]} Kh5 {[%emt 0:00:00]} 4. Nxd6 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5qk1/pr6/1p1n1rpp/2p1p3/2P3P1/2NRP2Q/PP3P1P/3R2K1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. g5 {[%emt 0:00:02]} hxg5 {[%emt 0:00:01]} 2. Rxd6 {[%emt 0:00:01]} Rxd6 {
+[%emt 0:00:01]} 3. Rxd6 {[%emt 0:00:01]} Qxd6 {[%emt 0:00:01]} 4. Qc8+ {
+[%emt 0:00:01]} Kf7 {[%emt 0:00:01]} 5. Qxb7+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r2r1k1/p4p1p/6pB/q7/8/3Q2P1/PbP2PKP/1R3R2 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxb2 {[%emt 0:00:01]} Rxb2 {[%emt 0:00:00]} 2. Qd4 {[%emt 0:00:01]} Re5 {
+[%emt 0:00:00]} 3. Qxb2 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1rr3k1/4qppp/pn6/1pp1n2b/4P3/P1PP2QP/2B3PN/R1B2RK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Rf5 {[%emt 0:00:04]} Nxd3 {[%emt 0:00:03]} 2. Rxh5 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r4/2q3k1/rp3bpp/2pBp3/2P1Q3/P4RP1/P2R1P1P/6K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bf7 {[%emt 0:00:11]} Kxf7 {[%emt 0:00:01]} 2. Rxd8 {[%emt 0:00:03]} Qxd8 {
+[%emt 0:00:01]} 3. Qb7+ {[%emt 0:00:02]} Qe7 {[%emt 0:00:01]} 4. Qxa6 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4Q3/8/2r3pk/3b4/1PpP2P1/8/7P/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. h4 {[%emt 0:00:02]} Kg7 {[%emt 0:00:01]} 2. Qd7+ {[%emt 0:00:01]} Kf8 {
+[%emt 0:00:01]} 3. Qxd5 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3k2r/pp2qppp/2p3b1/3pP3/Pb6/2N1P3/1P1BQPPP/R4RK1 w kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxd5 {[%emt 0:00:05]} cxd5 {[%emt 0:00:01]} 2. Qb5+ {[%emt 0:00:01]} Qd7 {
+[%emt 0:00:01]} 3. Qxb4 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn3rk1/pbppq1pp/1p3b2/3Ppp2/2P5/1Q3NP1/PP2PPBP/R1BR2K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nd4 {[%emt 0:00:12]} exd4 {[%emt 0:00:00]} 2. d6 {[%emt 0:00:00]} cxd6 {
+[%emt 0:00:00]} 3. Bxb7 {[%emt 0:00:00]} Nc6 {[%emt 0:00:01]} 4. Bxa8 {
+[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rrnk1/pp3ppp/q1pbp3/8/2P1Q1NP/2B5/PP3PP1/3RR1K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxd6 {[%emt 0:00:02]} Rxd6 {[%emt 0:00:00]} 2. Qe5 {[%emt 0:00:01]} f6 {
+[%emt 0:00:01]} 3. Qxd6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3rnk1/1p3ppp/p7/1q1P4/4b3/P4RN1/1B1Q2PP/R6K w - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1. Qd4 {[%emt 0:00:05]} f6 {[%emt 0:00:01]} 2. Rxf6 {[%emt 0:00:00]} gxf6 {
+[%emt 0:00:00]} 3. Qxf6 {[%emt 0:00:01]} Re7 {[%emt 0:00:01]} 4. d6 {
+[%emt 0:00:03]} Bxg2+ {[%emt 0:00:01]} 5. Kg1 {[%emt 0:00:01]} Ng6 {
+[%emt 0:00:03]} 6. Nf5 {[%emt 0:00:01]} Qxf5 {[%emt 0:00:01]} 7. Qxf5 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2r1k/1q1nbppp/pp2p3/4Q1B1/3N4/2N3R1/PPP2PPP/3R2K1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Bh6 {[%emt 0:00:00]} Qxg2+ {[%emt 0:00:00]} 2. Rxg2 {[%emt 0:00:00]} f6 {
+[%emt 0:00:00]} 3. Bxg7+ {[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 4. Bxf6+ {
+[%emt 0:00:00]} Kf7 {[%emt 0:00:00]} 5. Qxe6+ {[%emt 0:00:00]} Ke8 {
+[%emt 0:00:00]} 6. Qxe7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r2k1/pq3ppp/1p1bpn2/8/2PN3Q/1P6/PB3PPP/3RR1K1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Nxe6 {[%emt 0:00:01]} fxe6 {[%emt 0:00:00]} 2. Bxf6 {[%emt 0:00:01]} gxf6 {
+[%emt 0:00:01]} 3. Rxd6 {[%emt 0:00:01]} Rxd6 {[%emt 0:00:00]} 4. Qg3+ {
+[%emt 0:00:01]} Kf7 {[%emt 0:00:00]} 5. Qxd6 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r2k1/ppb1qpp1/2n2n1p/2P1p3/1P1p4/P3PN2/1BQ1NPPP/3RK2R b K - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... d3 {[%emt 0:00:05]} 2. Rxd3 {[%emt 0:00:01]} Rxd3 {[%emt 0:00:01]} 3. Qxd3
+{[%emt 0:00:01]} e4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r6r/pN1bkppp/n3p3/4n3/8/P5P1/1P1BPP1P/1R2KB1R b K - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Bc6 {[%emt 0:00:03]} 2. f3 {[%emt 0:00:01]} Bxb7 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1r3k1/p3bp1p/1n4p1/N2bp3/3P4/4P3/1BqQBPPP/R2R2K1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qxd2 {[%emt 0:00:01]} 2. Rxd2 {[%emt 0:00:01]} Bb4 {[%emt 0:00:01]} 3.
+Rdd1 {[%emt 0:00:00]} Rc2 {[%emt 0:00:01]} 4. dxe5 {[%emt 0:00:00]} Rxb2 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q1rk1/pb1nbn1p/1pp1p1p1/3p1p2/2PP1B2/2N2NPB/PPQ1PP1P/2RR2K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... g5 {[%emt 0:00:04]} 2. cxd5 {[%emt 0:00:01]} cxd5 {[%emt 0:00:00]} 3. Qd2
+{[%emt 0:00:01]} gxf4 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3r2/1b4kp/1q1p2p1/p1n1P1p1/1p2P3/7P/PPPQNNBK/R4R2 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Rxf2 {[%emt 0:00:02]} 2. Rxf2 {[%emt 0:00:01]} Nxe4 {[%emt 0:00:01]} 3.
+Qd4 {[%emt 0:00:00]} Qxd4 {[%emt 0:00:01]} 4. Nxd4 {[%emt 0:00:00]} Nxf2 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/p2q2pp/2bb3r/1pp2p2/3p1P2/3P2PP/PPPNN2K/5RQ1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qe6 {[%emt 0:00:06]} 2. Re1 {[%emt 0:00:00]} Rxh3+ {[%emt 0:00:00]} 3.
+Kxh3 {[%emt 0:00:00]} Qh6# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3qrk1/p4pbp/B4np1/2p1p3/2Pp4/PP1P2Pb/1N1BPP1P/R1Q1K2R b KQ - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Qc6 {[%emt 0:00:03]} 2. f3 {[%emt 0:00:01]} Qxa6 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3k3/1p1b1p2/8/p1b1P1N1/5p2/P6r/1PP2P2/1RBR2K1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rg3+ {[%emt 0:00:01]} 2. Kh2 {[%emt 0:00:01]} Rxg5 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1rk1/1pp2pbp/3p1npB/p1nPp3/2P1P1P1/2N2P2/PP1Q3P/R3KBNR b KQ - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Nfxe4 {[%emt 0:00:02]} 2. Nxe4 {[%emt 0:00:01]} Nxe4 {[%emt 0:00:01]} 3.
+fxe4 {[%emt 0:00:01]} Qh4+ {[%emt 0:00:01]} 4. Qf2 {[%emt 0:00:00]} Qxh6 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r1k2/1p6/p4P2/2pP2Qb/8/1P1KB3/P6r/8 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxd5+ {[%emt 0:00:01]} 2. Qxd5 {[%emt 0:00:00]} Bg6+ {[%emt 0:00:01]} 3.
+Qe4 {[%emt 0:00:00]} Bxe4+ {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4R3/5ppk/2p2bq1/pp1p4/3P2bp/1PP4B/P4R1K/2B4N b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Bxh3 {[%emt 0:00:04]} 2. Kxh3 {[%emt 0:00:00]} Qg1 {[%emt 0:00:00]} 3. Bd2
+{[%emt 0:00:01]} Qxh1+ {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1k1r1q2/pnp2p1p/1p2pp2/r7/2PP1P2/3R2P1/PKP1Q1NP/7R b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... Rxd4 {[%emt 0:00:04]} 2. Rxd4 {[%emt 0:00:00]} Qa3+ {[%emt 0:00:01]} 3.
+Kb1 {[%emt 0:00:01]} Qxa2+ {[%emt 0:00:01]} 4. Kc1 {[%emt 0:00:00]} Qa1+ {
+[%emt 0:00:00]} 5. Kd2 {[%emt 0:00:00]} Qxd4+ {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4q1k1/pb3pp1/7p/Q7/3nN3/P2r1P1B/6PP/1R5K b - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1... Bxe4 {[%emt 0:00:04]} 2. fxe4 {[%emt 0:00:00]} Rxh3 {[%emt 0:00:01]} 3.
+gxh3 {[%emt 0:00:00]} Qxe4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Qe3+ {
+[%emt 0:00:00]} 5. Kh1 {[%emt 0:00:00]} Qf3+ {[%emt 0:00:00]} 6. Kg1 {
+[%emt 0:00:00]} Ne2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/pp4p1/7p/2b2p1P/8/P1Nr1Q2/1Pq1RPP1/1R4K1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qxb1+ {[%emt 0:00:02]} 2. Nxb1 {[%emt 0:00:00]} Rxf3 {[%emt 0:00:01]} 3.
+gxf3 {[%emt 0:00:00]} Rd1+ {[%emt 0:00:00]} 4. Kg2 {[%emt 0:00:00]} Rxb1 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqkb1r/ppppnppp/5n2/1B2N3/4P3/3P4/PPP2PPP/RNBQK2R b KQkq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... c6 {[%emt 0:00:01]} 2. O-O {[%emt 0:00:01]} cxb5 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5n1k/5pp1/1qb4p/1p1p3Q/2pP4/R1P2P1P/1RB3PK/4r3 b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... Qc7+ {[%emt 0:00:04]} 2. g3 {[%emt 0:00:00]} Re2+ {[%emt 0:00:00]} 3. Kh1
+{[%emt 0:00:00]} Qxg3 {[%emt 0:00:00]} 4. Qxh6+ {[%emt 0:00:00]} gxh6 {
+[%emt 0:00:00]} 5. Rxb5 {[%emt 0:00:00]} Rh2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn1q1rk1/ppp3pp/3b4/3P1p2/3Pn1b1/3B1N2/PP3PPP/RNBQR1K1 b - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1... Bxh2+ {[%emt 0:00:04]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/ppp2ppp/2b1p3/3n2q1/1b1P4/1QNBP1B1/PP3PPP/R4RK1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Bxc3 {[%emt 0:00:03]} 2. bxc3 {[%emt 0:00:01]} Nxe3 {[%emt 0:00:01]} 3.
+fxe3 {[%emt 0:00:00]} Qxe3+ {[%emt 0:00:00]} 4. Rf2 {[%emt 0:00:00]} Qxd3 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "Q7/ppp2kpp/8/2b5/4RP1q/7b/PPP3PP/3R2BK b - - 0 1"]
+[PlyCount "19"]
+[EventDate "1998.??.??"]
+
+1... Bxg2+ {[%emt 0:00:01]} 2. Kxg2 {[%emt 0:00:00]} Qg4+ {[%emt 0:00:00]} 3.
+Kf1 {[%emt 0:00:00]} Qxd1+ {[%emt 0:00:00]} 4. Kg2 {[%emt 0:00:00]} Qxg1+ {
+[%emt 0:00:00]} 5. Kh3 {[%emt 0:00:00]} Qf1+ {[%emt 0:00:00]} 6. Kg3 {
+[%emt 0:00:00]} Qf2+ {[%emt 0:00:00]} 7. Kh3 {[%emt 0:00:00]} Qf3+ {
+[%emt 0:00:00]} 8. Kh4 {[%emt 0:00:00]} Bf2+ {[%emt 0:00:00]} 9. Kg5 {
+[%emt 0:00:00]} h6+ {[%emt 0:00:00]} 10. Kf5 {[%emt 0:00:00]} Qh5# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7k/p1p1r1p1/1b5p/4B2q/5P2/6P1/P1Q4P/R3K3 b Q - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... Qf3 {[%emt 0:00:04]} 2. Qd2 {[%emt 0:00:02]} Rd7 {[%emt 0:00:01]} 3. Qxd7
+{[%emt 0:00:00]} Ba5+ {[%emt 0:00:01]} 4. Qd2 {[%emt 0:00:02]} Qe3+ {
+[%emt 0:00:01]} 5. Kf1 {[%emt 0:00:00]} Qxd2 {[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1br2k1/ppb1qppp/1np2n2/8/P2NP3/2N4P/1PQ2PP1/R1BR1BK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxd4 {[%emt 0:00:01]} 2. Rxd4 {[%emt 0:00:01]} Qe5 {[%emt 0:00:01]} 3. Bf4
+{[%emt 0:00:00]} Qxf4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/R4ppp/5b2/8/8/1N3P2/Pr4PP/5RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxb3 {[%emt 0:00:01]} 2. axb3 {[%emt 0:00:00]} Bd4+ {[%emt 0:00:01]} 3.
+Kh1 {[%emt 0:00:00]} Bxa7 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4k1r/1pp1qpp1/p2p1n1p/3Pp3/B3P3/P1PP1Q2/1P4PP/R3K2R b KQ - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxd5 {[%emt 0:00:02]} 2. exd5 {[%emt 0:00:00]} Qh4+ {[%emt 0:00:01]} 3.
+Qf2 {[%emt 0:00:01]} Qxa4 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/1p2q1pp/4bp2/pB6/Q7/P3P3/1r3PPP/R4RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rd5 {[%emt 0:00:03]} 2. Rfb1 {[%emt 0:00:01]} Rdxb5 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r1rk1/p1p2ppp/1bp2n2/8/1P2p3/N1Pq1P2/P2P2PP/R1BQ1R1K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... e3 {[%emt 0:00:03]} 2. Re1 {[%emt 0:00:01]} exd2 {[%emt 0:00:01]} 3. Bxd2
+{[%emt 0:00:01]} Qxd2 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/6pk/7p/3p1p1Q/3PbPP1/2p3KP/2P2B2/1rb5 b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... g6 {[%emt 0:00:04]} 2. Qh4 {[%emt 0:00:01]} g5 {[%emt 0:00:01]} 3. fxg5 {
+[%emt 0:00:01]} Bxg5 {[%emt 0:00:01]} 4. Qh5 {[%emt 0:00:00]} f4+ {
+[%emt 0:00:00]} 5. Kh2 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn1qk2r/pbpp1pp1/1p2pn1p/8/1bPP3B/4PN2/PP1N1PPP/R2QKB1R b KQkq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... g5 {[%emt 0:00:02]} 2. Bg3 {[%emt 0:00:00]} g4 {[%emt 0:00:00]} 3. Ne5 {
+[%emt 0:00:00]} Ne4 {[%emt 0:00:00]} 4. Bd3 {[%emt 0:00:01]} Nxd2 {
+[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rk1/p5p1/5p1p/4p3/2qnN3/5P2/PR4PP/1Q2R1K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxf3+ {[%emt 0:00:02]} 2. gxf3 {[%emt 0:00:00]} Qd4+ {[%emt 0:00:01]} 3.
+Rf2 {[%emt 0:00:01]} Rxb1 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k1n3/1pb2p2/p1p4p/8/2P2P1P/2N2RB1/PPP3r1/2K5 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxg3 {[%emt 0:00:02]} 2. Rxg3 {[%emt 0:00:00]} Bxf4+ {[%emt 0:00:00]} 3.
+Re3 {[%emt 0:00:00]} Bxe3+ {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r1k1/1pp3p1/p3q2p/4p1b1/1P5N/6QP/1PP3P1/5R1K b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qc4 {[%emt 0:00:02]} 2. Qf3 {[%emt 0:00:01]} e4 {[%emt 0:00:01]} 3. b3 {
+[%emt 0:00:00]} exf3 {[%emt 0:00:00]} 4. bxc4 {[%emt 0:00:00]} Bxh4 {
+[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rk1/p1p4p/3q2pb/3Ppb2/2Q2n2/P1N1BN2/1P4PP/2KR1R2 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Qb6 {[%emt 0:00:05]} 2. Bxb6 {[%emt 0:00:00]} Ne2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2qr1k1/pp3p1p/2p1bnp1/2P1p3/3nPP2/1PNQ4/P2NB1PP/R4RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxe2+ {[%emt 0:00:03]} 2. Qxe2 {[%emt 0:00:01]} Qd4+ {[%emt 0:00:01]} 3.
+Kh1 {[%emt 0:00:00]} Qxc3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/1bp3pp/1p1p4/p3p2r/P1P2r2/1P1Q1PqP/2P3P1/3R1RBK b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxf3 {[%emt 0:00:01]} 2. gxf3 {[%emt 0:00:00]} Rxh3+ {[%emt 0:00:00]} 3.
+Bh2 {[%emt 0:00:00]} Rxh2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/1b1q1p2/3p2pB/p3p3/4n3/2P5/PP2N1PP/R2Q1R1K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qh3 {[%emt 0:00:03]} 2. gxh3 {[%emt 0:00:02]} Nf2+ {[%emt 0:00:00]} 3. Kg1
+{[%emt 0:00:00]} Nxh3# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/5ppp/pb2p3/1p2P3/1P2bPP1/P1B5/6P1/R4R1K b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Rd3 {[%emt 0:00:04]} 2. Kh2 {[%emt 0:00:04]} Rxc3 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5k2/pb1q1p1p/1p6/6R1/3p4/8/PP4PP/R2N3K b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Qe7 {[%emt 0:00:03]} 2. Nf2 {[%emt 0:00:01]} Qxg5 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2q1rk1/pp1bbppp/1np2n2/8/3N4/1N1Q2PP/PP2PPB1/R1B2RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... c5 {[%emt 0:00:02]} 2. Bxb7 {[%emt 0:00:01]} cxd4 {[%emt 0:00:00]} 3. Bxa8
+{[%emt 0:00:00]} Qxa8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r1k2/p1p1qp2/1p2pN1p/4Q3/2P5/P6P/1B4P1/5R1K w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nd5 {[%emt 0:00:02]} exd5 {[%emt 0:00:00]} 2. Qh8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3k2r/1p1b1ppp/p3p3/4R3/3q1P2/3B4/PPP3PP/R2Q3K w kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxe6+ {[%emt 0:00:02]} fxe6 {[%emt 0:00:00]} 2. Bg6+ {[%emt 0:00:00]} hxg6 {
+[%emt 0:00:00]} 3. Qxd4 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rnb2rk1/ppp2ppp/1b6/q2P2B1/4R3/2N2N1P/PP3PP1/R2Q2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Be7 {[%emt 0:00:03]} Bf5 {[%emt 0:00:01]} 2. Re5 {[%emt 0:00:01]} Bd7 {
+[%emt 0:00:01]} 3. Bxf8 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2q2r2/R1P4k/6pp/1pQ5/1P3P2/7P/6P1/6K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qxf8 {[%emt 0:00:03]} Qxf8 {[%emt 0:00:01]} 2. c8=Q+ {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b3k1/ppp1n2p/2n2qpB/6N1/3NP3/2QP2P1/P1P3BP/6K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxc6 {[%emt 0:00:00]} Bd7 {[%emt 0:00:00]} 2. Qxf6 {[%emt 0:00:00]} Nf5 {
+[%emt 0:00:00]} 3. Ne7+ {[%emt 0:00:00]} Nxe7 {[%emt 0:00:00]} 4. Qg7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rrbk1/p2b3p/5qp1/2ppN3/5P2/8/PP1NQ1PP/4RR1K w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxd7 {[%emt 0:00:02]} Rxe2 {[%emt 0:00:00]} 2. Nxf6+ {[%emt 0:00:00]} Kf7 {
+[%emt 0:00:00]} 3. Rxe2 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn1q1rk1/pbp3pp/1p1pp3/8/2P5/5NP1/PPQ1PPBP/3R1RK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Ng5 {[%emt 0:00:06]} Qxg5 {[%emt 0:00:02]} 2. Bxb7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3r1k1/ppqn1ppp/2p2n2/4pN2/2P5/Q4PPB/PP1R1P1P/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxd7 {[%emt 0:00:02]} Nxd7 {[%emt 0:00:08]} 2. Rxd7 {[%emt 0:00:00]} Qxd7 {
+[%emt 0:00:05]} 3. Nh6+ {[%emt 0:00:01]} gxh6 {[%emt 0:00:00]} 4. Bxd7 {
+[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/p2q1ppp/bp1p4/n1pPpN2/2P1PP2/P1PB4/6PP/R2Q1RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qg4 {[%emt 0:00:04]} g6 {[%emt 0:00:00]} 2. Nh6+ {[%emt 0:00:01]} Kg7 {
+[%emt 0:00:00]} 3. Qxd7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3k2r/pp1bppbp/1qnp2p1/1N6/3NnPP1/4B3/PPP1B2P/R2QK2R w KQkq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Ne6 {[%emt 0:00:09]} Qa5+ {[%emt 0:00:03]} 2. Bd2 {[%emt 0:00:03]} Qxd2+ {
+[%emt 0:00:05]} 3. Qxd2 {[%emt 0:00:01]} fxe6 {[%emt 0:00:02]} 4. Qe3 {
+[%emt 0:00:05]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rnb2rk1/ppp2qpp/1n2p3/1N2Pp2/2BP4/5N2/PP3PPP/R1Q1K2R w KQ - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxc7 {[%emt 0:00:06]} Qxc7 {[%emt 0:00:04]} 2. Bxe6+ {[%emt 0:00:01]} Bxe6 {
+[%emt 0:00:00]} 3. Qxc7 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r4R/1pkbbp2/1q6/3pP1p1/QP1N4/2P1BP2/5KP1/8 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Ne6+ {[%emt 0:00:05]} Bxe6 {[%emt 0:00:01]} 2. Bxb6+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r1k/pb3B1p/3r4/6Q1/1p2q3/8/PP3RPP/5R1K w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Bd5 {[%emt 0:00:00]} Qxg2+ {[%emt 0:00:00]} 2. Qxg2 {[%emt 0:00:00]} Rdf6 {
+[%emt 0:00:00]} 3. Rxf6 {[%emt 0:00:00]} Rf7 {[%emt 0:00:00]} 4. Rxf7 {
+[%emt 0:00:00]} Bxd5 {[%emt 0:00:00]} 5. Rf8+ {[%emt 0:00:00]} Bg8 {
+[%emt 0:00:00]} 6. Rxg8# {[%emt 0:00:00]} (6. Qxg8# {[%emt 0:00:00]}) 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1n6/1P4p1/6k1/p7/4N3/P6Q/K6b/4q3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qe6+ {[%emt 0:00:11]} Kh5 {[%emt 0:00:01]} 2. Nf6+ {[%emt 0:00:02]} gxf6 {
+[%emt 0:00:01]} 3. Qxe1 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r2k2r/pbppnpp1/1bn4p/4P3/Q1B3q1/2P2NN1/P4PPP/R1B1R1K1 w k - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bxf7+ {[%emt 0:00:05]} Kxf7 {[%emt 0:00:01]} 2. Qxg4 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rnb2rk1/pp2np1p/2p2q1b/8/2BPPN2/2P2Q2/PP4PP/R1B2RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd5 {[%emt 0:00:04]} Nxd5 {[%emt 0:00:01]} 2. Qxf6 {[%emt 0:00:02]} Nxf6 {
+[%emt 0:00:01]} 3. Bxh6 {[%emt 0:00:03]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2nk2r/pq2bppp/1p2pn2/6N1/3BN3/5QP1/PPP2PKP/R2R4 w kq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bxf6 {[%emt 0:00:04]} gxf6 {[%emt 0:00:01]} 2. Nxf6+ {[%emt 0:00:05]} Bxf6 {
+[%emt 0:00:02]} 3. Rxd8+ {[%emt 0:00:03]} Rxd8 {[%emt 0:00:01]} 4. Qxb7 {
+[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r1q3k/1bp1n1pp/3p4/4n3/4Nr2/1P1Q3R/P1P2PPP/5RK1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nf6 {[%emt 0:00:00]} Nf3+ {[%emt 0:00:00]} 2. Kh1 {[%emt 0:00:00]} Be4 {
+[%emt 0:00:00]} 3. Rxh7+ {[%emt 0:00:00]} Bxh7 {[%emt 0:00:00]} 4. Qxh7# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4rk1/1p3pbp/pn1pq3/6P1/3P4/1PN1BQ1R/1P5P/R6K w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. d5 {[%emt 0:00:05]} Qg6 {[%emt 0:00:02]} 2. Bxb6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn1qkbnr/ppp2pp1/3p3p/4p3/2B1P1b1/2N2N2/PPPP1PPP/R1BQK2R w KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxe5 {[%emt 0:00:04]} Bxd1 {[%emt 0:00:00]} 2. Bxf7+ {[%emt 0:00:00]} Ke7 {
+[%emt 0:00:00]} 3. Nd5# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2kb1r/ppp2ppp/4pn2/q4b2/2BP4/2N5/PPPB1PPP/R2QK1NR w KQkq - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nd5 {[%emt 0:00:07]} Qa4 {[%emt 0:00:00]} 2. Bb5+ {[%emt 0:00:04]} Qxb5 {
+[%emt 0:00:00]} 3. Nxc7+ {[%emt 0:00:01]} Kd7 {[%emt 0:00:00]} 4. Nxb5 {
+[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q2rk1/pbpnbppp/1p6/4p3/2P5/1PQ2NP1/PB2PPBP/R2R2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxd7 {[%emt 0:00:08]} Qxd7 {[%emt 0:00:00]} 2. Nxe5 {[%emt 0:00:03]} Qd6 3.
+Bxb7 {[%emt 0:00:04]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5b1k/8/2p2P2/1pp1Q1P1/2P4q/3PKP2/1P6/8 w - - 0 1"]
+[PlyCount "15"]
+[EventDate "1998.??.??"]
+
+1. f7+ {[%emt 0:00:05]} Kh7 {[%emt 0:00:04]} 2. Qf5+ {[%emt 0:00:02]} Kh8 {
+[%emt 0:00:01]} 3. Qf6+ {[%emt 0:00:02]} Kh7 {[%emt 0:00:01]} 4. g6+ {
+[%emt 0:00:01]} Kh6 {[%emt 0:00:01]} 5. g7+ {[%emt 0:00:03]} Qxf6 {
+[%emt 0:00:00]} 6. gxf8=Q+ {[%emt 0:00:01]} Qg7 {[%emt 0:00:01]} 7. Qd6+ {
+[%emt 0:00:01]} Kh7 {[%emt 0:00:00]} 8. f8=Q {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rqb2rk1/1p2pp1p/p5p1/3Nb3/P1B2n2/1Q3N2/1P3PPP/2RR2K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nb6 {[%emt 0:00:07]} Ra7 {[%emt 0:00:00]} 2. Nxe5 {[%emt 0:00:06]} (2. Nxe5
+{[%emt 0:00:02]} Qxe5 {[%emt 0:00:05]} 3. Nxc8 {[%emt 0:00:01]} Rxc8 {
+[%emt 0:00:02]} 4. Bxf7+ {[%emt 0:00:01]} Kg7 {[%emt 0:00:01]} 5. Rxc8 {
+[%emt 0:00:02]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rk1/5ppp/1q1p4/pnp5/4P3/1PP2P2/PB2QP1P/1K1R2R1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Qxb5 {[%emt 0:00:07]} Qxb5 {[%emt 0:00:01]} 2. c4 {[%emt 0:00:03]} Qb6 {
+[%emt 0:00:00]} 3. Rxg7+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 4. Rg8+ {
+[%emt 0:00:00]} Kxg8 {[%emt 0:00:00]} 5. Rg1# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqr2k/1p4bp/2p1n3/p3p1p1/P1P1N1p1/BQ1PP3/5PBP/1R3RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nd6 {[%emt 0:00:07]} Re7 {[%emt 0:00:06]} 2. Nxc8 {[%emt 0:00:05]} Rxc8 {
+[%emt 0:00:02]} 3. Bxe7 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1qrk1/1p3ppp/p1p5/3Nb3/5N2/P7/1P4PQ/K1R1R3 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rxe5 {[%emt 0:00:06]} Qxe5 {[%emt 0:04:54]} 2. Ng6 {[%emt 0:00:00]} Qxh2 {
+[%emt 0:00:02]} 3. Nde7# {[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "Q4b1r/pb1q1ppp/2n3k1/1pN5/8/8/PPP2PPP/RNB2RK1 b - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1... Bxc5 {[%emt 0:00:11]} 2. Qxh8 {[%emt 0:00:02]} Nd4 {[%emt 0:00:04]} 3. Qb8
+{[%emt 0:00:03]} Bd6 {[%emt 0:00:05]} 4. Qxa7 {[%emt 0:00:00]} Ne2+ {
+[%emt 0:00:00]} 5. Kh1 {[%emt 0:00:00]} Qh3 {[%emt 0:00:00]} 6. Qxb7 {
+[%emt 0:00:00]} Qxh2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r2k1/pQ3ppp/8/2p1n3/8/P1P1P2P/5PPq/R1B1RK2 b - - 0 1"]
+[PlyCount "13"]
+[EventDate "1998.??.??"]
+
+1... Nd3 {[%emt 0:00:07]} 2. Rd1 {[%emt 0:00:01]} Nf4 {[%emt 0:00:00]} 3. Rxd8+
+{[%emt 0:00:00]} Rxd8 {[%emt 0:00:00]} 4. Qxf7+ {[%emt 0:00:00]} Kxf7 {
+[%emt 0:00:00]} 5. exf4 {[%emt 0:00:00]} Qh1+ {[%emt 0:00:00]} 6. Ke2 {
+[%emt 0:00:00]} Qd1+ {[%emt 0:00:00]} 7. Ke3 {[%emt 0:00:00]} Qd3# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r1k1/1p3pp1/6q1/p1P3bp/NP5n/P1Q4P/2Pr1BP1/R3R1K1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Be3 {[%emt 0:00:00]} 2. g4 {[%emt 0:00:00]} Qc6 {[%emt 0:00:00]} 3. Qxg7+
+{[%emt 0:00:00]} Kxg7 {[%emt 0:00:00]} 4. Bxe3 {[%emt 0:00:00]} Qg2# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/1p4pp/5qb1/2pPr3/P1P3R1/P4P2/3QP3/2KR3B b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxe2 {[%emt 0:00:06]} 2. Qxe2 {[%emt 0:00:02]} Qc3+ {[%emt 0:00:00]} 3.
+Qc2 {[%emt 0:00:00]} Qxc2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/pp2qppp/4nn2/1Bp1N3/4P3/2P5/P1P2PPP/R1BQR1K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nc7 {[%emt 0:00:10]} 2. Nc6 {[%emt 0:00:02]} Qe8 {[%emt 0:00:03]} 3. Bd3 {
+[%emt 0:00:02]} Qxc6 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r3rk1/5pb1/p2p2p1/Q1n1q2p/1NP1P3/3p1P1B/PP1R3P/1K2R3 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxe4 {[%emt 0:00:05]} 2. Qxe5 {[%emt 0:00:03]} Nxd2+ {[%emt 0:00:01]} 3.
+Kc1 {[%emt 0:00:00]} dxe5 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q1k2r/pp1bppbp/2np1np1/8/3NP3/2N3PP/PPP2PBK/R1BQ1R2 b kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxd4 {[%emt 0:00:08]} 2. Qxd4 {[%emt 0:00:02]} Ng4+ {[%emt 0:00:01]} 3.
+hxg4 {[%emt 0:00:00]} Bxd4 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqkb1r/1p1n1ppp/p1p2n2/2Pp1B2/3Pp3/2N1P3/PP1N1PPP/R1BQK2R b KQkq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Nxc5 {[%emt 0:00:08]} 2. dxc5 {[%emt 0:00:06]} Bxf5 {[%emt 0:00:04]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r3k1/2r1ppbp/p5p1/q2pP3/3BbP2/1P5P/PQNR1RPK/8 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qxd2 {[%emt 0:00:03]} 2. Rxd2 {[%emt 0:00:01]} Rxc2 {[%emt 0:00:02]} 3.
+Rxc2 {[%emt 0:00:01]} Rxc2 {[%emt 0:00:01]} 4. Qxc2 {[%emt 0:00:02]} Bxc2 {
+[%emt 0:00:07]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4r3/2p2b1p/pb3kp1/3n1p2/1N6/1PP2P2/PK4PP/2NR1B2 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Ne3 {[%emt 0:00:12]} 2. Re1 {[%emt 0:00:01]} Nc4+ {[%emt 0:00:01]} 3. Bxc4
+{[%emt 0:00:01]} Rxe1 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2kr3r/ppp2ppp/3b4/5b1q/8/2PP1N2/PPQ2PPP/R1B2RK1 b - - 0 1"]
+[PlyCount "25"]
+[EventDate "1998.??.??"]
+
+1... Bg4 {[%emt 0:00:11]} 2. h3 {[%emt 0:00:00]} Bxf3 {[%emt 0:00:01]} 3. gxf3
+{[%emt 0:00:00]} Qxh3 {[%emt 0:00:01]} 4. f4 {[%emt 0:00:01]} Rhe8 {
+[%emt 0:00:01]} 5. d4 {[%emt 0:00:01]} Qg4+ {[%emt 0:00:00]} 6. Kh1 {
+[%emt 0:00:00]} Re6 {[%emt 0:00:00]} 7. f3 {[%emt 0:00:00]} Rh6+ {
+[%emt 0:00:00]} 8. Qh2 {[%emt 0:00:00]} Qg3 {[%emt 0:00:00]} 9. Rf2 {
+[%emt 0:00:00]} Qxf2 {[%emt 0:00:00]} 10. Qxh6 {[%emt 0:00:00]} gxh6 {
+[%emt 0:00:00]} 11. Be3 {[%emt 0:00:00]} Qxf3+ {[%emt 0:00:00]} 12. Kh2 {
+[%emt 0:00:00]} Rg8 {[%emt 0:00:00]} 13. Rg1 {[%emt 0:00:00]} Qh5# {
+[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqk2r/ppp2ppp/2nb4/8/2P1n3/P4NP1/1P2PP1P/RNBQKB1R b KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nxf2 {[%emt 0:00:07]} 2. Kxf2 {[%emt 0:00:02]} Bxg3+ {[%emt 0:00:02]} 3.
+hxg3 {[%emt 0:00:01]} Qxd1 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5rk1/5p1p/3Q2p1/p3n3/4B3/7P/1qP1R1P1/7K b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qc1+ {[%emt 0:00:07]} 2. Kh2 {[%emt 0:00:01]} Qf4+ {[%emt 0:00:03]} 3. Kh1
+{[%emt 0:00:02]} Qf1+ {[%emt 0:00:03]} 4. Kh2 {[%emt 0:00:00]} Qxe2 {
+[%emt 0:00:02]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/ppp2ppp/1b1p1q2/3P4/BPPp4/8/PB1PQPPP/R4RK1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... d3 {[%emt 0:00:05]} 2. Bxf6 {[%emt 0:00:00]} dxe2 {[%emt 0:00:01]} 3. Rfe1
+{[%emt 0:00:02]} gxf6 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b4Q/ppp2kpp/3b4/8/4RP1q/8/PPP3PP/3R2K1 b - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1... Bc5+ {[%emt 0:00:12]} 2. Kh1 {[%emt 0:00:02]} Bh3 {[%emt 0:00:04]} 3. Qxa8
+{[%emt 0:00:00]} Bxg2+ {[%emt 0:00:00]} 4. Kxg2 {[%emt 0:00:00]} Qg4+ {
+[%emt 0:00:00]} 5. Kf1 {[%emt 0:00:00]} Qf3+ {[%emt 0:00:00]} 6. Ke1 {
+[%emt 0:00:00]} Qf2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rr1k1/p4ppp/1p3q2/1P2n3/3Rn3/B3P3/B1Q2PPP/5RK1 b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Rxd4 {[%emt 0:00:12]} 2. exd4 {[%emt 0:00:00]} Nf3+ {[%emt 0:00:02]} 3.
+gxf3 {[%emt 0:00:01]} Qg6+ {[%emt 0:00:01]} 4. Kh1 {[%emt 0:00:00]} Ng3+ {
+[%emt 0:00:01]} (4... Ng3+ {[%emt 0:00:02]} 5. Kg2 {[%emt 0:00:01]} Qxc2 {
+[%emt 0:00:01]}) *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1k6/ppp4p/1n2pq2/1N2Rb2/2P2Q2/8/P4KPP/3r1B2 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Rxf1+ {[%emt 0:00:05]} 2. Kxf1 {[%emt 0:00:01]} Bd3+ {[%emt 0:00:01]} 3.
+Ke1 {[%emt 0:00:01]} Qxf4 {[%emt 0:00:03]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r2k1/ppp2ppp/6q1/b4n2/3nQB2/2p5/P4PPP/RN3RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Ng3 {[%emt 0:00:05]} 2. Qxg6 {[%emt 0:00:00]} Nde2# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3rk1r1/pp3p1p/1nb1p3/8/qn2P2Q/3B1N2/PP3PPP/3R1RK1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Bc2 {[%emt 0:00:07]} Qxc2 {[%emt 0:00:00]} 2. Qxd8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bq1rk1/pp1n1pp1/2p1p3/6b1/2PPBB2/4P3/PPQ2PP1/R3K2R w KQ - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bh7+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 2. Bg8+ {[%emt 0:00:00]} Kxg8 {
+[%emt 0:00:00]} 3. Qh7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1k2r/pp1n3p/2pb3q/3pN1p1/3PpP2/2N1P3/PP4PP/R2QBRK1 w kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nf7 {[%emt 0:00:04]} Qe6 {[%emt 0:00:03]} 2. Nxh8 {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2Q4/pbR2pkp/1p1Nq1p1/3p4/1n6/3BP3/PP3PPP/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nxf7 {[%emt 0:00:06]} Rxd8 {[%emt 0:00:01]} 2. Nxd8+ {[%emt 0:00:03]} Kf6 {
+[%emt 0:00:02]} 3. Nxe6 {[%emt 0:00:02]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k4r/1p1r1ppp/pq2pn2/2p5/Q1PP4/5R2/PP2NPPP/2KR4 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rxf6 {[%emt 0:00:08]} gxf6 {[%emt 0:00:00]} 2. Qxd7+ {[%emt 0:00:03]} Kxd7 {
+[%emt 0:00:01]} 3. dxc5+ {[%emt 0:00:02]} Kc6 {[%emt 0:00:01]} 4. cxb6 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2RNknQ/1p1b1rpR/p1p1p3/2P1qp2/8/P3P3/1P3PP1/4K3 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qxg8+ {[%emt 0:00:01]} Kxg8 {[%emt 0:00:00]} 2. Nf6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r4r/1k4bp/p5p1/2B1p3/8/8/3R1PPP/2R3K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rd7+ {[%emt 0:00:14]} Rc7 {[%emt 0:00:03]} 2. Rxc7+ {[%emt 0:00:02]} Kxc7 {
+[%emt 0:00:01]} 3. Bf8+ {[%emt 0:00:02]} Kb7 {[%emt 0:00:01]} 4. Bxg7 {
+[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/6pp/4q3/2pp2P1/4pQbk/2P1P3/7K/6R1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rh1 {[%emt 0:00:07]} Kh5 {[%emt 0:00:02]} 2. Kg3+ {[%emt 0:00:03]} Bh3 {
+[%emt 0:00:02]} 3. Rxh3+ {[%emt 0:00:02]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qd5 {[%emt 0:00:05]} Qd6 {[%emt 0:00:04]} 2. Qxd6 {[%emt 0:00:06]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3rk2/pbp2Bpp/8/4N1n1/5P2/4Q2R/Pq4PP/5RK1 w - - 0 1"]
+[PlyCount "21"]
+[EventDate "1998.??.??"]
+
+1. Qc5+ {[%emt 0:00:00]} Re7 {[%emt 0:00:00]} 2. Ng6+ {[%emt 0:00:00]} hxg6 {
+[%emt 0:00:00]} 3. Rh8+ {[%emt 0:00:00]} Kxf7 {[%emt 0:00:00]} 4. fxg5+ {
+[%emt 0:00:00]} Qf6 {[%emt 0:00:00]} 5. gxf6 {[%emt 0:00:00]} Rae8 {
+[%emt 0:00:00]} 6. Qc4+ {[%emt 0:00:00]} Re6 {[%emt 0:00:00]} 7. Rxe8 {
+[%emt 0:00:00]} Bd5 {[%emt 0:00:00]} 8. Qxd5 {[%emt 0:00:00]} Kxe8 {
+[%emt 0:00:00]} 9. Qxe6+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 10. Qe7+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 11. Qxg7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5rk/pp3n1p/4q3/5pp1/3P4/PP1Q1N1P/1B5K/5R2 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. d5+ {[%emt 0:00:03]} Rg7 {[%emt 0:00:02]} 2. dxe6 {[%emt 0:00:00]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1kb1r/p2n2pp/4p3/qp1pNp2/2pP1P1B/2P1P3/PPQnB1PP/R3K2R w KQkq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bh5+ {[%emt 0:00:05]} g6 {[%emt 0:00:01]} 2. Nxg6 {[%emt 0:00:01]} hxg6 {
+[%emt 0:00:00]} 3. Bxg6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r3kb1r/2p1nppp/p1Np4/1pnP2B1/B5b1/8/PPP2PPP/RN2R1K1 w kq - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Bxe7 {[%emt 0:00:10]} Nxa4 {[%emt 0:00:01]} 2. b3 {[%emt 0:00:05]} Nb6 {
+[%emt 0:00:01]} 3. Bxd6+ {[%emt 0:00:03]} Kd7 {[%emt 0:00:02]} 4. Bxf8 {
+[%emt 0:00:02]} Raxf8 {[%emt 0:00:01]} 5. Ne5+ {[%emt 0:00:02]} Kc8 {
+[%emt 0:00:01]} 6. Nxg4 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3b1r2/3p2pk/bp1P3n/r4PpR/1pB1N1P1/8/PB5P/5RK1 w - - 0 1"]
+[PlyCount "33"]
+[EventDate "1998.??.??"]
+
+1. Nxg5+ {[%emt 0:00:03]} Bxg5 {[%emt 0:00:01]} 2. Rxg5 {[%emt 0:00:01]} Bxc4 {
+[%emt 0:00:00]} 3. Rxg7+ {[%emt 0:00:03]} Kh8 {[%emt 0:00:00]} 4. Rxd7+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:02]} 5. Rg7+ {[%emt 0:00:01]} Kh8 {
+[%emt 0:00:01]} 6. d7 {[%emt 0:00:03]} Rd5 {[%emt 0:00:01]} 7. Re1 {
+[%emt 0:00:02]} Be2 {[%emt 0:00:01]} 8. Rxe2 {[%emt 0:00:01]} Rd6 {
+[%emt 0:00:01]} 9. Re8 {[%emt 0:00:00]} Rd1+ {[%emt 0:00:00]} 10. Kf2 {
+[%emt 0:00:00]} Rd2+ {[%emt 0:00:00]} 11. Kf3 {[%emt 0:00:00]} Rxb2 {
+[%emt 0:00:00]} 12. Rxf8+ {[%emt 0:00:00]} Kxg7 {[%emt 0:00:00]} 13. d8=Q {
+[%emt 0:00:00]} Nf7 {[%emt 0:00:00]} 14. Qe7 {[%emt 0:00:00]} Rf2+ {
+[%emt 0:00:00]} 15. Kxf2 {[%emt 0:00:00]} b3 {[%emt 0:00:00]} 16. Qxf7+ {
+[%emt 0:00:00]} Kh6 {[%emt 0:00:00]} 17. Qg6# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4r1k/p1q3pp/1pbb4/5p2/1PP5/1BBR3P/PQ4P1/R5K1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Rxd6 {[%emt 0:00:05]} Qxd6 {[%emt 0:00:03]} 2. Bxg7+ {[%emt 0:00:02]} Kg8 {
+[%emt 0:00:00]} 3. c5+ {[%emt 0:00:01]} Qd5 {[%emt 0:00:01]} 4. Bxf8 {
+[%emt 0:00:01]} Rxf8 {[%emt 0:00:01]} 5. Rd1 {[%emt 0:00:01]} Qf7 {
+[%emt 0:00:01]} 6. Bxf7+ {[%emt 0:00:02]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2kbr1/pp3p1p/2p5/q2Pp3/6b1/1BN2Q2/PPP1NPPP/R3K2R w KQ - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Qxf7+ {[%emt 0:00:05]} Kxf7 {[%emt 0:00:01]} 2. dxc6+ {[%emt 0:00:02]} Be6 {
+[%emt 0:00:01]} 3. Bxe6+ {[%emt 0:00:01]} Kxe6 {[%emt 0:00:00]} 4. cxb7 {
+[%emt 0:00:01]} Ba3 {[%emt 0:00:01]} 5. bxa8=Q {[%emt 0:00:02]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r2nk1/p4q2/bp4p1/3pPp2/6p1/1P2P2R/PB3R1P/3Q2K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Rh8+ {[%emt 0:00:02]} Kxh8 {[%emt 0:00:01]} 2. e6+ {[%emt 0:00:01]} Qg7 {
+[%emt 0:00:01]} 3. Bxg7+ {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b4r/ppp1kppp/q7/8/3pN3/8/PPP2PPP/R2QR1K1 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Nc5+ {[%emt 0:00:04]} Be6 {[%emt 0:00:01]} 2. Nxa6 {[%emt 0:00:01]} *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r4/r7/pp1p1bnk/2pP1RN1/P1P3QP/6P1/1qB2P1K/8 w - - 0 1"]
+[PlyCount "15"]
+[EventDate "1998.??.??"]
+
+1. Ne6 {[%emt 0:00:01]} Kh7 {[%emt 0:00:00]} 2. Qh5+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Qxg6+ {[%emt 0:00:00]} Rg7 {[%emt 0:00:00]} 4. Nxg7 {
+[%emt 0:00:00]} Qd4 {[%emt 0:00:00]} 5. Ne6+ {[%emt 0:00:00]} Bg7 {
+[%emt 0:00:00]} 6. Qf7+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 7. Rh5+ {
+[%emt 0:00:00]} Bh6 {[%emt 0:00:00]} 8. Rxh6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1r1k1/ppq2p1p/3b1ppQ/2n5/8/3B2N1/PPP2PPP/R1B2RK1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Nh5 {[%emt 0:00:03]} Bxh2+ {[%emt 0:00:01]} 2. Kh1 {[%emt 0:00:00]} gxh5 {
+[%emt 0:00:01]} 3. Bxh7+ {[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/1pq2p1p/p4Q2/1pP5/5p2/3BR3/P4PPP/5K1R w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Rg3+ {[%emt 0:00:00]} fxg3 {[%emt 0:00:00]} 2. Bxh7+ {[%emt 0:00:00]} Kxh7 {
+[%emt 0:00:00]} 3. hxg3+ {[%emt 0:00:00]} Bh3 {[%emt 0:00:00]} 4. Rxh3+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qh8# {[%emt 0:00:00]} (5. Rh8# {
+[%emt 0:00:00]}) 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r7/p1b3pk/2N4p/2pb4/8/1P1P4/PBP3PP/4R1K1 w - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1. Re7 {[%emt 0:00:05]} Bxh2+ {[%emt 0:00:07]} 2. Kxh2 {[%emt 0:00:01]} Bxc6 {
+[%emt 0:00:01]} 3. Rxg7+ {[%emt 0:00:01]} Kh8 {[%emt 0:00:00]} 4. Rg6+ {
+[%emt 0:00:02]} Kh7 {[%emt 0:00:00]} 5. Rxc6 {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r7/2b1qr1k/2p2pRn/p1Pppp2/Pp1P1N1P/5P2/PBBQ4/2K3R1 w - - 0 1"]
+[PlyCount "15"]
+[EventDate "1998.??.??"]
+
+1. Nxd5 {[%emt 0:00:04]} Qf8 {[%emt 0:00:01]} 2. Rxh6+ {[%emt 0:00:00]} Qxh6 {
+[%emt 0:00:00]} 3. Bxf5+ {[%emt 0:00:00]} Qg6 {[%emt 0:00:00]} 4. Bxg6+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qh6 {[%emt 0:00:00]} Rg7 {
+[%emt 0:00:00]} 6. Bh7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 7. Qxg7+ {
+[%emt 0:00:00]} Ke8 {[%emt 0:00:00]} 8. Qe7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k2brr/1ppbqp2/2np4/1B2p1P1/Q3P3/2PPB1p1/P2N1PP1/RR4K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qa8+ {[%emt 0:00:01]} Nb8 {[%emt 0:00:01]} 2. Ba6 {[%emt 0:00:04]} Kd8 {
+[%emt 0:00:02]} 3. Qxb8+ {[%emt 0:00:04]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1q2r1k/p4b2/1p2pP2/3p3p/1P1B1P2/2PB4/P3Q2P/6RK w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxh5+ {[%emt 0:00:00]} Bxh5 {[%emt 0:00:00]} 2. f7+ {[%emt 0:00:00]} e5 {
+[%emt 0:00:00]} 3. Bxe5# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4k2/1b2qp1r/pp2p3/3pNPbp/3P4/2N2Q2/PPP4P/1K1RR3 w - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Ng6+ {[%emt 0:00:03]} fxg6 {[%emt 0:00:01]} 2. fxg6+ {[%emt 0:00:01]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r4r1k/ppb1q2p/2p1Bp2/2P2P2/n1PP4/5K1Q/P2B1P2/R6R w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Qxh7+ {[%emt 0:00:00]} Qxh7 {[%emt 0:00:00]} 2. Rxh7+ {[%emt 0:00:00]} Kxh7
+{[%emt 0:00:00]} 3. Rh1+ {[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 4. Bh6+ {
+[%emt 0:00:00]} Kh7 {[%emt 0:00:00]} 5. Bxf8+ {[%emt 0:00:00]} Bh2 {
+[%emt 0:00:00]} 6. Rxh2# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "1r4kr/p2p1R1p/p2Np1nB/4p3/6PP/7N/P1PK2b1/8 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Rg7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 2. Rxd7+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Rg7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 4. Rb7+ {
+[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Rxb8+ {[%emt 0:00:00]} Nf8 {
+[%emt 0:00:00]} 6. Rxf8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "3r3r/pk3ppp/1ppB1q2/4p3/2B1P1n1/Q2R4/1PP1NPPP/6K1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Qxa7+ {[%emt 0:00:00]} Kxa7 {[%emt 0:00:00]} 2. Ra3+ {[%emt 0:00:00]} Kb7 {
+[%emt 0:00:00]} 3. Ba6+ {[%emt 0:00:00]} Ka7 {[%emt 0:00:00]} 4. Bc8# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r1n3/p1q2krR/2bpp1pQ/1p4P1/4PP2/1PP5/2PBB3/2K4R w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qxg6+ {[%emt 0:00:00]} Kxg6 {[%emt 0:00:00]} 2. Bh5+ {[%emt 0:00:00]} Kxh7 {
+[%emt 0:00:00]} 3. Bf7# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r5r1/p1q2p1k/1p1R2pB/3p4/6bQ/2p5/P1P1NPPP/6K1 w - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Bf8+ {[%emt 0:00:00]} Bh5 {[%emt 0:00:00]} 2. Qxh5+ {[%emt 0:00:00]} gxh5 {
+[%emt 0:00:00]} 3. Rh6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r1q1r1/pb1n1ppk/3pNn1p/2pP1P2/2p4B/P1P4R/3Q2PP/1B3RK1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Bxf6 {[%emt 0:00:00]} Nxf6 {[%emt 0:00:00]} 2. Nxg7 {[%emt 0:00:00]} Qe3+ {
+[%emt 0:00:00]} 3. Qxe3 {[%emt 0:00:00]} h5 {[%emt 0:00:00]} 4. Rxh5+ {
+[%emt 0:00:00]} Nxh5 {[%emt 0:00:00]} 5. f6+ {[%emt 0:00:00]} Kh8 {
+[%emt 0:00:00]} 6. Qh6# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "8/2R2Bk1/p2r3p/np2p2K/4P2P/1P2P3/8/8 w - - 0 1"]
+[PlyCount "1"]
+[EventDate "1998.??.??"]
+
+1. b4 {[%emt 0:00:03]} (1. b4 {[%emt 0:00:06]} Nc4 {[%emt 0:00:07]} 2. Bxc4+ {
+[%emt 0:00:02]}) *
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2r2/5P1p/ppn3pk/2p1p1Nq/1bP1PQ2/3P4/PB4BP/1R3RK1 w - - 0 1"]
+[PlyCount "19"]
+[EventDate "1998.??.??"]
+
+1. Ne6+ {[%emt 0:00:03]} g5 {[%emt 0:00:00]} 2. Qf6+ {[%emt 0:00:00]} Qg6 {
+[%emt 0:00:00]} 3. Bc1 {[%emt 0:00:00]} Bd2 {[%emt 0:00:00]} 4. Bxd2 {
+[%emt 0:00:00]} Bxe6 {[%emt 0:00:00]} 5. Bxg5+ {[%emt 0:00:00]} Kh5 {
+[%emt 0:00:00]} 6. Bf3+ {[%emt 0:00:00]} Bg4 {[%emt 0:00:00]} 7. Bxg4+ {
+[%emt 0:00:00]} Kxg4 {[%emt 0:00:00]} 8. Rf4+ {[%emt 0:00:00]} exf4 {
+[%emt 0:00:00]} 9. Qxf4+ {[%emt 0:00:00]} Kh5 {[%emt 0:00:00]} 10. Qh4# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2r2k1/p2nqpp1/2b1p2p/4B1P1/2p4Q/3B4/PPP2P1P/2KR2R1 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Bxg7 {[%emt 0:00:05]} Kxg7 {[%emt 0:00:00]} 2. Qxh6+ {[%emt 0:00:00]} Kg8 {
+[%emt 0:00:00]} 3. Qh7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 4. Qh8# {
+[%emt 0:00:00]} 1-0
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2k1r3/1pp2p2/p2p1B1p/3b1Nq1/1P4p1/2QB1pP1/P4R1P/7K b - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1... Qxf6 {[%emt 0:00:06]} 2. Qxf6 {[%emt 0:00:00]} Re1+ {[%emt 0:00:00]} 3.
+Rf1 {[%emt 0:00:00]} f2+ {[%emt 0:00:00]} 4. Be4 {[%emt 0:00:00]} Bxe4# {
+[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "7k/6pp/p7/3N4/P7/3n1NPP/2r1n2K/3R4 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Nd4+ {[%emt 0:00:02]} 2. Nd2 {[%emt 0:00:02]} Nf3+ {[%emt 0:00:03]} 3. Kg2
+{[%emt 0:00:01]} Nxd2 {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2kb1r/ppp1pppp/8/8/4q3/3P1N1b/PPP1BPnP/RNBQ1K1R b kq - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... Nh4+ {[%emt 0:00:00]} 2. Kg1 {[%emt 0:00:00]} Qg4# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "4rrk1/p1p3pp/3b4/1P1P4/4Npnq/3B4/PP2R1PP/5RQK b - - 0 1"]
+[PlyCount "9"]
+[EventDate "1998.??.??"]
+
+1... Nxh2 {[%emt 0:00:07]} 2. Qxh2 {[%emt 0:00:01]} Qxh2+ {[%emt 0:00:01]} 3.
+Kxh2 {[%emt 0:00:00]} f3+ {[%emt 0:00:00]} 4. Nxd6 {[%emt 0:00:00]} fxe2 {
+[%emt 0:00:01]} 5. Nxe8 {[%emt 0:00:00]} exf1=R {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1bqk3/pppp1pQ1/8/2b1P2r/4nP1p/8/PPP1B1PP/RNB2R1K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Ng3+ {[%emt 0:00:02]} 2. hxg3 {[%emt 0:00:00]} hxg3+ {[%emt 0:00:00]} 3.
+Bxh5 {[%emt 0:00:00]} Qh4# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "5r1k/1b4pp/6r1/p1R5/Pp2p2q/1Q2B2P/1P3PPK/4R3 b - - 0 1"]
+[PlyCount "27"]
+[EventDate "1998.??.??"]
+
+1... Rxg2+ {[%emt 0:00:00]} 2. Kxg2 {[%emt 0:00:00]} Rxf2+ {[%emt 0:00:00]} 3.
+Bxf2 {[%emt 0:00:00]} e3+ {[%emt 0:00:00]} 4. Qd5 {[%emt 0:00:00]} Bxd5+ {
+[%emt 0:00:00]} 5. Rxd5 {[%emt 0:00:00]} Qxf2+ {[%emt 0:00:00]} 6. Kh1 {
+[%emt 0:00:00]} Qxe1+ {[%emt 0:00:00]} 7. Kh2 {[%emt 0:00:00]} Qf2+ {
+[%emt 0:00:00]} 8. Kh1 {[%emt 0:00:00]} Qf3+ {[%emt 0:00:00]} 9. Kh2 {
+[%emt 0:00:00]} Qxd5 {[%emt 0:00:00]} 10. Kg3 {[%emt 0:00:00]} e2 {
+[%emt 0:00:00]} 11. Kf2 {[%emt 0:00:00]} Qd1 {[%emt 0:00:00]} 12. Kf3 {
+[%emt 0:00:00]} e1=Q+ {[%emt 0:00:00]} 13. Kf4 {[%emt 0:00:00]} Qd4+ {
+[%emt 0:00:00]} 14. Kf3 {[%emt 0:00:00]} Qef2# {[%emt 0:00:00]} 0-1
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6rk/6np/p6Q/3q4/BP6/3p4/P4PR1/6K1 b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxg2+ {[%emt 0:00:02]} 2. Kxg2 {[%emt 0:00:00]} Nf5+ {[%emt 0:00:00]} 3.
+Kf3 {[%emt 0:00:00]} Nxh6 {[%emt 0:00:00]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2rq1rk1/1b2bppp/p3p3/4P1P1/1n1NpP1P/2N1B3/1PP2Q2/R4R1K b - - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1... Qxd4 {[%emt 0:00:02]} 2. Bxd4 {[%emt 0:00:01]} e3+ {[%emt 0:00:02]} 3. Qg2
+{[%emt 0:00:01]} Bxg2+ {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "*"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b2rk1/ppb1n2p/4pp2/8/3qNPPN/1P2pQ2/P1P3BP/R4RK1 b - - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1... e2+ {[%emt 0:00:02]} 2. Kh1 {[%emt 0:00:01]} exf1=R+ {[%emt 0:00:01]} *
+
+[Event "Black to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "0-1"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6k1/1b2qpbp/3P2p1/Q7/N3r3/6B1/PP2r1PP/3RR2K b - - 0 1"]
+[PlyCount "15"]
+[EventDate "1998.??.??"]
+
+1... Rxg2 {[%emt 0:00:07]} 2. Qd8+ {[%emt 0:00:00]} Qxd8 {[%emt 0:00:00]} 3.
+Rxe4 {[%emt 0:00:00]} Bxe4 {[%emt 0:00:00]} 4. Nc5 {[%emt 0:00:00]} Bf3 {
+[%emt 0:00:00]} 5. Rf1 {[%emt 0:00:00]} Qf6 {[%emt 0:00:00]} 6. h3 {
+[%emt 0:00:00]} Qf5 {[%emt 0:00:00]} 7. Rxf3 {[%emt 0:00:00]} Qxh3+ {
+[%emt 0:00:00]} 8. Bh2 {[%emt 0:00:00]} Qxh2# {[%emt 0:00:00]} 0-1
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r2rn1k1/1bqn1ppp/p7/2bpP1P1/1p1N1Q2/1P3B2/PBP1NR1P/3R2K1 w - - 0 1"]
+[PlyCount "11"]
+[EventDate "1998.??.??"]
+
+1. Qxf7+ {[%emt 0:00:03]} Kxf7 {[%emt 0:00:00]} 2. Bxd5+ {[%emt 0:00:00]} Kg6 {
+[%emt 0:00:00]} 3. Bf7+ {[%emt 0:00:00]} Kxg5 {[%emt 0:00:00]} 4. Bc1+ {
+[%emt 0:00:00]} Kh4 {[%emt 0:00:00]} 5. Rf4+ {[%emt 0:00:00]} Kg5 {
+[%emt 0:00:00]} 6. Re4# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2qrr1n1/3b1kp1/2pBpn1p/1p2PP2/p2P4/1BP5/P3Q1PP/4RRK1 w - - 0 1"]
+[PlyCount "19"]
+[EventDate "1998.??.??"]
+
+1. Qh5+ {[%emt 0:00:06]} Nxh5 {[%emt 0:00:00]} 2. fxe6+ {[%emt 0:00:00]} Kg6 {
+[%emt 0:00:00]} 3. Bc2+ {[%emt 0:00:00]} Kg5 {[%emt 0:00:00]} 4. Rf5+ {
+[%emt 0:00:00]} Kg6 {[%emt 0:00:00]} 5. Rf6+ {[%emt 0:00:00]} Kg5 {
+[%emt 0:00:00]} 6. Rg6+ {[%emt 0:00:00]} Kh4 {[%emt 0:00:00]} 7. Re4+ {
+[%emt 0:00:00]} Nf4 {[%emt 0:00:00]} 8. g3+ {[%emt 0:00:00]} Kh3 {
+[%emt 0:00:00]} 9. Rxf4 {[%emt 0:00:00]} Bxe6 {[%emt 0:00:00]} 10. Rh4# {
+[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "rn2kb1r/pp2pp1p/2p2p2/8/8/3Q1N2/qPPB1PPP/2KR3R w kq - 0 1"]
+[PlyCount "5"]
+[EventDate "1998.??.??"]
+
+1. Qd8+ {[%emt 0:00:00]} Kxd8 {[%emt 0:00:00]} 2. Ba5+ {[%emt 0:00:00]} Kc8 {
+[%emt 0:00:00]} 3. Rd8# {[%emt 0:00:00]} 1-0
+
+[Event "White to move & win"]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Winning Chess Sacrifices"]
+[Black "and Combinations"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "r1b1knr1/pp2bp1p/1q2p3/5p2/3NN3/8/PPPQBPPP/2KRR3 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Nxf5 {[%emt 0:00:07]} exf5 {[%emt 0:00:00]} 2. Nf6+ {[%emt 0:00:00]} Qxf6 {
+[%emt 0:00:00]} 3. Qd8+ {[%emt 0:00:00]} Bxd8 {[%emt 0:00:00]} 4. Bb5# {
+[%emt 0:00:00]} 1-0
+

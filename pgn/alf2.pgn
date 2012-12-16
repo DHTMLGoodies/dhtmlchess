@@ -1,0 +1,16 @@
+[Event "Computer chess game"]
+[Site "ALFMAGNE-PC"]
+[Date "2011.08.15"]
+[Round "?"]
+[White "Alf Magne"]
+[Black "Alf Magne"]
+[Result "*"]
+[BlackElo "2400"]
+[ECO "A02"]
+[Time "17:02:47"]
+[Variation ""]
+[WhiteType "human"]
+[BlackType "human"]
+
+1. e4 
+

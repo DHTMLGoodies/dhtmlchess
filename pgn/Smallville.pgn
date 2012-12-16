@@ -1,0 +1,690 @@
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "BLBJF"]
+[Black "Smallville"]
+[Result "0-1"]
+[ICCResult "White resigns"]
+[WhiteElo "3384"]
+[BlackElo "3529"]
+[Opening "Alekhine's defense"]
+[ECO "B02"]
+[NIC "AL.10"]
+[Time "15:28:15"]
+[TimeControl "180+0"]
+
+1. e4 Nf6 2. d4 Nxe4 3. Nf3 d6 4. Bd3 Nf6 5. O-O Bg4 6. Re1 c6 7. h3 Bxf3 8.
+Qxf3 e6 9. c3 Nbd7 10. Nd2 Be7 11. Nf1 O-O 12. g4 d5 13. g5 Ne8 14. h4 g6
+15. Nh2 Ng7 16. Ng4 f6 17. gxf6 Nxf6 18. Nh6+ Kh8 19. Bg5 Ne4 20. Nf7+ Rxf7
+21. Qxf7 Bxg5 22. hxg5 Nxg5 23. Qxb7 Rb8 24. Qxa7 Nh3+ 25. Kf1 Qf8 26. Re2
+Nh5 27. Ke1 N5f4 28. Kd2 Rxb2+ {White resigns} 0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "BLBJF"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3518"]
+[BlackElo "3395"]
+[Opening "English opening"]
+[ECO "A22"]
+[NIC "EO.10"]
+[Time "15:22:22"]
+[TimeControl "180+0"]
+
+1. c4 e5 2. Nc3 Nf6 3. e3 g6 4. Nf3 Bg7 5. Nxe5 O-O 6. d4 Re8 7. Be2 d6 8.
+Nd3 Nc6 9. O-O Bf5 10. b3 a5 11. Bb2 Nb4 12. a3 Nxd3 13. Bxd3 Qd7 14. Qc2
+Bxd3 15. Qxd3 h5 16. h3 c6 17. e4 b5 18. cxb5 cxb5 19. b4 axb4 20. axb4 Rac8
+21. Ra5 Rc4 22. Rxb5 Rec8 23. Ra5 Rxb4 24. Ba1 Rb3 25. Rd1 Qc7 26. Ra6 Rxc3
+27. Bxc3 Qxc3 28. Qxc3 Rxc3 29. f3 h4 30. Rxd6 Nh5 31. e5 Nf4 32. Rd2 Bh6
+33. Ra2 Nd3 34. Kf1 Be3 35. e6 Nf4 36. Re2 Nxe2 37. Kxe2 Kf8 38. d5 Bf4 39.
+Rd8+ Ke7 40. Rd7+ Ke8 41. Rxf7 g5 42. Rd7 Re3+ 43. Kd1 Rd3+ 44. Kc2 Rd4 45.
+Kc3 Be5 46. Kb3 Rd2 47. Kc4 Rxg2 48. Kd3 Bf4 49. Ke4 Re2+ 50. Kf5 Ra2 51.
+Kf6 Rb2 52. Rh7 Kd8 53. Rh8+ Kc7 54. e7 {Black resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "BLBJF"]
+[Black "Smallville"]
+[Result "0-1"]
+[ICCResult "White resigns"]
+[WhiteElo "3407"]
+[BlackElo "3506"]
+[Opening "Queen's pawn: Keres defense"]
+[ECO "A40"]
+[NIC "QO.17"]
+[Time "15:16:30"]
+[TimeControl "180+0"]
+
+1. d4 e6 2. c4 b6 3. Nf3 Bb7 4. Nc3 Bb4 5. Qc2 Ne7 6. a3 Bxc3+ 7. Qxc3 O-O
+8. g3 d6 9. Bg2 Nd7 10. O-O Rc8 11. b3 h6 12. Bb2 f5 13. Rad1 Qe8 14. d5 e5
+15. e4 f4 16. Bh3 Rd8 17. Bc1 Bc8 18. gxf4 exf4 19. Bb2 Nf6 20. Bxc8 Rxc8
+21. Kh1 Ng6 22. Rde1 Qf7 23. Rg1 Rce8 24. e5 dxe5 25. Nxe5 Nxe5 26. Rxe5 Kh7
+27. Re6 Rxe6 28. dxe6 Qxe6 29. Qd3+ Kh8 30. Qf3 Rf7 31. h3 Ne4 32. Kh2 Ng5
+33. Qg2 Qe4 34. Qxe4 Nxe4 35. Rg6 Kh7 36. Rc6 Nxf2 37. Be5 f3 38. Rxc7 Rxc7
+39. Bxc7 Ne4 40. Bb8 a6 41. Ba7 Nd2 42. Kg3 Nxb3 43. Bxb6 Kg6 44. Kxf3 Nd2+
+45. Kf4 Nxc4 46. Bc5 Kf6 47. a4 g5+ 48. Kg4 Kg6 49. Kf3 Kf5 50. Bf8 h5 51.
+Be7 Nb6 52. Kg3 Nxa4 {White resigns} 0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "BLBJF"]
+[Result "1-0"]
+[ICCResult "Black forfeits on time"]
+[WhiteElo "3493"]
+[BlackElo "3420"]
+[Opening "Sicilian: Grand Prix attack"]
+[ECO "B23"]
+[NIC "SI.44"]
+[Time "15:10:18"]
+[TimeControl "180+0"]
+
+1. e4 c5 2. Nc3 Nc6 3. f4 e6 4. Nf3 a6 5. d4 cxd4 6. Nxd4 Nxd4 7. Qxd4 Ne7
+8. Bd3 Nc6 9. Qf2 Qa5 10. Bd2 Nb4 11. O-O Bc5 12. Be3 Bxe3 13. Qxe3 d6 14.
+a3 Nxd3 15. cxd3 Bd7 16. Rac1 O-O 17. Qd4 Qc5 18. Ne2 Qxd4+ 19. Nxd4 Rfc8
+20. Kf2 e5 21. Ne2 Bb5 22. Ke3 f6 23. Nc3 Bc6 24. d4 exd4+ 25. Kxd4 Kf7 26.
+Rc2 Ba4 27. Rd2 Bc6 28. Rc1 Re8 29. Re1 Re6 30. Rde2 Rc8 31. g3 h5 32. Re3
+Re7 33. Kd3 Rd8 34. Kd4 Rc8 35. Nd1 Bb5 36. Rc3 Bc6 37. Nf2 Rce8 38. Rce3
+Rc8 39. b3 Bb5 40. a4 Bc6 41. Nd3 a5 42. Nb2 b5 43. Rc1 bxa4 44. Nxa4 Rb7
+45. Rec3 Rb4+ 46. Rc4 Bxa4 47. Rxb4 Rxc1 48. Rxa4 Rc2 49. Rxa5 Rxh2 50. b4
+Rb2 51. b5 Rb3 52. Kc4 Rb1 53. f5 g5 54. Ra7+ Ke8 55. Rh7 Rc1+ 56. Kd5 Rc5+
+57. Kd4 Rxb5 58. Rxh5 Rb4+ 59. Ke3 Rb3+ 60. Ke2 Rxg3 61. Rh6 Ke7 62. Rh7+
+Ke8 63. Rc7 Rb3 64. Ra7 Rb5 65. Rg7 Re5 66. Kd3 d5 67. exd5 Rxd5+ 68. Ke4
+Re5+ 69. Kf3 Rxf5+ 70. Kg4 Re5 71. Ra7 Re7 72. Ra4 Kf7 73. Rb4 Kg6 74. Ra4
+f5+ 75. Kg3 Re3+ 76. Kf2 f4 77. Ra5 Kh5 78. Ra8 Kg4 79. Ra2 Rb3 80. Rd2 Rb4
+81. Kg2 f3+ 82. Kf2 Kf4 83. Rd8 g4 84. Rf8+ Ke5 85. Kg3 Re4 86. Re8+ Kd4 87.
+Ra8 Ke3 88. Ra2 {Black forfeits on time} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "BLBJF"]
+[Black "Smallville"]
+[Result "0-1"]
+[ICCResult "White resigns"]
+[WhiteElo "3434"]
+[BlackElo "3479"]
+[Opening "Queen's pawn game, Krause variation"]
+[ECO "D02"]
+[NIC "QP.08"]
+[Time "15:05:17"]
+[TimeControl "180+0"]
+
+1. d4 d5 2. Nf3 c5 3. c4 cxd4 4. cxd5 Nf6 5. Nxd4 Nxd5 6. e4 Nb4 7. Qa4+
+N8c6 8. Nxc6 Nxc6 9. Nc3 Bd7 10. Be3 e6 11. Rd1 a6 12. Be2 Be7 13. O-O O-O
+14. Qb3 Qc8 15. Bb6 Ne5 16. f4 Ng6 17. Rc1 Bc6 18. f5 Ne5 19. Bd4 Bf6 20.
+fxe6 Nf3+ 21. Rxf3 Bxd4+ 22. Kh1 Qxe6 23. Bc4 Qh6 24. Bxf7+ Kh8 25. Rcf1 Be5
+26. h3 Bd7 27. Qxb7 Bg4 28. R3f2 Bxh3 29. gxh3 Qxh3+ 30. Kg1 Bd4 31. Ne2 Ra7
+32. Qd5 Qg4+ 33. Kh2 Rd7 34. Qf5 Qh4+ 35. Qh3 Qxh3+ 36. Kxh3 Bxf2 37. Be6
+Rd2 38. Bc4 h5 39. e5 g5 40. e6 g4+ 41. Kg2 Bc5 42. Rc1 h4 {White resigns}
+0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "BLBJF"]
+[Result "0-1"]
+[ICCResult "White forfeits on time"]
+[WhiteElo "3464"]
+[BlackElo "3449"]
+[Opening "Ruy Lopez: closed, Bogolyubov variation"]
+[ECO "C91"]
+[NIC "RL.20"]
+[Time "14:57:47"]
+[TimeControl "180+0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. Re1 b5 7. Bb3 O-O 8.
+d4 d6 9. c3 Bg4 10. Be3 exd4 11. cxd4 Na5 12. Bc2 Nc4 13. Bc1 c5 14. b3 Nb6
+15. Bb2 Nfd7 16. Nbd2 Rc8 17. dxc5 Nxc5 18. Qb1 Bh5 19. e5 Bg6 20. Bf5 Bxf5
+21. Qxf5 d5 22. Nd4 Qd7 23. Qf3 Ne6 24. Nf5 Rc2 25. Bc1 Rfc8 26. Nf1 d4 27.
+Qg4 Kh8 28. N1g3 d3 29. Be3 Nd5 30. Rad1 Nc3 31. Rd2 Rxd2 32. Bxd2 Ne2+ 33.
+Nxe2 dxe2 34. Rxe2 Rc1+ 35. Be1 Qd3 36. Nxe7 Nf4 37. Re3 h5 38. Qxf4 Qd2 39.
+Qe4 Qd8 40. Nf5 Kg8 41. Nd6 Qc7 42. h4 Qc6 43. Rg3 Qxe4 44. Nxe4 Rxe1+ 45.
+Kh2 Rxe4 46. Rg5 Rxh4+ 47. Kg3 Re4 48. Rf5 Re2 49. Rxh5 Rxa2 50. Rf5 Rb2 51.
+Rf3 a5 52. Rc3 b4 53. Rd3 Kh7 54. Kf4 Kg6 55. f3 Rxg2 56. Rd6+ f6 57. Rd5
+Re2 58. e6 Rxe6 59. Rxa5 Re5 60. Ra4 Rf5+ 61. Kg3 Re5 62. Kf2 Rg5 63. Ra1
+Rd5 64. Rh1 Rd2+ 65. Ke3 Kf7 66. Rg1 f5 67. Kf4 Ke6 68. Kg3 Rd3 69. Re1+ Kd5
+{White forfeits on time}
+0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "BLBJF"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3431"]
+[BlackElo "3482"]
+[Opening "Alekhine's defense: modern variation"]
+[ECO "B04"]
+[NIC "AL.05"]
+[Time "14:51:41"]
+[TimeControl "180+0"]
+
+1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3 Nc6 5. exd6 exd6 6. c3 Be7 7. h3 Bf5 8.
+Bd3 Qd7 9. O-O O-O 10. Re1 Rfe8 11. Bxf5 Qxf5 12. Nbd2 Bf8 13. Nf1 Nb6 14.
+Be3 h6 15. Ng3 Qg6 16. Nh4 Qf6 17. Qg4 Nc4 18. Nh5 Qe6 19. Nf5 Nxe3 20. Rxe3
+Qg6 21. Nf4 Qxg4 22. hxg4 Rxe3 23. Nxe3 Nd8 24. Re1 Ne6 25. Ned5 Nxf4 26.
+Nxf4 c6 27. d5 g6 28. Kf1 Rb8 29. Re4 Bg7 30. Rb4 c5 31. Re4 Kf8 32. Ke2 b5
+33. Kd3 Be5 34. Ne2 a6 35. b3 a5 36. Kc2 b4 37. a4 Bf6 38. c4 Kg7 39. Kd3
+Kf8 40. g3 Be5 41. f4 Ba1 42. Ng1 Bf6 43. Nf3 Be7 44. f5 Bf6 45. fxg6 fxg6
+46. Re6 Kg7 47. Rxd6 Rf8 48. Rd7+ Kg8 49. d6 Re8 50. Rc7 Rd8 51. Rxc5 Rxd6+
+52. Rd5 Ra6 53. c5 Kf7 54. Kc4 Re6 55. Nd4 Re4 56. c6 Re1 57. Kb5 Rd1 58. c7
+Rc1 59. Rc5 Re1 60. c8=Q Be7 61. Qd7 Kf8 62. Nf3 Re4 63. Ne5 {Black resigns}
+1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "BLBJF"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3502"]
+[BlackElo "3411"]
+[Opening "Sicilian: Grand Prix attack"]
+[ECO "B23"]
+[NIC "SI.44"]
+[Time "14:48:10"]
+[TimeControl "180+0"]
+
+1. e4 c5 2. Nc3 Nc6 3. f4 e6 4. Nf3 a6 5. d4 cxd4 6. Nxd4 Nge7 7. Nb3 Qc7 8.
+Bd3 b5 9. O-O Bb7 10. Kh1 d6 11. f5 Ne5 12. Bg5 N7c6 13. fxe6 fxe6 14. Qh5+
+g6 15. Qh3 Qd7 16. Bf6 Rg8 17. Rad1 h5 18. Bxb5 axb5 19. Nxb5 Nd8 20. Nxd6+
+Bxd6 21. Bxe5 Bxe5 22. Rxd7 Kxd7 23. Nc5+ Ke7 24. Qh4+ g5 25. Qxh5 Bc6 26.
+Nd3 Bd4 27. e5 Be4 28. Qg4 Bxd3 29. cxd3 Bxe5 30. Qe4 Nf7 31. Qb7+ Kd6 32.
+Rxf7 {Black resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "BLBJF"]
+[Result "0-1"]
+[ICCResult "White resigns"]
+[WhiteElo "3507"]
+[BlackElo "3406"]
+[Opening "English: four knights, Capablanca variation"]
+[ECO "A28"]
+[NIC "EO.07"]
+[Time "15:30:49"]
+[TimeControl "180+0"]
+
+1. c4 e5 2. Nc3 Nf6 3. Nf3 Nc6 4. d3 Bb4 5. Bd2 O-O 6. g3 Re8 7. Bg2 Bxc3 8.
+Bxc3 d5 9. cxd5 Nxd5 10. Rc1 Be6 11. Bxe5 Ndb4 12. a3 Nxd3+ 13. exd3 Nxe5
+14. Nxe5 Bd5 15. O-O Rxe5 16. Bh3 c6 17. Re1 Rxe1+ 18. Qxe1 Qf6 19. Qe3 Qxb2
+20. Re1 Qxa3 21. Bf5 h6 22. g4 Qd6 23. h4 Rf8 24. Qxa7 Qf4 25. Qe3 Qxe3 26.
+fxe3 g6 27. e4 Bb3 28. Bd7 Rd8 29. Rb1 Rxd7 30. Rxb3 b5 31. Kf2 Rb7 32. d4
+Kf8 33. Ke3 Ke7 34. g5 hxg5 35. hxg5 Kd6 36. Rb1 c5 37. d5 b4 38. Kf4 b3 39.
+Rd1 Rb4 {White resigns} 0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "BLBJF"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black checkmated"]
+[WhiteElo "3424"]
+[BlackElo "3489"]
+[Opening "French defense"]
+[ECO "C01"]
+[NIC "FR.01"]
+[Time "14:41:55"]
+[TimeControl "180+0"]
+
+1. e4 e6 2. d4 Ne7 3. Nf3 d5 4. e5 c5 5. c3 b6 6. Bb5+ Nec6 7. O-O Ba6 8. a4
+c4 9. Re1 Bxb5 10. axb5 Na5 11. Nbd2 a6 12. bxa6 Rxa6 13. Nf1 b5 14. Ng3 h6
+15. h4 g6 16. h5 g5 17. Nh2 Nd7 18. Ng4 Rg8 19. Rf1 Rc6 20. f4 Nb3 21. Ra7
+Nxc1 22. Qxc1 Rc7 23. Rxc7 Qxc7 24. fxg5 Rxg5 25. Qf4 Nb6 26. Nf6+ Kd8 27.
+Nh7 Rg8 28. Nxf8 Rxf8 29. Qxh6 Rg8 30. Qh7 Rf8 31. Qg7 Qe7 32. h6 Nd7 33. h7
+Qe8 34. Nh5 f5 35. exf6 Qxh5 36. Rf3 Qh4 37. Rh3 Qxf6 38. Qxf6+ Nxf6 39.
+h8=Q Rxh8 40. Rxh8+ Kd7 41. Rf8 Ng4 42. Rf4 Ne3 43. g4 e5 44. dxe5 Ke6 45.
+g5 Kxe5 46. g6 Kxf4 47. g7 Nf5 48. g8=Q Ke5 49. Qb8+ Ke4 50. Qxb5 Ne3 51.
+Qb6 Nc2 52. Kf2 Kd3 53. Qc5 d4 54. Qf5+ Kd2 55. Qf4+ Kd3 56. Qf3+ Kd2 57.
+Qe2+ Kc1 58. cxd4 Kxb2 59. Qxc4 Na3 60. Qb4+ Kc2 61. Qxa3 Kd2 62. d5 Kc2 63.
+d6 Kd2 64. d7 Kc2 65. d8=Q Kb1 66. Qd1# {Black checkmated} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "TIGRANO"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3360"]
+[BlackElo "3510"]
+[Opening "Alekhine's defense"]
+[ECO "B02"]
+[NIC "AL.10"]
+[Time "14:35:54"]
+[TimeControl "180+0"]
+
+1. e4 Nf6 2. e5 Nd5 3. c4 Nb6 4. d4 d6 5. Nf3 Nc6 6. exd6 exd6 7. Bd3 Bg4 8.
+O-O Be7 9. h3 Bh5 10. g4 Bg6 11. d5 Nb8 12. Re1 O-O 13. Nc3 N8d7 14. Bxg6
+hxg6 15. b3 Bf6 16. Bb2 Nc5 17. Qc2 Qd7 18. Ne4 Nxe4 19. Rxe4 Bxb2 20. Qxb2
+f5 21. Re6 fxg4 22. Ng5 Rf5 23. Rxg6 c6 24. Ne6 Rf7 25. Qd4 gxh3 26. Qh4
+cxd5 27. Ng5 Qf5 28. Qh7+ Kf8 29. Nxf7 Qxf7 30. Re1 dxc4 31. Qh8+ Qg8 32.
+Qxh3 Qf7 33. Qh8+ Qg8 34. Qh2 Qf7 35. Qxd6+ Kg8 36. Re7 Nc8 37. Qd8+
+{Black resigns}
+1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "TIGRANO"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3534"]
+[BlackElo "3336"]
+[Opening "QGD: Tarrasch, Prague variation, Normal position"]
+[ECO "D34"]
+[NIC "TD.04"]
+[Time "14:32:14"]
+[TimeControl "180+0"]
+
+1. c4 e6 2. Nc3 d5 3. d4 c5 4. cxd5 exd5 5. Nf3 Nc6 6. g3 Nf6 7. Bg2 Be7 8.
+O-O O-O 9. h3 Re8 10. Be3 c4 11. Ne5 Na5 12. Qc2 a6 13. Bg5 Be6 14. f4 g6
+15. f5 Bxf5 16. Rxf5 gxf5 17. Qxf5 Nc6 18. Nxd5 Nxd5 19. Qxf7+ Kh8 20. Be4
+{Black resigns}
+1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "TIGRANO"]
+[Black "Smallville"]
+[Result "0-1"]
+[ICCResult "White resigns"]
+[WhiteElo "3344"]
+[BlackElo "3526"]
+[Opening "Alekhine's defense: modern variation"]
+[ECO "B04"]
+[NIC "AL.05"]
+[Time "14:28:30"]
+[TimeControl "180+0"]
+
+1. e4 Nf6 2. e5 Nd5 3. d4 d6 4. Nf3 Nc6 5. exd6 exd6 6. Bd3 Be7 7. c3 O-O 8.
+h3 Nb6 9. O-O Be6 10. Re1 Re8 11. Nbd2 Qd7 12. Ne4 h6 13. Ng3 Bf8 14. Bd2
+Nc4 15. Qc2 Nxd2 16. Qxd2 d5 17. Nh5 Bf5 18. Nf4 Bd6 19. Nxd5 Bxh3 20. Nf6+
+gxf6 21. Qxh6 Bf5 22. Bc4 Na5 23. Bf1 Bg6 24. Nh4 Qg4 25. b4 Bf4 26. f3 Qg3
+{White resigns}
+0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.03.12"]
+[Round "-"]
+[White "Smallville"]
+[Black "TIGRANO"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3517"]
+[BlackElo "3353"]
+[Opening "Robatsch defense: Pseudo-Austrian attack"]
+[ECO "B07"]
+[NIC "VO.17"]
+[Time "14:24:13"]
+[TimeControl "180+0"]
+
+1. e4 d6 2. d4 g6 3. Nc3 Bg7 4. f4 a6 5. a4 Nf6 6. Nf3 O-O 7. e5 dxe5 8.
+fxe5 Nd5 9. h4 Bg4 10. Bc4 Nxc3 11. bxc3 e6 12. h5 gxh5 13. Rb1 c5 14. O-O
+Nc6 15. Be3 Rc8 16. Be2 Ne7 17. Rxb7 Nd5 18. Bd2 cxd4 19. cxd4 Nc3 20. Bxc3
+Rxc3 21. Rb3 Rxb3 22. cxb3 a5 23. Qd3 Qd5 24. Ng5 Bf5 25. Qe3 Rd8 26. Nf3
+Bg4 27. Bc4 Qd7 28. Rd1 h6 29. d5 exd5 30. Rxd5 Qe7 31. Rxa5 Rd1+ 32. Bf1
+Bxf3 33. gxf3 Bxe5 34. Rxe5 Qh4 35. Re8+ Kg7 36. Qe5+ f6 37. Qe7+ Kg6 38.
+Qe4+ Kf7 39. Qe6+ {Black resigns} 1-0
+
+[Event "FI32"]
+[Site "Internet Chess Club"]
+[Date "2006.03.24"]
+[Round "7"]
+[White "sunshine"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black checkmated"]
+[WhiteElo "3008"]
+[BlackElo "3450"]
+[Opening "French: MacCutcheon, Janowski variation"]
+[ECO "C12"]
+[NIC "FR.05"]
+[Time "15:49:13"]
+[TimeControl "240+1"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Bb4 5. e5 h6 6. Be3 Ne4 7. Qg4 g5 8. h4
+h5 9. hxg5 hxg4 10. Rxh8+ Bf8 11. Nxe4 dxe4 12. Ne2 Kd7 13. O-O-O c6 14. Ng3
+Qe7 15. Nxe4 Kc7 16. Rh7 Nd7 17. g6 Qe8 18. Rxf7 Be7 19. Nf6 Bxf6 20. exf6
+Qg8 21. Bf4+ Kb6 22. Bd3 Nxf6 23. Bc7# {Black checkmated} 1-0
+
+[Event "FI32"]
+[Site "Internet Chess Club"]
+[Date "2006.03.24"]
+[Round "5"]
+[White "sunshine"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "2980"]
+[BlackElo "3478"]
+[Opening "Sicilian: Najdorf, Opocensky variation"]
+[ECO "B92"]
+[NIC "SI.10"]
+[Time "15:24:31"]
+[TimeControl "240+1"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be2 b5 7. a4 b4 8.
+Nd5 Bb7 9. Nxf6+ gxf6 10. O-O e6 11. Bh5 Qd7 12. Qg4 Nc6 13. Qxe6+ Qxe6 14.
+Nxe6 Rc8 15. Nxf8 Rxf8 16. Bh6 Rg8 17. Rad1 Ne5 18. Rxd6 Bxe4 19. g3 Ke7 20.
+Rxa6 Rxc2 21. Re1 Bd5 22. Bf4 Kf8 23. Rxf6 Nd3 24. Bh6+ Rg7 25. Rd1 b3 26.
+Rxd3 Ke7 27. Bxg7 {Black resigns} 1-0
+
+[Event "FI32"]
+[Site "Internet Chess Club"]
+[Date "2006.03.24"]
+[Round "6"]
+[White "Smallville"]
+[Black "sunshine"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3480"]
+[BlackElo "2978"]
+[Opening "English: Bremen, reverse dragon"]
+[ECO "A22"]
+[NIC "EO.10"]
+[Time "15:37:04"]
+[TimeControl "240+1"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Nxd5 5. Bg2 Nb6 6. Nf3 Nc6 7. a3 Be7 8.
+d3 Be6 9. O-O O-O 10. Bd2 Qd7 11. Rc1 Bh3 12. Na4 Rad8 13. Nc5 Bxc5 14. Rxc5
+f6 15. Qc2 Bxg2 16. Kxg2 Rfe8 17. Be3 Kh8 18. b4 Nd5 19. Rc1 Nce7 20. Bd2 c6
+21. Qb3 a6 22. a4 Nc7 23. R5c4 Nf5 24. Nh4 Nd4 25. Qd1 Qd5+ 26. Kg1 e4 27.
+Be3 Nf5 28. Rc5 Nxe3 29. fxe3 Qd7 30. d4 Nd5 31. Qd2 Qg4 32. b5 axb5 33.
+axb5 cxb5 34. Rxb5 b6 35. Ng2 Qd7 36. Qb2 Rc8 37. Rxc8 Rxc8 38. Qb3 Rd8 39.
+Kf2 g5 40. Ke1 Kg7 41. Kd2 Qc6 42. Ne1 h6 43. g4 Qd7 44. Nc2 Qc6 45. Ke1 Qd7
+46. h3 Qc6 47. Kd2 Rd6 48. Na3 Rd8 49. Ke1 Rd6 50. Nc4 Re6 51. Kf2 Qb7 52.
+Na5 Qc7 53. Qxd5 Qh2+ 54. Ke1 Re7 55. Rxb6 Rc7 56. Rc6 Ra7 57. Qc5 Qg1+ 58.
+Kd2 Rf7 59. Rc7 Qa1 60. Rxf7+ Kxf7 61. Qc3 Qa2+ 62. Kc1 Qxe2 63. Qc4+ Qxc4+
+64. Nxc4 f5 65. Nd6+ Ke6 66. Nxf5 {Black resigns} 1-0
+
+[Event "FI32"]
+[Site "Internet Chess Club"]
+[Date "2006.03.24"]
+[Round "8"]
+[White "Smallville"]
+[Black "sunshine"]
+[Result "0-1"]
+[ICCResult "White forfeits on time"]
+[WhiteElo "3420"]
+[BlackElo "3038"]
+[Opening "English: Bremen, reverse dragon"]
+[ECO "A22"]
+[NIC "EO.10"]
+[Time "16:02:35"]
+[TimeControl "240+1"]
+
+1. c4 e5 2. Nc3 Nf6 3. g3 d5 4. cxd5 Nxd5 5. Bg2 Nb6 6. d3 Be7 7. Be3 O-O 8.
+Rc1 Kh8 9. Nf3 Nc6 10. O-O f5 11. Na4 Bd6 12. a3 f4 13. Bc5 Bg4 14. b4 Qd7
+15. Nc3 Bh3 16. Ne4 Bxg2 17. Kxg2 Nd5 18. Bxd6 cxd6 19. Qb3 Nce7 20. d4 fxg3
+21. fxg3 exd4 22. Nxd4 Qg4 23. Qd3 Nf4+ 24. Rxf4 Rxf4 25. Nf2 Rxf2+ 26. Kxf2
+Rf8+ 27. Kg2 Ng6 28. Rf1 Rxf1 29. Kxf1 Ne5 30. Qc2 h6 31. Nb5 d5 32. Nd6 Nc4
+33. Nxc4 dxc4 34. Kf2 b5 35. Ke3 Qg5+ 36. Kd4 Qf6+ 37. Kc5 Qe5+ 38. Kc6 a6
+39. Kb7 Qd6 40. Qe4 c3 41. Qc2 Qd2 42. Qe4 c2 43. Qe8+ Kh7 44. Qe4+ Kh8 45.
+Qe8+ Kh7 46. Qe4+ Kh8 47. Kxa6 Qd6+ {White forfeits on time} 0-1
+
+[Event "ICC 5 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.04"]
+[Round "-"]
+[White "Smallville"]
+[Black "guenplen"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "2770"]
+[BlackElo "2617"]
+[Opening "Sicilian, Chekhover variation"]
+[ECO "B53"]
+[NIC "SI.02"]
+[Time "18:33:14"]
+[TimeControl "300+0"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Qxd4 e5 5. Bb5+ Bd7 6. Bxd7+ Nxd7 7. Qd3
+Nc5 8. Qe2 Nf6 9. Nc3 h6 10. O-O Be7 11. Rd1 Qc7 12. Nh4 g6 13. Nf3 a6 14.
+a4 Ne6 15. Be3 Rc8 16. Nd2 h5 17. f3 O-O 18. Qf2 Bd8 19. Nb3 Qc6 20. a5 Be7
+21. Rd2 Qc4 22. Qg3 Rfd8 23. Ra4 Qc6 24. Rb4 Nd7 25. Nd5 Bf8 26. Qh4 Re8 27.
+g4 hxg4 28. Qxg4 Bg7 29. h4 Nf6 30. Nxf6+ Bxf6 31. h5 Kg7 32. Rb6 Qc4 33.
+hxg6 fxg6 34. Rg2 Nf8 35. Rxd6 Rc6 36. Rdd2 Qe6 37. Qg3 Rec8 38. Rh2 Kf7 39.
+f4 Rxc2 40. Rxc2 Rxc2 41. Rxc2 Qxb3 42. Rc7+ Kg8 43. fxe5 Qd1+ 44. Kf2 Bd8
+45. Rxb7 Qc2+ 46. Kf3 Qd1+ 47. Kg2 Qc2+ 48. Bf2 Qc6 49. Qb3+ Ne6 50. Qd5 Qe8
+51. Qd7 Nf4+ 52. Kf3 {Black resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Smallville"]
+[Black "LeonHoyos"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3273"]
+[BlackElo "2941"]
+[Opening "English opening"]
+[ECO "A10"]
+[NIC "EO.64"]
+[Time "20:31:47"]
+[TimeControl "180+0"]
+
+1. c4 g6 2. Qa4 Bg7 3. h4 h5 4. Nh3 Na6 5. Nc3 Nc5 6. Qc2 Nf6 7. b4 Ne6 8.
+e3 a5 9. b5 b6 10. d4 Bb7 11. d5 Nc5 12. Bb2 e6 13. O-O-O exd5 14. Nxd5 O-O
+15. Ng5 Bxd5 16. cxd5 d6 17. Be2 Re8 18. Bf3 Qd7 19. a4 Re7 20. Rd4 Rae8 21.
+Rhd1 Ng4 22. Rf4 Bxb2+ 23. Kxb2 Ne5 24. Be2 Qd8 25. Bxh5 f5 26. Be2 Rg7 27.
+Ka3 Qf6 28. Qc3 Rge7 29. g4 Qg7 30. gxf5 gxf5 31. Rg1 Kh8 32. Rxf5
+{Black resigns}
+1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Smallville"]
+[Black "LeonHoyos"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3246"]
+[BlackElo "2968"]
+[Opening "Ware (Meadow Hay) opening"]
+[ECO "A00"]
+[Time "20:49:49"]
+[TimeControl "180+0"]
+
+1. a4 Nh6 2. h4 Nc6 3. d4 d5 4. e4 dxe4 5. d5 Ne5 6. Nc3 Bf5 7. Bf4 Nhg4 8.
+Qd4 f6 9. f3 exf3 10. gxf3 c5 11. Qxc5 Rc8 12. Qd4 Nh6 13. O-O-O Nhf7 14.
+Nge2 Qa5 15. Bxe5 Nxe5 16. Nf4 Bd7 17. Ne6 g6 18. f4 Bh6 19. Kb1 Nf7 20. h5
+Qb6 21. hxg6 hxg6 22. Qd3 f5 23. Nb5 a6 24. Nbd4 Bg7 25. Nxg7+ {Black
+resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Smallville"]
+[Black "Molton"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3227"]
+[BlackElo "3029"]
+[Opening "Ware (Meadow Hay) opening"]
+[ECO "A00"]
+[Time "21:00:27"]
+[TimeControl "180+0"]
+
+1. a4 Nf6 2. h4 a5 3. h5 Nc6 4. d4 e5 5. d5 Nb4 6. Nc3 c6 7. e4 d6 8. h6
+gxh6 9. Bxh6 Bxh6 10. Rxh6 Ng4 11. Rh3 h5 12. Be2 Qg5 13. Nf3 Qf6 14. dxc6
+bxc6 15. Qd2 Ba6 16. Bxa6 Rxa6 17. O-O-O Ke7 18. Nh4 d5 19. Nf5+ Kf8 20. f3
+Nh6 21. Rxh5 Nxf5 22. Rxf5 Qe6 23. Qg5 Rg8 24. Qd8+ Qe8 {Black resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Molton"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "3039"]
+[BlackElo "3217"]
+[Opening "Corn stalk defense"]
+[ECO "B00"]
+[NIC "VO.17"]
+[Time "21:10:04"]
+[TimeControl "180+0"]
+
+1. e4 a5 2. Nf3 h5 3. Nc3 Na6 4. Bc4 e6 5. d4 c6 6. d5 cxd5 7. exd5 Bb4 8.
+O-O Nf6 9. Bg5 Qc7 10. Qe2 O-O 11. Nb5 Qb6 12. c3 Be7 13. Rad1 Nc5 14. d6
+Bd8 15. Be3 Ng4 16. b4 axb4 17. cxb4 Nxe3 18. bxc5 Qxc5 19. fxe3 Ra4 20. Bb3
+Re4 21. Nbd4 f5 22. Rc1 Qxd6 23. Rxc8 f4 24. Rd1 Rxe3 25. Nxe6 Rxe2 26.
+Nxd8+ {Black resigns} 1-0
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Smallville"]
+[Black "Molton"]
+[Result "0-1"]
+[ICCResult "White checkmated"]
+[WhiteElo "3193"]
+[BlackElo "3063"]
+[Opening "Crab opening"]
+[ECO "A00"]
+[Time "21:13:45"]
+[TimeControl "180+0"]
+
+1. a4 e5 2. h4 Nc6 3. h5 Nh6 4. e4 Bc5 5. c3 a5 6. Nf3 Ng4 7. d4 exd4 8.
+cxd4 Bb4+ 9. Nc3 d5 10. e5 f6 11. Bb5 fxe5 12. dxe5 O-O 13. Bxc6 bxc6 14.
+O-O Bxc3 15. bxc3 Qe8 16. h6 Qh5 17. Re1 Ba6 18. c4 Bxc4 19. Qe2 Bxe2 20.
+Rxe2 Rxf3 21. Rb2 Qh2+ 22. Kf1 Ne3+ 23. Bxe3 Rxe3 24. fxe3 Qh1+ 25. Kf2 Qxa1
+26. Rb7 Qxe5 27. hxg7 Qxg7 28. Rb3 Qf6+ 29. Ke2 Rf8 30. Rb7 Qf1+ 31. Kd2
+Rf2+ 32. Kc3 Qc4# {White checkmated} 0-1
+
+[Event "ICC 3 0"]
+[Site "Internet Chess Club"]
+[Date "2006.04.28"]
+[Round "-"]
+[White "Molton"]
+[Black "Smallville"]
+[Result "1-0"]
+[ICCResult "Black checkmated"]
+[WhiteElo "3085"]
+[BlackElo "3171"]
+[Opening "Ruy Lopez: 5.O-O"]
+[ECO "C78"]
+[NIC "RL.12"]
+[Time "21:16:51"]
+[TimeControl "180+0"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O b5 6. Bb3 Bc5 7. d3 O-O 8.
+a3 h6 9. Nc3 d6 10. h3 Ne7 11. Be3 Ng6 12. Qd2 Nh5 13. d4 Bb6 14. dxe5 Bxe3
+15. fxe3 dxe5 16. Qxd8 Rxd8 17. Rad1 Be6 18. Nd5 Rac8 19. Kf2 Kf8 20. g4 Nf6
+21. Nxf6 gxf6 22. Bd5 c6 23. Bb3 Bxb3 24. cxb3 Ke7 25. Ke2 Rh8 26. Rg1 h5
+27. g5 Rcd8 28. gxf6+ Kxf6 29. Rxd8 Rxd8 30. Rd1 Rh8 31. Rd6+ Ke7 32. Rxc6
+Rd8 33. Rxa6 Rc8 34. Ra7+ Kf6 35. Kd2 Rd8+ 36. Ke2 Rc8 37. Ra6+ Ke7 38. Kd3
+Rd8+ 39. Kc3 Rc8+ 40. Kb4 Rd8 41. Ra7+ Kf6 42. Ra6+ Ke7 43. a4 bxa4 44. bxa4
+Rd3 45. Ra7+ Kf6 46. Ra6+ Ke7 47. Rc6 Rxe3 48. Rc3 Rxe4+ 49. Kb5 Nf4 50. a5
+Nd5 51. Ra3 Kd6 52. a6 Rb4+ 53. Ka5 Rxb2 54. a7 Nb6 55. Rd3+ Kc5 56. Rc3+
+Nc4+ 57. Rxc4+ Kxc4 58. Nxe5+ Kc5 59. Nd3+ Kc6 60. a8=Q+ Rb7 61. Ka6 Kd5 62.
+Qxb7+ Kd4 63. Qxf7 Ke3 64. Qxh5 Kd2 65. Qg4 Kc3 66. h4 Kd2 67. h5 Ke3 68.
+Nf4 Kd2 69. Ng6 Ke3 70. Nh8 Kd3 71. Nf7 Ke3 72. h6 Kd3 73. h7 Ke3 74. h8=Q
+Kf2 75. Qh2+ Kf1 76. Qgg1# {Black checkmated} 1-0
+
+[Event "ICC 5 0"]
+[Site "Internet Chess Club"]
+[Date "2006.05.03"]
+[Round "-"]
+[White "Smallville"]
+[Black "reversor"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "2741"]
+[BlackElo "2357"]
+[Opening "French: Fort Knox variation"]
+[ECO "C10"]
+[NIC "FR.07"]
+[Time "11:51:00"]
+[TimeControl "300+0"]
+
+1. e4 e6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Bd7 5. Nf3 Bc6 6. Bd3 Nd7 7. O-O Ngf6
+8. Ng3 Be7 9. c3 O-O 10. Re1 Re8 11. Bc2 b6 12. Bg5 Bxf3 13. Qxf3 Nd5 14.
+Bd2 Bg5 15. Rad1 Bxd2 16. Rxd2 Nf8 17. Ba4 Re7 18. Bc6 Rb8 19. Rde2 Nf6 20.
+Nf5 Ng6 21. Nxe7+ Nxe7 22. Ba4 b5 23. Bb3 b4 24. Re5 bxc3 25. bxc3 Nfd5 26.
+h3 c5 27. c4 {Black resigns} 1-0
+
+[Event "ICC 5 0"]
+[Site "Internet Chess Club"]
+[Date "2006.05.03"]
+[Round "-"]
+[White "Smallville"]
+[Black "cavalobomba"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "2752"]
+[BlackElo "2289"]
+[Opening "Sicilian: Anderssen variation"]
+[ECO "B41"]
+[NIC "SI.41"]
+[Time "12:14:54"]
+[TimeControl "300+0"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Bd3 Nc6 6. Nxc6 bxc6 7. O-O d5
+8. e5 Nd7 9. f4 g6 10. c4 Nc5 11. Be2 Ba6 12. Nd2 Be7 13. b3 O-O 14. Qc2 d4
+15. Bd3 Nxd3 16. Qxd3 c5 17. Ne4 Bb7 18. Bd2 a5 19. a4 Qc7 20. Rf3 Rab8 21.
+Rh3 Bxe4 22. Qxe4 Rb7 23. Bxa5 Qb8 24. Rb1 Qa8 25. Qe1 Rfb8 26. Bd2 Bd8 27.
+Rd3 Qa6 28. Kf2 Kg7 29. Qe2 Qc6 30. g4 Ra7 31. Ra1 Rab7 32. Ra3 Qh1 33. Qf1
+Qxh2+ 34. Qg2 Qxg2+ 35. Kxg2 Ra7 36. Kf3 Ba5 37. Bxa5 Rxa5 38. Ke4 Kf8 39.
+f5 exf5+ 40. gxf5 gxf5+ 41. Kxf5 Ke7 42. Rh3 Ra6 43. Rxh7 Rab6 44. Rh3 Ra8
+45. Ke4 Rg6 46. Rf3 Rg4+ 47. Kd5 Rd8+ 48. Kxc5 d3 49. Ra1 d2 50. Rd1 Re4 51.
+Rf2 Rxe5+ 52. Kb4 Rb8+ 53. Kc3 Re3+ 54. Kxd2 Rbxb3 55. Ra1 Red3+ 56. Ke1
+Rdc3 57. a5 Rxc4 58. a6 Rc8 59. Re2+ Kd7 60. Rd1+ Kc7 61. Rc2+ Kb8 62. a7+
+{Black resigns}
+1-0
+
+[Event "ICC 5 0"]
+[Site "Internet Chess Club"]
+[Date "2006.06.27"]
+[Round "-"]
+[White "Smallville"]
+[Black "Sauerkraut"]
+[Result "1-0"]
+[ICCResult "Black resigns"]
+[WhiteElo "2798"]
+[BlackElo "2464"]
+[Opening "Robatsch defense"]
+[ECO "A40"]
+[NIC "KF.05"]
+[Time "16:01:17"]
+[TimeControl "300+0"]
+
+1. d4 g6 2. e4 Bg7 3. Nc3 c6 4. Be3 b5 5. Bd3 a6 6. Qd2 Bb7 7. O-O-O d6 8.
+f4 Nd7 9. Nf3 c5 10. e5 b4 11. Ne2 Qc7 12. dxc5 dxc5 13. Bc4 Nb6 14. Bxf7+
+Kxf7 15. Ng5+ Ke8 16. Ne6 Qc6 17. Qd8+ {Black resigns} 1-0
+
