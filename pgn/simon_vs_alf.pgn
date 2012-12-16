@@ -1,0 +1,60 @@
+[Event "Blitz:15'"]
+[Site "privat"]
+[Date "2006.09.26"]
+[Round "?"]
+[White "New game"]
+[Black "Fritz 9"]
+[Result "*"]
+[ECO "C02"]
+[Annotator "Magne,Alf"]
+[PlyCount "66"]
+[TimeControl "900"]
+
+{200MB, Fritz9.ctg, PRIVAT-8793B4F0} 1. e4 e6 2. d4 d5 3. e5 c5 4. c3 Ne7 5.
+Bd3 Nf5 6. Bxf5 exf5 7. Nf3 Be7 8. O-O O-O 9. Nbd2 Nc6 10. Nb3 b6 11. Be3 c4
+12. Nc1 f6 13. Bf4 g5 14. Bd2 fxe5 15. dxe5 g4 16. Qa4 Bd7 17. e6 b5 18. Qxb5
+Be8 19. Qa4 gxf3 20. gxf3 Ne5 21. Qd1 Bh5 22. h3 Rf6 23. Bf4 Nxf3+ 24. Kh1 Rxe6
+25. Ne2 Ng5 26. Re1 Nxh3 27. Qd4 Rxe2 28. Rg1+ Nxg1 29. Rxg1+ Bg6 30. Bh6 Bf8
+31. Bg5 Qd7 32. Qf4 Rae8 33. Kh2 Bd6 *
+
+[Event "90 0"]
+[Site "privat"]
+[Date "2006.09.26"]
+[Round "?"]
+[White "Simon"]
+[Black "Alf Magne"]
+[Result "*"]
+[ECO "C02"]
+[Annotator "Fritz 9 (30s)"]
+[PlyCount "66"]
+
+{C02: French: Advance Variation} 1. e4 e6 2. d4 d5 3. e5 c5 4. c3 Ne7 5. Bd3 {
+last book move} Nf5 6. Bxf5 exf5 {Black has the pair of bishops} 7. Nf3 Be7 (
+7... cxd4 8. O-O $14) 8. O-O {White castles and improves king safety} O-O {
+Black castles and improves king safety} 9. Nbd2 (9. dxc5 a5 $14) 9... Nc6 (9...
+b6 10. Re1 $11) 10. Nb3 (10. dxc5 a5 $14) 10... b6 {Secures a5} 11. Be3 c4 {
+Black gains space} 12. Nc1 f6 {Covers g5} (12... g5 13. g3 $11) 13. Bf4 (13.
+Qd2 fxe5 14. Nxe5 Qc7 $14) 13... g5 $11 14. Bd2 (14. exf6 Bxf6 15. Ne5 Bxe5 16.
+Bxe5 f4 $11) 14... fxe5 15. dxe5 (15. Nxe5 Nxe5 16. dxe5 d4 $15) 15... g4 {
+Black threatens to win material: g4xf3} (15... f4 16. Ne2 Bg4 $19) 16. Qa4 $2 (
+16. Nd4 $142 {and White is still in the game} Nxe5 17. Bf4 $11) 16... Bd7 $19 (
+16... gxf3 $6 17. Qxc6 fxg2 18. Kxg2 $11 (18. Qxa8 $4 {White will choke on that
+} gxf1=R+ (18... gxf1=Q+ $143 19. Kxf1 f4 20. Ke1 $19 (20. Qxa7 Bc5 21. Qa3
+Bxa3 $19)) 19. Kxf1 f4 $19)) 17. e6 b5 $1 {securing the lead} 18. Qxb5 $2 (18.
+Qd1 $142 gxf3 19. exd7 fxg2 20. Kxg2 Qxd7 21. Ne2 $17) 18... Be8 (18... gxf3 $6
+19. exd7 Qxd7 20. Bf4 $19) 19. Qa4 (19. Ng5 {does not save the day} Nb8 (19...
+Bxg5 $6 20. Bxg5 Qxg5 21. Qxd5 $17) 20. Qb7 Bc6 $19) 19... gxf3 20. gxf3 (20.
+Re1 $19 {no good, but what else?}) 20... Ne5 21. Qd1 Bh5 22. h3 (22. Ne2 {
+does not solve anything} Nxf3+ 23. Kg2 Qd6 $19) 22... Rf6 (22... Bxf3 {
+seems even better} 23. Bf4 Bd6 24. Qe2 Bxe2 25. Nxe2 $19) 23. Bf4 (23. Ne2 {
+is not much help} Bxf3 24. Nf4 Bd6 $19) 23... Nxf3+ (23... Rg6+ $142 {
+and Black has it in the bag} 24. Bg3 Bxf3 25. Ne2 $19) 24. Kh1 Rxe6 (24... d4
+$142 {and the result of the game is clear: Black will win} 25. Rg1+ Rg6 26.
+Rxg6+ hxg6 27. Qf1 $19) 25. Ne2 Ng5 26. Re1 (26. f3 {is one last hope} Bxf3+
+27. Rxf3 Nxf3 28. Qf1 $19) 26... Nxh3 27. Qd4 Rxe2 28. Rg1+ Nxg1 29. Rxg1+ Bg6
+30. Bh6 Bf8 (30... Bf6 $142 {and Black can celebrate victory} 31. Qf4 Be5 32.
+Qf3 Qh4+ 33. Kg2 Qg4+ 34. Qxg4 fxg4 35. Kf1 Rxb2 36. Rxg4 Rxa2 37. Rg5 Bxc3 38.
+Kg2 $19) 31. Bg5 Qd7 32. Qf4 Rae8 (32... Rxb2 {keeps an even firmer grip} 33.
+Re1 $19) 33. Kh2 Bd6 (33... Bd6 34. Qxd6 Rxf2+ 35. Kg3 Qxd6+ 36. Kxf2 Qb6+ 37.
+Kf1 Re1+ 38. Kxe1 Qxg1+ 39. Kd2 Qf2+ 40. Kd1 Bh5+ 41. Kc1 Qe1+ 42. Kc2 Qd1#) *
+

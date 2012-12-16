@@ -1,0 +1,248 @@
+[Event "Casual"]
+[Site "Paris"]
+[Date "1858.??.??"]
+[Round "?"]
+[White "Morphy, Paul"]
+[Black "The Duke of Brunswick and the "]
+[Result "1-0"]
+[ECO "C41"]
+[PlyCount "33"]
+[EventDate "1858.??.??"]
+
+1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6 7. Qb3 Qe7 8.
+Nc3 c6 9. Bg5 b5 10. Nxb5 cxb5 11. Bxb5+ Nbd7 12. O-O-O Rd8 13. Rxd7 Rxd7 14.
+Rd1 Qe6 15. Bxd7+ Nxd7 {What's the correct move here?} 16. Qb8+ $3 Nxb8 17. Rd8# 1-0
+
+[Event "Paris"]
+[Site "Paris"]
+[Date "1864.??.??"]
+[Round "?"]
+[White "Maczuski"]
+[Black "Kolisch, Ignatz"]
+[Result "1-0"]
+[ECO "C45"]
+[PlyCount "31"]
+[EventDate "1864.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Qh4 5. Nc3 Bb4 6. Qd3 Nf6 7. Nxc6 dxc6
+8. Bd2 Bxc3 9. Bxc3 Nxe4 10. Qd4 Qe7 11. O-O-O Qg5+ 12. f4 Qxf4+ 13. Bd2 Qg4 $4
+{What's the correct move here?} (13... Qh4 14. Re1 $18) 14. Qd8+ $3 Kxd8 15. Bg5+ Ke8 16. Rd8# 1-0
+
+[Event "Vienna"]
+[Site "Vienna"]
+[Date "1910.??.??"]
+[Round "?"]
+[White "Reti, Richard"]
+[Black "Tartakower, Saviely"]
+[Result "1-0"]
+[ECO "B15"]
+[PlyCount "21"]
+[EventDate "1910.??.??"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Qd3 e5 6. dxe5 Qa5+ 7. Bd2 Qxe5 8.
+O-O-O Nxe4 $4 {What's the correct move here?} 9. Qd8+ $3 Kxd8 10. Bg5+ Ke8 (10... Kc7 11. Bd8#) 11.
+Rd8# 1-0
+
+[Event "Liverpool"]
+[Site "Liverpool"]
+[Date "1897.??.??"]
+[Round "?"]
+[White "Sherard & Wilmot"]
+[Black "Burn"]
+[Result "1-0"]
+[ECO "C11"]
+[PlyCount "35"]
+[EventDate "1897.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 dxe4 5. Nxe4 Nbd7 6. Bd3 Be7 7. Nxf6+ Nxf6
+8. Nf3 c5 9. dxc5 Bxc5 10. Qd2 Qb6 11. O-O-O Bxf2 12. Rhf1 Bc5 13. Ne5 Be7 14.
+g4 h6 15. Bh4 Nxg4 $2 {What's the correct move here?} 16. Bb5+ $1 Qxb5 $2 (16... Kf8 $8 17. Ng6+
+Kg8 18. Nxe7+ Kh7 19. Rxf7 Qxb5 20. Qd4 Qe5 21. Qxg4 $18) 17. Qd8+ Bxd8 18.
+Rxd8# 1-0
+
+[Event "Vilnius"]
+[Site "Vilnius"]
+[Date "1912.??.??"]
+[Round "?"]
+[White "Nimzowitsch, Aaron"]
+[Black "Alapin, Simon"]
+[Result "1-0"]
+[ECO "B29"]
+[PlyCount "35"]
+[EventDate "1912.??.??"]
+
+1. e4 c5 2. Nf3 Nf6 3. Nc3 d5 4. exd5 Nxd5 5. d4 e6 6. Nxd5 Qxd5 7. Be3 cxd4 8.
+Nxd4 a6 9. Be2 Qxg2 10. Bf3 Qg6 11. Qd2 e5 12. O-O-O exd4 13. Bxd4 Nc6 $2 {
+Here come's the mating pattern} (13... Be7 14. Rhe1 $40) 14. Bf6 $3 Qxf6 15. Rhe1+ (15. Bxc6+ $1
+bxc6 16. Rhe1+ Be7 17. Qd8#) 15... Be7 16. Bxc6+ Kf8 {What's the correct move here?} (16... Bd7 17.
+Qxd7+ Kf8 18. Qd8+ $3 Rxd8 19. Rxd8+ Bxd8 20. Re8#) 17. Qd8+ Bxd8 18. Re8# 1-0
+
+[Event "Austria"]
+[Site "Austria"]
+[Date "1913.??.??"]
+[Round "?"]
+[White "Onderka"]
+[Black "NN"]
+[Result "1-0"]
+[ECO "D00"]
+[PlyCount "33"]
+[EventDate "1913.??.??"]
+
+1. d4 d5 2. Nc3 Nf6 3. e4 dxe4 4. Bc4 Bg4 5. f3 exf3 6. Nxf3 e6 7. Bg5 c5 8.
+O-O Bxf3 9. Qxf3 Qxd4+ 10. Kh1 Nc6 11. Rad1 Qxc4 12. Bxf6 e5 13. Bg5 Qe6 $2 (
+13... f6 $8 14. Bxf6 $1 $40) 14. Nb5 $1 Rc8 {What's the correct move here?} (14... Bd6 15. Rxd6 $18
+) 15. Nc7+ $3 Rxc7 16. Qxc6+ $3 Rxc6 (16... Qd7 17. Rxd7 Rxd7 18. Qc8+ Rd8 19.
+Qxd8#) (16... bxc6 17. Rd8#) (16... Qxc6 17. Rd8#) 17. Rd8# 1-0
+
+[Event "London"]
+[Site "London"]
+[Date "1846.??.??"]
+[Round "?"]
+[White "Schulten, John"]
+[Black "Horwitz, Bernhard"]
+[Result "0-1"]
+[ECO "C24"]
+[PlyCount "34"]
+[EventDate "1846.??.??"]
+
+1. e4 e5 2. Bc4 Nf6 3. Nc3 b5 4. Bxb5 Bc5 5. d3 c6 6. Bc4 Qb6 7. Qe2 d5 8. exd5
+O-O 9. Ne4 Nxe4 10. dxe4 Bxf2+ 11. Qxf2 Qb4+ 12. Bd2 Qxc4 13. Qf3 f5 14. exf5
+Bxf5 15. Qb3 {What's the correct move here?} Qf1+ $3 16. Kxf1 Bd3+ 17. Ke1 Rf1# 0-1
+
+[Event "Vienna"]
+[Site "Vienna"]
+[Date "1903.??.??"]
+[Round "?"]
+[White "Kaldegg"]
+[Black "Zeissel"]
+[Result "1-0"]
+[ECO "C52"]
+[PlyCount "33"]
+[EventDate "1903.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. d4 exd4 7. Qb3 Qf6 8. e5
+Nxe5 9. Nxe5 Qxe5+ 10. Kd1 Qh5+ 11. Be2 Qg6 12. Re1 Kd8 13. Ba3 d6 14. Qb5 Qf5
+$4 {What's the correct move here?} (14... Bf5 $17) 15. Qe8+ Kxe8 16. Bb5+ Kf8 (16... Kd8 17. Re8#)
+17. Re8# 1-0
+
+[Event "Monaco"]
+[Site "Monaco"]
+[Date "1904.??.??"]
+[Round "?"]
+[White "Marshall, Frank J"]
+[Black "Von Scheve, Theodore"]
+[Result "1-0"]
+[ECO "C39"]
+[PlyCount "61"]
+[EventDate "1904.??.??"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ne5 Nf6 6. Bc4 d5 7. exd5 Bd6 8. O-O
+Bxe5 9. Re1 Qe7 10. c3 f3 11. d4 Ne4 12. Rxe4 Bh2+ 13. Kxh2 Qxe4 14. g3 O-O 15.
+Bd3 Qxd5 16. c4 Qh5 17. Nc3 c6 18. Ne4 f5 19. Nd6 f4 20. Qe1 fxg3+ 21. Qxg3 Nd7
+22. Bg5 f2 23. Bf5 Nb6 24. Nxc8 Raxc8 25. Be6+ Rf7 26. Rf1 Re8 27. Bxf7+ Qxf7
+28. Qxg4 Qg6 29. Rxf2 Nxc4 30. h5 $1 $18 Re4 $2 {What's the correct move here?} 31. Bh6 $3 {
+and Black can only avoid 32.Rf8# by surrendering tremendous material -- after
+which he is still mated quickly.} 1-0
+
+[Event "Carlsbad"]
+[Site "Carlsbad"]
+[Date "1907.??.??"]
+[Round "?"]
+[White "Duras, Oldrich"]
+[Black "Olland, Adolf"]
+[Result "1-0"]
+[ECO "C12"]
+[PlyCount "57"]
+[EventDate "1907.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Bb4 5. e5 h6 6. Bd2 Bxc3 7. bxc3 Ne4 8. Qg4
+Kf8 9. Bc1 c5 10. Bd3 Qa5 11. Ne2 cxd4 12. O-O dxc3 13. Bxe4 dxe4 14. Qxe4 Nc6
+15. Rd1 g6 16. Bf4 Ne7 17. Rd6 Nd5 18. Be3 Kg7 19. Qh4 Qc7 20. Rd1 b6 21. R1xd5
+exd5 22. Qf6+ Kh7 23. Bxh6 Rg8 24. Qh4 Bg4 {What's the correct move here?} 25. Nf4 $2 ({
+White missed mate in 3:} 25. Bf8+ Bh5 $8 26. Qxh5+ $3 gxh5 27. Rh6#) 25... Rh8
+26. Nxd5 Qxd6 27. exd6 Bh5 28. Be3 Rad8 29. Qg5 $18 1-0
+
+[Event "Moscow"]
+[Site "Moscow"]
+[Date "1952.??.??"]
+[Round "?"]
+[White "Gusev, Yuri"]
+[Black "Antoshin, Vladimir"]
+[Result "0-1"]
+[ECO "E10"]
+[PlyCount "58"]
+[EventDate "1952.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 d5 4. e3 Be7 5. Nc3 O-O 6. Bd3 dxc4 7. Bxc4 c5 8. O-O
+a6 9. Qe2 b5 10. Bb3 Bb7 11. Rd1 Qc7 12. Bc2 Nc6 13. a4 b4 14. Ne4 Nxe4 15.
+Bxe4 Na5 16. Bd3 Nb3 17. Rb1 cxd4 18. exd4 Rac8 19. Be3 Qc6 20. d5 exd5 21.
+Bxh7+ Kxh7 22. Qd3+ Qg6 23. Qxb3 d4 24. Bxd4 Rc3 25. bxc3 Bxf3 26. g3 Rh8 27.
+Re1 Qh5 28. Qc2+ $2 (28. h4 Bxh4 $40) 28... Kg8 29. h4 {What's the correct move here?} Qxh4 $3 {
+and mate at h1 cannot be avoided: 30.gxh4 Rxh4 etc.} 0-1
+
+[Event "Warsaw"]
+[Site "Warsaw"]
+[Date "1917.??.??"]
+[Round "?"]
+[White "Belitzmann"]
+[Black "Rubinstein, Akiba"]
+[Result "0-1"]
+[ECO "C48"]
+[PlyCount "36"]
+[EventDate "1917.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Bb5 Nd4 5. Bc4 Bc5 6. Nxe5 Qe7 7. Nd3 d5 8.
+Nxd5 Qxe4+ 9. Ne3 Bd6 10. O-O b5 11. Bb3 Bb7 12. Ne1 Qh4 13. g3 Qh3 14. c3 h5
+15. cxd4 h4 16. Qe2 $2 {What's the correct move here?} (16. Nf3 $8 hxg3 17. fxg3 Bxg3 $40) 16...
+Qxh2+ $3 17. Kxh2 hxg3+ 18. Kg1 Rh1# 0-1
+
+[Event "Rotterdam"]
+[Site "Rotterdam"]
+[Date "1923.??.??"]
+[Round "?"]
+[White "Euwe, Max"]
+[Black "Loman, Rudolf"]
+[Result "1-0"]
+[ECO "A09"]
+[PlyCount "35"]
+[EventDate "1923.??.??"]
+
+1. Nf3 d5 2. c4 d4 3. b4 g6 4. Bb2 Bg7 5. Na3 e5 6. Nc2 Bg4 7. e3 Ne7 8. exd4
+exd4 9. h3 Bxf3 10. Qxf3 c6 11. h4 O-O 12. h5 Re8 13. O-O-O a5 14. hxg6 hxg6
+15. Qh3 axb4 16. Nxd4 Bxd4 $2 {What's the correct move here?} (16... Kf8 $8) 17. Qh8+ $1 Bxh8 18.
+Rxh8# 1-0
+
+[Event "Moscow"]
+[Site "Moscow"]
+[Date "1953.??.??"]
+[Round "?"]
+[White "Bonch"]
+[Black "Osmolovsky, Mikhail"]
+[Result "1-0"]
+[ECO "C43"]
+[PlyCount "41"]
+[EventDate "1953.??.??"]
+
+1. e4 e5 2. Nf3 Nf6 3. d4 exd4 4. e5 Ne4 5. Qxd4 d5 6. exd6 Nxd6 7. Bd3 Qe7+ 8.
+Be3 Nf5 9. Bxf5 Bxf5 10. Nc3 Qb4 11. Qe5+ Be6 12. O-O-O Nc6 13. Qxc7 Rc8 14.
+Qf4 Qa5 15. Qg5 Qa6 16. Rhe1 Nb4 17. Nd4 Rxc3 $2 {What's the correct move here?} 18. Qd8+ $3 Kxd8
+19. Nxe6+ Ke7 (19... Ke8 20. Nxg7+ Bxg7 21. Bg5+ Kf8 22. Rd8#) (19... Kc8 20.
+Rd8#) 20. Bg5+ f6 21. Nd8+ {
+and it is mate after 21...Re3 22.Rxe3+ Qe6 23.Rxe6#.} 1-0
+
+[Event "Zagreb"]
+[Site "Zagreb"]
+[Date "1920.??.??"]
+[Round "?"]
+[White "Vukovic, Vladimir"]
+[Black "Deutsch, Ludwig"]
+[Result "1-0"]
+[ECO "C65"]
+[PlyCount "35"]
+[EventDate "1920.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. d4 exd4 5. e5 Ne4 6. Bf4 f5 7. Bxc6 dxc6 8.
+Qxd4 Qd5 9. Nc3 Qa5 10. Rd1 Be7 11. Bd2 Qb6 12. Ne2 Bc5 $4 {What's the correct move here?} 13. Qd8+
+$3 Kxd8 14. Bg5+ Ke8 15. Rd8+ Kf7 16. e6+ $1 Kxe6 (16... Bxe6 17. Ne5#) (16...
+Kg6 17. Nf4#) 17. Nf4+ Kf7 18. Ne5# 1-0
+

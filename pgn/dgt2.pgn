@@ -1,0 +1,33 @@
+[Event" Elisabeta Polihroniade"]
+[White" Ivanchuk, Vassily"]
+[Black" Karjakin, Sergey"]
+[LastMoves" 37. fxg3 Rd6"]
+[Result "0-1"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d3 O-O 6. O-O d6 7. h3 Ne7 8. Re1 Ng6 9. Nbd2 c6 10. Nf1 d5 11. exd5 Nxd5 12. Ng3 h6 13. Bb3 Re8 14. Bd2 Bb6 15. Qc2 Be6 16. Rad1 Bxh3 17. c4 Ndf4 18. c5 Nxg2 19. cxb6 Qf6 20. Nh2 Nxe1 21. Rxe1 axb6 22. Bc3 Be6 23. Re3 Nf4 24. Rf3 Qh4 25. Bd2 Bg4 26. Qc4 Be6 27. Qc2 Bxb3 28. Qxb3 Re6 29. a3 Rae8 30. Qb4 Rf6 31. Qe4 Ree6 32. Ne2 Nxe2+ 33. Qxe2 Rxf3 34. Qxf3 Rg6+ 35. Kh1 Rf6 36. Qg3 Qxg3 37. fxg3 Rd6
+
+[Event" Elisabeta Polihroniade"]
+[White" Carlsen, Magnus"]
+[Black" Nisipeanu, Liviu-Dieter"]
+[LastMoves" ... f5 31. Bxd5"]
+[Result "1-0"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. d4 d5 2. c4 dxc4 3. e3 Nf6 4. Bxc4 e6 5. Nf3 c5 6. O-O a6 7. dxc5 Bxc5 8. Qxd8+ Kxd8 9. Be2 Ke7 10. Nbd2 Bd7 11. Nb3 Bd6 12. Na5 Ra7 13. Nc4 Bb5 14. b3 Rd8 15. Bb2 Bxc4 16. Bxc4 Nc6 17. Rfd1 Raa8 18. h3 g6 19. g4 h6 20. Bf1 Rac8 21. Rac1 Nd5 22. h4 Ke8 23. g5 hxg5 24. hxg5 Be7 25. Kg2 Nb6 26. Bd3 Nb4 27. Be4 Nxa2 28. Rxd8+ Kxd8 29. Rh1 Nd5 30. Ne5 f5 31. Bxd5
+
+[Event" Elisabeta Polihroniade"]
+[White" Radjabov, Teimour"]
+[Black" Nakamura, Hikaru"]
+[LastMoves" 31. Bxb5 Ke7"]
+[Result "1/2-1/2"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 Nbd7 7. f4 e5 8. Nf5 Qb6 9. Qd2 Qxb2 10. Rb1 Qa3 11. Be2 h6 12. Bh4 exf4 13. O-O g6 14. Rxf4 g5 15. Rb3 Qa5 16. Nxd6+ Bxd6 17. Qxd6 gxf4 18. Ra3 Qb6+ 19. Qxb6 Nxb6 20. Bxf6 Rg8 21. Rb3 Nd7 22. Nd5 Rg6 23. Bd4 Rc6 24. c4 b5 25. cxb5 axb5 26. Nc3 Ba6 27. Kf2 Rd6 28. Rb4 f6 29. Kf3 Rc8 30. Nxb5 Bxb5 31. Bxb5 Ke7
+
