@@ -44,7 +44,7 @@ if(isset($_POST['request'])){
             error_reporting(E_ALL);
             ini_set('display_errors', 'on');
             $data = $request['data'];
-            $installer = new ChessInstaller($data['installationKey']);
+            $installer = new ChessInstaller();
             $installer->install($data);
 
             Chess_JSON::getJSON(array(
