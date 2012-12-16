@@ -17,9 +17,6 @@ chess.view.installer.Wizard = new Class({
 			type:'chess.view.installer.Welcome', name:'welcome'
 		},
 		{
-			type:'chess.view.installer.LicenseKey', name:'licensekey'
-		},
-		{
 			type:'chess.view.installer.AdminUser', name:'adminUser'
 		},
 		{
