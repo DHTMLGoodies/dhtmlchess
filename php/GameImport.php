@@ -1,8 +1,6 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 'on');
-require_once("bootstrapper.php");
+# require_once("bootstrapper.php");
 
 class GameImport {
 
@@ -14,9 +12,6 @@ class GameImport {
     }
 
     public function import($pgn, $databaseId){
-
-
-        startTimer('import');
         $dbObject = new ChessDatabase($databaseId);
         ChessJSONCache::clearFromCache($dbObject, ChessJSONCache::TYPE_CHILDREN);
 
