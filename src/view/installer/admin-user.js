@@ -16,6 +16,10 @@ chess.view.installer.AdminUser = new Class({
 		},
 		{
 			type:'form.Password', label:'Repeat password', name:'adminPasswordRepeated', twin:'adminPassword'
+		},
+		{
+			type:'form.Checkbox', label:'Force new installation', name:'forceNewInstall', value:'1'
 		}
+
 	]
 });
