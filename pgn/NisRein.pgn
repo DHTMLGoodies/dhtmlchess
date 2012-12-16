@@ -1,0 +1,128 @@
+[Event "Corus Chess 2010"]
+[Site "Wijk aan Zee"]
+[Date "2010.01.29"]
+[Round "11"]
+[White "Nisipeanu"]
+[Black "Reinderman"]
+[Result "1/2-1/2"]
+[ECO "B31"]
+[PlyCount "144"]
+[EventDate "2010.??.??"]
+
+{Deze partij werd gespeeld in de elfde ronde. Ik was net dankzij een
+overwinning op Harikrishna op 3.5 uit 10 gekomen, maar had nu twee lastige
+zwartpartijen achter elkaar te gaan. En ik had al drie keer verloren met zwart.
+..} 1. e4 c5 2. Nf3 Nc6 {In oktober 2008 had ik bij de denksportspelen in
+Beijing deze stelling vaak op het bord, maar het vervolg was zelden 3.d4. De
+Sveshnikov is het Russisch van het Siciliaans geworden, gevreesd en moeilijk
+te kraken.} 3. Bb5 {Eerder in het toernooi was de Roemeen tegen Muzychuk wel
+op de Sveshnikov ingegaan, maar zonder succes. Tien jaar eerder in Wijk aan
+Zee had deed hij overigens hetzelfde tegen mij, met nog minder succes, zie
+http://www.chessgames.com/perl/chessgame?gid=1005832.} g6 4. Bxc6 dxc6 5. d3
+Bg7 6. h3 Nf6 7. Nc3 O-O 8. Be3 b6 9. Qd2 e5 {Deze stelling is vaak door
+topspelers gespeeld. Met wit b.v. Shirov, Ivanchuk, Ponomariov, Adams en
+Grischuk, met zwart Topalov, Anand en weer Shirov, Ivanchuk en Ponomariov. Ik
+kan natuurlijk wel elke ronde Hollands, Aljechin of het Boedapestgambiet
+spelen, maar voor de afwisseling volg ik ook wel eens de wereldtop bij mijn
+openingskeuze.} 10. Bh6 {Als de tegenstander het loperpaar heeft is het vaak
+goed om een loper te ruilen, ook al is het de 'slechte' loper. In dit geval
+zorgt het er ook voor dat e5 aangevallen staat, dat de zwarte koningsstelling
+minder goed verdedigd is en dat wit later f4 kan doen zonder dat zwart opeens
+een prachtloper heeft.} (10. Nxe5 Nxe4 11. Nxc6 Nxd2 12. Nxd8 Nc4 {levert wit
+overigens niets op.}) 10... Qd6 11. O-O-O {Wit speelt deze stelling ook wel
+eens met kort rokeren, om vervolgens f4 te gaan spelen. Zwart speelt dan het
+paard naar h5 om dat - voorlopig - tegen te gaan.} a5 {Nu wit lang gerokeerd
+heeft is het logisch om de zwarte pionnen op de damevleugel op te spelen. Vaak
+bereikt de pion in deze variant a3, en da's toch al erg dicht in de buurt van
+de witte koning.} 12. Bxg7 Kxg7 13. Nh2 {Wit's droom is nu een dame op h6 en
+een open h-lijn (door h4-h5 of hxg4).} a4 14. Ne2 {Na} (14. Ng4 Ng8 15. Ne2 {
+kan zwart - als hij wil - in navolging van Ponomariov een pion winnen:} Bxg4
+16. hxg4 Qe6 17. Kb1 Qxg4 18. f3 Qe6 19. g4 {en wit heeft compensatie voor de
+pion, maar niet meer.}) 14... b5 {[1.25-1.12]} (14... c4 15. Ng4 h5 16. Qh6+
+Kg8 17. dxc4 Qe7 18. Nxf6+ Qxf6 19. Ng3 $14 {was Nisipeanu-Kasimdzhanov,
+Bundesliga 2002, maar dat wist ik gelukkig niet. Wel dacht ik na over 15...a3
+16.Dh6+ Kg8 17.b3 cxb3 en na terugslaan met een van beide pionnen leek de
+stelling me niet zo duidelijk, al geeft Firebird aan dat zwart een duidelijk
+plusje heeft. Na bijna een half uur nadenken besloot ik toch tot 14...b5, ten
+eerste omdat ik dan c4 kan doen zonder dat het een pion weggeeft, en ten
+tweede omdat het me niet zo duidelijk was hoe wit verder moest gaan.}) 15. Ng4
+Ng8 {Hier willen engines} (15... Bxg4 16. hxg4 Nxg4 {doen, maar de meeste
+mensen ongetwijfeld niet.}) 16. f4 {Een logisch vervolg: wit opent lijnen voor
+de koning, en ook een diagonaal, en sowieso wordt deze zet vaak gespeeld in
+deze variant. En een paard op f4 staat ook dichter bij de zwarte koning
+natuurlijk. Maar ook verder van de witte koning, en dat blijkt toch wel
+belangrijk.} exf4 {[1.17-1.07]} 17. Nxf4 {Na} (17. Qxf4 Qxf4+ 18. Nxf4 Bxg4 19.
+hxg4 Rfe8 {is g4 zwak. Te5-g5 is dan een plan. Wit kan natuurlijk verdubbelen
+op de h-lijn, maar dan heeft zwart h6. De stelling is nog ruim in de
+remise-marge, maar niet erg aantrekkelijk voor wit.}) 17... Bxg4 {[0.50-0.56]}
+18. hxg4 Qe5 {Maar met de dames op het bord heeft wit een ander probleem: a3
+is nu een sterke dreiging. Die zet had ook meteen gekund overigens, maar ik
+wilde wit optie geven.} 19. Qe3 {Een optie hier is} (19. a3 b4 20. d4 cxd4 21.
+Qxd4 {met een iets minder eindspel. Maar goed, zo'n eindspel had wit bij zet
+17 net vermeden.}) 19... a3 {[0.36-0.56]} 20. b3 h6 (20... Nf6 $1 21. g5 Ng4
+22. Qg3 Qxg5 {wint een pion en geeft groot voordeel, maar goed, wit heeft wat
+vage compensatie.}) 21. Rh3 {Beter is het om te gaan verdedigen met} (21. Ne2)
+21... Rad8 {[0:31-0:53] Zwart kan natuurlijk a2 ophalen, maar dan staat de
+dame even buitenspel. Aangezien de koning waarschijnlijk naar d2 zal gaan,
+leek het me logisch, met plannen als c4 of Pf6xe4.} 22. g5 {Wit wil niet puur
+verdedigen en offert een pion om de h-lijn te openen.} hxg5 23. Ne2 Rfe8 24.
+Rdh1 Nf6 {[0.15-0.41]} (24... f6 25. Rh8 $1 Kf7 26. c3 {is zelfs goed voor wit.
+}) 25. c3 Rh8 {Stukken ruilen met een pion meer kan niet erg slecht zijn, maar}
+(25... Nh5 {met het idee 26...c4 was sterk. Meteen}) (25... c4 26. d4 Qxe4 27.
+Qxg5 {zou wit daarentegen tegenkansen geven.}) 26. Rxh8 Rxh8 27. Rxh8 Kxh8 28.
+Qg3 $5 {Een slimme valsstrik!} Qxg3 29. Nxg3 Nh5 30. Ne2 Nf4 $2 {En ik trap
+erin. Ik moet toegeven dat ik er ook nauwelijks over nagedacht had, ik had
+beter wat langer naar het pionneneindspel kunnen kijken... zeker omdat het
+paardeindspel vermoedelijk gewonnen is voor zwart.} 31. Nxf4 gxf4 32. b4 {[0.
+08-0.38]. Hier begon het me te dagen dat het erg moelijk was dit eindspel te
+gaan winnen.} c4 {[0.10]. Ik moest kiezen of ik een stelling met of zonder
+pionnen op c3 en c4 wilde hebben. In een eventueel dameeindspel is c3 zwak -
+en c4 sterk - vandaar dat ik ervoor koos de pionnen op het bord te houden.} 33.
+d4 Kg7 34. Kd2 g5 35. Ke2 g4 36. Kf2 Kg6 37. Kf1 Kh5 38. Kg1 Kg5 39. Kf1 {Wit
+moet geen} (39. Kf2 {doen:} Kh4 40. Kf1 f3 41. gxf3 gxf3 42. Kf2 Kg4 43. d5
+cxd5 44. exd5 Kf5 45. Kxf3 Ke5 46. Kg4 Kxd5 47. Kf5 f6 48. Kxf6 Ke4 49. Ke6 Kd3
+{en wint.}) 39... Kh4 {[0.03-0.03]} 40. Kf2 {Maar nu wel. Helaas kan zwart
+niet met driehoekjes deze stelling met wit aan zet forceren.} Kg5 {Een
+probleem voor zwart is dat hij in het kwadraat van de d-pion moet blijven. Een
+variant waarin zwart wint is} (40... f6 41. Ke2 Kg3 42. Kf1 Kh2 43. d5 cxd5 44.
+exd5 g3 45. d6 f3 {etcetera, maar 41.d5 is een behoorlijke domper op de
+feestvreugde.}) (40... g3+ 41. Kf3 Kg5 42. d5 cxd5 43. exd5 Kf5 44. d6 Ke6 45.
+Kxf4 Kxd6 46. Kxg3 Ke5 47. Kf3 {levert ook niets op.}) 41. Kf1 f3 {[0.51-0.43]}
+42. g3 {Zo houdt wit de zwarte koning buiten.} f5 43. e5 {Het zwarte winstplan
+is om nu een keer f4 te doen, en dan met hulp van de koning sneller of even
+snel te promoveren als wit. Er ontstaat dan een dame-eindspel waarin zwart dan
+c3 of a2 ophaalt en een nieuwe dame gaat halen.} Kg6 (43... f4 44. gxf4+ Kf5
+45. Kf2 Kxf4 $2 46. e6 g3+ 47. Kf1 {werkt nog niet.}) 44. Kf2 Kf7 45. Kf1 Ke6
+46. Kf2 {Het is wel belangrijk dat wit Ke6/Kg6 met Kf2 beantwoordt;} (46. Kg1
+f4 $1 47. gxf4 g3 $1 48. Kf1 Kf5 49. Kg1 g2 50. Kf2 Kg4 51. e6 Kh3 52. e7 Kh2
+53. e8=Q g1=Q+ 54. Kxf3 Qf1+ 55. Kg4 Qg2+ 56. Kf5 Qxa2 {en wint, want de
+zwarte koning heeft op b3 een schuilplaats. En helaas, weer zijn er geen
+driehoekjes die deze stelling met wit aan zet forceren, aangezien wit op g1,
+f1 en e1 kan wachten totdat zwart Ke6 of Kg6 doet, om dan Kf2 te doen.}) 46...
+Kd5 47. Kg1 c5 48. dxc5 Kxe5 49. Kf1 {In een pionneneindspel is het altijd
+handig te bepalen dat 'als de ene koning daar staat, moet de andere koning
+daar staan' (voor de ene partij om remise te maken, of voor de andere partij
+om te winnen). In dit geval moet wit geen koning op f2 hebben staan met de
+zwarte koning op e5:} (49. Kf2 f4 50. gxf4+ Kxf4 51. c6 g3+ 52. Kf1 Ke3 53. c7
+g2+ 54. Kg1 Ke2 55. c8=Q f2+ 56. Kxg2 f1=Q+ {en wint. Dat is geloof ik ook het
+enige, en achter de nu volgende zetten zit dan ook geen diep plan.}) 49... Ke6
+50. Kg1 Kd5 51. Kf2 Ke5 52. Kf1 Kf6 53. Kf2 Ke7 54. Kf1 Kf7 55. Kf2 Kf6 56. Kg1
+Ke6 57. Kf2 Kd5 {[0.29-0.30]} 58. Kg1 $2 (58. Kf1 {voorkomt} f4 {want} 59. gxf4
+g3 60. f5 {wint voor wit.}) 58... f4 $1 {Nu kan zwart eindelijk een
+dame-eindspel forceren. Niet de meest gunstige versie, maar nog steeds gunstig.
+} 59. gxf4 Ke4 {[0.28-0.08]} 60. c6 Ke3 61. c7 Ke2 62. c8=Q f2+ 63. Kh2 f1=Q
+64. Qxg4+ {Wit promoveert eerder en pakt een pion met schaak! Vandaar dat het
+me ruim twintig minuten kostte om de winstpoging uit te voeren, want zo'n
+f-pion kan ook hard lopen natuurlijk. Maar ik had varianten gezien waarin
+zwart in totaal drie keer promoveert, en da's dan 1 keer meer dan wit.} Kd3 {
+[0.43-0.19]} 65. f5 Kxc3 $2 {Na} (65... Qf2+ 66. Kh3 Qxa2 $1 67. Qf3+ Kc2 68.
+f6 Qb2 69. f7 a2 70. f8=Q a1=Q {ontstaat er een dubbel dame-eindspel dat
+waarschijnlijk gewonnen is voor zwart, b.v.} 71. Q8f5+ Kb3 72. Qxb5 Qxc3 73.
+Qxc3+ Qxc3+ {met winst voor zwart volgens de table-base.}) 66. Qg7+ Kd3 67. f6
+c3 68. f7 c2 $2 {Met} (68... Qf4+ 69. Kh3 c2 70. f8=Q (70. Qg6+ Kd2 71. Qg2+
+Kc1 {helpt zwart alleen maar}) 70... Qxf8 71. Qxf8 c1=Q {kan zwart het nog
+proberen, al lijkt het me na} 72. Qf5+ Kc3 73. Qxb5 {wel remise.}) 69. Qg6+ $1
+Kc3 70. Qg7+ Kd3 71. Qg6+ Kc3 72. Qg7+ {Er is geen goede manier om het eeuwig
+schaak te voorkomen, vandaar} Kd3 {[0.26-0.09]. Een mooi gevecht, maar toch
+jammer van de kansen die ik heb laten liggen...} 1/2-1/2
+

@@ -1,0 +1,104 @@
+[Event "Corus A"]
+[Site "Wijk aan Zee NED"]
+[Date "2006.??.??"]
+[White "Topalov,V"]
+[Black "Kamsky,G"]
+[Result "1-0"]
+[WhiteElo "2801"]
+[BlackElo "2686"]
+[ECO "B01"]
+[Round "1"]
+
+1. e4 d5 2. exd5 Nf6 3. Nf3 Nxd5 4. d4 Bf5 5. Bd3 Bxd3 6. Qxd3 e6 7. O-O Nc6 
+8. c4 Nb6 9. Nc3 Be7 10. Bf4 g5 11. Bg3 g4 12. Ne5 Nxd4 13. c5 Bxc5 14. Rad1 O-O 
+15. Ne4 Be7 16. Nxg4 c5 17. b4 Nd5 18. bxc5 Nf5 19. Qf3 Rc8 20. Bd6 Nxd6 21. cxd6 Bh4 
+22. d7 Rc6 23. Ne5 Rc7 24. Qg4+ Kh8 25. Nd6 1-0
+
+[Event "Mtel Masters"]
+[Site "Sofia BUL"]
+[Date "2006.??.??"]
+[White "Topalov,V"]
+[Black "Kamsky,G"]
+[Result "1-0"]
+[WhiteElo "2804"]
+[BlackElo "2671"]
+[ECO "D15"]
+[Round "5"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 a6 5. c5 Nbd7 6. Bf4 Nh5 7. Bd2 Nhf6 
+8. Rc1 g6 9. h3 Qc7 10. g3 Bg7 11. Bf4 Qd8 12. Bg2 Nh5 13. Bg5 h6 14. Bd2 O-O 
+15. e4 dxe4 16. Nxe4 Nhf6 17. Nc3 Re8 18. O-O Nf8 19. Qb3 Ne6 20. Be3 Nc7 21. Ne5 Nfd5 
+22. Nxd5 Nxd5 23. Bd2 Bxe5 24. dxe5 h5 25. Rfe1 Qc7 26. e6 Bxe6 27. Rxe6 fxe6 28. Re1 Qd7 
+29. Qd3 Kh7 30. Re5 Nf6 31. Qe3 Kg7 32. Be4 Kf7 33. Bc2 Rad8 34. Qh6 Rg8 35. Ba5 Qd4 
+36. Bc3 Qc4 37. Bb3 Qd3 38. Bxe6+ Ke8 39. Kg2 Rf8 40. Qg7 Rd5 41. Bf5 Rf7 42. Rxe7+ 1-0
+
+[Event "Mtel Masters"]
+[Site "Sofia BUL"]
+[Date "2006.??.??"]
+[White "Kamsky,G"]
+[Black "Topalov,V"]
+[Result "0-1"]
+[WhiteElo "2671"]
+[BlackElo "2804"]
+[ECO "B97"]
+[Round "9"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bg5 e6 7. f4 Qb6 
+8. Nb3 Be7 9. Qf3 Nbd7 10. O-O-O Qc7 11. Bd3 b5 12. Rhe1 Bb7 13. Qh3 b4 14. Nb1 e5 
+15. N1d2 a5 16. Kb1 a4 17. Nc1 O-O 18. Ne2 Rfc8 19. Ng3 g6 20. Nc4 Ba6 21. b3 axb3 
+22. cxb3 Nc5 23. Ne2 Nfxe4 24. Bxe7 Qxe7 25. Bxe4 Nxe4 26. Nb6 Qa7 27. Nxa8 Rxa8 28. a4 Bxe2 
+29. Rc1 Qf2 0-1
+
+[Event "?"]
+[Site "Dos Hermanas"]
+[Date "1996.??.??"]
+[White "Kamsky,Gata "]
+[Black "Topalov,Veselin "]
+[Result "0-1"]
+[ECO "A46"]
+[Round "6"]
+
+1. d4 Nf6 2. Nf3 e6 3. c4 c5 4. d5 d6 5. Nc3 exd5 6. cxd5 g6 7. g3 Bg7 
+8. Bg2 O-O 9. O-O Na6 10. h3 Re8 11. Nd2 Nc7 12. a4 b6 13. e4 Ba6 14. Re1 Nd7 
+15. Nf3 Qe7 16. Bf4 Qf8 17. Qc2 h6 18. Rab1 g5 19. Bd2 Bb7 20. Nh2 Ne5 21. Ng4 Nc4 
+22. Ne3 Nxe3 23. Bxe3 Na6 24. Nb5 Nb4 25. Qd2 Red8 26. Kh2 a6 27. Nc3 Re8 28. f4 gxf4 
+29. Bxf4 Bc8 30. Re2 Bd7 31. Rbe1 c4 32. e5 dxe5 33. Bxe5 Rxe5 34. Rxe5 Nd3 35. Re7 Nxe1 
+36. Qxe1 Rd8 37. Qe4 b5 38. d6 bxa4 39. Qxc4 Be6 40. Qxa4 Be5 41. Ne4 Bxd6 42. Ra7 Be5 
+43. b3 Qg7 44. Qxa6 Rd4 45. b4 Bf5 46. Qe2 Bxe4 47. Ra3 Bxg2 48. Kxg2 Rxb4 49. Ra8+ Kh7 
+0-1
+
+[Event "?"]
+[Site "Las Palmas"]
+[Date "1994.??.??"]
+[White "Topalov,Veselin "]
+[Black "Kamsky,Gata "]
+[Result "1/2-1/2"]
+[ECO "E12"]
+[Round "2"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 b6 4. a3 Ba6 5. Qc2 Bb7 6. Nc3 c5 7. e4 cxd4 
+8. Nxd4 Nc6 9. Nxc6 Bxc6 10. Bf4 Nh5 11. Bd2 Qb8 12. g3 f5 13. Bg2 Bd6 14. f4 Nf6 
+15. O-O-O O-O 16. Be3 fxe4 17. Nxe4 Nxe4 18. Bxe4 Bxe4 19. Qxe4 Qc7 20. Rd2 Rfd8 21. Rhd1 Bf8 
+22. Kb1 Rac8 23. f5 exf5 24. Qd5+ Kh8 25. Qxf5 Qxc4 26. Rxd7 Rxd7 27. Rxd7 Bxa3 28. Bd4 Bf8 
+29. Rxa7 Re8 30. Bc3 b5 31. Qf7 Qxf7 32. Rxf7 b4 33. Bd2 Kg8 34. Rb7 1/2-1/2
+
+[Event "?"]
+[Site "Linares"]
+[Date "1994.??.??"]
+[White "Kamsky,Gata "]
+[Black "Topalov,Veselin "]
+[Result "1/2-1/2"]
+[ECO "A46"]
+[Round "6"]
+
+1. d4 Nf6 2. Nf3 d5 3. c4 e6 4. Nc3 c5 5. cxd5 cxd4 6. Qxd4 Nxd5 7. e4 Nxc3 
+8. Qxc3 Nc6 9. Bb5 Bd7 10. O-O Qb6 11. a4 Qc5 12. Bd2 Qxc3 13. Bxc3 a6 14. Bc4 Rg8 
+15. Rfd1 Bb4 16. Bxb4 Nxb4 17. Ne5 Bc6 18. Bb3 Ke7 19. f3 Rgd8 20. Kf2 Be8 21. Ke2 f6 
+22. Nc4 b5 23. Ne3 Nc6 24. Rxd8 Rxd8 25. Bd1 Nd4+ 26. Ke1 Rc8 27. axb5 Bxb5 28. h4 Kd6 
+29. Ba4 f5 30. Bxb5 axb5 31. Rd1 Ke5 32. Kf2 Ra8 33. exf5 exf5 34. g3 Ra2 35. Rd2 h5 
+36. Nd1 b4 37. Ne3 Ra6 38. Ng2 Ne6 39. Rc2 Kd4 40. Ne3 Kd3 41. Rc1 Kd4 42. Rc4+ Kd3 
+43. Rxb4 Nd4 44. Rc4 Ne2 45. Rc2 f4 46. gxf4 Nxf4 47. Rc3+ Kd2 48. Nc4+ Kd1 49. Re3 Kc2 
+50. Re4 Nd3+ 51. Ke3 Nxb2 52. Nxb2 Kxb2 53. Re5 g6 54. Kf4 Kc3 55. Kg5 Kd4 56. Re8 Rb6 
+57. Re4+ Kd3 58. Kh6 Ra6 59. Re7 Ra4 60. Kg5 Ra6 61. Rf7 Ke3 1/2-1/2
+
+

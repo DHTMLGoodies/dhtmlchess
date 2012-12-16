@@ -1,0 +1,666 @@
+[Event "Margate"]
+[Site "?"]
+[Date "1938.??.??"]
+[Round "?"]
+[White "Aljechin"]
+[Black "Golombek"]
+[Result "*"]
+[Annotator "08 A 01"]
+[SetUp "1"]
+[FEN "1r1r2k1/pp1b2pp/2nq4/3p1pN1/8/P3P1P1/2Q2PBP/R1R3K1 w - - 0 1"]
+[PlyCount "11"]
+
+1. Bxd5+ 1... Qxd5 2. Rd1 2... Qe5 3. Qb3+ Be6 (3... Kh8 4. Nf7+ Kg8 5. Nh6+
+Kh8 6. Qg8+ Rxg8 7. Nf7#) 4. Nxe6 Rxd1+ 5. Rxd1 Kh8 6. Rd7 *
+
+[Event "Balatonfuered"]
+[Site "?"]
+[Date "1959.??.??"]
+[Round "?"]
+[White "Bilek"]
+[Black "Barcza"]
+[Result "*"]
+[Annotator "08 A 02"]
+[SetUp "1"]
+[FEN "2k1n1r1/p2r2bp/3p2q1/2pP1N2/2P1NBP1/P3QP2/1R6/2K5 w - - 0 1"]
+[PlyCount "15"]
+
+1. Qxc5+ (1. Nexd6+ Nxd6 2. Nxd6+ Rxd6 3. Qxc5+) (1. Nfxd6+) 1... Rc7 (1...
+dxc5 $2 2. Rb8#) 2. Nexd6+ Nxd6 3. Nxd6+ Kd7 4. Qb5+ (4. Rb7 $1 4... Rgc8 5.
+Nf5 $18) 4... Kd8 5. Nf7+ Ke7 (5... Qxf7 6. Qb8+ Rc8 7. Qd6+ Qd7 8. Bg5+ Ke8 9.
+Re2+ Kf7 10. Qxd7+ Kg6 11. Qf5#) 6. Re2+ Kxf7 7. Bxc7 Bh6+ 8. Kb2 *
+
+[Event "Portorozs"]
+[Site "?"]
+[Date "1958.??.??"]
+[Round "?"]
+[White "Tal"]
+[Black "Filip"]
+[Result "*"]
+[Annotator "08 A 03"]
+[SetUp "1"]
+[FEN "3rnq2/4bp1k/p6p/1p2QP2/2pPP3/7P/PPB2P2/3R3K w - - 0 1"]
+[PlyCount "11"]
+
+1. f6 $1 1... Nxf6 2. Qf5+ Kh8 3. e5 Qg7 4. exf6 Bxf6 5. Rg1 5... Bg5 6. f4 *
+
+[Event "Budapest"]
+[Site "?"]
+[Date "1952.??.??"]
+[Round "?"]
+[White "Gereben"]
+[Black "Troianescu"]
+[Result "*"]
+[Annotator "08 A 04"]
+[SetUp "1"]
+[FEN "r1b1rqk1/5p2/5Pp1/ppp1B1Q1/8/1P1P3R/P5PP/5RK1 w - - 0 1"]
+[PlyCount "5"]
+
+1. Qxg6+ $3 1... fxg6 2. f7+ Qxf7 3. Rh8# *
+
+[Event "Corr."]
+[Site "?"]
+[Date "1967.??.??"]
+[Round "?"]
+[White "Marolleau"]
+[Black "Karafiath"]
+[Result "*"]
+[Annotator "08 A 05"]
+[SetUp "1"]
+[FEN "1bb2r1k/6p1/pP1rB3/2R3R1/6pq/5p2/PP1B1P2/3Q2K1 b - - 0 1"]
+[PlyCount "1"]
+
+1... Rd5 (1... Qh2+ $2 2. Kxh2 Rxd2+ 3. Rce5 3... Rxd1 $4 4. Rh5#) *
+
+[Event "Lipcse"]
+[Site "?"]
+[Date "1960.??.??"]
+[Round "?"]
+[White "Morales"]
+[Black "Lehman"]
+[Result "*"]
+[Annotator "08 A 06"]
+[SetUp "1"]
+[FEN "r4r1k/2p3qp/3p4/p1nPp1P1/1pP1Bp1P/1P3Pn1/P4KNR/1Q2R3 b - - 0 1"]
+[PlyCount "5"]
+
+1... c6 $3 2. dxc6 2... Qa7 3. Nxf4 3... Ncxe4+ *
+
+[Event "Santiago de Chile"]
+[Site "?"]
+[Date "1946.??.??"]
+[Round "?"]
+[White "Schroeder"]
+[Black "Stahlberg"]
+[Result "*"]
+[Annotator "08 A 07"]
+[SetUp "1"]
+[FEN "r2q1rk1/ppp2ppp/3b4/1N1P4/2BBPn1P/P4pP1/1PQ2Pb1/R3R1K1 b - - 0 1"]
+[PlyCount "3"]
+
+1... Qxh4 $3 2. gxh4 Nh3# *
+
+[Event "Riga"]
+[Site "?"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Doroskevics"]
+[Black "Tukmakov"]
+[Result "*"]
+[Annotator "08 A 08"]
+[SetUp "1"]
+[FEN "r1bqkb1r/pppP2pp/5n2/5pB1/2P5/2N5/PP2PPpP/R2QKB1R b KQkq - 0 1"]
+[PlyCount "1"]
+
+1... Nxd7 $3 (1... Bxd7 2. Bxg2 $14) *
+
+[Event "Haifa"]
+[Site "?"]
+[Date "1958.??.??"]
+[Round "?"]
+[White "Reshevski"]
+[Black "Persitz"]
+[Result "*"]
+[Annotator "08 A 09"]
+[SetUp "1"]
+[FEN "2brnrk1/p1n2p1p/1pqp1PpQ/2p1p1P1/2P1P3/3PNR2/PP2N1BP/R5K1 w - - 0 1"]
+[PlyCount "1"]
+
+1. Nf5 $3 *
+
+[Event "Augsburg"]
+[Site "?"]
+[Date "1898.??.??"]
+[Round "?"]
+[White "Bachman"]
+[Black "Mayinger"]
+[Result "*"]
+[Annotator "08 A 10"]
+[SetUp "1"]
+[FEN "7k/3b4/1p5P/2p3K1/3pp1P1/1P2p3/P1P1B3/8 b - - 0 1"]
+[PlyCount "5"]
+
+1... Bb5 $3 2. Bxb5 d3 3. cxd3 3... e2 *
+
+[Event "Biel"]
+[Site "?"]
+[Date "1981.??.??"]
+[Round "?"]
+[White "Karsa"]
+[Black "Popovics"]
+[Result "*"]
+[Annotator "08 B 01"]
+[SetUp "1"]
+[FEN "5bk1/8/4P1p1/1p3nNp/1P2RB2/5Q2/Prq3PK/8 w - - 0 1"]
+[PlyCount "5"]
+
+1. e7 $1 1... Bxe7 (1... Nxe7 2. Rxe7 Bxe7 3. Qd5+) 2. Re2 $3 2... Qxe2 3. Qd5+
+*
+
+[Event "Zuerich"]
+[Site "?"]
+[Date "1952.??.??"]
+[Round "?"]
+[White "Euwe"]
+[Black "Lundin"]
+[Result "*"]
+[Annotator "08 B 02"]
+[SetUp "1"]
+[FEN "r4qk1/1b3rpp/1pn1p3/p1b5/2P5/P1NQ1N2/1P2BPPP/3R1RK1 b - - 0 1"]
+[PlyCount "13"]
+
+1... Ne5 $3 2. Qc2 (2. Nxe5 Rxf2) 2... Rxf3 (2... Nxf3+ $6 3. gxf3 $15) 3. Bxf3
+Nxf3+ 4. gxf3 Qxf3 5. Nd5 Qg4+ 6. Kh1 exd5 7. f3 dxc4 *
+
+[Event "Las Palmas"]
+[Site "?"]
+[Date "1973.??.??"]
+[Round "?"]
+[White "Calvo"]
+[Black "Kavalek"]
+[Result "*"]
+[Annotator "08 B 03"]
+[SetUp "1"]
+[FEN "r1bq1r2/1p3pkn/p7/3NpPb1/6Q1/8/PPP5/1K1R1B1R w - - 0 1"]
+[PlyCount "3"]
+
+1. f6+ 1... Kg8 (1... Qxf6 2. Rxh7+ (2. Nxf6 $2 2... Bxg4) 2... Kxh7 3. Nxf6+)
+2. Qe4 $1 *
+
+[Event "Bulgaria"]
+[Site "?"]
+[Date "1962.??.??"]
+[Round "?"]
+[White "de Rycke"]
+[Black "Liebert"]
+[Result "*"]
+[Annotator "08 B 04"]
+[SetUp "1"]
+[FEN "r1bq1r2/1pp2k1p/2P3p1/p2Ppp2/8/2Q5/PP2BPPP/2KR3R w - - 0 1"]
+[PlyCount "9"]
+
+1. d6 (1. Bc4 $2 1... Qd6) 1... bxc6 (1... cxd6 2. cxb7 Bxb7 3. Qb3+) 2. d7
+Bxd7 3. Qxe5 Qe7 4. Rxd7 4... Qxd7 5. Bc4+ *
+
+[Event "Varso"]
+[Site "?"]
+[Date "1935.??.??"]
+[Round "?"]
+[White "Tartakower"]
+[Black "Steiner"]
+[Result "*"]
+[Annotator "08 B 05"]
+[SetUp "1"]
+[FEN "1rqr2k1/pb3ppp/5b2/2pnN3/8/1QN3P1/PP3PBP/2R1R1K1 w - - 0 1"]
+[PlyCount "5"]
+
+1. Nxf7 $3 (1. Nxd5 1... Bxd5 $11) 1... c4 (1... Kxf7 2. Nxd5 Bxd5 3. Bxd5+ Kf8
+4. Qf3 $18) 2. Nxd8 $1 2... cxb3 3. Re8# *
+
+[Event "Jugoslavia"]
+[Site "?"]
+[Date "1976.??.??"]
+[Round "?"]
+[White "Gligoric"]
+[Black "Dimitrievics"]
+[Result "*"]
+[Annotator "08 B 06"]
+[SetUp "1"]
+[FEN "r1r3k1/1p3p1p/1q1pn1p1/p7/P2Pp2b/1B2B2P/1PPQ2P1/R4RK1 w - - 0 1"]
+[PlyCount "7"]
+
+1. Rxf7 $1 1... d5 (1... Kxf7 2. Bxe6+ Ke8 (2... Kxe6 $4 3. d5+) 3. c3 Rc7 4.
+d5 Qb3 5. Qd4) 2. Rd7 Rd8 3. Rxd5 Rxd5 4. Bxd5 $18 *
+
+[Event "Tel Aviv"]
+[Site "?"]
+[Date "1966.??.??"]
+[Round "?"]
+[White "Gligoric"]
+[Black "Bolbochan"]
+[Result "*"]
+[Annotator "08 B 07"]
+[SetUp "1"]
+[FEN "b7/p1r2pkp/5qp1/1Pp5/Q3pN1P/4P3/P4PP1/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+
+1. b6 $3 1... Qxb6 2. Qe8 2... Qc6 3. Qe5+ 3... f6 (3... Kh6 4. Qg5+ Kg7 5.
+Nh5+) 4. Qxc7+ *
+
+[Event "Alma-Ata"]
+[Site "?"]
+[Date "1977.??.??"]
+[Round "?"]
+[White "Mihaljcsisin"]
+[Black "Csehov"]
+[Result "*"]
+[Annotator "08 B 08"]
+[SetUp "1"]
+[FEN "2r3qr/p1P1pkb1/4n1p1/3N1p2/2QP1BpP/6P1/P3PPB1/3R2K1 w - - 0 1"]
+[PlyCount "7"]
+
+1. Nb6 1... Rxc7 (1... axb6 2. Bd5 Kf6 3. Be5+ Kf7 4. Bxe6+) 2. Qxe6+ 2... Kxe6
+3. Bd5+ Kf6 4. Bg5# *
+
+[Event "Belgrad"]
+[Site "?"]
+[Date "1969.??.??"]
+[Round "?"]
+[White "Lengyel"]
+[Black "Hecht"]
+[Result "*"]
+[Annotator "08 B 09"]
+[SetUp "1"]
+[FEN "4rr1k/pppq1ppp/6n1/2pPPN2/2P1P1P1/2Q5/PP3R1P/5R1K w - - 0 1"]
+[PlyCount "3"]
+
+1. Nxg7 $1 1... Rxe5 2. Ne6 $1 *
+
+[Event "Tiraszpolj"]
+[Site "?"]
+[Date "1969.??.??"]
+[Round "?"]
+[White "Ranniku"]
+[Black "Szamulj"]
+[Result "*"]
+[Annotator "08 B 10"]
+[SetUp "1"]
+[FEN "r2r4/pb2bpk1/1pq1p3/2p1P1pP/2P1p1Q1/2B1P3/PP3PB1/R2R2K1 w - - 0 1"]
+[PlyCount "9"]
+
+1. Rd6 $1 1... Bxd6 2. Qxg5+ 2... Kh7 3. exd6 Rg8 4. Qe7 $1 (4. Qf6 4... Qd7
+$13) 4... Raf8 5. d7 *
+
+[Event "Hamburg"]
+[Site "?"]
+[Date "1946.??.??"]
+[Round "?"]
+[White "Saemisch"]
+[Black "Ahues"]
+[Result "*"]
+[Annotator "08 B 11"]
+[SetUp "1"]
+[FEN "1r5k/2q2p1p/p2p3B/5PQ1/n1p5/2b4P/PrB3P1/2R1R1K1 w - - 0 1"]
+[PlyCount "3"]
+
+1. Re5 $3 (1. f6 $2 1... Qc5+) 1... Bxe5 2. f6 *
+
+[Event "Lipcse"]
+[Site "?"]
+[Date "1960.??.??"]
+[Round "?"]
+[White "Namzsil"]
+[Black "Szabo"]
+[Result "*"]
+[Annotator "08 B 12"]
+[SetUp "1"]
+[FEN "r6k/6bp/q2PQ1p1/2pBp3/1p2P3/2r5/P6P/1KN4R b - - 0 1"]
+[PlyCount "19"]
+
+1... b3 $1 2. Bxa8 (2. Bxb3 c4) 2... Rxc1+ 3. Kxc1 3... Bh6+ (3... Qxa2 $4 4.
+Qe8+) 4. Kd1 Qd3+ 5. Ke1 Bd2+ 6. Kf2 (6. Kd1 Bc3+ 7. Kc1 b2#) 6... Qe3+ 7. Kg2
+Qe2+ 8. Kg3 Bf4+ 9. Kh3 Qf3+ 10. Kh4 g5# *
+
+[Event "Havanna"]
+[Site "?"]
+[Date "1969.??.??"]
+[Round "?"]
+[White "Suetin"]
+[Black "Cobo"]
+[Result "*"]
+[Annotator "08 C 01"]
+[SetUp "1"]
+[FEN "r1b1r1n1/3nqpbk/p2p2pp/1ppP4/4PB2/2PB1NNP/PP1Q2P1/4RRK1 w - - 0 1"]
+[PlyCount "13"]
+
+1. Nf5 $1 1... gxf5 2. exf5 Qf8 3. f6+ Kh8 4. fxg7+ Kxg7 5. Bxh6+ 5... Nxh6 6.
+Qg5+ Kh8 7. Rxe8 *
+
+[Event "USA"]
+[Site "?"]
+[Date "1952.??.??"]
+[Round "?"]
+[White "Steiner"]
+[Black "Evans"]
+[Result "*"]
+[Annotator "08 C 02"]
+[SetUp "1"]
+[FEN "6r1/ppp2rbk/3p2np/3P1b2/2P1Np2/5P2/PPB2BRP/2K3R1 w - - 0 1"]
+[PlyCount "13"]
+
+1. Rxg6 1... Bxg6 2. Rxg6 Kxg6 3. Nxd6+ 3... Kg5 $2 (3... Kh5 $1 $13) 4. Nxf7+
+Kf6 5. Nd8 $1 5... Bf8 6. Bd4+ Ke7 7. Ne6 *
+
+[Event "Vinkovici"]
+[Site "?"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Tajmanov"]
+[Black "Bertok"]
+[Result "*"]
+[Annotator "08 C 03"]
+[SetUp "1"]
+[FEN "4b3/q1n2nkp/3p1pp1/1p1P4/r2NPPB1/2R3NP/1Q4PK/8 w - - 0 1"]
+[PlyCount "13"]
+
+1. Ndf5+ 1... gxf5 2. Nxf5+ Kf8 (2... Kg6 3. Bh5+ $3 3... Kxh5 4. Rg3 4... Ra2
+5. Ng7+ Kh6 6. Qxf6#) 3. Rxc7 $1 3... Qxc7 4. Qxf6 4... Bc6 (4... Bd7 5. Qg7+
+Ke8 6. Qg8#) 5. dxc6 5... Qxc6 6. Qe7+ Kg8 7. Bh5 *
+
+[Event "Corr."]
+[Site "?"]
+[Date "1973.??.??"]
+[Round "?"]
+[White "Oechslein"]
+[Black "Toennermann"]
+[Result "*"]
+[Annotator "08 C 04"]
+[SetUp "1"]
+[FEN "3nr3/3b1kbp/pq1p2p1/1p1P1p2/1P1N1P2/1B5P/PB1Q2PK/2R5 w - - 0 1"]
+[PlyCount "11"]
+
+1. Rc6 $3 1... Bxc6 2. dxc6+ Kf8 (2... d5 3. Bxd5+ Kf8 4. Nxf5 $1 4... gxf5 5.
+Bxg7+ Kxg7 6. Qc3+ Kg6 7. Qg3+) 3. Nxf5 3... gxf5 4. Qxd6+ (4. Bxg7+ $1) 4...
+Re7 5. Bxg7+ Kxg7 6. Qxe7+ *
+
+[Event "Sarajevo"]
+[Site "?"]
+[Date "1970.??.??"]
+[Round "?"]
+[White "Mihaljcsisin"]
+[Black "Benko"]
+[Result "*"]
+[Annotator "08 C 05"]
+[SetUp "1"]
+[FEN "r2r2k1/1bq2pb1/6pp/2P1p3/1nBpN2N/6PP/2Q2P2/3RR1K1 w - - 0 1"]
+[PlyCount "9"]
+
+1. Nf6+ 1... Kf8 (1... Kh8 2. Qxg6) (1... Bxf6 2. Qxg6+ Bg7 3. Nf5) 2. Nxg6+
+2... fxg6 3. Nh7+ Ke7 4. Qxg6 Qxc5 5. Qe6# *
+
+[Event "Trencsen Teplic"]
+[Site "?"]
+[Date "1949.??.??"]
+[Round "?"]
+[White "Erdely"]
+[Black "Szabo"]
+[Result "*"]
+[Annotator "08 C 06"]
+[SetUp "1"]
+[FEN "1r4k1/pq3p2/6p1/2p1p2p/4P3/2P2PPb/P1QRB2P/6K1 b - - 0 1"]
+[PlyCount "9"]
+
+1... c4 2. Bxc4 Qb6+ 3. Kh1 3... Qe3 4. Qd1 4... Qxd2 5. Qxd2 Rb1+ *
+
+[Event "Baja"]
+[Site "?"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Paoli"]
+[Black "Bagirov"]
+[Result "*"]
+[Annotator "08 C 07"]
+[SetUp "1"]
+[FEN "2k3r1/pp2b2p/1qp1p3/2nrPp2/5P1P/1PN5/P1PB4/R3KQ1R b KQ - 0 1"]
+[PlyCount "13"]
+
+1... Rxd2 2. Kxd2 2... Qb4 $1 3. Qc4 Ne4+ 4. Kc1 Qxc4 5. bxc4 Ba3+ 6. Kd1 Nxc3+
+7. Kd2 Ne4+ *
+
+[Event "Havanna"]
+[Site "?"]
+[Date "1955.??.??"]
+[Round "?"]
+[White "Soto Larrea"]
+[Black "Ortega"]
+[Result "*"]
+[Annotator "08 C 08"]
+[SetUp "1"]
+[FEN "1q3k2/4b3/2n1p3/p1PpPp2/P1bP1Pp1/2N1Q1P1/8/2N2BK1 b - - 0 1"]
+[PlyCount "9"]
+
+1... Nxd4 $3 2. Qxd4 2... Qa7 $1 (2... Qc7 $6 3. c6 Qxc6 4. Nd3 Bxd3 5. Qxd3
+5... Bc5+ $15) 3. Nd3 Bxd3 4. Qxd3 Bxc5+ 5. Kg2 5... Qh7 $1 *
+
+[Event "Riga"]
+[Site "?"]
+[Date "1970.??.??"]
+[Round "?"]
+[White "Platonov"]
+[Black "Mojszejev"]
+[Result "*"]
+[Annotator "08 C 10"]
+[SetUp "1"]
+[FEN "r2q1r2/3p1pk1/p3b2p/3nP1bQ/4R2P/1P1B4/PB4P1/5R1K w - - 0 1"]
+[PlyCount "9"]
+
+1. Rf6 $1 (1. Rg4 $3 1... Bxg4 2. Rxf7+ $3 2... Rxf7 3. e6+ 3... Rf6 4. Qf7+
+Kh8 5. Qh7#) 1... Bxf6 (1... Nxf6 2. exf6+ Bxf6 3. Rg4+ Bxg4 4. Qxg4+ Kh8 5.
+Qf5) 2. exf6+ Qxf6 3. Rg4+ Bxg4 4. Qxg4+ Kh8 5. Qf5 *
+
+[Event "Irkutszk"]
+[Site "?"]
+[Date "1966.??.??"]
+[Round "?"]
+[White "Muhin"]
+[Black "Pavlenko"]
+[Result "*"]
+[Annotator "08 C 11"]
+[SetUp "1"]
+[FEN "3rr3/pb1qbp1k/6RB/1p6/3P2Q1/2P5/P4PPP/4R1K1 w - - 0 1"]
+[PlyCount "15"]
+
+1. Ree6 $1 1... Bf6 (1... Rg8 2. Bg7) (1... fxe6 2. Bf4) 2. Rgxf6 Rg8 (2...
+fxe6 3. Qg6+ Kh8 4. Rf7) 3. Bg5 Rg7 4. Qh5+ Kg8 5. Rh6 Rh7 6. Rxh7 Qxe6 7. Rh8+
+Kg7 8. Qh7# *
+
+[Event "Budapest"]
+[Site "?"]
+[Date "1966.??.??"]
+[Round "?"]
+[White "Haag"]
+[Black "Dely"]
+[Result "*"]
+[Annotator "08 C 12"]
+[SetUp "1"]
+[FEN "3r1bk1/2q2bpp/p1np4/6P1/4P3/1rN1B2B/1P2Q2P/3R1RK1 w - - 0 1"]
+[PlyCount "11"]
+
+1. g6 $3 1... hxg6 (1... Bxg6 $2 2. Be6+) 2. Rxf7 $1 2... Qxf7 (2... Kxf7 $2 3.
+Qc4+) 3. Rf1 3... Qb7 4. Be6+ Kh7 5. Qg4 {it now becomes clear why white
+played 1.g5-g6 : to open the h-file !! nun wird ersichtlich warum Weiss 1.
+g5-g6 spielte : naehmlich um die h-Linie zu oeffnen !!} 5... Rb5 6. Nd5 *
+
+[Event "Budapest"]
+[Site "?"]
+[Date "1961.??.??"]
+[Round "?"]
+[White "Barcza"]
+[Black "Bilek"]
+[Result "*"]
+[Annotator "08 D 01"]
+[SetUp "1"]
+[FEN "3rr1k1/pp3pbp/6p1/2p5/3n1Pbq/3PN3/PPPQ1RBP/R1B3K1 b - - 0 1"]
+[PlyCount "13"]
+
+1... Rxe3 2. Qxe3 2... Nxc2 $3 (2... Ne2+ $2 3. Rxe2 Bd4 4. Rf2 $17) 3. Rxc2 (
+3. Qxc5 3... Rc8) 3... Bd4 4. Bd2 Bxe3+ 5. Bxe3 b6 6. Rd2 Bf5 7. b4 Re8 *
+
+[Event "Lengyelorszag"]
+[Site "?"]
+[Date "1975.??.??"]
+[Round "?"]
+[White "Babovics"]
+[Black "Szyszko Bohusz"]
+[Result "*"]
+[Annotator "08 D 02"]
+[SetUp "1"]
+[FEN "r1r5/p2bpkbp/3p1n2/6P1/1p1NP3/4BP2/qPPQ4/1NKR3R b - - 0 1"]
+[PlyCount "11"]
+
+1... Nd5 $3 2. exd5 2... Bf5 3. Rh2 b3 4. Qb4 bxc2 5. Nxc2 5... Rab8 6. Rd4
+Rxb4 *
+
+[Event "?"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Botvinnik"]
+[Black "Judovics"]
+[Result "*"]
+[Annotator "08 D 03"]
+[SetUp "1"]
+[FEN "r1b2r2/1p1nq1bk/1np1p1pp/p7/3PN2N/1P2B3/2Q1BPPP/2RR2K1 w - - 0 1"]
+[PlyCount "11"]
+
+1. Nxg6 $3 1... Kxg6 2. Bh5+ $3 2... Kxh5 (2... Kh7 3. Nf6+ Kh8 4. Qh7#) 3.
+Ng3+ Kg4 4. h3+ Kh4 5. Qe4+ Rf4 6. Qxf4# *
+
+[Event "Vrnjacska banja"]
+[Site "?"]
+[Date "1973.??.??"]
+[Round "?"]
+[White "Forintos"]
+[Black "Osztojics"]
+[Result "*"]
+[Annotator "08 D 04"]
+[SetUp "1"]
+[FEN "2br1rk1/p4pp1/1p1q2np/3P2NQ/2BR4/8/P4PPP/3R2K1 w - - 0 1"]
+[PlyCount "17"]
+
+1. Ne6 $1 1... Bxe6 (1... fxe6 2. dxe6 Qxd4 (2... Qe7 3. Rxd8 Rxd8 4. Rxd8+
+Qxd8 5. e7+) 3. Rxd4 Rxd4 4. e7+ Rxc4 5. Qd5+ Kh7 6. exf8=N+ Nxf8 7. Qxc4) 2.
+dxe6 Qxd4 3. Rxd4 Rxd4 4. Bb3 $1 4... Kh7 (4... Kh8 5. g3) 5. exf7 Rf4 6. Bc2
+Rf6 7. h4 R8xf7 8. Qg4 Rc7 9. Be4 *
+
+[Event "Agard"]
+[Site "?"]
+[Date "1976.??.??"]
+[Round "?"]
+[White "Prandstetter"]
+[Black "Szpiridonov"]
+[Result "*"]
+[Annotator "08 D 05"]
+[SetUp "1"]
+[FEN "2r1q1k1/pp3p1p/4bppQ/4p3/2r3P1/5P2/PPPRN3/2K4R w - - 0 1"]
+[PlyCount "17"]
+
+1. g5 $3 (1. Qxh7+ $2 1... Kf8 2. Qh6+ 2... Ke7 $13) 1... fxg5 2. Qxh7+ Kf8 3.
+Qh6+ Ke7 4. Qxg5+ f6 5. Rh7+ Bf7 6. Qxg6 R8c7 7. Ng3 Rf4 8. Nf5+ Rxf5 9. Qxf5 *
+
+[Event "Biel"]
+[Site "?"]
+[Date "1976.??.??"]
+[Round "?"]
+[White "Byrne"]
+[Black "Liberzon"]
+[Result "*"]
+[Annotator "08 D 06"]
+[SetUp "1"]
+[FEN "2kr3r/Qp1q1ppp/p2p4/3P4/n4N1n/3R1B2/PPP3PP/2K4R w - - 0 1"]
+[PlyCount "15"]
+
+1. Ne6 $3 1... fxe6 2. dxe6 Qc7 3. Qa8+ Qb8 4. Bxb7+ Kc7 5. Qxa6 Qxb7 6. Qxa4
+Ng6 (6... Qxg2 7. Qa7+ Kc6 8. Qa6+ Kc5 9. Qa5+ Kc6 10. Rc3+) 7. Rc3+ Kb8 8. Rb3
+*
+
+[Event "Budapest"]
+[Site "?"]
+[Date "1951.??.??"]
+[Round "?"]
+[White "Tapaszto"]
+[Black "Bernhardt"]
+[Result "*"]
+[Annotator "08 D 07"]
+[SetUp "1"]
+[FEN "r1bqnrk1/4bppp/p2p4/np1NpPP1/3NP3/1B2BQ2/PPP4P/R4RK1 w - - 0 1"]
+[PlyCount "11"]
+
+1. Ne6 $1 1... fxe6 2. Bb6 $1 2... Qd7 3. fxe6 3... Rxf3 (3... Qxe6 $4 4. Nxe7+
+Kh8 5. Qxf8+) 4. exd7 Rxf1+ 5. Rxf1 Nf6 (5... Bxd7 6. Nxe7+ Kh8 7. Rf8#) 6.
+Nxe7+ *
+
+[Event "Romania"]
+[Site "?"]
+[Date "1950.??.??"]
+[Round "?"]
+[White "Radulescu"]
+[Black "Trojanescu"]
+[Result "*"]
+[Annotator "08 D 08"]
+[SetUp "1"]
+[FEN "r1b1rbk1/ppqn1pnp/2p3p1/4p3/2P1N3/2N1B1PP/PP2PPB1/2QR1RK1 w - - 0 1"]
+[PlyCount "7"]
+
+1. Rxd7 $3 1... Bxd7 2. Nf6+ Kh8 3. Bb6 $3 3... Qd6 (3... Qxb6 4. Qh6) 4. Nce4
+*
+
+[Event "Olympiade"]
+[Site "?"]
+[Date "1956.??.??"]
+[Round "?"]
+[White "Ciocaltea"]
+[Black "Barcza"]
+[Result "*"]
+[Annotator "08 D 09"]
+[SetUp "1"]
+[FEN "r1br1bk1/2p2p1p/p1Bpn1p1/N6n/2P1P2q/5P1P/P3N1P1/1RBQR1K1 b - - 0 1"]
+[PlyCount "15"]
+
+1... d5 $1 2. cxd5 (2. Bxa8 dxe4 3. Bd2 Bc5+ 4. Kh2 e3 5. Rb2 5... Nef4) 2...
+Bc5+ 3. Kh2 3... Nd4 $3 4. Ng1 (4. Nxd4 Bxd4 5. Re2 (5. Bxa8 Bxh3 6. gxh3 Qf2+
+7. Kh1 Ng3#) 5... Qg3+ 6. Kh1 Be5 7. Kg1 (7. Qg1 Bxh3 8. Bxa8 8... Bd7) 7...
+Bxh3 8. Bxa8 Qh2+ 9. Kf1 Qh1+ 10. Kf2 Bg3+ 11. Ke3 Bf4+ 12. Kd4 Qxd1+) 4...
+Bxh3 5. Nxh3 Qg3+ 6. Kh1 6... Nxf3 7. Qxf3 Qxe1+ 8. Kh2 Bd6+ *
+
+[Event "Austria"]
+[Site "?"]
+[Date "1971.??.??"]
+[Round "?"]
+[White "Palda"]
+[Black "Beni"]
+[Result "*"]
+[Annotator "08 D 11"]
+[SetUp "1"]
+[FEN "1r3r1k/1p5p/2qp1P2/4p3/p3n1N1/P4Q2/1PP4P/5RRK w - - 0 1"]
+[PlyCount "9"]
+
+1. Rg2 $1 1... Ng5 2. Nh6 $3 2... Qxf3 (2... Nxf3 3. Rg8+ Rxg8 4. Nf7#) 3. Rxf3
+Nxf3 4. Rg8+ Rxg8 5. Nf7# *
+
+[Event "Malta"]
+[Site "?"]
+[Date "1980.??.??"]
+[Round "?"]
+[White "Hoelzl"]
+[Black "Tal"]
+[Result "*"]
+[Annotator "08 D 12"]
+[SetUp "1"]
+[FEN "r3r1k1/3b2b1/p1pB2p1/P4p1p/2PP2q1/2N1PpP1/5P2/R2Q1RK1 b - - 0 1"]
+[PlyCount "9"]
+
+1... f4 $1 2. Bxf4 (2. exf4 2... Re2 $1 3. Nxe2 Qh3) 2... g5 $1 3. Bxg5 (3. Bd6
+3... Rf8) 3... Rf8 $1 4. Bf4 4... Bxd4 5. Nd5 (5. exd4 5... Rxf4) (5. Qxd4 Qh3)
+5... Bxa1 *
+

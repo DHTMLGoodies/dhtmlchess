@@ -1,0 +1,55 @@
+[Event" Leiden Chess Tournament 2011"]
+[White" 1: IGM O. Spirin"]
+[Black" IGM D. Howell"]
+[LastMoves" 37. Nd4+ Kg6"]
+[Result "0-1"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. Nf3 d5 2. c4 c6 3. e3 Nf6 4. Nc3 e6 5. b3 Nbd7 6. Qc2 Bd6 7. Bb2 O-O 8. Be2 dxc4 9. bxc4 e5 10. O-O Re8 11. d4 exd4 12. exd4 Nf8 13. Rad1 Ng6 14. Ne5 Nf4 15. Bf3 Qc7 16. Ne4 Nxe4 17. Bxe4 Ng6 18. f4 c5 19. Bd5 Nh8 20. dxc5 Bxc5+ 21. Kh1 Be6 22. Qc3 Bf8 23. Bxe6 Rxe6 24. Rd7 Qc8 25. Rfd1 Qe8 26. f5 Ra6 27. Ng4 Qe4 28. Qg3 Qxf5 29. h3 Ng6 30. Rxb7 Re8 31. Rb8 Rxb8 32. Qxb8 Rb6 33. Bxg7 Rxb8 34. Nh6+ Kxg7 35. Nxf5+ Kf6 36. Rf1 Ne5 37. Nd4+ Kg6
+
+[Event" Leiden Chess Tournament 2011"]
+[White" 2: IGM J. Deepan Chakkravarthy"]
+[Black" IGM E. van den Doel"]
+[LastMoves" 19. b3 Nd4"]
+[Result "1/2-1/2"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. d3 b5 7. Bb3 d6 8. a4 Bd7 9. c3 O-O 10. Re1 Na5 11. Bc2 c5 12. Nbd2 Qc7 13. Nf1 b4 14. Ne3 Rab8 15. h3 Rfe8 16. d4 Bf8 17. dxe5 dxe5 18. c4 Nc6 19. b3 Nd4
+
+[Event" Leiden Chess Tournament 2011"]
+[White" 4: IGM S. Tiviakov"]
+[Black" IGM J. van der Wiel"]
+[LastMoves" 135. Qa3+ Kc2"]
+[Result "1/2-1/2"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. d3 d6 6. c3 g6 7. Bg5 Bg7 8. Nbd2 h6 9. Bh4 Bd7 10. Nf1 Ne7 11. Bb3 Nh5 12. Ne3 Bf6 13. Bxf6 Nxf6 14. d4 exd4 15. Qxd4 Nc6 16. Qd3 Qe7 17. Nd2 Ne5 18. Qe2 Bc6 19. f3 O-O-O 20. O-O-O Rhe8 21. c4 Nh5 22. Ndf1 f5 23. exf5 gxf5 24. Nxf5 Qg5+ 25. N5e3 Nf4 26. Qc2 Nxf3 27. gxf3 Bxf3 28. h4 Qc5 29. Qf2 Ne2+ 30. Kb1 Rf8 31. Qh2 Rde8 32. Ng2 Qf2 33. Nfe3 Ng3 34. Rhf1 Nxf1 35. Rxf1 Be4+ 36. Kc1 Qxf1+ 37. Nxf1 Rxf1+ 38. Bd1 Bxg2 39. Qxg2 Ree1 40. Qg8+ Kd7 41. Kc2 Rxd1 42. Qg2 Rc1+ 43. Kb3 Rf4 44. Qxb7 Rcxc4 45. Qxa6 Rb4+ 46. Kc3 Rxh4 47. b3 c5 48. Qf1 Rbf4 49. Qb5+ Ke7 50. Qe2+ Re4 51. Qd3 h5 52. a4 c4 53. Qf3 cxb3 54. Kxb3 Rb4+ 55. Kc3 Rxa4 56. Qf5 Rh3+ 57. Kb2 Rb4+ 58. Ka2 Rg4 59. Qd5 Re3 60. Qb7+ Kf6 61. Qb2+ Ke6 62. Qc2 Ke5 63. Qh2+ Ke4 64. Kb2 h4 65. Qc2+ Kf3 66. Qd1+ Re2+ 67. Kc3 Kf2 68. Qxd6 Rg3+ 69. Qf6+# Kg2+ 70. Qc6+# Rf3+ 71. Qg6+# Kf1+ 72. Kb4 h3 73. Qg4 Rfe3 74. Qf5+ Ke1 75. Qb1+ Kf2 76. Qf5+ Rf3 77. Qh5 Re4+ 78. Ka5 Kg3 79. Qg6+ Rg4 80. Qd6+ Rgf4 81. Qg6+ Kh2 82. Qc2+ Rf2 83. Qg6 Rf5+ 84. Ka4 R2f4+ 85. Kb3 Re5 86. Qc2+ Kg3 87. Qg6+ Kf2 88. Qd6 Re3+ 89. Kc2 Kg3 90. Qg6+ Rg4 91. Qd6+ Kf3 92. Qd5+ Rge4 93. Qh5+ Kg2 94. Qg6+ Kh1 95. Kd2 h2 96. Qg5 Re2+ 97. Kc3 Rg2 98. Qd5 Re3+ 99. Kb4 Kg1 100. Qd1+ Kf2 101. Qc2+ Re2 102. Qc5+ Kf1 103. Qc1+ Re1 104. Qf4+ Rf2 105. Qc4+ Kg1 106. Qg4+ Rg2 107. Qd4+ Kh1 108. Qd5 Rb1+ 109. Ka4 Rf1 110. Qe4 Kg1 111. Qe3+ Rgf2 112. Qg5+ Kh1 113. Qd5+ Rf3 114. Qc6 Kg2 115. Qc2+ R1f2 116. Qg6+ Rg3 117. Qe4+ Rff3 118. Qc2+ Kg1 119. Qd1+ Rf1 120. Qd4+ Kg2 121. Qe4+ Rff3 122. Qc2+ Kg1 123. Qd1+ Rf1 124. Qd4+ Rf2 125. Qd1+ Kg2 126. Qd5+ Rgf3 127. Qg5+ Kf1 128. Qc1+ Ke2 129. Qc2+ Ke3 130. Qc3+ Ke4 131. Qc4+ Kf5 132. Qf7+ Ke5 133. Qc7+ Kd4 134. Qd6+ Kc3 135. Qa3+ Kc2
+
+[Event" Leiden Chess Tournament 2011"]
+[White" 5: IGM T. Polak"]
+[Black" R. van Wessel"]
+[LastMoves" ... a5 23. Qd2"]
+[Result "1-0"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. d4 d5 2. c4 c6 3. Nc3 Nf6 4. e3 e6 5. Nf3 Nbd7 6. Bd3 Bd6 7. e4 dxe4 8. Nxe4 Nxe4 9. Bxe4 O-O 10. O-O Qc7 11. c5 Be7 12. Qc2 h6 13. Re1 Bf6 14. Be3 Rd8 15. Rad1 b6 16. b4 Bb7 17. g3 Rdc8 18. Bf4 Qd8 19. Ne5 Bxe5 20. dxe5 Qe7 21. Rd6 Rc7 22. Red1 a5 23. Qd2
+
+[Event" Leiden Chess Tournament 2011"]
+[White" 3: IGM P. Nikolic"]
+[Black" IM R. Chytilek"]
+[LastMoves" ... Qd3 34. Ng4+"]
+[Result "1-0"]
+[ClockWhite "nh:a"]
+[ClockBlack "nh:a"]
+[FEN "rnbqkbnrpppppppp32PPPPPPPPRNBQKBNR"]
+
+1. d4 Nf6 2. c4 g6 3. Nf3 Bg7 4. g3 c5 5. d5 b5 6. Bg2 bxc4 7. Ne5 Bb7 8. O-O O-O 9. Nc3 d6 10. Nxc4 Nbd7 11. a4 Rb8 12. Re1 Ne8 13. Qc2 Ba6 14. Na3 Nc7 15. Rb1 Nb6 16. e4 e6 17. b3 exd5 18. exd5 Bc8 19. Bb2 Bf5 20. Be4 Bxe4 21. Nxe4 Nbxd5 22. Bxg7 Kxg7 23. Nc4 Ne6 24. Ncxd6 Nd4 25. Qxc5 Nf3+ 26. Kf1 Nxe1 27. Qxd5 Nc2 28. Rc1 Nb4 29. Qd4+ Kh6 30. Nf6 g5 31. h4 Qa5 32. Rc5 Qa6+ 33. Kg1 Qd3 34. Ng4+
+
