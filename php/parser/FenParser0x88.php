@@ -77,7 +77,6 @@ class FenParser0x88
     private function updateFenArray()
     {
         $fenParts = explode(" ", $this->fen);
-
         $castleCode = 0;
         for ($i = 0, $count = strlen($fenParts[2]); $i < $count; $i++) {
             $castleCode += Board0x88Config::$castle[substr($fenParts[2], $i, 1)];
@@ -402,8 +401,10 @@ class FenParser0x88
                         && ($piece['s'] < 118 && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] + 1]) )
                         && ($piece['s'] < 117 && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] + 2]))) {
                         $paths[] = $piece['s'] + 2;
+
                     }
-                    if ($queenSideCastle && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s']]) && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] - 1]) && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] - 2])) {
+
+                    if ($queenSideCastle && $piece['s'] - 2 != -1 && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s']]) && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] - 1]) && !strstr($protectiveMoves, Board0x88Config::$keySquares[$piece['s'] - 2])) {
                         $paths[] = $piece['s'] - 2;
                     }
                     break;
@@ -1086,6 +1087,13 @@ class FenParser0x88
             $castle = '-';
         }
         $this->fenParts['castle'] = $castle;
+
+
+        $castleCode = 0;
+        for ($i = 0, $count = strlen($castle); $i < $count; $i++) {
+            $castleCode += Board0x88Config::$castle[substr($castle, $i, 1)];
+        }
+        $this->fenParts['castleCode'] = $castleCode;
     }
 
     function getCastle()
@@ -1211,6 +1219,7 @@ class FenParser0x88
                 }
                 break;
         }
+
 
     }
 
