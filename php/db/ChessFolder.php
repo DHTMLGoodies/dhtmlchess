@@ -14,7 +14,7 @@ class ChessFolder extends ChessDbModel {
         ),
         'indexes' => array('parentFolderId'),
         'defaultData' => array(
-              array('id' => 1, 'title' => 'Historic games', 'description' => '', 'parentFolderId' => null, 'sort' => 1),
+              array('id' => 1, 'title' => 'Historic games', 'description' => '', 'parentFolderId' => 0, 'sort' => 1),
               array('id' => 2, 'title' => 'Before 1950', 'description' => '', 'parentFolderId' => 1, 'sort' => 1),
               array('id' => 3, 'title' => '1950 - 2000', 'description' => '', 'parentFolderId' => 2, 'sort' => 2),
               array('id' => 4, 'title' => 'After 2000', 'description' => '', 'parentFolderId' => 2, 'sort' => 3),
