@@ -30,7 +30,13 @@ class ChessDbModel extends ChessDbAdapter
         $delim = '';
         foreach($databaseKeys as $key){
             if($key != 'id'){
-                $sql.= $delim . $key . "='". ChessDbAdapter::getSafeValue($this->{$key}) . "'";
+                $val = $this->{$key};
+                if($val){
+                    $val = "'". ChessDbAdapter::getSafeValue($this->{$key}) . "'";
+                }else{
+                    $val = "null";
+                }
+                $sql.= $delim . $key . "=". $val;
                 $delim = ',';
             }
         }
@@ -72,7 +78,7 @@ class ChessDbModel extends ChessDbAdapter
     }
 
     protected function getNewInstance(){
-        mysql_query("insert into ". $this->dbTableName."(id)values('')");
+        mysql_query("insert into ". $this->dbTableName."(id)values(null)") or die(mysql_error());
         $className = $this->className;
         return new $className(mysql_insert_id());
     }

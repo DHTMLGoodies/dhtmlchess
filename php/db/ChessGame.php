@@ -81,7 +81,6 @@ class ChessGame extends ChessDbModel {
     }
 
     protected function update($gameData = array()){
-
         $gameData['id'] = $this->getId();
         $gameData['databaseId'] = $this->getDatabaseId();
         $this->updateMetadata($gameData);
