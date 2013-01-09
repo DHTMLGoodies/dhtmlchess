@@ -1,0 +1,3 @@
+[submodule "php/chessDB"]
+	path = php/chessDB
+	url = https://github.com/DHTMLGoodies/chessDB.git
