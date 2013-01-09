@@ -16,6 +16,9 @@ chess.view.user.SettingsButton = new Class({
     value:'',
     hidden:true,
     width:30,
+	layout:{
+		height:26
+	},
 
     setController:function (controller) {
         this.parent(controller);
