@@ -8,11 +8,15 @@
 chess.view.installer.Installer = new Class({
     Extends:ludo.dialog.Dialog,
     type:'chess.view.installer.Installer',
-    width:500,
-    height:350,
+    layout:{
+        type:'linear',
+        orientation:'vertical',
+        width:500,
+        height:350
+    },
+    resizable:false,
     title:'DHTML Chess Installer',
     autoHideOnBtnClick:false,
-    layout:'rows',
     url:'installer-controller.php',
     children:[
         {

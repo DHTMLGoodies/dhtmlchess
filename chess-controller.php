@@ -1,5 +1,6 @@
 <?php
 ini_set('display_errors', 'on');
+<<<<<<< HEAD
 date_default_timezone_set('Europe/Berlin');
 header('Content-Type: text/html; charset=UTF-8');
 
@@ -8,6 +9,17 @@ require_once("db-connection.php");
 require_once("php/chess-config.php");
 require_once("autoloader.php");
 require_once("request-handler.php");
+=======
+header('Content-Type: text/html; charset=UTF-8');
+
+require_once("php/jsonwrapper/jsonwrapper.php");
+
+require_once("db-connection.php");
+require_once("php/connect.php");
+
+require_once("php/chess-config.php");
+require_once("autoloader.php");
+>>>>>>> 4eba1d1b755b4b83f9fbbdeba9b8c62623d5728d
 
 if(isset($_POST['progressBarId'])){
     $bar = ChessProgressBar::getInstance($_POST['progressBarId']);

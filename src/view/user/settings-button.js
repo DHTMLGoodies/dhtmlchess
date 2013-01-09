@@ -19,7 +19,6 @@ chess.view.user.SettingsButton = new Class({
 	layout:{
 		height:26
 	},
-
     setController:function (controller) {
         this.parent(controller);
         controller.addEvent('invalidSession', this.hide.bind(this));

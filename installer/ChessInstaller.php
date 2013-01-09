@@ -17,6 +17,12 @@ class ChessInstaller
         'FileUpload', 'ChessSession', 'ChessCountry'
     );
 
+    public function __construct()
+    {
+
+    }
+
+
     public function install($data)
     {
         if ($this->isLocked()) {
@@ -78,14 +84,11 @@ class ChessInstaller
         $this->installTables();
         $this->importDefaultPgns();
         $this->importEco();
-
     }
 
     public function update()
     {
-
             $this->updateTables();
-
     }
 
     private function installTables()
