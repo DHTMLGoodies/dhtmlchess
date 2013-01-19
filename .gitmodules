@@ -1,0 +1,6 @@
+[submodule "php/chessDB"]
+	path = php/chessDB
+	url = https://github.com/DHTMLGoodies/chessDB.git
+[submodule "php/parser"]
+	path = php/parser
+	url = https://github.com/DHTMLGoodies/chessParser.git
