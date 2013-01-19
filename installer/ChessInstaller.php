@@ -17,12 +17,11 @@ class ChessInstaller
         'FileUpload', 'ChessSession', 'ChessCountry'
     );
 
-    private $licenseKey;
-
     public function __construct()
     {
-        #$this->licenseKey = $licenseKey;
+
     }
+
 
     public function install($data)
     {
@@ -82,18 +81,14 @@ class ChessInstaller
 
     public function newInstall()
     {
-        if ($this->isValidLicenseKey($this->licenseKey)) {
-            $this->installTables();
-            $this->importDefaultPgns();
-            $this->importEco();
-        }
+        $this->installTables();
+        $this->importDefaultPgns();
+        $this->importEco();
     }
 
     public function update()
     {
-        if ($this->isValidLicenseKey($this->licenseKey)) {
             $this->updateTables();
-        }
     }
 
     private function installTables()
@@ -124,7 +119,6 @@ class ChessInstaller
         $obj= new GameImport();
         $obj->importFromFile('../pgn/Morphy.pgn', 1);
         $obj->importFromFile('../pgn/1001-brilliant-checkmates.pgn', 4);
-
     }
 
     public function getTableDefinition($name)
@@ -137,12 +131,6 @@ class ChessInstaller
     public function getLicenseKey()
     {
         return ChessLicense::getKey();
-    }
-
-    private function isValidLicenseKey($key)
-    {
-        return true;
-        # return $key == $this->getLicenseKey();
     }
 
     public static function hasWriteAccessToDbConfigFile()
