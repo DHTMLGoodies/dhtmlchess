@@ -12,6 +12,7 @@
 <script type="text/javascript">
 var game = new chess.model.Game();
 game.appendMove('e4');
+game.appendMove({ from : 'e7', to:'e5'});
 console.log(game.getCurrentPosition());
 console.log(game.getMoves());
 </script>
