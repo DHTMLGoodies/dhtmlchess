@@ -789,18 +789,6 @@ if (class_exists('PEAR_Error')) {
 
 } else {
 
-    /**
-     * @todo Ultimately, this class shall be descended from PEAR_Error
-     */
-    class Services_JSON_Error
-    {
-        function Services_JSON_Error($message = 'unknown error', $code = null,
-                                     $mode = null, $options = null, $userinfo = null)
-        {
-
-        }
-    }
-
 }
     
 ?>

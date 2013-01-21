@@ -51,8 +51,6 @@ Board0x88Config = {
         }
     },
 
-    numericMapping:undefined,
-    bitValues:[],
     fen:'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 
     fenPieces:{
@@ -233,4 +231,4 @@ Board0x88Config = {
     fileMapping : ['a','b','c','d','e','f','g','h'],
     rankMapping : { 0 : 1, 16 : 2,  32 : 3,  48 : 4,  64 : 5,  80 : 6,  96 : 7,  112 : 8},
     files : { 'a' : 0,'b':1,'c':2, 'd' : 3,'e' : 4, 'f' : 5,'g':6, 'h' : 7}
-}
+};
