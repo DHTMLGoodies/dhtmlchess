@@ -59,15 +59,14 @@ chess.parser.FenParser0x88 = new Class({
 		var pos = 0;
 
 		var squares = Board0x88Config.fenSquares;
-
+        var index, type, piece;
 		for (var i = 0, len = this.fenParts['pieces'].length; i < len; i++) {
 			var token = this.fenParts['pieces'].substr(i, 1);
 
 			if (Board0x88Config.fenPieces[token]) {
-
-				var index = Board0x88Config.mapping[squares[pos]];
-				var type = Board0x88Config.pieces[token];
-				var piece = {
+			    index = Board0x88Config.mapping[squares[pos]];
+				type = Board0x88Config.pieces[token];
+				piece = {
 					t:type,
 					s:index
 				};
@@ -84,8 +83,8 @@ chess.parser.FenParser0x88 = new Class({
 				pos++;
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
 				var token2 = this.fenParts['pieces'].substr(i + 1, 1);
-				if (token2.match(/[0-9]/)) {
-					token = token + '' + token2;
+				if (!isNaN(token2)) {
+					token = [token,token2].join('');
 				}
 				pos += parseInt(token);
 			}
