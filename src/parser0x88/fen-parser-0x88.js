@@ -107,6 +107,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	/**
 	 Return king of a color
+	 @method getKing
 	 @param color
 	 @return {Object} king
 	 @example
