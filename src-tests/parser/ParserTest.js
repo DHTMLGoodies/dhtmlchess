@@ -1,5 +1,11 @@
 TestCase("ParserTest", {
 
+	/**
+	 * Returns parser with default board fen if no fen passed.
+	 * @method getParser
+	 * @param {String} fen
+	 * @return {chess.parser.FenParser0x88}
+	 */
 	getParser:function (fen) {
 		if (fen === undefined) {
 			fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
@@ -217,7 +223,7 @@ TestCase("ParserTest", {
 		var fenWithPawnOnF2AndOpponentPieceOnG3 = '6k1/8/8/8/8/6p1/5P2/6K1 w - - 0 1';
 		var parser = this.getParser(fenWithPawnOnF2AndOpponentPieceOnG3);
 
-			// when
+		// when
 		var pLegal = parser.getValidMovesAndResult('white').moves;
 		var pawnMoves = this.getValidMovesForSquare(pLegal, 'f2');
 
@@ -1407,7 +1413,7 @@ TestCase("ParserTest", {
 		}
 	},
 
-	"test get spassky fischer game with 3 fold repetition": function(){
+	"test get spassky fischer game with 3 fold repetition":function () {
 		// given
 		var parser = new chess.parser.FenParser0x88();
 		// when
@@ -1417,18 +1423,18 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should find hanging pieces": function(){
+	"test should find hanging pieces":function () {
 
 
 	},
 
 
-	getFenFromSpasskyFischer:function(){
+	getFenFromSpasskyFischer:function () {
 		var parser = this.getParser();
-  		var moves = 'e4,d6,d4,g6,Nc3,Nf6,f4,Bg7,Nf3,c5,dxc5,Qa5,Bd3,Qxc5,Qe2,O-O,Be3,Qa5,O-O,Bg4,Rad1,Nc6,Bc4,Nh5,Bb3,Bxc3,bxc3,Qxc3,f5,Nf6,h3,Bxf3,Qxf3,Na5,Rd3,Qc7,Bh6,Nxb3,cxb3,Qc5+,Kh1,Qe5,Bxf8,Rxf8,Re3,Rc8,fxg6,hxg6,Qf4,Qxf4,Rxf4,Nd7,Rf2,Ne5,Kh2,Rc1,Ree2,Nc6,Rc2,Re1,Rfe2,Ra1,Kg3,Kg7,Rcd2,Rf1,Rf2,Re1,Rfe2,Rf1,Re3,a6,Rc3,Re1,Rc4,Rf1,Rdc2,Ra1,Rf2,Re1,Rfc2,g5,Rc1,Re2,R1c2,Re1,Rc1,Re2,R1c2';
-  		moves = moves.split(/,/g);
+		var moves = 'e4,d6,d4,g6,Nc3,Nf6,f4,Bg7,Nf3,c5,dxc5,Qa5,Bd3,Qxc5,Qe2,O-O,Be3,Qa5,O-O,Bg4,Rad1,Nc6,Bc4,Nh5,Bb3,Bxc3,bxc3,Qxc3,f5,Nf6,h3,Bxf3,Qxf3,Na5,Rd3,Qc7,Bh6,Nxb3,cxb3,Qc5+,Kh1,Qe5,Bxf8,Rxf8,Re3,Rc8,fxg6,hxg6,Qf4,Qxf4,Rxf4,Nd7,Rf2,Ne5,Kh2,Rc1,Ree2,Nc6,Rc2,Re1,Rfe2,Ra1,Kg3,Kg7,Rcd2,Rf1,Rf2,Re1,Rfe2,Rf1,Re3,a6,Rc3,Re1,Rc4,Rf1,Rdc2,Ra1,Rf2,Re1,Rfc2,g5,Rc1,Re2,R1c2,Re1,Rc1,Re2,R1c2';
+		moves = moves.split(/,/g);
 		var ret = [];
-		for(var i=0;i<moves.length;i++){
+		for (var i = 0; i < moves.length; i++) {
 			parser.makeMoveByNotation(moves[i]);
 			ret.push(parser.getFen());
 		}
