@@ -11,7 +11,7 @@ TestCase("ParserTest", {
 		return Board0x88Config.mapping[square] !== undefined ? Board0x88Config.mapping[square] : undefined;
 	},
 
-	"test should Find All Pieces":function () {
+	"test should find all pieces":function () {
 		// given
 		var parser = this.getParser();
 
@@ -27,7 +27,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should Find enPassant Square":function () {
+	"test should Find en passant square":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
 
@@ -38,7 +38,7 @@ TestCase("ParserTest", {
 		assertEquals('d6', parser.getEnPassantSquare());
 	},
 
-	"test should Find Full Moves":function () {
+	"test should find full moves":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 25';
 
@@ -49,7 +49,7 @@ TestCase("ParserTest", {
 		assertEquals('25', parser.getFullMoves());
 	},
 
-	"test should Find Half Moves":function () {
+	"test should find half noves":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 12 25';
 
@@ -60,7 +60,7 @@ TestCase("ParserTest", {
 		assertEquals('12', parser.getHalfMoves());
 	},
 
-	"test should Determine If TwoSquares Are On Same Rank":function () {
+	"test should determine if two squares are on the same rank":function () {
 		// given
 		var parser = this.getParser();
 
@@ -68,7 +68,7 @@ TestCase("ParserTest", {
 		assertFalse(parser.isOnSameRank(this.getNumericSquare('a1'), this.getNumericSquare('a2')));
 	},
 
-	"test should Determine If Two Squares Are On Same File":function () {
+	"test should determine if two squares are on same file":function () {
 		// given
 		var parser = this.getParser();
 
@@ -76,7 +76,7 @@ TestCase("ParserTest", {
 		assertTrue(parser.isOnSameFile(this.getNumericSquare('a1'), this.getNumericSquare('a2')));
 	},
 
-	"test should Find Castle":function () {
+	"test should Find castle":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -100,7 +100,7 @@ TestCase("ParserTest", {
 		assertTrue(parser.canCastleQueenSide('black') ? true : false);
 	},
 
-	"test should Find Color To Move":function () {
+	"test should find color to move":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		// when
@@ -121,7 +121,7 @@ TestCase("ParserTest", {
 		return moves[Board0x88Config.mapping[square]];
 	},
 
-	"test should Find Legal Pawn Moves":function () {
+	"test should find legal pawn moves":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		// when
@@ -212,7 +212,7 @@ TestCase("ParserTest", {
 		return false;
 	},
 
-	"test should Find Legal Capture Pawn Moves":function () {
+	"test should find legal capture pawn moves":function () {
 		// given
 		var fenWithPawnOnF2AndOpponentPieceOnG3 = '6k1/8/8/8/8/6p1/5P2/6K1 w - - 0 1';
 		var parser = this.getParser(fenWithPawnOnF2AndOpponentPieceOnG3);
@@ -227,7 +227,7 @@ TestCase("ParserTest", {
 		assertTrue(this.isSquareInPaths('f3', pawnMoves))
 
 	},
-	"test should Find Legal Bishop Moves":function () {
+	"test should find legal bishop moves":function () {
 
 		// given
 		var fenWithBishopOnC2OwnPawnOnB3AndOpponentPieceOnG6 = '6k1/8/6p1/8/8/1P6/2B5/5K2 w - - 0 1';
@@ -251,7 +251,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should Find Legal Black Bishop Moves":function () {
+	"test should find legal black bishop moves":function () {
 
 		// given
 		var fenWithBishopOnC2OpponentPawnOnB3AndOwnPieceOnG6 = '6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1';
@@ -277,7 +277,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test should Find Legal Rook Moves":function () {
+	"test should find legal rook moves":function () {
 
 		var fenWithRookOnC2BlackOna2g3WhiteOnC6 = '6k1/8/2P5/8/8/8/p1R3p1/6K1 w - - 0 1';
 		var parser = this.getParser(fenWithRookOnC2BlackOna2g3WhiteOnC6);
@@ -291,7 +291,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, rookMoves);
 	},
 
-	"test should Find Legal Black Rook Moves":function () {
+	"test should find legal black rook moves":function () {
 
 		var fen = '3p2k1/1p1r1p2/8/3P4/8/8/8/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -305,7 +305,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, rookMoves);
 	},
 
-	"test should FindLegalKnightSquares":function () {
+	"test should find legal knight squares":function () {
 
 		var fen = '6k1/8/8/8/2P1p3/8/3N4/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -331,7 +331,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, knightMoves);
 	},
 
-	"test should Find Legal Black Knight Squares":function () {
+	"test should Find legal black knight squares":function () {
 
 		var fen = '6k1/8/2P5/5p2/3n4/8/2P5/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -343,7 +343,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, knightMoves);
 	},
 
-	"test should Find Legal King Moves":function () {
+	"test should find legal king moves":function () {
 		var fen = '5k2/8/8/8/8/8/5P2/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -365,7 +365,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, kingMoves);
 
 	},
-	"test should Find Legal Black King Moves":function () {
+	"test should find legal black king moves":function () {
 		var fen = '8/5k2/5p2/8/8/8/5P2/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -377,7 +377,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, kingMoves);
 	},
 
-	"test should Find Legal Castle Moves":function () {
+	"test should find legal castle moves":function () {
 		var fen = '8/5k2/5p2/8/8/8/5P2/R3K2R b KQ - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -390,7 +390,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test should Find Legal Black Castle Moves":function () {
+	"test should find legal black castle moves":function () {
 		var fen = 'r3k2r/8/5p2/8/8/8/5P2/R3K2R b KQk - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -403,7 +403,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, kingMoves);
 	},
 
-	"test should Find Opponents Capture And Protective Moves":function () {
+	"test should find opponents capture and protective moves":function () {
 		// given
 		var fen = '7k/4b2p/8/8/8/8/8/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -417,7 +417,7 @@ TestCase("ParserTest", {
 		// then
 		this.assertHasSquares(expectedSquares, pLegal);
 	},
-	"test should FindOpponentsCaptureAndProtectiveMovesContinued":function () {
+	"test should find opponents capture and protective moves continued":function () {
 		// given
 		var fen = '6k1/8/8/2b5/8/8/5p2/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -431,7 +431,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, pLegal);
 	},
 
-	"test should Exclude Invalid King Moves":function () {
+	"test should exclude invalid king moves":function () {
 		var fen = '6k1/8/8/2b5/8/8/5p2/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -441,7 +441,7 @@ TestCase("ParserTest", {
 		// then
 		this.assertHasSquares(expectedSquares, kingMoves);
 	},
-	"test should Exclude Invalid Black King Moves":function () {
+	"test should exclude invalid black king moves":function () {
 		var fen = '6k1/5p2/5P2/2B5/8/8/5p2/5K2 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -452,7 +452,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, kingMoves);
 	},
 
-	"test should Find Queen Moves":function () {
+	"test should find queen moves":function () {
 		// given
 		var fen = '6k1/6pp/3P2p1/8/8/3Q1P2/8/1P3K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -466,7 +466,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test should Exclude Invalid King Castle Moves":function () {
+	"test should exclude invalid king castle moves":function () {
 		var fen = '1k4r1/8/3r4/8/8/1b6/4P3/4K2R w K - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -477,7 +477,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, kingMoves);
 	},
 
-	"test should LegalEnPassantMoves":function () {
+	"test should legal en passant moves":function () {
 		var fen = '7k/4b2p/8/3pP3/8/8/8/5K2 w - d6 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -488,7 +488,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, pawnMoves);
 	},
 
-	"test should FindSlidingPiecesInPathOfKing":function () {
+	"test should find sliding pieces in path of king":function () {
 		// given
 		var fen = '6k1/5pp1/8/8/8/8/BB6/5KR1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -517,10 +517,10 @@ TestCase("ParserTest", {
 
 		// then
 		assertEquals(1, pieces.length);
-		assertEquals(1, pieces[0].p);
+		assertEquals(1, pieces[0].direction);
 	},
 
-	"test should FindCheckPositions":function () {
+	"test should find check positions":function () {
 		// given
 		var fen = '6k1/6pp/5p2/8/8/8/B7/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -530,7 +530,7 @@ TestCase("ParserTest", {
 		assertEquals(1, parser.getCountChecks('black', moves));
 	},
 
-	"test should FindDoubleChecks":function () {
+	"test should find double checks":function () {
 		// given
 		var fen = '3R2k1/6pp/5p2/8/8/8/B7/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -539,7 +539,7 @@ TestCase("ParserTest", {
 
 		assertEquals(2, parser.getCountChecks('black', moves));
 	},
-	"test Only King Should be able ToMoveOnDoubleCheck":function () {
+	"test only king should be able to move on double check":function () {
 
 		// given
 		var fen = '3R2k1/6p1/5p1p/8/8/8/B7/6K1 b - - 0 1';
@@ -554,7 +554,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test Attacking Moves Should Include Squares After King":function () {
+	"test attacking moves should include squares after king":function () {
 		// given
 		var fen = '3R2k1/6p1/5p1p/8/8/8/B7/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -565,7 +565,7 @@ TestCase("ParserTest", {
 		assertTrue(moves.indexOf(Board0x88Config.mapping['h8']) >= 0);
 	},
 
-	"test should be able ToFindDistanceBetweenTwoSquares":function () {
+	"test should be able to find distance between two squares":function () {
 		// given
 		var parser = this.getParser();
 		// when
@@ -626,13 +626,14 @@ TestCase("ParserTest", {
 		assertEquals(this.getNumericSquare(pinnedBy), pinned[this.getNumericSquare(square)].by);
 	},
 
-	"test should FindPinningPieces":function () {
+	"test should find pinning pieces":function () {
 		// given
 		var fen = '6k1/Q5n1/4p3/8/8/1B6/B7/5KR1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 
 		// when
 		var pinned = parser.getPinned('black');
+
 
 		// then
 		this.assertSquareIsPinnedBy('e6', 'b3', pinned);
@@ -641,7 +642,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test KnightShouldNotbe able ToMoveWhenPinned":function () {
+	"test knight should not be able to move when pinned":function () {
 		// given
 		var fen = '6k1/6p1/4n3/8/8/8/B7/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -655,7 +656,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test PawnShouldNotbe able ToMoveWhenPinnedByRook":function () {
+	"test pawn should not be able to move when pinned by rook":function () {
 		// given
 		var fenPawnOnG2KingOnH2BlackRookOnA2 = '5k2/8/8/8/8/8/r5PK/8 w - - 0 1';
 		var parser = this.getParser(fenPawnOnG2KingOnH2BlackRookOnA2);
@@ -700,7 +701,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, pawnMoves);
 	},
 
-	"test PinnedBishopSlidingPiecesShouldOnlybe able ToBetweenPinningAndKing":function () {
+	"test pinned bishop sliding pieces should only be able move between pinning and king":function () {
 		// given
 		var fenBishopA2AndE6KingOng8 = '6k1/8/4b3/8/8/8/B7/6K1 b - - 0 1';
 		var parser = this.getParser(fenBishopA2AndE6KingOng8);
@@ -713,7 +714,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test PinnedRookSlidingPiecesShouldOnlybe able ToBetweenPinningAndKing":function () {
+	"test pinned rook sliding pieces should only be able to move between pinning and king":function () {
 		// given
 		var fenRookOnE5AndE2KingOnE8 = '4k3/8/8/4r3/8/8/4R3/6K1 b - - 0 1';
 		var parser = this.getParser(fenRookOnE5AndE2KingOnE8);
@@ -725,7 +726,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, rookMoves);
 	},
 
-	"test should FindPawnCheckMoves":function () {
+	"test should find pawn check moves":function () {
 		// given
 		var fenPawnOnE6CheckingKingOnF7 = '8/rn3k2/1b2P3/8/8/8/1QN5/2BRK3 b - - 0 1';
 		var parser = this.getParser(fenPawnOnE6CheckingKingOnF7);
@@ -736,7 +737,7 @@ TestCase("ParserTest", {
 		assertEquals(1, checks.length);
 		assertEquals(this.getNumericSquare('e6'), checks[0]);
 	},
-	"test should FindBlackPawnCheckMoves":function () {
+	"test should find black pawn check moves":function () {
 		// given
 		var fenPawnOng2CheckingKingOng1 = '5k2/8/8/8/8/8/5p2/6K1 w - - 0 1';
 		var parser = this.getParser(fenPawnOng2CheckingKingOng1);
@@ -748,7 +749,7 @@ TestCase("ParserTest", {
 		assertEquals(this.getNumericSquare('f2'), checks[0]);
 	},
 
-	"test should FindValidSquaresWhenCheckedByKnight":function () {
+	"test should find valid squares when checked by knight":function () {
 		// given
 		var fenKnightOnF6CheckingKingOnG8 = '5rk1/5pp1/5N2/8/8/8/8/5KR1 b - - 0 1';
 		var parser = this.getParser(fenKnightOnF6CheckingKingOnG8);
@@ -761,7 +762,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should FindValidSquaresWhenCheckedByBishop":function () {
+	"test should find valid squares when checked by bishop":function () {
 		// given
 		var fenBishopOnB3CheckingKingOnG7 = '6k1/6pp/8/8/8/1B6/8/6K1 b - - 0 1';
 		var parser = this.getParser(fenBishopOnB3CheckingKingOnG7);
@@ -773,7 +774,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, checks);
 	},
 
-	"test should FindValidSquaresWhenCheckedByRook":function () {
+	"test should find valid squares when checked by rook":function () {
 		// given
 		var fenRookOnF3CheckingKingOnF8 = '5kb1/4p3/3p4/2p5/1p6/p4R2/8/7K b - - 0 1';
 		var parser = this.getParser(fenRookOnF3CheckingKingOnF8);
@@ -785,7 +786,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, checks);
 	},
 
-	"test should FindValidSquaresWhenCheckedByRookOnSameRank":function () {
+	"test should find valid squares when checked by rook on same rank":function () {
 		// given
 		var fenRookOnA8CheckingKingOnF8 = 'R4kb1/4p3/3p4/2p5/1p6/p7/8/7K b - - 0 1';
 		var parser = this.getParser(fenRookOnA8CheckingKingOnF8);
@@ -796,7 +797,7 @@ TestCase("ParserTest", {
 		this.assertHasSquares(expectedSquares, checks);
 	},
 
-	"test should FindValidSquaresWhenCheckedByQueen":function () {
+	"test should find valid squares when checked by queen":function () {
 		// given
 		var fenQueenOnF3CheckingKingOnF8 = '5kb1/4p3/3p4/2p5/1p6/p4Q2/8/7K b - - 0 1';
 		var parser = this.getParser(fenQueenOnF3CheckingKingOnF8);
@@ -820,7 +821,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test PieceShouldOnlybe able ToMoveToValidSquaresOnCheck":function () {
+	"test piece should only be able to move to valid squares on check":function () {
 		// given
 		// Queen on f3 checkign king on f8
 		// Bishop on g8 should only be able to move to f7
@@ -836,7 +837,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should FindCheckMate":function () {
+	"test should find check mate":function () {
 		// given
 		var notCheckMateFens = ['4k3/5p2/2B3p1/8/8/8/4R3/5K2 b - - 0 1',
 			'5k2/5p1p/6p1/2B5/8/8/4R3/5K2 b - - 0 1'];
@@ -868,7 +869,7 @@ TestCase("ParserTest", {
 			assertEquals('Position: ' + i, 1, moves.result);
 		}
 	},
-	"test should FindStalemate":function () {
+	"test should find stalemate":function () {
 		// given
 		var stalematePos = ['7k/7p/7P/8/8/8/8/3K2R1 b - - 0 1',
 			'1R4bk/6pp/7P/8/8/8/1B6/5K2 b - - 0 1'];
@@ -880,7 +881,7 @@ TestCase("ParserTest", {
 		}
 	},
 
-	"test ShoulludoetFenForAMove":function () {
+	"test should get fen for a move":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -894,7 +895,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 	},
 
-	"test ShoulludoetFenForAPromotionMove":function () {
+	"test should get fen for a promotion move":function () {
 		// given
 		var fen = '7k/2P3p1/7p/8/8/4p3/8/7K w - - 0 1';
 
@@ -919,7 +920,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test ShoulludoetFenForEnPassantMoves":function () {
+	"test Should get fen for en passant moves":function () {
 
 		// given
 		var fen = 'rnbqkbnr/1ppppppp/p7/4P3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2';
@@ -933,7 +934,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 	},
 
-	"test should be able ToGetFenForCastleMoves":function () {
+	"test should be able to get fen for castle moves":function () {
 
 		// given
 		var fen = 'r3k2r/4pppp/8/8/8/8/4PPPP/R3K2R w KQkq - 0 1';
@@ -957,7 +958,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 
 	},
-	"test should be able ToGetFenForBlackCastleMoves":function () {
+	"test should be able to get fen for black castle moves":function () {
 
 		// given
 		var fen = 'r3k2r/6pp/8/8/8/8/8/6K1 b kq - 0 1';
@@ -983,7 +984,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test ShoulludoetFenForCaptureMoves":function () {
+	"test should get fen for capture moves":function () {
 		var fen = '5rk1/4Qppp/8/8/8/1B6/8/5RK1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 
@@ -995,7 +996,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 	},
 
-	"test should IncrementFullMoves":function () {
+	"test should increment full moves":function () {
 		// given
 		var fen = 'r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 3';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1009,7 +1010,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 	},
 
-	"test should IncrementHalfMoves":function () {
+	"test should increment half moves":function () {
 		// given
 		var fen = 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/2N2N2/PPPP1PPP/R1BQK2R b KQkq - 0 4';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1023,7 +1024,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 
 	},
-	"test should ExcludeCastleSquaresWhenMovingKing":function () {
+	"test should exclude castle squares when moving king":function () {
 		var fen = '5k2/5p2/6p1/7p/8/8/8/R3K2R w KQ - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
@@ -1046,7 +1047,7 @@ TestCase("ParserTest", {
 		assertEquals(expectedFen, newFen);
 	},
 
-	"test should ExcludeCastleWhenRookIsMoving":function () {
+	"test should exclude castle when rook is moving":function () {
 		// given
 		var fen = 'r3k2r/1p3p2/p1p1p1p1/3p4/P6P/1P4P1/2P2P2/R3K2R w KQkq - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1082,7 +1083,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should FindMovedAndRemovedPiecesForAMove":function () {
+	"test should find moved and removed pieces for a move":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1118,7 +1119,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should FindMovedPiecesForACastleMove":function () {
+	"test should find moved pieces for a castle move":function () {
 		// given
 		var fen = 'r3k2r/5ppp/8/8/8/1B6/5PPP/R3K2R w KQkq - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1134,7 +1135,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should Find Correct Notation For A Move":function () {
+	"test should find correct notation for a move":function () {
 
 		var fens = [
 			'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
@@ -1164,7 +1165,7 @@ TestCase("ParserTest", {
 			assertEquals(expected[i], expected[i], notation);
 		}
 	},
-	"test should FindCorrectLongNotationForAMove":function () {
+	"test should find correct long notation for a move":function () {
 		var fens = [
 			'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 			'rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 1',
@@ -1195,7 +1196,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should be able ToMakeSeveralMovesAndThenGetFen":function () {
+	"test should be able to make several moves and then get fen":function () {
 		// given
 
 		var parser = this.getParser();
@@ -1237,7 +1238,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test should be able ToMakePromotionMove":function () {
+	"test should be able To make promotion move":function () {
 		// given
 		var fen = '6k1/8/8/8/8/8/1p5P/7K b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
@@ -1253,7 +1254,7 @@ TestCase("ParserTest", {
 	},
 
 
-	"test should be able ToFindFromAndToFromNotation":function () {
+	"test should be able to find from and to by notation":function () {
 		// given
 		var parser = this.getParser();
 		var moves = ['e2e4', 'e7e5', 'g1f3', 'g8f6', 'f1c4', 'f8c5', 'e1g1', 'e8g8', 'c2c3', 'h7h6', 'd2d4', 'e5d4', 'c3d4', 'c5b4'];
@@ -1349,7 +1350,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should Find From Rank By Notation":function () {
+	"test should Find From rank by notation":function () {
 		// given
 		var parser = this.getParser();
 		var expectedValue;
@@ -1368,7 +1369,7 @@ TestCase("ParserTest", {
 
 	},
 
-	"test should FindFromFileByNotation":function () {
+	"test should find from file ny notation":function () {
 		// given
 		var parser = this.getParser();
 
@@ -1380,7 +1381,7 @@ TestCase("ParserTest", {
 		}
 	},
 
-	"test should FindFromToSquareByNotation":function () {
+	"test should find from to square by notation":function () {
 		// given
 		var parser = this.getParser();
 		// when
@@ -1393,7 +1394,7 @@ TestCase("ParserTest", {
 		}
 	},
 
-	"test_should_find_promotion_when_no_equal_sign_in_notation":function () {
+	"test should find promotion when no equal sign in notation":function () {
 		// given
 		var parser = this.getParser();
 
@@ -1406,7 +1407,7 @@ TestCase("ParserTest", {
 		}
 	},
 
-	"test getSpasskyFischerGameWith3FoldReptition": function(){
+	"test get spassky fischer game with 3 fold repetition": function(){
 		// given
 		var parser = new chess.parser.FenParser0x88();
 		// when
