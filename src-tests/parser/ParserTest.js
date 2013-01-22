@@ -181,9 +181,8 @@ TestCase("ParserTest", {
 
 		// then
 		this.assertHasSquares(expectedSquares, pawnMoves);
-
-
 	},
+
 	assertHasSquares:function (squares, moves) {
 		if (moves.indexOf(',') >= 0) {
 			moves = moves.substr(1, moves.length - 2).split(',');
@@ -195,22 +194,30 @@ TestCase("ParserTest", {
 		assertEquals(squares.length, moves.length);
 	},
 
-
-	isSquareInPaths:function (square, paths) {
-		for (var i = 0; i < paths.length; i++) {
-
-			if (paths[i] == Board0x88Config.mapping[square]) {
+	/**
+	 * Returns true if a square is in path. Path is an array of numeric squares, i.e.
+	 * squares returned from parser.getValidMovesAndResult().moves. square is a human
+	 * readable square, example "e4".
+	 * @param {String} square
+	 * @param {Array} path
+	 * @return {Boolean} inPath
+	 */
+	isSquareInPaths:function (square, path) {
+		for (var i = 0; i < path.length; i++) {
+			if (path[i] == Board0x88Config.mapping[square]) {
 				return true;
 			}
 
 		}
 		return false;
 	},
+
 	"test should Find Legal Capture Pawn Moves":function () {
 		// given
 		var fenWithPawnOnF2AndOpponentPieceOnG3 = '6k1/8/8/8/8/6p1/5P2/6K1 w - - 0 1';
 		var parser = this.getParser(fenWithPawnOnF2AndOpponentPieceOnG3);
-		// when
+
+			// when
 		var pLegal = parser.getValidMovesAndResult('white').moves;
 		var pawnMoves = this.getValidMovesForSquare(pLegal, 'f2');
 
