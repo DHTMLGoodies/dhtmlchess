@@ -6,8 +6,8 @@
  @constructor
  @param {String} fen
  @example
- var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
- console.log(parser.getValidMovesAndResult('white'));
+ 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+ 	console.log(parser.getValidMovesAndResult('white'));
 
  */
 chess.parser.FenParser0x88 = new Class({
@@ -825,7 +825,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Object} move
 	 @return {Boolean}
 	 @example
-	 var move = {
+	 	var move = {
 	 		from: Board0x88Config.mapping['e5'],
 	 		to: Board0x88Config.mapping['e6']
 	 	}
@@ -866,9 +866,9 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {String} notation
 	 @return undefined
 	 @example
-	 var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-	 parser.makeMoveByNotation('e4');
-	 console.log(parser.getFen());
+	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+	 	parser.makeMoveByNotation('e4');
+	 	console.log(parser.getFen());
 	 */
 	makeMoveByNotation:function (notation) {
 		this.makeMove(this.getFromAndToByNotation(notation));
@@ -879,9 +879,9 @@ chess.parser.FenParser0x88 = new Class({
 	 @method makeMove
 	 @param {Object} move
 	 @example
-	 var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-	 parser.makeMove({from:'e2',to:'e4'});
-	 console.log(parser.getFen());
+	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+	 	parser.makeMove({from:'e2',to:'e4'});
+	 	console.log(parser.getFen());
 	 */
 	makeMove:function (move) {
 		this.updateBoardData(move);
@@ -1351,7 +1351,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Object} move
 	 @return {String}
 	 @example
-	 alert(parser.getNotationForAMove({from:'g1',to:'f3'});
+	 	alert(parser.getNotationForAMove({from:'g1',to:'f3'});
 	 */
 	getNotationForAMove:function (move) {
 		move = {
