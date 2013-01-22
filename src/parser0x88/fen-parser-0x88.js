@@ -55,6 +55,10 @@ chess.parser.FenParser0x88 = new Class({
 		};
 	},
 
+	/**
+	 * Parses current fen and stores board information internally
+	 * @method parseFen
+	 */
 	parseFen:function () {
 		var pos = 0;
 
@@ -92,10 +96,26 @@ chess.parser.FenParser0x88 = new Class({
 
 	},
 
+	/**
+	 * Return all pieces on board
+	 * @method getPieces
+	 * @return {Array} pieces
+	 */
 	getPieces:function () {
 		return this.cache['white'].append(this.cache['black']);
 	},
 
+	/**
+	 Return king of a color
+	 @param color
+	 @return {Object} king
+	 @example
+	    var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+	 	var parser = new chess.parser.FenParser0x88(fen);
+	 	console.log(parser.getKing('white'));
+	 returns an object containing the properties s for square and t for type.
+	 both are numeric according to the 0x88 board.
+	 */
 	getKing:function (color) {
 		return this.cache['king' + color];
 	},
@@ -119,19 +139,19 @@ chess.parser.FenParser0x88 = new Class({
 	 a1 is 0, a2 is 16, b2 is 17, a3 is 32, i.e. a 128x64 square board.
 
 	 t is a numeric representation(4 bits).
-
-	 P : 0001
-	 N : 0010
-	 K : 0011
-	 B : 0101
-	 R : 0110
-	 Q : 0111
-	 p : 1001
-	 n : 1010
-	 k : 1011
-	 b : 1101
-	 r : 1100
-	 q : 1100
+	 @example
+		 P : 0001
+		 N : 0010
+		 K : 0011
+		 B : 0101
+		 R : 0110
+		 Q : 0111
+		 p : 1001
+		 n : 1010
+		 k : 1011
+		 b : 1101
+		 r : 1100
+		 q : 1100
 
 	 As you can see, black pieces all have the first bit set to 1, and all the sliding pieces
 	 (bishop, rook and queen) has the second bit set to 1. This makes it easy to to determine color
