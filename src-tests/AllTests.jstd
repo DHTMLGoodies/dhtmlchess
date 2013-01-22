@@ -6,6 +6,7 @@ load:
   - parser/*.js
   - model/*.js
   - user/*.js
+  - CommandLine/*.js
 
 plugin:
  - name: "coverage"

@@ -46,9 +46,9 @@ TestCase("CommandLine",{
 
 	"test should parse chess moves": function(){
 		// given
-		// given
 		var c = new chess.view.command.Controller();
 
+		// then
 		assertTrue(c.isChessMove('e4'));
 		assertTrue(c.isChessMove('Nf3'));
 		assertFalse(c.isChessMove('Inv'));

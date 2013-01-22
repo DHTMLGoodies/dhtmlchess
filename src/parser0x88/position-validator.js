@@ -15,8 +15,11 @@ chess.parser.PositionValidator = new Class({
 	 * @return {Boolean} valid
 	 */
     isValid : function(fenPosition){
-        this.setFen(fenPosition);
-
+		try{
+	        this.setFen(fenPosition);
+		}catch(e){
+			return false;
+		}
         if(!this.hasBothKings()){
             return false;
         }
@@ -32,7 +35,7 @@ chess.parser.PositionValidator = new Class({
     },
 
     hasBothKings : function(){
-		return !(!this.getKing('white') || !this.getKing('black'));
+		return this.getKing('white') && this.getKing('black');
 
     },
 

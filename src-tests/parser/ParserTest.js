@@ -28,6 +28,8 @@ TestCase("ParserTest", {
 	"test should Find EnPassant Square":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
+
+		// when
 		var parser = this.getParser(fen);
 
 		// then
