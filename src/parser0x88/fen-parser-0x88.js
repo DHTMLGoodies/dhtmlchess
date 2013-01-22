@@ -6,8 +6,8 @@
  @constructor
  @param {String} fen
  @example
- 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
- 	console.log(parser.getValidMovesAndResult('white'));
+ var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+ console.log(parser.getValidMovesAndResult('white'));
 
  */
 chess.parser.FenParser0x88 = new Class({
@@ -59,12 +59,12 @@ chess.parser.FenParser0x88 = new Class({
 		var pos = 0;
 
 		var squares = Board0x88Config.fenSquares;
-        var index, type, piece;
+		var index, type, piece;
 		for (var i = 0, len = this.fenParts['pieces'].length; i < len; i++) {
 			var token = this.fenParts['pieces'].substr(i, 1);
 
 			if (Board0x88Config.fenPieces[token]) {
-			    index = Board0x88Config.mapping[squares[pos]];
+				index = Board0x88Config.mapping[squares[pos]];
 				type = Board0x88Config.pieces[token];
 				piece = {
 					t:type,
@@ -84,7 +84,7 @@ chess.parser.FenParser0x88 = new Class({
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
 				var token2 = this.fenParts['pieces'].substr(i + 1, 1);
 				if (!isNaN(token2)) {
-					token = [token,token2].join('');
+					token = [token, token2].join('');
 				}
 				pos += parseInt(token);
 			}
@@ -100,10 +100,55 @@ chess.parser.FenParser0x88 = new Class({
 		return this.cache['king' + color];
 	},
 
+	/**
+	 Returns pieces of a color
+	 @method getPiecesOfAColor
+	 @param color
+	 @return {Array}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88('5k2/8/8/3pP3/8/8/8/7K w - d6 0 1');
+	 	var pieces = parser.getPiecesOfAColor('white');
+	 	console.log(pieces);
+	 each piece is represented by an object like this:
+	 @example
+	 	{
+	 		s : 112,
+	 		t : 14
+	 	}
+	 where s is square and type is type. s is numeric according to the 0x88 chess board where
+	 a1 is 0, a2 is 16, b2 is 17, a3 is 32, i.e. a 128x64 square board.
+
+	 t is a numeric representation(4 bits).
+
+	 P : 0001
+	 N : 0010
+	 K : 0011
+	 B : 0101
+	 R : 0110
+	 Q : 0111
+	 p : 1001
+	 n : 1010
+	 k : 1011
+	 b : 1101
+	 r : 1100
+	 q : 1100
+
+	 As you can see, black pieces all have the first bit set to 1, and all the sliding pieces
+	 (bishop, rook and queen) has the second bit set to 1. This makes it easy to to determine color
+	 and sliding pieces using the bitwise & operator.
+	 */
 	getPiecesOfAColor:function (color) {
 		return this.cache[color]
 	},
 
+	/**
+	 @method getEnPassantSquare
+	 @return {String|null}
+	 @example
+	 	var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
+	 	var parser = new chess.parser.FenParser0x88(fen);
+	 	alert(parser.getEnPassantSquare()); // alerts 'd6'
+	 */
 	getEnPassantSquare:function () {
 		var enPassant = this.fenParts['enPassant'];
 		if (enPassant != '-') {
@@ -168,6 +213,10 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Number} square1
 	 @param {Number} square2
 	 @return {Boolean}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88();
+	 	console.log(parser.isOnSameSquare(0,16)); // a1 and a2 -> false
+	 	console.log(parser.isOnSameSquare(0,1)); // a1 and b1 -> true
 	 */
 	isOnSameRank:function (square1, square2) {
 		return (square1 & 240) === (square2 & 240);
@@ -180,24 +229,39 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Number} square1
 	 @param {Number} square2
 	 @return {Boolean}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88();
+	 	console.log(parser.isOnSameFile(0,16)); // a1 and a2 -> true
+	 	console.log(parser.isOnSameFile(0,1)); // a1 and b1 -> false
 	 */
 	isOnSameFile:function (square1, square2) {
 		return (square1 & 15) === (square2 & 15);
 	},
 
 	/**
-	 * Returns valid moves and results for the position according to the 0x88 chess programming
-	 * algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
-	 * First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
-	 * rank starts at second rank + 16, i.e. A3 = 32 and so on.
-	 * @method getValidMovesAndResult
-	 * @param color
-	 * @return {Object}
+	 Returns valid moves and results for the position according to the 0x88 chess programming
+	 algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
+	 First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
+	 rank starts at second rank + 16, i.e. A3 = 32 and so on.
+	 @method getValidMovesAndResult
+	 @param color
+	 @return {Object}
+	 @example
+	 	 var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+	 	 var parser = new chess.parser.FenParser0x88(fen)
+	 	 console.log(parser.getValidMovesAndResult());
+	 returns an object containing information about number of checks(0,1 or 2 for double check),
+	 valid moves and result(0 for undecided, .5 for stalemate, -1 for black win and 1 for white win).
+	 moves are returend in the following format:
+
+	 	numeric square : [array of valid squares to move]
+	 example for knight on b1:
+	 @example
+	 	1 : [32,34]
+	 since it's located on b1(numeric value 1) and can move to either a3 or c3(32 and 34).
 	 */
 	getValidMovesAndResult:function (color) {
-		if (!color) {
-			color = this.getColor();
-		}
+		color = color || this.getColor();
 		var ret = {}, directions;
 		var enPassantSquare = this.getEnPassantSquare();
 		if (enPassantSquare) {
@@ -718,16 +782,16 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Returns true if a move is an "en passant" move. Move is given in this format:
-	  @method isEnPassantMove
-	  @param {Object} move
-	  @return {Boolean}
-	  @example
-	 	var move = {
+	 Returns true if a move is an "en passant" move. Move is given in this format:
+	 @method isEnPassantMove
+	 @param {Object} move
+	 @return {Boolean}
+	 @example
+	 var move = {
 	 		from: Board0x88Config.mapping['e5'],
 	 		to: Board0x88Config.mapping['e6']
 	 	}
-	 	console.log(parser.isEnPassantMove(move);
+	 console.log(parser.isEnPassantMove(move);
 
 	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
 	 */
@@ -743,11 +807,11 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Returns true if a move is a castle move. This method does not validate if the king is allowed
-	  to move to the designated square.
-	  @method isCastleMove
-	  @param {Object} move
-	  @return {Boolean}
+	 Returns true if a move is a castle move. This method does not validate if the king is allowed
+	 to move to the designated square.
+	 @method isCastleMove
+	 @param {Object} move
+	 @return {Boolean}
 	 */
 	isCastleMove:function (move) {
 		if ((this.cache['board'][move.from] === 0x03 || this.cache['board'][move.from] == 0x0B)) {
@@ -759,14 +823,14 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Make a move by notation
-	  @method makeMoveByNotation
-	  @param {String} notation
-	  @return undefined
-	  @example
-	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-		parser.makeMoveByNotation('e4');
-	 	console.log(parser.getFen());
+	 Make a move by notation
+	 @method makeMoveByNotation
+	 @param {String} notation
+	 @return undefined
+	 @example
+	 var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+	 parser.makeMoveByNotation('e4');
+	 console.log(parser.getFen());
 	 */
 	makeMoveByNotation:function (notation) {
 		this.makeMove(this.getFromAndToByNotation(notation));
@@ -777,9 +841,9 @@ chess.parser.FenParser0x88 = new Class({
 	 @method makeMove
 	 @param {Object} move
 	 @example
-	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-	 	parser.makeMove({from:'e2',to:'e4'});
-	 	console.log(parser.getFen());
+	 var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+	 parser.makeMove({from:'e2',to:'e4'});
+	 console.log(parser.getFen());
 	 */
 	makeMove:function (move) {
 		this.updateBoardData(move);
@@ -787,28 +851,29 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	 * Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
-	 * repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
-	 * @method hasThreeFoldRepetition
-	 * @param fens
-	 * @return {Boolean}
+	 Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
+	 repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
+	 @method hasThreeFoldRepetition
+	 @param {Array} fens
+	 @return {Boolean}
+	 This method is called from the game model where the fen of the last moves is sent.
 	 */
-	hasThreeFoldRepetition :function(fens){
-		if(fens === undefined || fens.length === 0)return false;
+	hasThreeFoldRepetition:function (fens) {
+		if (fens === undefined || fens.length === 0)return false;
 		var shortenedFens = {};
-		for(var i=0;i<fens.length;i++){
+		for (var i = 0; i < fens.length; i++) {
 			var fen = this.getTruncatedFenWithColorAndCastle(fens[i]);
-			if(shortenedFens[fen] === undefined){
-				shortenedFens[fen]  = 0;
+			if (shortenedFens[fen] === undefined) {
+				shortenedFens[fen] = 0;
 			}
-			shortenedFens[fen] ++;
+			shortenedFens[fen]++;
 		}
-		var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length-1]);
+		var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length - 1]);
 		return shortenedFens[lastFen] >= 2;
- 	},
+	},
 
-	getTruncatedFenWithColorAndCastle:function(fen){
-		return fen.split(/\s/g).slice(0,3).join(' ');
+	getTruncatedFenWithColorAndCastle:function (fen) {
+		return fen.split(/\s/g).slice(0, 3).join(' ');
 	},
 
 	getPromoteByNotation:function (notation) {
@@ -833,8 +898,8 @@ chess.parser.FenParser0x88 = new Class({
 		var validMoves = this.getValidMovesAndResult().moves;
 
 		var foundPieces = [], offsets, sq, i;
-		if(notation === 'OO')notation = 'O-O';
-		if(notation === 'OOO')notation = 'O-O-O';
+		if (notation === 'OO')notation = 'O-O';
+		if (notation === 'OOO')notation = 'O-O-O';
 		if (notation.length === 2) {
 			var square = Board0x88Config.mapping[notation];
 			ret.to = Board0x88Config.mapping[notation];
@@ -955,10 +1020,10 @@ chess.parser.FenParser0x88 = new Class({
 		return ret;
 	},
 	/**
-	  Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
-	  @method getFromRankByNotation
-	  @param {String} notation
-	  @return {Number}
+	 Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
+	 @method getFromRankByNotation
+	 @param {String} notation
+	 @return {Number}
 	 */
 	getFromRankByNotation:function (notation) {
 		notation = notation.replace(/^.+([0-9]).+[0-9].*$/g, '$1');
@@ -1011,7 +1076,7 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	move:function (move) {
-		if(ludo.util.isString(move)){
+		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);
 		}
 		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
@@ -1248,7 +1313,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Object} move
 	 @return {String}
 	 @example
-	 	alert(parser.getNotationForAMove({from:'g1',to:'f3'});
+	 alert(parser.getNotationForAMove({from:'g1',to:'f3'});
 	 */
 	getNotationForAMove:function (move) {
 		move = {
