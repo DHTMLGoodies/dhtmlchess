@@ -111,9 +111,9 @@ chess.parser.FenParser0x88 = new Class({
 	 @param color
 	 @return {Object} king
 	 @example
-	    var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	console.log(parser.getKing('white'));
+		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+		var parser = new chess.parser.FenParser0x88(fen);
+		console.log(parser.getKing('white'));
 	 returns an object containing the properties s for square and t for type.
 	 both are numeric according to the 0x88 board.
 	 */
@@ -314,8 +314,7 @@ chess.parser.FenParser0x88 = new Class({
 		var WHITE = color === 'white';
 
 		var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
-		var checks;
-		checks = this.getCountChecks(color, protectiveMoves);
+		var checks = this.getCountChecks(color, protectiveMoves);
 		var validSquares = null;
 		var pinned = [], pieces;
 		if (checks === 2) {
@@ -550,6 +549,22 @@ chess.parser.FenParser0x88 = new Class({
 		return ',' + ret.join(',') + ',';
 	},
 
+	/**
+	 Returns array of sliding pieces attacking king
+	 @method getSlidingPiecesAttackingKing
+	 @param {String} color
+	 @return {Array}
+	 @example
+	 	fen = '6k1/Q5n1/4p3/8/8/8/B7/5KR1 b - - 0 1';
+		parser = new chess.parser.FenParser0x88(fen);
+	 	pieces = parser.getSlidingPiecesAttackingKing('white');
+	 	console.log(pieces);
+	 will return
+	 @example
+	 	[ { "s" : 16, "p": 17 }, { "s": 6, "p": 16 }]
+	 where "s" is the 0x88 board position of the piece and "p" is the sliding path to the king
+	 of opposite color. A bishop on a1 and a king on h8 will return { "s": "0", "p": 17 }
+	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
 		var king = this.cache['king' + (color === 'white' ? 'black' : 'white')];
@@ -574,7 +589,8 @@ chess.parser.FenParser0x88 = new Class({
 						if (numericDistance % 16 === 0) {
 							ret.push({ s:piece.s, p:boardDistance});
 						}
-						else if ((piece.s & 240) == (king.s & 240)) {
+						// Rook on same rank as king
+						else if (this.isOnSameRank(piece.s, king.s)) {
 							ret.push({ s:piece.s, p:numericDistance > 0 ? 1 : -1})
 						}
 						break;
@@ -584,7 +600,7 @@ chess.parser.FenParser0x88 = new Class({
 						if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
 							ret.push({ s:piece.s, p:boardDistance});
 						}
-						else if ((piece.s & 240) == (king.s & 240)) {
+						else if (this.isOnSameRank(piece.s, king.s)) {
 							ret.push({ s:piece.s, p:numericDistance > 0 ? 1 : -1})
 						}
 						break;
@@ -615,11 +631,9 @@ chess.parser.FenParser0x88 = new Class({
 
 			var pinning = '';
 			while (square !== king.s && countPieces < 2) {
-
 				if (this.cache['board'][square]) {
 					countPieces++;
 					if ((!WHITE && this.cache['board'][square] & 0x8) || (WHITE && !(this.cache['board'][square] & 0x8))) {
-
 						pinning = square;
 					} else {
 						break;
