@@ -21,8 +21,10 @@ TestCase("ParserTest", {
 		assertEquals(16, pieces.length);
 		// when
 		pieces = parser.getPiecesOfAColor('black');
+
 		// then
 		assertEquals(16, pieces.length);
+
 	},
 
 	"test should Find EnPassant Square":function () {
@@ -113,6 +115,7 @@ TestCase("ParserTest", {
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		// when
 		var parser = this.getParser(fen);
+		console.log(parser.getValidMovesAndResult('white'));
 		var pLegal = parser.getValidMovesAndResult('white').moves;
 
 		var pawnMoves = this.getValidMovesForSquare(pLegal, 'a2');
