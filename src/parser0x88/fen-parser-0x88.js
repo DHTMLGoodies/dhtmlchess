@@ -210,6 +210,24 @@ chess.parser.FenParser0x88 = new Class({
 		return this.fenParts['color'];
 	},
 
+	/**
+	 Return information about piece on square in human readable format
+	 @method getPieceOnSquare
+	 @param {String} square
+	 @return {Object}
+	 @example
+	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+	 	var parser = new chess.parser.FenParser0x88(fen);
+	 	console.log(parser.getPieceOnSquare('e2'));
+	 will return an object like this:
+	 @example
+	 	{
+	 		"square": "e2",
+	 		"type": "pawn",
+	 		"color": "white",
+	 		"sliding": 0
+	 	}
+	 */
 	getPieceOnSquare:function (square) {
 		var piece = this.cache['board'][square];
 		if (piece) {
