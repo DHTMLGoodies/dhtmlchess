@@ -615,7 +615,7 @@ chess.parser.FenParser0x88 = new Class({
 	 Return array of the squares where pieces are pinned, i.e. cannot move.
 	 Squares are in the 0x88 format. You can use Board0x88Config.numberToSquareMapping
 	 to translate to readable format, example: Board0x88Config.numberToSquareMapping[16] will give you 'a2'
-	 @method getPined
+	 @method getPinned
 	 @param {String} color
 	 @return {Object}
 	 @example
@@ -1403,9 +1403,7 @@ chess.parser.FenParser0x88 = new Class({
 				if (this.isEnPassantMove(move) || this.cache['board'][move.to]) {
 					ret += Board0x88Config.fileMapping[move.from & 15] + 'x';
 				}
-
 				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
-
 				if (move.promoteTo) {
 					ret += '=' + chess.language.pieces[move.promoteTo];
 				}
@@ -1469,7 +1467,6 @@ chess.parser.FenParser0x88 = new Class({
 		for (var rank = 7; rank >= 0; rank--) {
 			for (var file = 0; file < 8; file++) {
 				var index = (rank * 8) + file;
-
 				if (board[Board0x88Config.numericMapping[index]]) {
 					if (emptyCounter) {
 						fen += emptyCounter;
