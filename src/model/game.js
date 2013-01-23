@@ -328,6 +328,7 @@ chess.model.Game = new Class({
 
 	/**
 	 * Returns true if passed guess matches next move
+	 * @method isCorrectGuess
 	 * @param {Object} guess
 	 * @param {Object} nextMove
 	 * @return {Boolean}
