@@ -9,7 +9,7 @@
 
 ini_set('display_errors','on');
 date_default_timezone_set("Europe/Berlin");
-require_once("autoload.php");
+require_once("../autoload.php");
 
 
 
@@ -31,8 +31,9 @@ $profiling = new Profiling('PGN to parser to DB');
 LudoDB::enableLogging();
 
 #$parser = new PgnParser('chessDB/Tests/pgn/test.pgn');
-$parser = new PgnParser("../pgn/profiling.pgn");
+$parser = new PgnParser("../../pgn/profiling.pgn");
 $games = $parser->getGames();
+
 
 foreach($games as $gameData){
     $game = new Game();
@@ -44,4 +45,4 @@ foreach($games as $gameData){
 
 }
 
-echo $profiling->end();
+

@@ -41,7 +41,6 @@ foreach($games as $gameData){
     $game->setMetadata($gameData['metadata']);
     $game->setMoves($gameData['moves']);
     $game->commit();
-
 }
 
 
