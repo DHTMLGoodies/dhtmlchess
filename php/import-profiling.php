@@ -18,8 +18,6 @@ LudoDB::setUser('root');
 LudoDB::setPassword('administrator');
 LudoDB::setDb('PHPUnit');
 
-header("Content-type: application/json");
-
 // Construct database tables
 $tables = array('Move','Game','Fen','Metadata','MetadataValue');
 foreach($tables as $table){
@@ -32,8 +30,10 @@ $profiling = new Profiling('PGN to parser to DB');
 
 LudoDB::enableLogging();
 
-$parser = new PgnParser('chessDB/Tests/pgn/test.pgn');
+#$parser = new PgnParser('chessDB/Tests/pgn/test.pgn');
+$parser = new PgnParser("../pgn/profiling.pgn");
 $games = $parser->getGames();
+
 foreach($games as $gameData){
     $game = new Game();
     $game->setDatabaseId(100);
@@ -44,9 +44,4 @@ foreach($games as $gameData){
 
 }
 
-
-$game = new Game($game->getId());
-
-echo $game;
-
-#echo $profiling->end();
+echo $profiling->end();
