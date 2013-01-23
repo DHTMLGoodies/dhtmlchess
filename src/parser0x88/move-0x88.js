@@ -31,6 +31,12 @@ chess.parser.Move0x88 = new Class({
 		return this.parser.hasThreeFoldRepetition(fens);
 	},
 
+	/**
+	 * @method getMoveByNotation
+	 * @param {String} notation
+	 * @param {String} pos
+	 * @return {chess.model.Move}
+	 */
 	getMoveByNotation:function(notation, pos){
 		this.parser.setFen(pos);
 		return this.parser.getFromAndToByNotation(notation);
