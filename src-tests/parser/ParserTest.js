@@ -55,7 +55,7 @@ TestCase("ParserTest", {
 		assertEquals('25', parser.getFullMoves());
 	},
 
-	"test should find half noves":function () {
+	"test should find half moves":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 12 25';
 
@@ -82,7 +82,7 @@ TestCase("ParserTest", {
 		assertTrue(parser.isOnSameFile(this.getNumericSquare('a1'), this.getNumericSquare('a2')));
 	},
 
-	"test should Find castle":function () {
+	"test should find castle":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
@@ -252,13 +252,10 @@ TestCase("ParserTest", {
 		assertTrue(this.isSquareInPaths('f5', bishopMoves));
 		assertTrue(this.isSquareInPaths('g6', bishopMoves));
 		assertFalse(this.isSquareInPaths('h7', bishopMoves));
-
 		assertEquals(6, bishopMoves.flatten().length)
-
 	},
 
 	"test should find legal black bishop moves":function () {
-
 		// given
 		var fenWithBishopOnC2OpponentPawnOnB3AndOwnPieceOnG6 = '6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1';
 		var parser = this.getParser(fenWithBishopOnC2OpponentPawnOnB3AndOwnPieceOnG6);
@@ -276,12 +273,8 @@ TestCase("ParserTest", {
 		assertTrue(this.isSquareInPaths('e4', bishopMoves));
 		assertTrue(this.isSquareInPaths('f5', bishopMoves));
 		assertFalse(this.isSquareInPaths('g6', bishopMoves));
-
-
 		assertEquals(6, bishopMoves.flatten().length)
-
 	},
-
 
 	"test should find legal rook moves":function () {
 

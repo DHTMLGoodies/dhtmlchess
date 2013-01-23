@@ -407,7 +407,7 @@ chess.model.Game = new Class({
 	/**
 	 * Return last move in game
 	 * @method getLastMoveInGame
-	 * @return {chess.model.Move} move
+	 * @return {chess.model.Move|undefined} move
 	 */
 	getLastMoveInGame:function () {
 		if (this.model.moves.length > 0) {
@@ -557,8 +557,8 @@ chess.model.Game = new Class({
 	 * move in the game. When found, this move and all following move will be deleted
 	 * and the new move will be appended.
 	 * @method overwriteMove
-	 * @param {Object} oldMove
-	 * @param {Object} newMove
+	 * @param {chess.model.Move} oldMove
+	 * @param {chess.model.Move} newMove
 	 */
 	overwriteMove:function (oldMove, newMove) {
 		var move = this.findMove(oldMove);
@@ -571,9 +571,9 @@ chess.model.Game = new Class({
 	/**
 	 * Returns valid config object for a move
 	 * @method getValidMove
-	 * @param {Object} move
-	 * @param {String} fen position
-	 * @return {*}
+	 * @param {Object|chess.model.Move} move
+	 * @param {String} pos
+	 * @return {chess.model.Move}
 	 */
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
@@ -592,7 +592,7 @@ chess.model.Game = new Class({
 	newVariation:function (move) {
 		if (this.isDuplicateVariationMove(move)) {
 			this.goToMove(this.getNextMove(this.currentMove));
-			return false;
+			return undefined;
 		}
 		var previousPosition = this.getPreviousPosition();
 		if (previousPosition) {
@@ -773,6 +773,11 @@ chess.model.Game = new Class({
 		branch.length = fromIndex;
 	},
 
+	/**
+	 * @method findMove
+	 * @param {chess.model.Move} moveToFind
+	 * @return {chess.model.Move}
+	 */
 	findMove:function (moveToFind) {
 		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
 	},
@@ -789,25 +794,34 @@ chess.model.Game = new Class({
 		}
 	},
 
+	/**
+	 * Go to previous move
+	 * @method backward
+	 * @param {Number} numberOfMoves
+	 * @return {undefined}
+	 */
 	backward:function(numberOfMoves){
-		if(!this.currentMove)return;
+		if(!this.currentMove)return undefined;
 		numberOfMoves = numberOfMoves || 1;
 		var branch = this.currentBranch;
 		var index = branch.indexOf(this.currentMove);
 		var currentMove;
+		var move = {};
+		var parent;
 		while(index >=0 && numberOfMoves>0){
 			index--;
 			if(index < 0 && numberOfMoves>0){
-				var parent = this.getParentMove(move);
+				parent = this.getParentMove(move);
 				if(parent){
 					move = parent;
 					branch = this.getBranch(move);
 					index = branch.indexOf(move);
 					index--;
 				}
+
 			}
 			if(index >=0){
-				var move = branch[index];
+				move = branch[index];
 				if(this.isChessMove(move)){
 					currentMove = move;
 					numberOfMoves--;
@@ -818,6 +832,7 @@ chess.model.Game = new Class({
 		if(this.isChessMove(currentMove)){
 			return this.setCurrentMove(currentMove);
 		}
+		return undefined;
 	},
 
 	getMove:function (move) {
@@ -1003,7 +1018,7 @@ chess.model.Game = new Class({
 	 * Get next move of
 	 * @method getNextMove
 	 * @param {chess.model.Move} nextOf
-	 * @return {chess.model.Move} next move
+	 * @return {chess.model.Move|undefined} next move
 	 */
 	getNextMove:function (nextOf) {
 		if (!nextOf && this.currentMove) {
@@ -1180,6 +1195,13 @@ chess.model.Game = new Class({
 		return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
 	},
 
+	/**
+	 * @method fire
+	 * @param {String} eventName
+	 * @param {Object|chess.model.Move} param
+	 * @optional
+	 * @private
+	 */
 	fire:function (eventName, param) {
 		if (eventName === 'updateMove' || eventName == 'newMove' || eventName == 'updateMetadata') {
 			this.setDirty();
