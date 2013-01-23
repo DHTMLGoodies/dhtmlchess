@@ -3,7 +3,7 @@ chess.view.command.Controller = new Class({
 	type:'chess.view.command.Controller',
 	singleton:true,
 	useController:true,
-	validCommands:['help', 'move', 'cls', 'fen','load','flip','grade','backward','forward'],
+	validCommands:['help', 'move', 'cls', 'fen','load','flip','grade','back','forward'],
 	module:'chess',
 	submodule:'commandLine',
 	addView:function (view) {

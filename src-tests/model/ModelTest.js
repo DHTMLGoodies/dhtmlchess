@@ -1438,7 +1438,7 @@ TestCase("ModelTest", {
 		assertEquals(moves.length, model.getAllFens().length);
 	},
 
-	"test should be able to move backward": function(){
+	"test should be able to move back": function(){
 		// given
 		var model = this.getModelWithMoves();
 		var expectedMove = model.getMoves()[3];
@@ -1446,14 +1446,14 @@ TestCase("ModelTest", {
 		model.goToMove(move);
 
 		// when
-		model.backward(3);
+		model.back(3);
 
 		// then
 		assertEquals(expectedMove.lm, model.getCurrentMove().lm);
 
 	},
 
-	"test should be able to move backward in variations": function(){
+	"test should be able to move back in variations": function(){
 		// gameWithVariations
 		// given
 		var model = this.getModelWithVariations();
@@ -1462,7 +1462,7 @@ TestCase("ModelTest", {
 		model.goToMove(move);
 
 		// when
-		model.backward(10);
+		model.back(10);
 
 		// then
 		assertEquals(expected, model.getCurrentMove());
