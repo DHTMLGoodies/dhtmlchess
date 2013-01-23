@@ -796,11 +796,11 @@ chess.model.Game = new Class({
 
 	/**
 	 * Go to previous move
-	 * @method backward
+	 * @method back
 	 * @param {Number} numberOfMoves
 	 * @return {undefined}
 	 */
-	backward:function(numberOfMoves){
+	back:function(numberOfMoves){
 		if(!this.currentMove)return undefined;
 		numberOfMoves = numberOfMoves || 1;
 		var branch = this.currentBranch;

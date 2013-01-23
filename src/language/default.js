@@ -55,7 +55,7 @@ chess.language = {
 	'command_flip' : 'Flip board',
 	'command_grade' : 'Grade current move',
 	'command_forward' : 'Go to next move',
-	'command_backward' : 'Go to previous move',
+	'command_back' : 'Go to previous move',
 	'command_fen' : 'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
 
 	"invalid game": "Invalid game",

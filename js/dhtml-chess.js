@@ -1,7 +1,7 @@
 /************************************************************************************************************
 @fileoverview
 DHTML CHESS 3.0
-Copyright (C) 2012-2012  DHTMLGoodies.com, Alf Magne Kalleland
+Copyright (C) 2012-2013  DHTMLGoodies.com, Alf Magne Kalleland
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
 ludoJS - Javascript framework
-Copyright (C) 2012-2012 ludoludo.com
+Copyright (C) 2012-2013 ludoludo.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -13539,7 +13539,6 @@ ludo.form.Button = new Class({
         }
     },
 
-
     ludoDOM:function () {
         this.parent();
 
@@ -13715,7 +13714,7 @@ ludo.form.Button = new Class({
      * @method click
      * @return void
      */
-    click:function (e) {
+    click:function () {
         this.focus();
         if (!this.isDisabled()) {
             this.getEl().focus();
@@ -13737,9 +13736,7 @@ ludo.form.Button = new Class({
 			return false;
         }
     },
-    getName:function () {
-        return this.name;
-    },
+
     defaultBeforeClickEvent:function () {
         return true;
     },
@@ -24623,7 +24620,7 @@ chess.language = {
 	'command_flip' : 'Flip board',
 	'command_grade' : 'Grade current move',
 	'command_forward' : 'Go to next move',
-	'command_backward' : 'Go to previous move',
+	'command_back' : 'Go to previous move',
 	'command_fen' : 'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
 
 	"invalid game": "Invalid game",
@@ -28319,7 +28316,6 @@ chess.view.user.SettingsButton = new Class({
 	layout:{
 		height:26
 	},
-
     setController:function (controller) {
         this.parent(controller);
         controller.addEvent('invalidSession', this.hide.bind(this));
@@ -28467,7 +28463,7 @@ chess.view.command.Controller = new Class({
 	type:'chess.view.command.Controller',
 	singleton:true,
 	useController:true,
-	validCommands:['help', 'move', 'cls', 'fen','load','flip','grade','backward','forward'],
+	validCommands:['help', 'move', 'cls', 'fen','load','flip','grade','back','forward'],
 	module:'chess',
 	submodule:'commandLine',
 	addView:function (view) {
@@ -29584,8 +29580,6 @@ Board0x88Config = {
         }
     },
 
-    numericMapping:undefined,
-    bitValues:[],
     fen:'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
 
     fenPieces:{
@@ -29766,7 +29760,7 @@ Board0x88Config = {
     fileMapping : ['a','b','c','d','e','f','g','h'],
     rankMapping : { 0 : 1, 16 : 2,  32 : 3,  48 : 4,  64 : 5,  80 : 6,  96 : 7,  112 : 8},
     files : { 'a' : 0,'b':1,'c':2, 'd' : 3,'e' : 4, 'f' : 5,'g':6, 'h' : 7}
-}
+};
 /**
  Chess position parser
  @module Parser
@@ -29824,19 +29818,22 @@ chess.parser.FenParser0x88 = new Class({
 		};
 	},
 
+	/**
+	 * Parses current fen and stores board information internally
+	 * @method parseFen
+	 */
 	parseFen:function () {
 		var pos = 0;
 
 		var squares = Board0x88Config.fenSquares;
-
+		var index, type, piece;
 		for (var i = 0, len = this.fenParts['pieces'].length; i < len; i++) {
 			var token = this.fenParts['pieces'].substr(i, 1);
 
 			if (Board0x88Config.fenPieces[token]) {
-
-				var index = Board0x88Config.mapping[squares[pos]];
-				var type = Board0x88Config.pieces[token];
-				var piece = {
+				index = Board0x88Config.mapping[squares[pos]];
+				type = Board0x88Config.pieces[token];
+				piece = {
 					t:type,
 					s:index
 				};
@@ -29853,8 +29850,8 @@ chess.parser.FenParser0x88 = new Class({
 				pos++;
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
 				var token2 = this.fenParts['pieces'].substr(i + 1, 1);
-				if (token2.match(/[0-9]/)) {
-					token = token + '' + token2;
+				if (!isNaN(token2)) {
+					token = [token, token2].join('');
 				}
 				pos += parseInt(token);
 			}
@@ -29862,18 +29859,80 @@ chess.parser.FenParser0x88 = new Class({
 
 	},
 
+	/**
+	 * Return all pieces on board
+	 * @method getPieces
+	 * @return {Array} pieces
+	 */
 	getPieces:function () {
 		return this.cache['white'].append(this.cache['black']);
 	},
 
+	/**
+	 Return king of a color
+	 @method getKing
+	 @param color
+	 @return {Object} king
+	 @example
+		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+		var parser = new chess.parser.FenParser0x88(fen);
+		console.log(parser.getKing('white'));
+	 returns an object containing the properties s for square and t for type.
+	 both are numeric according to the 0x88 board.
+	 */
 	getKing:function (color) {
 		return this.cache['king' + color];
 	},
 
+	/**
+	 Returns pieces of a color
+	 @method getPiecesOfAColor
+	 @param color
+	 @return {Array}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88('5k2/8/8/3pP3/8/8/8/7K w - d6 0 1');
+	 	var pieces = parser.getPiecesOfAColor('white');
+	 	console.log(pieces);
+	 each piece is represented by an object like this:
+	 @example
+	 	{
+	 		s : 112,
+	 		t : 14
+	 	}
+	 where s is square and type is type. s is numeric according to the 0x88 chess board where
+	 a1 is 0, a2 is 16, b2 is 17, a3 is 32, i.e. a 128x64 square board.
+
+	 t is a numeric representation(4 bits).
+	 @example
+		 P : 0001
+		 N : 0010
+		 K : 0011
+		 B : 0101
+		 R : 0110
+		 Q : 0111
+		 p : 1001
+		 n : 1010
+		 k : 1011
+		 b : 1101
+		 r : 1100
+		 q : 1100
+
+	 As you can see, black pieces all have the first bit set to 1, and all the sliding pieces
+	 (bishop, rook and queen) has the second bit set to 1. This makes it easy to to determine color
+	 and sliding pieces using the bitwise & operator.
+	 */
 	getPiecesOfAColor:function (color) {
 		return this.cache[color]
 	},
 
+	/**
+	 @method getEnPassantSquare
+	 @return {String|null}
+	 @example
+	 	var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
+	 	var parser = new chess.parser.FenParser0x88(fen);
+	 	alert(parser.getEnPassantSquare()); // alerts 'd6'
+	 */
 	getEnPassantSquare:function () {
 		var enPassant = this.fenParts['enPassant'];
 		if (enPassant != '-') {
@@ -29915,6 +29974,24 @@ chess.parser.FenParser0x88 = new Class({
 		return this.fenParts['color'];
 	},
 
+	/**
+	 Return information about piece on square in human readable format
+	 @method getPieceOnSquare
+	 @param {String} square
+	 @return {Object}
+	 @example
+	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+	 	var parser = new chess.parser.FenParser0x88(fen);
+	 	console.log(parser.getPieceOnSquare('e2'));
+	 will return an object like this:
+	 @example
+	 	{
+	 		"square": "e2",
+	 		"type": "pawn",
+	 		"color": "white",
+	 		"sliding": 0
+	 	}
+	 */
 	getPieceOnSquare:function (square) {
 		var piece = this.cache['board'][square];
 		if (piece) {
@@ -29938,6 +30015,10 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Number} square1
 	 @param {Number} square2
 	 @return {Boolean}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88();
+	 	console.log(parser.isOnSameSquare(0,16)); // a1 and a2 -> false
+	 	console.log(parser.isOnSameSquare(0,1)); // a1 and b1 -> true
 	 */
 	isOnSameRank:function (square1, square2) {
 		return (square1 & 240) === (square2 & 240);
@@ -29950,24 +30031,39 @@ chess.parser.FenParser0x88 = new Class({
 	 @param {Number} square1
 	 @param {Number} square2
 	 @return {Boolean}
+	 @example
+	 	var parser = new chess.parser.FenParser0x88();
+	 	console.log(parser.isOnSameFile(0,16)); // a1 and a2 -> true
+	 	console.log(parser.isOnSameFile(0,1)); // a1 and b1 -> false
 	 */
 	isOnSameFile:function (square1, square2) {
 		return (square1 & 15) === (square2 & 15);
 	},
 
 	/**
-	 * Returns valid moves and results for the position according to the 0x88 chess programming
-	 * algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
-	 * First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
-	 * rank starts at second rank + 16, i.e. A3 = 32 and so on.
-	 * @method getValidMovesAndResult
-	 * @param color
-	 * @return {Object}
+	 Returns valid moves and results for the position according to the 0x88 chess programming
+	 algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
+	 First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
+	 rank starts at second rank + 16, i.e. A3 = 32 and so on.
+	 @method getValidMovesAndResult
+	 @param color
+	 @return {Object}
+	 @example
+	 	 var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+	 	 var parser = new chess.parser.FenParser0x88(fen)
+	 	 console.log(parser.getValidMovesAndResult());
+	 returns an object containing information about number of checks(0,1 or 2 for double check),
+	 valid moves and result(0 for undecided, .5 for stalemate, -1 for black win and 1 for white win).
+	 moves are returend in the following format:
+
+	 	numeric square : [array of valid squares to move]
+	 example for knight on b1:
+	 @example
+	 	1 : [32,34]
+	 since it's located on b1(numeric value 1) and can move to either a3 or c3(32 and 34).
 	 */
 	getValidMovesAndResult:function (color) {
-		if (!color) {
-			color = this.getColor();
-		}
+		color = color || this.getColor();
 		var ret = {}, directions;
 		var enPassantSquare = this.getEnPassantSquare();
 		if (enPassantSquare) {
@@ -29981,8 +30077,7 @@ chess.parser.FenParser0x88 = new Class({
 		var WHITE = color === 'white';
 
 		var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
-		var checks;
-		checks = this.getCountChecks(color, protectiveMoves);
+		var checks = this.getCountChecks(color, protectiveMoves);
 		var validSquares = null;
 		var pinned = [], pieces;
 		if (checks === 2) {
@@ -30217,6 +30312,23 @@ chess.parser.FenParser0x88 = new Class({
 		return ',' + ret.join(',') + ',';
 	},
 
+	/**
+	 Returns array of sliding pieces attacking king
+	 @method getSlidingPiecesAttackingKing
+	 @param {String} color
+	 @return {Array}
+	 @example
+	 	fen = '6k1/Q5n1/4p3/8/8/8/B7/5KR1 b - - 0 1';
+		parser = new chess.parser.FenParser0x88(fen);
+	 	pieces = parser.getSlidingPiecesAttackingKing('white');
+	 	console.log(pieces);
+	 will return
+	 @example
+	 	[ { "s" : 16, "p": 17 }, { "s": 6, "p": 16 }]
+	 where "s" is the 0x88 board position of the piece and "p" is the sliding path to the king
+	 of opposite color. A bishop on a1 and a king on h8 will return { "s": "0", "p": 17 }
+	 This method returns pieces even when the sliding piece is not checking king.
+	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
 		var king = this.cache['king' + (color === 'white' ? 'black' : 'white')];
@@ -30232,27 +30344,28 @@ chess.parser.FenParser0x88 = new Class({
 					case 0x05:
 					case 0x0D:
 						if (numericDistance % 15 === 0 || numericDistance % 17 === 0) {
-							ret.push({ s:piece.s, p:boardDistance});
+							ret.push({ s:piece.s, direction:boardDistance});
 						}
 						break;
 					// Rook
 					case 0x06:
 					case 0x0E:
 						if (numericDistance % 16 === 0) {
-							ret.push({ s:piece.s, p:boardDistance});
+							ret.push({ s:piece.s, direction:boardDistance});
 						}
-						else if ((piece.s & 240) == (king.s & 240)) {
-							ret.push({ s:piece.s, p:numericDistance > 0 ? 1 : -1})
+						// Rook on same rank as king
+						else if (this.isOnSameRank(piece.s, king.s)) {
+							ret.push({ s:piece.s, direction:numericDistance > 0 ? 1 : -1})
 						}
 						break;
 					// Queen
 					case 0x07:
 					case 0x0F:
 						if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
-							ret.push({ s:piece.s, p:boardDistance});
+							ret.push({ s:piece.s, direction:boardDistance});
 						}
-						else if ((piece.s & 240) == (king.s & 240)) {
-							ret.push({ s:piece.s, p:numericDistance > 0 ? 1 : -1})
+						else if (this.isOnSameRank(piece.s, king.s)) {
+							ret.push({ s:piece.s, direction:numericDistance > 0 ? 1 : -1})
 						}
 						break;
 				}
@@ -30262,12 +30375,29 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	 * Return array of the squares where pieces are pinned, i.e. cannot move.
-	 * Squares are in the 0x88 format. You can use Board0x88Config.numberToSquareMapping
-	 * to translate to readable format, example: Board0x88Config.numberToSquareMapping[16] will give you 'a2'
-	 * @method getPined
-	 * @param {String} color
-	 * @return {Array}
+	 Return array of the squares where pieces are pinned, i.e. cannot move.
+	 Squares are in the 0x88 format. You can use Board0x88Config.numberToSquareMapping
+	 to translate to readable format, example: Board0x88Config.numberToSquareMapping[16] will give you 'a2'
+	 @method getPinned
+	 @param {String} color
+	 @return {Object}
+	 @example
+	 	var fen = '6k1/Q5n1/4p3/8/8/1B6/B7/5KR1 b - - 0 1';
+		var parser = new chess.parser.FenParser0x88(fen);
+	 	var pinned = parser.getPinned('black');
+	 	console.log(pinned);
+	 will output
+	 @example
+ 		{
+	 		84: { "by": 33, "direction": 17 }, // pawn on e6(84) is pinned by bishop on b3(33).
+	 		102 : { "by": "6", "direction": 16 } // knight on g7 is pinned by rook on g1
+	 	}
+	 direction is the path to king which can be
+	 @example
+	 	15   16   17
+	 	-1         1
+	 	17  -16  -15
+	 i.e. 1 to the right, -1 to the left, 17 for higher rank and file etc.
 	 */
 	getPinned:function (color) {
 		var ret = {};
@@ -30277,25 +30407,23 @@ chess.parser.FenParser0x88 = new Class({
 		var i = 0;
 		while (i < pieces.length) {
 			var piece = pieces[i];
-			var square = piece.s + piece.p;
+			var square = piece.s + piece.direction;
 			var countPieces = 0;
 
 			var pinning = '';
 			while (square !== king.s && countPieces < 2) {
-
 				if (this.cache['board'][square]) {
 					countPieces++;
 					if ((!WHITE && this.cache['board'][square] & 0x8) || (WHITE && !(this.cache['board'][square] & 0x8))) {
-
 						pinning = square;
 					} else {
 						break;
 					}
 				}
-				square += piece.p;
+				square += piece.direction;
 			}
 			if (countPieces === 1) {
-				ret[pinning] = { 'by':piece.s, 'direction':piece.p };
+				ret[pinning] = { 'by':piece.s, 'direction':piece.direction };
 			}
 			i++;
 		}
@@ -30488,16 +30616,16 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Returns true if a move is an "en passant" move. Move is given in this format:
-	  @method isEnPassantMove
-	  @param {Object} move
-	  @return {Boolean}
-	  @example
+	 Returns true if a move is an "en passant" move. Move is given in this format:
+	 @method isEnPassantMove
+	 @param {Object} move
+	 @return {Boolean}
+	 @example
 	 	var move = {
 	 		from: Board0x88Config.mapping['e5'],
 	 		to: Board0x88Config.mapping['e6']
 	 	}
-	 	console.log(parser.isEnPassantMove(move);
+	 console.log(parser.isEnPassantMove(move);
 
 	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
 	 */
@@ -30513,11 +30641,11 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Returns true if a move is a castle move. This method does not validate if the king is allowed
-	  to move to the designated square.
-	  @method isCastleMove
-	  @param {Object} move
-	  @return {Boolean}
+	 Returns true if a move is a castle move. This method does not validate if the king is allowed
+	 to move to the designated square.
+	 @method isCastleMove
+	 @param {Object} move
+	 @return {Boolean}
 	 */
 	isCastleMove:function (move) {
 		if ((this.cache['board'][move.from] === 0x03 || this.cache['board'][move.from] == 0x0B)) {
@@ -30529,13 +30657,13 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	  Make a move by notation
-	  @method makeMoveByNotation
-	  @param {String} notation
-	  @return undefined
-	  @example
+	 Make a move by notation
+	 @method makeMoveByNotation
+	 @param {String} notation
+	 @return undefined
+	 @example
 	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-		parser.makeMoveByNotation('e4');
+	 	parser.makeMoveByNotation('e4');
 	 	console.log(parser.getFen());
 	 */
 	makeMoveByNotation:function (notation) {
@@ -30557,28 +30685,29 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
-	 * Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
-	 * repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
-	 * @method hasThreeFoldRepetition
-	 * @param fens
-	 * @return {Boolean}
+	 Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
+	 repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
+	 @method hasThreeFoldRepetition
+	 @param {Array} fens
+	 @return {Boolean}
+	 This method is called from the game model where the fen of the last moves is sent.
 	 */
-	hasThreeFoldRepetition :function(fens){
-		if(fens === undefined || fens.length === 0)return false;
+	hasThreeFoldRepetition:function (fens) {
+		if (fens === undefined || fens.length === 0)return false;
 		var shortenedFens = {};
-		for(var i=0;i<fens.length;i++){
+		for (var i = 0; i < fens.length; i++) {
 			var fen = this.getTruncatedFenWithColorAndCastle(fens[i]);
-			if(shortenedFens[fen] === undefined){
-				shortenedFens[fen]  = 0;
+			if (shortenedFens[fen] === undefined) {
+				shortenedFens[fen] = 0;
 			}
-			shortenedFens[fen] ++;
+			shortenedFens[fen]++;
 		}
-		var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length-1]);
+		var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length - 1]);
 		return shortenedFens[lastFen] >= 2;
- 	},
+	},
 
-	getTruncatedFenWithColorAndCastle:function(fen){
-		return fen.split(/\s/g).slice(0,3).join(' ');
+	getTruncatedFenWithColorAndCastle:function (fen) {
+		return fen.split(/\s/g).slice(0, 3).join(' ');
 	},
 
 	getPromoteByNotation:function (notation) {
@@ -30603,8 +30732,8 @@ chess.parser.FenParser0x88 = new Class({
 		var validMoves = this.getValidMovesAndResult().moves;
 
 		var foundPieces = [], offsets, sq, i;
-		if(notation === 'OO')notation = 'O-O';
-		if(notation === 'OOO')notation = 'O-O-O';
+		if (notation === 'OO')notation = 'O-O';
+		if (notation === 'OOO')notation = 'O-O-O';
 		if (notation.length === 2) {
 			var square = Board0x88Config.mapping[notation];
 			ret.to = Board0x88Config.mapping[notation];
@@ -30725,10 +30854,10 @@ chess.parser.FenParser0x88 = new Class({
 		return ret;
 	},
 	/**
-	  Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
-	  @method getFromRankByNotation
-	  @param {String} notation
-	  @return {Number}
+	 Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
+	 @method getFromRankByNotation
+	 @param {String} notation
+	 @return {Number}
 	 */
 	getFromRankByNotation:function (notation) {
 		notation = notation.replace(/^.+([0-9]).+[0-9].*$/g, '$1');
@@ -30781,7 +30910,7 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	move:function (move) {
-		if(ludo.util.isString(move)){
+		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);
 		}
 		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
@@ -30980,7 +31109,7 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getFen:function () {
 		if (!this.fen) {
-			this.fen = this.setNewFen();
+			this.fen = this.getNewFen();
 		}
 		return this.fen;
 	},
@@ -31037,9 +31166,7 @@ chess.parser.FenParser0x88 = new Class({
 				if (this.isEnPassantMove(move) || this.cache['board'][move.to]) {
 					ret += Board0x88Config.fileMapping[move.from & 15] + 'x';
 				}
-
 				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
-
 				if (move.promoteTo) {
 					ret += '=' + chess.language.pieces[move.promoteTo];
 				}
@@ -31090,16 +31217,19 @@ chess.parser.FenParser0x88 = new Class({
 		return ret;
 	},
 
-	setNewFen:function () {
+	/**
+	 * Returns new fen based on current board position
+	 * @method getNewFen
+	 * @return {String}
+	 */
+	getNewFen:function () {
 		var board = this.cache['board'];
 		var fen = '';
 		var emptyCounter = 0;
 
 		for (var rank = 7; rank >= 0; rank--) {
-
 			for (var file = 0; file < 8; file++) {
 				var index = (rank * 8) + file;
-
 				if (board[Board0x88Config.numericMapping[index]]) {
 					if (emptyCounter) {
 						fen += emptyCounter;
@@ -31159,6 +31289,12 @@ chess.parser.Move0x88 = new Class({
 		return this.parser.hasThreeFoldRepetition(fens);
 	},
 
+	/**
+	 * @method getMoveByNotation
+	 * @param {String} notation
+	 * @param {String} pos
+	 * @return {chess.model.Move}
+	 */
 	getMoveByNotation:function(notation, pos){
 		this.parser.setFen(pos);
 		return this.parser.getFromAndToByNotation(notation);
@@ -31276,8 +31412,11 @@ chess.parser.PositionValidator = new Class({
 	 * @return {Boolean} valid
 	 */
     isValid : function(fenPosition){
-        this.setFen(fenPosition);
-
+		try{
+	        this.setFen(fenPosition);
+		}catch(e){
+			return false;
+		}
         if(!this.hasBothKings()){
             return false;
         }
@@ -31293,7 +31432,7 @@ chess.parser.PositionValidator = new Class({
     },
 
     hasBothKings : function(){
-		return !(!this.getKing('white') || !this.getKing('black'));
+		return this.getKing('white') && this.getKing('black');
 
     },
 
@@ -32092,6 +32231,10 @@ chess.model.Game = new Class({
 		return this.moveBranchMap[move.id];
 	},
 
+	/**
+	 * Reset model data to default, blank game
+	 * @method setDefaultModel
+	 */
 	setDefaultModel:function () {
 		this.moveCache = {};
 		this.model = {
@@ -32122,7 +32265,7 @@ chess.model.Game = new Class({
 	},
 	/**
 	 Update particular info about the game
-	 @method setMetadata
+	 @method setMetadataValue
 	 @param {String} key
 	 @param {String} value
 	 @example
@@ -32216,6 +32359,14 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+	/**
+	 * Returns true if passed guess matches next move
+	 * @method isCorrectGuess
+	 * @param {Object} guess
+	 * @param {Object} nextMove
+	 * @return {Boolean}
+	 * @private
+	 */
 	isCorrectGuess:function (guess, nextMove) {
 		if (nextMove.from == guess.from && nextMove.to == guess.to) {
 			return !(guess.promoteTo && !this.isMovePromotedTo(nextMove, guess.promoteTo));
@@ -32289,7 +32440,7 @@ chess.model.Game = new Class({
 	/**
 	 * Return last move in game
 	 * @method getLastMoveInGame
-	 * @return {chess.model.Move} move
+	 * @return {chess.model.Move|undefined} move
 	 */
 	getLastMoveInGame:function () {
 		if (this.model.moves.length > 0) {
@@ -32434,6 +32585,14 @@ chess.model.Game = new Class({
 		}
 	},
 
+	/**
+	 * Overwrite a move with a different move. oldMove has to be a
+	 * move in the game. When found, this move and all following move will be deleted
+	 * and the new move will be appended.
+	 * @method overwriteMove
+	 * @param {chess.model.Move} oldMove
+	 * @param {chess.model.Move} newMove
+	 */
 	overwriteMove:function (oldMove, newMove) {
 		var move = this.findMove(oldMove);
 		if (move) {
@@ -32442,6 +32601,13 @@ chess.model.Game = new Class({
 		}
 	},
 
+	/**
+	 * Returns valid config object for a move
+	 * @method getValidMove
+	 * @param {Object|chess.model.Move} move
+	 * @param {String} pos
+	 * @return {chess.model.Move}
+	 */
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
 			return this.moveParser.getMoveConfig(move, pos);
@@ -32459,7 +32625,7 @@ chess.model.Game = new Class({
 	newVariation:function (move) {
 		if (this.isDuplicateVariationMove(move)) {
 			this.goToMove(this.getNextMove(this.currentMove));
-			return false;
+			return undefined;
 		}
 		var previousPosition = this.getPreviousPosition();
 		if (previousPosition) {
@@ -32640,6 +32806,11 @@ chess.model.Game = new Class({
 		branch.length = fromIndex;
 	},
 
+	/**
+	 * @method findMove
+	 * @param {chess.model.Move} moveToFind
+	 * @return {chess.model.Move}
+	 */
 	findMove:function (moveToFind) {
 		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
 	},
@@ -32656,25 +32827,34 @@ chess.model.Game = new Class({
 		}
 	},
 
-	backward:function(numberOfMoves){
-		if(!this.currentMove)return;
+	/**
+	 * Go to previous move
+	 * @method back
+	 * @param {Number} numberOfMoves
+	 * @return {undefined}
+	 */
+	back:function(numberOfMoves){
+		if(!this.currentMove)return undefined;
 		numberOfMoves = numberOfMoves || 1;
 		var branch = this.currentBranch;
 		var index = branch.indexOf(this.currentMove);
 		var currentMove;
+		var move = {};
+		var parent;
 		while(index >=0 && numberOfMoves>0){
 			index--;
 			if(index < 0 && numberOfMoves>0){
-				var parent = this.getParentMove(move);
+				parent = this.getParentMove(move);
 				if(parent){
 					move = parent;
 					branch = this.getBranch(move);
 					index = branch.indexOf(move);
 					index--;
 				}
+
 			}
 			if(index >=0){
-				var move = branch[index];
+				move = branch[index];
 				if(this.isChessMove(move)){
 					currentMove = move;
 					numberOfMoves--;
@@ -32685,6 +32865,7 @@ chess.model.Game = new Class({
 		if(this.isChessMove(currentMove)){
 			return this.setCurrentMove(currentMove);
 		}
+		return undefined;
 	},
 
 	getMove:function (move) {
@@ -32870,7 +33051,7 @@ chess.model.Game = new Class({
 	 * Get next move of
 	 * @method getNextMove
 	 * @param {chess.model.Move} nextOf
-	 * @return {chess.model.Move} next move
+	 * @return {chess.model.Move|undefined} next move
 	 */
 	getNextMove:function (nextOf) {
 		if (!nextOf && this.currentMove) {
@@ -33047,6 +33228,13 @@ chess.model.Game = new Class({
 		return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
 	},
 
+	/**
+	 * @method fire
+	 * @param {String} eventName
+	 * @param {Object|chess.model.Move} param
+	 * @optional
+	 * @private
+	 */
 	fire:function (eventName, param) {
 		if (eventName === 'updateMove' || eventName == 'newMove' || eventName == 'updateMetadata') {
 			this.setDirty();
