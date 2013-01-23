@@ -198,6 +198,10 @@ chess.model.Game = new Class({
 		return this.moveBranchMap[move.id];
 	},
 
+	/**
+	 * Reset model data to default, blank game
+	 * @method setDefaultModel
+	 */
 	setDefaultModel:function () {
 		this.moveCache = {};
 		this.model = {
@@ -228,7 +232,7 @@ chess.model.Game = new Class({
 	},
 	/**
 	 Update particular info about the game
-	 @method setMetadata
+	 @method setMetadataValue
 	 @param {String} key
 	 @param {String} value
 	 @example
@@ -322,6 +326,13 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+	/**
+	 * Returns true if passed guess matches next move
+	 * @param {Object} guess
+	 * @param {Object} nextMove
+	 * @return {Boolean}
+	 * @private
+	 */
 	isCorrectGuess:function (guess, nextMove) {
 		if (nextMove.from == guess.from && nextMove.to == guess.to) {
 			return !(guess.promoteTo && !this.isMovePromotedTo(nextMove, guess.promoteTo));
@@ -540,6 +551,14 @@ chess.model.Game = new Class({
 		}
 	},
 
+	/**
+	 * Overwrite a move with a different move. oldMove has to be a
+	 * move in the game. When found, this move and all following move will be deleted
+	 * and the new move will be appended.
+	 * @method overwriteMove
+	 * @param {Object} oldMove
+	 * @param {Object} newMove
+	 */
 	overwriteMove:function (oldMove, newMove) {
 		var move = this.findMove(oldMove);
 		if (move) {
@@ -548,6 +567,13 @@ chess.model.Game = new Class({
 		}
 	},
 
+	/**
+	 * Returns valid config object for a move
+	 * @method getValidMove
+	 * @param {Object} move
+	 * @param {String} fen position
+	 * @return {*}
+	 */
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
 			return this.moveParser.getMoveConfig(move, pos);
