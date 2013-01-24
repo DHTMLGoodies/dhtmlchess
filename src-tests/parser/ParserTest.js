@@ -20,20 +20,19 @@ TestCase("ParserTest", {
 	"test should find all pieces":function () {
 		// given
 		var parser = this.getParser();
-
 		// when
 		var pieces = parser.getPiecesOfAColor('white');
 		// then
 		assertEquals(16, pieces.length);
+
 		// when
 		pieces = parser.getPiecesOfAColor('black');
-
 		// then
 		assertEquals(16, pieces.length);
 
 	},
 
-	"test should Find en passant square":function () {
+	"test should find en passant square":function () {
 		// given
 		var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
 
@@ -118,12 +117,12 @@ TestCase("ParserTest", {
 
 	/**
 	 * Easy access to available moves from a square given an array of available moves in a position
-	 * @method getValidMovesForSquare
+	 * @method getValidMovesFromSquare
 	 * @param {Array} moves
 	 * @param {String} square
 	 * @return {Array}
 	 */
-	getValidMovesForSquare:function (moves, square) {
+	getValidMovesFromSquare:function (moves, square) {
 		return moves[Board0x88Config.mapping[square]];
 	},
 
@@ -133,63 +132,63 @@ TestCase("ParserTest", {
 		// when
 		var parser = new chess.parser.FenParser0x88(fen);
 
-		var pLegal = parser.getValidMovesAndResult('white').moves;
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
 
-		var pawnMoves = this.getValidMovesForSquare(pLegal, 'a2');
+		var pawnMoves = this.getValidMovesFromSquare(legalMoves, 'a2');
 		// then
 		assertEquals(2, pawnMoves.length);
 
 		// when
 		parser = new chess.parser.FenParser0x88(fen);
-		pLegal = parser.getValidMovesAndResult('black').moves;
+		legalMoves = parser.getValidMovesAndResult('black').moves;
 
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'a7');
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'a7');
 		// then
 		assertEquals(2, pawnMoves.length);
 
 		// given
 		parser = new chess.parser.FenParser0x88('6r1/4pk2/8/8/8/5p2/6P1/6K1 b - - 0 1');
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'e7');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'e7');
 		// then
 		assertEquals(2, pawnMoves.length);
 
 		parser = new chess.parser.FenParser0x88('7k/7p/7P/8/8/8/8/3K2R1 b - - 0 1');
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'h7');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'h7');
 		// then
 		assertEquals(0, pawnMoves.length);
 
 		parser = new chess.parser.FenParser0x88('r1bq1rk1/ppppbppp/2n2n2/4p3/2B1P3/2N2N1P/PPPP1PP1/R1BQ1RK1 b - - 0 1');
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'h7');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'h7');
 		// then
 		assertEquals(2, pawnMoves.length);
 
 		parser = new chess.parser.FenParser0x88('rnbq1rk1/pppp1pp1/5n1p/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQ1RK1 b - - 0 6');
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'e5');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'e5');
 		// then
 		assertEquals(1, pawnMoves.length);
 
 		parser = new chess.parser.FenParser0x88('r1bq3r/ppp3pp/1b6/n2nk3/2B5/B1P2Q2/P2P1PPP/RN4K1 w - - 0 14');
-		pLegal = parser.getValidMovesAndResult('white').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'd2');
+		legalMoves = parser.getValidMovesAndResult('white').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'd2');
 		var expectedSquares = ['d3', 'd4'];
 
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 
 		parser = new chess.parser.FenParser0x88('6r1/2p1kp1p/p1Bp1p2/bp6/4P3/5bB1/Pp3P1P/R4RK1 b - - 3 20');
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'b2');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'b2');
 		expectedSquares = ['a1', 'b1'];
 
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 	},
 
-	assertHasSquares:function (squares, moves) {
+	assertSquaresIn:function (squares, moves) {
 		if (moves.indexOf(',') >= 0) {
 			moves = moves.substr(1, moves.length - 2).split(',');
 		}
@@ -224,8 +223,8 @@ TestCase("ParserTest", {
 		var parser = this.getParser(fenWithPawnOnF2AndOpponentPieceOnG3);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var pawnMoves = this.getValidMovesForSquare(pLegal, 'f2');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var pawnMoves = this.getValidMovesFromSquare(legalMoves, 'f2');
 
 		// then
 		assertEquals(3, pawnMoves.length);
@@ -240,8 +239,8 @@ TestCase("ParserTest", {
 		var parser = this.getParser(fenWithBishopOnC2OwnPawnOnB3AndOpponentPieceOnG6);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var bishopMoves = this.getValidMovesForSquare(pLegal, 'c2');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var bishopMoves = this.getValidMovesFromSquare(legalMoves, 'c2');
 
 		// then
 
@@ -261,8 +260,8 @@ TestCase("ParserTest", {
 		var parser = this.getParser(fenWithBishopOnC2OpponentPawnOnB3AndOwnPieceOnG6);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var bishopMoves = this.getValidMovesForSquare(pLegal, 'c2');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var bishopMoves = this.getValidMovesFromSquare(legalMoves, 'c2');
 
 		// then
 
@@ -282,12 +281,12 @@ TestCase("ParserTest", {
 		var parser = this.getParser(fenWithRookOnC2BlackOna2g3WhiteOnC6);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var rookMoves = this.getValidMovesForSquare(pLegal, 'c2');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var rookMoves = this.getValidMovesFromSquare(legalMoves, 'c2');
 		var expectedSquares = ['b2', 'a2', 'd2', 'e2', 'f2', 'g2', 'c1', 'c3', 'c4', 'c5'];
 
 		// then
-		this.assertHasSquares(expectedSquares, rookMoves);
+		this.assertSquaresIn(expectedSquares, rookMoves);
 	},
 
 	"test should find legal black rook moves":function () {
@@ -296,110 +295,105 @@ TestCase("ParserTest", {
 		var parser = new chess.parser.FenParser0x88(fen);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var rookMoves = this.getValidMovesForSquare(pLegal, 'd7');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var rookMoves = this.getValidMovesFromSquare(legalMoves, 'd7');
 		var expectedSquares = ['c7', 'e7', 'd6', 'd5'];
 
 		// then
-		this.assertHasSquares(expectedSquares, rookMoves);
+		this.assertSquaresIn(expectedSquares, rookMoves);
 	},
 
-	"test should find legal knight squares":function () {
-
+	"test should find legal knight moves":function () {
+        // given
 		var fen = '6k1/8/8/8/2P1p3/8/3N4/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var knightMoves = this.getValidMovesForSquare(pLegal, 'd2');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var knightMoves = this.getValidMovesFromSquare(legalMoves, 'd2');
 		var expectedSquares = ['b1', 'f1', 'b3', 'f3', 'e4'];
-
 		// then
-		this.assertHasSquares(expectedSquares, knightMoves);
+		this.assertSquaresIn(expectedSquares, knightMoves);
 
 		// given
 		fen = 'rnb1qrk1/ppp3pp/3b4/3pN1BN/3Pp1n1/8/PPPQ1P1P/R3KB1R w KQ - 0 12';
 		parser = new chess.parser.FenParser0x88(fen);
 		// when
-		pLegal = parser.getValidMovesAndResult('white').moves;
-
-		knightMoves = this.getValidMovesForSquare(pLegal, 'e5');
+		legalMoves = parser.getValidMovesAndResult('white').moves;
+		knightMoves = this.getValidMovesFromSquare(legalMoves, 'e5');
 		expectedSquares = ['d7', 'f7', 'g6', 'g4', 'f3', 'd3', 'c6', 'c4'];
-
-
 		// then
-		this.assertHasSquares(expectedSquares, knightMoves);
+		this.assertSquaresIn(expectedSquares, knightMoves);
 	},
 
-	"test should Find legal black knight squares":function () {
-
+	"test should find legal black knight squares":function () {
+        // given
 		var fen = '6k1/8/2P5/5p2/3n4/8/2P5/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var knightMoves = this.getValidMovesForSquare(pLegal, 'd4');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var knightMoves = this.getValidMovesFromSquare(legalMoves, 'd4');
 		var expectedSquares = ['c2', 'e2', 'b3', 'f3', 'b5', 'c6', 'e6'];
 		// then
-		this.assertHasSquares(expectedSquares, knightMoves);
+		this.assertSquaresIn(expectedSquares, knightMoves);
 	},
 
 	"test should find legal king moves":function () {
+        // given
 		var fen = '5k2/8/8/8/8/8/5P2/6K1 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'g1');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'g1');
 		var expectedSquares = ['f1', 'g2', 'h1', 'h2'];
-
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 
+        // given
 		fen = 'Rbkq4/1p6/1BP4p/4p3/4B3/1QPP1P2/6rP/6K1 w - - 0 29';
 		parser = new chess.parser.FenParser0x88(fen);
 		// when
-		pLegal = parser.getValidMovesAndResult('white').moves;
-		kingMoves = this.getValidMovesForSquare(pLegal, 'g1');
+		legalMoves = parser.getValidMovesAndResult('white').moves;
+		kingMoves = this.getValidMovesFromSquare(legalMoves, 'g1');
 		expectedSquares = ['f1', 'g2', 'h1'];
-
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
-
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
+
 	"test should find legal black king moves":function () {
+        // given
 		var fen = '8/5k2/5p2/8/8/8/5P2/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'f7');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'f7');
 		var expectedSquares = ['e8', 'e7', 'e6', 'f8', 'g8', 'g7', 'g6'];
-
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 
 	"test should find legal castle moves":function () {
 		var fen = '8/5k2/5p2/8/8/8/5P2/R3K2R b KQ - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'e1');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'e1');
 		var expectedSquares = ['f1', 'd1', 'e2', 'd2', 'g1', 'c1'];
 
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 
-
 	"test should find legal black castle moves":function () {
+        // given
 		var fen = 'r3k2r/8/5p2/8/8/8/5P2/R3K2R b KQk - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'e8');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'e8');
 		var expectedSquares = ['d8', 'd7', 'e7', 'f8', 'f7', 'g8'];
 
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 
 	"test should find opponents capture and protective moves":function () {
@@ -407,48 +401,46 @@ TestCase("ParserTest", {
 		var fen = '7k/4b2p/8/8/8/8/8/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getCaptureAndProtectiveMoves('black');
-
-		pLegal = pLegal.substr(1, pLegal.length - 2).split(',');
+		var legalMoves = parser.getCaptureAndProtectiveMoves('black');
+		//legalMoves = legalMoves.substr(1, legalMoves.length - 2).split(',');
 
 		var expectedSquares = 'd6,c5,b4,a3,d8,f8,f6,g5,h4,g6,g8,g7,h7';
 		expectedSquares = expectedSquares.split(',');
 		// then
-		this.assertHasSquares(expectedSquares, pLegal);
+		this.assertSquaresIn(expectedSquares, legalMoves);
 	},
+
 	"test should find opponents capture and protective moves continued":function () {
 		// given
 		var fen = '6k1/8/8/2b5/8/8/5p2/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getCaptureAndProtectiveMoves('black');
-
-
+		var legalMoves = parser.getCaptureAndProtectiveMoves('black');
 		var expectedSquares = 'e1,g1,b6,a7,b4,a3,d6,e7,f8,d4,e3,f2,f8,f7,g7,h7,h8';
 		expectedSquares = expectedSquares.split(',');
 		// then
-		this.assertHasSquares(expectedSquares, pLegal);
+		this.assertSquaresIn(expectedSquares, legalMoves);
 	},
 
 	"test should exclude invalid king moves":function () {
 		var fen = '6k1/8/8/2b5/8/8/5p2/5K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'f1');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'f1');
 		var expectedSquares = ['e2', 'g2'];
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 	"test should exclude invalid black king moves":function () {
 		var fen = '6k1/5p2/5P2/2B5/8/8/5p2/5K2 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'g8');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'g8');
 		var expectedSquares = ['h7', 'h8'];
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 
 	"test should find queen moves":function () {
@@ -456,12 +448,12 @@ TestCase("ParserTest", {
 		var fen = '6k1/6pp/3P2p1/8/8/3Q1P2/8/1P3K2 w - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var queenMoves = this.getValidMovesForSquare(pLegal, 'd3');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var queenMoves = this.getValidMovesFromSquare(legalMoves, 'd3');
 		var expectedSquares = 'c2,d2,d1,e2,d4,d5,c4,b5,a6,e4,f5,g6,c3,b3,a3,e3';
 		expectedSquares = expectedSquares.split(',');
 		// then
-		this.assertHasSquares(expectedSquares, queenMoves);
+		this.assertSquaresIn(expectedSquares, queenMoves);
 	},
 
 
@@ -469,22 +461,22 @@ TestCase("ParserTest", {
 		var fen = '1k4r1/8/3r4/8/8/1b6/4P3/4K2R w K - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var kingMoves = this.getValidMovesForSquare(pLegal, 'e1');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var kingMoves = this.getValidMovesFromSquare(legalMoves, 'e1');
 		var expectedSquares = ['f1', 'f2'];
 		// then
-		this.assertHasSquares(expectedSquares, kingMoves);
+		this.assertSquaresIn(expectedSquares, kingMoves);
 	},
 
 	"test should legal en passant moves":function () {
 		var fen = '7k/4b2p/8/3pP3/8/8/8/5K2 w - d6 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var pawnMoves = this.getValidMovesForSquare(pLegal, 'e5');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var pawnMoves = this.getValidMovesFromSquare(legalMoves, 'e5');
 		var expectedSquares = ['d6', 'e6'];
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 	},
 
 	"test should find sliding pieces in path of king":function () {
@@ -544,12 +536,12 @@ TestCase("ParserTest", {
 		var fen = '3R2k1/6p1/5p1p/8/8/8/B7/6K1 b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
 
-		var pawnMoves = this.getValidMovesForSquare(pLegal, 'g8');
+		var pawnMoves = this.getValidMovesFromSquare(legalMoves, 'g8');
 		var expectedSquares = ['h7'];
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 
 	},
 
@@ -647,11 +639,11 @@ TestCase("ParserTest", {
 		var parser = new chess.parser.FenParser0x88(fen);
 
 		// when
-		var pLegal = parser.getValidMovesAndResult('black').moves;
-		var knightMoves = this.getValidMovesForSquare(pLegal, 'e6');
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
+		var knightMoves = this.getValidMovesFromSquare(legalMoves, 'e6');
 		var expectedSquares = [];
 		// then
-		this.assertHasSquares(expectedSquares, knightMoves);
+		this.assertSquaresIn(expectedSquares, knightMoves);
 
 	},
 
@@ -664,52 +656,52 @@ TestCase("ParserTest", {
 		// then
 		this.assertSquareIsPinnedBy('g2', 'a2', pinned);
 		// when
-		var pLegal = parser.getValidMovesAndResult('white').moves;
-		var pawnMoves = this.getValidMovesForSquare(pLegal, 'g2');
+		var legalMoves = parser.getValidMovesAndResult('white').moves;
+		var pawnMoves = this.getValidMovesFromSquare(legalMoves, 'g2');
 		var expectedSquares = [];
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 
 		// when
 		var fen = '5kr1/8/8/8/8/5p2/6P1/6K1 w - - 0 1';
 		parser = new chess.parser.FenParser0x88(fen);
-		pLegal = parser.getValidMovesAndResult('white').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'g2');
+		legalMoves = parser.getValidMovesAndResult('white').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'g2');
 		expectedSquares = ['g3', 'g4'];
 		// then
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 
 		// when
 		fen = '6r1/R3pk2/8/8/8/5p2/6P1/6K1 b - - 0 1';
 		parser = new chess.parser.FenParser0x88(fen);
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'e7');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'e7');
 		expectedSquares = [];
 		// then
 		assertEquals(0, pawnMoves.length);
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 
 		// when
 		fen = '4k1r1/4p3/3P4/8/8/5p2/6P1/4R1K1 b - - 0 1';
 		parser = new chess.parser.FenParser0x88(fen);
-		pLegal = parser.getValidMovesAndResult('black').moves;
-		pawnMoves = this.getValidMovesForSquare(pLegal, 'e7');
+		legalMoves = parser.getValidMovesAndResult('black').moves;
+		pawnMoves = this.getValidMovesFromSquare(legalMoves, 'e7');
 		expectedSquares = ['e6', 'e5'];
 		// then
 		assertEquals(2, pawnMoves.length);
-		this.assertHasSquares(expectedSquares, pawnMoves);
+		this.assertSquaresIn(expectedSquares, pawnMoves);
 	},
 
 	"test pinned bishop sliding pieces should only be able move between pinning and king":function () {
 		// given
 		var fenBishopA2AndE6KingOng8 = '6k1/8/4b3/8/8/8/B7/6K1 b - - 0 1';
 		var parser = this.getParser(fenBishopA2AndE6KingOng8);
-		var pLegal = parser.getValidMovesAndResult('black').moves;
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
 		// when
-		var bishopMoves = this.getValidMovesForSquare(pLegal, 'e6');
+		var bishopMoves = this.getValidMovesFromSquare(legalMoves, 'e6');
 		var expectedSquares = ['d5', 'c4', 'b3', 'a2', 'f7'];
 		// then
-		this.assertHasSquares(expectedSquares, bishopMoves);
+		this.assertSquaresIn(expectedSquares, bishopMoves);
 
 	},
 
@@ -717,12 +709,12 @@ TestCase("ParserTest", {
 		// given
 		var fenRookOnE5AndE2KingOnE8 = '4k3/8/8/4r3/8/8/4R3/6K1 b - - 0 1';
 		var parser = this.getParser(fenRookOnE5AndE2KingOnE8);
-		var pLegal = parser.getValidMovesAndResult('black').moves;
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
 		// when
-		var rookMoves = this.getValidMovesForSquare(pLegal, 'e5');
+		var rookMoves = this.getValidMovesFromSquare(legalMoves, 'e5');
 		var expectedSquares = ['e4', 'e3', 'e2', 'e6', 'e7'];
 		// then
-		this.assertHasSquares(expectedSquares, rookMoves);
+		this.assertSquaresIn(expectedSquares, rookMoves);
 	},
 
 	"test should find pawn check moves":function () {
@@ -770,7 +762,7 @@ TestCase("ParserTest", {
 		var expectedSquares = 'b3,c4,d5,e6,f7'.split(',');
 		// then
 
-		this.assertHasSquares(expectedSquares, checks);
+		this.assertSquaresIn(expectedSquares, checks);
 	},
 
 	"test should find valid squares when checked by rook":function () {
@@ -782,7 +774,7 @@ TestCase("ParserTest", {
 		var expectedSquares = 'f3,f4,f5,f6,f7'.split(',');
 		// then
 
-		this.assertHasSquares(expectedSquares, checks);
+		this.assertSquaresIn(expectedSquares, checks);
 	},
 
 	"test should find valid squares when checked by rook on same rank":function () {
@@ -793,7 +785,7 @@ TestCase("ParserTest", {
 		var checks = parser.getValidSquaresOnCheck('black');
 		var expectedSquares = 'a8,b8,c8,d8,e8'.split(',');
 		// then
-		this.assertHasSquares(expectedSquares, checks);
+		this.assertSquaresIn(expectedSquares, checks);
 	},
 
 	"test should find valid squares when checked by queen":function () {
@@ -805,7 +797,7 @@ TestCase("ParserTest", {
 		var expectedSquares = 'f3,f4,f5,f6,f7'.split(',');
 		// then
 
-		this.assertHasSquares(expectedSquares, checks);
+		this.assertSquaresIn(expectedSquares, checks);
 
 
 		// given
@@ -816,7 +808,7 @@ TestCase("ParserTest", {
 		expectedSquares = 'b3,c4,d5,e6,f7'.split(',');
 		// then
 
-		this.assertHasSquares(expectedSquares, checks);
+		this.assertSquaresIn(expectedSquares, checks);
 
 	},
 
@@ -826,12 +818,12 @@ TestCase("ParserTest", {
 		// Bishop on g8 should only be able to move to f7
 		var fen = '5kb1/4p3/3p4/2p5/1p6/p4Q2/8/7K b - - 0 1';
 		var parser = new chess.parser.FenParser0x88(fen);
-		var pLegal = parser.getValidMovesAndResult('black').moves;
+		var legalMoves = parser.getValidMovesAndResult('black').moves;
 		// when
-		var moves = this.getValidMovesForSquare(pLegal, 'g8');
+		var moves = this.getValidMovesFromSquare(legalMoves, 'g8');
 		var expectedSquares = ['f7'];
 		// then
-		this.assertHasSquares(expectedSquares, moves);
+		this.assertSquaresIn(expectedSquares, moves);
 
 
 	},
