@@ -16,6 +16,7 @@ TestCase("ModelToPgn", {
         var pgn = parser.getPgn();
         // then
         this.assertHasMetadata(pgn, "event", "Computer chess game");
+        this.assertHasMetadata(pgn, "site", "ALFMAGNE-PC");
     },
 
     assertHasMetadata:function(pgn, key, value){
