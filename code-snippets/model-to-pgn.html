@@ -73,7 +73,8 @@
     game.populate(gameData);
 
     var parser = new chess.pgn.Parser(game);
-    console.log(parser.getPgn());
+    document.write('<pre>');
+    document.write(parser.getPgn());
 
 </script>
 </body>
