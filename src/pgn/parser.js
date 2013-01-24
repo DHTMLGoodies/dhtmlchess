@@ -1,13 +1,33 @@
+/**
+ Model to PGN parser
+ @namespace pgn
+ @class Parser
+ @constructor
+ @example
+	 var game = new chess.model.Game();
+	 game.setMetadataValue('white','Magnus Carlsen');
+	 game.setMetadataValue('black','Levon Aronian');
+	 game.appendMove('e4');
+	 game.appendMove('e5');
+
+	 var parser = new chess.pgn.Parser(game);
+ 	 console.log(parser.getPgn());
+ */
 chess.pgn.Parser = new Class({
-	model:undefined,
 	/**
-	 * @method initialize
-	 * @param chess.model.Game model
+	 * @property {chess.model.Game} model
 	 */
+	model:undefined,
+
 	initialize:function(model){
 		this.model = model;
 	},
 
+	/**
+	 * Return pgn in string format
+	 * @method getPgn
+	 * @return {*}
+	 */
 	getPgn:function(){
 		return this.getMetadata() + this.getMoves();
 
