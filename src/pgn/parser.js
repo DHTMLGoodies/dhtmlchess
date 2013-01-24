@@ -1,6 +1,6 @@
 /**
  Model to PGN parser
- @namespace pgn
+ @namespace chess.pgn
  @class Parser
  @constructor
  @example
