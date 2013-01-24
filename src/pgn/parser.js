@@ -33,6 +33,11 @@ chess.pgn.Parser = new Class({
 
 	},
 
+    /**
+     * @method getMetadata
+     * @return {String}
+     * @private
+     */
 	getMetadata:function(){
 		var ret = [];
 		var metadata = this.model.getMetadata();
@@ -43,7 +48,11 @@ chess.pgn.Parser = new Class({
 		}
 		return ret.join('\n');
 	},
-
+    /**
+     * @method getMoves
+     * @return {String}
+     * @private
+     */
 	getMoves:function(){
 		return '';
 	}
