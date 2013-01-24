@@ -483,7 +483,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	/* This method returns a commaseparated string of moves since it's faster to work with than arrays*/
 	getCaptureAndProtectiveMoves:function (color) {
-		var ret = [], directions, square, a;
+		var ret = [''], directions, square, a;
 
 		var pieces = this.cache[color];
 		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
@@ -546,7 +546,8 @@ chess.parser.FenParser0x88 = new Class({
 			}
 
 		}
-		return ',' + ret.join(',') + ',';
+        ret.push('');
+        return ret.join(',');
 	},
 
 	/**
