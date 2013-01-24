@@ -8,6 +8,7 @@ load:
   - model/*.js
   - user/*.js
   - CommandLine/*.js
+  - model-to-pgn/*.js
 
 plugin:
  - name: "coverage"
