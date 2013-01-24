@@ -3,6 +3,7 @@ window.chess = {
     language:{},
     addons:{
     },
+	pgn:{},
     view:{
         board:{ },
         highlight:{},
