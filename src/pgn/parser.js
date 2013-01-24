@@ -9,6 +9,22 @@ chess.pgn.Parser = new Class({
 	},
 
 	getPgn:function(){
+		return this.getMetadata() + this.getMoves();
 
+	},
+
+	getMetadata:function(){
+		var ret = [];
+		var metadata = this.model.getMetadata();
+		for(var key in metadata){
+			if(metadata.hasOwnProperty(key)){
+				ret.push('[' + key + ' "' + metadata[key] + '"]');
+			}
+		}
+		return ret.join('\n');
+	},
+
+	getMoves:function(){
+		return '';
 	}
 });
