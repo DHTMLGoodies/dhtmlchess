@@ -18,9 +18,7 @@ chess.view.position.Board = new Class({
     },
     lowerCaseLabels:true,
     selectedPiece:undefined,
-    ludoEvents:function () {
-        this.parent();
-    },
+
     ludoEvents:function () {
         this.parent();
         this.els.board.addEvent('click', this.insertPiece.bind(this));
@@ -61,8 +59,8 @@ chess.view.position.Board = new Class({
         }
         var p;
 
-        if (this.selectedPiece.type == 'king') {
-            var p = this.getKingPiece(this.selectedPiece.color);
+        if (this.selectedPiece.pieceType == 'king') {
+            p = this.getKingPiece(this.selectedPiece.color);
             var existingPiece;
             if (existingPiece = this.getVisiblePieceOnNumericSquare(square)) {
 
@@ -76,8 +74,8 @@ chess.view.position.Board = new Class({
             this.hidePiece(p);
         }
         if (!p) {
-            var p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.type == 'king') {
+            p = this.getVisiblePieceOnNumericSquare(square);
+            if (p && p.pieceType == 'king') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -100,7 +98,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.type == 'pawn') {
+        if (p.pieceType == 'pawn') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -112,7 +110,7 @@ chess.view.position.Board = new Class({
 
     configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
         piece.square = placeOnSquare;
-        piece.type = this.selectedPiece.type;
+        piece.pieceType = this.selectedPiece.pieceType;
         piece.color = this.selectedPiece.color;
         piece.position();
         piece.updateBackgroundImage();
@@ -121,7 +119,7 @@ chess.view.position.Board = new Class({
     },
 
     isEqualPiece:function (piece1, piece2) {
-        return piece1.color == piece2.color && piece1.type == piece2.type;
+        return piece1.color == piece2.color && piece1.pieceType == piece2.pieceType;
     },
 
     getIndexForNewPiece:function (color) {
@@ -151,7 +149,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].type == 'king' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType == 'king' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }
@@ -202,7 +200,7 @@ chess.view.position.Board = new Class({
                     fen = fen + emptyCounter;
                     emptyCounter = 0;
                 }
-                fen = fen + Board0x88Config.fenNotations[piece.color][piece.type];
+                fen = fen + Board0x88Config.fenNotations[piece.color][piece.pieceType];
             } else {
                 emptyCounter++;
             }

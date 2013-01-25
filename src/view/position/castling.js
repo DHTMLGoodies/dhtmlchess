@@ -56,7 +56,7 @@ chess.view.position.Castling = new Class({
             obj.type = 'form.Checkbox';
             obj.listeners = {
                 change : this.receiveInput.bind(this)
-            }
+            };
             this.checkboxes[i] = this.addChild(obj);
         }
     },
@@ -73,16 +73,15 @@ chess.view.position.Castling = new Class({
      * @return undefined
      */
     setValue:function(castle){
-
         for(var i=0;i<this.checkboxes.length;i++)this.checkboxes[i].setChecked(false);
-        for(var i=0;i<castle.length;i++){
+        for(i=0;i<castle.length;i++){
             var key = castle.substr(i,1);
             if(this.child[key])this.child[key].check();
         }
     },
 
     getValue : function() {
-        var keys = ['K','Q','k','q']
+        var keys = ['K','Q','k','q'];
         var ret = '';
         for(var i=0;i<keys.length;i++){
             ret = ret + this.values[keys[i]];

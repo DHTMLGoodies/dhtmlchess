@@ -7,7 +7,6 @@
  * @class GUI
  * @extends View
  */
-
 chess.view.board.GUI = new Class({
     Extends:ludo.View,
     type:'chess.view.board.GUI',
@@ -20,6 +19,7 @@ chess.view.board.GUI = new Class({
     boardCls:undefined,
     boardCss:undefined,
     lowerCaseLabels:false,
+
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -37,8 +37,8 @@ chess.view.board.GUI = new Class({
         if (config.boardLayout !== undefined) this.boardLayout = config.boardLayout;
         if (config.lowerCaseLabels !== undefined) this.lowerCaseLabels = config.lowerCaseLabels;
         this.chessSet = config.chessSet || this.chessSet;
-
     },
+
     ludoDOM:function () {
         this.parent();
 
@@ -88,7 +88,7 @@ chess.view.board.GUI = new Class({
     },
 
     hasLabels:function () {
-        return this.labels ? true : false;
+        return this.labels;
     },
 
     createBoardContainer:function () {
@@ -129,14 +129,10 @@ chess.view.board.GUI = new Class({
             var el = this.els.squares[i] = new Element('div');
             el.addClass('ludo-chess-square');
             el.style.position = 'relative';
-
             this.els.board.adopt(el);
-
-            backgroundPos = Math.round(Math.random() * 150);
-
+            var backgroundPos = Math.round(Math.random() * 150);
             el.style.backgroundPosition = backgroundPos + 'px ' + backgroundPos + 'px';
         }
-
         this.updateSquares();
     },
 
@@ -157,7 +153,6 @@ chess.view.board.GUI = new Class({
     },
 
     updateSquares:function () {
-
         var types = ['white', 'black'];
         var index = 0;
         for (var i = 0; i < 64; i++) {
@@ -360,7 +355,7 @@ chess.view.board.GUI = new Class({
     },
 
     flip:function () {
-        this.flipped = this.flipped ? false : true;
+        this.flipped = !this.flipped;
         this.updateLabels();
         this.flipSquares();
         this.fireEvent('flip', this);
@@ -405,26 +400,28 @@ chess.view.board.GUI = new Class({
     },
 
     getTimeStamp:function () {
-        var d = new Date();
-        return d.getTime();
+        return new Date().getTime();
     },
+
     getHeightOfContainer:function () {
         var el = this.getBody();
         if (el.style.height) {
-            return el.style.height.replace('px', '') / 1;
+            return parseInt(el.style.height.replace('px', ''));
         }
         return el.getSize().y - ludo.dom.getBH(el) - ludo.dom.getPH(el);
     },
 
     getSquareFromCoordinates:function (x, y) {
-        x += this.internal.squareSize / 2;
-        y += this.internal.squareSize / 2;
+        var offset = this.internal.squareSize / 2;
+        x += offset;
+        y += offset;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.internal.squareSize * 8, x);
-        y = Math.min(this.internal.squareSize * 8, y);
+        var max = this.internal.squareSize * 8;
+        x = Math.min(max, x);
+        y = Math.min(max, y);
 
         x = Math.floor(x / this.internal.squareSize);
         y = Math.floor(8 - (y / this.internal.squareSize));
