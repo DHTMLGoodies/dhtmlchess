@@ -45,8 +45,7 @@ chess.view.message.TacticsMessage = new Class({
         }
     },
 
-
-    autoHideMessage:function (delay) {
+    autoHideMessage:function () {
         this.getBody().set('html','');
     }
 });

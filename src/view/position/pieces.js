@@ -35,7 +35,9 @@ chess.view.position.Pieces = new Class({
 
     clearSelections : function() {
         for(var pieceType in this.pieces){
-            this.pieces[pieceType].clearSelectionCls();
+            if(this.pieces.hasOwnProperty(pieceType)){
+                this.pieces[pieceType].clearSelectionCls();
+            }
         }
     },
 
@@ -95,7 +97,6 @@ chess.view.position.Piece = new Class({
 
     resizePiece : function() {
         var c = this.getBody();
-        var p = this.els.piece;
         var size = c.getSize();
         size.x -= (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
         size.y -= (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
@@ -120,6 +121,8 @@ chess.view.position.Piece = new Class({
                 return this.pieceType.substr(0, 1).toLowerCase();
             case 'knight':
                 return 'n';
+            default:
+                return undefined;
         }
     },
     selectPiece:function (e) {

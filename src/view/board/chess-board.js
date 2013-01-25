@@ -71,7 +71,7 @@ chess.view.board.Board = new Class({
             var config = {
                 square:0,
                 color:'white',
-                type:'pawn',
+                pieceType:'pawn',
                 pieceLayout:this.pieceLayout,
                 squareSize:30,
                 flipped:flipped,
@@ -134,7 +134,9 @@ chess.view.board.Board = new Class({
         this.currentValidMoves = this.positionParser.getValidMovesAndResult().moves;
         this.resetPieceDragAndDrop();
         for (var square in this.currentValidMoves) {
-            this.pieceMap[square].enableDragAndDrop();
+            if(this.currentValidMoves.hasOwnProperty(square)){
+                this.pieceMap[square].enableDragAndDrop();
+            }
         }
     },
     /**
@@ -152,12 +154,14 @@ chess.view.board.Board = new Class({
         }
     },
     /**
-     * Animate/Play the "movements" involved in a move, example: O-O involves two moves,
-     * moving the king and moving the rook. By default, this method will be executed when the
-     * controller fires newMove or nextmove event.
-     * @method playChainOfMoves
-     * @param GameModel model
-     * @param Object move, example: { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
+     Animate/Play the "movements" involved in a move, example: O-O involves two moves,
+     moving the king and moving the rook. By default, this method will be executed when the
+     controller fires newMove or nextmove event.
+     @method playChainOfMoves
+     @param {game.model.Game} model
+     @param {Object} move
+     @example
+        { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves:function (model, move) {
         if (this.currentAnimation.isBusy) {
@@ -244,7 +248,7 @@ chess.view.board.Board = new Class({
     /**
      * Show start position of game
      * @method showStartboard
-     * @param GameModel model
+     * @param {game.model.Game} model
      * @return void
      */
     showStartBoard:function (model) {
@@ -253,8 +257,8 @@ chess.view.board.Board = new Class({
     /**
      * Show a specific FEN position on the board
      * @method showFen
-     * @param String fen
-     * @return void
+     * @param {String} fen
+     * @return undefined
      */
     showFen:function (fen) {
         this.positionParser.setFen(fen);
@@ -267,7 +271,7 @@ chess.view.board.Board = new Class({
             var p = this.pieces[i];
             p.square = pieces[i].s;
             p.color = color;
-            p.type = type;
+            p.pieceType = type;
             p.position();
             p.updateBackgroundImage();
             p.show();
@@ -347,9 +351,11 @@ chess.view.board.Board = new Class({
     },
 
     /**
-     * Returns JSON object for a piece on a specific square or null if no piece is on the square
-     * @method getPieceOnSquare
-     * @param string square, example: "e4"
+     Returns JSON object for a piece on a specific square or null if no piece is on the square
+     @method getPieceOnSquare
+     @param {String} square
+     @example
+        alert(board.getPieceOnSquare('e4');
      */
     getPieceOnSquare:function (square) {
         return this.pieceMap[Board0x88Config.mapping[square]];

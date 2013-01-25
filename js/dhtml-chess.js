@@ -21132,7 +21132,7 @@ ludo.form.Spinner = new Class({
     },
 
     _createContainer:function (config) {
-        config = $merge({
+        config = Object.merge({
             tag:'div',
             cls:''
         }, config);

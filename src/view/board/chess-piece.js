@@ -11,7 +11,6 @@ chess.view.board.Piece = new Class({
     Extends:ludo.Core,
     type:'chess.view.board.Piece',
     color:'white',
-    type:'pawn',
     pieceLayout:'alpha',
     size:null,
     squareSize:null,
@@ -24,6 +23,7 @@ chess.view.board.Piece = new Class({
     board:undefined,
     ddEnabled:false,
     aniDuration:250,
+    pieceType:'pawn',
     dd:{
         active:false,
         el:{ x:0, y:0},
@@ -44,7 +44,7 @@ chess.view.board.Piece = new Class({
         this.pieceLayout = config.pieceLayout;
         this.numSquare = config.numSquare;
         this.flipped = config.flipped;
-        this.type = config.type;
+        this.pieceType = config.pieceType;
         this.color = config.color;
         this.board = config.board;
         this.aniDuration = config.aniDuration || this.aniDuration;
@@ -117,7 +117,7 @@ chess.view.board.Piece = new Class({
     },
 
     isVisible:function () {
-        return this.el.style.display == 'none' ? false : true;
+        return this.el.style.display != 'none';
     },
 
     hide:function () {
@@ -142,6 +142,7 @@ chess.view.board.Piece = new Class({
             };
             return false;
         }
+        return undefined;
     },
 
     dragPiece:function (e) {
@@ -150,17 +151,19 @@ chess.view.board.Piece = new Class({
             this.el.style.top = (e.page.y + this.dd.el.y - this.dd.mouse.y) + 'px';
             return false;
         }
+        return undefined;
     },
 
     stopDragPiece:function (e) {
         if (this.dd.active) {
+            var coords;
             if (this.shouldUseTouchEvents()) {
-                var coords = {
+                coords = {
                     x:e.target.offsetLeft,
                     y:e.target.offsetTop
                 }
             } else {
-                var coords = {
+                coords = {
                     x:e.page.x + this.dd.el.x - this.dd.mouse.x,
                     y:e.page.y + this.dd.el.y - this.dd.mouse.y
                 }
@@ -208,7 +211,7 @@ chess.view.board.Piece = new Class({
     },
 
     promote:function (toType) {
-        this.type = toType;
+        this.pieceType = toType;
         this.updateBackgroundImage();
     },
 
@@ -244,8 +247,7 @@ chess.view.board.Piece = new Class({
 
         toSquare = Board0x88Config.mapping[toSquare];
 
-        if (this.isAllreadyOnSquare(toSquare)) {
-
+        if (this.isAlreadyOnSquare(toSquare)) {
             this.toSquare = toSquare;
             this.animationComplete();
         } else {
@@ -262,13 +264,9 @@ chess.view.board.Piece = new Class({
         }
 
     },
-    isAllreadyOnSquare:function (square) {
+    isAlreadyOnSquare:function (square) {
         var pos = this.getPos(square);
-
-        if (pos.x == this.el.style.left && pos.y === this.el.style.top) {
-            return true;
-        }
-        return false;
+        return pos.x == this.el.style.left && pos.y === this.el.style.top;
     },
     increaseZIndex:function () {
         ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
@@ -292,8 +290,7 @@ chess.view.board.Piece = new Class({
     },
     getPosOfSquare:function (square) {
         var file = (square & 15);
-        var rank = 7 - ((square & 240) / 16)
-
+        var rank = 7 - ((square & 240) / 16);
 
         if (this.flipped) {
             file = 7 - file;
@@ -314,20 +311,22 @@ chess.view.board.Piece = new Class({
     },
 
     getTypeCode:function () {
-        switch (this.type) {
+        switch (this.pieceType) {
             case 'pawn':
             case 'rook':
             case 'bishop':
             case 'queen':
             case 'king':
-                return this.type.substr(0, 1).toLowerCase();
+                return this.pieceType.substr(0, 1).toLowerCase();
             case 'knight':
                 return 'n';
+            default:
+                return undefined;
         }
     },
 
     flip:function () {
-        this.flipped = this.flipped ? false : true;
+        this.flipped = !this.flipped;
         this.position();
     },
 
