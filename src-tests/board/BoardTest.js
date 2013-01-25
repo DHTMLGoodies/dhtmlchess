@@ -19,5 +19,20 @@ TestCase("BoardTest", {
         // then
         assertEquals('king', piece.pieceType);
         assertEquals(32, board.pieces.length);
+    },
+
+    "test should show pieces at correct position for custom postions": function(){
+        // given
+        var fen = '6k1/5ppp/8/8/8/8/5PPP/3R2K1 b - - 1 1';
+
+        // when
+        var board = new chess.view.board.Board();
+        board.showFen(fen);
+        var piece = board.getPieceOnSquare('d1');
+
+        // then
+        assertEquals('rook', piece.pieceType);
+
+
     }
 });

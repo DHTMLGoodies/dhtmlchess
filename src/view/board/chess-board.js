@@ -247,7 +247,7 @@ chess.view.board.Board = new Class({
     },
     /**
      * Show start position of game
-     * @method showStartboard
+     * @method showStartBoard
      * @param {game.model.Game} model
      * @return void
      */
