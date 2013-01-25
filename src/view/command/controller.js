@@ -1,3 +1,9 @@
+/**
+ * Controller for the command line view
+ * @namespace chess.view.command
+ * @class Controller
+ * @extends controller.Controller
+ */
 chess.view.command.Controller = new Class({
 	Extends:ludo.controller.Controller,
 	type:'chess.view.command.Controller',
@@ -21,12 +27,23 @@ chess.view.command.Controller = new Class({
 		}
 	},
 
+    /**
+     * Add listeners to the controller
+     * @method addControllerEvents
+     */
 	addControllerEvents:function () {
 		this.controller.addEvent('invalidMove', this.onInvalidMove.bind(this));
 		this.controller.addEvent('newMove', this.receiveMove.bind(this));
 		this.controller.addEvent('updateMove', this.receiveMoveUpdate.bind(this));
 	},
 
+    /**
+     * Return valid command name
+     * @method getValidCommand
+     * @param {String} command
+     * @return {String|undefined}
+     * @private
+     */
 	getValidCommand:function (command) {
 		var c = command.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1)return c;
@@ -34,6 +51,17 @@ chess.view.command.Controller = new Class({
 		return undefined;
 	},
 
+    /**
+     Extract command arguments from command message. The whole message would be returned
+     when message is not a valid command.
+     @method getCommandArguments
+     @param {String} message
+     @return {String}
+     @private
+     @example
+        var args = controller.getCommandArguments('move e4');
+        // will return "e4"
+     */
 	getCommandArguments:function (message) {
 		var c = message.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1) {
@@ -44,6 +72,12 @@ chess.view.command.Controller = new Class({
 		return message;
 	},
 
+    /**
+     * Execute a command
+     * @method execute
+     * @param {String} command
+     * @param {String} arg
+     */
 	execute:function (command, arg) {
 		switch (command) {
 			case 'help':
@@ -81,7 +115,10 @@ chess.view.command.Controller = new Class({
 	},
 
 	helpMessage:undefined,
-
+    /**
+     * Show command line help screen
+     * @method showHelp
+     */
 	showHelp:function () {
 		if (this.helpMessage === undefined) {
 			var msg = [];
@@ -94,29 +131,67 @@ chess.view.command.Controller = new Class({
 
 		this.message(this.helpMessage);
 	},
-
+    /**
+     * Show invalid move message
+     * @method onInvalidMove
+     */
 	onInvalidMove:function () {
 		this.errorMessage(chess.getPhrase('Invalid move'));
 	},
-
+    /**
+     * Using RegEx to validate a chess move.
+     * @param {String} move
+     * @return {Boolean}
+     */
 	isChessMove:function (move) {
 		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|O(-?O){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
 	},
+    /**
+     * Receive move from main controller and display move message on screen
+     * @method receiveMove
+     * @param {chess.controller.Controller} controller
+     * @param {chess.model.Move} move
+     * @private
+     */
 	receiveMove:function (controller, move) {
 		this.message(chess.getPhrase('Moving') + ' ' + move.lm);
 	},
+
+    /**
+     * Fire a "sendMessage" event. Listening views may display this message on screen
+     * (example a chess.view.command.Panel view).
+     * @method message
+     * @param {String} msg
+     */
 	message:function (msg) {
 		this.fireEvent('sendMessage', msg);
 	},
-
+    /**
+     * Fire a "sendErrorMessage" event. A chess.view.command.Panel view will listen to
+     * this event and display the error message on screen
+     * @method errorMessage
+     * @param {String} msg
+     */
 	errorMessage:function (msg) {
 		this.fireEvent('sendErrorMessage', msg);
 	},
 
+    /**
+     * Returns true if passed argument is a valid move grade/short comment, i.e.
+     * !,?,!!,??,!? or ?!
+     * @param arg
+     * @return {Boolean}
+     */
 	isValidGrade:function(arg){
 		return ['','?','??','!','!!','?!','!?'].indexOf(arg) !== -1;
 	},
-
+    /**
+     * Receive move update from main controller and fire a message event which will
+     * be displayed by a chess.view.command.Panel view
+     * @method recieveMoveUpdate
+     * @param {chess.model.Game} model
+     * @param {chess.model.Move} move
+     */
 	receiveMoveUpdate:function(model, move){
 		this.message(chess.getPhrase('Move updated to') + ': ' + move.lm);
 	}

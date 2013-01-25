@@ -19,8 +19,5 @@ TestCase("BoardTest", {
         // then
         assertEquals('king', piece.pieceType);
         assertEquals(32, board.pieces.length);
-
     }
-
-
 });

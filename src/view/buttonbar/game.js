@@ -1,3 +1,9 @@
+/**
+ * Displays a row of button used for navigation in a game(previous move, next move etc.)
+ * @namespace chess.view.buttonbar
+ * @class Game
+ * @extends View
+ */
 chess.view.buttonbar.Game = new Class({
     Extends:ludo.View,
     type:'chess.view.buttonbar.Game',
@@ -61,17 +67,33 @@ chess.view.buttonbar.Game = new Class({
     newGame:function () {
 
     },
+    /**
+     * Method executed after moving to start of game. It will disable the "to start" and "previous" move
+     * buttons
+     * @method startOfGame
+     * @private
+     */
     startOfGame:function () {
         this.disableButton('start');
         this.disableButton('previous');
     },
 
+    /**
+     * Method executed when going from first move in a line to a move which is not the first. It will enable the "To start" and previous buttons.
+     * @method notStartOfBranch
+     * @private
+     */
     notStartOfBranch:function () {
         this.enableButton('start');
         this.enableButton('previous');
-
     },
 
+    /**
+     * Method executed when going to last move in main line or a variation. It will disable the
+     * "To end", "Next move", "Start autoplay" and "Pause autoplay" buttons.
+     * @method endOfBranch
+     * @private
+     */
     endOfBranch:function () {
         this.disableButton('end');
         this.disableButton('next');
@@ -80,6 +102,14 @@ chess.view.buttonbar.Game = new Class({
         this.isAtEndOfBranch = true;
     },
 
+    /**
+     * Method executed when moving from last move in a line to a move which is not the last move in a line.
+     * It will enable the "To end" and "Next move" buttons. If model is not in auto play mode, it
+     * will also enable the "Play" button and hide the "Pause" button.
+     * @method notEndOfBranch
+     * @param {game.model.Game} model
+     * @private
+     */
     notEndOfBranch:function (model) {
         this.isAtEndOfBranch = false;
         this.enableButton('end');
@@ -90,11 +120,25 @@ chess.view.buttonbar.Game = new Class({
         }
 
     },
+
+    /**
+     * Method executed when auto play is started. It will enable and show the pause button and hide the play button
+     * @method startAutoPlay
+     * @private
+     */
     startAutoPlay:function () {
         this.enableButton('pause');
         this.hideButton('play');
         this.showButton('pause');
     },
+
+    /**
+     * Method executed when auto play is stopped.
+     * It will show the play button and hide the pause button. If current move on board is last move
+     * in main line or a variation, the play button will be disabled
+     * @method stopAutoPlay
+     * @private
+     */
     stopAutoPlay:function () {
         this.showButton('play');
         this.hideButton('pause');
@@ -109,13 +153,12 @@ chess.view.buttonbar.Game = new Class({
         for (var i = 0, count = els.length; i < count; i++) {
             if (els[i].style.display !== 'none') {
                 els[i].setStyle('left', width);
-                width += els[i].getStyle('width').replace('px', '') / 1;
+                width += parseInt(els[i].getStyle('width').replace('px', ''));
                 width += ludo.dom.getBW(els[i]);
                 width += ludo.dom.getPW(els[i]);
                 width += ludo.dom.getBW(els[i]);
             }
         }
-
         this.els.buttonContainer.setStyle('width', width);
     },
 
@@ -139,7 +182,6 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getBackgroundColorForRightedge:function () {
-        var ret = null;
         var el = this.getEl();
         var ret = el.getStyle('background-color');
         while ((!ret || ret == 'transparent') && el.tagName.toLowerCase() !== 'body') {
@@ -153,6 +195,12 @@ chess.view.buttonbar.Game = new Class({
         return ret || '#FFF';
     },
 
+    /**
+     * Hide a button
+     * @method hideButton
+     * @param {String} buttonType
+     * @private
+     */
     hideButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].style.display = 'none';
@@ -160,6 +208,12 @@ chess.view.buttonbar.Game = new Class({
         }
     },
 
+    /**
+     * Show a button
+     * @method showButton
+     * @param {String} buttonType
+     * @private
+     */
     showButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].style.display = '';
@@ -168,13 +222,24 @@ chess.view.buttonbar.Game = new Class({
         }
     },
 
+    /**
+     * Disable a button
+     * @method disableButton
+     * @param {String} buttonType
+     * @private
+     */
     disableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].addClass('ludo-chess-button-disabled');
             this.els.chessButtons[buttonType].removeClass('ludo-chess-button-over');
         }
     },
-
+    /**
+     * Enable a button
+     * @method enableButton
+     * @param {String} buttonType
+     * @private
+     */
     enableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].removeClass('ludo-chess-button-disabled');

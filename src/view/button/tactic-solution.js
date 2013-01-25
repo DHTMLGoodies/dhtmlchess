@@ -1,3 +1,9 @@
+/**
+ * Special button used to show the solution, i.e. next move in a puzzle
+ * @namespace chess.view.button
+ * @class TacticSolution
+ * @extends form.Button
+ */
 chess.view.button.TacticSolution = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.TacticSolution',

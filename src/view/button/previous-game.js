@@ -1,3 +1,9 @@
+/**
+ * Special button used to navigate to previous button in a database
+ * @namespace chess.view.button
+ * @class PreviousGame
+ * @extends form.Button
+ */
 chess.view.button.PreviousGame = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.NextGame',
