@@ -35,7 +35,7 @@ chess.view.installer.Wizard = new Class({
 		ludo.get('previousButton').hide();
 		ludo.get('finishButton').hide();
 	},
-	installationComplete:function (obj) {
+	installationComplete:function () {
 		ludo.get('message').setHtml('Installation complete');
 		ludo.get('completeButton').show();
 	}

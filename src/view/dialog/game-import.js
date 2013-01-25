@@ -55,8 +55,7 @@ chess.view.dialog.GameImport = new Class({
         this.getFormManager().addEvent('success', this.importFinished.bind(this));
     },
 
-    importFinished:function(data){
-
+    importFinished:function(){
         this.hideAfterDelay(2);
         this.clearForm();
         this.fireEvent('pgnImportComplete');
@@ -68,7 +67,7 @@ chess.view.dialog.GameImport = new Class({
         this.child['importAsNew'].addEvent('change', this.toggleImport.bind(this));
     },
 
-    toggleImport:function (value,obj) {
+    toggleImport:function (value) {
         if (value) {
             this.child['newDatabase'].show();
             this.child['folder'].show();

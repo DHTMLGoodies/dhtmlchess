@@ -76,7 +76,7 @@ chess.view.position.Dialog = new Class({
                     }
                 }
             ]
-        }
+        };
         this.parent(config);
 
     },
@@ -186,7 +186,7 @@ chess.view.position.Dialog = new Class({
 
     updatePosition : function(key, value){
         this.position[key] = value;
-        var button = this.getButton('ok')
+        var button = this.getButton('ok');
         if(this.positionValidator.isValid(this.getPosition())){
             button.enable();
         }else{
@@ -234,7 +234,7 @@ chess.view.position.Dialog = new Class({
 
     },
     showLoadFenDialog:function () {
-        var d = new ludo.dialog.Prompt({
+        new ludo.dialog.Prompt({
             width:400,
             height:130,
             html:'Paste fen into the text box below',
@@ -247,7 +247,7 @@ chess.view.position.Dialog = new Class({
             listeners:{
                 'ok':this.loadFen.bind(this)
             }
-        })
+        });
     },
 
     loadFen:function (fen) {
@@ -262,7 +262,7 @@ chess.view.position.Dialog = new Class({
         }
     },
 
-    isValidFen:function (fen) {
+    isValidFen:function () {
         return true;
     },
 
@@ -283,4 +283,4 @@ chess.view.position.Dialog.getDialog = function(config) {
         chess.view.position.Dialog.dialogObject = new chess.view.position.Dialog(config);
     }
     return chess.view.position.Dialog.dialogObject;
-}
+};
