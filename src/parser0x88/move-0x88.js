@@ -27,6 +27,12 @@ chess.parser.Move0x88 = new Class({
         removed:{}
     },
 
+    /**
+     * Returns true if last moves in passed fen's is threefold repetition.
+     * @method hasThreeFoldRepetition
+     * @param {Array} fens
+     * @return {Boolean}
+     */
 	hasThreeFoldRepetition:function(fens){
 		return this.parser.hasThreeFoldRepetition(fens);
 	},
@@ -66,13 +72,25 @@ chess.parser.Move0x88 = new Class({
 
     },
 
+    /**
+     * Lookup mapping table and return numeric value of square according the the 0x88 chess board
+     * @method getNumSquare
+     * @param {String} square
+     * @return {Number}
+     */
     getNumSquare:function (square) {
         return Board0x88Config.mapping[square];
     },
 
-
+    /**
+     * Return valid Move object
+     * @method getMoveConfig
+     * @param {Object} move
+     * @param {String} fen
+     * @return {chess.model.Move}
+     * TODO perhaps rename this method
+     */
     getMoveConfig:function (move, fen) {
-
         if(move.m !== undefined && move.m && move.m === '--'){
             var newFen = this.getFenWithColorSwitched(fen);
             this.parser.setFen(newFen);
@@ -98,6 +116,12 @@ chess.parser.Move0x88 = new Class({
         };
     },
 
+    /**
+     * Return fen with color switched
+     * @method getFenWithColorSwitched
+     * @param {String} fen
+     * @return {String}
+     */
     getFenWithColorSwitched : function(fen){
         if(fen.indexOf(' w ')>=0){
             fen = fen.replace(' w ', ' b ');
@@ -131,7 +155,12 @@ chess.parser.Move0x88 = new Class({
 
         return false;
     },
-
+    /**
+     * Returns true if a pawn is on given square
+     * @method isPawnOnSquare
+     * @param {String} square
+     * @return {Boolean}
+     */
     isPawnOnSquare : function(square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'pawn';
