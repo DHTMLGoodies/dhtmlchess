@@ -7,9 +7,8 @@
  * To change$this template use File | Settings | File Templates.
  */
 
-require_once("../../../installer/ChessInstaller.php");
-require_once("../../../autoloader.php");
 
+require_once("../../../autoloader.php");
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
@@ -26,7 +25,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldCreatParser()
+    public function shouldCreateParser()
     {
         // given
         $parser = $this->getParser();
@@ -1766,7 +1765,7 @@ class ParserTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldDetermine3FoldReptition(){
+    public function shouldDetermine3FoldRepetition(){
         // given
         $parser = new FenParser0x88();
         // when
@@ -1797,6 +1796,11 @@ class ParserTest extends PHPUnit_Framework_TestCase
         }
         return $ret;
     }
+
+    /**
+     * @param null $fen
+     * @return FenParser0x88
+     */
     private function getParser($fen = null)
     {
         if (!isset($fen)) {
