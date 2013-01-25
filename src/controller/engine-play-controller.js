@@ -6,7 +6,7 @@ chess.controller.EnginePlayController = new Class({
     dialog : {
 
     },
-    modelEventFired:function (event, model, param) {
+    modelEventFired:function (event, model) {
         if (event === 'newMove' || event == 'newGame') {
             var result = model.getResult();
             var colorToMove = model.getColorToMove();
@@ -19,7 +19,7 @@ chess.controller.EnginePlayController = new Class({
         }
     },
 
-    shouldAutoPlayNextMove : function(colorToMove, result){
+    shouldAutoPlayNextMove : function(colorToMove){
         return colorToMove == 'black'
     }
 });
