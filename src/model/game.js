@@ -25,8 +25,6 @@ chess.model.Game = new Class({
 	moveParentMap:{},
 	movePreviousMap:{},
 
-
-
 	INCLUDE_COMMENT_MOVES:1,
 
 	state:{
@@ -62,6 +60,11 @@ chess.model.Game = new Class({
 		if (config.databaseId !== undefined)this.databaseId = config.databaseId;
 	},
 
+    /**
+     * Returns game id
+     * @method getId
+     * @return {String}
+     */
 	getId:function () {
 		return this.model.id;
 	},
@@ -120,6 +123,11 @@ chess.model.Game = new Class({
 		this.fire('setPosition');
 	},
 
+    /**
+     * Create new game from given fen position
+     * @method setPosition
+     * @param {String} fen
+     */
 	setPosition:function (fen) {
 		this.setDefaultModel();
 		this.model.metadata.fen = fen;
@@ -134,6 +142,12 @@ chess.model.Game = new Class({
 		this.fire('setPosition');
 	},
 
+    /**
+     * Populate game model by JSON game object. This method will create a new game.
+     * @method populate
+     * @param {Object} gameData
+     * @private
+     */
 	populate:function (gameData) {
 		this.setDefaultModel();
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
@@ -149,10 +163,25 @@ chess.model.Game = new Class({
 		this.toStart();
 	},
 
+    /**
+     * Return game data
+     * @method getModel
+     * @return {Object}
+     * @private
+     */
 	getModel:function () {
 		return this.model;
 	},
 
+    /**
+     * Parse and index moves received from the server, i.e. the populate method
+     * @method registerMoves
+     * @param {Object} moves
+     * @param {String} pos
+     * @param {chess.model.Move} parent
+     * @optional
+     * @private
+     */
 	registerMoves:function (moves, pos, parent) {
 		var move;
 		moves = moves || [];
@@ -174,7 +203,6 @@ chess.model.Game = new Class({
 				this.registerParentMap(move, parent);
 			}
 			this.registerBranchMap(move, moves);
-
 			if (i > 0) {
 				this.registerPreviousMap(move, moves[i - 1]);
 			}
@@ -182,18 +210,45 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Store internal reference to previous move
+     * @method registerPreviousMap
+     * @param {chess.model.Move} move
+     * @param {chess.model.Move} previous
+     * @private
+     */
 	registerPreviousMap:function (move, previous) {
 		this.movePreviousMap[move.id] = previous;
 	},
-
+    /**
+     * Store internal reference to parent move
+     * @method registerParentMap
+     * @param {chess.model.Move} move
+     * @param {chess.model.Move} parent
+     * @private
+     */
 	registerParentMap:function (move, parent) {
 		this.moveParentMap[move.id] = parent;
 	},
 
+    /**
+     * Store internal link between move and a branch of moves(Main line or variation)
+     * @method registerBranchMap
+     * @param {chess.model.Move} move
+     * @param {Object} branch
+     * @private
+     */
 	registerBranchMap:function (move, branch) {
 		this.moveBranchMap[move.id] = branch;
 	},
 
+    /**
+     * Return branch/line of current move, i.e. main line or variation
+     * @method getBranch
+     * @param {chess.model.Move} move
+     * @return {Object}
+     * @private
+     */
 	getBranch:function (move) {
 		return this.moveBranchMap[move.id];
 	},
@@ -252,9 +307,14 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Return all game metadata info
-	 * @method getMetadata
-	 * @return {Object}
+	 Return all game metadata info
+	 @method getMetadata
+	 @return {Object}
+     @example
+        var m = model.getMetadata();
+     returns an object like
+     @example
+        { "white": "Magnus Carlsen", "black": "Levon Aronian", "Result" : "1-0" }
 	 */
 	getMetadata:function () {
 		return this.model.metadata;
@@ -569,11 +629,12 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Returns valid config object for a move
+	 * Returns valid chess.model.Move object for a move
 	 * @method getValidMove
 	 * @param {Object|chess.model.Move} move
 	 * @param {String} pos
 	 * @return {chess.model.Move}
+     * @private
 	 */
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
@@ -583,8 +644,10 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Add a new move as a variation. If current move is allready first move in variation it will go to this move
-	 * and not create a new variation.
+	 * Add a new move as a variation. If current move is already first move in variation it will go to this move
+	 * and not create a new variation. This method will
+     * fire the events "newVariation", "newMove" and "endOfBranch" on success.
+     * "invalidMove" will be fired on invalid move.
 	 * @method newVariation
 	 * @param {chess.model.Move} move
 	 * @return undefined
@@ -622,13 +685,24 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Returns true when trying to create variation and passed move is next move in line
+     * @method isDuplicateVariationMove
+     * @param {chess.model.Move} move
+     * @return {Boolean}
+     */
 	isDuplicateVariationMove:function (move) {
 		return this.getDuplicateVariationMove(move) ? true : false;
 	},
 
+    /**
+     * Returns true if current move already has a variation starting with given move
+     * @method getDuplicateVariationMove
+     * @param {chess.model.Move} move
+     * @return {chess.model.Move|undefined}
+     */
 	getDuplicateVariationMove:function (move) {
 		var nextMove;
-
 		if (nextMove = this.getNextMove(this.currentMove)) {
 			var variations = nextMove.variations;
 			for (var i = 0; i < variations.length; i++) {
@@ -638,9 +712,14 @@ chess.model.Game = new Class({
 				}
 			}
 		}
-		return null;
+		return undefined;
 	},
 
+    /**
+     * Create new variation branch
+     * @method newVariationBranch
+     * @private
+     */
 	newVariationBranch:function () {
 		this.currentMove.variations = this.currentMove.variations || [];
 		var variation = [];
@@ -648,6 +727,11 @@ chess.model.Game = new Class({
 		this.currentBranch = variation;
 	},
 
+    /**
+     * Returns fen of current move or start of game fen
+     * @method getCurrentPosition
+     * @return {String}
+     */
 	getCurrentPosition:function () {
 		if (this.currentMove && this.currentMove.fen) {
 			return this.currentMove.fen;
@@ -655,6 +739,11 @@ chess.model.Game = new Class({
 		return this.model.metadata.fen;
 	},
 
+    /**
+     * Returns fen of previous move or start of game fen
+     * @method getPreviousPosition
+     * @return {String}
+     */
 	getPreviousPosition:function () {
 		if (this.currentMove) {
 			var previous = this.getPreviousMove(this.currentMove);
@@ -668,7 +757,10 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Delete a move
+	 * Delete a move. This method will fire the deleteMove and endOfBranch events. If deleted move is in
+     * main line, the endOfGame event will also be fired. The event "noMoves" will be fired if the deleted move
+     * is the first move in the game. "deleteVariation" will be fired if the deleted move is the first move
+     * in a variation.
 	 * @method deleteMove
 	 * @param {chess.model.Move} moveToDelete
 	 */
@@ -746,7 +838,6 @@ chess.model.Game = new Class({
 	 * @method isAtEndOfGame
 	 * @return {Boolean}
 	 */
-
 	isAtEndOfGame:function () {
 		if (this.model.moves.length === 0) {
 			return true;
@@ -754,6 +845,13 @@ chess.model.Game = new Class({
 		return this.currentMove && this.currentMove.id == this.model.moves[this.model.moves.length - 1].id;
 	},
 
+    /**
+     * Returns true if there are moves left in branch
+     * @method hasMovesInBranch
+     * @param {Array} branch
+     * @return {Boolean}
+     * @private
+     */
 	hasMovesInBranch:function (branch) {
 		if (branch.length === 0) {
 			return true;
@@ -766,6 +864,13 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+    /**
+     * Delete moves from branch, i.e. main line or variation
+     * @method clearMovesInBranch
+     * @param {Array} branch
+     * @param {Number} fromIndex
+     * @private
+     */
 	clearMovesInBranch:function (branch, fromIndex) {
 		for (var i = fromIndex; i < branch.length; i++) {
 			delete this.moveCache[branch[i].id];
@@ -782,12 +887,23 @@ chess.model.Game = new Class({
 		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
 	},
 
+    /**
+     * Delete current move reference. This method is called when creating a new game and when first
+     * move in the game is deleted
+     * @method clearCurrentMove
+     * @private
+     */
 	clearCurrentMove:function () {
 		this.currentMove = null;
 		this.currentBranch = this.model.moves;
 		this.fire('clearCurrentMove');
 	},
 
+    /**
+     * Go to a specific move.
+     * @method goToMove
+     * @param {chess.model.Move} move
+     */
 	goToMove:function (move) {
 		if (this.setCurrentMove(move)) {
 			this.fire('setPosition', move);
@@ -795,7 +911,7 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Go to previous move
+	 * Back up x number of moves
 	 * @method back
 	 * @param {Number} numberOfMoves
 	 * @return {undefined}
@@ -818,7 +934,6 @@ chess.model.Game = new Class({
 					index = branch.indexOf(move);
 					index--;
 				}
-
 			}
 			if(index >=0){
 				move = branch[index];
@@ -839,6 +954,12 @@ chess.model.Game = new Class({
 		return this.findMove(move);
 	},
 
+    /**
+     * Call goToMove for current move and trigger the events. This method is called when
+     * overwrite of move is cancelled from game editor and when you're guessing the wrong move
+     * in a tactic puzzle
+     * @method resetPosition
+     */
 	resetPosition:function () {
 		if (this.currentMove) {
 			this.goToMove(this.currentMove);
@@ -846,7 +967,12 @@ chess.model.Game = new Class({
 			this.toStart();
 		}
 	},
-
+    /**
+     * @method setCurrentMove
+     * @param {chess.model.Move} newCurrentMove
+     * @return {Boolean} success
+     * @private
+     */
 	setCurrentMove:function (newCurrentMove) {
 		var move = this.findMove(newCurrentMove);
 		if (move) {
@@ -868,20 +994,39 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+    /**
+     * Return color to move, "white" or "black"
+     * @method getColorToMove
+     * @return {String}
+     */
 	getColorToMove:function () {
 		var fens = this.getCurrentPosition().split(' ');
 		var colors = {'w':'white', 'b':'black'};
 		return colors[fens[1]];
 	},
 
+    /**
+     * Returns current move, i.e. last played move
+     * @method getCurrentMove
+     * @return {chess.model.Move}
+     */
 	getCurrentMove:function () {
 		return this.currentMove;
 	},
 
+    /**
+     * Return branch, i.e. main line or variation of current move
+     * @method getCurrentBranch
+     * @return {Array}
+     */
 	getCurrentBranch:function () {
 		return this.getCurrentBranch();
 	},
 
+    /**
+     * Go to previous move
+     * @method previousMove
+     */
 	previousMove:function () {
 		var move = this.getPreviousMove(this.currentMove);
 		if (move) {
@@ -892,6 +1037,10 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Go to next move
+     * @method nextMove
+     */
 	nextMove:function () {
 		var move;
 		if (this.hasCurrentMove()) {
@@ -899,13 +1048,16 @@ chess.model.Game = new Class({
 		} else {
 			move = this.getFirstMoveInGame();
 		}
-
 		if (move) {
 			this.setCurrentMove(move);
 			this.fire('nextmove', move);
 		}
 	},
 
+    /**
+     * Go to start of game
+     * @method toStart
+     */
 	toStart:function () {
 		this.fire('startOfGame');
 		this.clearCurrentMove();
@@ -919,6 +1071,10 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Go to last move in game
+     * @method toEnd
+     */
 	toEnd:function () {
 		if (this.model.moves.length > 0) {
 			this.currentMove = this.model.moves[this.model.moves.length - 1];
@@ -928,6 +1084,10 @@ chess.model.Game = new Class({
 			this.fire('endOfGame');
 		}
 	},
+    /**
+     * Go to last move in current branch, i.e. main line or variation
+     * @method toEndOfCurrentBranch
+     */
 	toEndOfCurrentBranch:function () {
 		if (this.currentBranch.length > 0) {
 			this.currentMove = this.currentBranch[this.currentBranch.length - 1];
@@ -940,10 +1100,20 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Returns rue if current move is set
+     * @method hasCurrentMove
+     * @return {Boolean}
+     */
 	hasCurrentMove:function () {
 		return this.currentMove ? true : false;
 	},
 
+    /**
+     * Return first move in game
+     * @method getFirstMoveInGame
+     * @return {chess.model.Move}
+     */
 	getFirstMoveInGame:function () {
 		for (var i = 0; i < this.model.moves.length; i++) {
 			var move = this.model.moves[i];
@@ -954,6 +1124,12 @@ chess.model.Game = new Class({
 		return null;
 	},
 
+    /**
+     * Return parent move of given move, i.e. parent move of a move in a variation.
+     * @method getParentMove
+     * @param {chess.model.Move} move
+     * @return {chess.model.Move|undefined}
+     */
 	getParentMove:function (move) {
 		move = this.findMove(move);
 		if (move) {
@@ -962,6 +1138,13 @@ chess.model.Game = new Class({
 		return undefined;
 	},
 
+    /**
+     * Returns previous move in same branch/line or undefined
+     * @method getPreviousMoveInBranch
+     * @param {chess.model.Move} move
+     * @return {chess.model.Move|undefined}
+     * @private
+     */
 	getPreviousMoveInBranch:function (move) {
 		if (move.index > 0) {
 			var index = move.index - 1;
@@ -980,6 +1163,13 @@ chess.model.Game = new Class({
 		return null;
 	},
 
+    /**
+     * Returns previous move in same branch or parent branch
+     * @method getPreviousMove
+     * @param {chess.model.Move} move
+     * @param {Boolean} includeComments
+     * @return {chess.model.Move|undefined}
+     */
 	getPreviousMove:function (move, includeComments) {
 		includeComments = includeComments || false;
 		move = this.findMove(move);
@@ -1044,6 +1234,12 @@ chess.model.Game = new Class({
 		return undefined;
 	},
 
+    /**
+     * Add action as a move. Actions are not fully implemented. When implemented, it will add supports for
+     * interactive chess games, example: start and stop autoplay. Display comments, videos or audio etc.
+     * @method addAction
+     * @param {chess.model.Move} action
+     */
 	addAction:function (action) {
 		action = Object.clone(action);
 
@@ -1081,6 +1277,13 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Internally index a move
+     * @method registerMove
+     * @param {chess.model.Move} move
+     * @param {Number} atIndex
+     * @private
+     */
 	registerMove:function (move, atIndex) {
 		move.id = 'move-' + String.uniqueID();
 		this.moveCache[move.id] = move;
@@ -1099,6 +1302,12 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Create room for new action
+     * @method createSpaceForAction
+     *
+     * TODO use Array.splice instead
+     */
 	createSpaceForAction:function () {
 		var index = this.currentMove.index + 1;
 		var newLength = this.currentBranch.length;
@@ -1179,6 +1388,12 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Create empty space at start of branch
+     * @method createEmptySpaceAtStartOfBranch
+     * @param branch
+     * TODO use Array.splice instead
+     */
 	createEmptySpaceAtStartOfBranch:function (branch) {
 		for (var i = branch.length; i >= 1; i--) {
 			branch[i] = branch[i - 1];
@@ -1186,11 +1401,24 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Set comment property of a move
+     * @method setComment
+     * @param {chess.model.Move} move
+     * @param {String} comment
+     */
 	setComment:function (move, comment) {
 		move.comment = comment;
 		this.fire('updateMove', move);
 	},
 
+    /**
+     * Returns true if passed move is a valid chess move
+     * @method isChessMove
+     * @param {Object} move
+     * @return {Boolean}
+     * @private
+     */
 	isChessMove:function (move) {
 		return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
 	},
@@ -1211,7 +1439,7 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Start autoplay of moves
+	 * Start auto play of moves
 	 * @method startAutoPlay
 	 */
 	startAutoPlay:function () {
@@ -1220,7 +1448,7 @@ chess.model.Game = new Class({
 		this.nextAutoPlayMove();
 	},
 	/**
-	 * Stop autoplay of moves
+	 * Stop auto play of moves
 	 * @method startAutoPlay
 	 */
 	stopAutoPlay:function () {
@@ -1228,6 +1456,11 @@ chess.model.Game = new Class({
 		this.fire('stopAutoplay');
 	},
 
+    /**
+     * Auto play next move
+     * @method nextAutoPlayMove
+     * @private
+     */
 	nextAutoPlayMove:function () {
 		if (this.state.autoplay) {
 			var nextMove = this.getNextMove(this.currentMove);
@@ -1248,10 +1481,20 @@ chess.model.Game = new Class({
 		return this.state.autoplay;
 	},
 
+    /**
+     * Return database id of game
+     * @method getDatabaseId
+     * @return {Number}
+     */
 	getDatabaseId:function () {
 		return this.databaseId;
 	},
 
+    /**
+     * Set dirty flag to true, i.e. game has been changed but not saved.
+     * @method setDirty
+     * @private
+     */
 	setDirty:function () {
 		this.dirty = true;
 		/**
@@ -1261,7 +1504,11 @@ chess.model.Game = new Class({
 		 */
 		this.fireEvent('dirty', this);
 	},
-
+    /**
+     * Set dirty flag to false, i.e. game has been changed and saved
+     * @method setClean
+     * @private
+     */
 	setClean:function () {
 		this.dirty = false;
 		/**
@@ -1272,6 +1519,11 @@ chess.model.Game = new Class({
 		this.fireEvent('clean', this);
 	},
 
+    /**
+     * Return dirty flag. dirty flag is set to true when game has been changed, but not saved.
+     * @method isDirty
+     * @return {Boolean}
+     */
 	isDirty:function () {
 		return this.dirty;
 	},
@@ -1285,6 +1537,12 @@ chess.model.Game = new Class({
 		this.setClean();
 	},
 
+    /**
+     * Receive game update from server
+     * @method updateGameFromServer
+     * @param {Object} data
+     * @private
+     */
 	updateGameFromServer:function (data) {
 		if (data.id) {
 			this.model.id = data.id;
