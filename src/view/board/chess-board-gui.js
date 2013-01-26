@@ -411,7 +411,7 @@ chess.view.board.GUI = new Class({
         return el.getSize().y - ludo.dom.getBH(el) - ludo.dom.getPH(el);
     },
 
-    getSquareFromCoordinates:function (x, y) {
+    getSquareByCoordinates:function (x, y) {
         var offset = this.internal.squareSize / 2;
         x += offset;
         y += offset;
