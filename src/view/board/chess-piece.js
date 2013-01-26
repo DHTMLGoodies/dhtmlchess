@@ -21,6 +21,10 @@ chess.view.board.Piece = new Class({
     size:null,
     squareSize:null,
     validSizes:[30, 45, 60, 75, 90, 105],
+    /**
+     * 0x88 board position of piece
+     * @config {Number} square
+     */
     square:undefined,
     el:null,
     flipped:false,
@@ -63,7 +67,6 @@ chess.view.board.Piece = new Class({
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
-
     },
 
     getEventEl:function () {
@@ -360,8 +363,8 @@ chess.view.board.Piece = new Class({
             });
             this.toSquare = toSquare;
         }
-
     },
+
     /**
      * Returns true if piece is already on a given 0x88 square number
      * @method isAlreadyOnSquare
