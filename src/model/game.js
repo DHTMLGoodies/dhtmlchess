@@ -25,7 +25,7 @@ chess.model.Game = new Class({
 	moveParentMap:{},
 	movePreviousMap:{},
 
-	INCLUDE_COMMENT_MOVES:1,
+	INCLUDE_COMMENT_MOVES:true,
 
 	state:{
 		autoplay:false
@@ -1127,7 +1127,7 @@ chess.model.Game = new Class({
     /**
      * Return parent move of given move, i.e. parent move of a move in a variation.
      * @method getParentMove
-     * @param {chess.model.Move} move
+     * @param {chess.model.Move|Object} move
      * @return {chess.model.Move|undefined}
      */
 	getParentMove:function (move) {
@@ -1306,6 +1306,12 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Insert space for new move in a branch at index
+     * @method insertSpacerInBranch
+     * @param {Array} branch
+     * @param {Number} atIndex
+     */
     insertSpacerInBranch:function(branch, atIndex){
         atIndex = atIndex || 0;
 
@@ -1364,7 +1370,6 @@ chess.model.Game = new Class({
 				move = this.findMove(move);
 				var branch = this.getBranch(move);
                 this.insertSpacerInBranch(branch, 0);
-
 				branch[0] = {
 					comment:comment,
 					index:0,
