@@ -14,5 +14,6 @@ chess.dataSource.GameList = new Class({
     url:window.chess.URL,
     requestId : 'getGames',
     query:{
+
     }
 });
