@@ -74,7 +74,7 @@ TestCase("ModelToPgn", {
             {"m":"Rb8", "from":"a8", "to":"b8", "fen":"1r1q1rk1\/2pbbppp\/p1np4\/3Bp3\/1p2P3\/3PBN2\/PPPQ1PPP\/2KR3R w - - 1 11"},
             {"m":"h4", "from":"h2", "to":"h4", "fen":"1r1q1rk1\/2pbbppp\/p1np4\/3Bp3\/1p2P2P\/3PBN2\/PPPQ1PP1\/2KR3R b - h3 0 12"},
             {"m":"h6", "from":"h7", "to":"h6", "fen":"1r1q1rk1\/2pbbpp1\/p1np3p\/3Bp3\/1p2P2P\/3PBN2\/PPPQ1PP1\/2KR3R w - - 0 12"},
-            {"m":"Rludo1", "from":"d1", "to":"g1", "fen":"1r1q1rk1\/2pbbpp1\/p1np3p\/3Bp3\/1p2P2P\/3PBN2\/PPPQ1PP1\/2K3RR b - - 1 13"},
+            {"m":"Rdg1", "from":"d1", "to":"g1", "fen":"1r1q1rk1\/2pbbpp1\/p1np3p\/3Bp3\/1p2P2P\/3PBN2\/PPPQ1PP1\/2K3RR b - - 1 13"},
             {"m":"a5", "from":"a6", "to":"a5", "fen":"1r1q1rk1\/2pbbpp1\/2np3p\/p2Bp3\/1p2P2P\/3PBN2\/PPPQ1PP1\/2K3RR w - - 0 13"},
             {"m":"g4", "from":"g2", "to":"g4", "fen":"1r1q1rk1\/2pbbpp1\/2np3p\/p2Bp3\/1p2P1PP\/3PBN2\/PPPQ1P2\/2K3RR b - g3 0 14"},
             {"m":"g5", "from":"g7", "to":"g5", "fen":"1r1q1rk1\/2pbbp2\/2np3p\/p2Bp1p1\/1p2P1PP\/3PBN2\/PPPQ1P2\/2K3RR w - g6 0 14"},

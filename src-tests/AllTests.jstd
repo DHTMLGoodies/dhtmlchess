@@ -14,6 +14,7 @@ test:
   - parser/*.js
   - model/*.js
   - user/*.js
+  - canvas/*.js
   - CommandLine/*.js
   - model-to-pgn/*.js
 
