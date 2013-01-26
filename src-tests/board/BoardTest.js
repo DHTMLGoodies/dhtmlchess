@@ -32,7 +32,5 @@ TestCase("BoardTest", {
 
         // then
         assertEquals('rook', piece.pieceType);
-
-
     }
 });
