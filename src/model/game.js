@@ -1315,9 +1315,9 @@ chess.model.Game = new Class({
 	createSpaceForAction:function () {
 		var index = this.currentMove.index + 1;
 		var newLength = this.currentBranch.length;
-
+        this.currentBranch.splice(index, 0, {});
 		for (var i = newLength; i > index; i--) {
-			this.currentBranch[i] = this.currentBranch[i - 1];
+			//this.currentBranch[i] = this.currentBranch[i - 1];
 			this.currentBranch[i].index++;
 		}
 	},
@@ -1396,13 +1396,14 @@ chess.model.Game = new Class({
      * Create empty space at start of branch
      * @method createEmptySpaceAtStartOfBranch
      * @param branch
-     * TODO use Array.splice instead
+     * TODO use Array.splice instead and check out possibility of using indexOf instead of static index property
      */
 	createEmptySpaceAtStartOfBranch:function (branch) {
-		for (var i = branch.length; i >= 1; i--) {
-			branch[i] = branch[i - 1];
-			branch[i].index++;
-		}
+        for(var i=0;i<branch.length;i++){
+            branch[i].index ++;
+        }
+        branch.splice(0,0,"");
+
 	},
 
     /**
