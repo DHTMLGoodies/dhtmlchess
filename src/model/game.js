@@ -1294,7 +1294,8 @@ chess.model.Game = new Class({
 		if (atIndex) {
 			move.index = atIndex;
 
-			this.createSpaceForAction();
+            this.insertSpacerInBranch(this.currentBranch, atIndex);
+			// this.createSpaceForAction();
 			this.currentBranch[atIndex] = move;
 		} else {
 			move.index = this.currentBranch.length;
@@ -1305,22 +1306,17 @@ chess.model.Game = new Class({
 		}
 	},
 
-    /**
-     * Create room for new action
-     * @method createSpaceForAction
-     *
-     * TODO use Array.splice instead
-     * TODO checkout possibility of removing the index property of moves and instead use indexOf if that's fast enough.
-     */
-	createSpaceForAction:function () {
-		var index = this.currentMove.index + 1;
-		var newLength = this.currentBranch.length;
-        this.currentBranch.splice(index, 0, {});
-		for (var i = newLength; i > index; i--) {
-			//this.currentBranch[i] = this.currentBranch[i - 1];
-			this.currentBranch[i].index++;
-		}
-	},
+    insertSpacerInBranch:function(branch, atIndex){
+        atIndex = atIndex || 0;
+
+        for(var i=atIndex;i<branch.length;i++){
+            branch[i].index ++;
+        }
+        branch.splice(atIndex,0,"");
+
+    },
+
+
 	/**
 	 * Return comment before move, i.e. get comment of previous move
 	 * @method getCommentBefore
@@ -1367,7 +1363,8 @@ chess.model.Game = new Class({
 			} else {
 				move = this.findMove(move);
 				var branch = this.getBranch(move);
-				this.createEmptySpaceAtStartOfBranch(branch);
+                this.insertSpacerInBranch(branch, 0);
+
 				branch[0] = {
 					comment:comment,
 					index:0,
@@ -1390,20 +1387,6 @@ chess.model.Game = new Class({
 		if (move) {
 			this.setComment(move, comment);
 		}
-	},
-
-    /**
-     * Create empty space at start of branch
-     * @method createEmptySpaceAtStartOfBranch
-     * @param branch
-     * TODO use Array.splice instead and check out possibility of using indexOf instead of static index property
-     */
-	createEmptySpaceAtStartOfBranch:function (branch) {
-        for(var i=0;i<branch.length;i++){
-            branch[i].index ++;
-        }
-        branch.splice(0,0,"");
-
 	},
 
     /**
