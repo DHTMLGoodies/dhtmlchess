@@ -48,7 +48,7 @@ chess.view.highlight.ArrowBase = new Class({
 			coords.y -= (modY);
 			coords.x -= (modX);
 
-			var square = this.view.getSquareFromCoordinates(coords.x, coords.y);
+			var square = this.view.getSquareByCoordinates(coords.x, coords.y);
 			square = Board0x88Config.numberToSquareMapping[square];
 			var piece = this.view.getPieceOnSquare(square);
 

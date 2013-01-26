@@ -88,6 +88,4 @@ TestCase("ModelToPgn", {
                 ]
             ], "from":"h4", "to":"h5", "fen":"1r1q1rk1\/2pbbp2\/2np3p\/p2Bp1pP\/1p2P1P1\/3PBN2\/PPPQ1P2\/2K3RR b - - 0 14"}
         ]}
-
-
 });
