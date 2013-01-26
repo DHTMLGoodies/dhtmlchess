@@ -189,7 +189,7 @@ TestCase("VariationTest", {
 		assertEquals(expectedId, moveToFind.id);
 	},
 
-	"test Should Be Able To Start A Variation":function () {
+	"test should Be able to start a variation":function () {
 		// given
 		var model = this.getModelWithMoves();
 
@@ -242,7 +242,7 @@ TestCase("VariationTest", {
 
 	"test should fire delete variation event when deleting first move in variation":function () {
 		// given
-		console.log('test');
+
 		var model = this.getModelWithVariation();
 		assertTrue(model.getMoves()[1].variations[0].length > 0);
 		assertEquals(2, model.getMoves()[1].variations[0].length);

@@ -246,7 +246,7 @@ chess.model.Game = new Class({
      * Return branch/line of current move, i.e. main line or variation
      * @method getBranch
      * @param {chess.model.Move} move
-     * @return {Object}
+     * @return {Array}
      * @private
      */
 	getBranch:function (move) {
@@ -802,7 +802,7 @@ chess.model.Game = new Class({
 					 */
 					this.fire('notEndOfGame');
 				}
-				if (!this.hasMovesInBranch(move)) {
+				if (!this.hasMovesInBranch(this.getBranch(move))) {
 					this.fire('noMoves');
 				}
 				if (previousMove) {
@@ -854,7 +854,7 @@ chess.model.Game = new Class({
      */
 	hasMovesInBranch:function (branch) {
 		if (branch.length === 0) {
-			return true;
+			return false;
 		}
 		for (var i = 0; i < branch.length; i++) {
 			if (branch[i].m) {
@@ -914,7 +914,7 @@ chess.model.Game = new Class({
 	 * Back up x number of moves
 	 * @method back
 	 * @param {Number} numberOfMoves
-	 * @return {undefined}
+	 * @return {Boolean}
 	 */
 	back:function(numberOfMoves){
 		if(!this.currentMove)return undefined;
@@ -947,7 +947,7 @@ chess.model.Game = new Class({
 		if(this.isChessMove(currentMove)){
 			return this.setCurrentMove(currentMove);
 		}
-		return undefined;
+		return false;
 	},
 
 	getMove:function (move) {
@@ -1168,6 +1168,7 @@ chess.model.Game = new Class({
      * @method getPreviousMove
      * @param {chess.model.Move} move
      * @param {Boolean} includeComments
+     * @optional
      * @return {chess.model.Move|undefined}
      */
 	getPreviousMove:function (move, includeComments) {
@@ -1282,6 +1283,7 @@ chess.model.Game = new Class({
      * @method registerMove
      * @param {chess.model.Move} move
      * @param {Number} atIndex
+     * @optional
      * @private
      */
 	registerMove:function (move, atIndex) {
@@ -1291,6 +1293,7 @@ chess.model.Game = new Class({
 
 		if (atIndex) {
 			move.index = atIndex;
+
 			this.createSpaceForAction();
 			this.currentBranch[atIndex] = move;
 		} else {
@@ -1307,6 +1310,7 @@ chess.model.Game = new Class({
      * @method createSpaceForAction
      *
      * TODO use Array.splice instead
+     * TODO checkout possibility of removing the index property of moves and instead use indexOf if that's fast enough.
      */
 	createSpaceForAction:function () {
 		var index = this.currentMove.index + 1;
