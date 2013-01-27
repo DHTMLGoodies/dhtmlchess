@@ -24,7 +24,6 @@ chess.view.dialog.OverwriteMove = new Class({
 	autoDispose:false,
 
 	ludoConfig:function (config) {
-
 		config = config || {};
 		config.buttons = [
 			{
@@ -87,7 +86,6 @@ chess.view.dialog.OverwriteMove = new Class({
 
 	showDialog:function (model, moves) {
 		this.move = moves;
-
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
 		this.setHtml('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
 		this.show();

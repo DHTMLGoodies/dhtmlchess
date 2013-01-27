@@ -76,11 +76,12 @@ chess.view.dialog.Comment = new Class({
         this.show();
 
         this.move = model.getMove(move);
-
         var comment = this.commentPos == 'before' ? model.getCommentBefore(this.move) : model.getCommentAfter(this.move);
         this.child['comment'].setValue(comment);
+        this.setTitle(this.getDialogTitle());
+    },
 
-        this.setTitle(chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')');
-
+    getDialogTitle:function(){
+        return chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')';
     }
 });
