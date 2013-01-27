@@ -10,6 +10,9 @@ chess.view.dialog.Promote = new Class({
     Extends:ludo.dialog.Dialog,
     module:'chess',
     submodule:'dialogPromote',
+    /**
+     * TODO change layout to grid
+     */
     layout:'rows',
     width:300,
     hidden: true,
@@ -36,7 +39,6 @@ chess.view.dialog.Promote = new Class({
             if (i > 1) {
                 parent = this.row2;
             }
-
             var el =parent.addChild({
                 type:'chess.view.dialog.PromotePiece',
                 piece:pieces[i],
