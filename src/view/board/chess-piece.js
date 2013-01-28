@@ -404,12 +404,12 @@ chess.view.board.Piece = new Class({
      @param {Number} square
      @return {Object}
      @example
-        var pos = piece.getPos();
-        // may return
-        {
-            "x":"12.5%",
-            "y":"25%"
-        }
+		var pos = piece.getPos();
+		// may return
+		{
+			"x":"12.5%",
+			"y":"25%"
+		}
      */
     getPos:function (square) {
         var pos = this.getPosOfSquare(square !== undefined ? square : this.square);
