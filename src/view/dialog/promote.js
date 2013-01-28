@@ -10,10 +10,10 @@ chess.view.dialog.Promote = new Class({
     Extends:ludo.dialog.Dialog,
     module:'chess',
     submodule:'dialogPromote',
-    /**
-     * TODO change layout to grid
-     */
-    layout:'rows',
+    layout:{
+		type:'linear',
+		orientation: 'vertical'
+	},
     width:300,
     hidden: true,
     height:330,
