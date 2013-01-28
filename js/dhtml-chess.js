@@ -947,6 +947,14 @@ ludo.tpl.Parser = new Class({
         return value;
     }
 });
+/**
+ * @namespace layout
+ * @class Renderer
+ */
+
+/**
+ * @todo Support top and left resize of center aligned dialogs
+ */
 ludo.layout.Renderer = new Class({
 
 	rendering:{},
@@ -1532,12 +1540,29 @@ ludo.remote.createProxy = function (url, config) {
 		return ludo.remote.getProxy(url);
 	}
 };
+/**
+ * Factory class for layout managers
+ * @namespace layout
+ * @class Factory
+ */
 ludo.layout.Factory = new Class({
 
+    /**
+     * Returns layout manager, a layout.Base or subclass
+     * @param {ludo.View} view
+     * @return {ludo.Base} manager
+     */
 	getManager:function(view){
 		return new ludo.layout[this.getLayoutClass(view)](view);
 	},
 
+    /**
+     * Returns correct name of layout class
+     * @method getLayoutClass
+     * @param {ludo.View} view
+     * @return {String} className
+     * @private
+     */
 	getLayoutClass:function(view){
 		if(!view.layout || !view.layout.type)return 'Base';
 
@@ -1568,6 +1593,14 @@ ludo.layout.Factory = new Class({
 		}
 	},
 
+    /**
+     * Returns valid layout configuration for a view
+     * @method getValidLayoutObject
+     * @param {ludo.View} view
+     * @param {Object} config
+     * @return {Object}
+     * @private
+     */
 	getValidLayoutObject:function(view, config){
 		var ret;
 		if(view.layout === undefined && config.layout === undefined && view.weight === undefined && config.weight === undefined && config.left===undefined)return {};
@@ -1588,7 +1621,15 @@ ludo.layout.Factory = new Class({
 		if(ret.type === undefined)ret.type = 'Base';
 		return ret;
 	},
-
+    /**
+     * Returned merged layout object, i.e. layout defind on HTML page merged
+     * with internal layout defined in class
+     * @method getMergedLayout
+     * @param {Object} layout
+     * @param {Object} mergeWith
+     * @return {Object}
+     * @private
+     */
 	getMergedLayout:function(layout, mergeWith){
 		for(var key in mergeWith){
 			if(mergeWith.hasOwnProperty(key)){
@@ -2849,6 +2890,11 @@ ludo.layout.TextBox = new Class({
 		}
 	}
 });
+/**
+* Base class for ludoJS layouts
+ * @namespace layout
+ * @class Base
+ */
 ludo.layout.Base = new Class({
 	Extends:Events,
 	view:null,
@@ -2874,8 +2920,17 @@ ludo.layout.Base = new Class({
 			this.addCollapseBars();
 		}
 	},
+    /**
+    * Method executed when adding new child view to a layout
+     * @method addChild
+     * @param {ludo.View} child
+     * @param {ludo.View} insertAt
+     * @optional
+     * @param {String} pos
+     * @optional
+     */
 	addChild:function (child, insertAt, pos) {
-		child = this.getNewComponent(child, this.view);
+		child = this.getNewComponent(child);
 		var parentEl = this.getParentForNewChild();
 		if (insertAt) {
 			var children = [];
@@ -2916,7 +2971,11 @@ ludo.layout.Base = new Class({
 		this.fireEvent('addChild', [child, this]);
 		return child;
 	},
-
+    /**
+    * Return parent DOM element for new child
+     * @method getParentForNewChild
+     * @protected
+     */
 	getParentForNewChild:function(){
 		return this.view.els.body;
 	},
@@ -3060,7 +3119,11 @@ ludo.layout.Base = new Class({
 		this.updateViewport(bar.getChangedViewport());
 		this.resize();
 	},
-
+    /**
+     * Update viewport properties, coordinates of DHTML Container for child views, i.e. body of parent view
+     * @method updateViewport
+     * @param {Object} c
+     */
 	updateViewport:function (c) {
 		this.viewport[c.key] = c.value;
 	},
@@ -12223,7 +12286,7 @@ ludo.grid.ColumnManager = new Class({
 	 * Returns parent group object for a column
 	 * @method getGroupFor
 	 * @param {String} column
-	 * @return {grid.Column} parent
+	 * @return {grid.Column|undefined} parent
 	 */
 	getGroupFor:function (column) {
 		var id = this.getGroupIdOf(column);
@@ -12457,7 +12520,7 @@ ludo.grid.ColumnManager = new Class({
 	/**
 	 * @method insertIntoSameGroupAs
 	 * @param {String} column
-	 * @param {String} column as
+	 * @param {String} as
 	 * @private
 	 */
 	insertIntoSameGroupAs:function(column, as){
@@ -13539,6 +13602,7 @@ ludo.form.Button = new Class({
         }
     },
 
+
     ludoDOM:function () {
         this.parent();
 
@@ -13554,7 +13618,6 @@ ludo.form.Button = new Class({
         }
 
         var b = this.getBody();
-		b.style.height = '25px';
 
         // b.style.height = this.buttonHeight + 'px';
         b.setStyle('padding-left', 0);
@@ -13712,7 +13775,7 @@ ludo.form.Button = new Class({
     /**
      * Trigger click on button
      * @method click
-     * @return void
+     * @return {undefined|Boolean}
      */
     click:function () {
         this.focus();
@@ -13736,7 +13799,9 @@ ludo.form.Button = new Class({
 			return false;
         }
     },
-
+    getName:function () {
+        return this.name;
+    },
     defaultBeforeClickEvent:function () {
         return true;
     },
@@ -15192,7 +15257,11 @@ ludo.layout.Card = new Class({
 ludo.layout.Relative = new Class({
 	Extends:ludo.layout.Base,
 	children:undefined,
-
+    /**
+     * Array of valid layout properties
+     * @property {Array} layoutFnProperties
+     * @private
+     */
 	layoutFnProperties:[
 		'width', 'height',
 		'alignParentTop', 'alignParentBottom', 'alignParentLeft', 'alignParentRight',
@@ -15203,13 +15272,22 @@ ludo.layout.Relative = new Class({
 		'fillLeft', 'fillRight', 'fillUp', 'fillDown',
 		'absBottom','absWidth','absHeight','absLeft','absTop','absRight'
 	],
+    /**
+     * Internal child coordinates set during resize
+     * @property {Object} newChildCoordinates
+     * @private
+     */
 	newChildCoordinates:{},
+    /**
+     * Internal storage of child coordinates for last resize
+     * @property {Object} lastChildCoordinates
+     * @private
+     */
 	lastChildCoordinates:{},
 
 	onCreate:function () {
 		this.parent();
 		this.view.getBody().style.position = 'relative';
-
 	},
 
 	resize:function () {
@@ -15221,18 +15299,32 @@ ludo.layout.Relative = new Class({
 		}
 	},
 
+    /**
+     * No resize done yet, create resize functions
+     * @method prepareResize
+     * @private
+     */
 	prepareResize:function(){
 		this.fixLayoutReferences();
 		this.arrangeChildren();
 		this.createResizeFunctions();
 	},
 
+    /**
+     * Create/Compile resize functions for each child
+     * @method createResizeFunctions
+     * @private
+     */
 	createResizeFunctions:function () {
 		for (var i = 0; i < this.children.length; i++) {
 			this.children[i].layoutResizeFn = this.getResizeFnFor(this.children[i]);
 		}
 	},
-
+    /**
+     * Convert layout id references to direct view reference for optimal performance
+     * @method fixLayoutReferences
+     * @private
+     */
 	fixLayoutReferences:function () {
 		for (var i = 0; i < this.view.children.length; i++) {
 			var c = this.view.children[i];
@@ -15242,7 +15334,13 @@ ludo.layout.Relative = new Class({
 			}
 		}
 	},
-
+    /**
+     * Return resize function for a child
+     * @method getResizeFnFor
+     * @param {ludo.View} child
+     * @return {Function}
+     * @private
+     */
 	getResizeFnFor:function (child) {
 		var fns = this.getLayoutFnsFor(child);
 		return function (layoutManager) {
@@ -15251,7 +15349,13 @@ ludo.layout.Relative = new Class({
 			}
 		};
 	},
-
+    /**
+     * Return array of resize function to call when view is resized.
+     * @method getLayoutFnsFor
+     * @param {ludo.View} child
+     * @return {Array}
+     * @private
+     */
 	getLayoutFnsFor:function (child) {
 		var ret = [];
 		var p = this.layoutFnProperties;
@@ -15264,7 +15368,23 @@ ludo.layout.Relative = new Class({
 		ret.push(this.getLastLayoutFn(child));
 		return ret;
 	},
-
+    /**
+     Return one resize function for a child
+     @method getLayoutFn
+     @param {String} property
+     @param {ludo.View} child
+     @return {Function|undefined}
+     @private
+     @example
+        getLayoutFn(left, view)
+     may return
+        function(){
+            this.newChildCoordinates[view.id]['left'] = 20;
+        }
+     The resize functions are created before first resize is made. For second resize,
+     the layout functions for each view will simply be called. This is done for optimal performance
+     so that we don't need to calculate more than we have to(Only first time).
+     */
 	getLayoutFn:function (property, child) {
 		var c = this.newChildCoordinates[child.id];
 		var refC;
@@ -15389,7 +15509,15 @@ ludo.layout.Relative = new Class({
 		}
 		return undefined;
 	},
-
+    /**
+     * Return special resize function for the properties alignLeft, alignRight, alignTop and alignBottom
+     * @method getAlignmentFn
+     * @param {ludo.View} child
+     * @param {String} alignment
+     * @param {String} property
+     * @return {Function}
+     * @private
+     */
 	getAlignmentFn:function (child, alignment, property) {
 		var c = this.newChildCoordinates[child.id];
 		var refC = this.lastChildCoordinates[child.layout[alignment].id];
@@ -15398,6 +15526,14 @@ ludo.layout.Relative = new Class({
 		};
 	},
 
+    /**
+     * Returns layout function for the width and height layout properties
+     * @method getPropertyFn
+     * @param {ludo.View} child
+     * @param {String} property
+     * @return {Function|undefined}
+     * @private
+     */
 	getPropertyFn:function (child, property) {
 		var c = this.newChildCoordinates[child.id];
 
@@ -15431,6 +15567,16 @@ ludo.layout.Relative = new Class({
 
 	posProperties:['left', 'right', 'bottom', 'top'],
 
+    /**
+     * Final resize function for each child. All the other dynamically created
+     * layout function stores values for the left,width,top,bottom, width and height properties.
+     * This function call the resize function for each view with the values of these previously
+     * set properties
+     * @method getLayoutLayoutFn
+     * @param {ludo.View} child
+     * @return {Function}
+     * @private
+     */
 	getLastLayoutFn:function (child) {
 		return function (lm) {
 			var c = lm.newChildCoordinates[child.id];
@@ -15454,6 +15600,12 @@ ludo.layout.Relative = new Class({
 		}
 	},
 
+    /**
+     * Update lastChildCoordinates properties for a child after resize is completed
+     * @method updateLastCoordinatesFor
+     * @param {ludo.View} child
+     * @private
+     */
 	updateLastCoordinatesFor:function (child) {
 		var lc = this.lastChildCoordinates[child.id];
 		var el = child.getEl();
@@ -15465,17 +15617,38 @@ ludo.layout.Relative = new Class({
 		if (lc.bottom === undefined) lc.bottom = this.viewport.height - lc.top - lc.height;
 	},
 
+    /**
+     * Position child at this coordinates
+     * @method positionChild
+     * @param {ludo.View} child
+     * @param {String} property
+     * @param {Number} value
+     * @private
+     */
 	positionChild:function (child, property, value) {
 		child.getEl().style[property] = value + 'px';
 		child[property] = value;
 
 	},
-
+    /**
+     * Creates empty newChildCoordinates and lastChildCoordinates for a child view
+     * @method assignDefaultCoordinates
+     * @param {ludo.View} child
+     * @private
+     */
 	assignDefaultCoordinates:function (child) {
 		this.newChildCoordinates[child.id] = {};
 		this.lastChildCoordinates[child.id] = {};
 	},
 
+    /**
+     * Before first resize, the internal children array is arranged so that views dependent of
+     * other views are resized after the view it's depending on. example: if view "a" has leftOf property
+     * set to view "b", then view "b" should be resized and positioned first. This method rearranges
+     * the internal children array according to this
+     * @method arrangeChildren
+     * @private
+     */
 	arrangeChildren:function () {
 		this.children = [];
 		for (var i = 0; i < this.view.children.length; i++) {
@@ -15518,6 +15691,11 @@ ludo.layout.Relative = new Class({
 		'above':'above',
 		'below':'below'
 	},
+    /**
+     * Create resize handles for resizable children
+     * @method createResizables
+     * @private
+     */
 	createResizables:function () {
 		for (var i = this.children.length - 1; i >= 0; i--) {
 			var c = this.children[i];
@@ -15541,16 +15719,23 @@ ludo.layout.Relative = new Class({
 			}
 		}
 	},
-
-	getResizableFor:function (child, r) {
-		var resizeProp = (r === 'left' || r === 'right') ? 'width' : 'height';
+    /**
+     * Return resizable handle for a child view
+     * @method getResizableFor
+     * @param {ludo.View} child
+     * @param {String} direction
+     * @return {ludo.layout.Resizer}
+     * @private
+     */
+	getResizableFor:function (child, direction) {
+		var resizeProp = (direction === 'left' || direction === 'right') ? 'width' : 'height';
 		return new ludo.layout.Resizer({
 			name:'resizer-' + child.name,
-			orientation:(r === 'left' || r === 'right') ? 'horizontal' : 'vertical',
-			pos:r,
+			orientation:(direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical',
+			pos:direction,
 			renderTo:this.view.getBody(),
-			sibling:this.getSiblingForResize(child,r),
-			layout:this.getResizerLayout(child, r),
+			sibling:this.getSiblingForResize(child,direction),
+			layout:this.getResizerLayout(child, direction),
 			view:child,
 			listeners:{
 				'resize':function (change) {
@@ -15562,8 +15747,16 @@ ludo.layout.Relative = new Class({
 		});
 	},
 
-	getSiblingForResize:function(child, r){
-		switch(r){
+    /**
+     * Return sibling which may be affected when a child is resized
+     * @method getSiblingForResize
+     * @param {ludo.View} child
+     * @param {String} direction
+     * @return {ludo.View|undefined}
+     * @private
+     */
+	getSiblingForResize:function(child, direction){
+		switch(direction){
 			case 'left':
 				return child.layout.rightOf;
 			case 'right':
@@ -15575,7 +15768,13 @@ ludo.layout.Relative = new Class({
 		}
 		return undefined;
 	},
-
+    /**
+     * Before resize function executed for a resize handle
+     * @method beforeResize
+     * @param {ludo.layout.Resizer} resize
+     * @param {ludo.View} child
+     * @private
+     */
 	beforeResize:function(resize, child){
 		if(resize.orientation === 'horizontal'){
 			resize.setMinWidth(child.layout.minWidth || 10);
@@ -15585,7 +15784,14 @@ ludo.layout.Relative = new Class({
 			resize.setMaxHeight(child.layout.maxHeight || this.view.getBody().offsetHeight);
 		}
 	},
-
+    /**
+     * Return layout config for a resize handle
+     * @method getResizerLayout
+     * @param {ludo.View} child
+     * @param {String} resize
+     * @return {ludo.layout.RelativeSpec}
+     * @private
+     */
 	getResizerLayout:function (child, resize) {
 		var ret = {};
 		switch (resize) {
@@ -15603,6 +15809,16 @@ ludo.layout.Relative = new Class({
 		return ret;
 	},
 
+    /**
+     * Update layout references when a resize handle has been created. example: When a resize handle
+     * is added to the left of a child view. The leftOf view of this child is now the resize handle
+     * and not another view
+     * @method updateReferences
+     * @param {String} property
+     * @param {ludo.View} child
+     * @param {ludo.layout.Resizer} resizer
+     * @private
+     */
 	updateReference:function (property, child, resizer) {
 		for (var i = 0; i < this.children.length; i++) {
 			if (this.children[i].layout[property] === child) {
@@ -15612,11 +15828,23 @@ ludo.layout.Relative = new Class({
 		}
 		resizer.layout[property] = child;
 	},
-
+    /**
+     * Returns true if a child is resizable
+     * @method isChildResizable
+     * @param {ludo.View} child
+     * @return {Boolean}
+     * @private
+     */
 	isChildResizable:function (child) {
 		return child.layout && child.layout.resize && child.layout.resize.length > 0;
 	},
 
+    /**
+     * Return a child which should be rearrange because it's layout depends on a next sibling
+     * @method getWronglyArrangedChild
+     * @return {ludo.View|undefined}
+     * @private
+     */
 	getWronglyArrangedChild:function () {
 		for (var i = 0; i < this.children.length; i++) {
 			var c = this.children[i];
@@ -15631,13 +15859,32 @@ ludo.layout.Relative = new Class({
 		}
 		return undefined;
 	},
-
+    /**
+     * Returns true if a child is previous sibling of another child
+     * @method isArrangedBefore
+     * @param {ludo.View} child
+     * @param {ludo.View} of
+     * @return {Boolean}
+     * @private
+     */
 	isArrangedBefore:function (child, of) {
 		return this.children.indexOf(child) < this.children.indexOf(of);
 	},
 
+    /**
+     * All the layout options where value is a reference to another child
+     * @property depKeys
+     * @private
+     */
 	depKeys:['above', 'below', 'leftOf', 'rightOf', 'alignLeft', 'alignBottom', 'alignRight', 'alignTop', 'sameWidthAs', 'sameHeightAs'],
 
+    /**
+     * Return all the siblings a child is depending on for layout
+     * @method getDependencies
+     * @param {ludo.View} child
+     * @return {Array}
+     * @private
+     */
 	getDependencies:function (child) {
 		var ret = [];
 		for (var i = 0; i < this.depKeys.length; i++) {
@@ -15650,21 +15897,44 @@ ludo.layout.Relative = new Class({
 		}
 		return ret;
 	},
-
+    /**
+     * Return direct reference to child
+     * @method getReference
+     * @param {String|ludo.View} child
+     * @return {ludo.View}
+     * @private
+     */
 	getReference:function (child) {
 		if (child['getId'] !== undefined)return child;
 		if (this.view.child[child] !== undefined)return this.view.child[child];
 		return ludo.get(child);
 	},
 
+    /**
+     * Clear internal children array. When this is done, resize function will be recreated. This happens
+     * when a child is removed or when a new child is added
+     * @method clearChildren
+     * @private
+     */
 	clearChildren:function () {
 		this.children = undefined;
 	},
-
+    /**
+     * Return internal children array
+     * @method getChildren
+     * @return {Array}
+     * @private
+     */
 	getChildren:function () {
 		return this.children;
 	},
 
+    /**
+     * Validate and set required layout properties of new children
+     * @method onNewChild
+     * @param {ludo.View} child
+     * @private
+     */
 	onNewChild:function (child) {
 		this.parent(child);
 		child.getEl().style.position = 'absolute';
@@ -15686,6 +15956,12 @@ ludo.layout.Relative = new Class({
 
 	},
 
+    /**
+     * Add events to child view
+     * @method addChildEvents
+     * @param {ludo.View} child
+     * @private
+     */
 	addChildEvents:function(child){
 		child.addEvent('hide', this.hideChild.bind(this));
 		child.addEvent('show', this.clearTemporaryValues.bind(this));
@@ -15695,17 +15971,37 @@ ludo.layout.Relative = new Class({
 		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
 	},
 
+    /**
+     * Executed when a child is hidden. It set's the internal layout properties width and height to 0(zero)
+     * @method hideChild
+     * @param {ludo.View} child
+     * @private
+     */
 	hideChild:function(child){
 		this.setTemporarySize(child, {
 			width:0,height:0
 		});
 	},
 
+    /**
+     * Executed when a child is minimized. It set's temporary width or properties
+     * @method minimize
+     * @param {ludo.View} child
+     * @param {Object} newSize
+     * @private
+     */
 	minimize:function(child, newSize){
 		this.setTemporarySize(child, newSize);
 		this.resize();
 	},
 
+    /**
+     * Store temporary size when a child is minimized or hidden
+     * @method setTemporarySize
+     * @param {ludo.View} child
+     * @param {Object} newSize
+     * @private
+     */
 	setTemporarySize:function(child, newSize){
 		if(newSize.width !== undefined){
 			child.layout.cached_width = child.layout.width;
@@ -15715,7 +16011,13 @@ ludo.layout.Relative = new Class({
 			child.layout.height = newSize.height;
 		}
 	},
-
+    /**
+     * Clear temporary width or height values. This method is executed when a child
+     * is shown or maximized
+     * @method clearTemporaryValues
+     * @param {ludo.View} child
+     * @private
+     */
 	clearTemporaryValues:function(child){
 		if(child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
 		if(child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
@@ -16092,7 +16394,17 @@ ludo.layout.Fill = new Class({
  */
 ludo.layout.Grid = new Class({
 	Extends:ludo.layout.Base,
+    /**
+     * Number of columns
+     * @config {Number} columns
+     * @default 5
+     */
 	columns:5,
+    /**
+     * Number of rows
+     * @config {Number} rows
+     * @default 5
+     */
 	rows:5,
 
 	onCreate:function () {
@@ -16100,6 +16412,7 @@ ludo.layout.Grid = new Class({
 		if (l.columns !== undefined)this.columns = l.columns;
 		if (l.rows !== undefined)this.rows = l.rows;
 	},
+
 	resize:function () {
 		this.storeCellSize();
 		var pos = 0;
@@ -21132,7 +21445,7 @@ ludo.form.Spinner = new Class({
     },
 
     _createContainer:function (config) {
-        config = Object.merge({
+        config = $merge({
             tag:'div',
             cls:''
         }, config);
@@ -24643,7 +24956,6 @@ chess.getPhrase = function(phrase){
  * @class GUI
  * @extends View
  */
-
 chess.view.board.GUI = new Class({
     Extends:ludo.View,
     type:'chess.view.board.GUI',
@@ -24656,6 +24968,7 @@ chess.view.board.GUI = new Class({
     boardCls:undefined,
     boardCss:undefined,
     lowerCaseLabels:false,
+
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -24673,8 +24986,8 @@ chess.view.board.GUI = new Class({
         if (config.boardLayout !== undefined) this.boardLayout = config.boardLayout;
         if (config.lowerCaseLabels !== undefined) this.lowerCaseLabels = config.lowerCaseLabels;
         this.chessSet = config.chessSet || this.chessSet;
-
     },
+
     ludoDOM:function () {
         this.parent();
 
@@ -24724,7 +25037,7 @@ chess.view.board.GUI = new Class({
     },
 
     hasLabels:function () {
-        return this.labels ? true : false;
+        return this.labels;
     },
 
     createBoardContainer:function () {
@@ -24765,14 +25078,10 @@ chess.view.board.GUI = new Class({
             var el = this.els.squares[i] = new Element('div');
             el.addClass('ludo-chess-square');
             el.style.position = 'relative';
-
             this.els.board.adopt(el);
-
-            backgroundPos = Math.round(Math.random() * 150);
-
+            var backgroundPos = Math.round(Math.random() * 150);
             el.style.backgroundPosition = backgroundPos + 'px ' + backgroundPos + 'px';
         }
-
         this.updateSquares();
     },
 
@@ -24793,7 +25102,6 @@ chess.view.board.GUI = new Class({
     },
 
     updateSquares:function () {
-
         var types = ['white', 'black'];
         var index = 0;
         for (var i = 0; i < 64; i++) {
@@ -24996,7 +25304,7 @@ chess.view.board.GUI = new Class({
     },
 
     flip:function () {
-        this.flipped = this.flipped ? false : true;
+        this.flipped = !this.flipped;
         this.updateLabels();
         this.flipSquares();
         this.fireEvent('flip', this);
@@ -25041,26 +25349,28 @@ chess.view.board.GUI = new Class({
     },
 
     getTimeStamp:function () {
-        var d = new Date();
-        return d.getTime();
+        return new Date().getTime();
     },
+
     getHeightOfContainer:function () {
         var el = this.getBody();
         if (el.style.height) {
-            return el.style.height.replace('px', '') / 1;
+            return parseInt(el.style.height.replace('px', ''));
         }
         return el.getSize().y - ludo.dom.getBH(el) - ludo.dom.getPH(el);
     },
 
-    getSquareFromCoordinates:function (x, y) {
-        x += this.internal.squareSize / 2;
-        y += this.internal.squareSize / 2;
+    getSquareByCoordinates:function (x, y) {
+        var offset = this.internal.squareSize / 2;
+        x += offset;
+        y += offset;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.internal.squareSize * 8, x);
-        y = Math.min(this.internal.squareSize * 8, y);
+        var max = this.internal.squareSize * 8;
+        x = Math.min(max, x);
+        y = Math.min(max, y);
 
         x = Math.floor(x / this.internal.squareSize);
         y = Math.floor(8 - (y / this.internal.squareSize));
@@ -25144,7 +25454,7 @@ chess.view.board.Board = new Class({
             var config = {
                 square:0,
                 color:'white',
-                type:'pawn',
+                pieceType:'pawn',
                 pieceLayout:this.pieceLayout,
                 squareSize:30,
                 flipped:flipped,
@@ -25207,7 +25517,9 @@ chess.view.board.Board = new Class({
         this.currentValidMoves = this.positionParser.getValidMovesAndResult().moves;
         this.resetPieceDragAndDrop();
         for (var square in this.currentValidMoves) {
-            this.pieceMap[square].enableDragAndDrop();
+            if(this.currentValidMoves.hasOwnProperty(square)){
+                this.pieceMap[square].enableDragAndDrop();
+            }
         }
     },
     /**
@@ -25225,12 +25537,14 @@ chess.view.board.Board = new Class({
         }
     },
     /**
-     * Animate/Play the "movements" involved in a move, example: O-O involves two moves,
-     * moving the king and moving the rook. By default, this method will be executed when the
-     * controller fires newMove or nextmove event.
-     * @method playChainOfMoves
-     * @param GameModel model
-     * @param Object move, example: { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
+     Animate/Play the "movements" involved in a move, example: O-O involves two moves,
+     moving the king and moving the rook. By default, this method will be executed when the
+     controller fires newMove or nextmove event.
+     @method playChainOfMoves
+     @param {game.model.Game} model
+     @param {Object} move
+     @example
+        { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves:function (model, move) {
         if (this.currentAnimation.isBusy) {
@@ -25316,8 +25630,8 @@ chess.view.board.Board = new Class({
     },
     /**
      * Show start position of game
-     * @method showStartboard
-     * @param GameModel model
+     * @method showStartBoard
+     * @param {game.model.Game} model
      * @return void
      */
     showStartBoard:function (model) {
@@ -25326,8 +25640,8 @@ chess.view.board.Board = new Class({
     /**
      * Show a specific FEN position on the board
      * @method showFen
-     * @param String fen
-     * @return void
+     * @param {String} fen
+     * @return undefined
      */
     showFen:function (fen) {
         this.positionParser.setFen(fen);
@@ -25340,7 +25654,7 @@ chess.view.board.Board = new Class({
             var p = this.pieces[i];
             p.square = pieces[i].s;
             p.color = color;
-            p.type = type;
+            p.pieceType = type;
             p.position();
             p.updateBackgroundImage();
             p.show();
@@ -25420,9 +25734,11 @@ chess.view.board.Board = new Class({
     },
 
     /**
-     * Returns JSON object for a piece on a specific square or null if no piece is on the square
-     * @method getPieceOnSquare
-     * @param string square, example: "e4"
+     Returns JSON object for a piece on a specific square or null if no piece is on the square
+     @method getPieceOnSquare
+     @param {String} square
+     @example
+        alert(board.getPieceOnSquare('e4');
      */
     getPieceOnSquare:function (square) {
         return this.pieceMap[Board0x88Config.mapping[square]];
@@ -25475,7 +25791,8 @@ chess.view.board.Board = new Class({
     }
 });
 /**
- * You will never have to use this class. Pieces are created dynamically by chess.board.Board
+ * Class representing the view of chess pieces in DHTML Chess.
+ * Instances of this class are created dynamically by chess.view.Board
  * @module View
  * @submodule Board
  * @namespace chess.view.board
@@ -25486,12 +25803,20 @@ ludo_CHESS_PIECE_GLOBAL_Z_INDEX = 200;
 chess.view.board.Piece = new Class({
     Extends:ludo.Core,
     type:'chess.view.board.Piece',
+    /**
+     Color of piece, "white" or "black"
+     @config {String} color
+     @default "white"
+     */
     color:'white',
-    type:'pawn',
     pieceLayout:'alpha',
     size:null,
     squareSize:null,
     validSizes:[30, 45, 60, 75, 90, 105],
+    /**
+     * 0x88 board position of piece
+     * @config {Number} square
+     */
     square:undefined,
     el:null,
     flipped:false,
@@ -25500,6 +25825,13 @@ chess.view.board.Piece = new Class({
     board:undefined,
     ddEnabled:false,
     aniDuration:250,
+    /**
+     Type of piece
+     @config {String} pieceType
+     @example
+        pieceType:'knight'
+     */
+    pieceType:'pawn',
     dd:{
         active:false,
         el:{ x:0, y:0},
@@ -25520,14 +25852,13 @@ chess.view.board.Piece = new Class({
         this.pieceLayout = config.pieceLayout;
         this.numSquare = config.numSquare;
         this.flipped = config.flipped;
-        this.type = config.type;
+        this.pieceType = config.pieceType;
         this.color = config.color;
         this.board = config.board;
         this.aniDuration = config.aniDuration || this.aniDuration;
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
-
     },
 
     getEventEl:function () {
@@ -25536,7 +25867,11 @@ chess.view.board.Piece = new Class({
         }
         return document.id(window);
     },
-
+    /**
+     * Create DOM elements for the chess piece
+     * @method createDOM
+     * @private
+     */
     createDOM:function () {
         this.el = new Element('div');
         this.el.setStyles({
@@ -25573,37 +25908,70 @@ chess.view.board.Piece = new Class({
         });
         this.Fx.addEvent('complete', this.animationComplete.bind(this));
     },
-
+    /**
+     * Method executed when mouse enters a chess piece
+     * @method mouseEnterPiece
+     * @private
+     */
     mouseEnterPiece:function () {
         this.fireEvent('mouseenter', this)
     },
-
+    /**
+     * Method executed when mouse leaves a chess piece
+     * @method mouseLeavePiece
+     * @private
+     */
     mouseLeavePiece:function () {
         this.fireEvent('mouseleave', this)
     },
 
+    /**
+     * Disable drag and drop for the chess piece. This will set the internal ddEnabled property to
+     * false and reset cursor to arrow.
+     * @method disableDragAndDrop
+     */
     disableDragAndDrop:function () {
         this.ddEnabled = false;
         this.el.style.cursor = 'default';
     },
-
+    /**
+     * Enable drag and drop for the chess piece. This will set the internal ddEnabled property to true
+     * and update the cursor to a pointer/hand.
+	 * @method enableDragAndDrop
+     */
     enableDragAndDrop:function () {
         this.ddEnabled = true;
         this.el.style.cursor = 'pointer';
     },
-
+    /**
+     * Returns true if chess piece is currently on board.
+     * @method isVisible
+     * @return {Boolean}
+     */
     isVisible:function () {
-        return this.el.style.display == 'none' ? false : true;
+        return this.el.style.display != 'none';
     },
-
+    /**
+     * Hide the chess piece
+     * @method hide
+     */
     hide:function () {
         this.el.style.display = 'none';
     },
-
+    /**
+     * Show the chess piece
+     * @method show
+     */
     show:function () {
         this.el.style.display = '';
     },
-
+    /**
+     * Start dragging a chess piece
+     * @method initDragPiece
+     * @param {Event} e
+     * @return {Boolean|undefined}
+     * @private
+     */
     initDragPiece:function (e) {
         if (this.ddEnabled) {
             this.increaseZIndex();
@@ -25618,31 +25986,45 @@ chess.view.board.Piece = new Class({
             };
             return false;
         }
+        return undefined;
     },
-
+    /**
+     * Method executed when dragging has started and mouse moves
+     * @method dragPiece
+     * @param {Event} e
+     * @return {Boolean|undefined}
+     * @private
+     */
     dragPiece:function (e) {
         if (this.dd.active === true) {
             this.el.style.left = (e.page.x + this.dd.el.x - this.dd.mouse.x) + 'px';
             this.el.style.top = (e.page.y + this.dd.el.y - this.dd.mouse.y) + 'px';
             return false;
         }
+        return undefined;
     },
-
+    /**
+     * Stop dragging the chess piece.
+     * @method stopDragPiece
+     * @param {Event} e
+     * @private
+     */
     stopDragPiece:function (e) {
         if (this.dd.active) {
+            var coords;
             if (this.shouldUseTouchEvents()) {
-                var coords = {
+                coords = {
                     x:e.target.offsetLeft,
                     y:e.target.offsetTop
                 }
             } else {
-                var coords = {
+                coords = {
                     x:e.page.x + this.dd.el.x - this.dd.mouse.x,
                     y:e.page.y + this.dd.el.y - this.dd.mouse.y
                 }
             }
 
-            var square = this.getSquareFromCoordinates(
+            var square = this.getSquareByCoordinates(
                 coords.x,
                 coords.y
             );
@@ -25660,8 +26042,15 @@ chess.view.board.Piece = new Class({
             this.dd.active = false;
         }
     },
-
-    getSquareFromCoordinates:function (x, y) {
+    /**
+     * Return 0x88 square by screen coordinates
+     * @method getSquareByCoordinates
+     * @param {Number} x
+     * @param {Number} y
+     * @return {Number}
+     * @private
+     */
+    getSquareByCoordinates:function (x, y) {
         x += this.squareSize / 2;
         y += this.squareSize / 2;
 
@@ -25679,19 +26068,40 @@ chess.view.board.Piece = new Class({
         }
         return x + y * 16;
     },
+    /**
+     * Return square of piece
+     * @method getSquare
+     * @return {String} square
+     */
     getSquare:function () {
         return this.square;
     },
 
+    /**
+     Promote piece to this type
+     @method promote
+     @param {String} toType
+     @example
+        piece.promote('queen');
+     */
     promote:function (toType) {
-        this.type = toType;
+        this.pieceType = toType;
         this.updateBackgroundImage();
     },
-
+    /**
+     * Update background image of piece when piece type is set or changed and when size of square is changed.
+     * @method updateBackgroundImage
+     * @private
+     */
     updateBackgroundImage:function () {
         this.el.setStyle('background-image', 'url(' + chess.IMAGE_FOLDER + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
     },
 
+    /**
+     * Resize piece
+     * @method resize
+     * @param {Number} squareSize
+     */
     resize:function (squareSize) {
         this.squareSize = squareSize;
         if (squareSize < this.validSizes[0]) {
@@ -25710,18 +26120,28 @@ chess.view.board.Piece = new Class({
         }
     },
 
+    /**
+     * Position piece on board by 0x88 board square coordinate
+     * @method position
+     * @param {Number} square
+     * @optional
+     */
     position:function (square) {
         var pos = this.getPos(square);
         this.el.style.left = pos.x;
         this.el.style.top = pos.y;
     },
 
+    /**
+     * Move piece on board to square
+     * @method playMove
+     * @param {String} toSquare
+     */
     playMove:function (toSquare) {
 
         toSquare = Board0x88Config.mapping[toSquare];
 
-        if (this.isAllreadyOnSquare(toSquare)) {
-
+        if (this.isAlreadyOnSquare(toSquare)) {
             this.toSquare = toSquare;
             this.animationComplete();
         } else {
@@ -25736,21 +26156,33 @@ chess.view.board.Piece = new Class({
             });
             this.toSquare = toSquare;
         }
-
     },
-    isAllreadyOnSquare:function (square) {
+
+    /**
+     * Returns true if piece is already on a given 0x88 square number
+     * @method isAlreadyOnSquare
+     * @param {Number} square
+     * @return {Boolean}
+     * @private
+     */
+    isAlreadyOnSquare:function (square) {
         var pos = this.getPos(square);
-
-        if (pos.x == this.el.style.left && pos.y === this.el.style.top) {
-            return true;
-        }
-        return false;
+        return pos.x == this.el.style.left && pos.y === this.el.style.top;
     },
+    /**
+     * Move piece to front
+     * @method increaseZindex
+     * @private
+     */
     increaseZIndex:function () {
         ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
         this.el.style.zIndex = ludo_CHESS_PIECE_GLOBAL_Z_INDEX;
     },
-
+    /**
+     * Method executed when move animation is complete
+     * @method animationComplete
+     * @private
+     */
     animationComplete:function () {
         this.fireEvent('animationComplete', {
             from:this.square,
@@ -25758,7 +26190,19 @@ chess.view.board.Piece = new Class({
         });
         this.square = this.toSquare;
     },
-
+    /**
+     Return x and y coordinate by 0x88 square number
+     @method getPos
+     @param {Number} square
+     @return {Object}
+     @example
+        var pos = piece.getPos();
+        // may return
+        {
+            "x":"12.5%",
+            "y":"25%"
+        }
+     */
     getPos:function (square) {
         var pos = this.getPosOfSquare(square !== undefined ? square : this.square);
         return {
@@ -25766,10 +26210,15 @@ chess.view.board.Piece = new Class({
             'y':pos.y + '%'
         };
     },
+    /**
+     * Return x and y position of square by 0x88 coordinate(without the % suffix)
+     * @method getPosOfSquare
+     * @param {Number} square
+     * @return {Object}
+     */
     getPosOfSquare:function (square) {
         var file = (square & 15);
-        var rank = 7 - ((square & 240) / 16)
-
+        var rank = 7 - ((square & 240) / 16);
 
         if (this.flipped) {
             file = 7 - file;
@@ -25780,33 +26229,56 @@ chess.view.board.Piece = new Class({
             y:(rank * 12.5)
         }
     },
-
+    /**
+     * Return HTML element of piece
+     * @method getEl
+     * @return {HTMLElement}
+     */
     getEl:function () {
         return this.el;
     },
-
+    /**
+     * Return color code of piece, "w" or "b"
+     * @method getColorCode
+     * @return {String}
+     * @private
+     */
     getColorCode:function () {
         return this.color == 'white' ? 'w' : 'b';
     },
-
+    /**
+     * Return lowercase piece type, i.e. "k","q","r","b","n" or "p"
+     * @method getTypeCode
+     * @return {String}
+     * @private
+     */
     getTypeCode:function () {
-        switch (this.type) {
+        switch (this.pieceType) {
             case 'pawn':
             case 'rook':
             case 'bishop':
             case 'queen':
             case 'king':
-                return this.type.substr(0, 1).toLowerCase();
+                return this.pieceType.substr(0, 1).toLowerCase();
             case 'knight':
                 return 'n';
+            default:
+                return undefined;
         }
     },
-
+    /**
+     * Executed when board is flipped. It will call the position method.
+     * @method flip
+     */
     flip:function () {
-        this.flipped = this.flipped ? false : true;
+        this.flipped = !this.flipped;
         this.position();
     },
-
+    /**
+     * Returns true if piece is already flipped
+     * @method isFlipped
+     * @return {Boolean}
+     */
     isFlipped:function () {
         return this.flipped;
     }
@@ -26188,7 +26660,7 @@ chess.view.highlight.ArrowBase = new Class({
 			coords.y -= (modY);
 			coords.x -= (modX);
 
-			var square = this.view.getSquareFromCoordinates(coords.x, coords.y);
+			var square = this.view.getSquareByCoordinates(coords.x, coords.y);
 			square = Board0x88Config.numberToSquareMapping[square];
 			var piece = this.view.getPieceOnSquare(square);
 
@@ -26360,6 +26832,12 @@ chess.view.highlight.SquareTacticHint = new Class({
         this.clear.delay(this.delay * 1000, this);
     }
 });
+/**
+ * Displays a row of button used for navigation in a game(previous move, next move etc.)
+ * @namespace chess.view.buttonbar
+ * @class Game
+ * @extends View
+ */
 chess.view.buttonbar.Game = new Class({
     Extends:ludo.View,
     type:'chess.view.buttonbar.Game',
@@ -26423,17 +26901,33 @@ chess.view.buttonbar.Game = new Class({
     newGame:function () {
 
     },
+    /**
+     * Method executed after moving to start of game. It will disable the "to start" and "previous" move
+     * buttons
+     * @method startOfGame
+     * @private
+     */
     startOfGame:function () {
         this.disableButton('start');
         this.disableButton('previous');
     },
 
+    /**
+     * Method executed when going from first move in a line to a move which is not the first. It will enable the "To start" and previous buttons.
+     * @method notStartOfBranch
+     * @private
+     */
     notStartOfBranch:function () {
         this.enableButton('start');
         this.enableButton('previous');
-
     },
 
+    /**
+     * Method executed when going to last move in main line or a variation. It will disable the
+     * "To end", "Next move", "Start autoplay" and "Pause autoplay" buttons.
+     * @method endOfBranch
+     * @private
+     */
     endOfBranch:function () {
         this.disableButton('end');
         this.disableButton('next');
@@ -26442,6 +26936,14 @@ chess.view.buttonbar.Game = new Class({
         this.isAtEndOfBranch = true;
     },
 
+    /**
+     * Method executed when moving from last move in a line to a move which is not the last move in a line.
+     * It will enable the "To end" and "Next move" buttons. If model is not in auto play mode, it
+     * will also enable the "Play" button and hide the "Pause" button.
+     * @method notEndOfBranch
+     * @param {game.model.Game} model
+     * @private
+     */
     notEndOfBranch:function (model) {
         this.isAtEndOfBranch = false;
         this.enableButton('end');
@@ -26452,11 +26954,25 @@ chess.view.buttonbar.Game = new Class({
         }
 
     },
+
+    /**
+     * Method executed when auto play is started. It will enable and show the pause button and hide the play button
+     * @method startAutoPlay
+     * @private
+     */
     startAutoPlay:function () {
         this.enableButton('pause');
         this.hideButton('play');
         this.showButton('pause');
     },
+
+    /**
+     * Method executed when auto play is stopped.
+     * It will show the play button and hide the pause button. If current move on board is last move
+     * in main line or a variation, the play button will be disabled
+     * @method stopAutoPlay
+     * @private
+     */
     stopAutoPlay:function () {
         this.showButton('play');
         this.hideButton('pause');
@@ -26471,13 +26987,12 @@ chess.view.buttonbar.Game = new Class({
         for (var i = 0, count = els.length; i < count; i++) {
             if (els[i].style.display !== 'none') {
                 els[i].setStyle('left', width);
-                width += els[i].getStyle('width').replace('px', '') / 1;
+                width += parseInt(els[i].getStyle('width').replace('px', ''));
                 width += ludo.dom.getBW(els[i]);
                 width += ludo.dom.getPW(els[i]);
                 width += ludo.dom.getBW(els[i]);
             }
         }
-
         this.els.buttonContainer.setStyle('width', width);
     },
 
@@ -26501,7 +27016,6 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getBackgroundColorForRightedge:function () {
-        var ret = null;
         var el = this.getEl();
         var ret = el.getStyle('background-color');
         while ((!ret || ret == 'transparent') && el.tagName.toLowerCase() !== 'body') {
@@ -26515,6 +27029,12 @@ chess.view.buttonbar.Game = new Class({
         return ret || '#FFF';
     },
 
+    /**
+     * Hide a button
+     * @method hideButton
+     * @param {String} buttonType
+     * @private
+     */
     hideButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].style.display = 'none';
@@ -26522,6 +27042,12 @@ chess.view.buttonbar.Game = new Class({
         }
     },
 
+    /**
+     * Show a button
+     * @method showButton
+     * @param {String} buttonType
+     * @private
+     */
     showButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].style.display = '';
@@ -26530,13 +27056,24 @@ chess.view.buttonbar.Game = new Class({
         }
     },
 
+    /**
+     * Disable a button
+     * @method disableButton
+     * @param {String} buttonType
+     * @private
+     */
     disableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].addClass('ludo-chess-button-disabled');
             this.els.chessButtons[buttonType].removeClass('ludo-chess-button-over');
         }
     },
-
+    /**
+     * Enable a button
+     * @method enableButton
+     * @param {String} buttonType
+     * @private
+     */
     enableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
             this.els.chessButtons[buttonType].removeClass('ludo-chess-button-disabled');
@@ -27241,8 +27778,7 @@ chess.view.message.TacticsMessage = new Class({
         }
     },
 
-
-    autoHideMessage:function (delay) {
+    autoHideMessage:function () {
         this.getBody().set('html','');
     }
 });
@@ -27311,6 +27847,7 @@ chess.view.dialog.NewGame = new Class({
  * @submodule Dialog
  * @namespace chess.view.dialog
  * @class OverwriteMove
+ * @extends ludo.dialog.Dialog
  */
 chess.view.dialog.OverwriteMove = new Class({
 	Extends:ludo.dialog.Dialog,
@@ -27330,7 +27867,6 @@ chess.view.dialog.OverwriteMove = new Class({
 	autoDispose:false,
 
 	ludoConfig:function (config) {
-
 		config = config || {};
 		config.buttons = [
 			{
@@ -27393,9 +27929,8 @@ chess.view.dialog.OverwriteMove = new Class({
 
 	showDialog:function (model, moves) {
 		this.move = moves;
-
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
-		this.setHtml('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?')
+		this.setHtml('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
 		this.show();
 	}
 });
@@ -27411,7 +27946,10 @@ chess.view.dialog.Promote = new Class({
     Extends:ludo.dialog.Dialog,
     module:'chess',
     submodule:'dialogPromote',
-    layout:'rows',
+    layout:{
+		type:'linear',
+		orientation: 'vertical'
+	},
     width:300,
     hidden: true,
     height:330,
@@ -27437,7 +27975,6 @@ chess.view.dialog.Promote = new Class({
             if (i > 1) {
                 parent = this.row2;
             }
-
             var el =parent.addChild({
                 type:'chess.view.dialog.PromotePiece',
                 piece:pieces[i],
@@ -27580,12 +28117,13 @@ chess.view.dialog.Comment = new Class({
         this.show();
 
         this.move = model.getMove(move);
-
         var comment = this.commentPos == 'before' ? model.getCommentBefore(this.move) : model.getCommentAfter(this.move);
         this.child['comment'].setValue(comment);
+        this.setTitle(this.getDialogTitle());
+    },
 
-        this.setTitle(chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')');
-
+    getDialogTitle:function(){
+        return chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')';
     }
 });
 /**
@@ -27645,8 +28183,7 @@ chess.view.dialog.GameImport = new Class({
         this.getFormManager().addEvent('success', this.importFinished.bind(this));
     },
 
-    importFinished:function(data){
-
+    importFinished:function(){
         this.hideAfterDelay(2);
         this.clearForm();
         this.fireEvent('pgnImportComplete');
@@ -27658,7 +28195,7 @@ chess.view.dialog.GameImport = new Class({
         this.child['importAsNew'].addEvent('change', this.toggleImport.bind(this));
     },
 
-    toggleImport:function (value,obj) {
+    toggleImport:function (value) {
         if (value) {
             this.child['newDatabase'].show();
             this.child['folder'].show();
@@ -27670,6 +28207,13 @@ chess.view.dialog.GameImport = new Class({
         }
     }
 });
+/**
+ * Special button used to save a game. This button will be automatically disabled
+ * for users without save game access
+ * @namespace chess.view.button
+ * @class SaveGame
+ * @extends form.Button
+ */
 chess.view.button.SaveGame = new Class({
     Extends:ludo.form.Button,
     type:'chess.view.button.SaveGame',
@@ -27687,6 +28231,11 @@ chess.view.button.SaveGame = new Class({
         this.controller.addEvent('invalidSession', this.disable.bind(this));
     },
 
+    /**
+     * Toggle enabling of button based on user access
+     * @method toggleonUserAccess
+     * @param {Number} access
+     */
     toggleOnUserAccess:function (access) {
         if ((access & window.chess.UserRoles.EDIT_GAMES)) {
             this.enable();
@@ -27695,6 +28244,12 @@ chess.view.button.SaveGame = new Class({
         }
     }
 });
+/**
+ * Special button used to show tactic hint in tactic puzzle mode
+ * @namespace chess.view.button
+ * @class TacticHint
+ * @extends form.Button
+ */
 chess.view.button.TacticHint = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.TacticHint',
@@ -27714,6 +28269,12 @@ chess.view.button.TacticHint = new Class({
 
 
 });
+/**
+ * Special button used to show the solution, i.e. next move in a puzzle
+ * @namespace chess.view.button
+ * @class TacticSolution
+ * @extends form.Button
+ */
 chess.view.button.TacticSolution = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.TacticSolution',
@@ -27733,6 +28294,12 @@ chess.view.button.TacticSolution = new Class({
 
 
 });
+/**
+ * Special button used to navigate to next game in a database
+ * @namespace chess.view.button
+ * @class NextGame
+ * @extends form.Button
+ */
 chess.view.button.NextGame = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.NextGame',
@@ -27750,6 +28317,12 @@ chess.view.button.NextGame = new Class({
         this.fireEvent('nextGame');
     }
 });
+/**
+ * Special button used to navigate to previous button in a database
+ * @namespace chess.view.button
+ * @class PreviousGame
+ * @extends form.Button
+ */
 chess.view.button.PreviousGame = new Class({
     Extends : ludo.form.Button,
     type : 'chess.view.button.NextGame',
@@ -28437,6 +29010,12 @@ chess.view.user.Country = new Class({
     }
 });
 
+/**
+ * Command line input field
+ * @namespace chess.view.command
+ * @class Line
+ * @extends form.Text
+ */
 chess.view.command.Line = new Class({
 	Extends: ludo.form.Text,
 	type: 'chess.view.command.Line',
@@ -28446,6 +29025,13 @@ chess.view.command.Line = new Class({
 
 	validateKeyStrokes:true,
 
+    /**
+     * Key stroke listener
+	 * @method validateKey
+     * @param {Event} e
+     * @return {Boolean|undefined}
+     * @private
+     */
 	validateKey:function(e){
 		if(e.key === 'enter'){
 			this.value = this.els.formEl.value;
@@ -28453,12 +29039,24 @@ chess.view.command.Line = new Class({
 			this.setValue('');
 			return false;
 		}
+        return undefined;
 	},
 
+    /**
+     * Fire sendMessage event with value of text field
+     * @method send
+     * @private
+     */
 	send:function(){
 		this.fireEvent('sendMessage', this.getValue());
 	}
 });
+/**
+ * Controller for the command line view
+ * @namespace chess.view.command
+ * @class Controller
+ * @extends controller.Controller
+ */
 chess.view.command.Controller = new Class({
 	Extends:ludo.controller.Controller,
 	type:'chess.view.command.Controller',
@@ -28482,12 +29080,23 @@ chess.view.command.Controller = new Class({
 		}
 	},
 
+    /**
+     * Add listeners to the controller
+     * @method addControllerEvents
+     */
 	addControllerEvents:function () {
 		this.controller.addEvent('invalidMove', this.onInvalidMove.bind(this));
 		this.controller.addEvent('newMove', this.receiveMove.bind(this));
 		this.controller.addEvent('updateMove', this.receiveMoveUpdate.bind(this));
 	},
 
+    /**
+     * Return valid command name
+     * @method getValidCommand
+     * @param {String} command
+     * @return {String|undefined}
+     * @private
+     */
 	getValidCommand:function (command) {
 		var c = command.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1)return c;
@@ -28495,6 +29104,17 @@ chess.view.command.Controller = new Class({
 		return undefined;
 	},
 
+    /**
+     Extract command arguments from command message. The whole message would be returned
+     when message is not a valid command.
+     @method getCommandArguments
+     @param {String} message
+     @return {String}
+     @private
+     @example
+        var args = controller.getCommandArguments('move e4');
+        // will return "e4"
+     */
 	getCommandArguments:function (message) {
 		var c = message.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1) {
@@ -28505,6 +29125,12 @@ chess.view.command.Controller = new Class({
 		return message;
 	},
 
+    /**
+     * Execute a command
+     * @method execute
+     * @param {String} command
+     * @param {String} arg
+     */
 	execute:function (command, arg) {
 		switch (command) {
 			case 'help':
@@ -28542,7 +29168,10 @@ chess.view.command.Controller = new Class({
 	},
 
 	helpMessage:undefined,
-
+    /**
+     * Show command line help screen
+     * @method showHelp
+     */
 	showHelp:function () {
 		if (this.helpMessage === undefined) {
 			var msg = [];
@@ -28555,33 +29184,79 @@ chess.view.command.Controller = new Class({
 
 		this.message(this.helpMessage);
 	},
-
+    /**
+     * Show invalid move message
+     * @method onInvalidMove
+     */
 	onInvalidMove:function () {
 		this.errorMessage(chess.getPhrase('Invalid move'));
 	},
-
+    /**
+     * Using RegEx to validate a chess move.
+	 * @method isChessMove
+     * @param {String} move
+     * @return {Boolean}
+     */
 	isChessMove:function (move) {
 		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|O(-?O){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
 	},
+    /**
+     * Receive move from main controller and display move message on screen
+     * @method receiveMove
+     * @param {chess.controller.Controller} controller
+     * @param {chess.model.Move} move
+     * @private
+     */
 	receiveMove:function (controller, move) {
 		this.message(chess.getPhrase('Moving') + ' ' + move.lm);
 	},
+
+    /**
+     * Fire a "sendMessage" event. Listening views may display this message on screen
+     * (example a chess.view.command.Panel view).
+     * @method message
+     * @param {String} msg
+     */
 	message:function (msg) {
 		this.fireEvent('sendMessage', msg);
 	},
-
+    /**
+     * Fire a "sendErrorMessage" event. A chess.view.command.Panel view will listen to
+     * this event and display the error message on screen
+     * @method errorMessage
+     * @param {String} msg
+     */
 	errorMessage:function (msg) {
 		this.fireEvent('sendErrorMessage', msg);
 	},
 
+    /**
+     * Returns true if passed argument is a valid move grade/short comment, i.e.
+     * !,?,!!,??,!? or ?!
+	 * @method isValidGrade
+     * @param arg
+     * @return {Boolean}
+     */
 	isValidGrade:function(arg){
 		return ['','?','??','!','!!','?!','!?'].indexOf(arg) !== -1;
 	},
-
+    /**
+     * Receive move update from main controller and fire a message event which will
+     * be displayed by a chess.view.command.Panel view
+     * @method recieveMoveUpdate
+     * @param {chess.model.Game} model
+     * @param {chess.model.Move} move
+     */
 	receiveMoveUpdate:function(model, move){
 		this.message(chess.getPhrase('Move updated to') + ': ' + move.lm);
 	}
 });
+/**
+ * Command line message panel
+ * @namespace chess.view.command
+ * @class Panel
+ * @extends View
+ */
 chess.view.command.Panel = new Class({
 	Extends: ludo.View,
 	useController:true,
@@ -28596,20 +29271,40 @@ chess.view.command.Panel = new Class({
 		this.renderLine(chess.language.commandWelcome);
 	},
 
+    /**
+     * Add events to a chess.view.command.Controller instance
+     * @method addControllerEvents
+     */
 	addControllerEvents:function(){
 		this.controller.addEvent('sendMessage', this.renderLine.bind(this));
 		this.controller.addEvent('sendErrorMessage', this.renderErrorLine.bind(this));
 		this.controller.addEvent('clear', this.clear.bind(this));
 	},
 
+    /**
+     * Clear message panel
+     * @method clear
+     */
 	clear:function(){
 		this.getBody().innerHTML = '';
 		this.currentLine = undefined;
 	},
 
+    /**
+     * Render error message inside panel
+     * @method renderErrorLine
+     * @param {String} text
+     */
 	renderErrorLine:function(text){
 		this.renderLine(text, 'chess-command-panel-error-message');
 	},
+    /**
+     * Render message inside panel assigned to optional CSS class(cls)
+     * @method renderLine
+     * @param {String} text
+     * @param {String} cls
+     * @optional
+     */
 	renderLine:function(text, cls){
 		if(this.currentLine)ludo.dom.addClass(this.currentLine, 'chess-command-panel-message-old');
 		var el = document.createElement('div');
@@ -28754,9 +29449,7 @@ chess.view.position.Board = new Class({
     },
     lowerCaseLabels:true,
     selectedPiece:undefined,
-    ludoEvents:function () {
-        this.parent();
-    },
+
     ludoEvents:function () {
         this.parent();
         this.els.board.addEvent('click', this.insertPiece.bind(this));
@@ -28797,8 +29490,8 @@ chess.view.position.Board = new Class({
         }
         var p;
 
-        if (this.selectedPiece.type == 'king') {
-            var p = this.getKingPiece(this.selectedPiece.color);
+        if (this.selectedPiece.pieceType == 'king') {
+            p = this.getKingPiece(this.selectedPiece.color);
             var existingPiece;
             if (existingPiece = this.getVisiblePieceOnNumericSquare(square)) {
 
@@ -28812,8 +29505,8 @@ chess.view.position.Board = new Class({
             this.hidePiece(p);
         }
         if (!p) {
-            var p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.type == 'king') {
+            p = this.getVisiblePieceOnNumericSquare(square);
+            if (p && p.pieceType == 'king') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -28836,7 +29529,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.type == 'pawn') {
+        if (p.pieceType == 'pawn') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -28848,7 +29541,7 @@ chess.view.position.Board = new Class({
 
     configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
         piece.square = placeOnSquare;
-        piece.type = this.selectedPiece.type;
+        piece.pieceType = this.selectedPiece.pieceType;
         piece.color = this.selectedPiece.color;
         piece.position();
         piece.updateBackgroundImage();
@@ -28857,7 +29550,7 @@ chess.view.position.Board = new Class({
     },
 
     isEqualPiece:function (piece1, piece2) {
-        return piece1.color == piece2.color && piece1.type == piece2.type;
+        return piece1.color == piece2.color && piece1.pieceType == piece2.pieceType;
     },
 
     getIndexForNewPiece:function (color) {
@@ -28887,7 +29580,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].type == 'king' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType == 'king' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }
@@ -28938,7 +29631,7 @@ chess.view.position.Board = new Class({
                     fen = fen + emptyCounter;
                     emptyCounter = 0;
                 }
-                fen = fen + Board0x88Config.fenNotations[piece.color][piece.type];
+                fen = fen + Board0x88Config.fenNotations[piece.color][piece.pieceType];
             } else {
                 emptyCounter++;
             }
@@ -28987,7 +29680,9 @@ chess.view.position.Pieces = new Class({
 
     clearSelections : function() {
         for(var pieceType in this.pieces){
-            this.pieces[pieceType].clearSelectionCls();
+            if(this.pieces.hasOwnProperty(pieceType)){
+                this.pieces[pieceType].clearSelectionCls();
+            }
         }
     },
 
@@ -29047,7 +29742,6 @@ chess.view.position.Piece = new Class({
 
     resizePiece : function() {
         var c = this.getBody();
-        var p = this.els.piece;
         var size = c.getSize();
         size.x -= (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
         size.y -= (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
@@ -29072,6 +29766,8 @@ chess.view.position.Piece = new Class({
                 return this.pieceType.substr(0, 1).toLowerCase();
             case 'knight':
                 return 'n';
+            default:
+                return undefined;
         }
     },
     selectPiece:function (e) {
@@ -29169,7 +29865,7 @@ chess.view.position.Dialog = new Class({
                     }
                 }
             ]
-        }
+        };
         this.parent(config);
 
     },
@@ -29279,7 +29975,7 @@ chess.view.position.Dialog = new Class({
 
     updatePosition : function(key, value){
         this.position[key] = value;
-        var button = this.getButton('ok')
+        var button = this.getButton('ok');
         if(this.positionValidator.isValid(this.getPosition())){
             button.enable();
         }else{
@@ -29327,7 +30023,7 @@ chess.view.position.Dialog = new Class({
 
     },
     showLoadFenDialog:function () {
-        var d = new ludo.dialog.Prompt({
+        new ludo.dialog.Prompt({
             width:400,
             height:130,
             html:'Paste fen into the text box below',
@@ -29340,7 +30036,7 @@ chess.view.position.Dialog = new Class({
             listeners:{
                 'ok':this.loadFen.bind(this)
             }
-        })
+        });
     },
 
     loadFen:function (fen) {
@@ -29355,7 +30051,7 @@ chess.view.position.Dialog = new Class({
         }
     },
 
-    isValidFen:function (fen) {
+    isValidFen:function () {
         return true;
     },
 
@@ -29376,7 +30072,7 @@ chess.view.position.Dialog.getDialog = function(config) {
         chess.view.position.Dialog.dialogObject = new chess.view.position.Dialog(config);
     }
     return chess.view.position.Dialog.dialogObject;
-}
+};
 /**
  * Castling panel for the position setup dialog
  * @namespace chess.view.position
@@ -29435,7 +30131,7 @@ chess.view.position.Castling = new Class({
             obj.type = 'form.Checkbox';
             obj.listeners = {
                 change : this.receiveInput.bind(this)
-            }
+            };
             this.checkboxes[i] = this.addChild(obj);
         }
     },
@@ -29452,16 +30148,15 @@ chess.view.position.Castling = new Class({
      * @return undefined
      */
     setValue:function(castle){
-
         for(var i=0;i<this.checkboxes.length;i++)this.checkboxes[i].setChecked(false);
-        for(var i=0;i<castle.length;i++){
+        for(i=0;i<castle.length;i++){
             var key = castle.substr(i,1);
             if(this.child[key])this.child[key].check();
         }
     },
 
     getValue : function() {
-        var keys = ['K','Q','k','q']
+        var keys = ['K','Q','k','q'];
         var ret = '';
         for(var i=0;i<keys.length;i++){
             ret = ret + this.values[keys[i]];
@@ -30247,7 +30942,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	/* This method returns a commaseparated string of moves since it's faster to work with than arrays*/
 	getCaptureAndProtectiveMoves:function (color) {
-		var ret = [], directions, square, a;
+		var ret = [''], directions, square, a;
 
 		var pieces = this.cache[color];
 		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
@@ -30310,7 +31005,8 @@ chess.parser.FenParser0x88 = new Class({
 			}
 
 		}
-		return ',' + ret.join(',') + ',';
+        ret.push('');
+        return ret.join(',');
 	},
 
 	/**
@@ -31286,6 +31982,12 @@ chess.parser.Move0x88 = new Class({
         removed:{}
     },
 
+    /**
+     * Returns true if last moves in passed fen's is threefold repetition.
+     * @method hasThreeFoldRepetition
+     * @param {Array} fens
+     * @return {Boolean}
+     */
 	hasThreeFoldRepetition:function(fens){
 		return this.parser.hasThreeFoldRepetition(fens);
 	},
@@ -31325,13 +32027,25 @@ chess.parser.Move0x88 = new Class({
 
     },
 
+    /**
+     * Lookup mapping table and return numeric value of square according the the 0x88 chess board
+     * @method getNumSquare
+     * @param {String} square
+     * @return {Number}
+     */
     getNumSquare:function (square) {
         return Board0x88Config.mapping[square];
     },
 
-
+    /**
+     * Return valid Move object
+     * @method getMoveConfig
+     * @param {Object} move
+     * @param {String} fen
+     * @return {chess.model.Move}
+     * TODO perhaps rename this method
+     */
     getMoveConfig:function (move, fen) {
-
         if(move.m !== undefined && move.m && move.m === '--'){
             var newFen = this.getFenWithColorSwitched(fen);
             this.parser.setFen(newFen);
@@ -31357,6 +32071,12 @@ chess.parser.Move0x88 = new Class({
         };
     },
 
+    /**
+     * Return fen with color switched
+     * @method getFenWithColorSwitched
+     * @param {String} fen
+     * @return {String}
+     */
     getFenWithColorSwitched : function(fen){
         if(fen.indexOf(' w ')>=0){
             fen = fen.replace(' w ', ' b ');
@@ -31390,7 +32110,12 @@ chess.parser.Move0x88 = new Class({
 
         return false;
     },
-
+    /**
+     * Returns true if a pawn is on given square
+     * @method isPawnOnSquare
+     * @param {String} square
+     * @return {Boolean}
+     */
     isPawnOnSquare : function(square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'pawn';
@@ -31845,7 +32570,7 @@ chess.controller.EnginePlayController = new Class({
     dialog : {
 
     },
-    modelEventFired:function (event, model, param) {
+    modelEventFired:function (event, model) {
         if (event === 'newMove' || event == 'newGame') {
             var result = model.getResult();
             var colorToMove = model.getColorToMove();
@@ -31858,7 +32583,7 @@ chess.controller.EnginePlayController = new Class({
         }
     },
 
-    shouldAutoPlayNextMove : function(colorToMove, result){
+    shouldAutoPlayNextMove : function(colorToMove){
         return colorToMove == 'black'
     }
 });
@@ -32059,9 +32784,7 @@ chess.model.Game = new Class({
 	moveParentMap:{},
 	movePreviousMap:{},
 
-
-
-	INCLUDE_COMMENT_MOVES:1,
+	INCLUDE_COMMENT_MOVES:true,
 
 	state:{
 		autoplay:false
@@ -32096,6 +32819,11 @@ chess.model.Game = new Class({
 		if (config.databaseId !== undefined)this.databaseId = config.databaseId;
 	},
 
+    /**
+     * Returns game id
+     * @method getId
+     * @return {String}
+     */
 	getId:function () {
 		return this.model.id;
 	},
@@ -32154,6 +32882,11 @@ chess.model.Game = new Class({
 		this.fire('setPosition');
 	},
 
+    /**
+     * Create new game from given fen position
+     * @method setPosition
+     * @param {String} fen
+     */
 	setPosition:function (fen) {
 		this.setDefaultModel();
 		this.model.metadata.fen = fen;
@@ -32168,6 +32901,12 @@ chess.model.Game = new Class({
 		this.fire('setPosition');
 	},
 
+    /**
+     * Populate game model by JSON game object. This method will create a new game.
+     * @method populate
+     * @param {Object} gameData
+     * @private
+     */
 	populate:function (gameData) {
 		this.setDefaultModel();
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
@@ -32183,10 +32922,25 @@ chess.model.Game = new Class({
 		this.toStart();
 	},
 
+    /**
+     * Return game data
+     * @method getModel
+     * @return {Object}
+     * @private
+     */
 	getModel:function () {
 		return this.model;
 	},
 
+    /**
+     * Parse and index moves received from the server, i.e. the populate method
+     * @method registerMoves
+     * @param {Object} moves
+     * @param {String} pos
+     * @param {chess.model.Move} parent
+     * @optional
+     * @private
+     */
 	registerMoves:function (moves, pos, parent) {
 		var move;
 		moves = moves || [];
@@ -32208,7 +32962,6 @@ chess.model.Game = new Class({
 				this.registerParentMap(move, parent);
 			}
 			this.registerBranchMap(move, moves);
-
 			if (i > 0) {
 				this.registerPreviousMap(move, moves[i - 1]);
 			}
@@ -32216,18 +32969,45 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Store internal reference to previous move
+     * @method registerPreviousMap
+     * @param {chess.model.Move} move
+     * @param {chess.model.Move} previous
+     * @private
+     */
 	registerPreviousMap:function (move, previous) {
 		this.movePreviousMap[move.id] = previous;
 	},
-
+    /**
+     * Store internal reference to parent move
+     * @method registerParentMap
+     * @param {chess.model.Move} move
+     * @param {chess.model.Move} parent
+     * @private
+     */
 	registerParentMap:function (move, parent) {
 		this.moveParentMap[move.id] = parent;
 	},
 
+    /**
+     * Store internal link between move and a branch of moves(Main line or variation)
+     * @method registerBranchMap
+     * @param {chess.model.Move} move
+     * @param {Object} branch
+     * @private
+     */
 	registerBranchMap:function (move, branch) {
 		this.moveBranchMap[move.id] = branch;
 	},
 
+    /**
+     * Return branch/line of current move, i.e. main line or variation
+     * @method getBranch
+     * @param {chess.model.Move} move
+     * @return {Array}
+     * @private
+     */
 	getBranch:function (move) {
 		return this.moveBranchMap[move.id];
 	},
@@ -32286,9 +33066,14 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Return all game metadata info
-	 * @method getMetadata
-	 * @return {Object}
+	 Return all game metadata info
+	 @method getMetadata
+	 @return {Object}
+     @example
+        var m = model.getMetadata();
+     returns an object like
+     @example
+        { "white": "Magnus Carlsen", "black": "Levon Aronian", "Result" : "1-0" }
 	 */
 	getMetadata:function () {
 		return this.model.metadata;
@@ -32603,11 +33388,12 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Returns valid config object for a move
+	 * Returns valid chess.model.Move object for a move
 	 * @method getValidMove
 	 * @param {Object|chess.model.Move} move
 	 * @param {String} pos
 	 * @return {chess.model.Move}
+     * @private
 	 */
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
@@ -32617,8 +33403,10 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Add a new move as a variation. If current move is allready first move in variation it will go to this move
-	 * and not create a new variation.
+	 * Add a new move as a variation. If current move is already first move in variation it will go to this move
+	 * and not create a new variation. This method will
+     * fire the events "newVariation", "newMove" and "endOfBranch" on success.
+     * "invalidMove" will be fired on invalid move.
 	 * @method newVariation
 	 * @param {chess.model.Move} move
 	 * @return undefined
@@ -32656,13 +33444,24 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Returns true when trying to create variation and passed move is next move in line
+     * @method isDuplicateVariationMove
+     * @param {chess.model.Move} move
+     * @return {Boolean}
+     */
 	isDuplicateVariationMove:function (move) {
 		return this.getDuplicateVariationMove(move) ? true : false;
 	},
 
+    /**
+     * Returns true if current move already has a variation starting with given move
+     * @method getDuplicateVariationMove
+     * @param {chess.model.Move} move
+     * @return {chess.model.Move|undefined}
+     */
 	getDuplicateVariationMove:function (move) {
 		var nextMove;
-
 		if (nextMove = this.getNextMove(this.currentMove)) {
 			var variations = nextMove.variations;
 			for (var i = 0; i < variations.length; i++) {
@@ -32672,9 +33471,14 @@ chess.model.Game = new Class({
 				}
 			}
 		}
-		return null;
+		return undefined;
 	},
 
+    /**
+     * Create new variation branch
+     * @method newVariationBranch
+     * @private
+     */
 	newVariationBranch:function () {
 		this.currentMove.variations = this.currentMove.variations || [];
 		var variation = [];
@@ -32682,6 +33486,11 @@ chess.model.Game = new Class({
 		this.currentBranch = variation;
 	},
 
+    /**
+     * Returns fen of current move or start of game fen
+     * @method getCurrentPosition
+     * @return {String}
+     */
 	getCurrentPosition:function () {
 		if (this.currentMove && this.currentMove.fen) {
 			return this.currentMove.fen;
@@ -32689,6 +33498,11 @@ chess.model.Game = new Class({
 		return this.model.metadata.fen;
 	},
 
+    /**
+     * Returns fen of previous move or start of game fen
+     * @method getPreviousPosition
+     * @return {String}
+     */
 	getPreviousPosition:function () {
 		if (this.currentMove) {
 			var previous = this.getPreviousMove(this.currentMove);
@@ -32702,7 +33516,10 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Delete a move
+	 * Delete a move. This method will fire the deleteMove and endOfBranch events. If deleted move is in
+     * main line, the endOfGame event will also be fired. The event "noMoves" will be fired if the deleted move
+     * is the first move in the game. "deleteVariation" will be fired if the deleted move is the first move
+     * in a variation.
 	 * @method deleteMove
 	 * @param {chess.model.Move} moveToDelete
 	 */
@@ -32744,7 +33561,7 @@ chess.model.Game = new Class({
 					 */
 					this.fire('notEndOfGame');
 				}
-				if (!this.hasMovesInBranch(move)) {
+				if (!this.hasMovesInBranch(this.getBranch(move))) {
 					this.fire('noMoves');
 				}
 				if (previousMove) {
@@ -32780,7 +33597,6 @@ chess.model.Game = new Class({
 	 * @method isAtEndOfGame
 	 * @return {Boolean}
 	 */
-
 	isAtEndOfGame:function () {
 		if (this.model.moves.length === 0) {
 			return true;
@@ -32788,9 +33604,16 @@ chess.model.Game = new Class({
 		return this.currentMove && this.currentMove.id == this.model.moves[this.model.moves.length - 1].id;
 	},
 
+    /**
+     * Returns true if there are moves left in branch
+     * @method hasMovesInBranch
+     * @param {Array} branch
+     * @return {Boolean}
+     * @private
+     */
 	hasMovesInBranch:function (branch) {
 		if (branch.length === 0) {
-			return true;
+			return false;
 		}
 		for (var i = 0; i < branch.length; i++) {
 			if (branch[i].m) {
@@ -32800,6 +33623,13 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+    /**
+     * Delete moves from branch, i.e. main line or variation
+     * @method clearMovesInBranch
+     * @param {Array} branch
+     * @param {Number} fromIndex
+     * @private
+     */
 	clearMovesInBranch:function (branch, fromIndex) {
 		for (var i = fromIndex; i < branch.length; i++) {
 			delete this.moveCache[branch[i].id];
@@ -32816,12 +33646,23 @@ chess.model.Game = new Class({
 		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
 	},
 
+    /**
+     * Delete current move reference. This method is called when creating a new game and when first
+     * move in the game is deleted
+     * @method clearCurrentMove
+     * @private
+     */
 	clearCurrentMove:function () {
 		this.currentMove = null;
 		this.currentBranch = this.model.moves;
 		this.fire('clearCurrentMove');
 	},
 
+    /**
+     * Go to a specific move.
+     * @method goToMove
+     * @param {chess.model.Move} move
+     */
 	goToMove:function (move) {
 		if (this.setCurrentMove(move)) {
 			this.fire('setPosition', move);
@@ -32829,10 +33670,10 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Go to previous move
+	 * Back up x number of moves
 	 * @method back
 	 * @param {Number} numberOfMoves
-	 * @return {undefined}
+	 * @return {Boolean}
 	 */
 	back:function(numberOfMoves){
 		if(!this.currentMove)return undefined;
@@ -32852,7 +33693,6 @@ chess.model.Game = new Class({
 					index = branch.indexOf(move);
 					index--;
 				}
-
 			}
 			if(index >=0){
 				move = branch[index];
@@ -32866,13 +33706,19 @@ chess.model.Game = new Class({
 		if(this.isChessMove(currentMove)){
 			return this.setCurrentMove(currentMove);
 		}
-		return undefined;
+		return false;
 	},
 
 	getMove:function (move) {
 		return this.findMove(move);
 	},
 
+    /**
+     * Call goToMove for current move and trigger the events. This method is called when
+     * overwrite of move is cancelled from game editor and when you're guessing the wrong move
+     * in a tactic puzzle
+     * @method resetPosition
+     */
 	resetPosition:function () {
 		if (this.currentMove) {
 			this.goToMove(this.currentMove);
@@ -32880,7 +33726,12 @@ chess.model.Game = new Class({
 			this.toStart();
 		}
 	},
-
+    /**
+     * @method setCurrentMove
+     * @param {chess.model.Move} newCurrentMove
+     * @return {Boolean} success
+     * @private
+     */
 	setCurrentMove:function (newCurrentMove) {
 		var move = this.findMove(newCurrentMove);
 		if (move) {
@@ -32902,20 +33753,39 @@ chess.model.Game = new Class({
 		return false;
 	},
 
+    /**
+     * Return color to move, "white" or "black"
+     * @method getColorToMove
+     * @return {String}
+     */
 	getColorToMove:function () {
 		var fens = this.getCurrentPosition().split(' ');
 		var colors = {'w':'white', 'b':'black'};
 		return colors[fens[1]];
 	},
 
+    /**
+     * Returns current move, i.e. last played move
+     * @method getCurrentMove
+     * @return {chess.model.Move}
+     */
 	getCurrentMove:function () {
 		return this.currentMove;
 	},
 
+    /**
+     * Return branch, i.e. main line or variation of current move
+     * @method getCurrentBranch
+     * @return {Array}
+     */
 	getCurrentBranch:function () {
 		return this.getCurrentBranch();
 	},
 
+    /**
+     * Go to previous move
+     * @method previousMove
+     */
 	previousMove:function () {
 		var move = this.getPreviousMove(this.currentMove);
 		if (move) {
@@ -32926,6 +33796,10 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Go to next move
+     * @method nextMove
+     */
 	nextMove:function () {
 		var move;
 		if (this.hasCurrentMove()) {
@@ -32933,13 +33807,16 @@ chess.model.Game = new Class({
 		} else {
 			move = this.getFirstMoveInGame();
 		}
-
 		if (move) {
 			this.setCurrentMove(move);
 			this.fire('nextmove', move);
 		}
 	},
 
+    /**
+     * Go to start of game
+     * @method toStart
+     */
 	toStart:function () {
 		this.fire('startOfGame');
 		this.clearCurrentMove();
@@ -32953,6 +33830,10 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Go to last move in game
+     * @method toEnd
+     */
 	toEnd:function () {
 		if (this.model.moves.length > 0) {
 			this.currentMove = this.model.moves[this.model.moves.length - 1];
@@ -32962,6 +33843,10 @@ chess.model.Game = new Class({
 			this.fire('endOfGame');
 		}
 	},
+    /**
+     * Go to last move in current branch, i.e. main line or variation
+     * @method toEndOfCurrentBranch
+     */
 	toEndOfCurrentBranch:function () {
 		if (this.currentBranch.length > 0) {
 			this.currentMove = this.currentBranch[this.currentBranch.length - 1];
@@ -32974,10 +33859,20 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Returns rue if current move is set
+     * @method hasCurrentMove
+     * @return {Boolean}
+     */
 	hasCurrentMove:function () {
 		return this.currentMove ? true : false;
 	},
 
+    /**
+     * Return first move in game
+     * @method getFirstMoveInGame
+     * @return {chess.model.Move}
+     */
 	getFirstMoveInGame:function () {
 		for (var i = 0; i < this.model.moves.length; i++) {
 			var move = this.model.moves[i];
@@ -32988,6 +33883,12 @@ chess.model.Game = new Class({
 		return null;
 	},
 
+    /**
+     * Return parent move of given move, i.e. parent move of a move in a variation.
+     * @method getParentMove
+     * @param {chess.model.Move|Object} move
+     * @return {chess.model.Move|undefined}
+     */
 	getParentMove:function (move) {
 		move = this.findMove(move);
 		if (move) {
@@ -32996,6 +33897,13 @@ chess.model.Game = new Class({
 		return undefined;
 	},
 
+    /**
+     * Returns previous move in same branch/line or undefined
+     * @method getPreviousMoveInBranch
+     * @param {chess.model.Move} move
+     * @return {chess.model.Move|undefined}
+     * @private
+     */
 	getPreviousMoveInBranch:function (move) {
 		if (move.index > 0) {
 			var index = move.index - 1;
@@ -33014,6 +33922,14 @@ chess.model.Game = new Class({
 		return null;
 	},
 
+    /**
+     * Returns previous move in same branch or parent branch
+     * @method getPreviousMove
+     * @param {chess.model.Move} move
+     * @param {Boolean} includeComments
+     * @optional
+     * @return {chess.model.Move|undefined}
+     */
 	getPreviousMove:function (move, includeComments) {
 		includeComments = includeComments || false;
 		move = this.findMove(move);
@@ -33078,6 +33994,12 @@ chess.model.Game = new Class({
 		return undefined;
 	},
 
+    /**
+     * Add action as a move. Actions are not fully implemented. When implemented, it will add supports for
+     * interactive chess games, example: start and stop autoplay. Display comments, videos or audio etc.
+     * @method addAction
+     * @param {chess.model.Move} action
+     */
 	addAction:function (action) {
 		action = Object.clone(action);
 
@@ -33115,6 +34037,14 @@ chess.model.Game = new Class({
 		}
 	},
 
+    /**
+     * Internally index a move
+     * @method registerMove
+     * @param {chess.model.Move} move
+     * @param {Number} atIndex
+     * @optional
+     * @private
+     */
 	registerMove:function (move, atIndex) {
 		move.id = 'move-' + String.uniqueID();
 		this.moveCache[move.id] = move;
@@ -33122,7 +34052,9 @@ chess.model.Game = new Class({
 
 		if (atIndex) {
 			move.index = atIndex;
-			this.createSpaceForAction();
+
+            this.insertSpacerInBranch(this.currentBranch, atIndex);
+			// this.createSpaceForAction();
 			this.currentBranch[atIndex] = move;
 		} else {
 			move.index = this.currentBranch.length;
@@ -33133,15 +34065,23 @@ chess.model.Game = new Class({
 		}
 	},
 
-	createSpaceForAction:function () {
-		var index = this.currentMove.index + 1;
-		var newLength = this.currentBranch.length;
+    /**
+     * Insert space for new move in a branch at index
+     * @method insertSpacerInBranch
+     * @param {Array} branch
+     * @param {Number} atIndex
+     */
+    insertSpacerInBranch:function(branch, atIndex){
+        atIndex = atIndex || 0;
 
-		for (var i = newLength; i > index; i--) {
-			this.currentBranch[i] = this.currentBranch[i - 1];
-			this.currentBranch[i].index++;
-		}
-	},
+        for(var i=atIndex;i<branch.length;i++){
+            branch[i].index ++;
+        }
+        branch.splice(atIndex,0,"");
+
+    },
+
+
 	/**
 	 * Return comment before move, i.e. get comment of previous move
 	 * @method getCommentBefore
@@ -33188,7 +34128,7 @@ chess.model.Game = new Class({
 			} else {
 				move = this.findMove(move);
 				var branch = this.getBranch(move);
-				this.createEmptySpaceAtStartOfBranch(branch);
+                this.insertSpacerInBranch(branch, 0);
 				branch[0] = {
 					comment:comment,
 					index:0,
@@ -33213,18 +34153,24 @@ chess.model.Game = new Class({
 		}
 	},
 
-	createEmptySpaceAtStartOfBranch:function (branch) {
-		for (var i = branch.length; i >= 1; i--) {
-			branch[i] = branch[i - 1];
-			branch[i].index++;
-		}
-	},
-
+    /**
+     * Set comment property of a move
+     * @method setComment
+     * @param {chess.model.Move} move
+     * @param {String} comment
+     */
 	setComment:function (move, comment) {
 		move.comment = comment;
 		this.fire('updateMove', move);
 	},
 
+    /**
+     * Returns true if passed move is a valid chess move
+     * @method isChessMove
+     * @param {Object} move
+     * @return {Boolean}
+     * @private
+     */
 	isChessMove:function (move) {
 		return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
 	},
@@ -33245,7 +34191,7 @@ chess.model.Game = new Class({
 	},
 
 	/**
-	 * Start autoplay of moves
+	 * Start auto play of moves
 	 * @method startAutoPlay
 	 */
 	startAutoPlay:function () {
@@ -33254,7 +34200,7 @@ chess.model.Game = new Class({
 		this.nextAutoPlayMove();
 	},
 	/**
-	 * Stop autoplay of moves
+	 * Stop auto play of moves
 	 * @method startAutoPlay
 	 */
 	stopAutoPlay:function () {
@@ -33262,6 +34208,11 @@ chess.model.Game = new Class({
 		this.fire('stopAutoplay');
 	},
 
+    /**
+     * Auto play next move
+     * @method nextAutoPlayMove
+     * @private
+     */
 	nextAutoPlayMove:function () {
 		if (this.state.autoplay) {
 			var nextMove = this.getNextMove(this.currentMove);
@@ -33282,10 +34233,20 @@ chess.model.Game = new Class({
 		return this.state.autoplay;
 	},
 
+    /**
+     * Return database id of game
+     * @method getDatabaseId
+     * @return {Number}
+     */
 	getDatabaseId:function () {
 		return this.databaseId;
 	},
 
+    /**
+     * Set dirty flag to true, i.e. game has been changed but not saved.
+     * @method setDirty
+     * @private
+     */
 	setDirty:function () {
 		this.dirty = true;
 		/**
@@ -33295,7 +34256,11 @@ chess.model.Game = new Class({
 		 */
 		this.fireEvent('dirty', this);
 	},
-
+    /**
+     * Set dirty flag to false, i.e. game has been changed and saved
+     * @method setClean
+     * @private
+     */
 	setClean:function () {
 		this.dirty = false;
 		/**
@@ -33306,6 +34271,11 @@ chess.model.Game = new Class({
 		this.fireEvent('clean', this);
 	},
 
+    /**
+     * Return dirty flag. dirty flag is set to true when game has been changed, but not saved.
+     * @method isDirty
+     * @return {Boolean}
+     */
 	isDirty:function () {
 		return this.dirty;
 	},
@@ -33319,6 +34289,12 @@ chess.model.Game = new Class({
 		this.setClean();
 	},
 
+    /**
+     * Receive game update from server
+     * @method updateGameFromServer
+     * @param {Object} data
+     * @private
+     */
 	updateGameFromServer:function (data) {
 		if (data.id) {
 			this.model.id = data.id;
@@ -33431,19 +34407,65 @@ chess.dataSource.GameList = new Class({
     url:window.chess.URL,
     requestId : 'getGames',
     query:{
+
     }
 });
+/**
+ Model to PGN parser
+ @namespace chess.pgn
+ @class Parser
+ @constructor
+ @example
+	 var game = new chess.model.Game();
+	 game.setMetadataValue('white','Magnus Carlsen');
+	 game.setMetadataValue('black','Levon Aronian');
+	 game.appendMove('e4');
+	 game.appendMove('e5');
+
+	 var parser = new chess.pgn.Parser(game);
+ 	 console.log(parser.getPgn());
+ */
 chess.pgn.Parser = new Class({
-	model:undefined,
 	/**
-	 * @method initialize
-	 * @param chess.model.Game model
+	 * @property {chess.model.Game} model
 	 */
+	model:undefined,
+
 	initialize:function(model){
 		this.model = model;
 	},
 
+	/**
+	 * Return pgn in string format
+	 * @method getPgn
+	 * @return {*}
+	 */
 	getPgn:function(){
+		return this.getMetadata() + this.getMoves();
 
+	},
+
+    /**
+     * @method getMetadata
+     * @return {String}
+     * @private
+     */
+	getMetadata:function(){
+		var ret = [];
+		var metadata = this.model.getMetadata();
+		for(var key in metadata){
+			if(metadata.hasOwnProperty(key)){
+				ret.push('[' + key + ' "' + metadata[key] + '"]');
+			}
+		}
+		return ret.join('\n');
+	},
+    /**
+     * @method getMoves
+     * @return {String}
+     * @private
+     */
+	getMoves:function(){
+		return '';
 	}
 });
