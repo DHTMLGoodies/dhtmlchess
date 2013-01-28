@@ -145,6 +145,7 @@ chess.view.board.Piece = new Class({
     /**
      * Enable drag and drop for the chess piece. This will set the internal ddEnabled property to true
      * and update the cursor to a pointer/hand.
+	 * @method enableDragAndDrop
      */
     enableDragAndDrop:function () {
         this.ddEnabled = true;

@@ -15,6 +15,7 @@ chess.view.command.Line = new Class({
 
     /**
      * Key stroke listener
+	 * @method validateKey
      * @param {Event} e
      * @return {Boolean|undefined}
      * @private

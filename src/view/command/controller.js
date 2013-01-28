@@ -140,6 +140,7 @@ chess.view.command.Controller = new Class({
 	},
     /**
      * Using RegEx to validate a chess move.
+	 * @method isChessMove
      * @param {String} move
      * @return {Boolean}
      */
@@ -179,6 +180,7 @@ chess.view.command.Controller = new Class({
     /**
      * Returns true if passed argument is a valid move grade/short comment, i.e.
      * !,?,!!,??,!? or ?!
+	 * @method isValidGrade
      * @param arg
      * @return {Boolean}
      */
