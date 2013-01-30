@@ -7110,12 +7110,12 @@ ludo.view.TitleBar = new Class({
 });
 /**
  * Rich Component
- * @class RichView
+ * @class FramedView
  * @extends View
  */
-ludo.RichView = new Class({
+ludo.FramedView = new Class({
 	Extends:ludo.View,
-	type:'RichView',
+	type:'FramedView',
 	layout:{
 		type:'fill',
 		minWidth:100,
@@ -7124,7 +7124,7 @@ ludo.RichView = new Class({
 	minimized:false,
 
 	/**
-	 * Title of component. A title is only useful for RichView's or when the component is collapsible.
+	 * Title of component. A title is only useful for FramedView's or when the component is collapsible.
 	 * @attribute {String} title
 	 */
 	title:'',
@@ -7714,7 +7714,7 @@ ludo.RichView = new Class({
 });
 /**
 @class Window
-@extends RichView
+@extends FramedView
 @description Class for floating window
 @constructor
 @param {Object} config
@@ -7737,7 +7737,7 @@ ludo.RichView = new Class({
 	});
  */
 ludo.Window = new Class({
-    Extends:ludo.RichView,
+    Extends:ludo.FramedView,
     type:'Window',
     cssSignature:'ludo-window',
 
@@ -23325,7 +23325,7 @@ ludo.form.validator.Md5 = new Class({
 /**
  * A component rendered to document.body and filling up entire screen
  * @class Application
- * @extends RichView
+ * @extends FramedView
  */
 ludo.Application = new Class({
     Extends:ludo.View,
@@ -26196,12 +26196,12 @@ chess.view.board.Piece = new Class({
      @param {Number} square
      @return {Object}
      @example
-        var pos = piece.getPos();
-        // may return
-        {
-            "x":"12.5%",
-            "y":"25%"
-        }
+		var pos = piece.getPos();
+		// may return
+		{
+			"x":"12.5%",
+			"y":"25%"
+		}
      */
     getPos:function (square) {
         var pos = this.getPosOfSquare(square !== undefined ? square : this.square);

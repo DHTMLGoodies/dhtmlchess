@@ -95,11 +95,11 @@ div.ludo-window, div.ludo-rich-view-shim, div.ludo-dashboard-insertion-marker {
     border-radius: 3px;
 }
 
-div.ludo-RichView {
+div.ludo-FramedView {
     border-radius: 0;
 }
 
-.ludo-RichView .ludo-component-statusbar-resize-height {
+.ludo-FramedView .ludo-component-statusbar-resize-height {
     display: none;
 }
 
