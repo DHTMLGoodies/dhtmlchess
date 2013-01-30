@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* ludo-all.css */
 /**
 ludoJS - Javascript framework
-Copyright (C) 2012-2012 ludoludo.com
+Copyright (C) 2012-2013 ludoludo.com
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ div.ludo-component-button-container, div.ludo-content-buttons {padding:0 !import
 .ludo-content-buttons .ludo-view-container{background-color:transparent;}
 .ludo-component-button-container{padding-left:3px;}
 div.ludo-window, div.ludo-rich-view-shim, div.ludo-dashboard-insertion-marker{border-radius:3px;}
-div.ludo-RichView {border-radius:0px;}
+div.ludo-FramedView {border-radius:0px;}
 .ludo-unselectable *{-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;}
 .ludo-view-container {border-width:1px;background-color:#FFF;overflow:hidden;position:relative;}
 .ludo-window{box-shadow:2px 2px 3px #888;position:absolute;}
@@ -381,10 +381,10 @@ div.ludo-resize-handle-active {opacity:1;filter:alpha(opacity = 100);background-
 .ludo-component-resize-region-se {background-image:none;background-repeat:no-repeat;position:absolute;bottom:0;right:0;z-index:15500;width:11px;height:11px;cursor:se-resize;}
 .ludo-component-resize-right {background-position:left center;}
 .ludo-component-resize-right {cursor:w-resize;height:100%;width:3px;z-index:15500;right:0;}
-.ludo-accordion{border:0px;border-radius:0px;border:1px solid #CCC;}
-.ludo-accordion .ludo-rich-view-titlebar{border-bottom:0px;cursor:pointer;}
+.ludo-accordion{border-radius:0;border:1px solid #CCC;}
+.ludo-accordion .ludo-rich-view-titlebar{border-bottom:0;cursor:pointer;}
 .ludo-accordion .ludo-rich-view-titlebar-title{margin-left:20px;line-height:25px;}
-.ludo-accordion .ludo-title-bar-button-container{left:2px !important;top:4px !important;height:20px;border:0px;background-color:transparent;}
+.ludo-accordion .ludo-title-bar-button-container{left:2px !important;top:4px !important;height:20px;border:0;background-color:transparent;}
 .ludo-accordion .ludo-title-bar-button{background-position:center center;}
 .ludo-accordion .ludo-title-bar-button-minimize {background-image:url(../ludojs/images/accordion-minimize.png);}
 .ludo-accordion .ludo-title-bar-button-maximize {background-image:url(../ludojs/images/accordion-maximize.png);}
