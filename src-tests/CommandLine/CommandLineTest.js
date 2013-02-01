@@ -1,8 +1,6 @@
 TestCase("CommandLine",{
 	"test should be able to create command line": function(){
-		// given
-		var l = new chess.view.command.Line();
-
+		new chess.view.command.Line();
 	},
 
 	"test should be able to create controller automatically": function(){
@@ -11,7 +9,6 @@ TestCase("CommandLine",{
 
 		// then
 		assertNotUndefined(l.controller);
-
 	},
 
 	"test should assign same controller to panel and line": function(){
@@ -21,7 +18,6 @@ TestCase("CommandLine",{
 
 		// then
 		assertEquals(l.controller, p.controller);
-
 	},
 
 	"test should parse commands sent to controller": function(){
@@ -55,8 +51,13 @@ TestCase("CommandLine",{
 	},
 
 	"test should find grade moves": function(){
+        // given
+        var c = new chess.view.command.Controller();
 
+        // when
+        var cmd = 'grade !';
+        // then
+        assertEquals('grade', c.getValidCommand(cmd));
+        assertEquals('!', c.getCommandArguments(cmd));
 	}
-
-
 });
