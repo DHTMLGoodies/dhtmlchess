@@ -3320,9 +3320,9 @@ ludo.dom = {
 		el.className = el.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
 	},
 
-	getParent:function(el, selector){
+	getParent:function (el, selector) {
 		el = el.parentNode;
-		while(el && !ludo.dom.hasClass(el, selector))el = el.parentNode;
+		while (el && !ludo.dom.hasClass(el, selector))el = el.parentNode;
 		return el;
 	},
 
@@ -3375,6 +3375,20 @@ ludo.dom = {
 			x:width + ludo.dom.getMBPW(b) + ludo.dom.getMBPW(el),
 			y:height + ludo.dom.getMBPH(b) + ludo.dom.getMBPH(el) + view.getTotalHeightOfTitleAndStatusBar() + 2
 		}
+	},
+
+	/**
+	 * Return measured width of a View
+	 * @method getMeasuredWidth
+	 * @param {ludo.View} view
+	 * @return {Number}
+	 */
+	getMeasuredWidth:function (view) {
+		var el = view.getBody();
+		var size = el.measure(function () {
+			return this.getSize();
+		});
+		return size.x + ludo.dom.getMW(el);
 	}
 };
 ludo.util = {
@@ -4103,14 +4117,6 @@ ludo.View = new Class({
 		size.y += ludo.dom.getBH(this.getBody());
 		size.y += ludo.dom.getBH(this.getEl());
 		this.height = size.y;
-	},
-
-	getMeasuredWidth:function () {
-		var el = this.getBody();
-		var size = el.measure(function () {
-			return this.getSize();
-		});
-		return size.x + ludo.dom.getMW(el);
 	},
 	/**
 	 * Set HTML of components body element
@@ -11580,7 +11586,8 @@ ludo.grid.GridHeader = new Class({
 					cell.setStyle('left', left);
 					cell.setStyle('top', i * this.cellHeight);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
-					cell.setStyle('width', width - this.spacing.width);
+					var spacing = (j==columns.length-1) ? this.spacing.width / 2 : this.spacing.width;
+					cell.setStyle('width', width - spacing);
 					cell.setStyle('height', height);
 					cell.setStyle('line-height', height);
 
@@ -23880,7 +23887,7 @@ ludo.menu.Menu = new Class({
             var left = 0;
             for(var i=0;i<this.menuItems.length;i++){
                 this.menuItems[i].getEl().setStyle('left', left);
-                var width = this.menuItems[i].getMeasuredWidth();
+                var width = ludo.dom..getMeasuredWidth(this.menuItems[i]);
                 width += ludo.dom.getMBPW(this.menuItems[i].getEl());
                 left += width;
             }
