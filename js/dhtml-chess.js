@@ -23887,7 +23887,7 @@ ludo.menu.Menu = new Class({
             var left = 0;
             for(var i=0;i<this.menuItems.length;i++){
                 this.menuItems[i].getEl().setStyle('left', left);
-                var width = ludo.dom..getMeasuredWidth(this.menuItems[i]);
+                var width = ludo.dom.getMeasuredWidth(this.menuItems[i]);
                 width += ludo.dom.getMBPW(this.menuItems[i].getEl());
                 left += width;
             }
