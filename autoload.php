@@ -7,7 +7,11 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
+                'author' => '/php/chessDB/ludoDB/examples/mod_rewrite/Author.php',
                 'board0x88config' => '/php/parser/Board0x88Config.php',
+                'book' => '/php/chessDB/ludoDB/examples/mod_rewrite/Book.php',
+                'bookauthor' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthor.php',
+                'bookauthors' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthors.php',
                 'chat' => '/php/chessDB/chat/Chat.php',
                 'chatmessage' => '/php/chessDB/chat/ChatMessage.php',
                 'chatmessages' => '/php/chessDB/chat/ChatMessages.php',
@@ -89,7 +93,8 @@ spl_autoload_register(
                 'services_json_error' => '/php/jsonwrapper/JSON/JSON.php',
                 'session' => '/php/chessDB/Session.php',
                 'tableinstaller' => '/installer/TableInstaller.php',
-                'timecontrol' => '/php/chessDB/TimeControl.php'
+                'timecontrol' => '/php/chessDB/TimeControl.php',
+                'xhpprofiling' => '/php/profiling/XHPProfiling.php'
             );
         }
         $cn = strtolower($class);

@@ -110,7 +110,7 @@ spl_autoload_register(
                 'player' => '/chessDB/Player.php',
                 'playerfinder' => '/chessDB/PlayerFinder.php',
                 'playertest' => '/chessDB/Tests/PlayerTest.php',
-                'profiling' => '/Profiling.php',
+                'xhpprofiling' => '/profiling/XHPProfiling.php',
                 'remotefilereader' => '/RemoteFileReader.php',
                 'requesthandlermock' => '/chessDB/ludoDB/Tests/classes/RequestHandlerMock.php',
                 'requesthandlertest' => '/chessDB/ludoDB/Tests/RequestHandlerTest.php',
