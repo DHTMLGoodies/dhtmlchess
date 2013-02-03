@@ -69,6 +69,7 @@ spl_autoload_register(
                 'ludodbpdo' => '/php/chessDB/ludoDB/LudoDBPDO.php',
                 'ludodbregistry' => '/php/chessDB/ludoDB/LudoDBRegistry.php',
                 'ludodbrequesthandler' => '/php/chessDB/ludoDB/LudoDBRequestHandler.php',
+                'ludodbservice' => '/php/chessDB/ludoDB/LudoDBInterfaces.php',
                 'ludodbunauthorizedexception' => '/php/chessDB/ludoDB/LudoDBExceptions.php',
                 'ludosql' => '/php/chessDB/ludoDB/LudoSQL.php',
                 'metadata' => '/php/chessDB/Metadata.php',
