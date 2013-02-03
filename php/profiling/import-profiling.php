@@ -9,9 +9,9 @@
 
 ini_set('display_errors','on');
 date_default_timezone_set("Europe/Berlin");
-require_once("../autoload.php");
+require_once(__DIR__."/../autoload.php");
 
-LudoDB::setHost('localhost');
+LudoDB::setHost('127.0.0.1');
 LudoDB::setUser('root');
 LudoDB::setPassword('administrator');
 LudoDB::setDb('PHPUnit');
@@ -24,9 +24,7 @@ foreach($tables as $table){
     $inst->createTable();
 }
 
-$profiling = new Profiling('PGN to parser to DB');
-
-# LudoDB::enableLogging();
+$profiling = new XHPProfiling('PGN to parser to DB');
 
 $parser = new PgnParser("../../pgn/profiling.pgn");
 $games = $parser->getGames();
@@ -38,7 +36,6 @@ foreach($games as $gameData){
     $game->setMetadata($gameData['metadata']);
     $game->setMoves($gameData['moves']);
     $game->commit();
-
 }
 
 echo $profiling->end();
