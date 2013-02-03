@@ -2,12 +2,16 @@
 
 require_once(__DIR__."/autoload.php");
 date_default_timezone_set("Europe/Berlin");
-
+error_reporting(E_ALL);
+ini_set('display_errors','on');
+echo "<pre>";
 /**
  * TODO move this code
  */
 LudoDB::setUser('root');
 LudoDB::setPassword('administrator');
+LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
+
 /**
  * TODO Use ip address instead of localhost on Windows
  */
