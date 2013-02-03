@@ -59,7 +59,7 @@ spl_autoload_register(
                 'ludodbcollectionconfigparser' => '/php/chessDB/ludoDB/LudoDBCollectionConfigParser.php',
                 'ludodbconfigparser' => '/php/chessDB/ludoDB/LudoDBConfigParser.php',
                 'ludodbconnectionexception' => '/php/chessDB/ludoDB/LudoDBExceptions.php',
-                'ludodbfileupload' => '/php/chessDB/ludoDB/LudoDBFileUpload.php',
+                'ludodbexception' => '/php/chessDB/ludoDB/LudoDBExceptions.php',
                 'ludodbiterator' => '/php/chessDB/ludoDB/LudoDBIterator.php',
                 'ludodbmodel' => '/php/chessDB/ludoDB/LudoDBModel.php',
                 'ludodbmysql' => '/php/chessDB/ludoDB/LudoDBMysql.php',
