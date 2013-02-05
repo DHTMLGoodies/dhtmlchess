@@ -34,7 +34,7 @@ spl_autoload_register(
                 'chesslicense' => '/php/ChessLicense.php',
                 'chessmetadata' => '/php/db/ChessMetadata.php',
                 'chessmove' => '/php/db/ChessMove.php',
-                'chessplayer' => '/php/db/ChessPlayer.php',
+                'chessplayer' => '/php/db/Player.php',
                 'chessprogressbar' => '/php/db/ChessProgressBar.php',
                 'chessprogressbarcompletedstep' => '/php/db/ChessProgressBarCompletedStep.php',
                 'chessprogressbartemplate' => '/php/db/ChessProgressBarTemplate.php',
