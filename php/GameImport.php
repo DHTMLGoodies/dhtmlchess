@@ -1,6 +1,6 @@
 <?php
 
-# require_once("bootstrapper.php");
+/*
 
 class GameImport {
 
@@ -42,3 +42,4 @@ class GameImport {
     }
 }
 
+*/

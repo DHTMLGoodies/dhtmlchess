@@ -45,6 +45,7 @@ spl_autoload_register(
                 'chesstree' => '/php/ChessTree.php',
                 'chessuserroles' => '/php/ChessUserRoles.php',
                 'database' => '/php/chessDB/Database.php',
+                'games' => '/php/chessDB/Games.php',
                 'dgtgameparser' => '/php/parser/DGTGameParser.php',
                 'ecoimport' => '/php/EcoImport.php',
                 'fen' => '/php/chessDB/Fen.php',
