@@ -951,12 +951,8 @@ ludo.tpl.Parser = new Class({
  * @namespace layout
  * @class Renderer
  */
-
-/**
- * @todo Support top and left resize of center aligned dialogs
- */
 ludo.layout.Renderer = new Class({
-
+	// TODO Support top and left resize of center aligned dialogs
 	rendering:{},
 	view:undefined,
 	options:['width', 'height',
@@ -1549,8 +1545,9 @@ ludo.layout.Factory = new Class({
 
     /**
      * Returns layout manager, a layout.Base or subclass
+	 * @method getManager
      * @param {ludo.View} view
-     * @return {ludo.Base} manager
+     * @return {ludo.layout.Base} manager
      */
 	getManager:function(view){
 		return new ludo.layout[this.getLayoutClass(view)](view);
