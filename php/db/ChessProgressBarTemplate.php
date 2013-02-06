@@ -14,5 +14,4 @@ class ChessProgressBarTemplate extends ChessDbModel {
         'defaultData' => array(
         )
     );
-
 }
