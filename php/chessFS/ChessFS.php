@@ -12,11 +12,36 @@ class ChessFS implements LudoDBService
 
     public function __construct($pgnFile)
     {
-        $this->pgnFile = $pgnFile;
-        if (!$this->pgnFile || !file_exists($pgnFile)) {
-            throw new Exception("Pgn file " . $pgnFile . " not found");
+        $this->pgnFile = $this->getPgnPath($pgnFile);
+        if (!$this->isValid($this->pgnFile)) {
+            throw new Exception("Invalid file");
+        }
+        if (!$this->pgnFile || !file_exists($this->pgnFile)) {
+            throw new Exception("Pgn file " . $this->pgnFile . " not found");
         }
         $this->cacheFolder = ChessRegistry::getCacheFolder();
+    }
+
+    private function getPgnPath($pgnFile)
+    {
+        $folder = ChessRegistry::getPgnFolder();
+        if (isset($folder)) {
+            $tokens = explode("/", $pgnFile);
+            $pgnFile = $folder . array_pop($tokens);
+        }
+        if($this->getExtension($pgnFile) !== 'pgn')$pgnFile.=".pgn";
+        return $pgnFile;
+    }
+
+    private function isValid($pgnFile)
+    {
+        return $this->getExtension($pgnFile) === 'pgn';
+    }
+
+    private function getExtension($pgnFile)
+    {
+        $tokens = explode(".", $pgnFile);
+        return array_pop($tokens);
     }
 
     public function getGame($index, $noCache = false)
@@ -73,15 +98,13 @@ class ChessFS implements LudoDBService
         $ret = array();
         $count = 0;
         foreach ($games as $game) {
-            $count++;
             unset($game['moves']);
             unset($game['metadata']);
-            $game["id"] = $count;
+            $game["index"] = $count++;
             $ret[] = $game;
         }
         $this->saveGameListInCache($ret);
         return $ret;
-
     }
 
     private function getGameListFromCache()

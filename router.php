@@ -19,15 +19,19 @@ LudoDB::setHost('127.0.0.1');
 LudoDB::setDb('PHPUnit');
 LudoDB::enableLogging();
 
+// For static(No db) installations
+ChessRegistry::setPgnFolder("pgn");
+ChessRegistry::setCacheFolder("cache"); // Path to cache
+
 $request = array('request' => $_GET['request']);
 
 if(isset($_POST['request'])){
     $requestItem = is_array($_POST['request']) && isset($_POST['request']['data']) ? $_POST['request']['data'] : "Nothing";
     $request['data'] = isset($requestItem['data']) ? $requestItem['data'] : null;
     $request['arguments'] = isset($requestItem['arguments']) ? $requestItem['arguments'] : null;
-
 }
 
 $handler = new LudoDBRequestHandler();
 echo $handler->handle($request);
+
 

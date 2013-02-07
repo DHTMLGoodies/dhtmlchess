@@ -56,4 +56,35 @@ class FS_GameTest extends FS_TestBase
         // then
         $this->assertEquals(25, count($games));
     }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToSetFolderForPgnFiles(){
+        // given
+        ChessRegistry::setPgnFolder('pgn');
+        $chessFS = new ChessFS("chessfs.pgn");
+
+        // when
+        $game = $chessFS->getGame(1, true);
+
+        // then
+        $this->assertEquals("1-0", $game['result']);
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldApplyPgnExtensionWhenNotSet(){
+        // given
+        ChessRegistry::setPgnFolder('pgn');
+        $chessFS = new ChessFS("chessfs");
+
+        // when
+        $game = $chessFS->getGame(1, true);
+
+        // then
+        $this->assertEquals("1-0", $game['result']);
+    }
 }
