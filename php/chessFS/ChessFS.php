@@ -4,7 +4,7 @@
  * User: Alf Magne
  * Date: 07.02.13
  */
-class ChessFS
+class ChessFS implements LudoDBService
 {
     private $cacheFolder;
     private $pgnFile;
@@ -63,17 +63,21 @@ class ChessFS
         return $this->cacheFolder . $this->getCacheKey() . "_" . $gameIndex . ".chess.cache";
     }
 
-    public function listOfGames($noCache = false)
+    public function listOfGames($pgn = null, $noCache = false)
     {
+        if(isset($pgn) && !empty($pgn))$this->pgnFile = $pgn[0];
         if ($this->isGameListInCache() && !$noCache) {
-            return $this->getGameListFromCache();
+           # return $this->getGameListFromCache();
         }
         $parser = new PgnParser($this->pgnFile, false);
         $games = $parser->getGames();
         $ret = array();
+        $count = 0;
         foreach ($games as $game) {
+            $count++;
             unset($game['moves']);
             unset($game['metadata']);
+            $game["id"] = $count;
             $ret[] = $game;
         }
         $this->saveGameListInCache($ret);
@@ -103,5 +107,13 @@ class ChessFS
             $this->_parser = new PgnParser($pgn);
         }
         return $this->_parser;
+    }
+
+    public static function getValidServices(){
+        return array("listOfGames", "getGame");
+    }
+
+    public function validateService($service, $arguments){
+        return true;
     }
 }
