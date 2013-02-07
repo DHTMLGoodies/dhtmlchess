@@ -29,6 +29,10 @@ if(isset($_POST['request'])){
     $request['data'] = isset($_POST['request']['data']) ? $_POST['request']['data'] : $_POST['request'];
 }
 
+if(isset($_POST['arguments'])){
+    $request['arguments'] = $_POST['arguments'];
+}
+
 $handler = new LudoDBRequestHandler();
 echo $handler->handle($request);
 
