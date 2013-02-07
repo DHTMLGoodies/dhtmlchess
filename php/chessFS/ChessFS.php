@@ -63,11 +63,10 @@ class ChessFS implements LudoDBService
         return $this->cacheFolder . $this->getCacheKey() . "_" . $gameIndex . ".chess.cache";
     }
 
-    public function listOfGames($pgn = null, $noCache = false)
+    public function listOfGames($noCache = false)
     {
-        if(isset($pgn) && !empty($pgn))$this->pgnFile = $pgn[0];
         if ($this->isGameListInCache() && !$noCache) {
-           # return $this->getGameListFromCache();
+            return $this->getGameListFromCache();
         }
         $parser = new PgnParser($this->pgnFile, false);
         $games = $parser->getGames();
@@ -109,11 +108,13 @@ class ChessFS implements LudoDBService
         return $this->_parser;
     }
 
-    public static function getValidServices(){
+    public static function getValidServices()
+    {
         return array("listOfGames", "getGame");
     }
 
-    public function validateService($service, $arguments){
+    public function validateService($service, $arguments)
+    {
         return true;
     }
 }
