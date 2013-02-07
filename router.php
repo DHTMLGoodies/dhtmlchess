@@ -26,9 +26,7 @@ ChessRegistry::setCacheFolder("cache"); // Path to cache
 $request = array('request' => $_GET['request']);
 
 if(isset($_POST['request'])){
-    $requestItem = is_array($_POST['request']) && isset($_POST['request']['data']) ? $_POST['request']['data'] : "Nothing";
-    $request['data'] = isset($requestItem['data']) ? $requestItem['data'] : null;
-    $request['arguments'] = isset($requestItem['arguments']) ? $requestItem['arguments'] : null;
+    $request['data'] = isset($_POST['request']['data']) ? $_POST['request']['data'] : $_POST['request'];
 }
 
 $handler = new LudoDBRequestHandler();

@@ -56,7 +56,7 @@
 
     var app = new ludo.Window({
         stateful:true,
-        width:700,
+        width:900,
         height:500,
         left:20,
         top:20,
@@ -106,7 +106,7 @@
                 ]
             },
             {
-                width:250,
+                width:480,
                 collapsed:false,
                 layout:{ type: 'rows' },
                 type:'FramedView',
@@ -141,11 +141,9 @@
                                 },
                                 dataSource:{
                                     "type" : 'dataSource.Collection',
-                                    "url":'/dhtml-chess/chessFS/listOfGames',
-                                    "query" : {
-                                        "arguments": "pgn/greatgames.pgn"
-                                    }
-                                }
+                                    "url":'/dhtml-chess/chessFS/Morphy/listOfGames'
+                                },
+                                cols:['white', 'black', 'result','event','site']
                             },
                             {
                                 title:'Notations',
