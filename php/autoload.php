@@ -67,7 +67,7 @@ spl_autoload_register(
                 'game' => '/chessDB/Game.php',
                 'gameimport' => '/GameImport.php',
                 'gameparser' => '/parser/GameParser.php',
-                'gametest' => '/chessDB/Tests/GameTest.php',
+                'gametest' => '/chessDB/Tests/FS_GameTest.php',
                 'jsontest' => '/chessDB/ludoDB/Tests/JSONTest.php',
                 'ludodb' => '/chessDB/ludoDB/LudoDB.php',
                 'ludodbadapter' => '/chessDB/ludoDB/LudoDBInterfaces.php',

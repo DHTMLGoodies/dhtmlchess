@@ -23,4 +23,15 @@ class ChessRegistry
         }
         return null;
     }
+
+    public static function setCacheFolder($folder){
+        if(substr($folder, strlen($folder)-1, 1) !== '/')$folder.="/";
+        if(file_exists($folder)){
+            self::set('CACHE_FOLDER', $folder);
+        }
+    }
+
+    public static function getCacheFolder(){
+        return self::get('CACHE_FOLDER');
+    }
 }
