@@ -68,12 +68,12 @@
         css:{
             border:0
         },
-        layout:{ type: 'cols' },
+        layout:{ type:'cols' },
         minHeight:100,
         children:[
             {
                 weight:1,
-                layout:{ type: 'rows' },
+                layout:{ type:'rows' },
                 frame:true,
                 children:[
                     {
@@ -108,7 +108,7 @@
             {
                 width:480,
                 collapsed:false,
-                layout:{ type: 'rows' },
+                layout:{ type:'rows' },
                 type:'FramedView',
                 title:'Details',
                 resizable:true,
@@ -133,6 +133,12 @@
                         },
                         children:[
                             {
+                                title:'Notations',
+                                type:'chess.view.notation.Panel',
+                                notations:'long',
+                                showContextMenu:true
+                            },
+                            {
                                 title:'Games',
                                 type:'chess.view.gamelist.Grid',
                                 css:{
@@ -140,17 +146,12 @@
                                     'overflow-y':'auto'
                                 },
                                 dataSource:{
-                                    "type" : 'dataSource.Collection',
-                                    "url":'/dhtml-chess/chessFS/Morphy/listOfGames'
+                                    "type":'dataSource.Collection',
+                                    "url":'../chessFS/Morphy/listOfGames'
                                 },
-                                cols:['white', 'black', 'result','event','site']
-                            },
-                            {
-                                title:'Notations',
-                                type:'chess.view.notation.Panel',
-                                notations:'long',
-                                showContextMenu:true
+                                cols:['white', 'black', 'result', 'event', 'site']
                             }
+
                         ]
                     }
                 ]

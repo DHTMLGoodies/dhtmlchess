@@ -771,16 +771,13 @@ ludo.Core = new Class({
 		req.send();
 	},
 	getRequestConfig:function (requestId, config) {
+		config.data = config.data || {};
+		config.data.requestId = requestId;
 		return {
 			url:config.url || this.getUrl(),
 			method:'post',
 			noCache:!this.isCacheEnabled(),
-			data:{
-				request:{
-					id:requestId,
-					data:config.data
-				}
-			},
+			data:config.data,
 			evalScripts:true,
 			onSuccess:config.onSuccess.bind(this)
 		};
@@ -3449,6 +3446,29 @@ ludo.util = {
 			ret += 400000;
 		}
 		return ret;
+	},
+	
+	disposeView:function(view){
+		if (view.getParent()) {
+			view.getParent().removeChild(view);
+		}
+		var initialItemCount = view.children.length;
+		for (var i = initialItemCount - 1; i >= 0; i--) {
+			view.children[i].dispose();
+		}
+		for (var name in view.els) {
+			if (view.els.hasOwnProperty(name)) {
+				if (view.els[name] && view.els[name].tagName && name != 'parent') {
+					view.els[name].dispose();
+				}
+			}
+		}
+		view.getEl().dispose();
+
+		ludo.CmpMgr.deleteComponent(view);
+		if(view.layoutManager)delete view.layoutManager;
+		delete view.els;
+
 	}
 };
 ludo.view.Loader = new Class({
@@ -4513,12 +4533,12 @@ ludo.View = new Class({
 		return this.layout && this.layout.collapsible ? true : false;
 	},
 
-	setPosition:function (config) {
-		if (config.left !== undefined && config.left >= 0) {
-			this.getEl().setStyle('left', config.left);
+	setPosition:function (pos) {
+		if (pos.left !== undefined && pos.left >= 0) {
+			this.getEl().setStyle('left', pos.left);
 		}
-		if (config.top !== undefined && config.top >= 0) {
-			this.getEl().setStyle('top', config.top);
+		if (pos.top !== undefined && pos.top >= 0) {
+			this.getEl().setStyle('top', pos.top);
 		}
 	},
 
@@ -4668,26 +4688,8 @@ ludo.View = new Class({
 		this.disposeCanceled = false;
 		this.fireEvent('beforeDispose', this);
 		if(!this.disposeCanceled){
-			if (this.getParent()) {
-				this.getParent().removeChild(this);
-			}
-			var initialItemCount = this.children.length;
-			for (var i = initialItemCount - 1; i >= 0; i--) {
-				this.children[i].dispose();
-			}
-			for (var name in this.els) {
-				if (this.els.hasOwnProperty(name)) {
-					if (this.els[name] && this.els[name].tagName && name != 'parent') {
-						this.els[name].dispose();
-					}
-				}
-			}
-			this.getEl().dispose();
 			this.fireEvent('dispose', this);
-			ludo.CmpMgr.deleteComponent(this);
-			if(this.layoutManager)delete this.layoutManager;
-			delete this.els;
-			delete this;
+			ludo.util.disposeView(this);
 		}
 	},
 	/**
@@ -4697,17 +4699,6 @@ ludo.View = new Class({
 	 */
 	getTitle:function () {
 		return this.title;
-	},
-
-	getHtmlText:function () {
-		return this.html;
-	},
-
-	clearDomElements:function (cls) {
-		var els = this.els.body.getElements(cls);
-		for (var i = els.length - 1; i >= 0; i--) {
-			els[i].dispose();
-		}
 	},
 
 	dataSourceObj:undefined,
@@ -12859,6 +12850,7 @@ ludo.grid.Grid = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
+
 		if (config.headerMenu !== undefined)this.headerMenu = config.headerMenu;
 		if (config.columnManager !== undefined)this.columnManager = config.columnManager;
 		if (config.rowManager !== undefined)this.rowManager = config.rowManager;
@@ -12922,6 +12914,9 @@ ludo.grid.Grid = new Class({
 		this.parent();
 
 		if (this.dataSource) {
+			if(this.dataSourceObj && this.dataSourceObj.hasData()){
+				this.populateData(this.dataSourceObj.getData());
+			}
 			var ds = this.getDataSource();
 			ds.addEvent('change', this.populateData.bind(this));
 			ds.addEvent('select', this.setSelectedRecord.bind(this));
@@ -13222,7 +13217,6 @@ ludo.grid.Grid = new Class({
 
 	positionVerticalScrollbar:function () {
 		var top = this.gridHeader.getHeight();
-
 		if (top == 0) {
 			this.positionVerticalScrollbar.delay(100, this);
 			return;
@@ -18858,10 +18852,7 @@ ludo.model.Model = new Class({
 		if (config.listeners) {
 			this.listeners = config.listeners;
 		}
-		if (config.url !== undefined) {
-			this.url = config.url;
-		}
-
+		if (config.url)this.url = config.url;
 		this.createSettersAndGetters();
 		if (this.listeners) {
 			this.addEvents(this.listeners);
@@ -18897,6 +18888,7 @@ ludo.model.Model = new Class({
 		if (this.columns[column]) {
 			return this.columns[column].defaultValue;
 		}
+		return undefined;
 	},
 
 	createSettersAndGetters:function () {
@@ -18938,10 +18930,7 @@ ludo.model.Model = new Class({
 				}
 			}
 			this.fireEvent('change', [value, this]);
-
-			this.fireEvent('update',this.currentRecord);
-
-
+			this.fireEvent('update', this.currentRecord);
 		}
 	},
 
@@ -18989,7 +18978,7 @@ ludo.model.Model = new Class({
 
 	 */
 	load:function (recordId) {
-		if(!this.url){
+		if (!this.url) {
 			return;
 		}
 		var req = new Request.JSON({
@@ -19134,8 +19123,9 @@ ludo.model.Model = new Class({
 			data:this.getSubmitData(data),
 			onSuccess:function (json) {
 				if (json.success) {
-					if (json.data && json.data['updates']) {
-						this.handleModelUpdates(json.data['updates']);
+					var updates = this.getUpdates();
+					if (updates) {
+						this.handleModelUpdates(updates);
 					}
 					/**
 					 * event fired when model is saved
@@ -19170,18 +19160,20 @@ ludo.model.Model = new Class({
 		req.send();
 	},
 
+	getUpdates:function(json){
+		return json.data && json.data['updates'] ? json.data['updates'] : json.response ? json.response : undefined;
+	},
+
 	getSubmitData:function (data) {
 		return {
-			request:{
-				id:'saveModelRecord',
-				data:{
-					recordId:this.recordId,
-					modelName:this.name,
-					record:this.currentRecord,
-					formData:data
-				}
-			},
-			progressBarId:this.getProgressBarId()
+			id:'saveModelRecord',
+			progressBarId:this.getProgressBarId(),
+			data:{
+				recordId:this.recordId,
+				modelName:this.name,
+				record:this.currentRecord,
+				formData:data
+			}
 		};
 	},
 
@@ -19189,6 +19181,7 @@ ludo.model.Model = new Class({
 		if (this.progressBar) {
 			return this.progressBar.getProgressBarId();
 		}
+		return undefined;
 	},
 
 	handleModelUpdates:function (updates) {
@@ -19230,13 +19223,12 @@ ludo.model.Model = new Class({
 		this.updateViews();
 	},
 
-	fill:function(data){
-		for(var key in data){
-			if(data.hasOwnProperty(key)){
+	fill:function (data) {
+		for (var key in data) {
+			if (data.hasOwnProperty(key)) {
 				this.currentRecord[key] = data[key];
 			}
 		}
-
 		this.fireEvent('update', this.currentRecord);
 	}
 });
@@ -34445,7 +34437,7 @@ chess.pgn.Parser = new Class({
 	 * @return {*}
 	 */
 	getPgn:function(){
-		return this.getMetadata() + this.getMoves();
+		return [this.getMetadata(),this.getMoves()].join("\n\n");
 
 	},
 
@@ -34470,6 +34462,50 @@ chess.pgn.Parser = new Class({
      * @private
      */
 	getMoves:function(){
-		return '';
-	}
+        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves());
+	},
+
+    getFirstComment:function(){
+        var m = this.model.getMetadata();
+        if(m['comment']!==undefined && m['comment'].length > 0){
+            return '{' + m['comment'] + '} ';
+        }
+        return '';
+    },
+
+    getMovesInBranch:function(moves, moveIndex){
+        moveIndex = moveIndex || 0;
+        var ret = [];
+        var insertNumber = true;
+        for(var i=0;i<moves.length;i++){
+            if(moves[i]['m'] !== undefined){
+                if(moveIndex % 2 === 0 || insertNumber){
+                    var isWhite = moveIndex % 2 === 0;
+                    ret.push([Math.floor(moveIndex/2) + 1, (isWhite ? '.' : '..')].join(''));
+                }
+                ret.push(moves[i]['m']);
+                moveIndex++;
+
+                insertNumber = false;
+            }
+            if(moves[i]['comment'] !== undefined){
+                ret.push("{" + moves[i]['comment'] + "}");
+            }
+
+            if(moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0){
+                var variations = moves[i]['variations'];
+                for(var j=0;j<variations.length;j++){
+                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
+
+                }
+                insertNumber = true;
+
+            }
+        }
+
+        return ret.join(' ');
+
+    }
+
+
 });
