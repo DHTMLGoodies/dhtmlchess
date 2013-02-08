@@ -10,6 +10,10 @@
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
     <script type="text/javascript" src="../js/chess-app-config.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../src/view/gamelist/grid.js"></script>
+    <script type="text/javascript" src="../src/controller/controller.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
+    <script type="text/javascript" src="../src/model/game.js"></script>
     <link rel="stylesheet" href="../css/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/chess.css" type="text/css">
     <link rel="stylesheet" href="../css/chess-light-gray.css" type="text/css">
@@ -132,14 +136,10 @@
                             'border-top':'1px solid #C0C0C0'
                         },
                         children:[
-                            {
-                                title:'Notations',
-                                type:'chess.view.notation.Panel',
-                                notations:'long',
-                                showContextMenu:true
-                            },
+
                             {
                                 title:'Games',
+                                visible:true,
                                 type:'chess.view.gamelist.Grid',
                                 css:{
                                     'background-color':'#FFF',
@@ -147,9 +147,16 @@
                                 },
                                 dataSource:{
                                     "type":'dataSource.Collection',
+                                    singleton: true,
                                     "url":'../chessFS/Morphy/listOfGames'
                                 },
                                 cols:['white', 'black', 'result', 'event', 'site']
+                            },
+                            {
+                                title:'Notations',
+                                type:'chess.view.notation.Panel',
+                                notations:'long',
+                                showContextMenu:true
                             }
 
                         ]

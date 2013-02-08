@@ -68,6 +68,7 @@ chess.model.Game = new Class({
 	getId:function () {
 		return this.model.id;
 	},
+
 	/**
 	 * Load a game from server
 	 * @method loadGame
@@ -94,6 +95,16 @@ chess.model.Game = new Class({
 		this.toEnd();
 		this.appendMove(move);
 	},
+
+    /**
+     * Returns true if this model is model for given game object
+     * @method isModelFor
+     * @param {Object} game
+     */
+    isModelFor:function(game){
+        if(game.id)return game.id === this.model.id;
+        return false;
+    },
 
 	/**
 	 * Empty model and reset to standard position

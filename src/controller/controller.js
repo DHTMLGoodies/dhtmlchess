@@ -336,7 +336,7 @@ chess.controller.Controller = new Class({
 
     getModelFromCache:function (game) {
         for (var i = 0; i < this.models.length; i++) {
-            if (this.models[i].getId() === game.id) {
+            if(this.models[i].isModelFor(game)){
                 return this.models[i];
             }
         }
@@ -350,7 +350,6 @@ chess.controller.Controller = new Class({
         this.models.push(model);
 
         if (this.models.length > this.modelCacheSize) {
-
             this.models[0].removeEvents();
             delete this.models[0];
 
