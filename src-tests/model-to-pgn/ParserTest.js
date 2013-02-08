@@ -24,15 +24,27 @@ TestCase("ModelToPgn", {
         assertTrue(tag + ' not present in ' + pgn, pgn.indexOf(tag)>=0);
     },
 
+    "test should find moves": function(){
+        // given
+        var parser = new chess.pgn.Parser(this.getModel());
+        // when
+        var pgn = parser.getPgn();
+        // then
+        assertMatch(pgn, "2. Nf3 Nc6");
+        assertMatch(pgn, "11. Nb1");
+        assertMatch(pgn, "12.. a5");
+        assertMatch(pgn, "{preface comment} 1. e4");
+    },
+
     getModel:function(){
         var game = new chess.model.Game();
         game.populate(this.game);
         return game;
     },
 
-    game: {"metadata":{"event":"Computer chess game", "site":"ALFMAGNE-PC", "date":"2012.01.18", "round":"1-0", "white":"Alf Magne", "black":"Alf Magne", "result":"1-0", "blackelo":"2400", "eco":"C77", "opening":"Spanish", "time":"12:41:54", "variation":"Anderssen, 5...b5", "whiteelo":"2400", "timecontrol":"300", "termination":"unterminated", "plycount":"31", "whitetype":"human", "blacktype":"human", "fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1", "castle":1},
+    game: {"metadata":{"event":"Computer chess game", "site":"ALFMAGNE-PC", "date":"2012.01.18", "round":"1-0", "white":"Alf Magne", "black":"Alf Magne", "result":"1-0", "blackelo":"2400", "eco":"C77", "opening":"Spanish", "time":"12:41:54", "variation":"Anderssen, 5...b5", "whiteelo":"2400", "timecontrol":"300", "termination":"unterminated", "plycount":"31", "whitetype":"human", "blacktype":"human", "fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1", "castle":1, "comment": "preface comment"},
         "moves":[
-            {"m":"e4", "from":"e2", "to":"e4", "fen":"rnbqkbnr\/pppppppp\/8\/8\/4P3\/8\/PPPP1PPP\/RNBQKBNR b KQkq e3 0 1"},
+            {"m":"e4", "from":"e2", "to":"e4", "fen":"rnbqkbnr\/pppppppp\/8\/8\/4P3\/8\/PPPP1PPP\/RNBQKBNR b KQkq e3 0 1", "comment": "A test comment"},
             {"m":"e5", "from":"e7", "to":"e5", "fen":"rnbqkbnr\/pppp1ppp\/8\/4p3\/4P3\/8\/PPPP1PPP\/RNBQKBNR w KQkq e6 0 1"},
             {"m":"Nf3", "from":"g1", "to":"f3", "fen":"rnbqkbnr\/pppp1ppp\/8\/4p3\/4P3\/5N2\/PPPP1PPP\/RNBQKB1R b KQkq - 1 2"},
             {"m":"Nc6", "from":"b8", "to":"c6", "fen":"r1bqkbnr\/pppp1ppp\/2n5\/4p3\/4P3\/5N2\/PPPP1PPP\/RNBQKB1R w KQkq - 2 2"},

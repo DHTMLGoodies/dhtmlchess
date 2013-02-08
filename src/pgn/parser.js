@@ -29,7 +29,7 @@ chess.pgn.Parser = new Class({
 	 * @return {*}
 	 */
 	getPgn:function(){
-		return this.getMetadata() + this.getMoves();
+		return [this.getMetadata(),this.getMoves()].join("\n\n");
 
 	},
 
@@ -54,6 +54,50 @@ chess.pgn.Parser = new Class({
      * @private
      */
 	getMoves:function(){
-		return '';
-	}
+        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves());
+	},
+
+    getFirstComment:function(){
+        var m = this.model.getMetadata();
+        if(m['comment']!==undefined && m['comment'].length > 0){
+            return '{' + m['comment'] + '} ';
+        }
+        return '';
+    },
+
+    getMovesInBranch:function(moves, moveIndex){
+        moveIndex = moveIndex || 0;
+        var ret = [];
+        var insertNumber = true;
+        for(var i=0;i<moves.length;i++){
+            if(moves[i]['m'] !== undefined){
+                if(moveIndex % 2 === 0 || insertNumber){
+                    var isWhite = moveIndex % 2 === 0;
+                    ret.push([Math.floor(moveIndex/2) + 1, (isWhite ? '.' : '..')].join(''));
+                }
+                ret.push(moves[i]['m']);
+                moveIndex++;
+
+                insertNumber = false;
+            }
+            if(moves[i]['comment'] !== undefined){
+                ret.push("{" + moves[i]['comment'] + "}");
+            }
+
+            if(moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0){
+                var variations = moves[i]['variations'];
+                for(var j=0;j<variations.length;j++){
+                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
+
+                }
+                insertNumber = true;
+
+            }
+        }
+
+        return ret.join(' ');
+
+    }
+
+
 });

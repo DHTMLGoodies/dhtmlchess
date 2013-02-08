@@ -1,9 +1,10 @@
 load:
   - ../../mootools/mootools-core-1.4.5.js
   - ../../mootools/mootools-more-1.4.0.1.js
-  - ../../src/chess.js
   - ../../js/dhtml-chess.js
   - ../../src/pgn/*.js
+
+test:
   - ParserTest.js
 
 plugin:
