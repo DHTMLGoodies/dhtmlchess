@@ -56,7 +56,7 @@ chess.Views = {
         game:'gameList'
     }
 };
-window.chess.URL = '../chess-controller.php';
+window.chess.URL = '../router.php';
 window.chess.ROOT = '../';
 window.chess.IMAGE_FOLDER = '../images/';
 window.chess.COOKIE_NAME = 'chess_cookie';

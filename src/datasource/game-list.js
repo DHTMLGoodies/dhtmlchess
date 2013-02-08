@@ -12,7 +12,7 @@ chess.dataSource.GameList = new Class({
     autoload:false,
     singleton: true,
     url:window.chess.URL,
-    requestId : 'getGames',
+    request : 'getGames',
     query:{
 
     }

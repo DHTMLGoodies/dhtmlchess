@@ -19,7 +19,7 @@ chess.view.eco.VariationTree = new Class({
 	module:'chess',
 	submodule:'eco.VariationTree',
 	dataSource:{
-		requestId:'getEcoVariations',
+		request:'Eco/moves',
 		url:window.chess.URL,
 		autoload:false
 	},

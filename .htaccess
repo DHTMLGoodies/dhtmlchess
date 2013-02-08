@@ -1,7 +1,8 @@
-RewriteEngine on
+RewriteEngine off
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([a-zA-Z0-9\/_%\s\.+\-]+)/?$ router.php?request=$1 [QSA]
 
 RewriteCond %{THE_REQUEST} router\.php
 RewriteRule ^router\.php - [F]
+RewriteRule ^chess-controller\.php - [F]

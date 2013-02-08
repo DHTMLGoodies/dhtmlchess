@@ -54,20 +54,22 @@ chess.view.user.Controller = new Class({
             this.fireEvent('invalidSession');
             return;
         }
-        this.JSONRequest('validateSession', {
-            url:window.chess.URL,
-            data:{
-                token:token
-            },
-            onSuccess:function (json) {
-                if(json.success){
-                    this.fireEvent('validSession', json.data.token);
-                    this.fireEvent('userAccess', json.data.user_access);
-                }else{
-                    this.fireEvent('invalidSession');
-                }
-            }
-        });
+		new ludo.remote.JSON({
+			url:window.chess.url,
+			data:{
+				token:token
+			},
+			listeners:{
+				"success": function(request){
+					var data = request.getResponseData();
+					this.fireEvent('validSession', data.token);
+     				this.fireEvent('userAccess', data.user_access);
+				}.bind(this),
+				"failure": function(){
+					this.fireEvent("invalidSession");
+				}.bind(this)
+			}
+		});
     },
 
     getSessionToken:function () {

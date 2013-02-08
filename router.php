@@ -23,7 +23,7 @@ LudoDB::enableLogging();
 ChessRegistry::setPgnFolder("pgn");
 ChessRegistry::setCacheFolder("cache"); // Path to cache
 
-$request = array('request' => $_GET['request']);
+$request = array('request' => isset($_GET['request']) ? $_GET['request'] : $_POST['request']);
 
 if(isset($_POST['request'])){
     $request['data'] = isset($_POST['request']['data']) ? $_POST['request']['data'] : $_POST['request'];

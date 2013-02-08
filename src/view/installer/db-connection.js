@@ -23,14 +23,19 @@ chess.view.installer.DbConnection = new Class({
 
     ludoRendered:function(){
         this.parent();
-        this.JSONRequest('getConnectionDetails', {
-            url : this.getUrl(),
-            onSuccess:function(json){
-                var data = json.data;
-                this.setWriteAccess(data.writeAccess);
-            }
-        });
 
+		new ludo.remote.JSON({
+			url:this.getUrl(),
+			data:{
+				"request": "ValidateConnection"
+			},
+			listeners:{
+				"success": function(request){
+					var data = request.getResponseData();
+     				this.setWriteAccess(data.writeAccess);
+				}.bind(this)
+			}
+		});
 		this.child['connectionTest'].addEvent('click', this.checkConnection.bind(this));
     },
 
@@ -54,7 +59,7 @@ chess.view.installer.DbConnection = new Class({
 			onError:function(){
 				this.child['connectionTestResult'].setHtml('<strong style="color:red">Error while connection to Web server</strong>');
 				this.isBusyTestingConnection = false;
-			}
+			}.bind(this)
 		});
 	},
 
