@@ -102,6 +102,5 @@ class FS_GameTest extends FS_TestBase
         $this->assertEquals('chessfs', $games[0]);
         $this->assertEquals('Lasker', $games[1]);
         $this->assertEquals('Morphy', $games[2]);
-
     }
 }

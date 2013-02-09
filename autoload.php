@@ -43,6 +43,7 @@ spl_autoload_register(
                 'chessfolder' => '/php/db/ChessFolder.php',
                 'chessfoldercollection' => '/php/db/ChessFolderCollection.php',
                 'chessfs' => '/php/chessFS/ChessFS.php',
+                'chessfsgames' => '/php/chessFS/ChessFSGames.php',
                 'chessgame' => '/php/db/ChessGame.php',
                 'chessgamemetadata' => '/php/db/ChessGameMetadata.php',
                 'chesslicense' => '/php/ChessLicense.php',

@@ -7,7 +7,6 @@
  */
 class ChessFSGames implements LudoDBService
 {
-
     public function read(){
         $folder = ChessRegistry::getPgnFolder();
         if(!isset($folder)){
@@ -27,8 +26,7 @@ class ChessFSGames implements LudoDBService
 
     private function isPgnFile($file){
         $tokens = explode(".", $file);
-        $ext = strtolower($tokens[count($tokens)-1]);
-        return $ext === 'pgn';
+        return strtolower($tokens[count($tokens)-1]) === 'pgn';
     }
 
     private function getNameOfFile($pgnFile){
@@ -41,5 +39,9 @@ class ChessFSGames implements LudoDBService
     }
     public function validateService($service, $arguments){
         return count($arguments) === 0;
+    }
+
+    public function cacheEnabled(){
+        return false;
     }
 }
