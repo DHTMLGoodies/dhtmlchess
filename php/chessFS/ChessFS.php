@@ -140,4 +140,8 @@ class ChessFS implements LudoDBService
     {
         return true;
     }
+
+    public function cacheEnabled(){
+        return false;
+    }
 }

@@ -5,7 +5,7 @@
  * Date: 09.02.13
  * Time: 01:41
  */
-class ChessFSGames implements LudoDBService
+class ChessFSPgn implements LudoDBService
 {
     public function read(){
         $folder = ChessRegistry::getPgnFolder();

@@ -95,7 +95,7 @@ class FS_GameTest extends FS_TestBase
         // given
         ChessRegistry::setPgnFolder('pgn');
 
-        $obj = new ChessFSGames();
+        $obj = new ChessFSPgn();
         $games = $obj->read();
 
         $this->assertEquals(3, count($games));
