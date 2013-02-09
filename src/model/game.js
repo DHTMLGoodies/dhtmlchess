@@ -357,7 +357,7 @@ chess.model.Game = new Class({
 	 * @return {String} position
 	 */
 	getStartPosition:function () {
-		return this.model.metadata.fen;
+		return this.model.metadata.fen || this.model.fen;
 	},
 
 	/**

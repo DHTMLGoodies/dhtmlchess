@@ -6,15 +6,11 @@ chess.remote.Reader = new Class({
     },
 
     query : function(requestId, event) {
+
         event = event || 'load';
         var req = new Request.JSON({
-            url : this.url,
-            data : {
-                request:{
-                    id : requestId,
-                    data:this.params
-                }
-            },
+            url : '../Game/' + this.params.id,
+            data : this.params,
             onSuccess : function(json){
                  this.fireEvent(event, json.data);
             }.bind(this)
