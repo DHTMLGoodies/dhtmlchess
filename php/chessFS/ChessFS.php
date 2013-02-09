@@ -1,6 +1,6 @@
 <?php
 /**
- * File for returning game data without use of a databaes
+ * File for returning game data without use of a database
  * User: Alf Magne
  * Date: 07.02.13
  */

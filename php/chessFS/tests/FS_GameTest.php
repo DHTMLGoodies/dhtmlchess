@@ -87,4 +87,21 @@ class FS_GameTest extends FS_TestBase
         // then
         $this->assertEquals("1-0", $game['result']);
     }
+
+    /**
+     * @test
+     */
+    public function shouldReturnNameOfPgnFilesInFolder(){
+        // given
+        ChessRegistry::setPgnFolder('pgn');
+
+        $obj = new ChessFSGames();
+        $games = $obj->read();
+
+        $this->assertEquals(3, count($games));
+        $this->assertEquals('chessfs', $games[0]);
+        $this->assertEquals('Lasker', $games[1]);
+        $this->assertEquals('Morphy', $games[2]);
+
+    }
 }
