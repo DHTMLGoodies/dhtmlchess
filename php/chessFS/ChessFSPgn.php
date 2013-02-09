@@ -1,6 +1,6 @@
 <?php
 /**
- * Comment pending.
+ * Class returning pgn files in a folder.
  * User: Alf Magne Kalleland
  * Date: 09.02.13
  * Time: 01:41
