@@ -11,7 +11,7 @@ ini_set('display_errors','on');
 LudoDB::setUser('root');
 LudoDB::setPassword('administrator');
 LudoDB::setHost('127.0.0.1');
-LudoDB::setDb('dhtml_chess');
+LudoDB::setDb('PHPUnit');
 
 LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
 
