@@ -19,7 +19,7 @@ class ChessRegistry
 
     public static function clear($key){
         if(self::isValid($key)){
-            unset(self::$storage[$key]);
+            unset(self::$registry[$key]);
         }
     }
 
@@ -60,5 +60,9 @@ class ChessRegistry
     private static function toClean($folder){
         if(substr($folder, strlen($folder)-1, 1) !== '/')$folder.="/";
         return $folder;
+    }
+
+    public static function getDefaultFen(){
+        return 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
     }
 }
