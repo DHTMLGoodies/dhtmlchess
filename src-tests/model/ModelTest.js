@@ -1,21 +1,23 @@
 TestCase("ModelTest", {
 
     checkMateGame:{
+
+        "event":" White to move.",
+        "site":"?",
+        "date":"1998.??.??",
+        "round":"?",
+        "white":"1001 Brilliant Ways",
+        "black":"to Checkmate",
+        "result":"*",
+        "annotator":"Magne,Alf",
+        "setup":"1",
+        "fen":"r1b2rk1\/pp1p1pp1\/1b1p2B1\/n1qQ2p1\/8\/5N2\/P3RPPP\/4R1K1 w - - 0 1",
+        "plycount":"7",
+        "eventdate":"1998.??.??",
+        "castle":1,
+        "database_id":1,
         "metadata":{
-            "event":" White to move.",
-            "site":"?",
-            "date":"1998.??.??",
-            "round":"?",
-            "white":"1001 Brilliant Ways",
-            "black":"to Checkmate",
-            "result":"*",
-            "annotator":"Magne,Alf",
-            "setup":"1",
-            "fen":"r1b2rk1\/pp1p1pp1\/1b1p2B1\/n1qQ2p1\/8\/5N2\/P3RPPP\/4R1K1 w - - 0 1",
-            "plycount":"7",
-            "eventdate":"1998.??.??",
-            "castle":1,
-            "database_id":1},
+        },
         "moves":[
             {"m":"Qxf7+!", "from":"d5", "to":"f7", "fen":"r1b2rk1\/pp1p1Qp1\/1b1p2B1\/n1q3p1\/8\/5N2\/P3RPPP\/4R1K1 b - - 0 1"},
             {"m":"Rxf7", "from":"f8", "to":"f7", "fen":"r1b3k1\/pp1p1rp1\/1b1p2B1\/n1q3p1\/8\/5N2\/P3RPPP\/4R1K1 w - - 0 2"},

@@ -161,6 +161,7 @@ chess.model.Game = new Class({
      */
 	populate:function (gameData) {
 		this.setDefaultModel();
+        gameData = this.getValidGameData(gameData);
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
 		this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
 		this.model.result = this.getResult();
@@ -173,6 +174,27 @@ chess.model.Game = new Class({
 		this.fire('newGame');
 		this.toStart();
 	},
+
+    reservedMetadata : ["event","site","date","round","white","black","result",
+        "annotator","termintation","fen","plycount","database_id","id"],
+    // TODO refactor this to match server
+    /**
+     * Move metadata into metadata object
+     * @method getValidMetadata
+     *
+     */
+    getValidGameData:function(gameData){
+        gameData.metadata = gameData.metadata || {};
+        for(var i = 0;i<this.reservedMetadata.length;i++){
+            var key = this.reservedMetadata[i];
+            if(gameData[key] !== undefined){
+                gameData.metadata[key] = gameData[key];
+                delete gameData[key];
+            }
+        }
+
+        return gameData;
+    },
 
     /**
      * Return game data
@@ -357,7 +379,7 @@ chess.model.Game = new Class({
 	 * @return {String} position
 	 */
 	getStartPosition:function () {
-		return this.model.metadata.fen || this.model.fen;
+		return this.model.metadata.fen;
 	},
 
 	/**
@@ -1537,9 +1559,28 @@ chess.model.Game = new Class({
 	 * @method save
 	 */
 	save:function () {
-		this.gameReader.save(this.model);
+		this.gameReader.save(this.toValidServerModel(this.toValidServerModel(this.model)));
 		this.setClean();
 	},
+    /**
+     * Convert to valid server model, i.e. reserved metadata moved from metadata object
+     * @method toValidServerModel
+     * @param {Object} gameData
+     * @return {Object}
+     * @private
+     */
+    toValidServerModel:function(gameData){
+        gameData = Object.clone(gameData);
+        gameData.metadata = gameData.metadata || {};
+        for(var i=0;i<this.reservedMetadata.length;i++){
+            var key = this.reservedMetadata[i];
+            if(gameData.metadata[key] !== undefined){
+                gameData[key] = gameData.metadata[key];
+                delete gameData.metadata[key];
+            }
+        }
+        return gameData;
+    },
 
     /**
      * Receive game update from server
