@@ -82,7 +82,7 @@ chess.parser.FenParser0x88 = new Class({
 
 				// King array
 				if (Board0x88Config.typeMapping[type] == 'king') {
-					this.cache['king' + (piece.t & 0x8 ? 'black' : 'white')] = piece;
+					this.cache['king' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
 				}
 				pos++;
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
