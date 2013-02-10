@@ -1,10 +1,11 @@
 load:
   - ../../mootools/mootools-core-1.4.5.js
   - ../../mootools/mootools-more-1.4.0.1.js
-  - ../../src/chess.js
   - ../../js/dhtml-chess.js
   - ../../src/language/*.js
   - ../../src/parser0x88/*.js
+
+test:
   - ParserTest.js
   - MoveValidatorTest.js
   - MoveTest.js
