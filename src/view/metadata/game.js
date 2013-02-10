@@ -9,6 +9,7 @@ chess.view.metadata.Game = new Class({
     type : 'chess.view.metadata.Game',
     module:'chess',
     submodule : 'metadata.Game',
+
 	/**
 	 How metadata are displayed is configured using "tpl".
 	 @config tpl
