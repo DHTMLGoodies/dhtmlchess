@@ -207,13 +207,6 @@ TestCase("ModelTest", {
         ]
     },
 
-    setUp:function(){
-        this.firedEvents = [];
-        this.eventFireOrder = 0;
-        this.eventsArray = [];
-        this.eventsNotToBeFired = {};
-    },
-
     "test_Should_BeAbleToSetMetadata":function () {
         // given
         var model = this.getModel();
