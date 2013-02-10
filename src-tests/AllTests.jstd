@@ -4,9 +4,9 @@ load:
   - ../js/dhtml-chess.js
   - ../src/pgn/parser.js
   - ../src/model/game.js
-  - ../src/view/board/chess-board-gui.js
-  - ../src/view/board/chess-board.js
-  - ../src/view/board/chess-piece.js
+  - ../src/view/board/gui.js
+  - ../src/view/board/board.js
+  - ../src/view/board/piece.js
 
 test:
   - board/*.js

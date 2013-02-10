@@ -3,9 +3,9 @@ load:
   - ../../mootools/mootools-more-1.4.0.1.js
   - ../../src/chess.js
   - ../../js/dhtml-chess.js
-  - ../../src/view/board/chess-board-gui.js
-  - ../../src/view/board/chess-board.js
-  - ../../src/view/board/chess-piece.js
+  - ../../src/view/board/gui.js
+  - ../../src/view/board/board.js
+  - ../../src/view/board/piece.js
 
 test:
   - BoardTest.js
