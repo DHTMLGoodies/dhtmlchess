@@ -1,5 +1,7 @@
 /**
- Model to PGN parser
+ Model to PGN parser. Takes a
+ {{#crossLink "chess.model.Game"}}{{/crossLink}} as only argument
+ and returns a PGN string for the game.
  @namespace chess.pgn
  @class Parser
  @constructor
@@ -16,9 +18,14 @@
 chess.pgn.Parser = new Class({
 	/**
 	 * @property {chess.model.Game} model
+     * @private
 	 */
 	model:undefined,
 
+    /**
+     * @constructor
+     * @param {chess.model.Game} model
+     */
 	initialize:function(model){
 		this.model = model;
 	},
@@ -26,11 +33,10 @@ chess.pgn.Parser = new Class({
 	/**
 	 * Return pgn in string format
 	 * @method getPgn
-	 * @return {*}
+	 * @return {String}
 	 */
 	getPgn:function(){
 		return [this.getMetadata(),this.getMoves()].join("\n\n");
-
 	},
 
     /**
@@ -54,9 +60,15 @@ chess.pgn.Parser = new Class({
      * @private
      */
 	getMoves:function(){
-        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves());
+        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
 	},
 
+    /**
+     * Return comment before first move
+     * @method getFirstComment
+     * @return {String}
+     * @private
+     */
     getFirstComment:function(){
         var m = this.model.getMetadata();
         if(m['comment']!==undefined && m['comment'].length > 0){
@@ -65,6 +77,14 @@ chess.pgn.Parser = new Class({
         return '';
     },
 
+    /**
+     * Return main line of moves or a variation
+     * @method getMovesInBranch
+     * @param {Array} moves
+     * @param {Number} moveIndex
+     * @return {String}
+     * @private
+     */
     getMovesInBranch:function(moves, moveIndex){
         moveIndex = moveIndex || 0;
         var ret = [];
@@ -91,13 +111,8 @@ chess.pgn.Parser = new Class({
 
                 }
                 insertNumber = true;
-
             }
         }
-
         return ret.join(' ');
-
     }
-
-
 });
