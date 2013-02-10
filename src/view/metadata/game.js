@@ -17,6 +17,7 @@ chess.view.metadata.Game = new Class({
 	 	'{white} vs {black}, {result}'
 	 */
     tpl : '',
+    overflow:'hidden',
 
     ludoConfig : function(config){
         this.parent(config);

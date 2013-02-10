@@ -207,6 +207,13 @@ TestCase("ModelTest", {
         ]
     },
 
+    setUp:function(){
+        this.firedEvents = [];
+        this.eventFireOrder = 0;
+        this.eventsArray = [];
+        this.eventsNotToBeFired = {};
+    },
+
     "test_Should_BeAbleToSetMetadata":function () {
         // given
         var model = this.getModel();
@@ -686,7 +693,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[model.model.moves.length - 2];
-
+        var sEventFired = false;
         // when
         model.setCurrentMove(move);
         // when
@@ -1012,22 +1019,22 @@ TestCase("ModelTest", {
     eventsNotToBeFired:{},
     eventFireOrder:0,
     assignEvents:function (model, events) {
-        firedEvents = {};
-        eventsArray = [];
-        eventFireOrder = 0;
+        this.firedEvents = {};
+        this.eventsArray = [];
+        this.eventFireOrder = 0;
         for (var i = 0; i < events.length; i++) {
-            firedEvents[events[i]] = false;
+            this.firedEvents[events[i]] = false;
             this.addModelEvent(model, events[i]);
-            eventsArray.push(events[i]);
+            this.eventsArray.push(events[i]);
         }
         this.assignTriggersForEventsNotToBeFired(model, events);
     },
 
     addModelEvent:function (model, event) {
         model.addEvent(chess.events.game[event], function () {
-            firedEvents[event] = eventFireOrder;
-            eventFireOrder++;
-        });
+            this.firedEvents[event] = this.eventFireOrder;
+            this.eventFireOrder++;
+        }.bind(this));
     },
 
     assignTriggersForEventsNotToBeFired:function (model, eventsToBeFired) {
@@ -1043,8 +1050,8 @@ TestCase("ModelTest", {
     },
 
     "assertEventsFired":function () {
-        for (var i = 0; i < eventsArray.length; i++) {
-            assertEquals(eventsArray[i], i, firedEvents[eventsArray[i]]);
+        for (var i = 0; i < this.eventsArray.length; i++) {
+            assertEquals(this.eventsArray[i], i, this.firedEvents[this.eventsArray[i]]);
         }
 
         for (var key in this.eventsNotToBeFired) {
