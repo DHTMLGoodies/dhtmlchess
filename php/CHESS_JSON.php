@@ -35,19 +35,4 @@ class CHESS_JSON {
         }
         return 'ludo.CHESS_JSON_KEY = ' . json_encode($ret) .';';
     }
-
-    public static function getJSON($data, $success = true, $message = null){
-        if(is_array($data)){
-            $data = array('data' => $data, 'success' => $success);
-            if(isset($message)){
-                $data['message'] = $message;
-            }
-            $data = json_encode($data);
-        }
-
-        echo $data;
-        die();
-    }
-
-
 }
