@@ -18,7 +18,10 @@ chess.view.user.LoginWindow = new Class({
         name : 'login',
         url:window.chess.URL
     },
-    layout : 'rows',
+    layout : {
+        "type": "linear",
+        "orientation": "vertical"
+    },
     children:[
         {
             type:'form.Text', name:'username', regex : '[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true

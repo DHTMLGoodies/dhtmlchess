@@ -18,6 +18,10 @@ chess.view.user.RegisterWindow = new Class({
         name:'register',
         url:window.chess.URL
     },
+    layout:{
+        "type": "linear",
+        "orientation": "vertical"
+    },
     formConfig:{
         labelWidth:150
     },
