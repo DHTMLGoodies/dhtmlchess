@@ -230,7 +230,7 @@ TestCase("ModelTest", {
         ]
     },
 
-    "test_should_be_able_to_set_metadata":function () {
+    "test should be able to set metadata":function () {
         // given
         var model = this.getModel();
         // when
@@ -240,7 +240,7 @@ TestCase("ModelTest", {
         assertEquals('Alf Magne', model.getMetadataValue('white'));
     },
 
-    "test_should_fire_event_when_metadata_is_changed":function () {
+    "test should fire event when metadata is_changed":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -261,7 +261,7 @@ TestCase("ModelTest", {
         assertEquals('Alf Magne', metadataValue);
     },
 
-    "test_should_be_able_to_set_a_starting_position":function () {
+    "test should be able to set a starting position":function () {
         // given
         var model = this.getModelWithMoves();
         var position = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
@@ -272,7 +272,7 @@ TestCase("ModelTest", {
         assertEquals(position, model.getStartPosition());
     },
 
-    "test_should_fire_new_game_event_on_new_position":function () {
+    "test should fire new game event on new position":function () {
         // given
         var model = this.getModel();
         var position = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
@@ -288,7 +288,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_be_able_to_append_moves":function () {
+    "test should be able to append moves":function () {
 
         // given
         var model = this.getModel();
@@ -304,7 +304,7 @@ TestCase("ModelTest", {
         }
     },
 
-    "test_should_fireNewMoveEventWhenValidMoveIsAppended":function () {
+    "test should fireNewMoveEventWhenValidMoveIsAppended":function () {
         // given
         var model = this.getModel();
 
@@ -319,7 +319,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_fire_invalid_move_event_when_wrong_move_is_appended":function () {
+    "test should fire invalid move event when wrong move is appended":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -333,7 +333,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_fire_last_move_in_branch_event_when_current_move_is_last_move":function () {
+    "test should fire last move in branch event when current move is last_move":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -348,7 +348,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_delete_moves":function () {
+    "test should be able to delete moves":function () {
         // given
         var model = this.getModel();
         var moves = this.getValidMoves();
@@ -365,7 +365,7 @@ TestCase("ModelTest", {
         assertEquals(5, model.getMoves().length);
     },
 
-    "test_should_fire_move_deleted_event_when_move_is_deleted":function () {
+    "test should fire move deleted event when move is_deleted":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -385,7 +385,7 @@ TestCase("ModelTest", {
         assertEquals(move.id, deletedMove.id);
     },
 
-    "test_should_fire_last_Move_In_Branch_event_when_Move_Is_Deleted":function () {
+    "test should fire last Move_In_Branch event when_Move_Is_Deleted":function () {
         // given
         var model = this.getModelWithMoves();
         var eventFired = false;
@@ -401,7 +401,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_fire_no_moves_event_when_first_node_in_branch_is_deleted":function () {
+    "test should fire no moves event when first node in branch is deleted":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -418,7 +418,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_set_previous_move_current_when_a_move_is_deleted":function () {
+    "test should set previous move current when a move is deleted":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -430,7 +430,7 @@ TestCase("ModelTest", {
         assertEquals(model.getMoves()[0].id, model.getCurrentMove().id)
     },
 
-    "test_should_be_able_to_find_previous_move_of_first_move_in_variation":function () {
+    "test should be able to find previous move of first move in variation":function () {
         // given
         var model = this.getModelWithVariations();
         var variationMove = model.model.moves[20].variations[0][0];
@@ -464,7 +464,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_fire_no_moves_event_when_there_is_no_moves_in_game":function () {
+    "test should fire no moves event when there is no moves in game":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -496,7 +496,7 @@ TestCase("ModelTest", {
         assertTrue('no moves event not fired 2', eventFired);
     },
 
-    "test_should_be_able_to_set_current_move":function () {
+    "test should be able to set current_move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -509,7 +509,7 @@ TestCase("ModelTest", {
         assertEquals(move.id, model.getCurrentMove().id);
     },
 
-    "test_should_be_able_to_add_action_to_empty_game":function () {
+    "test should be able to add action to empty_game":function () {
         // given
         var model = this.getModel();
         // when
@@ -519,7 +519,7 @@ TestCase("ModelTest", {
         assertTrue(model.getMoves()[0].action === 'pause');
     },
 
-    "test_should_be_able_to_add_action":function () {
+    "test should be able to add action":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -542,7 +542,7 @@ TestCase("ModelTest", {
         assertTrue(model.getMoves()[5].action === 'pause')
     },
 
-    "test_should_fire_new_action_event_when_action_is_added":function () {
+    "test should fire new action event when action is_added":function () {
         // given
         var model = this.getModel();
         // when
@@ -556,7 +556,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_should_be_able_to_delete_action":function () {
+    "test should be able to delete action":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -583,7 +583,7 @@ TestCase("ModelTest", {
         assertFalse(eventMoveDelete);
     },
 
-    "test_should_be_able_to_grade_moves":function () {
+    "test should be able to grade moves":function () {
         // given
         var model = this.getModelWithMoves();
         var firstMove = { id:model.getMoves()[0].id };
@@ -599,7 +599,7 @@ TestCase("ModelTest", {
         assertEquals('e4??', model.getMoves()[0].m);
     },
 
-    "test_should_fire_grade_move_event":function () {
+    "test should fire grade move_event":function () {
         // given
         var model = this.getModelWithMoves();
         var firstMove = { id:model.getMoves()[0].id };
@@ -614,7 +614,7 @@ TestCase("ModelTest", {
         assertTrue(fired);
     },
 
-    "test_should_be_able_to_add_comment_before_move":function () {
+    "test should be able to add comment before move":function () {
         // given
         var model = this.getModelWithMoves();
         var secondMove = { id:model.getMoves()[1].id };
@@ -627,7 +627,7 @@ TestCase("ModelTest", {
         assertEquals(comment, model.getMoves()[0].comment);
     },
 
-    "test_should_be_able_to_add_comment_before_first_move_in_branch":function () {
+    "test should be able to add comment before first move in_branch":function () {
         // given
         var model = this.getModelWithMoves();
         var firstMove = model.getMoves()[0];
@@ -650,7 +650,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_add_comment_after_move":function () {
+    "test should be able to add comment after move":function () {
         // given
         var model = this.getModelWithMoves();
         var secondMove = { id:model.getMoves()[1].id };
@@ -663,7 +663,7 @@ TestCase("ModelTest", {
         assertEquals(comment, model.getMoves()[1].comment);
     },
 
-    "test_should_be_able_to_go_to_next_move":function () {
+    "test should be able to go to next move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -679,7 +679,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_go_to_next_move_from_start_of_game":function () {
+    "test should be able to go to next move from start of game":function () {
         // given
         var model = this.getModelWithMoves();
         var nextMove = model.model.moves[0];
@@ -692,7 +692,7 @@ TestCase("ModelTest", {
         assertEquals(nextMove.id, model.getCurrentMove().id);
     },
 
-    "test_should_be_able_to_go_to_next_move_from_start_of_game_when_game_starts_with_comment":function () {
+    "test should be able to go to next move from start of game when game starts with_comment":function () {
         // given
         var model = this.getModelWithCommentAsFirstMove();
         var nextMove = model.model.moves[1];
@@ -705,7 +705,7 @@ TestCase("ModelTest", {
         assertEquals(nextMove.id, model.getCurrentMove().id);
     },
 
-    "test_should_fire_end_of_branch_when_going_to_next_move_and_its_the_last":function () {
+    "test should fire end of branch when going to next move and its the last":function () {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[model.model.moves.length - 2];
@@ -722,7 +722,7 @@ TestCase("ModelTest", {
         assertTrue(sEventFired);
     },
 
-    "test_should_be_able_to_go_to_start_of_game":function () {
+    "test should be able to go to start of_game":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -734,7 +734,7 @@ TestCase("ModelTest", {
         assertNull(model.getCurrentMove());
     },
 
-    "test_should_fire_correct_events_when_going_to_start_of_game":function () {
+    "test should fire correct events when going to start of game":function () {
         // given
         var model = this.getModelWithMoves();
         var sEventFired = false;
@@ -753,7 +753,7 @@ TestCase("ModelTest", {
         assertTrue(sEventFired);
         assertTrue(nEventFired);
     },
-    "test_should_fire_set_move_event_when_set_current_move":function () {
+    "test should fire set move event when set current_move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -771,7 +771,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_fire_next_move_event_when_set_current_move_to_next":function () {
+    "test should fire next move event when set current move to_next":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -789,7 +789,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_be_able_to_go_to_previous_move":function () {
+    "test should be able to go to previous move":function () {
         // given
         var model = this.getModelWithMoves();
         model.setCurrentMove(model.model.moves[5]);
@@ -804,7 +804,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_fire_overwrite_or_variation_event_when_trying_to_append_move_in_middle_of_game":function () {
+    "test should fire overwrite or variation event when trying to append move in middle of_game":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -846,7 +846,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_not_fire_overwrite_or_variation_event_when_appended_move_is_in_variation":function () {
+    "test should not fire overwrite or variation event when appended move is in_variation":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -873,7 +873,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_fire_set_move_event_when_appending_move_which_already_exists":function () {
+    "test should fire set move event when appending move which already_exists":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -896,7 +896,7 @@ TestCase("ModelTest", {
         assertTrue(fired);
     },
 
-    "test_should_fire_promote_event_when_moving_pawn_to_last_rank":function () {
+    "test should fire promote event when moving pawn to last rank":function () {
         // given
         var model = this.getModel();
         var fenWithPawnOnA7 = '8/P6k/8/8/8/8/8/5K2 w - - 0 1';
@@ -918,7 +918,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_not_fire_promote_event_when_moving_pawn_to_last_rank_and_move_has_promote_info":function () {
+    "test should not fire promote event when moving pawn to last rank and move has promote info":function () {
         // given
         var model = this.getModel();
         var fenWithPawnOnA7 = '8/P6k/8/8/8/8/8/5K2 w - - 0 1';
@@ -937,7 +937,7 @@ TestCase("ModelTest", {
         assertEquals(2, model.model.moves[0].moves.length);
     },
 
-    "test_should_be_able_to_populate_model_with_game_data":function () {
+    "test should be able to populate model with game_data":function () {
         // given
         var model = this.getModel();
         var gameData = this.gameWithoutVariations61Moves;
@@ -952,7 +952,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_populate_model_with_game_with_variation":function () {
+    "test should be able to populate model with game with variation":function () {
         // given
         var model = this.getModel();
         var gameData = this.gameWithVariations;
@@ -970,7 +970,7 @@ TestCase("ModelTest", {
         assertEquals(1, moves[20].variations[0][2].variations[0][0].moves.length);
     },
 
-    "test_should_be_able_to_go_to_end_of_game":function () {
+    "test should be able to go to end of_game":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -993,7 +993,7 @@ TestCase("ModelTest", {
         assertTrue(pEventFired);
     },
 
-    "testshouldFireStartOfBranchEventWhenMovingBackFromMoveNumberOne":function () {
+    "test should fire start of branch event when moving back from move number one":function () {
         // given
         var model = this.getModelWithMoves();
         model.toStart();
@@ -1009,7 +1009,7 @@ TestCase("ModelTest", {
         assertTrue(sEventFired);
     },
 
-    "testshouldFireStartOfBranchEventWhenCommentIsFirstMove":function () {
+    "test should fire start of branch event when comment is first move":function () {
 
         // given
         var model = this.getModel();
@@ -1077,7 +1077,7 @@ TestCase("ModelTest", {
         }
     },
 
-    "testshouldFireCorrectEventsWhenMovingToStart":function () {
+    "test should fire correct events when moving to start":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -1107,7 +1107,7 @@ TestCase("ModelTest", {
         this.assertEventsFired();
     },
 
-    "testshouldFireCorrectEventsWhenGoingToPreviousMove":function () {
+    "test should fire correct events when going to previous move":function () {
 
         // given
         var model = this.getModelWithMoves();
@@ -1125,7 +1125,7 @@ TestCase("ModelTest", {
 
     },
 
-    "testshouldFireCorrectEventsWhenMovingForward":function () {
+    "test should fire correct events when moving forward":function () {
 
         // given
         var model = this.getModelWithMoves();
@@ -1156,7 +1156,7 @@ TestCase("ModelTest", {
         this.assertEventsFired();
     },
 
-    "test_should_return_first_move_when_at_start_and_calling_get_next_move":function () {
+    "test should return first move when at start and calling get next move":function () {
         // given
         var model = this.getModelWithMoves();
         var moveId = model.model.moves[0].id;
@@ -1168,7 +1168,7 @@ TestCase("ModelTest", {
         assertEquals(moveId, nextMove.id);
     },
 
-    "test_should_be_able_to_overwrite_move":function () {
+    "test should be able to overwrite move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[1];
@@ -1183,7 +1183,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_guess_next_move":function () {
+    "test should be able to guess next_move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[0];
@@ -1197,7 +1197,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_be_able_to_guess_next_move_including_variations":function () {
+    "test should be able to guess next move including_variations":function () {
         // given
         var model = this.getModelWithVariations();
         var sourceMove = model.model.moves[20];
@@ -1216,7 +1216,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_fire_events_when_guessing_next_move":function () {
+    "test should fire events when guessing next_move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[0];
@@ -1244,7 +1244,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_able_to_get_winning_color_of_game_from_metadata":function () {
+    "test should be able to get winning color of game from_metadata":function () {
         // given
         var model = this.getModelWithVariations();
         // when
@@ -1253,7 +1253,7 @@ TestCase("ModelTest", {
         assertEquals(expectedResult, model.getResult());
     },
 
-    "test_should_be_able_to_get_winning_color_from_last_position":function () {
+    "test should be able to get winning color from last position":function () {
         var model = this.getModelWithCheckMateGame();
         // when
         var expectedResult = 1;
@@ -1262,7 +1262,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_be_ble_to_find_previous_move_in_branch":function () {
+    "test should be ble to find previous move in_branch":function () {
         // given
         var model = this.getModelWithMoves();
         var move = model.model.moves[2];
@@ -1290,7 +1290,7 @@ TestCase("ModelTest", {
         assertNull(model.getPreviousMoveInBranch(move));
     },
 
-    "test_should_be_able_to_set_comment_before_first_move":function () {
+    "test should be able to set comment before first_move":function () {
         // given
         var model = this.getModelWithMoves();
         var move = { id:model.model.moves[0].id };
@@ -1303,7 +1303,7 @@ TestCase("ModelTest", {
         assertEquals(expectedComment, model.getCommentBefore(move));
     },
 
-    "test_should_be_able_to_create_new_model_with_metadata":function () {
+    "test should be able to create new model with_metadata":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1319,7 +1319,7 @@ TestCase("ModelTest", {
         assertEquals(1, model.getDatabaseId());
     },
 
-    "test_should_set_model_dirty_when_creating_new_model":function () {
+    "test should set model dirty when creating new model":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1334,7 +1334,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_set_model_clean_when_saving_model":function () {
+    "test should set model clean when saving_model":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1352,7 +1352,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_should_set_model_dirty_when_modifying_metadata":function () {
+    "test should set model dirty when modifying_metadata":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1370,7 +1370,7 @@ TestCase("ModelTest", {
         assertTrue(model.isDirty());
     },
 
-    "test_should_set_default_fen_for_new_games":function () {
+    "test should set default fen for new_games":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1388,7 +1388,7 @@ TestCase("ModelTest", {
 
 
     },
-    "test_should_set_model_dirty_when_adding_move":function () {
+    "test should set model dirty when adding_move":function () {
         // given
         var model = new chess.model.Game({
             metadata:{
@@ -1411,7 +1411,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_set_model_dirty_when_modifying_comment":function () {
+    "test should set model dirty when modifying_comment":function () {
         // given
         var model = this.getModelWithMoves();
         var secondMove = { id:model.getMoves()[1].id };
@@ -1425,7 +1425,7 @@ TestCase("ModelTest", {
         assertTrue(model.isDirty());
     },
 
-    "test_should_fire_dirty_event":function () {
+    "test should fire dirty event":function () {
         // given
         var model = this.getModelWithMoves();
         var secondMove = { id:model.getMoves()[1].id };
