@@ -28,7 +28,30 @@ TestCase("ModelTest", {
             {"m":"Re8#", "from":"e1", "to":"e8", "fen":"r1b1Rk2\/pp1p2p1\/1b1p2B1\/n1q3p1\/8\/5N2\/P4PPP\/6K1 b - - 1 4"}
         ]},
 
-    gameWithVariations:{"metadata":{"event":"Computer chess game", "site":"ALFMAGNE-PC", "date":"2012.01.18", "round":"1-0", "white":"Alf Magne", "black":"Alf Magne", "result":"1-0", "blackelo":"2400", "eco":"C77", "opening":"Spanish", "time":"12:41:54", "variation":"Anderssen, 5...b5", "whiteelo":"2400", "timecontrol":"300", "termination":"unterminated", "plycount":"31", "whitetype":"human", "blacktype":"human", "fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1", "castle":1},
+    gameWithVariations:{
+
+        "event":"Computer chess game",
+        "site":"ALFMAGNE-PC",
+        "date":"2012.01.18",
+        "round":"1-0",
+        "white":"Alf Magne",
+        "black":"Alf Magne",
+        "result":"1-0",
+        "blackelo":"2400",
+        "eco":"C77",
+        "opening":"Spanish",
+        "time":"12:41:54",
+        "variation":"Anderssen, 5...b5",
+        "whiteelo":"2400",
+        "timecontrol":"300",
+        "termination":"unterminated",
+        "plycount":"31",
+        "fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1",
+        "metadata":{
+            "blacktype":"human",
+            "whitetype":"human",
+            "castle":1
+        },
         "moves":[
             {"m":"e4", "from":"e2", "to":"e4", "fen":"rnbqkbnr\/pppppppp\/8\/8\/4P3\/8\/PPPP1PPP\/RNBQKBNR b KQkq e3 0 1"},
             {"m":"e5", "from":"e7", "to":"e5", "fen":"rnbqkbnr\/pppp1ppp\/8\/4p3\/4P3\/8\/PPPP1PPP\/RNBQKBNR w KQkq e6 0 1"},
