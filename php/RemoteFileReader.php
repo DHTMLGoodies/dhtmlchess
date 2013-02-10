@@ -2,8 +2,6 @@
 
 class RemoteFileReader {
     public static function getFromUrl($url){
-
-
         $urlParts = parse_url($url);
         return self::http_request('GET', $urlParts['host'], 80, $urlParts['path']);
     }

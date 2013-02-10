@@ -7,25 +7,25 @@
  */
 class ChessRegistry
 {
-    private static $registry = array();
+    private static $storage = array();
 
     public static function set($key, $value){
-        self::$registry[$key] = $value;
+        self::$storage[$key] = $value;
     }
 
     private static function isValid($key){
-        return isset(self::$registry[$key]);
+        return isset(self::$storage[$key]);
     }
 
     public static function clear($key){
         if(self::isValid($key)){
-            unset(self::$registry[$key]);
+            unset(self::$storage[$key]);
         }
     }
 
     public static function get($key){
         if(self::isValid($key)){
-            return self::$registry[$key];
+            return self::$storage[$key];
         }
         return null;
     }
