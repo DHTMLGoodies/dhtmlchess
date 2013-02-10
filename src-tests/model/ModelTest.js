@@ -207,7 +207,7 @@ TestCase("ModelTest", {
         ]
     },
 
-    "test_Should_BeAbleToSetMetadata":function () {
+    "test_should_be_able_to_set_metadata":function () {
         // given
         var model = this.getModel();
         // when
@@ -217,7 +217,7 @@ TestCase("ModelTest", {
         assertEquals('Alf Magne', model.getMetadataValue('white'));
     },
 
-    "test_Should_FireEventWhenMetadataIsChanged":function () {
+    "test_should_fire_event_when_metadata_is_changed":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -238,7 +238,7 @@ TestCase("ModelTest", {
         assertEquals('Alf Magne', metadataValue);
     },
 
-    "test_Should_BeAbleToSetAStartingPosition":function () {
+    "test_should_be_able_to_set_a_starting_position":function () {
         // given
         var model = this.getModelWithMoves();
         var position = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
@@ -249,7 +249,7 @@ TestCase("ModelTest", {
         assertEquals(position, model.getStartPosition());
     },
 
-    "test_Should_FireNewGameEventOnNewPosition":function () {
+    "test_should_fire_new_game_event_on_new_position":function () {
         // given
         var model = this.getModel();
         var position = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
@@ -265,7 +265,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_Should_BeAbleToAppendMoves":function () {
+    "test_should_be_able_to_append_moves":function () {
 
         // given
         var model = this.getModel();
@@ -281,7 +281,7 @@ TestCase("ModelTest", {
         }
     },
 
-    "test_Should_FireNewMoveEventWhenValidMoveIsAppended":function () {
+    "test_should_fireNewMoveEventWhenValidMoveIsAppended":function () {
         // given
         var model = this.getModel();
 
@@ -296,7 +296,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_Should_FireInvalidMoveEventWhenWrongMoveIsAppended":function () {
+    "test_should_fire_invalid_move_event_when_wrong_move_is_appended":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -310,7 +310,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_Should_Fire_Last_Move_In_Branch_Event_When_Current_Move_Is_LastMove":function () {
+    "test_should_fire_last_move_in_branch_event_when_current_move_is_last_move":function () {
         // given
         var model = this.getModel();
         var eventFired = false;
@@ -325,7 +325,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test_Should_Be_Able_To_Delete_Moves":function () {
+    "test_should_be_able_to_delete_moves":function () {
         // given
         var model = this.getModel();
         var moves = this.getValidMoves();
@@ -342,7 +342,7 @@ TestCase("ModelTest", {
         assertEquals(5, model.getMoves().length);
     },
 
-    "test_Should_Fire_Move_Deleted_Event_When_Move_Is_Deleted":function () {
+    "test_should_fire_move_deleted_event_when_move_is_deleted":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -362,7 +362,7 @@ TestCase("ModelTest", {
         assertEquals(move.id, deletedMove.id);
     },
 
-    "test_Should_Fire_Last_Move_In_Branch_Event_When_Move_Is_Deleted":function () {
+    "test_should_fire_last_Move_In_Branch_event_when_Move_Is_Deleted":function () {
         // given
         var model = this.getModelWithMoves();
         var eventFired = false;
@@ -378,7 +378,7 @@ TestCase("ModelTest", {
         assertTrue(eventFired);
     },
 
-    "test_Should_Fire_No_Moves_Event_When_First_Node_In_Branch_Is_Deleted":function () {
+    "test_should_fire_no_moves_event_when_first_node_in_branch_is_deleted":function () {
         // given
         var model = this.getModelWithMoves();
 
@@ -560,7 +560,7 @@ TestCase("ModelTest", {
         assertFalse(eventMoveDelete);
     },
 
-    "test_Should_Be_Able_To_Grade_Moves":function () {
+    "test_should_be_able_to_grade_moves":function () {
         // given
         var model = this.getModelWithMoves();
         var firstMove = { id:model.getMoves()[0].id };
@@ -850,7 +850,7 @@ TestCase("ModelTest", {
     },
 
 
-    "test_should_fire_set_move_event_when_appending_move_which_allready_exists":function () {
+    "test_should_fire_set_move_event_when_appending_move_which_already_exists":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -970,7 +970,7 @@ TestCase("ModelTest", {
         assertTrue(pEventFired);
     },
 
-    "testShouldFireStartOfBranchEventWhenMovingBackFromMoveNumberOne":function () {
+    "testshouldFireStartOfBranchEventWhenMovingBackFromMoveNumberOne":function () {
         // given
         var model = this.getModelWithMoves();
         model.toStart();
@@ -986,7 +986,7 @@ TestCase("ModelTest", {
         assertTrue(sEventFired);
     },
 
-    "testShouldFireStartOfBranchEventWhenCommentIsFirstMove":function () {
+    "testshouldFireStartOfBranchEventWhenCommentIsFirstMove":function () {
 
         // given
         var model = this.getModel();
@@ -1054,7 +1054,7 @@ TestCase("ModelTest", {
         }
     },
 
-    "testShouldFireCorrectEventsWhenMovingToStart":function () {
+    "testshouldFireCorrectEventsWhenMovingToStart":function () {
         // given
         var model = this.getModelWithMoves();
         var move = {
@@ -1084,7 +1084,7 @@ TestCase("ModelTest", {
         this.assertEventsFired();
     },
 
-    "testShouldFireCorrectEventsWhenGoingToPreviousMove":function () {
+    "testshouldFireCorrectEventsWhenGoingToPreviousMove":function () {
 
         // given
         var model = this.getModelWithMoves();
@@ -1102,7 +1102,7 @@ TestCase("ModelTest", {
 
     },
 
-    "testShouldFireCorrectEventsWhenMovingForward":function () {
+    "testshouldFireCorrectEventsWhenMovingForward":function () {
 
         // given
         var model = this.getModelWithMoves();
@@ -1120,7 +1120,7 @@ TestCase("ModelTest", {
         this.assertEventsFired();
     },
 
-    "testShouldFireCorrectEventWhenMovingToEnd":function () {
+    "testshouldFireCorrectEventWhenMovingToEnd":function () {
         // given
         var model = this.getModelWithMoves();
 
