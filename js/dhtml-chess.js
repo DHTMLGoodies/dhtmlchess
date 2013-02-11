@@ -28050,7 +28050,7 @@ chess.view.gamelist.Grid = new Class({
 		 * @event selectGame
 		 * @param {Object} game
 		 */
-		if(record.id === undefined && record.index !== undefined){
+		if(record.id === undefined && record.gameIndex !== undefined){
 			this.fireEvent('selectGame', [record, this.getDataSource().arguments]);
 		}else{
 			this.fireEvent('selectGame', record);
@@ -33307,7 +33307,7 @@ chess.model.Game = new Class({
 
 		if (config.id || config.pgn) {
 			if(config.pgn){
-				this.loadStaticGame(config.pgn, config.index);
+				this.loadStaticGame(config.pgn, config.gameIndex);
 			}else{
 				this.loadGame(config.id);
 			}
@@ -33368,7 +33368,7 @@ chess.model.Game = new Class({
      */
     isModelFor:function(game){
         if(game.id)return game.id === this.model.id;
-		if(game.index)return game.index = this.model.index;
+		if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         return false;
     },
 
@@ -33429,7 +33429,7 @@ chess.model.Game = new Class({
 		this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
-		this.model.index = gameData.index || undefined;
+		this.model.gameIndex = gameData.gameIndex || undefined;
 		this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
 		this.model.result = this.getResult();
 		this.model.moves = gameData.moves || [];
@@ -34924,20 +34924,25 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
+
 		this.query({
 			"resource": "ChessFs",
-			"service": "read",
+			"service": "getGame",
 			"event": "load",
 			"arguments": pgn,
-			"data" : { index : index }
+			"data" : { "index" : index }
 		});
 	},
 
     save:function(game){
-        this.params = {
-            game:game
-        };
-        this.query('saveGame', 'saved');
+
+		this.query({
+			"resource": "Game",
+			"service": "save",
+			"event": "saved",
+			"arguments": id,
+			"data": game
+		});
     },
 
     loadRandomGame : function(databaseId) {
