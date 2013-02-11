@@ -16,11 +16,9 @@ chess.remote.GameReader = new Class({
 		this.query({
 			"resource": "Game",
 			"service": "read",
-			"event": "load",
+			"eventOnLoad": "load",
 			"arguments": id
 		});
-
-       // this.query('Game', 'getGame');
     },
 
 	loadStaticGame:function(pgn, index){
@@ -28,18 +26,17 @@ chess.remote.GameReader = new Class({
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
-			"event": "load",
+			"eventOnLoad": "load",
 			"arguments": pgn,
-			"data" : { "index" : index }
+			"data" : index
 		});
 	},
 
     save:function(game){
-
 		this.query({
 			"resource": "Game",
 			"service": "save",
-			"event": "saved",
+			"eventOnLoad": "saved",
 			"arguments": id,
 			"data": game
 		});

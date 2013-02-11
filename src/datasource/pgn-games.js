@@ -14,5 +14,9 @@ chess.dataSource.PgnGames = new Class({
     resource:'ChessFS',
     service:"listOfGames",
     "primaryKey":"index",
-    url:window.chess.URL
+    url:window.chess.URL,
+
+    getCurrentPgn:function(){
+        return this.arguments;
+    }
 });

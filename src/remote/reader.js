@@ -9,7 +9,7 @@ chess.remote.Reader = new Class({
 
     query : function(config) {
 		this.resource = config.resource;
-        this.onLoadEvent = config.event || 'load';
+        this.onLoadEvent = config.eventOnLoad || 'load';
 		this.remoteHandler().send(config.service, config.arguments, config.data);
     },
 	_remoteHandler:undefined,
