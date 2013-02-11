@@ -97,7 +97,7 @@ class ChessFS implements LudoDBService
     public function listOfGames($noCache = false)
     {
         if ($this->isGameListInCache() && !$noCache) {
-            return $this->getGameListFromCache();
+            #return $this->getGameListFromCache();
         }
         $parser = new PgnParser($this->pgnFile, false);
         $games = $parser->getGames();
@@ -107,6 +107,7 @@ class ChessFS implements LudoDBService
         array_pop($tokens);
         $idPrefix = array_pop($tokens);
         foreach ($games as $game) {
+            $game['last_moves'] = $this->getLastMoves($game['moves']);
             unset($game['moves']);
             unset($game['metadata']);
             $game["gameIndex"] = $count;
@@ -117,6 +118,23 @@ class ChessFS implements LudoDBService
         $this->saveGameListInCache($ret);
 
         return $ret;
+    }
+
+    private function getLastMoves($moves = array()){
+        $count = count($moves);
+        $start = $count-3;
+        $start = max(0, $start);
+
+        $ret = array();
+
+        if($start % 2 === 1)$ret[] = ".. " . (floor($start / 2) + 1) . ".";
+        for($i=$start;$i<$count;$i++){
+            if($i % 2 === 0){
+                $ret[] =(($i  / 2) +1) . ".";
+            }
+            $ret[] =$moves[$i]['m'];
+        }
+        return implode(" ", $ret);
     }
 
     private function getGameListFromCache()

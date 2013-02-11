@@ -74,9 +74,9 @@ chess.view.gamelist.Grid = new Class({
 				sortable:true,
 				removable:true
 			},
-			lastMoves:{
+			last_moves:{
 				heading:'Last moves',
-				key:'lastMoves',
+				key:'last_moves',
 				weight:1,
 				sortable:true,
 				removable:true
