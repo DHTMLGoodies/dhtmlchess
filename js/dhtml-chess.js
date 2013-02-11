@@ -1350,6 +1350,7 @@ ludo.dataSource.Base = new Class({
         if (config.autoload !== undefined)this.autoload = config.autoload;
         if (config.resource !== undefined)this.resource = config.resource;
         if (config.service !== undefined)this.service = config.service;
+        if (config.arguments !== undefined)this.arguments = config.arguments;
     },
 
 	ludoEvents:function(){
@@ -28049,7 +28050,11 @@ chess.view.gamelist.Grid = new Class({
 		 * @event selectGame
 		 * @param {Object} game
 		 */
-		this.fireEvent('selectGame', record);
+		if(record.id === undefined && record.index !== undefined){
+			this.fireEvent('selectGame', [record, this.getDataSource().arguments]);
+		}else{
+			this.fireEvent('selectGame', record);
+		}
 	}
 });
 /**
@@ -32983,13 +32988,13 @@ chess.controller.Controller = new Class({
         this.currentModel.nextAutoPlayMove();
     },
 
-    selectGame:function (game) {
+    selectGame:function (game, pgn) {
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
             this.currentModel.activate();
         } else {
-            this.currentModel = this.getNewModel(game);
+            this.currentModel = this.getNewModel(game, pgn);
         }
     },
 
@@ -33002,9 +33007,12 @@ chess.controller.Controller = new Class({
         return null;
     },
 
-    getNewModel:function (game) {
+    getNewModel:function (game, pgn) {
+
         game = game || {};
+		if(pgn)game.pgn = pgn;
         var model = new chess.model.Game(game);
+
         this.addEventsToModel(model);
         this.models.push(model);
 
@@ -33296,8 +33304,13 @@ chess.model.Game = new Class({
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
 		this.gameReader.addEvent('saved', this.updateGameFromServer.bind(this));
 		this.setDefaultModel();
-		if (config.id) {
-			this.loadGame(config.id);
+
+		if (config.id || config.pgn) {
+			if(config.pgn){
+				this.loadStaticGame(config.pgn, config.index);
+			}else{
+				this.loadGame(config.id);
+			}
 		} else {
 			this.setDirty();
 		}
@@ -33325,6 +33338,10 @@ chess.model.Game = new Class({
 	loadGame:function (gameId) {
 		this.gameReader.loadGame(gameId);
 	},
+
+	loadStaticGame:function(pgn, index){
+		this.gameReader.loadStaticGame(pgn, index);
+	},
 	/**
 	 * Load a random game from selected database
 	 * @method loadRandomGame
@@ -33351,6 +33368,7 @@ chess.model.Game = new Class({
      */
     isModelFor:function(game){
         if(game.id)return game.id === this.model.id;
+		if(game.index)return game.index = this.model.index;
         return false;
     },
 
@@ -33411,6 +33429,7 @@ chess.model.Game = new Class({
 		this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
+		this.model.index = gameData.index || undefined;
 		this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
 		this.model.result = this.getResult();
 		this.model.moves = gameData.moves || [];
@@ -34851,10 +34870,12 @@ chess.remote.Reader = new Class({
 
     },
 	onLoadEvent:undefined,
+	resource:undefined,
 
-    query : function(requestId, event) {
-        this.onLoadEvent = event || 'load';
-		this.remoteHandler().send('read', this.params.id);
+    query : function(config) {
+		this.resource = config.resource;
+        this.onLoadEvent = config.event || 'load';
+		this.remoteHandler().send(config.service, config.arguments, config.data);
     },
 	_remoteHandler:undefined,
 
@@ -34862,7 +34883,7 @@ chess.remote.Reader = new Class({
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
 				url:window.chess.URL,
-				resource : 'Game',
+				resource : this.resource,
 				listeners:{
 					"success": function(request){
 						this.fireEvent(this.onLoadEvent, request.getResponseData());
@@ -34892,11 +34913,25 @@ chess.remote.GameReader = new Class({
     },
 
     loadGame : function(id){
-        this.params = {
-            id : id
-        };
-        this.query('getGame');
+		this.query({
+			"resource": "Game",
+			"service": "read",
+			"event": "load",
+			"arguments": id
+		});
+
+       // this.query('Game', 'getGame');
     },
+
+	loadStaticGame:function(pgn, index){
+		this.query({
+			"resource": "ChessFs",
+			"service": "read",
+			"event": "load",
+			"arguments": pgn,
+			"data" : { index : index }
+		});
+	},
 
     save:function(game){
         this.params = {
@@ -34916,7 +34951,7 @@ chess.remote.GameReader = new Class({
         this.params = {
             fen : fen
         };
-        this.query('getEngineMove','newMove');
+        this.query('EngineMove',undefined, 'newMove');
     }
 });
 /**

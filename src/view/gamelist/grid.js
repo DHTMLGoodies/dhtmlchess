@@ -140,6 +140,10 @@ chess.view.gamelist.Grid = new Class({
 		 * @event selectGame
 		 * @param {Object} game
 		 */
-		this.fireEvent('selectGame', record);
+		if(record.id === undefined && record.gameIndex !== undefined){
+			this.fireEvent('selectGame', [record, this.getDataSource().arguments]);
+		}else{
+			this.fireEvent('selectGame', record);
+		}
 	}
 });

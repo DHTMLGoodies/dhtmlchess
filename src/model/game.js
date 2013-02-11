@@ -48,8 +48,13 @@ chess.model.Game = new Class({
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
 		this.gameReader.addEvent('saved', this.updateGameFromServer.bind(this));
 		this.setDefaultModel();
-		if (config.id) {
-			this.loadGame(config.id);
+
+		if (config.id || config.pgn) {
+			if(config.pgn){
+				this.loadStaticGame(config.pgn, config.gameIndex);
+			}else{
+				this.loadGame(config.id);
+			}
 		} else {
 			this.setDirty();
 		}
@@ -77,6 +82,10 @@ chess.model.Game = new Class({
 	loadGame:function (gameId) {
 		this.gameReader.loadGame(gameId);
 	},
+
+	loadStaticGame:function(pgn, index){
+		this.gameReader.loadStaticGame(pgn, index);
+	},
 	/**
 	 * Load a random game from selected database
 	 * @method loadRandomGame
@@ -103,6 +112,7 @@ chess.model.Game = new Class({
      */
     isModelFor:function(game){
         if(game.id)return game.id === this.model.id;
+		if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         return false;
     },
 
@@ -163,6 +173,7 @@ chess.model.Game = new Class({
 		this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
 		this.model.id = gameData.id || gameData.metadata.id || this.model.id;
+		this.model.gameIndex = gameData.gameIndex || undefined;
 		this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
 		this.model.result = this.getResult();
 		this.model.moves = gameData.moves || [];

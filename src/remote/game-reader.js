@@ -13,17 +13,36 @@ chess.remote.GameReader = new Class({
     },
 
     loadGame : function(id){
-        this.params = {
-            id : id
-        };
-        this.query('getGame');
+		this.query({
+			"resource": "Game",
+			"service": "read",
+			"event": "load",
+			"arguments": id
+		});
+
+       // this.query('Game', 'getGame');
     },
 
+	loadStaticGame:function(pgn, index){
+
+		this.query({
+			"resource": "ChessFs",
+			"service": "getGame",
+			"event": "load",
+			"arguments": pgn,
+			"data" : { "index" : index }
+		});
+	},
+
     save:function(game){
-        this.params = {
-            game:game
-        };
-        this.query('saveGame', 'saved');
+
+		this.query({
+			"resource": "Game",
+			"service": "save",
+			"event": "saved",
+			"arguments": id,
+			"data": game
+		});
     },
 
     loadRandomGame : function(databaseId) {
@@ -37,6 +56,6 @@ chess.remote.GameReader = new Class({
         this.params = {
             fen : fen
         };
-        this.query('getEngineMove','newMove');
+        this.query('EngineMove',undefined, 'newMove');
     }
 });

@@ -324,13 +324,13 @@ chess.controller.Controller = new Class({
         this.currentModel.nextAutoPlayMove();
     },
 
-    selectGame:function (game) {
+    selectGame:function (game, pgn) {
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
             this.currentModel.activate();
         } else {
-            this.currentModel = this.getNewModel(game);
+            this.currentModel = this.getNewModel(game, pgn);
         }
     },
 
@@ -343,9 +343,12 @@ chess.controller.Controller = new Class({
         return null;
     },
 
-    getNewModel:function (game) {
+    getNewModel:function (game, pgn) {
+
         game = game || {};
+		if(pgn)game.pgn = pgn;
         var model = new chess.model.Game(game);
+
         this.addEventsToModel(model);
         this.models.push(model);
 

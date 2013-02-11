@@ -12,7 +12,9 @@ class ChessFS implements LudoDBService
 
     public function __construct($pgnFile)
     {
+
         $this->pgnFile = $this->getPgnPath($pgnFile);
+
         if (!$this->isValid($this->pgnFile)) {
             throw new Exception("Invalid file");
         }
@@ -46,7 +48,11 @@ class ChessFS implements LudoDBService
 
     public function getGame($index, $noCache = false)
     {
+        if(is_array($index)){
+            $index = $index['index'];
+        }
         if ($this->isGameInCache($index) && !$noCache) return $this->getGameFromCache($index);
+
         $game = $this->parser($this->pgnFile)->getGameByIndex($index);
         $this->saveGameInCache($game, $index);
         return $game;
@@ -100,10 +106,11 @@ class ChessFS implements LudoDBService
         foreach ($games as $game) {
             unset($game['moves']);
             unset($game['metadata']);
-            $game["index"] = $count++;
+            $game["gameIndex"] = $count++;
             $ret[] = $game;
         }
         $this->saveGameListInCache($ret);
+
         return $ret;
     }
 
