@@ -103,11 +103,16 @@ class ChessFS implements LudoDBService
         $games = $parser->getGames();
         $ret = array();
         $count = 0;
+        $tokens = preg_split("/[\/\.]/s", $this->pgnFile);
+        array_pop($tokens);
+        $idPrefix = array_pop($tokens);
         foreach ($games as $game) {
             unset($game['moves']);
             unset($game['metadata']);
-            $game["gameIndex"] = $count++;
+            $game["gameIndex"] = $count;
+            $game["id"] = $idPrefix . '-'. $count;
             $ret[] = $game;
+            $count++;
         }
         $this->saveGameListInCache($ret);
 
@@ -138,7 +143,7 @@ class ChessFS implements LudoDBService
         return $this->_parser;
     }
 
-    public static function getValidServices()
+    public function getValidServices()
     {
         return array("listOfGames", "getGame");
     }

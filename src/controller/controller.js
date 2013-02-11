@@ -58,7 +58,10 @@ chess.controller.Controller = new Class({
                 view.addEvent('pause', this.pauseGame.bind(this));
                 view.addEvent('flip', this.flipBoard.bind(this));
                 break;
+            case 'list-of-pgn-files':
 
+                view.addEvent('selectPgn', this.selectPgn.bind(this));
+                break;
             case 'gameList':
                 view.addEvent('selectGame', this.selectGame.bind(this));
                 break;
@@ -332,6 +335,10 @@ chess.controller.Controller = new Class({
         } else {
             this.currentModel = this.getNewModel(game, pgn);
         }
+    },
+
+    selectPgn:function(pgn){
+        this.fireEvent('selectPgn', pgn);
     },
 
     getModelFromCache:function (game) {

@@ -17,6 +17,7 @@ window.chess = {
         message:{},
         button : {},
         eco : {},
+        pgn:{},
         tree : {},
         position : {},
         installer : {},

@@ -7,16 +7,23 @@
  */
 class ChessFSPgn implements LudoDBService
 {
+    public function __construct(){
+
+    }
     public function read(){
         $folder = ChessRegistry::getPgnFolder();
         if(!isset($folder)){
             throw new Exception("PGN folder not set using ChessRegistry::setPgnFolder");
         }
         $ret = array();
+        $id = 1;
         if ($handle = opendir(ChessRegistry::getPgnFolder())) {
             while (false !== ($entry = readdir($handle))) {
                 if($this->isPgnFile($entry)){
-                    $ret[] = $this->getNameOfFile($entry);
+                    $ret[] = array(
+                        "file" => $this->getNameOfFile($entry),
+                        "id" => $id++
+                    );
                 }
             }
             closedir($handle);
@@ -34,10 +41,13 @@ class ChessFSPgn implements LudoDBService
         return $tokens[0];
     }
 
-    public static function getValidServices(){
+    public function getValidServices(){
         return array('read');
     }
     public function validateService($service, $arguments){
+        if(count($arguments) > 0){
+            throw new LudoDBException("No arguments accepted by ChessFSPgn, given: ". implode(",", $arguments));
+        }
         return count($arguments) === 0;
     }
 

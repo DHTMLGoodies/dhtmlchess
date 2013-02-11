@@ -97,6 +97,7 @@ chess.view.gamelist.Grid = new Class({
 		controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
 		controller.addEvent('nextGame', ds.next.bind(ds));
 		controller.addEvent('previousGame', ds.previous.bind(ds));
+        controller.addEvent('selectPgn', this.selectPgn.bind(this));
 	},
 
 	/**
@@ -107,6 +108,10 @@ chess.view.gamelist.Grid = new Class({
 	selectDatabase:function (record) {
 		this.loadGames(record.id);
 	},
+
+    selectPgn:function(pgn){
+        this.getDataSource().sendRequest('listOfGames', pgn);
+    },
 
 	ludoConfig:function (config) {
 		this.parent(config);
@@ -140,7 +145,7 @@ chess.view.gamelist.Grid = new Class({
 		 * @event selectGame
 		 * @param {Object} game
 		 */
-		if(record.id === undefined && record.gameIndex !== undefined){
+		if(record.gameIndex !== undefined){
 			this.fireEvent('selectGame', [record, this.getDataSource().arguments]);
 		}else{
 			this.fireEvent('selectGame', record);

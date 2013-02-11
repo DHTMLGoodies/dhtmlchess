@@ -12,6 +12,7 @@ chess.dataSource.FolderTree = new Class({
     singleton: true,
     url:window.chess.URL,
     resource : 'Folders',
+    service : 'read',
     autoload:true,
 
 	ludoConfig:function(config){

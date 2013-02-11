@@ -111,8 +111,8 @@ chess.model.Game = new Class({
      * @param {Object} game
      */
     isModelFor:function(game){
+        if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         if(game.id)return game.id === this.model.id;
-		if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         return false;
     },
 
