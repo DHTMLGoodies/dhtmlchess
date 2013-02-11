@@ -12,5 +12,5 @@ chess.dataSource.GameList = new Class({
     autoload:false,
     singleton: true,
 	resource:'Database',
-    url:window.chess.ROOT + '/router.php'
+    url:window.chess.URL
 });

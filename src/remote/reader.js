@@ -15,7 +15,7 @@ chess.remote.Reader = new Class({
 	remoteHandler:function(){
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
-				url:window.chess.ROOT + '/router.php',
+				url:window.chess.URL,
 				resource : 'Game',
 				listeners:{
 					"success": function(request){
@@ -30,6 +30,4 @@ chess.remote.Reader = new Class({
 	getOnLoadEvent:function(){
 		return this.onLoadEvent;
 	}
-
-
 });
