@@ -11,9 +11,6 @@ chess.dataSource.GameList = new Class({
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
-    url:window.chess.ROOT + '/Database/1/games',
-    request : '',
-    query:{
-
-    }
+	resource:'Database',
+    url:window.chess.ROOT + '/router.php'
 });

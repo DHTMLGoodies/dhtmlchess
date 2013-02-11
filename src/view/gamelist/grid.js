@@ -130,9 +130,8 @@ chess.view.gamelist.Grid = new Class({
 	},
 
 	loadGames:function (databaseId) {
-		this.getDataSource().setQueryParam('databaseId', databaseId);
 		this.databaseId = databaseId;
-		this.load();
+		this.getDataSource().sendRequest('games', databaseId);
 	},
 
 	selectGame:function (record) {
