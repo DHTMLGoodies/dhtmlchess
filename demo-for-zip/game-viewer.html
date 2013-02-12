@@ -45,8 +45,8 @@
 </head>
 <body>
 <script type="text/javascript">
-ludo.config.setUrl('../');
-ludo.config.enableModRewriteUrls();
+ludo.config.setUrl('../router.php');
+ludo.config.disableModRewriteUrls();
 
 var d = new Date();
 var app = new ludo.Application({
