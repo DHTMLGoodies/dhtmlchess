@@ -571,7 +571,7 @@ ludo.factory = new ludo.ObjectFactory();
 */
 
 LUDOJS_CONFIG = {
-    url : '/ludojs/api/demo/controller.php',
+    url : '../',
     socket : {
         url : 'http://your-node-js-server-url:8080/'
     },
@@ -25288,7 +25288,7 @@ chess.Views = {
         game:'gameList'
     }
 };
-window.chess.URL = '../router.php';
+window.chess.URL = '../';
 window.chess.ROOT = '../';
 window.chess.IMAGE_FOLDER = '../images/';
 window.chess.COOKIE_NAME = 'chess_cookie';

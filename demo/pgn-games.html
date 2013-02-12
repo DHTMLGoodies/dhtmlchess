@@ -67,7 +67,8 @@
 </head>
 <body>
 <script type="text/javascript">
-
+    LUDOJS_CONFIG.url = window.chess.URL = '../';
+    LUDOJS_CONFIG.mod_rewrite = true;
     var app = new ludo.Window({
         stateful:true,
         width:900,
@@ -192,6 +193,7 @@
             visible:true
         }
     });
+    LUDOJS_CONFIG.mod_rewrite = true;
 
     var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
     var controller = new chess.controller.AnalysisController();

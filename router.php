@@ -23,7 +23,7 @@ ChessRegistry::setCacheFolder("cache"); // Path to cache
 
 $request = array('request' => isset($_GET['request']) ? $_GET['request'] : $_POST['request']);
 
-if(isset($_POST['request'])){
+if(isset($_POST['data'])){
     $request['data'] = isset($_POST['data']) ? $_POST['data'] : null;
 }
 

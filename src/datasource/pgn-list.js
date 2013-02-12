@@ -12,6 +12,5 @@ chess.dataSource.PgnList = new Class({
     autoload:true,
     singleton: true,
     resource:'ChessFSPgn',
-    service:'read',
-    url:window.chess.URL
+    service:'read'
 });

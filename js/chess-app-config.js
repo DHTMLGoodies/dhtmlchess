@@ -1,5 +1,5 @@
-LUDO_APP_CONFIG = {
-    url : '../chess-controller.php',
+LUDOJS_CONFIG = {
+    url : '../',
     fileupload : {
         url : '../chess-controller.php'
     }

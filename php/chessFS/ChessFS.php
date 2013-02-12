@@ -129,10 +129,13 @@ class ChessFS implements LudoDBService
 
         if($start % 2 === 1)$ret[] = ".. " . (floor($start / 2) + 1) . ".";
         for($i=$start;$i<$count;$i++){
-            if($i % 2 === 0){
-                $ret[] =(($i  / 2) +1) . ".";
+            if(isset($moves[$i])){
+                if($i % 2 === 0){
+                    $ret[] =(($i  / 2) +1) . ".";
+                }
+                $ret[] =$moves[$i]['m'];
             }
-            $ret[] =$moves[$i]['m'];
+
         }
         return implode(" ", $ret);
     }
