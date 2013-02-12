@@ -12,7 +12,6 @@ class ChessFS implements LudoDBService
 
     public function __construct($pgnFile)
     {
-
         $this->pgnFile = $this->getPgnPath($pgnFile);
 
         if (!$this->isValid($this->pgnFile)) {
