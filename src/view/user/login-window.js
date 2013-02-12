@@ -15,8 +15,7 @@ chess.view.user.LoginWindow = new Class({
     module:'user',
     submodule:'loginWindow',
     form:{
-        name : 'login',
-        url:window.chess.URL
+        name : 'login'
     },
     layout : {
         "type": "linear",

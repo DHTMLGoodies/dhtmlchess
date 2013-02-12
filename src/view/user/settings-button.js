@@ -12,7 +12,7 @@ chess.view.user.SettingsButton = new Class({
     type:'chess.view.user.SettingsButton',
     module:'user',
     submodule:'settingsButton',
-    icon : window.chess.IMAGE_FOLDER + 'gear.png',
+    icon : ludo.config.getDocumentRoot() + '/images/gear.png',
     value:'',
     hidden:true,
     width:30,

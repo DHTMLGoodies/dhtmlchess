@@ -302,7 +302,7 @@ chess.view.board.Piece = new Class({
      * @private
      */
     updateBackgroundImage:function () {
-        this.el.setStyle('background-image', 'url(' + chess.IMAGE_FOLDER + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
+        this.el.setStyle('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
     },
 
     /**

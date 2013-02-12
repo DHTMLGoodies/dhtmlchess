@@ -17,11 +17,8 @@
     <script type="text/javascript" src="../src/model/game.js"></script>
     <script type="text/javascript" src="../src/view/metadata/game.js"></script>
     <script type="text/javascript" src="../src/view/user/register-window.js"></script>
-    <script type="text/javascript" src="../../ludojs/src/remote/JSON.js"></script>
-    <script type="text/javascript">
-        LUDOJS_CONFIG.url = window.chess.URL = '../';
-        LUDOJS_CONFIG.mod_rewrite = true;
-    </script>
+
+
     <link rel="stylesheet" href="../css/buttonbar/blue.css" type="text/css">
     <link rel="stylesheet" href="../css/chess.css" type="text/css">
     <link rel="stylesheet" href="../css/chess-blue.css" type="text/css">
@@ -51,6 +48,9 @@
 </head>
 <body>
 <script type="text/javascript">
+ludo.config.setUrl('../');
+ludo.config.enableModRewriteUrls();
+
 var d = new Date();
 var app = new ludo.Application({
     layout:{

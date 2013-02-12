@@ -11,7 +11,6 @@ chess.view.user.Country = new Class({
     filterOnServer:false,
     dataSource:{
         singleton:true,
-        url:window.chess.URL,
         request : 'getAllCountries'
     }
 });

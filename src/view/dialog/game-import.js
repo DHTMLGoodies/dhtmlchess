@@ -9,7 +9,7 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        url:window.chess.URL,
+        url:ludo.config.getUrl(),
         name:'game-import'
     },
     width:400,

@@ -11,6 +11,5 @@ chess.dataSource.GameList = new Class({
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
-	resource:'Database',
-    url:window.chess.URL
+	resource:'Database'
 });

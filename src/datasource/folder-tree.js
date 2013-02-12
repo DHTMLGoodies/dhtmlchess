@@ -10,7 +10,6 @@ chess.dataSource.FolderTree = new Class({
     Extends: ludo.dataSource.JSON,
     type : 'chess.dataSource.FolderTree',
     singleton: true,
-    url:window.chess.URL,
     resource : 'Folders',
     service : 'read',
     autoload:true,

@@ -5,7 +5,7 @@ chess.view.tree.SelectFolder = new Class({
     dataSource:{
         type : 'chess.dataSource.FolderTree'
     },
-    nodeTpl:'<img src="' + window.chess.ROOT + 'images/{icon}"><span>{title}</span>',
+    nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
     expandDepth:3,
     recordConfig:{
         'folder':{

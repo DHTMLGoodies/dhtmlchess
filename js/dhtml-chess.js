@@ -566,22 +566,50 @@ ludo.ObjectFactory = new Class({
 	}
 });
 ludo.factory = new ludo.ObjectFactory();
-/*
-* User specific config properties for ludoJS
-*/
+ludo._Config = new Class({
+	storage:{
+		url : '/router.php',
+		documentRoot : '/',
+		socketUrl: 'http://your-node-js-server-url:8080/',
+		modRewrite:false
+	},
 
-LUDOJS_CONFIG = {
-    url : '../',
-    socket : {
-        url : 'http://your-node-js-server-url:8080/'
-    },
+	setUrl:function(url){
+		this.storage.url = url;
+	},
 
-    fileupload : {
-        url : '/ludojs/api/demo/controller.php'
-    },
+	getUrl:function(){
+		return this.storage.url;
+	},
 
-	mod_rewrite : false
-};
+	enableModRewriteUrls:function(){
+		this.storage.modRewrite = true;
+	},
+	disableModRewriteUrls:function(){
+		this.storage.modRewrite = false;
+	},
+
+	hasModRewriteUrls:function(){
+		return this.storage.modRewrite === true;
+	},
+
+	setSocketUrl:function(url){
+		this.storage.socketUrl = url;
+	},
+	getSocketUrl:function(){
+		return this.storage.socketUrl;
+	},
+
+	setDocumentRoot:function(root){
+		this.storage.documentRoot = root;
+	},
+
+	getDocumentRoot:function(){
+		return this.storage.documentRoot;
+	}
+});
+
+ludo.config = new ludo._Config();
 /**
  * Base class for components and views in ludoJS. This class extends
  * Mootools Events class.
@@ -1429,6 +1457,7 @@ ludo.dataSource.JSON = new Class({
      * @optional
      */
     sendRequest:function(service, arguments, data){
+        this.arguments = arguments;
         this.requestHandler().send(service, arguments, data);
     },
 
@@ -9367,6 +9396,7 @@ ludo.remote.JSON = new Class({
      * @param {Object} config
      */
     initialize:function (config) {
+		config = config || {};
         if (config.listeners !== undefined) {
             this.addEvents(config.listeners);
         }
@@ -9379,9 +9409,9 @@ ludo.remote.JSON = new Class({
      Send request to the server
      @method send
      @param {String} service
-     @param {Array} arguments
+     @param {Array} resourceArguments
      @optional
-     @param {Object} data
+     @param {Object} serviceArguments
      @optional
      @example
 	 	LUDOJS_CONFIG.url = '/controller.php';
@@ -9398,7 +9428,7 @@ ludo.remote.JSON = new Class({
         }
      If you have the mod_rewrite module enabled and activated on your web server, you may use code like this:
      @example
-	 	LUDOJS_CONFIG.mod_rewrite = true;
+	 	ludo.config.hasModRewriteUrls() = true;
 	 	LUDOJS_CONFIG.url = '/';
         var req = new ludo.remote.JSON({
             resource : 'Person'
@@ -9441,12 +9471,12 @@ ludo.remote.JSON = new Class({
         }
      i.e. without any "request" data in the post variable since it's already defined in the url.
      */
-    send:function (service, arguments, data) {
-        if (!ludo.util.isArray(arguments))arguments = [arguments];
+    send:function (service, resourceArguments, serviceArguments) {
+        if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
         var req = new Request.JSON({
-            url:this.getUrl(service, arguments),
+            url:this.getUrl(service, resourceArguments),
             method:this.method,
-            data:this.getDataForRequest(service, arguments, data),
+            data:this.getDataForRequest(service, resourceArguments, serviceArguments),
             onSuccess:function (json) {
                 this.JSON = json;
                 if (json.success || json.success === undefined) {
@@ -9472,8 +9502,8 @@ ludo.remote.JSON = new Class({
      * @private
      */
     getUrl:function (service, arguments) {
-        var ret = this.url !== undefined ? this.url : LUDOJS_CONFIG.url;
-        if (LUDOJS_CONFIG.mod_rewrite) {
+        var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
+        if (ludo.config.hasModRewriteUrls()) {
             ret += this.getServicePath(service, arguments);
         }
         return ret;
@@ -9487,9 +9517,8 @@ ludo.remote.JSON = new Class({
      */
     getServicePath:function (service, arguments) {
         var parts = [this.resource];
-        if (arguments)parts.push(arguments.join('/'));
+        if (arguments && arguments.length)parts.push(arguments.join('/'));
         if (service)parts.push(service);
-
         return parts.join('/');
     },
     /**
@@ -9505,7 +9534,7 @@ ludo.remote.JSON = new Class({
         var ret = {
             data:data
         };
-        if (!LUDOJS_CONFIG.mod_rewrite && this.resource) {
+        if (!ludo.config.hasModRewriteUrls() && this.resource) {
             ret.request = this.getServicePath(service, arguments);
         }
         return ret;
@@ -13537,7 +13566,7 @@ ludo.grid.Grid = new Class({
 	 	grid.selectRecord({ id: 100 } );
 	 */
 	selectRecord:function (record) {
-		if (!record.id) {
+		if (ludo.util.isString(record)) {
 			record = { id:record };
 		}
 		this.getDataSource().selectRecord(record);
@@ -25249,6 +25278,7 @@ window.chess = {
         message:{},
         button : {},
         eco : {},
+        pgn:{},
         tree : {},
         position : {},
         installer : {},
@@ -25288,9 +25318,9 @@ chess.Views = {
         game:'gameList'
     }
 };
-window.chess.URL = '../';
-window.chess.ROOT = '../';
-window.chess.IMAGE_FOLDER = '../images/';
+
+ludo.config.setDocumentRoot('../');
+
 window.chess.COOKIE_NAME = 'chess_cookie';
 ludo_USER_CONFIG = {
     fileupload: {
@@ -26575,7 +26605,7 @@ chess.view.board.Piece = new Class({
      * @private
      */
     updateBackgroundImage:function () {
-        this.el.setStyle('background-image', 'url(' + chess.IMAGE_FOLDER + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
+        this.el.setStyle('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
     },
 
     /**
@@ -27984,9 +28014,9 @@ chess.view.gamelist.Grid = new Class({
 				sortable:true,
 				removable:true
 			},
-			lastMoves:{
+			last_moves:{
 				heading:'Last moves',
-				key:'lastMoves',
+				key:'last_moves',
 				weight:1,
 				sortable:true,
 				removable:true
@@ -28007,6 +28037,7 @@ chess.view.gamelist.Grid = new Class({
 		controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
 		controller.addEvent('nextGame', ds.next.bind(ds));
 		controller.addEvent('previousGame', ds.previous.bind(ds));
+        controller.addEvent('selectPgn', this.selectPgn.bind(this));
 	},
 
 	/**
@@ -28017,6 +28048,10 @@ chess.view.gamelist.Grid = new Class({
 	selectDatabase:function (record) {
 		this.loadGames(record.id);
 	},
+
+    selectPgn:function(pgn){
+        this.getDataSource().sendRequest('listOfGames', pgn);
+    },
 
 	ludoConfig:function (config) {
 		this.parent(config);
@@ -28050,8 +28085,8 @@ chess.view.gamelist.Grid = new Class({
 		 * @event selectGame
 		 * @param {Object} game
 		 */
-		if(record.id === undefined && record.gameIndex !== undefined){
-			this.fireEvent('selectGame', [record, this.getDataSource().arguments]);
+		if(record.gameIndex !== undefined){
+			this.fireEvent('selectGame', [record, this.getDataSource().getCurrentPgn()]);
 		}else{
 			this.fireEvent('selectGame', record);
 		}
@@ -28623,7 +28658,7 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        url:window.chess.URL,
+        url:ludo.config.getUrl(),
         name:'game-import'
     },
     width:400,
@@ -28840,7 +28875,7 @@ chess.view.folder.Tree = new Class({
 	dataSource:{
 		type:'chess.dataSource.FolderTree'
 	},
-	nodeTpl:'<img src="' + window.chess.ROOT + 'images/{icon}"><span>{title}</span>',
+	nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
 	expandDepth:3,
 
 	recordConfig:{
@@ -28904,7 +28939,6 @@ chess.view.eco.VariationTree = new Class({
 	submodule:'eco.VariationTree',
 	dataSource:{
 		request:'Eco/moves',
-		url:window.chess.URL,
 		autoload:false
 	},
 	openingCache:{},
@@ -28958,7 +28992,7 @@ chess.view.tree.SelectFolder = new Class({
     dataSource:{
         type : 'chess.dataSource.FolderTree'
     },
-    nodeTpl:'<img src="' + window.chess.ROOT + 'images/{icon}"><span>{title}</span>',
+    nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
     expandDepth:3,
     recordConfig:{
         'folder':{
@@ -29170,8 +29204,7 @@ chess.view.user.RegisterWindow = new Class({
     module:'user',
     submodule:'registerWindow',
     form:{
-        name:'register',
-        url:window.chess.URL
+        name:'register'
     },
     layout:{
         "type": "linear",
@@ -29309,8 +29342,7 @@ chess.view.user.LoginWindow = new Class({
     module:'user',
     submodule:'loginWindow',
     form:{
-        name : 'login',
-        url:window.chess.URL
+        name : 'login'
     },
     layout : {
         "type": "linear",
@@ -29378,7 +29410,7 @@ chess.view.user.SettingsButton = new Class({
     type:'chess.view.user.SettingsButton',
     module:'user',
     submodule:'settingsButton',
-    icon : window.chess.IMAGE_FOLDER + 'gear.png',
+    icon : ludo.config.getDocumentRoot() + '/images/gear.png',
     value:'',
     hidden:true,
     width:30,
@@ -29482,7 +29514,6 @@ chess.view.user.UserModel = new Class({
     Extends:ludo.model.Model,
     type : 'chess.view.user.UserModel',
     name : 'userprofile',
-    url : window.chess.URL,
     columns : ['token', 'username', 'full_name', 'email','country'],
     autoload:false,
     singleton:true
@@ -29500,7 +29531,6 @@ chess.view.user.Country = new Class({
     filterOnServer:false,
     dataSource:{
         singleton:true,
-        url:window.chess.URL,
         request : 'getAllCountries'
     }
 });
@@ -32722,7 +32752,10 @@ chess.controller.Controller = new Class({
                 view.addEvent('pause', this.pauseGame.bind(this));
                 view.addEvent('flip', this.flipBoard.bind(this));
                 break;
+            case 'list-of-pgn-files':
 
+                view.addEvent('selectPgn', this.selectPgn.bind(this));
+                break;
             case 'gameList':
                 view.addEvent('selectGame', this.selectGame.bind(this));
                 break;
@@ -32996,6 +33029,10 @@ chess.controller.Controller = new Class({
         } else {
             this.currentModel = this.getNewModel(game, pgn);
         }
+    },
+
+    selectPgn:function(pgn){
+        this.fireEvent('selectPgn', pgn);
     },
 
     getModelFromCache:function (game) {
@@ -33367,8 +33404,8 @@ chess.model.Game = new Class({
      * @param {Object} game
      */
     isModelFor:function(game){
+        if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         if(game.id)return game.id === this.model.id;
-		if(game.gameIndex)return game.gameIndex === this.model.gameIndex;
         return false;
     },
 
@@ -34865,7 +34902,6 @@ chess.model.Game = new Class({
 
 chess.remote.Reader = new Class({
     Extends:Events,
-    url : window.chess.URL,
     params : {
 
     },
@@ -34874,7 +34910,7 @@ chess.remote.Reader = new Class({
 
     query : function(config) {
 		this.resource = config.resource;
-        this.onLoadEvent = config.event || 'load';
+        this.onLoadEvent = config.eventOnLoad || 'load';
 		this.remoteHandler().send(config.service, config.arguments, config.data);
     },
 	_remoteHandler:undefined,
@@ -34882,7 +34918,6 @@ chess.remote.Reader = new Class({
 	remoteHandler:function(){
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
-				url:window.chess.URL,
 				resource : this.resource,
 				listeners:{
 					"success": function(request){
@@ -34916,11 +34951,9 @@ chess.remote.GameReader = new Class({
 		this.query({
 			"resource": "Game",
 			"service": "read",
-			"event": "load",
+			"eventOnLoad": "load",
 			"arguments": id
 		});
-
-       // this.query('Game', 'getGame');
     },
 
 	loadStaticGame:function(pgn, index){
@@ -34928,18 +34961,17 @@ chess.remote.GameReader = new Class({
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
-			"event": "load",
+			"eventOnLoad": "load",
 			"arguments": pgn,
-			"data" : { "index" : index }
+			"data" : index
 		});
 	},
 
     save:function(game){
-
 		this.query({
 			"resource": "Game",
 			"service": "save",
-			"event": "saved",
+			"eventOnLoad": "saved",
 			"arguments": id,
 			"data": game
 		});
@@ -34971,8 +35003,8 @@ chess.dataSource.FolderTree = new Class({
     Extends: ludo.dataSource.JSON,
     type : 'chess.dataSource.FolderTree',
     singleton: true,
-    url:window.chess.URL,
     resource : 'Folders',
+    service : 'read',
     autoload:true,
 
 	ludoConfig:function(config){
@@ -34992,8 +35024,7 @@ chess.dataSource.GameList = new Class({
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
-	resource:'Database',
-    url:window.chess.URL
+	resource:'Database'
 });
 /**
  Model to PGN parser. Takes a

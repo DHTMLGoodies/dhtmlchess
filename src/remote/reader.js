@@ -1,6 +1,5 @@
 chess.remote.Reader = new Class({
     Extends:Events,
-    url : window.chess.URL,
     params : {
 
     },
@@ -17,7 +16,6 @@ chess.remote.Reader = new Class({
 	remoteHandler:function(){
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
-				url:window.chess.URL,
 				resource : this.resource,
 				listeners:{
 					"success": function(request){

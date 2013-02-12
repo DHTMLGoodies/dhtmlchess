@@ -15,8 +15,7 @@ chess.view.user.RegisterWindow = new Class({
     module:'user',
     submodule:'registerWindow',
     form:{
-        name:'register',
-        url:window.chess.URL
+        name:'register'
     },
     layout:{
         "type": "linear",

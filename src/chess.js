@@ -57,27 +57,9 @@ chess.Views = {
         game:'gameList'
     }
 };
-window.chess.URL = '../router.php';
-window.chess.ROOT = '../';
-window.chess.IMAGE_FOLDER = '../images/';
-window.chess.COOKIE_NAME = 'chess_cookie';
-ludo_USER_CONFIG = {
-    fileupload: {
-        url : window.chess.URL
-    },
-    remote:{
-        url : window.chess.URL
-    },
-    model : {
-        save : {
-            url : window.chess.URL
-        },
-        load : {
-            url : window.chess.URL
-        }
-    }
-};
 
+ludo.config.setDocumentRoot('../');
+window.chess.COOKIE_NAME = 'chess_cookie';
 
 window.chess.events = {
     game:{
