@@ -16,7 +16,7 @@ Open
 ##Development branch
 For access to development branch, type:
 
-    git clone --recurse-submodules https://github.com/DHTMLGoodies/dhtmlchess.git dhtml-chess
+    git clone -b develop --recurse-submodules https://github.com/DHTMLGoodies/dhtmlchess.git dhtml-chess
 
 Open
     http://<server name>/dhtml-chess/demo/pgn-games.html
