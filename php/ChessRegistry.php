@@ -65,4 +65,8 @@ class ChessRegistry
     public static function getDefaultFen(){
         return 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
     }
+
+    public static function getCookieName(){
+        return 'dhtml_chess_session_cookie';
+    }
 }
