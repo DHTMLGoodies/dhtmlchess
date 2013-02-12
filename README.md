@@ -12,6 +12,17 @@ copy the dhtml-chess folder to your web server.
 Open
     http://<server name>/dhtml-chess/demo/analysis-board.html
 
+
+##Development branch
+For access to development branch, type:
+
+    git clone --recurse-submodules https://github.com/DHTMLGoodies/dhtmlchess.git dhtml-chess
+
+Open
+    http://<server name>/dhtml-chess/demo/pgn-games.html
+
+To see games from static pgn files(No db installation is required).
+
 ##Status
 
 DHTML Chess contains a Javascript module and a PHP backend module. We're currently
