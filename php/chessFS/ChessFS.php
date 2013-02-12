@@ -169,8 +169,12 @@ class ChessFS implements LudoDBService
         return array("listOfGames", "getGame");
     }
 
-    public function validateService($service, $arguments)
+    public function validateArguments($service, $arguments)
     {
+        return true;
+    }
+
+    public function validateServiceData($service, $data){
         return true;
     }
 

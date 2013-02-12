@@ -44,12 +44,17 @@ class ChessFSPgn implements LudoDBService
     public function getValidServices(){
         return array('read');
     }
-    public function validateService($service, $arguments){
+    public function validateArguments($service, $arguments){
         if(count($arguments) > 0){
             throw new LudoDBException("No arguments accepted by ChessFSPgn, given: ". implode(",", $arguments));
         }
         return count($arguments) === 0;
     }
+
+    public function validateServiceData($service, $data){
+        return true;
+    }
+
 
     public function cacheEnabled(){
         return false;
