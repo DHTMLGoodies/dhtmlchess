@@ -10,6 +10,10 @@ chess.view.user.ProfileWindow = new Class({
     type:'chess.view.user.ProfileWindow',
     left:50, top:50,
     width:500, height:250,
+    layout:{
+        type:'linear',
+        orientation:'vertical'
+    },
     title:chess.language.myProfile,
     hidden:true,
     module:'user',
@@ -34,10 +38,10 @@ chess.view.user.ProfileWindow = new Class({
             type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.language.country, required:false, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeatpassword', label:chess.language.password, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, stretchField:true
         },
         {
-            type:'form.Password', name:'repeatpassword', minLength:5, md5:true, label:chess.language.repeatPassword, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, stretchField:true
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }

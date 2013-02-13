@@ -19,5 +19,10 @@ chess.view.user.LoginButton = new Class({
         this.parent(controller);
         controller.addEvent('invalidSession', this.show.bind(this));
         controller.addEvent('validSession', this.hide.bind(this));
+    },
+
+    show:function(){
+        this.parent();
+
     }
 });

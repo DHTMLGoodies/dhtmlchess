@@ -67,6 +67,6 @@ class ChessRegistry
     }
 
     public static function getCookieName(){
-        return 'dhtml_chess_session_cookie';
+        return 'chess_cookie';
     }
 }

@@ -39,8 +39,8 @@ chess.view.user.Panel = new Class({
         this.controller.addEvent('validSession', this.getUserDetails.bind(this));
     },
 
-    getUserDetails:function(token){
-        this.getModel().load(token);
+    getUserDetails:function(userId){
+        this.getModel().load(userId);
         this.show();
     },
 

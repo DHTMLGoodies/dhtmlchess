@@ -15,15 +15,16 @@ chess.view.user.LoginWindow = new Class({
     module:'user',
     submodule:'loginWindow',
     form:{
-        name : 'login'
+        resource:'Session',
+        service:"signIn"
     },
-    layout : {
-        "type": "linear",
-        "orientation": "vertical"
+    layout:{
+        "type":"linear",
+        "orientation":"vertical"
     },
     children:[
         {
-            type:'form.Text', name:'username', regex : '[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
         },
         {
             type:'form.Password', name:'password', md5:true, label:chess.language.password, required:true, stretchField:true
@@ -32,7 +33,7 @@ chess.view.user.LoginWindow = new Class({
             type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
         },
         {
-            hidden:true, name:'errorMessage', css: { color : 'red', 'padding-left' : 10, height:30 }
+            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
         }
     ],
 
@@ -45,25 +46,25 @@ chess.view.user.LoginWindow = new Class({
         }
     ],
 
-    ludoEvents:function(){
+    ludoEvents:function () {
         this.parent();
         this.getFormManager().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
         this.getFormManager().addEvent('success', this.validLogin.bind(this));
         this.getFormManager().addEvent('success', this.reset.bind(this));
         this.getFormManager().addEvent('failure', this.invalidLogin.bind(this));
     },
-    addControllerEvents:function(){
+    addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
-    validLogin:function(json){
+    validLogin:function (json) {
         this.fireEvent('loginSuccess', [ json.data, this.child['rememberMe'].isChecked()]);
         this.hide();
     },
 
-    hideErrorMessage:function(){
+    hideErrorMessage:function () {
         this.child['errorMessage'].hide();
     },
-    invalidLogin:function(){
+    invalidLogin:function () {
         this.child['errorMessage'].show();
         this.child['errorMessage'].setHtml(chess.language.invalidUserNameOrPassword)
     }

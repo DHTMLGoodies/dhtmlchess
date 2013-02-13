@@ -15,7 +15,8 @@ chess.view.user.RegisterWindow = new Class({
     module:'user',
     submodule:'registerWindow',
     form:{
-        name:'register'
+        resource:'Player',
+        service:'register'
     },
     layout:{
         "type": "linear",
@@ -32,10 +33,10 @@ chess.view.user.RegisterWindow = new Class({
             type:'form.Email', name:'email', label:chess.language.email, required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeatpassword', label:chess.language.password, required:true, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'repeatpassword', minLength:5, md5:true, label:chess.language.repeatPassword, required:true, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, required:true, stretchField:true
         },
         {
             type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
