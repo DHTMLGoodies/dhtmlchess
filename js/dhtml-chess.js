@@ -566,6 +566,14 @@ ludo.ObjectFactory = new Class({
 	}
 });
 ludo.factory = new ludo.ObjectFactory();
+/**
+ Class for config properties of a ludoJS application. You have access to an instance of this class
+ via ludo.config.
+ @class _Config
+ @private
+ @example
+    ludo.config.setUrl('../router.php'); // to set global url
+ */
 ludo._Config = new Class({
 	storage:undefined,
 
@@ -573,13 +581,17 @@ ludo._Config = new Class({
 		this.setDefaultValues();
 	},
 
+    /**
+     * Reset all config properties back to default values
+     * @method reset
+     */
 	reset:function(){
 		this.setDefaultValues();
 	},
 
 	setDefaultValues:function () {
 		this.storage = {
-			url:'/router.php',
+			url:'/controller.php',
 			documentRoot:'/',
 			socketUrl:'http://your-node-js-server-url:8080/',
 			modRewrite:false,
@@ -587,42 +599,89 @@ ludo._Config = new Class({
 		};
 	},
 
+    /**
+     Set global url. This url will be used for requests to server if no url is explicit set by
+     a component.
+     @method config
+     @param {String} url
+     @example
+        ludo.config.setUrl('../controller.php');
+     */
 	setUrl:function (url) {
 		this.storage.url = url;
 	},
-
+    /**
+     * Return global url
+     * @method getUrl
+     * @return {String}
+     * */
 	getUrl:function () {
 		return this.storage.url;
 	},
-
+    /**
+     * Enable url in format <url>/resource/arg1/arg2/service
+     * @method enableModrewriteUrls
+     */
 	enableModRewriteUrls:function () {
 		this.storage.modRewrite = true;
 	},
+    /**
+     * Disable url's for mod rewrite enabled web servers.
+     * @method disableModRewriteUrls
+     */
 	disableModRewriteUrls:function () {
 		this.storage.modRewrite = false;
 	},
-
+    /**
+     * Returns true when url's for mod rewrite has been enabled
+     * @return {Boolean}
+     */
 	hasModRewriteUrls:function () {
 		return this.storage.modRewrite === true;
 	},
-
+    /**
+     * Set default socket url(node.js).
+     * @method setSocketUrl
+     * @param url
+     */
 	setSocketUrl:function (url) {
 		this.storage.socketUrl = url;
 	},
+    /**
+     * Return default socket url
+     * @method getSocketUrl
+     * @return {String}
+     */
 	getSocketUrl:function () {
 		return this.storage.socketUrl;
 	},
-
+    /**
+     * Set document root path
+     * @method setDocumentRoot
+     * @param {String} root
+     */
 	setDocumentRoot:function (root) {
 		this.storage.documentRoot = root;
 	},
-
+    /**
+     * @method getDocumentRoot
+     * @return {String}
+     */
 	getDocumentRoot:function () {
 		return this.storage.documentRoot;
 	},
+    /**
+     * Set default upload url for form.File components.
+     * @method setFileUploadUrl
+     * @param {String} url
+     */
 	setFileUploadUrl:function (url) {
 		this.storage.fileUploadUrl = url;
 	},
+    /**
+     * @method getFileUploadUrl
+     * @return {String}
+     */
 	getFileUploadUrl:function(){
 		return this.storage.fileUploadUrl;
 	}
@@ -3552,6 +3611,12 @@ ludo.util = {
 			console.log(what);
 		}
 	},
+
+    warn:function(what){
+        if(window['console']){
+            console.warn(what);
+        }
+    },
 
 	getNewZIndex:function (view) {
 		var ret = ludo.CmpMgr.getNewZIndex();
@@ -9452,12 +9517,12 @@ ludo.remote.JSON = new Class({
         }
      i.e. without any "request" data in the post variable since it's already defined in the url.
      */
-    send:function (service, resourceArguments, serviceArguments) {
+    send:function (service, resourceArguments, serviceArguments, additionalData) {
         if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
         var req = new Request.JSON({
             url:this.getUrl(service, resourceArguments),
             method:this.method,
-            data:this.getDataForRequest(service, resourceArguments, serviceArguments),
+            data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
             onSuccess:function (json) {
                 this.JSON = json;
                 if (json.success || json.success === undefined) {
@@ -9508,13 +9573,20 @@ ludo.remote.JSON = new Class({
      * @param {Array} arguments
      * @param {Object} data
      * @optional
+     * @param {Object} additionalData
+     * @optional
      * @return {Object}
      * @private
      */
-    getDataForRequest:function (service, arguments, data) {
+    getDataForRequest:function (service, arguments, data, additionalData) {
         var ret = {
             data:data
         };
+        if(additionalData){
+            if(ludo.util.isObject(additionalData)){
+                ret = Object.merge(additionalData, ret);
+            }
+        }
         if (!ludo.config.hasModRewriteUrls() && this.resource) {
             ret.request = this.getServicePath(service, arguments);
         }
@@ -9526,7 +9598,7 @@ ludo.remote.JSON = new Class({
      * @return {Object|undefined}
      */
     getResponseData:function () {
-        return this.JSON.response ? this.JSON.response.data : this.JSON.data;
+        return this.JSON.response ? this.JSON.response : this.JSON.data;
     },
     /**
      * Return entire server response of last request.
@@ -19320,6 +19392,7 @@ ludo.model.Model = new Class({
 		if (config.columns !== undefined)this.columns = config.columns;
 		if (config.recordId !== undefined)this.recordId = config.recordId;
 		if (config.id !== undefined)this.id = config.id;
+		if (config.url !== undefined)this.url = config.url;
 		ludo.CmpMgr.registerComponent(this);
 
 		this._validateColumns();
@@ -19332,8 +19405,8 @@ ludo.model.Model = new Class({
 		if (this.listeners) {
 			this.addEvents(this.listeners);
 		}
-		if (config.id || config.autoLoad) {
-			this.load(config.id);
+		if (config.recordId || config.autoLoad) {
+			this.load(config.recordId);
 		}
 	},
 
@@ -19417,16 +19490,13 @@ ludo.model.Model = new Class({
 	},
 	/**
 	 Load remote record from server
-	 Query sent looks like this: { getModelRecord:1, recordId:recordId, modelName:this.name }
-	 Response should be in this format:
-	 { success: true|false, message : "on error message", data : { id:100,firstname:'John',...} }
 	 @method load
 	 @param {String} recordId
 
 	 Example of query:
 	 @example
 	 request:{
-	 		"request": "model/100/read"
+	 		"request": "Person/100/read"
 	 	}
 	 Example of expected response
 	 @example
@@ -19449,11 +19519,11 @@ ludo.model.Model = new Class({
 
 	 */
 	load:function (recordId) {
-		if (!this.recordId || (!this.url && !LUDOJS_CONFIG.url)) {
+		if (!recordId || (!this.url && !ludo.config.getUrl())) {
 			return;
 		}
-
-		this.loadRequest().send("load", recordId);
+        this.recordId = recordId;
+		this.loadRequest().send("read", recordId);
 	},
 
     _loadRequest:undefined,
@@ -19461,11 +19531,26 @@ ludo.model.Model = new Class({
         if(this._loadRequest === undefined){
             this._loadRequest = new  ludo.remote.JSON({
                 url:this.url,
+                resource:this.name,
                 listeners:{
                     "success":function (request) {
-                        this.populate(recordId, request.getResponseData());
+                        this.populate(this.recordId, request.getResponseData());
+                        /**
+                         * success parameter in response from server returned false
+                         * @event record loaded
+                         * @param {Object} JSON from server
+                         * @param {Object} ludo.model
+                         */
+                        this.fireEvent('loaded', [request.getResponse(), this]);
                     }.bind(this),
                     "failure":function (request) {
+                        /**
+                         * success parameter in response from server returned false
+                         * @event loadfail
+                         * @param {Object} JSON from server
+                         * @param {Object} ludo.model
+                         */
+                        this.fireEvent('loadFailed', [request.getResponse(), this]);
                         /**
                          * success parameter in response from server returned false
                          * @event loadfail
@@ -19543,7 +19628,7 @@ ludo.model.Model = new Class({
 	hasColumn:function (key) {
 		return this.columnKeys.indexOf(key) >= 0;
 	},
-
+    // TODO save new model - update this.recordId
 	/**
 	 example: { freeText : 'Notes' }
 	 @method save
@@ -19568,24 +19653,11 @@ ludo.model.Model = new Class({
 
 	 "message" is used for eventual error messages.
 	 "code" is optional and may be used for internal error handling.
-	 "response" is an array of updated model values. In most cases, this would be empty or undefined. Here's a use case of when
-	 it might be useful:
-
-	 - You have a View with one file upload element named "image_file"
-	 - In that component, you also have a component used for preview of existing image file
-	 i.e. children :
-	 @example
-	 	[{ type: 'form.File', label : 'New image', name : 'image_file' }, { tpl : '&lt;img src="{preview}">' }]
-	 - On click on Submit, you send the newly uploaded image file to the server and use some Image Conversion software(example: ImageMagick)
-	 to generate a new "preview".
-	 - Now, you want to update the view with this new preview, so you send it back in the "updates" array:
-	 @example
-	 	"response" : [{ preview : 'images/new-file.jpg' }]
-
+	 "response" is an array of updated model values.
 	 */
 	save:function (formData) {
 		formData = formData || {};
-		var data = {};
+		var data = Object.merge(this.currentRecord);
 		for (var key in formData) {
 			if (formData.hasOwnProperty(key) && !this.hasColumn(key)) {
 				data[key] = formData[key];
@@ -19593,13 +19665,15 @@ ludo.model.Model = new Class({
 		}
 
 		this.fireEvent('beforesubmit', this);
-        this.request().send("save", this.recordId, data);
+        this.saveRequest().send("save", this.recordId, data, {
+            progressBarId:this.getProgressBarId()
+        });
 
 	},
-    _request:undefined,
-    request:function(){
-        if(this._request === undefined){
-            this._request = new ludo.remote.JSON({
+    _saveRequest:undefined,
+    saveRequest:function(){
+        if(this._saveRequest === undefined){
+            this._saveRequest = new ludo.remote.JSON({
                 url:this.url,
                 resource:this.name,
                 listeners:{
@@ -19615,9 +19689,24 @@ ludo.model.Model = new Class({
                          * @param {Object} ludo.model.Model
                          */
                         this.fireEvent('success', [request.getResponse(), this]);
+                        /**
+                         * Event fired after model has been saved
+                         * @event saved
+                         * @param {Object} JSON response from server
+                         * @param {Object} ludo.model.Model
+                         */
+                        this.fireEvent('saved', [request.getResponse(), this]);
                         this.commitFormFields();
                     }.bind(this),
                     "failure":function (request) {
+                        /**
+                         * Event fired when success parameter in response from server after saving model was false.
+                         * @event model saveFailed
+                         * @param {Object} JSON response from server. Error message should be in the "message" property
+                         * @param {Object} ludo.model.Model
+                         *
+                         */
+                        this.fireEvent('saveFailed', [request.getResponse(), this]);
                         /**
                          * Event fired when success parameter in response from server is false
                          * @event failure
@@ -19639,21 +19728,8 @@ ludo.model.Model = new Class({
                 }
             });
         }
-        return this._request;
+        return this._saveRequest;
     },
-
-	getSubmitData:function (data) {
-		return {
-			id:'saveModelRecord',
-			progressBarId:this.getProgressBarId(),
-			data:{
-				recordId:this.recordId,
-				modelName:this.name,
-				record:this.currentRecord,
-				formData:data
-			}
-		};
-	},
 
 	getProgressBarId:function () {
 		if (this.progressBar) {
@@ -20198,6 +20274,7 @@ ludo.form.Manager = new Class({
     _request:undefined,
     requestHandler:function(){
         if(this._request === undefined){
+            if(!this.form.name)ludo.util.warn("Warning: form does not have any name. Falling back to default name 'Form'");
             this._request = new ludo.remote.JSON({
                 url:this.url,
                 resource : this.form.name ? this.form.name : 'Form',
@@ -25240,6 +25317,7 @@ window.chess = {
     },
 	pgn:{},
     view:{
+        seek:{},
         board:{ },
         highlight:{},
         notation:{},
