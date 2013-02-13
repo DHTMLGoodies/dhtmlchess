@@ -5,6 +5,7 @@ window.chess = {
     },
 	pgn:{},
     view:{
+        seek:{},
         board:{ },
         highlight:{},
         notation:{},
