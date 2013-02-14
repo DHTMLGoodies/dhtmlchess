@@ -28011,6 +28011,7 @@ chess.view.notation.Panel = new Class({
  * @namespace seek
  * @class View
  */
+chess.seek = {};
 chess.seek.View = new Class({
     Extends:ludo.View,
     model:{
@@ -28021,6 +28022,8 @@ chess.seek.View = new Class({
         type:'linear',
         orientation:'vertical',
         validator:function(values){
+
+
             return values['from_elo'] < values['to_elo'];
         }
     },

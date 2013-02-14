@@ -17,6 +17,7 @@
     <script type="text/javascript" src="../src/model/game.js"></script>
     <script type="text/javascript" src="../src/view/metadata/game.js"></script>
     <script type="text/javascript" src="../src/view/user/register-window.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
     <script type="text/javascript" src="../src/view/user/register-window.js"></script>
     <script type="text/javascript" src="../src/view/user/controller.js"></script>
     <script type="text/javascript" src="../src/view/user/login-button.js"></script>
@@ -24,9 +25,18 @@
     <script type="text/javascript" src="../src/view/user/profile-window.js"></script>
     <script type="text/javascript" src="../src/view/user/register-button.js"></script>
     <script type="text/javascript" src="../src/view/user/user-model.js"></script>
+    <script type="text/javascript" src="../src/view/user/panel.js"></script>
+
+    <script type="text/javascript" src="../src/view/position/pieces.js"></script>
+    <script type="text/javascript" src="../src/view/position/board.js"></script>
+    <script type="text/javascript" src="../src/view/position/dialog.js"></script>
+    <script type="text/javascript" src="../src/view/position/side-to-move.js"></script>
+
+
     <script type="text/javascript" src="../../ludojs/src/form/button.js"></script>
     <script type="text/javascript" src="../src/view/user/settings-button.js"></script>
     <script type="text/javascript" src="../../ludojs/src/model/model.js"></script>
+
 
     <link rel="stylesheet" href="../css/buttonbar/blue.css" type="text/css">
     <link rel="stylesheet" href="../css/chess.css" type="text/css">
@@ -58,6 +68,7 @@
 <body>
 <script type="text/javascript">
 ludo.config.setUrl('../router.php');
+ludo.config.setDocumentRoot('../');
 ludo.config.disableModRewriteUrls();
 
 var d = new Date();

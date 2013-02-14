@@ -3,7 +3,7 @@
  * @namespace seek
  * @class View
  */
-chess.seek.View = new Class({
+chess.view.seek.View = new Class({
     Extends:ludo.View,
     model:{
         name:'Seek',

@@ -128,7 +128,7 @@ chess.view.position.Piece = new Class({
     selectPiece:function (e) {
         var obj = {
             color:this.pieceColor,
-            type:e.target.getProperty('pieceType')
+            pieceType:e.target.getProperty('pieceType')
         };
         this.fireEvent('selectpiece', obj);
     },

@@ -223,12 +223,12 @@ chess.view.position.Dialog = new Class({
     selectPiece:function (obj) {
         this.pieces.white.clearSelections();
         this.pieces.black.clearSelections();
-        if (this.selectedPiece && this.selectedPiece.type == obj.type && this.selectedPiece.color == obj.color) {
+        if (this.selectedPiece && this.selectedPiece.pieceType == obj.pieceType && this.selectedPiece.color == obj.color) {
             this.selectedPiece = undefined;
             this.board.deleteSelectedPiece();
         } else {
             this.selectedPiece = obj;
-            this.pieces[obj.color].addSelection(obj.type);
+            this.pieces[obj.color].addSelection(obj.pieceType);
             this.board.setSelectedPiece(obj);
         }
 
