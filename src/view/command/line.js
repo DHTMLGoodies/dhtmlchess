@@ -36,6 +36,10 @@ chess.view.command.Line = new Class({
      * @private
      */
 	send:function(){
+        /**
+         * @event sendMessage
+         * @param {String} value of command line input
+         */
 		this.fireEvent('sendMessage', this.getValue());
 	}
 });
