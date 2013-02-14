@@ -1,0 +1,414 @@
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.1"]
+[White "Karjakin, Sergey"]
+[Black "Harikrishna, Pentala"]
+[Result "1/2-1/2"]
+[ECO "C67"]
+[PlyCount "79"]
+[EventDate "2013.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. d4 Nd6 6. Bxc6 dxc6 7. dxe5 Nf5
+8. Qxd8+ Kxd8 9. h3 Bd7 10. Nc3 b6 11. g4 Ne7 12. Ng5 Ke8 13. f4 f6 14. exf6
+gxf6 15. Nge4 Kf7 16. f5 h5 17. g5 Nxf5 18. Nxf6 Be6 19. Ne2 Bg7 20. Ne4 Rhf8
+21. N4g3 Kg8 22. Nxh5 Bc4 23. Nxg7 Kxg7 24. Rf2 Rae8 25. Nf4 Re1+ 26. Kh2 Bd5
+27. Nxd5 cxd5 28. b3 Kg6 29. Bb2 Rxa1 30. Bxa1 Kxg5 31. Be5 c6 32. Rg2+ Kh6 33.
+Re2 Kg6 34. c3 Re8 35. Kg1 Re7 36. Kf2 Rf7 37. Ke1 Rh7 38. Bb8 Kf6 39. Kd2 Rxh3
+40. Bxa7 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.2"]
+[White "Wang, Hao"]
+[Black "Caruana, Fabiano"]
+[Result "1/2-1/2"]
+[ECO "D11"]
+[PlyCount "114"]
+[EventDate "2013.??.??"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. e3 Bg4 5. h3 Bh5 6. cxd5 cxd5 7. Nc3 Bxf3 8.
+Qxf3 e6 9. Bd2 Nc6 10. Bd3 Bd6 11. O-O O-O 12. Rac1 Qe7 13. a3 Rac8 14. Rc2 a6
+15. Rfc1 Rcd8 16. Qd1 e5 17. Ne2 e4 18. Bxa6 Na7 19. Ng3 Bxg3 20. fxg3 bxa6 21.
+Rc7 Rd7 22. Bb4 Rxc7 23. Bxe7 Rxe7 24. Qb3 Rc8 25. Rxc8+ Nxc8 26. Qb8 Re8 27.
+a4 Kf8 28. g4 Ke7 29. Qb7+ Ke6 30. Qxa6+ Nd6 31. b4 Nd7 32. b5 Rb8 33. Kf2 h6
+34. Ke2 Nb6 35. a5 Na4 36. b6 Nc3+ 37. Kd2 Ncb5 38. Kc2 Kd7 39. Kb3 Rc8 40. Kb2
+g6 41. g3 Rb8 42. Kb3 Re8 43. h4 f6 44. g5 fxg5 45. hxg5 hxg5 46. Kb4 Rc8 47.
+b7 Rb8 48. Kc5 Ke7 49. Qc6 Nxb7+ 50. Kxb5 Nd8+ 51. Qb6 Rxb6+ 52. Kxb6 Kd6 53.
+a6 Ne6 54. a7 Nc7 55. g4 Na8+ 56. Kb7 Kd7 57. Kxa8 Kc8 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.3"]
+[White "Leko, Peter"]
+[Black "Anand, Viswanathan"]
+[Result "1/2-1/2"]
+[ECO "B90"]
+[PlyCount "49"]
+[EventDate "2013.??.??"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 Ng4 7. Bc1 Nf6 8. f3
+e5 9. Nb3 Be6 10. Be3 Be7 11. Qd2 O-O 12. O-O-O Nbd7 13. g4 b5 14. Rg1 Nb6 15.
+Na5 Rc8 16. g5 Nh5 17. Kb1 Nf4 18. a3 Qc7 19. Bxf4 exf4 20. Nd5 Bxd5 21. exd5
+Qc5 22. Rg4 Rfe8 23. h4 Bf8 24. Rxf4 Nxd5 25. Nb3 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.4"]
+[White "Hou, Yifan"]
+[Black "Carlsen, Magnus"]
+[Result "0-1"]
+[ECO "C44"]
+[PlyCount "132"]
+[EventDate "2013.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. c3 Nf6 4. d4 exd4 5. e5 Nd5 6. Bc4 Nb6 7. Bb3 d5 8. cxd4
+Bg4 9. Be3 f6 10. O-O Qd7 11. h3 Bh5 12. e6 Qd6 13. Nc3 O-O-O 14. a4 a5 15. Nb5
+Qxe6 16. Bf4 Rd7 17. Re1 Qf7 18. Rc1 Bb4 19. Re3 g5 20. Bh2 Nc4 21. Bxc4 dxc4
+22. Qc2 Bxf3 23. Rxf3 Nxd4 24. Nxd4 Rxd4 25. Be5 Rd2 26. Qf5+ Qd7 27. Qxf6 Re8
+28. Bg3 Rd4 29. Rf1 g4 30. hxg4 Rxg4 31. Rf4 h5 32. Rxg4 hxg4 33. Rc1 c3 34.
+bxc3 Bc5 35. Qg5 b6 36. c4 Re4 37. Qg6 Re2 38. Kf1 Qd2 39. Qxg4+ Kb8 40. Qxe2
+Qxc1+ 41. Qe1 Qxc4+ 42. Qe2 Qxa4 43. Be5 Bd4 44. Bxd4 Qxd4 45. g4 Qd5 46. Qe8+
+Kb7 47. Qa4 b5 48. Qxa5 Qd1+ 49. Qe1 Qxg4 50. Qe5 Qc4+ 51. Kg2 Qc6+ 52. Kf1 b4
+53. f4 b3 54. f5 Ka6 55. Qa1+ Kb6 56. Qh8 Qc1+ 57. Kg2 Qc2+ 58. Kh1 b2 59. Qb8+
+Ka5 60. Qa7+ Kb4 61. Qb7+ Ka3 62. Qf3+ Qb3 63. Qa8+ Qa4 64. Qf3+ Ka2 65. Qd5+
+Ka1 66. Qe5 c5 0-1
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.5"]
+[White "Sokolov, Ivan"]
+[Black "van Wely, Loek"]
+[Result "0-1"]
+[ECO "E46"]
+[PlyCount "78"]
+[EventDate "2013.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. e3 O-O 5. Nge2 d5 6. a3 Be7 7. cxd5 exd5 8. h3
+a5 9. g4 c6 10. Bg2 Na6 11. b3 Nc7 12. Ra2 Nfe8 13. O-O f5 14. Ng3 Nd6 15. f3
+Bh4 16. Nh5 Ne6 17. Ne2 Qe8 18. a4 g6 19. Ba3 Qe7 20. Nhg3 Ng5 21. Qc1 Bd7 22.
+gxf5 gxf5 23. Nh5 Kh8 24. Nef4 Be8 25. Kh2 Rg8 26. e4 Bxh5 27. Nxh5 Ne6 28.
+exd5 cxd5 29. Re2 Qd7 30. Qe3 Ng7 31. Nf4 Nf7 32. Qc3 Rgc8 33. Qd2 Bg5 34. h4
+Bxh4 35. Bh3 Bg5 36. Rg1 Qc7 37. Rxg5 Nxg5 38. Kg2 Qc6 39. Nd3 Qh6 0-1
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.6"]
+[White "L'Ami, Erwin"]
+[Black "Aronian, Levon"]
+[Result "1/2-1/2"]
+[ECO "A35"]
+[PlyCount "131"]
+[EventDate "2013.??.??"]
+
+1. Nf3 Nf6 2. c4 c5 3. Nc3 Nc6 4. g3 d6 5. d4 cxd4 6. Nxd4 Bd7 7. Bg2 g6 8. O-O
+Bg7 9. e3 h5 10. b3 h4 11. Bb2 Qc8 12. Nxc6 Bxc6 13. Nd5 hxg3 14. hxg3 Bxd5 15.
+cxd5 Kf8 16. Rc1 Qd7 17. Rc4 Rc8 18. Qc2 Rxc4 19. Qxc4 Ng4 20. Bxg7+ Kxg7 21.
+Qd4+ Nf6 22. Qxa7 Rc8 23. a4 Rc2 24. Qd4 Kg8 25. Bf3 Qf5 26. Kg2 g5 27. e4 Qe5
+28. Qxe5 dxe5 29. Re1 Kf8 30. Re3 Ke8 31. Bd1 Rd2 32. Be2 Kd7 33. a5 Kd6 34. a6
+bxa6 35. Bxa6 Rd4 36. f3 g4 37. Bd3 Kc5 38. Kf2 Kb4 39. f4 exf4 40. gxf4 Kxb3
+41. Kg3 Kb4 42. e5 Nxd5 43. Re4 Kc3 44. Rxd4 Kxd4 45. Bb1 Ne3 46. Ba2 e6 47.
+Bb1 Kc3 48. Be4 Kd2 49. Bc6 Kd3 50. Bb7 Kc4 51. Ba8 Kc5 52. Bb7 Kb6 53. Be4 Kc7
+54. Bd3 Kc6 55. Be4+ Kc5 56. Bb7 Kc4 57. Ba8 Kd4 58. Bc6 Kd3 59. Bb7 Ke2 60.
+Bc6 Kd2 61. Be8 Kd3 62. Bxf7 Nf5+ 63. Kxg4 Nh6+ 64. Kg5 Nxf7+ 65. Kf6 Nd8 66.
+f5 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.7"]
+[White "Nakamura, Hikaru"]
+[Black "Giri, Anish"]
+[Result "1/2-1/2"]
+[ECO "B40"]
+[PlyCount "84"]
+[EventDate "2013.??.??"]
+
+1. e4 c5 2. Nf3 e6 3. b3 a6 4. c4 d6 5. d4 cxd4 6. Qxd4 Nf6 7. Nc3 Be7 8. Be2
+O-O 9. O-O Qc7 10. Rd1 Rd8 11. Ba3 Nc6 12. Qe3 Ng4 13. Qd2 b5 14. cxb5 axb5 15.
+Bb2 b4 16. Na4 Bd7 17. Nd4 Nce5 18. Qxb4 Rdb8 19. Qc3 Qb7 20. Bxg4 Nxg4 21. Qg3
+Qxe4 22. Nc3 Qg6 23. a4 d5 24. Ba3 Bf6 25. h3 Ne5 26. Qxg6 Nxg6 27. Rab1 e5 28.
+Nde2 d4 29. Ne4 Bd8 30. N2g3 f6 31. Nc5 Bc8 32. Nge4 Be7 33. Ra1 f5 34. Nd2 Nf4
+35. Nd7 Bxd7 36. Bxe7 Ra6 37. Nc4 Rg6 38. Nxe5 Rxg2+ 39. Kf1 Rh2 40. Kg1 Rg2+
+41. Kf1 Rh2 42. Kg1 Rg2+ 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.8"]
+[White "Tiviakov, Sergey"]
+[Black "van Kampen, Robin"]
+[Result "1-0"]
+[ECO "B18"]
+[PlyCount "71"]
+[EventDate "2013.??.??"]
+
+1. e4 c6 2. d4 d5 3. Nd2 dxe4 4. Nxe4 Bf5 5. Ng3 Bg6 6. Nh3 Nf6 7. Bc4 e6 8.
+Nf4 Bd6 9. c3 Qc7 10. Qf3 Nbd7 11. O-O O-O 12. Re1 c5 13. Nxg6 hxg6 14. Bb3
+cxd4 15. cxd4 Nb6 16. Bg5 Nbd5 17. Rac1 Qd7 18. Bxf6 Nxf6 19. Ne4 Nxe4 20. Qxe4
+Rac8 21. Rcd1 Rc7 22. Qg4 Qd8 23. Re3 Qf6 24. Rf3 Qe7 25. g3 Rfc8 26. Kg2 Rc1
+27. Rd2 Re8 28. Re2 Rc7 29. Re4 g5 30. Rxf7 Qxf7 31. Rxe6 Be7 32. Re3 Rc4 33.
+Qd7 b5 34. Qxb5 Rec8 35. Bxc4 Rxc4 36. Rxe7 1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.9"]
+[White "Smeets, Jan"]
+[Black "Edouard, Romain"]
+[Result "1-0"]
+[ECO "C07"]
+[PlyCount "69"]
+[EventDate "2013.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nd2 c5 4. Ngf3 cxd4 5. Nxd4 Nc6 6. Bb5 Bd7 7. Nxc6 Bxc6 8.
+Bxc6+ bxc6 9. c4 Bd6 10. cxd5 cxd5 11. exd5 exd5 12. O-O Ne7 13. Nf3 O-O 14.
+Qd3 Qd7 15. Bd2 Ng6 16. Rfd1 h6 17. b4 Rab8 18. a3 Rfd8 19. Rac1 Bf4 20. h3 Qa4
+21. Qc2 Qa6 22. Qb3 d4 23. g3 Be5 24. Re1 Re8 25. a4 Qd6 26. b5 a6 27. Bb4 Qd7
+28. bxa6 Re6 29. Rc5 Bd6 30. Rb5 Rxe1+ 31. Nxe1 Re8 32. Qd5 Re6 33. Bxd6 Rxe1+
+34. Kg2 Qe8 35. Rb8 1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.10"]
+[White "Turov, Maxim"]
+[Black "Movsesian, Sergei"]
+[Result "0-1"]
+[ECO "D15"]
+[PlyCount "92"]
+[EventDate "2013.??.??"]
+
+1. d4 d5 2. c4 c6 3. Nc3 Nf6 4. Nf3 a6 5. c5 Bf5 6. Bf4 Nbd7 7. e3 Nh5 8. Be5
+Nhf6 9. Bf4 Nh5 10. Be5 Nhf6 11. Bg3 Ne4 12. Nxe4 Bxe4 13. Nd2 Bf5 14. Be2 g6
+15. O-O Bg7 16. b4 O-O 17. Nb3 Re8 18. Qd2 Nf6 19. f3 Nd7 20. Bh4 f6 21. Na5
+Qc8 22. e4 Be6 23. exd5 Bxd5 24. Bc4 Nf8 25. Bxd5+ cxd5 26. a4 Qd7 27. Rfd1 Ne6
+28. Bg3 f5 29. Nb3 f4 30. Bxf4 Nxf4 31. Qxf4 e5 32. Qd2 e4 33. Rf1 Re7 34. f4
+e3 35. Qe2 Qf5 36. Rad1 Qe4 37. Rd3 Rf8 38. g3 h5 39. Re1 Rfe8 40. Red1 h4 41.
+Rf1 hxg3 42. hxg3 Bf6 43. c6 Rh7 44. Rf3 Kf7 45. Rdxe3 Qb1+ 46. Qf1 Reh8 0-1
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.11"]
+[White "Naiditsch, Arkadij"]
+[Black "Timman, Jan"]
+[Result "1-0"]
+[ECO "C77"]
+[PlyCount "79"]
+[EventDate "2013.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. d3 d6 6. c4 Be7 7. h3 O-O 8. Nc3
+Nb8 9. O-O c6 10. Be3 b5 11. Bc2 Bb7 12. d4 Nbd7 13. Qe2 b4 14. Na4 c5 15. d5
+g6 16. b3 Nh5 17. Kh2 a5 18. Nb2 Kh8 19. g4 Ng7 20. Rg1 Bc8 21. Bh6 Nf6 22. Nd1
+Ng8 23. Bd2 f5 24. gxf5 gxf5 25. exf5 Bxf5 26. Ne3 Bxc2 27. Nxc2 Qe8 28. Ng5
+Qh5 29. Qxh5 Nxh5 30. Raf1 Bxg5 31. Rxg5 Nhf6 32. Rg2 a4 33. f4 axb3 34. axb3
+Ne4 35. Bc1 exf4 36. Bb2+ Nc3 37. Rf3 Rae8 38. Na3 Nf6 39. Nb5 Nfe4 40. Nxd6
+1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.12"]
+[White "Grandelius, Nils"]
+[Black "Rapport, Richard"]
+[Result "1/2-1/2"]
+[ECO "C18"]
+[PlyCount "139"]
+[EventDate "2013.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Qc7 7. Qg4 f5 8. Qg3
+Nc6 9. Nf3 cxd4 10. cxd4 Nge7 11. Bd3 Nxd4 12. Nxd4 Qc3+ 13. Ke2 Qxd4 14. Be3
+Qg4+ 15. Qxg4 fxg4 16. h3 g3 17. f4 h5 18. h4 Bd7 19. Rh3 d4 20. Bxd4 O-O 21.
+Rf1 Nf5 22. Bxf5 Rxf5 23. Ke3 Rc8 24. c3 Rc4 25. Rxg3 Ra4 26. Ra1 Bc6 27. Rg6
+Kf7 28. Rg5 Rxg5 29. fxg5 Kg6 30. g3 Bg2 31. Kf4 Bh3 32. Ra2 b6 33. Ke3 Bf5 34.
+Kd2 Be4 35. Ke3 Bb1 36. Ra1 Bf5 37. Ra2 b5 38. Ra1 a6 39. Ra2 Bh3 40. Rh2 Bf1
+41. Rf2 Bh3 42. Bc5 Rg4 43. Rf4 Rxg3+ 44. Rf3 Rxf3+ 45. Kxf3 Kf5 46. Bd6 g6 47.
+Bc7 Bf1 48. Bd6 Bc4 49. Bc7 Bd5+ 50. Kg3 Ke4 51. Bd6 Bc6 52. Bc7 Be8 53. Bd6 a5
+54. Bc7 a4 55. Bd6 Bc6 56. Bc7 Ke3 57. Bb6+ Kd3 58. Kf4 Kxc3 59. Bc5 Kc4 60.
+Bb4 Kd3 61. Bc5 Ke2 62. Kg3 Bd5 63. Kf4 Kf1 64. Kg3 Bc6 65. Bd6 Ke2 66. Bc5 Bb7
+67. Kf4 b4 68. Bxb4 Kf2 69. Bc3 Kg2 70. Be1 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.13"]
+[White "Dubov, Daniil"]
+[Black "Ernst, Sipke"]
+[Result "1-0"]
+[ECO "E33"]
+[PlyCount "99"]
+[EventDate "2013.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 Nc6 5. e3 O-O 6. f4 Bxc3+ 7. bxc3 d6 8. e4
+e5 9. fxe5 dxe5 10. d5 Ne7 11. Nf3 c5 12. Nxe5 Re8 13. Bd3 Nexd5 14. cxd5 Rxe5
+15. c4 Re8 16. O-O Ng4 17. Bf4 Ne5 18. Rae1 f6 19. Be2 Re7 20. Rb1 Rb8 21. Qc3
+Bd7 22. Qa3 b6 23. d6 Re6 24. Qxa7 Rxd6 25. Rbd1 Rd4 26. Rxd4 cxd4 27. c5 Be6
+28. Bxe5 fxe5 29. Rb1 d3 30. Bxd3 Qd4+ 31. Kh1 Rf8 32. Qa6 Qxc5 33. h3 Rd8 34.
+Rxb6 Rxd3 35. Rb8+ Kf7 36. Qxd3 Qc1+ 37. Kh2 Qf4+ 38. Kg1 Qc1+ 39. Qf1+ Qxf1+
+40. Kxf1 Bxa2 41. Kf2 Bc4 42. Rb6 Bd3 43. Kf3 Bc2 44. Rb4 Bd1+ 45. Ke3 Bh5 46.
+g4 Bg6 47. Rb7+ Kf6 48. h4 Bf7 49. g5+ Ke6 50. Ra7 1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.14"]
+[White "Ipatov, Alexander"]
+[Black "Nikolic, Predrag"]
+[Result "1-0"]
+[ECO "A17"]
+[PlyCount "83"]
+[EventDate "2013.??.??"]
+
+1. Nf3 Nf6 2. c4 e6 3. Nc3 Bb4 4. d4 c5 5. g3 Nc6 6. Bg2 Bxc3+ 7. bxc3 b6 8.
+Ne5 Bb7 9. O-O Na5 10. Bxb7 Nxb7 11. Bg5 Qc7 12. Bxf6 gxf6 13. Ng4 f5 14. Nf6+
+Ke7 15. Nh5 Rhg8 16. Qd2 Nd6 17. Qf4 Raf8 18. f3 f6 19. e4 cxd4 20. cxd4 Qxc4
+21. Rad1 fxe4 22. fxe4 Ne8 23. e5 Rg6 24. Rf2 Kf7 25. d5 exd5 26. Qxc4 dxc4 27.
+Rxd7+ Ke6 28. Rxa7 Kxe5 29. Nf4 Rg7 30. Re2+ Kd6 31. Re6+ Kc5 32. Ra8 Rgg8 33.
+Rc8+ Kb5 34. Nd5 Nd6 35. Rxf8 Rxf8 36. Rxd6 Kc5 37. Rxf6 Rxf6 38. Nxf6 c3 39.
+Ne4+ Kd4 40. Nxc3 Kxc3 41. g4 Kb2 42. g5 1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.15"]
+[White "Admiraal, Miguoel"]
+[Black "Klein, David"]
+[Result "1-0"]
+[ECO "E06"]
+[PlyCount "79"]
+[EventDate "2013.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. g3 d5 4. Nf3 Be7 5. Bg2 O-O 6. O-O dxc4 7. Qc2 b5 8. a4
+b4 9. Bg5 Nd5 10. Bxe7 Qxe7 11. Ne5 a5 12. Nd2 c5 13. dxc5 Qxc5 14. Qxc4 Qe7
+15. Nb3 Ba6 16. Qd4 Qf6 17. Rfe1 Bb7 18. Rac1 Rd8 19. Nc5 Nc7 20. Qxd8+ Qxd8
+21. Nxb7 Qe7 22. Red1 Nba6 23. Nxa5 Rf8 24. Nac6 Qf6 25. Nd7 Qxb2 26. Ne7+ Kh8
+27. Nxf8 g5 28. Nd7 b3 29. Rb1 Qc3 30. Rd3 Qb4 31. Nc6 Qxa4 32. Rdxb3 Nd5 33.
+Bxd5 exd5 34. Nce5 Kg7 35. Rf3 f6 36. Rxf6 Qc2 37. Rf7+ Kh6 38. Rb6+ Kh5 39.
+g4+ Kh4 40. Rh6# 1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.16"]
+[White "van der Werf, Mark"]
+[Black "Swinkels, Robin"]
+[Result "0-1"]
+[ECO "D10"]
+[PlyCount "154"]
+[EventDate "2013.??.??"]
+
+1. d4 d5 2. c4 c6 3. cxd5 cxd5 4. Bf4 Nf6 5. Nc3 Nc6 6. e3 a6 7. Bd3 Bg4 8.
+Nge2 e6 9. h3 Bh5 10. Qb3 Nb4 11. Bb1 Ra7 12. O-O Be7 13. Nc1 O-O 14. Nd3 Nxd3
+15. Bxd3 b5 16. Rfc1 Bg6 17. Ne2 Qd7 18. Rc2 Ne4 19. Rac1 Nd6 20. Bxd6 Bxd6 21.
+Nf4 Be4 22. f3 Bg6 23. Bxg6 hxg6 24. Nd3 g5 25. Rc6 Rd8 26. Qc3 f6 27. Qa5 Kf7
+28. Rxa6 Rda8 29. Rcc6 Bb8 30. Rxa7 Rxa7 31. Qxb5 Rxa2 32. Kf2 Bd6 33. Qb6 Be7
+34. Kg1 Ra1+ 35. Kh2 Bd8 36. Qc5 Rd1 37. Nb4 Be7 38. Qb6 Bd8 39. Qc5 Be7 40.
+Qb6 Bd8 41. Qb8 Rb1 42. f4 gxf4 43. exf4 Rxb2 44. Rd6 Qe7 45. Rxd8 Rxb4 46. Qc8
+Rc4 47. Qb8 Rb4 48. Qc8 Rc4 49. Qb8 Qc7 50. Qxc7+ Rxc7 51. f5 Ke7 52. Rg8 Kf7
+53. Rd8 g5 54. Rd6 exf5 55. Rxd5 Ke6 56. Rc5 Rxc5 57. dxc5 Kd5 58. g3 Kxc5 59.
+h4 Kd5 60. Kg2 Ke6 61. Kf3 Kf7 62. Ke2 Kg6 63. Kf2 Kh6 64. Ke2 Kg6 65. Kf2 Kg7
+66. Kf1 Kh7 67. Ke1 Kg8 68. Kf1 Kg7 69. Ke1 Kf8 70. Ke2 Ke7 71. Kf2 Kd6 72. Ke3
+Ke6 73. Ke2 Ke5 74. Kf2 gxh4 75. gxh4 Kf4 76. Ke2 Kg4 77. Ke3 f4+ 0-1
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.17"]
+[White "Gretarsson, Hjorvar Steinn"]
+[Black "Brunello, Sabino"]
+[Result "0-1"]
+[ECO "D17"]
+[PlyCount "86"]
+[EventDate "2013.??.??"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 Nbd7 7. Nxc4 Qc7 8.
+g3 e5 9. dxe5 Nxe5 10. Bf4 Nfd7 11. Bg2 f6 12. O-O Rd8 13. Qc1 Be6 14. Nxe5
+Nxe5 15. a5 a6 16. Ne4 Bb4 17. Nc5 Bc8 18. Qc2 Bxa5 19. Be3 Bb4 20. Rfd1 Rxd1+
+21. Qxd1 a5 22. Qb3 Qe7 23. Rc1 Qf7 24. h3 Qxb3 25. Nxb3 Be6 26. Nd4 Bf7 27.
+Nc2 Be7 28. Bd2 a4 29. Nd4 Nc4 30. Nxc6 Nxd2 31. Nxe7 Kxe7 32. Rc7+ Ke6 33.
+Rxb7 Rc8 34. f4 f5 35. g4 g6 36. g5 Ne4 37. Bxe4 fxe4 38. Kf2 Be8 39. Ke3 Rc2
+40. h4 Bd7 41. h5 gxh5 42. f5+ Kd6 43. f6 Rc5 0-1
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.18"]
+[White "Bitensky, Igor"]
+[Black "Goryachkina, Alexandra"]
+[Result "1-0"]
+[ECO "B23"]
+[PlyCount "67"]
+[EventDate "2013.??.??"]
+
+1. e4 c5 2. Nc3 d6 3. Nge2 Nf6 4. g3 g6 5. Bg2 Bg7 6. O-O Nc6 7. d3 Rb8 8. f4
+O-O 9. h3 Nd7 10. g4 b5 11. Ng3 b4 12. Nce2 Ba6 13. f5 Qb6 14. Kh1 c4 15. Nf4
+cxd3 16. cxd3 Nde5 17. g5 Rfc8 18. h4 Qb5 19. d4 Nd3 20. f6 Bf8 21. Bh3 Rd8 22.
+Nd5 Qb7 23. fxe7 Nxe7 24. Nf6+ Kh8 25. Rf3 Nxc1 26. Rxc1 Bg7 27. Qd2 Nc6 28. h5
+Bxf6 29. gxf6 Bb5 30. Nf5 Ne5 31. Qh6 Rg8 32. Nxd6 Nxf3 33. Nxb7 Rxb7 34. Rc8
+1-0
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.19"]
+[White "Burg, Twan"]
+[Black "Peralta, Fernando"]
+[Result "1/2-1/2"]
+[ECO "B09"]
+[PlyCount "171"]
+[EventDate "2013.??.??"]
+
+1. e4 d6 2. d4 Nf6 3. Nc3 g6 4. f4 Bg7 5. Nf3 O-O 6. Bd3 Na6 7. O-O c5 8. d5
+Bg4 9. Bc4 Nc7 10. h3 Bxf3 11. Qxf3 a6 12. a4 b6 13. Qd3 Qc8 14. Re1 Rb8 15. e5
+Nd7 16. e6 fxe6 17. dxe6 Nf6 18. f5 b5 19. axb5 axb5 20. Nxb5 d5 21. Nxc7 dxc4
+22. Qxc4 Qxc7 23. Bf4 Qb6 24. Bxb8 Rxb8 25. fxg6 hxg6 26. Ra6 Qd8 27. Ra2 Qd2
+28. Qc3 Qxc3 29. bxc3 Nd5 30. c4 Nb4 31. Ra7 Nxc2 32. Re4 Bf6 33. Rc7 Ra8 34.
+g4 Kg7 35. Kg2 Nd4 36. Rxc5 Ra2+ 37. Kg3 Ra3+ 38. Kg2 Ra2+ 39. Kg3 Ne2+ 40. Kf3
+Nc3 41. Re1 Bd4 42. Rc7 Rf2+ 43. Kg3 Ne2+ 44. Rxe2 Rxe2 45. Rxe7+ Kf6 46. Rd7
+Bc5 47. Rd5 Be7 48. h4 Re4 49. Rd1 Kxe6 50. Kf3 Rxc4 51. Re1+ Kf7 52. Rh1 Rc3+
+53. Ke4 Rc8 54. g5 Rh8 55. Rf1+ Kg7 56. Rf4 Bd6 57. Rg4 Bb4 58. Kd5 Be1 59. Ra4
+Rd8+ 60. Ke6 Re8+ 61. Kd5 Re2 62. Ra7+ Kf8 63. Ra4 Kf7 64. Rf4+ Kg7 65. Ra4 Bf2
+66. Rb4 Re7 67. Rf4 Be1 68. Ra4 Rb7 69. Rc4 Ra7 70. Ke6 Bg3 71. Rg4 Ra3 72. Re4
+Rd3 73. Ra4 Rd6+ 74. Ke7 Rd5 75. Ra7 Re5+ 76. Kd8+ Kf8 77. Ra6 Rd5+ 78. Kc8 Rd6
+79. Rxd6 Bxd6 80. Kd7 Bg3 81. Ke6 Kg7 82. h5 gxh5 83. Kf5 Bc7 84. g6 Kh6 85. g7
+Kxg7 86. Kg5 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.20"]
+[White "Romanishin, Oleg"]
+[Black "Kovchan, Alexander"]
+[Result "1/2-1/2"]
+[ECO "A05"]
+[PlyCount "41"]
+[EventDate "2013.??.??"]
+
+1. Nf3 Nf6 2. c4 g6 3. g3 c6 4. d4 d5 5. cxd5 cxd5 6. Ne5 Bg7 7. Nc3 O-O 8. Bg2
+e6 9. O-O Nfd7 10. Nf3 Nf6 11. Ne5 Nfd7 12. Nf3 Nf6 13. Bf4 Nc6 14. Ne5 Nxe5
+15. Bxe5 Bd7 16. Rc1 Rc8 17. Qb3 Bc6 18. Qa3 Re8 19. Rfd1 Bf8 20. Bxf6 Qxf6 21.
+Qb3 1/2-1/2
+
+[Event "Tata Steel Chess 2013"]
+[Site "Wijk aan Zee"]
+[Date "2013.01.22"]
+[Round "9.21"]
+[White "Mekhitarian, Krikor"]
+[Black "Schut, Lisa"]
+[Result "1-0"]
+[ECO "B90"]
+[PlyCount "55"]
+[EventDate "2013.??.??"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e5 7. Nb3 Be7 8. h3
+Be6 9. Qf3 Nc6 10. O-O-O Rc8 11. Kb1 b5 12. g4 Nd7 13. h4 Bxh4 14. Rxd6 Be7 15.
+Rd1 Qc7 16. Nd5 Bxd5 17. exd5 Nd4 18. Bxd4 Qxc2+ 19. Ka1 exd4 20. Bxb5 Qc7 21.
+d6 Bxd6 22. Nxd4 Be7 23. Bxd7+ Qxd7 24. Nf5 Qc6 25. Qe3 Rc7 26. Rc1 Qd5 27.
+Rxc7 Qxh1+ 28. Rc1 1-0
+

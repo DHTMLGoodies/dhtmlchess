@@ -50,7 +50,7 @@ chess.view.position.Board = new Class({
         if (!this.selectedPiece) {
             return;
         }
-        var square = this.getSquareFromEvent(e);
+        var square = this.getSquareByEvent(e);
         if (square === undefined) {
             return;
         }
@@ -58,7 +58,6 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
-
         if (this.selectedPiece.pieceType == 'king') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
@@ -68,7 +67,6 @@ chess.view.position.Board = new Class({
                     this.fireEvent('modifyboard');
                     return;
                 }
-
             }
             this.hidePiece(p);
         }
@@ -163,7 +161,7 @@ chess.view.position.Board = new Class({
         return null;
     },
 
-    getSquareFromEvent:function (e) {
+    getSquareByEvent:function (e) {
         var boardPos = this.els.board.getPosition();
         var squareSize = this.getSquareSize();
 

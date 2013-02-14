@@ -30,7 +30,7 @@ chess.view.gamelist.Grid = new Class({
 	dataSource:{
 		'type':'chess.dataSource.GameList'
 	},
-
+    onLoadMessage:'Loading games. Please wait',
 	resizable:false,
 	statusBar:false,
 	fillview:true,

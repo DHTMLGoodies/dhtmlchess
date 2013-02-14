@@ -10,6 +10,12 @@
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
 
     <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/data-source/base.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/data-source/json.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/data-source/collection.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/data-source/collection-search.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/view/loader.js"></script>
+
     <script type="text/javascript" src="../src/view/gamelist/grid.js"></script>
 
     <script type="text/javascript" src="../src/datasource/pgn-list.js"></script>
@@ -20,7 +26,6 @@
     <script type="text/javascript" src="../src/remote/reader.js"></script>
     <script type="text/javascript" src="../src/remote/game-reader.js"></script>
     <script type="text/javascript" src="../src/view/pgn/grid.js"></script>
-
 
 
     <link rel="stylesheet" href="../css/buttonbar/light-gray.css" type="text/css">
@@ -89,14 +94,13 @@
         children:[
             {
                 weight:1,
-                layout:{ type:'linear', orientation : 'vertical' },
+                layout:{ type:'linear', orientation:'vertical' },
                 frame:true,
                 children:[
                     {
                         type:'chess.view.metadata.Game',
                         height:30,
                         containerCss:{
-                            // 'background-image':'url(../images/headings/bg-player-info.png)',
                             'color':'#000'
                         },
                         tpl:'<h2 style="line-height:30px;text-align:center;margin:0">{white} vs {black} - {result}</h2>'
@@ -160,17 +164,48 @@
                             {
                                 title:'Games',
                                 id:'list-of-games',
-                                visible:true,
-                                type:'chess.view.gamelist.Grid',
-                                css:{
-                                    'background-color':'#FFF',
-                                    'overflow-y':'auto'
+                                layout:{
+                                    type:'linear',
+                                    orientation:'vertical'
                                 },
-                                dataSource:{
-                                    "type":'chess.dataSource.PgnGames',
-                                    "arguments":"Morphy"
-                                },
-                                cols:['white', 'black', 'result', 'event', 'site']
+                                children:[
+                                    {
+                                        type:'form.Text',
+                                        label:'Search games',
+                                        id:"searchField",
+                                        labelWidth:90,
+                                        containerCss:{
+                                            'border-bottom':'1px solid #C6c8c6'
+                                        },
+                                        listeners:{
+                                            key:function (value) {
+                                                ludo.get('gameList').search(value);
+                                            }
+                                        }
+                                    },
+                                    {
+                                        visible:true,
+                                        layout:{
+                                            weight:1
+                                        },
+                                        type:'chess.view.gamelist.Grid',
+                                        css:{
+                                            'background-color':'#FFF',
+                                            'overflow-y':'auto'
+                                        },
+                                        dataSource:{
+                                            id:'gameList',
+                                            "type":'chess.dataSource.PgnGames',
+                                            "arguments":"Morphy",
+                                            "listeners": {
+                                                "beforeload": function(){
+                                                    ludo.get("searchField").reset();
+                                                }
+                                            }
+                                        },
+                                        cols:['white', 'black', 'result', 'event', 'site']
+                                    }
+                                ]
                             },
                             {
                                 title:'Notations',
@@ -197,10 +232,10 @@
 
     var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
     var controller = new chess.controller.AnalysisController();
-    controller.addEvent('newGame', function(){
+    controller.addEvent('newGame', function () {
         ludo.get('notation-view').show();
     });
-    controller.addEvent('selectPgn', function(){
+    controller.addEvent('selectPgn', function () {
         ludo.get('list-of-games').show();
     });
 

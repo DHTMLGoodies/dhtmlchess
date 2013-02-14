@@ -31,7 +31,6 @@ chess.view.pgn.Grid = new Class({
     dataSource:{
         'type':'chess.dataSource.PgnList'
     },
-
     resizable:false,
     statusBar:false,
     fillview:true,

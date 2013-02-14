@@ -1,0 +1,401 @@
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.1"]
+[White "Leko, Peter"]
+[Black "Caruana, Fabiano"]
+[Result "1-0"]
+[ECO "C84"]
+[PlyCount "89"]
+[EventDate "2013.01.12"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Be7 6. d3 b5 7. Bb3 d6 8. a4
+Bd7 9. c3 O-O 10. Bc2 b4 11. Re1 Re8 12. Nbd2 Na5 13. d4 Bf8 14. h3 h6 15. Bd3
+bxc3 16. bxc3 c5 17. d5 Qc7 18. Nc4 Nxc4 19. Bxc4 Reb8 20. Nd2 Be8 21. Bd3 Nd7
+22. a5 Nf6 23. Nc4 Bb5 24. Nb6 Ra7 25. Qe2 Bxd3 26. Qxd3 Nd7 27. Nc4 Rab7 28.
+Bd2 Rb5 29. Rf1 Be7 30. f4 Bf6 31. g3 R8b7 32. Kg2 Nf8 33. Rf2 Ng6 34. Raf1 Qe7
+35. Kh2 Rb8 36. Rg2 Qc7 37. Rfg1 Rb3 38. f5 Nf8 39. h4 Qd7 40. g4 g5 41. fxg6
+fxg6 42. g5 hxg5 43. Bxg5 Bg7 44. h5 R8b4 45. hxg6 1-0
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.2"]
+[White "Hou, Yifan"]
+[Black "Nakamura, Hikaru"]
+[Result "0-1"]
+[ECO "B35"]
+[PlyCount "96"]
+[EventDate "2013.01.12"]
+
+1. e4 c5 2. Nf3 Nc6 3. Nc3 g6 4. d4 cxd4 5. Nxd4 Bg7 6. Be3 Nf6 7. Bc4 O-O 8.
+Bb3 a6 9. f3 d6 10. Qd2 Na5 11. Bh6 Bxh6 12. Qxh6 e5 13. Nde2 b5 14. Qd2 b4 15.
+Na4 Nxb3 16. axb3 a5 17. O-O-O Ra6 18. h4 Be6 19. h5 Qe7 20. g4 Nd7 21. f4 Bxg4
+22. f5 gxf5 23. exf5 Kh8 24. Qd3 Rc6 25. Rd2 Nf6 26. Ng3 e4 27. Qe3 Qe5 28. Rf1
+Bf3 29. Ne2 Ng4 30. Qd4 Rfc8 31. c4 Bxe2 32. Qxe5+ Nxe5 33. Rxe2 d5 34. Kb1
+dxc4 35. Rxe4 f6 36. bxc4 Rxc4 37. Re2 Rh4 38. Nb6 Rd8 39. Rc2 b3 40. Rc3 Rb4
+41. Rc8 Rxc8 42. Nxc8 Kg7 43. Rg1+ Rg4 44. Re1 Rg2 45. Nd6 Kh6 46. Rd1 a4 47.
+Kc1 Rc2+ 48. Kb1 Nc4 0-1
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.3"]
+[White "L'Ami, Erwin"]
+[Black "Wang, Hao"]
+[Result "0-1"]
+[ECO "E11"]
+[PlyCount "70"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 Bb4+ 4. Bd2 c5 5. Bxb4 cxb4 6. g3 O-O 7. Bg2 d6 8.
+O-O a5 9. a3 Na6 10. Nbd2 Qc7 11. Rc1 Rd8 12. Ne1 e5 13. Nd3 Bf5 14. e4 Bg4 15.
+f3 Bd7 16. axb4 Nxb4 17. Nxb4 axb4 18. Qb3 Qb6 19. c5 dxc5 20. Nc4 Qa7 21. dxe5
+Ne8 22. Qe3 b5 23. Nd2 c4 24. Qxa7 Rxa7 25. Rfd1 Be6 26. Nf1 Rxd1 27. Rxd1 c3
+28. bxc3 bxc3 29. Ne3 b4 30. Bf1 b3 31. Rd8 g6 32. Rxe8+ Kg7 33. Bd3 Rd7 34.
+Bb1 Rd1+ 35. Nxd1 c2 0-1
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.4"]
+[White "Anand, Viswanathan"]
+[Black "Carlsen, Magnus"]
+[Result "1/2-1/2"]
+[ECO "C42"]
+[PlyCount "47"]
+[EventDate "2013.01.12"]
+
+1. e4 e5 2. Nf3 Nf6 3. Nxe5 d6 4. Nf3 Nxe4 5. d4 Be7 6. Bd3 Nf6 7. O-O O-O 8.
+h3 Re8 9. Nc3 Nbd7 10. Re1 Nf8 11. d5 c6 12. Bf4 Bd7 13. Bc4 Ng6 14. Bg3 Rc8
+15. dxc6 Bxc6 16. Bb3 d5 17. Qd3 Qb6 18. Nxd5 Bxd5 19. Bxd5 Nxd5 20. Qxd5 Qxb2
+21. Rab1 Qxc2 22. Rxb7 Red8 23. Qb3 Qxb3 24. axb3 1/2-1/2
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.5"]
+[White "Karjakin, Sergey"]
+[Black "Giri, Anish"]
+[Result "1/2-1/2"]
+[ECO "D70"]
+[PlyCount "76"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 g6 3. f3 d5 4. cxd5 Nxd5 5. e4 Nb6 6. Nc3 Bg7 7. Be3 O-O 8. Qd2
+Nc6 9. O-O-O Qd6 10. Nb5 Qd7 11. f4 Qe6 12. Nc3 Nc4 13. Qe2 N6a5 14. Nf3 c5 15.
+e5 cxd4 16. Nxd4 Qb6 17. Nf5 Nxe3 18. Nxe3 Nc6 19. Ned5 Qd8 20. g3 Be6 21. Bg2
+Rc8 22. Kb1 Qa5 23. Rd2 Rfd8 24. Rhd1 Kf8 25. h4 Rd7 26. h5 Rcd8 27. a3 a6 28.
+hxg6 hxg6 29. Bf3 b5 30. Qf2 b4 31. axb4 Nxb4 32. Nxb4 Qxb4 33. Rxd7 Rxd7 34.
+Rxd7 Bxd7 35. Be4 Bh6 36. Qa7 Bb5 37. Bc2 Bc4 38. Kc1 a5 1/2-1/2
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.6"]
+[White "Sokolov, Ivan"]
+[Black "Aronian, Levon"]
+[Result "0-1"]
+[ECO "D91"]
+[PlyCount "48"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Bg5 Bg7 5. Nf3 Ne4 6. Bf4 Nxc3 7. bxc3 dxc4 8.
+Qa4+ Nd7 9. e4 c5 10. Bxc4 O-O 11. O-O Nb6 12. Qb3 Nxc4 13. Qxc4 b6 14. d5 e6
+15. h3 a5 16. Bg5 f6 17. dxe6 Ba6 18. Qd5 Qxd5 19. exd5 fxg5 20. Rfd1 Bxc3 21.
+Rac1 Be2 22. Nxg5 Bxd1 23. Rxc3 Rf5 24. Ne4 Kg7 0-1
+
+[Event "75th Tata Steel GpA"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.7"]
+[White "Harikrishna, Pentala"]
+[Black "Van Wely, Loek"]
+[Result "1-0"]
+[ECO "B84"]
+[PlyCount "77"]
+[EventDate "2013.01.12"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 a6 5. Be2 Nf6 6. Nc3 d6 7. O-O Be7 8. a4
+Nc6 9. Be3 O-O 10. f4 Qc7 11. Kh1 Re8 12. Bf3 Bd7 13. Nb3 b6 14. g4 Bc8 15. g5
+Nd7 16. Bg2 Bb7 17. Rf3 Bf8 18. Rh3 g6 19. Qe1 Bg7 20. Qh4 Nf8 21. Qf2 Nd7 22.
+Rf1 Nb4 23. Bd4 Bxd4 24. Nxd4 Nc6 25. f5 Nce5 26. Qh4 h5 27. Nde2 exf5 28. Nf4
+Kg7 29. Ncd5 Bxd5 30. Nxd5 Qxc2 31. exf5 Rac8 32. Nf4 Rh8 33. fxg6 fxg6 34.
+Ne6+ Kg8 35. Bd5 Qd2 36. Qe4 Rc1 37. Rhf3 Kh7 38. Rf7+ Nxf7 39. Qxg6+ 1-0
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.1"]
+[White "Ernst, Sipke"]
+[Black "Van Kampen, Robin"]
+[Result "0-1"]
+[ECO "D85"]
+[PlyCount "94"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. cxd5 Nxd5 5. e4 Nxc3 6. bxc3 Bg7 7. Bg5 c5 8.
+Rc1 O-O 9. d5 Qd6 10. Qd2 Nd7 11. Nf3 e6 12. dxe6 Qxe6 13. Bd3 Nf6 14. Qe2 Re8
+15. Nd2 Qxa2 16. O-O Bg4 17. Qe3 Rad8 18. f3 Be6 19. Bb5 Bd7 20. Bc4 Qa4 21.
+Ra1 Qc6 22. Rxa7 b5 23. Be2 c4 24. Qf2 Ra8 25. Rfa1 Rxa7 26. Qxa7 Bc8 27. Nf1
+Nd7 28. Rc1 f5 29. Ng3 Nc5 30. Be3 Bf8 31. Kh1 Bb7 32. Qa2 fxe4 33. fxe4 Nxe4
+34. Bf3 Qe6 35. Ne2 Ng3+ 36. Nxg3 Qxe3 37. Rf1 Bxf3 38. gxf3 Qxc3 39. Ne4 Qd3
+40. Kg2 Bg7 41. Qa6 Qd5 42. Re1 Rf8 43. Qb6 c3 44. Qc7 Qa2+ 45. Kg3 Qf7 46.
+Qxf7+ Rxf7 47. Nd6 b4 0-1
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.2"]
+[White "Dubov, Daniil"]
+[Black "Timman, Jan H"]
+[Result "1-0"]
+[ECO "E36"]
+[PlyCount "105"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Qc2 d5 5. a3 Bxc3+ 6. Qxc3 O-O 7. Bg5 dxc4 8.
+Qxc4 b6 9. Nf3 Ba6 10. Qa4 Qd7 11. Qc2 Qc6 12. Qxc6 Nxc6 13. Rc1 Bb7 14. e3
+Rfc8 15. Bd3 Nb8 16. Bxf6 gxf6 17. Ke2 Nd7 18. Rhd1 Kf8 19. Bb5 c6 20. Ba4 a5
+21. Bc2 Ke7 22. Bd3 f5 23. Rc2 c5 24. Rdc1 h6 25. Bb5 cxd4 26. Rc7 Rxc7 27.
+Rxc7 Bc8 28. exd4 Kd8 29. Rc6 Nb8 30. Rc4 Bd7 31. Bxd7 Nxd7 32. d5 Ke7 33. Rc6
+Kf6 34. dxe6 fxe6 35. Nd4 Ke5 36. Nb5 Nc5 37. Nc7 Ra7 38. g3 f4 39. gxf4+ Kf5
+40. Kf3 a4 41. Nb5 Rd7 42. Nd6+ Kf6 43. Rxb6 Ke7 44. Nc4 Rd3+ 45. Ne3 Rd2 46.
+f5 exf5 47. Nxf5+ Kd7 48. Nxh6 Nb3 49. Rb4 Rxb2 50. Rxa4 Nc5 51. Ra7+ Ke6 52.
+Ng4 Rb3+ 53. Ne3 1-0
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.3"]
+[White "Grandelius, Nils"]
+[Black "Ipatov, Alexander"]
+[Result "1-0"]
+[ECO "B60"]
+[PlyCount "73"]
+[EventDate "2013.01.12"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 d6 6. Bg5 g6 7. Bxf6 exf6 8.
+Bc4 Bg7 9. Ndb5 O-O 10. Qxd6 f5 11. O-O-O Qb6 12. f4 fxe4 13. Nd5 Qa5 14. Nf6+
+Kh8 15. Nc7 Be6 16. Bxe6 fxe6 17. Nxa8 Qxa2 18. Nc7 Qa1+ 19. Kd2 Qxb2 20. Nce8
+Nd4 21. Nxg7 Rc8 22. Ke3 Qc3+ 23. Rd3 exd3 24. Qxd4 Qxc2 25. Re1 d2 26. Qxd2
+Qb3+ 27. Ke4 Rc4+ 28. Ke5 Rc5+ 29. Kd6 Qb6+ 30. Ke7 Rc7+ 31. Nd7 Kxg7 32. Rxe6
+Qc5+ 33. Qd6 Qc4 34. Qe5+ Kg8 35. Kf6 Rc6 36. Qb8+ Rc8 37. Re8+ 1-0
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.4"]
+[White "Tiviakov, Sergei"]
+[Black "Rapport, Richard"]
+[Result "0-1"]
+[ECO "C03"]
+[PlyCount "72"]
+[EventDate "2013.01.12"]
+
+1. e4 e6 2. d4 d5 3. Nd2 Be7 4. c3 c5 5. dxc5 Bxc5 6. Nb3 Bb6 7. exd5 exd5 8.
+Bb5+ Nc6 9. Nf3 Nf6 10. Qe2+ Ne4 11. Be3 O-O 12. O-O-O Bf5 13. Nfd4 Bg6 14. f3
+Nxd4 15. Nxd4 Nd6 16. Bd3 Nc4 17. Bxg6 hxg6 18. Rhe1 Re8 19. Qf2 Qe7 20. Bd2
+Qf6 21. b3 Ne5 22. Kb1 a5 23. Bc1 a4 24. Qc2 axb3 25. axb3 Bc5 26. Re2 Rec8 27.
+Bb2 Bxd4 28. Rxd4 Nc6 29. Rdd2 d4 30. Qd3 Qg5 31. Re4 Qa5 32. Rc2 Qa2+ 33. Kc1
+Qxb3 34. Kd2 Ra2 35. cxd4 Qxd3+ 36. Kxd3 Nb4+ 0-1
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.5"]
+[White "Smeets, Jan"]
+[Black "Naiditsch, Arkadij"]
+[Result "0-1"]
+[ECO "C15"]
+[PlyCount "70"]
+[EventDate "2013.01.12"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. exd5 exd5 5. Bd3 Nf6 6. a3 Be7 7. h3 Nbd7 8.
+Nf3 c5 9. O-O O-O 10. Bf4 a6 11. Re1 Re8 12. Qd2 c4 13. Be2 b5 14. Ne5 Bb7 15.
+Bf3 Nf8 16. Ng4 Ne4 17. Bxe4 dxe4 18. Rad1 f5 19. Ne5 Ne6 20. Be3 Bf6 21. a4
+Nc7 22. axb5 axb5 23. Qe2 Rc8 24. Ra1 Ne6 25. Ra7 Re7 26. Qd2 b4 27. Ne2 c3 28.
+bxc3 bxc3 29. Qc1 g5 30. g3 Rg7 31. Kh2 f4 32. gxf4 gxf4 33. Bxf4 Nxd4 34. Rd1
+Bxe5 35. Nxd4 Qg5 0-1
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.6"]
+[White "Turov, Maxim"]
+[Black "Nikolic, Predrag"]
+[Result "1/2-1/2"]
+[ECO "A25"]
+[PlyCount "110"]
+[EventDate "2013.01.12"]
+
+1. c4 e5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Rb1 a5 6. a3 f5 7. b4 axb4 8. axb4
+Nf6 9. d3 O-O 10. b5 Nd4 11. e3 Ne6 12. Nge2 d6 13. O-O h5 14. Nd5 Nxd5 15.
+cxd5 Nc5 16. d4 Na4 17. Qb3 e4 18. Nf4 Kh7 19. Ra1 Nb6 20. Rxa8 Nxa8 21. Bd2
+Re8 22. Rc1 Bh6 23. Ne6 Bxe6 24. dxe6 d5 25. Rc5 Bf8 26. Rxd5 Bd6 27. b6 c6 28.
+Ra5 Qxb6 29. Qxb6 Nxb6 30. Ra7 Re7 31. Ba5 Nd5 32. Bd8 Rg7 33. Bf1 Be7 34. Ba5
+b6 35. Bd2 Bb4 36. Ra2 Bxd2 37. Rxd2 Re7 38. Bc4 Rxe6 39. Rc2 Rd6 40. Bxd5 cxd5
+41. Rc7+ Kh6 42. h4 g5 43. hxg5+ Kxg5 44. Kg2 h4 45. Kh3 hxg3 46. f4+ Kh5 47.
+Rh7+ Kg6 48. Rb7 g2 49. Kxg2 Kh5 50. Rf7 Kg6 51. Rb7 Rc6 52. Kg3 Rc3 53. Rxb6+
+Kh5 54. Kf2 Rc2+ 55. Kg3 Rc3 1/2-1/2
+
+[Event "75th Tata Steel GpB"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.7"]
+[White "Movsesian, Sergei"]
+[Black "Edouard, Romain"]
+[Result "1-0"]
+[ECO "C07"]
+[PlyCount "51"]
+[EventDate "2013.01.12"]
+
+1. e4 e6 2. d4 d5 3. Nd2 c5 4. Ngf3 cxd4 5. exd5 Qxd5 6. Bc4 Qd7 7. O-O Nc6 8.
+Nb3 Nf6 9. Qe2 Bd6 10. Rd1 O-O 11. Nbxd4 Nxd4 12. Rxd4 Qe7 13. Ne5 Nd5 14. Bd3
+f5 15. Bc4 Nf6 16. Bg5 Qc7 17. Bxf6 gxf6 18. Nf3 Kh8 19. Rh4 e5 20. Rh5 e4 21.
+Nh4 Re8 22. Rh6 Bxh2+ 23. Kh1 Bf4 24. Qh5 Rg8 25. Ng6+ Rxg6 26. Qxg6 1-0
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.1"]
+[White "Mekhitarian, Krikor"]
+[Black "Kovchan, Alexander"]
+[Result "1/2-1/2"]
+[ECO "B90"]
+[PlyCount "104"]
+[EventDate "2013.01.12"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be3 e5 7. Nb3 Be6 8. f3
+h5 9. Nd5 Bxd5 10. exd5 Nbd7 11. Qd2 Qc7 12. c4 a5 13. Rc1 a4 14. Na1 e4 15.
+Nc2 exf3 16. gxf3 Ne5 17. Nd4 Be7 18. Be2 O-O 19. O-O Rfe8 20. Kh1 Bf8 21. Rg1
+Qa5 22. Qxa5 Rxa5 23. Bg5 Nfd7 24. Bd2 Raa8 25. f4 Ng4 26. Bxg4 hxg4 27. Rxg4
+Re4 28. Nf5 g6 29. Rg2 Rc8 30. b3 axb3 31. axb3 b5 32. Ng3 Rd4 33. f5 bxc4 34.
+fxg6 fxg6 35. bxc4 Rcxc4 36. Ne2 Rxc1+ 37. Bxc1 Rd1+ 38. Rg1 Rxg1+ 39. Kxg1 Kf7
+40. Nc3 Bg7 41. Nb5 Be5 42. Kg2 Nb6 43. Nc7 Kf6 44. h3 Kf5 45. Kf3 Bh2 46. Ba3
+Nc4 47. Bb4 Bf4 48. Nb5 Be5 49. Be1 Nb6 50. Bb4 Nxd5 51. Bxd6 Nf6 52. Be7 Nd5
+1/2-1/2
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.2"]
+[White "Burg, Twan"]
+[Black "Romanishin, Oleg"]
+[Result "1-0"]
+[ECO "C45"]
+[PlyCount "81"]
+[EventDate "2013.01.12"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. Nxd4 Bc5 5. Be3 Qf6 6. c3 Qg6 7. Qf3 Ne5 8.
+Qf4 Bd6 9. Qg5 a6 10. Nf5 Bf8 11. Qf4 d6 12. h3 Ne7 13. Nh4 Qe6 14. Nd2 N7g6
+15. Nxg6 hxg6 16. Be2 Be7 17. Qg3 Bd7 18. O-O Bh4 19. Qh2 O-O-O 20. f4 Nc6 21.
+Bd3 f5 22. Bf2 Bxf2+ 23. Rxf2 d5 24. e5 d4 25. Qg3 dxc3 26. bxc3 Be8 27. Nb3
+Qe7 28. Rb1 Bf7 29. Qe3 Bxb3 30. axb3 Rd5 31. Bc4 Rc5 32. Be6+ Kb8 33. b4 Rb5
+34. Bc4 Rb6 35. Rd1 Rd8 36. Rfd2 Rxd2 37. Qxd2 a5 38. Qd5 Qh4 39. b5 Ne7 40.
+Qd8+ Ka7 41. Ra1 1-0
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.3"]
+[White "Bitensky, Igor"]
+[Black "Peralta, Fernando"]
+[Result "0-1"]
+[ECO "B10"]
+[PlyCount "86"]
+[EventDate "2013.01.12"]
+
+1. e4 c6 2. d3 d5 3. Nd2 g6 4. Ngf3 Bg7 5. d4 dxe4 6. Nxe4 Bf5 7. Ng3 Bg4 8. c3
+Nf6 9. Bc4 O-O 10. h3 Bxf3 11. Qxf3 Nbd7 12. O-O e6 13. Bb3 a5 14. Bc2 a4 15.
+Bf4 Qb6 16. Rab1 Rfe8 17. Rfe1 Nd5 18. Ne4 Nxf4 19. Qxf4 Rf8 20. h4 Qd8 21. h5
+Nf6 22. hxg6 hxg6 23. Nc5 b5 24. Nd3 Nd5 25. Qg3 a3 26. Ne5 axb2 27. Rxb2 Ra3
+28. Bb3 Bxe5 29. dxe5 Kg7 30. Re4 Rh8 31. c4 bxc4 32. Rxc4 Rh5 33. Rxc6 Qh8 34.
+Kf1 Rh1+ 35. Ke2 Qh5+ 36. f3 Qh6 37. f4 Nxf4+ 38. Kf2 Nd3+ 39. Qxd3 Qf4+ 40.
+Qf3 Qd4+ 41. Qe3 Qxb2+ 42. Rc2 Qxc2+ 43. Bxc2 Rf1+ 0-1
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.4"]
+[White "Brunello, Sabino"]
+[Black "Goryachkina, Aleksandra"]
+[Result "1-0"]
+[ECO "A37"]
+[PlyCount "79"]
+[EventDate "2013.01.12"]
+
+1. c4 c5 2. g3 Nc6 3. Bg2 e5 4. Nc3 g6 5. Nf3 Bg7 6. d3 d6 7. Nd2 f5 8. a3 Nge7
+9. Rb1 a5 10. Nf1 O-O 11. Bg5 h6 12. Bxe7 Qxe7 13. Ne3 f4 14. Ned5 Qd8 15. Be4
+g5 16. e3 fxe3 17. fxe3 Be6 18. Qh5 Bf7 19. Qh3 Bxd5 20. Nxd5 Qc8 21. g4 Qd8
+22. Ke2 Ne7 23. Qh5 Nxd5 24. Bxd5+ Kh8 25. h4 gxh4 26. Qxh4 Qb6 27. b3 a4 28.
+bxa4 Qd8 29. Qxd8 Rfxd8 30. Rxb7 Rxa4 31. Rb3 Kh7 32. g5 Ra7 33. Be4+ Kh8 34.
+gxh6 Bf6 35. Rg1 Rf8 36. Rf1 Kg8 37. Rxf6 Rxf6 38. Rb8+ Kf7 39. h7 Rxa3 40.
+Rb7+ 1-0
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.5"]
+[White "Schut, Lisa"]
+[Black "Swinkels, Robin"]
+[Result "0-1"]
+[ECO "C19"]
+[PlyCount "90"]
+[EventDate "2013.01.12"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Bb4 4. e5 c5 5. a3 Bxc3+ 6. bxc3 Ne7 7. Qg4 cxd4 8.
+cxd4 Qc7 9. Bd2 Qxc2 10. Nf3 Qg6 11. Qh3 Qf5 12. g4 Qe4+ 13. Be2 b6 14. Be3 Ba6
+15. Bxa6 Nxa6 16. O-O h5 17. gxh5 Qf5 18. Qg2 Qxh5 19. Rfc1 Kd7 20. a4 Nb4 21.
+a5 Nbc6 22. axb6 axb6 23. Rab1 Rab8 24. Rb2 Na5 25. Nd2 Qh3 26. Qxh3 Rxh3 27.
+Rcb1 Kc7 28. Kg2 Rhh8 29. Nf3 Nc4 30. Ra2 Nc6 31. Ng5 Rbf8 32. Kg3 Kd7 33. h4
+f6 34. exf6 gxf6 35. Nf3 Rb8 36. Rb5 Nd6 37. Rb1 Ne4+ 38. Kh3 Nc3 39. Raa1 Nxb1
+40. Rxb1 b5 41. Nd2 Rh7 42. Nb3 Rbh8 43. Nc5+ Kd6 44. Rxb5 Rxh4+ 45. Kg2 Nxd4
+0-1
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.6"]
+[White "Gretarsson, Hjorvar Steinn"]
+[Black "Klein, David"]
+[Result "0-1"]
+[ECO "E10"]
+[PlyCount "122"]
+[EventDate "2013.01.12"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 d5 4. g3 Bb4+ 5. Bd2 Be7 6. Bg2 O-O 7. O-O Nbd7 8.
+Qc2 c6 9. Bf4 b6 10. Nc3 dxc4 11. Nd2 Nd5 12. Nxc4 Nxf4 13. gxf4 Bb7 14. Rfd1
+Qc7 15. f5 exf5 16. Qxf5 g6 17. Qf3 Rad8 18. Rac1 Bf6 19. Qg3 Qxg3 20. hxg3 Ba6
+21. b3 c5 22. d5 Ne5 23. Ne3 Nd7 24. Rd2 Bg5 25. f4 Bf6 26. Ned1 Rfe8 27. e4
+Bd4+ 28. Kh2 Nf6 29. Bf3 h5 30. Rcc2 Kg7 31. Kg2 Bb7 32. b4 Bxc3 33. Rxc3 Nxe4
+34. Bxe4 Rxe4 35. bxc5 Rxd5 36. Rxd5 Bxd5 37. Kf2 bxc5 38. Rxc5 Bxa2 39. Ra5
+Bb3 40. Nb2 Re7 41. Nd3 Be6 42. Ne5 Rc7 43. Ke3 Rc3+ 44. Kf2 Rc2+ 45. Ke3 Ra2
+46. Rc5 a5 47. Nc6 a4 48. Ra5 a3 49. Nd4 Bg4 50. Ke4 Ra1 51. Ke3 Bd1 52. Kd2 a2
+53. Ra3 Bg4 54. Nc2 Rg1 55. Rxa2 Rxg3 56. Ne3 Rf3 57. Ra4 Rf2+ 58. Kd3 Be6 59.
+Ke4 h4 60. Ra1 h3 61. Rh1 Bc8 0-1
+
+[Event "75th Tata Steel GpC"]
+[Site "Wijk aan Zee NED"]
+[Date "2013.01.17"]
+[Round "5.7"]
+[White "Van der Werf, Mark"]
+[Black "Admiraal, Miguoel"]
+[Result "1/2-1/2"]
+[ECO "A25"]
+[PlyCount "155"]
+[EventDate "2013.01.12"]
+
+1. c4 e5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. e4 d6 6. Nge2 h5 7. h4 Bg4 8. f3 Be6
+9. d3 Qd7 10. O-O Bh3 11. Nd5 Bxg2 12. Kxg2 Nd4 13. Nxd4 exd4 14. Bd2 c6 15.
+Nf4 Ne7 16. Qe2 O-O 17. g4 hxg4 18. fxg4 Be5 19. Nh3 f6 20. Qf3 Kg7 21. Rf2 Ng8
+22. Kh1 Rf7 23. Raf1 Raf8 24. Nf4 Ne7 25. Nh3 Ng8 26. Rg2 Nh6 27. Bxh6+ Kxh6
+28. Nf4 Kg7 29. h5 Bxf4 30. Qxf4 g5 31. Qf2 c5 32. Qg3 Kh6 33. Rgf2 Qe6 34. Rf5
+b6 35. Qf2 Kg7 36. Kg2 Kh6 37. Kg3 Qe7 38. Qc2 Qc7 39. Kg2 Kg7 40. Qd2 Qd8 41.
+Rd5 Re8 42. Rdf5 Re5 43. R5f3 Qd7 44. Kg3 Qc7 45. Kh3 Qe7 46. Qf2 Re6 47. Kg3
+Qc7 48. Kg2 Qd7 49. Kh3 Qe7 50. b3 Qd7 51. Rf5 Qe7 52. Kg2 Qd7 53. Qf3 Kg8 54.
+a3 Re5 55. Rf2 Rxf5 56. exf5 Re7 57. Re2 Kg7 58. Kf2 Rxe2+ 59. Qxe2 d5 60. cxd5
+Qd6 61. Ke1 Kh6 62. Qf3 b5 63. Kd1 a5 64. Qe4 Qg3 65. Ke2 Qh2+ 66. Kf1 Qh3+ 67.
+Kf2 Qh2+ 68. Qg2 Qf4+ 69. Qf3 Qh2+ 70. Kf1 a4 71. bxa4 bxa4 72. Qe4 Qg3 73. Qe2
+Qh3+ 74. Ke1 Qh1+ 75. Kd2 Qxd5 76. Qe8 Qg2+ 77. Qe2 Qd5 78. Qe8 1/2-1/2
+
