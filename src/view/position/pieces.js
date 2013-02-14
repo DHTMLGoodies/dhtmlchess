@@ -69,7 +69,7 @@ chess.view.position.Piece = new Class({
         this.parent();
         var piece = this.els.piece = new Element('div');
         piece.setStyles({
-            'background-image':'url(' + chess.IMAGE_FOLDER + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
+            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
             'background-repeat':'no-repeat',
             'cursor':'pointer'

@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 body, html {width:100%;height:100%;overflow:hidden;margin:0;padding:0;}
 .ludo-component-pleasewait {position:absolute;left:50%;top:50%;margin-top:-10px;width:150px;margin-left:-75px;background-image:url('../ludojs/images/ajax-loader.gif');background-repeat:no-repeat;background-position:5px center;padding-left:25px;height:30px;line-height:30px;border:1px solid #999;border-radius:5px;webkit-border-radius:5px;-moz-border-radius:5px;z-index:100;background-color:#FFF;}
+.ludo-loader-shim{position:absolute;width:100%;height:100%;background-color:#EEE;opacity:.3;filter:alpha(opacity=30);left:0;top:0;z-index:50;}
 .ludo-rich-view-shim {z-index:31000;}
 .ludo-rich-view-above {position:absolute;width:100%;height:50%;}
 .ludo-rich-view-below {position:absolute;width:100%;height:50%;top:50%;}
@@ -236,6 +237,7 @@ div.ludo-grid-movable-insertion-marker-bottom {background-image:url('../ludojs/i
 .ludo-form-button-disabled.ludo-paging-first .ludo-form-button-value{background-image:url('../ludojs/images/grid/first-disabled.png');}
 div.ludo-paging-total-pages{margin-top:5px;}
 div.ludo-paging-total-pages .ludo-body{font-size:12px;}
+.ludo-grid-resize-handle {background-color:transparent;}
 .ludo-dialog-shim{position:absolute;left:0;top:0;background-color:#AAA;filter:alpha(opacity=10);opacity:.1;}
 .ludo-Porter-Dialog .ludo-body{font-size:1.1em;background-color:#FFF;color:#000;font-family:arial, Sans-Serif;}
 .ludo-tab-strip {margin:0;}

@@ -347,9 +347,8 @@ ludo.Effect = new Class({
 	inProgress:false,
 
 	initialize:function(){
-		if(Browser.ie){
+		if(Browser['ie']){
 			document.id(document.documentElement).addEvent('selectstart', this.cancelSelection.bind(this));
-
 		}
 	},
 
@@ -2094,7 +2093,7 @@ ludo.canvas.Engine = new Class({
 	},
 
 	scale:function(el, width, height){
-		if(height === undefined)height = width;
+		height = height || width;
 		this.setTransformation(el, 'scale', width + ' ' + height);
 
 		// if(height === undefined)height = width;
@@ -2122,16 +2121,14 @@ ludo.canvas.Engine = new Class({
 
 	getTransformObject:function(el){
 		if(el.transform.baseVal.numberOfItems ==0){
-			var owner, dynamicSvg = false;
+			var owner;
 			if(el.ownerSVGElement){
 				owner = el.ownerSVGElement;
 			}else{
 				owner = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-				dynamicSvg = true;
 			}
 			var t = owner.createSVGTransform();
 			el.transform.baseVal.appendItem(t);
-			if(dynamicSvg)delete owner;
 		}
 		return el.transform.baseVal.getItem(0);
 	},
@@ -2833,7 +2830,7 @@ ludo.canvas.Canvas = new Class({
 	},
 
 	fitParent:function(){
-		size = this.renderTo.getSize();
+		var size = this.renderTo.getSize();
 		if(size.x === 0 || size.y === 0)return;
 		size.x -= (ludo.dom.getPW(this.renderTo) + ludo.dom.getBW(this.renderTo));
 		size.y -= (ludo.dom.getPH(this.renderTo) + ludo.dom.getBH(this.renderTo));
@@ -3657,6 +3654,7 @@ ludo.view.Loader = new Class({
 	txt : 'Loading content...',
 	view:undefined,
 	el:undefined,
+    shim:undefined,
 
 	initialize:function(config){
 		this.view = config.view;
@@ -3685,14 +3683,26 @@ ludo.view.Loader = new Class({
 		return this.el;
 	},
 
+    getShim:function(){
+        if(this.shim === undefined){
+            this.shim = new Element('div');
+            ludo.dom.addClass(this.shim, 'ludo-loader-shim');
+            this.view.getEl().appendChild(this.shim);
+            this.shim.style.display = 'none';
+        }
+        return this.shim;
+    },
+
 	show:function(txt){
 		if(txt !== undefined){
 			this.el.set('html', txt);
 		}
+        this.getShim().style.display='';
 		this.getEl().style.display = '';
 	},
 
 	hide:function(){
+        this.getShim().style.display='none';
 		this.getEl().style.display = 'none';
 	}
 });
@@ -6071,6 +6081,7 @@ ludo.effect.Drag = new Class({
 		active:false
 	},
 
+	coordinatesToDrag:undefined,
 	/**
 	 * Delay in seconds from mouse down to start drag. If mouse is released within this interval,
 	 * the drag will be cancelled.
@@ -6368,7 +6379,7 @@ ludo.effect.Drag = new Class({
 		this.fireEvent('before', [this.els[id], this, {x:x,y:y}]);
 
 		if(!this.isActive()){
-			return;
+			return undefined;
 		}
 
 		this.dragProcess.minX = this.getMinX();
@@ -8089,17 +8100,7 @@ ludo.Window = new Class({
         var x = Math.round((bodySize.x / 2) - (this.getWidth() / 2));
         var y = Math.round((bodySize.y / 2) - (this.getHeight() / 2));
         this.showAt(x, y);
-    },
-
-    /**
-     * Equivalent to method show
-     * @method open
-     * @return void
-     */
-    open:function () {
-        this.show();
     }
-
 });
 /**
  * Basic dialog class and base class for all other dialogs
@@ -8113,12 +8114,14 @@ ludo.dialog.Dialog = new Class({
 	/**
 	 * Show modal version of dialog
 	 * @attribute {Boolean} modal
+	 * @optional
 	 * @default true
 	 */
 	modal:true,
 	/**
 	 * Auto dispose/erase component on close
 	 * @attribute {Boolean} autoDispose
+	 * @optional
 	 * @default true
 	 */
 	autoDispose:true,
@@ -8126,6 +8129,7 @@ ludo.dialog.Dialog = new Class({
 	 * Auto hide component on button click. If autoDispose is set to true, the component
 	 * will be deleted
 	 * @attribute {Boolean} autoHideOnBtnClick
+	 * @optional
 	 * @default true
 	 */
 	autoHideOnBtnClick:true,
@@ -8833,10 +8837,7 @@ ludo.form.Element = new Class({
 	},
 
 	clearInvalid:function () {
-		var el = this.getFormEl();
-		if (el) {
-			el.removeClass('ludo-form-el-invalid');
-		}
+		this.getEl().removeClass('ludo-form-el-invalid');
 	},
 
 	wasValid:true,
@@ -9180,7 +9181,7 @@ ludo.form.Text = new Class({
 
 	validateKey:function (e) {
 		if (e.control || e.alt) {
-			return;
+			return undefined;
 		}
 
 		if (this.regex && e.key && e.key.length == 1) {
@@ -9189,6 +9190,7 @@ ludo.form.Text = new Class({
 				return false;
 			}
 		}
+		return undefined;
 	},
 	/**
 	 * Return width of form field in pixels
@@ -9221,11 +9223,11 @@ ludo.form.Text = new Class({
 		if (!valid)return false;
 		var val = this.getFormEl().get('value').trim();
 
-		if (this.minLength && val.length < this.minLength) {
-			return false;
-		}
 		if (val.length == 0) {
 			return !this.required;
+		}
+		if (this.minLength && val.length < this.minLength) {
+			return false;
 		}
 		if (this.maxLength && val.length > this.maxLength) {
 			return false;
@@ -9240,7 +9242,7 @@ ludo.form.Text = new Class({
 	validate:function () {
 		this.parent();
 		if (!this.isValid() && !this._focus) {
-			this.getFormEl().addClass('ludo-form-el-invalid');
+			this.getEl().addClass('ludo-form-el-invalid');
 		}
 	},
 	keyUp:function (e) {
@@ -9686,7 +9688,17 @@ ludo.effect.DropPoint = new Class({
 	 * @default undefined
 	 * @type {String|HTMLDivElement}
 	 */
-	el:undefined
+	el:undefined,
+
+	 /**
+	 Capture regions(north,south, west east) when moving over drop points
+	 @config {Boolean|undefined} captureRegions
+	 @optional
+	 @default false
+	 @example
+	 	captureRegions:true
+	 */
+	captureRegions:undefined
 });
 /**
  * effect.Drag with support for drop events.
@@ -9702,7 +9714,8 @@ ludo.effect.DragDrop = new Class({
 
 	/**
 	 Capture regions when moving over drop points
-	 @config Boolean captureRegions
+	 @config {Boolean|undefined} captureRegions
+	 @optional
 	 @default false
 	 @example
 	 	captureRegions:true
@@ -9712,7 +9725,8 @@ ludo.effect.DragDrop = new Class({
 	/**
 	 * While dragging, always show dragged element this amount of pixels below mouse cursor.
 	 * @config mouseYOffset
-	 * @type {Number} pixels
+	 * @type {Number|undefined} pixels
+	 * @optional
 	 * @default undefined
 	 */
 	mouseYOffset:undefined,
@@ -9756,8 +9770,8 @@ ludo.effect.DragDrop = new Class({
 	/**
 	 * Create new drop point.
 	 * @method addDropTarget
-	 * @param {effect.DropPoint} node
-	 * @return {effect.DropPoint} node
+	 * @param {ludo.effect.DropPoint} node
+	 * @return {ludo.effect.DropPoint} node
 	 */
 	addDropTarget:function (node) {
 		node = this.getValidNode(node);
@@ -10671,7 +10685,7 @@ ludo.dataSource.Record = new Class({
 	},
 
 	isRecordObject:function (rec) {
-		return rec.initialize !== undefined && rec.record !== undefined;
+		return rec['initialize'] !== undefined && rec.record !== undefined;
 	},
 
 	getChildren:function () {
@@ -11062,6 +11076,7 @@ ludo.dataSource.Collection = new Class({
 	findRecord:function (search) {
 		if (!this.data)return undefined;
 		if(search.getUID !== undefined)search = search.getUID();
+        // TODO uid causes problems when you have a ludo.model.Model without uid. Refactor!
 		if(search.uid !== undefined)search = search.uid;
 		var rec = this.getById(search);
 		if(rec)return rec;
@@ -12107,6 +12122,7 @@ ludo.grid.GridHeader = new Class({
 
 	renderColumns:function () {
 		var countRows = this.columnManager.getCountRows();
+
 		for (var i = 0; i < countRows; i++) {
 			var columns = this.columnManager.getColumnsInRow(i);
 			var left = 0;
@@ -12119,7 +12135,7 @@ ludo.grid.GridHeader = new Class({
 					cell.setStyle('left', left);
 					cell.setStyle('top', i * this.cellHeight);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
-					var spacing = (j==columns.length-1) ? this.spacing.width / 2 : this.spacing.width;
+					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
 					cell.setStyle('width', width - spacing);
 					cell.setStyle('height', height);
 					cell.setStyle('line-height', height);
@@ -13822,9 +13838,10 @@ ludo.grid.Grid = new Class({
 				this.colResizeHandler.hideHandle(columns[i]);
 			} else {
 				var width = this.columnManager.getWidthOf(columns[i]);
+                var bw = ludo.dom.getBW(this.els.dataColumns[columns[i]]) - (i===columns.length-1) ? 1 : 0;
 				this.els.dataColumns[columns[i]].setStyles({
 					'left':leftPos,
-					'width':(width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - ludo.dom.getBW(this.els.dataColumns[columns[i]]))
+					'width':(width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - bw)
 				});
 
 				this.columnManager.setLeft(columns[i], leftPos);
@@ -14351,6 +14368,8 @@ ludo.form.Button = new Class({
         return true
     },
     resizeDOM:function () {
+        // TODO refactor - buttons should be too tall
+        this.getBody().style.height = '25px';
         /* No DOM resize for buttons */
     },
 
@@ -14485,7 +14504,7 @@ ludo.card.FinishButton = new Class({
     addButtonEvents:function(){
 		var lm;
         if (this.component) {
-			var lm = this.component.getLayoutManager();
+			lm = this.component.getLayoutManager();
             lm.addEvent('valid', this.enable.bind(this));
             lm.addEvent('invalid', this.disable.bind(this));
 			this.component.addEvent('beforesubmit', this.disable.bind(this));
@@ -19129,6 +19148,7 @@ ludo.controller.Manager = new Class({
                 return this.controllers[i];
             }
         }
+		return undefined;
     },
 
     assignSpecificControllerFor:function(controller, component){
@@ -19376,10 +19396,17 @@ ludo.model.Model = new Class({
 	listeners:undefined,
 	/**
 	 * Initial record id
-	 * @attribute {String} recordId
+	 * @config {String} recordId
 	 * @default undefined
 	 */
 	recordId:undefined,
+
+    /**
+     * Name of id field
+     * @config {String} idField
+     * @default id
+     */
+    idField : 'id',
 
 	/**
 	 * Send initial server request even if no id is set. The model will then be populated from server with default data
@@ -19391,6 +19418,7 @@ ludo.model.Model = new Class({
 		if (config.name !== undefined)this.name = config.name;
 		if (config.columns !== undefined)this.columns = config.columns;
 		if (config.recordId !== undefined)this.recordId = config.recordId;
+		if (config.idField !== undefined)this.idField = config.idField;
 		if (config.id !== undefined)this.id = config.id;
 		if (config.url !== undefined)this.url = config.url;
 		ludo.CmpMgr.registerComponent(this);
@@ -19522,6 +19550,7 @@ ludo.model.Model = new Class({
 		if (!recordId || (!this.url && !ludo.config.getUrl())) {
 			return;
 		}
+
         this.recordId = recordId;
 		this.loadRequest().send("read", recordId);
 	},
@@ -19739,6 +19768,7 @@ ludo.model.Model = new Class({
 	},
 
 	handleModelUpdates:function (updates) {
+        if(updates && updates[this.idField] !== undefined)this.recordId = updates[this.idField];
 		for (var column in updates) {
 			if (updates.hasOwnProperty(column)) {
 				this._setRecordValue(column, updates[column]);
@@ -19784,6 +19814,8 @@ ludo.model.Model = new Class({
 			}
 		}
 		this.fireEvent('update', this.currentRecord);
+        this.updateViews();
+
 	}
 });
 
@@ -20014,6 +20046,8 @@ ludo.form.Manager = new Class({
 	form:{
 		method:'post'
 	},
+
+    service:undefined,
 	model:undefined,
 
 	ludoConfig:function (config) {
@@ -20025,6 +20059,7 @@ ludo.form.Manager = new Class({
 		if (this.form && this.form.url) {
 			this.url = this.form.url;
 		}
+        this.form.resource = this.form.resource || this.form.name || undefined;
 		this.id = String.uniqueID();
 		if (config.model !== undefined) {
 			if (config.model.type === undefined) {
@@ -20237,6 +20272,7 @@ ludo.form.Manager = new Class({
 		 * Event fired before form is submitted
 		 * @event startSubmit
 		 */
+
 		var el;
 		if (el = this.getUnfinishedFileUploadComponent()) {
 			el.upload();
@@ -20262,22 +20298,20 @@ ludo.form.Manager = new Class({
 	},
 
 	save:function () {
-		var url = this.getUrl();
-		if (url) {
+		if (this.getUrl() || ludo.config.getUrl()) {
 			this.fireEvent('invalid');
-            this.requestHandler().send('save', undefined, {
-                "progressBarId":this.getProgressBarId(),
-                "data" : this.getValues()
+            this.requestHandler().send(this.form.service || 'save', undefined, this.getValues(),{
+            "progressBarId":this.getProgressBarId()
             });
 		}
 	},
     _request:undefined,
     requestHandler:function(){
         if(this._request === undefined){
-            if(!this.form.name)ludo.util.warn("Warning: form does not have any name. Falling back to default name 'Form'");
+            if(!this.form.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
             this._request = new ludo.remote.JSON({
                 url:this.url,
-                resource : this.form.name ? this.form.name : 'Form',
+                resource : this.form.resource ? this.form.resource : 'Form',
                 method:this.form.method ? this.form.method : 'post',
                 listeners:{
                     "success":function (request) {
@@ -21992,7 +22026,7 @@ ludo.form.Spinner = new Class({
     },
 
     _createContainer:function (config) {
-        config = $merge({
+        config = Object.merge({
             tag:'div',
             cls:''
         }, config);
@@ -27973,6 +28007,58 @@ chess.view.notation.Panel = new Class({
     }
 });
 /**
+ * Displays seek form.
+ * @namespace seek
+ * @class View
+ */
+chess.seek.View = new Class({
+    Extends:ludo.View,
+    model:{
+        name:'Seek',
+        columns:['from_elo','to_elo','time','rated']
+    },
+    layout:{
+        type:'linear',
+        orientation:'vertical',
+        validator:function(values){
+            return values['from_elo'] < values['to_elo'];
+        }
+    },
+    children:[
+        {
+            type:'form.Select',
+            label:'Time:',
+            suffix:'days',
+            value:'1',
+            dataSource:{
+                type:'dataSource.Collection',
+                resource:'TimeControl',
+                service:'list',
+                arguments:'correspondence'
+            }
+        },
+        {
+            type:'form.Number',
+            label:'From elo',
+            minValue:500,
+            maxValue:4000
+        },
+        {
+            type:'form.Number',
+            label:'From elo',
+            minValue:500,
+            maxValue:4000
+        },
+        {
+            type:'form.Checkbox',
+            label:'Rated',
+            value:'1',
+            checked:true
+        }
+    ]
+});
+
+/**
  List of games view. List of games is displayed in a grid.
  @namespace chess.view.gamelist
  @module View
@@ -28692,8 +28778,8 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        url:ludo.config.getUrl(),
-        name:'game-import'
+        resource:'GameImport',
+		service:'import'
     },
     width:400,
     height:240,
@@ -28702,7 +28788,7 @@ chess.view.dialog.GameImport = new Class({
     layout:'rows',
     children:[
         {
-            type:'form.File', label:'Pgn File', accept:'pgn', name:'pgnfile', required:true, labelButton:'Find Pgn file', buttonWidth:100
+            type:'form.File', label:'Pgn File', accept:'pgn', name:'pgnfile', resource:"chessFileUpload", required:true, labelButton:'Find Pgn file', buttonWidth:100
         },
         {
             type:'form.Checkbox', label:'As new database', checked:true, name:'importAsNew', value:'yes'
@@ -29079,6 +29165,11 @@ chess.view.user.LoginButton = new Class({
         this.parent(controller);
         controller.addEvent('invalidSession', this.show.bind(this));
         controller.addEvent('validSession', this.hide.bind(this));
+    },
+
+    show:function(){
+        this.parent();
+
     }
 });
 /**
@@ -29137,22 +29228,21 @@ chess.view.user.Controller = new Class({
             this.fireEvent('invalidSession');
             return;
         }
-		new ludo.remote.JSON({
-			url:window.chess.url,
-			data:{
-				token:token
-			},
+
+		var req = new ludo.remote.JSON({
+            resource:'Session',
 			listeners:{
 				"success": function(request){
-					var data = request.getResponseData();
-					this.fireEvent('validSession', data.token);
-     				this.fireEvent('userAccess', data.user_access);
+					var userDetails = request.getResponseData();
+					this.fireEvent('validSession', userDetails.id);
+     				this.fireEvent('userAccess', userDetails.user_access);
 				}.bind(this),
 				"failure": function(){
 					this.fireEvent("invalidSession");
 				}.bind(this)
 			}
 		});
+        req.send('authenticate', undefined, token);
     },
 
     getSessionToken:function () {
@@ -29165,10 +29255,7 @@ chess.view.user.Controller = new Class({
         new chess.view.user.ProfileWindow();
     },
 
-    login:function(json, rememberMe){
-        Cookie.write(chess.COOKIE_NAME, json.token, {
-            duration : rememberMe ? 365 : false
-        });
+    login:function(json){
         this.fireEvent('validSession', json.token);
         this.fireEvent('userAccess', json.user_access);
     },
@@ -29238,7 +29325,8 @@ chess.view.user.RegisterWindow = new Class({
     module:'user',
     submodule:'registerWindow',
     form:{
-        name:'register'
+        resource:'Player',
+        service:'register'
     },
     layout:{
         "type": "linear",
@@ -29255,10 +29343,10 @@ chess.view.user.RegisterWindow = new Class({
             type:'form.Email', name:'email', label:chess.language.email, required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeatpassword', label:chess.language.password, required:true, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'repeatpassword', minLength:5, md5:true, label:chess.language.repeatPassword, required:true, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, required:true, stretchField:true
         },
         {
             type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
@@ -29350,8 +29438,8 @@ chess.view.user.Panel = new Class({
         this.controller.addEvent('validSession', this.getUserDetails.bind(this));
     },
 
-    getUserDetails:function(token){
-        this.getModel().load(token);
+    getUserDetails:function(userId){
+        this.getModel().load(userId);
         this.show();
     },
 
@@ -29376,15 +29464,16 @@ chess.view.user.LoginWindow = new Class({
     module:'user',
     submodule:'loginWindow',
     form:{
-        name : 'login'
+        resource:'Session',
+        service:"signIn"
     },
-    layout : {
-        "type": "linear",
-        "orientation": "vertical"
+    layout:{
+        "type":"linear",
+        "orientation":"vertical"
     },
     children:[
         {
-            type:'form.Text', name:'username', regex : '[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
         },
         {
             type:'form.Password', name:'password', md5:true, label:chess.language.password, required:true, stretchField:true
@@ -29393,7 +29482,7 @@ chess.view.user.LoginWindow = new Class({
             type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
         },
         {
-            hidden:true, name:'errorMessage', css: { color : 'red', 'padding-left' : 10, height:30 }
+            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
         }
     ],
 
@@ -29406,25 +29495,25 @@ chess.view.user.LoginWindow = new Class({
         }
     ],
 
-    ludoEvents:function(){
+    ludoEvents:function () {
         this.parent();
         this.getFormManager().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
         this.getFormManager().addEvent('success', this.validLogin.bind(this));
         this.getFormManager().addEvent('success', this.reset.bind(this));
         this.getFormManager().addEvent('failure', this.invalidLogin.bind(this));
     },
-    addControllerEvents:function(){
+    addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
-    validLogin:function(json){
+    validLogin:function (json) {
         this.fireEvent('loginSuccess', [ json.data, this.child['rememberMe'].isChecked()]);
         this.hide();
     },
 
-    hideErrorMessage:function(){
+    hideErrorMessage:function () {
         this.child['errorMessage'].hide();
     },
-    invalidLogin:function(){
+    invalidLogin:function () {
         this.child['errorMessage'].show();
         this.child['errorMessage'].setHtml(chess.language.invalidUserNameOrPassword)
     }
@@ -29469,6 +29558,10 @@ chess.view.user.ProfileWindow = new Class({
     type:'chess.view.user.ProfileWindow',
     left:50, top:50,
     width:500, height:250,
+    layout:{
+        type:'linear',
+        orientation:'vertical'
+    },
     title:chess.language.myProfile,
     hidden:true,
     module:'user',
@@ -29493,10 +29586,10 @@ chess.view.user.ProfileWindow = new Class({
             type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.language.country, required:false, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeatpassword', label:chess.language.password, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, stretchField:true
         },
         {
-            type:'form.Password', name:'repeatpassword', minLength:5, md5:true, label:chess.language.repeatPassword, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, stretchField:true
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
@@ -29547,9 +29640,10 @@ chess.view.user.ProfileWindow = new Class({
 chess.view.user.UserModel = new Class({
     Extends:ludo.model.Model,
     type : 'chess.view.user.UserModel',
-    name : 'userprofile',
     columns : ['token', 'username', 'full_name', 'email','country'],
     autoload:false,
+    name:'CurrentPlayer',
+    service:'read',
     singleton:true
 });
 /**
@@ -30273,7 +30367,7 @@ chess.view.position.Piece = new Class({
         this.parent();
         var piece = this.els.piece = new Element('div');
         piece.setStyles({
-            'background-image':'url(' + chess.IMAGE_FOLDER + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
+            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
             'background-repeat':'no-repeat',
             'cursor':'pointer'
@@ -35067,6 +35161,7 @@ chess.dataSource.GameList = new Class({
  @namespace chess.pgn
  @class Parser
  @constructor
+ @param {chess.model.Game} model
  @example
 	 var game = new chess.model.Game();
 	 game.setMetadataValue('white','Magnus Carlsen');
@@ -35084,10 +35179,7 @@ chess.pgn.Parser = new Class({
 	 */
 	model:undefined,
 
-    /**
-     * @constructor
-     * @param {chess.model.Game} model
-     */
+
 	initialize:function(model){
 		this.model = model;
 	},

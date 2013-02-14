@@ -9,8 +9,8 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        url:ludo.config.getUrl(),
-        name:'game-import'
+        resource:'GameImport',
+		service:'import'
     },
     width:400,
     height:240,
@@ -19,7 +19,7 @@ chess.view.dialog.GameImport = new Class({
     layout:'rows',
     children:[
         {
-            type:'form.File', label:'Pgn File', accept:'pgn', name:'pgnfile', required:true, labelButton:'Find Pgn file', buttonWidth:100
+            type:'form.File', label:'Pgn File', accept:'pgn', name:'pgnfile', resource:"chessFileUpload", required:true, labelButton:'Find Pgn file', buttonWidth:100
         },
         {
             type:'form.Checkbox', label:'As new database', checked:true, name:'importAsNew', value:'yes'

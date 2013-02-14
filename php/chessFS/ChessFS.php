@@ -96,7 +96,7 @@ class ChessFS implements LudoDBService
     public function listOfGames($noCache = false)
     {
         if ($this->isGameListInCache() && !$noCache) {
-            #return $this->getGameListFromCache();
+            return $this->getGameListFromCache();
         }
         $parser = new PgnParser($this->pgnFile, false);
         $games = $parser->getGames();

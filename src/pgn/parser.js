@@ -5,6 +5,7 @@
  @namespace chess.pgn
  @class Parser
  @constructor
+ @param {chess.model.Game} model
  @example
 	 var game = new chess.model.Game();
 	 game.setMetadataValue('white','Magnus Carlsen');
@@ -22,10 +23,7 @@ chess.pgn.Parser = new Class({
 	 */
 	model:undefined,
 
-    /**
-     * @constructor
-     * @param {chess.model.Game} model
-     */
+
 	initialize:function(model){
 		this.model = model;
 	},
