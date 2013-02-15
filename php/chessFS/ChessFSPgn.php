@@ -59,4 +59,10 @@ class ChessFSPgn implements LudoDBService
     public function cacheEnabledFor($service){
         return false;
     }
+
+    public function getOnSuccessMessageFor($service){
+        return "";
+    }
 }
+
+

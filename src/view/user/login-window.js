@@ -8,6 +8,7 @@
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
     title:chess.language.login,
+    "left":50,top:50,
     width:400,height:180,
     hidden:true,
     type:'chess.view.user.Login',

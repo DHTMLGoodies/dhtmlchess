@@ -10,17 +10,18 @@ class ChessFS implements LudoDBService
     private $pgnFile;
     private $_parser;
 
-    public function __construct($pgnFile)
+    public function __construct($pgnFile = null)
     {
-        $this->pgnFile = $this->getPgnPath($pgnFile);
-
-        if (!$this->isValid($this->pgnFile)) {
-            throw new Exception("Invalid file");
+        if (isset($pgnFile)) {
+            $this->pgnFile = $this->getPgnPath($pgnFile);
+            if (!$this->isValid($this->pgnFile)) {
+                throw new Exception("Invalid file");
+            }
+            if (!$this->pgnFile || !file_exists($this->pgnFile)) {
+                throw new Exception("Pgn file " . $this->pgnFile . " not found");
+            }
+            $this->cacheFolder = ChessRegistry::getCacheFolder();
         }
-        if (!$this->pgnFile || !file_exists($this->pgnFile)) {
-            throw new Exception("Pgn file " . $this->pgnFile . " not found");
-        }
-        $this->cacheFolder = ChessRegistry::getCacheFolder();
     }
 
     private function getPgnPath($pgnFile)
@@ -30,7 +31,7 @@ class ChessFS implements LudoDBService
             $tokens = explode("/", $pgnFile);
             $pgnFile = $folder . array_pop($tokens);
         }
-        if($this->getExtension($pgnFile) !== 'pgn')$pgnFile.=".pgn";
+        if ($this->getExtension($pgnFile) !== 'pgn') $pgnFile .= ".pgn";
         return $pgnFile;
     }
 
@@ -47,7 +48,7 @@ class ChessFS implements LudoDBService
 
     public function getGame($index, $noCache = false)
     {
-        if(is_array($index)){
+        if (is_array($index)) {
             $index = $index['index'];
         }
         if ($this->isGameInCache($index) && !$noCache) return $this->getGameFromCache($index);
@@ -110,7 +111,7 @@ class ChessFS implements LudoDBService
             unset($game['moves']);
             unset($game['metadata']);
             $game["gameIndex"] = $count;
-            $game["id"] = $idPrefix . '-'. $count;
+            $game["id"] = $idPrefix . '-' . $count;
             $ret[] = $game;
             $count++;
         }
@@ -119,20 +120,21 @@ class ChessFS implements LudoDBService
         return $ret;
     }
 
-    private function getLastMoves($moves = array()){
+    private function getLastMoves($moves = array())
+    {
         $count = count($moves);
-        $start = $count-3;
+        $start = $count - 3;
         $start = max(0, $start);
 
         $ret = array();
 
-        if($start % 2 === 1)$ret[] = ".. " . (floor($start / 2) + 1) . ".";
-        for($i=$start;$i<$count;$i++){
-            if(isset($moves[$i])){
-                if($i % 2 === 0){
-                    $ret[] =(($i  / 2) +1) . ".";
+        if ($start % 2 === 1) $ret[] = ".. " . (floor($start / 2) + 1) . ".";
+        for ($i = $start; $i < $count; $i++) {
+            if (isset($moves[$i])) {
+                if ($i % 2 === 0) {
+                    $ret[] = (($i / 2) + 1) . ".";
                 }
-                $ret[] =$moves[$i]['m'];
+                $ret[] = $moves[$i]['m'];
             }
 
         }
@@ -173,11 +175,17 @@ class ChessFS implements LudoDBService
         return true;
     }
 
-    public function validateServiceData($service, $data){
+    public function validateServiceData($service, $data)
+    {
         return true;
     }
 
-    public function cacheEnabledFor($service){
+    public function cacheEnabledFor($service)
+    {
         return false;
+    }
+
+    public function getOnSuccessMessageFor($service){
+        return "";
     }
 }
