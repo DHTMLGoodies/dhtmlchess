@@ -84,6 +84,5 @@ chess.view.pgn.Grid = new Class({
          * @param {Object} game
          */
         this.fireEvent('selectPgn', record.file);
-
     }
 });
