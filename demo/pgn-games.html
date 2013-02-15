@@ -193,6 +193,48 @@
                                             'background-color':'#FFF',
                                             'overflow-y':'auto'
                                         },
+                                        columnManager:{
+                                            columns:{
+                                                player:{
+                                                    heading:'Players',
+                                                    columns:{
+                                                        white:{
+                                                            heading:'White',
+                                                                    key:'white',
+                                                                    width:120,
+                                                                    sortable:true
+                                                        },
+                                                        black:{
+                                                            heading:'Black',
+                                                                    key:'black',
+                                                                    width:120,
+                                                                    sortable:true
+                                                        }
+                                                    }
+                                                } ,
+                                                result:{
+                                                    heading:'Result',
+                                                    key:'result',
+                                                    width:50,
+                                                    sortable:true,
+                                                    removable:true
+                                                },
+                                                event:{
+                                                    heading:'Event',
+                                                    key:'event',
+                                                    weight:1,
+                                                    sortable:true,
+                                                    removable:true
+                                                },
+                                                last_moves:{
+                                                    heading:'Last moves',
+                                                    key:'last_moves',
+                                                    weight:1,
+                                                    sortable:true,
+                                                    removable:true
+                                                }
+                                            }
+                                        },
                                         dataSource:{
                                             id:'gameList',
                                             "type":'chess.dataSource.PgnGames',

@@ -87,7 +87,10 @@ chess.view.user.Controller = new Class({
     },
 
     logout:function(){
-        Cookie.dispose(chess.COOKIE_NAME);
+        var req = new ludo.remote.JSON({
+            "resource": "Session"
+        });
+        req.send("signOut");
         this.fireEvent('invalidSession');
     }
 });

@@ -7,9 +7,8 @@
  */
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
-    left:50, top:50,
-    width:400, height:180,
     title:chess.language.login,
+    width:400,height:180,
     hidden:true,
     type:'chess.view.user.Login',
     module:'user',
@@ -33,7 +32,8 @@ chess.view.user.LoginWindow = new Class({
             type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
         },
         {
-            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
+            type:'remote.ErrorMessage', resource:"Session","service": "signIn",
+            name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
         }
     ],
 
@@ -48,10 +48,8 @@ chess.view.user.LoginWindow = new Class({
 
     ludoEvents:function () {
         this.parent();
-        this.getFormManager().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
         this.getFormManager().addEvent('success', this.validLogin.bind(this));
         this.getFormManager().addEvent('success', this.reset.bind(this));
-        this.getFormManager().addEvent('failure', this.invalidLogin.bind(this));
     },
     addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
@@ -59,14 +57,5 @@ chess.view.user.LoginWindow = new Class({
     validLogin:function (json) {
         this.fireEvent('loginSuccess', [ json.data, this.child['rememberMe'].isChecked()]);
         this.hide();
-    },
-
-    hideErrorMessage:function () {
-        this.child['errorMessage'].hide();
-    },
-    invalidLogin:function () {
-        this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.language.invalidUserNameOrPassword)
     }
-
 });
