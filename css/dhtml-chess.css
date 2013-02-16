@@ -562,7 +562,42 @@ div.ludo-resize-handle-active {
     z-index: 15500;
     right: 0;
 }
-/* ../ludojs/css/grid/grid.css */
+/* ../ludojs/css/layout/tab.css */
+.ludo-tab-close{
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-image:url(../ludojs/images/layout/tab-close.png);
+    position:absolute;
+    cursor:pointer;
+}
+.ludo-tab-close-top-over,.ludo-tab-close-bottom-over{
+    background-image:url(../ludojs/images/layout/tab-close-over.png);
+}
+.ludo-tab-close-top, .ludo-tab-close-bottom{
+    right:2px;
+    top:2px;
+    height:90%;
+    width:12px;
+}
+
+.ludo-tab-close-right{
+    background-image:url(../ludojs/images/layout/tab-close-right.png);
+    bottom:2px;
+    width:90%;
+    height:12px;
+}
+.ludo-tab-close-left{
+    background-image:url(../ludojs/images/layout/tab-close-left.png);
+    top:2px;
+    width:90%;
+    height:12px;
+}
+.ludo-tab-close-right-over{
+    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
+}
+.ludo-tab-close-left-over{
+    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
+}/* ../ludojs/css/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -1341,41 +1376,6 @@ span.ludo-tree-node-spacer{
     -moz-user-select:none;
     line-height:16px;
     height:18px;
-}/* ../ludojs/css/layout/tab.css */
-.ludo-tab-close{
-    background-repeat:no-repeat;
-    background-position:center center;
-    background-image:url(../ludojs/images/layout/tab-close.png);
-    position:absolute;
-    cursor:pointer;
-}
-.ludo-tab-close-top-over,.ludo-tab-close-bottom-over{
-    background-image:url(../ludojs/images/layout/tab-close-over.png);
-}
-.ludo-tab-close-top, .ludo-tab-close-bottom{
-    right:2px;
-    top:2px;
-    height:90%;
-    width:12px;
-}
-
-.ludo-tab-close-right{
-    background-image:url(../ludojs/images/layout/tab-close-right.png);
-    bottom:2px;
-    width:90%;
-    height:12px;
-}
-.ludo-tab-close-left{
-    background-image:url(../ludojs/images/layout/tab-close-left.png);
-    top:2px;
-    width:90%;
-    height:12px;
-}
-.ludo-tab-close-right-over{
-    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
-}
-.ludo-tab-close-left-over{
-    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
 }/* ../dhtml-chess/css/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
