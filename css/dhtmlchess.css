@@ -1,4 +1,4 @@
-// ../ludojs/css/view.css
+/* ../ludojs/css/view.css */
 /**
 * CSS RULES
 * All components are assigned to class ludo-<namespace>-<component name>
@@ -16,7 +16,7 @@
     margin-top: -10px;
     width: 150px;
     margin-left: -75px;
-    background-image: url('../images/ajax-loader.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/ajax-loader.gif');
     background-repeat: no-repeat;
     background-position: 5px center;
     padding-left: 25px;
@@ -83,7 +83,7 @@
     overflow: hidden;
     position: relative;
     border-bottom: 1px solid;
-    background-image: url('../images/bg-title-bar-normal.png');
+    background-image: url('../../dhtmlchess/ludojs/images/bg-title-bar-normal.png');
 }
 
 .ludo-component-titlebar .ludo-component-buttonbar {
@@ -219,11 +219,11 @@
 }
 
 .ludo-title-bar-button-container-left-edge {
-    background-image: url('../images/bg-title-bar-buttons.png');
+    background-image: url('../../dhtmlchess/ludojs/images/bg-title-bar-buttons.png');
 }
 
 .ludo-title-bar-button-container-right-edge {
-    background-image: url('../images/bg-title-bar-buttons.png');
+    background-image: url('../../dhtmlchess/ludojs/images/bg-title-bar-buttons.png');
 }
 
 .ludo-view-collapsed-over {
@@ -231,70 +231,70 @@
 }
 
 .ludo-title-bar-button-close {
-    background-image: url('../images/title-bar-btn-close.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-close.png');
 }
 
 .ludo-title-bar-button-close-over {
-    background-image: url('../images/title-bar-btn-close-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-close-over.png');
 }
 
 .ludo-title-bar-button-minimize {
-    background-image: url('../images/title-bar-btn-minimize.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-minimize.png');
 }
 
 .ludo-title-bar-button-minimize-over {
-    background-image: url('../images/title-bar-btn-minimize-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-minimize-over.png');
 }
 
 .ludo-title-bar-button-maximize {
-    background-image: url('../images/title-bar-btn-maximize.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-maximize.png');
 }
 
 .ludo-title-bar-button-maximize-over {
-    background-image: url('../images/title-bar-btn-maximize-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-maximize-over.png');
 }
 
 .ludo-title-bar-button-collapse-left {
-    background-image: url('../images/title-bar-btn-coll-left.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-left.png');
 }
 
 .ludo-title-bar-button-collapse-left-over {
-    background-image: url('../images/title-bar-btn-coll-left-o.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-left-o.png');
 }
 
 .ludo-title-bar-button-collapse-right {
-    background-image: url('../images/title-bar-btn-coll-right.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-right.png');
 }
 
 .ludo-title-bar-button-collapse-right-over {
-    background-image: url('../images/title-bar-btn-coll-right-o.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-right-o.png');
 }
 
 .ludo-title-bar-button-collapse-bottom {
-    background-image: url('../images/title-bar-btn-coll-down.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-down.png');
 }
 
 .ludo-title-bar-button-collapse-bottom-over {
-    background-image: url('../images/title-bar-btn-coll-down-o.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-down-o.png');
 }
 
 .ludo-title-bar-button-collapse-top {
-    background-image: url('../images/title-bar-btn-coll-up.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-up.png');
 }
 
 .ludo-title-bar-button-collapse-top-over {
-    background-image: url('../images/title-bar-btn-coll-up-o.png');
+    background-image: url('../../dhtmlchess/ludojs/images/title-bar-btn-coll-up-o.png');
 }
 
 .ludo-title-bar-button-with-border {
     border-left: 1px solid #AAA;
 }
 .ludo-title-bar-button-menu {
-    background-image: url('../images/dropdown-menu.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/dropdown-menu.gif');
 }
 
 .ludo-title-bar-button-menu-over {
-    background-image: url('../images/dropdown-menu-over.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/dropdown-menu-over.gif');
 }
 
 .ludo-dashboard-insertion-marker {
@@ -303,7 +303,7 @@
     height: 100%;
     margin-bottom: 8px;
     background-color: white;
-    background-image: url(../images/pattern-green.gif);
+    background-image: url(../../dhtmlchess/ludojs/images/pattern-green.gif);
 }
 
 .ludo-body {
@@ -415,7 +415,7 @@ div.ludo-FramedView {
     overflow: hidden;
     position: relative;
 }
-// ../ludojs/css/resize.css
+/* ../ludojs/css/resize.css */
 .ludo-column-resize-handle {
     opacity: 0.05;
     filter: alpha(opacity = 5);
@@ -438,7 +438,7 @@ div.ludo-FramedView {
 }
 
 .ludo-layout-resize-col {
-    background-image: url('../images/horizontal-resize.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/horizontal-resize.gif');
     background-position: center center;
     background-repeat: no-repeat;
     opacity: 1;
@@ -449,7 +449,7 @@ div.ludo-FramedView {
     height: 6px;
     opacity: 1;
     filter: alpha(opacity = 100);
-    background-image: url('../images/vertical-resize.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/vertical-resize.gif');
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -562,7 +562,7 @@ div.ludo-resize-handle-active {
     z-index: 15500;
     right: 0;
 }
-// ../ludojs/css/grid/grid.css
+/* ../ludojs/css/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -648,11 +648,11 @@ div.ludo-resize-handle-active {
 }
 
 .ludo-grid-Grid .ludo-cell-text-sort-asc {
-    background-image: url('../images/grid/grid-sort-asc.png');
+    background-image: url('../../dhtmlchess/ludojs/images/grid/grid-sort-asc.png');
 }
 
 .ludo-grid-Grid .ludo-cell-text-sort-desc {
-    background-image: url('../images/grid/grid-sort-desc.png');
+    background-image: url('../../dhtmlchess/ludojs/images/grid/grid-sort-desc.png');
 }
 
 .ludo-grid-resize-handle {
@@ -750,14 +750,14 @@ div.ludo-grid-movable-insertion-marker {
     width: 7px;
     height: 31px;
     position: absolute;
-    background: transparent url('../images/grid/insertion-marker-top.png') no-repeat top center;
+    background: transparent url('../../dhtmlchess/ludojs/images/grid/insertion-marker-top.png') no-repeat top center;
     border:0;
     margin-left: -4px;
     z-index: 30000;
 }
 
 div.ludo-grid-movable-insertion-marker-bottom {
-    background: url('../images/grid/insertion-marker-bottom.png') no-repeat bottom center;
+    background: url('../../dhtmlchess/ludojs/images/grid/insertion-marker-bottom.png') no-repeat bottom center;
     position:absolute;
     width:100%;
     height:4px;
@@ -770,28 +770,28 @@ div.ludo-grid-movable-insertion-marker-bottom {
 }
 
 .ludo-paging-previous .ludo-form-button-value{
-    background-image:url('../images/grid/previous.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/previous.png');
 }
 .ludo-form-button-disabled.ludo-paging-previous .ludo-form-button-value{
-    background-image:url('../images/grid/previous-disabled.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/previous-disabled.png');
 }
 .ludo-form-button-disabled.ludo-paging-next .ludo-form-button-value{
-    background-image:url('../images/grid/next-disabled.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/next-disabled.png');
 }
 .ludo-paging-next .ludo-form-button-value{
-    background-image:url('../images/grid/next.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/next.png');
 }
 .ludo-paging-last .ludo-form-button-value{
-    background-image:url('../images/grid/last.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/last.png');
 }
 .ludo-form-button-disabled.ludo-paging-last .ludo-form-button-value{
-    background-image:url('../images/grid/last-disabled.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/last-disabled.png');
 }
 .ludo-paging-first .ludo-form-button-value{
-    background-image:url('../images/grid/first.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/first.png');
 }
 .ludo-form-button-disabled.ludo-paging-first .ludo-form-button-value{
-    background-image:url('../images/grid/first-disabled.png');
+    background-image:url('../../dhtmlchess/ludojs/images/grid/first-disabled.png');
 }
 div.ludo-paging-total-pages{
     margin-top:5px;
@@ -805,7 +805,7 @@ div.ludo-paging-total-pages .ludo-body{
 
 
 
-// ../ludojs/css/window.css
+/* ../ludojs/css/window.css */
 .ludo-window{
     box-shadow:2px 2px 3px #888;
     position:absolute;
@@ -814,7 +814,7 @@ div.ludo-paging-total-pages .ludo-body{
     border-radius: 7px 7px 0px 0px;
     -moz-border-radius: 7px 7px 0px 0px;
     webkit-border-radius: 7px 7px 0px 0px;
-}// ../ludojs/css/dialog/dialog.css
+}/* ../ludojs/css/dialog/dialog.css */
 .ludo-dialog-shim{
     position:absolute;
     left:0;
@@ -830,7 +830,7 @@ div.ludo-paging-total-pages .ludo-body{
     background-color:#FFF;
     color:#000;
     font-family:arial, Sans-Serif;
-}// ../ludojs/css/form/form.css
+}/* ../ludojs/css/form/form.css */
 .ludo-form-element div.ludo-body {
     padding: 2px;
 }
@@ -841,7 +841,7 @@ div.ludo-paging-total-pages .ludo-body{
 
 .ludo-body input, .ludo-body textarea {
     font-family: arial, helvetica, Sans-Serif;
-}// ../ludojs/css/form/text.css
+}/* ../ludojs/css/form/text.css */
 .ludo-richcomponent .ludo-form_text .ludo-body,
 .ludo-richcomponent .ludo-form_select .ludo-body{
     margin:3px;
@@ -907,7 +907,7 @@ div.ludo-paging-total-pages .ludo-body{
 }
 
 input.ludo-form-el-invalid{
-    background-image:url('../images/form-el-invalid.png');
+    background-image:url('../../dhtmlchess/ludojs/images/form-el-invalid.png');
     background-position:5px bottom;
     background-repeat: repeat-x;
 }
@@ -917,7 +917,7 @@ label {
     font-family: arial;
     font-size: 12px;
     font-weight:bold;
-}// ../ludojs/css/menu/menu.css
+}/* ../ludojs/css/menu/menu.css */
 .ludo-menu {
     font-family: arial !important;
     font-size: 11px;
@@ -960,7 +960,7 @@ div.ludo-menu-item-spacer-horizontal {
     border: 1px solid #999;
     background-color: #FFF;
     padding: 2px;
-    background-image: url(../images/menu-bar-bg-vertical.png);
+    background-image: url(../../dhtmlchess/ludojs/images/menu-bar-bg-vertical.png);
     background-repeat: repeat-y;
     -moz-box-shadow: 1px 1px 4px #555;
     -webkit-box-shadow: 1px 1px 4px #555;
@@ -1015,11 +1015,11 @@ div.ludo-menu-item-spacer-horizontal {
 }
 
 .ludo-menu-item-vertical-expand {
-    background-image: url(../images/expand-menu.png);
+    background-image: url(../../dhtmlchess/ludojs/images/expand-menu.png);
 }
 
 .ludo-menu-item-horizontal-expand {
-    background-image: url(../images/expand-menu-horizontal.png);
+    background-image: url(../../dhtmlchess/ludojs/images/expand-menu-horizontal.png);
 }
 
 .ludo-menu-item-disabled {
@@ -1038,7 +1038,7 @@ div.ludo-menu-item-spacer-horizontal {
 }
 
 .ludo-menu-item-horizontal.ludo-menu-item-over {
-    background-image: url('../images/menu-item-horizontal-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/menu-item-horizontal-over.png');
 }
 
 .ludo-menu-item-horizontal {
@@ -1048,8 +1048,8 @@ div.ludo-menu-item-spacer-horizontal {
 
 
 .ludo-menu-item-horizontal-expand {
-    background-image: url('../images/expand-menu-horizontal-wh.png');
-}// ../ludojs/css/menu/button.css
+    background-image: url('../../dhtmlchess/ludojs/images/expand-menu-horizontal-wh.png');
+}/* ../ludojs/css/menu/button.css */
 .ludo-menu-button{
     width:16px;
     z-index:10000;
@@ -1057,7 +1057,7 @@ div.ludo-menu-item-spacer-horizontal {
 }
 .ludo-menu-button-active{
 
-    background-image:url(../images/menu/button-arrow.png);
+    background-image:url(../../dhtmlchess/ludojs/images/menu/button-arrow.png);
     background-position : center center;
     background-repeat:no-repeat;
 }
@@ -1067,7 +1067,7 @@ div.ludo-menu-item-spacer-horizontal {
     height:100%;
 
 }
-// ../ludojs/css/Panel.css
+/* ../ludojs/css/Panel.css */
 .ludo-panel{
     margin:5px;
 }
@@ -1089,7 +1089,7 @@ div.ludo-menu-item-spacer-horizontal {
 fieldset{
     padding:0px;
     margin:2px;
-}// ../ludojs/css/form/button.css
+}/* ../ludojs/css/form/button.css */
 .ludo-component-buttonbar {
     box-shadow: 0 !important;
     padding-right: 2px;
@@ -1125,35 +1125,35 @@ div.ludo-form-button-disabled {
 }
 
 .ludo-form-button-selected .ludo-form-button-bg-left {
-    background-image: url('../images/button-bg-light-selected.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-selected.png');
 }
 
 .ludo-form-button-selected .ludo-form-button-bg-right {
-    background-image: url('../images/button-bg-light-selected.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-selected.png');
 }
 
 div.ludo-form-button-disabled .ludo-form-button-bg-left {
-    background-image: url('../images/button-bg-light-disabled.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-disabled.png');
 }
 
 div.ludo-form-button-disabled .ludo-form-button-bg-right {
-    background-image: url('../images/button-bg-light-disabled.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-disabled.png');
 }
 
 .ludo-form-button-over .ludo-form-button-bg-left {
-    background-image: url('../images/button-bg-light-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-over.png');
 }
 
 .ludo-form-button-over .ludo-form-button-bg-right {
-    background-image: url('../images/button-bg-light-over.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-over.png');
 }
 
 .ludo-form-button-down .ludo-form-button-bg-left {
-    background-image: url('../images/button-bg-light-down.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-down.png');
 }
 
 .ludo-form-button-down .ludo-form-button-bg-right {
-    background-image: url('../images/button-bg-light-down.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light-down.png');
 }
 
 .ludo-form-button-bg-left {
@@ -1161,7 +1161,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
     height: 100%;
     position: absolute;
     background-repeat: no-repeat;
-    background-image: url('../images/button-bg-light.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light.png');
 }
 
 .ludo-form-button-bg-right {
@@ -1171,7 +1171,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
     background-repeat: no-repeat;
     position: absolute;
     background-position: top right;
-    background-image: url('../images/button-bg-light.png');
+    background-image: url('../../dhtmlchess/ludojs/images/button-bg-light.png');
 }
 
 .ludo-form-button-value {
@@ -1186,7 +1186,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
 }
 
 
-// ../ludojs/css/tree/tree.css
+/* ../ludojs/css/tree/tree.css */
 div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
@@ -1196,7 +1196,7 @@ div.ludo-tree-tree div.ludo-body{
 .ludo-tree-node{
     background-repeat:repeat-y;
     background-position: top left;
-    background-image: url('../images/tree/tree-dots-2.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/tree/tree-dots-2.gif');
     padding-left:10px;
     margin-left:5px;
     position:relative;
@@ -1213,7 +1213,7 @@ div.ludo-tree-node-root{
 }
 
 span.ludo-tree-node-spacer{
-    background-image: url('../images/tree/tree-dots-2.gif');
+    background-image: url('../../dhtmlchess/ludojs/images/tree/tree-dots-2.gif');
     background-repeat:repeat-x;
     background-position: left bottom;
     position:absolute;
@@ -1240,7 +1240,7 @@ span.ludo-tree-node-spacer{
 div.ludo-tree-node-last-sibling{
    background-position: left 2px;
    background-repeat: no-repeat;
-   background-image:url('../images/tree/tree-dots-last-node-2.gif');
+   background-image:url('../../dhtmlchess/ludojs/images/tree/tree-dots-last-node-2.gif');
     background-position:top left;
 }
 
@@ -1257,11 +1257,11 @@ div.ludo-tree-node-last-sibling{
     height:10px;
     background-repeat:no-repeat;
     background-position: center center;
-    background-image:url('../images/tree/tree-expand.gif');
+    background-image:url('../../dhtmlchess/ludojs/images/tree/tree-expand.gif');
 }
 
 div.ludo-tree-node-collapse{
-    background-image:url('../images/tree/tree-collapse.gif');
+    background-image:url('../../dhtmlchess/ludojs/images/tree/tree-collapse.gif');
 }
 
 div.ludo-tree-movable-shim{
@@ -1285,7 +1285,7 @@ div.ludo-tree-movable-shim img{
     position:absolute;
     width:15px;
     height:6px;
-    background-image:url('../images/tree/tree-drop-child.gif');
+    background-image:url('../../dhtmlchess/ludojs/images/tree/tree-drop-child.gif');
     background-repeat:no-repeat;
     margin-left:28px; /* Offset of insertion marker */
     margin-top:4px;
@@ -1293,7 +1293,7 @@ div.ludo-tree-movable-shim img{
 }
 
 .ludo-tree-insertion-marker-sibling{
-    background-image:url('../images/tree/tree-drop-sibling.gif');
+    background-image:url('../../dhtmlchess/ludojs/images/tree/tree-drop-sibling.gif');
     margin-left:12px; /* Offset of insertion marker */
 }
 
@@ -1323,7 +1323,7 @@ div.ludo-tree-movable-shim img{
 }
 
 .ludo-input-simple-filter-tree input{
-    background-image:url('../images/magnifier.png');
+    background-image:url('../../dhtmlchess/ludojs/images/magnifier.png');
     background-repeat:no-repeat;
     background-position: center right;
 }
@@ -1341,16 +1341,16 @@ span.ludo-tree-node-spacer{
     -moz-user-select:none;
     line-height:16px;
     height:18px;
-}// ../ludojs/css/layout/tab.css
+}/* ../ludojs/css/layout/tab.css */
 .ludo-tab-close{
     background-repeat:no-repeat;
     background-position:center center;
-    background-image:url(../images/layout/tab-close.png);
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close.png);
     position:absolute;
     cursor:pointer;
 }
 .ludo-tab-close-top-over,.ludo-tab-close-bottom-over{
-    background-image:url(../images/layout/tab-close-over.png);
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close-over.png);
 }
 .ludo-tab-close-top, .ludo-tab-close-bottom{
     right:2px;
@@ -1360,23 +1360,23 @@ span.ludo-tree-node-spacer{
 }
 
 .ludo-tab-close-right{
-    background-image:url(../images/layout/tab-close-right.png);
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close-right.png);
     bottom:2px;
     width:90%;
     height:12px;
 }
 .ludo-tab-close-left{
-    background-image:url(../images/layout/tab-close-left.png);
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close-left.png);
     top:2px;
     width:90%;
     height:12px;
 }
 .ludo-tab-close-right-over{
-    background-image:url(../images/layout/tab-close-right-over.png);
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close-right-over.png);
 }
 .ludo-tab-close-left-over{
-    background-image:url(../images/layout/tab-close-left-over.png);
-}// ../dhtml-chess/css/view/notation/panel.css
+    background-image:url(../../dhtmlchess/ludojs/images/layout/tab-close-left-over.png);
+}/* ../dhtml-chess/css/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
@@ -1441,7 +1441,7 @@ div.chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
-// ../dhtml-chess/css/view/board/board.css
+/* ../dhtml-chess/css/view/board/board.css */
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
@@ -1511,16 +1511,16 @@ div.chess-notation-panel .ludo-body {
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
-// ../dhtml-chess/css/view/gamelist/grid.css
+/* ../dhtml-chess/css/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
 }
-// ../dhtml-chess/css/view/message/tactics-message.css
+/* ../dhtml-chess/css/view/message/tactics-message.css */
 .chess-tactics-message .ludo-body{
     text-align:center;
     font-size:20px;
     font-weight:bold;
-}// ../dhtml-chess/css/view/dialog/promote.css
+}/* ../dhtml-chess/css/view/dialog/promote.css */
 .chess-promote-piece{
     cursor:pointer;
     padding:5px;
@@ -1559,7 +1559,7 @@ div.ludo-grid-data-cell {
 }
 .chess-promote-black-knight .ludo-body{
     background-image:url('../images/alphapale90bn.png');
-}// ../dhtml-chess/css/view/command/command.css
+}/* ../dhtml-chess/css/view/command/command.css */
 .chess-command-panel-message, .chess-command-panel-error-message{
     margin:2px;
 }
@@ -1576,7 +1576,7 @@ div.ludo-grid-data-cell {
 .chess-command-panel-message-old{
     font-style:italic;
     color:#555;
-}// ../dhtml-chess/css/view/position/dialog.css
+}/* ../dhtml-chess/css/view/position/dialog.css */
 div.position-setup-piece{
     background-color:#FFF;
     border:1px solid #AAA;

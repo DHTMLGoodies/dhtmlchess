@@ -5,6 +5,7 @@ require_once("php/jsonwrapper/jsonwrapper.php");
 date_default_timezone_set("Europe/Berlin");
 header("Content-type: application/json");
 
+ini_set('display_errors','on');
 /**
  * TODO move this code
  */

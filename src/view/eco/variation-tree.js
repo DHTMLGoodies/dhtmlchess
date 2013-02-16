@@ -19,7 +19,7 @@ chess.view.eco.VariationTree = new Class({
 	module:'chess',
 	submodule:'eco.VariationTree',
 	dataSource:{
-		request:'Eco/moves',
+        resource : 'Eco',
 		autoload:false
 	},
 	openingCache:{},
@@ -57,9 +57,7 @@ chess.view.eco.VariationTree = new Class({
 			return;
 		}
 		this.currentFen = pos;
-
-		this.getDataSource().setQueryParam('fen', pos);
-		this.getDataSource().load();
+        this.getDataSource().sendRequest("moves", pos.replace(/\//g,"_"));
 	},
 
 	cacheVariations:function (json) {

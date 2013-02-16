@@ -43,7 +43,7 @@ chess.controller.Controller = new Class({
 
     addView:function (view) {
         if (this.views[view.submodule] !== undefined) {
-            this.log('submodule ' + view.submodule + ' already registered in controller');
+            ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             return;
         }
         this.views[view.submodule] = view;
