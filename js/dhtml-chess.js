@@ -1669,7 +1669,6 @@ ludo.canvas.Node = new Class({
 	},
 
 	addEvent:function (event, fn) {
-		console.log(event);
 		switch (event.toLowerCase()) {
 			case 'mouseenter':
 				ludo.canvasEventManager.addMouseEnter(this, fn);
@@ -19661,9 +19660,6 @@ ludo.canvas.Filter = new Class({
 		var o = this.mergeTagsOrder;
 		for(var i=0;i<o.length;i++){
 			if(this.mergeTags[o[i]] !== undefined){
-				console.log(this.mergeTags[o[i]].getParent());
-				console.log(this.mergeTags[o[i]].el.tagName);
-				console.log(this.mergeTags[o[i]].el.parentNode);
 				ludo.canvasEngine.toFront(this.mergeTags[o[i]].el);
 			}
 		}
