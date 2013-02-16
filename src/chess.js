@@ -109,3 +109,6 @@ window.chess.events = {
     }
 };
 
+
+ludo.config.setUrl('../router.php');
+ludo.config.disableModRewriteUrls();

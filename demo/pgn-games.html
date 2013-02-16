@@ -9,10 +9,7 @@
     <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
 
-    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
-
-
-
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
     <style type="text/css">
@@ -176,48 +173,6 @@
                                         css:{
                                             'background-color':'#FFF',
                                             'overflow-y':'auto'
-                                        },
-                                        columnManager:{
-                                            columns:{
-                                                player:{
-                                                    heading:'Players',
-                                                    columns:{
-                                                        white:{
-                                                            heading:'White',
-                                                                    key:'white',
-                                                                    width:120,
-                                                                    sortable:true
-                                                        },
-                                                        black:{
-                                                            heading:'Black',
-                                                                    key:'black',
-                                                                    width:120,
-                                                                    sortable:true
-                                                        }
-                                                    }
-                                                } ,
-                                                result:{
-                                                    heading:'Result',
-                                                    key:'result',
-                                                    width:50,
-                                                    sortable:true,
-                                                    removable:true
-                                                },
-                                                event:{
-                                                    heading:'Event',
-                                                    key:'event',
-                                                    weight:1,
-                                                    sortable:true,
-                                                    removable:true
-                                                },
-                                                last_moves:{
-                                                    heading:'Last moves',
-                                                    key:'last_moves',
-                                                    weight:1,
-                                                    sortable:true,
-                                                    removable:true
-                                                }
-                                            }
                                         },
                                         dataSource:{
                                             id:'gameList',
