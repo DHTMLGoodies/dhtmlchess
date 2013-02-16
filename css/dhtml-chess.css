@@ -12,7 +12,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* ../ludojs/css/view.css */
+/* ../ludojs/css-source/view.css */
 /**
 * CSS RULES
 * All components are assigned to class ludo-<namespace>-<component name>
@@ -429,7 +429,7 @@ div.ludo-FramedView {
     overflow: hidden;
     position: relative;
 }
-/* ../ludojs/css/resize.css */
+/* ../ludojs/css-source/resize.css */
 .ludo-column-resize-handle {
     opacity: 0.05;
     filter: alpha(opacity = 5);
@@ -576,7 +576,7 @@ div.ludo-resize-handle-active {
     z-index: 15500;
     right: 0;
 }
-/* ../ludojs/css/layout/tab.css */
+/* ../ludojs/css-source/layout/tab.css */
 
 
 .ludo-tab-container{
@@ -646,7 +646,7 @@ div.ludo-resize-handle-active {
 
 .ludo-tab-close-button-over{
     background-color:#CCC;
-}/* ../ludojs/css/layout/tab-strip.css */
+}/* ../ludojs/css-source/layout/tab-strip.css */
 .ludo-tab-strip {
     margin: 0;
 }
@@ -885,7 +885,7 @@ div.ludo-tab-strip-top div.ludo-body {
     font-family:arial, helvetica, serif;
     font-size:11px;
     line-height:20px;
-}/* ../ludojs/css/grid/grid.css */
+}/* ../ludojs/css-source/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -1128,7 +1128,7 @@ div.ludo-paging-total-pages .ludo-body{
 
 
 
-/* ../ludojs/css/window.css */
+/* ../ludojs/css-source/window.css */
 .ludo-window{
     box-shadow:2px 2px 3px #888;
     position:absolute;
@@ -1137,7 +1137,7 @@ div.ludo-paging-total-pages .ludo-body{
     border-radius: 7px 7px 0px 0px;
     -moz-border-radius: 7px 7px 0px 0px;
     webkit-border-radius: 7px 7px 0px 0px;
-}/* ../ludojs/css/dialog/dialog.css */
+}/* ../ludojs/css-source/dialog/dialog.css */
 .ludo-dialog-shim{
     position:absolute;
     left:0;
@@ -1153,7 +1153,7 @@ div.ludo-paging-total-pages .ludo-body{
     background-color:#FFF;
     color:#000;
     font-family:arial, Sans-Serif;
-}/* ../ludojs/css/form/form.css */
+}/* ../ludojs/css-source/form/form.css */
 .ludo-form-element div.ludo-body {
     padding: 2px;
 }
@@ -1164,7 +1164,7 @@ div.ludo-paging-total-pages .ludo-body{
 
 .ludo-body input, .ludo-body textarea {
     font-family: arial, helvetica, Sans-Serif;
-}/* ../ludojs/css/form/text.css */
+}/* ../ludojs/css-source/form/text.css */
 .ludo-richcomponent .ludo-form_text .ludo-body,
 .ludo-richcomponent .ludo-form_select .ludo-body{
     margin:3px;
@@ -1240,7 +1240,7 @@ label {
     font-family: arial;
     font-size: 12px;
     font-weight:bold;
-}/* ../ludojs/css/menu/menu.css */
+}/* ../ludojs/css-source/menu/menu.css */
 .ludo-menu {
     font-family: arial !important;
     font-size: 11px;
@@ -1372,7 +1372,7 @@ div.ludo-menu-item-spacer-horizontal {
 
 .ludo-menu-item-horizontal-expand {
     background-image: url('../ludojs/images/expand-menu-horizontal-wh.png');
-}/* ../ludojs/css/menu/button.css */
+}/* ../ludojs/css-source/menu/button.css */
 .ludo-menu-button{
     width:16px;
     z-index:10000;
@@ -1390,7 +1390,7 @@ div.ludo-menu-item-spacer-horizontal {
     height:100%;
 
 }
-/* ../ludojs/css/Panel.css */
+/* ../ludojs/css-source/Panel.css */
 .ludo-panel{
     margin:5px;
 }
@@ -1412,7 +1412,7 @@ div.ludo-menu-item-spacer-horizontal {
 fieldset{
     padding:0px;
     margin:2px;
-}/* ../ludojs/css/form/button.css */
+}/* ../ludojs/css-source/form/button.css */
 .ludo-component-buttonbar {
     box-shadow: 0 !important;
     padding-right: 2px;
@@ -1509,7 +1509,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
 }
 
 
-/* ../ludojs/css/tree/tree.css */
+/* ../ludojs/css-source/tree/tree.css */
 div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
@@ -1664,7 +1664,7 @@ span.ludo-tree-node-spacer{
     -moz-user-select:none;
     line-height:16px;
     height:18px;
-}/* ../dhtml-chess/css/view/notation/panel.css */
+}/* ../dhtml-chess/css-source/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
@@ -1729,7 +1729,7 @@ div.chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
-/* ../dhtml-chess/css/view/board/board.css */
+/* ../dhtml-chess/css-source/view/board/board.css */
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
@@ -1799,16 +1799,16 @@ div.chess-notation-panel .ludo-body {
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
-/* ../dhtml-chess/css/view/gamelist/grid.css */
+/* ../dhtml-chess/css-source/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
 }
-/* ../dhtml-chess/css/view/message/tactics-message.css */
+/* ../dhtml-chess/css-source/view/message/tactics-message.css */
 .chess-tactics-message .ludo-body{
     text-align:center;
     font-size:20px;
     font-weight:bold;
-}/* ../dhtml-chess/css/view/dialog/promote.css */
+}/* ../dhtml-chess/css-source/view/dialog/promote.css */
 .chess-promote-piece{
     cursor:pointer;
     padding:5px;
@@ -1847,7 +1847,7 @@ div.ludo-grid-data-cell {
 }
 .chess-promote-black-knight .ludo-body{
     background-image:url('../images/alphapale90bn.png');
-}/* ../dhtml-chess/css/view/command/command.css */
+}/* ../dhtml-chess/css-source/view/command/command.css */
 .chess-command-panel-message, .chess-command-panel-error-message{
     margin:2px;
 }
@@ -1864,7 +1864,7 @@ div.ludo-grid-data-cell {
 .chess-command-panel-message-old{
     font-style:italic;
     color:#555;
-}/* ../dhtml-chess/css/view/position/dialog.css */
+}/* ../dhtml-chess/css-source/view/position/dialog.css */
 div.position-setup-piece{
     background-color:#FFF;
     border:1px solid #AAA;
