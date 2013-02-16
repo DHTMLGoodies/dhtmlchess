@@ -186,6 +186,13 @@ class ChessFS implements LudoDBService
     }
 
     public function getOnSuccessMessageFor($service){
-        return "";
+        switch($service){
+            case "listOfGames":
+                return "Games loaded";
+            case "getGame":
+                return "Game loaded";
+            default:
+                return "";
+        }
     }
 }
