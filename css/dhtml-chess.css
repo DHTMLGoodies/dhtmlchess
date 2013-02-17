@@ -577,75 +577,40 @@ div.ludo-resize-handle-active {
     right: 0;
 }
 /* ../ludojs/css-source/layout/tab.css */
-
-
-.ludo-tab-container{
-    position: relative;
-    height: 30px;
-}
-
-.ludo-body-tabs{
-    padding:0px;
-}
-.ludo-tab{
-    margin-top:5px;
-    height:25px;
-    line-height:25px;
-    padding-left:18px;
-    padding-right:18px;
-    float:left;
+.ludo-tab-close{
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-image:url(../ludojs/images/layout/tab-close.png);
+    position:absolute;
     cursor:pointer;
-    font-weight:bold;
-    font-family: arial;
-    font-size:0.9em;
-    position : relative;
-    color:#000;
 }
-.ludo-tab-active{
-    background-color:#f4f3f1;
-    color:#000;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+.ludo-tab-close-top-over,.ludo-tab-close-bottom-over{
+    background-image:url(../ludojs/images/layout/tab-close-over.png);
+}
+.ludo-tab-close-top, .ludo-tab-close-bottom{
+    right:2px;
+    top:2px;
+    height:90%;
+    width:12px;
 }
 
-.ludo-tab-container-content{
-    background-color:#d2d1cf;
+.ludo-tab-close-right{
+    background-image:url(../ludojs/images/layout/tab-close-right.png);
+    bottom:2px;
+    width:90%;
+    height:12px;
 }
-
-.ludo-tab-spacer{
-    margin-left:5px;
-    margin-right:5px;
-    height:15px;
-    float:left;
-    width:2px;
-    margin-top:12px;
-    background-color:#555;
+.ludo-tab-close-left{
+    background-image:url(../ludojs/images/layout/tab-close-left.png);
+    top:2px;
+    width:90%;
+    height:12px;
 }
-
-.ludo-tab-active .ludo-tab-close-button{
-    display : block;
+.ludo-tab-close-right-over{
+    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
 }
-
-.ludo-tab-close-button {
-    position: absolute;
-    right : 3px;
-    top: 8px;
-    width : 11px;
-    height: 11px;
-    display: none;
-    font-size:12px;
-    border-radius : 3px;
-    webkit-border-radius: 3px;
-    -moz-border-radius : 3px;      
-    background-image : url('../ludojs/images/close-tab.png');
-    background-position : center center;
-    background-repeat : no-repeat;
-    text-align:center;
-    color:#555;
-}
-
-.ludo-tab-close-button-over{
-    background-color:#CCC;
+.ludo-tab-close-left-over{
+    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
 }/* ../ludojs/css-source/layout/tab-strip.css */
 .ludo-tab-strip {
     margin: 0;

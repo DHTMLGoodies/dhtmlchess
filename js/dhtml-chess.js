@@ -17,39 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @module ludo
  * @main ludo
  */
-if (!window.ludo)window.ludo = {};
-ludo.form = {
-    validator:{}
+window.ludo = {
+    form:{ validator:{} },color:{}, dialog:{},remote:{},tree:{},model:{},tpl:{},video:{},storage:{},
+    grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},
+    dataSource:{},controller:{},card:{},canvas:{},socket:{},menu:{},view:{},audio:{}
 };
-ludo.dashboard = {};
-ludo.dialog = {};
-ludo.remote = {};
-ludo.tree = {};
-ludo.model = {};
-ludo.tpl = {};
-ludo.video = {};
-ludo.storage = {};
-ludo.grid = {};
-ludo.effect = {};
-ludo.paging = {};
-ludo.calendar = {};
-ludo.layout = {};
-ludo.progress = {};
-ludo.dataSource = {};
-ludo.controller = {};
-ludo.card = {};
-ludo.canvas = {};
-ludo.svg = {};
-ludo.socket = {};
-ludo.menu = {};
-ludo.view = {};
-ludo.audio = {};
 
-if (Browser.ie) {
+if (Browser['ie']) {
     try {
         document.execCommand("BackgroundImageCache", false, true);
-    } catch (e) {
-    }
+    } catch (e) { }
 }
 
 ludo.SINGLETONS = {};
@@ -662,7 +639,60 @@ ludo._Config = new Class({
 	}
 });
 
-ludo.config = new ludo._Config();/* ../ludojs/src/core.js */
+ludo.config = new ludo._Config();/* ../ludojs/src/assets.js */
+/**
+ * TODO refactor this into the ludoJS framework
+ */
+var Asset = {
+    javascript: function(source, properties){
+        if (!properties) properties = {};
+
+        var script = new Element('script', {src: source, type: 'text/javascript'}),
+            doc = properties.document || document,
+            load = properties.onload || properties.onLoad;
+
+        delete properties.onload;
+        delete properties.onLoad;
+        delete properties.document;
+
+        if (load){
+            if (typeof script.onreadystatechange != 'undefined'){
+                script.addEvent('readystatechange', function(){
+                    if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
+                });
+            } else {
+                script.addEvent('load', load);
+            }
+        }
+
+        return script.set(properties).inject(doc.head);
+    },
+
+    css: function(source, properties){
+        if (!properties) properties = {};
+
+        var link = new Element('link', {
+            rel: 'stylesheet',
+            media: 'screen',
+            type: 'text/css',
+            href: source
+        });
+
+        var load = properties.onload || properties.onLoad,
+            doc = properties.document || document;
+
+        delete properties.onload;
+        delete properties.onLoad;
+        delete properties.document;
+
+        if (load) link.addEvent('load', load);
+        return link.set(properties).inject(doc.head);
+    }
+};
+
+if(Browser.ie && Browser.version <9){
+    Asset.css('dashboard/css/dashboard-ie.css');
+}/* ../ludojs/src/core.js */
 /**
  * Base class for components and views in ludoJS. This class extends
  * Mootools Events class.
@@ -2832,7 +2862,6 @@ ludo.layout.Card = new Class({
 			this.addEvent('highercard', this.animateHigherCard.bind(this));
 			this.addEvent('lowercard', this.animateLowerCard.bind(this));
 		}
-
 	},
 	addChild:function (child, insertAt, pos) {
 		if (!child.layout || !child.layout.visible)child.hidden = true;
@@ -2884,11 +2913,11 @@ ludo.layout.Card = new Class({
 	/**
 	 * Return reference to previus card of passed card
 	 * @method getPreviousCardOf
-	 * @param {Object} card.Card
-	 * @return card.Card
+	 * @param {View} view
+	 * @return View
 	 */
-	getPreviousCardOf:function (card) {
-		var index = this.view.children.indexOf(card);
+	getPreviousCardOf:function (view) {
+		var index = this.view.children.indexOf(view);
 		if (index > 0) {
 			return this.view.children[index - 1];
 		}
@@ -2974,7 +3003,7 @@ ludo.layout.Card = new Class({
 	/**
 	 * Return true if passed card is last card in deck
 	 * @method isLastCard
-	 * @param {Object} card.Card
+	 * @param {View} card
 	 * @return Boolean
 	 */
 	isLastCard:function (card) {
@@ -2983,7 +3012,7 @@ ludo.layout.Card = new Class({
 	/**
 	 * Return true if passed card is first card in deck
 	 * @method isFirstCard
-	 * @param {Object} card.Card
+	 * @param  {View} card
 	 * @return {Boolean}
 	 */
 	isFirstCard:function (card) {
@@ -3009,16 +3038,16 @@ ludo.layout.Card = new Class({
 			/**
 			 * Event fired when a higher card than current is shown
 			 * @event highercard
-			 * @param {card.Deck} this deck
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this deck
+			 * @param {View} shown card
 			 */
 			this.fireEvent('highercard', [this, card]);
 		} else if (indexDiff < 0) {
 			/**
 			 * Event fired when a lower card than current is shown
 			 * @event lowercard
-			 * @param {card.Deck} this deck
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this deck
+			 * @param {View} shown card
 			 */
 			this.fireEvent('lowercard', [this, card]);
 		}
@@ -3026,8 +3055,8 @@ ludo.layout.Card = new Class({
 		/**
 		 * Event fired when a card is shown
 		 * @event showcard
-		 * @param {card.Deck} this deck
-		 * @param {card.Card} shown card
+		 * @param {layout.Card} this deck
+		 * @param {View} shown card
 		 */
 		this.fireEvent('showcard', [this, this.visibleCard]);
 
@@ -3035,16 +3064,16 @@ ludo.layout.Card = new Class({
 			/**
 			 * Event fired when last card of deck is shown
 			 * @event lastcard
-			 * @param {card.Deck} this card
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this card
+			 * @param {View} shown card
 			 */
 			this.fireEvent('lastcard', [this, card]);
 		} else {
 			/**
 			 * Event fired when na card which is not the last card in the deck is shown
 			 * @event notlastcard
-			 * @param {card.Deck} this card
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this card
+			 * @param {View} shown card
 			 */
 			this.fireEvent('notlastcard', [this, card]);
 		}
@@ -3052,8 +3081,8 @@ ludo.layout.Card = new Class({
 			/**
 			 * Event fired when first card of deck is shown
 			 * @event firstcard
-			 * @param {card.Deck} this card
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this card
+			 * @param {View} shown card
 			 */
 			this.fireEvent('firstcard', [this, card]);
 		}
@@ -3061,8 +3090,8 @@ ludo.layout.Card = new Class({
 			/**
 			 * Event fired when a card which is not the first card in the deck is shown
 			 * @event notfirstcard
-			 * @param {card.Deck} this card
-			 * @param {card.Card} shown card
+			 * @param {layout.Card} this card
+			 * @param {View} shown card
 			 */
 			this.fireEvent('notfirstcard', [this, card]);
 		}
@@ -6676,12 +6705,10 @@ ludo.layout.Relative = new Class({
 
 		if (child.layout.height === undefined)child.layout.height = child.height ? child.height : undefined;
 
-		if (child.layout.leftOf !== undefined)child.layout.right = undefined;
-		if (child.layout.rightOf !== undefined)child.layout.left = undefined;
-		if (child.layout.below !== undefined)child.layout.top = undefined;
-		if (child.layout.above !== undefined)child.layout.bottom = undefined;
-
-
+		if (child.layout.leftOf)child.layout.right = undefined;
+		if (child.layout.rightOf)child.layout.left = undefined;
+		if (child.layout.below)child.layout.top = undefined;
+		if (child.layout.above)child.layout.bottom = undefined;
 	},
 
     /**
@@ -10071,16 +10098,15 @@ ludo.dataSource.Record = new Class({
 	 @param {Object} properties
 	 @return {dataSource.Record|undefined}
 	 @example
-	 var collection = new ludo.dataSource.Collection({
+	    var collection = new ludo.dataSource.Collection({
 	 		idField:'id'
 		});
 	 collection.getRecord(100).setProperties({ country:'Norway', capital:'Oslo' });
 	 will set country to "Norway" and capital to "Oslo" for record where "id" is equal to 100. If you're not sure
 	 that the record exists, you should use code like this:
 	 @example
-	 var rec = collection.getRecord(100);
-	 if(rec)rec.setProperties({ country:'Norway', capital:'Oslo' });
-
+	    var rec = collection.getRecord(100);
+	    if(rec)rec.setProperties({ country:'Norway', capital:'Oslo' });
 	 */
 	setProperties:function (properties) {
 		this.fireEvent('beforeUpdate', this.record);
@@ -10363,11 +10389,6 @@ ludo.dataSource.SearchParser = new Class({
 
 	setOperator:function (operator) {
 		this.branches[this.branches.length - 1].operator = operator;
-	},
-
-	log:function (what) {
-		if (typeof what == 'object')what = JSON.encode(what);
-		console.log(what);
 	}
 });/* ../ludojs/src/data-source/collection-search.js */
 /**
@@ -10855,8 +10876,8 @@ ludo.dataSource.Collection = new Class({
 		this.parent(config);
 
 		if (config.searchConfig !== undefined)this.searchConfig = config.searchConfig;
-		if (config.sortFn !== undefined)this.sortFn = config.sortFn;
-		if (config.primaryKey !== undefined)this.primaryKey = config.primaryKey;
+		if (config.sortFn)this.sortFn = config.sortFn;
+		if (config.primaryKey)this.primaryKey = config.primaryKey;
 		if (this.primaryKey && !ludo.util.isArray(this.primaryKey))this.primaryKey = [this.primaryKey];
 
 		if (config.paging !== undefined) {
@@ -11059,13 +11080,13 @@ ludo.dataSource.Collection = new Class({
 	 *
 	 * @method findRecord
 	 * @param {Object} search
-	 * @return {Object} record
+	 * @return {Object|undefined} record
 	 */
 	findRecord:function (search) {
 		if (!this.data)return undefined;
-		if(search.getUID !== undefined)search = search.getUID();
+		if(search['getUID'] !== undefined)search = search.getUID();
         // TODO uid causes problems when you have a ludo.model.Model without uid. Refactor!
-		if(search.uid !== undefined)search = search.uid;
+		if(search.uid)search = search.uid;
 		var rec = this.getById(search);
 		if(rec)return rec;
 		for (var i = 0; i < this.data.length; i++) {
@@ -11263,7 +11284,7 @@ ludo.dataSource.Collection = new Class({
 	/**
 	 * Return selected record
 	 * @method getSelectedRecord
-	 * @return {Object} record
+	 * @return {Object|undefined} record
 	 */
 	getSelectedRecord:function () {
 		if (this.selectedRecords.length > 0) {
@@ -11474,10 +11495,10 @@ ludo.dataSource.Collection = new Class({
     },
 
 	isCacheOutOfDate:function () {
-		if (!this.paging.cacheTimeout)return false;
+		if (!this.paging['cacheTimeout'])return false;
 
 		var created = this.dataCache[this.getCacheKey()].time;
-		return created + (this.paging.cacheTimeout * 1000) < (new Date().getTime());
+		return created + (this.paging['cacheTimeout'] * 1000) < (new Date().getTime());
 	},
 
 	getCacheKey:function () {
@@ -11582,7 +11603,6 @@ ludo.dataSource.Collection = new Class({
 		if (!this.paging || this.paging.pageQuery) {
 			return this.parent();
 		}
-
 		return this.getDataForPage(this.data);
 	},
 
@@ -11752,7 +11772,7 @@ ludo.dataSource.Collection = new Class({
 	 of it's methods.
 	 @method getRecord
 	 @param {String|Object} search
-	 @return {dataSource.Record}
+	 @return {dataSource.Record|undefined}
 	 @example
 		 var collection = new ludo.dataSource.Collection({
 			url : 'get-countries.php',
@@ -16284,8 +16304,7 @@ faultylabs.MD5 = function(data) {
         return int128le_to_hex(h3, h2, h1, h0).toUpperCase()
     }
 
-
-}/* ../ludojs/src/form/password.js */
+};/* ../ludojs/src/form/password.js */
 /**
  Password field
  @namespace form
@@ -16659,7 +16678,6 @@ ludo.form.Checkbox = new Class({
  */
 ludo.controller.Manager = new Class({
     Extends: ludo.Core,
-
     controllers : [],
     components : [],
 
@@ -16808,8 +16826,7 @@ ludo.controller.Controller = new Class({
 	},
 
 	addBroadcastFor:function (component) {
-		if (this.broadcast === undefined)return;
-		if (this.broadcast[component.type] !== undefined) {
+		if (this.broadcast && this.broadcast[component.type] !== undefined) {
 			var ev = this.broadcast[component.type];
 			for (var i = 0; i < ev.length; i++) {
 				var eventNames = this.getBroadcastEventNames(ev[i]);
@@ -16868,8 +16885,6 @@ ludo.controller.Controller = new Class({
 	isInSameNamespaceAs:function (component) {
 		return this.getNamespace() == component.getNamespace();
 	}
-
-
 });
 
 ludo.getController = function (controller) {
@@ -17473,7 +17488,6 @@ ludo.menu.MenuHandler = new Class({
  * @extends View
  */
 ludo.menu.MenuItem = new Class({
-
 	Extends:ludo.View,
 	type:'menu.MenuItem',
 	menu:null,
@@ -17754,6 +17768,7 @@ ludo.menu.MenuItem = new Class({
 			}
 			return this;
 		}
+        return undefined;
 	},
 
 	getParentMenuItem:function () {
@@ -17775,7 +17790,6 @@ ludo.menu.MenuItem = new Class({
  * @extends View
  */
 ludo.menu.Menu = new Class({
-
     Extends : ludo.View,
     type : 'menu.Menu',
     cType : 'menu.MenuItem',
@@ -17802,7 +17816,6 @@ ludo.menu.Menu = new Class({
             config.height = 'auto';
 			this.layout.type = 'rows';
         }
-
         this.parent(config);
     },
 
@@ -17958,8 +17971,6 @@ ludo.menu.Menu = new Class({
     isMenu:function(){
         return true;
     }
-
-
 });
 
 
@@ -23170,23 +23181,28 @@ ludo.card.ProgressBar = new Class({
     Extends: ludo.progress.Bar,
     hidden:false,
 	applyTo:undefined,
+
     ludoConfig:function(config){
         this.parent(config);
 		if(config.applyTo!==undefined)this.applyTo = config.applyTo;
         this.component = this.getParentComponent();
 		if(this.component)this.component.getLayoutManager().registerButton(this);
     },
+
     ludoEvents:function(){
         this.parent();
         this.component.getLayoutManager().addEvent('showcard', this.setCardPercent.bind(this))
     },
+
     ludoRendered:function(){
         this.parent();
         this.setCardPercent();
     },
+
     setCardPercent:function(){
         this.setPercent(this.component.getLayoutManager().getPercentCompleted());
     },
+
     getParentComponent:function () {
 		if(this.applyTo)return ludo.get(this.applyTo);
         var cmp = this.getParent();
