@@ -5500,7 +5500,7 @@ ludo.View = new Class({
 		if (child.name) {
 			this.child[child.name] = child;
 		}
-		child.addEvent('dispose', this.removeChild);
+		child.addEvent('dispose', this.removeChild.bind(this));
 		return child;
 	},
 
