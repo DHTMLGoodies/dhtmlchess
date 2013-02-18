@@ -18,7 +18,7 @@ chess.view.user.Panel = new Class({
 	 * @type String
 	 * @default '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>'
 	 */
-    tpl : '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>',
+    tpl : '<b>' + chess.getPhrase('Signed in as') + ' {username}</b>',
 
 	/**
 	 * @config css

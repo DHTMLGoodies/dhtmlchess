@@ -12,7 +12,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick:false,
     width:660,
     height:500,
-    title:chess.getPhrase('positionSetup'),
+    title:chess.getPhrase('Position setup'),
     layout:'rows',
     selectedPiece:undefined,
 

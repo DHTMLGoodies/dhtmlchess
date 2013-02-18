@@ -10,7 +10,7 @@ chess.view.user.RegisterWindow = new Class({
     type:'chess.view.user.Login',
     left:50, top:50,
     width:500, height:225,
-    title:chess.getPhrase('login'),
+    title:chess.getPhrase('Register'),
     hidden:true,
     module:'user',
     submodule:'registerWindow',
@@ -27,19 +27,19 @@ chess.view.user.RegisterWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
-            type:'form.Email', name:'email', label:chess.getPhrase('email'), required:true, stretchField:true
+            type:'form.Email', name:'email', label:chess.getPhrase('E-mail'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), required:true, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), required:true, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
@@ -48,10 +48,10 @@ chess.view.user.RegisterWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.getPhrase('register')
+            type:'form.SubmitButton', value:chess.getPhrase('Register')
         },
         {
-            type:'form.CancelButton', value:chess.getPhrase('cancel')
+            type:'form.CancelButton', value:chess.getPhrase('Cancel')
         }
 
     ],

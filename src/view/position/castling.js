@@ -7,7 +7,7 @@
 chess.view.position.Castling = new Class({
     Extends:ludo.Panel,
     height:125,
-    title:chess.getPhrase('castling'),
+    title:chess.getPhrase('Castling'),
 
     layout:'rows',
     values : {

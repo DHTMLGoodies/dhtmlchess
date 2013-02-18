@@ -7,7 +7,7 @@
 chess.view.position.SideToMove = new Class({
     Extends:ludo.Panel,
     height:80,
-    title:chess.getPhrase('sideToMove'),
+    title:chess.getPhrase('Side to move'),
 
     ludoRendered:function () {
         this.parent();

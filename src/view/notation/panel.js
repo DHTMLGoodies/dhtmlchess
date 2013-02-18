@@ -101,16 +101,16 @@ chess.view.notation.Panel = new Class({
             },
             selector:'notation-chess-move',
             children:[
-                { label:'Add comment before', action : 'commentBefore' },
-                { label:'Add Comment After', action : 'commentAfter'},
+                { label:chess.getPhrase('Add comment before'), action : 'commentBefore' },
+                { label:chess.getPhrase('Add comment after'), action : 'commentAfter'},
                 { label:'Grade', children:[
-                    { icon:'', label:chess.getPhrase('clear'), action:'grade' },
-                    { icon:'!', label:chess.getPhrase('goodMove'), action:'grade' },
-                    { icon:'?', label:chess.getPhrase('poorMove'), action:'grade' },
-                    { icon:'!!', label:chess.getPhrase('veryGoodMove'), action:'grade' },
-                    { icon:'??', label:chess.getPhrase('veryPoorMove'), action:'grade' },
-                    { icon:'?!', label:chess.getPhrase('questionableMove'), action:'grade' },
-                    { icon:'!?', label:chess.getPhrase('speculativeMove'), action:'grade' }
+                    { icon:'', label:chess.getPhrase('Clear'), action:'grade' },
+                    { icon:'!', label:chess.getPhrase('Good move'), action:'grade' },
+                    { icon:'?', label:chess.getPhrase('Poor move'), action:'grade' },
+                    { icon:'!!', label:chess.getPhrase('Very good move'), action:'grade' },
+                    { icon:'??', label:chess.getPhrase('Very poor move'), action:'grade' },
+                    { icon:'?!', label:chess.getPhrase('Questionable move'), action:'grade' },
+                    { icon:'!?', label:chess.getPhrase('Speculative move'), action:'grade' }
                 ]},
                 { label:'Delete remaining moves'}
             ]

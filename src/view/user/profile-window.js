@@ -14,7 +14,7 @@ chess.view.user.ProfileWindow = new Class({
         type:'linear',
         orientation:'vertical'
     },
-    title:chess.getPhrase('myProfile'),
+    title:chess.getPhrase('My profile'),
     hidden:true,
     module:'user',
     submodule:'profileWindow',
@@ -26,22 +26,22 @@ chess.view.user.ProfileWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
-            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('fullname'), stretchField:true
+            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('Full name'), stretchField:true
         },
         {
-            type:'form.DisplayField', name:'email', label:chess.getPhrase('email')
+            type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
         },
         {
-            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('country'), required:false, stretchField:true
+            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
@@ -50,10 +50,10 @@ chess.view.user.ProfileWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.getPhrase('ok')
+            type:'form.SubmitButton', value:chess.getPhrase('OK')
         },
         {
-            type:'form.CancelButton', value:chess.getPhrase('cancel')
+            type:'form.CancelButton', value:chess.getPhrase('Cancel')
         }
 
     ],
@@ -65,7 +65,7 @@ chess.view.user.ProfileWindow = new Class({
 
     showSaveConfirmMessage :function(){
         this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.getPhrase('changesSaved'));
+        this.child['errorMessage'].setHtml(chess.getPhrase('Changes saved successfully'));
         this.hide.delay(1000, this);
         this.child['errorMessage'].hide.delay(1000, this.child['errorMessage']);
     },

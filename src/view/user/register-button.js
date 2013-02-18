@@ -12,7 +12,7 @@ chess.view.user.RegisterButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'registerButton',
-    value:chess.getPhrase('register'),
+    value:chess.getPhrase('Register'),
     hidden:true,
 
     addControllerEvents:function () {
