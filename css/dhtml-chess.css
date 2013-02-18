@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 8:18:50 CET 2013 */
+/* Generated Mon Feb 18 11:04:15 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1099,7 +1099,7 @@ div.ludo-paging-total-pages .ludo-body{
     box-shadow:2px 2px 3px #888;
     position:absolute;
 }
-.ludo-window, .ludo-dashboard-column .ludo-richcomponent, .ludo-rich-view-shim {
+.ludo-window, .ludo-richcomponent, .ludo-rich-view-shim {
     border-radius: 7px 7px 0px 0px;
     -moz-border-radius: 7px 7px 0px 0px;
     webkit-border-radius: 7px 7px 0px 0px;
@@ -1196,7 +1196,7 @@ div.ludo-paging-total-pages .ludo-body{
 }
 
 input.ludo-form-el-invalid{
-    background-image:url('../ludojs/images/form-el-invalid.png');
+    background-image:url('../ludojs/images/form/form-el-invalid.png');
     background-position:5px bottom;
     background-repeat: repeat-x;
 }
@@ -1414,35 +1414,35 @@ div.ludo-form-button-disabled {
 }
 
 .ludo-form-button-selected .ludo-form-button-bg-left {
-    background-image: url('../ludojs/images/button-bg-light-selected.png');
+    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
 }
 
 .ludo-form-button-selected .ludo-form-button-bg-right {
-    background-image: url('../ludojs/images/button-bg-light-selected.png');
+    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
 }
 
 div.ludo-form-button-disabled .ludo-form-button-bg-left {
-    background-image: url('../ludojs/images/button-bg-light-disabled.png');
+    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
 }
 
 div.ludo-form-button-disabled .ludo-form-button-bg-right {
-    background-image: url('../ludojs/images/button-bg-light-disabled.png');
+    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
 }
 
 .ludo-form-button-over .ludo-form-button-bg-left {
-    background-image: url('../ludojs/images/button-bg-light-over.png');
+    background-image: url('../ludojs/images/button/button-bg-light-over.png');
 }
 
 .ludo-form-button-over .ludo-form-button-bg-right {
-    background-image: url('../ludojs/images/button-bg-light-over.png');
+    background-image: url('../ludojs/images/button/button-bg-light-over.png');
 }
 
 .ludo-form-button-down .ludo-form-button-bg-left {
-    background-image: url('../ludojs/images/button-bg-light-down.png');
+    background-image: url('../ludojs/images/button/button-bg-light-down.png');
 }
 
 .ludo-form-button-down .ludo-form-button-bg-right {
-    background-image: url('../ludojs/images/button-bg-light-down.png');
+    background-image: url('../ludojs/images/button/button-bg-light-down.png');
 }
 
 .ludo-form-button-bg-left {
@@ -1450,7 +1450,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
     height: 100%;
     position: absolute;
     background-repeat: no-repeat;
-    background-image: url('../ludojs/images/button-bg-light.png');
+    background-image: url('../ludojs/images/button/button-bg-light.png');
 }
 
 .ludo-form-button-bg-right {
@@ -1460,7 +1460,7 @@ div.ludo-form-button-disabled .ludo-form-button-bg-right {
     background-repeat: no-repeat;
     position: absolute;
     background-position: top right;
-    background-image: url('../ludojs/images/button-bg-light.png');
+    background-image: url('../ludojs/images/button/button-bg-light.png');
 }
 
 .ludo-form-button-value {
