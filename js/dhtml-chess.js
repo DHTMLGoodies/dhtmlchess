@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 22:33:36 CET 2013 */
+/* Generated Mon Feb 18 22:36:47 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -18840,7 +18840,7 @@ ludo.remote.JSON = new Class({
      * @return {Object|undefined}
      */
     getResponseData:function () {
-        return this.JSON.response ? this.JSON.response : this.JSON.data;
+        return this.JSON.response ? this.JSON.response.data ? this.JSON.response.data : this.JSON.response : this.JSON.data;
     },
     /**
      * Return entire server response of last request.
