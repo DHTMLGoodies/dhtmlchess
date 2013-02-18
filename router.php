@@ -17,7 +17,6 @@ LudoDB::setDb('PHPUnit');
 LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
 
 LudoDB::enableLogging();
-LudoDB::enableSqlLogging();
 
 // For static(No db) installations
 ChessRegistry::setPgnFolder("pgn");
