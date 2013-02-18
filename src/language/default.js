@@ -1,3 +1,4 @@
+// TODO refactor use of language so that it's possible to include a custom language file later and get it's values.
 chess.language = {
     pieces:{
         'pawn':'',
