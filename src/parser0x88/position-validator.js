@@ -36,7 +36,6 @@ chess.parser.PositionValidator = new Class({
 
     hasBothKings : function(){
 		return this.getKing('white') && this.getKing('black');
-
     },
 
     getOppositeColor : function(){

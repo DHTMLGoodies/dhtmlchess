@@ -8,10 +8,6 @@
 chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
-    params : {
-        getGame : 1
-    },
-
     loadGame : function(id){
 		this.query({
 			"resource": "Game",
@@ -22,7 +18,6 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
-
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
@@ -37,22 +32,25 @@ chess.remote.GameReader = new Class({
 			"resource": "Game",
 			"service": "save",
 			"eventOnLoad": "saved",
-			"arguments": id,
+			"arguments": game.id,
 			"data": game
 		});
     },
 
     loadRandomGame : function(databaseId) {
-        this.params = {
-            databaseId : databaseId || 0
-        };
-        this.query('getRandomGame');
+        this.query({
+            "resource": "Database",
+            "arguments": databaseId,
+            "service": 'getRandomGame'
+        });
     },
 
     getEngineMove : function(fen){
-        this.params = {
-            fen : fen
-        };
-        this.query('EngineMove',undefined, 'newMove');
+        this.query({
+            "resource": "ChessEngine",
+            "arguments": fen,
+            "service": 'getMove',
+            "eventOnLoad": "newMove"
+        });
     }
 });

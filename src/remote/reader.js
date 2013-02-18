@@ -1,22 +1,17 @@
 chess.remote.Reader = new Class({
     Extends:Events,
-    params : {
-
-    },
 	onLoadEvent:undefined,
-	resource:undefined,
 
     query : function(config) {
-		this.resource = config.resource;
         this.onLoadEvent = config.eventOnLoad || 'load';
-		this.remoteHandler().send(config.service, config.arguments, config.data);
+		this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
     },
 	_remoteHandler:undefined,
 
-	remoteHandler:function(){
+	remoteHandler:function(resource){
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
-				resource : this.resource,
+				resource : resource,
 				listeners:{
 					"success": function(request){
 						this.fireEvent(this.onLoadEvent, request.getResponseData());
@@ -24,6 +19,7 @@ chess.remote.Reader = new Class({
 				}
 			});
 		}
+        this._remoteHandler.setResource(resource);
 		return this._remoteHandler;
 	},
 

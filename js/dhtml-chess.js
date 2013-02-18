@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 16:01:36 CET 2013 */
+/* Generated Mon Feb 18 19:58:08 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -18752,7 +18752,7 @@ ludo.remote.JSON = new Class({
         if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
 
         ludo.remoteBroadcaster.clear(this, service);
-
+        // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
         // TODO the events here should be fired for the components sending the request.
         var req = new Request.JSON({
             url:this.getUrl(service, resourceArguments),
@@ -18869,6 +18869,10 @@ ludo.remote.JSON = new Class({
 
     getResource:function(){
         return this.resource;
+    },
+
+    setResource:function(resource){
+        this.resource = resource;
     }
 });
 /* ../ludojs/src/remote/broadcaster.js */
@@ -30051,7 +30055,6 @@ chess.parser.PositionValidator = new Class({
 
     hasBothKings : function(){
 		return this.getKing('white') && this.getKing('black');
-
     },
 
     getOppositeColor : function(){
@@ -30652,11 +30655,6 @@ chess.controller.GameplayController = new Class({
             this.fireEvent(event, [model, param]);
         }
     }
-});/* ../dhtml-chess/src/model/model.js */
-chess.model.Model = new Class({
-    Extends : Events,
-
-    model : {}
 });/* ../dhtml-chess/src/model/game.js */
 /**
  * Chess game model
@@ -32269,23 +32267,18 @@ chess.model.Game = new Class({
 /* ../dhtml-chess/src/remote/reader.js */
 chess.remote.Reader = new Class({
     Extends:Events,
-    params : {
-
-    },
 	onLoadEvent:undefined,
-	resource:undefined,
 
     query : function(config) {
-		this.resource = config.resource;
         this.onLoadEvent = config.eventOnLoad || 'load';
-		this.remoteHandler().send(config.service, config.arguments, config.data);
+		this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
     },
 	_remoteHandler:undefined,
 
-	remoteHandler:function(){
+	remoteHandler:function(resource){
 		if(this._remoteHandler === undefined){
 			this._remoteHandler = new ludo.remote.JSON({
-				resource : this.resource,
+				resource : resource,
 				listeners:{
 					"success": function(request){
 						this.fireEvent(this.onLoadEvent, request.getResponseData());
@@ -32293,6 +32286,7 @@ chess.remote.Reader = new Class({
 				}
 			});
 		}
+        this._remoteHandler.setResource(resource);
 		return this._remoteHandler;
 	},
 
@@ -32310,10 +32304,6 @@ chess.remote.Reader = new Class({
 chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
-    params : {
-        getGame : 1
-    },
-
     loadGame : function(id){
 		this.query({
 			"resource": "Game",
@@ -32324,7 +32314,6 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
-
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
@@ -32339,23 +32328,26 @@ chess.remote.GameReader = new Class({
 			"resource": "Game",
 			"service": "save",
 			"eventOnLoad": "saved",
-			"arguments": id,
+			"arguments": game.id,
 			"data": game
 		});
     },
 
     loadRandomGame : function(databaseId) {
-        this.params = {
-            databaseId : databaseId || 0
-        };
-        this.query('getRandomGame');
+        this.query({
+            "resource": "Database",
+            "arguments": databaseId,
+            "service": 'getRandomGame'
+        });
     },
 
     getEngineMove : function(fen){
-        this.params = {
-            fen : fen
-        };
-        this.query('EngineMove',undefined, 'newMove');
+        this.query({
+            "resource": "ChessEngine",
+            "arguments": fen,
+            "service": 'getMove',
+            "eventOnLoad": "newMove"
+        });
     }
 });/* ../dhtml-chess/src/datasource/folder-tree.js */
 /**
