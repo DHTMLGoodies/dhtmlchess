@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 11:13:33 CET 2013 */
+/* Generated Mon Feb 18 11:27:14 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -22625,6 +22625,7 @@ window.chess.events = {
 
 ludo.config.setUrl('../router.php');
 ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/language/default.js */
+// TODO refactor use of language so that it's possible to include a custom language file later and get it's values.
 chess.language = {
     pieces:{
         'pawn':'',
@@ -26325,7 +26326,7 @@ chess.view.user.LoginButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'loginButton',
-    value:chess.language.login,
+    value:chess.getPhrase('login'),
     hidden:true,
 
     setController:function (controller) {

@@ -12,7 +12,7 @@ chess.view.user.LoginButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'loginButton',
-    value:chess.language.login,
+    value:chess.getPhrase('login'),
     hidden:true,
 
     setController:function (controller) {
