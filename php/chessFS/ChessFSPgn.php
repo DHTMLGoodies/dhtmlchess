@@ -15,15 +15,25 @@ class ChessFSPgn implements LudoDBService
         if(!isset($folder)){
             throw new Exception("PGN folder not set using ChessRegistry::setPgnFolder");
         }
+        $files = self::getPgnFilesIn($folder);
+
         $ret = array();
         $id = 1;
-        if ($handle = opendir(ChessRegistry::getPgnFolder())) {
+        foreach($files as $file){
+            $ret[] = array(
+                "file" => $this->getNameOfFile($file),
+                "id" => $id++
+            );
+        }
+        return $ret;
+    }
+
+    public static function getPgnFilesIn($folder){
+        $ret = array();
+        if ($handle = opendir($folder)) {
             while (false !== ($entry = readdir($handle))) {
-                if($this->isPgnFile($entry)){
-                    $ret[] = array(
-                        "file" => $this->getNameOfFile($entry),
-                        "id" => $id++
-                    );
+                if(self::isPgnFile($entry)){
+                    $ret[] = $entry;
                 }
             }
             closedir($handle);
@@ -31,7 +41,7 @@ class ChessFSPgn implements LudoDBService
         return $ret;
     }
 
-    private function isPgnFile($file){
+    private static function isPgnFile($file){
         $tokens = explode(".", $file);
         return strtolower($tokens[count($tokens)-1]) === 'pgn';
     }

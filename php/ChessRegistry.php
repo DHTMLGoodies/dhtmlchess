@@ -69,4 +69,16 @@ class ChessRegistry
     public static function getCookieName(){
         return 'chess_cookie';
     }
+
+    public static function getImportQueueFolder(){
+        $ret = self::get("IMPORT_QUEUE_FOLDER");
+        if(!isset($ret)){
+            $ret = "import-queue";
+        }
+        return $ret;
+    }
+
+    public static function setImportQueueFolder($folder){
+        self::set('IMPORT_QUEUE_FOLDER', $folder);
+    }
 }
