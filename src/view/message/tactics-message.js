@@ -24,17 +24,17 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(colorToMove + ' to move');
+        this.showMessage(colorToMove + ' ' + chess.getPhrase('to move'));
 
     },
 
     showWrongGuess:function () {
-        this.showMessage('Wrong move - please try again', 3000);
+        this.showMessage(chess.getPhrase('Wrong move - please try again'), 3000);
 
     },
 
     showCorrectGuess:function () {
-        this.showMessage('Good move', 3000);
+        this.showMessage(chess.getPhrase('Good move'), 3000);
 
     },
 

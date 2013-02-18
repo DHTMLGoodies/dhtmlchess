@@ -12,7 +12,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick:false,
     width:660,
     height:500,
-    title:chess.language.positionSetup,
+    title:chess.getPhrase('positionSetup'),
     layout:'rows',
     selectedPiece:undefined,
 
@@ -140,7 +140,7 @@ chess.view.position.Dialog = new Class({
             layout:'cols'
         });
         this.moveNumber = this.secondRow.addChild({
-            label:'Move number',
+            label:chess.getPhrase('Move number'),
             width:150,
             type:'form.Spinner',
             maxValue:300,
@@ -150,7 +150,7 @@ chess.view.position.Dialog = new Class({
             }
         });
         this.enPassant = this.secondRow.addChild({
-            label:'En passant',
+            label:chess.getPhrase('En passant'),
             type:'form.Text',
             width:100,
             fieldWidth:25,
@@ -237,13 +237,13 @@ chess.view.position.Dialog = new Class({
         new ludo.dialog.Prompt({
             width:400,
             height:130,
-            html:'Paste fen into the text box below',
+            html:chess.getPhrase('Paste fen into the text box below'),
             inputConfig:{
                 stretchField:true
             },
             modal:true,
-            label:'FEN',
-            title:'Load fen',
+            label:chess.getPhrase('FEN'),
+            title:chess.getPhrase('Load fen'),
             listeners:{
                 'ok':this.loadFen.bind(this)
             }

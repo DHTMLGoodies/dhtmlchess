@@ -7,7 +7,7 @@
 chess.view.position.SideToMove = new Class({
     Extends:ludo.Panel,
     height:80,
-    title:chess.language.sideToMove,
+    title:chess.getPhrase('sideToMove'),
 
     ludoRendered:function () {
         this.parent();
@@ -15,13 +15,13 @@ chess.view.position.SideToMove = new Class({
             {
                 name:'color',
                 checked:true,
-                label:'White',
+                label:chess.getPhrase('White'),
                 value : 'w'
             },
             {
                 name:'color',
                 value : 'b',
-                label:'Black'
+                label:chess.getPhrase('Black')
             }
         ];
 

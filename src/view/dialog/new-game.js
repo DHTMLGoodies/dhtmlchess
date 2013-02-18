@@ -21,23 +21,23 @@ chess.view.dialog.NewGame = new Class({
         labelWidth:100
     },
     children:[
-        { type:'form.Text', label:'White', name:'white', required:true },
-        { type:'form.Text', label:'Black', name:'black', required:true },
-        { type:'form.Text', label:'Event', name:'event' },
-        { type:'form.Text', label:'Site', name:'site' },
-        { type:'form.Text', label:'Round', name:'round' },
-        { type:'form.Text', label:'Result', name:'result' },
+        { type:'form.Text', label:chess.getPhrase('White'), name:'white', required:true },
+        { type:'form.Text', label:chess.getPhrase('Black'), name:'black', required:true },
+        { type:'form.Text', label:chess.getPhrase('Event'), name:'event' },
+        { type:'form.Text', label:chess.getPhrase('Site'), name:'site' },
+        { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
+        { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:'Database', name:'databaseId'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
         }
     ],
     buttonBar:{
         children:[
             {
-                type:'form.Button', value:'OK', disableOnInvalid:true
+                type:'form.Button', value:chess.getPhrase('OK'), disableOnInvalid:true
             },
             {
-                type:'form.CancelButton', value:'Cancel'
+                type:'form.CancelButton', value:chess.getPhrase('Cancel')
             }
         ]
     },

@@ -82,6 +82,6 @@ chess.view.dialog.Comment = new Class({
     },
 
     getDialogTitle:function(){
-        return chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')';
+        return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
     }
 });

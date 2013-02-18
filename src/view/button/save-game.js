@@ -10,7 +10,7 @@ chess.view.button.SaveGame = new Class({
     type:'chess.view.button.SaveGame',
     module:'user',
     submodule:'saveGame',
-    value:'Save',
+    value:chess.getPhrase('Save'),
     width:80,
     disabled:true,
     copyEvents:{

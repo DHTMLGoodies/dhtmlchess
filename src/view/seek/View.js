@@ -19,7 +19,7 @@ chess.view.seek.View = new Class({
     children:[
         {
             type:'form.Select',
-            label:'Time:',
+            label:chess.getPhrase('Time'),
             suffix:'days',
             value:'1',
             dataSource:{
@@ -31,19 +31,19 @@ chess.view.seek.View = new Class({
         },
         {
             type:'form.Number',
-            label:'From elo',
+            label:chess.getPhrase('From elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Number',
-            label:'From elo',
+            label:chess.getPhrase('To elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Checkbox',
-            label:'Rated',
+            label:chess.getPhrase('Rated'),
             value:'1',
             checked:true
         }

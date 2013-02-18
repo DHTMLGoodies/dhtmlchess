@@ -15,7 +15,7 @@ chess.view.command.Panel = new Class({
 
 	ludoRendered:function(){
 		this.parent();
-		this.renderLine(chess.language.commandWelcome);
+		this.renderLine(chess.getPhrase('commandWelcome'));
 	},
 
     /**

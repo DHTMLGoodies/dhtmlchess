@@ -9,7 +9,7 @@
 chess.view.menuItems.NewGame = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.newGame',
-    label : chess.language.Game,
+    label : chess.getPhrase('Game'),
     module : 'user',
     submodule : 'menuItemNewGame',
     disabled:true,

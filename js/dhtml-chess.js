@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 12:43:39 CET 2013 */
+/* Generated Mon Feb 18 14:39:21 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -22625,7 +22625,10 @@ window.chess.events = {
 
 ludo.config.setUrl('../router.php');
 ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/language/default.js */
-// TODO refactor use of language so that it's possible to include a custom language file later and get it's values.
+/**
+ * Default language specification
+ * @type {Object}
+ */
 chess.language = {
     pieces:{
         'pawn':'',
@@ -22671,30 +22674,35 @@ chess.language = {
     'saveGame':'Save game',
     'Game':'Game',
 
-    'tacticPuzzleSolvedTitle' : 'Well done - Puzzle complete',
+    'tacticPuzzleSolvedTitle':'Well done - Puzzle complete',
     'tacticPuzzleSolvedMessage':'Good job! You have solved this puzzle. Click OK to load next game',
 
 
-	'commandWelcome' : 'Type in your commands. For help, type help (+ enter).',
-	'command_help' : 'Displays help screen',
-	'command_move' : 'Type "move + notation" or notation only(e.g. "e4") to add moves',
-	'command_cls' : 'Clear screen',
-	'command_load' : 'Load a specific game with this id from the database',
-	'command_flip' : 'Flip board',
-	'command_grade' : 'Grade current move',
-	'command_forward' : 'Go to next move',
-	'command_back' : 'Go to previous move',
-	'command_fen' : 'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
+    'commandWelcome':'Type in your commands. For help, type help (+ enter).',
+    'command_help':'Displays help screen',
+    'command_move':'Type "move + notation" or notation only(e.g. "e4") to add moves',
+    'command_cls':'Clear screen',
+    'command_load':'Load a specific game with this id from the database',
+    'command_flip':'Flip board',
+    'command_grade':'Grade current move',
+    'command_forward':'Go to next move',
+    'command_back':'Go to previous move',
+    'command_fen':'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
 
-	"invalid game": "Invalid game",
-	"invalid position": "Invalid game",
-	"invalid move": "Invalid move",
-	"Moving": "Moving",
-	"Move updated to": "Move updated to"
+    "invalid game":"Invalid game",
+    "invalid position":"Invalid game",
+    "invalid move":"Invalid move",
+    "Moving":"Moving",
+    "Move updated to":"Move updated to",
+    "Time":"Time",
+    "From elo":"From elo",
+    "To elo":"To elo",
+    "Rated":"Rated",
+    "Pgn File" : "Pgn File"
 };
 
-chess.getPhrase = function(phrase){
-	return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
+chess.getPhrase = function (phrase) {
+    return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
 };/* ../dhtml-chess/src/view/notation/panel.js */
 /**
   Game notation panel.
@@ -22802,13 +22810,13 @@ chess.view.notation.Panel = new Class({
                 { label:'Add comment before', action : 'commentBefore' },
                 { label:'Add Comment After', action : 'commentAfter'},
                 { label:'Grade', children:[
-                    { icon:'', label:chess.language.clear, action:'grade' },
-                    { icon:'!', label:chess.language.goodMove, action:'grade' },
-                    { icon:'?', label:chess.language.poorMove, action:'grade' },
-                    { icon:'!!', label:chess.language.veryGoodMove, action:'grade' },
-                    { icon:'??', label:chess.language.veryPoorMove, action:'grade' },
-                    { icon:'?!', label:chess.language.questionableMove, action:'grade' },
-                    { icon:'!?', label:chess.language.speculativeMove, action:'grade' }
+                    { icon:'', label:chess.getPhrase('clear'), action:'grade' },
+                    { icon:'!', label:chess.getPhrase('goodMove'), action:'grade' },
+                    { icon:'?', label:chess.getPhrase('poorMove'), action:'grade' },
+                    { icon:'!!', label:chess.getPhrase('veryGoodMove'), action:'grade' },
+                    { icon:'??', label:chess.getPhrase('veryPoorMove'), action:'grade' },
+                    { icon:'?!', label:chess.getPhrase('questionableMove'), action:'grade' },
+                    { icon:'!?', label:chess.getPhrase('speculativeMove'), action:'grade' }
                 ]},
                 { label:'Delete remaining moves'}
             ]
@@ -23023,7 +23031,7 @@ chess.view.seek.View = new Class({
     children:[
         {
             type:'form.Select',
-            label:'Time:',
+            label:chess.getPhrase('Time'),
             suffix:'days',
             value:'1',
             dataSource:{
@@ -23035,19 +23043,19 @@ chess.view.seek.View = new Class({
         },
         {
             type:'form.Number',
-            label:'From elo',
+            label:chess.getPhrase('From elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Number',
-            label:'From elo',
+            label:chess.getPhrase('To elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Checkbox',
-            label:'Rated',
+            label:chess.getPhrase('Rated'),
             value:'1',
             checked:true
         }
@@ -25279,33 +25287,33 @@ chess.view.gamelist.Grid = new Class({
 	columnManager:{
 		columns:{
 			white:{
-				heading:'White',
+				heading:chess.getPhrase('White'),
 				key:'white',
 				width:120,
 				sortable:true
 			},
 			black:{
-				heading:'Black',
+				heading:chess.getPhrase('Black'),
 				key:'black',
 				width:120,
 				sortable:true
 			},
 			result:{
-				heading:'Result',
+				heading:chess.getPhrase('Result'),
 				key:'result',
 				width:50,
 				sortable:true,
 				removable:true
 			},
 			event:{
-				heading:'Event',
+				heading:chess.getPhrase('Event'),
 				key:'event',
 				weight:1,
 				sortable:true,
 				removable:true
 			},
 			last_moves:{
-				heading:'Last moves',
+				heading:chess.getPhrase('Last moves'),
 				key:'last_moves',
 				weight:1,
 				sortable:true,
@@ -25524,7 +25532,7 @@ chess.view.metadata.FenField = new Class({
     module:'chess',
     submodule : 'metadata.FenField',
     stretchField : true,
-    label : 'FEN',
+    label : chess.getPhrase('FEN'),
     formCss : { 'font-size' : '10px'},
     labelWidth : 30,
     selectOnFocus : true,
@@ -25568,17 +25576,17 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(colorToMove + ' to move');
+        this.showMessage(colorToMove + ' ' + chess.getPhrase('to move'));
 
     },
 
     showWrongGuess:function () {
-        this.showMessage('Wrong move - please try again', 3000);
+        this.showMessage(chess.getPhrase('Wrong move - please try again'), 3000);
 
     },
 
     showCorrectGuess:function () {
-        this.showMessage('Good move', 3000);
+        this.showMessage(chess.getPhrase('Good move'), 3000);
 
     },
 
@@ -25616,23 +25624,23 @@ chess.view.dialog.NewGame = new Class({
         labelWidth:100
     },
     children:[
-        { type:'form.Text', label:'White', name:'white', required:true },
-        { type:'form.Text', label:'Black', name:'black', required:true },
-        { type:'form.Text', label:'Event', name:'event' },
-        { type:'form.Text', label:'Site', name:'site' },
-        { type:'form.Text', label:'Round', name:'round' },
-        { type:'form.Text', label:'Result', name:'result' },
+        { type:'form.Text', label:chess.getPhrase('White'), name:'white', required:true },
+        { type:'form.Text', label:chess.getPhrase('Black'), name:'black', required:true },
+        { type:'form.Text', label:chess.getPhrase('Event'), name:'event' },
+        { type:'form.Text', label:chess.getPhrase('Site'), name:'site' },
+        { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
+        { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:'Database', name:'databaseId'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
         }
     ],
     buttonBar:{
         children:[
             {
-                type:'form.Button', value:'OK', disableOnInvalid:true
+                type:'form.Button', value:chess.getPhrase('OK'), disableOnInvalid:true
             },
             {
-                type:'form.CancelButton', value:'Cancel'
+                type:'form.CancelButton', value:chess.getPhrase('Cancel')
             }
         ]
     },
@@ -25681,7 +25689,7 @@ chess.view.dialog.OverwriteMove = new Class({
 		config = config || {};
 		config.buttons = [
 			{
-				value:'Overwrite',
+				value:chess.getPhrase('Overwrite'),
 				listeners:{
 					'click':function () {
 						/**
@@ -25695,7 +25703,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:'Variation',
+				value:chess.getPhrase('Variation'),
 				listeners:{
 					'click':function () {
 						/**
@@ -25709,7 +25717,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:'Cancel',
+				value:chess.getPhrase('Cancel'),
 				listeners:{
 					'click':function () {
 						/**
@@ -25934,7 +25942,7 @@ chess.view.dialog.Comment = new Class({
     },
 
     getDialogTitle:function(){
-        return chess.language[ this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter'] + ' (' + this.move.lm + ')';
+        return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
     }
 });/* ../dhtml-chess/src/view/dialog/game-import.js */
 /**
@@ -25958,19 +25966,19 @@ chess.view.dialog.GameImport = new Class({
     layout:'rows',
     children:[
         {
-            type:'form.File', label:'Pgn File', accept:'pgn', name:'pgnfile', resource:"chessFileUpload", required:true, labelButton:'Find Pgn file', buttonWidth:100
+            type:'form.File', label:chess.getPhrase('Pgn File'), accept:'pgn', name:'pgnfile', resource:"chessFileUpload", required:true, labelButton:'Find Pgn file', buttonWidth:100
         },
         {
-            type:'form.Checkbox', label:'As new database', checked:true, name:'importAsNew', value:'yes'
+            type:'form.Checkbox', label:chess.getPhrase('As new database'), checked:true, name:'importAsNew', value:'yes'
         },
         {
-            type:'form.Text', label:'Database name', name:'newDatabase'
+            type:'form.Text', label:chess.getPhrase('Database name'), name:'newDatabase'
         },
         {
-            type:'form.ComboTree', emptyText:'Select folder', treeConfig:{ type:'chess.view.tree.SelectFolder', width:500, height:350 }, label:'Into folder', name:'folder'
+            type:'form.ComboTree', emptyText:'Select folder', treeConfig:{ type:'chess.view.tree.SelectFolder', width:500, height:350 }, label:chess.getPhrase('Into folder'), name:'folder'
         },
         {
-            hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:'Into database', name:'database'
+            hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Into database'), name:'database'
         },
         {
             type:'progress.Bar', name : 'progressbar'
@@ -26030,7 +26038,7 @@ chess.view.button.SaveGame = new Class({
     type:'chess.view.button.SaveGame',
     module:'user',
     submodule:'saveGame',
-    value:'Save',
+    value:chess.getPhrase('Save'),
     width:80,
     disabled:true,
     copyEvents:{
@@ -26066,7 +26074,7 @@ chess.view.button.TacticHint = new Class({
     type : 'chess.view.button.TacticHint',
     module:'chess',
     submodule : 'buttonTacticHint',
-    value : 'Hint',
+    value : chess.getPhrase('Hint'),
     width : 80,
 
     ludoEvents : function(){
@@ -26091,7 +26099,7 @@ chess.view.button.TacticSolution = new Class({
     type : 'chess.view.button.TacticSolution',
     module:'chess',
     submodule : 'buttonTacticSolution',
-    value : 'Solution',
+    value : chess.getPhrase('Solution'),
     width : 80,
 
     ludoEvents : function(){
@@ -26102,8 +26110,6 @@ chess.view.button.TacticSolution = new Class({
     showSolution : function() {
         this.fireEvent('showSolution')
     }
-
-
 });/* ../dhtml-chess/src/view/button/next-game.js */
 /**
  * Special button used to navigate to next game in a database
@@ -26450,7 +26456,7 @@ chess.view.user.RegisterButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'registerButton',
-    value:chess.language.register,
+    value:chess.getPhrase('register'),
     hidden:true,
 
     addControllerEvents:function () {
@@ -26472,7 +26478,7 @@ chess.view.user.LogoutButton = new Class({
     module:'user',
     submodule:'logoutButton',
     hidden : true,
-    value : chess.language.logout,
+    value : chess.getPhrase('logout'),
 
     addControllerEvents:function(){
         this.controller.addEvent('invalidSession', this.hide.bind(this));
@@ -26491,7 +26497,7 @@ chess.view.user.RegisterWindow = new Class({
     type:'chess.view.user.Login',
     left:50, top:50,
     width:500, height:225,
-    title:chess.language.login,
+    title:chess.getPhrase('login'),
     hidden:true,
     module:'user',
     submodule:'registerWindow',
@@ -26508,19 +26514,19 @@ chess.view.user.RegisterWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
         },
         {
-            type:'form.Email', name:'email', label:chess.language.email, required:true, stretchField:true
+            type:'form.Email', name:'email', label:chess.getPhrase('email'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, required:true, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, required:true, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
@@ -26529,10 +26535,10 @@ chess.view.user.RegisterWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.language.register
+            type:'form.SubmitButton', value:chess.getPhrase('register')
         },
         {
-            type:'form.CancelButton', value:chess.language.cancel
+            type:'form.CancelButton', value:chess.getPhrase('cancel')
         }
 
     ],
@@ -26586,9 +26592,9 @@ chess.view.user.Panel = new Class({
 	 * Text template for the panel
 	 * @config tpl
 	 * @type String
-	 * @default '<b>' + chess.language.signedInAs + ' {username}</b>'
+	 * @default '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>'
 	 */
-    tpl : '<b>' + chess.language.signedInAs + ' {username}</b>',
+    tpl : '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>',
 
 	/**
 	 * @config css
@@ -26627,7 +26633,7 @@ chess.view.user.Panel = new Class({
  */
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
-    title:chess.language.login,
+    title:chess.getPhrase('login'),
     "left":50,top:50,
     width:400,height:180,
     hidden:true,
@@ -26644,13 +26650,13 @@ chess.view.user.LoginWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('username'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', md5:true, label:chess.language.password, required:true, stretchField:true
+            type:'form.Password', name:'password', md5:true, label:chess.getPhrase('password'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
         },
         {
             type:'remote.ErrorMessage', resource:"Session","service": "signIn",
@@ -26660,10 +26666,10 @@ chess.view.user.LoginWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.language.login
+            type:'form.SubmitButton', value:chess.getPhrase('login')
         },
         {
-            type:'form.CancelButton', value:chess.language.cancel
+            type:'form.CancelButton', value:chess.getPhrase('cancel')
         }
     ],
 
@@ -26723,7 +26729,7 @@ chess.view.user.ProfileWindow = new Class({
         type:'linear',
         orientation:'vertical'
     },
-    title:chess.language.myProfile,
+    title:chess.getPhrase('myProfile'),
     hidden:true,
     module:'user',
     submodule:'profileWindow',
@@ -26735,22 +26741,22 @@ chess.view.user.ProfileWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
         },
         {
-            type:'form.Text', name:'full_name', minLength:5, label:chess.language.fullname, stretchField:true
+            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('fullname'), stretchField:true
         },
         {
-            type:'form.DisplayField', name:'email', label:chess.language.email
+            type:'form.DisplayField', name:'email', label:chess.getPhrase('email')
         },
         {
-            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.language.country, required:false, stretchField:true
+            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('country'), required:false, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.language.password, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.language.repeatPassword, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), stretchField:true
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
@@ -26759,10 +26765,10 @@ chess.view.user.ProfileWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.language.ok
+            type:'form.SubmitButton', value:chess.getPhrase('ok')
         },
         {
-            type:'form.CancelButton', value:chess.language.cancel
+            type:'form.CancelButton', value:chess.getPhrase('cancel')
         }
 
     ],
@@ -26774,7 +26780,7 @@ chess.view.user.ProfileWindow = new Class({
 
     showSaveConfirmMessage :function(){
         this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.language.changesSaved);
+        this.child['errorMessage'].setHtml(chess.getPhrase('changesSaved'));
         this.hide.delay(1000, this);
         this.child['errorMessage'].hide.delay(1000, this.child['errorMessage']);
     },
@@ -27069,7 +27075,7 @@ chess.view.command.Panel = new Class({
 
 	ludoRendered:function(){
 		this.parent();
-		this.renderLine(chess.language.commandWelcome);
+		this.renderLine(chess.getPhrase('commandWelcome'));
 	},
 
     /**
@@ -27128,7 +27134,7 @@ chess.view.command.Panel = new Class({
 chess.view.menuItems.GameImport = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.GameImport',
-    label : chess.language.gameImport,
+    label : chess.getPhrase('gameImport'),
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
@@ -27165,7 +27171,7 @@ chess.view.menuItems.GameImport = new Class({
 chess.view.menuItems.SaveGame = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.saveGame',
-    label : chess.language.saveGame,
+    label : chess.getPhrase('saveGame'),
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
@@ -27205,7 +27211,7 @@ chess.view.menuItems.SaveGame = new Class({
 chess.view.menuItems.NewGame = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.newGame',
-    label : chess.language.Game,
+    label : chess.getPhrase('Game'),
     module : 'user',
     submodule : 'menuItemNewGame',
     disabled:true,
@@ -27599,7 +27605,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick:false,
     width:660,
     height:500,
-    title:chess.language.positionSetup,
+    title:chess.getPhrase('positionSetup'),
     layout:'rows',
     selectedPiece:undefined,
 
@@ -27727,7 +27733,7 @@ chess.view.position.Dialog = new Class({
             layout:'cols'
         });
         this.moveNumber = this.secondRow.addChild({
-            label:'Move number',
+            label:chess.getPhrase('Move number'),
             width:150,
             type:'form.Spinner',
             maxValue:300,
@@ -27737,7 +27743,7 @@ chess.view.position.Dialog = new Class({
             }
         });
         this.enPassant = this.secondRow.addChild({
-            label:'En passant',
+            label:chess.getPhrase('En passant'),
             type:'form.Text',
             width:100,
             fieldWidth:25,
@@ -27824,13 +27830,13 @@ chess.view.position.Dialog = new Class({
         new ludo.dialog.Prompt({
             width:400,
             height:130,
-            html:'Paste fen into the text box below',
+            html:chess.getPhrase('Paste fen into the text box below'),
             inputConfig:{
                 stretchField:true
             },
             modal:true,
-            label:'FEN',
-            title:'Load fen',
+            label:chess.getPhrase('FEN'),
+            title:chess.getPhrase('Load fen'),
             listeners:{
                 'ok':this.loadFen.bind(this)
             }
@@ -27880,7 +27886,7 @@ chess.view.position.Dialog.getDialog = function(config) {
 chess.view.position.Castling = new Class({
     Extends:ludo.Panel,
     height:125,
-    title:chess.language.castling,
+    title:chess.getPhrase('castling'),
 
     layout:'rows',
     values : {
@@ -27976,7 +27982,7 @@ chess.view.position.Castling = new Class({
 chess.view.position.SideToMove = new Class({
     Extends:ludo.Panel,
     height:80,
-    title:chess.language.sideToMove,
+    title:chess.getPhrase('sideToMove'),
 
     ludoRendered:function () {
         this.parent();
@@ -27984,13 +27990,13 @@ chess.view.position.SideToMove = new Class({
             {
                 name:'color',
                 checked:true,
-                label:'White',
+                label:chess.getPhrase('White'),
                 value : 'w'
             },
             {
                 name:'color',
                 value : 'b',
-                label:'Black'
+                label:chess.getPhrase('Black')
             }
         ];
 

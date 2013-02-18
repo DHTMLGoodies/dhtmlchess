@@ -104,13 +104,13 @@ chess.view.notation.Panel = new Class({
                 { label:'Add comment before', action : 'commentBefore' },
                 { label:'Add Comment After', action : 'commentAfter'},
                 { label:'Grade', children:[
-                    { icon:'', label:chess.language.clear, action:'grade' },
-                    { icon:'!', label:chess.language.goodMove, action:'grade' },
-                    { icon:'?', label:chess.language.poorMove, action:'grade' },
-                    { icon:'!!', label:chess.language.veryGoodMove, action:'grade' },
-                    { icon:'??', label:chess.language.veryPoorMove, action:'grade' },
-                    { icon:'?!', label:chess.language.questionableMove, action:'grade' },
-                    { icon:'!?', label:chess.language.speculativeMove, action:'grade' }
+                    { icon:'', label:chess.getPhrase('clear'), action:'grade' },
+                    { icon:'!', label:chess.getPhrase('goodMove'), action:'grade' },
+                    { icon:'?', label:chess.getPhrase('poorMove'), action:'grade' },
+                    { icon:'!!', label:chess.getPhrase('veryGoodMove'), action:'grade' },
+                    { icon:'??', label:chess.getPhrase('veryPoorMove'), action:'grade' },
+                    { icon:'?!', label:chess.getPhrase('questionableMove'), action:'grade' },
+                    { icon:'!?', label:chess.getPhrase('speculativeMove'), action:'grade' }
                 ]},
                 { label:'Delete remaining moves'}
             ]

@@ -7,7 +7,7 @@
  */
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
-    title:chess.language.login,
+    title:chess.getPhrase('login'),
     "left":50,top:50,
     width:400,height:180,
     hidden:true,
@@ -24,13 +24,13 @@ chess.view.user.LoginWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.language.username, required:true, stretchField:true
+            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('username'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', md5:true, label:chess.language.password, required:true, stretchField:true
+            type:'form.Password', name:'password', md5:true, label:chess.getPhrase('password'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.language.rememberMe, value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
         },
         {
             type:'remote.ErrorMessage', resource:"Session","service": "signIn",
@@ -40,10 +40,10 @@ chess.view.user.LoginWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.language.login
+            type:'form.SubmitButton', value:chess.getPhrase('login')
         },
         {
-            type:'form.CancelButton', value:chess.language.cancel
+            type:'form.CancelButton', value:chess.getPhrase('cancel')
         }
     ],
 

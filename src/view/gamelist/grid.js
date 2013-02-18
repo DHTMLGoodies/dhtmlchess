@@ -49,33 +49,33 @@ chess.view.gamelist.Grid = new Class({
 	columnManager:{
 		columns:{
 			white:{
-				heading:'White',
+				heading:chess.getPhrase('White'),
 				key:'white',
 				width:120,
 				sortable:true
 			},
 			black:{
-				heading:'Black',
+				heading:chess.getPhrase('Black'),
 				key:'black',
 				width:120,
 				sortable:true
 			},
 			result:{
-				heading:'Result',
+				heading:chess.getPhrase('Result'),
 				key:'result',
 				width:50,
 				sortable:true,
 				removable:true
 			},
 			event:{
-				heading:'Event',
+				heading:chess.getPhrase('Event'),
 				key:'event',
 				weight:1,
 				sortable:true,
 				removable:true
 			},
 			last_moves:{
-				heading:'Last moves',
+				heading:chess.getPhrase('Last moves'),
 				key:'last_moves',
 				weight:1,
 				sortable:true,

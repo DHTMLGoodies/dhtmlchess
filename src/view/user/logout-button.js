@@ -12,7 +12,7 @@ chess.view.user.LogoutButton = new Class({
     module:'user',
     submodule:'logoutButton',
     hidden : true,
-    value : chess.language.logout,
+    value : chess.getPhrase('logout'),
 
     addControllerEvents:function(){
         this.controller.addEvent('invalidSession', this.hide.bind(this));

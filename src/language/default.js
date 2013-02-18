@@ -1,4 +1,7 @@
-// TODO refactor use of language so that it's possible to include a custom language file later and get it's values.
+/**
+ * Default language specification
+ * @type {Object}
+ */
 chess.language = {
     pieces:{
         'pawn':'',
@@ -44,28 +47,33 @@ chess.language = {
     'saveGame':'Save game',
     'Game':'Game',
 
-    'tacticPuzzleSolvedTitle' : 'Well done - Puzzle complete',
+    'tacticPuzzleSolvedTitle':'Well done - Puzzle complete',
     'tacticPuzzleSolvedMessage':'Good job! You have solved this puzzle. Click OK to load next game',
 
 
-	'commandWelcome' : 'Type in your commands. For help, type help (+ enter).',
-	'command_help' : 'Displays help screen',
-	'command_move' : 'Type "move + notation" or notation only(e.g. "e4") to add moves',
-	'command_cls' : 'Clear screen',
-	'command_load' : 'Load a specific game with this id from the database',
-	'command_flip' : 'Flip board',
-	'command_grade' : 'Grade current move',
-	'command_forward' : 'Go to next move',
-	'command_back' : 'Go to previous move',
-	'command_fen' : 'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
+    'commandWelcome':'Type in your commands. For help, type help (+ enter).',
+    'command_help':'Displays help screen',
+    'command_move':'Type "move + notation" or notation only(e.g. "e4") to add moves',
+    'command_cls':'Clear screen',
+    'command_load':'Load a specific game with this id from the database',
+    'command_flip':'Flip board',
+    'command_grade':'Grade current move',
+    'command_forward':'Go to next move',
+    'command_back':'Go to previous move',
+    'command_fen':'Loads a fen position, example "fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1"',
 
-	"invalid game": "Invalid game",
-	"invalid position": "Invalid game",
-	"invalid move": "Invalid move",
-	"Moving": "Moving",
-	"Move updated to": "Move updated to"
+    "invalid game":"Invalid game",
+    "invalid position":"Invalid game",
+    "invalid move":"Invalid move",
+    "Moving":"Moving",
+    "Move updated to":"Move updated to",
+    "Time":"Time",
+    "From elo":"From elo",
+    "To elo":"To elo",
+    "Rated":"Rated",
+    "Pgn File" : "Pgn File"
 };
 
-chess.getPhrase = function(phrase){
-	return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
+chess.getPhrase = function (phrase) {
+    return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
 };
