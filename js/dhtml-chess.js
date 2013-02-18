@@ -1,4 +1,4 @@
-/* Generated Mon Feb 18 14:39:21 CET 2013 */
+/* Generated Mon Feb 18 14:52:58 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -22639,38 +22639,38 @@ chess.language = {
         'king':'K'
     },
     'clear':'Clear',
-    'goodMove':'Good move',
-    'poorMove':'Poor move',
-    'veryGoodMove':'Very good move',
-    'veryPoorMove':'Very poor move',
-    'questionableMove':'Questionable move',
-    'speculativeMove':'Speculative move',
-    'positionSetup':'Position Setup',
-    'castling':'Castling',
-    'sideToMove':'Side to move',
-    'addCommentBefore':'Add comment before',
-    'addCommentAfter':'Add comment after',
+    'Good move':'Good move',
+    'Poor move':'Poor move',
+    'Very good move':'Very good move',
+    'Very poor move':'Very poor move',
+    'Questionable move':'Questionable move',
+    'Speculative move':'Speculative move',
+    'Position Setup':'Position Setup',
+    'Castling':'Castling',
+    'Side to move':'Side to move',
+    'Add comment before':'Add comment before',
+    'Add comment after':'Add comment after',
 
-    'ok':'OK',
-    'cancel':'Cancel',
-    'login':'Sign in',
-    'logout':'Sign out',
-    'email':'Email address',
-    'username':'Username',
-    'fullname':'Full name',
-    'password':'Password',
-    'repeatPassword':'Repeat password',
+    'OK':'OK',
+    'Cancel':'Cancel',
+    'Sign in':'Sign in',
+    'Sign out':'Sign out',
+    'E-mail':'Email address',
+    'Username':'Username',
+    'Full name':'Full name',
+    'Password':'Password',
+    'Repeat password':'Repeat password',
     'rememberMe':'Remember me',
     'register':'Register',
     'invalidUserNameOrPassword':'Invalid username or password',
     'InvalidUsername':'This username is taken',
     'invalidEmail':'Invalid email address',
-    'myProfile':'My profile',
+    'My profile':'My profile',
     'country':'Country',
-    'changesSaved':'Changes saved successfully',
-    'signedInAs':'Signed in as',
+    'Changes saved successfully':'Changes saved successfully',
+    'Signed in as':'Signed in as',
 
-    'gameImport':'Import games(PGN)',
+    'Import games(PGN)':'Import games(PGN)',
     'saveGame':'Save game',
     'Game':'Game',
 
@@ -22807,16 +22807,16 @@ chess.view.notation.Panel = new Class({
             },
             selector:'notation-chess-move',
             children:[
-                { label:'Add comment before', action : 'commentBefore' },
-                { label:'Add Comment After', action : 'commentAfter'},
+                { label:chess.getPhrase('Add comment before'), action : 'commentBefore' },
+                { label:chess.getPhrase('Add comment after'), action : 'commentAfter'},
                 { label:'Grade', children:[
-                    { icon:'', label:chess.getPhrase('clear'), action:'grade' },
-                    { icon:'!', label:chess.getPhrase('goodMove'), action:'grade' },
-                    { icon:'?', label:chess.getPhrase('poorMove'), action:'grade' },
-                    { icon:'!!', label:chess.getPhrase('veryGoodMove'), action:'grade' },
-                    { icon:'??', label:chess.getPhrase('veryPoorMove'), action:'grade' },
-                    { icon:'?!', label:chess.getPhrase('questionableMove'), action:'grade' },
-                    { icon:'!?', label:chess.getPhrase('speculativeMove'), action:'grade' }
+                    { icon:'', label:chess.getPhrase('Clear'), action:'grade' },
+                    { icon:'!', label:chess.getPhrase('Good move'), action:'grade' },
+                    { icon:'?', label:chess.getPhrase('Poor move'), action:'grade' },
+                    { icon:'!!', label:chess.getPhrase('Very good move'), action:'grade' },
+                    { icon:'??', label:chess.getPhrase('Very poor move'), action:'grade' },
+                    { icon:'?!', label:chess.getPhrase('Questionable move'), action:'grade' },
+                    { icon:'!?', label:chess.getPhrase('Speculative move'), action:'grade' }
                 ]},
                 { label:'Delete remaining moves'}
             ]
@@ -26332,7 +26332,7 @@ chess.view.user.LoginButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'loginButton',
-    value:chess.getPhrase('login'),
+    value:chess.getPhrase('Sign in'),
     hidden:true,
 
     setController:function (controller) {
@@ -26456,7 +26456,7 @@ chess.view.user.RegisterButton = new Class({
     type:'chess.view.user.LoginButton',
     module:'user',
     submodule:'registerButton',
-    value:chess.getPhrase('register'),
+    value:chess.getPhrase('Register'),
     hidden:true,
 
     addControllerEvents:function () {
@@ -26478,7 +26478,7 @@ chess.view.user.LogoutButton = new Class({
     module:'user',
     submodule:'logoutButton',
     hidden : true,
-    value : chess.getPhrase('logout'),
+    value : chess.getPhrase('Sign out'),
 
     addControllerEvents:function(){
         this.controller.addEvent('invalidSession', this.hide.bind(this));
@@ -26497,7 +26497,7 @@ chess.view.user.RegisterWindow = new Class({
     type:'chess.view.user.Login',
     left:50, top:50,
     width:500, height:225,
-    title:chess.getPhrase('login'),
+    title:chess.getPhrase('Register'),
     hidden:true,
     module:'user',
     submodule:'registerWindow',
@@ -26514,19 +26514,19 @@ chess.view.user.RegisterWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
-            type:'form.Email', name:'email', label:chess.getPhrase('email'), required:true, stretchField:true
+            type:'form.Email', name:'email', label:chess.getPhrase('E-mail'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), required:true, stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), required:true, stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
@@ -26535,10 +26535,10 @@ chess.view.user.RegisterWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.getPhrase('register')
+            type:'form.SubmitButton', value:chess.getPhrase('Register')
         },
         {
-            type:'form.CancelButton', value:chess.getPhrase('cancel')
+            type:'form.CancelButton', value:chess.getPhrase('Cancel')
         }
 
     ],
@@ -26594,7 +26594,7 @@ chess.view.user.Panel = new Class({
 	 * @type String
 	 * @default '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>'
 	 */
-    tpl : '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>',
+    tpl : '<b>' + chess.getPhrase('Signed in as') + ' {username}</b>',
 
 	/**
 	 * @config css
@@ -26633,7 +26633,7 @@ chess.view.user.Panel = new Class({
  */
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
-    title:chess.getPhrase('login'),
+    title:chess.getPhrase('Sign in'),
     "left":50,top:50,
     width:400,height:180,
     hidden:true,
@@ -26650,13 +26650,13 @@ chess.view.user.LoginWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('username'), required:true, stretchField:true
+            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
-            type:'form.Password', name:'password', md5:true, label:chess.getPhrase('password'), required:true, stretchField:true
+            type:'form.Password', name:'password', md5:true, label:chess.getPhrase('Password'), required:true, stretchField:true
         },
         {
-            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('rememberMe'), value:1
+            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
         },
         {
             type:'remote.ErrorMessage', resource:"Session","service": "signIn",
@@ -26666,10 +26666,10 @@ chess.view.user.LoginWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.getPhrase('login')
+            type:'form.SubmitButton', value:chess.getPhrase('Sign in')
         },
         {
-            type:'form.CancelButton', value:chess.getPhrase('cancel')
+            type:'form.CancelButton', value:chess.getPhrase('Cancel')
         }
     ],
 
@@ -26729,7 +26729,7 @@ chess.view.user.ProfileWindow = new Class({
         type:'linear',
         orientation:'vertical'
     },
-    title:chess.getPhrase('myProfile'),
+    title:chess.getPhrase('My profile'),
     hidden:true,
     module:'user',
     submodule:'profileWindow',
@@ -26741,22 +26741,22 @@ chess.view.user.ProfileWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('username'), required:true, stretchField:true
+            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
-            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('fullname'), stretchField:true
+            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('Full name'), stretchField:true
         },
         {
-            type:'form.DisplayField', name:'email', label:chess.getPhrase('email')
+            type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
         },
         {
-            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('country'), required:false, stretchField:true
+            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
         },
         {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('password'), stretchField:true
+            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
         },
         {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('repeatPassword'), stretchField:true
+            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
             hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
@@ -26765,10 +26765,10 @@ chess.view.user.ProfileWindow = new Class({
 
     buttonBar:[
         {
-            type:'form.SubmitButton', value:chess.getPhrase('ok')
+            type:'form.SubmitButton', value:chess.getPhrase('OK')
         },
         {
-            type:'form.CancelButton', value:chess.getPhrase('cancel')
+            type:'form.CancelButton', value:chess.getPhrase('Cancel')
         }
 
     ],
@@ -26780,7 +26780,7 @@ chess.view.user.ProfileWindow = new Class({
 
     showSaveConfirmMessage :function(){
         this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.getPhrase('changesSaved'));
+        this.child['errorMessage'].setHtml(chess.getPhrase('Changes saved successfully'));
         this.hide.delay(1000, this);
         this.child['errorMessage'].hide.delay(1000, this.child['errorMessage']);
     },
@@ -27134,7 +27134,7 @@ chess.view.command.Panel = new Class({
 chess.view.menuItems.GameImport = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.GameImport',
-    label : chess.getPhrase('gameImport'),
+    label : chess.getPhrase('Import games(PGN)'),
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
@@ -27171,7 +27171,7 @@ chess.view.menuItems.GameImport = new Class({
 chess.view.menuItems.SaveGame = new Class({
     Extends: ludo.menu.MenuItem,
     type : 'chess.view.menuItems.saveGame',
-    label : chess.getPhrase('saveGame'),
+    label : chess.getPhrase('Save game'),
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
@@ -27605,7 +27605,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick:false,
     width:660,
     height:500,
-    title:chess.getPhrase('positionSetup'),
+    title:chess.getPhrase('Position setup'),
     layout:'rows',
     selectedPiece:undefined,
 
@@ -27886,7 +27886,7 @@ chess.view.position.Dialog.getDialog = function(config) {
 chess.view.position.Castling = new Class({
     Extends:ludo.Panel,
     height:125,
-    title:chess.getPhrase('castling'),
+    title:chess.getPhrase('Castling'),
 
     layout:'rows',
     values : {
@@ -27982,7 +27982,7 @@ chess.view.position.Castling = new Class({
 chess.view.position.SideToMove = new Class({
     Extends:ludo.Panel,
     height:80,
-    title:chess.getPhrase('sideToMove'),
+    title:chess.getPhrase('Side to move'),
 
     ludoRendered:function () {
         this.parent();
