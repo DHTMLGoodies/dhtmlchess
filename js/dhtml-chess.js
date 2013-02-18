@@ -1,3 +1,4 @@
+/* Generated Mon Feb 18 8:18:50 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -774,14 +775,14 @@ ludo.Core = new Class({
 		if (config.listeners !== undefined)this.addEvents(config.listeners);
 		if (config.controller !== undefined)this.controller = config.controller;
 		if (this.controller !== undefined)ludo.controllerManager.assignSpecificControllerFor(this.controller, this);
-		if (config.module !== undefined)this.module = config.module;
-		if (config.submodule !== undefined)this.submodule = config.submodule;
+		if (config.module)this.module = config.module;
+		if (config.submodule)this.submodule = config.submodule;
 		if (config.useController !== undefined)this.useController = config.useController;
 		if (config.stateful !== undefined)this.stateful = config.stateful;
 		if (this.module || this.useController)ludo.controllerManager.registerComponent(this);
 		this.id = config.id || this.id;
 
-		if (this.stateful && this.statefulProperties !== undefined && this.id) {
+		if (this.stateful && this.statefulProperties && this.id) {
 			config = this.appendPropertiesFromStore(config);
 			this.addEvent('state', this.saveStatefulProperties.bind(this));
 		}
@@ -921,7 +922,7 @@ ludo.Core = new Class({
 		return obj.initialize === undefined;
 	},
 
-	ns:undefined,
+	NS:undefined,
 
 	/**
 	 * Returns component type minus class name, example:
@@ -4323,10 +4324,8 @@ ludo.util = {
 			view.getParent().removeChild(view);
 		}
         view.removeEvents();
-		var initialItemCount = view.children.length;
-		for (var i = initialItemCount - 1; i >= 0; i--) {
-			view.children[i].dispose();
-		}
+        view.disposeAllChildren();
+
 		for (var name in view.els) {
 			if (view.els.hasOwnProperty(name)) {
 				if (view.els[name] && view.els[name].tagName && name != 'parent') {
@@ -12863,6 +12862,7 @@ ludo.ColResize = new Class({
             this.resizeProperties.currentX = pos;
             return false;
         }
+		return undefined;
     },
 
     stopColResize:function () {
@@ -12873,6 +12873,7 @@ ludo.ColResize = new Class({
             this.fireEvent('resize', [this.resizeProperties.index, change]);
             return false;
         }
+		return undefined;
     },
 
     getMinPos:function () {
@@ -18548,846 +18549,6 @@ ludo.canvas.NamedNode = new Class({
 		this.parent(this.tagName, attributes, text);
 	}
 
-});/* ../ludojs/src/canvas/gradient.js */
-/**
-Class for linear gradients
-@namespace canvas
-@class Gradient
-@extends canvas.NamedNode
-@constructor
-@param {Object} config
-@example
-	var gradient = new ludo.canvas.Gradient({
-		id:'myGradient'
-	});
-	gradient.addStop('0%', 'red');
-	gradient.addStop('100%', '#FFF', 1);
-
- */
-ludo.canvas.Gradient = new Class({
-	Extends:ludo.canvas.NamedNode,
-	tagName:'linearGradient',
-	stopTags:[],
-
-	/**
-	 Add stop point
-	 @method addStop
-	 @param {String} offset
-	 @param {String} stopColor
-	 @param {Number|undefined} stopOpacity
-	 @return {ludo.canvas.Stop} stop
-	 @example
-		 var gradient = new ludo.canvas.Gradient({
-			id:'myGradient'
-		 });
-		 gradient.addStop('0%', 'red');
-		 gradient.addStop('100%', '#FFF', 1);
-	 	 canvas.adopt(gradient);
-	 */
-	addStop:function (offset, stopColor, stopOpacity) {
-		var attr = {
-			offset:offset,
-			'stop-color':stopColor
-		};
-		if (stopOpacity !== undefined) {
-			if (stopOpacity > 1)stopOpacity = stopOpacity / 100;
-			attr['stop-opacity'] = stopOpacity
-		}
-		var stopTag = new ludo.canvas.Stop(attr);
-		this.adopt(stopTag);
-		this.stopTags.push(stopTag);
-		return stopTag;
-	},
-
-	/**
-	 * Get stop node by index
-	 * @method getStop
-	 * @param {Number} index
-	 * @return {canvas.Stop} stop
-	 */
-	getStop:function (index) {
-		return this.stopTags[index];
-	}
-
-});/* ../ludojs/src/canvas/radial-gradient.js */
-/**
- Class for creating Radial Gradients,
- see: http://www.w3.org/TR/SVG/pservers.html#RadialGradientElement
- @namespace canvas
- @class RadialGradient
- @extends canvas.Gradient
- @example
- 	var gradient = new ludo.canvas.RadialGradient({
-		cx:400,cy:200,r:300,fx:400,fy:200
-	});
- 	gradient.addStop('0%', 'red');
- 	gradient.addStop('50%', 'blue');
- 	gradient.addStop('100%', 'red');
- */
-ludo.canvas.RadialGradient = new Class({
-	Extends:ludo.canvas.Gradient,
-	tagName:'radialGradient',
-
-	initialize:function (config) {
-		config = config || {};
-		config.gradientUnits = config.gradientUnits || 'userSpaceOnUse';
-		this.parent(config);
-	},
-
-	setCx:function (value) {
-		this.set('cx', value);
-	},
-
-	setCy:function (value) {
-		this.set('cy', value);
-	},
-
-	setR:function (value) {
-		this.set('r', value);
-	},
-
-	setFx:function (value) {
-		this.set('fx', value);
-	},
-
-	setFy:function (value) {
-		this.set('fy', value);
-	}
-});/* ../ludojs/src/canvas/stop.js */
-/**
- * Stop tag used by gradients
- * @namespace canvas
- * @class Stop
- * @extends ludo.canvas.Node
- */
-ludo.canvas.Stop = new Class({
-	Extends: ludo.canvas.Node,
-
-	initialize:function(config){
-		this.parent('stop', config);
-	},
-
-	/**
-	 Set new offset
-	 @method setOffset
-	 @param {String} offset
-	 @example
-	 	gradient.getStop(0).setOffset('10%');
-	 */
-	setOffset:function(offset){
-		this.set('offset', offset);
-	},
-	/**
-	 Set new stop color
-	 @method setStopColor
-	 @param {String} stopColor
-	 @example
-	 	gradient.getStop(0).setStopColor('#FFFFFF');
-	 */
-	setStopColor:function(stopColor){
-		this.set('stop-color', stopColor);
-	},
-
-	/**
-	 * Returns value of offset attribute
-	 * @method getOffset
-	 * @return {String} offset
-	 */
-	getOffset:function(){
-		return this.get('offset');
-	},
-
-	/**
-	 * Returns value of stop-color attribute
-	 * @method getStopColor
-	 * @return {String} stop color
-	 */
-	getStopColor:function(){
-		return this.get('stop-color');
-	},
-
-	/**
-	 * Set new stop opacity(0 = transparent, 1 = full opacity)
-	 * @method setStopOpacity
-	 * @param {Number} stopOpacity
-	 */
-	setStopOpacity:function(stopOpacity){
-		this.set('stop-opacity', stopOpacity);
-	},
-
-	/**
-	 * Returns value of stop-opacity property
-	 * @method getStopOpacity
-	 * @return {Number} stop opacity
-	 */
-	getStopOpacity:function(){
-		return this.get('stop-opacity');
-	}
-});/* ../ludojs/src/canvas/drag.js */
-/**
- Class for dragging {{#crossLink "canvas/Node"}}{{/crossLink}} elements.
- @namespace canvas
- @class Drag
- @extends effect.Drag
- @constructor
- @param {Object} config, see {{#crossLink "effect/Drag"}}{{/crossLink}}
- @example
-    var canvas = new ludo.canvas.Canvas({
-    	renderTo:document.body
-    });
-
-	var paintThree = new ludo.canvas.Paint({
-	  autoUpdate:true,
-	  css:{
-	  	  'fill' : '#DEF',
-		  'stroke':'#888',
-		  'stroke-width':'5',
-		  cursor:'pointer'
-	  }
-	});
- 	var circle = new ludo.canvas.Circle({cx:280, cy:280, r:85}, { paint:paintThree });
-    canvas.adopt(circle);
-
- 	var drag = new ludo.canvas.Drag();
- 	drag.add(circle);
-*/
-ludo.canvas.Drag = new Class({
-	Extends:ludo.effect.Drag,
-
-	ludoEvents:function () {
-		this.parent();
-		this.addEvent('before', this.setStartTranslate.bind(this));
-	},
-
-	setStartTranslate:function (node) {
-		this.dragProcess.startTranslate = node.el.getTransformation('translate') || {x:0, y:0};
-	},
-
-	/**
-	 * Add node
-	 * @method add
-	 * @param {ludo.effect.DraggableNode} node
-	 * @return {effect.DraggableNode} added node
-	 */
-	add:function (node) {
-		node = this.getValidNode(node);
-		if (!node.handle)node.handle = node.el;
-		var id = node.el.getEl().id;
-
-		this.els[id] = Object.merge(node, {
-			handle:node.handle
-		});
-		this.els[id].handle.addEvent(this.getDragStartEvent(), this.startDrag.bind(this));
-		return this.els[id];
-	},
-
-	getValidNode:function (node) {
-		if (!this.isElConfigObject(node)) {
-			node = {
-				el:node
-			};
-		}
-		node.el.set('forId', node.el.getEl().id);
-		return node;
-	},
-
-	isElConfigObject:function (config) {
-		return config.getEl === undefined;
-	},
-
-	getPositionedParent:function () {
-		return undefined;
-	},
-
-	getIdByEvent:function (e) {
-		var el = e.target || e.event.srcElement['correspondingUseElement'];
-		var id = el.id;
-
-		while(!this.els[id] && el.parentNode){
-			el = el.parentNode;
-			id = el.id;
-		}
-
-		return id;
-	},
-    transformationExists:false,
-    startDrag:function(e){
-        this.parent(e);
-        this.transformationExists = this.hasTransformation();
-    },
-
-    hasTransformation:function(){
-        //
-        var translate = this.els[this.dragProcess.dragged].el.get('transform');
-        if(translate){
-            var items = translate.split(/\s([a-z])/g);
-            if(items.length > 1)return true;
-            if(items.length === 0)return false;
-            return items[0].split(/\(/g)[0] !== 'translate';
-        }
-        return false;
-    },
-
-	move:function (pos) {
-		var node = this.els[this.dragProcess.dragged].el;
-		var translate = {
-			x:this.dragProcess.startTranslate.x,
-			y:this.dragProcess.startTranslate.y
-		};
-
-		if (pos.x !== undefined) {
-			translate.x = pos.x;
-			this.dragProcess.currentX = pos.x;
-		}
-		if (pos.y !== undefined) {
-			translate.y = pos.y;
-			this.dragProcess.currentY = pos.y;
-		}
-		// return node.translate(translate.x, translate.y);
-        if(this.transformationExists){
-			node.translate(translate.x, translate.y);
-            node.setTransformation('translate', translate.x + ' ' + translate.y);
-        }else{
-            node.el.setAttribute('transform', ['translate(', translate.x, ' ', translate.y, ')'].join('') );
-            this.lastTranslate = translate;
-        }
-	},
-
-    endDrag:function(e){
-        if (this.dragProcess.active) {
-            if(this.lastTranslate !== undefined){
-                var node = this.els[this.dragProcess.dragged].el;
-                node.setTransformation('translate', this.lastTranslate.x + ' ' + this.lastTranslate.y);
-            }
-            this.parent(e);
-        }
-    },
-
-	getPositionOf:function (node) {
-		return node.getTransformation('translate') || {x:0, y:0}
-	}
-});/* ../ludojs/src/canvas/event-manager.js */
-ludo.canvas.EventManager = new Class({
-	nodes:{},
-
-	currentNodeId:undefined,
-
-	addMouseEnter:function (node, fn) {
-		node.addEvent('mouseover', this.getMouseOverFn(fn));
-		node.addEvent('mouseout', this.clearCurrent.bind(this, node));
-	},
-
-	addMouseLeave:function(node, fn){
-		node.addEvent('mouseout', this.getMouseOutFn(fn));
-		node.addEvent('mouseout', this.clearCurrent.bind(this, node));
-	},
-
-	clearCurrent:function(node){
-		if(node.getEl().id === this.currentNodeId)this.currentNodeId = undefined;
-	},
-
-	getMouseOverFn:function (fn) {
-		return function (e, node) {
-			if(fn && !this.isInCurrentBranch(node)){
-				this.currentNodeId = node.getEl().id;
-				fn.call(node, e, node);
-			}
-		}.bind(this)
-	},
-
-	getMouseOutFn:function (fn) {
-		return function (e, node) {
-			if(fn && !this.isInCurrentBranch(node)){
-				this.currentNodeId = undefined;
-				fn.call(node, e, node);
-			}
-		}.bind(this)
-	},
-
-	isInCurrentBranch:function(leaf){
-		if(!this.currentNodeId)return false;
-		if(leaf.getEl().id === this.currentNodeId)return true;
-		leaf = leaf.parentNode;
-		while(leaf){
-			if(leaf.getEl().id === this.currentNodeId)return true;
-			leaf = leaf.parentNode;
-		}
-		return false;
-
-	}
-});
-ludo.canvasEventManager = new ludo.canvas.EventManager();/* ../ludojs/src/canvas/circle.js */
-/**
- Class for circle tags. It extends canvas.Node by adding setter and getter methods
- for radius, center x and center y.
- @namespace canvas
- @class Circle
- @extends canvas.Node
- @constructor
- @param {Object} coordinates
- @param {canvas.NodeConfig} config
- @example
-	 var circle = new ludo.canvas.Circle(
- 		{ cx:100, cy:100, r:200 },
-	 	{ paint:paintObject }
- 	 );
- */
-ludo.canvas.Circle = new Class({
-	Extends:ludo.canvas.NamedNode,
-	tagName:'circle',
-
-	/**
-	 * Set new radius
-	 * @method setRadius
-	 * @param {Number} radius
-	 */
-	setRadius:function (radius) {
-		this.set('r', radius);
-	},
-
-	/**
-	 * Return curent radius
-	 * @method getRadius
-	 * @return {String|Number} radius
-	 */
-	getRadius:function () {
-		return this.el.r.animVal.value;
-	},
-
-	/**
-	 * Set new center X
-	 * @method setCx
-	 * @param {Number} x
-	 */
-	setCx:function (x) {
-		this.set('cx', x);
-	},
-	/**
-	 * Return current center X
-	 * @method getX
-	 * @return {String|Number} cx
-	 */
-	getCx:function () {
-		return this.el.cx.animVal.value;
-	},
-
-	/**
-	 * Set new center Y
-	 * @method setCy
-	 * @param {Number} y
-	 */
-	setCy:function (y) {
-		this.set('cy', y);
-	},
-	/**
-	 * Return current center Y
-	 * @method getCy
-	 * @return {String|Number} cy
-	 */
-	getCy:function () {
-		return this.el.cy.animVal.value;
-	},
-
-	/**
-	 * Return position on canvas
-	 * @method getPosition()
-	 * @return {Object} x and y
-	 */
-	getPosition:function(){
-		var translate = this.getTranslate();
-		var r = this.getRadius();
-		return {
-			x: this.getCx() - r + translate.x,
-			y: this.getCy() - r + translate.y
-		}
-	},
-
-	getSize:function(){
-		var r = this.getRadius();
-		return {
-			x: r*2,
-			y: r*2
-		}
-	}
-});/* ../ludojs/src/canvas/rect.js */
-/**
- Class for rect tags. It extends canvas.Node by adding setter and getter methods
- for x,y, width, height and rounded corners(rx and ry).
- @namespace canvas
- @class Rect
- @extends canvas.Node
- @constructor
- @param {Object} coordinates
- @param {canvas.NodeConfig} config
- @example
-	 var rect = new ludo.canvas.Rect(
- 		{ x:100,y:100, width:200,height:100 },
-	 	{ paint:paintObject }
- 	 );
- */
-ludo.canvas.Rect = new Class({
-	Extends: ludo.canvas.NamedNode,
-	tagName : 'rect',
-
-	/**
-	 * Returns value of 'x' attribute. Actual position on canvas may be different due to
-	 * translate transformation. Use {{#crossLink "canvas.Rect/getPosition"}}{{/crossLink}} to
-	 * get actual position on canvas.
-	 * @method getX
-	 * @return {Number} x
-	 */
-	getX:function(){
-		return this.el.x.animVal.value;
-	},
-
-	/**
-	 * Returns value of 'y' attribute.
-	 * @method getY
-	 * @return {Number} y
-	 */
-	getY:function(){
-		return this.el.y.animVal.value;
-	},
-
-	/**
-	 * Returns width of rectangle
-	 * @method getWidth
-	 * @return {Number} width
-	 */
-	getWidth:function(){
-		return this.el.width.animVal.value;
-	},
-
-	/**
-	 * Returns height of rectangle
-	 * @method getWidth
-	 * @return {Number} width
-	 */
-	getHeight:function(){
-		return this.el.height.animVal.value;
-	},
-	/**
-	 * Return x-size of rounded corners
-	 * @method getRx
-	 * @return {Number} rx
-	 */
-	getRx:function(){
-		return this.el.rx.animVal.value;
-	},
-
-	/**
-	 * Return y-size of rounded corners
-	 * @method getRy
-	 * @return {Number} ry
-	 */
-	getRy:function(){
-		return this.el.ry.animVal.value;
-	},
-
-	/**
-	 * Set new x coordinate
-	 * @method setX
-	 * @param {Number} x
-	 */
-	setX:function(x){
-		this.set('x', x);
-	},
-
-	/**
-	 * Set new y coordinate
-	 * @method setY
-	 * @param {Number} y
-	 */
-	setY:function(y){
-		this.set('y', y);
-	},
-
-	/**
-	 * Set new width
-	 * @method setWidth
-	 * @param {Number} width
-	 */
-	setWidth:function(width){
-		this.set('width', width);
-	},
-	/**
-	 * Set new height
-	 * @method setHeight
-	 * @param {Number} height
-	 */
-	setHeight:function(height){
-		this.set('height', height);
-	},
-
-	/**
-	 * Set new width of rounded corners
-	 * @method setRx
-	 * @param {Number} rx
-	 */
-	setRx:function(rx){
-		this.set('rx', rx);
-	},
-
-	/**
-	 * Set new height of rounded corners
-	 * @method setRy
-	 * @param {Number} ry
-	 */
-	setRy:function(ry){
-		this.set('ry', ry);
-	}
-
-
-});/* ../ludojs/src/canvas/polyline.js */
-/**
- Class for drawing polylines.
- @namespace canvas
- @class Polyline
- @extends canvas.NamedNode
- @constructor
- @param {String} points
- @param {canvas.NodeConfig} config
- @example
- 	var polyline = new ludo.canvas.Polyline('20,20 40,25 60,40 80,120 120,140 200,180');
- */
-ludo.canvas.Polyline = new Class({
-	Extends: ludo.canvas.NamedNode,
-	tagName : 'polyline',
-	pointString : '',
-	pointArray : undefined,
-	size:undefined,
-	position:undefined,
-
-	initialize:function(points, properties){
-		properties = properties || {};
-		properties.points = points;
-		this.parent(properties);
-		this.pointString = points;
-	},
-
-	/**
-	 * Return x and y of a point
-	 * @method getPoint
-	 * @param {Number} index
-	 * @return {Object|undefined} x and y
-	 */
-	getPoint:function(index){
-		if(this.pointArray === undefined)this.buildPointArray();
-		index *=2;
-		if(index > this.pointArray.length-2)return undefined;
-		return {
-			x : this.pointArray[index],
-			y : this.pointArray[index+1]
-		}
-	},
-
-	/**
-	 Set new x and y for one of the points.
-	 @method setPoint
-	 @param {Number} index
-	 @param {Number} x
-	 @param {Number} y
-	 @example
-		 var polyline = new ludo.canvas.Polyline('20,20 40,25 60,40 80,120 120,140 200,180');
-	     polyline.setPoint(0,10,5);
-	     polyline.setPoint(1,120,40);
-	 will change the points to
-	 @example
-	 	'10,5 120,40 60,40 80,120 120,140 200,180'
-	 */
-	setPoint:function(index, x, y){
-		if(this.pointArray === undefined)this.buildPointArray();
-		index *=2;
-		if(index > this.pointArray.length-2)return;
-		this.pointArray[index] = x;
-		this.pointArray[index+1] = y;
-		this.set('points', this.pointArray.join(' '));
-		this.size = undefined;
-		this.position = undefined;
-	},
-
-	buildPointArray:function(){
-		var points = this.pointString.replace(/,/g,' ');
-		points = points.replace(/\s+/g,' ');
-		this.pointArray = points.split(/\s/g);
-	},
-	/**
-	 * Get size of polyline (max X - min X) and (max X - min Y)
-	 * @method getSize
-	 * @return {Object} x and y
-	 */
-	getSize:function(){
-		if(this.size === undefined){
-			var minMax = this.getMinAndMax();
-			this.size = {
-				x : Math.abs(minMax.maxX - minMax.minX),
-				y : Math.abs(minMax.maxY - minMax.minY)
-			};
-		}
-		return this.size;
-	},
-	/**
-	 * Get position of polyline, min X and min Y)
-	 * @method getPosition
-	 * @return {Object} x and y
-	 */
-	getPosition:function(){
-		if(this.position === undefined){
-			var minMax = this.getMinAndMax();
-			this.position = {
-				x : minMax.minX,
-				y : minMax.minY
-			};
-		}
-		return this.position;
-	},
-
-	getMinAndMax:function(){
-		if(this.pointArray === undefined)this.buildPointArray();
-		var p = this.pointArray;
-		var minX = 10000, maxX = -100000;
-		var minY = 10000, maxY = -100000;
-		for(var i=0;i< p.length;i+=2){
-			minX = Math.min(minX, p[i]);
-			maxX = Math.max(maxX, p[i]);
-			minY = Math.min(minY, p[i+1]);
-			maxY = Math.max(maxY, p[i+1]);
-		}
-		return {
-			minX: minX, minY: minY,
-			maxX: maxX, maxY: maxY
-		}
-	}
-});/* ../ludojs/src/canvas/polygon.js */
-/**
- Class for drawing polygons.
- @namespace canvas
- @class Polygon
- @extends canvas.Polyline
- @constructor
- @param {String} points
- @param {canvas.NodeConfig} config
- @example
- 	var polyline = new ludo.canvas.Polygon('20,20 40,25 60,40 80,120 120,140 200,180');
- */
-ludo.canvas.Polygon = new Class({
-	Extends: ludo.canvas.Polyline,
-	tagName: 'polygon'
-});/* ../ludojs/src/canvas/ellipse.js */
-/**
- Class for drawing ellipses.
- @namespace canvas
- @class Ellipse
- @extends canvas.NamedNode
- @constructor
- @param {Object} coordinates
- @param {canvas.NodeConfig} config
- @example
- 	var ellipse = new ludo.canvas.Ellipse({ cx:500, cy:425, rx:250, ry:200 }, { paint: paintObject } );
- */
-ludo.canvas.Ellipse = new Class({
-	Extends:ludo.canvas.NamedNode,
-	tagName:'ellipse',
-
-	/**
-	 * Set new x-radius
-	 * @method setRadiusX
-	 * @param {Number} radius
-	 */
-	setRadiusX:function (radius) {
-		this.set('rx', radius);
-	},
-
-	/**
-	 * Set new y-radius
-	 * @method setRadiusY
-	 * @param {Number} radius
-	 */
-	setRadiusY:function (radius) {
-		this.set('ry', radius);
-	},
-
-	/**
-	 * Return curent radius
-	 * @method getRadiusX
-	 * @return {String|Number} x-radius
-	 */
-	getRadiusX:function () {
-		return this.el.rx.animVal.value;
-	},
-
-	/**
-	 * Return curent y-radius
-	 * @method getRadiusY
-	 * @return {String|Number} y-radius
-	 */
-	getRadiusY:function () {
-		return this.el.ry.animVal.value;
-	},
-
-	/**
-	 * Set new center X
-	 * @method setCx
-	 * @param {Number} x
-	 */
-	setCx:function (x) {
-		this.set('cx', x);
-	},
-	/**
-	 * Return current center X
-	 * @method getX
-	 * @return {String|Number} cx
-	 */
-	getCx:function () {
-		return this.el.cx.animVal.value;
-	},
-
-	/**
-	 * Set new center Y
-	 * @method setCy
-	 * @param {Number} y
-	 */
-	setCy:function (y) {
-		this.set('cy', y);
-	},
-	/**
-	 * Return current center Y
-	 * @method getCy
-	 * @return {String|Number} cy
-	 */
-	getCy:function () {
-		return this.el.cy.animVal.value;
-	},
-
-	/**
-	 * Return position on canvas
-	 * @method getPosition()
-	 * @return {Object} x and y
-	 */
-	getPosition:function () {
-		var translate = this.getTranslate();
-		return {
-			x:this.getCx() - this.getRadiusX() + translate.x,
-			y:this.getCy() - this.getRadiusY() + translate.y
-		}
-	},
-
-	/**
-	 Return size of ellipse
-	 @method getSize
-	 @return {Object} x and y
-	 @example
-	 	var ellipse = new ludo.canvas.Ellipse({ cx:500, cy:425, rx:250, ry:200 });
-	 	var size = ellipse.geSize(); // will return {x: 500, y: 400}
-	 which is rx*2 and ry*2
-
-	 */
-	getSize:function () {
-		return {
-			x:this.getRadiusX() * 2,
-			y:this.getRadiusY() * 2
-		}
-	}
 });/* ../ludojs/src/canvas/path.js */
 ludo.canvas.Path = new Class({
 	Extends:ludo.canvas.NamedNode,
@@ -19478,148 +18639,6 @@ ludo.canvas.Path = new Class({
 			maxX:maxX, maxY:maxY
 		}
 	}
-});/* ../ludojs/src/canvas/filter.js */
-/**
- Class for SVG filter effects, example Drop Shadow
- Note! Filters will produce raster graphic, not Vector.
- Note! Filters are not supported by IE 9 and lower. (Support is added to IE10).
- Ref: http://caniuse.com/svg-filters
- @namespace canvas
- @class Filter
- @extends canvas.NamedNode
- @constructor
- @param {Object} attributes
- @param {Object} config options
- *
- */
-ludo.canvas.Filter = new Class({
-	Extends:ludo.canvas.NamedNode,
-	tagName:'filter',
-	mergeTags:{},
-	mergeTagsOrder : [
-		'dropShadow', 'SourceGraphic'
-	],
-
-	effectNodes:{
-		'dropShadow' : ['feGaussianBlur', 'feOffset']
-	},
-	nodes:{
-		'dropShadow' : undefined
-	},
-
-	initialize:function(properties){
-		properties = properties || {};
-		if( properties.x === undefined)  properties.x = '-40%';
-		if( properties.y === undefined)  properties.y = '-40%';
-		properties.width = properties.width || '180%';
-		properties.height = properties.height || '180%';
-		this.parent(properties);
-	},
-	/**
-	 Set drop shadow
-	 @method setDropShadow
-	 @param {Object} properties
-	 @example
-	 	filter.setDropShadow({
-	 		x: 2, y: 2, // Offset
-	 		deviation: 2, // blur
-	 		color : '#000'
-	 	});
-	 */
-	setDropShadow:function (properties) {
-		var nodes = this.getNodesForEffect('dropShadow');
-		var blur = nodes['feGaussianBlur'];
-		blur.set('in', 'SourceAlpha');
-		blur.set('result', 'dropShadowBlur');
-		blur.set('stdDeviation', properties.deviation);
-
-		var o = nodes['feOffset'];
-		o.set('dx', properties.x || 2);
-		o.set('dy', properties.y || 2);
-		o.set('in', 'dropShadowBlur');
-		o.set('result', 'dropShadow');
-
-	},
-
-
-
-	getNodesForEffect:function(effect){
-		var n = this.nodes[effect];
-		if(n === undefined){
-			n = {};
-			var keys = this.effectNodes[effect];
-			for(var i=0;i<keys.length;i++){
-				n[keys[i]] = new ludo.canvas.Node(keys[i]);
-				this.adopt(n[keys[i]]);
-			}
-			this.addFeMergeNode('SourceGraphic');
-			this.addFeMergeNode(effect);
-
-		}
-		return n;
-	},
-
-	updateMergeTag:function () {
-		var m = this.getMergeTag();
-		var o = this.mergeTagsOrder;
-		for(var i=0;i<o.length;i++){
-			if(this.mergeTags[o[i]] !== undefined){
-				ludo.canvasEngine.toFront(this.mergeTags[o[i]].el);
-			}
-		}
-		ludo.canvasEngine.toFront(m.el);
-	},
-	mergeTag:undefined,
-	getMergeTag:function () {
-		if (this.mergeTag === undefined) {
-			this.mergeTag = new ludo.canvas.Node('feMerge');
-			this.adopt(this.mergeTag);
-
-		}
-		return this.mergeTag;
-	},
-
-	/**
-	 * Adds a new feMergeNode DOM node to the feMerge node
-	 * @method addFeMergeNode
-	 * @param {String} key
-	 * @return {canvas.Node} feMergeNode
-	 */
-	addFeMergeNode:function (key) {
-		if (this.mergeTags[key] === undefined) {
-			this.mergeTags[key] = new ludo.canvas.Node('feMergeNode', { "in":key });
-			this.getMergeTag().adopt(this.mergeTags[key]);
-			this.updateMergeTag();
-		}
-		return this.mergeTags[key];
-	}
-});/* ../ludojs/src/canvas/mask.js */
-/**
- Class for masking of SVG DOM nodes
- @namespace canvas
- @class Mask
- @constructor
- @param {Object} properties
- @example
-	 var mask = new ludo.canvas.Mask({ id : 'Mask' });
-	 canvas.adoptDef(mask); // canvas is a ludo.canvas.Canvas object
-
-	 var gr = new ludo.canvas.Gradient({
-		 id:'gradient'
-	 });
-	 gr.addStop('0%', 'white', 0);
-	 gr.addStop('100%', 'white', 1);
- 	 canvas.adopt(gr);
-
-	 var rect2 = new ludo.canvas.Rect({ x:0,y:0, width:500,height:500, fill:gr });
-	 mask.adopt(rect2); // Append rect to mask
-	 // create ellipsis with reference to mask
- 	 var ellipse = new ludo.canvas.Ellipse({ cx:100, cy:125, rx:50, ry:70,mask:mask });
-
- */
-ludo.canvas.Mask = new Class({
-	Extends: ludo.canvas.NamedNode,
-	tagName : 'mask'
 });/* ../ludojs/src/remote/json.js */
 /**
  * LudoJS class for remote JSON queries. Remote queries in ludoJS uses a REST-like API where you have
@@ -21114,13 +20133,14 @@ ludo.tree.Tree = new Class({
         this.addEvent('remove', this.removeRecord.bind(this));
         this.addEvent('add', this.addRecord.bind(this));
 
-        this.getBody().addEvent('click', this.recordClick.bind(this));
-        this.getBody().addEvent('dblclick', this.recordDblClick.bind(this));
-        this.getBody().addEvent('click', this.expandByDom.bind(this));
-        this.getBody().addEvent('contextmenu', this.showContextMenu.bind(this));
-        this.getBody().addEvent('click', this.toggleExpandCollapse.bind(this));
+        var b = this.getBody();
+        b.addEvent('click', this.recordClick.bind(this));
+        b.addEvent('dblclick', this.recordDblClick.bind(this));
+        b.addEvent('click', this.expandByDom.bind(this));
+        b.addEvent('contextmenu', this.showContextMenu.bind(this));
+        b.addEvent('click', this.toggleExpandCollapse.bind(this));
         if (Browser.ie) {
-            this.getBody().addEvent('selectstart', this.cancelSelection.bind(this));
+            b.addEvent('selectstart', this.cancelSelection.bind(this));
         }
     },
 
@@ -21176,9 +20196,9 @@ ludo.tree.Tree = new Class({
     /**
      * Method called by ludo.tree.
 	 * @method addRecord
-     * @param {Object} record
+     * @param {Object} obj
      */
-    addRecord:function (record) {
+    addRecord:function (obj) {
         obj.record.unique = undefined;
         if (obj.pos == 'sibling') {
             this.addSibling(obj.record, obj.targetRecord);
@@ -21389,11 +20409,11 @@ ludo.tree.Tree = new Class({
 
         var record = this.getRecordByDOM(el);
         if (!record) {
-            return;
+            return undefined;
         }
         var menuConfig = this.getContextMenuConfig(record);
         if (menuConfig.length == 0) {
-            return;
+            return undefined;
         }
 
         this.selectRecord(record);
@@ -21451,6 +20471,7 @@ ludo.tree.Tree = new Class({
             this.fireEvent('selectrecord', record);
             return record;
         }
+        return undefined;
     },
     getSelectedRecord:function () {
         return this.selectedRecord;
@@ -21550,6 +20571,7 @@ ludo.tree.Tree = new Class({
         if (record.children && record.children.length) {
             return record.children[record.children.length - 1];
         }
+        return undefined;
     },
 
     setRecordProperty:function (record, property, newValue) {
@@ -21576,7 +20598,7 @@ ludo.tree.Tree = new Class({
     },
     recordClick:function (e) {
         var el = this.getSelectableDomNode(e.target);
-        if (!el)return;
+        if (!el)return undefined;
         this.setSelectedNode(el);
         this.selectedRecord = this.recordMap[el.getProperty('id')].record;
         this.fireEvent('click', [this.recordMap[el.getProperty('id')].record, e]);
@@ -21769,7 +20791,6 @@ ludo.tree.Tree = new Class({
      * @method expandSome
      * @param {Object} parentRecord (optional - if not set, tree will be expanded from root)
      * @param {Number} depth How deep to expand, 1 will only expand direct children
-     *
      */
     expandSome:function (parentRecord, depth, currentDepth) {
         parentRecord = parentRecord || this.data;
@@ -21804,7 +20825,7 @@ ludo.tree.Tree = new Class({
     loadChildNodes:function (record) {
         var remoteConfig = this.getRemoteConfigFor(record);
 
-		new ludo.remote.JSON({
+		var req = ludo.remote.JSON({
 			url: remoteConfig.url,
 			data : Object.merge(remoteConfig.data, { record:record }),
 			listeners:{
@@ -21816,6 +20837,7 @@ ludo.tree.Tree = new Class({
 				}.bind(this)
 			}
 		});
+        req.send();
     },
 
     isRendered:function (record) {
