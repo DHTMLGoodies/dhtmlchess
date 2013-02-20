@@ -447,7 +447,6 @@ chess.parser.FenParser0x88 = new Class({
 							}
 						}
 					}
-                    // TODO account for own pieces between king and rook.
 					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 1]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 2]) == -1) {
 						paths.push(piece.s + 2);
 					}
