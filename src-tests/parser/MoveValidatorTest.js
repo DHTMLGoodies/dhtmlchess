@@ -16,7 +16,7 @@ TestCase("MoveValidatorTest", {
 	},
 
 
-	"test should be able to Get Correct Config For A Move":function () {
+	"test should be able to get correct config for a move":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		var parser = this.getParser();
