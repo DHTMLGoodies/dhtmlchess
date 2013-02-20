@@ -1,6 +1,6 @@
 <?php
 if(file_exists("chess.lock")){
-   die('chess.lock file exists. Installer not available');
+   die('chess.lock file exists in the installer folder. Installer not available until this file has been deleted.');
 };
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

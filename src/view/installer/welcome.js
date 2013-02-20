@@ -10,7 +10,7 @@ chess.view.installer.Welcome = new Class({
                 'font-weight' : 'bold'
             },
             html : 'Welcome to the DHTML Chess Installer. From this page, you can ' +
-                'install and/or update DHTML Chess'
+                'install the database version of DHTML Chess'
         }
     ]
 });

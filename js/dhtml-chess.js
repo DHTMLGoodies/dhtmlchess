@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 0:37:17 CET 2013 */
+/* Generated Thu Feb 21 0:58:01 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -19214,7 +19214,8 @@ ludo.form.Manager = new Class({
 			el.upload();
 			return;
 		}
-		this.component.fireEvent('beforesubmit');
+
+		this.fireEvent('beforesubmit');
 		if (this.model) {
 			this.model.save(this.getValues());
 		}
@@ -21544,17 +21545,20 @@ ludo.card.FinishButton = new Class({
     type:'card.FinishButton',
     value:'Finish',
     hidden:true,
-    // TODO finish button is been shown again when you click on the wizard
+
     addButtonEvents:function(){
 		var lm;
         if (this.component) {
 			lm = this.component.getLayoutManager();
+            var fm = this.component.getFormManager();
+
             lm.addEvent('valid', this.enable.bind(this));
             lm.addEvent('invalid', this.disable.bind(this));
-			this.component.addEvent('beforesubmit', this.disable.bind(this));
-
             lm.addEvent('lastcard', this.show.bind(this));
             lm.addEvent('notlastcard', this.hide.bind(this));
+
+            fm.addEvent('beforesubmit', this.disable.bind(this));
+            fm.addEvent('success', this.setSubmitted.bind(this));
 
             if(!lm.isValid()){
                 this.disabled = true;
@@ -21577,13 +21581,17 @@ ludo.card.FinishButton = new Class({
         if(!this.submitted){
             return this.parent();
         }
+        return undefined;
     },
     submitted : false,
     submit:function () {
         if (this.component) {
             this.component.submit();
-            this.submitted = true;
         }
+    },
+
+    setSubmitted:function(){
+        this.submitted = true;
     }
 });/* ../ludojs/src/card/next-button.js */
 /**
@@ -21698,7 +21706,7 @@ ludo.progress.DataSource = new Class({
         this.parent(config);
         if(config.pollFrequence !== undefined)this.pollFrequence = config.pollFrequence;
         this.component = config.component;
-        this.component.addEvent('beforesubmit', this.startProgress.bind(this));
+        this.component.getFormManager().addEvent('beforesubmit', this.startProgress.bind(this));
     },
 
     startProgress:function(){
@@ -21783,7 +21791,7 @@ ludo.progress.Base = new Class({
             component:this.component
         };
 
-        this.component.addEvent('beforesubmit', this.show.bind(this));
+        this.component.getFormManager().addEvent('beforesubmit', this.show.bind(this));
 
         this.getDataSource().addEvent('load', this.insertJSON.bind(this));
         this.getDataSource().addEvent('start', this.start.bind(this));
