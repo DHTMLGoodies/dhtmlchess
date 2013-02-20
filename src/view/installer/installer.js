@@ -17,7 +17,6 @@ chess.view.installer.Installer = new Class({
     resizable:false,
     title:'DHTML Chess Installer',
     autoHideOnBtnClick:false,
-    url:'installer-controller.php',
     children:[
         {
             height:50,

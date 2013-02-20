@@ -4,10 +4,10 @@ chess.view.installer.Wizard = new Class({
 		type:'card',
 		animate:true
 	},
-	form:{
-		url:'installer-controller.php',
-		name:'chess-installer'
-	},
+    form:{
+        "resource": "ChessDBInstaller",
+        "service" : "install"
+    },
 	weight:1,
 	containerCss:{
 		border:0
@@ -28,7 +28,13 @@ chess.view.installer.Wizard = new Class({
 		this.parent();
 		this.addEvent('submit', this.beforeSubmit.bind(this));
 		this.getFormManager().addEvent('success', this.installationComplete.bind(this));
+		this.getFormManager().addEvent('failure', this.onInstallError.bind(this));
 	},
+
+    onInstallError:function(){
+        ludo.get('message').setHtml('');
+        ludo.get('finishButton').show();
+    },
 
 	beforeSubmit:function () {
 		ludo.get('message').setHtml('<img src="../images/ajax-loader.gif"> Installing - please wait');

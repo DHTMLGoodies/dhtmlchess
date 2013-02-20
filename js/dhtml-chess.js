@@ -1,4 +1,4 @@
-/* Generated Wed Feb 20 22:17:05 CET 2013 */
+/* Generated Thu Feb 21 0:37:17 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14426,10 +14426,22 @@ ludo.Window = new Class({
      * @return void
      */
     showAt:function (x, y) {
+        this.setXY(x,y);
+        this.show();
+    },
+
+    setXY:function(x,y){
         this.layout.left = x;
         this.layout.top = y;
         this.getLayoutManager().getRenderer().clearFn();
-        this.show();
+        this.getLayoutManager().getRenderer().resize();
+    },
+
+    center:function(){
+        var bodySize = document.body.getSize();
+        var x = Math.round((bodySize.x / 2) - (this.getWidth() / 2));
+        var y = Math.round((bodySize.y / 2) - (this.getHeight() / 2));
+        this.setXY(x,y);
     },
 
     /**
@@ -14438,9 +14450,7 @@ ludo.Window = new Class({
      * @return void
      */
     showCentered:function () {
-        var bodySize = document.body.getSize();
-        var x = Math.round((bodySize.x / 2) - (this.getWidth() / 2));
-        var y = Math.round((bodySize.y / 2) - (this.getHeight() / 2));
+        this.center();
         this.showAt(x,y);
     }
 });/* ../ludojs/src/dialog/dialog.js */
@@ -14543,6 +14553,7 @@ ludo.dialog.Dialog = new Class({
 	ludoRendered:function () {
 		this.parent();
 		if (!this.isHidden()) {
+            this.center();
 			this.showShim();
 		}
 		var buttons = this.getButtons();
@@ -14556,8 +14567,10 @@ ludo.dialog.Dialog = new Class({
 		return this.modal;
 	},
 	show:function () {
+
+        this.showShim();
 		this.parent();
-		this.showShim();
+
 	},
 
 	hide:function () {
@@ -14569,7 +14582,7 @@ ludo.dialog.Dialog = new Class({
 	},
 
 	showShim:function () {
-		this.showCentered();
+        this.center();
 		if (this.isModal()) {
 			this.els.shim.setStyles({
 				display:'',
@@ -18620,11 +18633,13 @@ ludo.remote.JSON = new Class({
                     this.fireEvent('failure', this);
                 }
                 this.sendBroadCast(service);
+                this.fireEvent('complete', this);
             }.bind(this),
             onError:function (text, error) {
                 this.JSON = { "code": 500, "message": error };
                 this.fireEvent('servererror', this);
                 this.sendBroadCast(service);
+                this.fireEvent('complete', this);
             }.bind(this)
         });
         req.send();
@@ -18771,13 +18786,14 @@ ludo.remote.Broadcaster = new Class({
                 eventName = this.getEventName('success', request.getResource());
                 eventNameWithService = this.getEventName('success', request.getResource(), service);
                 break;
-            case 500:
+            default:
                 eventName = this.getEventName('failure', request.getResource());
                 eventNameWithService = this.getEventName('failure', request.getResource(), service);
                 break;
-            default:
-                eventName = this.getEventName('serverError', request.getResource());
-                eventNameWithService = this.getEventName('serverError', request.getResource(), service);
+        }
+        if(!eventName){
+            eventName = this.getEventName('serverError', request.getResource());
+            eventNameWithService = this.getEventName('serverError', request.getResource(), service);
         }
 
         var eventObj = {
@@ -18915,7 +18931,7 @@ ludo.remote.Message = new Class({
      */
     service:undefined,
     listenTo:undefined,
-    messageTypes:['success','failure','success'],
+    messageTypes:['success','failure','error'],
 
     ludoConfig:function(config){
         this.parent(config);
@@ -21528,7 +21544,7 @@ ludo.card.FinishButton = new Class({
     type:'card.FinishButton',
     value:'Finish',
     hidden:true,
-
+    // TODO finish button is been shown again when you click on the wizard
     addButtonEvents:function(){
 		var lm;
         if (this.component) {
@@ -21557,9 +21573,16 @@ ludo.card.FinishButton = new Class({
         }
     },
 
+    show:function(){
+        if(!this.submitted){
+            return this.parent();
+        }
+    },
+    submitted : false,
     submit:function () {
         if (this.component) {
             this.component.submit();
+            this.submitted = true;
         }
     }
 });/* ../ludojs/src/card/next-button.js */
@@ -28647,7 +28670,6 @@ chess.parser.FenParser0x88 = new Class({
 							}
 						}
 					}
-                    // TODO account for own pieces between king and rook.
 					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 1]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 2]) == -1) {
 						paths.push(piece.s + 2);
 					}
