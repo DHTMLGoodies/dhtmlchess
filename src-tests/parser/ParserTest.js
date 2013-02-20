@@ -81,6 +81,29 @@ TestCase("ParserTest", {
 		assertTrue(parser.isOnSameFile(this.getNumericSquare('a1'), this.getNumericSquare('a2')));
 	},
 
+    "test should not be able to castle in invalid positions": function(){
+        // given
+        var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
+        // when
+        var parser = new chess.parser.FenParser0x88(fen);
+        var legalMoves = parser.getValidMovesAndResult('white').moves;
+
+        // then
+        assertEquals([], legalMoves[4]);
+        // given
+        fen = 'r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4';
+
+        // when
+        parser = new chess.parser.FenParser0x88(fen);
+        legalMoves = parser.getValidMovesAndResult('white').moves;
+
+        // then
+        assertEquals([5,20,6], legalMoves[4]);
+
+    },
+
+
 	"test should find castle":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';

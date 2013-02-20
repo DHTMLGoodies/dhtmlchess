@@ -9,7 +9,10 @@
     <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
-    <link rel="stylesheet" href="../css/buttonbar/light-gray.css" type="text/css">
+    <script type="text/javascript" src="../src/parser0x88/fen-parser-0x88.js"></script>
+    <script type="text/javascript" src="../src/parser0x88/move-0x88.js"></script>
+    <script type="text/javascript" src="../src/model/game.js"></script>
+    <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
     <style type="text/css">
         body, html {
@@ -54,8 +57,8 @@
 
     var app = new ludo.Window({
         stateful:true,
-        width:900,
-        height:650,
+        width:800,
+        height:450,
         left:20,
         top:20,
         title:'Analysis board, DHTML Chess 3.0',
