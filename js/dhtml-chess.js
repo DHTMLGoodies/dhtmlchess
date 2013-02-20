@@ -1,4 +1,4 @@
-/* Generated Wed Feb 20 1:53:17 CET 2013 */
+/* Generated Wed Feb 20 2:32:31 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -6762,6 +6762,7 @@ ludo.layout.Tab = new Class({
 
 	onCreate:function () {
 		this.parent();
+        ludo.dom.addClass(this.view.getEl(), 'ludo-layout-tab');
 		this.addChild(this.getTabStrip());
 		this.updateViewport(this.tabStrip.getChangedViewport());
 	},
@@ -6781,8 +6782,6 @@ ludo.layout.Tab = new Class({
 			l.alignParentTop = true;
 			l.fillRight = true;
 			l.fillDown = true;
-
-
 		}
 		this.parent(child);
 	},
