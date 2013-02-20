@@ -48,10 +48,8 @@ chess.view.board.Board = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.pieces = [];
-        if (config.pieceLayout !== undefined) this.pieceLayout = config.pieceLayout;
-        if (config.animationDuration !== undefined) this.animationDuration = config.animationDuration;
+        this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
         this.positionParser = new chess.parser.FenParser0x88();
-        if (config.addons !== undefined)this.addons = config.addons;
     },
 
     getTimeForAnimation:function () {

@@ -29,14 +29,7 @@ chess.view.board.GUI = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        if (config.labels !== undefined) {
-            this.labels = config.labels;
-        }
-        if (config.boardCls !== undefined) this.boardCls = config.boardCls;
-        if (config.boardCss !== undefined) this.boardCss = config.boardCss;
-        if (config.boardLayout !== undefined) this.boardLayout = config.boardLayout;
-        if (config.lowerCaseLabels !== undefined) this.lowerCaseLabels = config.lowerCaseLabels;
-        this.chessSet = config.chessSet || this.chessSet;
+        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet']);
     },
 
     ludoDOM:function () {

@@ -1,4 +1,4 @@
-/* Generated Wed Feb 20 3:42:02 CET 2013 */
+/* Generated Wed Feb 20 22:17:05 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1670,7 +1670,6 @@ ludo.canvas.Node = new Class({
 	id:undefined,
 
 	initialize:function (tagName, properties, text) {
-
 		properties = properties || {};
 		properties.id = this.id = properties.id || 'ludo-svg-node-' + String.uniqueID();
 		if (tagName !== undefined)this.tagName = tagName;
@@ -1991,8 +1990,7 @@ ludo.canvas.Element = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
-		if (config.tag !== undefined)this.tag = config.tag;
-		if (config.attr !== undefined)this.attr= config.attr;
+        this.setConfigParams(config, ['tag','attr']);
 		this.node = new ludo.canvas.Node(this.tag, this.attr);
 	},
 
@@ -2092,9 +2090,7 @@ ludo.canvas.Canvas = new Class({
 		config.attr = Object.merge(config.attr, this.defaultProperties);
 		this.parent(config);
 
-		if (config.renderTo !== undefined)this.renderTo = config.renderTo;
-		if (config.title !== undefined)this.title = config.title;
-		if (config.description !== undefined)this.description = config.description;
+        this.setConfigParams(config, ['renderTo','title','description']);
 
 		if(this.title)this.createTitle();
 		if(this.description)this.createDescription();
@@ -7684,20 +7680,9 @@ ludo.effect.Drag = new Class({
 				handle:config.handle
 			});
 		}
-		if (config.useShim !== undefined)this.useShim = config.useShim;
-		if (config.autoHideShim !== undefined)this.autoHideShim = config.autoHideShim;
-		if (config.directions !== undefined)this.directions = config.directions;
-		if (config.delay !== undefined)this.delay = config.delay;
-		if (config.minX !== undefined)this.minX = config.minX;
-		if (config.maxX !== undefined)this.maxX = config.maxX;
-		if (config.minY !== undefined)this.minY = config.minY;
-		if (config.maxY !== undefined)this.maxY = config.maxY;
-		if (config.minPos !== undefined)this.minPos = config.minPos;
-		if (config.maxPos !== undefined)this.maxPos = config.maxPos;
-		if (config.unit !== undefined)this.unit = config.unit;
-		if (config.shimCls !== undefined)this.shimCls = config.shimCls;
-		if (config.mouseYOffset !== undefined)this.mouseYOffset = config.mouseYOffset;
-		if (config.mouseXOffset !== undefined)this.mouseXOffset = config.mouseXOffset;
+
+        this.setConfigParams(config, ['useShim','autoHideShim','directions','delay','minX','maxX','minY','maxY',
+            'minPos','maxPos','unit','shimCls','mouseYOffset','mouseXOffset']);
 	},
 
 	ludoEvents:function () {
@@ -8520,25 +8505,14 @@ ludo.effect.Resize = new Class({
     aspectRatioMinMaxSet:false,
 
     ludoConfig:function (config) {
-        if (config.useShim !== undefined)this.useShim = config.useShim;
-        if (config.component !== undefined) {
+        this.setConfigParams(config, ['useShim','minX','maxX','minY','maxY','maxWidth','minWidth','minHeight','maxHeight','preserveAspectRatio']);
+        if (config.component) {
             this.component = config.component;
             this.els.applyTo = this.component.getEl();
         } else {
             this.els.applyTo = config.applyTo;
         }
-        if (config.minX !== undefined)this.minX = config.minX;
-        if (config.minY !== undefined)this.minY = config.minY;
-        if (config.maxX !== undefined)this.maxX = config.maxX;
-        if (config.maxY !== undefined)this.maxY = config.maxY;
-        if (config.minWidth !== undefined)this.minWidth = config.minWidth;
-        if (config.maxWidth !== undefined)this.maxWidth = config.maxWidth;
-        if (config.minHeight !== undefined)this.minHeight = config.minHeight;
-        if (config.maxHeight !== undefined)this.maxHeight = config.maxHeight;
-        if (config.preserveAspectRatio !== undefined)this.preserveAspectRatio = config.preserveAspectRatio;
-        if (config.listeners !== undefined)this.addEvents(config.listeners);
-
-
+        if (config.listeners)this.addEvents(config.listeners);
         this.addDragEvents();
         this.setDisplayPropertyOfEl.delay(100, this);
     },
@@ -16144,7 +16118,7 @@ ludo.form.Password = new Class({
 /**
  * @namespace form
  * @class Email
- * @description A customized text field with validation of e-mail addrses
+ * @description A customized text field with automatic validation of e-mail addresses
  * @extends form.Text
  */
 ludo.form.Email = new Class({
@@ -16210,11 +16184,10 @@ ludo.form.Number = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
+        this.setConfigParams(config, ['disableWheel','shiftIncrement','reverseWheel']);
+
         if (config.minValue !== undefined)this.minValue = parseInt(config.minValue);
         if (config.maxValue !== undefined)this.maxValue = parseInt(config.maxValue);
-        if (config.disableWheel !== undefined)this.disableWheel = config.disableWheel;
-        if (config.shiftIncrement !== undefined)this.shiftIncrement = config.shiftIncrement;
-        if (config.reverseWheel !== undefined)this.reverseWheel = config.reverseWheel;
     },
 
     ludoEvents:function () {
@@ -19005,13 +18978,10 @@ ludo.form.Manager = new Class({
 
 	ludoConfig:function (config) {
 		this.component = config.component;
-		if (config.form !== undefined) {
-			this.form = config.form;
-		}
 
-		if (this.form && this.form.url) {
-			this.url = this.form.url;
-		}
+		if (config.form)this.form = config.form;
+		if (this.form && this.form.url)this.url = this.form.url;
+
         this.form.resource = this.form.resource || this.form.name || undefined;
 		this.id = String.uniqueID();
 		if (config.model !== undefined) {
@@ -22663,16 +22633,11 @@ chess.view.notation.Panel = new Class({
     },
     ludoConfig:function (config) {
         this.parent(config);
+        this.setConfigParams(config, ['notations','showContextMenu']);
 
-        this.notations = config.notations || this.notations;
-        if(config.showContextMenu !== undefined) this.showContextMenu = config.showContextMenu;
         if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
-        if (this.notations === 'long') {
-            this.notationKey = 'lm';
-        } else {
-            this.notationKey = 'm';
-        }
 
+        this.notationKey = this.notations === 'long' ? 'lm' : 'm';
         this.moveIdPrefix = 'move-' + String.uniqueID() + '-';
     },
 
@@ -22988,14 +22953,7 @@ chess.view.board.GUI = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        if (config.labels !== undefined) {
-            this.labels = config.labels;
-        }
-        if (config.boardCls !== undefined) this.boardCls = config.boardCls;
-        if (config.boardCss !== undefined) this.boardCss = config.boardCss;
-        if (config.boardLayout !== undefined) this.boardLayout = config.boardLayout;
-        if (config.lowerCaseLabels !== undefined) this.lowerCaseLabels = config.lowerCaseLabels;
-        this.chessSet = config.chessSet || this.chessSet;
+        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet']);
     },
 
     ludoDOM:function () {
@@ -23441,10 +23399,8 @@ chess.view.board.Board = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.pieces = [];
-        if (config.pieceLayout !== undefined) this.pieceLayout = config.pieceLayout;
-        if (config.animationDuration !== undefined) this.animationDuration = config.animationDuration;
+        this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
         this.positionParser = new chess.parser.FenParser0x88();
-        if (config.addons !== undefined)this.addons = config.addons;
     },
 
     getTimeForAnimation:function () {
@@ -27357,9 +27313,8 @@ chess.view.position.Pieces = new Class({
     pieces : {},
 
     ludoConfig:function (config) {
-        this.pieceColor = config.pieceColor || this.pieceColor;
-        this.pieceLayout = config.pieceLayout || this.pieceLayout;
         this.parent(config);
+        this.setConfigParams(config, ['pieceColor','pieceLayout']);
     },
 
     ludoRendered:function () {
@@ -27403,9 +27358,8 @@ chess.view.position.Piece = new Class({
     height:55,
 
     ludoConfig:function (config) {
-        this.pieceColor = config.pieceColor || this.pieceColor;
-        this.pieceType = config.pieceType || this.pieceType;
-        this.pieceLayout = config.pieceLayout || this.pieceLayout;
+        this.parent(config);
+        this.setConfigParams(config, ['pieceColor','pieceType','pieceLayout']);
         this.parent(config);
     },
 

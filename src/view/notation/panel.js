@@ -62,16 +62,11 @@ chess.view.notation.Panel = new Class({
     },
     ludoConfig:function (config) {
         this.parent(config);
+        this.setConfigParams(config, ['notations','showContextMenu']);
 
-        this.notations = config.notations || this.notations;
-        if(config.showContextMenu !== undefined) this.showContextMenu = config.showContextMenu;
         if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
-        if (this.notations === 'long') {
-            this.notationKey = 'lm';
-        } else {
-            this.notationKey = 'm';
-        }
 
+        this.notationKey = this.notations === 'long' ? 'lm' : 'm';
         this.moveIdPrefix = 'move-' + String.uniqueID() + '-';
     },
 

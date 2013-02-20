@@ -13,9 +13,8 @@ chess.view.position.Pieces = new Class({
     pieces : {},
 
     ludoConfig:function (config) {
-        this.pieceColor = config.pieceColor || this.pieceColor;
-        this.pieceLayout = config.pieceLayout || this.pieceLayout;
         this.parent(config);
+        this.setConfigParams(config, ['pieceColor','pieceLayout']);
     },
 
     ludoRendered:function () {
@@ -59,9 +58,8 @@ chess.view.position.Piece = new Class({
     height:55,
 
     ludoConfig:function (config) {
-        this.pieceColor = config.pieceColor || this.pieceColor;
-        this.pieceType = config.pieceType || this.pieceType;
-        this.pieceLayout = config.pieceLayout || this.pieceLayout;
+        this.parent(config);
+        this.setConfigParams(config, ['pieceColor','pieceType','pieceLayout']);
         this.parent(config);
     },
 
