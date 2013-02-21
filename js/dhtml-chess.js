@@ -1,4 +1,4 @@
-/* Generated Fri Feb 22 0:28:10 CET 2013 */
+/* Generated Fri Feb 22 0:32:49 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -17034,7 +17034,7 @@ ludo.model.Model = new Class({
 	},
 	registerView:function (view) {
 		this.views.push(view);
-		view.insertJSON({ data:this.currentRecord });
+		view.insertJSON(this.currentRecord);
 	},
 
 	updateViews:function () {
