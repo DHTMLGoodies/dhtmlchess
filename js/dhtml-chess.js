@@ -1,4 +1,4 @@
-/* Generated Fri Feb 22 0:32:49 CET 2013 */
+/* Generated Fri Feb 22 0:41:14 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -10851,7 +10851,7 @@ ludo.dataSource.Collection = new Class({
 		 * @param {Object} sortedBy
 		 */
 		this.fireEvent('sort', this.sortedBy);
-
+        this.firePageEvents();
 		this.fireEvent('state');
 
 		return this;
