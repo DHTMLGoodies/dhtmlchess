@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 20:21:37 CET 2013 */
+/* Generated Fri Feb 22 0:16:29 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1630,6 +1630,84 @@ span.ludo-tree-node-spacer{
     -moz-user-select:none;
     line-height:16px;
     height:18px;
+}/* ../ludojs/css-source/progress/progress-bar.css */
+.ludo-Progress-Bar-Bg{
+    width:300px;
+    height:20px;
+    position:relative;
+    margin-left:2px;
+    margin-right:2px;
+    margin-top:1px;
+    overflow:hidden;
+}
+.ludo-Progress-Bar-Bg-Left{
+    background-image:url('../ludojs/images/progress-bar/progress-bg.png');
+    width:60%;
+    left:0;
+    position:absolute;
+    background-position:top left;
+    height:20px;
+    background-repeat:no-repeat;
+
+}
+.ludo-Progress-Bar-Bg-Right{
+    background-image:url('../ludojs/images/progress-bar/progress-bg.png');
+    position:absolute;
+    background-position:top right;
+    right:0;
+    top:0;
+    width:60%;
+    height:20px;
+    background-repeat:no-repeat;
+}
+
+
+.ludo-Progress-Bar{
+    background-repeat:repeat-x;
+    background-position:top left;
+    position:absolute;
+    top:0;
+    left:0;
+    height:20px;
+    width:300px;
+    overflow:hidden;
+}
+
+.ludo-Progress-Bar-Left{
+    background-image:url('../ludojs/images/progress-bar/progress-bg-filled.png');
+    background-repeat:no-repeat;
+    position:absolute;
+    left:0;
+    top:0;
+    height:20px;
+    width:55%;
+}
+
+.ludo-Progress-Bar-Right{
+    background-image:url('../ludojs/images/progress-bar/progress-bg-filled.png');
+    background-repeat:no-repeat;
+    background-position:top right;
+    position:absolute;
+    top:0;
+    right:0;
+    height:20px;
+    width:55%;
+}
+
+.ludo-Progress-Bar-Percent{
+    width:100%;
+    height:100%;
+    text-align:center;
+    color:#000;
+    line-height:20px;
+    z-index:100;
+    position:relative;
+    font-family:arial;
+    font-size:0.9em;
+}
+
+.ludo-Progress-Bar-Message{
+    text-align:center;
 }/* ../dhtml-chess/css-source/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;

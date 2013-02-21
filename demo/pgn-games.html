@@ -16,7 +16,8 @@
         body, html {
             width: 100%;
             height: 100%;
-            margin:0;padding:0;
+            margin: 0;
+            padding: 0;
             font-family: arial !important;
         }
 
@@ -179,13 +180,59 @@
                                             id:'gameList',
                                             "type":'chess.dataSource.PgnGames',
                                             "arguments":"Morphy",
-                                            "listeners": {
-                                                "beforeload": function(){
+                                            "listeners":{
+                                                "beforeload":function () {
                                                     ludo.get("searchField").reset();
                                                 }
+                                            },
+                                            paging:{
+                                                size:12,
+                                                pageQuery:false,
+                                                cache:false,
+                                                cacheTimeout:1000
                                             }
                                         },
                                         cols:['white', 'black', 'result', 'event', 'site']
+                                    },
+                                    {
+                                        height:30,
+                                        layout:{
+                                            type:'linear',
+                                            orientation:'horizontal'
+                                        },
+                                        containerCss:{
+                                            'border-top' : '1px solid #c6c6c6'
+                                        },
+                                        css:{
+                                            'padding-top' : 2
+                                        },
+                                        children:[
+                                            {
+                                                type:'paging.First',
+                                                dataSource:'gameList'
+                                            },
+                                            {
+                                                type:'paging.Previous',
+                                                dataSource:'gameList'
+                                            },
+                                            {
+                                                type:'paging.PageInput',
+                                                dataSource:'gameList'
+                                            },
+                                            {
+                                                type:'paging.TotalPages',
+                                                dataSource:'gameList'
+                                            },
+                                            {
+                                                type:'paging.Next',
+                                                dataSource:'gameList'
+                                            },
+                                            {
+                                                type:'paging.Last',
+                                                dataSource:'gameList'
+                                            }
+
+                                        ]
                                     }
                                 ]
                             },

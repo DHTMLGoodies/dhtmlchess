@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 20:21:37 CET 2013 */
+/* Generated Fri Feb 22 0:16:29 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1113,11 +1113,7 @@ ludo.layout.Resizer = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
-		this.orientation = config.orientation;
-		this.view = config.view;
-		this.layout = config.layout;
-		this.pos = config.pos;
-        if(config.hidden !== undefined)this.hidden = config.hidden;
+        this.setConfigParams(config, ['orientation','view','layout','pos','hidden']);
 		this.createDOM(config.renderTo);
 		this.addViewEvents();
 		this.createDragable();
@@ -2392,7 +2388,6 @@ ludo.layout.Base = new Class({
      * @optional
      */
 	addChild:function (child, insertAt, pos) {
-        var previousParent = child.parentComponent;
 		child = this.getNewComponent(child);
 		var parentEl = this.getParentForNewChild();
 		if (insertAt) {
@@ -2414,7 +2409,10 @@ ludo.layout.Base = new Class({
 			this.view.children = children;
 		} else {
 			this.view.children.push(child);
-			if(previousParent && previousParent !== this.view || !child.getEl().parentNode)parentEl.adopt(child.getEl());
+            var el = child.getEl();
+            if(!el.parentNode || el.parentNode !== parentEl){
+                parentEl.appendChild(el);
+            }
 		}
 
 		this.onNewChild(child);
@@ -3668,7 +3666,8 @@ ludo.layout.Renderer = new Class({
 		this.fixReferences();
 		this.setDefaultProperties();
 		this.view.addEvent('show', this.resize.bind(this));
-		this.resize();
+        ludo.dom.clearCache();
+		// this.resize();
 		this.addResizeEvent();
 	},
 
@@ -3733,6 +3732,8 @@ ludo.layout.Renderer = new Class({
 	},
 
 	addResizeEvent:function () {
+        // todo no resize should be done for absolute positioned views with a width. refactor the next line
+        if(this.view.isWindow)return;
 		var node = this.view.getEl().parentNode;
 		if (!node || !node.tagName)return;
 		if (node.tagName.toLowerCase() !== 'body') {
@@ -4784,7 +4785,7 @@ ludo.View = new Class({
 		if (!this.parentComponent) {
 			ludo.dom.clearCache();
 			ludo.dom.clearCache.delay(50, this);
-			this.resize({ width:this.width, height:this.height });
+            this.getLayoutManager().getRenderer().resize();
 		}
 	},
 
@@ -5216,6 +5217,7 @@ ludo.View = new Class({
 		 * @param {Object} this
 		 */
 		if (!skipEvents)this.fireEvent('show', this);
+
 		if (this.parentComponent) {
 			this.resizeParent();
 		} else {
@@ -6368,7 +6370,7 @@ ludo.layout.Relative = new Class({
     /**
      * Creates empty newChildCoordinates and lastChildCoordinates for a child view
      * @method assignDefaultCoordinates
-     * @param {ludo.View} child
+     * @param {ludo.View|ludo.layout.Resizer} child
      * @private
      */
 	assignDefaultCoordinates:function (child) {
@@ -6673,20 +6675,21 @@ ludo.layout.Relative = new Class({
 	onNewChild:function (child) {
 		this.parent(child);
 		child.getEl().style.position = 'absolute';
-		if (child.layout.centerInParent !== undefined) {
-			child.layout.centerHorizontal = undefined;
-			child.layout.centerVertical = undefined;
+        var l = child.layout;
+		if (l.centerInParent !== undefined) {
+			l.centerHorizontal = undefined;
+			l.centerVertical = undefined;
 		}
-		if(child.layout.fillRight === undefined){
-			if (child.layout.width === undefined)child.layout.width = child.width ? child.width : undefined;
+		if(l.fillRight === undefined){
+			if (l.width === undefined)l.width = child.width ? child.width : undefined;
 		}
 
-		if (child.layout.height === undefined)child.layout.height = child.height ? child.height : undefined;
+		if (l.height === undefined)l.height = child.height ? child.height : undefined;
 
-		if (child.layout.leftOf)child.layout.right = undefined;
-		if (child.layout.rightOf)child.layout.left = undefined;
-		if (child.layout.below)child.layout.top = undefined;
-		if (child.layout.above)child.layout.bottom = undefined;
+		if (l.leftOf)l.right = undefined;
+		if (l.rightOf)l.left = undefined;
+		if (l.below)l.top = undefined;
+		if (l.above)l.bottom = undefined;
 	},
 
     /**
@@ -9499,20 +9502,13 @@ ludo.FramedView = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		var el = this.els.container;
-		ludo.dom.addClass(el, 'ludo-rich-view');
+
+		ludo.dom.addClass(this.els.container, 'ludo-rich-view');
 
 		if (this.titleBar)this.getTitleBarEl().inject(this.getBody(), 'before');
+		ludo.dom.addClass(this.getBody(), 'ludo-rich-view-body');
 
-		var body = this.getBody();
-		ludo.dom.addClass(body, 'ludo-rich-view-body');
-
-		if (this.buttonBar) {
-			this.getButtonBar()
-		} else {
-			ludo.dom.addClass(el, 'ludo-component-no-buttonbar')
-		}
-		if (this.statusBar)el.adopt(this.getStatusBar());
+		if (this.statusBar)this.els.container.adopt(this.getStatusBar());
 
 		var parent = this.getParent();
 		if (!parent && this.isResizable()) {
@@ -9522,6 +9518,12 @@ ludo.FramedView = new Class({
 
 
 	ludoRendered:function () {
+        // TODO create button bar after view is rendered.
+        if (this.buttonBar) {
+            this.getButtonBar()
+        } else {
+            ludo.dom.addClass(this.els.container, 'ludo-component-no-buttonbar')
+        }
 		this.parent();
 		if (this.minimized) {
 			this.minimize();
@@ -9609,7 +9611,7 @@ ludo.FramedView = new Class({
 	getHeightOfButtonBar:function () {
 		if (!this.buttonBar)return 0;
 		if (this.heightOfButtonBar === undefined) {
-			this.heightOfButtonBar = this.els.buttonBar.el.offsetHeight + ludo.dom.getMH(this.els.buttonBar.el);
+			if(this.els.buttonBar)this.heightOfButtonBar = this.els.buttonBar.el.offsetHeight + ludo.dom.getMH(this.els.buttonBar.el);
 		}
 		return this.heightOfButtonBar;
 	},
@@ -14460,6 +14462,10 @@ ludo.Window = new Class({
     showCentered:function () {
         this.center();
         this.showAt(x,y);
+    },
+
+    isWindow:function(){
+        return true;
     }
 });/* ../ludojs/src/dialog/dialog.js */
 /**
@@ -16095,6 +16101,7 @@ faultylabs.MD5 = function(data) {
     }
 
 };/* ../ludojs/src/form/password.js */
+// TODO indicate strength of password
 /**
  Password field
  @namespace form
@@ -19512,13 +19519,7 @@ ludo.form.Button = new Class({
         config.weight = undefined;
         this.parent(config);
 
-        if (config.menu !== undefined)this.menu = config.menu;
-        if (config.icon !== undefined)this.icon = config.icon;
-        if (config.toggle !== undefined)this.toggle = config.toggle;
-        if (config.disableOnInvalid !== undefined)this.disableOnInvalid = config.disableOnInvalid;
-        this.defaultSubmit = config.defaultSubmit || false;
-        this.disabled = config.disabled || this.disabled;
-        if (config.selected !== undefined) this.selected = config.selected;
+        this.setConfigParams(config, ['menu','icon','toggle','disableOnInvalid','defaultSubmit','disabled','selected']);
 
         if (config.toggleGroup !== undefined) {
             if (ludo.util.type(config.toggleGroup) === 'String') {
@@ -19579,10 +19580,11 @@ ludo.form.Button = new Class({
         }
 
         this.component = this.getParentComponent();
-
         if(this.component && this.disableOnInvalid){
-            this.component.getFormManager().addEvent('valid', this.enable.bind(this));
-            this.component.getFormManager().addEvent('invalid', this.disable.bind(this));
+            var m = this.component.getFormManager();
+            m.addEvent('valid', this.enable.bind(this));
+            m.addEvent('invalid', this.disable.bind(this));
+            if(!m.isValid())this.disable();
         }
     },
 
@@ -22461,6 +22463,357 @@ ludo.form.ComboField = new Class({
         ludo.dom.addClass(valueField, 'ludo-Filter-Tree-Combo-Value');
         this.getBody().adopt(valueField);
     }
+});/* ../ludojs/src/paging/button.js */
+/**
+ * Base class, paging buttons for datasource.Collection
+ * Assign a paging element to a data source by sending "id" or config object of
+ * the source using the dataSource constructor property
+ * @namespace paging
+ * @class Button
+ * @extends form.Button
+ */
+ludo.paging.Button = new Class({
+    Extends: ludo.form.Button,
+    type : 'grid.paging.Next',
+    width:25,
+    buttonCls : '',
+	tpl:undefined,
+	onLoadMessage:undefined,
+
+    ludoDOM:function(){
+        this.parent();
+        this.getBody().addClass(this.buttonCls);
+    },
+
+    ludoEvents:function(){
+        this.parent();
+        var ds = this.getDataSource();
+        if(ds){
+            this.addDataSourceEvents();
+        }
+    },
+
+    addDataSourceEvents:function(){},
+
+	insertJSON:function(){}
+});/* ../ludojs/src/paging/next.js */
+/**
+ Button used to navigate to next page in a dataSource.Collection
+ @namespace paging
+ @class Next
+ @extends paging.Button
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[
+ 		...
+		 {
+			 type:'paging.Next',
+			 dataSource:'myDataSource'
+		 }
+ 		...
+ 	}
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.Next = new Class({
+	Extends:ludo.paging.Button,
+	type:'grid.paging.Next',
+	buttonCls:'ludo-paging-next',
+
+	addDataSourceEvents:function () {
+		this.addEvent('click', this.nextPage.bind(this));
+		var ds = this.getDataSource();
+		ds.addEvent('lastPage', this.disable.bind(this));
+		ds.addEvent('notLastPage', this.enable.bind(this));
+	},
+
+	/**
+	 * Calls nextPage() method of data source
+	 * @method nextPage
+	 */
+	nextPage:function () {
+		this.getDataSource().nextPage();
+	}
+});/* ../ludojs/src/paging/previous.js */
+/**
+ Button used to navigate to previous page in a dataSource.Collection
+ @namespace paging
+ @class Last
+ @extends paging.Button
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[
+ 		...
+		 {
+			 type:'paging.Previous',
+			 dataSource:'myDataSource'
+		 }
+ 		...
+ 	}
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.Previous = new Class({
+	Extends:ludo.paging.Button,
+	type:'grid.paging.Previous',
+	buttonCls:'ludo-paging-previous',
+
+	addDataSourceEvents:function () {
+		this.addEvent('click', this.nextPage.bind(this));
+		var ds = this.getDataSource();
+		ds.addEvent('firstPage', this.disable.bind(this));
+		ds.addEvent('notFirstPage', this.enable.bind(this));
+
+		if (ds.isOnFirstPage()) {
+			this.disable();
+		}
+	},
+
+	nextPage:function () {
+		this.getDataSource().previousPage();
+	}
+
+});/* ../ludojs/src/paging/last.js */
+/**
+ Button used to navigate to last page in a dataSource.Collection
+ @namespace paging
+ @class Last
+ @extends paging.Button
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[
+ 		...
+		 {
+			 type:'paging.Last',
+			 dataSource:'myDataSource'
+		 }
+ 		...
+ 	}
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.Last = new Class({
+	Extends:ludo.paging.Button,
+	type:'grid.paging.Last',
+	buttonCls:'ludo-paging-last',
+
+	addDataSourceEvents:function () {
+		this.addEvent('click', this.nextPage.bind(this));
+		var ds = this.getDataSource();
+		ds.addEvent('lastPage', this.disable.bind(this));
+		ds.addEvent('notLastPage', this.enable.bind(this));
+	},
+
+	nextPage:function () {
+		this.getDataSource().lastPage();
+	}
+});/* ../ludojs/src/paging/first.js */
+/**
+ Button used to navigate to first page in a dataSource.Collection
+ @namespace paging
+ @class First
+ @extends paging.Button
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[
+ 		...
+		 {
+			 type:'paging.First',
+			 dataSource:'myDataSource'
+		 }
+ 		...
+ 	}
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.First = new Class({
+	Extends:ludo.paging.Button,
+	type:'grid.paging.First',
+	buttonCls:'ludo-paging-first',
+
+	addDataSourceEvents:function () {
+		this.addEvent('click', this.firstPage.bind(this));
+		var ds = this.getDataSource();
+		ds.addEvent('firstPage', this.disable.bind(this));
+		ds.addEvent('notFirstPage', this.enable.bind(this));
+
+		if (ds.isOnFirstPage()) {
+			this.disable();
+		}
+	},
+
+	firstPage:function () {
+		this.getDataSource().firstPage();
+	}
+
+});/* ../ludojs/src/paging/page-input.js */
+/**
+ * Text input for navigating to a specific page in a datasource.Collection
+ * @namespace paging
+ * @class PageInput
+ * @extends form.Number
+ */
+ludo.paging.PageInput = new Class({
+    Extends: ludo.form.Number,
+    type : 'grid.paging.PageInput',
+    width: 35,
+    fieldWidth:30,
+    minValue : 1,
+    reverseWheel:true,
+
+    ludoEvents:function(){
+        this.parent();
+        var ds = this.getDataSource();
+        if(ds){
+            ds.addEvent('page', this.setPageNumber.bind(this));
+            ds.addEvent('load', this.updateMaxValue.bind(this));
+            this.setPageNumber(ds.getPageNumber());
+            this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
+            this.updateMaxValue();
+
+        }
+    },
+    setPageNumber:function(number){
+        this.value = number;
+        this.els.formEl.set('value', number);
+    },
+
+    updateDataSourcePageNumber:function(){
+        this.getDataSource().toPage(this.getValue());
+    },
+
+    updateMaxValue:function(){
+        this.maxValue = this.getDataSource().getPageCount();
+    },
+
+	insertJSON:function(){
+
+	}
+});/* ../ludojs/src/paging/total-pages.js */
+/**
+ Displays number of pages in a data source
+ @class paging.TotalPages
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ children:[
+ ...
+ {
+			  type:'paging.TotalPages',
+			  dataSource:'myDataSource'
+		  }
+ ...
+ }
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.TotalPages = new Class({
+	Extends:ludo.View,
+	type:'grid.paging.TotalPages',
+	width:25,
+	onLoadMessage:'',
+	/**
+	 * Text template for view. {pages} is replaced by number of pages in data source.
+	 * @attribute {String} tpl
+	 * @default '/{pages}'
+	 */
+	tpl:'/{pages}',
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().addClass('ludo-paging-total-pages');
+	},
+
+	ludoEvents:function () {
+		this.parent();
+		var ds = this.getDataSource();
+		if (ds) {
+			ds.addEvent('load', this.setPageNumber.bind(this));
+			ds.addEvent('pageCount', this.setPageNumber.bind(this));
+			this.setPageNumber(ds.getPageNumber());
+		}
+	},
+	setPageNumber:function () {
+		this.setHtml(this.tpl.replace('{pages}', this.getDataSource().getPageCount()));
+	},
+
+	insertJSON:function () {
+
+	}
+});/* ../ludojs/src/paging/nav-bar.js */
+/**
+ A view containing buttons and views for navigating in a dataSource.Collection.
+ default children: ['paging.First','paging.Previous','paging.PageInput','paging.TotalPages','paging.Next','paging.Last']
+ You can customize which views to show by using the children constructor property.
+ @namespace paging
+ @class NavBar
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[
+ 		{
+			type:'grid.Grid',
+			columnManager:{
+				...
+			},
+			dataSource:{
+				url:'data-source/grid.php',
+				id:'myDataSource'
+			}
+
+ 		},
+ 		...
+ 		...
+		{
+			type:'paging.NavBar',
+			dataSource:'myDataSource'
+		}
+ 		...
+ 	}
+ where 'myDataSource' is the id of a dataSource.Collection object used by the Grid above.
+ */
+ludo.paging.NavBar = new Class({
+	Extends:ludo.View,
+	type:'paging.NavBar',
+	layout:'cols',
+	height:25,
+
+	children:[
+		{
+			type:'paging.First'
+		},
+		{
+			type:'paging.Previous'
+		},
+		{
+			type:'paging.PageInput'
+		},
+		{
+			type:'paging.TotalPages'
+		},
+		{
+			type:'paging.Next'
+		},
+		{
+			type:'paging.Last'
+		}
+	],
+
+	ludoConfig:function (config) {
+		this.parent(config);
+
+		if (config.dataSource) {
+			for (var i = 0; i < config.children.length; i++) {
+				config.children[i].dataSource = config.dataSource;
+			}
+			this.dataSource = undefined;
+		}
+	},
+
+	insertJSON:function(){
+
+	}
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
