@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 0:58:01 CET 2013 */
+/* Generated Thu Feb 21 2:17:27 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -3265,13 +3265,19 @@ ludo.layout.Card = new Class({
 				duration:this.getAnimationDuration()
 			});
 			this.fx[this.visibleCard.id].addEvent('complete', this.animationComplete.bind(this));
+			this.fx[this.visibleCard.id].addEvent('start', this.animationStart.bind(this));
 		}
 		return this.fx[this.visibleCard.id];
 	},
 
+    animationStart:function(){
+        // TODO apply shadow or border during dragging and animation.
+    },
+
 	animationComplete:function (el) {
-		el.style.left = '0px';
-		el.style.top = '0px';
+		el.style.left = '0';
+		el.style.top = '0';
+        el.style.borderWidth = '0';
 	},
 
 	touchStart:function (e) {
@@ -3382,7 +3388,6 @@ ludo.layout.Card = new Class({
 		var skipEvents = true;
 		if (card = this.getPreviousCardOf(ludo.get(id))) {
 			card.show(skipEvents);
-			//this.view.resizeChildren();
 		}
 		if (card = this.getNextCardOf(ludo.get(id))) {
 			card.show(skipEvents);
@@ -15299,6 +15304,7 @@ ludo.form.LabelElement = new Class({
         '<tr class="input-row">',
         '<td class="label-cell"><label></label></td>',
         '<td class="input-cell"></td>',
+        '<td class="invalid-cell"><div class="invalid-cell-div"></div></td>',
         '<td class="suffix-cell" style="display:none"></td>',
         '<td class="help-cell" style="display:none"></td>',
         '</tr>',
@@ -15444,7 +15450,7 @@ ludo.form.Text = new Class({
 	 @type String
 	 @default undefined
 	 @example
-	 	regex:'[0-9]
+	 	regex:'[0-9]'
 	 This will only validate numbers
 	 */
 	regex:undefined,
@@ -15557,7 +15563,7 @@ ludo.form.Text = new Class({
 		}
 		if (this.regex) {
 			var regEx = new RegExp(this.regex, this.regexFlags);
-			return regEx.test(this.getValue());
+			return regEx.test(val);
 		}
 		return true;
 	},
@@ -16127,7 +16133,49 @@ ludo.form.Password = new Class({
 		this.setValue('');
 	}
 });
-/* ../ludojs/src/form/email.js */
+/* ../ludojs/src/form/strong-password.js */
+/**
+ Strong password field, i.e
+ contain at least 1 upper case letter
+ contain at least 1 lower case letter
+ contain at least 1 number or special character
+ contain at least 8 characters in length
+ not limited in length
+ 
+ @namespace form
+ @class Password
+ @extends form.Text
+ @constructor
+ @description Form component for passwords.
+ @param {Object} config
+ @example
+ ...
+ children:[
+ {type:'form.password',label:'Password',name:'password',md5:true },
+ {type:'form.password',label:'Repeat password',name:'password_repeated',md5:true }
+ ]
+ ...
+ */
+ludo.form.StrongPassword = new Class({
+    Extends: ludo.form.Password,
+    regexFlags : '',
+    regex : '(?=^.{_length_,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$',
+
+    /**
+     * Custom minimum length of password
+     * @config {Number} passwordLength
+     * @default 8
+     * @optional
+     */
+    passwordLength : 8,
+
+    ludoConfig:function(config){
+        config = config || {};
+        this.passwordLength = config.passwordLength || this.passwordLength;
+        this.regex = this.regex.replace('_length_', this.passwordLength);
+        this.parent(config);
+    }
+});/* ../ludojs/src/form/email.js */
 /**
  * @namespace form
  * @class Email

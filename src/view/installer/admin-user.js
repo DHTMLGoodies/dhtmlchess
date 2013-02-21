@@ -12,10 +12,10 @@ chess.view.installer.AdminUser = new Class({
 			type:'form.Text', label:'Username', name:'adminUserName'
 		},
 		{
-			type:'form.Password', label:'Password', id:'adminPassword', name:'adminPassword', minLength:5,md5:true
+			type:'form.StrongPassword', label:'Password', id:'adminPassword', name:'adminPassword', minLength:5,md5:true
 		},
 		{
-			type:'form.Password', label:'Repeat password', name:'adminPasswordRepeated', twin:'adminPassword',md5:true
+			type:'form.StrongPassword', label:'Repeat password', name:'adminPasswordRepeated', twin:'adminPassword',md5:true
 		}
 	]
 });
