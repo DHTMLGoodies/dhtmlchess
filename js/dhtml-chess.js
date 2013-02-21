@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 2:17:27 CET 2013 */
+/* Generated Thu Feb 21 15:12:19 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -3141,7 +3141,6 @@ ludo.layout.Card = new Class({
 	},
 	button:{},
 	registerButton:function (button) {
-
 		this.button[button.name || button.id] = button;
 
 	},
@@ -3337,7 +3336,6 @@ ludo.layout.Card = new Class({
 	},
 
 	setZIndexOfOtherCards:function (pos) {
-
 		if (pos > 0 && this.touchConfig.previousPos <= 0) {
 			if (this.touchConfig.nextCard) {
 				this.touchConfig.nextCard.getEl().style.zIndex = (this.touchConfig.zIndex - 3);
@@ -14539,14 +14537,18 @@ ludo.dialog.Dialog = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		if (this.isModal()) {
-			var el = this.els.shim = new Element('div');
-			ludo.dom.addClass(el, 'ludo-dialog-shim');
-			el.setStyle('display', 'none');
-			document.body.adopt(el);
-		}
 		this.getEl().addClass('ludo-dialog');
 	},
+
+    getShim:function(){
+        if(this.els.shim === undefined){
+            var el = this.els.shim = new Element('div');
+            ludo.dom.addClass(el, 'ludo-dialog-shim');
+            el.setStyle('display', 'none');
+            document.body.adopt(el);
+        }
+        return this.els.shim;
+    },
 
 	ludoEvents:function () {
 		this.parent();
@@ -14589,7 +14591,7 @@ ludo.dialog.Dialog = new Class({
 	showShim:function () {
         this.center();
 		if (this.isModal()) {
-			this.els.shim.setStyles({
+			this.getShim().setStyles({
 				display:'',
 				'z-index':this.getEl().getStyle('z-index') - 1
 			});
@@ -14599,13 +14601,13 @@ ludo.dialog.Dialog = new Class({
 
 	resizeShim:function () {
 		var size = document.body.getSize();
-		this.els.shim.style.width = size.x + 'px';
-		this.els.shim.style.height = size.y + 'px';
+        this.getShim().style.width = size.x + 'px';
+        this.getShim().style.height = size.y + 'px';
 	},
 
 	hideShim:function () {
 		if (this.isModal()) {
-			this.els.shim.setStyle('display', 'none');
+            this.getShim().setStyle('display', 'none');
 		}
 	},
 
@@ -25677,10 +25679,11 @@ chess.view.dialog.OverwriteMove = new Class({
 	},
 
 	showDialog:function (model, moves) {
+        this.show();
 		this.move = moves;
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
 		this.setHtml('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
-		this.show();
+
 	}
 });/* ../dhtml-chess/src/view/dialog/promote.js */
 /**
@@ -25696,8 +25699,9 @@ chess.view.dialog.Promote = new Class({
     module:'chess',
     submodule:'dialogPromote',
     layout:{
-		type:'linear',
-		orientation: 'vertical'
+		type:'grid',
+		columns:2,
+        rows:2
 	},
     width:300,
     hidden: true,
@@ -25707,6 +25711,25 @@ chess.view.dialog.Promote = new Class({
     move : undefined,
     autoDispose : false,
 
+    children:[
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'queen'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'rook'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'bishop'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'knight'
+        }
+    ],
+
     setController:function (controller) {
         this.parent(controller);
         this.controller.addEvent('verifyPromotion', this.showDialog.bind(this))
@@ -25714,31 +25737,14 @@ chess.view.dialog.Promote = new Class({
 
     ludoRendered:function () {
         this.parent();
-
-        this.row1 = this.addChild({ weight:1, layout:'cols' });
-        this.row2 = this.addChild({ weight:1, layout:'cols' });
-
-        var pieces = ['queen', 'rook', 'bishop', 'knight'];
-        var parent = this.row1;
-        for (var i = 0; i < pieces.length; i++) {
-            if (i > 1) {
-                parent = this.row2;
-            }
-            var el =parent.addChild({
-                type:'chess.view.dialog.PromotePiece',
-                piece:pieces[i],
-                weight:1,
-                listeners:{
-                    click:this.clickOnPiece.bind(this)
-                }
-            });
-            this.pieces.push(el);
+        for(var i=0;i<this.children.length;i++){
+            this.children[i].addEvent('click', this.clickOnPiece.bind(this));
         }
     },
 
     setColor : function(color){
-        for(var i=0;i<this.pieces.length;i++){
-            this.pieces[i].setColor(color);
+        for(var i=0;i<this.children.length;i++){
+            this.children[i].setColor(color);
         }
 
     },
@@ -25755,9 +25761,10 @@ chess.view.dialog.Promote = new Class({
     },
 
     showDialog : function(model, move){
+        this.show();
         this.move = move;
         this.setColor(model.getColorToMove());
-        this.show();
+
     }
 });
 
@@ -31153,7 +31160,6 @@ chess.model.Game = new Class({
 	 	alert(model.getCurrentPosition());
 	 */
 	appendMove:function (move) {
-        console.log(move);
 		var pos = this.getCurrentPosition();
 		if(ludo.util.isString(move)){
 			move = this.moveParser.getMoveByNotation(move, pos);

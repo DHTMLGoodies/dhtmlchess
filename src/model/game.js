@@ -571,7 +571,6 @@ chess.model.Game = new Class({
 	 	alert(model.getCurrentPosition());
 	 */
 	appendMove:function (move) {
-        console.log(move);
 		var pos = this.getCurrentPosition();
 		if(ludo.util.isString(move)){
 			move = this.moveParser.getMoveByNotation(move, pos);

@@ -11,8 +11,9 @@ chess.view.dialog.Promote = new Class({
     module:'chess',
     submodule:'dialogPromote',
     layout:{
-		type:'linear',
-		orientation: 'vertical'
+		type:'grid',
+		columns:2,
+        rows:2
 	},
     width:300,
     hidden: true,
@@ -22,6 +23,25 @@ chess.view.dialog.Promote = new Class({
     move : undefined,
     autoDispose : false,
 
+    children:[
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'queen'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'rook'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'bishop'
+        },
+        {
+            type:'chess.view.dialog.PromotePiece',
+            piece:'knight'
+        }
+    ],
+
     setController:function (controller) {
         this.parent(controller);
         this.controller.addEvent('verifyPromotion', this.showDialog.bind(this))
@@ -29,31 +49,14 @@ chess.view.dialog.Promote = new Class({
 
     ludoRendered:function () {
         this.parent();
-
-        this.row1 = this.addChild({ weight:1, layout:'cols' });
-        this.row2 = this.addChild({ weight:1, layout:'cols' });
-
-        var pieces = ['queen', 'rook', 'bishop', 'knight'];
-        var parent = this.row1;
-        for (var i = 0; i < pieces.length; i++) {
-            if (i > 1) {
-                parent = this.row2;
-            }
-            var el =parent.addChild({
-                type:'chess.view.dialog.PromotePiece',
-                piece:pieces[i],
-                weight:1,
-                listeners:{
-                    click:this.clickOnPiece.bind(this)
-                }
-            });
-            this.pieces.push(el);
+        for(var i=0;i<this.children.length;i++){
+            this.children[i].addEvent('click', this.clickOnPiece.bind(this));
         }
     },
 
     setColor : function(color){
-        for(var i=0;i<this.pieces.length;i++){
-            this.pieces[i].setColor(color);
+        for(var i=0;i<this.children.length;i++){
+            this.children[i].setColor(color);
         }
 
     },
@@ -70,9 +73,10 @@ chess.view.dialog.Promote = new Class({
     },
 
     showDialog : function(model, move){
+        this.show();
         this.move = move;
         this.setColor(model.getColorToMove());
-        this.show();
+
     }
 });
 
