@@ -1,4 +1,4 @@
-/* Generated Thu Feb 21 15:12:19 CET 2013 */
+/* Generated Thu Feb 21 20:21:37 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1117,9 +1117,11 @@ ludo.layout.Resizer = new Class({
 		this.view = config.view;
 		this.layout = config.layout;
 		this.pos = config.pos;
+        if(config.hidden !== undefined)this.hidden = config.hidden;
 		this.createDOM(config.renderTo);
 		this.addViewEvents();
 		this.createDragable();
+        if(this.hidden)this.hide();
 	},
 
 	createDOM:function(renderTo){
@@ -2659,6 +2661,7 @@ ludo.layout.Linear = new Class({
 			name:'resizer-' + child.name,
 			orientation:(r === 'left' || r === 'right') ? 'horizontal' : 'vertical',
 			pos:r,
+            hidden:child.isHidden(),
 			renderTo:this.view.getBody(),
 			layout:{ width:5,height:5 },
 			view:child,
@@ -2670,6 +2673,8 @@ ludo.layout.Linear = new Class({
 				'before':this.beforeResize.bind(this)
 			}
 		});
+
+
 	}
 
 });/* ../ludojs/src/layout/linear-horizontal.js */
@@ -32268,7 +32273,7 @@ chess.remote.GameReader = new Class({
         this.query({
             "resource": "Database",
             "arguments": databaseId,
-            "service": 'getRandomGame'
+            "service": 'randomGame'
         });
     },
 

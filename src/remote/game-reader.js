@@ -41,7 +41,7 @@ chess.remote.GameReader = new Class({
         this.query({
             "resource": "Database",
             "arguments": databaseId,
-            "service": 'getRandomGame'
+            "service": 'randomGame'
         });
     },
 
