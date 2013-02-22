@@ -1,4 +1,4 @@
-/* Generated Fri Feb 22 0:49:19 CET 2013 */
+/* Generated Fri Feb 22 18:19:29 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1100,9 +1100,9 @@ div.ludo-paging-total-pages .ludo-body{
     position:absolute;
 }
 .ludo-window, .ludo-richcomponent, .ludo-rich-view-shim {
-    border-radius: 7px 7px 0px 0px;
-    -moz-border-radius: 7px 7px 0px 0px;
-    webkit-border-radius: 7px 7px 0px 0px;
+    border-radius: 7px 7px 0 0;
+    -moz-border-radius: 7px 7px 0 0;
+    webkit-border-radius: 7px 7px 0 0;
 }/* ../ludojs/css-source/dialog/dialog.css */
 .ludo-dialog-shim{
     position:absolute;
@@ -1201,11 +1201,14 @@ input.ludo-form-el-invalid{
     background-repeat: repeat-x;
 }
 
-label {
+.ludo-body label {
     color: #555;
-    font-family: arial;
+    font-family: arial, sans-serif;
     font-size: 12px;
     font-weight:bold;
+}
+div.ludo-menu-menu label{
+   font-size:11px;
 }/* ../ludojs/css-source/menu/menu.css */
 .ludo-menu {
     font-family: arial !important;

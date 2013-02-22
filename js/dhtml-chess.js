@@ -1,4 +1,4 @@
-/* Generated Fri Feb 22 0:49:19 CET 2013 */
+/* Generated Fri Feb 22 18:19:29 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -572,7 +572,7 @@ ludo._Config = new Class({
 	},
     /**
      * Enable url in format <url>/resource/arg1/arg2/service
-     * @method enableModrewriteUrls
+     * @method enableModRewriteUrls
      */
 	enableModRewriteUrls:function () {
 		this.storage.modRewrite = true;
@@ -586,6 +586,7 @@ ludo._Config = new Class({
 	},
     /**
      * Returns true when url's for mod rewrite has been enabled
+	 * @method hasModRewriteUrls
      * @return {Boolean}
      */
 	hasModRewriteUrls:function () {
@@ -640,9 +641,7 @@ ludo._Config = new Class({
 });
 
 ludo.config = new ludo._Config();/* ../ludojs/src/assets.js */
-/**
- * TODO refactor this into the ludoJS framework
- */
+// TODO refactor this into the ludoJS framework
 var Asset = {
     javascript: function(source, properties){
         if (!properties) properties = {};
@@ -15535,7 +15534,7 @@ ludo.form.Text = new Class({
 		return undefined;
 	},
 	/**
-	 * Return width of form field in pixels
+	 * Return width of input field in pixels.
 	 * @method getFieldWidth
 	 * @return {Number} width
 	 */
@@ -15552,11 +15551,13 @@ ludo.form.Text = new Class({
 		this.getFormEl().focus();
 	},
 	/**
-	 * Returns true if current value is valid
-	 * A value is invalid when
-	 * - required is true and trimmed length of value is 0
-	 * - length of value is greater than 0 but less than this.minLength
-	 * - length of value is greater than 0 but does not match this.regex (Regular expression).
+	 * Returns true when value of text field is valid.
+	 * A text field is considered invalid when:<br>
+	 *  - required is set and value is empty.<br>
+	 *  - minLength is set and value is not empty but contains fewer characters than min length.<br>
+	 *  - maxLength is set and number of characters exceeds maxLength.<br>
+	 *  - regex is set and current value does not match the regular expression..<br>
+	 *  - a validator function(set using "validator" property) returns false when validating the value.
 	 * @method isValid
 	 * @return {Boolean} valid
 	 */
@@ -17730,8 +17731,8 @@ ludo.menu.Menu = new Class({
     },
 
     positionMenuItems : function(){
-        ludo.dom.clearCache();
         if(this.direction == 'horizontal'){
+			ludo.dom.clearCache();
             var left = 0;
             for(var i=0;i<this.menuItems.length;i++){
                 this.menuItems[i].getEl().setStyle('left', left);
@@ -22463,357 +22464,6 @@ ludo.form.ComboField = new Class({
         ludo.dom.addClass(valueField, 'ludo-Filter-Tree-Combo-Value');
         this.getBody().adopt(valueField);
     }
-});/* ../ludojs/src/paging/button.js */
-/**
- * Base class, paging buttons for datasource.Collection
- * Assign a paging element to a data source by sending "id" or config object of
- * the source using the dataSource constructor property
- * @namespace paging
- * @class Button
- * @extends form.Button
- */
-ludo.paging.Button = new Class({
-    Extends: ludo.form.Button,
-    type : 'grid.paging.Next',
-    width:25,
-    buttonCls : '',
-	tpl:undefined,
-	onLoadMessage:undefined,
-
-    ludoDOM:function(){
-        this.parent();
-        this.getBody().addClass(this.buttonCls);
-    },
-
-    ludoEvents:function(){
-        this.parent();
-        var ds = this.getDataSource();
-        if(ds){
-            this.addDataSourceEvents();
-        }
-    },
-
-    addDataSourceEvents:function(){},
-
-	insertJSON:function(){}
-});/* ../ludojs/src/paging/next.js */
-/**
- Button used to navigate to next page in a dataSource.Collection
- @namespace paging
- @class Next
- @extends paging.Button
- @constructor
- @param {Object} config
- @example
- 	children:[
- 		...
-		 {
-			 type:'paging.Next',
-			 dataSource:'myDataSource'
-		 }
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.Next = new Class({
-	Extends:ludo.paging.Button,
-	type:'grid.paging.Next',
-	buttonCls:'ludo-paging-next',
-
-	addDataSourceEvents:function () {
-		this.addEvent('click', this.nextPage.bind(this));
-		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
-	},
-
-	/**
-	 * Calls nextPage() method of data source
-	 * @method nextPage
-	 */
-	nextPage:function () {
-		this.getDataSource().nextPage();
-	}
-});/* ../ludojs/src/paging/previous.js */
-/**
- Button used to navigate to previous page in a dataSource.Collection
- @namespace paging
- @class Last
- @extends paging.Button
- @constructor
- @param {Object} config
- @example
- 	children:[
- 		...
-		 {
-			 type:'paging.Previous',
-			 dataSource:'myDataSource'
-		 }
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.Previous = new Class({
-	Extends:ludo.paging.Button,
-	type:'grid.paging.Previous',
-	buttonCls:'ludo-paging-previous',
-
-	addDataSourceEvents:function () {
-		this.addEvent('click', this.nextPage.bind(this));
-		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
-
-		if (ds.isOnFirstPage()) {
-			this.disable();
-		}
-	},
-
-	nextPage:function () {
-		this.getDataSource().previousPage();
-	}
-
-});/* ../ludojs/src/paging/last.js */
-/**
- Button used to navigate to last page in a dataSource.Collection
- @namespace paging
- @class Last
- @extends paging.Button
- @constructor
- @param {Object} config
- @example
- 	children:[
- 		...
-		 {
-			 type:'paging.Last',
-			 dataSource:'myDataSource'
-		 }
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.Last = new Class({
-	Extends:ludo.paging.Button,
-	type:'grid.paging.Last',
-	buttonCls:'ludo-paging-last',
-
-	addDataSourceEvents:function () {
-		this.addEvent('click', this.nextPage.bind(this));
-		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
-	},
-
-	nextPage:function () {
-		this.getDataSource().lastPage();
-	}
-});/* ../ludojs/src/paging/first.js */
-/**
- Button used to navigate to first page in a dataSource.Collection
- @namespace paging
- @class First
- @extends paging.Button
- @constructor
- @param {Object} config
- @example
- 	children:[
- 		...
-		 {
-			 type:'paging.First',
-			 dataSource:'myDataSource'
-		 }
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.First = new Class({
-	Extends:ludo.paging.Button,
-	type:'grid.paging.First',
-	buttonCls:'ludo-paging-first',
-
-	addDataSourceEvents:function () {
-		this.addEvent('click', this.firstPage.bind(this));
-		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
-
-		if (ds.isOnFirstPage()) {
-			this.disable();
-		}
-	},
-
-	firstPage:function () {
-		this.getDataSource().firstPage();
-	}
-
-});/* ../ludojs/src/paging/page-input.js */
-/**
- * Text input for navigating to a specific page in a datasource.Collection
- * @namespace paging
- * @class PageInput
- * @extends form.Number
- */
-ludo.paging.PageInput = new Class({
-    Extends: ludo.form.Number,
-    type : 'grid.paging.PageInput',
-    width: 35,
-    fieldWidth:30,
-    minValue : 1,
-    reverseWheel:true,
-
-    ludoEvents:function(){
-        this.parent();
-        var ds = this.getDataSource();
-        if(ds){
-            ds.addEvent('page', this.setPageNumber.bind(this));
-            ds.addEvent('load', this.updateMaxValue.bind(this));
-            this.setPageNumber(ds.getPageNumber());
-            this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
-            this.updateMaxValue();
-
-        }
-    },
-    setPageNumber:function(number){
-        this.value = number;
-        this.els.formEl.set('value', number);
-    },
-
-    updateDataSourcePageNumber:function(){
-        this.getDataSource().toPage(this.getValue());
-    },
-
-    updateMaxValue:function(){
-        this.maxValue = this.getDataSource().getPageCount();
-    },
-
-	insertJSON:function(){
-
-	}
-});/* ../ludojs/src/paging/total-pages.js */
-/**
- Displays number of pages in a data source
- @class paging.TotalPages
- @extends View
- @constructor
- @param {Object} config
- @example
- children:[
- ...
- {
-			  type:'paging.TotalPages',
-			  dataSource:'myDataSource'
-		  }
- ...
- }
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.TotalPages = new Class({
-	Extends:ludo.View,
-	type:'grid.paging.TotalPages',
-	width:25,
-	onLoadMessage:'',
-	/**
-	 * Text template for view. {pages} is replaced by number of pages in data source.
-	 * @attribute {String} tpl
-	 * @default '/{pages}'
-	 */
-	tpl:'/{pages}',
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-paging-total-pages');
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		var ds = this.getDataSource();
-		if (ds) {
-			ds.addEvent('load', this.setPageNumber.bind(this));
-			ds.addEvent('pageCount', this.setPageNumber.bind(this));
-			this.setPageNumber(ds.getPageNumber());
-		}
-	},
-	setPageNumber:function () {
-		this.setHtml(this.tpl.replace('{pages}', this.getDataSource().getPageCount()));
-	},
-
-	insertJSON:function () {
-
-	}
-});/* ../ludojs/src/paging/nav-bar.js */
-/**
- A view containing buttons and views for navigating in a dataSource.Collection.
- default children: ['paging.First','paging.Previous','paging.PageInput','paging.TotalPages','paging.Next','paging.Last']
- You can customize which views to show by using the children constructor property.
- @namespace paging
- @class NavBar
- @extends View
- @constructor
- @param {Object} config
- @example
- 	children:[
- 		{
-			type:'grid.Grid',
-			columnManager:{
-				...
-			},
-			dataSource:{
-				url:'data-source/grid.php',
-				id:'myDataSource'
-			}
-
- 		},
- 		...
- 		...
-		{
-			type:'paging.NavBar',
-			dataSource:'myDataSource'
-		}
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.Collection object used by the Grid above.
- */
-ludo.paging.NavBar = new Class({
-	Extends:ludo.View,
-	type:'paging.NavBar',
-	layout:'cols',
-	height:25,
-
-	children:[
-		{
-			type:'paging.First'
-		},
-		{
-			type:'paging.Previous'
-		},
-		{
-			type:'paging.PageInput'
-		},
-		{
-			type:'paging.TotalPages'
-		},
-		{
-			type:'paging.Next'
-		},
-		{
-			type:'paging.Last'
-		}
-	],
-
-	ludoConfig:function (config) {
-		this.parent(config);
-
-		if (config.dataSource) {
-			for (var i = 0; i < config.children.length; i++) {
-				config.children[i].dataSource = config.dataSource;
-			}
-			this.dataSource = undefined;
-		}
-	},
-
-	insertJSON:function(){
-
-	}
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
