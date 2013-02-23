@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 20:25:21 CET 2013 */
+/* Generated Sat Feb 23 20:47:26 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -15496,6 +15496,7 @@ ludo.form.Text = new Class({
 	ludoEvents:function () {
 		this.parent();
 		var el = this.getFormEl();
+        this.addEvent('blur', this.validate.bind(this));
 		if (this.validateKeyStrokes) {
 			el.addEvent('keydown', this.validateKey.bind(this));
 		}
@@ -15584,7 +15585,7 @@ ludo.form.Text = new Class({
 	},
 	keyUp:function (e) {
 		this.parent(e);
-		this.validate();
+		if(this.validateKeyStrokes)this.validate();
 	},
 
 	upperCaseWords:function (e) {
