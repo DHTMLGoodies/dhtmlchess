@@ -74,8 +74,9 @@ chess.view.user.RegisterWindow = new Class({
 		 * @param {Object} JSON
 		 * @param {Boolean} rememberMe
 		 */
-        this.fireEvent('registerSuccess', [json.data, this.child['rememberMe'].isChecked()]);
+        this.fireEvent('registerSuccess', [json.response.token, json.response.access]);
         this.hide();
+        this.reset();
     },
     registrationFailed:function (json) {
         this.child['errorMessage'].show();

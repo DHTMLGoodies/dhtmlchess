@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 1:31:10 CET 2013 */
+/* Generated Sat Feb 23 2:52:04 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1214,15 +1214,17 @@ div.ludo-menu-menu label{
     font-family: arial !important;
     font-size: 11px;
 }
-.ludo-menu .ludo-body label{
-    font-weight:normal;
+
+.ludo-menu .ludo-body label {
+    font-weight: normal;
 }
+
 div.ludo-menu-item-spacer-horizontal {
     width: 1px;
     background-color: #000;
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
+    padding: 0;
+    margin: 0;
+    border: 0;
 }
 
 .ludo-menu-horizontal .ludo-menu-item-over {
@@ -1234,7 +1236,7 @@ div.ludo-menu-item-spacer-horizontal {
 .ludo-menu-item-horizontal {
     padding-top: 4px;
     padding-bottom: 4px;
-    padding-left:10px;
+    padding-left: 10px;
 }
 
 .ludo-menu-item-horizontal div.ludo-body {
@@ -1242,10 +1244,10 @@ div.ludo-menu-item-spacer-horizontal {
     padding-right: 4px;
 }
 
-.ludo-menu-vertical .ludo-menu-item-spacer-vertical{
-    height:1px;
-    padding:0px !important;
-    background-color:#CCC;
+.ludo-menu-vertical .ludo-menu-item-spacer-vertical {
+    height: 1px;
+    padding: 0px !important;
+    background-color: #CCC;
 }
 
 .ludo-menu-vertical {
@@ -1268,10 +1270,12 @@ div.ludo-menu-item-spacer-horizontal {
     padding-left: 35px;
     padding-top: 2px;
     padding-bottom: 2px;
-    border: 0px;
+    border: 0;
 
 }
-
+.ludo-menu-item .ludo-body{
+    white-space:nowrap;
+}
 .ludo-menu-vertical .ludo-menu-item-over {
     background-color: #FFF;
     border: 1px solid #CCC;
@@ -1298,8 +1302,8 @@ div.ludo-menu-item-spacer-horizontal {
 
 .ludo-menu-item-expand {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     width: 15px;
     height: 100%;
     background-position: center center;
@@ -1324,8 +1328,8 @@ div.ludo-menu-item-spacer-horizontal {
 }
 
 .ludo-menu-item-horizontal {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
     line-height: 30px;
 }
 
@@ -1336,8 +1340,6 @@ div.ludo-menu-item-spacer-horizontal {
 .ludo-menu-item-horizontal {
     font-size: 12px;
 }
-
-
 
 .ludo-menu-item-horizontal-expand {
     background-image: url('../ludojs/images/expand-menu-horizontal-wh.png');

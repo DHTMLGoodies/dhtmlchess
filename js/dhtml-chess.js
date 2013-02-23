@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 1:31:10 CET 2013 */
+/* Generated Sat Feb 23 2:52:04 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -172,7 +172,7 @@ ludo.CmpMgrClass = new Class({
         } else {
             if (parentComponent) {
                 cmpConfig.els = cmpConfig.els || {};
-                if (!cmpConfig.els.parent && parentComponent.getEl())cmpConfig.els.parent = parentComponent.getEl();
+                if (!cmpConfig.renderTo && parentComponent.getEl())cmpConfig.renderTo = parentComponent.getEl();
                 cmpConfig.parentComponent = parentComponent;
             }
             var ret;
@@ -2409,9 +2409,7 @@ ludo.layout.Base = new Class({
 		} else {
 			this.view.children.push(child);
             var el = child.getEl();
-            if(!el.parentNode || el.parentNode !== parentEl){
-                parentEl.appendChild(el);
-            }
+            parentEl.appendChild(el);
 		}
 
 		this.onNewChild(child);
@@ -4318,7 +4316,7 @@ ludo.util = {
 
 	getNewZIndex:function (view) {
 		var ret = ludo.CmpMgr.getNewZIndex();
-		if (view.els.parent == document.body && view.els.container.style.position==='absolute') {
+		if (view.renderTo == document.body && view.els.container.style.position==='absolute') {
 			ret += 10000;
 		}
 		if (view.alwaysInFront) {
@@ -4796,9 +4794,7 @@ ludo.View = new Class({
 	ludoConfig:function (config) {
 		this.parent(config);
 		config.els = config.els || {};
-
-		this.contextMenu = config.contextMenu || this.contextMenu;
-
+        if(this.parentComponent)config.renderTo = undefined;
         var keys = ['css','contextMenu','renderTo','tpl','containerCss','socket','form','addons','title','html','hidden','copyEvents',
                     'dataSource','onLoadMessage','movable','resizable','closable','minimizable','alwaysInFront',
                     'parentComponent','cls','objMovable','width','height','model','frame','formConfig',
@@ -4812,7 +4808,7 @@ ludo.View = new Class({
 			this.socket = ludo._new(this.socket);
 		}
 
-		if (this.renderTo)this.els.parent = document.id(this.renderTo);
+		if (this.renderTo)this.renderTo = document.id(this.renderTo);
 
 		this.layout = ludo.layoutFactory.getValidLayoutObject(this, config);
 
@@ -4835,8 +4831,8 @@ ludo.View = new Class({
 		if (this.hidden) {
 			this.els.container.style.display = 'none';
 		}
-		if (this.els.parent) {
-			this.els.parent.adopt(this.els.container);
+		if (this.renderTo) {
+			this.renderTo.adopt(this.els.container);
 		}
 	},
 
@@ -4853,8 +4849,9 @@ ludo.View = new Class({
 		 }
 	 */
 	ludoDOM:function () {
+
 		if (this.contextMenu) {
-			if (!this.isArray(this.contextMenu)) {
+			if (!ludo.util.isArray(this.contextMenu)) {
 				this.contextMenu = [this.contextMenu];
 			}
 			for (var i = 0; i < this.contextMenu.length; i++) {
@@ -4915,7 +4912,7 @@ ludo.View = new Class({
 			}
 		}
 
-		if (!this.parentComponent && this.els.parent && this.els.parent.tagName.toLowerCase() == 'body') {
+		if (!this.parentComponent && this.renderTo && this.renderTo.tagName.toLowerCase() == 'body') {
 			if (!this.isMovable()) {
 				document.id(window).addEvent('resize', this.resize.bind(this));
 			}
@@ -5067,7 +5064,7 @@ ludo.View = new Class({
 		if (this.parentComponent) {
 			return this.parentComponent.getBody();
 		}
-		return this.els.parent;
+		return this.renderTo;
 	},
 
 	_createDOM:function () {
@@ -5220,7 +5217,8 @@ ludo.View = new Class({
 		if (this.parentComponent) {
 			this.resizeParent();
 		} else {
-			this.resize({ width:this.width, height:this.height });
+            this.getLayoutManager().getRenderer().resize();
+			//this.resize({ width:this.width, height:this.height });
 		}
 	},
 
@@ -10850,7 +10848,7 @@ ludo.dataSource.Collection = new Class({
 		 * @param {Object} sortedBy
 		 */
 		this.fireEvent('sort', this.sortedBy);
-        this.firePageEvents();
+        if(this.paging)this.firePageEvents();
 		this.fireEvent('state');
 
 		return this;
@@ -12094,6 +12092,7 @@ ludo.Scroller = new Class({
     wheelSize:5,
     type:'horizontal',
     currentSize:0,
+    renderTo:undefined,
 
     initialize:function (config) {
         this.type = config.type || this.type;
@@ -12101,7 +12100,7 @@ ludo.Scroller = new Class({
             this.setApplyTo(config.applyTo);
 
         }
-        this.els.parent = config.parent ? document.id(config.parent) : null;
+        this.renderTo = config.parent ? document.id(config.parent) : null;
         if (config.mouseWheelSizeCls) {
             this.determineMouseWheelSize(config.mouseWheelSizeCls);
         }
@@ -12174,9 +12173,9 @@ ludo.Scroller = new Class({
 
     resize:function () {
         if (this.type == 'horizontal') {
-            this.els.el.setStyle('width', this.els.parent.offsetWidth);
+            this.els.el.setStyle('width', this.renderTo.offsetWidth);
         } else {
-            var size = this.els.parent.offsetHeight;
+            var size = this.renderTo.offsetHeight;
             if (size == 0) {
                 return;
             }
@@ -12275,7 +12274,7 @@ ludo.Scroller = new Class({
     },
 
     getParentEl:function () {
-        return this.els.parent ? this.els.parent : this.els.el;
+        return this.renderTo ? this.renderTo : this.els.el;
     },
 
     show:function () {
@@ -17559,9 +17558,7 @@ ludo.menu.MenuItem = new Class({
 			return;
 		}
 		this.menu = new ludo.menu.Menu({
-			els:{
-				parent:document.body
-			},
+			renderTo:document.body,
 			direction:'vertical',
 			children:this.menuItems,
 			parentMenuItem:this
@@ -17838,6 +17835,7 @@ ludo.menu.Context = new Class({
 	Extends:ludo.menu.Menu,
 	type:'menu.ContextMenu',
 	direction:'vertical',
+    renderTo:document.body,
 	/**
 	 Show context menu only for DOM nodes matching a CSS selector. The context menu will also
 	 be shown if a match is found in one of the parent DOM elements.
@@ -17867,8 +17865,8 @@ ludo.menu.Context = new Class({
 	recordType:undefined,
 
 	ludoConfig:function (config) {
+        this.renderTo = document.body;
 		config.els = config.els || {};
-		config.els.parent = document.body;
 		this.parent(config);
 		this.selector = config.selector || this.selector;
 		this.recordType = config.recordType || this.recordType;
@@ -17906,8 +17904,10 @@ ludo.menu.Context = new Class({
 	},
 
 	show:function (e) {
+
 		if (this.selector) {
 			var domEl = this.getValidDomElement(e.target);
+
 			if (!domEl) {
 				return undefined;
 			}
@@ -17971,7 +17971,7 @@ ludo.menu.DropDown = new Class({
     pos:'below',
 
     ludoConfig:function (config) {
-        config.els = { parent:document.body };
+        config.renderTo = document.body;
         this.parent(config);
         if (config.applyTo !== undefined)this.applyTo = config.applyTo;
         if (config.pos !== undefined)this.pos = config.pos;
@@ -20752,6 +20752,7 @@ ludo.tree.Tree = new Class({
 
     expandNode:function (record, skipRemote) {
         var id = this.getUniqueRecordId(record);
+        if(!this.els.expand[id])return;
         this.els.expand[id].addClass('ludo-tree-node-collapse');
         this.els.childContainers[id].style.display = '';
 
@@ -22233,9 +22234,7 @@ ludo.form.ComboTree = new Class({
             minWidth:this.fieldWidth,
             height:this.treeConfig.height,
             titleBar:false,
-            els:{
-                parent:document.body
-            },
+            renderTo:document.body,
             layout:'fill',
             children:[this.treeConfig]
         });
@@ -26775,9 +26774,9 @@ chess.view.user.Controller = new Class({
         new chess.view.user.ProfileWindow();
     },
 
-    login:function(json){
-        this.fireEvent('validSession', json.token);
-        this.fireEvent('userAccess', json.user_access);
+    login:function(token, access){
+        this.fireEvent('validSession', token);
+        this.fireEvent('userAccess', access);
     },
 
     logout:function(){
@@ -26907,8 +26906,9 @@ chess.view.user.RegisterWindow = new Class({
 		 * @param {Object} JSON
 		 * @param {Boolean} rememberMe
 		 */
-        this.fireEvent('registerSuccess', [json.data, this.child['rememberMe'].isChecked()]);
+        this.fireEvent('registerSuccess', [json.response.token, json.response.access]);
         this.hide();
+        this.reset();
     },
     registrationFailed:function (json) {
         this.child['errorMessage'].show();
@@ -27028,7 +27028,8 @@ chess.view.user.LoginWindow = new Class({
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
     validLogin:function (json) {
-        this.fireEvent('loginSuccess', [ json.data, this.child['rememberMe'].isChecked()]);
+
+        this.fireEvent('loginSuccess', [ [json.response.token, json.response.access]]);
         this.hide();
     }
 });/* ../dhtml-chess/src/view/user/settings-button.js */

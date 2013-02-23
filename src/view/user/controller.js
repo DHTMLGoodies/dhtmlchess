@@ -81,9 +81,9 @@ chess.view.user.Controller = new Class({
         new chess.view.user.ProfileWindow();
     },
 
-    login:function(json){
-        this.fireEvent('validSession', json.token);
-        this.fireEvent('userAccess', json.user_access);
+    login:function(token, access){
+        this.fireEvent('validSession', token);
+        this.fireEvent('userAccess', access);
     },
 
     logout:function(){

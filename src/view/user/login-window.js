@@ -56,7 +56,8 @@ chess.view.user.LoginWindow = new Class({
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
     validLogin:function (json) {
-        this.fireEvent('loginSuccess', [ json.data, this.child['rememberMe'].isChecked()]);
+
+        this.fireEvent('loginSuccess', [ [json.response.token, json.response.access]]);
         this.hide();
     }
 });
