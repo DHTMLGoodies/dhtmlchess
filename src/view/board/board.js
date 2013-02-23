@@ -79,12 +79,42 @@ chess.view.board.Board = new Class({
             var piece = new chess.view.board.Piece(config);
             piece.addEvent('animationComplete', this.pieceMoveFinished.bind(this));
             piece.addEvent('move', this.makeMove.bind(this));
-
+            piece.addEvent('initdrag', this.startPieceDrag.bind(this));
             this.pieces.push(piece);
             this.getBoard().adopt(piece.getEl());
         }
         this.resizePieces();
+        this.addPieceDragEvents();
     },
+
+    addPieceDragEvents:function(){
+        if (this.shouldUseTouchEvents()) {
+            this.getEventEl().addEvent('touchmove', this.dragPiece.bind(this));
+            this.getEventEl().addEvent('touchend', this.stopDragPiece.bind(this));
+        } else {
+            this.getEventEl().addEvent('mousemove', this.dragPiece.bind(this));
+            this.getEventEl().addEvent('mouseup', this.stopDragPiece.bind(this));
+        }
+    },
+
+    draggedPiece : undefined,
+    startPieceDrag:function(piece){
+        this.draggedPiece = piece;
+    },
+
+    dragPiece:function(e){
+        if(this.draggedPiece){
+            this.draggedPiece.dragPiece(e);
+        }
+    },
+
+    stopDragPiece:function(e){
+        if(this.draggedPiece){
+            this.draggedPiece.stopDragPiece(e);
+            this.draggedPiece = undefined;
+        }
+    },
+
     /**
      * All DHTML Chess 3 views are using the setController method. It is used to
      * control behaviour of the view. So if you want to create your own Chess View component, you

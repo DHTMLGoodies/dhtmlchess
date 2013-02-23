@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 22:07:43 CET 2013 */
+/* Generated Sat Feb 23 22:16:33 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -24374,12 +24374,42 @@ chess.view.board.Board = new Class({
             var piece = new chess.view.board.Piece(config);
             piece.addEvent('animationComplete', this.pieceMoveFinished.bind(this));
             piece.addEvent('move', this.makeMove.bind(this));
-
+            piece.addEvent('initdrag', this.startPieceDrag.bind(this));
             this.pieces.push(piece);
             this.getBoard().adopt(piece.getEl());
         }
         this.resizePieces();
+        this.addPieceDragEvents();
     },
+
+    addPieceDragEvents:function(){
+        if (this.shouldUseTouchEvents()) {
+            this.getEventEl().addEvent('touchmove', this.dragPiece.bind(this));
+            this.getEventEl().addEvent('touchend', this.stopDragPiece.bind(this));
+        } else {
+            this.getEventEl().addEvent('mousemove', this.dragPiece.bind(this));
+            this.getEventEl().addEvent('mouseup', this.stopDragPiece.bind(this));
+        }
+    },
+
+    draggedPiece : undefined,
+    startPieceDrag:function(piece){
+        this.draggedPiece = piece;
+    },
+
+    dragPiece:function(e){
+        if(this.draggedPiece){
+            this.draggedPiece.dragPiece(e);
+        }
+    },
+
+    stopDragPiece:function(e){
+        if(this.draggedPiece){
+            this.draggedPiece.stopDragPiece(e);
+            this.draggedPiece = undefined;
+        }
+    },
+
     /**
      * All DHTML Chess 3 views are using the setController method. It is used to
      * control behaviour of the view. So if you want to create your own Chess View component, you
@@ -24798,14 +24828,11 @@ chess.view.board.Piece = new Class({
         this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
 
+        // todo refactor this to have only one drag event for each board, not for each piece.
         if (this.shouldUseTouchEvents()) {
             this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-            this.getEventEl().addEvent('touchmove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('touchend', this.stopDragPiece.bind(this));
         } else {
             this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-            this.getEventEl().addEvent('mousemove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('mouseup', this.stopDragPiece.bind(this));
         }
 
 
@@ -24894,6 +24921,7 @@ chess.view.board.Piece = new Class({
                 mouse:{ x:e.page.x, y:e.page.y},
                 el:{ x:this.el.offsetLeft, y:this.el.offsetTop }
             };
+
             return false;
         }
         return undefined;

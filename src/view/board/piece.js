@@ -96,14 +96,11 @@ chess.view.board.Piece = new Class({
         this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
 
+        // todo refactor this to have only one drag event for each board, not for each piece.
         if (this.shouldUseTouchEvents()) {
             this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-            this.getEventEl().addEvent('touchmove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('touchend', this.stopDragPiece.bind(this));
         } else {
             this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-            this.getEventEl().addEvent('mousemove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('mouseup', this.stopDragPiece.bind(this));
         }
 
 
@@ -192,6 +189,7 @@ chess.view.board.Piece = new Class({
                 mouse:{ x:e.page.x, y:e.page.y},
                 el:{ x:this.el.offsetLeft, y:this.el.offsetTop }
             };
+
             return false;
         }
         return undefined;
