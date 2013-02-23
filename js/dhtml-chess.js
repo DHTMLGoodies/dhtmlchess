@@ -1,4 +1,4 @@
-/* Generated Fri Feb 22 0:49:19 CET 2013 */
+/* Generated Sat Feb 23 1:31:10 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -572,7 +572,7 @@ ludo._Config = new Class({
 	},
     /**
      * Enable url in format <url>/resource/arg1/arg2/service
-     * @method enableModrewriteUrls
+     * @method enableModRewriteUrls
      */
 	enableModRewriteUrls:function () {
 		this.storage.modRewrite = true;
@@ -586,6 +586,7 @@ ludo._Config = new Class({
 	},
     /**
      * Returns true when url's for mod rewrite has been enabled
+	 * @method hasModRewriteUrls
      * @return {Boolean}
      */
 	hasModRewriteUrls:function () {
@@ -640,9 +641,7 @@ ludo._Config = new Class({
 });
 
 ludo.config = new ludo._Config();/* ../ludojs/src/assets.js */
-/**
- * TODO refactor this into the ludoJS framework
- */
+// TODO refactor this into the ludoJS framework
 var Asset = {
     javascript: function(source, properties){
         if (!properties) properties = {};
@@ -14461,7 +14460,7 @@ ludo.Window = new Class({
      */
     showCentered:function () {
         this.center();
-        this.showAt(x,y);
+        this.show();
     },
 
     isWindow:function(){
@@ -15535,7 +15534,7 @@ ludo.form.Text = new Class({
 		return undefined;
 	},
 	/**
-	 * Return width of form field in pixels
+	 * Return width of input field in pixels.
 	 * @method getFieldWidth
 	 * @return {Number} width
 	 */
@@ -15552,11 +15551,13 @@ ludo.form.Text = new Class({
 		this.getFormEl().focus();
 	},
 	/**
-	 * Returns true if current value is valid
-	 * A value is invalid when
-	 * - required is true and trimmed length of value is 0
-	 * - length of value is greater than 0 but less than this.minLength
-	 * - length of value is greater than 0 but does not match this.regex (Regular expression).
+	 * Returns true when value of text field is valid.
+	 * A text field is considered invalid when:<br>
+	 *  - required is set and value is empty.<br>
+	 *  - minLength is set and value is not empty but contains fewer characters than min length.<br>
+	 *  - maxLength is set and number of characters exceeds maxLength.<br>
+	 *  - regex is set and current value does not match the regular expression..<br>
+	 *  - a validator function(set using "validator" property) returns false when validating the value.
 	 * @method isValid
 	 * @return {Boolean} valid
 	 */
@@ -17730,8 +17731,8 @@ ludo.menu.Menu = new Class({
     },
 
     positionMenuItems : function(){
-        ludo.dom.clearCache();
         if(this.direction == 'horizontal'){
+			ludo.dom.clearCache();
             var left = 0;
             for(var i=0;i<this.menuItems.length;i++){
                 this.menuItems[i].getEl().setStyle('left', left);
@@ -22814,6 +22815,56 @@ ludo.paging.NavBar = new Class({
 	insertJSON:function(){
 
 	}
+});/* ../ludojs/src/form/display-field.js */
+/**
+ * Read only field, used for display only
+ * @namespace form
+ * @class DisplayField
+ * @extends form.Text
+ */
+ludo.form.DisplayField = new Class({
+	Extends:ludo.form.LabelElement,
+	type:'form.DisplayField',
+	inputTag:'span',
+	inputType:'',
+
+	/** Custom tpl for the display field
+	 @attribute tpl
+	 @type String
+	 @default ''
+	 @example
+	 	tpl:'<a href="mailto:{value}">{value}</a>'
+	 {value} will in this example be replaced by value of DisplayField.
+	 */
+	tpl:'',
+	setValue:function (value) {
+		if (!value) {
+			this.getFormEl().set('html', '');
+			return;
+		}
+		this.setTextContent(value);
+	},
+
+	ludoRendered:function(){
+		this.parent();
+		this.setTextContent(this.value);
+	},
+
+	setTextContent:function(value){
+		if (this.tpl) {
+			this.getFormEl().set('html', this.getTplParser().getCompiled({ value:value }));
+		} else {
+			this.getFormEl().set('html', value ? value : '');
+		}
+	},
+
+	isValid:function () {
+		return true;
+	},
+
+	getValue:function () {
+		return this.value;
+	}
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
@@ -27044,9 +27095,10 @@ chess.view.user.ProfileWindow = new Class({
         {
             type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
         },
+        /*
         {
             type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
-        },
+        },*/
         {
             type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
         },

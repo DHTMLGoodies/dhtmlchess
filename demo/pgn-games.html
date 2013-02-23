@@ -2,14 +2,29 @@
 <html>
 <head>
     <title>Game editor - without any database connection</title>
-    <?
-    $keywords = "DHTML Chess, Chess,Broadcast games,Pgn viewer,Pgn parser";
-    @include("../../php/log-visitors.php");
-    ?>
+
+    <script type="text/javascript">
+        var hostname = location.hostname.toLowerCase();
+        if (hostname.indexOf('dhtml-chess.com') >= 0) {
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-34147162-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        }
+    </script>
+    >
     <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
 
-    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
     <style type="text/css">
