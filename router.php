@@ -9,12 +9,13 @@ ini_set('display_errors','on');
 /**
  * TODO move this code
  */
-LudoDB::setUser('dhtmlgds');
-LudoDB::setPassword('General15g');
-LudoDB::setHost('localhost');
-LudoDB::setDb('DHTML_CHESS');
+LudoDB::setUser('root');
+LudoDB::setPassword('administrator');
+LudoDB::setHost('127.0.0.1');
+LudoDB::setDb('dhtml_chess');
 
-LudoDBRegistry::set('FILE_UPLOAD_PATH', 'tmp/');
+
+LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
 LudoDBRegistry::set('DEVELOP_MODE', true);
 LudoDB::enableLogging();
 
