@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 21:12:01 CET 2013 */
+/* Generated Sat Feb 23 21:14:03 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -16136,6 +16136,7 @@ ludo.form.Password = new Class({
 	getValue:function () {
 		var val = this.parent();
 		if (val.length && this.md5) {
+            ludo.util.log('md5');
 			return faultylabs.MD5(val);
 		}
 		return val;
