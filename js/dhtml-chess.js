@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 21:18:15 CET 2013 */
+/* Generated Sat Feb 23 22:07:43 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14904,6 +14904,7 @@ ludo.form.Element = new Class({
 		this.parent();
 		var formEl = this.getFormEl();
 		if (formEl) {
+
 			formEl.addEvent('keydown', this.keyDown.bind(this));
 			formEl.addEvent('keypress', this.keyPress.bind(this));
 			formEl.addEvent('keyup', this.keyUp.bind(this));
@@ -15025,7 +15026,7 @@ ludo.form.Element = new Class({
 		 * @param {String|Boolean|Object|Number} value
 		 * $param {View} this
 		 */
-		this.fireEvent('key_press', [ e.key, this.getValue(), this ]);
+		this.fireEvent('key_press', [ e.key, this.value, this ]);
 	},
 
 	focus:function () {
@@ -15542,7 +15543,6 @@ ludo.form.Text = new Class({
 	 * @return void
 	 */
 	focus:function () {
-        ludo.util.log('focus');
 		this.parent();
 		this.getFormEl().focus();
 	},
