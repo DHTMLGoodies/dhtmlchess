@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 21:17:11 CET 2013 */
+/* Generated Sat Feb 23 21:18:15 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -15542,6 +15542,7 @@ ludo.form.Text = new Class({
 	 * @return void
 	 */
 	focus:function () {
+        ludo.util.log('focus');
 		this.parent();
 		this.getFormEl().focus();
 	},
@@ -15579,7 +15580,6 @@ ludo.form.Text = new Class({
 
 	validate:function () {
 		this.parent();
-        ludo.util.log('validate');
 		if (!this.isValid() && !this._focus) {
 			this.getEl().addClass('ludo-form-el-invalid');
 		}
