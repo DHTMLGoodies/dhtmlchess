@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 22:16:33 CET 2013 */
+/* Generated Sun Feb 24 0:44:45 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1805,6 +1805,30 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
 .ludo-input-file-name-not-uploaded{
     font-style:italic;
     color:#999;
+}/* ../ludojs/css-source/form/radio.css */
+.ludo-radio-image{
+    cursor: pointer;
+    width: 60px;
+    height : 60px;
+    margin: 0 auto;
+    padding:2px;
+    border-radius : 5px;
+    webkit-border-radius: 5px;
+     -moz-border-radius : 5px;
+}
+.ludo-radio-image-inner{
+    width:100%;
+    height:100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.ludo-radio-image-checked{
+    border:2px solid #555;
+    padding:0px;
+    background-color:#bbd46d;
+
+
 }/* ../dhtml-chess/css-source/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;

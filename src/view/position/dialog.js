@@ -142,8 +142,10 @@ chess.view.position.Dialog = new Class({
         this.moveNumber = this.secondRow.addChild({
             label:chess.getPhrase('Move number'),
             width:150,
-            type:'form.Spinner',
+            type:'form.Number',
             maxValue:300,
+            required:true,
+            value:'1',
             fieldWidth:35,
             listeners:{
                 change:this.receiveFullMoves.bind(this)
@@ -155,6 +157,7 @@ chess.view.position.Dialog = new Class({
             width:100,
             fieldWidth:25,
             maxLength:1,
+            required:false,
             stretchField:false,
             validateKeyStrokes:true,
             regex:'[a-h]',

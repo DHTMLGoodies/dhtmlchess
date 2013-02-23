@@ -1,4 +1,4 @@
-/* Generated Sat Feb 23 22:16:33 CET 2013 */
+/* Generated Sun Feb 24 0:44:45 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -15562,8 +15562,8 @@ ludo.form.Text = new Class({
 		if (!valid)return false;
 		var val = this.getFormEl().get('value').trim();
 
-		if (val.length == 0 && this.required) {
-			return false;
+		if (val.length == 0) {
+			return !this.required;
 		}
 		if (val.length > 0 && this.minLength && val.length < this.minLength) {
 			return false;
@@ -23318,7 +23318,18 @@ ludo.form.File = new Class({
 
 	}
 });
-/* ../dhtml-chess/src/chess.js */
+/* ../ludojs/src/form/radio.js */
+/**
+ * Radio button
+ * @namespace form
+ * @class Radio
+ * @extends form.Checkbox
+ */
+ludo.form.Radio = new Class({
+    Extends:ludo.form.Checkbox,
+    type:'form.Radio',
+    inputType:'radio'
+});/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
     language:{},
@@ -28569,8 +28580,10 @@ chess.view.position.Dialog = new Class({
         this.moveNumber = this.secondRow.addChild({
             label:chess.getPhrase('Move number'),
             width:150,
-            type:'form.Spinner',
+            type:'form.Number',
             maxValue:300,
+            required:true,
+            value:'1',
             fieldWidth:35,
             listeners:{
                 change:this.receiveFullMoves.bind(this)
@@ -28582,6 +28595,7 @@ chess.view.position.Dialog = new Class({
             width:100,
             fieldWidth:25,
             maxLength:1,
+            required:false,
             stretchField:false,
             validateKeyStrokes:true,
             regex:'[a-h]',
