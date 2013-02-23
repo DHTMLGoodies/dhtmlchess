@@ -6,14 +6,10 @@ date_default_timezone_set("Europe/Berlin");
 header("Content-type: application/json");
 
 ini_set('display_errors','on');
-/**
- * TODO move this code
- */
-LudoDB::setUser('root');
-LudoDB::setPassword('administrator');
-LudoDB::setHost('127.0.0.1');
-LudoDB::setDb('dhtml_chess');
 
+if(file_exists("connection.php")){
+    require("connection.php");
+}
 
 LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
 LudoDBRegistry::set('DEVELOP_MODE', true);
