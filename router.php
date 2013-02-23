@@ -14,6 +14,7 @@ LudoDB::setPassword('administrator');
 LudoDB::setHost('127.0.0.1');
 LudoDB::setDb('dhtml_chess');
 
+
 LudoDBRegistry::set('FILE_UPLOAD_PATH', '/tmp/');
 LudoDBRegistry::set('DEVELOP_MODE', true);
 LudoDB::enableLogging();
