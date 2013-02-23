@@ -109,6 +109,7 @@ window.chess.events = {
     }
 };
 
-
 ludo.config.setUrl('../router.php');
+ludo.config.setFileUploadUrl('../router.php');
+ludo.config.setDocumentRoot('../');
 ludo.config.disableModRewriteUrls();

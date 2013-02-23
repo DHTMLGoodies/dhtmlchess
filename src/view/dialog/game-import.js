@@ -12,14 +12,19 @@ chess.view.dialog.GameImport = new Class({
         resource:'GameImport',
 		service:'import'
     },
-    width:400,
-    height:240,
+    layout:{
+        width:400,
+        height:240,
+        left:50,top:50,
+        type:'linear',
+        orientation:'vertical'
+    },
+
     autoHideOnBtnClick:false,
     title:'Import PGN',
-    layout:'rows',
     children:[
         {
-            type:'form.File', label:chess.getPhrase('Pgn File'), accept:'pgn', name:'pgnfile', resource:"chessFileUpload", required:true, labelButton:'Find Pgn file', buttonWidth:100
+            type:'form.File', resource:'ChessFileUpload', label:chess.getPhrase('Pgn File'), accept:'pgn', name:'pgnFile', required:true, labelButton:'Find Pgn file', buttonWidth:100
         },
         {
             type:'form.Checkbox', label:chess.getPhrase('As new database'), checked:true, name:'importAsNew', value:'yes'
