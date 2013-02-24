@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 1:38:42 CET 2013 */
+/* Generated Sun Feb 24 6:28:26 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14726,7 +14726,36 @@ ludo.dialog.Alert = new Class({
 	}
 });
 
-/* ../ludojs/src/form/element.js */
+/* ../ludojs/src/form/validator/fns.js */
+
+
+ludo.form.validator.required = function(value, required){
+    return !required || value.length > 0;
+};
+
+ludo.form.validator.minLength = function(value, minLength){
+    return value.length === 0 || value.length >= minLength;
+};
+
+ludo.form.validator.maxLength = function(value, maxLength){
+    return value.length === 0 || value.length <= maxLength;
+};
+
+ludo.form.validator.regex = function(value, regex){
+    return value.length === 0 || regex.test(value);
+};
+
+ludo.form.validator.minValue = function(value, minValue){
+    return value.length === 0 || parseInt(value) >= minValue;
+};
+ludo.form.validator.maxValue = function(value, maxValue){
+    return value.length === 0 || parseInt(value) <= maxValue;
+};
+ludo.form.validator.twin = function(value, twin){
+    console.log(twin);
+    var cmp = ludo.get(twin);
+    return !cmp || (cmp && value === cmp.value);
+};/* ../ludojs/src/form/element.js */
 /**
  * @namespace form
  * @class Element
@@ -14734,570 +14763,591 @@ ludo.dialog.Alert = new Class({
  * @description Super class for form components.
  */
 ludo.form.Element = new Class({
-	Extends:ludo.View,
-	label:'',
-	value:'',
-	remote:{
-		isJSON:true
-	},
+    Extends:ludo.View,
+    label:'',
+    value:'',
+    remote:{
+        isJSON:true
+    },
 
-	onLoadMessage:'',
+    onLoadMessage:'',
 
-	/**
-	 * Width of label
-	 * @attribute labelWidth
-	 * @default 100
-	 */
-	labelWidth:100,
-	/**
-	 * "name" is inherited from ludo.View. It will also be set as name of input element
-	 * @attribute name
-	 * @type string
-	 * @default undefined
-	 */
-	name:undefined,
-	/**
-	 * Width of input element
-	 * @attribute fieldWidth
-	 * @type int
-	 * @default undefined
-	 */
-	fieldWidth:undefined,
-	data:null,
+    /**
+     * Width of label
+     * @attribute labelWidth
+     * @default 100
+     */
+    labelWidth:100,
+    /**
+     * "name" is inherited from ludo.View. It will also be set as name of input element
+     * @attribute name
+     * @type string
+     * @default undefined
+     */
+    name:undefined,
+    /**
+     * Width of input element
+     * @attribute fieldWidth
+     * @type int
+     * @default undefined
+     */
+    fieldWidth:undefined,
+    data:null,
 
-	/**
-	 * Custom CSS rules to apply to input element
-	 * @attribute formCss
-	 * @type Object, example: { border : '1px solid #000' }
-	 * @default undefined
-	 */
-	formCss:undefined,
-	elementId:undefined,
-	/**
-	 * Let input field use all remaining space of the component
-	 * @attribute stretchField
-	 * @type {Boolean}
-	 * @default true
-	 */
-	stretchField:true,
-	fieldConfig:{},
+    /**
+     * Custom CSS rules to apply to input element
+     * @attribute formCss
+     * @type Object, example: { border : '1px solid #000' }
+     * @default undefined
+     */
+    formCss:undefined,
+    elementId:undefined,
+    /**
+     * Let input field use all remaining space of the component
+     * @attribute stretchField
+     * @type {Boolean}
+     * @default true
+     */
+    stretchField:true,
+    fieldConfig:{},
 
-	/**
-	 * On focus, auto select text of input field.
-	 * @attribute selectOnFocus
-	 * @type {Boolean}
-	 * @default false
-	 */
-	selectOnFocus:false,
+    /**
+     * On focus, auto select text of input field.
+     * @attribute selectOnFocus
+     * @type {Boolean}
+     * @default false
+     */
+    selectOnFocus:false,
 
-	/**
-	 * Is a value required for this field
-	 * @attribute required
-	 * @type {Boolean}
-	 * @default false
-	 */
-	required:false,
-	dirtyFlag:false,
-	initialValue:undefined,
-	constructorValue:undefined,
-	/**
-	 * Is form element ready for setValue. For combo boxes and select boxes it may
-	 * not be ready until available values has been loaded remotely
-	 * @property isReady
-	 * @type {Boolean}
-	 * @private
-	 */
-	isReady:true,
-	overflow:'hidden',
+    /**
+     * Is a value required for this field
+     * @attribute required
+     * @type {Boolean}
+     * @default false
+     */
+    required:false,
+    dirtyFlag:false,
+    initialValue:undefined,
+    constructorValue:undefined,
+    /**
+     * Is form element ready for setValue. For combo boxes and select boxes it may
+     * not be ready until available values has been loaded remotely
+     * @property isReady
+     * @type {Boolean}
+     * @private
+     */
+    isReady:true,
+    overflow:'hidden',
 
-	/**
-	 * Will not validate unless value is the same as value of the form element with this id
-	 * Example of use: Password and Repeat password. It's sufficient to specify "twin" for one of
-	 * the views.
-	 * @property twin
-	 * @type String
-	 * @default undefined
-	 */
-	twin:undefined,
+    /**
+     * Will not validate unless value is the same as value of the form element with this id
+     * Example of use: Password and Repeat password. It's sufficient to specify "twin" for one of
+     * the views.
+     * @property twin
+     * @type String
+     * @default undefined
+     */
+    twin:undefined,
 
-	/**
-	 * Link with a form component with this id. Value of these components will always be the same
-	 * Update one and the other component will be updated automatically. It's sufficient
-	 * to specify linkWith for one of the two views.
-	 * @property linkWith
-	 * @type String
-	 * @default undefined
-	 */
-	linkWith:undefined,
+    /**
+     * Link with a form component with this id. Value of these components will always be the same
+     * Update one and the other component will be updated automatically. It's sufficient
+     * to specify linkWith for one of the two views.
+     * @property linkWith
+     * @type String
+     * @default undefined
+     */
+    linkWith:undefined,
 
-	/**
-	 * When using stateful:true, value will be preserved to next visit.
-	 * @property statefulProperties
-	 * @type Array
-	 * @default ['value']
-	 */
-	statefulProperties:['value'],
+    /**
+     * When using stateful:true, value will be preserved to next visit.
+     * @property statefulProperties
+     * @type Array
+     * @default ['value']
+     */
+    statefulProperties:['value'],
 
-	/**
-	 Object of class form.validator.* or a plain validator function
-	 When set the isValid method of the validator will be called after standard validation is complete
-	 and form element is valid.
-	 @property validator
-	 @type Object
-	 @example
-	 	validator : { type : 'form.validator.Md5', value : 'MD5 hash of something' }
-	 In order to validate this field, the MD5 of form field value must match form.validator.Md5.value
-	 @example
-	 	validator:function(value){
+    /**
+     Object of class form.validator.* or a plain validator function
+     When set the isValid method of the validator will be called after standard validation is complete
+     and form element is valid.
+     @property validator
+     @type Object
+     @example
+     validator : { type : 'form.validator.Md5', value : 'MD5 hash of something' }
+     In order to validate this field, the MD5 of form field value must match form.validator.Md5.value
+     @example
+     validator:function(value){
 	 		return value === 'Valid value';
 	 	}
-	 is example of simple function used as validator.
-	 */
-	validator:undefined,
-	validatorFn:undefined,
+     is example of simple function used as validator.
+     */
+    validator:undefined,
+    validatorFn:undefined,
 
-	ludoConfig:function (config) {
-		this.parent(config);
+    validators:[],
+
+    ludoConfig:function (config) {
+        this.parent(config);
         var defaultConfig = this.getInheritedFormConfig();
         this.labelWidth = defaultConfig.labelWidth || this.labelWidth;
         this.fieldWidth = defaultConfig.fieldWidth || this.fieldWidth;
         this.elementId = defaultConfig.elementId || this.elementId;
 
-        var keys = ['label','formCss','validator','stretchField','required','selectOnFocus','twin','disabled','labelWidth','fieldWidth',
-                'elementId','value','data'];
+        var keys = ['label', 'formCss', 'validator', 'stretchField', 'required', 'selectOnFocus', 'twin', 'disabled', 'labelWidth', 'fieldWidth',
+            'elementId', 'value', 'data'];
         this.setConfigParams(config, keys);
 
-		this.formCss = defaultConfig.formCss || this.formCss;
+        this.formCss = defaultConfig.formCss || this.formCss;
 
-		if (defaultConfig.height && config.height === undefined)this.height = defaultConfig.height;
+        if (defaultConfig.height && config.height === undefined)this.height = defaultConfig.height;
 
-		if (this.validator) {
-			this.createValidator();
-		}
-		if (config.linkWith !== undefined) {
-			this.setLinkWith(config.linkWith);
-		}
-		this.initialValue = this.constructorValue = this.value;
-		if (!this.name)this.name = 'ludo-form-el-' + String.uniqueID();
+        if (this.validator) {
+            this.createValidator();
+        }
+        if (config.linkWith !== undefined) {
+            this.setLinkWith(config.linkWith);
+        }
+        this.initialValue = this.constructorValue = this.value;
+        if (!this.name)this.name = 'ludo-form-el-' + String.uniqueID();
 
-		config.fieldConfig = config.fieldConfig || {};
-		this.fieldConfig.value = config.fieldConfig.value || 'value';
-		this.fieldConfig.text = config.fieldConfig.text || 'text';
+        config.fieldConfig = config.fieldConfig || {};
+        this.fieldConfig.value = config.fieldConfig.value || 'value';
+        this.fieldConfig.text = config.fieldConfig.text || 'text';
 
-		if (this.dataSource) {
-			this.isReady = false;
-			this.getDataSource().addEvent('load', this.setReady.bind(this));
-		}
+        if (this.dataSource) {
+            this.isReady = false;
+            this.getDataSource().addEvent('load', this.setReady.bind(this));
+        }
 
-		ludo.Form.add(this);
-	},
+        ludo.Form.add(this);
+        if(this.required)this.applyValidatorFns(['required']);
+        this.applyValidatorFns(['twin']);
+    },
 
-	createValidator:function(){
-		if(ludo.util.isFunction(this.validator)){
-			this.validatorFn = this.validator;
-		}else{
-			this.validator.applyTo = this;
-			this.validator = ludo._new(this.validator);
-			this.validatorFn = this.validator.isValid;
-		}
-	},
+    applyValidatorFns:function (keys) {
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (this[key] !== undefined) {
+                this.validators.push({
+                    fn:ludo.form.validator[key],
+                    key:key
+                });
+            }
+        }
+    },
 
-	ludoEvents:function () {
-		this.parent();
-		var formEl = this.getFormEl();
-		if (formEl) {
+    createValidator:function () {
+        var fn;
+        if (ludo.util.isFunction(this.validator)) {
+            fn = this.validator;
+        } else {
+            this.validator.applyTo = this;
+            this.validator = ludo._new(this.validator);
+            fn = this.validator.isValid.bind(this.validator);
+        }
+        this.validators.push({
+            fn : fn,key:''
+        });
+    },
 
-			formEl.addEvent('keydown', this.keyDown.bind(this));
-			formEl.addEvent('keypress', this.keyPress.bind(this));
-			formEl.addEvent('keyup', this.keyUp.bind(this));
-			formEl.addEvent('focus', this.focus.bind(this));
-			formEl.addEvent('change', this.change.bind(this));
-			formEl.addEvent('blur', this.blur.bind(this));
-		}
-		if (this.selectOnFocus) {
-			formEl.addEvent('focus', this.selectText.bind(this));
-		}
-	},
+    ludoEvents:function () {
+        this.parent();
+        var formEl = this.getFormEl();
+        if (formEl) {
 
-	ludoRendered:function () {
-		this.parent();
+            formEl.addEvent('keydown', this.keyDown.bind(this));
+            formEl.addEvent('keypress', this.keyPress.bind(this));
+            formEl.addEvent('keyup', this.keyUp.bind(this));
+            formEl.addEvent('focus', this.focus.bind(this));
+            formEl.addEvent('change', this.change.bind(this));
+            formEl.addEvent('blur', this.blur.bind(this));
+        }
+        if (this.selectOnFocus) {
+            formEl.addEvent('focus', this.selectText.bind(this));
+        }
+    },
 
-		if (this.getFormEl()) {
-			this.getFormEl().setProperty('name', this.getName());
-		}
-		if(this.disabled)this.disable();
+    ludoRendered:function () {
+        this.parent();
 
-		if (this.value && this.els.formEl) {
-			this.els.formEl.set('value', this.value);
-		}
-		this.validate();
-		var parentFormManager = this.getParentFormManager();
-		if (parentFormManager) {
-			parentFormManager.registerFormElement(this);
-		}
-		if (this.linkWith) {
-			this.setLinkWithOfOther();
-		}
-	},
-	/**
-	 * Disable form element
-	 * @method disable
-	 * @return void
-	 */
-	disable:function () {
-		this.getFormEl().setProperty('disabled', '1');
-		ludo.dom.addClass(this.els.label, 'ludo-form-label-disabled');
-	},
-	/**
-	 * Enable form element
-	 * @method enable
-	 * @return void
-	 */
-	enable:function () {
-		this.getFormEl().removeProperty('disabled');
-		this.els.label.removeClass('ludo-form-label-disabled');
-	},
 
-	getInheritedFormConfig:function () {
-		var cmp = this.getParent();
-		if (cmp) {
-			return cmp.formConfig || {};
-		}
-		return {};
-	},
+        if (this.getFormEl()) {
+            this.getFormEl().setProperty('name', this.getName());
+        }
+        if (this.disabled)this.disable();
 
-	selectText:function () {
-		this.getFormEl().select();
-	},
+        if (this.value && this.els.formEl) {
+            this.els.formEl.set('value', this.value);
+        }
+        this.validate();
+        var parentFormManager = this.getParentFormManager();
+        if (parentFormManager) {
+            parentFormManager.registerFormElement(this);
+        }
+        if (this.linkWith) {
+            this.setLinkWithOfOther();
+        }
+    },
+    /**
+     * Disable form element
+     * @method disable
+     * @return void
+     */
+    disable:function () {
+        this.getFormEl().setProperty('disabled', '1');
+        ludo.dom.addClass(this.els.label, 'ludo-form-label-disabled');
+    },
+    /**
+     * Enable form element
+     * @method enable
+     * @return void
+     */
+    enable:function () {
+        this.getFormEl().removeProperty('disabled');
+        this.els.label.removeClass('ludo-form-label-disabled');
+    },
 
-	ludoCSS:function () {
-		this.parent();
-		this.getEl().addClass('ludo-form-element');
-		if (this.els.formEl) {
-			if (this.fieldWidth && this.getFormEl()) {
-				this.els.formEl.setStyle('width', this.fieldWidth - ludo.dom.getPW(this.getFormEl()) - ludo.dom.getBW(this.getFormEl()));
-			}
-			if (this.elementId) {
-				this.els.formEl.id = this.elementId;
-			}
-			if (this.formCss) {
-				this.els.formEl.setStyles(this.formCss);
-			}
-		}
-	},
+    getInheritedFormConfig:function () {
+        var cmp = this.getParent();
+        if (cmp) {
+            return cmp.formConfig || {};
+        }
+        return {};
+    },
 
-	getFormElId:function () {
-		if (!this.elementId) {
-			this.elementId = 'ludo-form-el-' + String.uniqueID();
-		}
-		return this.elementId;
-	},
+    selectText:function () {
+        this.getFormEl().select();
+    },
 
-	getWidth:function () {
-		var ret = this.parent();
-		return ret ? ret : this.fieldWidth + (this.label ? this.labelWidth : 0) + 2;
-	},
+    ludoCSS:function () {
+        this.parent();
+        this.getEl().addClass('ludo-form-element');
+        if (this.els.formEl) {
+            if (this.fieldWidth && this.getFormEl()) {
+                this.els.formEl.setStyle('width', this.fieldWidth - ludo.dom.getPW(this.getFormEl()) - ludo.dom.getBW(this.getFormEl()));
+            }
+            if (this.elementId) {
+                this.els.formEl.id = this.elementId;
+            }
+            if (this.formCss) {
+                this.els.formEl.setStyles(this.formCss);
+            }
+        }
+    },
 
-	keyUp:function (e) {
-		/**
-		 * key up event
-		 * @event key_up
-		 * @param {String} key
-		 * @param {String|Boolean|Object|Number} value
-		 * @param {View} this
-		 */
-		this.fireEvent('key_up', [ e.key, this.value, this ]);
-	},
+    getFormElId:function () {
+        if (!this.elementId) {
+            this.elementId = 'ludo-form-el-' + String.uniqueID();
+        }
+        return this.elementId;
+    },
 
-	keyDown:function (e) {
-		/**
-		 * key down event
-		 * @event key_down
-		 * @param {String} key
-		 * @param {String|Boolean|Object|Number} value
-		 * $param {View} this
-		 */
-		this.fireEvent('key_down', [ e.key, this.value, this ]);
-	},
+    getWidth:function () {
+        var ret = this.parent();
+        return ret ? ret : this.fieldWidth + (this.label ? this.labelWidth : 0) + 2;
+    },
 
-	keyPress:function (e) {
-		/**
-		 * key press event
-		 * @event key_press
-		 * @param {String} key
-		 * @param {String|Boolean|Object|Number} value
-		 * $param {View} this
-		 */
-		this.fireEvent('key_press', [ e.key, this.value, this ]);
-	},
+    keyUp:function (e) {
+        /**
+         * key up event
+         * @event key_up
+         * @param {String} key
+         * @param {String|Boolean|Object|Number} value
+         * @param {View} this
+         */
+        this.fireEvent('key_up', [ e.key, this.value, this ]);
+    },
 
-	focus:function () {
-		this._focus = true;
-		this.clearInvalid();
-		/**
-		 * On focus event
-		 * @event focus
-		 * @param {String|Boolean|Object|Number} value
-		 * $param {View} this
-		 */
-		this.fireEvent('focus', [ this.value, this ]);
-	},
-	change:function () {
-		if (this.els.formEl) {
-			this.setValue(this.els.formEl.get('value'));
-		}
+    keyDown:function (e) {
+        /**
+         * key down event
+         * @event key_down
+         * @param {String} key
+         * @param {String|Boolean|Object|Number} value
+         * $param {View} this
+         */
+        this.fireEvent('key_down', [ e.key, this.value, this ]);
+    },
 
-		/**
-		 * On change event. This event is fired when value is changed manually
-		 * by the user via GUI. The "change" event is followed by a
-		 * "valueChange" event.
-		 * When value is changed using the setValue method
-		 * only the "valueChange" event is fired.
-		 *
-		 * @event change
-		 * @param {String|Boolean|Object|Number} value
-		 * $param {View} this
-		 */
-		if(this.wasValid)this.fireEvent('change', [ this.getValue(), this ]);
-	},
+    keyPress:function (e) {
+        /**
+         * key press event
+         * @event key_press
+         * @param {String} key
+         * @param {String|Boolean|Object|Number} value
+         * $param {View} this
+         */
+        this.fireEvent('key_press', [ e.key, this.value, this ]);
+    },
 
-	blur:function () {
-		this._focus = false;
-		this.validate();
+    focus:function () {
+        this._focus = true;
+        this.clearInvalid();
+        /**
+         * On focus event
+         * @event focus
+         * @param {String|Boolean|Object|Number} value
+         * $param {View} this
+         */
+        this.fireEvent('focus', [ this.value, this ]);
+    },
+    change:function () {
+        if (this.els.formEl) {
+            this.setValue(this.els.formEl.get('value'));
+        }
 
-		if(this.getFormEl())this.value = this.getFormEl().value;
-		if (this.getValue() !== this.initialValue) {
-			/**
-			 * @event dirty
-			 * @description event fired on blur when value is different from it's original value
-			 * @param {String} value
-			 * @param {Object} ludo.form.* component
-			 */
-			this.setDirty();
-			this.fireEvent('dirty', [this.getValue(), this]);
-		} else {
-			/**
-			 * @event clean
-			 * @description event fired on blur when value is equal to original/start value
-			 * @param {String} value
-			 * @param {Object} ludo.form.* component
-			 */
-			this.setClean();
-			this.fireEvent('clean', [this.getValue(), this]);
-		}
-		/**
-		 * On blur event
-		 * @event blur
-		 * @param {String|Boolean|Object|Number} value
-		 * $param {View} this
-		 */
-		this.fireEvent('blur', [ this.getValue(), this ]);
-	},
+        /**
+         * On change event. This event is fired when value is changed manually
+         * by the user via GUI. The "change" event is followed by a
+         * "valueChange" event.
+         * When value is changed using the setValue method
+         * only the "valueChange" event is fired.
+         *
+         * @event change
+         * @param {String|Boolean|Object|Number} value
+         * $param {View} this
+         */
+        if (this.wasValid)this.fireEvent('change', [ this.getValue(), this ]);
+    },
 
-	hasFocus:function () {
-		return this._focus;
-	},
-	insertJSON:function (data) {
-		this.populate(data);
-	},
-	populate:function () {
+    blur:function () {
+        this._focus = false;
+        this.validate();
 
-	},
-	getLabel:function () {
-		return this.label;
-	},
-	/**
-	 * Return current value
-	 * @method getValue
-	 * @return string
-	 */
-	getValue:function () {
-		return this.value;
-	},
-	/**
-	 * Set new value
-	 * @method setValue
-	 * @param value
-	 * @return void
-	 */
-	setValue:function (value) {
-		if (!this.isReady) {
-			this.setValue.delay(50, this, value);
-			return;
-		}
+        if (this.getFormEl())this.value = this.getFormEl().value;
+        if (this.getValue() !== this.initialValue) {
+            /**
+             * @event dirty
+             * @description event fired on blur when value is different from it's original value
+             * @param {String} value
+             * @param {Object} ludo.form.* component
+             */
+            this.setDirty();
+            this.fireEvent('dirty', [this.getValue(), this]);
+        } else {
+            /**
+             * @event clean
+             * @description event fired on blur when value is equal to original/start value
+             * @param {String} value
+             * @param {Object} ludo.form.* component
+             */
+            this.setClean();
+            this.fireEvent('clean', [this.getValue(), this]);
+        }
+        /**
+         * On blur event
+         * @event blur
+         * @param {String|Boolean|Object|Number} value
+         * $param {View} this
+         */
+        this.fireEvent('blur', [ this.getValue(), this ]);
+    },
 
-		if (value == this.value) {
-			return;
-		}
-		if (this.els.formEl && this.els.formEl.value !== value) {
-			this.els.formEl.set('value', value);
-		}
+    hasFocus:function () {
+        return this._focus;
+    },
+    insertJSON:function (data) {
+        this.populate(data);
+    },
+    populate:function () {
 
-		this.value = value;
+    },
+    getLabel:function () {
+        return this.label;
+    },
+    /**
+     * Return current value
+     * @method getValue
+     * @return string
+     */
+    getValue:function () {
+        return this.value;
+    },
+    /**
+     * Set new value
+     * @method setValue
+     * @param value
+     * @return void
+     */
+    setValue:function (value) {
+        if (!this.isReady) {
+            this.setValue.delay(50, this, value);
+            return;
+        }
 
-		this.validate();
+        if (value == this.value) {
+            return;
+        }
+        if (this.els.formEl && this.els.formEl.value !== value) {
+            this.els.formEl.set('value', value);
+        }
 
-		if(this.wasValid){
-			/**
-			 * This event is fired whenever current value is changed, either
-			 * manually by user or by calling setValue. When the value is changed
-			 * manually by user via GUI, the "change" event is fired first, then
-			 * "valueChange" afterwards.
-			 * @event valueChange
-			 * @param {Object|String|Number} value
-			 * @param {form.Element} form component
-			 */
-			this.fireEvent('valueChange', [this.getValue(), this]);
-			if(this.stateful)this.fireEvent('state');
-			if (this.linkWith)this.updateLinked();
-		}
-	},
+        this.value = value;
 
-	/**
-	 * Get reference to input element
-	 * @method getFormEl
-	 * @return DOMElement
-	 */
-	getFormEl:function () {
-		return this.els.formEl;
-	},
-	/**
-	 * Is form input valid
-	 * @method isValid
-	 * @return {Boolean}
-	 */
-	isValid:function () {
-		if (this.twin) {
-			var cmp = ludo.get(this.twin);
-			if (cmp && this.value !== cmp.value) {
-				return false;
-			}
-		}
-		if (this.validatorFn) {
-			return this.validatorFn.call(this.validator, this.value);
-		}
-		return true;
-	},
+        this.validate();
 
-	clearInvalid:function () {
-		this.getEl().removeClass('ludo-form-el-invalid');
-	},
+        if (this.wasValid) {
+            /**
+             * This event is fired whenever current value is changed, either
+             * manually by user or by calling setValue. When the value is changed
+             * manually by user via GUI, the "change" event is fired first, then
+             * "valueChange" afterwards.
+             * @event valueChange
+             * @param {Object|String|Number} value
+             * @param {form.Element} form component
+             */
+            this.fireEvent('valueChange', [this.getValue(), this]);
+            if (this.stateful)this.fireEvent('state');
+            if (this.linkWith)this.updateLinked();
+        }
+    },
 
-	wasValid:true,
+    /**
+     * Get reference to input element
+     * @method getFormEl
+     * @return DOMElement
+     */
+    getFormEl:function () {
+        return this.els.formEl;
+    },
+    /**
+     * Returns true when value of form element is valid, i.e. larger than minValue, matching regex etc.
+     * @method isValid
+     * @return {Boolean} valid
+     */
+    isValid:function () {
+        if(this.validators.length === 0)return true;
+        var val = this.getFormEl() ? this.getFormEl().get('value').trim() : this.value;
+        for (var i = 0; i < this.validators.length; i++) {
+            if (!this.validators[i].fn.apply(this, [val, this[this.validators[i].key]])){
+                return false;
+            }
+        }
+        return true;
+    },
 
-	validate:function () {
-		this.clearInvalid();
-		if (this.isValid()) {
-			this.wasValid = true;
-			/**
-			 * Event fired when value of form component is valid. This is fired on blur
-			 * @event valid
-			 * @param {String} value
-			 * @param {Object} component
-			 */
-			this.fireEvent('valid', [this.value, this]);
-		} else {
-			this.wasValid = false;
-			/**
-			 * Event fired when value of form component is valid. This is fired on blur
-			 * @event invalid
-			 * @param {String} value
-			 * @param {Object} component
-			 */
-			this.fireEvent('invalid', [this.value, this]);
-		}
-	},
+    clearInvalid:function () {
+        this.getEl().removeClass('ludo-form-el-invalid');
+    },
 
-	isFormElement:function () {
-		return true;
-	},
+    wasValid:true,
 
-	/**
-	 * Returns initial value sent to constructor
-	 * @method getInitialValue
-	 * @return string initial value
-	 */
-	getInitialValue:function () {
-		return this.initialValue;
-	},
+    validate:function () {
+        this.clearInvalid();
+        if (this.isValid()) {
+            this.wasValid = true;
+            /**
+             * Event fired when value of form component is valid. This is fired on blur
+             * @event valid
+             * @param {String} value
+             * @param {Object} component
+             */
+            this.fireEvent('valid', [this.value, this]);
+            return true;
+        } else {
+            this.wasValid = false;
+            /**
+             * Event fired when value of form component is valid. This is fired on blur
+             * @event invalid
+             * @param {String} value
+             * @param {Object} component
+             */
+            this.fireEvent('invalid', [this.value, this]);
+            return false;
+        }
+    },
 
-	/**
-	 * Reset / Roll back to last committed value. It could be the value stored by last commit method call
-	 * or if the original value/default value of this field.
-	 * @method reset
-	 * @return void
-	 */
-	reset:function () {
-		this.setValue(this.initialValue);
-	},
+    isFormElement:function () {
+        return true;
+    },
 
-	/**
-	 * Reset value back to the original value sent(constructor value)
-	 * @method clear
-	 * @return void
-	 */
-	clear:function () {
-		this.setValue(this.constructorValue);
-	},
+    /**
+     * Returns initial value sent to constructor
+     * @method getInitialValue
+     * @return string initial value
+     */
+    getInitialValue:function () {
+        return this.initialValue;
+    },
 
-	/**
-	 * Update initial value to current value. These actions will always trigger a commit<br>
-	 * - Form or Model submission
-	 * - Fetching new record for a ludo.model.Model
-	 * @method commit
-	 * @return void
-	 */
-	commit:function () {
-		this.initialValue = this.value;
-	},
-	/**
-	 * Returns true if current value is different from original value
-	 * @method isDirty
-	 * @return {Boolean} isDirty
-	 */
-	isDirty:function () {
-		return this.dirtyFlag;
-	},
+    /**
+     * Reset / Roll back to last committed value. It could be the value stored by last commit method call
+     * or if the original value/default value of this field.
+     * @method reset
+     * @return void
+     */
+    reset:function () {
+        this.setValue(this.initialValue);
+    },
 
-	setDirty:function () {
-		this.dirtyFlag = true;
-		this.getEl().addClass('ludo-form-el-dirty');
-	},
+    /**
+     * Reset value back to the original value sent(constructor value)
+     * @method clear
+     * @return void
+     */
+    clear:function () {
+        this.setValue(this.constructorValue);
+    },
 
-	setClean:function () {
-		this.dirtyFlag = false;
-		this.getEl().removeClass('ludo-form-el-dirty');
-	},
+    /**
+     * Update initial value to current value. These actions will always trigger a commit<br>
+     * - Form or Model submission
+     * - Fetching new record for a ludo.model.Model
+     * @method commit
+     * @return void
+     */
+    commit:function () {
+        this.initialValue = this.value;
+    },
+    /**
+     * Returns true if current value is different from original value
+     * @method isDirty
+     * @return {Boolean} isDirty
+     */
+    isDirty:function () {
+        return this.dirtyFlag;
+    },
 
-	setReady:function () {
-		this.isReady = true;
-	},
+    setDirty:function () {
+        this.dirtyFlag = true;
+        this.getEl().addClass('ludo-form-el-dirty');
+    },
 
-	updateLinked:function () {
-		var cmp = ludo.get(this.linkWith);
-		var val = this.value;
-		if (cmp.value !== val) {
-			cmp.setValue(val);
-		}
-	},
+    setClean:function () {
+        this.dirtyFlag = false;
+        this.getEl().removeClass('ludo-form-el-dirty');
+    },
 
-	setLinkWith:function (linkWith) {
-		this.linkWith = linkWith;
-		this.addEvent('valueChange', this.updateLinked.bind(this));
-	},
+    setReady:function () {
+        this.isReady = true;
+    },
 
-	setLinkWithOfOther:function (attempts) {
-		attempts = attempts || 0;
-		var cmp = ludo.get(this.linkWith);
-		if (cmp && !cmp.linkWith) {
-			if (!this.value)this.setValue(cmp.value);
-			cmp.setLinkWith(this.id);
-		} else {
-			if (attempts < 100) {
-				this.setLinkWithOfOther.delay(50, this, attempts + 1);
-			}
-		}
-	}
+    updateLinked:function () {
+        var cmp = ludo.get(this.linkWith);
+        var val = this.value;
+        if (cmp.value !== val) {
+            cmp.setValue(val);
+        }
+    },
+
+    setLinkWith:function (linkWith) {
+        this.linkWith = linkWith;
+        this.addEvent('valueChange', this.updateLinked.bind(this));
+    },
+
+    setLinkWithOfOther:function (attempts) {
+        attempts = attempts || 0;
+        var cmp = ludo.get(this.linkWith);
+        if (cmp && !cmp.linkWith) {
+            if (!this.value)this.setValue(cmp.value);
+            cmp.setLinkWith(this.id);
+        } else {
+            if (attempts < 100) {
+                this.setLinkWithOfOther.delay(50, this, attempts + 1);
+            }
+        }
+    }
 });/* ../ludojs/src/form/label-element.js */
 /**
  * Base class for all form elements with label
@@ -15456,24 +15506,13 @@ ludo.form.Text = new Class({
 	/**
 	 Regular expression used for validation
 	 @attribute regex
-	 @type String
+	 @type RegExp
 	 @default undefined
 	 @example
 	 	regex:'[0-9]'
 	 This will only validate numbers
 	 */
 	regex:undefined,
-
-	/**
-	 Regular expression flag used when regex is defined
-	 @attribute {String} regexFlags
-	 @default 'gi'
-	 @example
-	 	regexFlags:'gi';
-	 For global case-insensitive search
-	 */
-
-	regexFlags:'gi',
 
 	/**
 	Run RegEx validation on key strokes. Only keys matching "regex" will be added to the text field.
@@ -15492,9 +15531,10 @@ ludo.form.Text = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
-        var keys = ['regex','regexFlags','minLength','maxLength','defaultValue','validateKeyStrokes','ucFirst','ucWords'];
+        var keys = ['regex','minLength','maxLength','defaultValue','validateKeyStrokes','ucFirst','ucWords'];
         this.setConfigParams(config,keys);
-	},
+        this.applyValidatorFns(['minLength','maxLength','regex']);
+    },
 
 	ludoEvents:function () {
 		this.parent();
@@ -15524,8 +15564,7 @@ ludo.form.Text = new Class({
 		}
 
 		if (this.regex && e.key && e.key.length == 1) {
-			var reg = new RegExp(this.regex);
-			if (!reg.test(e.key)) {
+			if (!this.regex.test(e.key)) {
 				return false;
 			}
 		}
@@ -15548,43 +15587,13 @@ ludo.form.Text = new Class({
 		this.parent();
 		this.getFormEl().focus();
 	},
-	/**
-	 * Returns true when value of text field is valid.
-	 * A text field is considered invalid when:<br>
-	 *  - required is set and value is empty.<br>
-	 *  - minLength is set and value is not empty but contains fewer characters than min length.<br>
-	 *  - maxLength is set and number of characters exceeds maxLength.<br>
-	 *  - regex is set and current value does not match the regular expression..<br>
-	 *  - a validator function(set using "validator" property) returns false when validating the value.
-	 * @method isValid
-	 * @return {Boolean} valid
-	 */
-	isValid:function () {
-		var valid = this.parent();
-		if (!valid)return false;
-		var val = this.getFormEl().get('value').trim();
-
-		if (val.length == 0) {
-			return !this.required;
-		}
-		if (val.length > 0 && this.minLength && val.length < this.minLength) {
-			return false;
-		}
-		if (this.maxLength && val.length > this.maxLength) {
-			return false;
-		}
-		if (this.regex) {
-			var regEx = new RegExp(this.regex, this.regexFlags);
-			return regEx.test(val);
-		}
-		return true;
-	},
 
 	validate:function () {
-		this.parent();
-		if (!this.isValid() && !this._focus) {
+        var valid = this.parent();
+		if (!valid && !this._focus) {
 			this.getEl().addClass('ludo-form-el-invalid');
 		}
+        return valid;
 	},
 	keyUp:function (e) {
 		this.parent(e);
@@ -16173,9 +16182,7 @@ ludo.form.Password = new Class({
  */
 ludo.form.StrongPassword = new Class({
     Extends: ludo.form.Password,
-    regexFlags : '',
     regex : '(?=^.{_length_,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$',
-
     /**
      * Custom minimum length of password
      * @config {Number} passwordLength
@@ -16187,7 +16194,7 @@ ludo.form.StrongPassword = new Class({
     ludoConfig:function(config){
         config = config || {};
         this.passwordLength = config.passwordLength || this.passwordLength;
-        this.regex = this.regex.replace('_length_', this.passwordLength);
+        this.regex = new RegExp(this.regex.replace('_length_', this.passwordLength,''));
         this.parent(config);
     }
 });/* ../ludojs/src/form/email.js */
@@ -16212,7 +16219,7 @@ ludo.form.Email = new Class({
 ludo.form.Number = new Class({
     Extends:ludo.form.Text,
     type:'form.Number',
-    regex:'[0-9]',
+    regex:/^[0-9]+$/,
     validateKeyStrokes:true,
     formCss:{
         'text-align':'right'
@@ -16264,6 +16271,8 @@ ludo.form.Number = new Class({
 
         if (config.minValue !== undefined)this.minValue = parseInt(config.minValue);
         if (config.maxValue !== undefined)this.maxValue = parseInt(config.maxValue);
+
+        this.applyValidatorFns(['minValue','maxValue']);
     },
 
     ludoEvents:function () {
@@ -16305,17 +16314,6 @@ ludo.form.Number = new Class({
             this.setValue(value);
 			this.fireEvent('change', [ value, this ]);
         }
-    },
-
-    isValid:function (value) {
-        value = value != undefined ? value : this.value;
-        var valid = this.parent();
-        if (!valid)return false;
-
-        if (this.minValue!==undefined && parseInt(value) < this.minValue) {
-            return false;
-        }
-        return this.maxValue && parseInt(value) > this.maxValue ? false : true;
     }
 });/* ../ludojs/src/form/checkbox.js */
 /**
@@ -21025,8 +21023,8 @@ ludo.Movable = new Class({
             el.id = 'ludo-movable-' + String.uniqueID();
         }
         if(this.sources[el.id]){
-            console.log(el.id);
-            console.log('Error: ' + el.id + ' has duplicates');
+            ludo.util.log(el.id);
+            ludo.util.log('Error: ' + el.id + ' has duplicates');
         }
         
         if(record){
@@ -21042,7 +21040,7 @@ ludo.Movable = new Class({
             try{
                 handleObj.addEvent('mousedown', this.startMove.bind(this));
             }catch(e){
-                console.log(obj);
+                ludo.util.log(obj);
             }
             ludo.dom.addClass(handleObj, 'ludo-movable-handle');
             handleObj.setStyle('cursor','move');
@@ -27497,7 +27495,7 @@ chess.view.user.LoginWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('Username'), required:true, stretchField:true
+            type:'form.Text', name:'username', regex:/[a-zA-Z0-9\-_\.]/, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
             type:'form.Password', name:'password', md5:true, label:chess.getPhrase('Password'), required:true, stretchField:true
@@ -28632,8 +28630,7 @@ chess.view.position.Dialog = new Class({
             required:false,
             stretchField:false,
             validateKeyStrokes:true,
-            regex:'[a-h]',
-            regexFlags : 'g',
+            regex:/[a-h]/g,
             listeners:{
                 change:this.receiveEnPassant.bind(this)
             },

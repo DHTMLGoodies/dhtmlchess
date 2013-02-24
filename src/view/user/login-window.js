@@ -24,7 +24,7 @@ chess.view.user.LoginWindow = new Class({
     },
     children:[
         {
-            type:'form.Text', name:'username', regex:'[a-zA-Z0-9\-_\.]', label:chess.getPhrase('Username'), required:true, stretchField:true
+            type:'form.Text', name:'username', regex:/[a-zA-Z0-9\-_\.]/, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
             type:'form.Password', name:'password', md5:true, label:chess.getPhrase('Password'), required:true, stretchField:true
