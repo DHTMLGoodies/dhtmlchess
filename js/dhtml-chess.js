@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 20:18:14 CET 2013 */
+/* Generated Sun Feb 24 21:20:34 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14750,7 +14750,6 @@ ludo.form.validator.maxValue = function(value, maxValue){
     return value.length === 0 || parseInt(value) <= maxValue;
 };
 ludo.form.validator.twin = function(value, twin){
-    console.log(twin);
     var cmp = ludo.get(twin);
     return !cmp || (cmp && value === cmp.value);
 };/* ../ludojs/src/form/element.js */
@@ -16205,7 +16204,7 @@ ludo.form.StrongPassword = new Class({
 ludo.form.Email = new Class({
     Extends:ludo.form.Text,
     type:'form.Email',
-    regex:'^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$',
+    regex:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i,
     validateKeyStrokes:false
 });/* ../ludojs/src/form/number.js */
 /**
@@ -16936,11 +16935,10 @@ ludo.model.Model = new Class({
 
 	 */
 	load:function (recordId) {
-		if (!recordId || (!this.url && !ludo.config.getUrl())) {
+		if (!this.url && !ludo.config.getUrl()) {
 			return;
 		}
-
-        this.recordId = recordId;
+        if(recordId)this.recordId = recordId;
 		this.loadRequest().send("read", recordId);
 	},
 
@@ -27458,13 +27456,9 @@ chess.view.user.Panel = new Class({
         this.controller.addEvent('validSession', this.getUserDetails.bind(this));
     },
 
-    getUserDetails:function(userId){
-        this.getModel().load(userId);
+    getUserDetails:function(){
         this.show();
-    },
-
-    insertJSON:function(json){
-        this.parent(json);
+        this.getModel().load();
     }
 });/* ../dhtml-chess/src/view/user/login-window.js */
 /**
@@ -27477,7 +27471,7 @@ chess.view.user.Panel = new Class({
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
     title:chess.getPhrase('Sign in'),
-    "left":50,top:50,
+    left:50,top:50,
     width:400,height:180,
     hidden:true,
     type:'chess.view.user.Login',
@@ -27524,8 +27518,8 @@ chess.view.user.LoginWindow = new Class({
     addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
-    validLogin:function (json) {
 
+    validLogin:function (json) {
         this.fireEvent('loginSuccess', [ [json.response.token, json.response.access]]);
         this.hide();
     }
@@ -27604,7 +27598,7 @@ chess.view.user.ProfileWindow = new Class({
             type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
-            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
+            type:'remote.Message', resource:'CurrentPlayer',service:'save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
         }
     ],
 
@@ -27624,10 +27618,7 @@ chess.view.user.ProfileWindow = new Class({
     },
 
     showSaveConfirmMessage :function(){
-        this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.getPhrase('Changes saved successfully'));
         this.hide.delay(1000, this);
-        this.child['errorMessage'].hide.delay(1000, this.child['errorMessage']);
     },
     addControllerEvents:function () {
         this.controller.addEvent('showProfile', this.showProfile.bind(this));
@@ -27635,13 +27626,7 @@ chess.view.user.ProfileWindow = new Class({
 
     showProfile:function(){
         this.showCentered();
-
-    },
-
-    hideErrorMessage:function () {
-        this.child['errorMessage'].hide();
     }
-
 });/* ../dhtml-chess/src/view/user/user-model.js */
 /**
  * Model for a user session

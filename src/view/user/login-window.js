@@ -8,7 +8,7 @@
 chess.view.user.LoginWindow = new Class({
     Extends:ludo.Window,
     title:chess.getPhrase('Sign in'),
-    "left":50,top:50,
+    left:50,top:50,
     width:400,height:180,
     hidden:true,
     type:'chess.view.user.Login',
@@ -55,8 +55,8 @@ chess.view.user.LoginWindow = new Class({
     addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
     },
-    validLogin:function (json) {
 
+    validLogin:function (json) {
         this.fireEvent('loginSuccess', [ [json.response.token, json.response.access]]);
         this.hide();
     }

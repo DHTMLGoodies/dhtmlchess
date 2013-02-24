@@ -45,7 +45,7 @@ chess.view.user.ProfileWindow = new Class({
             type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
-            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
+            type:'remote.Message', resource:'CurrentPlayer',service:'save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
         }
     ],
 
@@ -65,10 +65,7 @@ chess.view.user.ProfileWindow = new Class({
     },
 
     showSaveConfirmMessage :function(){
-        this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.getPhrase('Changes saved successfully'));
         this.hide.delay(1000, this);
-        this.child['errorMessage'].hide.delay(1000, this.child['errorMessage']);
     },
     addControllerEvents:function () {
         this.controller.addEvent('showProfile', this.showProfile.bind(this));
@@ -76,11 +73,5 @@ chess.view.user.ProfileWindow = new Class({
 
     showProfile:function(){
         this.showCentered();
-
-    },
-
-    hideErrorMessage:function () {
-        this.child['errorMessage'].hide();
     }
-
 });
