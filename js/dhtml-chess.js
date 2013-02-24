@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 6:28:26 CET 2013 */
+/* Generated Sun Feb 24 20:18:14 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14727,8 +14727,6 @@ ludo.dialog.Alert = new Class({
 });
 
 /* ../ludojs/src/form/validator/fns.js */
-
-
 ludo.form.validator.required = function(value, required){
     return !required || value.length > 0;
 };
