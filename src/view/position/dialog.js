@@ -204,8 +204,7 @@ chess.view.position.Dialog = new Class({
                 height:25
             }
         });
-        this.getLayoutManager().getRenderer().clearFn();
-        this.getLayoutManager().getRenderer().resize();
+
     },
     receiveCastling:function (castling) {
         this.updatePosition('castling', castling);

@@ -69,12 +69,6 @@ chess.view.board.Piece = new Class({
         this.position();
     },
 
-    getEventEl:function () {
-        if (Browser.ie) {
-            return $(document.documentElement);
-        }
-        return $(window);
-    },
     /**
      * Create DOM elements for the chess piece
      * @method createDOM
@@ -96,13 +90,11 @@ chess.view.board.Piece = new Class({
         this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
 
-        // todo refactor this to have only one drag event for each board, not for each piece.
         if (this.shouldUseTouchEvents()) {
             this.el.addEvent('touchstart', this.initDragPiece.bind(this));
         } else {
             this.el.addEvent('mousedown', this.initDragPiece.bind(this));
         }
-
 
         this.el.addClass('ludo-chess-piece');
         this.position();

@@ -88,12 +88,13 @@ chess.view.board.Board = new Class({
     },
 
     addPieceDragEvents:function(){
+        var on = this.getEventEl().addEvent;
         if (this.shouldUseTouchEvents()) {
-            this.getEventEl().addEvent('touchmove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('touchend', this.stopDragPiece.bind(this));
+            on('touchmove', this.dragPiece.bind(this));
+            on('touchend', this.stopDragPiece.bind(this));
         } else {
-            this.getEventEl().addEvent('mousemove', this.dragPiece.bind(this));
-            this.getEventEl().addEvent('mouseup', this.stopDragPiece.bind(this));
+            on('mousemove', this.dragPiece.bind(this));
+            on('mouseup', this.stopDragPiece.bind(this));
         }
     },
 

@@ -79,7 +79,6 @@ chess.view.position.Piece = new Class({
         piece.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         piece.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
         this.resizePiece.delay(50, this);
-
     },
 
     mouseEnterPiece : function() {
@@ -93,34 +92,39 @@ chess.view.position.Piece = new Class({
     },
 
     resizePiece : function() {
-        var c = this.getBody();
-        var size = c.getSize();
-        size.x -= (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
-        size.y -= (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
+        var size = this.getBody().getSize();
+        size.x -= this.getPadding('x');
+        size.x -= this.getPadding('y');
 
         this.els.piece.setStyles({
             width : size.x,
             height : size.y
         });
     },
+    piecePadding:{
+        width:undefined,height:undefined
+    },
+    getPadding:function(type){
+        if(this.piecePadding[type] === undefined){
+            var c = this.getBody();
+            switch(type){
+                case "x":
+                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
+                    break;
+                default:
+                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
+
+            }
+        }
+        return this.piecePadding[type];
+    },
 
     getColorCode:function () {
-        if (this.pieceColor == 'white') return 'w';
-        return 'b';
+        return this.pieceColor === 'white' ? 'w' : 'b';
     },
+
     getTypeCode:function () {
-        switch (this.pieceType) {
-            case 'pawn':
-            case 'rook':
-            case 'bishop':
-            case 'queen':
-            case 'king':
-                return this.pieceType.substr(0, 1).toLowerCase();
-            case 'knight':
-                return 'n';
-            default:
-                return undefined;
-        }
+        return this.pieceType === 'knight' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
     },
     selectPiece:function (e) {
         var obj = {
