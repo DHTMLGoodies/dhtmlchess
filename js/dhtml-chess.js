@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 1:16:17 CET 2013 */
+/* Generated Sun Feb 24 1:35:30 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -3910,6 +3910,8 @@ ludo.layout.Renderer = new Class({
 			var k = this.posKeys[i];
 			if (this.coordinates[k] !== undefined && this.coordinates[k] !== this.lastCoordinates[k])this.view.getEl().style[k] = c[k] + 'px';
 		}
+
+        if(this.view.children.length > 0)this.view.getLayoutManager().resizeChildren();
 		this.lastCoordinates = Object.clone(c);
 	},
 
@@ -5397,10 +5399,10 @@ ludo.View = new Class({
 
 	setPosition:function (pos) {
 		if (pos.left !== undefined && pos.left >= 0) {
-			this.getEl().setStyle('left', pos.left);
+			this.els.container.style.left = pos.left + 'px';
 		}
 		if (pos.top !== undefined && pos.top >= 0) {
-			this.getEl().setStyle('top', pos.top);
+			this.els.container.style.top = pos.top + 'px';
 		}
 	},
 
