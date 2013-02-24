@@ -10,14 +10,15 @@ chess.view.position.Dialog = new Class({
     submodule : 'positionSetup',
     autoDispose:false,
     autoHideOnBtnClick:false,
-    width:660,
-    height:500,
+    width:640,
+    height:450,
     title:chess.getPhrase('Position setup'),
-    layout:'rows',
+    layout:{
+        type:'relative'
+    },
     selectedPiece:undefined,
-
 	closable:true,
-	minimizable : true,
+	minimizable : false,
 	resizable : false,
     positionValidator:undefined,
 
@@ -85,11 +86,16 @@ chess.view.position.Dialog = new Class({
     ludoRendered:function () {
         this.parent();
 
-        this.firstRow = this.addChild({ weight:1, layout:'cols' });
-        this.board = this.firstRow.addChild({
+        this.board = this.addChild({
             type:'chess.view.position.Board',
-            width:400,
+            id:'boardContainer',
             autoResize : false,
+            layout:{
+                alignParentLeft:true,
+                alignParentTop:true,
+                width:380,
+                height:380
+            },
             containerCss:{
                 margin:3
             },
@@ -99,47 +105,68 @@ chess.view.position.Dialog = new Class({
         });
 
         this.pieces = {};
-        this.pieces.white = this.firstRow.addChild({
+        this.pieces.white = this.addChild({
             type:'chess.view.position.Pieces',
-            width:55,
+            layout:{
+                height:400,
+                width:55,
+                type:'linear',
+                orientation:'vertical',
+                alignParentTop:true,
+                fillDown:true,
+                rightOf:'boardContainer'
+            },
             pieceColor:'white',
             listeners:{
                 selectpiece:this.selectPiece.bind(this)
             }
         });
-        this.pieces.black = this.firstRow.addChild({
+        this.pieces.black = this.addChild({
             type:'chess.view.position.Pieces',
+            id:'blackPieces',
             width:55,
             pieceColor:'black',
             listeners:{
                 selectpiece:this.selectPiece.bind(this)
+            },
+            layout:{
+                height:400,
+                rightOf : this.pieces.white,
+                type:'linear',
+                orientation:'vertical'
             }
         });
 
-        this.optionPanel = this.firstRow.addChild({
-            layout:'rows',
-            weight:1
-        });
 
-        this.castling = this.optionPanel.addChild({
+        this.castling = this.addChild({
             type:'chess.view.position.Castling',
             listeners:{
                 change:this.receiveCastling.bind(this)
+            },
+            layout:{
+                type:'linear',
+                orientation:'vertical',
+                rightOf:'blackPieces',
+                width:130,
+                alignParentTop:true,
+                height:125
             }
         });
 
-        this.sideToMove = this.optionPanel.addChild({
+        this.sideToMove = this.addChild({
             type:'chess.view.position.SideToMove',
             listeners:{
                 change:this.receiveColor.bind(this)
+            },
+            layout:{
+                sameWidthAs:this.castling,
+                height:80,
+                below:this.castling,
+                alignLeft:this.castling
             }
         });
 
-        this.secondRow = this.addChild({
-            height:40,
-            layout:'cols'
-        });
-        this.moveNumber = this.secondRow.addChild({
+        this.moveNumber = this.addChild({
             label:chess.getPhrase('Move number'),
             width:150,
             type:'form.Number',
@@ -149,13 +176,19 @@ chess.view.position.Dialog = new Class({
             fieldWidth:35,
             listeners:{
                 change:this.receiveFullMoves.bind(this)
+            },
+            layout:{
+                below:this.sideToMove,
+                sameWidthAs:this.sideToMove,
+                alignLeft:this.sideToMove,
+                height:25
             }
         });
-        this.enPassant = this.secondRow.addChild({
+        this.enPassant = this.addChild({
             label:chess.getPhrase('En passant'),
             type:'form.Text',
             width:100,
-            fieldWidth:25,
+            fieldWidth:35,
             maxLength:1,
             required:false,
             stretchField:false,
@@ -163,8 +196,16 @@ chess.view.position.Dialog = new Class({
             regex:'[a-h]',
             listeners:{
                 change:this.receiveEnPassant.bind(this)
+            },
+            layout:{
+                below:this.moveNumber,
+                sameWidthAs:this.moveNumber,
+                alignLeft:this.moveNumber,
+                height:25
             }
         });
+        this.getLayoutManager().getRenderer().clearFn();
+        this.getLayoutManager().getRenderer().resize();
     },
     receiveCastling:function (castling) {
         this.updatePosition('castling', castling);

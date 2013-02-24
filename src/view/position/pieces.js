@@ -6,7 +6,6 @@
  */
 chess.view.position.Pieces = new Class({
     Extends:ludo.View,
-    layout:'rows',
     pieceColor:'white',
     pieceLayout:'alphapale',
     pieceTypes:['king', 'queen', 'rook', 'bishop', 'knight', 'pawn'],
