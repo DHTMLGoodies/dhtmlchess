@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 1:35:30 CET 2013 */
+/* Generated Sun Feb 24 1:38:42 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -28633,6 +28633,7 @@ chess.view.position.Dialog = new Class({
             stretchField:false,
             validateKeyStrokes:true,
             regex:'[a-h]',
+            regexFlags : 'g',
             listeners:{
                 change:this.receiveEnPassant.bind(this)
             },

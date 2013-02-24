@@ -194,6 +194,7 @@ chess.view.position.Dialog = new Class({
             stretchField:false,
             validateKeyStrokes:true,
             regex:'[a-h]',
+            regexFlags : 'g',
             listeners:{
                 change:this.receiveEnPassant.bind(this)
             },
