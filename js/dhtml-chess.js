@@ -1,4 +1,4 @@
-/* Generated Tue Feb 26 2:57:32 CET 2013 */
+/* Generated Tue Feb 26 3:20:02 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -25057,7 +25057,6 @@ chess.view.board.Piece = new Class({
                     from:Board0x88Config.numberToSquareMapping[this.square],
                     to:Board0x88Config.numberToSquareMapping[square]
                 });
-
             } else {
                 this.position();
             }
@@ -25160,7 +25159,6 @@ chess.view.board.Piece = new Class({
      * @param {String} toSquare
      */
     playMove:function (toSquare) {
-
         toSquare = Board0x88Config.mapping[toSquare];
 
         if (this.isAlreadyOnSquare(toSquare)) {
@@ -31509,8 +31507,8 @@ chess.controller.TacticController = new Class({
 			height:150,
 			width:250,
 			hidden:true,
-			title:chess.language['tacticPuzzleSolvedTitle'],
-			html:chess.language['tacticPuzzleSolvedMessage'],
+			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
+			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
 			listeners:{
 				'ok':function () {
 					this.loadRandomGame();
@@ -31556,20 +31554,17 @@ chess.controller.TacticController = new Class({
 				}
 
 			} else {
-
 				result = model.getResult();
-
 				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
 					model.nextMove.delay(200, model);
 				}
-
 				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
 					this.views.board.enableDragAndDrop(model);
 				}
 			}
 		}
 		if (event === 'wrongGuess') {
-			model.resetPosition();
+			model.resetPosition.delay(200, model);
 		}
 
 		if (event === 'endOfGame') {
@@ -32883,9 +32878,7 @@ chess.model.Game = new Class({
 	 * @return {chess.model.Move|undefined} next move
 	 */
 	getNextMove:function (nextOf) {
-		if (!nextOf && this.currentMove) {
-			nextOf = this.currentMove;
-		}
+        nextOf = nextOf || this.currentMove;
 		if (!nextOf) {
 			if (!this.currentMove && this.model.moves.length > 0) {
 				nextOf = this.model.moves[0];
@@ -32914,7 +32907,6 @@ chess.model.Game = new Class({
      */
 	addAction:function (action) {
 		action = Object.clone(action);
-
 		if (this.currentMove) {
 			var index = this.currentMove.index + 1;
 			this.registerMove(action, index);
@@ -32964,7 +32956,6 @@ chess.model.Game = new Class({
 
 		if (atIndex) {
 			move.index = atIndex;
-
             this.insertSpacerInBranch(this.currentBranch, atIndex);
 			// this.createSpaceForAction();
 			this.currentBranch[atIndex] = move;

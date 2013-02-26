@@ -1256,9 +1256,7 @@ chess.model.Game = new Class({
 	 * @return {chess.model.Move|undefined} next move
 	 */
 	getNextMove:function (nextOf) {
-		if (!nextOf && this.currentMove) {
-			nextOf = this.currentMove;
-		}
+        nextOf = nextOf || this.currentMove;
 		if (!nextOf) {
 			if (!this.currentMove && this.model.moves.length > 0) {
 				nextOf = this.model.moves[0];
@@ -1287,7 +1285,6 @@ chess.model.Game = new Class({
      */
 	addAction:function (action) {
 		action = Object.clone(action);
-
 		if (this.currentMove) {
 			var index = this.currentMove.index + 1;
 			this.registerMove(action, index);
@@ -1337,7 +1334,6 @@ chess.model.Game = new Class({
 
 		if (atIndex) {
 			move.index = atIndex;
-
             this.insertSpacerInBranch(this.currentBranch, atIndex);
 			// this.createSpaceForAction();
 			this.currentBranch[atIndex] = move;

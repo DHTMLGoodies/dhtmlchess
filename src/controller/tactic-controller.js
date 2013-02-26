@@ -47,8 +47,8 @@ chess.controller.TacticController = new Class({
 			height:150,
 			width:250,
 			hidden:true,
-			title:chess.language['tacticPuzzleSolvedTitle'],
-			html:chess.language['tacticPuzzleSolvedMessage'],
+			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
+			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
 			listeners:{
 				'ok':function () {
 					this.loadRandomGame();
@@ -94,20 +94,17 @@ chess.controller.TacticController = new Class({
 				}
 
 			} else {
-
 				result = model.getResult();
-
 				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
 					model.nextMove.delay(200, model);
 				}
-
 				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
 					this.views.board.enableDragAndDrop(model);
 				}
 			}
 		}
 		if (event === 'wrongGuess') {
-			model.resetPosition();
+			model.resetPosition.delay(200, model);
 		}
 
 		if (event === 'endOfGame') {

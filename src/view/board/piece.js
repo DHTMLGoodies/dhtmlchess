@@ -233,7 +233,6 @@ chess.view.board.Piece = new Class({
                     from:Board0x88Config.numberToSquareMapping[this.square],
                     to:Board0x88Config.numberToSquareMapping[square]
                 });
-
             } else {
                 this.position();
             }
@@ -336,7 +335,6 @@ chess.view.board.Piece = new Class({
      * @param {String} toSquare
      */
     playMove:function (toSquare) {
-
         toSquare = Board0x88Config.mapping[toSquare];
 
         if (this.isAlreadyOnSquare(toSquare)) {
