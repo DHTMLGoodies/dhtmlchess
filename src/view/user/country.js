@@ -6,11 +6,18 @@
  * @extends form.FilterText
  */
 chess.view.user.Country = new Class({
-    Extends:ludo.form.FilterText,
+    Extends:ludo.form.Select,
     type : 'chess.view.user.Country',
     filterOnServer:false,
+    emptyItem:{
+        id:'',
+        name:chess.getPhrase('Country')
+    },
+    valueKey:'name',
+    textKey:'name',
     dataSource:{
         singleton:true,
-        request : 'getAllCountries'
+        resource:'Countries',
+        service:'read'
     }
 });

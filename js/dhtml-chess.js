@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 22:30:46 CET 2013 */
+/* Generated Tue Feb 26 2:33:08 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -3556,6 +3556,7 @@ ludo.dataSource.JSON = new Class({
      * @return void
      */
     load:function () {
+        if(!this.url && !this.resource)return;
         this.parent();
         this.sendRequest(this.service, this.arguments, this.getPostData())
     },
@@ -10900,6 +10901,7 @@ ludo.dataSource.Collection = new Class({
 	 * @param record
 	 */
 	addRecord:function (record) {
+        if(this.data === undefined)this.data = [];
 		this.data.push(record);
 		/**
 		 * Event fired when a record is added to the collection
@@ -14967,8 +14969,6 @@ ludo.form.Element = new Class({
 
     ludoRendered:function () {
         this.parent();
-
-
         if (this.getFormEl()) {
             this.getFormEl().setProperty('name', this.getName());
         }
@@ -14977,14 +14977,14 @@ ludo.form.Element = new Class({
         if (this.value && this.els.formEl) {
             this.els.formEl.set('value', this.value);
         }
-        this.validate();
-        var parentFormManager = this.getParentFormManager();
-        if (parentFormManager) {
-            parentFormManager.registerFormElement(this);
-        }
         if (this.linkWith) {
             this.setLinkWithOfOther();
         }
+		var parentFormManager = this.getParentFormManager();
+	    if (parentFormManager) {
+			parentFormManager.registerFormElement(this);
+		}
+		this.validate();
     },
     /**
      * Disable form element
@@ -15536,13 +15536,14 @@ ludo.form.Text = new Class({
 	ludoEvents:function () {
 		this.parent();
 		var el = this.getFormEl();
+		if (this.ucFirst || this.ucWords) {
+			this.addEvent('blur', this.upperCaseWords.bind(this));
+		}
         this.addEvent('blur', this.validate.bind(this));
 		if (this.validateKeyStrokes) {
 			el.addEvent('keydown', this.validateKey.bind(this));
 		}
-		if (this.ucFirst || this.ucWords) {
-			el.addEvent('keyup', this.upperCaseWords.bind(this));
-		}
+
 		this.getFormEl().addEvent('keyup', this.sendKeyEvent.bind(this));
 	},
 
@@ -15599,9 +15600,8 @@ ludo.form.Text = new Class({
         }
 	},
 
-	upperCaseWords:function (e) {
+	upperCaseWords:function () {
 		if (this.ucFirst || this.ucWords) {
-			if (e.control || e.alt || this.hasSelection())return;
 			var val = this.getFormEl().get('value');
 			if (val.length == 0) {
 				return;
@@ -23325,6 +23325,152 @@ ludo.form.Radio = new Class({
     Extends:ludo.form.Checkbox,
     type:'form.Radio',
     inputType:'radio'
+});/* ../ludojs/src/form/select.js */
+/**
+ Select box (&lt;select>) 
+ @namespace form
+ @class Select
+ @extends form.Element
+ @constructor
+ @param {Object} config
+ @example
+    {
+        type:'form.Select',
+        name:'country',
+        valueKey:'id',
+        textKey:'title',
+        emptyItem:{
+            id:'',title:'Where do you live?'
+        },
+        dataSource:{
+            resource:'Country',
+            service:'read'
+        }
+    }
+ to populate the select box from the Country service on the server. The "id" column will be used as value for the options
+ and title for the displayed text.
+
+ @example
+    {
+        type:'form.Select',
+        emptyItem:{
+            value:'',text:'Please select an option'
+        },
+        options:[
+            { value:'1',text : 'Option a' },
+            { value:'2',text : 'Option b' },
+            { value:'3',text : 'Option c' }
+        ]
+    }
+ */
+ludo.form.Select = new Class({
+    Extends:ludo.form.LabelElement,
+    type:'form.Select',
+    labelWidth:100,
+    /**
+     First option in the select box, usually with an empty value.
+     @config {Object} emptyItem
+     @default undefined
+     @example
+        {
+            id : '',
+            title : 'Please select an option'
+
+        }
+     */
+    emptyItem:undefined,
+
+    /**
+     Name of column for the values of the select box. This option is useful when populating select box using a collection data source.
+     @config valueKey
+     @example
+        valueKey : 'id'
+     */
+    valueKey:'value',
+    /**
+     * Name of column for the displayed text of the options in the select box
+     */
+    textKey:'text',
+
+    inputTag : 'select',
+    inputType : '',
+    /**
+     * Config of dataSource.Collection object used to populate the select box from external data
+     * @config {Object|ludo.dataSource.Collection} dataSource
+     * @default undefined
+     */
+    dataSource:undefined,
+    /**
+     Array of options used to populate the select box
+     @config {Array} options
+     @default undefined
+     @example
+        options:[
+            { value:'1','Option number 1' },
+            { value:'2','Option number 2' },
+            { value:'3','Option number 3' }
+        ]
+     */
+    options : undefined,
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['emptyItem','options','valueKey','textKey']);
+        if(!this.dataSource)this.dataSource = {};
+        if (this.dataSource && !this.dataSource.type)this.dataSource.type = 'dataSource.Collection';
+    },
+
+    ludoEvents:function(){
+        this.parent();
+        if (this.dataSource) {
+            if(this.options && this.dataSourceObj){
+                for(var i=0;i<this.options.length;i++){
+                    this.dataSourceObj.addRecord(this.options[i]);
+                }
+            }
+            if(this.dataSourceObj && this.dataSourceObj.hasData()){
+                this.populate();
+            }
+            var ds = this.getDataSource();
+            ds.addEvent('change', this.populate.bind(this));
+            ds.addEvent('select', this.selectRecord.bind(this));
+            ds.addEvent('update', this.populate.bind(this));
+            ds.addEvent('delete', this.populate.bind(this));
+            ds.addEvent('sort', this.populate.bind(this));
+        }
+    },
+
+    selectRecord:function(record){
+        this.setValue(record[this.valueKey]);
+    },
+
+    populate:function () {
+        var data = this.dataSourceObj.getData() || [];
+        this.getFormEl().options.length = 0;
+        if(this.emptyItem){
+            data.splice(0, 0, this.emptyItem);
+        }
+        for (var i = 0, count = data.length; i < count; i++) {
+            this.addOption(data[i][ this.valueKey ], data[i][ this.textKey ]);
+        }
+
+        if (this.value) {
+            this.setValue(this.value);
+        }
+    },
+
+    /**
+     * Add new option element
+     * @method addOption
+     * @param {String} value
+     * @param {String} text
+     */
+    addOption:function (value, text) {
+        var option = new Element('option');
+        option.set('value', value);
+        option.set('text', text);
+        this.getFormEl().appendChild(option);
+    }
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
@@ -27150,7 +27296,31 @@ chess.view.tree.SelectFolder = new Class({
     selectDatabase:function (record) {
         this.fireEvent('selectDatabase', record);
     }
-});/* ../dhtml-chess/src/view/user/login-button.js */
+});/* ../dhtml-chess/src/view/user/country.js */
+/**
+ * Country input field for the user profile form
+ * @submodule User
+ * @namespace chess.view.user
+ * @class Country
+ * @extends form.FilterText
+ */
+chess.view.user.Country = new Class({
+    Extends:ludo.form.Select,
+    type : 'chess.view.user.Country',
+    filterOnServer:false,
+    emptyItem:{
+        id:'',
+        name:chess.getPhrase('Country')
+    },
+    valueKey:'name',
+    textKey:'name',
+    dataSource:{
+        singleton:true,
+        resource:'Countries',
+        service:'read'
+    }
+});
+/* ../dhtml-chess/src/view/user/login-button.js */
 /**
  * Login button. This button will be hidden automatically when
  * a valid user-session is created. It will be shown when there isn't
@@ -27580,10 +27750,10 @@ chess.view.user.ProfileWindow = new Class({
         {
             type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
         },
-        /*
+
         {
             type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
-        },*/
+        },
         {
             type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
         },

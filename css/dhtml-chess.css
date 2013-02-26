@@ -1,4 +1,4 @@
-/* Generated Sun Feb 24 22:30:46 CET 2013 */
+/* Generated Tue Feb 26 2:33:08 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1502,11 +1502,11 @@ div.ludo-tree-tree div.ludo-body{
 }
 div.ludo-tree-node-root{
     background-image:none;
-    padding-left:0px;
-    margin-left:0px;
+    padding-left:0;
+    margin-left:0;
 }
 
-span.ludo-tree-node-spacer{
+.ludo-tree-node span.ludo-tree-node-spacer{
     background-image: url('../ludojs/images/tree/tree-dots-2.gif');
     background-repeat:repeat-x;
     background-position: left bottom;
@@ -1514,7 +1514,7 @@ span.ludo-tree-node-spacer{
     left:0;
     top:0;
     width:8px;
-    height:9px;
+    height:10px;
 }
 
 .ludo-tree-node-last-sibling .ludo-tree-node-spacer{
@@ -1532,10 +1532,9 @@ span.ludo-tree-node-spacer{
 }
 
 div.ludo-tree-node-last-sibling{
-   background-position: left 2px;
    background-repeat: no-repeat;
    background-image:url('../ludojs/images/tree/tree-dots-last-node-2.gif');
-    background-position:top left;
+   background-position:top left;
 }
 
 .ludo-tree-node-container{
@@ -1626,16 +1625,14 @@ div.ludo-tree-movable-shim img{
     overflow-y:auto;
 }
 
-span.ludo-tree-node-spacer{
-    height:10px;
-    background-position:left bottom;
-}
 
 .ludo-tree-node span{
     -moz-user-select:none;
     line-height:16px;
     height:18px;
-}/* ../ludojs/css-source/progress/progress-bar.css */
+}
+
+/* ../ludojs/css-source/progress/progress-bar.css */
 .ludo-Progress-Bar-Bg{
     width:300px;
     height:20px;

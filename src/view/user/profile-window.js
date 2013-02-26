@@ -34,10 +34,10 @@ chess.view.user.ProfileWindow = new Class({
         {
             type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
         },
-        /*
+
         {
             type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
-        },*/
+        },
         {
             type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
         },
