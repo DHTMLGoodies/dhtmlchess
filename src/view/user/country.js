@@ -3,7 +3,7 @@
  * @submodule User
  * @namespace chess.view.user
  * @class Country
- * @extends form.FilterText
+ * @extends form.Select
  */
 chess.view.user.Country = new Class({
     Extends:ludo.form.Select,
@@ -11,7 +11,7 @@ chess.view.user.Country = new Class({
     filterOnServer:false,
     emptyItem:{
         id:'',
-        name:chess.getPhrase('Country')
+        name:chess.getPhrase('Your country')
     },
     valueKey:'name',
     textKey:'name',
