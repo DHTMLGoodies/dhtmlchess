@@ -28,6 +28,7 @@ chess.remote.GameReader = new Class({
 	},
 
     save:function(game){
+        if(this.hasDummyId(game))delete game.id;
 		this.query({
 			"resource": "Game",
 			"service": "save",
@@ -35,6 +36,10 @@ chess.remote.GameReader = new Class({
 			"arguments": game.id,
 			"data": game
 		});
+    },
+
+    hasDummyId:function(game){
+        return /[a-z]/g.test(game.id || '');
     },
 
     loadRandomGame : function(databaseId) {

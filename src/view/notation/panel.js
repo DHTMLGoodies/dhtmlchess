@@ -121,7 +121,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove:function (el) {
-        this.contextMenuMove = { id:el.getProperty('moveId')}
+        this.contextMenuMove = { uid:el.getProperty('moveId')}
     },
 
     getContextMenuMove:function () {
@@ -130,7 +130,7 @@ chess.view.notation.Panel = new Class({
 
     clickOnMove:function (e) {
         if (e.target.hasClass('notation-chess-move')) {
-            this.fireEvent('setCurrentMove', { id:e.target.getProperty('moveId')});
+            this.fireEvent('setCurrentMove', { uid:e.target.getProperty('moveId')});
             this.highlightMove(e.target);
         }
     },
@@ -142,7 +142,7 @@ chess.view.notation.Panel = new Class({
         var move = model.getCurrentMove();
 
         if (move) {
-            this.highlightMove($(this.moveMapNotation[move.id]));
+            this.highlightMove(document.id(this.moveMapNotation[move.uid]));
         } else {
             this.clearHighlightedMove();
         }
@@ -209,9 +209,9 @@ chess.view.notation.Panel = new Class({
             if (notation) {
                 moveCounter++;
             }
-            var id = branch[i].id;
+            var id = branch[i].uid;
             this.currentMoveIndex++;
-            moves.push('<span class="chess-move-container-' + branch[i].id + '">');
+            moves.push('<span class="chess-move-container-' + branch[i].uid + '">');
             moves.push(this.getDomTextForAMove(branch[i], id));
             moves.push('</span>');
             if (branch[i].variations && branch[i].variations.length > 0) {
@@ -241,24 +241,24 @@ chess.view.notation.Panel = new Class({
     getDomTextForAMove:function (move) {
         var ret = [];
 
-        ret.push('<span id="' + move.id + '" class="notation-chess-move-c ' + move.id + '" moveId="' + move.id + '">');
+        ret.push('<span id="' + move.uid + '" class="notation-chess-move-c ' + move.uid + '" moveId="' + move.uid + '">');
         if (move[this.notationKey]) {
-            ret.push('<span id="move-' + move.id + '" class="notation-chess-move chess-move-' + move.id + '" moveId="' + move.id + '">' + move[this.notationKey] + '</span>');
+            ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">' + move[this.notationKey] + '</span>');
         }
         if (move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')
         }
         ret.push('</span>');
 
-        this.moveMap[move.id] = move.id;
-        this.moveMapNotation[move.id] = 'move-' + move.id;
+        this.moveMap[move.uid] = move.uid;
+        this.moveMapNotation[move.uid] = 'move-' + move.uid;
 
         return ret.join(' ');
     },
 
 
     updateMove:function (model, move) {
-        var domEl = this.getEl().getElement('.chess-move-container-' + move.id);
+        var domEl = this.getEl().getElement('.chess-move-container-' + move.uid);
         if(domEl){
             domEl.set('html', this.getDomTextForAMove(move));
         }else{
@@ -291,7 +291,7 @@ chess.view.notation.Panel = new Class({
     },
 
     getDomBranch:function (move) {
-        var domEl = $(this.moveMap[move.id]);
+        var domEl = document.id(this.moveMap[move.uid]);
         return domEl.getParent('.notation-branch');
     },
 

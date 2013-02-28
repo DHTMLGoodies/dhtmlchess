@@ -13,7 +13,7 @@ chess.view.dialog.Comment = new Class({
     width:300,
     height:330,
     hidden:true,
-    title:chess.language['addComment'],
+    title:chess.getPhrase('Add comment'),
     move:undefined,
     autoDispose:false,
     buttonConfig:'OkCancel',
@@ -69,12 +69,12 @@ chess.view.dialog.Comment = new Class({
 	 */
     commentAfter:function (model, move) {
         this.commentPos = 'after';
+        console.log(move);
         this.showDialog(model, move);
     },
 
     showDialog:function (model, move) {
         this.show();
-
         this.move = model.getMove(move);
         var comment = this.commentPos == 'before' ? model.getCommentBefore(this.move) : model.getCommentAfter(this.move);
         this.child['comment'].setValue(comment);

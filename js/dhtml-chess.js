@@ -1,4 +1,4 @@
-/* Generated Tue Feb 26 3:20:02 CET 2013 */
+/* Generated Thu Feb 28 2:41:33 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -9995,6 +9995,10 @@ ludo.dataSource.Record = new Class({
 		return this.isRecordObject(record) ? record.record : record;
 	},
 
+    select:function(){
+        this.fireEvent('select', this);
+    },
+
 	insertBefore:function (record, before) {
 		if (this.inject(record, before)) {
 			this.fireEvent('insertBefore', [record, before, 'insertBefore']);
@@ -10290,6 +10294,7 @@ ludo.dataSource.CollectionSearch = new Class({
 		this.clear();
 		this.where(search);
 		this.endBranch();
+
 		var delay = this.getSearchDelay();
 		if (delay === 0) {
 			this.executeSearch(this.searches[0].txt);
@@ -10494,14 +10499,10 @@ ludo.dataSource.CollectionSearch = new Class({
 		if (!this.hasSearchTokens()) {
 			this.deleteSearch();
 		} else {
+            this.fireEvent('initSearch');
 			this.searchResult = [];
 			this.compileSearch();
-			var data = this.getDataFromSource();
-			for (var i = 0; i < data.length; i++) {
-				if (this.isMatchingSearch(data[i])) {
-					this.searchResult.push(data[i]);
-				}
-			}
+            this.performSearch();
 		}
 		/**
 		 * Search executed
@@ -10510,6 +10511,15 @@ ludo.dataSource.CollectionSearch = new Class({
 		this.fireEvent('search');
 		return this;
 	},
+
+    performSearch:function(){
+        var data = this.getDataFromSource();
+        for (var i = 0; i < data.length; i++) {
+            if (this.isMatchingSearch(data[i])) {
+                this.searchResult.push(data[i]);
+            }
+        }
+    },
 
 	isMatchingSearch:function (record) {
 		return this.searchFn.call(this, record);
@@ -10551,7 +10561,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	},
 
 	getDataFromSource:function () {
-		return this.dataSource.data;
+		return this.dataSource.getLinearData();
 	},
 
 	getSearchDelay:function () {
@@ -10563,20 +10573,27 @@ ludo.dataSource.CollectionSearch = new Class({
 	},
 
 	createSearchIndex:function () {
-		var keys = this.getSearchIndexKeys();
-		var index;
-		var data = this.getDataFromSource();
-		for (var i = 0; i < data.length; i++) {
-			index = [];
-			for (var j = 0; j < keys.length; j++) {
-				if (data[i][keys[j]]) {
-					index.push((data[i][keys[j]] + '').toLowerCase());
-				}
-			}
-			data[i].searchIndex = index.join(' ');
-		}
+
+		this.indexBranch(this.getDataFromSource());
 		this.searchIndexCreated = true;
 	},
+
+    indexBranch:function(data){
+        var keys = this.getSearchIndexKeys();
+        var index;
+        for (var i = 0; i < data.length; i++) {
+            index = [];
+            for (var j = 0; j < keys.length; j++) {
+                if (data[i][keys[j]]) {
+                    index.push((data[i][keys[j]] + '').toLowerCase());
+                }
+            }
+            data[i].searchIndex = index.join(' ');
+            if(data[i].children){
+                this.indexBranch(data[i].children);
+            }
+        }
+    },
 
 	getSearchIndexKeys:function () {
 		if (this.index !== undefined) {
@@ -10965,6 +10982,10 @@ ludo.dataSource.Collection = new Class({
 		return ret;
 	},
 
+    getLinearData:function(){
+        return this.data;
+    },
+
 	/**
 	 * Select a specific record
 	 * @method selectRecord
@@ -10990,7 +11011,7 @@ ludo.dataSource.Collection = new Class({
 	selectRecords:function (search) {
 		this.selectedRecords = this.findRecords(search);
 		for (var i = 0; i < this.selectedRecords.length; i++) {
-			this.fireEvent('select', this.selectedRecords[i]);
+			this.fireSelect(this.selectedRecords[i]);
 		}
 		return this.selectedRecords;
 	},
@@ -11118,7 +11139,7 @@ ludo.dataSource.Collection = new Class({
 		 		}
 		 	}
 		 */
-		this.fireEvent('select', Object.clone(rec));
+		this.fireSelect(Object.clone(rec));
 	},
 
 	/**
@@ -11205,12 +11226,12 @@ ludo.dataSource.Collection = new Class({
 			if (index > indexSelected) {
 				for (i = indexSelected; i <= index; i++) {
 					this.selectedRecords.push(this.data[i]);
-					this.fireEvent('select', this.data[i]);
+					this.fireSelect(this.data[i]);
 				}
 			} else {
 				for (i = indexSelected; i >= index; i--) {
 					this.selectedRecords.push(this.data[i]);
-					this.fireEvent('select', this.data[i]);
+					this.fireSelect(this.data[i]);
 				}
 			}
 		}
@@ -11636,7 +11657,12 @@ ludo.dataSource.Collection = new Class({
 	addRecordEvents:function(record){
 		record.addEvent('update', this.onRecordUpdate.bind(this));
 		record.addEvent('dispose', this.onRecordDispose.bind(this));
+		record.addEvent('select', this.selectRecord.bind(this));
 	},
+
+    fireSelect:function(record){
+        this.fireEvent('select', record);
+    },
 
 	onRecordUpdate:function(record){
 		this.indexRecord(record);
@@ -13768,6 +13794,7 @@ ludo.grid.Grid = new Class({
 	},
 
 	setSelectedRecord:function (record) {
+        // TODO should use dataSource.Record object instead of plain object
 		this.fireEvent('selectrecord', record);
 		this.highlightActiveRecord();
 	},
@@ -15159,7 +15186,7 @@ ludo.form.Element = new Class({
      * @return string
      */
     getValue:function () {
-        return this.value;
+        return this.els.formEl ? this.els.formEl.get('value') : this.value;
     },
     /**
      * Set new value
@@ -22023,6 +22050,198 @@ ludo.card.ProgressBar = new Class({
     getProgressBarId:function(){
         return undefined;
     }
+});/* ../ludojs/src/form/textarea.js */
+/**
+ * Text Area field
+ * @namespace form
+ * @class Textarea
+ * @extends form.Element
+ */
+ludo.form.Textarea = new Class({
+    Extends:ludo.form.Text,
+    type:'form.Textarea',
+    inputType:undefined,
+    inputTag:'textarea',
+    overflow:'hidden',
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.ucWords = false;
+    },
+
+    resizeDOM:function () {
+        this.parent();
+        if (this.layout && this.layout.weight) {
+            if (!this.label) {
+                var w = this.getInnerWidthOfBody();
+                if (w <= 0)return;
+                this.els.formEl.setStyle('width', this.getInnerWidthOfBody() + 'px');
+            }
+            var parentComponent = this.getParent();
+            var height;
+            if ((parentComponent && parentComponent.layout.type === 'fill')) {
+                height = parentComponent.getInnerHeightOfBody();
+            } else {
+                height = this.getHeight();
+            }
+
+            height -= (ludo.dom.getMBPH(this.getEl()) + ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMBPH(this.els.formEl) + 1);
+            if (height > 0) {
+                this.els.formEl.setStyle('height', height);
+            }
+        }
+    }
+});/* ../ludojs/src/notification.js */
+/**
+ Class for providing short messages and feedback in a small popup.
+ Notifications automatically disappear after a timeout. Positioning
+ of notification can be configured using the layout object.
+
+ @class Notification
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ 	new ludo.Notification({
+ 		html : 'Your e-mail has been sent',
+ 		duration:4
+	});
+ */
+ludo.Notification = new Class({
+	Extends:ludo.View,
+	alwaysInFront:true,
+	/**
+	 * Seconds before notification is automatically hidden
+	 * @config {Number} duration
+	 * @default 3
+	 */
+	duration:3,
+
+	/**
+	 * Use an effect when notification is shown
+	 * Possible values: fade, slide
+	 * @config {String} effect
+	 * @default undefined
+	 */
+	showEffect:undefined,
+	/**
+	 * Use an effect when notification is hidden
+	 * Possible values: fade, slide
+	 * @config {String} effect
+	 * @default undefined
+	 */
+	hideEffect:undefined,
+	/**
+	 * Effect used for both show and hide. Individual effects can be set by
+	 * defining showEffect and hideEffect
+	 * Possible values: fade, slide
+	 * @config {String} effect
+	 * @default 'fade'
+	 */
+	effect:'fade',
+	/**
+	 * Duration of animation effect
+	 * @config {Number} effectDuration
+	 * @default 1
+	 */
+	effectDuration:1,
+
+	/**
+	 * true to dispose/erase notification on hide
+	 * @config {Boolean} autoDispose
+	 * @default false
+	 */
+	autoDispose:false,
+
+	ludoConfig:function (config) {
+		config.renderTo = config.renderTo || document.body;
+
+        this.setConfigParams(config, ['autoDispose','showEffect','hideEffect','effect','effectDuration','duration']);
+		this.showEffect = this.showEffect || this.effect;
+		this.hideEffect = this.hideEffect || this.effect;
+		if (!config.layout && !this.layout) {
+			config.layout = {
+				centerIn:config.renderTo
+			};
+		}
+		this.parent(config);
+	},
+
+	ludoEvents:function(){
+		this.parent();
+		if(this.autoDispose){
+			this.addEvent('hide', this.dispose.bind(this));
+		}
+	},
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().addClass('ludo-notification');
+	},
+
+	ludoRendered:function () {
+		if (!this.layout.width || !this.layout.height) {
+			var size = ludo.dom.getWrappedSizeOfView(this);
+			if (!this.layout.width)this.layout.width = size.x;
+			if (!this.layout.height)this.layout.height = size.y;
+		}
+		this.parent();
+		this.show();
+	},
+
+	hide:function () {
+		if (this.hideEffect) {
+			var effect = new ludo.effect.Effect();
+			effect[this.getEndEffectFn()](
+				this.getEl(),
+				this.effectDuration,
+				this.onHideComplete.bind(this),
+				this.getLayoutManager().getRenderer().getPosition()
+			);
+		} else {
+			this.parent();
+		}
+	},
+
+	show:function () {
+		if (this.showEffect) {
+			var effect = new ludo.effect.Effect();
+			effect[this.getStartEffectFn()](
+				this.getEl(),
+				this.effectDuration,
+				this.autoHide.bind(this),
+				this.getLayoutManager().getRenderer().getPosition()
+			);
+		}
+		this.parent();
+	},
+
+	getStartEffectFn:function () {
+		switch (this.showEffect) {
+			case 'fade':
+				return 'fadeIn';
+			default:
+				return this.showEffect;
+		}
+	},
+
+	getEndEffectFn:function () {
+		switch (this.hideEffect) {
+			case 'fade':
+				return 'fadeOut';
+			default:
+				return this.hideEffect;
+		}
+	},
+
+	autoHide:function () {
+		this.hide.delay(this.duration * 1000, this);
+	},
+
+	onHideComplete:function () {
+		this.getEl().style.display = 'none';
+		this.fireEvent('hide', this);
+	}
 });/* ../ludojs/src/form/combo-tree.js */
 /**
  * @namespace form
@@ -23727,7 +23946,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove:function (el) {
-        this.contextMenuMove = { id:el.getProperty('moveId')}
+        this.contextMenuMove = { uid:el.getProperty('moveId')}
     },
 
     getContextMenuMove:function () {
@@ -23736,7 +23955,7 @@ chess.view.notation.Panel = new Class({
 
     clickOnMove:function (e) {
         if (e.target.hasClass('notation-chess-move')) {
-            this.fireEvent('setCurrentMove', { id:e.target.getProperty('moveId')});
+            this.fireEvent('setCurrentMove', { uid:e.target.getProperty('moveId')});
             this.highlightMove(e.target);
         }
     },
@@ -23748,7 +23967,7 @@ chess.view.notation.Panel = new Class({
         var move = model.getCurrentMove();
 
         if (move) {
-            this.highlightMove($(this.moveMapNotation[move.id]));
+            this.highlightMove(document.id(this.moveMapNotation[move.uid]));
         } else {
             this.clearHighlightedMove();
         }
@@ -23815,9 +24034,9 @@ chess.view.notation.Panel = new Class({
             if (notation) {
                 moveCounter++;
             }
-            var id = branch[i].id;
+            var id = branch[i].uid;
             this.currentMoveIndex++;
-            moves.push('<span class="chess-move-container-' + branch[i].id + '">');
+            moves.push('<span class="chess-move-container-' + branch[i].uid + '">');
             moves.push(this.getDomTextForAMove(branch[i], id));
             moves.push('</span>');
             if (branch[i].variations && branch[i].variations.length > 0) {
@@ -23847,24 +24066,24 @@ chess.view.notation.Panel = new Class({
     getDomTextForAMove:function (move) {
         var ret = [];
 
-        ret.push('<span id="' + move.id + '" class="notation-chess-move-c ' + move.id + '" moveId="' + move.id + '">');
+        ret.push('<span id="' + move.uid + '" class="notation-chess-move-c ' + move.uid + '" moveId="' + move.uid + '">');
         if (move[this.notationKey]) {
-            ret.push('<span id="move-' + move.id + '" class="notation-chess-move chess-move-' + move.id + '" moveId="' + move.id + '">' + move[this.notationKey] + '</span>');
+            ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">' + move[this.notationKey] + '</span>');
         }
         if (move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')
         }
         ret.push('</span>');
 
-        this.moveMap[move.id] = move.id;
-        this.moveMapNotation[move.id] = 'move-' + move.id;
+        this.moveMap[move.uid] = move.uid;
+        this.moveMapNotation[move.uid] = 'move-' + move.uid;
 
         return ret.join(' ');
     },
 
 
     updateMove:function (model, move) {
-        var domEl = this.getEl().getElement('.chess-move-container-' + move.id);
+        var domEl = this.getEl().getElement('.chess-move-container-' + move.uid);
         if(domEl){
             domEl.set('html', this.getDomTextForAMove(move));
         }else{
@@ -23897,7 +24116,7 @@ chess.view.notation.Panel = new Class({
     },
 
     getDomBranch:function (move) {
-        var domEl = $(this.moveMap[move.id]);
+        var domEl = document.id(this.moveMap[move.uid]);
         return domEl.getParent('.notation-branch');
     },
 
@@ -26518,11 +26737,13 @@ chess.view.dialog.NewGame = new Class({
     name:'game-import',
     module:'chess',
     submodule:'dialogNewGame',
-    width:400,
-    height:240,
     autoHideOnBtnClick:false,
     title:'New game',
-    layout:'rows',
+    layout:{
+        type:'linear',
+        orientation:'vertical',
+        width:400,height:270,top:20,left:20
+    },
     hidden:true,
     singleton:true,
     formConfig:{
@@ -26536,13 +26757,13 @@ chess.view.dialog.NewGame = new Class({
         { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
         { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'database_id'
         }
     ],
     buttonBar:{
         children:[
             {
-                type:'form.Button', value:chess.getPhrase('OK'), disableOnInvalid:true
+                type:'form.Button', name:'okButton', id:'newGameOkButton', value:chess.getPhrase('OK'), disableOnInvalid:true
             },
             {
                 type:'form.CancelButton', value:chess.getPhrase('Cancel')
@@ -26553,15 +26774,16 @@ chess.view.dialog.NewGame = new Class({
     addControllerEvents:function () {
         this.controller.addEvent('newGameDialog', this.show.bind(this));
     },
-    ludoEvents:function () {
+    ludoRendered:function () {
         this.parent();
-        this.getButton('ok').addEvent('click', function () {
+        this.getButton('okButton').addEvent('click', function () {
 			/**
 			 * New game event. When fired it will send all values from the form as only argument.
 			 * @event newGame
 			 * @param {Array} metadata values
 			 */
             this.fireEvent('newGame', this.getValues());
+            this.hide();
         }.bind(this))
     }
 });/* ../dhtml-chess/src/view/dialog/overwrite-move.js */
@@ -26783,7 +27005,7 @@ chess.view.dialog.Comment = new Class({
     width:300,
     height:330,
     hidden:true,
-    title:chess.language['addComment'],
+    title:chess.getPhrase('Add comment'),
     move:undefined,
     autoDispose:false,
     buttonConfig:'OkCancel',
@@ -26839,12 +27061,12 @@ chess.view.dialog.Comment = new Class({
 	 */
     commentAfter:function (model, move) {
         this.commentPos = 'after';
+        console.log(move);
         this.showDialog(model, move);
     },
 
     showDialog:function (model, move) {
         this.show();
-
         this.move = model.getMove(move);
         var comment = this.commentPos == 'before' ? model.getCommentBefore(this.move) : model.getCommentAfter(this.move);
         this.child['comment'].setValue(comment);
@@ -31862,8 +32084,8 @@ chess.model.Game = new Class({
 				}
 				pos = move.fen;
 			}
-			move.id = 'move-' + String.uniqueID();
-			this.moveCache[move.id] = move;
+			move.uid = 'move-' + String.uniqueID();
+			this.moveCache[move.uid] = move;
 			move.index = i;
 			if (parent) {
 				this.registerParentMap(move, parent);
@@ -31884,7 +32106,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerPreviousMap:function (move, previous) {
-		this.movePreviousMap[move.id] = previous;
+		this.movePreviousMap[move.uid] = previous;
 	},
     /**
      * Store internal reference to parent move
@@ -31894,7 +32116,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerParentMap:function (move, parent) {
-		this.moveParentMap[move.id] = parent;
+		this.moveParentMap[move.uid] = parent;
 	},
 
     /**
@@ -31905,7 +32127,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerBranchMap:function (move, branch) {
-		this.moveBranchMap[move.id] = branch;
+		this.moveBranchMap[move.uid] = branch;
 	},
 
     /**
@@ -31916,7 +32138,7 @@ chess.model.Game = new Class({
      * @private
      */
 	getBranch:function (move) {
-		return this.moveBranchMap[move.id];
+		return this.moveBranchMap[move.uid];
 	},
 
 	/**
@@ -32508,7 +32730,7 @@ chess.model.Game = new Class({
 		if (this.model.moves.length === 0) {
 			return true;
 		}
-		return this.currentMove && this.currentMove.id == this.model.moves[this.model.moves.length - 1].id;
+		return this.currentMove && this.currentMove.uid == this.model.moves[this.model.moves.length - 1].uid;
 	},
 
     /**
@@ -32539,7 +32761,7 @@ chess.model.Game = new Class({
      */
 	clearMovesInBranch:function (branch, fromIndex) {
 		for (var i = fromIndex; i < branch.length; i++) {
-			delete this.moveCache[branch[i].id];
+			delete this.moveCache[branch[i].uid];
 		}
 		branch.length = fromIndex;
 	},
@@ -32550,7 +32772,7 @@ chess.model.Game = new Class({
 	 * @return {chess.model.Move}
 	 */
 	findMove:function (moveToFind) {
-		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
+		return this.moveCache[moveToFind.uid] ? this.moveCache[moveToFind.uid] : null;
 	},
 
     /**
@@ -32799,7 +33021,7 @@ chess.model.Game = new Class({
 	getParentMove:function (move) {
 		move = this.findMove(move);
 		if (move) {
-			return this.moveParentMap[move.id];
+			return this.moveParentMap[move.uid];
 		}
 		return undefined;
 	},
@@ -32841,7 +33063,7 @@ chess.model.Game = new Class({
 		includeComments = includeComments || false;
 		move = this.findMove(move);
 		if (move) {
-			var pr = this.movePreviousMap[move.id];
+			var pr = this.movePreviousMap[move.uid];
 			if (pr) {
 				if (includeComments && pr.comment) {
 					return pr;
@@ -32854,7 +33076,7 @@ chess.model.Game = new Class({
 			if (move.index > 0) {
 				var branch = this.getBranch(move);
 				var previousMove = branch[move.index - 1];
-				pr = this.movePreviousMap[move.id];
+				pr = this.movePreviousMap[move.uid];
 				if (includeComments && pr && pr.comment) {
 					return pr;
 				}
@@ -32950,8 +33172,8 @@ chess.model.Game = new Class({
      * @private
      */
 	registerMove:function (move, atIndex) {
-		move.id = 'move-' + String.uniqueID();
-		this.moveCache[move.id] = move;
+		move.uid = 'move-' + String.uniqueID();
+		this.moveCache[move.uid] = move;
 		this.registerBranchMap(move, this.currentBranch);
 
 		if (atIndex) {
@@ -33035,9 +33257,9 @@ chess.model.Game = new Class({
 				branch[0] = {
 					comment:comment,
 					index:0,
-					id:'move-' + String.uniqueID()
+					uid:'move-' + String.uniqueID()
 				};
-				this.moveCache[move.id] = move;
+				this.moveCache[move.uid] = move;
 				this.registerPreviousMap(move, branch[0]);
 				this.fire('updateMove', branch[0]);
 			}
@@ -33218,6 +33440,11 @@ chess.model.Game = new Class({
      * @private
      */
 	updateGameFromServer:function (data) {
+        new ludo.Notification({
+            html : chess.getPhrase('Game saved successfully'),
+            duration:1,
+            effectDuration:.5
+        });
 		if (data.id) {
 			this.model.id = data.id;
 		}
@@ -33284,6 +33511,7 @@ chess.remote.GameReader = new Class({
 	},
 
     save:function(game){
+        if(this.hasDummyId(game))delete game.id;
 		this.query({
 			"resource": "Game",
 			"service": "save",
@@ -33291,6 +33519,10 @@ chess.remote.GameReader = new Class({
 			"arguments": game.id,
 			"data": game
 		});
+    },
+
+    hasDummyId:function(game){
+        return /[a-z]/g.test(game.id || '');
     },
 
     loadRandomGame : function(databaseId) {

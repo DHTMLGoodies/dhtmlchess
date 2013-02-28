@@ -10,11 +10,13 @@ chess.view.dialog.NewGame = new Class({
     name:'game-import',
     module:'chess',
     submodule:'dialogNewGame',
-    width:400,
-    height:240,
     autoHideOnBtnClick:false,
     title:'New game',
-    layout:'rows',
+    layout:{
+        type:'linear',
+        orientation:'vertical',
+        width:400,height:270,top:20,left:20
+    },
     hidden:true,
     singleton:true,
     formConfig:{
@@ -28,13 +30,13 @@ chess.view.dialog.NewGame = new Class({
         { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
         { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'database_id'
         }
     ],
     buttonBar:{
         children:[
             {
-                type:'form.Button', value:chess.getPhrase('OK'), disableOnInvalid:true
+                type:'form.Button', name:'okButton', id:'newGameOkButton', value:chess.getPhrase('OK'), disableOnInvalid:true
             },
             {
                 type:'form.CancelButton', value:chess.getPhrase('Cancel')
@@ -45,15 +47,16 @@ chess.view.dialog.NewGame = new Class({
     addControllerEvents:function () {
         this.controller.addEvent('newGameDialog', this.show.bind(this));
     },
-    ludoEvents:function () {
+    ludoRendered:function () {
         this.parent();
-        this.getButton('ok').addEvent('click', function () {
+        this.getButton('okButton').addEvent('click', function () {
 			/**
 			 * New game event. When fired it will send all values from the form as only argument.
 			 * @event newGame
 			 * @param {Array} metadata values
 			 */
             this.fireEvent('newGame', this.getValues());
+            this.hide();
         }.bind(this))
     }
 });

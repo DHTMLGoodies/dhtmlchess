@@ -382,7 +382,7 @@ TestCase("ModelTest", {
 
         // Then
         assertTrue(eventFired);
-        assertEquals(move.id, deletedMove.id);
+        assertEquals(move.uid, deletedMove.uid);
     },
 
     "test should fire last Move_In_Branch event when_Move_Is_Deleted":function () {
@@ -427,7 +427,7 @@ TestCase("ModelTest", {
         model.deleteMove(move);
 
         // then
-        assertEquals(model.getMoves()[0].id, model.getCurrentMove().id)
+        assertEquals(model.getMoves()[0].uid, model.getCurrentMove().uid)
     },
 
     "test should be able to find previous move of first move in variation":function () {
@@ -500,13 +500,13 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[4].id
+            uid:model.model.moves[4].uid
         };
         // when
         model.setCurrentMove(move);
 
         // then
-        assertEquals(move.id, model.getCurrentMove().id);
+        assertEquals(move.uid, model.getCurrentMove().uid);
     },
 
     "test should be able to add action to empty_game":function () {
@@ -523,7 +523,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[4].id
+            uid:model.model.moves[4].uid
         };
         model.setCurrentMove(move);
         var nextMove = model.model.moves[5];
@@ -586,7 +586,7 @@ TestCase("ModelTest", {
     "test should be able to grade moves":function () {
         // given
         var model = this.getModelWithMoves();
-        var firstMove = { id:model.getMoves()[0].id };
+        var firstMove = { uid:model.getMoves()[0].uid };
 
         // when
         model.gradeMove(firstMove, '!?');
@@ -602,7 +602,7 @@ TestCase("ModelTest", {
     "test should fire grade move_event":function () {
         // given
         var model = this.getModelWithMoves();
-        var firstMove = { id:model.getMoves()[0].id };
+        var firstMove = { uid:model.getMoves()[0].uid };
         var fired = false;
 
         // when
@@ -617,7 +617,7 @@ TestCase("ModelTest", {
     "test should be able to add comment before move":function () {
         // given
         var model = this.getModelWithMoves();
-        var secondMove = { id:model.getMoves()[1].id };
+        var secondMove = { uid:model.getMoves()[1].uid };
         var comment = 'This is my comment';
 
         // when
@@ -653,7 +653,7 @@ TestCase("ModelTest", {
     "test should be able to add comment after move":function () {
         // given
         var model = this.getModelWithMoves();
-        var secondMove = { id:model.getMoves()[1].id };
+        var secondMove = { uid:model.getMoves()[1].uid };
         var comment = 'This is my comment';
 
         // when
@@ -667,7 +667,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[4].id
+            uid:model.model.moves[4].uid
         };
         var nextMove = model.model.moves[5];
         model.setCurrentMove(move);
@@ -675,7 +675,7 @@ TestCase("ModelTest", {
         model.nextMove();
 
         // then
-        assertEquals(nextMove.id, model.getCurrentMove().id);
+        assertEquals(nextMove.uid, model.getCurrentMove().uid);
 
     },
 
@@ -689,7 +689,7 @@ TestCase("ModelTest", {
         model.nextMove();
 
         // then
-        assertEquals(nextMove.id, model.getCurrentMove().id);
+        assertEquals(nextMove.uid, model.getCurrentMove().uid);
     },
 
     "test should be able to go to next move from start of game when game starts with_comment":function () {
@@ -702,7 +702,7 @@ TestCase("ModelTest", {
         model.nextMove();
 
         // then
-        assertEquals(nextMove.id, model.getCurrentMove().id);
+        assertEquals(nextMove.uid, model.getCurrentMove().uid);
     },
 
     "test should fire end of branch when going to next move and its the last":function () {
@@ -757,7 +757,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[4].id
+            uid:model.model.moves[4].uid
         };
         var nEventFired = false;
 
@@ -775,7 +775,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[4].id
+            uid:model.model.moves[4].uid
         };
         model.setCurrentMove(move);
         var nEventFired = false;
@@ -799,7 +799,7 @@ TestCase("ModelTest", {
         model.previousMove();
 
         // then
-        assertEquals(prevMove.id, model.getCurrentMove().id);
+        assertEquals(prevMove.uid, model.getCurrentMove().uid);
 
     },
 
@@ -808,7 +808,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[0].id
+            uid:model.model.moves[0].uid
         };
         model.setCurrentMove(move);
         var fired = false;
@@ -850,7 +850,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[1].id
+            uid:model.model.moves[1].uid
         };
         model.setCurrentMove(move);
         model.newVariation({
@@ -861,7 +861,7 @@ TestCase("ModelTest", {
 
 
         move = {
-            id:model.model.moves[0].id
+            uid:model.model.moves[0].uid
         };
         model.setCurrentMove(move);
         // when
@@ -877,7 +877,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[0].id
+            uid:model.model.moves[0].uid
         };
         model.setCurrentMove(move);
         var fired = true;
@@ -974,7 +974,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[model.model.moves.length - 1].id
+            uid:model.model.moves[model.model.moves.length - 1].uid
         };
         model.toStart();
         var sEventFired = false;
@@ -988,7 +988,7 @@ TestCase("ModelTest", {
         });
         model.toEnd();
 
-        assertEquals(move.id, model.getCurrentMove().id);
+        assertEquals(move.uid, model.getCurrentMove().uid);
         assertTrue(sEventFired);
         assertTrue(pEventFired);
     },
@@ -1081,7 +1081,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[2].id
+            uid:model.model.moves[2].uid
         };
         model.goToMove(move);
 
@@ -1112,7 +1112,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[1].id
+            uid:model.model.moves[1].uid
         };
         model.setCurrentMove(move);
 
@@ -1130,7 +1130,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var move = {
-            id:model.model.moves[2].id
+            uid:model.model.moves[2].uid
         };
         model.setCurrentMove(move);
 
@@ -1159,13 +1159,13 @@ TestCase("ModelTest", {
     "test should return first move when at start and calling get next move":function () {
         // given
         var model = this.getModelWithMoves();
-        var moveId = model.model.moves[0].id;
+        var moveId = model.model.moves[0].uid;
         // when
         model.toStart();
         var nextMove = model.getNextMove();
 
         // then
-        assertEquals(moveId, nextMove.id);
+        assertEquals(moveId, nextMove.uid);
     },
 
     "test should be able to overwrite move":function () {
@@ -1272,7 +1272,7 @@ TestCase("ModelTest", {
         var expectedMove = model.model.moves[1];
 
         // then
-        assertEquals(expectedMove.id, model.getPreviousMoveInBranch(move).id);
+        assertEquals(expectedMove.uid, model.getPreviousMoveInBranch(move).uid);
 
         // given
         model = this.getModelWithVariations();
@@ -1282,7 +1282,7 @@ TestCase("ModelTest", {
         // when
         expectedMove = model.model.moves[20].variations[0][1];
         // then
-        assertEquals(expectedMove.id, model.getPreviousMoveInBranch(move).id);
+        assertEquals(expectedMove.uid, model.getPreviousMoveInBranch(move).uid);
 
         // when
         move = model.model.moves[20].variations[0][0];
@@ -1293,7 +1293,7 @@ TestCase("ModelTest", {
     "test should be able to set comment before first_move":function () {
         // given
         var model = this.getModelWithMoves();
-        var move = { id:model.model.moves[0].id };
+        var move = { uid:model.model.moves[0].uid };
 
         // when
         model.setCommentBefore('My comment', move);
@@ -1414,7 +1414,7 @@ TestCase("ModelTest", {
     "test should set model dirty when modifying_comment":function () {
         // given
         var model = this.getModelWithMoves();
-        var secondMove = { id:model.getMoves()[1].id };
+        var secondMove = { uid:model.getMoves()[1].uid };
         var comment = 'This is my comment';
 
         // when
@@ -1428,7 +1428,7 @@ TestCase("ModelTest", {
     "test should fire dirty event":function () {
         // given
         var model = this.getModelWithMoves();
-        var secondMove = { id:model.getMoves()[1].id };
+        var secondMove = { uid:model.getMoves()[1].uid };
         var eventFired = false;
 
         // when
@@ -1482,7 +1482,7 @@ TestCase("ModelTest", {
         // given
         var model = this.getModelWithMoves();
         var expectedMove = model.getMoves()[3];
-        var move = { id:model.getMoves()[6].id };
+        var move = { uid:model.getMoves()[6].uid };
         model.goToMove(move);
 
         // when

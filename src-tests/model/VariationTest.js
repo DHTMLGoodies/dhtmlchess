@@ -5,25 +5,25 @@ TestCase("VariationTest", {
 		// given
 		var model = this.getModelWithMoves();
 		var move = model.getMoves()[4];
-		var expectedId = model.getMoves()[3].id;
+		var expectedId = model.getMoves()[3].uid;
 
 		// when
 		var moveToFind = model.getPreviousMove(move);
 
 		// then
-		assertEquals(expectedId, moveToFind.id);
+		assertEquals(expectedId, moveToFind.uid);
 	},
 	"test should be able to find next move":function () {
 		// given
 		var model = this.getModelWithMoves();
 		var move = model.getMoves()[4];
-		var expectedId = model.getMoves()[5].id;
+		var expectedId = model.getMoves()[5].uid;
 
 		// when
 		var moveToFind = model.getNextMove(move);
 
 		// then
-		assertEquals(expectedId, moveToFind.id);
+		assertEquals(expectedId, moveToFind.uid);
 	},
 
 	"test should Be able to start a variation":function () {
@@ -117,7 +117,7 @@ TestCase("VariationTest", {
 		// given
 		var model = this.getModelWithVariation();
 		assertEquals(2, model.getMoves()[1].variations[0].length);
-		var firstMoveInVariation = {id:model.getMoves()[1].variations[0][0].id };
+		var firstMoveInVariation = {id:model.getMoves()[1].variations[0][0].uid };
 		var firstMoveInGame = model.getMoves()[0];
 		// when
 		model.deleteMove(firstMoveInVariation);
@@ -130,7 +130,7 @@ TestCase("VariationTest", {
 		// given
 		var model = this.getModelWithMoves();
 		var move = {
-			id:model.model.moves[1].id
+			uid:model.model.moves[1].uid
 		};
 		model.setCurrentMove(move);
 		// when
@@ -139,7 +139,7 @@ TestCase("VariationTest", {
 			to:'d5'
 		});
 		var firstMove = {
-			id:model.model.moves[0].id
+			uid:model.model.moves[0].uid
 		};
 		model.setCurrentMove(firstMove);
 		model.newVariation({
@@ -155,7 +155,7 @@ TestCase("VariationTest", {
 		// given
 		var model = this.getModelWithMoves();
 		var move = {
-			id:model.model.moves[1].id
+            uid:model.model.moves[1].uid
 		};
 		model.setCurrentMove(move);
 		// when

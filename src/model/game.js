@@ -240,8 +240,8 @@ chess.model.Game = new Class({
 				}
 				pos = move.fen;
 			}
-			move.id = 'move-' + String.uniqueID();
-			this.moveCache[move.id] = move;
+			move.uid = 'move-' + String.uniqueID();
+			this.moveCache[move.uid] = move;
 			move.index = i;
 			if (parent) {
 				this.registerParentMap(move, parent);
@@ -262,7 +262,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerPreviousMap:function (move, previous) {
-		this.movePreviousMap[move.id] = previous;
+		this.movePreviousMap[move.uid] = previous;
 	},
     /**
      * Store internal reference to parent move
@@ -272,7 +272,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerParentMap:function (move, parent) {
-		this.moveParentMap[move.id] = parent;
+		this.moveParentMap[move.uid] = parent;
 	},
 
     /**
@@ -283,7 +283,7 @@ chess.model.Game = new Class({
      * @private
      */
 	registerBranchMap:function (move, branch) {
-		this.moveBranchMap[move.id] = branch;
+		this.moveBranchMap[move.uid] = branch;
 	},
 
     /**
@@ -294,7 +294,7 @@ chess.model.Game = new Class({
      * @private
      */
 	getBranch:function (move) {
-		return this.moveBranchMap[move.id];
+		return this.moveBranchMap[move.uid];
 	},
 
 	/**
@@ -886,7 +886,7 @@ chess.model.Game = new Class({
 		if (this.model.moves.length === 0) {
 			return true;
 		}
-		return this.currentMove && this.currentMove.id == this.model.moves[this.model.moves.length - 1].id;
+		return this.currentMove && this.currentMove.uid == this.model.moves[this.model.moves.length - 1].uid;
 	},
 
     /**
@@ -917,7 +917,7 @@ chess.model.Game = new Class({
      */
 	clearMovesInBranch:function (branch, fromIndex) {
 		for (var i = fromIndex; i < branch.length; i++) {
-			delete this.moveCache[branch[i].id];
+			delete this.moveCache[branch[i].uid];
 		}
 		branch.length = fromIndex;
 	},
@@ -928,7 +928,7 @@ chess.model.Game = new Class({
 	 * @return {chess.model.Move}
 	 */
 	findMove:function (moveToFind) {
-		return this.moveCache[moveToFind.id] ? this.moveCache[moveToFind.id] : null;
+		return this.moveCache[moveToFind.uid] ? this.moveCache[moveToFind.uid] : null;
 	},
 
     /**
@@ -1177,7 +1177,7 @@ chess.model.Game = new Class({
 	getParentMove:function (move) {
 		move = this.findMove(move);
 		if (move) {
-			return this.moveParentMap[move.id];
+			return this.moveParentMap[move.uid];
 		}
 		return undefined;
 	},
@@ -1219,7 +1219,7 @@ chess.model.Game = new Class({
 		includeComments = includeComments || false;
 		move = this.findMove(move);
 		if (move) {
-			var pr = this.movePreviousMap[move.id];
+			var pr = this.movePreviousMap[move.uid];
 			if (pr) {
 				if (includeComments && pr.comment) {
 					return pr;
@@ -1232,7 +1232,7 @@ chess.model.Game = new Class({
 			if (move.index > 0) {
 				var branch = this.getBranch(move);
 				var previousMove = branch[move.index - 1];
-				pr = this.movePreviousMap[move.id];
+				pr = this.movePreviousMap[move.uid];
 				if (includeComments && pr && pr.comment) {
 					return pr;
 				}
@@ -1328,8 +1328,8 @@ chess.model.Game = new Class({
      * @private
      */
 	registerMove:function (move, atIndex) {
-		move.id = 'move-' + String.uniqueID();
-		this.moveCache[move.id] = move;
+		move.uid = 'move-' + String.uniqueID();
+		this.moveCache[move.uid] = move;
 		this.registerBranchMap(move, this.currentBranch);
 
 		if (atIndex) {
@@ -1413,9 +1413,9 @@ chess.model.Game = new Class({
 				branch[0] = {
 					comment:comment,
 					index:0,
-					id:'move-' + String.uniqueID()
+					uid:'move-' + String.uniqueID()
 				};
-				this.moveCache[move.id] = move;
+				this.moveCache[move.uid] = move;
 				this.registerPreviousMap(move, branch[0]);
 				this.fire('updateMove', branch[0]);
 			}
@@ -1596,6 +1596,11 @@ chess.model.Game = new Class({
      * @private
      */
 	updateGameFromServer:function (data) {
+        new ludo.Notification({
+            html : chess.getPhrase('Game saved successfully'),
+            duration:1,
+            effectDuration:.5
+        });
 		if (data.id) {
 			this.model.id = data.id;
 		}
