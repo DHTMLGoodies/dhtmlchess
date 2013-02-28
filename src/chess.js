@@ -91,7 +91,8 @@ window.chess.events = {
         correctGuess:'correctGuess',
         wrongGuess:'wrongGuess',
         startAutoplay:'startAutoplay',
-        stopAutoplay:'stopAutoplay'
+        stopAutoplay:'stopAutoplay',
+        gameSaved:'gameSaved'
     },
 
     view:{

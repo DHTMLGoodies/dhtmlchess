@@ -7,7 +7,6 @@
 chess.view.folder.Tree = new Class({
 	Extends:ludo.tree.Tree,
 	module:'chess',
-
 	submodule:'folder.tree',
 	dataSource:{
 		type:'chess.dataSource.FolderTree'
@@ -38,7 +37,6 @@ chess.view.folder.Tree = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-
 		this.addEvent('selectrecord', this.selectDatabase.bind(this));
 	},
 

@@ -1,4 +1,4 @@
-/* Generated Thu Feb 28 2:41:33 CET 2013 */
+/* Generated Thu Feb 28 23:07:46 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -2597,7 +2597,62 @@ ludo.layout.Base = new Class({
 
 	getRenderer:function(){
 		return this.renderer ? this.renderer : this.createRenderer();
-	}
+	},
+
+    /**
+     * Executed when a child is hidden. It set's the internal layout properties width and height to 0(zero)
+     * @method hideChild
+     * @param {ludo.View} child
+     * @private
+     */
+    hideChild:function(child){
+        this.setTemporarySize(child, {
+            width:0,height:0
+        });
+    },
+
+    /**
+     * Executed when a child is minimized. It set's temporary width or properties
+     * @method minimize
+     * @param {ludo.View} child
+     * @param {Object} newSize
+     * @protected
+     */
+    minimize:function(child, newSize){
+        this.setTemporarySize(child, newSize);
+        this.resize();
+    },
+
+    /**
+     * Store temporary size when a child is minimized or hidden
+     * @method setTemporarySize
+     * @param {ludo.View} child
+     * @param {Object} newSize
+     * @protected
+     */
+    setTemporarySize:function(child, newSize){
+        if(newSize.width !== undefined){
+            child.layout.cached_width = child.layout.width;
+            child.layout.width = newSize.width;
+        }else{
+            child.layout.cached_height = child.layout.height;
+            child.layout.height = newSize.height;
+        }
+    },
+    /**
+     * Clear temporary width or height values. This method is executed when a child
+     * is shown or maximized
+     * @method clearTemporaryValues
+     * @param {ludo.View} child
+     * @protected
+     */
+    clearTemporaryValues:function(child){
+        if(child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
+        if(child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
+        child.layout.cached_width = undefined;
+        child.layout.cached_height = undefined;
+        this.resize();
+    }
 });/* ../ludojs/src/layout/linear.js */
 /**
  * Abstract base class for linear layouts
@@ -2607,13 +2662,20 @@ ludo.layout.Base = new Class({
 ludo.layout.Linear = new Class({
 	Extends:ludo.layout.Base,
 
+    onCreate:function(){
+        // TODO refactor this.
+        this.view.getBody().style.overflow='hidden';
+        this.parent();
+    },
+
 	onNewChild:function (child) {
 		this.parent(child);
 		this.updateLayoutObject(child);
-		child.addEvent('collapse', this.resize.bind(this));
-		child.addEvent('expand', this.resize.bind(this));
-		child.addEvent('minimize', this.resize.bind(this));
-		child.addEvent('maximize', this.resize.bind(this));
+		child.addEvent('collapse', this.minimize.bind(this));
+		child.addEvent('expand', this.clearTemporaryValues.bind(this));
+		child.addEvent('minimize', this.minimize.bind(this));
+		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
+		child.addEvent('show', this.clearTemporaryValues.bind(this));
 	},
 
 	updateLayoutObject:function (child) {
@@ -6700,61 +6762,6 @@ ludo.layout.Relative = new Class({
 		child.addEvent('minimize', this.minimize.bind(this));
 		child.addEvent('expand', this.clearTemporaryValues.bind(this));
 		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
-	},
-
-    /**
-     * Executed when a child is hidden. It set's the internal layout properties width and height to 0(zero)
-     * @method hideChild
-     * @param {ludo.View} child
-     * @private
-     */
-	hideChild:function(child){
-		this.setTemporarySize(child, {
-			width:0,height:0
-		});
-	},
-
-    /**
-     * Executed when a child is minimized. It set's temporary width or properties
-     * @method minimize
-     * @param {ludo.View} child
-     * @param {Object} newSize
-     * @private
-     */
-	minimize:function(child, newSize){
-		this.setTemporarySize(child, newSize);
-		this.resize();
-	},
-
-    /**
-     * Store temporary size when a child is minimized or hidden
-     * @method setTemporarySize
-     * @param {ludo.View} child
-     * @param {Object} newSize
-     * @private
-     */
-	setTemporarySize:function(child, newSize){
-		if(newSize.width !== undefined){
-			child.layout.cached_width = child.layout.width;
-			child.layout.width = newSize.width;
-		}else{
-			child.layout.cached_height = child.layout.height;
-			child.layout.height = newSize.height;
-		}
-	},
-    /**
-     * Clear temporary width or height values. This method is executed when a child
-     * is shown or maximized
-     * @method clearTemporaryValues
-     * @param {ludo.View} child
-     * @private
-     */
-	clearTemporaryValues:function(child){
-		if(child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
-		if(child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
-		child.layout.cached_width = undefined;
-		child.layout.cached_height = undefined;
-		this.resize();
 	}
 });/* ../ludojs/src/layout/tab.js */
 ludo.layout.Tab = new Class({
@@ -14996,14 +15003,13 @@ ludo.form.Element = new Class({
 
     ludoRendered:function () {
         this.parent();
-        if (this.getFormEl()) {
-            this.getFormEl().setProperty('name', this.getName());
-        }
+
         if (this.disabled)this.disable();
 
-        if (this.value && this.els.formEl) {
-            this.els.formEl.set('value', this.value);
-        }
+		if(this.els.formEl){
+			this.els.formEl.setProperty('name', this.getName());
+			if(this.value)this.els.formEl.set('value', this.value)
+		}
         if (this.linkWith) {
             this.setLinkWithOfOther();
         }
@@ -15029,7 +15035,7 @@ ludo.form.Element = new Class({
      */
     enable:function () {
         this.getFormEl().removeProperty('disabled');
-        this.els.label.removeClass('ludo-form-label-disabled');
+        ludo.dom.removeClass(this.els.label, 'ludo-form-label-disabled');
     },
 
     getInheritedFormConfig:function () {
@@ -15048,8 +15054,8 @@ ludo.form.Element = new Class({
         this.parent();
         this.getEl().addClass('ludo-form-element');
         if (this.els.formEl) {
-            if (this.fieldWidth && this.getFormEl()) {
-                this.els.formEl.setStyle('width', this.fieldWidth - ludo.dom.getPW(this.getFormEl()) - ludo.dom.getBW(this.getFormEl()));
+            if (this.fieldWidth) {
+                this.els.formEl.style.width = (this.fieldWidth - ludo.dom.getPW(this.els.formEl) - ludo.dom.getBW(this.els.formEl)) + 'px';
             }
             if (this.elementId) {
                 this.els.formEl.id = this.elementId;
@@ -15120,7 +15126,6 @@ ludo.form.Element = new Class({
         if (this.els.formEl) {
             this.setValue(this.els.formEl.get('value'));
         }
-
         /**
          * On change event. This event is fired when value is changed manually
          * by the user via GUI. The "change" event is followed by a
@@ -15364,7 +15369,10 @@ ludo.form.Element = new Class({
         attempts = attempts || 0;
         var cmp = ludo.get(this.linkWith);
         if (cmp && !cmp.linkWith) {
-            if (!this.value)this.setValue(cmp.value);
+            if (!this.value){
+				this.initialValue = cmp.value;
+				this.setValue(cmp.value);
+			}
             cmp.setLinkWith(this.id);
         } else {
             if (attempts < 100) {
@@ -23722,7 +23730,8 @@ window.chess.events = {
         correctGuess:'correctGuess',
         wrongGuess:'wrongGuess',
         startAutoplay:'startAutoplay',
-        stopAutoplay:'stopAutoplay'
+        stopAutoplay:'stopAutoplay',
+        gameSaved:'gameSaved'
     },
 
     view:{
@@ -26460,8 +26469,13 @@ chess.view.gamelist.Grid = new Class({
 		controller.addEvent('nextGame', ds.next.bind(ds));
 		controller.addEvent('previousGame', ds.previous.bind(ds));
         controller.addEvent('selectPgn', this.selectPgn.bind(this));
+        controller.addEvent('gameSaved', this.onGameSave.bind(this));
 	},
 
+
+    onGameSave:function(game){
+        if(game.databaseId)this.selectDatabase({ id: game.databaseId });
+    },
 	/**
 	 Select a new database
 	 @method selectDatabase
@@ -27303,7 +27317,6 @@ chess.view.button.PreviousGame = new Class({
 chess.view.folder.Tree = new Class({
 	Extends:ludo.tree.Tree,
 	module:'chess',
-
 	submodule:'folder.tree',
 	dataSource:{
 		type:'chess.dataSource.FolderTree'
@@ -27334,7 +27347,6 @@ chess.view.folder.Tree = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-
 		this.addEvent('selectrecord', this.selectDatabase.bind(this));
 	},
 
@@ -31890,7 +31902,7 @@ chess.model.Game = new Class({
 		this.gameReader = new chess.remote.GameReader();
 		this.gameReader.addEvent('load', this.populate.bind(this));
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
-		this.gameReader.addEvent('saved', this.updateGameFromServer.bind(this));
+		this.gameReader.addEvent('saved', this.gameSaved.bind(this));
 		this.setDefaultModel();
 
 		if (config.id || config.pgn) {
@@ -33311,7 +33323,7 @@ chess.model.Game = new Class({
 		if (eventName === 'updateMove' || eventName == 'newMove' || eventName == 'updateMetadata') {
 			this.setDirty();
 		}
-		var event = chess.events.game[eventName];
+		var event = chess.events.game[eventName] || eventName;
 		this.fireEvent(event, [event, this, param]);
 	},
 
@@ -33435,11 +33447,11 @@ chess.model.Game = new Class({
 
     /**
      * Receive game update from server
-     * @method updateGameFromServer
+     * @method gameSaved
      * @param {Object} data
      * @private
      */
-	updateGameFromServer:function (data) {
+	gameSaved:function (data) {
         new ludo.Notification({
             html : chess.getPhrase('Game saved successfully'),
             duration:1,
@@ -33448,6 +33460,7 @@ chess.model.Game = new Class({
 		if (data.id) {
 			this.model.id = data.id;
 		}
+        this.fire('gameSaved', this.model);
 	}
 });
 

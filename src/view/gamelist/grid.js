@@ -98,8 +98,13 @@ chess.view.gamelist.Grid = new Class({
 		controller.addEvent('nextGame', ds.next.bind(ds));
 		controller.addEvent('previousGame', ds.previous.bind(ds));
         controller.addEvent('selectPgn', this.selectPgn.bind(this));
+        controller.addEvent('gameSaved', this.onGameSave.bind(this));
 	},
 
+
+    onGameSave:function(game){
+        if(game.databaseId)this.selectDatabase({ id: game.databaseId });
+    },
 	/**
 	 Select a new database
 	 @method selectDatabase

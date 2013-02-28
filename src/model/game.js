@@ -46,7 +46,7 @@ chess.model.Game = new Class({
 		this.gameReader = new chess.remote.GameReader();
 		this.gameReader.addEvent('load', this.populate.bind(this));
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
-		this.gameReader.addEvent('saved', this.updateGameFromServer.bind(this));
+		this.gameReader.addEvent('saved', this.gameSaved.bind(this));
 		this.setDefaultModel();
 
 		if (config.id || config.pgn) {
@@ -1467,7 +1467,7 @@ chess.model.Game = new Class({
 		if (eventName === 'updateMove' || eventName == 'newMove' || eventName == 'updateMetadata') {
 			this.setDirty();
 		}
-		var event = chess.events.game[eventName];
+		var event = chess.events.game[eventName] || eventName;
 		this.fireEvent(event, [event, this, param]);
 	},
 
@@ -1591,11 +1591,11 @@ chess.model.Game = new Class({
 
     /**
      * Receive game update from server
-     * @method updateGameFromServer
+     * @method gameSaved
      * @param {Object} data
      * @private
      */
-	updateGameFromServer:function (data) {
+	gameSaved:function (data) {
         new ludo.Notification({
             html : chess.getPhrase('Game saved successfully'),
             duration:1,
@@ -1604,6 +1604,7 @@ chess.model.Game = new Class({
 		if (data.id) {
 			this.model.id = data.id;
 		}
+        this.fire('gameSaved', this.model);
 	}
 });
 
