@@ -1,4 +1,4 @@
-/* Generated Thu Feb 28 23:07:46 CET 2013 */
+/* Generated Fri Mar 1 1:27:12 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1710,6 +1710,42 @@ div.ludo-tree-movable-shim img{
 
 .ludo-Progress-Bar-Message{
     text-align:center;
+}/* ../ludojs/css-source/accordion.css */
+.ludo-accordion{
+    border-radius:0;
+    border:1px solid #CCC;
+}
+.ludo-accordion .ludo-rich-view-titlebar{
+    border-bottom:0;
+    cursor:pointer;
+}
+.ludo-accordion .ludo-rich-view-titlebar-title{
+    margin-left:20px;
+    line-height:25px;
+}
+.ludo-accordion .ludo-title-bar-button-container{
+    left:2px !important;
+    top:4px !important;
+    height:20px;
+    border:0;
+    background-color:transparent;
+}
+.ludo-accordion .ludo-title-bar-button{
+    background-position:center center;
+}
+.ludo-accordion .ludo-title-bar-button-minimize {
+    background-image:url(../ludojs/images/accordion/accordion-minimize.png);
+}
+.ludo-accordion .ludo-title-bar-button-maximize {
+    background-image:url(../ludojs/images/accordion/accordion-maximize.png);
+}
+
+.ludo-accordion .ludo-title-bar-button-container-left-edge, .ludo-accordion .ludo-title-bar-button-container-right-edge{
+    background-image:none;
+}
+
+.ludo-accordion .ludo-rich-view-titlebar{
+    height:25px;
 }/* ../ludojs/css-source/form/filter-tree.css */
 .ludo-Filter-Tree-Window{
     border-radius:0;

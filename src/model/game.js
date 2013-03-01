@@ -187,7 +187,7 @@ chess.model.Game = new Class({
 	},
 
     reservedMetadata : ["event","site","date","round","white","black","result",
-        "annotator","termintation","fen","plycount","database_id","id"],
+        "annotator","termination","fen","plycount","database_id","id"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object

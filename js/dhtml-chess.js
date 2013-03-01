@@ -1,4 +1,4 @@
-/* Generated Thu Feb 28 23:07:46 CET 2013 */
+/* Generated Fri Mar 1 1:27:12 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -358,9 +358,8 @@ ludo.storage.LocalStorage = new Class({
 
 	save:function(key,value){
 		if(!this.supported)return;
-
 		var type = 'simple';
-		if(this.isObject(value)){
+		if(ludo.util.isObject(value)){
 			value = JSON.encode(value);
 			type = 'object';
 		}
@@ -375,10 +374,6 @@ ludo.storage.LocalStorage = new Class({
 			return JSON.decode(localStorage[key]);
 		}
 		return localStorage[key];
-	},
-
-	isObject:function(value){
-		return typeof(value) == 'object';
 	},
 
 	getTypeKey:function(key){
@@ -2365,8 +2360,6 @@ ludo.layout.Base = new Class({
 		bottom:0, right:0
 	},
 
-	measureDiv:undefined,
-
 	initialize:function (view) {
 		this.view = view;
 		this.onCreate();
@@ -2730,10 +2723,7 @@ ludo.layout.Linear = new Class({
 				'before':this.beforeResize.bind(this)
 			}
 		});
-
-
 	}
-
 });/* ../ludojs/src/layout/linear-horizontal.js */
 /**
  * This class arranges child views in a row layout.
@@ -4050,7 +4040,7 @@ ludo.tpl.Parser = new Class({
         if (!this.isArray(records)) {
             records = [records];
         }
-        var html = '';
+        var html = [];
         for (var i = 0; i < records.length; i++) {
             var content = tpl;
             var prop;
@@ -4062,9 +4052,9 @@ ludo.tpl.Parser = new Class({
                     content = content.replace(reg, value);
                 }
             }
-            html = html + content;
+            html.push(content);
         }
-        return html;
+        return html.join('');
     },
 
     getTplValue:function (key, value) {
@@ -4421,7 +4411,7 @@ ludo.view.Loader = new Class({
 
 	initialize:function(config){
 		this.view = config.view;
-		if(config.txt !== undefined)this.txt = config.txt;
+		if(config.txt)this.txt = config.txt;
 		this.addDataSourceEvents();
 	},
 
@@ -7727,7 +7717,7 @@ ludo.effect.Drag = new Class({
 
 	 @example
 	 	dragobject.add({
-	 		id:'myReference',
+	 		id: "myReference',
 			el: 'myDiv',
 			column: 'city'
 		});
@@ -8060,7 +8050,7 @@ ludo.effect.Drag = new Class({
 
 	getXDrag:function (e) {
 		var posX;
-		if(this.mouseXOffset !== undefined){
+		if(this.mouseXOffset){
 			posX = e.page.x + this.mouseXOffset;
 		}else{
 			posX = e.page.x - this.dragProcess.mouseX + this.dragProcess.elX;
@@ -8077,7 +8067,7 @@ ludo.effect.Drag = new Class({
 
 	getYDrag:function (e) {
 		var posY;
-		if(this.mouseYOffset !== undefined){
+		if(this.mouseYOffset){
 			posY = e.page.y + this.mouseYOffset;
 		}else{
 			posY = e.page.y - this.dragProcess.mouseY + this.dragProcess.elY;
@@ -8167,29 +8157,22 @@ ludo.effect.Drag = new Class({
 
 	getMaxX:function () {
 		var maxX = this.getConfigProperty('maxX');
-		if (maxX !== undefined)return maxX;
-		if (this.maxPos !== undefined)return this.maxPos;
-		return 100000;
+        return maxX !== undefined ? maxX : this.maxPos !== undefined ? this.maxPos : 100000;
 	},
 
 	getMaxY:function () {
 		var maxY = this.getConfigProperty('maxY');
-		if (maxY !== undefined)return maxY;
-		if (this.maxPos !== undefined)return this.maxPos;
-		return 100000;
+        return maxY !== undefined ? maxY : this.maxPos !== undefined ? this.maxPos : 100000;
 	},
 
 	getMinX:function () {
 		var minX = this.getConfigProperty('minX');
-		if (minX !== undefined)return minX;
-		return this.minPos;
+        return minX !== undefined ? minX : this.minPos;
 	},
 
 	getMinY:function () {
 		var dragged = this.getDragged();
-		if(dragged && dragged.minY!==undefined)return dragged.minY;
-		if (this.minY !== undefined)return this.minY;
-		return this.minPos;
+        return dragged && dragged.minY!==undefined ? dragged.minY : this.minY!==undefined ? this.minY : this.minPos;
 	},
 	/**
 	 * Return amount dragged in x direction
@@ -8271,7 +8254,7 @@ ludo.effect.Drag = new Class({
 			});
 			document.body.adopt(this.shim);
 
-			if (this.shimCls !== undefined) {
+			if (this.shimCls) {
 				for (var i = 0; i < this.shimCls.length; i++) {
 					this.shim.addClass(this.shimCls[i]);
 				}
@@ -8303,7 +8286,7 @@ ludo.effect.Drag = new Class({
 	},
 
 	getShimY:function(){
-		if(this.mouseYOffset!==undefined){
+		if(this.mouseYOffset){
 			return this.dragProcess.mouseY + this.mouseYOffset;
 		}else{
 			return this.getTop() + ludo.dom.getMH(this.getEl()) - ludo.dom.getMW(this.shim);
@@ -8311,7 +8294,7 @@ ludo.effect.Drag = new Class({
 	},
 
 	getShimX:function(){
-		if(this.mouseXOffset!==undefined){
+		if(this.mouseXOffset){
 			return this.dragProcess.mouseX + this.mouseXOffset;
 		}else{
 			return this.getLeft() + ludo.dom.getMW(this.getEl()) - ludo.dom.getMW(this.shim);
@@ -8319,14 +8302,10 @@ ludo.effect.Drag = new Class({
 	},
 
 	getShimWidthDiff:function(){
-		var e = this.getEl();
-		var s = this.shim;
-		return ludo.dom.getMW(e) - ludo.dom.getBW(s) - ludo.dom.getPW(s) - ludo.dom.getMW(s);
+		return ludo.dom.getMW(this.getEl()) - ludo.dom.getMBPW(this.shim);
 	},
 	getShimHeightDiff:function(){
-		var e = this.getEl();
-		var s = this.shim;
-		return ludo.dom.getMH(e) - ludo.dom.getBH(s) - ludo.dom.getPH(s) - ludo.dom.getMH(s);
+		return ludo.dom.getMH(this.getEl()) - ludo.dom.getMBPH(this.shim);
 	},
 
 	/**
@@ -8383,8 +8362,6 @@ ludo.effect.Drag = new Class({
 	getStartY:function () {
 		return this.dragProcess.elY;
 	},
-
-
 
 	flyBackComplete:function(){
 		/**
@@ -8984,9 +8961,7 @@ ludo.view.ButtonBar = new Class({
     component:undefined,
 
     ludoConfig:function (config) {
-        if (config.align !== undefined)this.align = config.align;
-
-        this.component = config.component;
+        this.setConfigParams(config, ['align','component']);
         config.children = this.getValidChildren(config.children);
         if (this.align == 'right') {
             config.children = this.getItemsWithSpacer(config.children);
@@ -9025,7 +9000,6 @@ ludo.view.ButtonBar = new Class({
     getButtons:function () {
         var ret = [];
         for (var i = 0; i < this.children.length; i++) {
-
             if (this.children[i].isButton && this.children[i].isButton()) {
                 ret.push(this.children[i]);
             }
@@ -9034,25 +9008,14 @@ ludo.view.ButtonBar = new Class({
     },
 
     getButton:function (key) {
-        for (var i = 0; i < this.children.length; i++) {
-            if (this.children[i].id == key) {
-                return this.children[i];
-            }
-            if (this.children[i].name == key) {
-                return this.children[i];
-            }
-            if (this.children[i].getValue && this.children[i].getValue().toLowerCase() == key.toLowerCase()) {
-                return this.children[i];
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            if(c[i].id == key || c[i].name == key || (c[i].getValue && c[i].getValue().toLowerCase() == key.toLowerCase())){
+                return c[i];
             }
         }
 		return undefined;
     },
-
-
-
-	resize:function(config){
-		this.parent(config);
-	},
 
     getItemsWithSpacer:function (children) {
         for (var i = children.length; i > 0; i--) {
@@ -9074,79 +9037,6 @@ ludo.view.ButtonBar = new Class({
     getView : function(){
         return this.component;
     }
-});/* ../ludojs/src/view/status-bar.js */
-ludo.view.StatusBar = new Class({
-    Extends: ludo.Core,
-
-    text:undefined,
-    icon:undefined,
-
-    el:undefined,
-    textEl:undefined,
-    iconEl:undefined,
-
-    hidden:false,
-
-    ludoConfig:function(config){
-        this.parent(config);
-        this.text = config.text;
-        this.icon = config.icon;
-        this.createDOM();
-    },
-
-    createDOM:function(){
-        var el = this.el = new Element('div');
-        ludo.dom.addClass(el, 'ludo-component-statusbar');
-
-        var statusIcon = this.iconEl = new Element('div');
-        ludo.dom.addClass(statusIcon, 'ludo-component-statusbar-icon');
-        if (this.icon) {
-            statusIcon.setStyle('background-image', 'url(' + this.icon + ')');
-        } else {
-            statusIcon.setStyle('display', 'none');
-        }
-        el.adopt(statusIcon);
-
-        var statusText = this.textEl = new Element('div');
-        ludo.dom.addClass(statusText, 'ludo-component-statusbar-text');
-        if (this.text) {
-            statusText.set('html', this.text);
-        }
-        el.adopt(statusText);
-    },
-
-    getEl:function(){
-        return this.el;
-    },
-
-    hideIcon:function(){
-        this.iconEl.style.visibility = 'hidden';
-    },
-
-    setText:function(text){
-        this.textEl.set('html', text);
-    },
-
-    showIcon:function(icon){
-        this.iconEl.setStyle('display', '');
-        if (icon !== undefined) {
-            this.iconEl.setStyle('background-image', 'url(' + icon + ')');
-        }
-    },
-    hide:function(){
-        this.el.style.display='none';
-        this.hidden = true;
-    },
-
-    getHeight:function(){
-        var ret = this.el.getSize();
-        if (ret.y == 0) {
-            ret.y = 1;
-        } else {
-            ret.y += ludo.dom.getMH(this.el);
-        }
-        return ret.y;
-    }
 });/* ../ludojs/src/view/title-bar.js */
 ludo.view.TitleBar = new Class({
     Extends:ludo.Core,
@@ -9162,6 +9052,8 @@ ludo.view.TitleBar = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.view = config.view;
+        this.view.addEvent('setTitle', this.setTitle.bind(this));
+        this.view.addEvent('resize', this.resizeDOM.bind(this));
         this.createDOM();
         this.createEvents();
         this.setSizeOfButtonContainer.delay(20, this);
@@ -9210,13 +9102,16 @@ ludo.view.TitleBar = new Class({
     },
 
     showMaximize:function () {
-        this.els.buttons.maximize.style.display = '';
-        this.els.buttons.minimize.style.display = 'none';
+        this.toggleMinimize('none','');
     },
 
     showMinimize:function () {
-        this.els.buttons.maximize.style.display = 'none';
-        this.els.buttons.minimize.style.display = '';
+        this.toggleMinimize('','none');
+    },
+
+    toggleMinimize:function(min,max){
+        this.els.buttons.minimize.style.display = min;
+        this.els.buttons.maximize.style.display = max;
     },
 
     cancelTextSelection:function () {
@@ -9270,11 +9165,13 @@ ludo.view.TitleBar = new Class({
 
     getButton:function (buttonType) {
         var b = this.els.buttons[buttonType] = new Element('div');
-        b.id = 'ludo-title-bar-button-' + String.uniqueID();
+        b.id = 'b-' + String.uniqueID();
 		b.className = 'ludo-title-bar-button ludo-title-bar-button-' + buttonType;
-        b.addEvent('click', this.buttonClick.bind(this));
-        b.addEvent('mouseenter', this.enterButton.bind(this));
-        b.addEvent('mouseleave', this.leaveButton.bind(this));
+        b.addEvents({
+            'click' : this.buttonClick.bind(this),
+            'mouseenter' : this.enterButton.bind(this),
+            'mouseleave' : this.leaveButton.bind(this)
+        });
         b.setProperty('title', buttonType.capitalize());
         b.setProperty('buttonType', buttonType);
         this.els.buttonArray.push(b);
@@ -9367,8 +9264,8 @@ ludo.view.TitleBar = new Class({
 
     getCollapseButtonDirection:function () {
         var c = this.view;
-		if(ludo.util.isString(this.view.layout.collapsible)){
-			return this.view.layout.collapsible;
+		if(ludo.util.isString(c.layout.collapsible)){
+			return c.layout.collapsible;
 		}
 		var parent = c.getParent();
         if (parent && parent.layout && parent.layout.type === 'linear' && parent.layout.orientation === 'horizontal') {
@@ -9427,26 +9324,6 @@ ludo.FramedView = new Class({
 	 * @attribute icon
 	 */
 	icon:null,
-	/**
-	 * Initial display of status bar
-	 * @attribute {Boolean} statusBar
-	 * @default false
-	 */
-	statusBar:false,
-	/**
-	 * Initial text of status bar
-	 * @attribute statusText
-	 * @type String
-	 * @default '' (empty string)
-	 */
-	statusText:'',
-	/**
-	 * Path to icon on status bar
-	 * @attribute statusIcon
-	 * @type String
-	 * @default undefined
-	 */
-	statusIcon:undefined,
 
 	/**
 	 * Show or hide title bar
@@ -9494,7 +9371,7 @@ ludo.FramedView = new Class({
             }
         }
 
-        var keys = ['buttonBar','hasMenu','menuConfig','icon','statusIcon','statusText','statusBar','titleBar','buttons','boldTitle','minimized'];
+        var keys = ['buttonBar','hasMenu','menuConfig','icon',,'titleBar','buttons','boldTitle','minimized'];
         this.setConfigParams(config,keys);
 
 		if (this.buttonBar !== undefined && !this.buttonBar.children) {
@@ -9510,7 +9387,6 @@ ludo.FramedView = new Class({
 		if (this.titleBar)this.getTitleBarEl().inject(this.getBody(), 'before');
 		ludo.dom.addClass(this.getBody(), 'ludo-rich-view-body');
 
-		if (this.statusBar)this.els.container.adopt(this.getStatusBar());
 
 		var parent = this.getParent();
 		if (!parent && this.isResizable()) {
@@ -9553,30 +9429,13 @@ ludo.FramedView = new Class({
 		return this.resizer;
 	},
 	/**
-	 * Set status bar text
-	 * @method setStatusText
-	 * @param text
-	 * @return void
-	 */
-	setStatusText:function (text) {
-		this.getStatusBar().setText(text);
-	},
-	/**
-	 * Clear status bar text
-	 * @method clearStatusText
-	 * @return void
-	 */
-	clearStatusText:function () {
-		this.getStatusBar().setText('');
-	},
-	/**
 	 * Set new title
 	 * @method setTitle
 	 * @param {String} title
 	 */
 	setTitle:function (title) {
 		this.parent(title);
-		if(this.titleBarObj)this.titleBarObj.setTitle(title);
+        this.fireEvent('setTitle', title);
 	},
 
 	autoSize:function () {
@@ -9585,7 +9444,7 @@ ludo.FramedView = new Class({
 
 	resizeDOM:function () {
 		var height = this.getHeight();
-		height -= (ludo.dom.getMBPH(this.els.container) + ludo.dom.getMBPH(this.els.body) +  this.getTotalHeightOfTitleAndStatusBar());
+		height -= (ludo.dom.getMBPH(this.els.container) + ludo.dom.getMBPH(this.els.body) +  this.getHeightOfTitleAndButtonBar());
 		if (height < 0) {
 			return;
 		}
@@ -9595,18 +9454,15 @@ ludo.FramedView = new Class({
 		if (this.buttonBarComponent) {
 			this.buttonBarComponent.resize();
 		}
-		if (this.titleBarObj && this.width && this.width > 30) {
-			this.titleBarObj.resizeDOM();
-		}
 	},
 
-	heightTitleAndStatusBar:undefined,
-	getTotalHeightOfTitleAndStatusBar:function () {
+	heightOfTitleAndButtonBar:undefined,
+	getHeightOfTitleAndButtonBar:function () {
 		if (this.isHidden())return 0;
-		if (!this.heightTitleAndStatusBar) {
-			this.heightTitleAndStatusBar = this.getHeightOfTitleBar() + this.getHeightOfStatusBar() + this.getHeightOfButtonBar();
+		if (!this.heightOfTitleAndButtonBar) {
+			this.heightOfTitleAndButtonBar = this.getHeightOfTitleBar() + this.getHeightOfButtonBar();
 		}
-		return this.heightTitleAndStatusBar;
+		return this.heightOfTitleAndButtonBar;
 	},
 
 	heightOfButtonBar:undefined,
@@ -9621,11 +9477,6 @@ ludo.FramedView = new Class({
 	getHeightOfTitleBar:function () {
 		if (!this.titleBar)return 0;
 		return this.titleBarObj.getHeight();
-	},
-
-	getHeightOfStatusBar:function () {
-		if (!this.statusBarObj)return 0;
-		return this.statusBarObj.getHeight();
 	},
 
 	getTitleBar:function(){
@@ -9830,17 +9681,6 @@ ludo.FramedView = new Class({
 			}
 		}
 		return null;
-	},
-
-	getStatusBar:function () {
-		if (this.statusBarObj == undefined) {
-			this.statusBarObj = ludo._new({
-				type:'view.StatusBar',
-				text:this.statusText,
-				icon:this.statusIcon
-			})
-		}
-		return this.statusBarObj.getEl();
 	},
 	/**
 	 * Is component resizable
@@ -21721,7 +21561,7 @@ ludo.progress.DataSource = new Class({
     stopped : false,
     pollFrequence : 1,
     /**
-     * Reference to parent component of status bar
+     * Reference to parent component
      * @property object Component
      */
     component:undefined,
@@ -21729,7 +21569,7 @@ ludo.progress.DataSource = new Class({
 
     ludoConfig:function(config){
         this.parent(config);
-        if(config.pollFrequence !== undefined)this.pollFrequence = config.pollFrequence;
+        if(config.pollFrequence)this.pollFrequence = config.pollFrequence;
         this.component = config.component;
         this.component.getFormManager().addEvent('beforesubmit', this.startProgress.bind(this));
     },
@@ -21802,9 +21642,7 @@ ludo.progress.Base = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        if (config.component !== undefined)this.component = config.component;
-        if (config.pollFrequence !== undefined)this.pollFrequence = config.pollFrequence;
-        if (config.hideOnFinish !== undefined)this.hideOnFinish = config.hideOnFinish;
+        this.setConfigParams(config, ['component','pollFrequence','hideOnFinish']);
 
         if (!this.component) {
             this.component = this.getParent();
@@ -21878,10 +21716,6 @@ ludo.progress.Bar = new Class({
     stopped:false,
     hidden:true,
     fx:undefined,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-    },
 
     ludoRendered:function () {
         this.parent();
@@ -22001,7 +21835,6 @@ ludo.progress.Bar = new Class({
                 duration:100,
                 unit : '%'
             });
-
         }
         return this.fx;
     }
@@ -22058,6 +21891,105 @@ ludo.card.ProgressBar = new Class({
     getProgressBarId:function(){
         return undefined;
     }
+});/* ../ludojs/src/accordion.js */
+/**
+ * @class Accordion
+ * @extends FramedView
+ * @description Accordion component
+ */
+ludo.Accordion = new Class({
+	Extends:ludo.FramedView,
+	type:'Accordion',
+
+	closable:false,
+	fullScreen:false,
+	minimizable:true,
+	resizable:false,
+
+	heightBeforeMinimize:undefined,
+	slideInProgress:false,
+	fx:null,
+	fxContent:null,
+	minimized:false,
+	titleBar:true,
+
+	ludoConfig:function (config) {
+		if (!config.height) {
+			config.height = 'auto';
+		}
+		this.parent(config);
+	},
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().addClass('ludo-accordion');
+	},
+	ludoRendered:function () {
+		this.fx = new Fx.Morph(this.getEl(), {
+			duration:100
+		});
+		this.fxContent = new Fx.Morph(this.getBody(), {
+			duration:100
+		});
+		this.fx.addEvent('complete', this.animationComplete.bind(this));
+
+		var titleBar = this.getTitleBarEl();
+		titleBar.addEvent('click', this.toggleExpandCollapse.bind(this));
+		this.parent();
+	},
+	toggleExpandCollapse:function () {
+		if (this.state.isMinimized) {
+			this.maximize();
+		} else {
+			this.minimize();
+		}
+	},
+	/**
+	 * Maximize accordion component
+	 * @method maximmize
+	 * @return void
+	 */
+	maximize:function () {
+		if (this.slideInProgress)return;
+		this.slideInProgress = true;
+		this.state.isMinimized = false;
+
+        this.showResizeHandles();
+		this.fx.start({
+			'height':[this.getHeightOfTitleBar(), this.heightBeforeMinimize]
+		});
+		this.fxContent.start({
+			'margin-top':[this.getBody().getStyle('margin-top'), 0]
+		});
+		this.fireEvent('maximize', this);
+	},
+	/**
+	 * Minimize accordion component
+	 * @method minimize
+	 * @return void
+	 */
+	minimize:function () {
+		if (this.slideInProgress)return;
+		this.heightBeforeMinimize = this.getEl().offsetHeight - ludo.dom.getBH(this.getEl()) - ludo.dom.getPH(this.getEl());
+		this.slideInProgress = true;
+
+		this.state.isMinimized = true;
+		this.hideResizeHandles();
+        var h = this.getHeightOfTitleBar();
+		this.fx.start({
+			'height':[this.heightBeforeMinimize, h]
+		});
+
+		this.fxContent.start({
+			'margin-top':[ 0, (this.heightBeforeMinimize - h) * -1 ]
+		});
+        this.fireEvent('minimize', [this, { height: h }]);
+
+	},
+
+	animationComplete:function () {
+		this.slideInProgress = false;
+	}
 });/* ../ludojs/src/form/textarea.js */
 /**
  * Text Area field
@@ -32043,7 +31975,7 @@ chess.model.Game = new Class({
 	},
 
     reservedMetadata : ["event","site","date","round","white","black","result",
-        "annotator","termintation","fen","plycount","database_id","id"],
+        "annotator","termination","fen","plycount","database_id","id"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object
