@@ -9,6 +9,7 @@ chess.view.dialog.EditGameMetadata = new Class({
     type:'chess.view.dialog.EditGameMetadata',
     submodule:'dialogEditGameMetadata',
     title:chess.getPhrase('Edit metadata'),
+    model:['white','black','result','event','site','databaseId'],
     addControllerEvents:function () {
         this.controller.addEvent('editMetadata', this.show.bind(this));
     },
@@ -16,11 +17,15 @@ chess.view.dialog.EditGameMetadata = new Class({
         this.getButton('okButton').addEvent('click', function () {
             /**
              * New game event. When fired it will send all values from the form as only argument.
-             * @event newGame
+             * @event editMetadata
              * @param {Array} metadata values
              */
             this.fireEvent('editMetadata', this.getValues());
             this.hide();
         }.bind(this))
+    },
+    show:function(model){
+        this.getFormManager().getModel().fill(model.getMetadata());
+        this.parent();
     }
 });

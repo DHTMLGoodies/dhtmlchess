@@ -30,7 +30,7 @@ chess.view.dialog.NewGame = new Class({
         { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
         { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'database_id'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
         }
     ],
     buttonBar:{

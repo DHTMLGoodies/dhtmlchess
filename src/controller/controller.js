@@ -32,6 +32,7 @@ chess.controller.Controller = new Class({
         new chess.view.dialog.Promote();
         new chess.view.dialog.Comment();
         new chess.view.dialog.NewGame();
+        new chess.view.dialog.EditGameMetadata();
     },
 
     createDefaultModel:function () {
@@ -42,6 +43,7 @@ chess.controller.Controller = new Class({
     },
 
     addView:function (view) {
+        // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
             ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             return;
@@ -59,7 +61,6 @@ chess.controller.Controller = new Class({
                 view.addEvent('flip', this.flipBoard.bind(this));
                 break;
             case 'list-of-pgn-files':
-
                 view.addEvent('selectPgn', this.selectPgn.bind(this));
                 break;
             case 'gameList':
@@ -94,7 +95,6 @@ chess.controller.Controller = new Class({
 				view.addEvent('load', this.selectGame.bind(this));
 				view.addEvent('flip', this.flipBoard.bind(this));
 				view.addEvent('grade', this.gradeCurrentMove.bind(this));
-
 				break;
             case 'board':
                 view.addEvent('move', this.addMove.bind(this));

@@ -216,7 +216,17 @@ var app = new ludo.Application({
                             frame:true,
                             fillview:true,
                             id:'gameList',
-                            cols:['white', 'black', 'result']
+                            cols:['white', 'black', 'result'],
+                            contextMenu:[
+                                {
+                                    record:{ type: 'game' },
+                                    module:'chess',
+                                    children:[{
+                                        label:chess.getPhrase('Edit game details'),
+                                        fire:'editGameMetadata'
+                                    }]
+                                }
+                            ]
                         }
                     ]
                 },
