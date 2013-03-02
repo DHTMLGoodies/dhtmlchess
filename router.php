@@ -29,8 +29,6 @@ if(isset($_POST['arguments'])){
 }
 
 $handler = new LudoDBRequestHandler();
-
-
 echo $handler->handle($request);
 
 

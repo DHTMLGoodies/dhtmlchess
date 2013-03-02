@@ -1,4 +1,4 @@
-/* Generated Fri Mar 1 20:34:07 CET 2013 */
+/* Generated Sat Mar 2 13:15:43 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -2154,9 +2154,7 @@ ludo.canvas.Canvas = new Class({
 	 * @optional
 	 */
 	setViewBox:function (width, height, x, y) {
-		x = x || 0;
-		y = y || 0;
-		this.set('viewBox', x + ' ' + y + ' ' + width + ' ' + height);
+		this.set('viewBox', (x || 0) + ' ' + (y || 0) + ' ' + width + ' ' + height);
 	},
 
 	createTitle:function(){
@@ -26670,12 +26668,16 @@ chess.view.dialog.NewGame = new Class({
     },
     ludoRendered:function () {
         this.parent();
+        this.addButtonEvents();
+    },
+
+    addButtonEvents:function(){
         this.getButton('okButton').addEvent('click', function () {
-			/**
-			 * New game event. When fired it will send all values from the form as only argument.
-			 * @event newGame
-			 * @param {Array} metadata values
-			 */
+            /**
+             * New game event. When fired it will send all values from the form as only argument.
+             * @event newGame
+             * @param {Array} metadata values
+             */
             this.fireEvent('newGame', this.getValues());
             this.hide();
         }.bind(this))

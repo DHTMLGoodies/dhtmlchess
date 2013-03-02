@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
+ * Class for storage of values for DHTML Chess
  * User: Alf Magne Kalleland
  * Date: 08.01.13
  * Time: 08:11
