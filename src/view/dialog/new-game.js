@@ -49,12 +49,16 @@ chess.view.dialog.NewGame = new Class({
     },
     ludoRendered:function () {
         this.parent();
+        this.addButtonEvents();
+    },
+
+    addButtonEvents:function(){
         this.getButton('okButton').addEvent('click', function () {
-			/**
-			 * New game event. When fired it will send all values from the form as only argument.
-			 * @event newGame
-			 * @param {Array} metadata values
-			 */
+            /**
+             * New game event. When fired it will send all values from the form as only argument.
+             * @event newGame
+             * @param {Array} metadata values
+             */
             this.fireEvent('newGame', this.getValues());
             this.hide();
         }.bind(this))
