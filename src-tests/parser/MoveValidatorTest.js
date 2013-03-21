@@ -5,7 +5,7 @@ TestCase("MoveValidatorTest", {
 		return new chess.parser.Move0x88();
 	},
 
-	"test should ValidateAMove":function () {
+	"test should validate a move":function () {
 		// given
 		var parser = this.getParser();
 
@@ -35,7 +35,7 @@ TestCase("MoveValidatorTest", {
 		assertEquals('e4', config.to);
 	},
 
-	"test should Accept Space Moves":function () {
+	"test should accept space moves":function () {
 		// given
 		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 		var parser = this.getParser();

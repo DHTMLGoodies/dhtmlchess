@@ -28,7 +28,7 @@ TestCase("UserTest", {
 		return window.controller;
 	},
 
-	"test_should_be_able_to_register_login_button":function () {
+	"test should be able to register login button":function () {
 
 		var controller = this.getController();
 
@@ -42,7 +42,7 @@ TestCase("UserTest", {
 	},
 
 
-	"test_should_show_login_button_on_missing_session_token":function () {
+	"test should show login button on missing session token":function () {
 		// given
 		var controller = this.getController();
 
@@ -55,7 +55,7 @@ TestCase("UserTest", {
 		assertTrue(controller.components.logoutButton.isHidden());
 	},
 
-	"test_should_show_logout_button_on_valid_session_token":function () {
+	"test should show logout button on valid session token":function () {
 		// given
 		var controller = this.getController();
 
@@ -69,7 +69,7 @@ TestCase("UserTest", {
 		assertFalse(controller.components.logoutButton.isHidden());
 	},
 
-	"test_should_show_login_window_when_click_on_login_button":function () {
+	"test should show login window when click on login button":function () {
 		// given
 		var controller = this.getController();
 		var button = controller.components.loginButton;
@@ -81,7 +81,7 @@ TestCase("UserTest", {
 
 	},
 
-	"test_should_show_register_window_when_click_on_register_button":function () {
+	"test should show register window when click on register button":function () {
 		// given
 		var controller = this.getController();
 		var button = controller.components.registerButton;
@@ -92,7 +92,7 @@ TestCase("UserTest", {
 		assertFalse(controller.components.registerWindow.isHidden());
 	},
 
-	"test_should_show_user_panel_on_successful_login":function () {
+	"test should show user panel on successful login":function () {
 		// given
 		var controller = this.getController();
 		var loginWindow = controller.components.loginWindow;
@@ -104,7 +104,7 @@ TestCase("UserTest", {
 		assertFalse(controller.components.userPanel.isHidden());
 	},
 
-	"test_should_show_and_hide_components_on_logout":function () {
+	"test should show and hide components on logout":function () {
 		// given
 		var controller = this.getController();
 		controller.components.loginWindow.fireEvent('loginSuccess', { token:'dummy'});
@@ -120,7 +120,7 @@ TestCase("UserTest", {
 
 	},
 
-	"test_should_show_and_hide_components_on_registration":function () {
+	"test should show and hide components on registration":function () {
 		// given
 		var controller = this.getController();
 		var registerWindow = controller.components.registerWindow;
@@ -133,7 +133,7 @@ TestCase("UserTest", {
 
 	},
 
-	"test_should_show_profile_window_on_click_on_gears_button":function () {
+	"test should show profile window on click on gears button":function () {
 		// given
 		var controller = this.getController();
 		var button = controller.components.settingsButton;
@@ -146,7 +146,7 @@ TestCase("UserTest", {
 		assertFalse(profileWin.isHidden());
 	},
 
-	"test_game_import_menu_item_should_be_initial_disabled":function () {
+	"test game import menu item should be initial disabled":function () {
 		// given
 		var controller = this.getController();
 		// when
@@ -156,7 +156,7 @@ TestCase("UserTest", {
 
 	},
 
-	"test_should_enable_import_game_button_on_sufficient_access":function () {
+	"test should enable import game button on sufficient access":function () {
 		// given
 		var controller = this.getController();
 		var menuItem = controller.components.menuItemGameImport
@@ -167,7 +167,7 @@ TestCase("UserTest", {
 		assertFalse(menuItem.isDisabled());
 	},
 
-	"test_should_enable_import_game_button_on_login":function () {
+	"test should enable import game button on login":function () {
 		// given
 		var controller = this.getController();
 		var menuItem = controller.components.menuItemGameImport;
@@ -181,7 +181,7 @@ TestCase("UserTest", {
 		assertFalse(menuItem.isDisabled());
 	},
 
-	"test_should_disable_import_game_button_on_logout":function () {
+	"test should disable import game button on logout":function () {
 		// given
 		var controller = this.getController();
 		var menuItem = controller.components.menuItemGameImport;
