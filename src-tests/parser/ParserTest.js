@@ -1383,6 +1383,17 @@ TestCase("ParserTest", {
 
 	},
 
+    "test should get mobility": function(){
+        // given
+        var parser = this.getParser();
+
+        // when
+        var mobility = parser.getMobility();
+
+        // then
+        assertEquals(0.5, mobility);
+    },
+
 	"test should find from file ny notation":function () {
 		// given
 		var parser = this.getParser();

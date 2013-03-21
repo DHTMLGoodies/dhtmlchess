@@ -1,4 +1,4 @@
-/* Generated Sat Mar 2 20:46:09 CET 2013 */
+/* Generated Thu Mar 21 17:10:10 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -343,8 +343,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
 div.ludo-content-child-of-fullscreen {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 
 .ludo-view-container {
@@ -1206,9 +1206,39 @@ input.ludo-form-el-invalid{
     font-family: arial, sans-serif;
     font-size: 12px;
     font-weight:bold;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 div.ludo-menu-menu label{
    font-size:11px;
+}
+
+.ludo-form-text-element input, .ludo-form-text-element textarea{
+    border:0;
+    padding:0;
+    outline: none;
+}
+.ludo-form-element select{
+    border:1px solid #ccc;
+}
+.ludo-form-text-element{
+    border:1px solid #ccc;
+    background-color:#FFF;
+    padding:1px;
+}
+
+.input-row .input-cell{
+    margin-top:1px;
+    margin-bottom:1px;
+    padding-top:1px;
+    padding-bottom:1px;
+}
+.input-row textarea{
+    overflow-y: auto;
 }/* ../ludojs/css-source/menu/menu.css */
 .ludo-menu {
     font-family: arial !important;

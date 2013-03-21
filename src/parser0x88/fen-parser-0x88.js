@@ -1492,5 +1492,25 @@ chess.parser.FenParser0x88 = new Class({
 		}
 
 		return [fen, this.getColorCode(), this.getCastle(), this.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
-	}
+	},
+
+    /**
+     * Return relative mobility of white compared to white. 0.5 is equal mobility
+     * @method getMobility
+     * @return {Number}
+     */
+    getMobility:function(){
+        var mw = this.getCountValidMoves('white');
+        var mb = this.getCountValidMoves('black');
+        return mw / (mw + mb);
+    },
+
+    getCountValidMoves:function(color){
+        var c = 0;
+        var moves = this.getValidMovesAndResult(color).moves;
+        for(var key in moves){
+            c+= moves[key].length;
+        }
+        return c;
+    }
 });
