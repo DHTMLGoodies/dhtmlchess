@@ -787,7 +787,6 @@ chess.parser.FenParser0x88 = new Class({
 
 	getCountChecks:function (kingColor, moves) {
 		var king = this.cache['king' + kingColor];
-		// var index = moves.indexOf(Board0x88Config.keySquares[king.s]);
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
