@@ -164,5 +164,10 @@ chess.parser.Move0x88 = new Class({
     isPawnOnSquare : function(square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'pawn';
+    },
+
+    getMobility:function(fen){
+        this.parser.setFen(fen);
+        return this.parser.getMobility();
     }
 });

@@ -49,7 +49,6 @@ chess.controller.Controller = new Class({
             return;
         }
         this.views[view.submodule] = view;
-		if(!view.submodule)console.log(view);
         switch (view.submodule) {
             case window.chess.Views.buttonbar.game:
                 view.addEvent('play', this.playMoves.bind(this));

@@ -1605,6 +1605,10 @@ chess.model.Game = new Class({
 			this.model.id = data.id;
 		}
         this.fire('gameSaved', this.model);
-	}
+	},
+
+    getMobility:function(){
+        return this.moveParser.getMobility(this.getCurrentPosition());
+    }
 });
 

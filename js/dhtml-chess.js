@@ -1,4 +1,4 @@
-/* Generated Thu Mar 21 17:10:10 CET 2013 */
+/* Generated Thu Mar 21 21:33:03 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -16963,6 +16963,7 @@ ludo.model.Model = new Class({
         if(updates && updates[this.idField] !== undefined)this.recordId = updates[this.idField];
 		for (var column in updates) {
 			if (updates.hasOwnProperty(column)) {
+                // TODO this fires a lot of update events. refactor to fire only one
 				this._setRecordValue(column, updates[column]);
 			}
 		}
@@ -29912,7 +29913,7 @@ chess.parser.FenParser0x88 = new Class({
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
-							if (protectiveMoves.indexOf(Board0x88Config.keySquares[square]) == -1) {
+							if (protectiveMoves.indexOf(square) == -1) {
 								if (this.cache['board'][square]) {
 									if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
 										paths.push(square);
@@ -29923,10 +29924,10 @@ chess.parser.FenParser0x88 = new Class({
 							}
 						}
 					}
-					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 1]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s + 2]) == -1) {
+					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
 						paths.push(piece.s + 2);
 					}
-					if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s - 1]) == -1 && protectiveMoves.indexOf(Board0x88Config.keySquares[piece.s - 2]) == -1) {
+					if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
 						paths.push(piece.s - 2);
 					}
 					break;
@@ -29959,7 +29960,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	/* This method returns a comma separated string of moves since it's faster to work with than arrays*/
 	getCaptureAndProtectiveMoves:function (color) {
-		var ret = [''], directions, square, a;
+		var ret = [], directions, square, a;
 
 		var pieces = this.cache[color];
 		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
@@ -30022,6 +30023,7 @@ chess.parser.FenParser0x88 = new Class({
 			}
 
 		}
+        return ret;
         ret.push('');
         return ret.join(',');
 	},
@@ -30262,9 +30264,10 @@ chess.parser.FenParser0x88 = new Class({
 
 	getCountChecks:function (kingColor, moves) {
 		var king = this.cache['king' + kingColor];
-		var index = moves.indexOf(Board0x88Config.keySquares[king.s]);
-		if (index > 0) {
-			if (moves.indexOf(Board0x88Config.keySquares[king.s], index + 3) >= 0) {
+		// var index = moves.indexOf(Board0x88Config.keySquares[king.s]);
+        var index = moves.indexOf(king.s);
+		if (index >= 0) {
+			if (moves.indexOf(king.s, index+1 ) >= 0) {
 				return 2;
 			}
 			return 1;
@@ -30407,7 +30410,7 @@ chess.parser.FenParser0x88 = new Class({
 	 This method is called from the game model where the fen of the last moves is sent.
 	 */
 	hasThreeFoldRepetition:function (fens) {
-		if (fens === undefined || fens.length === 0)return false;
+		if (!fens || fens.length === 0)return false;
 		var shortenedFens = {};
 		for (var i = 0; i < fens.length; i++) {
 			var fen = this.getTruncatedFenWithColorAndCastle(fens[i]);
@@ -30968,7 +30971,61 @@ chess.parser.FenParser0x88 = new Class({
 		}
 
 		return [fen, this.getColorCode(), this.getCastle(), this.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
-	}
+	},
+
+    /**
+     * Return relative mobility of white compared to white. 0.5 is equal mobility
+     * @method getMobility
+     * @return {Number}
+     */
+    getMobility:function(){
+        var mw = this.getCountValidMoves('white');
+        var mb = this.getCountValidMoves('black');
+        return mw / (mw + mb);
+    },
+
+    getCountValidMoves:function(color){
+        var c = 0;
+        var moves = this.getValidMovesAndResult(color).moves;
+        for(var key in moves){
+            if(moves.hasOwnProperty(key)){
+                c+= moves[key].length;
+            }
+        }
+        return c;
+    },
+
+    /**
+     * Return squares of hanging pieces
+     * @method getHangingPieces
+     * @param {String} color
+     * @return {Array}
+    */
+    getHangingPieces:function(color){
+        var ret = [];
+        var m = this.getValidMovesAndResult(color);
+        var c = this.getCaptureAndProtectiveMoves(color);
+        var king = this.getKing(color);
+        for(var key in m.moves){
+            if(m.moves.hasOwnProperty(key)){
+                if(key != king.s && c.indexOf(parseInt(key)) === -1)ret.push(key);
+            }
+        }
+        return ret;
+    },
+    /**
+     * Return squares of hanging pieces translated from numeric format to board notations, eg. 0 to a1, 1 to b1
+     * @method getHangingSquaresTranslated
+     * @param {String} color
+     * @return {Array}
+     */
+    getHangingSquaresTranslated:function(color){
+        var hanging = this.getHangingPieces(color);
+        for(var i=0;i<hanging.length;i++){
+            hanging[i] = Board0x88Config.numberToSquareMapping[hanging[i]];
+        }
+        return hanging;
+    }
 });/* ../dhtml-chess/src/parser0x88/move-0x88.js */
 /**
  Class for move validation. This class is used by chess.model.Game
@@ -31136,6 +31193,11 @@ chess.parser.Move0x88 = new Class({
     isPawnOnSquare : function(square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'pawn';
+    },
+
+    getMobility:function(fen){
+        this.parser.setFen(fen);
+        return this.parser.getMobility();
     }
 });/* ../dhtml-chess/src/parser0x88/position-validator.js */
 /**
@@ -31234,7 +31296,6 @@ chess.controller.Controller = new Class({
             return;
         }
         this.views[view.submodule] = view;
-		if(!view.submodule)console.log(view);
         switch (view.submodule) {
             case window.chess.Views.buttonbar.game:
                 view.addEvent('play', this.playMoves.bind(this));
@@ -33381,7 +33442,11 @@ chess.model.Game = new Class({
 			this.model.id = data.id;
 		}
         this.fire('gameSaved', this.model);
-	}
+	},
+
+    getMobility:function(){
+        return this.moveParser.getMobility(this.getCurrentPosition());
+    }
 });
 
 /* ../dhtml-chess/src/remote/reader.js */
