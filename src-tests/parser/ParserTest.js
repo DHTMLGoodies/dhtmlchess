@@ -1485,7 +1485,7 @@ TestCase("ParserTest", {
             parser.getValidMovesAndResult('white');
         }
         var ellapsed = new Date().getTime() - start;
-        assertTrue(ellapsed, ellapsed < 100);
+        assertTrue(ellapsed, ellapsed < 500);
     },
 
 
