@@ -1,4 +1,4 @@
-/* Generated Fri Mar 22 17:04:45 CET 2013 */
+/* Generated Fri Mar 22 17:07:22 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -28839,7 +28839,8 @@ chess.view.position.Dialog = new Class({
             label:chess.getPhrase('Move number'),
             width:150,
             type:'form.Number',
-            maxValue:300,
+            minValue:1,
+            maxValue:500,
             required:true,
             value:'1',
             fieldWidth:35,
