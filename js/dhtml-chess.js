@@ -1,4 +1,4 @@
-/* Generated Fri Mar 22 15:48:57 CET 2013 */
+/* Generated Fri Mar 22 17:04:45 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -28614,8 +28614,9 @@ chess.view.position.Piece = new Class({
 
     resizePiece : function() {
         var size = this.getBody().getSize();
+
         size.x -= this.getPadding('x');
-        size.x -= this.getPadding('y');
+        size.y -= this.getPadding('y');
 
         this.els.piece.setStyles({
             width : size.x,
@@ -28626,16 +28627,18 @@ chess.view.position.Piece = new Class({
         width:undefined,height:undefined
     },
     getPadding:function(type){
+
         if(this.piecePadding[type] === undefined){
             var c = this.getBody();
             switch(type){
                 case "x":
-                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
+                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getMBPW(this.els.piece));
                     break;
                 default:
-                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
+                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getMBPH(this.els.piece));
 
             }
+
         }
         return this.piecePadding[type];
     },
@@ -28774,7 +28777,7 @@ chess.view.position.Dialog = new Class({
         this.pieces.white = this.addChild({
             type:'chess.view.position.Pieces',
             layout:{
-                height:400,
+                height:430,
                 width:55,
                 type:'linear',
                 orientation:'vertical',
@@ -30662,6 +30665,15 @@ chess.parser.FenParser0x88 = new Class({
 	getCastle:function () {
 		return this.fenParts['castle'];
 	},
+    /**
+     * Used on comp eval. Valid from and to is assumed
+     * @param {Number} from
+     * @param {Number} to
+     * @param {String} promoteTo
+     */
+    computeMove:function(from, to, promoteTo){
+
+    },
 
 	updateBoardData:function (move) {
         // TODO this should be done faster by not clearing and rebuilding arrays.

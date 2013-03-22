@@ -108,7 +108,7 @@ chess.view.position.Dialog = new Class({
         this.pieces.white = this.addChild({
             type:'chess.view.position.Pieces',
             layout:{
-                height:400,
+                height:430,
                 width:55,
                 type:'linear',
                 orientation:'vertical',

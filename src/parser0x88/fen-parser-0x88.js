@@ -1186,6 +1186,15 @@ chess.parser.FenParser0x88 = new Class({
 	getCastle:function () {
 		return this.fenParts['castle'];
 	},
+    /**
+     * Used on comp eval. Valid from and to is assumed
+     * @param {Number} from
+     * @param {Number} to
+     * @param {String} promoteTo
+     */
+    computeMove:function(from, to, promoteTo){
+
+    },
 
 	updateBoardData:function (move) {
         // TODO this should be done faster by not clearing and rebuilding arrays.

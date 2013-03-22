@@ -93,8 +93,9 @@ chess.view.position.Piece = new Class({
 
     resizePiece : function() {
         var size = this.getBody().getSize();
+
         size.x -= this.getPadding('x');
-        size.x -= this.getPadding('y');
+        size.y -= this.getPadding('y');
 
         this.els.piece.setStyles({
             width : size.x,
@@ -105,16 +106,18 @@ chess.view.position.Piece = new Class({
         width:undefined,height:undefined
     },
     getPadding:function(type){
+
         if(this.piecePadding[type] === undefined){
             var c = this.getBody();
             switch(type){
                 case "x":
-                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getBW(this.els.piece) + ludo.dom.getMW(this.els.piece) + ludo.dom.getPW(this.els.piece));
+                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getMBPW(this.els.piece));
                     break;
                 default:
-                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getBH(this.els.piece) + ludo.dom.getMH(this.els.piece) + ludo.dom.getPH(this.els.piece));
+                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getMBPH(this.els.piece));
 
             }
+
         }
         return this.piecePadding[type];
     },

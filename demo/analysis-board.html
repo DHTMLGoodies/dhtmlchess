@@ -95,7 +95,8 @@
         minHeight:100,
         children:[
             {
-                weight:1,
+                width:400,
+                resizable:true,
                 layout:{ type:'linear', orientation:'vertical' },
                 frame:true,
                 children:[
@@ -129,12 +130,12 @@
                 ]
             },
             {
-                width:250,
+
                 collapsed:false,
                 layout:{ type:'rows' },
                 type:'FramedView',
                 title:'Details',
-                resizable:true,
+                weight:1,
                 collapsible:true,
                 minimizable:false,
                 containerCss:{
