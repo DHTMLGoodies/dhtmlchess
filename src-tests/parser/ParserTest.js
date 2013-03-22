@@ -219,7 +219,7 @@ TestCase("ParserTest", {
             assertTrue(squares[i] + ' is not in path', this.isSquareInPaths(squares[i], moves));
         }
 
-        assertEquals(moves.join(' - ' ), squares.length, moves.length);
+        assertEquals(moves.join(' - '), squares.length, moves.length);
     },
 
     /**
@@ -1474,20 +1474,70 @@ TestCase("ParserTest", {
         assertEquals(['b1', 'e1', 'e5'], hanging);
     },
 
-    "test should perform well" : function(){
+    "test should perform well":function () {
         // given
         var fen = 'rnb1r1k1/ppp2ppp/8/4N3/2Pq4/P3p3/4B1PP/1RB1Q1KR b - - 1 17';
         var parser = new chess.parser.FenParser0x88(fen);
 
         var start = new Date().getTime();
-        var count = 10000;
-        for(var i=0;i<count;i++){
+        var count = 5000;
+        for (var i = 0; i < count; i++) {
             parser.getValidMovesAndResult('white');
         }
         var ellapsed = new Date().getTime() - start;
-        assertTrue(ellapsed, ellapsed < 500);
+        assertTrue(ellapsed, ellapsed < 250);
     },
 
+    "test should perform well when making moves":function () {
+
+        var start = new Date().getTime();
+
+        for (var i = 0; i < 1000; i++) {
+            var parser = this.getParser();
+
+            parser.move({ from:'e2', to:'e4'});
+            parser.move({ from:'e7', to:'e5'});
+            parser.move({ from:'g1', to:'f3'});
+            parser.move({ from:'g8', to:'f6'});
+            parser.move({ from:'f1', to:'c4'});
+            parser.move({ from:'f8', to:'c5'});
+            parser.move({ from:'e1', to:'g1'});
+            parser.move({ from:'e8', to:'g8'});
+            parser.move({ from:'c2', to:'c3'});
+            parser.move({ from:'h7', to:'h6'});
+            parser.move({ from:'d2', to:'d4'});
+            parser.move({ from:'e5', to:'d4'});
+            parser.move({ from:'c3', to:'d4'});
+            parser.move({ from:'c5', to:'b4'});
+            parser.move({ from:'a2', to:'a3'});
+            parser.move({ from:'b4', to:'a5'});
+            parser.move({ from:'b2', to:'b4'});
+            parser.move({ from:'a5', to:'b6'});
+            parser.move({ from:'f1', to:'e1'});
+
+
+        }
+        var ellapsed = new Date().getTime() - start;
+
+        assertTrue(ellapsed, ellapsed < 1000);
+        // then
+        var expectedFen = 'rnbq1rk1/pppp1pp1/1b3n1p/8/1PBPP3/P4N2/5PPP/RNBQR1K1 b - - 2 10';
+        var fen = parser.getFen();
+        assertEquals(expectedFen, fen);
+    },
+
+    "test should find material advantage":function () {
+        // given
+        var fen = 'r3r1k1/ppp2ppp/2n5/3R1b2/2P5/P3p3/6PP/Bq1BQ1KR w - - 10 23'; // minus 3
+        var parser = new chess.parser.FenParser0x88(fen);
+
+        // when
+        var advantage = parser.getMaterialScore();
+
+        // then
+        assertEquals(-3, advantage);
+
+    },
 
     getFenFromSpasskyFischer:function () {
         var parser = this.getParser();

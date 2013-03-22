@@ -547,8 +547,6 @@ chess.parser.FenParser0x88 = new Class({
 
 		}
         return ret;
-        ret.push('');
-        return ret.join(',');
 	},
 
 	/**
@@ -1190,6 +1188,7 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	updateBoardData:function (move) {
+        // TODO this should be done faster by not clearing and rebuilding arrays.
 		move = {
 			from:Board0x88Config.mapping[move.from],
 			to:Board0x88Config.mapping[move.to],
@@ -1313,7 +1312,6 @@ chess.parser.FenParser0x88 = new Class({
 					s:i
 				};
 				this.cache[color].push(obj);
-
 				if (piece == 0x03 || piece == 0x0B) {
 					this.cache['king' + color] = obj;
 				}
@@ -1451,7 +1449,6 @@ chess.parser.FenParser0x88 = new Class({
 					ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
 				}
 				break;
-
 		}
 		return ret;
 	},
@@ -1547,5 +1544,18 @@ chess.parser.FenParser0x88 = new Class({
             hanging[i] = Board0x88Config.numberToSquareMapping[hanging[i]];
         }
         return hanging;
+    },
+
+    getMaterialScore:function(){
+        return this.getValueOfPieces('white') - this.getValueOfPieces('black');
+    },
+
+    getValueOfPieces:function(color){
+        var ret = 0;
+        var pieces = this.getPiecesOfAColor(color);
+        for(var i=0;i<pieces.length;i++){
+            ret += Board0x88Config.pieceValues[pieces[i].t];
+        }
+        return ret;
     }
 });

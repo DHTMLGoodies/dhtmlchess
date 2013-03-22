@@ -1,4 +1,4 @@
-/* Generated Thu Mar 21 21:33:03 CET 2013 */
+/* Generated Fri Mar 22 15:48:57 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -11799,18 +11799,17 @@ ludo.grid.ColumnMove = new Class({
 	},
 
 	setZIndex:function(shim){
-		shim.setStyle('z-index', 50000);
+		shim.style.zIndex = 50000;
 	},
 
 	getMarker:function () {
 		if (this.insertionMarker === undefined) {
-			var el = this.insertionMarker = new Element('div');
-			ludo.dom.addClass(el, 'ludo-grid-movable-insertion-marker');
-			el.setStyle('display', 'none');
-			document.body.adopt(el);
-			var b = new Element('div');
-			ludo.dom.addClass(b, 'ludo-grid-movable-insertion-marker-bottom');
-			el.adopt(b);
+            this.insertionMarker = ludo.dom.create({
+                cls : 'ludo-grid-movable-insertion-marker',
+                css : { display: 'none' },
+                renderTo : document.body
+            });
+            ludo.dom.create({ cls : 'ludo-grid-movable-insertion-marker-bottom', renderTo : this.insertionMarker});
 		}
 		return this.insertionMarker;
 	},
@@ -11821,21 +11820,20 @@ ludo.grid.ColumnMove = new Class({
 
 	showMarkerAt:function(cell, pos){
 		var coordinates = cell.getCoordinates();
-		this.getMarker().setStyle('display','');
-		this.getMarker().setStyles({
-			left : coordinates.left  + (pos=='after' ? coordinates.width : 0),
-			top : coordinates.top - this.getArrowHeight(),
-			height: coordinates.height
-		});
+        var s = this.getMarker().style;
+        s.display='';
+        s.left = (coordinates.left + (pos=='after' ? coordinates.width : 0)) + 'px';
+        s.top = (coordinates.top - this.getArrowHeight()) + 'px';
+        s.height = coordinates.height + 'px';
 	},
 
 	setMarkerHeight:function(height){
-		this.getMarker().setStyle('height', height + (this.getArrowHeight() * 2));
+		this.getMarker().style.height = (height + (this.getArrowHeight() * 2)) + 'px';
 	},
 
 	getArrowHeight:function(){
 		if(!this.arrowHeight){
-			this.arrowHeight = this.getMarker().getElement('.ludo-grid-movable-insertion-marker-bottom').getSize().y;
+			this.arrowHeight = this.getMarker().getElement('.ludo-grid-movable-insertion-marker-bottom').offsetHeight;
 		}
 		return this.arrowHeight;
 	}
@@ -12585,7 +12583,7 @@ ludo.ColResize = new Class({
  @constructor
  @param {Object} config
  @example
- columnManager:{
+    columnManager:{
 		columns:{
 			'country':{
 				heading:'Country',
@@ -12717,17 +12715,18 @@ ludo.grid.ColumnManager = new Class({
 	},
 
 	/**
-	 * Returns object of visible columns, example:
-	 * {
-     country : {
-     heading : 'Country'
-     },
-     population: {
-     heading : 'Population'
-     }
-     }
-	 * @method getVisibleColumns
-	 * @return {Object} visible columns
+	 Returns object of visible columns, example:
+	 @method getVisibleColumns
+	 @return {Object} visible columns
+     @example
+        {
+            country : {
+                heading : 'Country'
+            },
+            population: {
+                heading : 'Population'
+            }
+        }
 	 */
 	getVisibleColumns:function () {
 		var ret = {};
@@ -12821,8 +12820,7 @@ ludo.grid.ColumnManager = new Class({
 	 */
 	getGroupFor:function (column) {
 		var id = this.getGroupIdOf(column);
-		if (id)return this.columnLookup[id];
-		return undefined;
+        return id ? this.columnLookup[id] : undefined;
 	},
 
 	getChildCount:function (groupId) {
@@ -13182,8 +13180,8 @@ ludo.grid.ColumnManager = new Class({
 	getColumnsInRow:function (rowNumber) {
 		var ret = [];
 		for(var i=0;i<this.columnKeys.length;i++){
-			var col = this.columnKeys[i];
 			if(!this.isHidden(this.columnKeys[i])){
+                var col = this.columnKeys[i];
 				var startRow = this.getStartRowOf(col);
 				if(startRow <= rowNumber && !this.isGroup(col)){
 					ret.push(col);
@@ -13200,11 +13198,7 @@ ludo.grid.ColumnManager = new Class({
 
 	getRowSpanOf:function(column){
 		var countRows = this.getCountRows();
-		if(!this.isGroup(column)){
-			return countRows - this.getStartRowOf(column);
-		}else{
-			return countRows - this.getStartRowOf(column) - this.getChildDepthOf(column);
-		}
+        return countRows - this.getStartRowOf(column) - (this.isGroup(column) ? this.getChildDepthOf(column) : 0);
 	},
 
 	columnDepthCache:{},
@@ -14646,7 +14640,6 @@ ludo.form.Element = new Class({
 
         this.elementId = 'el-' + this.id;
         this.formCss = defaultConfig.formCss || this.formCss;
-
         if (defaultConfig.height && config.height === undefined)this.height = defaultConfig.height;
 
         if (this.validator) {
@@ -14704,7 +14697,6 @@ ludo.form.Element = new Class({
             formEl.addEvent('change', this.change.bind(this));
             formEl.addEvent('blur', this.blur.bind(this));
         }
-
     },
 
     ludoRendered:function () {
@@ -14754,7 +14746,7 @@ ludo.form.Element = new Class({
 
     ludoCSS:function () {
         this.parent();
-        this.getEl().addClass('ludo-form-element');
+        ludo.dom.addClass(this.getEl(), 'ludo-form-element');
         if (this.els.formEl) {
             if (this.fieldWidth) {
                 this.els.formEl.style.width = (this.fieldWidth - ludo.dom.getPW(this.els.formEl) - ludo.dom.getBW(this.els.formEl)) + 'px';
@@ -14842,8 +14834,7 @@ ludo.form.Element = new Class({
     blur:function () {
         this._focus = false;
         this.validate();
-
-        if (this.getFormEl())this.value = this.getFormEl().value;
+        if (this.getFormEl())this.value = this.getFormEl().get('value');
         this.toggleDirtyFlag();
         /**
          * On blur event
@@ -14964,7 +14955,7 @@ ludo.form.Element = new Class({
     },
 
     clearInvalid:function () {
-        this.getEl().removeClass('ludo-form-el-invalid');
+        ludo.dom.removeClass(this.getEl(), 'ludo-form-el-invalid');
     },
 
     wasValid:true,
@@ -15061,9 +15052,8 @@ ludo.form.Element = new Class({
 
     updateLinked:function () {
         var cmp = ludo.get(this.linkWith);
-        var val = this.value;
-        if (cmp.value !== val) {
-            cmp.setValue(val);
+        if (cmp.value !== this.value) {
+            cmp.setValue(this.value);
         }
     },
 
@@ -27157,8 +27147,6 @@ chess.view.button.TacticHint = new Class({
     showHint : function() {
         this.fireEvent('showHint')
     }
-
-
 });/* ../dhtml-chess/src/view/button/tactic-solution.js */
 /**
  * Special button used to show the solution, i.e. next move in a puzzle
@@ -29265,32 +29253,32 @@ Board0x88Config = {
     ],
 
     fenSquaresNumeric:[
-        112,113,114,115,116,117,118,119,
-        96,97,98,99,100,101,102,103,
-        80,81,82,83,84,85,86,87,
-        64,65,66,67,68,69,70,71,
-        48,49,50,51,52,53,54,55,
-        32,33,34,35,36,37,38,39,
-        16,17,18,19,20,21,22,23,
-        0,1,2,3,4,5,6,7
+        112, 113, 114, 115, 116, 117, 118, 119,
+        96, 97, 98, 99, 100, 101, 102, 103,
+        80, 81, 82, 83, 84, 85, 86, 87,
+        64, 65, 66, 67, 68, 69, 70, 71,
+        48, 49, 50, 51, 52, 53, 54, 55,
+        32, 33, 34, 35, 36, 37, 38, 39,
+        16, 17, 18, 19, 20, 21, 22, 23,
+        0, 1, 2, 3, 4, 5, 6, 7
     ],
 
-    fenNotations : {
-        white : {
-            'pawn' : 'P',
-            'knight' : 'N',
-            'bishop' : 'B',
-            'rook' : 'R',
-            'queen' : 'Q',
-            'king' : 'K'
+    fenNotations:{
+        white:{
+            'pawn':'P',
+            'knight':'N',
+            'bishop':'B',
+            'rook':'R',
+            'queen':'Q',
+            'king':'K'
         },
-        black : {
-            'pawn' : 'p',
-            'knight' : 'n',
-            'bishop' : 'b',
-            'rook' : 'r',
-            'queen' : 'q',
-            'king' : 'k'
+        black:{
+            'pawn':'p',
+            'knight':'n',
+            'bishop':'b',
+            'rook':'r',
+            'queen':'q',
+            'king':'k'
         }
     },
 
@@ -29335,9 +29323,6 @@ Board0x88Config = {
         '48':96, '49':97, '50':98, '51':99, '52':100, '53':101, '54':102, '55':103,
         '56':112, '57':113, '58':114, '59':115, '60':116, '61':117, '62':118, '63':119
     },
-    keySquares:[',0,', ',1,', ',2,', ',3,', ',4,', ',5,', ',6,', ',7,', ',8,', ',9,', ',10,', ',11,', ',12,', ',13,', ',14,', ',15,',
-        ',16,', ',17,', ',18,', ',19,', ',20,', ',21,', ',22,', ',23,', ',24,', ',25,', ',26,', ',27,', ',28,', ',29,', ',30,', ',31,', ',32,', ',33,', ',34,', ',35,', ',36,', ',37,', ',38,', ',39,', ',40,', ',41,', ',42,', ',43,', ',44,', ',45,', ',46,', ',47,', ',48,', ',49,', ',50,', ',51,', ',52,', ',53,', ',54,', ',55,', ',56,', ',57,', ',58,', ',59,', ',60,', ',61,', ',62,', ',63,', ',64,', ',65,', ',66,', ',67,', ',68,', ',69,', ',70,', ',71,', ',72,', ',73,', ',74,', ',75,', ',76,', ',77,', ',78,', ',79,', ',80,', ',81,', ',82,', ',83,', ',84,', ',85,', ',86,', ',87,', ',88,', ',89,', ',90,', ',91,', ',92,', ',93,', ',94,', ',95,', ',96,', ',97,', ',98,', ',99,', ',100,', ',101,', ',102,', ',103,', ',104,', ',105,', ',106,', ',107,', ',108,', ',109,', ',110,', ',111,', ',112,', ',113,', ',114,', ',115,', ',116,', ',117,', ',118,', ',119,'
-    ],
     pieces:{
         'P':0x01,
         'N':0x02,
@@ -29367,11 +29352,26 @@ Board0x88Config = {
         0x0F:'q'
     },
 
-    pieceAbbr: {
-        'Q' : 'queen',
-        'R' : 'rook',
-        'N' : 'knight',
-        'B' : 'bishop'
+    pieceValues:{
+        0x01:1,
+        0x02:3,
+        0x03:100,
+        0x05:3,
+        0x06:5,
+        0x07:9,
+        0x09:1,
+        0x0A:3,
+        0x0B:100,
+        0x0D:3,
+        0x0E:5,
+        0x0F:9
+    },
+
+    pieceAbbr:{
+        'Q':'queen',
+        'R':'rook',
+        'N':'knight',
+        'B':'bishop'
     },
     typeMapping:{
         0x01:'pawn',
@@ -29388,7 +29388,7 @@ Board0x88Config = {
         0x0F:'queen'
     },
 
-    notationMapping : {
+    notationMapping:{
         0x01:'',
         0x02:'N',
         0x03:'K',
@@ -29402,15 +29402,14 @@ Board0x88Config = {
         0x0E:'R',
         0x0F:'Q'
     },
-    
-    typeToNumberMapping : {
+
+    typeToNumberMapping:{
         'pawn':0x01,
         'knight':0x02,
         'king':0x03,
         'bishop':0x05,
         'rook':0x06,
         'queen':0x07
-
     },
 
     colorMapping:{
@@ -29444,36 +29443,36 @@ Board0x88Config = {
         0X0B:[-17, -16, -15, -1, 1, 15, 16, 17]
     },
 
-    distances:{'241': 1,'242': 2,'243': 3,'244': 4,'245': 5,'246': 6,'247': 7,'272': 1,
-        '273': 1,'274': 2,'275': 3,'276': 4,'277': 5,'278': 6,'279': 7,'304': 2,'305': 2,
-        '306': 2,'307': 3,'308': 4,'309': 5,'310': 6,'311': 7,'336': 3,'337': 3,'338': 3,
-        '339': 3,'340': 4,'341': 5,'342': 6,'343': 7,'368': 4,'369': 4,'370': 4,'371': 4,
-        '372': 4,'373': 5,'374': 6,'375': 7,'400': 5,'401': 5,'402': 5,'403': 5,'404': 5,
-        '405': 5,'406': 6,'407': 7,'432': 6,'433': 6,'434': 6,'435': 6,'436': 6,'437': 6,
-        '438': 6,'439': 7,'464': 7,'465': 7,'466': 7,'467': 7,'468': 7,'469': 7,'470': 7,
-        '471': 7,'239': 1,'271': 1,'303': 2,'335': 3,'367': 4,'399': 5,'431': 6,'463': 7,
-        '238': 2,'270': 2,'302': 2,'334': 3,'366': 4,'398': 5,'430': 6,'462': 7,'237': 3,
-        '269': 3,'301': 3,'333': 3,'365': 4,'397': 5,'429': 6,'461': 7,'236': 4,'268': 4,
-        '300': 4,'332': 4,'364': 4,'396': 5,'428': 6,'460': 7,'235': 5,'267': 5,'299': 5,
-        '331': 5,'363': 5,'395': 5,'427': 6,'459': 7,'234': 6,'266': 6,'298': 6,'330': 6,
-        '362': 6,'394': 6,'426': 6,'458': 7,'233': 7,'265': 7,'297': 7,'329': 7,'361': 7,
-        '393': 7,'425': 7,'457': 7,'208': 1,'209': 1,'210': 2,'211': 3,'212': 4,'213': 5,
-        '214': 6,'215': 7,'207': 1,'206': 2,'205': 3,'204': 4,'203': 5,'202': 6,'201': 7,
-        '176': 2,'177': 2,'178': 2,'179': 3,'180': 4,'181': 5,'182': 6,'183': 7,'175': 2,
-        '174': 2,'173': 3,'172': 4,'171': 5,'170': 6,'169': 7,'144': 3,'145': 3,'146': 3,
-        '147': 3,'148': 4,'149': 5,'150': 6,'151': 7,'143': 3,'142': 3,'141': 3,'140': 4,
-        '139': 5,'138': 6,'137': 7,'112': 4,'113': 4,'114': 4,'115': 4,'116': 4,'117': 5,
-        '118': 6,'119': 7,'111': 4,'110': 4,'109': 4,'108': 4,'107': 5,'106': 6,'105': 7,
-        '80': 5,'81': 5,'82': 5,'83': 5,'84': 5,'85': 5,'86': 6,'87': 7,'79': 5,'78': 5,
-        '77': 5,'76': 5,'75': 5,'74': 6,'73': 7,'48': 6,'49': 6,'50': 6,'51': 6,'52': 6,
-        '53': 6,'54': 6,'55': 7,'47': 6,'46': 6,'45': 6,'44': 6,'43': 6,'42': 6,'41': 7,
-        '16': 7,'17': 7,'18': 7,'19': 7,'20': 7,'21': 7,'22': 7,'23': 7,'15': 7,'14': 7,
-        '13': 7,'12': 7,'11': 7,'10': 7,'9': 7
+    distances:{'241':1, '242':2, '243':3, '244':4, '245':5, '246':6, '247':7, '272':1,
+        '273':1, '274':2, '275':3, '276':4, '277':5, '278':6, '279':7, '304':2, '305':2,
+        '306':2, '307':3, '308':4, '309':5, '310':6, '311':7, '336':3, '337':3, '338':3,
+        '339':3, '340':4, '341':5, '342':6, '343':7, '368':4, '369':4, '370':4, '371':4,
+        '372':4, '373':5, '374':6, '375':7, '400':5, '401':5, '402':5, '403':5, '404':5,
+        '405':5, '406':6, '407':7, '432':6, '433':6, '434':6, '435':6, '436':6, '437':6,
+        '438':6, '439':7, '464':7, '465':7, '466':7, '467':7, '468':7, '469':7, '470':7,
+        '471':7, '239':1, '271':1, '303':2, '335':3, '367':4, '399':5, '431':6, '463':7,
+        '238':2, '270':2, '302':2, '334':3, '366':4, '398':5, '430':6, '462':7, '237':3,
+        '269':3, '301':3, '333':3, '365':4, '397':5, '429':6, '461':7, '236':4, '268':4,
+        '300':4, '332':4, '364':4, '396':5, '428':6, '460':7, '235':5, '267':5, '299':5,
+        '331':5, '363':5, '395':5, '427':6, '459':7, '234':6, '266':6, '298':6, '330':6,
+        '362':6, '394':6, '426':6, '458':7, '233':7, '265':7, '297':7, '329':7, '361':7,
+        '393':7, '425':7, '457':7, '208':1, '209':1, '210':2, '211':3, '212':4, '213':5,
+        '214':6, '215':7, '207':1, '206':2, '205':3, '204':4, '203':5, '202':6, '201':7,
+        '176':2, '177':2, '178':2, '179':3, '180':4, '181':5, '182':6, '183':7, '175':2,
+        '174':2, '173':3, '172':4, '171':5, '170':6, '169':7, '144':3, '145':3, '146':3,
+        '147':3, '148':4, '149':5, '150':6, '151':7, '143':3, '142':3, '141':3, '140':4,
+        '139':5, '138':6, '137':7, '112':4, '113':4, '114':4, '115':4, '116':4, '117':5,
+        '118':6, '119':7, '111':4, '110':4, '109':4, '108':4, '107':5, '106':6, '105':7,
+        '80':5, '81':5, '82':5, '83':5, '84':5, '85':5, '86':6, '87':7, '79':5, '78':5,
+        '77':5, '76':5, '75':5, '74':6, '73':7, '48':6, '49':6, '50':6, '51':6, '52':6,
+        '53':6, '54':6, '55':7, '47':6, '46':6, '45':6, '44':6, '43':6, '42':6, '41':7,
+        '16':7, '17':7, '18':7, '19':7, '20':7, '21':7, '22':7, '23':7, '15':7, '14':7,
+        '13':7, '12':7, '11':7, '10':7, '9':7
     },
 
-    fileMapping : ['a','b','c','d','e','f','g','h'],
-    rankMapping : { 0 : 1, 16 : 2,  32 : 3,  48 : 4,  64 : 5,  80 : 6,  96 : 7,  112 : 8},
-    files : { 'a' : 0,'b':1,'c':2, 'd' : 3,'e' : 4, 'f' : 5,'g':6, 'h' : 7}
+    fileMapping:['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+    rankMapping:{ 0:1, 16:2, 32:3, 48:4, 64:5, 80:6, 96:7, 112:8},
+    files:{ 'a':0, 'b':1, 'c':2, 'd':3, 'e':4, 'f':5, 'g':6, 'h':7}
 };/* ../dhtml-chess/src/parser0x88/fen-parser-0x88.js */
 /**
  Chess position parser
@@ -30024,8 +30023,6 @@ chess.parser.FenParser0x88 = new Class({
 
 		}
         return ret;
-        ret.push('');
-        return ret.join(',');
 	},
 
 	/**
@@ -30264,7 +30261,6 @@ chess.parser.FenParser0x88 = new Class({
 
 	getCountChecks:function (kingColor, moves) {
 		var king = this.cache['king' + kingColor];
-		// var index = moves.indexOf(Board0x88Config.keySquares[king.s]);
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
@@ -30668,6 +30664,7 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	updateBoardData:function (move) {
+        // TODO this should be done faster by not clearing and rebuilding arrays.
 		move = {
 			from:Board0x88Config.mapping[move.from],
 			to:Board0x88Config.mapping[move.to],
@@ -30791,7 +30788,6 @@ chess.parser.FenParser0x88 = new Class({
 					s:i
 				};
 				this.cache[color].push(obj);
-
 				if (piece == 0x03 || piece == 0x0B) {
 					this.cache['king' + color] = obj;
 				}
@@ -30929,7 +30925,6 @@ chess.parser.FenParser0x88 = new Class({
 					ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
 				}
 				break;
-
 		}
 		return ret;
 	},
@@ -31025,6 +31020,19 @@ chess.parser.FenParser0x88 = new Class({
             hanging[i] = Board0x88Config.numberToSquareMapping[hanging[i]];
         }
         return hanging;
+    },
+
+    getMaterialScore:function(){
+        return this.getValueOfPieces('white') - this.getValueOfPieces('black');
+    },
+
+    getValueOfPieces:function(color){
+        var ret = 0;
+        var pieces = this.getPiecesOfAColor(color);
+        for(var i=0;i<pieces.length;i++){
+            ret += Board0x88Config.pieceValues[pieces[i].t];
+        }
+        return ret;
     }
 });/* ../dhtml-chess/src/parser0x88/move-0x88.js */
 /**

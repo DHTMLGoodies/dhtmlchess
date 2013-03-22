@@ -20,6 +20,4 @@ chess.view.button.TacticHint = new Class({
     showHint : function() {
         this.fireEvent('showHint')
     }
-
-
 });

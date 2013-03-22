@@ -150,7 +150,7 @@ TestCase("UserTest", {
 		// given
 		var controller = this.getController();
 		// when
-		var menuItem = controller.components.menuItemGameImport
+		var menuItem = controller.components.menuItemGameImport;
 		// then
 		assertTrue(menuItem.isDisabled());
 
@@ -159,7 +159,7 @@ TestCase("UserTest", {
 	"test should enable import game button on sufficient access":function () {
 		// given
 		var controller = this.getController();
-		var menuItem = controller.components.menuItemGameImport
+		var menuItem = controller.components.menuItemGameImport;
 		// when
 		controller.fireEvent('userAccess', window.chess.UserRoles.GAME_IMPORT + window.chess.UserRoles.EDIT_FOLDERS);
 
@@ -195,17 +195,5 @@ TestCase("UserTest", {
 
 		// then
 		assertTrue(menuItem.isDisabled());
-	},
-
-	"getControllerWithCustomGetSessionTokenMethod":function () {
-		var c = new Class({
-			Extends:chess.controller.UserController,
-			hasValidSession:function () {
-				return false
-			}
-		});
-		return new c({});
 	}
-
-
 });
