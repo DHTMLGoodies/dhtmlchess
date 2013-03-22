@@ -25,12 +25,7 @@ chess.view.highlight.ArrowBase = new Class({
 
 		this.view.addEvent('flip', this.flip.bind(this));
 
-		if (this.shouldUseTouchEvents()) {
-			this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-		} else {
-			this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-		}
-
+        this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 	},
 
 	initDragPiece:function (e) {
@@ -42,14 +37,11 @@ chess.view.highlight.ArrowBase = new Class({
 			};
 
 			var ss = this.view.getSquareSize();
-			var modX = (coords.x % ss);
-			var modY = (coords.y % ss);
 
-			coords.y -= (modY);
-			coords.x -= (modX);
+            coords.x -= (coords.x % ss);
+            coords.y -= (coords.y % ss);
 
-			var square = this.view.getSquareByCoordinates(coords.x, coords.y);
-			square = Board0x88Config.numberToSquareMapping[square];
+			var square = Board0x88Config.numberToSquareMapping[this.view.getSquareByCoordinates(coords.x, coords.y)];
 			var piece = this.view.getPieceOnSquare(square);
 
 			if (piece) {

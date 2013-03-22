@@ -1,4 +1,4 @@
-/* Generated Fri Mar 22 17:07:22 CET 2013 */
+/* Generated Fri Mar 22 19:25:56 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -766,7 +766,7 @@ ludo.Core = new Class({
 	},
 
 	ludoConfig:function(config){
-        var keys = ['url','name','controller','module','submodule','stateful','id'];
+        var keys = ['url','name','controller','module','submodule','stateful','id','useController'];
         this.setConfigParams(config, keys);
 
 		if (config.listeners !== undefined)this.addEvents(config.listeners);
@@ -775,7 +775,6 @@ ludo.Core = new Class({
             config = this.appendPropertiesFromStore(config);
             this.addEvent('state', this.saveStatefulProperties.bind(this));
         }
-        if (config.useController !== undefined)this.useController = config.useController;
         if (this.module || this.useController)ludo.controllerManager.registerComponent(this);
 		if(!this.id)this.id = 'ludo-' + String.uniqueID();
 		ludo.CmpMgr.registerComponent(this);
@@ -856,10 +855,7 @@ ludo.Core = new Class({
 	},
 
 	getEventEl:function () {
-		if (Browser['ie']) {
-			return document.id(document.documentElement);
-		}
-		return document.id(window);
+        return Browser['ie'] ? document.id(document.documentElement) : document.id(window);
 	},
 
 	Request:function (requestId, config) {
@@ -881,25 +877,6 @@ ludo.Core = new Class({
 
 	isCacheEnabled:function () {
 		return false
-	},
-
-	shouldUseTouchEvents:function () {
-		return ludo.util.isTabletOrMobile();
-	},
-
-	getDragStartEvent:function () {
-        return ludo.util.isTabletOrMobile() ? 'touchstart' : 'mousedown';
-	},
-
-	getDragMoveEvent:function () {
-        return ludo.util.isTabletOrMobile() ? 'touchmove' : 'mousemove';
-	},
-
-	getDragEndEvent:function () {
-		if (ludo.util.isTabletOrMobile()) {
-			return 'touchend';
-		}
-		return 'mouseup';
 	},
 
 	isConfigObject:function (obj) {
@@ -4417,6 +4394,18 @@ ludo.util = {
             return new Date(dateParts['%Y'], dateParts['%m'], dateParts['%d'], dateParts['%h'], dateParts['%i'], dateParts['%s']);
         }
         return date;
+    },
+
+    getDragStartEvent:function () {
+        return ludo.util.isTabletOrMobile() ? 'touchstart' : 'mousedown';
+    },
+
+    getDragMoveEvent:function () {
+        return ludo.util.isTabletOrMobile() ? 'touchmove' : 'mousemove';
+    },
+
+    getDragEndEvent:function () {
+        return ludo.util.isTabletOrMobile() ? 'touchend' : 'mouseup';
     }
 };/* ../ludojs/src/view/loader.js */
 // TODO rename this class
@@ -7647,8 +7636,8 @@ ludo.effect.Drag = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-		this.getEventEl().addEvent(this.getDragMoveEvent(), this.drag.bind(this));
-		this.getEventEl().addEvent(this.getDragEndEvent(), this.endDrag.bind(this));
+		this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.drag.bind(this));
+		this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
 		if (this.useShim) {
 			this.addEvent('start', this.showShim.bind(this));
 			if(this.autoHideShim)this.addEvent('end', this.hideShim.bind(this));
@@ -7700,7 +7689,7 @@ ludo.effect.Drag = new Class({
 		}
 		handle.id = handle.id || 'ludo-' + String.uniqueID();
 		ludo.dom.addClass(handle, 'ludo-drag');
-		handle.addEvent(this.getDragStartEvent(), this.startDrag.bind(this));
+		handle.addEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
 		handle.setProperty('forId', node.id);
 		this.els[node.id] = Object.merge(node, {
 			el:document.id(el),
@@ -7718,7 +7707,7 @@ ludo.effect.Drag = new Class({
 	remove:function(id){
 		if(this.els[id]!==undefined){
 			var el = document.id(this.els[id].handle);
-			el.removeEvent(this.getDragStartEvent(), this.startDrag.bind(this));
+			el.removeEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
 			this.els[id] = undefined;
 			return true;
 		}
@@ -7971,7 +7960,7 @@ ludo.effect.Drag = new Class({
 			 * @param {effect.Drag} this
 			 */
 			this.fireEvent('drag', [pos, this.els[this.dragProcess.dragged], this]);
-			if (this.shouldUseTouchEvents())return false;
+			if (ludo.util.isTabletOrMobile())return false;
 
 		}
 		return undefined;
@@ -8473,8 +8462,8 @@ ludo.effect.Resize = new Class({
     },
 
     addDragEvents:function () {
-        document.body.addEvent(this.getDragEndEvent(), this.stopResize.bind(this));
-        document.body.addEvent(this.getDragMoveEvent(), this.resize.bind(this));
+        document.body.addEvent(ludo.util.getDragEndEvent(), this.stopResize.bind(this));
+        document.body.addEvent(ludo.util.getDragMoveEvent(), this.resize.bind(this));
     },
 
     /**
@@ -8499,7 +8488,7 @@ ludo.effect.Resize = new Class({
         el.set('html', '<span></span>');
         el.style.cursor = region + '-resize';
         el.setProperty('region', region);
-        el.addEvent(this.getDragStartEvent(), this.startResize.bind(this));
+        el.addEvent(ludo.util.getDragStartEvent(), this.startResize.bind(this));
         this.els.applyTo.adopt(el);
     },
 
@@ -8539,7 +8528,7 @@ ludo.effect.Resize = new Class({
         if (this.useShim) {
             this.showShim();
         }
-        return this.shouldUseTouchEvents() ? false : undefined;
+        return ludo.util.isTabletOrMobile() ? false : undefined;
 
     },
 
@@ -12434,8 +12423,8 @@ ludo.ColResize = new Class({
     },
 
     createEvents:function () {
-        this.getEventEl().addEvent(this.getDragMoveEvent(), this.moveColResizeHandle.bind(this));
-        this.getEventEl().addEvent(this.getDragEndEvent(), this.stopColResize.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.moveColResizeHandle.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopColResize.bind(this));
     },
 
     setPos:function (index, pos) {
@@ -12477,10 +12466,8 @@ ludo.ColResize = new Class({
             display:isVisible ? '' : 'none'
         });
         el.setProperty('col-reference', key);
-        if (this.shouldUseTouchEvents()) {
-            el.addEvent('touchstart', this.startColResize.bind(this));
-        } else {
-            el.addEvent('mousedown', this.startColResize.bind(this));
+        el.addEvent(ludo.util.getDragStartEvent(), this.startColResize.bind(this));
+        if (!ludo.util.isTabletOrMobile()) {
             el.addEvent('mouseenter', this.mouseOverResizeHandle.bind(this));
             el.addEvent('mouseleave', this.mouseOutResizeHandle.bind(this));
         }
@@ -13416,7 +13403,7 @@ ludo.grid.Grid = new Class({
 
 		ludo.dom.addClass(t, 'ludo-grid-data-container');
 		t.setStyles({
-			'overflow':this.shouldUseTouchEvents() ? 'auto' : 'hidden',
+			'overflow':ludo.util.isTabletOrMobile() ? 'auto' : 'hidden',
 			'position':'relative'
 		});
 
@@ -16657,6 +16644,7 @@ ludo.model.Model = new Class({
 		var fn = 'set' + columnName.substr(0, 1).toUpperCase() + columnName.substr(1);
 		this[fn] = function (value) {
 			this._setRecordValue(columnName, value);
+            this.fireEvent('update', this.currentRecord);
 			this.updateViews();
 			return value;
 		}.bind(this)
@@ -16683,8 +16671,8 @@ ludo.model.Model = new Class({
 					this.formComponents[property][i].setValue(value);
 				}
 			}
-			this.fireEvent('change', [value, this]);
-			this.fireEvent('update', this.currentRecord);
+            this.currentRecord[property] = value;
+			this.fireEvent('change', [property, value, this]);
 		}
 	},
 
@@ -16767,28 +16755,10 @@ ludo.model.Model = new Class({
         return this._loadRequest;
     },
 
-	populate:function (recordId, record) {
-        this.fireEvent('beforePopulate', [record, this]);
-		this.recordId = recordId;
-		for (var prop in record) {
-			if (record.hasOwnProperty(prop)) {
-				this._setRecordValue(prop, record[prop]);
-			}
-		}
-		/**
-		 * Event fired when record has been successfully loaded from server
-		 * @event load
-		 * @param {Object} Returned record
-		 * @param {Object} ludo.model
-		 */
-		this.fireEvent('load', [this.currentRecord, this]);
-		this.commitFormFields();
-		this.updateViews();
-	},
-
 	registerProgressBar:function (cmp) {
 		this.progressBar = cmp;
 	},
+    fc:[],
 	/**
 	 * Register ludo.View object. if name of component is the same
 	 * as column name in model, it will add change event to the component and
@@ -16806,7 +16776,7 @@ ludo.model.Model = new Class({
 			}
 			this.formComponents[name].push(formComponent);
 			formComponent.addEvent('valueChange', this.updateByForm.bind(this));
-			formComponent.setValue(this.getRecordProperty(name));
+			formComponent.setValue(this.currentRecord[name]);
 			formComponent.commit();
 		}
 	},
@@ -16989,6 +16959,31 @@ ludo.model.Model = new Class({
 		this.commitFormFields();
 		this.updateViews();
 	},
+
+    populate:function (recordId, record) {
+        this.fireEvent('beforePopulate', [record, this]);
+        this.recordId = recordId;
+        for (var prop in record) {
+            if (record.hasOwnProperty(prop)) {
+                this._setRecordValue(prop, record[prop]);
+            }
+        }
+        /**
+         * Event fired when a record is updated.
+         * @event update
+         * @param {Object} Update record
+         */
+        this.fireEvent('update', this.currentRecord);
+        /**
+         * Event fired when record has been successfully loaded from server
+         * @event load
+         * @param {Object} Returned record
+         * @param {Object} ludo.model
+         */
+        this.fireEvent('load', [this.currentRecord, this]);
+        this.commitFormFields();
+        this.updateViews();
+    },
 
 	fill:function (data) {
 		for (var key in data) {
@@ -18503,6 +18498,7 @@ ludo.remote.JSON = new Class({
         var req = new Request.JSON({
             url:this.getUrl(service, resourceArguments),
             method:this.method,
+            noCache:true,
             data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
             onSuccess:function (json) {
                 this.JSON = json;
@@ -24579,13 +24575,9 @@ chess.view.board.Board = new Class({
 
     addPieceDragEvents:function(){
         var on = this.getEventEl().addEvent;
-        if (this.shouldUseTouchEvents()) {
-            on('touchmove', this.dragPiece.bind(this));
-            on('touchend', this.stopDragPiece.bind(this));
-        } else {
-            on('mousemove', this.dragPiece.bind(this));
-            on('mouseup', this.stopDragPiece.bind(this));
-        }
+
+        on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
     draggedPiece : undefined,
@@ -25018,11 +25010,7 @@ chess.view.board.Piece = new Class({
         this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
 
-        if (this.shouldUseTouchEvents()) {
-            this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-        } else {
-            this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-        }
+        this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
         this.el.addClass('ludo-chess-piece');
         this.position();
@@ -25138,7 +25126,7 @@ chess.view.board.Piece = new Class({
     stopDragPiece:function (e) {
         if (this.dd.active) {
             var coords;
-            if (this.shouldUseTouchEvents()) {
+            if (ludo.util.isTabletOrMobile()) {
                 coords = {
                     x:e.target.offsetLeft,
                     y:e.target.offsetTop
@@ -25761,12 +25749,7 @@ chess.view.highlight.ArrowBase = new Class({
 
 		this.view.addEvent('flip', this.flip.bind(this));
 
-		if (this.shouldUseTouchEvents()) {
-			this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-		} else {
-			this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-		}
-
+        this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 	},
 
 	initDragPiece:function (e) {
@@ -25778,14 +25761,11 @@ chess.view.highlight.ArrowBase = new Class({
 			};
 
 			var ss = this.view.getSquareSize();
-			var modX = (coords.x % ss);
-			var modY = (coords.y % ss);
 
-			coords.y -= (modY);
-			coords.x -= (modX);
+            coords.x -= (coords.x % ss);
+            coords.y -= (coords.y % ss);
 
-			var square = this.view.getSquareByCoordinates(coords.x, coords.y);
-			square = Board0x88Config.numberToSquareMapping[square];
+			var square = Board0x88Config.numberToSquareMapping[this.view.getSquareByCoordinates(coords.x, coords.y)];
 			var piece = this.view.getPieceOnSquare(square);
 
 			if (piece) {
@@ -28392,8 +28372,7 @@ chess.view.position.Board = new Class({
                     return;
                 }
             } else {
-                var index = this.getIndexForNewPiece(this.selectedPiece.color);
-                p = this.pieces[index];
+                p = this.pieces[this.getIndexForNewPiece(this.selectedPiece.color)];
             }
         }
 
@@ -28433,9 +28412,7 @@ chess.view.position.Board = new Class({
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color == color) {
-                if (!firstIndex) {
-                    firstIndex = i;
-                }
+                if (!firstIndex)firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
                 }
@@ -28511,7 +28488,6 @@ chess.view.position.Board = new Class({
             } else {
                 emptyCounter++;
             }
-
         }
         if (emptyCounter > 0) {
             fen = fen + emptyCounter;

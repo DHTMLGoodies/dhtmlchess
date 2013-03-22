@@ -90,11 +90,7 @@ chess.view.board.Piece = new Class({
         this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
 
-        if (this.shouldUseTouchEvents()) {
-            this.el.addEvent('touchstart', this.initDragPiece.bind(this));
-        } else {
-            this.el.addEvent('mousedown', this.initDragPiece.bind(this));
-        }
+        this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
         this.el.addClass('ludo-chess-piece');
         this.position();
@@ -210,7 +206,7 @@ chess.view.board.Piece = new Class({
     stopDragPiece:function (e) {
         if (this.dd.active) {
             var coords;
-            if (this.shouldUseTouchEvents()) {
+            if (ludo.util.isTabletOrMobile()) {
                 coords = {
                     x:e.target.offsetLeft,
                     y:e.target.offsetTop

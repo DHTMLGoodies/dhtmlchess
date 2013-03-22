@@ -89,13 +89,9 @@ chess.view.board.Board = new Class({
 
     addPieceDragEvents:function(){
         var on = this.getEventEl().addEvent;
-        if (this.shouldUseTouchEvents()) {
-            on('touchmove', this.dragPiece.bind(this));
-            on('touchend', this.stopDragPiece.bind(this));
-        } else {
-            on('mousemove', this.dragPiece.bind(this));
-            on('mouseup', this.stopDragPiece.bind(this));
-        }
+
+        on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
     draggedPiece : undefined,

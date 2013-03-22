@@ -82,8 +82,7 @@ chess.view.position.Board = new Class({
                     return;
                 }
             } else {
-                var index = this.getIndexForNewPiece(this.selectedPiece.color);
-                p = this.pieces[index];
+                p = this.pieces[this.getIndexForNewPiece(this.selectedPiece.color)];
             }
         }
 
@@ -123,9 +122,7 @@ chess.view.position.Board = new Class({
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color == color) {
-                if (!firstIndex) {
-                    firstIndex = i;
-                }
+                if (!firstIndex)firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
                 }
@@ -201,7 +198,6 @@ chess.view.position.Board = new Class({
             } else {
                 emptyCounter++;
             }
-
         }
         if (emptyCounter > 0) {
             fen = fen + emptyCounter;
