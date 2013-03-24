@@ -1,4 +1,4 @@
-/* Generated Sun Mar 24 21:08:52 CET 2013 */
+/* Generated Sun Mar 24 21:49:49 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -29685,12 +29685,12 @@ chess.parser.FenParser0x88 = new Class({
 	/**
 	 Return information about piece on square in human readable format
 	 @method getPieceOnSquare
-	 @param {String} square
+	 @param {Number} square
 	 @return {Object}
 	 @example
 	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	console.log(parser.getPieceOnSquare('e2'));
+	 	console.log(parser.getPieceOnSquare(Board0x88Config.mapping['e2']));
 	 will return an object like this:
 	 @example
 	 	{
@@ -29710,7 +29710,7 @@ chess.parser.FenParser0x88 = new Class({
 				sliding:(piece & 0x4) > 0
 			}
 		}
-		return null;
+		return undefined;
 	},
 
 	getPieceTypeOnSquare:function (square) {
@@ -29763,7 +29763,6 @@ chess.parser.FenParser0x88 = new Class({
 	 returns an object containing information about number of checks(0,1 or 2 for double check),
 	 valid moves and result(0 for undecided, .5 for stalemate, -1 for black win and 1 for white win).
 	 moves are returend in the following format:
-
 	 	numeric square : [array of valid squares to move]
 	 example for knight on b1:
 	 @example
@@ -30668,46 +30667,41 @@ chess.parser.FenParser0x88 = new Class({
      * @param {String} promoteTo
      */
     computeMove:function(from, to, promoteTo){
-
         if (!this.cache['board'][to] && (this.cache['board'][from] !== 0x01 && this.cache['board'][from]!== 0x09)) {
             this.incrementHalfMoves();
         }else{
             this.resetHalfMoves();
         }
 
-        if(promoteTo && this.cache['board'][from] > 0x08){
-            promoteTo += 8;
-        }
-        if ((this.cache['board'][from] === 0x03 || this.cache['board'][from]=== 0x0B)) {
-            var rook,offset;
-            this.disableCastle(from);
-
-            this.cache['king' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
-            if(this.getDistance(from,to) > 1){
-                if (this.cache['board'][from] === 0x03) {
-                    rook = 0x06;
-                    offset = 0;
-                } else {
-                    rook = 0x0E;
-                    offset = 112;
-                }
-                if (from < to) {
-                    this.updatePiece(7 + offset, 5 + offset);
-                    this.cache['board'][7 + offset] = undefined;
-                    this.cache['board'][5 + offset] = rook;
-
-                } else {
-                    this.updatePiece(0 + offset, 3 + offset);
-                    this.cache['board'][0 + offset] = undefined;
-                    this.cache['board'][3 + offset] = rook;
-                }
-            }
-
-        }
-
         var enPassant = '-';
 
         switch(this.cache['board'][from]){
+            case 0x03:
+            case 0x0B:
+                var rook,offset;
+                this.disableCastle(from);
+
+                this.cache['king' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
+                if(this.getDistance(from,to) > 1){
+                    if (this.cache['board'][from] === 0x03) {
+                        rook = 0x06;
+                        offset = 0;
+                    } else {
+                        rook = 0x0E;
+                        offset = 112;
+                    }
+                    if (from < to) {
+                        this.updatePiece(7 + offset, 5 + offset);
+                        this.cache['board'][7 + offset] = undefined;
+                        this.cache['board'][5 + offset] = rook;
+
+                    } else {
+                        this.updatePiece(0 + offset, 3 + offset);
+                        this.cache['board'][0 + offset] = undefined;
+                        this.cache['board'][3 + offset] = rook;
+                    }
+                }
+                break;
             case 0x01:
             case 0x09:
                 if (this.isEnPassantMove(from, to)) {
@@ -30724,6 +30718,9 @@ chess.parser.FenParser0x88 = new Class({
                 }
 
                 if(promoteTo){
+                    if(this.cache['board'][from] > 0x08){
+                        promoteTo += 8;
+                    }
                     this.updatePieceType(from, promoteTo);
                 }
                 break;
@@ -30765,7 +30762,6 @@ chess.parser.FenParser0x88 = new Class({
         var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
         for(var i=0;i<this.cache[color].length;i++){
             if(this.cache[color][i].s === square){
-                console.log(type);
                 this.cache[color][i].t = type;
                 return;
             }

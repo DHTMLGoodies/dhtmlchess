@@ -1525,6 +1525,45 @@ TestCase("ParserTest", {
         var fen = parser.getFen();
         assertEquals(expectedFen, fen);
     },
+    
+    "test should perform well on computeMove": function(){
+
+
+        var start = new Date().getTime();
+
+        for (var i = 0; i < 2000; i++) {
+            var parser = this.getParser();
+
+            parser.computeMove(Board0x88Config.mapping['e2'], Board0x88Config.mapping['e4']);
+            parser.computeMove(Board0x88Config.mapping['e7'], Board0x88Config.mapping['e5']);
+            parser.computeMove(Board0x88Config.mapping['g1'], Board0x88Config.mapping['f3']);
+            parser.computeMove(Board0x88Config.mapping['g8'], Board0x88Config.mapping['f6']);
+            parser.computeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['c4']);
+            parser.computeMove(Board0x88Config.mapping['f8'], Board0x88Config.mapping['c5']);
+            parser.computeMove(Board0x88Config.mapping['e1'], Board0x88Config.mapping['g1']);
+            parser.computeMove(Board0x88Config.mapping['e8'], Board0x88Config.mapping['g8']);
+            parser.computeMove(Board0x88Config.mapping['c2'], Board0x88Config.mapping['c3']);
+            parser.computeMove(Board0x88Config.mapping['h7'], Board0x88Config.mapping['h6']);
+            parser.computeMove(Board0x88Config.mapping['d2'], Board0x88Config.mapping['d4']);
+            parser.computeMove(Board0x88Config.mapping['e5'], Board0x88Config.mapping['d4']);
+            parser.computeMove(Board0x88Config.mapping['c3'], Board0x88Config.mapping['d4']);
+            parser.computeMove(Board0x88Config.mapping['c5'], Board0x88Config.mapping['b4']);
+            parser.computeMove(Board0x88Config.mapping['a2'], Board0x88Config.mapping['a3']);
+            parser.computeMove(Board0x88Config.mapping['b4'], Board0x88Config.mapping['a5']);
+            parser.computeMove(Board0x88Config.mapping['b2'], Board0x88Config.mapping['b4']);
+            parser.computeMove(Board0x88Config.mapping['a5'], Board0x88Config.mapping['b6']);
+            parser.computeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['e1']);
+
+
+        }
+        var ellapsed = new Date().getTime() - start;
+
+        assertTrue(ellapsed, ellapsed < 100);
+        // then
+        var expectedFen = 'rnbq1rk1/pppp1pp1/1b3n1p/8/1PBPP3/P4N2/5PPP/RNBQR1K1 b - - 2 10';
+        var fen = parser.getFen();
+        assertEquals(expectedFen, fen);
+    },
 
     "test should find material advantage":function () {
         // given
@@ -1575,6 +1614,35 @@ TestCase("ParserTest", {
 
         // then
         assertEquals(expectedFen, parser.getNewFen());
+
+    },
+
+    "test should be able to handle en passants in compute move": function(){
+        // given
+        var expectedFen = 'r1bqkbnr/ppppp1pp/2n2P2/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3';
+        var moves = [
+            ['e2','e4'],
+            ['b8','c6'],
+            ['e4','e5'],
+            ['f7','f5'],
+            ['e5','f6']
+        ];
+        var parser = this.getParser();
+
+        // when
+        for(var i=0;i<moves.length;i++){
+            parser.computeMove(
+                Board0x88Config.mapping[moves[i][0]],
+                Board0x88Config.mapping[moves[i][1]]
+            )
+        }
+
+        // then
+        assertEquals(expectedFen, parser.getNewFen());
+        assertUndefined(parser.getPieceOnSquare(Board0x88Config.mapping['f5']));
+        assertNotUndefined(parser.getPieceOnSquare(Board0x88Config.mapping['a2']));
+
+
 
     },
 
