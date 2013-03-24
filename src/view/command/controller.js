@@ -55,11 +55,12 @@ chess.view.command.Controller = new Class({
      Extract command arguments from command message. The whole message would be returned
      when message is not a valid command.
      @method getCommandArguments
+     @param {String} command
      @param {String} message
      @return {String}
      @private
      @example
-        var args = controller.getCommandArguments('move e4');
+        var args = controller.getCommandArguments('move', 'move e4');
         // will return "e4"
      */
 	getCommandArguments:function (command, message) {
