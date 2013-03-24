@@ -171,6 +171,20 @@ Board0x88Config = {
         0x0E:'R',
         0x0F:'Q'
     },
+    numberToColorMapping:{
+        0x01:'white',
+        0x02:'white',
+        0x03:'white',
+        0x05:'white',
+        0x06:'white',
+        0x07:'white',
+        0x09:'black',
+        0x0A:'black',
+        0x0B:'black',
+        0x0D:'black',
+        0x0E:'black',
+        0x0F:'black'
+    },
 
     typeToNumberMapping:{
         'pawn':0x01,
@@ -201,7 +215,7 @@ Board0x88Config = {
         3:'kq',
         4:'Q',
         5:'Qq',
-        6:'Kkq',
+        6:'Qk',
         7:'Qkq',
         8:'K',
         9:'Kq',
@@ -211,7 +225,26 @@ Board0x88Config = {
         13:'KQq',
         14:'KQk',
         15:'KQkq'
-
+    },
+    
+    castleToNumberMapping:{
+        '-':0,
+        'q':1,
+        'k':2,
+        'kq':3,
+        'Q':4,
+        'Qq':5,
+        'Qk':6,
+        'Qkq':7,
+        'K':8,
+        'Kq':9,
+        'Kk':10,
+        'Kkq':11,
+        'KQ':12,
+        'KQq':13,
+        'KQk':14,
+        'KQkq':15       
+        
     },
 
     numbers:{

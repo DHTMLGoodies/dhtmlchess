@@ -39,15 +39,10 @@ chess.parser.FenParser0x88 = new Class({
 	updateFenArray:function () {
 		var fenParts = this.fen.split(' ');
 
-		var castleCode = 0;
-		for (var i = 0; i < fenParts[2].length; i++) {
-			castleCode += Board0x88Config.castle[fenParts[2].substr(i, 1)];
-		}
-
 		this.fenParts = {
 			'pieces':fenParts[0],
 			'color':fenParts[1],
-			'castleCode':castleCode,
+			'castleCode':Board0x88Config.castleToNumberMapping[fenParts[2]],
 			'enPassant':fenParts[3],
 			'halfMoves':fenParts[4],
 			'fullMoves':fenParts[5]
@@ -174,7 +169,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (enPassant != '-') {
 			return enPassant;
 		}
-		return null;
+		return undefined;
 	},
 	setEnPassantSquare:function (square) {
 		this.fenParts['enPassant'] = square;
@@ -819,7 +814,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		var color = (this.cache['board'][move.from] & 0x8) ? 'black' : 'white';
 
-		if (this.isEnPassantMove(move)) {
+		if (this.isEnPassantMove(move.from, move.to)) {
 			if (color == 'black') {
 				square = move.to + 16;
 
@@ -854,7 +849,8 @@ chess.parser.FenParser0x88 = new Class({
 	/**
 	 Returns true if a move is an "en passant" move. Move is given in this format:
 	 @method isEnPassantMove
-	 @param {Object} move
+	 @param {Number} from
+	 @param {Number} to
 	 @return {Boolean}
 	 @example
 	 	var move = {
@@ -865,11 +861,11 @@ chess.parser.FenParser0x88 = new Class({
 
 	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
 	 */
-	isEnPassantMove:function (move) {
-		if ((this.cache['board'][move.from] === 0x01 || this.cache['board'][move.from] == 0x09)) {
+	isEnPassantMove:function (from, to) {
+		if ((this.cache['board'][from] === 0x01 || this.cache['board'][from] == 0x09)) {
 			if (
-				!this.cache['board'][move.to] &&
-					((move.from - move.to) % 17 === 0 || (move.from - move.to) % 15 === 0)) {
+				!this.cache['board'][to] &&
+					((from - to) % 17 === 0 || (from - to) % 15 === 0)) {
 				return true;
 			}
 		}
@@ -916,7 +912,11 @@ chess.parser.FenParser0x88 = new Class({
 	 	console.log(parser.getFen());
 	 */
 	makeMove:function (move) {
-		this.updateBoardData(move);
+        this.computeMove(
+            Board0x88Config.mapping[move.from],
+            Board0x88Config.mapping[move.to],
+            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+        );
 		this.fen = undefined;
 	},
 
@@ -1156,10 +1156,15 @@ chess.parser.FenParser0x88 = new Class({
 		this.piecesInvolved = this.getPiecesInvolvedInMove(move);
 		this.notation = this.getNotationForAMove(move);
 		this.longNotation = this.getLongNotationForAMove(move, this.notation);
-		this.updateBoardData(move);
+
+
+        this.computeMove(
+            Board0x88Config.mapping[move.from],
+            Board0x88Config.mapping[move.to],
+            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+        );
 
 		var config = this.getValidMovesAndResult();
-
 		if (config.result === 1 || config.result === -1) {
 			this.notation += '#';
 			this.longNotation += '#';
@@ -1193,9 +1198,14 @@ chess.parser.FenParser0x88 = new Class({
             this.resetHalfMoves();
         }
 
+        if(promoteTo && this.cache['board'][from] > 0x08){
+            promoteTo += 8;
+        }
         if ((this.cache['board'][from] === 0x03 || this.cache['board'][from]=== 0x0B)) {
             var rook,offset;
             this.disableCastle(from);
+
+            this.cache['king' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
             if(this.getDistance(from,to) > 1){
                 if (this.cache['board'][from] === 0x03) {
                     rook = 0x06;
@@ -1205,21 +1215,94 @@ chess.parser.FenParser0x88 = new Class({
                     offset = 112;
                 }
                 if (from < to) {
+                    this.updatePiece(7 + offset, 5 + offset);
                     this.cache['board'][7 + offset] = undefined;
                     this.cache['board'][5 + offset] = rook;
 
                 } else {
+                    this.updatePiece(0 + offset, 3 + offset);
                     this.cache['board'][0 + offset] = undefined;
                     this.cache['board'][3 + offset] = rook;
                 }
             }
 
         }
+
+        var enPassant = '-';
+
+        switch(this.cache['board'][from]){
+            case 0x01:
+            case 0x09:
+                if (this.isEnPassantMove(from, to)) {
+                    if (Board0x88Config.numberToColorMapping[this.cache['board'][from]] == 'black') {
+                        this.cache['board'][to + 16] = undefined;
+                    } else {
+                        this.cache['board'][to - 16] = undefined;
+                    }
+                }
+
+                if(this.getDistance(from,to) > 1 && (this.cache['board'][to-1] || this.cache['board'][to+1])){
+                    enPassant = to > from ? from + 16 : from - 16;
+                    enPassant = Board0x88Config.numberToSquareMapping[enPassant];
+                }
+
+                if(promoteTo){
+                    this.updatePieceType(from, promoteTo);
+                }
+                break;
+            case 0x06:
+                if(from === 0)this.disableCastleCode(Board0x88Config.castle['Q']);
+                if(from === 7)this.disableCastleCode(Board0x88Config.castle['K']);
+                break;
+            case 0x0E:
+                if(from === Board0x88Config.mapping['a8'])this.disableCastleCode(Board0x88Config.castle['q']);
+                if(from === Board0x88Config.mapping['h8'])this.disableCastleCode(Board0x88Config.castle['k']);
+                break;
+        }
+
+        this.setEnPassantSquare(enPassant);
+
+        this.updatePiece(from, to);
+        if(this.cache['board'][to]){
+            this.deletePiece(to);
+        }
+
         this.cache['board'][to] = promoteTo ? promoteTo : this.cache['board'][from];
         this.cache['board'][from] = undefined;
 
         if(this.fenParts['color'] === 'b')this.incrementFullMoves();
         this.setNewColor();
+    },
+
+    updatePiece:function(from, to){
+        var color = Board0x88Config.numberToColorMapping[this.cache['board'][from]];
+        for(var i=0;i<this.cache[color].length;i++){
+            if(this.cache[color][i].s === from){
+                this.cache[color][i].s = to;
+                return;
+            }
+        }
+    },
+
+    updatePieceType:function(square, type){
+        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
+        for(var i=0;i<this.cache[color].length;i++){
+            if(this.cache[color][i].s === square){
+                console.log(type);
+                this.cache[color][i].t = type;
+                return;
+            }
+        }
+    },
+
+    deletePiece:function(square){
+        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
+        for(var i=0;i<this.cache[color].length;i++){
+            if(this.cache[color][i].s === square){
+                this.cache[color].splice(i,1);
+                return;
+            }
+        }
     },
 
     disableCastle:function(from){
@@ -1229,135 +1312,8 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     disableCastleCode:function(code){
-        if(this.fenParts['castleCode'] & code) this.fenParts['castleCode'] -= code;
+        if((this.fenParts['castleCode'] & code) > 0) this.fenParts['castleCode'] -= code;
     },
-
-	updateBoardData:function (move) {
-        // TODO this should be done faster by not clearing and rebuilding arrays.
-		move = {
-			from:Board0x88Config.mapping[move.from],
-			to:Board0x88Config.mapping[move.to],
-			promoteTo:move.promoteTo
-		};
-		var movedPiece = this.cache['board'][move.from];
-		var color = (movedPiece & 0x8) ? 'black' : 'white';
-		var enPassant = '-';
-
-		var incrementHalfMoves = this.cache['board'][move.to] ? false : true;
-
-		if ((this.cache['board'][move.from] === 0x01 || this.cache['board'][move.from] == 0x09)) {
-			incrementHalfMoves = false;
-			if (this.isEnPassantMove(move)) {
-				if (color == 'black') {
-					this.cache['board'][move.to + 16] = undefined;
-				} else {
-					this.cache['board'][move.to - 16] = undefined;
-				}
-			}
-
-			if ((move.from & 15) == (move.to & 15) && this.getDistance(move.from, move.to) == 2) {
-				if (this.cache['board'][move.to - 1] || this.cache['board'][move.to + 1]) {
-					if (color === 'white') {
-						enPassant = Board0x88Config.numberToSquareMapping[move.from + 16];
-					} else {
-						enPassant = Board0x88Config.numberToSquareMapping[move.from - 16];
-					}
-				}
-			}
-		}
-
-		this.setEnPassantSquare(enPassant);
-		var castleNotation, pieceType, offset;
-		if (this.isCastleMove({ from:move.from, to:move.to })) {
-			var castle = this.getCastle();
-            this.disableCastle(move.from);
-			if (color == 'white') {
-				pieceType = 0x06;
-				offset = 0;
-			} else {
-				pieceType = 0x0E;
-				offset = 112;
-			}
-
-			if (move.from < move.to) {
-				this.cache['board'][7 + offset] = undefined;
-				this.cache['board'][5 + offset] = pieceType;
-
-			} else {
-				this.cache['board'][0 + offset] = undefined;
-				this.cache['board'][3 + offset] = pieceType;
-			}
-		} else {
-			this.updateCastleForMove(movedPiece, move.from);
-		}
-
-		if (color === 'black') {
-			this.incrementFullMoves();
-		}
-		if (incrementHalfMoves) {
-			this.incrementHalfMoves();
-		} else {
-			this.resetHalfMoves();
-		}
-		this.cache['board'][move.to ] = this.cache['board'][move.from ];
-		this.cache['board'][move.from ] = undefined;
-		if (move.promoteTo) {
-			this.cache['board'][move.to] = Board0x88Config.typeToNumberMapping[move.promoteTo];
-			if (color === 'black') {
-				this.cache['board'][move.to] += 8;
-			}
-		}
-		this.setNewColor();
-		this.updatePieces();
-	},
-
-	updateCastleForMove:function (movedPiece, from) {
-		switch (movedPiece) {
-			case 0x03:
-            case 0x0B:
-                this.disableCastle(from);
-				break;
-			case 0x06:
-				if (from === 0) {
-                    this.disableCastleCode(Board0x88Config.castle['Q']);
-				}
-				if (from === 7) {
-                    this.disableCastleCode(Board0x88Config.castle['K']);
-				}
-				break;
-			case 0x0E:
-				if (from === 112) {
-                    this.disableCastleCode(Board0x88Config.castle['q']);
-				}
-				if (from === 119) {
-                    this.disableCastleCode(Board0x88Config.castle['k']);
-				}
-				break;
-		}
-
-	},
-
-	updatePieces:function () {
-		this.cache['white'] = [];
-		this.cache['black'] = [];
-		var piece = null;
-		for (var i = 0; i < 120; i++) {
-			if ((i & 0x88) > 0){
-				i += 8;
-			}
-			if (piece = this.cache['board'][i]) {
-				var color = (piece & 0x8) > 0 ? 'black' : 'white';
-				var obj = {
-					t:piece,
-					s:i
-				};
-				this.cache[color].push(obj);
-				if (piece == 0x03 || piece == 0x0B) {
-					this.cache['king' + color] = obj;
-				}
-			}
-		}
-	},
 
 	incrementFullMoves:function () {
 		this.fenParts['fullMoves']++;
@@ -1440,7 +1396,7 @@ chess.parser.FenParser0x88 = new Class({
 		switch (type) {
 			case 0x01:
 			case 0x09:
-				if (this.isEnPassantMove(move) || this.cache['board'][move.to]) {
+				if (this.isEnPassantMove(move.from, move.to) || this.cache['board'][move.to]) {
 					ret += Board0x88Config.fileMapping[move.from & 15] + 'x';
 				}
 				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];

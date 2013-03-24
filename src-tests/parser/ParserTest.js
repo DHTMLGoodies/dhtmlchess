@@ -1485,14 +1485,14 @@ TestCase("ParserTest", {
             parser.getValidMovesAndResult('white');
         }
         var ellapsed = new Date().getTime() - start;
-        assertTrue(ellapsed, ellapsed < 250);
+        assertTrue(ellapsed, ellapsed < 200);
     },
 
     "test should perform well when making moves":function () {
 
         var start = new Date().getTime();
 
-        for (var i = 0; i < 1000; i++) {
+        for (var i = 0; i < 2000; i++) {
             var parser = this.getParser();
 
             parser.move({ from:'e2', to:'e4'});
@@ -1519,7 +1519,7 @@ TestCase("ParserTest", {
         }
         var ellapsed = new Date().getTime() - start;
 
-        assertTrue(ellapsed, ellapsed < 1000);
+        assertTrue(ellapsed, ellapsed < 100);
         // then
         var expectedFen = 'rnbq1rk1/pppp1pp1/1b3n1p/8/1PBPP3/P4N2/5PPP/RNBQR1K1 b - - 2 10';
         var fen = parser.getFen();
@@ -1576,6 +1576,57 @@ TestCase("ParserTest", {
         // then
         assertEquals(expectedFen, parser.getNewFen());
 
+    },
+
+    "test should get valid moves after calling compute move": function(){
+        // given
+        var moves = [
+            ['e2','e4'],['e7','e5'],['g1','f3'],['b8','c6'],['f1','c4'],['g8','f6'],['c4','f7'],['e8','f7'],['e1','g1']
+        ];
+        var parser = this.getParser();
+
+        for(var i=0;i<moves.length;i++){
+            parser.computeMove(
+                Board0x88Config.mapping[moves[i][0]],
+                Board0x88Config.mapping[moves[i][1]]
+            )
+        }
+        // when
+        var res = parser.getValidMovesAndResult();
+
+        assertEquals(101, parser.getKing('black').s);
+
+        this.assertThatPieceOnCanMoveTo(res, 'f7', ['e8','e7','e6','g8','g6']);
+
+    },
+
+    "test should find enPassant square on compute move": function(){
+        // given
+        var moves = [
+            ['e2','e4'],
+            ['b8','c6'],
+            ['e4','e5'],
+            ['f7','f5']
+        ];
+        var parser = this.getParser();
+
+        for(var i=0;i<moves.length;i++){
+            parser.computeMove(
+                Board0x88Config.mapping[moves[i][0]],
+                Board0x88Config.mapping[moves[i][1]]
+            )
+        }
+
+        assertEquals('f6', parser.getEnPassantSquare());
+
+    },
+
+    assertThatPieceOnCanMoveTo:function(moves, from, toSquares){
+        var squares = moves.moves[Board0x88Config.mapping[from]];
+
+        var msg = Board0x88Config.mapping[from] + '\n' + JSON.encode(moves.moves);
+        assertNotUndefined(msg, squares);
+        assertEquals(msg, toSquares.length, squares.length);
 
     },
 
