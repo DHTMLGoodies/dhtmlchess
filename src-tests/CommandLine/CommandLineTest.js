@@ -34,9 +34,10 @@ TestCase("CommandLine",{
 		var c = new chess.view.command.Controller();
 
 		// then
-		assertEquals('e4', c.getCommandArguments('move e4'));
-		assertEquals('e4', c.getCommandArguments('e4'));
-		assertEquals('6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1', c.getCommandArguments('fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1'));
+		assertEquals('e4', c.getCommandArguments('move', 'move e4'));
+		assertEquals('e4', c.getCommandArguments('move', 'e4'));
+		assertEquals('Nf3', c.getCommandArguments('move', 'nf3'));
+		assertEquals('6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1', c.getCommandArguments('fen', 'fen 6k1/8/6p1/8/8/1P6/2b5/5K2 w - - 0 1'));
 
 	},
 
@@ -47,6 +48,8 @@ TestCase("CommandLine",{
 		// then
 		assertTrue(c.isChessMove('e4'));
 		assertTrue(c.isChessMove('Nf3'));
+		assertTrue(c.isChessMove('nf3'));
+		assertTrue(c.isChessMove('oo'));
 		assertFalse(c.isChessMove('Inv'));
 	},
 
@@ -58,6 +61,6 @@ TestCase("CommandLine",{
         var cmd = 'grade !';
         // then
         assertEquals('grade', c.getValidCommand(cmd));
-        assertEquals('!', c.getCommandArguments(cmd));
+        assertEquals('!', c.getCommandArguments('grade', cmd));
 	}
 });

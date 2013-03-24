@@ -1,4 +1,4 @@
-/* Generated Fri Mar 22 19:25:56 CET 2013 */
+/* Generated Sun Mar 24 2:19:47 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -2371,7 +2371,6 @@ ludo.layout.Base = new Class({
 		this.onNewChild(child);
 		this.addChildEvents(child);
 		if (child.isCollapsible !== undefined && child.isCollapsible()) {
-			// if (child.getElForCollapsedState !== undefined)child.getElForCollapsedState().inject(child.getEl(), 'after');
 			if (child.collapsed) {
 				child.collapse();
 			}
@@ -2488,7 +2487,7 @@ ludo.layout.Base = new Class({
 		var config = {};
 		config.width = ludo.dom.getInnerWidthOf(this.view.getBody());
 		if (config.width < 0) {
-			config.width = null;
+			config.width = undefined;
 		}
 		for (var i = 0; i < this.view.children.length; i++) {
 			this.view.children[i].resize(config);
@@ -2699,13 +2698,7 @@ ludo.layout.LinearHorizontal = new Class({
 
 	resize:function () {
 		var totalWidth = this.view.getInnerWidthOfBody();
-		var height;
-		if (this.hasDynamicHeight()) {
-			height = 'auto';
-		} else {
-			height = this.view.getInnerHeightOfBody();
-		}
-
+		var height = this.hasDynamicHeight() ? 'auto' : this.view.getInnerHeightOfBody();
 		if (height == 0) {
 			return;
 		}
@@ -2797,14 +2790,8 @@ ludo.layout.LinearVertical = new Class({
 		var tm = 0;
 		for (var i = 0; i < this.view.children.length; i++) {
 			if (!this.hasLayoutWeight(this.view.children[i])) {
-				if (!this.view.children[i].isHidden()) {
-					height = this.getHeightOf(this.view.children[i]);
-				} else {
-					height = 0;
-				}
-				if (height) {
-					totalHeightOfItems += height
-				}
+                height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i]);
+                totalHeightOfItems += height
 			} else {
 				if (!this.view.children[i].isHidden()) {
 					totalWeight += this.view.children[i].layout.weight;
@@ -2900,15 +2887,9 @@ ludo.layout.Card = new Class({
 	},
 
 	addDragEvents:function (child) {
-		if (ludo.util.isTabletOrMobile()) {
-			child.getBody().addEvent('touchstart', this.touchStart.bind(this));
-			child.getEventEl().addEvent('touchmove', this.touchMove.bind(this));
-			child.getEventEl().addEvent('touchend', this.touchEnd.bind(this));
-		} else {
-			child.getBody().addEvent('mousedown', this.touchStart.bind(this));
-			child.getEventEl().addEvent('mousemove', this.touchMove.bind(this));
-			child.getEventEl().addEvent('mouseup', this.touchEnd.bind(this));
-		}
+        child.getBody().addEvent(ludo.util.getDragStartEvent(), this.touchStart.bind(this));
+        child.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.touchMove.bind(this));
+        child.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.touchEnd.bind(this));
 	},
 
 	resize:function () {
@@ -2917,9 +2898,8 @@ ludo.layout.Card = new Class({
 		}
 		var height = this.view.getInnerHeightOfBody();
 		var width = ludo.dom.getInnerWidthOf(this.view.getBody());
-		var card = this.getVisibleCard();
-		if (card) {
-			card.resize({ height:height, width:width });
+		if (this.visibleCard) {
+            this.visibleCard.resize({ height:height, width:width });
 		}
 	},
 
@@ -2939,18 +2919,12 @@ ludo.layout.Card = new Class({
 	 */
 	getPreviousCardOf:function (view) {
 		var index = this.view.children.indexOf(view);
-		if (index > 0) {
-			return this.view.children[index - 1];
-		}
-		return null;
+        return index > 0 ? this.view.children[index - 1] : undefined;
 	},
 
 	getNextCardOf:function (card) {
 		var index = this.view.children.indexOf(card);
-		if (index < this.view.children.length - 1) {
-			return this.view.children[index + 1];
-		}
-		return undefined;
+        return index < this.view.children.length - 1 ? this.view.children[index + 1] : undefined;
 	},
 
 	/**
@@ -2965,7 +2939,7 @@ ludo.layout.Card = new Class({
 		}
 		if (this.visibleCard) {
 			var card = this.getPreviousCardOf(this.visibleCard);
-			if (card !== undefined) {
+			if (card) {
 				card.show();
 				return true;
 			}
@@ -2985,7 +2959,7 @@ ludo.layout.Card = new Class({
 		}
 		if (this.visibleCard) {
 			var card = this.getNextCardOf(this.visibleCard);
-			if (card !== undefined) {
+			if (card) {
 				card.show();
 				return true;
 			}
@@ -3188,10 +3162,7 @@ ludo.layout.Card = new Class({
 	 * @return {Number} card index
 	 */
 	getIndexOfVisibleCard:function () {
-		if (this.visibleCard) {
-			return this.view.children.indexOf(this.visibleCard);
-		}
-		return 0;
+        return this.visibleCard ? this.view.children.indexOf(this.visibleCard) : 0;
 	},
 
 	/**
@@ -3221,21 +3192,23 @@ ludo.layout.Card = new Class({
 	},
 
 	animateHigherCard:function () {
-		if (!this.animate)return;
-		if (this.animateX) {
-			this.animateFromRight();
-		} else {
-			this.animateFromBottom();
-		}
-
+        if(this.animate){
+            if (this.animateX) {
+                this.animateFromRight();
+            } else {
+                this.animateFromBottom();
+            }
+        }
 	},
+
 	animateLowerCard:function () {
-		if (!this.animate)return;
-		if (this.animateX) {
-			this.animateFromLeft();
-		} else {
-			this.animateFromTop();
-		}
+		if(this.animate){
+            if (this.animateX) {
+                this.animateFromLeft();
+            } else {
+                this.animateFromTop();
+            }
+        }
 	},
 
 	getAnimationDuration:function () {
@@ -4283,6 +4256,7 @@ ludo.dom = {
                 }
             }
         }
+        if(node.id)el.id = node.id;
         if(node.html)el.innerHTML = node.html;
         return el;
 
@@ -5066,9 +5040,10 @@ ludo.View = new Class({
 	setContent:function () {
 		if (this.html) {
 			if(this.children.length){
-				var html = document.createElement('div');
-				html.innerHTML = this.html;
-				this.getBody().adopt(html);
+                ludo.dom.create({
+                    renderTo:this.getBody(),
+                    html : this.html
+                });
 			}else{
 				this.getBody().innerHTML = this.html;
 			}
@@ -5867,14 +5842,14 @@ ludo.layout.TabStrip = new Class({
     },
 
     getPlainTabFor:function (child) {
-
-        var el = new Element('div');
-        el.className = 'ludo-tab-strip-tab ludo-tab-strip-tab-' + this.tabPos;
-        this.getBody().adopt(el);
-        el.innerHTML = '<div class="ludo-tab-strip-tab-bg-first"></div><div class="ludo-tab-strip-tab-bg-last"></div>';
-        var span = document.createElement('span');
-        span.innerHTML = this.getTitleFor(child);
-        el.appendChild(span);
+        var el = ludo.dom.create({
+            cls: 'ludo-tab-strip-tab ludo-tab-strip-tab-' + this.tabPos,
+            renderTo:this.getBody(),
+            html : '<div class="ludo-tab-strip-tab-bg-first"></div><div class="ludo-tab-strip-tab-bg-last"></div>'
+        });
+        ludo.dom.create({
+            tag:'span',html : this.getTitleFor(child),renderTo:el
+        });
         return el;
     },
 
@@ -9033,9 +9008,10 @@ ludo.view.TitleBar = new Class({
     },
 
     createTitleDOM:function () {
-        var title = this.els.title = document.createElement('div');
-        title.className = 'ludo-rich-view-titlebar-title';
-        this.els.el.appendChild(title);
+        var title = this.els.title = ludo.dom.create({
+            cls : 'ludo-rich-view-titlebar-title',
+            renderTo : this.els.el
+        });
         this.setTitle(this.view.title);
     },
     createEvents:function () {
@@ -9061,19 +9037,22 @@ ludo.view.TitleBar = new Class({
     },
 
     getButtonContainer:function () {
-        var el = this.els.controls = document.createElement('div');
-        el.className = 'ludo-title-bar-button-container';
+        var el = this.els.controls = ludo.dom.create({
+            cls : 'ludo-title-bar-button-container'
+        });
         el.style.cursor = 'default';
 
-        var le = document.createElement('div');
-        le.className = 'ludo-title-bar-button-container-left-edge';
+        var le = ludo.dom.create({
+            cls : 'ludo-title-bar-button-container-left-edge',
+            renderTo:el
+        });
         le.style.cssText = "position:absolute;z-index:1;left:0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top left";
-        el.appendChild(le);
 
-        var re = document.createElement('div');
-        re.className = 'ludo-title-bar-button-container-right-edge';
+        var re = ludo.dom.create({
+            cls : 'ludo-title-bar-button-container-right-edge',
+            renderTo:el
+        });
         re.style.cssText = 'position:absolute;z-index:1;right:0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top right';
-        el.appendChild(re);
 
         if (this.view.isMinimizable()) {
             el.appendChild(this.getButton('minimize'));
@@ -9517,9 +9496,11 @@ ludo.FramedView = new Class({
 	getButtonBar:function () {
 		if (!this.els.buttonBar) {
 			this.els.buttonBar = this.els.buttonBar || {};
-			var el = this.els.buttonBar.el = document.createElement('div');
-			this.els.container.appendChild(el);
-			el.className = 'ludo-component-buttonbar';
+			var el = this.els.buttonBar.el = ludo.dom.create({
+                renderTo : this.els.container,
+                cls : 'ludo-component-buttonbar'
+            });
+
 			ludo.dom.addClass(this.getEl(), 'ludo-component-with-buttonbar');
 			this.buttonBar.renderTo = el;
 			this.buttonBar.component = this;
@@ -14281,10 +14262,11 @@ ludo.dialog.Dialog = new Class({
 
     getShim:function(){
         if(this.els.shim === undefined){
-            var el = this.els.shim = document.createElement('div');
-            ludo.dom.addClass(el, 'ludo-dialog-shim');
+            var el = this.els.shim = ludo.dom.create({
+                cls : 'ludo-dialog-shim',
+                renderTo:document.body
+            });
             el.style.display='none';
-            document.body.adopt(el);
         }
         return this.els.shim;
     },
@@ -15054,7 +15036,7 @@ ludo.form.Element = new Class({
         var cmp = ludo.get(this.linkWith);
         if (cmp && !cmp.linkWith) {
             if (!this.value){
-				this.initialValue = cmp.value;
+				this.initialValue = this.constructorValue = cmp.value;
 				this.setValue(cmp.value);
 			}
             cmp.setLinkWith(this.id);
@@ -15416,7 +15398,8 @@ ludo.dialog.Prompt = new Class({
     type : 'dialog.Prompt',
     input : undefined,
     inputConfig : {},
-    
+    label:'',
+    value:'',
     ludoConfig : function(config){
         if(!config.buttons && !config.buttonConfig && !config.buttonBar){
             config.buttons = [
@@ -15431,9 +15414,7 @@ ludo.dialog.Prompt = new Class({
                 }
             ]
         }
-        this.label = config.label || '';
-        this.value = config.value || '';
-        this.inputConfig = config.inputConfig || {};
+        this.setConfigParams(config, ['label','value','inputConfig']);
         this.parent(config);
     },
 
@@ -16020,10 +16001,10 @@ ludo.form.Number = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['disableWheel','shiftIncrement','reverseWheel']);
+        this.setConfigParams(config, ['disableWheel','shiftIncrement','reverseWheel','minValue','maxValue']);
 
-        if (config.minValue !== undefined)this.minValue = parseInt(config.minValue);
-        if (config.maxValue !== undefined)this.maxValue = parseInt(config.maxValue);
+        if (this.minValue !== undefined)this.minValue = parseInt(this.minValue);
+        if (this.maxValue !== undefined)this.maxValue = parseInt(this.maxValue);
 
         this.applyValidatorFns(['minValue','maxValue']);
     },
@@ -16611,17 +16592,12 @@ ludo.model.Model = new Class({
 	_validateColumns:function () {
 		var ret = {};
 		for (var i = 0; i < this.columns.length; i++) {
-			var obj = {};
-			var name;
-			if (!this.columns[i].name) {
-				obj.name = name = this.columns[i];
-				obj.defaultValue = '';
-			} else {
-				obj.name = name = this.columns[i].name;
-				obj.defaultValue = this.columns[i].defaultValue || '';
-			}
-			ret[name] = obj;
-			this.columnKeys.push(name);
+			var obj = {
+                name : this.getColumnName(this.columns[i]),
+                defaultValue:this.columns[i].defaultValue || ''
+            };
+			ret[obj.name] = obj;
+			this.columnKeys.push(obj.name);
 		}
 		this.columns = ret;
 	},
@@ -16641,8 +16617,7 @@ ludo.model.Model = new Class({
 	},
 
 	createSetterFor:function (columnName) {
-		var fn = 'set' + columnName.substr(0, 1).toUpperCase() + columnName.substr(1);
-		this[fn] = function (value) {
+		this[this.getFnName('set', columnName)] = function (value) {
 			this._setRecordValue(columnName, value);
             this.fireEvent('update', this.currentRecord);
 			this.updateViews();
@@ -16651,17 +16626,17 @@ ludo.model.Model = new Class({
 	},
 
 	createGetterFor:function (columnName) {
-		var fn = 'get' + columnName.substr(0, 1).toUpperCase() + columnName.substr(1);
-		this[fn] = function () {
+		this[this.getFnName('get', columnName)] = function () {
 			return this.getRecordProperty(columnName)
 		}.bind(this)
 	},
 
+    getFnName:function(prefix, col){
+        return prefix + col.substr(0, 1).toUpperCase() + col.substr(1);
+    },
+
 	getColumnName:function (column) {
-		if (column.name) {
-			return column.name;
-		}
-		return column;
+        return column.name ? column.name : column;
 	},
 
 	_setRecordValue:function (property, value) {
@@ -17101,61 +17076,61 @@ ludo.menu.MenuHandler = new Class({
  * @extends View
  */
 ludo.menu.MenuItem = new Class({
-	Extends:ludo.View,
-	type:'menu.MenuItem',
-	menu:null,
-	subMenu:null,
-	menuItems:[],
-	spacer:undefined,
-	/**
-	 Path to menu item icon or text placed in the icon placeholder. If icon contains one
-	 or more periods(.) it will be consider an image. Otherwise, config.icon will be displayed
-	 as plain text
-	 @Attribute icon
-	 @type String
-	 @default undefined
-	 @example
-	 	icon: 'my-icon.jpg'
-	 Sets icon to my-icon.jpg
-	 @example
-	 	icon : '!'
-	 sets icon to the character "!", i.e. text
-	 */
-	icon:undefined,
-	expandSubMenuOnClick:true,
-	menuDirection:'horizontal',
-	/**
-	 * Initially disable the menu item
-	 * @attribute {Boolean} disabled
-	 * @default false
-	 */
-	disabled:false,
-	menuHandler:undefined,
-	parentMenuItem:undefined,
-	value:undefined,
-	/**
-	 * Text for menu item
-	 * @attribute label
-	 * @type String
-	 * @default '' empty string
-	 */
-	label:'',
-	/**
-	 * Useful property if you want to apply only one click event for the menu
-	 * and then determine which menu item was clicked. example:
-	 *
-	 * switch(menuItem.action){
+    Extends:ludo.View,
+    type:'menu.MenuItem',
+    menu:null,
+    subMenu:null,
+    menuItems:[],
+    spacer:undefined,
+    /**
+     Path to menu item icon or text placed in the icon placeholder. If icon contains one
+     or more periods(.) it will be consider an image. Otherwise, config.icon will be displayed
+     as plain text
+     @Attribute icon
+     @type String
+     @default undefined
+     @example
+     icon: 'my-icon.jpg'
+     Sets icon to my-icon.jpg
+     @example
+     icon : '!'
+     sets icon to the character "!", i.e. text
+     */
+    icon:undefined,
+    expandSubMenuOnClick:true,
+    menuDirection:'horizontal',
+    /**
+     * Initially disable the menu item
+     * @attribute {Boolean} disabled
+     * @default false
+     */
+    disabled:false,
+    menuHandler:undefined,
+    parentMenuItem:undefined,
+    value:undefined,
+    /**
+     * Text for menu item
+     * @attribute label
+     * @type String
+     * @default '' empty string
+     */
+    label:'',
+    /**
+     * Useful property if you want to apply only one click event for the menu
+     * and then determine which menu item was clicked. example:
+     *
+     * switch(menuItem.action){
      *
      *
      *
      * }
-	 *
-	 * @Attribute {String} action
-	 * @type String
-	 * @default undefined
-	 */
-	action:undefined,
-	record:undefined,
+     *
+     * @Attribute {String} action
+     * @type String
+     * @default undefined
+     */
+    action:undefined,
+    record:undefined,
 
     /**
      * Fire an event with this name on click
@@ -17164,237 +17139,233 @@ ludo.menu.MenuItem = new Class({
      */
     fire:undefined,
 
-	ludoConfig:function (config) {
-		if (config.children) {
-			this.menuItems = config.children;
-			config.children = [];
-		}
-        this.setConfigParams(config, ['menuDirection','icon','record','value','label','action','disabled','fire']);
+    ludoConfig:function (config) {
+        if (config.children) {
+            this.menuItems = config.children;
+            config.children = [];
+        }
+        this.setConfigParams(config, ['menuDirection', 'icon', 'record', 'value', 'label', 'action', 'disabled', 'fire']);
 
-		this.menuDirection = config.menuDirection || this.menuDirection;
-		config.html = config.html || config.label;
-		if (config.html === '|') {
-			this.spacer = true;
-		}
-		if (this.label && !this.html) {
-			this.html = this.label;
-		}
-		this.parent(config);
-	},
+        config.html = config.html || config.label;
+        if (config.html === '|') {
+            this.spacer = true;
+        }
+        if (this.label && !this.html) {
+            this.html = this.label;
+        }
+        this.parent(config);
+    },
 
-	ludoEvents:function () {
-		this.parent();
-		if (!this.isSpacer()) {
-			this.getEl().addEvent('click', this.click.bind(this));
-			this.getEl().addEvent('mouseenter', this.mouseOver.bind(this));
-			this.getEl().addEvent('mouseleave', this.mouseOut.bind(this));
-		}
-	},
+    ludoEvents:function () {
+        this.parent();
+        if (!this.isSpacer()) {
+            this.getEl().addEvent('click', this.click.bind(this));
+            this.getEl().addEvent('mouseenter', this.mouseOver.bind(this));
+            this.getEl().addEvent('mouseleave', this.mouseOut.bind(this));
+        }
+    },
 
-	ludoDOM:function () {
-		this.parent();
-		this.createMenu();
-		this.registerMenuHandler();
+    ludoDOM:function () {
+        this.parent();
+        this.createMenu();
+        this.registerMenuHandler();
 
-		this.getEl().addClass('ludo-menu-item');
-		this.getBody().setStyle('cursor', 'pointer');
+        this.getEl().addClass('ludo-menu-item');
+        this.getBody().setStyle('cursor', 'pointer');
 
-		if (this.isSpacer()) {
-			if (this.menuDirection === 'horizontal') {
-				this.getEl().setStyle('width', 1);
-			}
-			this.getEl().addClass('ludo-menu-item-spacer-' + this.getParent().getDirection());
-		}
+        if (this.isSpacer()) {
+            if (this.menuDirection === 'horizontal') {
+                this.getEl().setStyle('width', 1);
+            }
+            this.getEl().addClass('ludo-menu-item-spacer-' + this.getParent().getDirection());
+        }
 
-		if (this.getParent()) {
-			this.getEl().addClass('ludo-menu-item-' + this.getParent().getDirection());
-		}
+        if (this.getParent()) {
+            this.getEl().addClass('ludo-menu-item-' + this.getParent().getDirection());
+        }
 
-		if (this.icon) {
-			this.createIcon();
-		}
+        if (this.icon) {
+            this.createIcon();
+        }
 
-		if (this.disabled) {
-			this.disable();
-		}
-	},
+        if (this.disabled) {
+            this.disable();
+        }
+    },
 
-	getLabel:function () {
-		return this.label;
-	},
+    getLabel:function () {
+        return this.label;
+    },
 
-	getRecord:function () {
-		return this.record;
-	},
-	registerMenuHandler:function () {
-		var rootMenuComponent = this.getRootMenuComponent();
-		if (rootMenuComponent) {
-			this.menuHandler = rootMenuComponent.getMenuHandler();
-			if (this.menuHandler) {
-				this.menuHandler.addChild(this, this.menu, this.getParentMenuItem());
-			}
-		}
-	},
+    getRecord:function () {
+        return this.record;
+    },
+    registerMenuHandler:function () {
+        var rootMenuComponent = this.getRootMenuComponent();
+        if (rootMenuComponent) {
+            this.menuHandler = rootMenuComponent.getMenuHandler();
+            if (this.menuHandler) {
+                this.menuHandler.addChild(this, this.menu, this.getParentMenuItem());
+            }
+        }
+    },
 
-	ludoRendered:function () {
-		this.parent();
-		if (this.isSpacer()) {
-			this.getBody().setStyle('visibility', 'hidden');
-		}
-		this.parentMenuItem = this.getParentMenuItem();
-	},
+    ludoRendered:function () {
+        this.parent();
+        if (this.isSpacer()) {
+            this.getBody().setStyle('visibility', 'hidden');
+        }
+        this.parentMenuItem = this.getParentMenuItem();
+    },
 
-	click:function () {
-		if (this.disabled) {
-			return;
-		}
-		this.getEl().addClass('ludo-menu-item-down');
-		this.fireEvent('click', this);
-        if(this.fire)this.fireEvent(this.fire, this);
-		var rootMenu = this.getRootMenuComponent();
-		if (rootMenu) {
-			rootMenu.click(this);
-		}
-		if (!this.parentMenuItem) {
-			this.menuHandler.toggleActive(this);
-		}
-	},
-	select:function () {
-		this.getEl().addClass('ludo-menu-item-selected');
-	},
+    click:function () {
+        if (this.disabled) {
+            return;
+        }
+        this.getEl().addClass('ludo-menu-item-down');
+        this.fireEvent('click', this);
+        if (this.fire)this.fireEvent(this.fire, this);
+        var rootMenu = this.getRootMenuComponent();
+        if (rootMenu) {
+            rootMenu.click(this);
+        }
+        if (!this.parentMenuItem) {
+            this.menuHandler.toggleActive(this);
+        }
+    },
+    select:function () {
+        this.getEl().addClass('ludo-menu-item-selected');
+    },
 
-	deselect:function () {
-		this.getEl().removeClass('ludo-menu-item-selected');
-	},
+    deselect:function () {
+        this.getEl().removeClass('ludo-menu-item-selected');
+    },
 
-	/**
-	 * Disable menu item
-	 * @method disable
-	 * @return void
-	 */
-	disable:function () {
-		this.disabled = true;
-		this.getEl().addClass('ludo-menu-item-disabled');
-	},
+    /**
+     * Disable menu item
+     * @method disable
+     * @return void
+     */
+    disable:function () {
+        this.disabled = true;
+        this.getEl().addClass('ludo-menu-item-disabled');
+    },
 
-	/**
-	 * Return disable state of menu item
-	 * @method isDisabled
-	 * @return {Boolean} disabled
-	 */
-	isDisabled:function () {
-		return this.disabled;
-	},
+    /**
+     * Return disable state of menu item
+     * @method isDisabled
+     * @return {Boolean} disabled
+     */
+    isDisabled:function () {
+        return this.disabled;
+    },
 
-	/**
-	 * Enable menu item
-	 * @method enable
-	 * @return void
-	 */
-	enable:function () {
-		this.disabled = false;
-		this.getEl().removeClass('ludo-menu-item-disabled');
-	},
+    /**
+     * Enable menu item
+     * @method enable
+     * @return void
+     */
+    enable:function () {
+        this.disabled = false;
+        this.getEl().removeClass('ludo-menu-item-disabled');
+    },
 
-	createIcon:function () {
-		var el = this.els.icon = new Element('div');
-		ludo.dom.addClass(el, 'ludo-menu-item-icon');
-		el.setStyles({
-			'background-position':'top center',
-			'background-repeat':'no-repeat',
-			'position':'absolute',
-			'text-align':'center',
-			'left':0,
-			'top':0,
-			'height':'100%'
-		});
-		if (this.icon.indexOf('.') >= 0) {
-			el.setStyle('background-image', 'url(' + this.icon + ')');
-		} else {
-			el.set('html', this.icon);
-		}
-		this.getEl().adopt(el);
-	},
+    createIcon:function () {
+        var el = this.els.icon = new Element('div');
+        ludo.dom.addClass(el, 'ludo-menu-item-icon');
+        el.setStyles({
+            'background-position':'top center',
+            'background-repeat':'no-repeat',
+            'position':'absolute',
+            'text-align':'center',
+            'left':0,
+            'top':0,
+            'height':'100%'
+        });
+        if (this.icon.indexOf('.') >= 0) {
+            el.setStyle('background-image', 'url(' + this.icon + ')');
+        } else {
+            el.set('html', this.icon);
+        }
+        this.getEl().adopt(el);
+    },
 
-	mouseOver:function () {
-		if (this.disabled) {
-			return;
-		}
-		this.getEl().addClass('ludo-menu-item-over');
-		this.showMenu();
-	},
+    mouseOver:function () {
+        if (!this.disabled) {
+            this.getEl().addClass('ludo-menu-item-over');
+            this.showMenu();
+        }
+    },
 
-	mouseOut:function () {
-		if (this.disabled) {
-			return;
-		}
-		this.getEl().removeClass('ludo-menu-item-over');
-		this.getEl().removeClass('ludo-menu-item-down');
-	},
-	createMenu:function () {
+    mouseOut:function () {
+        if (!this.disabled) {
+            this.getEl().removeClass('ludo-menu-item-over');
+            this.getEl().removeClass('ludo-menu-item-down');
+        }
+    },
+    createMenu:function () {
+        if (this.menuItems.length === 0) {
+            return;
+        }
+        this.menu = new ludo.menu.Menu({
+            renderTo:document.body,
+            direction:'vertical',
+            children:this.menuItems,
+            parentMenuItem:this
+        });
+        this.menu.hide();
 
-		if (this.menuItems.length === 0) {
-			return;
-		}
-		this.menu = new ludo.menu.Menu({
-			renderTo:document.body,
-			direction:'vertical',
-			children:this.menuItems,
-			parentMenuItem:this
-		});
-		this.menu.hide();
+        var el = this.els.expand = new Element('div');
+        ludo.dom.addClass(el, 'ludo-menu-item-expand');
+        ludo.dom.addClass(el, 'ludo-menu-item-' + this.menuDirection + '-expand');
+        this.getEl().adopt(el);
 
-		var el = this.els.expand = new Element('div');
-		ludo.dom.addClass(el, 'ludo-menu-item-expand');
-		ludo.dom.addClass(el, 'ludo-menu-item-' + this.menuDirection + '-expand');
-		this.getEl().adopt(el);
+    },
 
-	},
+    getMeasuredWidth:function () {
+        if (this.isSpacer()) {
+            return ludo.dom.getTotalWidthOf(this.getEl());
+        }
+        return this.parent();
+    },
 
-	getMeasuredWidth:function () {
-		if (this.isSpacer()) {
-			return ludo.dom.getTotalWidthOf(this.getEl());
-		}
-		return this.parent();
-	},
+    isSpacer:function () {
+        return this.spacer;
+    },
 
-	isSpacer:function () {
-		return this.spacer;
-	},
+    showMenu:function () {
+        this.menuHandler.showMenu(this);
+    },
 
-	showMenu:function () {
-		this.menuHandler.showMenu(this);
-	},
+    getMenuDirection:function () {
+        return this.menuDirection;
+    },
 
-	getMenuDirection:function () {
-		return this.menuDirection;
-	},
-
-	getRootMenuComponent:function () {
-		var el;
-		if (el = this.getParent()) {
-			if (el.isMenu !== undefined) {
-				if (el.parentMenuItem) {
-					return el.parentMenuItem.getRootMenuComponent();
-				}
-				return el;
-			}
-			return this;
-		}
+    getRootMenuComponent:function () {
+        var el;
+        if (el = this.getParent()) {
+            if (el.isMenu !== undefined) {
+                if (el.parentMenuItem) {
+                    return el.parentMenuItem.getRootMenuComponent();
+                }
+                return el;
+            }
+            return this;
+        }
         return undefined;
-	},
+    },
 
-	getParentMenuItem:function () {
-		var el;
-		if (el = this.getParent()) {
-			if (el.isMenu) {
-				if (el.parentMenuItem) {
-					return el.parentMenuItem;
-				}
-			}
-		}
-		return null;
-	}
+    getParentMenuItem:function () {
+        var el;
+        if (el = this.getParent()) {
+            if (el.isMenu) {
+                if (el.parentMenuItem) {
+                    return el.parentMenuItem;
+                }
+            }
+        }
+        return null;
+    }
 });/* ../ludojs/src/menu/menu.js */
 /**
  * Menu class
@@ -17423,13 +17394,12 @@ ludo.menu.Menu = new Class({
     ludoConfig : function(config){
         this.menuItems = config.children;
         config.children = [];
-        this.direction = config.direction || this.direction;
-        this.parentMenuItem = config.parentMenuItem || this.parentMenuItem;
+        this.parent(config);
+        this.setConfigParams(config, ['direction','parentMenuItem']);
         if(this.direction === 'vertical'){
             config.height = 'auto';
 			this.layout.type = 'rows';
         }
-        this.parent(config);
     },
 
     ludoDOM : function(){
@@ -17496,12 +17466,7 @@ ludo.menu.Menu = new Class({
     },
 
     getMenuItemConfigObject : function(obj){
-        if(obj.substr){
-            obj = {
-                html : obj,
-                type : 'menu.MenuItem'
-            }
-        }
+        obj = obj.substr ? { html: obj, type:'menu.MenuItem' } : obj;
         obj.menuDirection = this.direction;
         return obj;
     },
@@ -18046,7 +18011,7 @@ ludo.menu.Button = new Class({
     hideButton:function () {
         if (this.alwaysVisible)return;
         this.buttonEl.style.display = 'none';
-        this.el.removeClass('ludo-menu-button-active');
+        ludo.dom.removeClass(this.el, 'ludo-menu-button-active');
     },
     getMenuView:function () {
         return this.menu;
@@ -18918,7 +18883,6 @@ ludo.form.Manager = new Class({
 		var c;
 		for (var i = 0, len = children.length; i < len; i++) {
 			c = children[i];
-
 			if (c['getProgressBarId'] !== undefined) {
 				this.registerProgressBar(c);
 				if (this.model) {
@@ -18962,7 +18926,6 @@ ludo.form.Manager = new Class({
 		if (this.model) {
 			this.model.registerFormComponent(c);
 		}
-
 	},
 
 	registerProgressBar:function (component) {
@@ -23060,7 +23023,7 @@ ludo.form.File = new Class({
 	ludoConfig:function (config) {
 		this.parent(config);
         this.setConfigParams(config, ['resource','instantUpload','labelButton','labelRemove','labelDelete','buttonWidth']);
-		if (config.accept !== undefined) {
+		if (config.accept) {
 			this.accept = config.accept.toLowerCase().split(/,/g);
 		}
 		if (config.value) {
@@ -23264,15 +23227,15 @@ ludo.form.File = new Class({
 	},
 
 	displayFileName:function () {
-
-		this.els.cellInput.set('html', '');
-		this.els.cellInput.removeClass('ludo-input-file-name-new-file');
-		this.els.cellInput.removeClass('ludo-input-file-name-initial');
-		this.els.cellInput.removeClass('ludo-input-file-name-not-uploaded');
+        var ci = this.els.cellInput;
+		ci.set('html', '');
+		ci.removeClass('ludo-input-file-name-new-file');
+		ci.removeClass('ludo-input-file-name-initial');
+		ci.removeClass('ludo-input-file-name-not-uploaded');
 		if (this.valueForDisplay) {
 			var span = new Element('span');
 			span.set('html', this.valueForDisplay + ' ');
-			this.els.cellInput.adopt(span);
+			ci.adopt(span);
 
 			var deleteLink = new Element('a');
 			deleteLink.addEvent('click', this.removeFile.bind(this));
@@ -23280,19 +23243,19 @@ ludo.form.File = new Class({
 			var html = this.labelRemove;
 			if (this.valueForDisplay == this.initialValue) {
 				html = this.labelDelete;
-				ludo.dom.addClass(this.els.cellInput, 'ludo-input-file-name-initial');
+				ludo.dom.addClass(ci, 'ludo-input-file-name-initial');
 			} else {
-				ludo.dom.addClass(this.els.cellInput, 'ludo-input-file-name-new-file');
+				ludo.dom.addClass(ci, 'ludo-input-file-name-new-file');
 			}
 			if (!this.fileUploadComplete) {
-				ludo.dom.addClass(this.els.cellInput, 'ludo-input-file-name-not-uploaded');
+				ludo.dom.addClass(ci, 'ludo-input-file-name-not-uploaded');
 			}
 			deleteLink.set('html', html);
-			this.els.cellInput.adopt(deleteLink);
+			ci.adopt(deleteLink);
 		}
 	},
 	resizeDOM:function () {
-		/* No DOM resize nescessary for this component */
+		/* No DOM resize necessary for this component */
 	},
 	upload:function () {
 		if (!this.hasValidExtension()) {
@@ -27933,7 +27896,7 @@ chess.view.command.Controller = new Class({
 		if(!message)return;
 		var command = this.getValidCommand(message);
 		if (command) {
-			this.execute(command, this.getCommandArguments(message));
+			this.execute(command, this.getCommandArguments(command, message));
 		} else {
 			this.errorMessage('Invalid command: "' + message + '"');
 		}
@@ -27974,13 +27937,17 @@ chess.view.command.Controller = new Class({
         var args = controller.getCommandArguments('move e4');
         // will return "e4"
      */
-	getCommandArguments:function (message) {
+	getCommandArguments:function (command, message) {
 		var c = message.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1) {
 			message = message.split(/\s/);
 			message.splice(0, 1);
 			return message.join(' ');
 		}
+        if(command === 'move'){
+            message = message.replace(/o/g,'O');
+            message = message.replace(/([nrqb])(x|[a-h])/, function(c){ return c.substr(0,1).toUpperCase() + c.substr(1); });
+        }
 		return message;
 	},
 
@@ -28057,7 +28024,7 @@ chess.view.command.Controller = new Class({
      * @return {Boolean}
      */
 	isChessMove:function (move) {
-		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|O(-?O){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
+		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|[Oo](-?[Oo]){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
 	},
     /**
      * Receive move from main controller and display move message on screen

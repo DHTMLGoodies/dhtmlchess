@@ -21,7 +21,7 @@ chess.view.command.Controller = new Class({
 		if(!message)return;
 		var command = this.getValidCommand(message);
 		if (command) {
-			this.execute(command, this.getCommandArguments(message));
+			this.execute(command, this.getCommandArguments(command, message));
 		} else {
 			this.errorMessage('Invalid command: "' + message + '"');
 		}
@@ -62,13 +62,17 @@ chess.view.command.Controller = new Class({
         var args = controller.getCommandArguments('move e4');
         // will return "e4"
      */
-	getCommandArguments:function (message) {
+	getCommandArguments:function (command, message) {
 		var c = message.split(/\s/)[0];
 		if (this.validCommands.indexOf(c) !== -1) {
 			message = message.split(/\s/);
 			message.splice(0, 1);
 			return message.join(' ');
 		}
+        if(command === 'move'){
+            message = message.replace(/o/g,'O');
+            message = message.replace(/([nrqb])(x|[a-h])/, function(c){ return c.substr(0,1).toUpperCase() + c.substr(1); });
+        }
 		return message;
 	},
 
@@ -145,7 +149,7 @@ chess.view.command.Controller = new Class({
      * @return {Boolean}
      */
 	isChessMove:function (move) {
-		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|O(-?O){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
+		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|[Oo](-?[Oo]){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
 	},
     /**
      * Receive move from main controller and display move message on screen
