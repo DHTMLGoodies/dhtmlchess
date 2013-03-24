@@ -1525,6 +1525,22 @@ TestCase("ParserTest", {
         var fen = parser.getFen();
         assertEquals(expectedFen, fen);
     },
+
+    "test should get linear array of moves": function(){
+        // given
+        var parser = this.getParser();
+
+        // when
+        var moves = parser.getValidMovesAndResult().moves;
+        var movesLinear = parser.getMovesAndResultLinear().moves;
+
+        for(var i=0;i<movesLinear.length;i++){
+            var from = movesLinear[i][0];
+            var to = movesLinear[i][1];
+
+            assertTrue(moves[from].indexOf(to)>=0);
+        }
+    },
     
     "test should perform well on computeMove": function(){
 

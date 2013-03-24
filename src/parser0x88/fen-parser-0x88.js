@@ -308,8 +308,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
 		var checks = this.getCountChecks(color, protectiveMoves);
-		var validSquares = null;
-		var pinned = [], pieces;
+		var pinned = [], pieces, validSquares;
 		if (checks === 2) {
 			pieces = [this.getKing(color)];
 		} else {
@@ -463,6 +462,175 @@ chess.parser.FenParser0x88 = new Class({
 		}
 		return { moves:ret, result:result, check:checks };
 	},
+
+    getMovesAndResultLinear:function(color){
+        color = color || this.getColor();
+        var ret = {}, directions;
+        var enPassantSquare = this.getEnPassantSquare();
+        if (enPassantSquare) {
+            enPassantSquare = Board0x88Config.mapping[enPassantSquare];
+        }
+
+        var kingSideCastle = this.canCastleKingSide(color);
+        var queenSideCastle = this.canCastleQueenSide(color);
+        var oppositeColor = color === 'white' ? 'black' : 'white';
+
+        var WHITE = color === 'white';
+
+        var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
+        var checks = this.getCountChecks(color, protectiveMoves);
+        var pinned = [], pieces, validSquares;
+        if (checks === 2) {
+            pieces = [this.getKing(color)];
+        } else {
+            pieces = this.cache[color];
+            pinned = this.getPinned(color);
+            if (checks === 1) {
+                validSquares = this.getValidSquaresOnCheck(color);
+            }
+        }
+        var totalCountMoves = 0, a, square;
+        var paths = [];
+
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+
+
+            switch (piece.t) {
+                // pawns
+                case 0x01:
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
+                        if (!this.cache['board'][piece.s + 16]) {
+                            paths.push([piece.s, piece.s + 16]);
+                            if (piece.s < 32) {
+                                if (!this.cache['board'][piece.s + 32]) {
+                                    paths.push([piece.s, piece.s + 32]);
+                                }
+                            }
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
+                        if (enPassantSquare == piece.s + 15 || (this.cache['board'][piece.s + 15]) && (this.cache['board'][piece.s + 15] & 0x8) > 0) {
+                            paths.push([piece.s, piece.s + 15]);
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
+                        if (enPassantSquare == piece.s + 17 || (this.cache['board'][piece.s + 17]) && (this.cache['board'][piece.s + 17] & 0x8) > 0) {
+                            paths.push([piece.s, piece.s + 17]);
+                    }
+                    }
+                    break;
+                case 0x09:
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
+                        if (!this.cache['board'][piece.s - 16]) {
+                            paths.push([piece.s, piece.s - 16]);
+                            if (piece.s > 87) {
+                                if (!this.cache['board'][piece.s - 32]) {
+                                    paths.push([piece.s, piece.s - 32]);
+                                }
+                            }
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
+                        if (enPassantSquare == piece.s - 15 || (this.cache['board'][piece.s - 15]) && (this.cache['board'][piece.s - 15] & 0x8) === 0) {
+                            paths.push([piece.s, piece.s - 15]);
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
+                        if (enPassantSquare == piece.s - 17 || (this.cache['board'][piece.s - 17]) && (this.cache['board'][piece.s - 17] & 0x8) === 0) {
+                            paths.push([piece.s, piece.s - 17]);
+                        }
+                    }
+
+                    break;
+                // Sliding pieces
+                case 0x05:
+                case 0x07:
+                case 0x06:
+                case 0x0D:
+                case 0x0E:
+                case 0x0F:
+                    directions = Board0x88Config.movePatterns[piece.t];
+                    if (pinned[piece.s]) {
+                        if (directions.indexOf(pinned[piece.s].direction) >= 0) {
+                            directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
+                        } else {
+                            directions = [];
+                        }
+                    }
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        while ((square & 0x88) === 0) {
+                            if (this.cache['board'][square]) {
+                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || (!WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                                    paths.push([piece.s, square]);
+                                }
+                                break;
+                            }
+                            paths.push([piece.s, square]);
+                            square += directions[a];
+                        }
+                    }
+                    break;
+                // Knight
+                case 0x02:
+                case 0x0A:
+                    if (pinned[piece.s]) {
+                        break;
+                    }
+                    directions = Board0x88Config.movePatterns[piece.t];
+
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            if (this.cache['board'][square]) {
+                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                                    paths.push([piece.s, square]);
+                                }
+                            } else {
+                                paths.push([piece.s, square]);
+                            }
+                        }
+                    }
+                    break;
+                // White king
+                // Black king
+                case 0X03:
+                case 0X0B:
+                    directions = Board0x88Config.movePatterns[piece.t];
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            if (protectiveMoves.indexOf(square) == -1) {
+                                if (this.cache['board'][square]) {
+                                    if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
+                                    }
+                                } else {
+                                    if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
+                                }
+                            }
+                        }
+                    }
+                    if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s + 2]);
+                    }
+                    if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s - 2]);
+                    }
+                    break;
+            }
+        }
+        var result = 0;
+        if (checks && !paths.length > 0) {
+            result = color === 'black' ? 1 : -1;
+        }
+        else if (!checks && paths.length === 0) {
+            result = .5;
+        }
+        return { moves:paths, result:result, check:checks };
+
+    },
 
 	excludeInvalidSquares:function (squares, validSquares) {
 		var ret = [];
