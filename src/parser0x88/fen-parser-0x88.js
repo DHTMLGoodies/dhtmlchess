@@ -47,7 +47,6 @@ chess.parser.FenParser0x88 = new Class({
 		this.fenParts = {
 			'pieces':fenParts[0],
 			'color':fenParts[1],
-			'castle':fenParts[2],
 			'castleCode':castleCode,
 			'enPassant':fenParts[3],
 			'halfMoves':fenParts[4],
@@ -1177,14 +1176,8 @@ chess.parser.FenParser0x88 = new Class({
 
 	},
 
-	setCastle:function (castle) {
-		if (!castle) {
-			castle = '-';
-		}
-		this.fenParts['castle'] = castle;
-	},
 	getCastle:function () {
-		return this.fenParts['castle'];
+		return Board0x88Config.castleMapping[this.fenParts['castleCode']];
 	},
     /**
      * Used on comp eval. Valid from and to is assumed
@@ -1194,6 +1187,49 @@ chess.parser.FenParser0x88 = new Class({
      */
     computeMove:function(from, to, promoteTo){
 
+        if (!this.cache['board'][to] && (this.cache['board'][from] !== 0x01 && this.cache['board'][from]!== 0x09)) {
+            this.incrementHalfMoves();
+        }else{
+            this.resetHalfMoves();
+        }
+
+        if ((this.cache['board'][from] === 0x03 || this.cache['board'][from]=== 0x0B)) {
+            var rook,offset;
+            this.disableCastle(from);
+            if(this.getDistance(from,to) > 1){
+                if (this.cache['board'][from] === 0x03) {
+                    rook = 0x06;
+                    offset = 0;
+                } else {
+                    rook = 0x0E;
+                    offset = 112;
+                }
+                if (from < to) {
+                    this.cache['board'][7 + offset] = undefined;
+                    this.cache['board'][5 + offset] = rook;
+
+                } else {
+                    this.cache['board'][0 + offset] = undefined;
+                    this.cache['board'][3 + offset] = rook;
+                }
+            }
+
+        }
+        this.cache['board'][to] = promoteTo ? promoteTo : this.cache['board'][from];
+        this.cache['board'][from] = undefined;
+
+        if(this.fenParts['color'] === 'b')this.incrementFullMoves();
+        this.setNewColor();
+    },
+
+    disableCastle:function(from){
+        var codes = this.cache['board'][from] < 9 ? [4,8] : [1,2];
+        this.disableCastleCode(codes[0]);
+        this.disableCastleCode(codes[1]);
+    },
+
+    disableCastleCode:function(code){
+        if(this.fenParts['castleCode'] & code) this.fenParts['castleCode'] -= code;
     },
 
 	updateBoardData:function (move) {
@@ -1234,12 +1270,11 @@ chess.parser.FenParser0x88 = new Class({
 		var castleNotation, pieceType, offset;
 		if (this.isCastleMove({ from:move.from, to:move.to })) {
 			var castle = this.getCastle();
+            this.disableCastle(move.from);
 			if (color == 'white') {
-				castleNotation = new RegExp('[KQ]', 'g');
 				pieceType = 0x06;
 				offset = 0;
 			} else {
-				castleNotation = new RegExp('[kq]', 'g');
 				pieceType = 0x0E;
 				offset = 112;
 			}
@@ -1252,8 +1287,6 @@ chess.parser.FenParser0x88 = new Class({
 				this.cache['board'][0 + offset] = undefined;
 				this.cache['board'][3 + offset] = pieceType;
 			}
-			castle = castle.replace(castleNotation, '');
-			this.setCastle(castle);
 		} else {
 			this.updateCastleForMove(movedPiece, move.from);
 		}
@@ -1281,25 +1314,23 @@ chess.parser.FenParser0x88 = new Class({
 	updateCastleForMove:function (movedPiece, from) {
 		switch (movedPiece) {
 			case 0x03:
-				this.setCastle(this.getCastle().replace(/[KQ]/g, ''));
-				break;
-			case 0x0B:
-				this.setCastle(this.getCastle().replace(/[kq]/g, ''));
+            case 0x0B:
+                this.disableCastle(from);
 				break;
 			case 0x06:
 				if (from === 0) {
-					this.setCastle(this.getCastle().replace(/[Q]/g, ''));
+                    this.disableCastleCode(Board0x88Config.castle['Q']);
 				}
 				if (from === 7) {
-					this.setCastle(this.getCastle().replace(/[K]/g, ''));
+                    this.disableCastleCode(Board0x88Config.castle['K']);
 				}
 				break;
 			case 0x0E:
 				if (from === 112) {
-					this.setCastle(this.getCastle().replace(/[q]/g, ''));
+                    this.disableCastleCode(Board0x88Config.castle['q']);
 				}
 				if (from === 119) {
-					this.setCastle(this.getCastle().replace(/[k]/g, ''));
+                    this.disableCastleCode(Board0x88Config.castle['k']);
 				}
 				break;
 		}

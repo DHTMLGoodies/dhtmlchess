@@ -1539,6 +1539,46 @@ TestCase("ParserTest", {
 
     },
 
+    "test should be able to use compute move" : function(){
+        // given
+        var parser = this.getParser();
+        var moves = [
+            ['e2','e4'],
+            ['e7','e5'],
+            ['g1','f3']
+        ];
+
+        // when
+        for(var i=0;i<moves.length;i++){
+            parser.computeMove(
+                Board0x88Config.mapping[moves[i][0]],
+                Board0x88Config.mapping[moves[i][1]]
+            )
+        }
+        // then
+        assertEquals('rnbqkbnr/pppp1ppp/8/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2', parser.getNewFen());
+
+
+        moves = [
+            ['e2','e4'],['e7','e5'],['g1','f3'],['b8','c6'],['f1','c4'],['g8','f6'],['c4','f7'],['e8','f7'],['e1','g1']
+        ];
+        var expectedFen = 'r1bq1b1r/pppp1kpp/2n2n2/4p3/4P3/5N2/PPPP1PPP/RNBQ1RK1 b - - 1 5';
+        parser = this.getParser();
+
+        // when
+        for(i=0;i<moves.length;i++){
+            parser.computeMove(
+                Board0x88Config.mapping[moves[i][0]],
+                Board0x88Config.mapping[moves[i][1]]
+            )
+        }
+
+        // then
+        assertEquals(expectedFen, parser.getNewFen());
+
+
+    },
+
     getFenFromSpasskyFischer:function () {
         var parser = this.getParser();
         var moves = 'e4,d6,d4,g6,Nc3,Nf6,f4,Bg7,Nf3,c5,dxc5,Qa5,Bd3,Qxc5,Qe2,O-O,Be3,Qa5,O-O,Bg4,Rad1,Nc6,Bc4,Nh5,Bb3,Bxc3,bxc3,Qxc3,f5,Nf6,h3,Bxf3,Qxf3,Na5,Rd3,Qc7,Bh6,Nxb3,cxb3,Qc5+,Kh1,Qe5,Bxf8,Rxf8,Re3,Rc8,fxg6,hxg6,Qf4,Qxf4,Rxf4,Nd7,Rf2,Ne5,Kh2,Rc1,Ree2,Nc6,Rc2,Re1,Rfe2,Ra1,Kg3,Kg7,Rcd2,Rf1,Rf2,Re1,Rfe2,Rf1,Re3,a6,Rc3,Re1,Rc4,Rf1,Rdc2,Ra1,Rf2,Re1,Rfc2,g5,Rc1,Re2,R1c2,Re1,Rc1,Re2,R1c2';
