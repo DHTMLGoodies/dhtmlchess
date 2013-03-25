@@ -1280,7 +1280,7 @@ TestCase("ParserTest", {
             assertEquals(notations[i], moves[i].substr(0, 2), move.from);
             assertEquals(notations[i], moves[i].substr(2, 2), move.to);
 
-            parser.makeMove({ from:moves[i].substr(0, 2), to:moves[i].substr(2, 2)});
+            parser.makeMoveByObject({ from:moves[i].substr(0, 2), to:moves[i].substr(2, 2)});
 
         }
 
@@ -1526,7 +1526,7 @@ TestCase("ParserTest", {
         assertEquals(expectedFen, fen);
     },
 
-    "test should get linear array of moves": function(){
+    "test should get linear array of moves":function () {
         // given
         var parser = this.getParser();
 
@@ -1534,15 +1534,15 @@ TestCase("ParserTest", {
         var moves = parser.getValidMovesAndResult().moves;
         var movesLinear = parser.getMovesAndResultLinear().moves;
 
-        for(var i=0;i<movesLinear.length;i++){
+        for (var i = 0; i < movesLinear.length; i++) {
             var from = movesLinear[i][0];
             var to = movesLinear[i][1];
 
-            assertTrue(moves[from].indexOf(to)>=0);
+            assertTrue(moves[from].indexOf(to) >= 0);
         }
     },
-    
-    "test should perform well on computeMove": function(){
+
+    "test should perform well on makeMove":function () {
 
 
         var start = new Date().getTime();
@@ -1550,25 +1550,25 @@ TestCase("ParserTest", {
         for (var i = 0; i < 2000; i++) {
             var parser = this.getParser();
 
-            parser.computeMove(Board0x88Config.mapping['e2'], Board0x88Config.mapping['e4']);
-            parser.computeMove(Board0x88Config.mapping['e7'], Board0x88Config.mapping['e5']);
-            parser.computeMove(Board0x88Config.mapping['g1'], Board0x88Config.mapping['f3']);
-            parser.computeMove(Board0x88Config.mapping['g8'], Board0x88Config.mapping['f6']);
-            parser.computeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['c4']);
-            parser.computeMove(Board0x88Config.mapping['f8'], Board0x88Config.mapping['c5']);
-            parser.computeMove(Board0x88Config.mapping['e1'], Board0x88Config.mapping['g1']);
-            parser.computeMove(Board0x88Config.mapping['e8'], Board0x88Config.mapping['g8']);
-            parser.computeMove(Board0x88Config.mapping['c2'], Board0x88Config.mapping['c3']);
-            parser.computeMove(Board0x88Config.mapping['h7'], Board0x88Config.mapping['h6']);
-            parser.computeMove(Board0x88Config.mapping['d2'], Board0x88Config.mapping['d4']);
-            parser.computeMove(Board0x88Config.mapping['e5'], Board0x88Config.mapping['d4']);
-            parser.computeMove(Board0x88Config.mapping['c3'], Board0x88Config.mapping['d4']);
-            parser.computeMove(Board0x88Config.mapping['c5'], Board0x88Config.mapping['b4']);
-            parser.computeMove(Board0x88Config.mapping['a2'], Board0x88Config.mapping['a3']);
-            parser.computeMove(Board0x88Config.mapping['b4'], Board0x88Config.mapping['a5']);
-            parser.computeMove(Board0x88Config.mapping['b2'], Board0x88Config.mapping['b4']);
-            parser.computeMove(Board0x88Config.mapping['a5'], Board0x88Config.mapping['b6']);
-            parser.computeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['e1']);
+            parser.makeMove(Board0x88Config.mapping['e2'], Board0x88Config.mapping['e4']);
+            parser.makeMove(Board0x88Config.mapping['e7'], Board0x88Config.mapping['e5']);
+            parser.makeMove(Board0x88Config.mapping['g1'], Board0x88Config.mapping['f3']);
+            parser.makeMove(Board0x88Config.mapping['g8'], Board0x88Config.mapping['f6']);
+            parser.makeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['c4']);
+            parser.makeMove(Board0x88Config.mapping['f8'], Board0x88Config.mapping['c5']);
+            parser.makeMove(Board0x88Config.mapping['e1'], Board0x88Config.mapping['g1']);
+            parser.makeMove(Board0x88Config.mapping['e8'], Board0x88Config.mapping['g8']);
+            parser.makeMove(Board0x88Config.mapping['c2'], Board0x88Config.mapping['c3']);
+            parser.makeMove(Board0x88Config.mapping['h7'], Board0x88Config.mapping['h6']);
+            parser.makeMove(Board0x88Config.mapping['d2'], Board0x88Config.mapping['d4']);
+            parser.makeMove(Board0x88Config.mapping['e5'], Board0x88Config.mapping['d4']);
+            parser.makeMove(Board0x88Config.mapping['c3'], Board0x88Config.mapping['d4']);
+            parser.makeMove(Board0x88Config.mapping['c5'], Board0x88Config.mapping['b4']);
+            parser.makeMove(Board0x88Config.mapping['a2'], Board0x88Config.mapping['a3']);
+            parser.makeMove(Board0x88Config.mapping['b4'], Board0x88Config.mapping['a5']);
+            parser.makeMove(Board0x88Config.mapping['b2'], Board0x88Config.mapping['b4']);
+            parser.makeMove(Board0x88Config.mapping['a5'], Board0x88Config.mapping['b6']);
+            parser.makeMove(Board0x88Config.mapping['f1'], Board0x88Config.mapping['e1']);
 
 
         }
@@ -1594,18 +1594,18 @@ TestCase("ParserTest", {
 
     },
 
-    "test should be able to use compute move" : function(){
+    "test should be able to use compute move":function () {
         // given
         var parser = this.getParser();
         var moves = [
-            ['e2','e4'],
-            ['e7','e5'],
-            ['g1','f3']
+            ['e2', 'e4'],
+            ['e7', 'e5'],
+            ['g1', 'f3']
         ];
 
         // when
-        for(var i=0;i<moves.length;i++){
-            parser.computeMove(
+        for (var i = 0; i < moves.length; i++) {
+            parser.makeMove(
                 Board0x88Config.mapping[moves[i][0]],
                 Board0x88Config.mapping[moves[i][1]]
             )
@@ -1615,14 +1615,22 @@ TestCase("ParserTest", {
 
 
         moves = [
-            ['e2','e4'],['e7','e5'],['g1','f3'],['b8','c6'],['f1','c4'],['g8','f6'],['c4','f7'],['e8','f7'],['e1','g1']
+            ['e2', 'e4'],
+            ['e7', 'e5'],
+            ['g1', 'f3'],
+            ['b8', 'c6'],
+            ['f1', 'c4'],
+            ['g8', 'f6'],
+            ['c4', 'f7'],
+            ['e8', 'f7'],
+            ['e1', 'g1']
         ];
         var expectedFen = 'r1bq1b1r/pppp1kpp/2n2n2/4p3/4P3/5N2/PPPP1PPP/RNBQ1RK1 b - - 1 5';
         parser = this.getParser();
 
         // when
-        for(i=0;i<moves.length;i++){
-            parser.computeMove(
+        for (i = 0; i < moves.length; i++) {
+            parser.makeMove(
                 Board0x88Config.mapping[moves[i][0]],
                 Board0x88Config.mapping[moves[i][1]]
             )
@@ -1633,21 +1641,21 @@ TestCase("ParserTest", {
 
     },
 
-    "test should be able to handle en passants in compute move": function(){
+    "test should be able to handle en passants in compute move":function () {
         // given
         var expectedFen = 'r1bqkbnr/ppppp1pp/2n2P2/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 3';
         var moves = [
-            ['e2','e4'],
-            ['b8','c6'],
-            ['e4','e5'],
-            ['f7','f5'],
-            ['e5','f6']
+            ['e2', 'e4'],
+            ['b8', 'c6'],
+            ['e4', 'e5'],
+            ['f7', 'f5'],
+            ['e5', 'f6']
         ];
         var parser = this.getParser();
 
         // when
-        for(var i=0;i<moves.length;i++){
-            parser.computeMove(
+        for (var i = 0; i < moves.length; i++) {
+            parser.makeMove(
                 Board0x88Config.mapping[moves[i][0]],
                 Board0x88Config.mapping[moves[i][1]]
             )
@@ -1658,19 +1666,66 @@ TestCase("ParserTest", {
         assertUndefined(parser.getPieceOnSquare(Board0x88Config.mapping['f5']));
         assertNotUndefined(parser.getPieceOnSquare(Board0x88Config.mapping['a2']));
 
-
-
     },
 
-    "test should get valid moves after calling compute move": function(){
+    "test should be able to unmake move":function () {
         // given
         var moves = [
-            ['e2','e4'],['e7','e5'],['g1','f3'],['b8','c6'],['f1','c4'],['g8','f6'],['c4','f7'],['e8','f7'],['e1','g1']
+            [
+                ['e2', 'e4'],
+                ['e7', 'e5'],
+                ['g1', 'f3'],
+                ['b8', 'c6'],
+                ['f1', 'c4'],
+                ['g8', 'f6'],
+                ['c4', 'f7'],
+                ['e8', 'f7']
+            ]
+        ];
+
+        for (var i = 0; i < moves.length; i++) {
+            var parser = this.getParser();
+            var validMoves = Object.clone(parser.getValidMovesAndResult().moves);
+            var countWhite = parser.cache['white'].length;
+            var countBlack = parser.cache['black'].length;
+            var white = Object.clone(parser.cache['white']);
+            var black = Object.clone(parser.cache['black']);
+            for (var j = 0; j < moves[i].length; j++) {
+                parser.makeMove(
+                    Board0x88Config.mapping[moves[i][j][0]],
+                    Board0x88Config.mapping[moves[i][j][1]]
+                )
+            }
+
+            for (j = 0; j < moves[i].length; j++) {
+                parser.unmakeMove();
+            }
+            assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', parser.getNewFen());
+            assertEquals(countWhite, parser.cache['white'].length);
+            assertEquals(countBlack, parser.cache['black'].length);
+            assertEquals(white, Object.clone(parser.cache['white']));
+            assertEquals(black, Object.clone(parser.cache['black']));
+            assertEquals(validMoves, parser.getValidMovesAndResult().moves);
+        }
+    },
+
+    "test should get valid moves after calling compute move":function () {
+        // given
+        var moves = [
+            ['e2', 'e4'],
+            ['e7', 'e5'],
+            ['g1', 'f3'],
+            ['b8', 'c6'],
+            ['f1', 'c4'],
+            ['g8', 'f6'],
+            ['c4', 'f7'],
+            ['e8', 'f7'],
+            ['e1', 'g1']
         ];
         var parser = this.getParser();
 
-        for(var i=0;i<moves.length;i++){
-            parser.computeMove(
+        for (var i = 0; i < moves.length; i++) {
+            parser.makeMove(
                 Board0x88Config.mapping[moves[i][0]],
                 Board0x88Config.mapping[moves[i][1]]
             )
@@ -1680,22 +1735,22 @@ TestCase("ParserTest", {
 
         assertEquals(101, parser.getKing('black').s);
 
-        this.assertThatPieceOnCanMoveTo(res, 'f7', ['e8','e7','e6','g8','g6']);
+        this.assertThatPieceOnCanMoveTo(res, 'f7', ['e8', 'e7', 'e6', 'g8', 'g6']);
 
     },
 
-    "test should find enPassant square on compute move": function(){
+    "test should find enPassant square on compute move":function () {
         // given
         var moves = [
-            ['e2','e4'],
-            ['b8','c6'],
-            ['e4','e5'],
-            ['f7','f5']
+            ['e2', 'e4'],
+            ['b8', 'c6'],
+            ['e4', 'e5'],
+            ['f7', 'f5']
         ];
         var parser = this.getParser();
 
-        for(var i=0;i<moves.length;i++){
-            parser.computeMove(
+        for (var i = 0; i < moves.length; i++) {
+            parser.makeMove(
                 Board0x88Config.mapping[moves[i][0]],
                 Board0x88Config.mapping[moves[i][1]]
             )
@@ -1705,7 +1760,7 @@ TestCase("ParserTest", {
 
     },
 
-    assertThatPieceOnCanMoveTo:function(moves, from, toSquares){
+    assertThatPieceOnCanMoveTo:function (moves, from, toSquares) {
         var squares = moves.moves[Board0x88Config.mapping[from]];
 
         var msg = Board0x88Config.mapping[from] + '\n' + JSON.encode(moves.moves);
