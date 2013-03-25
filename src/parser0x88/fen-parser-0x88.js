@@ -896,9 +896,7 @@ chess.parser.FenParser0x88 = new Class({
 					}
 					break;
 			}
-
 		}
-
 		return ret;
 	},
 
@@ -1755,6 +1753,13 @@ chess.parser.FenParser0x88 = new Class({
             }
         }
         return c;
+    },
+
+    evaluate:function(){
+        var res = this.getValidMovesAndResult();
+        var score = this.getMaterialScore();
+        score += this.getMobility() * 2;
+        return score;
     },
 
     /**

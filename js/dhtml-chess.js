@@ -1,4 +1,4 @@
-/* Generated Mon Mar 25 3:18:48 CET 2013 */
+/* Generated Mon Mar 25 3:38:49 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -30373,9 +30373,7 @@ chess.parser.FenParser0x88 = new Class({
 					}
 					break;
 			}
-
 		}
-
 		return ret;
 	},
 
@@ -31232,6 +31230,13 @@ chess.parser.FenParser0x88 = new Class({
             }
         }
         return c;
+    },
+
+    evaluate:function(){
+        var res = this.getValidMovesAndResult();
+        var score = this.getMaterialScore();
+        score += this.getMobility() * 2;
+        return score;
     },
 
     /**
