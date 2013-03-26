@@ -1709,7 +1709,7 @@ TestCase("ParserTest", {
         }
     },
 
-    "test should get valid moves after calling compute move":function () {
+    "test should get valid moves after calling make move":function () {
         // given
         var moves = [
             ['e2', 'e4'],
@@ -1739,7 +1739,7 @@ TestCase("ParserTest", {
 
     },
 
-    "test should find enPassant square on compute move":function () {
+    "test should find enPassant square on make move":function () {
         // given
         var moves = [
             ['e2', 'e4'],

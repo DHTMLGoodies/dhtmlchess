@@ -1,4 +1,4 @@
-/* Generated Mon Mar 25 3:38:49 CET 2013 */
+/* Generated Tue Mar 26 17:32:47 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -9870,12 +9870,7 @@ ludo.dataSource.SearchParser = new Class({
 			counter++;
 			ib = this.getIndexOfInnerBranch(branch);
 		}
-
-		if(branch.operator === '&'){
-			return this.getAndFn(branch);
-		}else{
-			return this.getOrFn(branch);
-		}
+        return branch.operator === '&' ? this.getAndFn(branch) : this.getOrFn(branch);
 	},
 
 	getAndFn:function(branch){
@@ -16446,7 +16441,6 @@ ludo.controller.Controller = new Class({
 		if (!this.applyTo) {
 			return this.isInSameNamespaceAs(component);
 		}
-
 		var key = this.getModuleKeyFor(component);
 		if (this.isAppliedDirectlyToModule(key)) {
 			return true;
