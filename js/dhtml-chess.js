@@ -1,4 +1,4 @@
-/* Generated Tue Mar 26 17:32:47 CET 2013 */
+/* Generated Wed Mar 27 12:13:13 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -15911,7 +15911,7 @@ ludo.form.Password = new Class({
  */
 ludo.form.StrongPassword = new Class({
     Extends: ludo.form.Password,
-    regex : '(?=^.{_length_,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$',
+    regex : '(?=^.{_length_,}$)((?=.*[0-9])|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$',
     /**
      * Custom minimum length of password
      * @config {Number} passwordLength
@@ -15923,7 +15923,7 @@ ludo.form.StrongPassword = new Class({
     ludoConfig:function(config){
         config = config || {};
         this.passwordLength = config.passwordLength || this.passwordLength;
-        this.regex = new RegExp(this.regex.replace('_length_', this.passwordLength,''));
+        this.regex = new RegExp(this.regex.replace('_length_', this.passwordLength));
         this.parent(config);
     }
 });/* ../ludojs/src/form/email.js */
