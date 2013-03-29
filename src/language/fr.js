@@ -25,14 +25,14 @@ chess.language = Object.merge(chess.language, {
     'Sign in':'Se connecter',
     'Sign out':'Se déconnecter',
     'E-mail':'Adresse de courriel',
-    'Username':'Nom d'utilisateur',
+    'Username':"Nom d'utilisateur",
     'Full name':'Nom complet',
     'Password':'Mot de passe',
     'Repeat password':'Répétez le mot de passe',
     'rememberMe':'Se souvenir de moi',
-    'register':'S'inscrire',
-    'invalidUserNameOrPassword':'Nom d'utilisateur ou mot de passe non valide',
-    'InvalidUsername':'Ce nom d'utilisateur existe déjà',
+    'register':"S'inscrire",
+    'invalidUserNameOrPassword':"Nom d'utilisateur ou mot de passe non valide",
+    'InvalidUsername':"Ce nom d'utilisateur existe déjà",
     'invalidEmail':'Adresse de courriel invalide',
     'My profile':'Mon profil',
     'country':'Pays',
@@ -47,12 +47,12 @@ chess.language = Object.merge(chess.language, {
     'tacticPuzzleSolvedMessage':'Bien fait! Vous avez résolu ce Puzzle. Cliquez sur OK pour charger le prochain problème',
 
 
-    'commandWelcome':'Tapez vos commandes. Pour l'aide, tapez aide (+ entrée).',
-    'command_help':'Affichage écran d'aide',
+    'commandWelcome':"Tapez vos commandes. Pour l'aide, tapez aide (+ entrée).",
+    'command_help':"Affichage écran d'aide",
     'command_move':'Tapez "coup + notation" ou notation seulement (p. ex. "e4"), pour ajouter des coups',
-    'command_cls':'Effacer l'écran',
+    'command_cls':"Effacer l'écran",
     'command_load':'Charger une partie spécifique avec cet id de la base de données',
-    'command_flip':'Tourner l'échiquier',
+    'command_flip':"Tourner l'échiquier",
     'command_grade':'Evaluez coup en cours',
     'command_forward':'Allez au prochain coup',
     'command_back':'Allez au coup précédent',
@@ -68,8 +68,4 @@ chess.language = Object.merge(chess.language, {
     "To elo":"Vers elo",
     "Rated":"Classé",
     "Pgn File" : "Fichier Pgn"
-};
-
-chess.getPhrase = function (phrase) {
-    return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
-};
+});
