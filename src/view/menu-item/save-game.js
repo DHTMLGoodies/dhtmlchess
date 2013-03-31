@@ -7,7 +7,7 @@
  * @class NewGame
  */
 chess.view.menuItems.SaveGame = new Class({
-    Extends: ludo.menu.MenuItem,
+    Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.saveGame',
     label : chess.getPhrase('Save game'),
     module : 'user',
