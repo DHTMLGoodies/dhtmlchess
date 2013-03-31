@@ -8,7 +8,7 @@
  * @class GameImport
  */
 chess.view.menuItems.GameImport = new Class({
-    Extends: ludo.menu.MenuItem,
+    Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.GameImport',
     label : chess.getPhrase('Import games(PGN)'),
     module : 'user',

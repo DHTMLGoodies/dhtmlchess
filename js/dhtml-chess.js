@@ -1,4 +1,4 @@
-/* Generated Wed Mar 27 12:13:13 CET 2013 */
+/* Generated Sun Mar 31 23:16:50 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -768,13 +768,12 @@ ludo.Core = new Class({
 	ludoConfig:function(config){
         var keys = ['url','name','controller','module','submodule','stateful','id','useController'];
         this.setConfigParams(config, keys);
-
-		if (config.listeners !== undefined)this.addEvents(config.listeners);
-		if (this.controller !== undefined)ludo.controllerManager.assignSpecificControllerFor(this.controller, this);
         if (this.stateful && this.statefulProperties && this.id) {
             config = this.appendPropertiesFromStore(config);
             this.addEvent('state', this.saveStatefulProperties.bind(this));
         }
+		if (config.listeners !== undefined)this.addEvents(config.listeners);
+		if (this.controller !== undefined)ludo.controllerManager.assignSpecificControllerFor(this.controller, this);
         if (this.module || this.useController)ludo.controllerManager.registerComponent(this);
 		if(!this.id)this.id = 'ludo-' + String.uniqueID();
 		ludo.CmpMgr.registerComponent(this);
@@ -991,6 +990,8 @@ ludo.layout.Factory = new Class({
 				return 'Card';
 			case 'grid':
 				return 'Grid';
+            case 'menu':
+                return ['Menu', (view.layout.orientation && view.layout.orientation.toLowerCase()=='horizontal') ? 'Horizontal' : 'Vertical'].join('');
 			case 'tabs':
 			case 'tab':
 				return 'Tab';
@@ -4101,28 +4102,6 @@ ludo.dom = {
 	},
 
 	/**
-	 * Return margin+border+padding width of elOne MINUS margin+border+padding width of elTwo
-	 * @method getMBPWDiff
-	 * @param elOne
-	 * @param elTwo
-	 * @return {Number}
-	 */
-	getMBPWDiff:function (elOne, elTwo) {
-		return ludo.dom.getMBPW(elOne) - ludo.dom.getMBPW(elTwo);
-	},
-	/**
-	 * Return margin+border+padding height of elOne MINUS margin+border+padding height of elTwo
-	 * @method getMBPHDiff
-	 * @param elOne
-	 * @param elTwo
-	 * @return {Number}
-	 */
-	getMBPHDiff:function (elOne, elTwo) {
-		return ludo.dom.getMBPH(elOne) - ludo.dom.getMBPH(elTwo);
-	},
-
-
-	/**
 	 * @method clearCacheStyles
 	 * Clear cached padding,border and margins.
 	 */
@@ -4186,13 +4165,13 @@ ludo.dom = {
 		var viewHeight = c.offsetHeight - ludo.dom.getPH(c) - ludo.dom.getBH(c) - ludo.dom.getMBPH(el);
 
 		var pos = domNode.getPosition(el).y;
-		var scrollTop = c.scrollTop;
 
-		var pxBeneathBottomEdge = (pos + 20) - (scrollTop + viewHeight);
-		var pxAboveTopEdge = scrollTop - pos;
+		var pxBeneathBottomEdge = (pos + 20) - (c.scrollTop + viewHeight);
 		if (pxBeneathBottomEdge > 0) {
 			el.scrollTop += pxBeneathBottomEdge;
 		}
+
+        var pxAboveTopEdge = c.scrollTop - pos;
 		if (pxAboveTopEdge > 0) {
 			el.scrollTop -= pxAboveTopEdge;
 		}
@@ -4598,13 +4577,11 @@ ludo.View = new Class({
 	 */
 	socket:undefined,
 
-
 	parentComponent:null,
 	objMovable:null,
 	/**
-	 * width of component
-	 * @config width
-	 * @type : int
+	 * Width of component
+	 * @config {Number} width
 	 */
 	width:undefined,
 	/**
@@ -4736,7 +4713,7 @@ ludo.View = new Class({
 	 which is the same as linear horizontal
 
 	 Layout types:
-	 	linear, fill, grid, tab
+	 	linear, fill, grid, tab, popup
 
 	 */
 	layout:undefined,
@@ -4851,7 +4828,6 @@ ludo.View = new Class({
 		this.layout = ludo.layoutFactory.getValidLayoutObject(this, config);
 
 		if (this.copyEvents) {
-			this.copyEvents = Object.clone(this.copyEvents);
 			this.createEventCopies();
 		}
 
@@ -4985,6 +4961,7 @@ ludo.View = new Class({
 	},
 
 	createEventCopies:function () {
+        this.copyEvents = Object.clone(this.copyEvents);
 		for (var eventName in this.copyEvents) {
 			if (this.copyEvents.hasOwnProperty(eventName)) {
 				this.addEvent(eventName, this.getEventCopyFn(this.copyEvents[eventName]));
@@ -5025,7 +5002,7 @@ ludo.View = new Class({
 		var size = this.getBody().measure(function () {
 			return this.getSize();
 		});
-        this.height = size.y + ludo.dom.getBH(this.getBody()) + ludo.dom.getBH(this.getEl());
+        this.height = size.y + ludo.dom.getMH(this.getBody()) + ludo.dom.getMBPH(this.getEl());
 	},
 	/**
 	 * Set HTML of components body element
@@ -5149,16 +5126,6 @@ ludo.View = new Class({
 		return this.els.body;
 	},
 	/**
-	 * Hide all child components
-	 * @method hideAllChildren
-	 * @return void
-	 */
-	hideAllChildren:function () {
-		for (var i = 0; i < this.children.length; i++) {
-			this.children[i].hide();
-		}
-	},
-	/**
 	 * Hide this component
 	 * @method hide
 	 * @return void
@@ -5193,6 +5160,17 @@ ludo.View = new Class({
 	isHidden:function () {
 		return this.hidden;
 	},
+
+    /**
+     * Return true if this component is visible
+     * @method isVisible
+     * @return {Boolean}
+     *
+     */
+    isVisible:function () {
+        return !this.hidden;
+    },
+
 	/**
 	 * Show this component.
 	 * @method show
@@ -5286,15 +5264,7 @@ ludo.View = new Class({
 		return this.children.length > 0;
 	},
 
-	/**
-	 * Return true if this component is visible
-	 * @method isVisible
-	 * @return {Boolean}
-	 *
-	 */
-	isVisible:function () {
-		return !this.hidden;
-	},
+
 
 	/**
 	 * Set new title
@@ -5558,20 +5528,12 @@ ludo.View = new Class({
 				}
 				obj = this.dataSourceObj = ludo._new(this.dataSource);
 			}
-			switch (obj.getSourceType()) {
-				case 'HTML':
-					if (obj.hasData()) {
-						this.setHtml(obj.getData());
-					}
-					obj.addEvent('load', this.setHtml.bind(this));
-					break;
-				case 'JSON':
-					if (obj.hasData()) {
-						this.insertJSON(obj.getData());
-					}
-					obj.addEvent('load', this.insertJSON.bind(this));
-					break;
-			}
+
+            var method = obj.getSourceType() === 'HTML' ? 'setHtml' : 'insertJSON';
+            if (obj.hasData()) {
+                this[method](obj.getData());
+            }
+            obj.addEvent('load',this[method].bind(this));
 		}
 		return this.dataSourceObj;
 	},
@@ -5590,10 +5552,6 @@ ludo.View = new Class({
 	getParentFormManager:function () {
 		var parent = this.getParent();
 		return parent ? parent.formManager ? parent.formManager : parent.getParentFormManager() : undefined;
-	},
-
-	getIndexOf:function (child) {
-		return this.children.indexOf(child);
 	},
 
 	isFormElement:function () {
@@ -9190,9 +9148,9 @@ ludo.view.TitleBar = new Class({
         }
         var parent = c.getParent();
         if (parent && parent.layout && parent.layout.type === 'linear' && parent.layout.orientation === 'horizontal') {
-            return parent.getIndexOf(c) === 0 ? 'left' : 'right';
+            return parent.children.indexOf(c) === 0 ? 'left' : 'right';
         } else {
-            return parent.getIndexOf(c) === 0 ? 'top' : 'bottom';
+            return parent.children.indexOf(c) === 0 ? 'top' : 'bottom';
         }
     }
 });/* ../ludojs/src/framed-view.js */
@@ -12129,9 +12087,9 @@ ludo.grid.GridHeader = new Class({
 		ludo.dom.addClass(el, 'ludo-grid-header-cell');
 		ludo.dom.addClass(el, 'ludo-header-' + this.columnManager.getHeaderAlignmentOf(col));
 
-		var span = new Element('span');
-		ludo.dom.addClass(span, 'ludo-cell-text');
-		el.adopt(span);
+        ludo.dom.create({
+            tag:'span', cls : 'ludo-cell-text', renderTo:el, html : this.columnManager.getHeadingFor(col)
+        });
 
 		this.createTopAndBottomBackgrounds(col);
 		this.addDOMForDropTargets(el, col);
@@ -12152,7 +12110,6 @@ ludo.grid.GridHeader = new Class({
 				}
 			});
 		}
-		el.getElement('span').set('html', this.columnManager.getHeadingFor(col));
 		this.el.adopt(el);
 
 		this.getMovable().add({
@@ -12183,8 +12140,7 @@ ludo.grid.GridHeader = new Class({
 	},
 
 	resizeCellBackgrounds:function (col) {
-		var totalHeight = this.columnManager.getRowSpanOf(col) * this.cellHeight;
-		totalHeight -= this.spacing.height;
+		var totalHeight = (this.columnManager.getRowSpanOf(col) * this.cellHeight) -  this.spacing.height;
 		var height = Math.round(totalHeight) / 2;
 		this.cellBg[col].top.setStyle('height', height);
 		height = totalHeight - height;
@@ -12924,11 +12880,10 @@ ludo.grid.ColumnManager = new Class({
 		for (var i = 0; i < keys.length; i++) {
 			if (keys[i] == column) {
 				return ret;
-			} else {
-				if (!this.isHidden(keys[i])) {
-					ret += this.getWidthOf(keys[i]);
-				}
 			}
+            if (!this.isHidden(keys[i])) {
+                ret += this.getWidthOf(keys[i]);
+            }
 		}
 		return 0;
 	},
@@ -13227,7 +13182,6 @@ ludo.grid.RowManager = new Class({
 	 {
 		  id:'myGrid',
 		  type:'grid.Grid',
-		  weight:1,
 		  stateful:true,
 		  resizable:false,
 		  columnManager:{
@@ -13351,10 +13305,12 @@ ludo.grid.Grid = new Class({
 			this.columnManager.stateful = this.stateful;
 			this.columnManager.id = this.columnManager.id || this.id + '_cm';
 			this.columnManager = ludo._new(this.columnManager);
-			this.columnManager.addEvent('hidecolumn', this.refreshData.bind(this));
-			this.columnManager.addEvent('showcolumn', this.refreshData.bind(this));
-			this.columnManager.addEvent('movecolumn', this.onColumnMove.bind(this));
-			this.columnManager.addEvent('resize', this.resizeColumns.bind(this));
+            this.columnManager.addEvents({
+                'hidecolumn' : this.refreshData.bind(this),
+                'showcolumn' : this.refreshData.bind(this),
+                'movecolumn' : this.onColumnMove.bind(this),
+                'resize' : this.resizeColumns.bind(this)
+            });
 		}
 
 		if (this.rowManager) {
@@ -13408,18 +13364,20 @@ ludo.grid.Grid = new Class({
 			if(this.dataSourceObj && this.dataSourceObj.hasData()){
 				this.populateData();
 			}
-			var ds = this.getDataSource();
-			ds.addEvent('change', this.populateData.bind(this));
-			ds.addEvent('select', this.setSelectedRecord.bind(this));
-			ds.addEvent('select', this.selectDOMForRecord.bind(this));
-			ds.addEvent('deselect', this.deselectDOMForRecord.bind(this));
-			ds.addEvent('update', this.showUpdatedRecord.bind(this));
-			ds.addEvent('delete', this.removeDOMForRecord.bind(this));
+            this.getDataSource().addEvents({
+                'change' : this.populateData.bind(this),
+                'select' : this.setSelectedRecord.bind(this),
+                'deselect' : this.deselectDOMForRecord.bind(this),
+                'update' : this.showUpdatedRecord.bind(this),
+                'delete' : this.removeDOMForRecord.bind(this)
+            });
+            this.getDataSource().addEvent('select', this.selectDOMForRecord.bind(this));
 		}
-		var b = this.getBody();
-		b.addEvent('selectstart', ludo.util.cancelEvent);
-		b.addEvent('click', this.cellClick.bind(this));
-		b.addEvent('dblclick', this.cellDoubleClick.bind(this));
+        this.getBody().addEvents({
+            'selectstart' : ludo.util.cancelEvent,
+            'click' : this.cellClick.bind(this),
+            'dblclick' : this.cellDoubleClick.bind(this)
+        });
 		if (this.mouseOverEffect) {
 			this.els.dataContainer.addEvent('mouseleave', this.mouseLeavesGrid.bind(this));
 		}
@@ -17062,16 +17020,16 @@ ludo.menu.MenuHandler = new Class({
             this.isActive = false;
         }
     }
-});/* ../ludojs/src/menu/menu-item.js */
+});/* ../ludojs/src/menu/item.js */
 /**
  * Class for menu items. MenuItems are created dynamically from config object(children of ludo.menu.Menu or ludo.menu.Context)
  * @namespace menu
  * @class MenuItem
  * @extends View
  */
-ludo.menu.MenuItem = new Class({
+ludo.menu.Item = new Class({
     Extends:ludo.View,
-    type:'menu.MenuItem',
+    type:'menu.Item',
     menu:null,
     subMenu:null,
     menuItems:[],
@@ -17370,7 +17328,7 @@ ludo.menu.MenuItem = new Class({
 ludo.menu.Menu = new Class({
     Extends : ludo.View,
     type : 'menu.Menu',
-    cType : 'menu.MenuItem',
+    cType : 'menu.Item',
     /**
      * Direction of menu, "horizontal" or "vertical"
      * @property direction
@@ -17391,8 +17349,9 @@ ludo.menu.Menu = new Class({
         this.parent(config);
         this.setConfigParams(config, ['direction','parentMenuItem']);
         if(this.direction === 'vertical'){
-            config.height = 'auto';
-			this.layout.type = 'rows';
+			this.layout.type = 'linear';
+            this.layout.height = 'wrap';
+			this.layout.orientation = 'vertical';
         }
     },
 
@@ -17460,7 +17419,7 @@ ludo.menu.Menu = new Class({
     },
 
     getMenuItemConfigObject : function(obj){
-        obj = obj.substr ? { html: obj, type:'menu.MenuItem' } : obj;
+        obj = obj.substr ? { html: obj, type:'menu.Item' } : obj;
         obj.menuDirection = this.direction;
         return obj;
     },
@@ -17534,7 +17493,7 @@ ludo.menu.Menu = new Class({
         /**
          * Event fired when menu item is clicked
          * @event click
-         * @param {Object} ludo.menu.MenuItem
+         * @param {Object} ludo.menu.Item
          * @param {Object} ludo.menu.Menu
          */
         this.fireEvent('click', [menuItem, this]);
@@ -21799,17 +21758,12 @@ ludo.card.ProgressBar = new Class({
 ludo.Accordion = new Class({
 	Extends:ludo.FramedView,
 	type:'Accordion',
-
 	closable:false,
-	minimizable:true,
-	resizable:false,
-
 	heightBeforeMinimize:undefined,
 	slideInProgress:false,
-	fx:null,
-	fxContent:null,
+	fx:undefined,
+	fxContent:undefined,
 	minimized:false,
-	titleBar:true,
 
 	ludoConfig:function (config) {
 		if (!config.height) {
@@ -28146,7 +28100,7 @@ chess.view.command.Panel = new Class({
  * @class GameImport
  */
 chess.view.menuItems.GameImport = new Class({
-    Extends: ludo.menu.MenuItem,
+    Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.GameImport',
     label : chess.getPhrase('Import games(PGN)'),
     module : 'user',
@@ -28183,7 +28137,7 @@ chess.view.menuItems.GameImport = new Class({
  * @class NewGame
  */
 chess.view.menuItems.SaveGame = new Class({
-    Extends: ludo.menu.MenuItem,
+    Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.saveGame',
     label : chess.getPhrase('Save game'),
     module : 'user',
@@ -28223,7 +28177,7 @@ chess.view.menuItems.SaveGame = new Class({
  * @class NewGame
  */
 chess.view.menuItems.NewGame = new Class({
-    Extends: ludo.menu.MenuItem,
+    Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.newGame',
     label : chess.getPhrase('Game'),
     module : 'user',
