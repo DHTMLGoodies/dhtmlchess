@@ -1,4 +1,4 @@
-/* Generated Mon Apr 1 22:26:01 CEST 2013 */
+/* Generated Mon Apr 1 22:27:53 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -13788,10 +13788,8 @@ ludo.grid.Grid = new Class({
 			} else {
 				var width = this.columnManager.getWidthOf(columns[i]);
                 var bw = ludo.dom.getBW(this.els.dataColumns[columns[i]]) - (i===columns.length-1) ? 1 : 0;
-				this.els.dataColumns[columns[i]].setStyles({
-					'left':leftPos,
-					'width':(width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - bw)
-				});
+                this.els.dataColumns[columns[i]].style.left = leftPos + 'px';
+                this.els.dataColumns[columns[i]].style.width = (width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - bw) + 'px';
 
 				this.columnManager.setLeft(columns[i], leftPos);
 
