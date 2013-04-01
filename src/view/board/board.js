@@ -104,12 +104,12 @@ chess.view.board.Board = new Class({
 
     draggedPiece : undefined,
     startPieceDrag:function(piece){
-        alert(piece);
         this.draggedPiece = piece;
     },
 
     dragPiece:function(e){
         if(this.draggedPiece){
+            alert('dragging');
             this.draggedPiece.dragPiece(e);
         }
     },
