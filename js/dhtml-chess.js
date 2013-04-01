@@ -1,4 +1,4 @@
-/* Generated Mon Apr 1 22:27:53 CEST 2013 */
+/* Generated Mon Apr 1 22:29:31 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -13881,10 +13881,10 @@ ludo.grid.Grid = new Class({
 
 		for (var i = 0; i < keys.length; i++) {
 			if (this.columnManager.isHidden(keys[i])) {
-				this.els.dataColumns[keys[i]].setStyle('display', 'none');
+				this.els.dataColumns[keys[i]].style.display='none';
 			} else {
-				this.els.dataColumns[keys[i]].setStyle('display', '');
-				this.els.dataColumns[keys[i]].set('html', this.getHtmlTextForColumn(keys[i]));
+				this.els.dataColumns[keys[i]].style.display='';
+				this.els.dataColumns[keys[i]].innerHTML = this.getHtmlTextForColumn(keys[i]);
 			}
 		}
 		this.resizeVerticalScrollbar();
