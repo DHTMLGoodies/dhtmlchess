@@ -1,4 +1,4 @@
-/* Generated Sun Mar 31 23:16:50 CEST 2013 */
+/* Generated Mon Apr 1 22:18:24 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 window.ludo = {
     form:{ validator:{} },color:{}, dialog:{},remote:{},tree:{},model:{},tpl:{},video:{},storage:{},
-    grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},
+    grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},keyboard:{},
     dataSource:{},controller:{},card:{},canvas:{},socket:{},menu:{},view:{},audio:{}
 };
 
@@ -2344,6 +2344,7 @@ ludo.layout.Base = new Class({
      * @optional
      */
 	addChild:function (child, insertAt, pos) {
+        child = this.getValidChild(child);
 		child = this.getNewComponent(child);
 		var parentEl = this.getParentForNewChild();
 		if (insertAt) {
@@ -2395,7 +2396,12 @@ ludo.layout.Base = new Class({
 	},
 
 	layoutProperties:['collapsible', 'collapsed'],
-	/**
+
+    getValidChild:function(child){
+        return child;
+    },
+
+    /**
 	 * Implementation in sub classes
 	 * @method onNewChild
 	 * @private
@@ -6883,6 +6889,66 @@ ludo.layout.Popup = new Class({
 			if(!c[i].isHidden())c[i].getLayoutManager().getRenderer().resize();
 		}
 	}
+});/* ../ludojs/src/layout/menu-container.js */
+ludo.layout.MenuContainer = new Class({
+    Extends:Events,
+    lm:undefined,
+
+    initialize:function(layoutManager){
+        this.lm = layoutManager;
+        this.createDom();
+    },
+
+    createDom:function(){
+        this.el = ludo.dom.create({
+            'css' : {
+                'position' : 'absolute',
+                'display' : 'none'
+            },
+            renderTo:document.body
+        });
+    },
+
+    getEl:function(){
+        return this.el;
+    },
+
+    resize:function(config){
+
+    }
+});/* ../ludojs/src/layout/menu.js */
+ludo.layout.Menu = new Class({
+    Extends: ludo.layout.Base,
+
+    onCreate:function(){
+        this.menuContainer = new ludo.layout.MenuContainer(this);
+    },
+
+    getMenuContainer:function(){
+        return this.menuContainer;
+    },
+
+    getValidChild:function(child){
+        if(ludo.util.isString(child))child = { html : child };
+        if(!child.layout || !child.layout.type){
+            child.layout = child.layout || {};
+            child.layout.type = 'Menu'
+        }
+        if(!child.type)child.type = 'menu.Item';
+        child.renderTo = this.menuContainer.getEl();
+
+        return child;
+    }
+});/* ../ludojs/src/layout/menu-horizontal.js */
+ludo.layout.MenuHorizontal = new Class({
+    Extends: ludo.layout.Menu,
+
+    onNewChild:function(child){
+        child.getEl().style.position = 'absolute';
+    }
+});/* ../ludojs/src/layout/menu-vertical.js */
+ludo.layout.MenuVertical = new Class({
+    Extends: ludo.layout.Menu
 });/* ../ludojs/src/layout/collapse-bar.js */
 ludo.layout.CollapseBar = new Class({
 	Extends: ludo.View,
@@ -17038,14 +17104,13 @@ ludo.menu.Item = new Class({
      Path to menu item icon or text placed in the icon placeholder. If icon contains one
      or more periods(.) it will be consider an image. Otherwise, config.icon will be displayed
      as plain text
-     @Attribute icon
-     @type String
+     @config {String} icon
      @default undefined
      @example
-     icon: 'my-icon.jpg'
+        icon: 'my-icon.jpg'
      Sets icon to my-icon.jpg
      @example
-     icon : '!'
+        icon : '!'
      sets icon to the character "!", i.e. text
      */
     icon:undefined,
@@ -17053,7 +17118,7 @@ ludo.menu.Item = new Class({
     menuDirection:'horizontal',
     /**
      * Initially disable the menu item
-     * @attribute {Boolean} disabled
+     * @config {Boolean} disabled
      * @default false
      */
     disabled:false,
@@ -17062,8 +17127,7 @@ ludo.menu.Item = new Class({
     value:undefined,
     /**
      * Text for menu item
-     * @attribute label
-     * @type String
+     * @config {String} label
      * @default '' empty string
      */
     label:'',
@@ -17111,17 +17175,16 @@ ludo.menu.Item = new Class({
     ludoEvents:function () {
         this.parent();
         if (!this.isSpacer()) {
-            this.getEl().addEvent('click', this.click.bind(this));
-            this.getEl().addEvent('mouseenter', this.mouseOver.bind(this));
-            this.getEl().addEvent('mouseleave', this.mouseOut.bind(this));
+            this.getEl().addEvents({
+                'click' : this.click.bind(this),
+                'mouseenter' : this.mouseOver.bind(this),
+                'mouseleave' : this.mouseOut.bind(this)
+            });
         }
     },
 
     ludoDOM:function () {
         this.parent();
-        this.createMenu();
-        this.registerMenuHandler();
-
         this.getEl().addClass('ludo-menu-item');
         this.getBody().setStyle('cursor', 'pointer');
 
@@ -17129,11 +17192,11 @@ ludo.menu.Item = new Class({
             if (this.menuDirection === 'horizontal') {
                 this.getEl().setStyle('width', 1);
             }
-            this.getEl().addClass('ludo-menu-item-spacer-' + this.getParent().getDirection());
+            this.getEl().addClass('ludo-menu-item-spacer-' + this.menuDirection);
         }
 
         if (this.getParent()) {
-            this.getEl().addClass('ludo-menu-item-' + this.getParent().getDirection());
+            this.getEl().addClass('ludo-menu-item-' + this.menuDirection);
         }
 
         if (this.icon) {
@@ -17152,22 +17215,12 @@ ludo.menu.Item = new Class({
     getRecord:function () {
         return this.record;
     },
-    registerMenuHandler:function () {
-        var rootMenuComponent = this.getRootMenuComponent();
-        if (rootMenuComponent) {
-            this.menuHandler = rootMenuComponent.getMenuHandler();
-            if (this.menuHandler) {
-                this.menuHandler.addChild(this, this.menu, this.getParentMenuItem());
-            }
-        }
-    },
 
     ludoRendered:function () {
         this.parent();
         if (this.isSpacer()) {
             this.getBody().setStyle('visibility', 'hidden');
         }
-        this.parentMenuItem = this.getParentMenuItem();
     },
 
     click:function () {
@@ -17177,13 +17230,6 @@ ludo.menu.Item = new Class({
         this.getEl().addClass('ludo-menu-item-down');
         this.fireEvent('click', this);
         if (this.fire)this.fireEvent(this.fire, this);
-        var rootMenu = this.getRootMenuComponent();
-        if (rootMenu) {
-            rootMenu.click(this);
-        }
-        if (!this.parentMenuItem) {
-            this.menuHandler.toggleActive(this);
-        }
     },
     select:function () {
         this.getEl().addClass('ludo-menu-item-selected');
@@ -17245,7 +17291,7 @@ ludo.menu.Item = new Class({
     mouseOver:function () {
         if (!this.disabled) {
             this.getEl().addClass('ludo-menu-item-over');
-            this.showMenu();
+            this.fireEvent('enterMenuItem', this);
         }
     },
 
@@ -17253,25 +17299,8 @@ ludo.menu.Item = new Class({
         if (!this.disabled) {
             this.getEl().removeClass('ludo-menu-item-over');
             this.getEl().removeClass('ludo-menu-item-down');
+            this.fireEvent('leaveMenuItem', this);
         }
-    },
-    createMenu:function () {
-        if (this.menuItems.length === 0) {
-            return;
-        }
-        this.menu = new ludo.menu.Menu({
-            renderTo:document.body,
-            direction:'vertical',
-            children:this.menuItems,
-            parentMenuItem:this
-        });
-        this.menu.hide();
-
-        var el = this.els.expand = new Element('div');
-        ludo.dom.addClass(el, 'ludo-menu-item-expand');
-        ludo.dom.addClass(el, 'ludo-menu-item-' + this.menuDirection + '-expand');
-        this.getEl().adopt(el);
-
     },
 
     getMeasuredWidth:function () {
@@ -17291,32 +17320,6 @@ ludo.menu.Item = new Class({
 
     getMenuDirection:function () {
         return this.menuDirection;
-    },
-
-    getRootMenuComponent:function () {
-        var el;
-        if (el = this.getParent()) {
-            if (el.isMenu !== undefined) {
-                if (el.parentMenuItem) {
-                    return el.parentMenuItem.getRootMenuComponent();
-                }
-                return el;
-            }
-            return this;
-        }
-        return undefined;
-    },
-
-    getParentMenuItem:function () {
-        var el;
-        if (el = this.getParent()) {
-            if (el.isMenu) {
-                if (el.parentMenuItem) {
-                    return el.parentMenuItem;
-                }
-            }
-        }
-        return null;
     }
 });/* ../ludojs/src/menu/menu.js */
 /**
@@ -24446,6 +24449,14 @@ chess.view.board.Board = new Class({
         this.parent(config);
         this.pieces = [];
         this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
+
+        if(this.addons && Browser.ie && Browser.version < 9){
+            for(var i=0;i<this.addons.length;i++){
+                if(this.addons[i].type === 'chess.view.highlight.Arrow'){
+                    this.addons[i].type = 'chess.view.highlight.Square';
+                }
+            }
+        }
         this.positionParser = new chess.parser.FenParser0x88();
     },
 

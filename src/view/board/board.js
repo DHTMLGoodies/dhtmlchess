@@ -49,6 +49,14 @@ chess.view.board.Board = new Class({
         this.parent(config);
         this.pieces = [];
         this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
+
+        if(this.addons && Browser.ie && Browser.version < 9){
+            for(var i=0;i<this.addons.length;i++){
+                if(this.addons[i].type === 'chess.view.highlight.Arrow'){
+                    this.addons[i].type = 'chess.view.highlight.Square';
+                }
+            }
+        }
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
