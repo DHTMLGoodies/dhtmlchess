@@ -1,4 +1,4 @@
-/* Generated Mon Apr 1 22:39:28 CEST 2013 */
+/* Generated Mon Apr 1 22:46:30 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -23777,7 +23777,6 @@ chess.view.notation.Panel = new Class({
         var el;
         if (el = document.getElementById(this.highlightedMove)) {
             ludo.dom.removeClass(el, 'notation-chess-move-highlighted');
-
         }
     },
 
@@ -24531,6 +24530,7 @@ chess.view.board.Board = new Class({
     setController:function (controller) {
         this.parent(controller);
         controller.addEvent('newGame', this.showStartBoard.bind(this));
+        controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newMove', this.playChainOfMoves.bind(this));
         controller.addEvent('setPosition', this.showMove.bind(this));
         controller.addEvent('nextmove', this.playChainOfMoves.bind(this));

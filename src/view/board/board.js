@@ -134,6 +134,7 @@ chess.view.board.Board = new Class({
     setController:function (controller) {
         this.parent(controller);
         controller.addEvent('newGame', this.showStartBoard.bind(this));
+        controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newMove', this.playChainOfMoves.bind(this));
         controller.addEvent('setPosition', this.showMove.bind(this));
         controller.addEvent('nextmove', this.playChainOfMoves.bind(this));
