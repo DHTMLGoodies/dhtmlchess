@@ -1,4 +1,4 @@
-/* Generated Mon Apr 1 22:34:09 CEST 2013 */
+/* Generated Mon Apr 1 22:39:28 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -23776,7 +23776,7 @@ chess.view.notation.Panel = new Class({
     clearHighlightedMove:function () {
         var el;
         if (el = document.getElementById(this.highlightedMove)) {
-            el.removeClass('notation-chess-move-highlighted');
+            ludo.dom.removeClass(el, 'notation-chess-move-highlighted');
 
         }
     },
@@ -24493,15 +24493,13 @@ chess.view.board.Board = new Class({
     },
 
     addPieceDragEvents:function(){
-        var on = this.getEventEl().addEvent;
-
-        on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
-        on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
+        // var on = this.getEventEl().addEvent;
+        this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
     draggedPiece : undefined,
     startPieceDrag:function(piece){
-        alert(piece);
         this.draggedPiece = piece;
     },
 

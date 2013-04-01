@@ -159,7 +159,7 @@ chess.view.notation.Panel = new Class({
     clearHighlightedMove:function () {
         var el;
         if (el = document.getElementById(this.highlightedMove)) {
-            el.removeClass('notation-chess-move-highlighted');
+            ludo.dom.removeClass(el, 'notation-chess-move-highlighted');
 
         }
     },
