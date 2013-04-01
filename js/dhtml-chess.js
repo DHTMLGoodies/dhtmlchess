@@ -1,4 +1,4 @@
-/* Generated Mon Apr 1 22:29:31 CEST 2013 */
+/* Generated Mon Apr 1 22:34:09 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -24501,6 +24501,7 @@ chess.view.board.Board = new Class({
 
     draggedPiece : undefined,
     startPieceDrag:function(piece){
+        alert(piece);
         this.draggedPiece = piece;
     },
 

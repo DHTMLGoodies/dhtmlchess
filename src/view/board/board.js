@@ -104,6 +104,7 @@ chess.view.board.Board = new Class({
 
     draggedPiece : undefined,
     startPieceDrag:function(piece){
+        alert(piece);
         this.draggedPiece = piece;
     },
 
