@@ -96,10 +96,9 @@ chess.view.board.Board = new Class({
     },
 
     addPieceDragEvents:function(){
-        var on = this.getEventEl().addEvent;
-
-        on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
-        on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
+        // var on = this.getEventEl().addEvent;
+        this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
     draggedPiece : undefined,
@@ -109,7 +108,6 @@ chess.view.board.Board = new Class({
 
     dragPiece:function(e){
         if(this.draggedPiece){
-            alert('dragging');
             this.draggedPiece.dragPiece(e);
         }
     },
