@@ -13,6 +13,7 @@ chess.view.menuItems.NewGame = new Class({
     module : 'user',
     submodule : 'menuItemNewGame',
     disabled:true,
+	orientation:'vertical',
 	/**
 	 * Fired on click
 	 * @event newGame

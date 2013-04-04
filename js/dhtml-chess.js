@@ -1,4 +1,4 @@
-/* Generated Thu Apr 4 19:48:00 CEST 2013 */
+/* Generated Thu Apr 4 20:08:54 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -17481,8 +17481,8 @@ ludo.menu.Item = new Class({
         if (this.html === '|') {
             this.spacer = true;
             this.layout.height = 1;
-        }else{
-            this.layout.height = this.layout.height || this.orientation === 'vertical' ? 25 : 'matchParent';
+		}else{
+			this.layout.height = this.layout.height || this.orientation === 'vertical' ? 25 : 'matchParent';
         }
 
     },
@@ -28275,6 +28275,7 @@ chess.view.menuItems.GameImport = new Class({
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
+	orientation:'vertical',
 
     addControllerEvents:function(){
         this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
@@ -28312,6 +28313,7 @@ chess.view.menuItems.SaveGame = new Class({
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
+	orientation:'vertical',
 	/**
 	 * Fired on click
 	 * @event saveGame
@@ -28352,6 +28354,7 @@ chess.view.menuItems.NewGame = new Class({
     module : 'user',
     submodule : 'menuItemNewGame',
     disabled:true,
+	orientation:'vertical',
 	/**
 	 * Fired on click
 	 * @event newGame
