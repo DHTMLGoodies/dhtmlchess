@@ -1,4 +1,4 @@
-/* Generated Thu Apr 4 20:08:54 CEST 2013 */
+/* Generated Thu Apr 4 20:36:31 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -2408,11 +2408,6 @@ ludo.layout.Base = new Class({
 
 		this.onNewChild(child);
 		this.addChildEvents(child);
-		if (child.isCollapsible !== undefined && child.isCollapsible()) {
-			if (child.collapsed) {
-				child.collapse();
-			}
-		}
 		/**
 		 * Event fired by layout manager when a new child is added
 		 * @event addChild
@@ -17436,7 +17431,7 @@ ludo.menu.Item = new Class({
      sets icon to the character "!", i.e. text
      */
     icon:undefined,
-    orientation:'horizontal',
+    orientation:'vertical',
     /**
      * Initially disable the menu item
      * @config {Boolean} disabled
@@ -17477,6 +17472,7 @@ ludo.menu.Item = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['orientation', 'icon', 'record', 'value', 'label', 'action', 'disabled', 'fire']);
+
         this.html = this.html || this.label;
         if (this.html === '|') {
             this.spacer = true;
@@ -28275,7 +28271,6 @@ chess.view.menuItems.GameImport = new Class({
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
-	orientation:'vertical',
 
     addControllerEvents:function(){
         this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
@@ -28313,7 +28308,6 @@ chess.view.menuItems.SaveGame = new Class({
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
-	orientation:'vertical',
 	/**
 	 * Fired on click
 	 * @event saveGame

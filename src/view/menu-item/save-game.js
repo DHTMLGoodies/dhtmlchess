@@ -13,7 +13,6 @@ chess.view.menuItems.SaveGame = new Class({
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
-	orientation:'vertical',
 	/**
 	 * Fired on click
 	 * @event saveGame

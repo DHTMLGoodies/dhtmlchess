@@ -14,7 +14,6 @@ chess.view.menuItems.GameImport = new Class({
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
-	orientation:'vertical',
 
     addControllerEvents:function(){
         this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
