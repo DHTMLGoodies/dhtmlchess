@@ -1,4 +1,4 @@
-/* Generated Wed Apr 3 21:27:35 CEST 2013 */
+/* Generated Thu Apr 4 19:48:00 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1241,12 +1241,15 @@ div.ludo-menu-menu label{
     overflow-y: auto;
 }/* ../ludojs/css-source/menu/menu.css */
 .ludo-menu {
-    font-family: arial !important;
+    font-family: arial, sans-serif  !important;
     font-size: 11px;
 }
 
 .ludo-menu .ludo-body label {
     font-weight: normal;
+    font-size: 11px;
+    line-height:18px;
+    padding-left:3px;
 }
 
 div.ludo-menu-item-spacer-horizontal {
@@ -1263,6 +1266,7 @@ div.ludo-menu-item-spacer-horizontal {
     border-color: #000;
 }
 
+
 .ludo-menu-item-horizontal {
     padding-top: 4px;
     padding-bottom: 4px;
@@ -1278,12 +1282,14 @@ div.ludo-menu-item-spacer-horizontal {
     height: 1px;
     padding: 0 !important;
     background-color: #CCC;
+    margin-left:0;
+    margin-right:0;
 }
 
 .ludo-menu-vertical {
     border: 1px solid #999;
     background-color: #FFF;
-    padding: 2px;
+    padding: 0;
     background-image: url(../ludojs/images/menu-bar-bg-vertical.png);
     background-repeat: repeat-y;
     -moz-box-shadow: 1px 1px 4px #555;
@@ -1291,6 +1297,10 @@ div.ludo-menu-item-spacer-horizontal {
     box-shadow: 1px 1px 3px #555;
 }
 
+.ludo-menu-item-vertical{
+    margin:2px;
+    line-height:18px;
+}
 .ludo-menu-item-horizontal {
     padding-right: 10px;
 }
