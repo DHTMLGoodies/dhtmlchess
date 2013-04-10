@@ -57,7 +57,7 @@ chess.view.dialog.GameImport = new Class({
 
     ludoEvents:function(){
         this.parent();
-        this.getFormManager().addEvent('success', this.importFinished.bind(this));
+        this.getForm().addEvent('success', this.importFinished.bind(this));
     },
 
     importFinished:function(){

@@ -58,9 +58,9 @@ chess.view.user.RegisterWindow = new Class({
 
     ludoRendered:function () {
         this.parent();
-        this.getFormManager().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
-        this.getFormManager().addEvent('success', this.successfulRegistration.bind(this));
-        this.getFormManager().addEvent('failure', this.registrationFailed.bind(this));
+        this.getForm().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
+        this.getForm().addEvent('success', this.successfulRegistration.bind(this));
+        this.getForm().addEvent('failure', this.registrationFailed.bind(this));
     },
 
     addControllerEvents:function () {

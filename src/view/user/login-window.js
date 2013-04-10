@@ -49,8 +49,8 @@ chess.view.user.LoginWindow = new Class({
 
     ludoEvents:function () {
         this.parent();
-        this.getFormManager().addEvent('success', this.validLogin.bind(this));
-        this.getFormManager().addEvent('success', this.reset.bind(this));
+        this.getForm().addEvent('success', this.validLogin.bind(this));
+        this.getForm().addEvent('success', this.reset.bind(this));
     },
     addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));

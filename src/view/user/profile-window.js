@@ -61,7 +61,7 @@ chess.view.user.ProfileWindow = new Class({
 
     ludoEvents:function(){
         this.parent();
-        this.getFormManager().getModel().addEvent('success', this.showSaveConfirmMessage.bind(this));
+        this.getForm().getModel().addEvent('success', this.showSaveConfirmMessage.bind(this));
     },
 
     showSaveConfirmMessage :function(){

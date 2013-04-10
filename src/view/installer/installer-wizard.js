@@ -27,8 +27,8 @@ chess.view.installer.Wizard = new Class({
 	ludoRendered:function () {
 		this.parent();
 		this.addEvent('submit', this.beforeSubmit.bind(this));
-		this.getFormManager().addEvent('success', this.installationComplete.bind(this));
-		this.getFormManager().addEvent('failure', this.onInstallError.bind(this));
+		this.getForm().addEvent('success', this.installationComplete.bind(this));
+		this.getForm().addEvent('failure', this.onInstallError.bind(this));
 	},
 
     onInstallError:function(){
