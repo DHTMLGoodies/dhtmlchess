@@ -28,9 +28,11 @@ chess.view.gamelist.Grid = new Class({
 	submodule:'gameList',
 	titleBar:false,
 	dataSource:{
-		'type':'chess.dataSource.GameList'
+		'type':'chess.dataSource.GameList',
+        shim:{
+            txt : 'Loading games. Please wait'
+        }
 	},
-    onLoadMessage:'Loading games. Please wait',
 	resizable:false,
 	statusBar:false,
 	fillview:true,

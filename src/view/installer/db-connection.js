@@ -11,7 +11,7 @@ chess.view.installer.DbConnection = new Class({
         { name:'password', id:'fieldPassword', label:'Password', type:'form.Text', required:1, value:'your_db_password'},
         { name:'db', label:'Database', type:'form.Text', value:'dhtml_chess', required:1},
         { type:'form.Button', value:'Test connection', name:'connectionTest'},
-        { name:'connectionTestResult', layout:{ weight:1}, css:{ padding:3, color: '#f00'}, type:'remote.Message', 'resource' : "ChessDBInstaller" }
+        { name:'connectionTestResult', layout:{ weight:1}, css:{ padding:3, color: '#f00'}, type:'remote.Message', 'listenTo' : "ChessDBInstaller" }
     ],
 
     ludoRendered:function () {

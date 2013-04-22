@@ -45,7 +45,7 @@ chess.view.user.ProfileWindow = new Class({
             type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
-            type:'remote.Message', resource:'CurrentPlayer',service:'save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
+            type:'remote.Message', listenTo:'CurrentPlayer.save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
         }
     ],
 

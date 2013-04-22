@@ -33,7 +33,7 @@ chess.view.user.LoginWindow = new Class({
             type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
         },
         {
-            type:'remote.ErrorMessage', resource:"Session","service": "signIn",
+            type:'remote.ErrorMessage', listenTo:"Session.signIn",
             name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
         }
     ],
