@@ -9616,7 +9616,7 @@ ludo.view.TitleBar = new Class({
 
     createDOM:function () {
         var el = this.els.el = new Element('div');
-        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-rich-view-titlebar' : 'ludo-component-titlebar');
+        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-framed-view-titlebar' : 'ludo-component-titlebar');
         var left = 0;
         if (this.view.icon) {
             this.createIconDOM();
@@ -9632,7 +9632,7 @@ ludo.view.TitleBar = new Class({
     createIconDOM:function () {
         this.els.icon = ludo.dom.create({
             renderTo:this.els.el,
-            cls:'ludo-rich-view-titlebar-icon',
+            cls:'ludo-framed-view-titlebar-icon',
             css:{ 'backgroundImage':'url(' + this.view.icon + ')'}
         });
 
@@ -9644,7 +9644,7 @@ ludo.view.TitleBar = new Class({
 
     createTitleDOM:function () {
         var title = this.els.title = ludo.dom.create({
-            cls : 'ludo-rich-view-titlebar-title',
+            cls : 'ludo-framed-view-titlebar-title',
             renderTo : this.els.el
         });
         this.setTitle(this.view.title);
@@ -9936,10 +9936,10 @@ ludo.FramedView = new Class({
 	ludoDOM:function () {
 		this.parent();
 
-		ludo.dom.addClass(this.els.container, 'ludo-rich-view');
+		ludo.dom.addClass(this.els.container, 'ludo-framed-view');
 
 		if (this.titleBar)this.getTitleBar().getEl().inject(this.getBody(), 'before');
-		ludo.dom.addClass(this.getBody(), 'ludo-rich-view-body');
+		ludo.dom.addClass(this.getBody(), 'ludo-framed-view-body');
 
 		if (!this.getParent() && this.isResizable()) {
 			this.getResizer().addHandle('s');
@@ -21201,7 +21201,7 @@ ludo.Movable = new Class({
 
     createShim : function() {
         var el = this.els.shim = new Element('div');
-        ludo.dom.addClass(el, 'ludo-rich-view-shim');
+        ludo.dom.addClass(el, 'ludo-framed-view-shim');
         el.setStyle('display','none');
         document.body.adopt(el);
     },

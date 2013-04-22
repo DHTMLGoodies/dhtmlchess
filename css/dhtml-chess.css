@@ -57,17 +57,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 
-.ludo-rich-view-shim {
+.ludo-framed-view-shim {
     z-index: 31000;
 }
 
-.ludo-rich-view-above {
+.ludo-framed-view-above {
     position: absolute;
     width: 100%;
     height: 50%;
 }
 
-.ludo-rich-view-below {
+.ludo-framed-view-below {
     position: absolute;
     width: 100%;
     height: 50%;
@@ -75,7 +75,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
 /* bold title bar */
-.ludo-rich-view-titlebar {
+.ludo-framed-view-titlebar {
     width: 100%;
     height:24px;
     z-index: 100;
@@ -86,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     border-top-left-radius:4px;
     border-top-right-radius:4px;
 }
-.ludo-dashboard .ludo-rich-view-titlebar{
+.ludo-dashboard .ludo-framed-view-titlebar{
     height: 24px;
 }
 
@@ -105,7 +105,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     height: 22px;
 }
 
-.ludo-rich-view-titlebar-icon {
+.ludo-framed-view-titlebar-icon {
     position: absolute;
     left: 1px;
     width: 20px;
@@ -114,7 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     background-repeat: no-repeat;
 }
 
-.ludo-rich-view-titlebar-title {
+.ludo-framed-view-titlebar-title {
     position: absolute;
     margin-left: 3px;
     height: 100%;
@@ -125,7 +125,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     color: #000;
 }
 
-.ludo-rich-view-shim {
+.ludo-framed-view-shim {
     background-color: #CCC;
     box-shadow: 3px 3px 8px #555;
     position: absolute;
@@ -133,11 +133,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     filter: alpha(opacity = 50);
 }
 
-.ludo-dashboard .ludo-rich-view-body {
+.ludo-dashboard .ludo-framed-view-body {
     background-color: #FFF;
 }
 
-.ludo-rich-view-body {
+.ludo-framed-view-body {
     overflow-y: auto;
     position: relative;
 }
@@ -410,7 +410,7 @@ div.ludo-component-button-container, div.ludo-content-buttons {
     padding-left:3px;
 }
 
-div.ludo-window, div.ludo-rich-view-shim, div.ludo-dashboard-insertion-marker{
+div.ludo-window, div.ludo-framed-view-shim, div.ludo-dashboard-insertion-marker{
     border-radius:3px;
 }
 div.ludo-FramedView {
@@ -1105,7 +1105,7 @@ div.ludo-paging-total-pages .ludo-body{
     box-shadow:2px 2px 3px #888;
     position:absolute;
 }
-.ludo-window, .ludo-richcomponent, .ludo-rich-view-shim {
+.ludo-window, .ludo-richcomponent, .ludo-framed-view-shim {
     border-radius: 7px 7px 0 0;
     -moz-border-radius: 7px 7px 0 0;
     webkit-border-radius: 7px 7px 0 0;
@@ -1779,11 +1779,11 @@ div.ludo-tree-movable-shim img{
     border-radius:0;
     border:1px solid #CCC;
 }
-.ludo-accordion .ludo-rich-view-titlebar{
+.ludo-accordion .ludo-framed-view-titlebar{
     border-bottom:0;
     cursor:pointer;
 }
-.ludo-accordion .ludo-rich-view-titlebar-title{
+.ludo-accordion .ludo-framed-view-titlebar-title{
     margin-left:20px;
     line-height:25px;
 }
@@ -1808,7 +1808,7 @@ div.ludo-tree-movable-shim img{
     background-image:none;
 }
 
-.ludo-accordion .ludo-rich-view-titlebar{
+.ludo-accordion .ludo-framed-view-titlebar{
     height:25px;
 }/* ../ludojs/css-source/form/filter-tree.css */
 .ludo-Filter-Tree-Window{
