@@ -1,7 +1,7 @@
 ludo.factory.createNamespace('chess');
 window.chess = {
     language:{},
-    addons:{
+    addOns:{
     },
 	pgn:{},
     view:{

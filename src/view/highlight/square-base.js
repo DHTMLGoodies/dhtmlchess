@@ -10,13 +10,13 @@ chess.view.highlight.SquareBase = new Class({
 
     createDOM:function () {
         var files = 'abcdefgh';
-        var squares = this.view.getSquares();
+        var squares = this.getParent().getSquares();
         this.els.square = {};
         for (var i = 0; i < squares.length; i++) {
             var square = files.substr((i % 8), 1) + Math.ceil(8 - (i / 8));
             this.createHighlightElement(square, squares[i]);
         }
-        this.view.addEvent('resize', this.resizeSquares.bind(this));
+        this.getParent().addEvent('resize', this.resizeSquares.bind(this));
     },
 
     createHighlightElement:function (square, renderTo) {

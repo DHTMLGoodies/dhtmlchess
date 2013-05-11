@@ -4,6 +4,10 @@ chess.view.highlight.Base = new Class({
 
 	ludoConfig:function (config) {
         this.parent(config);
-        this.view = config.view;
+        this.parentComponent = config.parentComponent;
+    },
+
+    getParent:function(){
+        return this.parentComponent;
     }
 });

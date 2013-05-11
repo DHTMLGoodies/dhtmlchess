@@ -37,7 +37,7 @@ chess.view.board.Board = new Class({
     positionParser:undefined,
     currentValidMoves:undefined,
     ddEnabled:false,
-    addons:[],
+    addOns:[],
 
     currentAnimation:{
         index:0,
@@ -48,12 +48,12 @@ chess.view.board.Board = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
+        this.setConfigParams(config, ['pieceLayout','animationDuration','addOns']);
 
-        if(this.addons && Browser.ie && Browser.version < 9){
-            for(var i=0;i<this.addons.length;i++){
-                if(this.addons[i].type === 'chess.view.highlight.Arrow'){
-                    this.addons[i].type = 'chess.view.highlight.Square';
+        if(this.addOns && Browser.ie && Browser.version < 9){
+            for(var i=0;i<this.addOns.length;i++){
+                if(this.addOns[i].type === 'chess.view.highlight.Arrow'){
+                    this.addOns[i].type = 'chess.view.highlight.Square';
                 }
             }
         }

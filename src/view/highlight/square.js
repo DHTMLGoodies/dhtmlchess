@@ -11,7 +11,7 @@
 		 type:'chess.view.board.Board',
 		 labels:true,
 		 weight:1,
-		 addons:[
+		 addOns:[
 			 {
 				 type:'chess.view.highlight.Square'
 			 }

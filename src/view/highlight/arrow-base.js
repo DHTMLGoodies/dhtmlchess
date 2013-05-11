@@ -23,26 +23,26 @@ chess.view.highlight.ArrowBase = new Class({
 		this.arrowPaint = new ludo.canvas.Paint(Object.clone(this.arrowStyles));
 		this.createDOM();
 
-		this.view.addEvent('flip', this.flip.bind(this));
+		this.getParent().addEvent('flip', this.flip.bind(this));
 
         this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 	},
 
 	initDragPiece:function (e) {
-		if (this.view.ddEnabled) {
-			var pos = this.view.getBoard().getPosition();
+		if (this.getParent().ddEnabled) {
+			var pos = this.getParent().getBoard().getPosition();
 			var coords = {
 				x:e.page.x - pos.x,
 				y:e.page.y - pos.y
 			};
 
-			var ss = this.view.getSquareSize();
+			var ss = this.getParent().getSquareSize();
 
             coords.x -= (coords.x % ss);
             coords.y -= (coords.y % ss);
 
-			var square = Board0x88Config.numberToSquareMapping[this.view.getSquareByCoordinates(coords.x, coords.y)];
-			var piece = this.view.getPieceOnSquare(square);
+			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(coords.x, coords.y)];
+			var piece = this.getParent().getPieceOnSquare(square);
 
 			if (piece) {
 				piece.initDragPiece(e);
@@ -54,7 +54,7 @@ chess.view.highlight.ArrowBase = new Class({
 		var el = this.el = new Element('div');
 		el.style.position = 'absolute';
 		el.style.display = 'none';
-		this.view.getBoard().adopt(el);
+		this.getParent().getBoard().adopt(el);
 		this.arrow = new chess.view.board.ArrowSVG({
 			renderTo:this.el,
 			arrowPaint:this.arrowPaint
@@ -106,7 +106,7 @@ chess.view.highlight.ArrowBase = new Class({
 		var fromFile = (Board0x88Config.mapping[move.from] & 15);
 		var toFile = (Board0x88Config.mapping[move.to] & 15);
 
-		if (this.view.isFlipped()) {
+		if (this.getParent().isFlipped()) {
 			fromRank = 7 - fromRank;
 			toRank = 7 - toRank;
 			fromFile = 7 - fromFile;

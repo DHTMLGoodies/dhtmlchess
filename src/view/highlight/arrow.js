@@ -1,6 +1,6 @@
 /**
  Highlight a moves with an arrow. An object of this class is automatically created by
- chess.view.board.Board when added using "addons".
+ chess.view.board.Board when added using "addOns".
  @submodule Board
  @namespace chess.view.highlight
  @class Arrow
@@ -13,7 +13,7 @@
 		 type:'chess.view.board.Board',
 		 labels:true,
 		 weight:1,
-		 addons:[
+		 addOns:[
 			 {
 				 type:'chess.view.highlight.Arrow',
 				 properties:{
@@ -30,7 +30,8 @@ chess.view.highlight.Arrow = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
-		this.view.addEvent('highlight', this.showMove.bind(this));
-		this.view.addEvent('clearHighlight', this.hide.bind(this));
+        var p = this.getParent();
+		p.addEvent('highlight', this.showMove.bind(this));
+		p.addEvent('clearHighlight', this.hide.bind(this));
 	}
 });

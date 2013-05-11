@@ -1,4 +1,4 @@
-/* Generated Fri Apr 19 1:15:35 CEST 2013 */
+/* Generated Sat May 11 16:05:21 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 window.ludo = {
     form:{ validator:{} },color:{}, dialog:{},remote:{},tree:{},model:{},tpl:{},video:{},storage:{},
-    grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},keyboard:{},
+    grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},keyboard:{},chart:{},
     dataSource:{},controller:{},card:{},canvas:{},socket:{},menu:{},view:{},audio:{}, ludoDB:{}
 };
 
@@ -342,17 +342,43 @@ ludo.Effect = new Class({
 
 ludo.EffectObject = new ludo.Effect();/* ../ludojs/src/language/default.js */
 /**
- Words used by ludo JS. You can change words by creating a new ludo.language Object,
+ Words used by ludo JS. You can add your own translations by calling ludo.language.fill()
  @module language
  @type {Object}
  @example
- 	ludo.language = Object.merge(ludo.language,{
- 		... Your own config
+ 	ludo.language.fill({
+ 	    "Ludo JS phrase or word" : "My word",
+ 	    "other phrase" : "my phrase" 	
  	});
  */
 ludo.language = {
-	'columns' : 'Columns'
-};/* ../ludojs/src/storage/storage.js */
+	words:{},
+
+    set:function(key, value){
+        this.words[key] = value;
+    },
+
+    get:function(key){
+        return this.words[key] ? this.words[key] : key;
+    },
+
+    fill:function(words){
+        this.words = Object.merge(this.words, words);
+    }
+};/* ../ludojs/src/registry.js */
+ludo.RegistryClass = new Class({
+	storage : {},
+
+	set:function(key, value){
+		this.storage[key] = value;
+	},
+
+	get:function(key){
+		return this.storage[key];
+	}
+});
+
+ludo.registry = new ludo.RegistryClass();/* ../ludojs/src/storage/storage.js */
 ludo.storage.LocalStorage = new Class({
 	supported:false,
 	initialize:function(){
@@ -525,7 +551,7 @@ ludo.factory = new ludo.ObjectFactory();/* ../ludojs/src/config.js */
     ludo.config.setUrl('../router.php'); // to set global url
  */
 ludo._Config = new Class({
-	storage:undefined,
+	storage:{},
 
 	initialize:function () {
 		this.setDefaultValues();
@@ -762,9 +788,31 @@ ludo.Core = new Class({
 	 */
 	dependency:{},
 
+    /**
+     Array of add-ons config objects
+     Add-ons are special components which operates on a view. "parentComponent" is sent
+     to the constructor of all add-ons and can be saved for later reference.
+
+
+     @config addOns
+     @type {Array}
+     @example
+     new ludo.View({<br>
+		   plugins : [ { type : 'plugins.Sound' }]
+	  	 });
+
+     Add event
+     @example
+        this.getParent().addEvent('someEvent', this.playSound.bind(this));
+     Which will cause the plugin to play a sound when "someEvent" is fired by parent component.
+     */
+    addOns:undefined,
+
+    
 	initialize:function (config) {
 		config = config || {};
 		this.lifeCycle(config);
+        this.applyAddOns();
 	},
 
 	lifeCycle:function(config){
@@ -772,9 +820,18 @@ ludo.Core = new Class({
 		this.ludoEvents();
 	},
 
+    applyAddOns:function(){
+
+        if (this.addOns) {
+            for (var i = 0; i < this.addOns.length; i++) {
+                this.addOns[i].parentComponent = this;
+                this.addOns[i] = this.createDependency('addOns' + i, this.addOns[i]);
+            }
+        }
+    },
+
 	ludoConfig:function(config){
-        var keys = ['url','name','controller','module','submodule','stateful','id','useController'];
-        this.setConfigParams(config, keys);
+        this.setConfigParams(config, ['url','name','controller','module','submodule','stateful','id','useController','addOns']);
         if (this.stateful && this.statefulProperties && this.id) {
             config = this.appendPropertiesFromStore(config);
             this.addEvent('state', this.saveStatefulProperties.bind(this));
@@ -864,27 +921,6 @@ ludo.Core = new Class({
         return Browser['ie'] ? document.id(document.documentElement) : document.id(window);
 	},
 
-	Request:function (requestId, config) {
-		var req = new Request(this.getRequestConfig(requestId, config));
-		req.send();
-	},
-	getRequestConfig:function (requestId, config) {
-		config.data = config.data || {};
-		config.data.requestId = requestId;
-		return {
-			url:config.url || this.getUrl(),
-			method:'post',
-			noCache:!this.isCacheEnabled(),
-			data:config.data,
-			evalScripts:true,
-			onSuccess:config.onSuccess.bind(this)
-		};
-	},
-
-	isCacheEnabled:function () {
-		return false
-	},
-
 	isConfigObject:function (obj) {
 		return obj.initialize === undefined;
 	},
@@ -970,8 +1006,9 @@ ludo.Core = new Class({
 		return this.dependency[key] ? true : false;
 	},
 
-	getDependency:function(key){
-		return this.dependency[key];
+	getDependency:function(key, config){
+		if(this.dependency[key])return this.dependency[key];
+        return this.createDependency(key, config);
 	}
 });/* ../ludojs/src/layout/factory.js */
 /**
@@ -1020,6 +1057,8 @@ ludo.layout.Factory = new Class({
 				return 'LinearHorizontal';
 			case 'popup':
 				return 'Popup';
+			case 'canvas':
+				return 'Canvas';
 			case 'rows':
 			case 'row':
 				return 'LinearVertical';
@@ -1341,6 +1380,20 @@ ludo.canvas.Engine = new Class({
 		}
 	},
 	/**
+	 * Remove property from node.
+	 * @method remove
+	 * @param {HTMLElement} el
+	 * @param {String} key
+	 */
+	remove:function(el, key){
+		if (key.substring(0, 6) == "xlink:") {
+			el.removeAttributeNS("http://www.w3.org/1999/xlink", key.substring(6));
+		}else{
+			el.removeAttribute(key);
+		}
+	},
+
+	/**
 	 * Returns property value of a SVG DOM node
 	 * @method get
 	 * @param {HTMLElement} el
@@ -1359,11 +1412,11 @@ ludo.canvas.Engine = new Class({
 	},
 
 	show:function (el) {
-		el.setAttribute('display', '');
+        this.setStyle(el, 'display','');
 	},
 
 	hide:function (el) {
-		el.setAttribute('display', 'none');
+        this.setStyle(el, 'display','none');
 	},
 
 	moveTo:function (el, x, y) {
@@ -1399,7 +1452,7 @@ ludo.canvas.Engine = new Class({
 		el.transform.baseVal.getItem(0).setSkewY(degrees);
 	},
 
-	getOrigin:function (el) {
+	getCenter:function (el) {
 		return {
 			x:this.getWidth(el) / 2,
 			y:this.getHeight(el) / 2
@@ -1646,7 +1699,39 @@ ludo.canvas.Engine = new Class({
 			el.setAttribute('id', String.uniqueID());
 		}
 		return el.getAttribute('id');
-	}
+	},
+
+    effect:function(){
+        if(ludo.canvas.effectObject === undefined){
+            ludo.canvas.effectObject = new ludo.canvas.Effect();
+        }
+        return ludo.canvas.effectObject;
+    },
+
+	empty:function(el){
+		el.textContent = '';
+	},
+
+    /**
+     * Degrees to radians method
+     * @method toRad
+     * @param degrees
+     * @return {Number}
+     */
+    toRadians:function(degrees){
+        return degrees * Math.PI / 180;
+    },
+
+    getPointAtDegreeOffset:function(from, degrees, size){
+        var radians = ludo.canvasEngine.toRadians(degrees);
+        var x = Math.cos(radians);
+        var y = Math.sin(radians);
+
+        return {
+            x : from.x + (size * x),
+            y : from.y + (size * y)
+        }
+    }
 
 });
 ludo.canvasEngine = new ludo.canvas.Engine();/* ../ludojs/src/canvas/node.js */
@@ -1714,7 +1799,6 @@ ludo.canvas.Node = new Class({
 		} else {
 			el = document.createElementNS("http://www.w3.org/2000/svg", el);
 		}
-
 		this.el = el;
 		el.style && (el.style.webkitTapHighlightColor = "rgba(0,0,0,0)");
 		return el;
@@ -1722,6 +1806,18 @@ ludo.canvas.Node = new Class({
 
 	getEl:function () {
 		return this.el;
+	},
+
+    engine:function(){
+        return ludo.canvasEngine;
+    },
+
+	addEvents:function(events){
+		for(var key in events){
+			if(events.hasOwnProperty(key)){
+				this.addEvent(key, events[key]);
+			}
+		}
 	},
 
 	addEvent:function (event, fn) {
@@ -1732,8 +1828,9 @@ ludo.canvas.Node = new Class({
 			case 'mouseleave':
 				ludo.canvasEventManager.addMouseLeave(this, fn);
 				break;
-			default:
+            default:
 				this._addEvent(event, this.getDOMEventFn(event, fn), this.el);
+                this.parent(event, fn);
 		}
 	},
 	/**
@@ -1800,8 +1897,28 @@ ludo.canvas.Node = new Class({
 		return this.parentNode;
 	},
 
+    show:function(){
+        ludo.canvasEngine.show(this.el);
+    },
+
+    hide:function(){
+        ludo.canvasEngine.hide(this.el);
+    },
+
+	setProperties:function(p){
+		for(var key in p){
+			if(p.hasOwnProperty(key)){
+				this.set(key, p[key]);
+			}
+		}
+	},
+
 	set:function (key, value) {
 		ludo.canvasEngine.set(this.el, key, value);
+	},
+
+	remove:function(key){
+		ludo.canvasEngine.remove(this.el, key);
 	},
 
 	get:function (key) {
@@ -1838,8 +1955,18 @@ ludo.canvas.Node = new Class({
 	 * @param {canvas.Node} mask
 	 */
 	applyMask:function (mask) {
-		this.set('filter', mask.getUrl());
+		this.set('mask', mask.getUrl());
 	},
+
+	/**
+	 * Apply clip path to node
+	 * @method applyClipPath
+	 * @param {canvas.Node} clip
+	 */
+	applyClipPath:function(clip){
+		this.set('clip-path', clip.getUrl());
+	},
+
 	/**
 	 Create url reference
 	 @method url
@@ -1884,6 +2011,14 @@ ludo.canvas.Node = new Class({
 
 	setStyle:function (key, value) {
 		ludo.canvasEngine.setStyle(this.el, key, value);
+	},
+
+	setStyles:function(styles){
+		for(var key in styles){
+			if(styles.hasOwnProperty(key)){
+				this.setStyle(key, styles[key]);
+			}
+		}
 	},
 
 	/**
@@ -1938,6 +2073,21 @@ ludo.canvas.Node = new Class({
 	},
 
 	/**
+	 * Returns rectangular size of element, i.e. bounding box width - bounding box x and
+	 * bounding box width - bounding box y. Values are returned as { x : 100, y : 150 }
+	 * where x is width and y is height.
+	 * @method getSize
+	 * @return {Object} size x and y
+	 */
+	getSize:function(){
+		var b = this.getBBox();
+		return {
+			x :b.width - b.x,
+			y :b.height - b.y
+		};
+	},
+
+	/**
 	 * The nearest ancestor 'svg' element. Null if the given element is the outermost svg element.
 	 * @method getCanvas
 	 * @return {ludo.canvas.Node.el} svg
@@ -1959,6 +2109,30 @@ ludo.canvas.Node = new Class({
 	},
 	setTransformMatrix:function (el, a, b, c, d, e, f) {
 		this.setTransformMatrix(this.el, a, b, c, d, e, f);
+	},
+
+	empty:function(){
+		ludo.canvasEngine.empty(this.getEl());
+	},
+
+	_curtain:undefined,
+	curtain:function(config){
+		if(this._curtain === undefined){
+			this._curtain = new ludo.canvas.Curtain(this, config);
+		}
+		return this._curtain;
+	},
+
+	_animation:undefined,
+	animate:function(properties, duration, fps){
+		this.animation().animate(properties,duration,fps);
+	},
+
+	animation:function(){
+		if(this._animation === undefined){
+			this._animation = new ludo.canvas.Animation(this.getEl());
+		}
+		return this._animation;
 	}
 });
 
@@ -1978,6 +2152,11 @@ ludo.canvas.Node = new Class({
  */
 ludo.canvas.Element = new Class({
 	Extends:ludo.Core,
+
+	/**
+	 * Reference to canvas.Node
+	 * @property {canvas.Node} node
+	 */
 	node:undefined,
 
 	/**
@@ -2074,6 +2253,16 @@ ludo.canvas.Element = new Class({
 		return this;
 	},
 
+	/**
+	 * Remove text and child nodes from element
+	 * @method empty
+	 * @return {canvas.Element} this
+	 */
+	empty:function(){
+		this.node.empty();
+		return this;
+	},
+
 	add:function(tagName, properties, config){
 		return this.node.add(tagName,properties, config);
 	}
@@ -2156,13 +2345,36 @@ ludo.canvas.Canvas = new Class({
 		this.fireEvent('resize', size);
 	},
 
+    /**
+     * Returns height of canvas
+     * @method getHeight
+     * @return {Number} height
+     */
 	getHeight:function(){
 		return this.height;
 	},
 
+    /**
+     * Returns width of canvas
+     * @method getWidth
+     * @return {Number} width
+     */
 	getWidth:function(){
 		return this.width;
 	},
+
+    /**
+     * Returns center point of canvas as an object with x and y coordinates
+     * @method getCenter
+     * @return {Object}
+     */
+    getCenter:function(){
+
+        return {
+            x : this.width / 2,
+            y : this.height / 2
+        };
+    },
 
 	/**
 	 * Update view box size
@@ -2912,12 +3124,11 @@ ludo.layout.LinearVertical = new Class({
 ludo.layout.Card = new Class({
 	Extends:ludo.layout.Base,
 	visibleCard:undefined,
-
 	animate:false,
 	initialAnimate:false,
 	animationDuration:.25,
 	animateX:true,
-	touchConfig:{},
+	touch:{},
 
 	onCreate:function () {
 		this.parent();
@@ -3340,7 +3551,7 @@ ludo.layout.Card = new Class({
 		this.renderNextAndPreviousCard();
 		var animateX = this.shouldAnimateOnXAxis();
 		var parentSize = animateX ? this.view.getEl().offsetWidth : this.view.getEl().offsetHeight;
-		this.touchConfig = {
+		this.touch = {
 			active:true,
 			pos:animateX ? e.page.x : e.page.y,
 			previousCard:this.getPreviousCardOf(this.visibleCard),
@@ -3362,22 +3573,22 @@ ludo.layout.Card = new Class({
 	},
 
 	touchMove:function (e) {
-		if (this.touchConfig && this.touchConfig.active) {
+		if (this.touch && this.touch.active) {
 			var pos;
 			var key;
-			if (this.touchConfig.animateX) {
-				pos = e.page.x - this.touchConfig.pos;
+			if (this.touch.animateX) {
+				pos = e.page.x - this.touch.pos;
 				key = 'left';
 			} else {
-				pos = e.page.x - this.touchConfig.pos;
+				pos = e.page.x - this.touch.pos;
 				key = 'top'
 			}
 
-			pos = Math.min(pos, this.touchConfig.max);
-			pos = Math.max(pos, (this.touchConfig.min));
+			pos = Math.min(pos, this.touch.max);
+			pos = Math.max(pos, (this.touch.min));
 
 			this.setZIndexOfOtherCards(pos);
-			this.touchConfig.previousPos = pos;
+			this.touch.previousPos = pos;
 			this.visibleCard.els.container.style[key] = pos + 'px';
 			return false;
 		}
@@ -3385,33 +3596,33 @@ ludo.layout.Card = new Class({
 	},
 
 	setZIndexOfOtherCards:function (pos) {
-		if (pos > 0 && this.touchConfig.previousPos <= 0) {
-			if (this.touchConfig.nextCard) {
-				this.touchConfig.nextCard.getEl().style.zIndex = (this.touchConfig.zIndex - 3);
+		if (pos > 0 && this.touch.previousPos <= 0) {
+			if (this.touch.nextCard) {
+				this.touch.nextCard.getEl().style.zIndex = (this.touch.zIndex - 3);
 			}
-			if (this.touchConfig.previousCard) {
-				this.touchConfig.previousCard.getEl().style.zIndex = this.touchConfig.zIndex - 1;
+			if (this.touch.previousCard) {
+				this.touch.previousCard.getEl().style.zIndex = this.touch.zIndex - 1;
 			}
-		} else if (pos < 0 && this.touchConfig.previousPos >= 0) {
-			if (this.touchConfig.nextCard) {
-				this.touchConfig.nextCard.getEl().style.zIndex = this.touchConfig.zIndex - 1;
+		} else if (pos < 0 && this.touch.previousPos >= 0) {
+			if (this.touch.nextCard) {
+				this.touch.nextCard.getEl().style.zIndex = this.touch.zIndex - 1;
 			}
-			if (this.touchConfig.previousCard) {
-				this.touchConfig.previousCard.getEl().style.zIndex = this.touchConfig.zIndex - 3;
+			if (this.touch.previousCard) {
+				this.touch.previousCard.getEl().style.zIndex = this.touch.zIndex - 3;
 			}
 		}
 	},
 
 	touchEnd:function () {
-		if (this.touchConfig.active) {
-			this.touchConfig.active = false;
-			var pos = this.touchConfig.previousPos;
-			if (pos > 0 && this.touchConfig.max && pos > (this.touchConfig.max / 2)) {
+		if (this.touch.active) {
+			this.touch.active = false;
+			var pos = this.touch.previousPos;
+			if (pos > 0 && this.touch.max && pos > (this.touch.max / 2)) {
 				this.animateToPrevious();
-			} else if (pos < 0 && pos < (this.touchConfig.min / 2)) {
+			} else if (pos < 0 && pos < (this.touch.min / 2)) {
 				this.animateToNext();
 			} else {
-				if (this.touchConfig.animateX) {
+				if (this.touch.animateX) {
 					this.visibleCard.getEl().style.left = '0px';
 				} else {
 					this.visibleCard.getEl().style.top = '0px';
@@ -3422,7 +3633,7 @@ ludo.layout.Card = new Class({
 
 	isOnFormElement:function (el) {
 		var tag = el.tagName.toLowerCase();
-		return tag == 'input' || tag == 'textarea';
+		return tag == 'input' || tag == 'textarea'  || tag === 'select';
 	},
 
 	renderNextAndPreviousCard:function () {
@@ -3444,7 +3655,7 @@ ludo.layout.Card = new Class({
 	},
 
 	animateToPrevious:function () {
-		if (this.touchConfig.animateX) {
+		if (this.touch.animateX) {
 			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'left'), this.view.getEl().offsetWidth);
 		} else {
 			this.animateAlongY(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'top'), this.view.getEl().offsetHeight);
@@ -3453,7 +3664,7 @@ ludo.layout.Card = new Class({
 	},
 
 	animateToNext:function () {
-		if (this.touchConfig.animateX) {
+		if (this.touch.animateX) {
 			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'left'), this.view.getEl().offsetWidth * -1);
 		} else {
 			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'top'), this.view.getEl().offsetHeight * -1);
@@ -3463,135 +3674,163 @@ ludo.layout.Card = new Class({
 });
 /* ../ludojs/src/data-source/base.js */
 /**
-* Base class for data sources
+ * Base class for data sources
  * @namespace dataSource
  * @class Base
-*/
+ */
 ludo.dataSource.Base = new Class({
-    Extends:ludo.Core,
-    /**
-     * Accept only one data-source of this type. You also need to specify the
-     * "type" property which will be used as key in the global SINGELTON cache
-     * By using singletons, you don't have to do multiple requests to the server
-     * @attribute singleton
+	Extends:ludo.Core,
+	/**
+	 * Accept only one data-source of this type. You also need to specify the
+	 * "type" property which will be used as key in the global SINGELTON cache
+	 * By using singletons, you don't have to do multiple requests to the server
+	 * @attribute singleton
 	 * @type {Boolean}
-     */
-    singleton:false,
-    /**
-     * Remote url. If not set, global url will be used
-     * @attribute url
+	 */
+	singleton:false,
+	/**
+	 * Remote url. If not set, global url will be used
+	 * @attribute url
 	 * @type String
-     * @optional
-     */
-    url:undefined,
-    /**
-     * Remote postData sent with request, example:
-     * postData: { getUsers: 1 }
-     * @attribute object postData
-     */
-    postData:{},
+	 * @optional
+	 */
+	url:undefined,
+	/**
+	 * Remote postData sent with request, example:
+	 * postData: { getUsers: 1 }
+	 * @attribute object postData
+	 */
+	postData:{},
 
-    data:undefined,
+	data:undefined,
 
-    /**
-     * Load data from external source on creation
-     * @attribute autoload
+	/**
+	 * Load data from external source on creation
+	 * @attribute autoload
 	 * @type {Boolean}
-     * @default true
-     */
-    autoload : true,
-    /**
-     * Name of resource to request on the server
-     * @config resource
+	 * @default true
+	 */
+	autoload:true,
+	/**
+	 * Name of resource to request on the server
+	 * @config resource
 	 * @type String
-     * @default ''
-     */
-    resource : '',
-    /**
-     * Name of service to request on the server
-     * @config service
+	 * @default ''
+	 */
+	resource:'',
+	/**
+	 * Name of service to request on the server
+	 * @config service
 	 * @type String
-     * @default ''
-     */
-    service : '',
-    /**
-     Array of arguments to send to resource on server
-     @config arguments
-     @type Array
-     @default ''
-     Here are some examples:
+	 * @default ''
+	 */
+	service:'',
+	/**
+	 Array of arguments to send to resource on server
+	 @config arguments
+	 @type Array
+	 @default ''
+	 Here are some examples:
 
-     Create a data source for server resource "Person", service name "load" and id : "1". You will then set these config properties:
+	 Create a data source for server resource "Person", service name "load" and id : "1". You will then set these config properties:
 
-     @example
-        "resource": "Person",
-        "service": "load",
-        "arguments": [1]
-     */
-    arguments: undefined,
+	 @example
+		 "resource": "Person",
+		 "service": "load",
+		 "arguments": [1]
+	 */
+	arguments:undefined,
 
-	inLoadMode : false,
+	inLoadMode:false,
 
 	ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config,['url','postData','autoload','resource','service','arguments','data']);
-		if(this.arguments && !ludo.util.isArray(this.arguments)){
+		this.parent(config);
+		this.setConfigParams(config, ['url', 'postData', 'autoload', 'resource', 'service', 'arguments', 'data', 'shim']);
+
+		if (this.arguments && !ludo.util.isArray(this.arguments)) {
 			this.arguments = [this.arguments];
 		}
-    },
 
-	ludoEvents:function(){
+	},
+
+	ludoEvents:function () {
 		if (this.autoload)this.load();
 	},
-    /**
-     * Has data loaded from server
-     * @method hasData
-     * @return {Boolean}
-     */
-    hasData:function () {
-        return (this.data !== undefined);
-    },
-    /**
-     * Return data loaded from server
-     * @method getData
-     * @return object data from server, example: { success:true, data:[]}
-     */
-    getData:function () {
-        return this.data;
-    },
 
-    setPostParam:function (param, value) {
-        this.postData[param] = value;
-    },
+	/**
+	 * Send a new request
+	 * @method sendRequest
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @optional
+	 * @param {Object} data
+	 * @optional
+	 */
+	sendRequest:function (service, arguments, data) {
+		this.arguments = arguments;
+		this.beforeLoad();
+		this.requestHandler().send(service, arguments, data);
+	},
+	/**
+	 * Has data loaded from server
+	 * @method hasData
+	 * @return {Boolean}
+	 */
+	hasData:function () {
+		return (this.data !== undefined);
+	},
+	/**
+	 * Return data loaded from server
+	 * @method getData
+	 * @return object data from server, example: { success:true, data:[]}
+	 */
+	getData:function () {
+		return this.data;
+	},
 
-    /**
-     * Return data-source type(HTML or JSON)
-     * @method getSourceType
-     * @return string source type
-     */
-    getSourceType:function () {
-        return 'JSON';
-    },
+	setPostParam:function (param, value) {
+		this.postData[param] = value;
+	},
 
-    beforeLoad:function(){
-        this.inLoadMode = true;
-        this.fireEvent('beforeload');
-    },
+	/**
+	 * Return data-source type(HTML or JSON)
+	 * @method getSourceType
+	 * @return string source type
+	 */
+	getSourceType:function () {
+		return 'JSON';
+	},
 
-    load:function(){
+	beforeLoad:function () {
+		this.inLoadMode = true;
+		this.fireEvent('beforeload');
+	},
 
-    },
-    loadUrl:function(url){
-        this.url = url;
-        this.load();
-    },
+	load:function () {
 
-	loadComplete:function(){
+	},
+
+	/**
+	 * Load content from a specific url
+	 * @method loadUrl
+	 * @param url
+	 */
+	loadUrl:function (url) {
+		this.url = url;
+		delete this._request;
+		this.load();
+	},
+
+	loadComplete:function () {
 		this.inLoadMode = false;
 	},
 
-	isLoading:function(){
+	isLoading:function () {
 		return this.inLoadMode;
+	},
+
+	getPostData:function () {
+		return this.postData;
 	}
 });/* ../ludojs/src/data-source/json.js */
 /**
@@ -3613,22 +3852,7 @@ ludo.dataSource.JSON = new Class({
     load:function () {
         if(!this.url && !this.resource)return;
         this.parent();
-        this.sendRequest(this.service, this.arguments, this.getPostData())
-    },
-
-    /**
-     * Send a new request
-     * @method sendRequest
-     * @param {String} service
-     * @param {Array} arguments
-     * @optional
-     * @param {Object} data
-     * @optional
-     */
-    sendRequest:function(service, arguments, data){
-        this.arguments = arguments;
-        this.beforeLoad();
-        this.requestHandler().send(service, arguments, data);
+        this.sendRequest(this.service, this.arguments, this.getPostData());
     },
 
     _request:undefined,
@@ -3637,6 +3861,7 @@ ludo.dataSource.JSON = new Class({
             this._request = new ludo.remote.JSON({
                 url:this.url,
                 resource: this.resource,
+				shim:this.shim,
                 listeners:{
                     "beforeload": function(request){
                         this.fireEvent("beforeload", request);
@@ -3674,11 +3899,7 @@ ludo.dataSource.JSON = new Class({
 		this.parent();
         this.data = data;
         this.fireEvent('parsedata');
-        this.fireEvent('load', [this.data]);
-    },
-
-    getPostData:function(){
-        return this.postData;
+        this.fireEvent('load', [this.data, this]);
     }
 });
 
@@ -4261,17 +4482,17 @@ ludo.dom = {
 
     // TODO rename to cls
 	addClass:function (el, className) {
-		if (!this.hasClass(el, className)) {
+		if (el && !this.hasClass(el, className)) {
 			el.className = el.className ? el.className + ' ' + className : className;
 		}
 	},
 
 	hasClass:function (el, className) {
-		return el.className ? el.className.split(/\s/g).indexOf(className) > -1 : false;
+		return el && el.className ? el.className.split(/\s/g).indexOf(className) > -1 : false;
 	},
 
 	removeClass:function (el, className) {
-		el.className = el.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
+		if(el)el.className = el.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
 	},
 
 	getParent:function (el, selector) {
@@ -4442,6 +4663,7 @@ ludo.util = {
 
 	/**
 	 * Dispose LudoJS components
+	 * @method dispose
 	 * @param {Core} view
 	 * @private
 	 */
@@ -4450,8 +4672,6 @@ ludo.util = {
 			view.getParent().removeChild(view);
 		}
         view.removeEvents();
-
-        console.log('dispose ' + view.type);
 
 		this.disposeDependencies(view.dependency);
 
@@ -4500,7 +4720,7 @@ ludo.util = {
             dateParts['%s'] = dateParts['%s'] || 0;
             return new Date(dateParts['%Y'], dateParts['%m'], dateParts['%d'], dateParts['%h'], dateParts['%i'], dateParts['%s']);
         }
-        return date;
+        return ludo.util.isString(date) ? '' : date;
     },
 
     getDragStartEvent:function () {
@@ -4518,35 +4738,27 @@ ludo.util = {
     supportsSVG:function(){
         return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect;
     }
-};/* ../ludojs/src/view/loader.js */
-// TODO rename this class
-ludo.view.Loader = new Class({
-    Extends:Events,
+};/* ../ludojs/src/view/shim.js */
+/**
+ * Render a shim
+ * @type {Class}
+ */
+ludo.view.Shim = new Class({
     txt:'Loading content...',
-    view:undefined,
     el:undefined,
     shim:undefined,
+    renderTo:undefined,
 
     initialize:function (config) {
-        this.view = config.view;
         if (config.txt)this.txt = config.txt;
-        this.addDataSourceEvents();
-    },
-
-    addDataSourceEvents:function () {
-        var dsConfig = this.view.dataSource;
-        if (dsConfig) {
-            var ds = this.view.getDataSource();
-            ds.addEvent('beforeload', this.show.bind(this));
-            ds.addEvent('load', this.hide.bind(this));
-            if (ds.isLoading())this.show();
-        }
+        this.renderTo = config.renderTo;
+        if(ludo.util.isString(this.renderTo))this.renderTo = ludo.get(this.renderTo).getEl();
     },
 
     getEl:function () {
         if (this.el === undefined) {
             this.el = ludo.dom.create({
-                renderTo:this.view.getEl(),
+                renderTo:this.renderTo,
                 cls:'ludo-component-pleasewait',
                 css:{'display':'none'},
                 html : this.txt
@@ -4558,7 +4770,7 @@ ludo.view.Loader = new Class({
     getShim:function () {
         if (this.shim === undefined) {
             this.shim = ludo.dom.create({
-                renderTo:this.view.getEl(),
+                renderTo:this.renderTo,
                 cls:'ludo-loader-shim',
                 css:{'display':'none'}
             });
@@ -4571,6 +4783,7 @@ ludo.view.Loader = new Class({
             this.el.set('html', txt);
         }
         this.css('');
+
     },
 
     hide:function () {
@@ -4578,7 +4791,24 @@ ludo.view.Loader = new Class({
     },
     css:function (d) {
         this.getShim().style.display = d;
-        this.getEl().style.display = d;
+        this.getEl().style.display = d === '' && this.txt ? '' : 'none';
+    }
+});/* ../ludojs/src/remote/shim.js */
+ludo.remote.Shim = new Class({
+    Extends:ludo.view.Shim,
+
+    initialize:function (config) {
+        this.parent(config);
+        this.addShowHideEvents(config.remoteObj);
+    },
+
+    addShowHideEvents:function (obj) {
+        if (obj) {
+			obj.addEvents({
+                'start':this.show.bind(this),
+                'complete':this.hide.bind(this)
+            });
+        }
     }
 });/* ../ludojs/src/view.js */
 /**
@@ -4673,32 +4903,7 @@ ludo.View = new Class({
 	},
 	state:{},
 
-	/**
-	 Array of add-ons config objects
-	 Add-ons are special components which operates on a view. When created, config property
-	 "view" is sent to constructor of the the plugin.
 
-
-	 @config addons
-	 @type {Array}
-	 @example
-	 new ludo.View({<br>
-		   plugins : [ { type : 'plugins.Sound' }]
-	  	 });
-	 and inside ludo.plugins.Sound:
-	 1) Create reference to view in constructor
-	 @example
-	 initialize:function(config){
-         ...
-         this.view = config.view;
-         ...
-      }
-
-	 2) Add event
-	 this.view.addEvent('someEvent', this.playSound.bind(this));
-	 Which will cause the plugin to play a sound when "someEvent" is fired by the view.
-	 */
-	addons:[],
 
 	tagBody:'div',
 	id:null,
@@ -4808,13 +5013,6 @@ ludo.View = new Class({
 	 * @property array unReneredChildren
 	 */
 	unRenderedChildren:[],
-	/**
-	 * Message to display while getting content from server
-	 * @config onLoadMessage
-	 * @type String
-	 * @default 'Loading content...'
-	 */
-	onLoadMessage:'Loading content...',
 
 	/**
 	 * Draw a frame around the component. This is done by assigning the container to css class
@@ -4999,8 +5197,8 @@ ludo.View = new Class({
 		this.parent(config);
 		config.els = config.els || {};
 		if (this.parentComponent)config.renderTo = undefined;
-		var keys = ['css', 'contextMenu', 'renderTo', 'tpl', 'containerCss', 'socket', 'form', 'addons', 'title', 'html', 'hidden', 'copyEvents',
-			'dataSource', 'onLoadMessage', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
+		var keys = ['css', 'contextMenu', 'renderTo', 'tpl', 'containerCss', 'socket', 'form',, 'title', 'html', 'hidden', 'copyEvents',
+			'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
 			'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'model', 'frame', 'formConfig',
 			'overflow', 'ludoDB'];
 
@@ -5021,14 +5219,16 @@ ludo.View = new Class({
 		if (this.ludoDB) {
 			this.ludoDB.type = 'ludoDB.Factory';
 			var f = this.createDependency('ludoDB', new ludo.ludoDB.Factory(this.ludoDB));
-
 			var initialHidden = this.hidden;
 			f.addEvent('load', function (children) {
-				this.unRenderedChildren = children.children;
-				this.hidden = initialHidden;
-				if (!this.hidden) {
-					this.show();
-				}
+                if(!this.hidden){
+                    this.addChildren(children.children);
+                }else{
+                    this.unRenderedChildren = children.children;
+                    this.hidden = initialHidden;
+                    this.show();
+                }
+
 			}.bind(this));
 			this.hidden = true;
 			f.load();
@@ -5063,7 +5263,7 @@ ludo.View = new Class({
 				this.contextMenu = [this.contextMenu];
 			}
 			for (var i = 0; i < this.contextMenu.length; i++) {
-				this.contextMenu[i].component = this;
+				this.contextMenu[i].applyTo = this;
 				this.contextMenu[i].contextEl = this.isFormElement() ? this.getFormEl() : this.getEl();
 				new ludo.menu.Context(this.contextMenu[i]);
 			}
@@ -5101,9 +5301,6 @@ ludo.View = new Class({
 	ludoEvents:function () {
 		if (this.dataSource) {
 			this.getDataSource();
-			if (this.onLoadMessage) {
-				this.getLoader();
-			}
 		}
 		/*
 		 if (!this.parentComponent && this.renderTo && this.renderTo.tagName.toLowerCase() == 'body') {
@@ -5112,21 +5309,6 @@ ludo.View = new Class({
 		 }
 		 }
 		 */
-	},
-
-	/**
-	 * Returns class used to display messages while remote content is being loaded
-	 * @method getLoader
-	 * @return {view.Loader}
-	 */
-	getLoader:function () {
-		if (this.loader === undefined) {
-			this.loader = new ludo.view.Loader({
-				view:this,
-				txt:this.onLoadMessage
-			});
-		}
-		return this.loader;
 	},
 
 	/**
@@ -5148,16 +5330,11 @@ ludo.View = new Class({
 		 */
 		this.fireEvent('render', this);
 		this.isRendered = true;
-		if (this.model) {
+		if (this.model || this.form) {
 			this.getForm();
 		}
 
-		if (this.addons) {
-			for (var i = 0; i < this.addons.length; i++) {
-				this.addons[i].view = this;
-				this.addons[i] = this.createDependency('addOns' + i, this.addons[i]);
-			}
-		}
+
 	},
 
 	createEventCopies:function () {
@@ -5625,6 +5802,10 @@ ludo.View = new Class({
 	 * Add a child component. The method will returned the created component.
 	 * @method addChild
 	 * @param {Object|View} child. A Child object can be a View or a JSON config object for a new View.
+	 * @param {String} insertAt
+	 * @optional
+	 * @param {String} pos
+	 * @optional
 	 * @return {View} child
 	 */
 	addChild:function (child, insertAt, pos) {
@@ -5726,6 +5907,9 @@ ludo.View = new Class({
 				if (!this.dataSource.type) {
 					this.dataSource.type = 'dataSource.JSON';
 				}
+                if(this.dataSource.shim && !this.dataSource.shim.renderTo){
+                    this.dataSource.shim.renderTo = this.getEl()
+                }
 				obj = this.dataSourceObj = this.createDependency('viewDataSource', this.dataSource);
 			}
 
@@ -6126,7 +6310,7 @@ ludo.layout.Relative = new Class({
 		'sameWidthAs', 'sameHeightAs',
 		'centerInParent', 'centerHorizontal', 'centerVertical',
 		'fillLeft', 'fillRight', 'fillUp', 'fillDown',
-		'absBottom','absWidth','absHeight','absLeft','absTop','absRight'
+		'absBottom','absWidth','absHeight','absLeft','absTop','absRight','offsetX','offsetY'
 	],
     /**
      * Internal child coordinates set during resize
@@ -6253,6 +6437,14 @@ ludo.layout.Relative = new Class({
 				return function () {
 					c[property] = child.layout[property];
 				}.bind(child);
+            case 'offsetX':
+                return function(){
+                    c.left += child.layout[property];
+                }.bind(child);
+            case 'offsetY':
+                return function(){
+                    c.top += child.layout[property];
+                }.bind(child);
 			case 'width':
 			case 'height':
 				return this.getPropertyFn(child, property);
@@ -6446,10 +6638,24 @@ ludo.layout.Relative = new Class({
             if(child.layout.above && child.layout.below){
                 c.height = lm.viewport.height - c.bottom - c.top;
             }
+			if(child.isHidden()){
+				c.width = 0;
+				c.height = 0;
+			}
 			child.resize({
 				width:c.width !== lc.width ? c.width : undefined,
 				height:c.height !== lc.height ? c.height : undefined
 			});
+
+			if(c['right'] !== undefined && c.width){
+				c.left = lm.viewport.absWidth - c.right - c.width;
+				c['right'] = undefined;
+			}
+			if(c.bottom !== undefined && c.height){
+				c.top = lm.viewport.absHeight - c.bottom - c.height;
+				c.bottom = undefined;
+			}
+
 			for (var i = 0; i < p.length; i++) {
 				var key = p[i];
 				if (c[key] !== undefined){
@@ -6490,7 +6696,6 @@ ludo.layout.Relative = new Class({
 	positionChild:function (child, property, value) {
 		child.getEl().style[property] = value + 'px';
 		child[property] = value;
-
 	},
     /**
      * Creates empty newChildCoordinates and lastChildCoordinates for a child view
@@ -7087,6 +7292,71 @@ ludo.layout.Popup = new Class({
 			if(!c[i].isHidden())c[i].getLayout().getRenderer().resize();
 		}
 	}
+});/* ../ludojs/src/layout/canvas.js */
+/**
+ * Layout manager for items in a chart
+ * @namespace chart
+ * @class Layout
+ * @extends layout.Relative
+ */
+ludo.layout.Canvas = new Class({
+	Extends:ludo.layout.Relative,
+
+	addChild:function (child) {
+		child = this.getValidChild(child);
+		child = this.getNewComponent(child);
+
+		this.view.children.push(child);
+		var el = child;
+		this.view.getCanvas().adopt(el);
+
+		this.onNewChild(child);
+		this.addChildEvents(child);
+		/**
+		 * Event fired by layout manager when a new child is added
+		 * @event addChild
+		 * @param {ludo.View} child
+		 * @param {ludo.layout.Base} layout manager
+		 */
+		this.fireEvent('addChild', [child, this]);
+
+
+
+		return child;
+	},
+
+	/**
+	 * Add events to child view
+	 * @method addChildEvents
+	 * @param {ludo.View} child
+	 * @private
+	 */
+	addChildEvents:function (child) {
+		child.addEvent('hide', this.hideChild.bind(this));
+		child.addEvent('show', this.clearTemporaryValues.bind(this));
+
+	},
+
+	/**
+	 * Position child at this coordinates
+	 * @method positionChild
+	 * @param {canvas.Element} child
+	 * @param {String} property
+	 * @param {Number} value
+	 * @private
+	 */
+	positionChild:function (child, property, value) {
+		child[property] = value;
+		this.currentTranslate[property] = value;
+		child['node'].translate(this.currentTranslate.left, this.currentTranslate.top);
+	},
+
+	currentTranslate:{
+		left:0,top:0
+	}
+
+
+
 });/* ../ludojs/src/layout/menu-container.js */
 ludo.layout.MenuContainer = new Class({
     Extends:Events,
@@ -8299,7 +8569,7 @@ ludo.effect.Drag = new Class({
 		ludo.dom.addClass(handle, 'ludo-drag');
 
 		handle.addEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
-		handle.setProperty('forId', node.id);
+		handle.setAttribute('forId', node.id);
 		this.els[node.id] = Object.merge(node, {
 			el:document.id(el),
 			handle:handle
@@ -8342,7 +8612,7 @@ ludo.effect.Drag = new Class({
 		}
 		node.id = node.id || node.el.id || 'ludo-' + String.uniqueID();
 		if (!node.el.id)node.el.id = node.id;
-		node.el.setProperty('forId', node.id);
+		node.el.setAttribute('forId', node.id);
 		return node;
 	},
 
@@ -9593,6 +9863,7 @@ ludo.view.ButtonBar = new Class({
         return this.component;
     }
 });/* ../ludojs/src/view/title-bar.js */
+// TODO support all kinds of buttons - customizable
 ludo.view.TitleBar = new Class({
     Extends:ludo.Core,
     view:undefined,
@@ -9604,23 +9875,37 @@ ludo.view.TitleBar = new Class({
         buttonArray:[]
     },
 
+    toggleStatus:{},
+
     ludoConfig:function (config) {
         this.parent(config);
-        this.view = config.view;
+
+        this.setConfigParams(config, ['view', 'buttons']);
+
+        if (!this.buttons)this.buttons = this.getDefaultButtons();
+
         this.view.addEvent('setTitle', this.setTitle.bind(this));
         this.view.addEvent('resize', this.resizeDOM.bind(this));
         this.createDOM();
-        this.createEvents();
-        this.setSizeOfButtonContainer.delay(20, this);
+        this.setSizeOfButtonContainer();
+    },
+
+    getDefaultButtons:function () {
+        var ret = [];
+        var v = this.view;
+        if (v.isMinimizable())ret.push('minimize');
+        if (v.isCollapsible())ret.push('collapse');
+        if (v.isClosable())ret.push('close');
+        return ret;
     },
 
     createDOM:function () {
         var el = this.els.el = new Element('div');
-        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-rich-view-titlebar' : 'ludo-component-titlebar');
+        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-framed-view-titlebar' : 'ludo-component-titlebar');
         var left = 0;
         if (this.view.icon) {
             this.createIconDOM();
-            left += parseInt(this.els.icon.getStyle('width').replace(/[^0-9]/g, ''));
+            left += ludo.dom.getNumericStyle(el, 'width');
         }
         this.createTitleDOM();
         el.adopt(this.getButtonContainer());
@@ -9632,10 +9917,9 @@ ludo.view.TitleBar = new Class({
     createIconDOM:function () {
         this.els.icon = ludo.dom.create({
             renderTo:this.els.el,
-            cls:'ludo-rich-view-titlebar-icon',
+            cls:'ludo-framed-view-titlebar-icon',
             css:{ 'backgroundImage':'url(' + this.view.icon + ')'}
         });
-
     },
 
     setTitle:function (title) {
@@ -9644,27 +9928,10 @@ ludo.view.TitleBar = new Class({
 
     createTitleDOM:function () {
         var title = this.els.title = ludo.dom.create({
-            cls : 'ludo-rich-view-titlebar-title',
-            renderTo : this.els.el
+            cls:'ludo-framed-view-titlebar-title',
+            renderTo:this.els.el
         });
         this.setTitle(this.view.title);
-    },
-    createEvents:function () {
-        this.addEvent('minimize', this.showMaximize.bind(this));
-        this.addEvent('maximize', this.showMinimize.bind(this));
-    },
-
-    showMaximize:function () {
-        this.toggleMinimize('none', '');
-    },
-
-    showMinimize:function () {
-        this.toggleMinimize('', 'none');
-    },
-
-    toggleMinimize:function (min, max) {
-        this.els.buttons.minimize.style.display = min;
-        this.els.buttons.maximize.style.display = max;
     },
 
     cancelTextSelection:function () {
@@ -9673,41 +9940,29 @@ ludo.view.TitleBar = new Class({
 
     getButtonContainer:function () {
         var el = this.els.controls = ludo.dom.create({
-            cls : 'ludo-title-bar-button-container'
+            cls:'ludo-title-bar-button-container'
         });
         el.style.cursor = 'default';
 
-        var le = ludo.dom.create({
-            cls : 'ludo-title-bar-button-container-left-edge',
-            renderTo:el
-        });
-        le.style.cssText = "position:absolute;z-index:1;left:0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top left";
+        this.createEdge('left', el);
+        this.createEdge('right', el);
 
-        var re = ludo.dom.create({
-            cls : 'ludo-title-bar-button-container-right-edge',
-            renderTo:el
-        });
-        re.style.cssText = 'position:absolute;z-index:1;right:0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top right';
+        for (var i = 0; i < this.buttons.length; i++) {
+            el.appendChild(this.getButton(this.buttons[i]));
+        }
 
-        if (this.view.isMinimizable()) {
-            el.appendChild(this.getButton('minimize'));
-            var max = this.getButton('maximize');
-            max.style.display = 'none';
-            el.appendChild(max);
-        }
-        if (this.view.isCollapsible()) {
-            if (this.shouldShowCollapseButton()) {
-                var button = this.getButton('collapse', 'collapse');
-                var direction = this.getCollapseButtonDirection();
-                ludo.dom.addClass(button, 'ludo-title-bar-button-collapse-' + direction);
-                el.appendChild(button);
-            }
-        }
-        if (this.view.isClosable()) {
-            el.appendChild(this.getButton('close', 'close'));
-        }
         this.addBorderToButtons();
         return el;
+    },
+
+    createEdge:function (pos, parent) {
+        var el = ludo.dom.create({
+            cls:'ludo-title-bar-button-container-' + pos + '-edge',
+            renderTo:parent
+        });
+        el.style.cssText = 'position:absolute;z-index:1;' + pos + ':0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top ' + pos;
+        return el;
+
     },
 
     shouldShowCollapseButton:function () {
@@ -9719,27 +9974,58 @@ ludo.view.TitleBar = new Class({
         this.els.controls.style.width = this.getWidthOfButtons() + 'px';
     },
 
-    getButton:function (buttonType) {
-        var b = this.els.buttons[buttonType] = new Element('div');
+    getButton:function (buttonConfig) {
+        buttonConfig = ludo.util.isString(buttonConfig) ? { type:buttonConfig } : buttonConfig;
+
+        var b = this.els.buttons[buttonConfig.type] = new Element('div');
         b.id = 'b-' + String.uniqueID();
-        b.className = 'ludo-title-bar-button ludo-title-bar-button-' + buttonType;
+        b.className = 'ludo-title-bar-button ludo-title-bar-button-' + buttonConfig.type;
         b.addEvents({
-            'click':this.buttonClick.bind(this),
+            'click':this.getButtonClickFn(buttonConfig.type),
             'mouseenter':this.enterButton.bind(this),
             'mouseleave':this.leaveButton.bind(this)
         });
-        b.setProperty('title', buttonType.capitalize());
-        b.setProperty('buttonType', buttonType);
+        b.setProperty('title', buttonConfig.title ? buttonConfig.title : buttonConfig.type.capitalize());
+        b.setProperty('buttonType', buttonConfig.type);
+
+        if (buttonConfig.type === 'collapse') {
+            ludo.dom.addClass(b, 'ludo-title-bar-button-collapse-' + this.getCollapseButtonDirection());
+        }
         this.els.buttonArray.push(b);
         return b;
+    },
+
+
+    getButtonClickFn:function (type) {
+        var buttonConfig = ludo.view.getTitleBarButton(type);
+        var toggle = buttonConfig && buttonConfig.toggle ? buttonConfig.toggle : undefined;
+
+        return function (e) {
+            this.leaveButton(e);
+            var event = type;
+            if (toggle) {
+                if (this.toggleStatus[type]) {
+                    event = this.toggleStatus[type];
+                    ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
+                    event = this.getNextToggle(toggle, event);
+
+                }
+                ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
+                this.toggleStatus[type] = event;
+                ludo.dom.addClass(e.target, 'ludo-title-bar-button-' + this.getNextToggle(toggle, event));
+            }
+            this.fireEvent(event);
+        }.bind(this);
+    },
+
+    getNextToggle:function (toggle, current) {
+        var ind = toggle.indexOf(current) + 1;
+        return toggle[ind >= toggle.length ? 0 : ind];
     },
 
     addBorderToButtons:function () {
         var firstFound = false;
         for (var i = 0; i < this.els.buttonArray.length; i++) {
-            if (this.els.buttonArray[i].style.display == 'none') {
-                continue;
-            }
             this.els.buttonArray[i].removeClass('ludo-title-bar-button-with-border');
             if (firstFound)this.els.buttonArray[i].addClass('ludo-title-bar-button-with-border');
             firstFound = true;
@@ -9757,19 +10043,10 @@ ludo.view.TitleBar = new Class({
         el.removeClass('ludo-title-bar-button-' + el.getProperty('buttonType') + '-over');
     },
 
-    buttonClick:function (e) {
-        var event = e.target.getProperty('buttonType');
-        this.leaveButton(e);
-        this.addBorderToButtons();
-        this.resizeButtonContainer();
-        this.fireEvent(event);
-    },
-
     getWidthOfButtons:function () {
         var ret = 0;
         var els = this.els.buttonArray;
         for (var i = 0, count = els.length; i < count; i++) {
-            if (els[i].style.display == 'none')continue;
             var width = ludo.dom.getNumericStyle(els[i], 'width') + ludo.dom.getBW(els[i]) + ludo.dom.getPW(els[i]) + ludo.dom.getMW(els[i]);
             if (!isNaN(width) && width) {
                 ret += width;
@@ -9795,24 +10072,21 @@ ludo.view.TitleBar = new Class({
         }
     },
 
-    hide:function () {
-        this.els.el.style.display = 'none';
-    },
-
     getWidthOfIconAndButtons:function () {
         var ret = this.view.icon ? this.els.icon.offsetWidth : 0;
         return ret + this.els.controls.offsetWidth;
     },
 
     resizeDOM:function () {
-        this.els.title.style.width = (this.view.width - this.getWidthOfIconAndButtons()) + 'px';
+        var width = (this.view.width - this.getWidthOfIconAndButtons());
+        if (width > 0)this.els.title.style.width = width + 'px';
     },
 
     height:undefined,
     getHeight:function () {
         if (this.height === undefined) {
             var el = this.els.el;
-            this.height = parseInt(el.getStyle('height').replace('px', ''));
+            this.height = ludo.dom.getNumericStyle(el, 'height');
             this.height += ludo.dom.getMH(el) + ludo.dom.getBH(el) + ludo.dom.getPH(el);
         }
         return this.height;
@@ -9830,6 +10104,18 @@ ludo.view.TitleBar = new Class({
             return parent.children.indexOf(c) === 0 ? 'top' : 'bottom';
         }
     }
+});
+
+ludo.view.registerTitleBarButton = function (name, config) {
+    ludo.registry.set('titleBar-' + name, config);
+};
+
+ludo.view.getTitleBarButton = function (name) {
+    return ludo.registry.get('titleBar-' + name);
+};
+
+ludo.view.registerTitleBarButton('minimize', {
+    toggle:['minimize', 'maximize']
 });/* ../ludojs/src/framed-view.js */
 /**
  * Rich Component
@@ -9882,12 +10168,53 @@ ludo.FramedView = new Class({
 	icon:undefined,
 
 	/**
-	 * Show or hide title bar
-	 * @config titleBar
-	 * @type {Boolean}
-	 * @default true
+	 Config object for the title bar
+	 @config titleBar
+	 @type {Object}
+	 @default undefined
+	 @example
+	 	new ludo.Window({
+	 		titleBar:{
+				buttons: [{
+					type : 'reload',
+					title : 'Reload grid data'
+				},'minimize','close'],
+				listeners:{
+					'reload' : function(){
+						ludo.get('myDataSource').load();
+					}
+				}
+			}
+	 	});
+
+	 You can create your own buttons by creating the following css classes:
+	 @example
+		 .ludo-title-bar-button-minimize {
+			 background-image: url('../images/title-bar-btn-minimize.png');
+		 }
+
+		 .ludo-title-bar-button-minimize-over {
+			 background-image: url('../images/title-bar-btn-minimize-over.png');
+		 }
+
+	 Replace "minimize" with the unique name of your button.
+
+	 If you want to create a toggle button like minimize/maximize, you can do that with this code:
+
+	 @example
+		 ludo.view.registerTitleBarButton('minimize',{
+			toggle:['minimize','maximize']
+		 });
 	 */
-	titleBar:true,
+	titleBar:undefined,
+
+	/**
+	 * Don't show the title bar
+	 * @config {Boolean} titleBarHidden
+	 * @default false
+	 */
+	titleBarHidden:false,
+
 	/**
 	 * Bold title bar. True to give the component a window type title bar, false to give it a smaller title bar
 	 * @attribute boldTitle
@@ -9927,7 +10254,7 @@ ludo.FramedView = new Class({
             }
         }
 
-        this.setConfigParams(config,['buttonBar','hasMenu','menuConfig','icon',,'titleBar','buttons','boldTitle','minimized']);
+        this.setConfigParams(config,['buttonBar', 'hasMenu','menuConfig','icon','titleBarHidden','titleBar','buttons','boldTitle','minimized']);
 		if (this.buttonBar && !this.buttonBar.children) {
 			this.buttonBar = { children:this.buttonBar };
 		}
@@ -9936,10 +10263,12 @@ ludo.FramedView = new Class({
 	ludoDOM:function () {
 		this.parent();
 
-		ludo.dom.addClass(this.els.container, 'ludo-rich-view');
+		ludo.dom.addClass(this.els.container, 'ludo-framed-view');
 
-		if (this.titleBar)this.getTitleBar().getEl().inject(this.getBody(), 'before');
-		ludo.dom.addClass(this.getBody(), 'ludo-rich-view-body');
+		if(this.hasTitleBar()){
+			this.getTitleBar().getEl().inject(this.getBody(), 'before');
+		}
+		ludo.dom.addClass(this.getBody(), 'ludo-framed-view-body');
 
 		if (!this.getParent() && this.isResizable()) {
 			this.getResizer().addHandle('s');
@@ -10017,21 +10346,27 @@ ludo.FramedView = new Class({
 	},
 
 	getHeightOfTitleBar:function () {
-		if (!this.titleBar)return 0;
+		if (!this.hasTitleBar())return 0;
 		return this.titleBarObj.getHeight();
+	},
+
+	hasTitleBar:function(){
+		return !this.titleBarHidden;
 	},
 
 	getTitleBar:function(){
 		if (this.titleBarObj === undefined) {
-			this.titleBarObj = this.createDependency('titleBar', {
-				type:'view.TitleBar',
-				view:this,
-				listeners:{
-					close:this.close.bind(this),
-					minimize:this.minimize.bind(this),
-					maximize:this.maximize.bind(this),
-					collapse:this.hide.bind(this)
-				}
+
+			if(!this.titleBar)this.titleBar = {};
+			this.titleBar.view = this;
+			this.titleBar.type = 'view.TitleBar';
+			this.titleBarObj = this.createDependency('titleBar', this.titleBar);
+
+			this.titleBarObj.addEvents({
+				close:this.close.bind(this),
+				minimize:this.minimize.bind(this),
+				maximize:this.maximize.bind(this),
+				collapse:this.hide.bind(this)
 			});
 
 			if (this.isMovable() && !this.getParent()) {
@@ -10340,6 +10675,10 @@ ludo.dataSource.Record = new Class({
 
 	getParent:function () {
 		return this.collection.getRecord(this.record.parentUid);
+	},
+
+	getCollection:function(){
+		return this.collection;
 	},
 
 	isRecordObject:function (rec) {
@@ -11106,6 +11445,8 @@ ludo.dataSource.Collection = new Class({
 		}
 
 		this.addEvent('parsedata', this.createIndex.bind(this));
+
+		if(this.data && !this.index)this.createIndex();
 	},
 
 	/**
@@ -11128,7 +11469,6 @@ ludo.dataSource.Collection = new Class({
 	 * @method sort
 	 * @return void
 	 */
-
 	sort:function () {
 		if (this.sortedBy.column && this.sortedBy.order) {
 			this.sortBy(this.sortedBy.column, this.sortedBy.order);
@@ -11295,7 +11635,7 @@ ludo.dataSource.Collection = new Class({
 	findRecord:function (search) {
 		if (!this.data)return undefined;
 		if(search['getUID'] !== undefined)search = search.getUID();
-        // TODO uid causes problems when you have a ludo.model.Model without uid. Refactor!
+
 		if(search.uid)search = search.uid;
 		var rec = this.getById(search);
 		if(rec)return rec;
@@ -11846,7 +12186,7 @@ ludo.dataSource.Collection = new Class({
 		if(parent)record.parentUid = parent.uid;
 		var pk = this.getPrimaryKeyIndexFor(record);
 		if(pk)this.index[pk] = record;
-		record.uid = ['uid_', String.uniqueID()].join('');
+		if(!record.uid)record.uid = ['uid_', String.uniqueID()].join('');
 		this.index[record.uid] = record;
 	},
 
@@ -11944,6 +12284,7 @@ ludo.dataSource.Collection = new Class({
 		if(this.index[id] !== undefined){
 			return this.index[id];
 		}
+
 		if(this.primaryKey.length===1){
 			return this.index[id];
 		}else{
@@ -11975,15 +12316,23 @@ ludo.dataSource.Collection = new Class({
 	getRecord:function(search){
 		var rec = this.findRecord(search);
 		if(rec){
-			var id = rec.uid;
-			if(this.recordObjects[id] === undefined){
-				this.recordObjects[id] = new ludo.dataSource.Record(rec, this);
-				this.addRecordEvents(this.recordObjects[id]);
-			}
-			return this.recordObjects[id];
+			return this.createRecord(rec);
 		}
 		return undefined;
 	},
+
+	createRecord:function(data){
+		var id = data.uid;
+		if(!this.recordObjects[id]){
+			this.recordObjects[id] = this.recordInstance(data, this);
+			this.addRecordEvents(this.recordObjects[id]);
+		}
+		return this.recordObjects[id];
+	},
+
+    recordInstance:function(data){
+        return new ludo.dataSource.Record(data, this);
+    },
 
 	addRecordEvents:function(record){
 		record.addEvent('update', this.onRecordUpdate.bind(this));
@@ -12488,15 +12837,16 @@ ludo.Scroller = new Class({
             'overflow':'hidden'
         });
 
+		var overflow = Browser.ie && Browser.version < 9 ? 'scroll' : 'auto';
         if (this.type == 'horizontal') {
             this.els.el.setStyles({
-                'overflow-x':'auto',
+                'overflow-x':overflow,
                 'width':'100%',
                 'height':Browser.ie ? '21px' : '17px'
             });
         } else {
             this.els.el.setStyles({
-                'overflow-y':'auto',
+                'overflow-y':overflow,
                 'height':'100%',
                 'width':Browser.ie ? '21px' : '17px',
                 'right':'0px',
@@ -12845,16 +13195,33 @@ ludo.grid.GridHeader = new Class({
 			});
 		}
 
-        ret.push({
-            html : 'Sort grid ',
-            children:[{
-                html: 'Ascending'
-            },{
-                html : 'Descending'
-            }]
-        });
+        ret.push(
+            {
+                html: ludo.language.get('Sort ascending'),
+                listeners:{
+                    click:function(){
+                        this.sort('ascending');
+                    }.bind(this)
+                }
+            }
+        );
+        ret.push(
+            {
+                html: ludo.language.get('Sort descending'),
+                listeners:{
+                    click:function(){
+                        this.sort('descending');
+                    }.bind(this)
+                }
+            }
+        );
 		return ret;
 	},
+
+    sort:function(method){
+        this.grid.getDataSource().by(this.currentColumn)[method]().sort();
+        ludo.get(this.getMenuButtonId(this.currentColumn)).hideMenu();
+    },
 
 	getColumnToggleFn:function (column, forColumn) {
 		return function (checked) {
@@ -12875,10 +13242,14 @@ ludo.grid.GridHeader = new Class({
 		return this.getMenuId() + '-' + column;
 	},
 
+    currentColumn:undefined,
 
 	mouseoverHeader:function (e) {
 		var col = this.getColByDOM(e.target);
+
 		if (!this.grid.colResizeHandler.isActive() && !this.grid.isColumnDragActive() && this.columnManager.isSortable(col)) {
+
+            this.currentColumn = col;
 			this.cells[col].addClass('ludo-grid-header-cell-over');
 		}
 	},
@@ -14193,10 +14564,11 @@ ludo.grid.Grid = new Class({
 	getDOMCellsForRecord:function (record) {
 		var ret = {};
 		var div, divId;
+
 		var keys = this.columnManager.getLeafKeys();
 		for (var i = 0; i < keys.length; i++) {
 			var col = this.getBody().getElement('#ludo-grid-column-' + keys[i] + '-' + this.uniqueId);
-			divId = 'cell-' + keys[i] + '-' + record.id + '-' + this.uniqueId;
+			divId = 'cell-' + keys[i] + '-' + record.uid + '-' + this.uniqueId;
 			div = col.getElement('#' + divId);
 			if (div) {
 				ret[keys[i]] = div;
@@ -14564,7 +14936,7 @@ ludo.grid.Grid = new Class({
 			if (renderer) {
 				content = renderer(content, data[i]);
 			}
-			var id = ['cell-' , col , '-' , data[i].id , '-' , this.uniqueId].join('');
+			var id = ['cell-' , col , '-' , data[i].uid , '-' , this.uniqueId].join('');
 			var over = '';
 			if (this.mouseOverEffect) {
 				over = ' onmouseover="ludo.get(\'' + this.id + '\').enterCell(this)"';
@@ -14879,7 +15251,7 @@ ludo.dialog.Dialog = new Class({
 	minimizable:false,
 
 	ludoConfig:function (config) {
-
+		// TODO use buttons instead of buttonConfig and check for string
 		config.buttonConfig = config.buttonConfig || this.buttonConfig;
 		if (config.buttonConfig) {
 			var buttons = config.buttonConfig.replace(/([A-Z])/g, ' $1');
@@ -14946,7 +15318,7 @@ ludo.dialog.Dialog = new Class({
 		this.parent();
 		this.hideShim();
 		if (this.autoDispose) {
-			this.dispose.delay(100, this);
+			this.dispose.delay(1000, this);
 		}
 	},
 
@@ -15023,7 +15395,8 @@ ludo.dialog.Confirm = new Class({
                 {
                     value : 'OK',
                     width : 60,
-                    type : 'form.SubmitButton'
+					defaultSubmit:true,
+                    type : 'form.Button'
                 },
                 {
                     value : 'Cancel',
@@ -15121,7 +15494,7 @@ ludo.form.Element = new Class({
 	 * @config {String} label
 	 * @default ''
 	 */
-    label:'',
+    label:undefined,
 	/**
 	 * Label after input field
 	 * @config {String} suffix
@@ -15129,7 +15502,12 @@ ludo.form.Element = new Class({
 	 */
 	suffix:'',
 
-    value:'',
+    /**
+     * Initial value
+     * @config {String|Number} value
+     * @default undefined
+     */
+    value:undefined,
 
     onLoadMessage:'',
 
@@ -15243,6 +15621,7 @@ ludo.form.Element = new Class({
         var defaultConfig = this.getInheritedFormConfig();
         this.labelWidth = defaultConfig.labelWidth || this.labelWidth;
         this.fieldWidth = defaultConfig.fieldWidth || this.fieldWidth;
+        this.inlineLabel = defaultConfig.inlineLabel || this.inlineLabel;
 
         var keys = ['label', 'suffix', 'formCss', 'validator', 'stretchField', 'required', 'twin', 'disabled', 'labelWidth', 'fieldWidth',
             'value', 'data'];
@@ -15452,7 +15831,7 @@ ludo.form.Element = new Class({
     blur:function () {
         this._focus = false;
         this.validate();
-        if (this.getFormEl())this.value = this.getFormEl().get('value');
+        if (this.getFormEl())this.value = this.getValueOfFormEl();
         this.toggleDirtyFlag();
         /**
          * On blur event
@@ -15461,6 +15840,10 @@ ludo.form.Element = new Class({
          * $param {View} this
          */
         this.fireEvent('blur', [ this.value, this ]);
+    },
+
+    getValueOfFormEl:function(){
+        return this.getFormEl().get('value');
     },
 
     toggleDirtyFlag:function(){
@@ -15524,6 +15907,8 @@ ludo.form.Element = new Class({
         this.setFormElValue(value);
         this.value = value;
 
+
+
         this.validate();
 
         if (this.wasValid) {
@@ -15540,11 +15925,14 @@ ludo.form.Element = new Class({
             if (this.stateful)this.fireEvent('state');
             if (this.linkWith)this.updateLinked();
         }
+
+        this.fireEvent('value', value);
     },
 
     setFormElValue:function(value){
         if (this.els.formEl && this.els.formEl.value !== value) {
             this.els.formEl.set('value', value);
+            if(this.inlineLabel)ludo.dom.removeClass(this.els.formEl, 'ludo-form-el-inline-label');
         }
     },
 
@@ -15563,7 +15951,7 @@ ludo.form.Element = new Class({
      */
     isValid:function () {
         if(this.validators.length === 0)return true;
-        var val = this.getFormEl() ? this.getFormEl().get('value').trim() : this.value;
+        var val = this.getFormEl() ? this.getValueOfFormEl().trim() : this.value;
         for (var i = 0; i < this.validators.length; i++) {
             if (!this.validators[i].fn.apply(this, [val, this[this.validators[i].key]])){
                 return false;
@@ -15710,7 +16098,7 @@ ludo.form.Element = new Class({
 ludo.form.LabelElement = new Class({
     Extends:ludo.form.Element,
 
-    fieldTpl:['<table ','cellpadding="0" cellspacing="0" border="0" width="100%">',
+    fieldTpl:['<table ', 'cellpadding="0" cellspacing="0" border="0" width="100%">',
         '<tbody>',
         '<tr class="input-row">',
         '<td class="label-cell"><label class="input-label"></label></td>',
@@ -15725,36 +16113,99 @@ ludo.form.LabelElement = new Class({
 
     labelSuffix:':',
 
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['inlineLabel']);
+        if(!this.supportsInlineLabel())this.inlineLabel = undefined;
+        /*
+		if (this.inlineLabel) {
+            this.inlineLabel = this.label;
+            this.label = undefined;
+        }
+        */
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        if (this.inlineLabel) {
+            var el = this.getFormEl();
+            if (el) {
+                el.addEvent('blur', this.setInlineLabel.bind(this));
+                el.addEvent('focus', this.clearInlineLabel.bind(this));
+                this.addEvent('value', this.clearInlineLabelCls.bind(this));
+            }
+        }
+    },
+
     ludoDOM:function () {
         this.parent();
         this.getBody().set('html', this.fieldTpl.join(''));
         this.addInput();
         this.addLabel();
         this.setWidthOfLabel();
+
+    },
+
+    ludoRendered:function(){
+        this.parent();
+        if(this.inlineLabel)this.setInlineLabel();
+    },
+
+    supportsInlineLabel:function(){
+        return true;
+    },
+
+    setInlineLabel:function () {
+        var el = this.getFormEl();
+        if (el.get('value').length === 0) {
+            ludo.dom.addClass(el, 'ludo-form-el-inline-label');
+            el.set('value', this.inlineLabel);
+        }
+    },
+
+    clearInlineLabel:function () {
+        var el = this.getFormEl();
+        if (el.get('value') === this.inlineLabel) {
+            el.set('value', '');
+            ludo.dom.removeClass(this.getFormEl(), 'ludo-form-el-inline-label');
+        }
+    },
+
+    clearInlineLabelCls:function(){
+        ludo.dom.removeClass(this.getFormEl(), 'ludo-form-el-inline-label');
+    },
+
+    getValueOfFormEl:function () {
+        var val = this.getFormEl().get('value');
+        return this.inlineLabel && this.inlineLabel === val ? '' : val;
     },
 
     addLabel:function () {
-        if (this.label) {
-            this.getLabelDOM().set('html', this.label + this.labelSuffix);
+        if (this.label !== undefined) {
+			this.getLabelDOM().set('html', this.label ?  this.label + this.labelSuffix : '');
             this.els.label.setProperty('for', this.getFormElId());
         }
-		if(this.suffix){
-			var s = this.getSuffixCell();
-			s.style.display='';
-			var label = s.getElement('label');
-			if(label){
-				label.set('html', this.suffix);
-				label.setProperty('for', this.getFormElId());
-			}
-		}
+        if (this.suffix) {
+            var s = this.getSuffixCell();
+            s.style.display = '';
+            var label = s.getElement('label');
+            if (label) {
+                label.set('html', this.suffix);
+                label.setProperty('for', this.getFormElId());
+            }
+        }
     },
 
     setWidthOfLabel:function () {
-		this.getLabelDOM().parentNode.style.width = this.labelWidth + 'px';
+        if(this.label === undefined){
+            this.getLabelDOM().style.display = 'none';
+        }else{
+            this.getLabelDOM().parentNode.style.width = this.labelWidth + 'px';
+        }
     },
 
     getLabelDOM:function () {
-        return this.getCell('.input-label','label');
+        return this.getCell('.input-label', 'label');
     },
 
     addInput:function () {
@@ -15769,35 +16220,35 @@ ludo.form.LabelElement = new Class({
         if (this.maxLength) {
             this.els.formEl.setProperty('maxlength', this.maxLength);
         }
-        if(this.readonly){
+        if (this.readonly) {
             this.els.formEl.setProperty('readonly', true);
         }
-		this.getInputCell().adopt(this.els.formEl);
-		if(this.fieldWidth){
-			this.els.formEl.style.width = this.fieldWidth + 'px';
-			this.getInputCell().parentNode.style.width = (this.fieldWidth  + ludo.dom.getMBPW(this.els.formEl)) + 'px';
-		}
+        this.getInputCell().adopt(this.els.formEl);
+        if (this.fieldWidth) {
+            this.els.formEl.style.width = this.fieldWidth + 'px';
+            this.getInputCell().parentNode.style.width = (this.fieldWidth + ludo.dom.getMBPW(this.els.formEl)) + 'px';
+        }
         this.els.formEl.id = this.getFormElId();
     },
 
-	getSuffixCell:function(){
-		return this.getCell('.suffix-cell','labelSuffix');
-	},
+    getSuffixCell:function () {
+        return this.getCell('.suffix-cell', 'labelSuffix');
+    },
 
     getInputCell:function () {
-		return this.getCell('.input-cell','cellInput');
+        return this.getCell('.input-cell', 'cellInput');
     },
 
     getInputRow:function () {
-		return this.getCell('.input-row','inputRow');
+        return this.getCell('.input-row', 'inputRow');
     },
 
-	getCell:function(selector, cacheKey){
-		if(!this.els[cacheKey]){
-			this.els[cacheKey] = this.getBody().getElement(selector);
-		}
-		return this.els[cacheKey];
-	},
+    getCell:function (selector, cacheKey) {
+        if (!this.els[cacheKey]) {
+            this.els[cacheKey] = this.getBody().getElement(selector);
+        }
+        return this.els[cacheKey];
+    },
 
     resizeDOM:function () {
         this.parent();
@@ -15816,9 +16267,9 @@ ludo.form.LabelElement = new Class({
                     width = c.offsetWidth - ludo.dom.getMBPW(this.els.body) - ludo.dom.getPW(c) - ludo.dom.getBW(c);
                 }
             }
-            if (this.label)width -= this.labelWidth;
-			if (this.suffix)width -= this.getSuffixCell().offsetWidth;
-            width -= 10;
+            if (this.label !== undefined)width -= this.labelWidth;
+            if (this.suffix)width -= this.getSuffixCell().offsetWidth;
+            if(this.inputTag !== 'select') width -= 5;
             if (width > 0 && !isNaN(width)) {
                 this.formFieldWidth = width;
                 this.getFormEl().style.width = width + 'px';
@@ -15996,7 +16447,7 @@ ludo.form.Text = new Class({
 
 	upperCaseWords:function () {
 		if (this.ucFirst || this.ucWords) {
-			var val = this.getFormEl().get('value');
+			var val = this.getValueOfFormEl();
 			if (val.length == 0) {
 				return;
 			}
@@ -16065,7 +16516,8 @@ ludo.dialog.Prompt = new Class({
                 {
                     value : 'OK',
                     width : 60,
-                    type:'form.SubmitButton'
+					defaultSubmit:true,
+                    type:'form.Button'
                 },
                 {
                     value : 'Cancel',
@@ -16917,6 +17369,10 @@ ludo.form.Checkbox = new Class({
                 ludo.dom.removeClass(this.els.radioImageDiv, 'ludo-radio-image-checked');
             }
         }
+    },
+
+    supportsInlineLabel:function(){
+        return false;
     }
 });/* ../ludojs/src/controller/manager.js */
 /**
@@ -17494,6 +17950,12 @@ ludo.model.Model = new Class({
         });
 	},
 
+    deleteRequest:function(){
+        if(this.recordId){
+            this.getDeleteRequest().send('delete', this.recordId);
+        }
+    },
+
     getDataToSubmit:function(formData){
         formData = formData || {};
         var data = Object.merge(this.currentRecord);
@@ -17572,6 +18034,64 @@ ludo.model.Model = new Class({
             });
         }
         return this._saveRequest;
+    },
+
+    _deleteRequest:undefined,
+    getDeleteRequest:function(){
+        if(this._deleteRequest === undefined){
+            this._deleteRequest = this.dependency['deleteRequest'] = new ludo.remote.JSON({
+                url:this.url,
+                resource:this.name,
+                listeners:{
+                    "beforeload": function(request){
+                        this.fireEvent("beforeload", request);
+                    },
+                    "success":function (request) {
+                        var updates = request.getResponseData();
+                        if (updates) {
+                            this.handleModelUpdates(updates);
+                        }
+                        this.fireEvent('success', [request.getResponse(), this]);
+                        /**
+                         * Event fired after model has been deleted
+                         * @event deleted
+                         * @param {Object} JSON response from server
+                         * @param {Object} ludo.model.Model
+                         */
+                        this.fireEvent('deleted', [request.getResponse(), this]);
+                        this.commitFormFields();
+                    }.bind(this),
+                    "failure":function (request) {
+                        /**
+                         * Event fired when success parameter in response from server after saving model was false.
+                         * @event model deleteFailed
+                         * @param {Object} JSON response from server. Error message should be in the "message" property
+                         * @param {Object} ludo.model.Model
+                         *
+                         */
+                        this.fireEvent('deleteFailed', [request.getResponse(), this]);
+                        /**
+                         * Event fired when success parameter in response from server is false
+                         * @event failure
+                         * @param {Object} JSON response from server. Error message should be in the "message" property
+                         * @param {Object} ludo.model.Model
+                         *
+                         */
+                        this.fireEvent('failure', [request.getResponse(), this]);
+                    }.bind(this),
+                    "error":function (request) {
+                        /**
+                         * Server error event. Fired when the server didn't handle the request
+                         * @event servererror
+                         * @param {String} error text
+                         * @param {String} error message
+                         */
+                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
+                    }.bind(this)
+                }
+            });
+        }
+        return this._deleteRequest;
     },
 
 	getProgressBarId:function () {
@@ -17758,7 +18278,6 @@ ludo.menu.Item = new Class({
         this.parent();
         ludo.dom.addClass(this.getEl(), 'ludo-menu-item');
 
-
         if (this.isSpacer()) {
             if (this.orientation === 'horizontal') {
                 this.getEl().setStyle('width', 1);
@@ -17782,9 +18301,6 @@ ludo.menu.Item = new Class({
 		    ludo.dom.addClass(el, 'ludo-menu-item-' + this.orientation + '-expand');
 		    this.getEl().adopt(el);
 		}
-
-
-
     },
 
     getLabel:function () {
@@ -17996,7 +18512,7 @@ ludo.menu.Context = new Class({
 	ludoConfig:function (config) {
 		this.renderTo = document.body;
 		this.parent(config);
-		this.setConfigParams(config, ['selector', 'recordType', 'record', 'component','contextEl']);
+		this.setConfigParams(config, ['selector', 'recordType', 'record', 'applyTo','contextEl']);
 		if (this.recordType)this.record = { type:this.recordType };
 	},
 
@@ -18024,7 +18540,7 @@ ludo.menu.Context = new Class({
 	},
 
 	/**
-	 * when recordType property is defined, this will return the selected record of parent component,
+	 * when recordType property is defined, this will return the selected record of parent applyTo,
 	 * example: record in a tree
 	 * @method getSelectedRecord
 	 * @return object record
@@ -18034,7 +18550,6 @@ ludo.menu.Context = new Class({
 	},
 
 	show:function (e) {
-
 		if (this.selector) {
 			var domEl = this.getValidDomElement(e.target);
 			if (!domEl) {
@@ -18043,7 +18558,7 @@ ludo.menu.Context = new Class({
 			this.fireEvent('selectorclick', domEl);
 		}
 		if (this.record) {
-			var r = this.component.getRecordByDOM(e.target);
+			var r = this.applyTo.getRecordByDOM(e.target);
 			if (!r)return undefined;
 			if (this.isContextMenuFor(r)) {
 				this.selectedRecord = r;
@@ -18626,10 +19141,18 @@ ludo.canvas.NamedNode = new Class({
 	Extends: ludo.canvas.Node,
 
 	initialize:function (attributes, text) {
+		if(attributes.listeners){
+			this.addEvents(attributes.listeners);
+			delete attributes.listeners;
+		}
 		this.parent(this.tagName, attributes, text);
 	}
-
 });/* ../ludojs/src/canvas/path.js */
+/**
+ * Returns a path SVG element which can be adopted to a canvas.
+ * @namespace canvas
+ * @class Path
+ */
 ludo.canvas.Path = new Class({
 	Extends:ludo.canvas.NamedNode,
 	tagName:'path',
@@ -18649,6 +19172,12 @@ ludo.canvas.Path = new Class({
 	getValidPointString:function (points) {
 		return points.replace(/([A-Z])/g, '$1 ').trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
 	},
+
+    setPath:function(path){
+        this.pointString = this.getValidPointString(path);
+        this.pointArray = undefined;
+        this.set('d', this.pointString);
+    },
 
 	getPoint:function (index) {
 		if (this.pointArray === undefined)this.buildPointArray();
@@ -18717,6 +19246,131 @@ ludo.canvas.Path = new Class({
             maxX:Math.max.apply(this, x), maxY:Math.max.apply(this, y)
         };
 	}
+});/* ../ludojs/src/remote/base.js */
+/**
+ * Base class for ludo.remote.HTML and ludo.remote.JSON
+ * @namespace remote
+ * @class Base
+ */
+ludo.remote.Base = new Class({
+	Extends:Events,
+	remoteData:undefined,
+	method:'post',
+	
+	initialize:function (config) {
+		config = config || {};
+		if (config.listeners !== undefined) {
+			this.addEvents(config.listeners);
+		}
+		this.method = config.method || this.method;
+		if (config.resource !== undefined) this.resource = config.resource;
+		if (config.url !== undefined) this.url = config.url;
+
+		if (config.shim) {
+			new ludo.remote.Shim({
+				renderTo:config.shim.renderTo,
+				remoteObj:this,
+				txt:config.shim.txt
+			});
+		}
+	},
+
+	send:function (service, resourceArguments, serviceArguments, additionalData) {
+		if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
+		ludo.remoteBroadcaster.clear(this, service);
+
+		this.fireEvent('start');
+
+		this.sendToServer(service, resourceArguments, serviceArguments, additionalData);
+	},
+
+	onComplete:function () {
+		this.fireEvent('complete', this);
+	},
+	/**
+	 * Return url for the request
+	 * @method getUrl
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @return {String}
+	 * @protected
+	 */
+	getUrl:function (service, arguments) {
+		var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
+		if (ludo.config.hasModRewriteUrls()) {
+			ret = ludo.config.getDocumentRoot() + this.getServicePath(service, arguments);
+		} else {
+			ret = this.url !== undefined ? ludo.util.isFunction(this.url) ? this.url.call() : this.url : ludo.config.getUrl();
+		}
+		return ret;
+	},
+	/**
+	 * @method getServicePath
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @return {String}
+	 * @protected
+	 */
+	getServicePath:function (service, arguments) {
+		var parts = [this.resource];
+		if (arguments && arguments.length)parts.push(arguments.join('/'));
+		if (service)parts.push(service);
+		return parts.join('/');
+	},
+	/**
+	 * @method getDataForRequest
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @param {Object} data
+	 * @optional
+	 * @param {Object} additionalData
+	 * @optional
+	 * @return {Object}
+	 * @protected
+	 */
+	getDataForRequest:function (service, arguments, data, additionalData) {
+		var ret = {
+			data:data
+		};
+		if (additionalData) {
+			if (ludo.util.isObject(additionalData)) {
+				ret = Object.merge(additionalData, ret);
+			}
+		}
+		if (!ludo.config.hasModRewriteUrls() && this.resource) {
+			ret.request = this.getServicePath(service, arguments);
+		}
+		return ret;
+	},
+	/**
+	 * Return "code" property of last received server response.
+	 * @method getResponseCode
+	 * @return {String|undefined}
+	 */
+	getResponseCode:function () {
+		return this.remoteData && this.remoteData.code ? this.remoteData.code : undefined;
+	},
+	/**
+	 * Return response message
+	 * @method getResponseMessage
+	 * @return {String|undefined}
+	 */
+	getResponseMessage:function () {
+		return this.remoteData && this.remoteData.message ? this.remoteData.message : undefined;
+	},
+
+	/**
+	 * Return name of resource
+	 * @method getResource
+	 * @return {String}
+	 */
+	getResource:function(){
+		return this.resource;
+	},
+
+	sendBroadCast:function(service){
+		ludo.remoteBroadcaster.broadcast(this, service);
+	}
 });/* ../ludojs/src/remote/json.js */
 /**
  * LudoJS class for remote JSON queries. Remote queries in ludoJS uses a REST-like API where you have
@@ -18729,9 +19383,7 @@ ludo.canvas.Path = new Class({
  * @extends Events
  */
 ludo.remote.JSON = new Class({
-    Extends:Events,
-    method:'post',
-    JSON:undefined,
+    Extends:ludo.remote.Base,
 
     /**
      * Name of resource to request, example: "Person"
@@ -18746,13 +19398,7 @@ ludo.remote.JSON = new Class({
     url:undefined,
 
     initialize:function (config) {
-		config = config || {};
-        if (config.listeners !== undefined) {
-            this.addEvents(config.listeners);
-        }
-        this.method = config.method || this.method;
-        if (config.resource !== undefined) this.resource = config.resource;
-        if (config.url !== undefined) this.url = config.url;
+		this.parent(config);
     },
 
     /**
@@ -18823,10 +19469,8 @@ ludo.remote.JSON = new Class({
      @param {Object} additionalData
      @optional
      */
-    send:function (service, resourceArguments, serviceArguments, additionalData) {
-        if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
+    sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
 
-        ludo.remoteBroadcaster.clear(this, service);
         // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
         // TODO the events here should be fired for the components sending the request.
         var req = new Request.JSON({
@@ -18835,82 +19479,23 @@ ludo.remote.JSON = new Class({
             noCache:true,
             data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
             onSuccess:function (json) {
-                this.JSON = json;
+                this.remoteData = json;
                 if (json.success || json.success === undefined) {
                     this.fireEvent('success', this);
                 } else {
                     this.fireEvent('failure', this);
                 }
                 this.sendBroadCast(service);
-                this.fireEvent('complete', this);
+				this.onComplete();
             }.bind(this),
             onError:function (text, error) {
-                this.JSON = { "code": 500, "message": error };
+                this.remoteData = { "code": 500, "message": error };
                 this.fireEvent('servererror', this);
                 this.sendBroadCast(service);
-                this.fireEvent('complete', this);
+                this.onComplete();
             }.bind(this)
         });
         req.send();
-    },
-
-    sendBroadCast:function(service){
-        ludo.remoteBroadcaster.broadcast(this, service);
-    },
-    /**
-     * Return url for the request
-     * @method getUrl
-     * @param {String} service
-     * @param {Array} arguments
-     * @return {String}
-     * @private
-     */
-    getUrl:function (service, arguments) {
-        var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
-        if (ludo.config.hasModRewriteUrls()) {
-            ret = ludo.config.getDocumentRoot() + this.getServicePath(service, arguments);
-        }else{
-            ret = this.url !== undefined ? this.url : ludo.config.getUrl();
-        }
-        return ret;
-    },
-    /**
-     * @method getServicePath
-     * @param {String} service
-     * @param {Array} arguments
-     * @return {String}
-     * @private
-     */
-    getServicePath:function (service, arguments) {
-        var parts = [this.resource];
-        if (arguments && arguments.length)parts.push(arguments.join('/'));
-        if (service)parts.push(service);
-        return parts.join('/');
-    },
-    /**
-     * @method getDataForRequest
-     * @param {String} service
-     * @param {Array} arguments
-     * @param {Object} data
-     * @optional
-     * @param {Object} additionalData
-     * @optional
-     * @return {Object}
-     * @private
-     */
-    getDataForRequest:function (service, arguments, data, additionalData) {
-        var ret = {
-            data:data
-        };
-        if(additionalData){
-            if(ludo.util.isObject(additionalData)){
-                ret = Object.merge(additionalData, ret);
-            }
-        }
-        if (!ludo.config.hasModRewriteUrls() && this.resource) {
-            ret.request = this.getServicePath(service, arguments);
-        }
-        return ret;
     },
     /**
      * Return JSON response data from last request.
@@ -18918,7 +19503,7 @@ ludo.remote.JSON = new Class({
      * @return {Object|undefined}
      */
     getResponseData:function () {
-        return this.JSON.response.data ? this.JSON.response.data : this.JSON.response;
+        return this.remoteData.response.data ? this.remoteData.response.data : this.remoteData.response;
     },
 
     /**
@@ -18927,32 +19512,7 @@ ludo.remote.JSON = new Class({
      * @return {Object|undefined}
      */
     getResponse:function () {
-        return this.JSON;
-    },
-    /**
-     * Return "code" property of last received server response.
-     * @method getResponseCode
-     * @return {String|undefined}
-     */
-    getResponseCode:function () {
-        return this.JSON && this.JSON.code ? this.JSON.code : undefined;
-    },
-    /**
-     * Return response message
-     * @method getResponseMessage
-     * @return {String|undefined}
-     */
-    getResponseMessage:function () {
-        return this.JSON && this.JSON.message ? this.JSON.message : undefined;
-    },
-
-    /**
-     * Return name of resource
-     * @method getResource
-     * @return {String}
-     */
-    getResource:function(){
-        return this.resource;
+        return this.remoteData;
     },
     /**
      * Set name of resource
@@ -18963,7 +19523,56 @@ ludo.remote.JSON = new Class({
         this.resource = resource;
     }
 });
-/* ../ludojs/src/remote/broadcaster.js */
+/* ../ludojs/src/remote/html.js */
+/**
+ Class for remote HTML requests.
+ @namespace remote
+ @class HTML
+ */
+ludo.remote.HTML = new Class({
+	Extends:ludo.remote.Base,
+	HTML:undefined,
+
+	sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
+		var req = new Request({
+			url:this.getUrl(service, resourceArguments),
+			method:this.method,
+			noCache:true,
+			evalScripts:true,
+			data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
+			onSuccess:function (html) {
+				this.remoteData = html;
+				this.fireEvent('success', this);
+				this.sendBroadCast(service);
+				this.onComplete();
+			}.bind(this),
+			onError:function (text, error) {
+				this.remoteData = { "code":500, "message":error };
+				this.fireEvent('servererror', this);
+				this.sendBroadCast(service);
+				this.onComplete();
+			}.bind(this)
+		});
+		req.send();
+	},
+	/**
+	 * Return JSON response data from last request.
+	 * @method getResponseData
+	 * @return {Object|undefined}
+	 */
+	getResponseData:function () {
+		return this.remoteData;
+	},
+
+	/**
+	 * Return entire server response of last request.
+	 * @method getResponse
+	 * @return {Object|undefined}
+	 */
+	getResponse:function () {
+		return this.remoteData;
+	}
+});/* ../ludojs/src/remote/broadcaster.js */
 /**
  Singleton class responsible for broadcasting messages from remote requests.
  Instance of this class is available in ludo.remoteBroadcaster
@@ -19000,7 +19609,7 @@ ludo.remote.Broadcaster = new Class({
                 eventNameWithService = this.getEventName('failure', request.getResource(), service);
                 break;
         }
-        if(!eventName){
+        if (!eventName) {
             eventName = this.getEventName('serverError', request.getResource());
             eventNameWithService = this.getEventName('serverError', request.getResource(), service);
         }
@@ -19011,18 +19620,18 @@ ludo.remote.Broadcaster = new Class({
             "resource":request.getResource(),
             "service":service
         };
-        if(!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
+        if (!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
         this.fireEvent(eventName, eventObj);
-        if(service){
+        if (service) {
             this.fireEvent(eventNameWithService, eventObj);
         }
     },
 
-    getDefaultMessage:function(key){
+    getDefaultMessage:function (key) {
         return this.defaultMessages[key] ? this.defaultMessages[key] : '';
     },
 
-    clear:function(request, service){
+    clear:function (request, service) {
         var eventObj = {
             "message":request.getResponseMessage(),
             "code":request.getResponseCode(),
@@ -19033,7 +19642,7 @@ ludo.remote.Broadcaster = new Class({
         var eventNameWithService = this.getEventName('clear', eventObj.resource, service);
 
         this.fireEvent(eventName, eventObj);
-        if(service){
+        if (service) {
             this.fireEvent(eventNameWithService, eventObj);
         }
     },
@@ -19058,14 +19667,14 @@ ludo.remote.Broadcaster = new Class({
         }.bind(this));
      The event payload is an object in this format:
      @example
-        {
-            "code": 200,
-            "message": "A message",
-            "resource": "Which resource",
-            "service": "Which service"
-        }
+         {
+             "code": 200,
+             "message": "A message",
+             "resource": "Which resource",
+             "service": "Which service"
+         }
      */
-    addResourceEvent:function(eventType, resource, fn){
+    addResourceEvent:function (eventType, resource, fn) {
         this.addEvent(this.getEventName(eventType, resource), fn);
     },
     /**
@@ -19073,23 +19682,29 @@ ludo.remote.Broadcaster = new Class({
      @method addResourceEvent
      @param {String} eventType
      @param {String} resource
-     @param {String} service
+     @param {Array} services
      @param {Function} fn
      @example
-     ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
+        ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
             this.getBody().set('html', response.message');
         }.bind(this));
      The event payload is an object in this format:
      @example
-     {
-         "code": 200,
-         "message": "A message",
-         "resource": "Which resource",
-         "service": "Which service"
-     }
+         {
+             "code": 200,
+             "message": "A message",
+             "resource": "Which resource",
+             "service": "Which service"
+         }
      */
-    addServiceEvent:function(eventType,resource,service, fn){
-        this.addEvent(this.getEventName(eventType, resource, service), fn);
+    addServiceEvent:function (eventType, resource, services, fn) {
+        if (!services.length) {
+            this.addEvent(this.getEventName(eventType, resource, undefined), fn);
+        } else {
+            for (var i = 0; i < services.length; i++) {
+                this.addEvent(this.getEventName(eventType, resource, services[i]), fn);
+            }
+        }
     },
 
     /**
@@ -19100,10 +19715,10 @@ ludo.remote.Broadcaster = new Class({
      @param {String} resource
      @param {String} service
      @example
-        ludo.remoteBroadcaster.setDefaultMessage('You have registered sucessfully', 'success', 'User', 'register');
+        ludo.remoteBroadcaster.setDefaultMessage('You have registered successfully', 'success', 'User', 'register');
      */
-    setDefaultMessage:function(message, eventType, resource, service){
-        this.defaultMessages[this.getEventName(eventType,resource,service)] = message;
+    setDefaultMessage:function (message, eventType, resource, service) {
+        this.defaultMessages[this.getEventName(eventType, resource, service)] = message;
 
     }
 });
@@ -19118,54 +19733,97 @@ ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
  @constructor
  @param {Object} config
  @example
-    children:[{
+ children:[{
         type:'remote.Message',
-        resource:'Person'
+        listenTo:["Person", "City.save"]
     }...
- will show remote messages for all remote requests for for the Person resource.
+
+ will listen to all services of the "Person" resource and the "save" service of "City".
 
  */
 ludo.remote.Message = new Class({
-    Extends: ludo.View,
+    // TODO support auto hide
+    Extends:ludo.View,
     cls:'ludo-remote-message',
-    /**
-     * Listen to remote messages from this resource
-     * @config {String} resource
-     */
-    resource:undefined,
-    /**
-     * Listen only to remote messages for this service
-     * @config {String} service
-     * @optional
-     */
-    service:undefined,
-    listenTo:undefined,
-    messageTypes:['success','failure','error'],
 
-    ludoConfig:function(config){
+    /**
+     Listen to these resources and events
+     @config {Array|String} listenTo
+     @example
+        listenTo:"Person" // listen to all Person events
+        listenTo:["Person.save","Person.read", "City"] // listen to "save" and "read" service of "Person" and all services of the "City" resource
+     */
+    listenTo:[],
+
+    messageTypes:['success', 'failure', 'error'],
+
+    ludoConfig:function (config) {
         this.parent(config);
-        this.resource = config.resource;
-        this.service = config.service;
+        this.setConfigParams(config, ['listenTo']);
+        if (!ludo.util.isArray(this.listenTo))this.listenTo = [this.listenTo];
     },
 
-    ludoEvents:function(){
+    ludoEvents:function () {
         this.parent();
-        ludo.remoteBroadcaster.addServiceEvent("clear", this.resource, this.service, this.hideMessage.bind(this) );
-        for(var i=0;i<this.messageTypes.length;i++){
-            ludo.remoteBroadcaster.addServiceEvent(this.messageTypes[i], this.resource, this.service, this.showMessage.bind(this));
+        var resources = this.getResources();
+        for (var resourceName in resources) {
+            if (resources.hasOwnProperty(resourceName)) {
+                this.addResourceEvent(resourceName, resources[resourceName]);
+            }
         }
     },
 
-    showMessage:function(response){
-        if(response.code && response.code !== 200){
+    getResources:function () {
+        var ret = {};
+        var resource, service;
+        for (var i = 0; i < this.listenTo.length; i++) {
+            if (this.listenTo[i].indexOf('.') >= 0) {
+                var tokens = this.listenTo[i].split(/\./g);
+                if (tokens.length === 2) {
+                    service = tokens.pop();
+                    resource = tokens[0];
+                    service = service != '*' ? service : undefined;
+                }
+            } else {
+                resource = this.listenTo[i];
+                service = undefined;
+            }
+
+            if (ret[resource] == undefined) {
+                ret[resource] = [];
+            }
+            if (service && ret[resource].indexOf(service) === -1) {
+                ret[resource].push(service);
+            }
+        }
+        return ret;
+    },
+
+    addResourceEvent:function (resource, service) {
+        ludo.remoteBroadcaster.addServiceEvent("clear", resource, service, this.hideMessage.bind(this));
+        for (var i = 0; i < this.messageTypes.length; i++) {
+            ludo.remoteBroadcaster.addServiceEvent(this.messageTypes[i], resource, service, this.showMessage.bind(this));
+        }
+    },
+
+    showMessage:function (response) {
+        this.show();
+        if (response.code && response.code !== 200) {
             ludo.dom.addClass(this.getEl(), 'ludo-remote-error-message');
-        }else{
+        } else {
             ludo.dom.removeClass(this.getEl(), 'ludo-remote-error-message');
         }
         this.setHtml(response.message);
+
+        /**
+         * Event fired when message is shown.
+         * @event showMessage
+         * @param {remote.Message} this
+         */
+        this.fireEvent('showMessage', this);
     },
 
-    hideMessage:function(){
+    hideMessage:function () {
         this.setHtml('');
     }
 });/* ../ludojs/src/remote/error-message.js */
@@ -19190,6 +19848,7 @@ ludo.form.Manager = new Class({
 	Extends:ludo.Core,
 	component:null,
 	formComponents:[],
+    formComponentId:undefined,
 	fileUploadComponents:[],
 	progressBar:undefined,
 	invalidIds:[],
@@ -19208,6 +19867,7 @@ ludo.form.Manager = new Class({
 		if (this.form && this.form.url)this.url = this.form.url;
 
         this.form.resource = this.form.resource || this.form.name || undefined;
+
 		this.id = String.uniqueID();
 		if (config.model !== undefined) {
 			if (config.model.type === undefined) {
@@ -19278,11 +19938,14 @@ ludo.form.Manager = new Class({
 			this.fileUploadComponents.push(c);
 		}
 		this.formComponents.push(c);
-
+        if(this.form.idField && c.name == this.form.idField){
+            this.formComponentId = c;
+        }
 		c.addEvent('valid', this.onValidFormElement.bind(this));
 		c.addEvent('invalid', this.onInvalidFormElement.bind(this));
 		c.addEvent('dirty', this.onDirtyFormElement.bind(this));
 		c.addEvent('clean', this.onCleanFormElement.bind(this));
+        c.addEvent('change', this.onChangedFormElement.bind(this));
 
 		if (!c.isValid()) {
 			this.invalidIds.push(c.getId());
@@ -19328,6 +19991,16 @@ ludo.form.Manager = new Class({
 		}
 	},
 
+    onChangedFormElement:function(value, formComponent){
+        /**
+         * Event fired when a form element has been changed
+         * @event change
+         * @param {ludo.form.Manager} form
+         * @param {ludo.form.Element} form element
+         *
+         */
+        this.fireEvent('change',[this, formComponent] )
+    },
 	/**
 	 * One form element is valid. Fire valid event if all form elements are valid
 	 * @method onValidFormElement
@@ -19390,9 +20063,9 @@ ludo.form.Manager = new Class({
 	isValid:function () {
 		return this.invalidIds.length === 0;
 	},
+    // TODO implement a method returning values as plain array(values only)
 	/**
 	 * @method getValues
-	 * @private
 	 * @description Return array of values of all form elements inside this component. The format is [{name:value},{name:value}]
 	 */
 	getValues:function () {
@@ -19431,6 +20104,52 @@ ludo.form.Manager = new Class({
 		}
 	},
 
+    deleteRequest:function(){
+        if(this.model){
+            this.model.deleteRequest();
+        }else{
+            var path = this.getDeletePath();
+            var r = new ludo.remote.JSON({
+                resource : path.resource,
+                listeners:{
+                    success : function(req){
+                        /**
+                         * Event fired after successful delete request
+                         * @event deleted
+                         * @param {Object} response from server
+                         * @param {Object} View
+                         */
+                        this.fireEvent('deleted', [req.getResponse(), this.component]);
+                    }.bind(this),
+                    "failure":function (req) {
+                        /**
+                         * Event fired after form submission when success parameter in response is false.
+                         * To add listeners, use <br>
+                         * ludo.View.getForm().addEvent('failure', fn);<br>
+                         * @event deleteFailed
+                         * @param {Object} JSON response from server
+                         * @param {Object} Component
+                         */
+
+                        this.fireEvent('deleteFailed', [req.getResponse(), this.component]);
+                    }.bind(this)
+                }
+            });
+            r.send(path.service, path.argument);
+        }
+    },
+
+    getDeletePath:function(){
+        if(this.formComponentId){
+            return {
+                resource : this.form.resource,
+                service : 'delete',
+                argument : this.formComponentId.getValue()
+            }
+        }
+        return undefined;
+    },
+
 	getUnfinishedFileUploadComponent:function () {
 		for (var i = 0; i < this.fileUploadComponents.length; i++) {
 			if (this.fileUploadComponents[i].hasFileToUpload()) {
@@ -19444,13 +20163,15 @@ ludo.form.Manager = new Class({
 	save:function () {
 		if (this.getUrl() || ludo.config.getUrl()) {
 			this.fireEvent('invalid');
-            this.requestHandler().send(this.form.service || 'save', undefined, this.getValues(),
+            this.requestHandler().send(this.form.service || 'save', this.formComponentId ? this.formComponentId.getValue() : undefined, this.getValues(),
                 {
                     "progressBarId":this.getProgressBarId()
                 }
             );
 		}
 	},
+
+
     _request:undefined,
     requestHandler:function(){
         if(this._request === undefined){
@@ -19974,14 +20695,24 @@ ludo.form.SubmitButton = new Class({
 	Extends:ludo.form.Button,
 	type:'form.SubmitButton',
 	value:'Submit',
-	component:undefined,
 	disableOnInvalid:true,
+	/**
+	 * Apply submit button to form of this LudoJS component. If not defined, it will be applied
+     * to parent view.
+	 * @config {String|View} applyTo
+	 * @default undefined
+	 */
+	applyTo:undefined,
+	ludoConfig:function(config){
+		this.parent(config);
+		this.setConfigParams(config, ['applyTo']);
+	},
 
 	ludoRendered:function () {
 		this.parent();
-		this.component = this.getParentComponent();
-		var manager = this.component.getForm();
-		if (this.component) {
+		this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
+		var manager = this.applyTo.getForm();
+		if (this.applyTo) {
 			manager.addEvent('valid', this.enable.bind(this));
 			manager.addEvent('invalid', this.disable.bind(this));
 		}
@@ -19992,13 +20723,14 @@ ludo.form.SubmitButton = new Class({
 	},
 
 	submit:function () {
-		if (this.component) {
-			this.component.submit();
+		if (this.applyTo) {
+			this.applyTo.submit();
 		}
 	}
 });/* ../ludojs/src/form/cancel-button.js */
 /**
- * Cancel button. This is a pre-configured ludo.form.Button which will close/hide parent component on click.
+ * Cancel button. This is a pre-configured ludo.form.Button which will close/hide parent view(or view defined in
+ * applyTo) on click.
  * Default value of this button is "Cancel".
  * @namespace form
  * @class CancelButton
@@ -20014,17 +20746,28 @@ ludo.form.CancelButton = new Class({
      */
     value:'Cancel',
 
-    component:undefined,
+	/**
+	 * Apply cancel button to form of this LudoJS component. If not defined, it
+     * will be applied to parent view.
+	 * @config {String|View} applyTo
+	 * @default undefined
+	 */
+	applyTo:undefined,
+
+	ludoConfig:function(config){
+		this.parent(config);
+		this.setConfigParams(config, ['applyTo']);
+	},
 
     ludoRendered:function () {
         this.parent();
-        this.component = this.getParentComponent();
+        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
         this.addEvent('click', this.hideComponent.bind(this));
     },
 
     hideComponent:function () {
-        if (this.component) {
-            this.component.hide();
+        if (this.applyTo) {
+            this.applyTo.hide();
         }
     }
 });/* ../ludojs/src/form/reset-button.js */
@@ -21201,7 +21944,7 @@ ludo.Movable = new Class({
 
     createShim : function() {
         var el = this.els.shim = new Element('div');
-        ludo.dom.addClass(el, 'ludo-rich-view-shim');
+        ludo.dom.addClass(el, 'ludo-framed-view-shim');
         el.setStyle('display','none');
         document.body.adopt(el);
     },
@@ -21810,7 +22553,6 @@ ludo.card.PreviousButton = new Class({
 	Extends:ludo.card.Button,
 	type:'card.PreviousButton',
 	value:'Previous',
-	disabled:true,
 
 	addButtonEvents:function () {
 		this.addEvent('click', this.showPreviousCard.bind(this));
@@ -22291,6 +23033,7 @@ ludo.form.Textarea = new Class({
     },
     resizeDOM:function () {
         this.parent();
+		/*
         var w;
         if (!this.label) {
             w = this.getInnerWidthOfBody();
@@ -22300,11 +23043,15 @@ ludo.form.Textarea = new Class({
             w = (p.offsetWidth - ludo.dom.getBW(p) - ludo.dom.getPW(p));
         }
 
-        this.els.formEl.setStyle('width', w + 'px');
+        if(this.stretchField)w-=10;
+
+        this.els.formEl.setStyle('width', (w - 10) + 'px');
+        */
 
         if (this.layout && this.layout.weight) {
             var height = this.getEl().offsetHeight;
-            height -= (ludo.dom.getMH(this.getEl()) + ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMH(this.els.formEl.parentNode));
+            height -= (ludo.dom.getMBPH(this.getEl()) + ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMH(this.els.formEl.parentNode));
+			height -=1;
             if (height > 0) {
                 this.els.formEl.style.height = height+'px';
             }
@@ -23232,7 +23979,11 @@ ludo.form.DisplayField = new Class({
 
 	getValue:function () {
 		return this.value;
-	}
+	},
+
+    supportsInlineLabel:function(){
+        return false;
+    }
 });/* ../ludojs/src/progress/text.js */
 /**
  * Component used to display text for a progress bar, example
@@ -23445,13 +24196,14 @@ ludo.form.File = new Class({
 			filter:'alpha(opacity=0)'
 		});
 
+        fe.addEvents({
+            'mouseover': btn.mouseOver.bind(btn),
+            'mouseout' : btn.mouseOut.bind(btn),
+            'mousedown' : btn.mouseDown.bind(btn),
+            'mouseup' : btn.mouseUp.bind(btn),
+            'change' : this.selectFile.bind(this)
+        });
 
-		fe.addEvent('mouseover', btn.mouseOver.bind(btn));
-		fe.addEvent('mouseout', btn.mouseOut.bind(btn));
-		fe.addEvent('mousedown', btn.mouseDown.bind(btn));
-		fe.addEvent('mouseup', btn.mouseUp.bind(btn));
-
-		fe.addEvent('change', this.selectFile.bind(this));
 		btn.getEl().adopt(fe);
 
 		this.createIframe();
@@ -23465,9 +24217,13 @@ ludo.form.File = new Class({
 	createFormElementForComponent:function () {
 		var formEl = this.els.form = new Element('form');
 		formEl.target = this.getIframeName();
-		formEl.setProperty('method', 'post');
-		formEl.setProperty('action', this.getUploadUrl());
-		formEl.setProperty('enctype', 'multipart/form-data');
+
+        formEl.setProperties({
+            'method' : 'post',
+            'action' : this.getUploadUrl(),
+            'enctype' : 'multipart/form-data'
+        });
+
 		formEl.setStyles({ margin:0, padding:0, border:0});
 		this.getEl().adopt(formEl);
 		formEl.adopt(this.getBody());
@@ -23571,7 +24327,6 @@ ludo.form.File = new Class({
 		if (!this.hasFileToUpload() || this.accept === undefined) {
 			return true;
 		}
-
 		return this.accept.indexOf(this.getExtension()) >= 0;
 
 	},
@@ -23579,20 +24334,15 @@ ludo.form.File = new Class({
 	getExtension:function () {
 		var file = this.getValue();
 		var tokens = file.split(/\./g);
-		var extension = tokens[tokens.length - 1].toLowerCase();
-		return extension.toLowerCase();
+        return tokens.pop().toLowerCase();
 	},
 
 	getUploadUrl:function () {
-		try {
-			return ludo.config.getFileUploadUrl();
-		} catch (e) {
-			var url = this.getUrl();
-			if (!url) {
-				alert('No url defined for file upload, you should define url property or globally set ludo.appConfig.fileupload.url');
-			}
-			return url;
-		}
+        var url = ludo.config.getFileUploadUrl() || this.getUrl();
+        if (!url) {
+            ludo.util.warn('No url defined for file upload. You can define it with the code ludo.config.setFileUploadUrl(url)');
+        }
+		return url;
 	},
 
 	selectFile:function () {
@@ -23609,13 +24359,16 @@ ludo.form.File = new Class({
 	displayFileName:function () {
         var ci = this.els.cellInput;
 		ci.set('html', '');
-		ci.removeClass('ludo-input-file-name-new-file');
-		ci.removeClass('ludo-input-file-name-initial');
-		ci.removeClass('ludo-input-file-name-not-uploaded');
+		ludo.dom.removeClass(ci, 'ludo-input-file-name-new-file');
+        ludo.dom.removeClass(ci, 'ludo-input-file-name-initial');
+        ludo.dom.removeClass(ci, 'ludo-input-file-name-not-uploaded');
 		if (this.valueForDisplay) {
-			var span = new Element('span');
-			span.set('html', this.valueForDisplay + ' ');
-			ci.adopt(span);
+
+            var span = ludo.dom.create({
+                tag:'span',
+                html : this.valueForDisplay + ' ',
+                renderTo:ci
+            });
 
 			var deleteLink = new Element('a');
 			deleteLink.addEvent('click', this.removeFile.bind(this));
@@ -23666,11 +24419,7 @@ ludo.form.File = new Class({
 	},
 
 	removeFile:function () {
-		if (this.valueForDisplay == this.initialValue) {
-			this.valueForDisplay = '';
-		} else {
-			this.valueForDisplay = this.initialValue;
-		}
+        this.valueForDisplay = this.valueForDisplay === this.initialValue ? '' : this.initialValue;
 		this.value = '';
 		this.displayFileName();
 		this.validate();
@@ -23683,7 +24432,11 @@ ludo.form.File = new Class({
 
 	blur:function () {
 
-	}
+	},
+
+    supportsInlineLabel:function(){
+        return false;
+    }
 });
 /* ../ludojs/src/form/radio.js */
 /**
@@ -23792,6 +24545,11 @@ ludo.form.Select = new Class({
         this.setConfigParams(config, ['emptyItem', 'options', 'valueKey', 'textKey']);
         if (!this.dataSource)this.dataSource = {};
         if (this.dataSource && !this.dataSource.type)this.dataSource.type = 'dataSource.Collection';
+        if(!this.emptyItem && this.inlineLabel){
+            this.emptyItem = {};
+            this.emptyItem[this.textKey] = this.inlineLabel;
+            this.inlineLabel = undefined;
+        }
     },
 
     ludoEvents:function () {
@@ -23806,7 +24564,6 @@ ludo.form.Select = new Class({
                 this.populate();
             }
             var ds = this.getDataSource();
-            ds.addEvent('change', this.populate.bind(this));
             ds.addEvent('select', this.selectRecord.bind(this));
             ds.addEvent('update', this.populate.bind(this));
             ds.addEvent('delete', this.populate.bind(this));
@@ -23824,7 +24581,7 @@ ludo.form.Select = new Class({
         var data = this.dataSourceObj.getData() || [];
         this.getFormEl().options.length = 0;
         if (this.emptyItem) {
-            data.splice(0, 0, this.emptyItem);
+            this.addOption(this.emptyItem[ this.valueKey ], this.emptyItem[ this.textKey ]);
         }
         for (var i = 0, count = data.length; i < count; i++) {
             this.addOption(data[i][ this.valueKey ], data[i][ this.textKey ]);
@@ -23850,16 +24607,13 @@ ludo.form.Select = new Class({
 
     resizeDOM:function () {
         this.parent();
-        if (this.els.formEl) {
-            var p = this.els.formEl.parentNode;
-            this.els.formEl.style.width = (p.offsetWidth - ludo.dom.getBW(p) - ludo.dom.getPW(p)) + 'px';
-        }
+
     }
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
     language:{},
-    addons:{
+    addOns:{
     },
 	pgn:{},
     view:{
@@ -24869,7 +25623,7 @@ chess.view.board.Board = new Class({
     positionParser:undefined,
     currentValidMoves:undefined,
     ddEnabled:false,
-    addons:[],
+    addOns:[],
 
     currentAnimation:{
         index:0,
@@ -24880,12 +25634,12 @@ chess.view.board.Board = new Class({
     ludoConfig:function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['pieceLayout','animationDuration','addons']);
+        this.setConfigParams(config, ['pieceLayout','animationDuration','addOns']);
 
-        if(this.addons && Browser.ie && Browser.version < 9){
-            for(var i=0;i<this.addons.length;i++){
-                if(this.addons[i].type === 'chess.view.highlight.Arrow'){
-                    this.addons[i].type = 'chess.view.highlight.Square';
+        if(this.addOns && Browser.ie && Browser.version < 9){
+            for(var i=0;i<this.addOns.length;i++){
+                if(this.addOns[i].type === 'chess.view.highlight.Arrow'){
+                    this.addOns[i].type = 'chess.view.highlight.Square';
                 }
             }
         }
@@ -25755,7 +26509,11 @@ chess.view.highlight.Base = new Class({
 
 	ludoConfig:function (config) {
         this.parent(config);
-        this.view = config.view;
+        this.parentComponent = config.parentComponent;
+    },
+
+    getParent:function(){
+        return this.parentComponent;
     }
 });/* ../dhtml-chess/src/view/highlight/square-base.js */
 chess.view.highlight.SquareBase = new Class({
@@ -25770,13 +26528,13 @@ chess.view.highlight.SquareBase = new Class({
 
     createDOM:function () {
         var files = 'abcdefgh';
-        var squares = this.view.getSquares();
+        var squares = this.getParent().getSquares();
         this.els.square = {};
         for (var i = 0; i < squares.length; i++) {
             var square = files.substr((i % 8), 1) + Math.ceil(8 - (i / 8));
             this.createHighlightElement(square, squares[i]);
         }
-        this.view.addEvent('resize', this.resizeSquares.bind(this));
+        this.getParent().addEvent('resize', this.resizeSquares.bind(this));
     },
 
     createHighlightElement:function (square, renderTo) {
@@ -25839,7 +26597,7 @@ chess.view.highlight.SquareBase = new Class({
 		 type:'chess.view.board.Board',
 		 labels:true,
 		 weight:1,
-		 addons:[
+		 addOns:[
 			 {
 				 type:'chess.view.highlight.Square'
 			 }
@@ -26101,26 +26859,26 @@ chess.view.highlight.ArrowBase = new Class({
 		this.arrowPaint = new ludo.canvas.Paint(Object.clone(this.arrowStyles));
 		this.createDOM();
 
-		this.view.addEvent('flip', this.flip.bind(this));
+		this.getParent().addEvent('flip', this.flip.bind(this));
 
         this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 	},
 
 	initDragPiece:function (e) {
-		if (this.view.ddEnabled) {
-			var pos = this.view.getBoard().getPosition();
+		if (this.getParent().ddEnabled) {
+			var pos = this.getParent().getBoard().getPosition();
 			var coords = {
 				x:e.page.x - pos.x,
 				y:e.page.y - pos.y
 			};
 
-			var ss = this.view.getSquareSize();
+			var ss = this.getParent().getSquareSize();
 
             coords.x -= (coords.x % ss);
             coords.y -= (coords.y % ss);
 
-			var square = Board0x88Config.numberToSquareMapping[this.view.getSquareByCoordinates(coords.x, coords.y)];
-			var piece = this.view.getPieceOnSquare(square);
+			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(coords.x, coords.y)];
+			var piece = this.getParent().getPieceOnSquare(square);
 
 			if (piece) {
 				piece.initDragPiece(e);
@@ -26132,7 +26890,7 @@ chess.view.highlight.ArrowBase = new Class({
 		var el = this.el = new Element('div');
 		el.style.position = 'absolute';
 		el.style.display = 'none';
-		this.view.getBoard().adopt(el);
+		this.getParent().getBoard().adopt(el);
 		this.arrow = new chess.view.board.ArrowSVG({
 			renderTo:this.el,
 			arrowPaint:this.arrowPaint
@@ -26184,7 +26942,7 @@ chess.view.highlight.ArrowBase = new Class({
 		var fromFile = (Board0x88Config.mapping[move.from] & 15);
 		var toFile = (Board0x88Config.mapping[move.to] & 15);
 
-		if (this.view.isFlipped()) {
+		if (this.getParent().isFlipped()) {
 			fromRank = 7 - fromRank;
 			toRank = 7 - toRank;
 			fromFile = 7 - fromFile;
@@ -26221,7 +26979,7 @@ chess.view.highlight.ArrowBase = new Class({
 /* ../dhtml-chess/src/view/highlight/arrow.js */
 /**
  Highlight a moves with an arrow. An object of this class is automatically created by
- chess.view.board.Board when added using "addons".
+ chess.view.board.Board when added using "addOns".
  @submodule Board
  @namespace chess.view.highlight
  @class Arrow
@@ -26234,7 +26992,7 @@ chess.view.highlight.ArrowBase = new Class({
 		 type:'chess.view.board.Board',
 		 labels:true,
 		 weight:1,
-		 addons:[
+		 addOns:[
 			 {
 				 type:'chess.view.highlight.Arrow',
 				 properties:{
@@ -26251,8 +27009,9 @@ chess.view.highlight.Arrow = new Class({
 
 	ludoConfig:function (config) {
 		this.parent(config);
-		this.view.addEvent('highlight', this.showMove.bind(this));
-		this.view.addEvent('clearHighlight', this.hide.bind(this));
+        var p = this.getParent();
+		p.addEvent('highlight', this.showMove.bind(this));
+		p.addEvent('clearHighlight', this.hide.bind(this));
 	}
 });/* ../dhtml-chess/src/view/highlight/arrow-tactic.js */
 chess.view.highlight.ArrowTactic = new Class({
@@ -26609,9 +27368,11 @@ chess.view.gamelist.Grid = new Class({
 	submodule:'gameList',
 	titleBar:false,
 	dataSource:{
-		'type':'chess.dataSource.GameList'
+		'type':'chess.dataSource.GameList',
+        shim:{
+            txt : 'Loading games. Please wait'
+        }
 	},
-    onLoadMessage:'Loading games. Please wait',
 	resizable:false,
 	statusBar:false,
 	fillview:true,
@@ -28072,7 +28833,7 @@ chess.view.user.LoginWindow = new Class({
             type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
         },
         {
-            type:'remote.ErrorMessage', resource:"Session","service": "signIn",
+            type:'remote.ErrorMessage', listenTo:"Session.signIn",
             name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
         }
     ],
@@ -28174,7 +28935,7 @@ chess.view.user.ProfileWindow = new Class({
             type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
         },
         {
-            type:'remote.Message', resource:'CurrentPlayer',service:'save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
+            type:'remote.Message', listenTo:'CurrentPlayer.save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
         }
     ],
 
