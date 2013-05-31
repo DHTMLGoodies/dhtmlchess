@@ -8,36 +8,48 @@ chess.view.folder.Tree = new Class({
 	Extends:ludo.tree.Tree,
 	module:'chess',
 	submodule:'folder.tree',
-	dataSource:{
-		type:'chess.dataSource.FolderTree'
-	},
-	nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
-	expandDepth:3,
 
-	recordConfig:{
+	tpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
+	expandDepth:3,
+	defaults:{
 		'folder':{
-			selectable:false,
-			defaults:{
-				icon:'folder.png'
-			}
+			icon:'folder.png'
+
 		},
 		'database':{
-			selectable:true,
-			defaults:{
-				icon:'database.png'
-			}
+			icon:'database.png'
 		}
 	},
-
-	treeConfig:{
-		defaultValues:{
-			icon:'folder.png'
+	categoryConfig:{
+		'folder':{
+			selectable:false
+		},
+		'database':{
+			selectable:true
 		}
+
+	},
+
+	/**
+	 Reference to seleted record
+	 @config {Object} selected
+	 @example
+	 selected : { "id" . 1, "type": "database" }
+	 */
+	selected:undefined,
+	defaultDS:'chess.dataSource.FolderTree',
+
+	ludoConfig:function (config) {
+		this.parent(config);
+		this.setConfigParams(config, ['selected']);
 	},
 
 	ludoEvents:function () {
 		this.parent();
-		this.addEvent('selectrecord', this.selectDatabase.bind(this));
+		this.getDataSource().addEvent('select', this.selectDatabase.bind(this));
+		if (this.selected) {
+
+		}
 	},
 
 	selectDatabase:function (record) {
@@ -46,9 +58,9 @@ chess.view.folder.Tree = new Class({
 		 @event selectDatabase
 		 @param {Object} record
 		 @example
-		 	{ id:4, type:'database' }
+		 { id:4, type:'database' }
 		 is example of record sent with the event.
 		 */
-		this.fireEvent('selectDatabase', record);
+		this.fireEvent('selectDatabase', record.getData());
 	}
 });

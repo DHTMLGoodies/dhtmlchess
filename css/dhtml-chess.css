@@ -1,4 +1,4 @@
-/* Generated Sat May 11 16:05:21 CEST 2013 */
+/* Generated Fri May 31 19:42:23 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *
 *
 */
-.ludo-component-pleasewait {
+.ludo-shim-loading {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -44,6 +44,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     z-index: 100;
     background-color: #FFF;
     font-size:11px;
+}
+.ludo-shim-loading span{
+    white-space:nowrap;
 }
 .ludo-loader-shim{
     position:absolute;
@@ -1485,7 +1488,6 @@ div.ludo-form-button {
     margin-left: 2px;
     margin-right:2px;
     background-repeat: no-repeat;
-    height: 23px;
     color: #000;
     position: relative;
     text-align: center;
@@ -1494,6 +1496,25 @@ div.ludo-form-button {
     font-weight: bold;
     background-color: transparent;
 
+}
+
+
+div.ludo-form-button-m{
+    height: 23px;
+}
+
+div.ludo-form-button-l{
+    height: 45px;
+    font-size:14px;
+    line-height:40px;
+}
+
+div.ludo-form-button-s{
+    height: 14px;
+}
+
+div.ludo-form-button-l{
+    height:45px;
 }
 
 .ludo-form-tiny-button{
@@ -1510,61 +1531,75 @@ div.ludo-form-button-disabled {
     color:#555;
 }
 
-.ludo-form-button-selected .ludo-form-button-bg-left {
+.ludo-form-button-selected .ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/button/button-bg-light-selected.png');
 }
 
-.ludo-form-button-selected .ludo-form-button-bg-right {
+.ludo-form-button-selected .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-selected.png');
 }
 
-div.ludo-form-button-disabled .ludo-form-button-bg-left {
+div.ludo-form-button-disabled .ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
 }
 
-div.ludo-form-button-disabled .ludo-form-button-bg-right {
+div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
 }
 
-.ludo-form-button-over .ludo-form-button-bg-left {
+.ludo-form-button-over .ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/button/button-bg-light-over.png');
 }
 
-.ludo-form-button-over .ludo-form-button-bg-right {
+.ludo-form-button-over .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-over.png');
 }
 
-.ludo-form-button-down .ludo-form-button-bg-left {
+.ludo-form-button-down .ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/button/button-bg-light-down.png');
 }
 
-.ludo-form-button-down .ludo-form-button-bg-right {
+.ludo-form-button-down .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-down.png');
 }
-
-.ludo-form-button-bg-left {
+.ludo-form-button-bg-left{
     width: 55%;
     height: 100%;
     position: absolute;
     background-repeat: no-repeat;
-    background-image: url('../ludojs/images/button/button-bg-light.png');
 }
-
-.ludo-form-button-bg-right {
-
+.ludo-form-button-bg-right{
     height: 100%;
     width: 55%;
     background-repeat: no-repeat;
     position: absolute;
     background-position: top right;
+}
+
+.ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/button/button-bg-light.png');
 }
 
+.ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light.png');
+}
+
+
 .ludo-form-button-value {
-    line-height: 22px;
-    height: 22px;
     background-repeat:no-repeat;
     background-position:center center;
+}
+
+.ludo-form-button-l .ludo-form-button-value{
+    font-size:16px;
+    line-height:44px;
+}
+.ludo-form-button-s .ludo-form-button-value{
+    line-height:14px;
+}
+
+.ludo-form-button-m .ludo-form-button-value{
+    line-height:22px;
 }
 
 .ludo-buttonbar-component-content .ludo-form-button {
@@ -1577,6 +1612,7 @@ div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
     background-color:#FFF;
+    padding-left:4px;
 }
 
 .ludo-tree-node{
@@ -1723,6 +1759,7 @@ div.ludo-tree-movable-shim img{
     line-height:16px;
     height:18px;
 }
+
 
 /* ../ludojs/css-source/progress/progress-bar.css */
 .ludo-Progress-Bar-Bg{
