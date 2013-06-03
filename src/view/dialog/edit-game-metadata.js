@@ -25,7 +25,7 @@ chess.view.dialog.EditGameMetadata = new Class({
         }.bind(this))
     },
     show:function(model){
-        this.getForm().getModel().fill(model.getMetadata());
+        this.getForm().fill(model.getMetadata());
         this.parent();
     }
 });

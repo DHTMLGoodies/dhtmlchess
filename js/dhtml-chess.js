@@ -1,4 +1,4 @@
-/* Generated Fri May 31 19:42:23 CEST 2013 */
+/* Generated Mon Jun 3 19:22:52 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -4731,6 +4731,10 @@ ludo.util = {
 		return typeof(obj) === 'function';
 	},
 
+	argsToArray:function(arguments){
+		return Array.prototype.slice.call(arguments);
+	},
+
     isLudoJSConfig:function(obj){
         return obj.initialize===undefined && obj.type;
     },
@@ -6142,14 +6146,6 @@ ludo.View = new Class({
 		this.getForm().reset();
 	},
 
-	/**
-	 * Returns reference to ludo.model.Model object
-	 * @method getModel
-	 * @return {model.Model} model
-	 */
-	getModel:function () {
-		return this.getForm().getModel();
-	},
 	getHeightOfButtonBar:function () {
 		return 0;
 	},
@@ -11957,8 +11953,11 @@ ludo.dataSource.Collection = new Class({
 		if(search.uid)search = search.uid;
 		var rec = this.getById(search);
 		if(rec)return rec;
+
+		var searchMethod = ludo.util.isObject(search) ? 'isRecordMatchingSearch' : 'hasMatchInPrimaryKey';
+
 		for (var i = 0; i < this.data.length; i++) {
-			if (this.isRecordMatchingSearch(this.data[i], search)) {
+			if (this[searchMethod](this.data[i], search)) {
 				return this.data[i];
 			}
 		}
@@ -11974,6 +11973,15 @@ ludo.dataSource.Collection = new Class({
 			}
 		}
 		return true;
+	},
+
+	hasMatchInPrimaryKey:function(record, search){
+		if(this.primaryKey){
+			for(var j=0;j<this.primaryKey.length;j++){
+				if(record[this.primaryKey[j]]  === search)return true;
+			}
+		}
+		return false;
 	},
 
 	/**
@@ -17942,587 +17950,7 @@ ludo.getController = function (controller) {
 		controller = ludo.get(controller);
 	}
 	return controller;
-};/* ../ludojs/src/model/model.js */
-/**
- ludo Model. A Model should be passed to a ludo.View object using the config.model property
- A Model creates dynamic getters and setters. Updates made to the model will be done to form components
- which have the same name as a column in the model.
-
- @namespace model
- @class Model
- @example
-    model:{
-	 type:'model.Model',
-	 name:'user',
-	 columns:['firstname', 'lastname', 'email','timezone','locale'],
-	 autoLoad:true
-	}
- This is an example of a model config sent to a component.
- */
-ludo.model.Model = new Class({
-	Extends:Events,
-	type:'model.Model',
-
-	dependency:{},
-    // TODO perhaps remove model and use form manager only.
-	/**
-	 * @attribute {String} model name
-	 * @description Name of model
-	 * @default undefined
-	 */
-	name:undefined,
-	/**
-	 * Column specifications
-	 @attribute columns
-	 @type Array
-	 @default undefined
-	 @example
-	    ['firstname','lastname', { name:'age', defaultValue:20 }]
-	 */
-	columns:undefined,
-	columnKeys:[],
-	currentRecord:{},
-
-	progressBar:undefined,
-	formComponents:{},
-	views:[],
-
-	/**
-	 * URL for save and load. If not set, it will use the URL of nearest component.
-	 * @attribute url
-	 * @param url
-	 * @type String
-	 * @default undefined
-	 */
-	url:undefined,
-
-	/**
-	 * Event listeners, example : listeners :{ submit : doSomething(); }, submitfail : doSomethingElse()}
-	 * @attribute Object listeners
-	 * @default undefined
-	 */
-	listeners:undefined,
-	/**
-	 * Initial record id
-	 * @config {String} recordId
-	 * @default undefined
-	 */
-	recordId:undefined,
-
-    /**
-     * Name of id field
-     * @config {String} idField
-     * @default id
-     */
-    idField : 'id',
-
-	/**
-	 * Send initial server request even if no id is set. The model will then be populated from server with default data
-	 * @attribute {Boolean} autoLoad
-	 */
-	autoLoad:false,
-
-	/**
-	 * Automatically populate form fields where name is equal to the name of a column in the model
-	 * @config {Boolean} autoPopulate
-	 * @default true
-	 */
-	autoPopulate:true,
-
-	initialize:function (config) {
-
-        this.setConfigParams(config, ['name','columns','recordId','idField','id','url','autoPopulate']);
-
-		ludo.CmpMgr.registerComponent(this);
-
-		this._validateColumns();
-
-		if (config.listeners) {
-			this.listeners = config.listeners;
-		}
-
-		this.createSettersAndGetters();
-		if (this.listeners) {
-			this.addEvents(this.listeners);
-		}
-		if (config.recordId || config.autoLoad) {
-			this.load(config.recordId);
-		}
-	},
-    setConfigParams:function(config, keys){
-        for(var i=0;i<keys.length;i++){
-            if(config[keys[i]] !== undefined)this[keys[i]] = config[keys[i]];
-        }
-    },
-
-	_setUrl:function (url) {
-		this.url = url;
-	},
-
-	_validateColumns:function () {
-		var ret = {};
-		for (var i = 0; i < this.columns.length; i++) {
-			var obj = {
-                name : this.getColumnName(this.columns[i]),
-                defaultValue:this.columns[i].defaultValue || ''
-            };
-			ret[obj.name] = obj;
-			this.columnKeys.push(obj.name);
-		}
-		this.columns = ret;
-	},
-	_defaultValueFns: {},
-	_getDefaultValueFn:function (column) {
-		if (this.columns[column]) {
-			var ret = this.columns[column].defaultValue;
-			if(ret && ret.indexOf && ret.indexOf('column:') === 0){
-				var tokens = ret.split(/:/g);
-				return function(){
-					return this.get(tokens[1]);
-				}
-			}else{
-				return function(){
-					return ret;
-				}
-			}
-		}
-		return function(){ return undefined };
-
-	},
-
-	createSettersAndGetters:function () {
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			this.createSetterFor(this.columnKeys[i]);
-			this.createGetterFor(this.columnKeys[i]);
-		}
-	},
-
-	createSetterFor:function (columnName) {
-		this[this.getFnName('set', columnName)] = function (value) {
-			this.set(columnName, value);
-            this.fireEvent('update', this.currentRecord);
-			this.updateViews();
-			return value;
-		}.bind(this)
-	},
-
-	createGetterFor:function (columnName) {
-		this[this.getFnName('get', columnName)] = function () {
-			return this.get(columnName);
-
-		}.bind(this);
-		this._defaultValueFns[columnName] = this._getDefaultValueFn(columnName);
-	},
-
-    getFnName:function(prefix, col){
-        return prefix + col.substr(0, 1).toUpperCase() + col.substr(1);
-    },
-
-	getColumnName:function (column) {
-        return column.name ? column.name : column;
-	},
-
-	set:function (property, value) {
-		if (this.currentRecord && this.autoPopulate) {
-			if (this.formComponents[property]) {
-				for (var i = 0; i < this.formComponents[property].length; i++) {
-					this.formComponents[property][i].setValue(value);
-				}
-			}
-            this.currentRecord[property] = value;
-			this.fireEvent('change', [property, value, this]);
-		}
-	},
-
-	get:function (property) {
-		if (this.currentRecord) {
-			if(this.formComponents[property]) return this.formComponents[property][0].getValue();
-			if(this.currentRecord[property])return this.currentRecord[property];
-			return this._defaultValueFns[property].call(this,property);
-		}
-		return '';
-	},
-	/**
-	 Load remote record from server
-	 @method load
-	 @param {String} recordId
-
-	 Example of query:
-	 @example
-	    request:{
-	 		"request": "Person/100/read"
-	 	}
-	 Example of expected response
-    @example
-         {
-            "success":true,
-            "message":"",
-            "code": 200,
-            "data":{
-                "id":100,
-                "lastname":"Doe",
-                "firstname":"John",
-                "address":"My street 27",
-                "zipcode":"4330",
-                "city":"Springfield",
-                "phone":"+00 12 23 23 43",
-                "email":"john.doe@example-domain.com",
-                "picture":"john.psd"
-            }
-         }
-
-	 */
-	load:function (recordId) {
-		if (!this.url && !ludo.config.getUrl()) {
-			return;
-		}
-        if(recordId)this.recordId = recordId;
-		this.loadRequest().send("read", recordId);
-	},
-
-    _loadRequest:undefined,
-    loadRequest:function(){
-        if(this._loadRequest === undefined){
-            this._loadRequest = this.dependency['request'] = new  ludo.remote.JSON({
-                url:this.url,
-                resource:this.name,
-                listeners:{
-                    "beforeload": function(request){
-                        this.fireEvent("beforeload", request);
-                    },
-                    "success":function (request) {
-                        this.populate(this.recordId, request.getResponseData());
-                        /**
-                         * success parameter in response from server returned false
-                         * @event record loaded
-                         * @param {Object} JSON from server
-                         * @param {Object} ludo.model
-                         */
-                        this.fireEvent('loaded', [request.getResponse(), this]);
-                    }.bind(this),
-                    "failure":function (request) {
-                        /**
-                         * success parameter in response from server returned false
-                         * @event loadfail
-                         * @param {Object} JSON from server
-                         * @param {Object} ludo.model
-                         */
-                        this.fireEvent('loadFailed', [request.getResponse(), this]);
-                    }.bind(this)
-                }
-            });
-        }
-        return this._loadRequest;
-    },
-
-	registerProgressBar:function (cmp) {
-		this.progressBar = cmp;
-	},
-    fc:[],
-	/**
-	 * Register ludo.View object. if name of component is the same
-	 * as column name in model, it will add change event to the component and
-	 * update it's value to current model value. This method is called
-	 * by ludo.form.Manager
-	 * @method registerFormComponent
-	 * @param {Object} formComponent
-	 * @private
-	 */
-	registerFormComponent:function (formComponent) {
-		var name = formComponent.getName();
-		if (this.columnKeys.indexOf(name) >= 0) {
-			if (!this.formComponents[name]) {
-				this.formComponents[name] = [];
-			}
-			this.formComponents[name].push(formComponent);
-			formComponent.addEvent('valueChange', this.updateByForm.bind(this));
-			if(this.autoPopulate){
-				formComponent.setValue(this.get(name));
-				formComponent.commit();
-			}
-		}
-	},
-	registerView:function (view) {
-		this.views.push(view);
-		view.insertJSON(this.currentRecord);
-	},
-
-	updateViews:function () {
-		for (var i = 0, len = this.views.length; i < len; i++) {
-			this.views[i].insertJSON(this.currentRecord);
-		}
-	},
-
-	updateByForm:function (value, formComponent) {
-        this.currentRecord[formComponent.getName()] = value;
-        this.fireEvent('update', this.currentRecord);
-		this.updateViews();
-	},
-
-	hasColumn:function (key) {
-		return this.columnKeys.indexOf(key) >= 0;
-	},
-    // TODO save new model - update this.recordId
-	/**
-	 example: { freeText : 'Notes' }
-	 @method save
-	 @param {Object} formData
-	 Save model data to server. The server request will look like this:
-    @example
-		 {
-		 	   "request": "Person/100/save",
-			   "data": { "id:100","firstname":"Jane","lastname":"Doe" }
-		 }
-
-	 Response from server should be in this format
-	 @example
-	 	{
-		   "success" : true,
-		   "message" : "A message in case of error",
-		   "response" : {
-		   		"id": "100"
-		   }
-	   }
-
-
-	 "message" is used for eventual error messages.
-	 "code" is optional and may be used for internal error handling.
-	 "response" is an array of updated model values.
-	 */
-	save:function (formData) {
-        var data = this.getDataToSubmit(formData);
-		this.fireEvent('beforesubmit', this);
-        this.saveRequest().send("save", this.recordId, data, {
-            progressBarId:this.getProgressBarId()
-        });
-	},
-
-    deleteRequest:function(){
-        if(this.recordId){
-            this.getDeleteRequest().send('delete', this.recordId);
-        }
-    },
-
-    getDataToSubmit:function(formData){
-        formData = formData || {};
-        var data = Object.merge(this.currentRecord);
-        for(var key in data){
-            if(data.hasOwnProperty(key)){
-                data[key] = this.get(key);
-            }
-        }
-        for (key in formData) {
-            if (formData.hasOwnProperty(key) && !this.hasColumn(key)) {
-                data[key] = formData[key];
-            }
-        }
-        return data;
-    },
-
-    _saveRequest:undefined,
-    saveRequest:function(){
-        if(this._saveRequest === undefined){
-            this._saveRequest = this.dependency['saveRequest'] = new ludo.remote.JSON({
-                url:this.url,
-                resource:this.name,
-                listeners:{
-                    "beforeload": function(request){
-                        this.fireEvent("beforeload", request);
-                    },
-                    "success":function (request) {
-                        var updates = request.getResponseData();
-                        if (updates) {
-                            this.handleModelUpdates(updates);
-                        }
-                        /**
-                         * event fired when model is saved
-                         * @event success
-                         * @param {Object} JSON response from server
-                         * @param {Object} ludo.model.Model
-                         */
-                        this.fireEvent('success', [request.getResponse(), this]);
-                        /**
-                         * Event fired after model has been saved
-                         * @event saved
-                         * @param {Object} JSON response from server
-                         * @param {Object} ludo.model.Model
-                         */
-                        this.fireEvent('saved', [request.getResponse(), this]);
-                        this.commitFormFields();
-                    }.bind(this),
-                    "failure":function (request) {
-                        /**
-                         * Event fired when success parameter in response from server after saving model was false.
-                         * @event model saveFailed
-                         * @param {Object} JSON response from server. Error message should be in the "message" property
-                         * @param {Object} ludo.model.Model
-                         *
-                         */
-                        this.fireEvent('saveFailed', [request.getResponse(), this]);
-                        /**
-                         * Event fired when success parameter in response from server is false
-                         * @event failure
-                         * @param {Object} JSON response from server. Error message should be in the "message" property
-                         * @param {Object} ludo.model.Model
-                         *
-                         */
-                        this.fireEvent('failure', [request.getResponse(), this]);
-                    }.bind(this),
-                    "error":function (request) {
-                        /**
-                         * Server error event. Fired when the server didn't handle the request
-                         * @event servererror
-                         * @param {String} error text
-                         * @param {String} error message
-                         */
-                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-                    }.bind(this)
-                }
-            });
-        }
-        return this._saveRequest;
-    },
-
-    _deleteRequest:undefined,
-    getDeleteRequest:function(){
-        if(this._deleteRequest === undefined){
-            this._deleteRequest = this.dependency['deleteRequest'] = new ludo.remote.JSON({
-                url:this.url,
-                resource:this.name,
-                listeners:{
-                    "beforeload": function(request){
-                        this.fireEvent("beforeload", request);
-                    },
-                    "success":function (request) {
-                        var updates = request.getResponseData();
-                        if (updates) {
-                            this.handleModelUpdates(updates);
-                        }
-                        this.fireEvent('success', [request.getResponse(), this]);
-                        /**
-                         * Event fired after model has been deleted
-                         * @event deleted
-                         * @param {Object} JSON response from server
-                         * @param {Object} ludo.model.Model
-                         */
-                        this.fireEvent('deleted', [request.getResponse(), this]);
-                        this.commitFormFields();
-                    }.bind(this),
-                    "failure":function (request) {
-                        /**
-                         * Event fired when success parameter in response from server after saving model was false.
-                         * @event model deleteFailed
-                         * @param {Object} JSON response from server. Error message should be in the "message" property
-                         * @param {Object} ludo.model.Model
-                         *
-                         */
-                        this.fireEvent('deleteFailed', [request.getResponse(), this]);
-                        /**
-                         * Event fired when success parameter in response from server is false
-                         * @event failure
-                         * @param {Object} JSON response from server. Error message should be in the "message" property
-                         * @param {Object} ludo.model.Model
-                         *
-                         */
-                        this.fireEvent('failure', [request.getResponse(), this]);
-                    }.bind(this),
-                    "error":function (request) {
-                        /**
-                         * Server error event. Fired when the server didn't handle the request
-                         * @event servererror
-                         * @param {String} error text
-                         * @param {String} error message
-                         */
-                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-                    }.bind(this)
-                }
-            });
-        }
-        return this._deleteRequest;
-    },
-
-	getProgressBarId:function () {
-		return this.progressBar ? this.progressBar.getProgressBarId() : undefined;
-	},
-
-	handleModelUpdates:function (updates) {
-        if(updates && updates[this.idField] !== undefined)this.recordId = updates[this.idField];
-		for (var column in updates) {
-			if (updates.hasOwnProperty(column)) {
-                // TODO this fires a lot of update events. refactor to fire only one
-				this.set(column, updates[column]);
-			}
-		}
-	},
-
-	/**
-	 * Commit all form fields, i.e. update initial value to current value
-	 * @method commitFormFields
-	 * @return void
-	 */
-	commitFormFields:function () {
-		for (var name in this.formComponents) {
-			if (this.formComponents.hasOwnProperty(name)) {
-				var cmps = this.formComponents[name];
-				for (var i = 0; i < cmps.length; i++) {
-					cmps[i].commit();
-				}
-			}
-		}
-	},
-	/**
-	 * New record with default values. Form elements will be updated
-	 * automatically.
-	 * @method newRecord
-	 * @return void
-	 */
-	newRecord:function () {
-		for (var column in this.columns) {
-			if (this.columns.hasOwnProperty(column)) {
-				this.set(column, this.columns[column].defaultValue);
-			}
-		}
-		this.commitFormFields();
-		this.updateViews();
-	},
-
-    populate:function (recordId, record) {
-        this.fireEvent('beforePopulate', [record, this]);
-        this.recordId = recordId;
-        for (var prop in record) {
-            if (record.hasOwnProperty(prop)) {
-                this.set(prop, record[prop]);
-            }
-        }
-        /**
-         * Event fired when a record is updated.
-         * @event update
-         * @param {Object} Update record
-         */
-        this.fireEvent('update', this.currentRecord);
-        /**
-         * Event fired when record has been successfully loaded from server
-         * @event load
-         * @param {Object} Returned record
-         * @param {Object} ludo.model
-         */
-        this.fireEvent('load', [this.currentRecord, this]);
-        this.commitFormFields();
-        this.updateViews();
-    },
-	// TODO is this method needed ?
-	fill:function (recordId, data) {
-		this.recordId = recordId;
-		for (var key in data) {
-			if (data.hasOwnProperty(key)) {
-				this.currentRecord[key] = data[key];
-			}
-		}
-		this.fireEvent('update', this.currentRecord);
-        this.updateViews();
-	}
-});
-/* ../ludojs/src/menu/item.js */
+};/* ../ludojs/src/menu/item.js */
 /**
  * Class for menu items. MenuItems are created dynamically from config object(children of ludo.menu.Menu or ludo.menu.Context)
  * @namespace menu
@@ -19825,6 +19253,7 @@ ludo.remote.JSON = new Class({
      */
     sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
 
+		if(resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
         // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
         // TODO the events here should be fired for the components sending the request.
         var req = new Request.JSON({
@@ -20200,13 +19629,13 @@ ludo.remote.ErrorMessage = new Class({
  @constructor
  @param {Object} config
  @example
-    var view = new ludo.View({
+ 	var view = new ludo.View({
         form:{
             'resource' : 'Person',
-            'idField' : 'id'
+            autoLoad:true,
+            arguments:1
         },
         children:[
-            { type:'form.Hidden',name:'id' },
             { type:'form.Text', label:'First name' },
             {
                 layout:{ type:'linear',orientation:'horizontal',height:25},
@@ -20226,7 +19655,7 @@ ludo.form.Manager = new Class({
 	Extends:ludo.Core,
 	component:null,
 	formComponents:[],
-    formComponentId:undefined,
+	map:{},
 	fileUploadComponents:[],
 	progressBar:undefined,
 	invalidIds:[],
@@ -20234,43 +19663,29 @@ ludo.form.Manager = new Class({
 	form:{
 		method:'post'
 	},
+	currentData:undefined,
+	service:undefined,
 
-    service:undefined,
-	model:undefined,
+	currentId:undefined,
 
 	ludoConfig:function (config) {
 		this.component = config.component;
-
-		if (config.form)this.form = config.form;
+		config.form = config.form || {};
+		this.form = config.form;
 		if (this.form && this.form.url)this.url = this.form.url;
 
-        this.form.resource = this.form.resource || this.form.name || undefined;
+		this.form.resource = this.form.resource || this.form.name || undefined;
 
 		this.id = String.uniqueID();
-		if (config.model !== undefined) {
-			if (config.model.type === undefined) {
-				config.model.type = 'model.Model';
-			}
-			this.model = this.createDependency('model', config.model);
-			if (this.model.url == undefined) {
-				this.model._setUrl(this.getUrl());
-			}
-            this.model.addEvent('beforePopulate', this.clear.bind(this));
-			this.model.addEvent('success', function (json) {
-				this.fireEvent('success', json);
-				this.fireEvent('clean');
-			}.bind(this));
-			this.model.addEvent('failure', function (json) {
-				this.fireEvent('failure', json);
-			}.bind(this));
-			this.model.addEvent('servererror', function (text, error) {
-				this.fireEvent('servererror', [text, error]);
-			}.bind(this))
-		}
+
 		if (this.form.listeners !== undefined) {
 			this.addEvents(this.form.listeners);
 		}
 		this.getFormElements();
+
+		if(config.form.autoLoad){
+			this.read(config.form.arguments);
+		}
 	},
 
 	/**
@@ -20292,14 +19707,9 @@ ludo.form.Manager = new Class({
 			c = children[i];
 			if (c['getProgressBarId'] !== undefined) {
 				this.registerProgressBar(c);
-				if (this.model) {
-					this.model.registerProgressBar(c);
-				}
 			}
 			else if (c.isFormElement()) {
 				this.registerFormElement(c);
-			} else if (c.tpl && this.model) {
-				this.model.registerView(c);
 			}
 		}
 
@@ -20312,20 +19722,24 @@ ludo.form.Manager = new Class({
 			return;
 		}
 
+		this.map[c.name] = c;
+
+		if(this.currentData && this.currentData[c.name]){
+			c.setValue(this.currentData[c.name]);
+		}
+
 		if (c.isFileUploadComponent) {
 			this.fileUploadComponents.push(c);
 		}
 		this.formComponents.push(c);
-        if(this.form.idField && c.name == this.form.idField){
-            this.formComponentId = c;
-        }
-        c.addEvents({
-            'valid' :  this.onValid.bind(this),
-            'invalid' : this.onInvalid.bind(this),
-            'dirty' : this.onDirty.bind(this),
-            'clean' : this.onClean.bind(this),
-            'change' : this.onChange.bind(this)
-        });
+
+		c.addEvents({
+			'valid':this.onValid.bind(this),
+			'invalid':this.onInvalid.bind(this),
+			'dirty':this.onDirty.bind(this),
+			'clean':this.onClean.bind(this),
+			'change':this.onChange.bind(this)
+		});
 
 		if (!c.isValid()) {
 			this.invalidIds.push(c.getId());
@@ -20334,10 +19748,16 @@ ludo.form.Manager = new Class({
 		if (c.isDirty()) {
 			this.dirtyIds.push(c.getId());
 		}
+	},
 
-		if (this.model) {
-			this.model.registerFormComponent(c);
+	set:function(key, value){
+		if(this.map[key]){
+			this.map[key].setValue(value);
 		}
+	},
+
+	get:function(key){
+		return this.map[key] ? this.map[key].getValue() : undefined;
 	},
 
 	registerProgressBar:function (component) {
@@ -20371,16 +19791,16 @@ ludo.form.Manager = new Class({
 		}
 	},
 
-    onChange:function(value, formComponent){
-        /**
-         * Event fired when a form element has been changed
-         * @event change
-         * @param {ludo.form.Manager} form
-         * @param {ludo.form.Element} form element
-         *
-         */
-        this.fireEvent('change',[this, formComponent] )
-    },
+	onChange:function (value, formComponent) {
+		/**
+		 * Event fired when a form element has been changed
+		 * @event change
+		 * @param {ludo.form.Manager} form
+		 * @param {ludo.form.Element} form element
+		 *
+		 */
+		this.fireEvent('change', [this, formComponent])
+	},
 	/**
 	 * One form element is valid. Fire valid event if all form elements are valid
 	 * @method onValid
@@ -20443,7 +19863,7 @@ ludo.form.Manager = new Class({
 	isValid:function () {
 		return this.invalidIds.length === 0;
 	},
-    // TODO implement a method returning values as plain array(values only)
+	// TODO implement a method returning values as plain array(values only)
 	/**
 	 * @method getValues
 	 * @description Return array of values of all form elements inside this component. The format is [{name:value},{name:value}]
@@ -20476,59 +19896,50 @@ ludo.form.Manager = new Class({
 		}
 
 		this.fireEvent('beforesubmit');
-		if (this.model) {
-			this.model.save(this.getValues());
-		}
-		else {
-			this.save();
-		}
+		this.save();
 	},
 
-    deleteRequest:function(){
-        if(this.model){
-            this.model.deleteRequest();
-        }else{
-            var path = this.getDeletePath();
-            var r = new ludo.remote.JSON({
-                resource : path.resource,
-                listeners:{
-                    success : function(req){
-                        /**
-                         * Event fired after successful delete request
-                         * @event deleted
-                         * @param {Object} response from server
-                         * @param {Object} View
-                         */
-                        this.fireEvent('deleted', [req.getResponse(), this.component]);
-                    }.bind(this),
-                    "failure":function (req) {
-                        /**
-                         * Event fired after form submission when success parameter in response is false.
-                         * To add listeners, use <br>
-                         * ludo.View.getForm().addEvent('failure', fn);<br>
-                         * @event deleteFailed
-                         * @param {Object} JSON response from server
-                         * @param {Object} Component
-                         */
+	deleteRequest:function () {
+		var path = this.getDeletePath();
+		var r = new ludo.remote.JSON({
+			resource:path.resource,
+			listeners:{
+				success:function (req) {
+					/**
+					 * Event fired after successful delete request
+					 * @event deleted
+					 * @param {Object} response from server
+					 * @param {Object} View
+					 */
+					this.fireEvent('deleted', [req.getResponse(), this.component]);
+				}.bind(this),
+				"failure":function (req) {
+					/**
+					 * Event fired after form submission when success parameter in response is false.
+					 * To add listeners, use <br>
+					 * ludo.View.getForm().addEvent('failure', fn);<br>
+					 * @event deleteFailed
+					 * @param {Object} JSON response from server
+					 * @param {Object} Component
+					 */
 
-                        this.fireEvent('deleteFailed', [req.getResponse(), this.component]);
-                    }.bind(this)
-                }
-            });
-            r.send(path.service, path.argument);
-        }
-    },
+					this.fireEvent('deleteFailed', [req.getResponse(), this.component]);
+				}.bind(this)
+			}
+		});
+		r.send(path.service, path.argument);
+	},
 
-    getDeletePath:function(){
-        if(this.formComponentId){
-            return {
-                resource : this.form.resource,
-                service : 'delete',
-                argument : this.formComponentId.getValue()
-            }
-        }
-        return undefined;
-    },
+	getDeletePath:function () {
+		if (this.currentId) {
+			return {
+				resource:this.form.resource,
+				service:'delete',
+				argument:this.currentId
+			}
+		}
+		return undefined;
+	},
 
 	getUnfinishedFileUploadComponent:function () {
 		for (var i = 0; i < this.fileUploadComponents.length; i++) {
@@ -20543,70 +19954,130 @@ ludo.form.Manager = new Class({
 	save:function () {
 		if (this.getUrl() || ludo.config.getUrl()) {
 			this.fireEvent('invalid');
-            this.requestHandler().send(this.form.service || 'save', this.formComponentId ? this.formComponentId.getValue() : undefined, this.getValues(),
-                {
-                    "progressBarId":this.getProgressBarId()
-                }
-            );
+			this.requestHandler().send(this.form.service || 'save', this.currentId, this.getValues(),
+				{
+					"progressBarId":this.getProgressBarId()
+				}
+			);
 		}
 	},
 
+	/**
+	 * Read form values from the server
+	 * @method read
+	 * @param {String|undefined} id
+	 */
+	read:function(id){
+		this.currentId = id;
+		this.readHandler().sendToServer('read', id);
+	},
 
-    _request:undefined,
-    requestHandler:function(){
-        if(this._request === undefined){
-            if(!this.form.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
-            this._request = this.createDependency('_request',new ludo.remote.JSON({
-                url:this.url,
-                resource : this.form.resource ? this.form.resource : 'Form',
-                method:this.form.method ? this.form.method : 'post',
-                listeners:{
-                    "success":function (request) {
-                        this.commitFormElements();
-                        /**
-                         * Event fired after a form has been saved successfully.
-                         * To add listeners, use <br>
-                         * ludo.View.getForm().addEvent('success', fn);
-                         * @event success
-                         * @param {Object} JSON response from server
-                         */
-                        this.fireEvent('success', [request.getResponse(), this.component]);
-                        if(this.isValid()){
-                            this.fireEvent('valid');
-                        }
-                        this.fireEvent('clean');
-                    }.bind(this),
-                    "failure":function (request) {
-                        if(this.isValid()){
-                            this.fireEvent('valid');
-                        }
+	_readHandler:undefined,
 
-                        /**
-                         * Event fired after form submission when success parameter in response is false.
-                         * To add listeners, use <br>
-                         * ludo.View.getForm().addEvent('failure', fn);<br>
-                         * @event failure
-                         * @param {Object} JSON response from server
-                         * @param {Object} Component
-                         */
+	readHandler:function(){
+		if(this._readHandler === undefined){
+			this._readHandler = this.getDependency('readHandler', new ludo.remote.JSON({
+				url:this.url,
+				resource:this.form.resource ? this.form.resource : 'Form',
+				method:this.form.method ? this.form.method : 'post',
+				service : 'read',
+				listeners:{
+					"success":function (request) {
+						this.currentData = request.getResponseData();
+						this.fill(this.currentData);
+						/**
+						 * Event fired after data for the form has been read successfully
+						 * To add listeners, use <br>
+						 * ludo.View.getForm().addEvent('success', fn);
+						 * @event read
+						 * @param {Object} JSON response from server
+						 */
+						this.fireEvent('read', [request.getResponse(), this.component]);
+						if (this.isValid()) {
+							this.fireEvent('valid');
+						}
+						this.fireEvent('clean');
+					}.bind(this),
+					"failure":function (request) {
+						this.fireEvent('failure', [request.getResponse(), this.component]);
+					}.bind(this),
+					"error":function (request) {
+						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
+						this.fireEvent('valid', this);
+					}.bind(this)
+				}
+			}));
+		}
+		return this._readHandler;
+	},
 
-                        this.fireEvent('failure', [request.getResponse(), this.component]);
-                    }.bind(this),
-                    "error":function (request) {
-                        /**
-                         * Server error event. Fired when the server didn't handle the request
-                         * @event servererror
-                         * @param {String} error text
-                         * @param {String} error message
-                         */
-                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-                        this.fireEvent('valid', this);
-                    }.bind(this)
-                }
-            }));
-        }
-        return this._request;
-    },
+	fill:function(data){
+		for(var key in this.map){
+			if(this.map.hasOwnProperty(key)){
+				if(data[key] !== undefined){
+					this.map[key].setValue(data[key]);
+				}else{
+					this.map[key].reset();
+				}
+			}
+		}
+	},
+
+	_request:undefined,
+	requestHandler:function () {
+		if (this._request === undefined) {
+			if (!this.form.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
+			this._request = this.createDependency('_request', new ludo.remote.JSON({
+				url:this.url,
+				resource:this.form.resource ? this.form.resource : 'Form',
+				method:this.form.method ? this.form.method : 'post',
+				listeners:{
+					"success":function (request) {
+						this.commitFormElements();
+						/**
+						 * Event fired after a form has been saved successfully.
+						 * To add listeners, use <br>
+						 * ludo.View.getForm().addEvent('success', fn);
+						 * @event success
+						 * @param {Object} JSON response from server
+						 */
+						this.fireEvent('success', [request.getResponse(), this.component]);
+						if (this.isValid()) {
+							this.fireEvent('valid');
+						}
+						this.fireEvent('clean');
+					}.bind(this),
+					"failure":function (request) {
+						if (this.isValid()) {
+							this.fireEvent('valid');
+						}
+
+						/**
+						 * Event fired after form submission when success parameter in response is false.
+						 * To add listeners, use <br>
+						 * ludo.View.getForm().addEvent('failure', fn);<br>
+						 * @event failure
+						 * @param {Object} JSON response from server
+						 * @param {Object} Component
+						 */
+
+						this.fireEvent('failure', [request.getResponse(), this.component]);
+					}.bind(this),
+					"error":function (request) {
+						/**
+						 * Server error event. Fired when the server didn't handle the request
+						 * @event servererror
+						 * @param {String} error text
+						 * @param {String} error message
+						 */
+						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
+						this.fireEvent('valid', this);
+					}.bind(this)
+				}
+			}));
+		}
+		return this._request;
+	},
 
 	getProgressBarId:function () {
 		return this.progressBar ? this.progressBar.getProgressBarId() : undefined;
@@ -20643,15 +20114,6 @@ ludo.form.Manager = new Class({
 	 */
 	isDirty:function () {
 		return this.dirtyIds.length > 0;
-	},
-
-	/**
-	 * Returns reference to ludo.model.Model object
-	 * @method getModel
-	 * @private
-	 */
-	getModel:function () {
-		return this.model;
 	}
 });/* ../ludojs/src/form/button.js */
 /**
@@ -27240,7 +26702,7 @@ chess.view.dialog.EditGameMetadata = new Class({
         }.bind(this))
     },
     show:function(model){
-        this.getForm().getModel().fill(model.getMetadata());
+        this.getForm().fill(model.getMetadata());
         this.parent();
     }
 });/* ../dhtml-chess/src/view/dialog/overwrite-move.js */
@@ -28233,9 +27695,11 @@ chess.view.user.Panel = new Class({
     css : {
         'text-align' : 'right'
     },
-    model:{
-        type : 'chess.view.user.UserModel'
-    },
+
+	dataSource:{
+		resource : 'CurrentPlayer',
+		service:'read'
+	},
 
     addControllerEvents:function () {
         this.controller.addEvent('invalidSession', this.hide.bind(this));
@@ -28244,7 +27708,7 @@ chess.view.user.Panel = new Class({
 
     getUserDetails:function(){
         this.show();
-        this.getModel().load();
+        this.getForm().read();
     }
 });/* ../dhtml-chess/src/view/user/login-window.js */
 /**
@@ -28357,15 +27821,16 @@ chess.view.user.ProfileWindow = new Class({
     hidden:true,
     module:'user',
     submodule:'profileWindow',
-    model:{
-        type : 'chess.view.user.UserModel'
-    },
+    form:{
+		resource:'CurrentPlayer',
+		autoLoad:true
+	},
     formConfig:{
         labelWidth:150
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
+            type:'form.DisplayField', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
             type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('Full name'), stretchField:true
@@ -28400,7 +27865,7 @@ chess.view.user.ProfileWindow = new Class({
 
     ludoEvents:function(){
         this.parent();
-        this.getForm().getModel().addEvent('success', this.showSaveConfirmMessage.bind(this));
+        this.getForm().addEvent('success', this.showSaveConfirmMessage.bind(this));
     },
 
     showSaveConfirmMessage :function(){
@@ -28413,21 +27878,6 @@ chess.view.user.ProfileWindow = new Class({
     showProfile:function(){
         this.showCentered();
     }
-});/* ../dhtml-chess/src/view/user/user-model.js */
-/**
- * Model for a user session
- * @namespace chess.view.user
- * @class UserModel
- * @extends model.Model
- */
-chess.view.user.UserModel = new Class({
-    Extends:ludo.model.Model,
-    type : 'chess.view.user.UserModel',
-    columns : ['token', 'username', 'full_name', 'email','country'],
-    autoload:false,
-    name:'CurrentPlayer',
-    service:'read',
-    singleton:true
 });/* ../dhtml-chess/src/view/command/line.js */
 /**
  * Command line input field

@@ -30,9 +30,11 @@ chess.view.user.Panel = new Class({
     css : {
         'text-align' : 'right'
     },
-    model:{
-        type : 'chess.view.user.UserModel'
-    },
+
+	dataSource:{
+		resource : 'CurrentPlayer',
+		service:'read'
+	},
 
     addControllerEvents:function () {
         this.controller.addEvent('invalidSession', this.hide.bind(this));
@@ -41,6 +43,6 @@ chess.view.user.Panel = new Class({
 
     getUserDetails:function(){
         this.show();
-        this.getModel().load();
+        this.getForm().read();
     }
 });

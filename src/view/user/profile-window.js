@@ -18,15 +18,16 @@ chess.view.user.ProfileWindow = new Class({
     hidden:true,
     module:'user',
     submodule:'profileWindow',
-    model:{
-        type : 'chess.view.user.UserModel'
-    },
+    form:{
+		resource:'CurrentPlayer',
+		autoLoad:true
+	},
     formConfig:{
         labelWidth:150
     },
     children:[
         {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
+            type:'form.DisplayField', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
         },
         {
             type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('Full name'), stretchField:true
@@ -61,7 +62,7 @@ chess.view.user.ProfileWindow = new Class({
 
     ludoEvents:function(){
         this.parent();
-        this.getForm().getModel().addEvent('success', this.showSaveConfirmMessage.bind(this));
+        this.getForm().addEvent('success', this.showSaveConfirmMessage.bind(this));
     },
 
     showSaveConfirmMessage :function(){
