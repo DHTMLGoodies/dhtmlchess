@@ -26,7 +26,7 @@ chess.view.eco.VariationTree = new Class({
 	currentFen:'',
 	showLines:false,
 
-	nodeTpl:'<span><b>{notation} </b>: {eco_code} {opening}</span>',
+	tpl:'<span><b>{notation} </b>: {eco_code} {opening}</span>',
 	treeConfig:{
 		defaultValues:{
 
