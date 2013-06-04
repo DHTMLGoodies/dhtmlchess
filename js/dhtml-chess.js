@@ -1,4 +1,4 @@
-/* Generated Tue Jun 4 17:16:10 CEST 2013 */
+/* Generated Tue Jun 4 17:21:31 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -12281,7 +12281,9 @@ ludo.dataSource.Collection = new Class({
 	lastPage:function () {
 		if (!this.paging || this.isOnLastPage())return;
 		var count = this.getCount();
-		this.paging.offset = count - count % this.paging.size;
+		var decr = count % this.paging.size;
+		if(decr === 0) decr = this.paging.size;
+		this.paging.offset = count - decr;
 		this.onPageChange('lastPage');
 	},
 
