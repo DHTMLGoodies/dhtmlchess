@@ -14421,9 +14421,9 @@ Kg1 {[%emt 0:00:00]} Nh3# {[%emt 0:00:00]} 0-1
 
 1... Rc1+ {[%emt 0:00:00]} 2. Bxc1 {[%emt 0:00:00]} Qa7+ {[%emt 0:00:00]} 3.
 Qb6 {[%emt 0:00:00]} Qxb6+ {[%emt 0:00:00]} 4. Rd4 {[%emt 0:00:00]} Qxd4+ {
-[%emt 0:00:00]} 5. Kh1 {[%emt 0:00:00]} Nf2+ {[%emt 0:00:00]} 6. Kg1 {
-[%emt 0:00:00]} Nxe4+ {[%emt 0:00:00]} 7. Be3 {[%emt 0:00:00]} Qd1# {
-[%emt 0:00:00]} 0-1
+[%emt 0:00:00]} 5. Kh1 {[%emt 0:00:00]} Nf2+ {[%emt 0:00:00]} (5... Qf2 6. h3
+Ne1 7. Bxb2 Qxg2#) 6. Kg1 {[%emt 0:00:00]} Nxe4+ {[%emt 0:00:00]} 7. Be3 {
+[%emt 0:00:00]} Qd1# {[%emt 0:00:00]} 0-1
 
 [Event "  Black to move."]
 [Site "?"]
@@ -14494,18 +14494,16 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [White "1001 Brilliant Ways"]
 [Black "to Checkmate"]
 [Result "0-1"]
-[Annotator "Magne,Alf"]
+[Annotator "Fritz 13 (30s)"]
 [SetUp "1"]
 [FEN "3q1rk1/5pp1/3p3p/1Q1N3P/2p3P1/R4n2/rPP5/2K4R b - - 0 1"]
 [PlyCount "17"]
 [EventDate "1998.??.??"]
 
-1... Ra1+ {[%emt 0:00:00]} 2. Rxa1 {[%emt 0:00:00]} Qg5+ {[%emt 0:00:00]} 3.
-Nf4 {[%emt 0:00:00]} Qxf4+ {[%emt 0:00:00]} 4. Kb1 {[%emt 0:00:00]} Nd2+ {
-[%emt 0:00:00]} 5. Kc1 {[%emt 0:00:00]} Nb3+ {[%emt 0:00:00]} 6. Kb1 {
-[%emt 0:00:00]} Qc1+ {[%emt 0:00:00]} 7. Rxc1 {[%emt 0:00:00]} Nd2+ {
-[%emt 0:00:00]} 8. Ka2 {[%emt 0:00:00]} Ra8+ {[%emt 0:00:00]} 9. Qa4 {
-[%emt 0:00:00]} Rxa4# {[%emt 0:00:00]} 0-1
+1... Ra1+ 2. Rxa1 Qg5+ 3. Nf4 Qxf4+ 4. Kb1 Nd2+ 5. Kc1 Nb3+ 6. Kb1 Qc1+ $3 {
+Mate attack} 7. Rxc1 (7. Rxc1 Nd2+ {Mate attack}) 7... Nd2+ 8. Ka2 Ra8+ 9. Qa4
+(9. Qa5 {cannot change what is in store for White} Rxa5#) (9. Qa6 Rxa6#) 9...
+Rxa4# 0-1
 
 [Event "  Black to move."]
 [Site "?"]
@@ -14551,7 +14549,8 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. h7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 2. h8=Q# {[%emt 0:00:00]} 1-0
+1. h7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 2. h8=Q# {[%emt 0:00:00]} (2.
+h8=R#) 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14566,9 +14565,10 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "9"]
 [EventDate "1998.??.??"]
 
-1. h8=R {[%emt 0:00:00]} Rxh8 {[%emt 0:00:00]} 2. Nf5+ {[%emt 0:00:00]} Kg8 {
-[%emt 0:00:00]} 3. Rxh8+ {[%emt 0:00:00]} Kxh8 {[%emt 0:00:00]} 4. Qh6+ {
-[%emt 0:00:00]} Kg8 {[%emt 0:00:00]} 5. Qg7# {[%emt 0:00:00]} 1-0
+1. h8=R {[%emt 0:00:00]} (1. h8=Q+ Rxh8 2. Nf5+ Kg8 3. Rxh8+ Kxh8 4. Qh6+ Kg8
+5. Qg7#) 1... Rxh8 {[%emt 0:00:00]} 2. Nf5+ {[%emt 0:00:00]} Kg8 {[%emt 0:00:
+00]} 3. Rxh8+ {[%emt 0:00:00]} Kxh8 {[%emt 0:00:00]} 4. Qh6+ {[%emt 0:00:00]}
+Kg8 {[%emt 0:00:00]} 5. Qg7# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14601,13 +14601,13 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [EventDate "1998.??.??"]
 
 1. Qf6 {[%emt 0:00:02]} b5 {[%emt 0:00:00]} 2. Qe6 {[%emt 0:00:01]} Qe3+ {
-[%emt 0:00:00]} 3. Kh1 {[%emt 0:00:00]} Qc1+ {[%emt 0:00:00]} 4. Rf1+ {
-[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 5. Qxe5+ {[%emt 0:00:00]} Kh6 {
-[%emt 0:00:00]} 6. Rxc1 {[%emt 0:00:00]} Rac8 {[%emt 0:00:00]} 7. Rxc8 {
-[%emt 0:00:00]} Rxc8 {[%emt 0:00:00]} 8. g4 {[%emt 0:00:00]} Rc1+ {
-[%emt 0:00:00]} 9. Kg2 {[%emt 0:00:00]} Rc8 {[%emt 0:00:00]} 10. g5+ {
-[%emt 0:00:00]} Kh5 {[%emt 0:00:00]} 11. Be2+ {[%emt 0:00:00]} Kh4 {
-[%emt 0:00:00]} 12. Qg3# {[%emt 0:00:00]} 1-0
+[%emt 0:00:00]} 3. Kh1 {[%emt 0:00:00]} Qc1+ {[%emt 0:00:00]} 4. Rf1+ {[%emt 0:
+00:00]} Kg7 {[%emt 0:00:00]} 5. Qxe5+ {[%emt 0:00:00]} Kh6 {[%emt 0:00:00]} 6.
+Rxc1 {[%emt 0:00:00]} Rac8 {[%emt 0:00:00]} 7. Rxc8 {[%emt 0:00:00]} Rxc8 {
+[%emt 0:00:00]} 8. g4 {[%emt 0:00:00]} Rc1+ {[%emt 0:00:00]} 9. Kg2 {[%emt 0:
+00:00]} Rc8 {[%emt 0:00:00]} 10. g5+ {[%emt 0:00:00]} Kh5 {[%emt 0:00:00]} 11.
+Be2+ {[%emt 0:00:00]} Kh4 {[%emt 0:00:00]} 12. Qg3# {[%emt 0:00:00]} (12. Qf4#)
+1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14622,10 +14622,11 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "11"]
 [EventDate "1998.??.??"]
 
-1. Rxd7+ {[%emt 0:00:00]} Bxd7 {[%emt 0:00:00]} 2. Qxe7+ {[%emt 0:00:00]} Kxe7
-{[%emt 0:00:00]} 3. Bc5+ {[%emt 0:00:00]} Kd8 {[%emt 0:00:00]} 4. e7+ {
-[%emt 0:00:00]} Kc8 {[%emt 0:00:00]} 5. exf8=Q+ {[%emt 0:00:00]} Be8 {
-[%emt 0:00:00]} 6. Qxe8# {[%emt 0:00:00]} 1-0
+1. Rxd7+ {[%emt 0:00:00]} (1. Qxe7+ Kxe7 2. Rxd7+ Bxd7 3. Bc5+ Kd8 4. e7+ Kc8
+5. exf8=Q+ Be8 6. Qxe8#) 1... Bxd7 {[%emt 0:00:00]} 2. Qxe7+ {[%emt 0:00:00]}
+Kxe7 {[%emt 0:00:00]} 3. Bc5+ {[%emt 0:00:00]} Kd8 {[%emt 0:00:00]} 4. e7+ {
+[%emt 0:00:00]} Kc8 {[%emt 0:00:00]} 5. exf8=Q+ {[%emt 0:00:00]} Be8 {[%emt 0:
+00:00]} 6. Qxe8# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14670,11 +14671,11 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "13"]
 [EventDate "1998.??.??"]
 
-1. Qg8+ {[%emt 0:00:00]} Nxg8 {[%emt 0:00:00]} 2. fxg8=Q+ {[%emt 0:00:00]} Kxg8
-{[%emt 0:00:00]} 3. Ne7+ {[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 4. Rf7+ {
-[%emt 0:00:00]} Kh6 {[%emt 0:00:00]} 5. Rf6+ {[%emt 0:00:00]} Kg7 {
-[%emt 0:00:00]} 6. Rg6+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 7. Rg8# {
-[%emt 0:00:00]} 1-0
+1. Qg8+ {[%emt 0:00:00]} Nxg8 {[%emt 0:00:00]} 2. fxg8=Q+ {[%emt 0:00:00]} (2.
+fxg8=R+ Kxg8 3. Ne7+ Kg7 4. Rf7+ Kh6 5. Rf6+ Kg7 6. Rg6+ Kf8 7. Rg8#) 2... Kxg8
+{[%emt 0:00:00]} 3. Ne7+ {[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 4. Rf7+ {[%emt
+0:00:00]} Kh6 {[%emt 0:00:00]} 5. Rf6+ {[%emt 0:00:00]} Kg7 {[%emt 0:00:00]} 6.
+Rg6+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 7. Rg8# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14739,7 +14740,7 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [EventDate "1998.??.??"]
 
 1. Qf3 {[%emt 0:00:00]} Ng3 {[%emt 0:00:00]} 2. Qa3+ {[%emt 0:00:00]} Kb5 {
-[%emt 0:00:00]} 3. Nbc3# {[%emt 0:00:00]} 1-0
+[%emt 0:00:00]} 3. Nbc3# {[%emt 0:00:00]} (3. c4#) 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14786,8 +14787,9 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Nc7+ {[%emt 0:00:00]} Kf8 {[%emt 0:00:00]} 2. Rd8+ {[%emt 0:00:00]} Nxd8 {
-[%emt 0:00:00]} 3. Qe8# {[%emt 0:00:00]} 1-0
+1. Nc7+ {[%emt 0:00:00]} (1. Rd8+ Nxd8 2. Nc7+ (2. Nd6+ Kf8 3. Qe8#) 2... Kf8
+3. Qe8#) 1... Kf8 {[%emt 0:00:00]} 2. Rd8+ {[%emt 0:00:00]} Nxd8 {[%emt 0:00:
+00]} 3. Qe8# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14802,7 +14804,8 @@ Kg1 {[%emt 0:00:00]} Rh1# {[%emt 0:00:00]} 0-1
 [PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. d8=Q+ {[%emt 0:00:00]} Kb7 {[%emt 0:00:00]} 2. Q6c7# {[%emt 0:00:00]} 1-0
+1. d8=Q+ {[%emt 0:00:00]} (1. d8=R+ Kb7 2. Rb8#) (1. Qc6+ Kb8 2. d8=R# (2.
+d8=Q#) (2. Qc8#)) 1... Kb7 {[%emt 0:00:00]} 2. Q6c7# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14926,11 +14929,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "1qrb4/r3pP1R/3k1N2/n2P4/3Q3K/N5p1/6B1/6B1 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. f8=Q {[%emt 0:00:00]} Nc4 {[%emt 0:00:00]} 2. Ne8+ {[%emt 0:00:00]} Kd7 {
-[%emt 0:00:00]} 3. Qg4# {[%emt 0:00:00]} 1-0
+1. f8=N Kc7 2. d6# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14945,9 +14947,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "7"]
 [EventDate "1998.??.??"]
 
-1. Nxc3 {[%emt 0:00:00]} g5 {[%emt 0:00:00]} 2. Qxg5+ {[%emt 0:00:00]} f5 {
-[%emt 0:00:00]} 3. Qxe7+ {[%emt 0:00:00]} Re6 {[%emt 0:00:00]} 4. Rxe6# {
-[%emt 0:00:00]} 1-0
+1. Nxc3 {[%emt 0:00:00]} (1. Nc5 Rxa6 2. Qf4#) 1... g5 {[%emt 0:00:00]} 2.
+Qxg5+ {[%emt 0:00:00]} f5 {[%emt 0:00:00]} 3. Qxe7+ {[%emt 0:00:00]} Re6 {
+[%emt 0:00:00]} 4. Rxe6# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14977,8 +14979,8 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Bxd4 {[%emt 0:00:00]} Bg5 {[%emt 0:00:00]} 2. Qe3+ {[%emt 0:00:00]} Rxe3 {
-[%emt 0:00:00]} 3. Bxe3# {[%emt 0:00:00]} 1-0
+1. Bxd4 {[%emt 0:00:00]} (1. Qxh5 Nxh5 2. Rg4#) 1... Bg5 {[%emt 0:00:00]} 2.
+Qe3+ {[%emt 0:00:00]} Rxe3 {[%emt 0:00:00]} 3. Bxe3# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -14990,11 +14992,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "8/5p2/2pQ1p2/3b3K/n2P1N2/1Pr1k3/1BP1P2R/4R2B w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bc1+ {[%emt 0:00:00]} Kxd4 {[%emt 0:00:00]} 2. Rd1+ {[%emt 0:00:00]} Rd3 {
-[%emt 0:00:00]} 3. Rxd3# {[%emt 0:00:00]} 1-0
+1. Nd3 Rxd3 2. exd3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15058,8 +15059,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Nc3+ {[%emt 0:00:00]} Kxe3 {[%emt 0:00:00]} 2. Re4+ {[%emt 0:00:00]} Bxe4 {
-[%emt 0:00:00]} 3. Qxe4# {[%emt 0:00:00]} 1-0
+1. Nc3+ {[%emt 0:00:00]} (1. Qg5 dxc2 2. Qxg2+ Kd3 3. Ra3#) 1... Kxe3 {[%emt 0:
+00:00]} 2. Re4+ {[%emt 0:00:00]} Bxe4 {[%emt 0:00:00]} 3. Qxe4# {[%emt 0:00:00]
+} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15089,8 +15091,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qe6 {[%emt 0:00:00]} Ne5 {[%emt 0:00:00]} 2. Bxb6+ {[%emt 0:00:00]} Nxb6 {
-[%emt 0:00:00]} 3. Qxe5# {[%emt 0:00:00]} 1-0
+1. Qe6 {[%emt 0:00:00]} (1. Bxb6+ N7xb6 2. Qc5#) (1. Kg5 bxc6 2. Nxc6#) 1...
+Ne5 {[%emt 0:00:00]} 2. Bxb6+ {[%emt 0:00:00]} Nxb6 {[%emt 0:00:00]} 3. Qxe5# {
+[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15117,12 +15120,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "3K4/8/8/3k1p2/3N1B2/8/1Q6/3B4 w - - 0 1"]
-[PlyCount "7"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Qc3 {[%emt 0:00:00]} Ke4 {[%emt 0:00:00]} 2. Ne6 {[%emt 0:00:00]} Kd5 {
-[%emt 0:00:00]} 3. Bb3+ {[%emt 0:00:00]} Ke4 {[%emt 0:00:00]} 4. Qe3# {
-[%emt 0:00:00]} 1-0
+1. Ne6 Kxe6 2. Bb3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15137,8 +15138,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Bd6+ {[%emt 0:00:00]} Kc6 {[%emt 0:00:00]} 2. Nb4+ {[%emt 0:00:00]} Kd7 {
-[%emt 0:00:00]} 3. Qg4# {[%emt 0:00:00]} 1-0
+1. Bd6+ {[%emt 0:00:00]} (1. Rxh6 Nc6 2. Bd6#) (1. Bb6+ Kb5 2. Bd8+ Ka4 3. Ra6#
+(3. Rb4#)) 1... Kc6 {[%emt 0:00:00]} 2. Nb4+ {[%emt 0:00:00]} Kd7 {[%emt 0:00:
+00]} 3. Qg4# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15153,8 +15155,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Nxf4+ {[%emt 0:00:00]} Kf6 {[%emt 0:00:00]} 2. Bxe5+ {[%emt 0:00:00]} Kg5 {
-[%emt 0:00:00]} 3. Qh5# {[%emt 0:00:00]} 1-0
+1. Nxf4+ {[%emt 0:00:00]} (1. Qe4 g6 2. Nxf4+ (2. Qxf4 exf4 3. Re5#) (2. Bxe5
+Bxe5 3. Qxe5#) (2. Qxe5+ Bxe5 3. Rxe5#) 2... Kf6 3. Qxe5#) 1... Kf6 {[%emt 0:
+00:00]} 2. Bxe5+ {[%emt 0:00:00]} Kg5 {[%emt 0:00:00]} 3. Qh5# {[%emt 0:00:00]}
+1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15166,11 +15170,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "7Q/2PK1n2/4P1N1/1pR5/rb2kNP1/p2n2R1/2B5/3r4 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Re5+ {[%emt 0:00:00]} Kd4 {[%emt 0:00:00]} 2. Rd5+ {[%emt 0:00:00]} Kc4 {
-[%emt 0:00:00]} 3. Qd4# {[%emt 0:00:00]} 1-0
+1. Ne2 Nxh8 2. Re5# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15185,8 +15188,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qf2 {[%emt 0:00:00]} Rf1 {[%emt 0:00:00]} 2. Qe3+ {[%emt 0:00:00]} dxe3 {
-[%emt 0:00:00]} 3. Rxc4# {[%emt 0:00:00]} 1-0
+1. Qf2 {[%emt 0:00:00]} (1. Rxc4 bxc4 2. Nd7+ (2. Qf2 Nxd3 3. Qxd4# (3. Qe2#) (
+3. Qe3#)) 2... Kd5 3. Qxc4#) 1... Rf1 {[%emt 0:00:00]} 2. Qe3+ {[%emt 0:00:00]}
+dxe3 {[%emt 0:00:00]} 3. Rxc4# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15213,11 +15217,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "B2N4/B3p3/R2p1pKQ/2p1k1p1/3p1p2/4p1P1/8/3R4 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. gxf4+ {[%emt 0:00:00]} Kxf4 {[%emt 0:00:00]} 2. Qh2+ {[%emt 0:00:00]} Kg4 {
-[%emt 0:00:00]} 3. Rg1# {[%emt 0:00:00]} 1-0
+1. Qh2 fxg3 2. Qxg3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15229,11 +15232,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "8/1QppK1B1/8/1n6/1Nk1N3/8/1RB5/r2r4 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bb3+ {[%emt 0:00:00]} Kxb4 {[%emt 0:00:00]} 2. Bxd1+ {[%emt 0:00:00]} Ka5 {
-[%emt 0:00:00]} 3. Qxb5# {[%emt 0:00:00]} 1-0
+1. Nc6 dxc6 2. Qxc6# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15261,11 +15263,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "8/N3n3/2p5/3B1RK1/3k4/npR1pPB1/3P4/Nr6 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxb3 {[%emt 0:00:00]} Rg1 {[%emt 0:00:00]} 2. Rf4+ {[%emt 0:00:00]} Ke5 {
-[%emt 0:00:00]} 3. Re4# {[%emt 0:00:00]} 1-0
+1. Be4 Nxf5 2. Nxc6# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15280,8 +15281,8 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Bxc3 {[%emt 0:00:00]} Nxc3+ {[%emt 0:00:00]} 2. Ke1 {[%emt 0:00:00]} Nb4 {
-[%emt 0:00:00]} 3. Ne5# {[%emt 0:00:00]} 1-0
+1. Qe7 Nac7 2. Qxf7+ (2. Qxe4+ Nd4 3. Ne5# (3. Bb3#) (3. Bd3#)) (2. Qxc7 Kd5 3.
+Qxf7+ Kd6 4. Ne5# (4. Nd4#) (4. Nb4#) (4. Na5#) (4. Nd8#)) 2... Nd5 3. Qf1# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15293,11 +15294,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "8/4nQp1/6P1/N1Kpk2p/3p3P/2Npb1P1/3P4/4R3 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "4"]
 [EventDate "1998.??.??"]
 
-1. Rf1 {[%emt 0:00:00]} Bf2 {[%emt 0:00:00]} 2. Rxf2 {[%emt 0:00:00]} dxc3 {
-[%emt 0:00:00]} 3. Qxe7# {[%emt 0:00:00]} 1-0
+1. dxe3 dxc3 2. e4 (2. Rf1 Nxg6 3. Qxd5# (3. Qf5#)) 2... dxe4 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15309,11 +15309,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "7K/8/8/5k1P/2P1R1NP/4Pn2/2Qn4/8 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Nh6+ {[%emt 0:00:00]} Kf6 {[%emt 0:00:00]} 2. Qb2+ {[%emt 0:00:00]} Ne5 {
-[%emt 0:00:00]} 3. Qxe5# {[%emt 0:00:00]} 1-0
+1. Qd1 Kxe4 2. Qc2# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15325,11 +15324,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "3NnQ2/Pp5q/p3P1p1/r1pk1N2/p5R1/1PBKR1br/2P5/8 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxa5 {[%emt 0:00:00]} b5 {[%emt 0:00:00]} 2. a8=Q+ {[%emt 0:00:00]} Qb7 {
-[%emt 0:00:00]} 3. Qxb7# {[%emt 0:00:00]} 1-0
+1. Bg7 gxf5 2. c4# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15341,11 +15339,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "2N3n1/4p1bB/5pP1/2pP1k1n/2p3bP/2B1Qp1p/3P1p1K/5N2 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Qxc5 {[%emt 0:00:00]} Kf4 {[%emt 0:00:00]} 2. Qd4+ {[%emt 0:00:00]} Kf5 {
-[%emt 0:00:00]} 3. Ne3# {[%emt 0:00:00]} 1-0
+1. Bxf6 Bxf6 2. g7# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15357,11 +15354,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "2bb4/QNkB4/KN5R/Pp3p2/1B6/3q4/8/2r5 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxc8 {[%emt 0:00:00]} Bg5 {[%emt 0:00:00]} 2. Nd6+ {[%emt 0:00:00]} Kd8 {
-[%emt 0:00:00]} 3. Qd7# {[%emt 0:00:00]} 1-0
+1. Be8 Bxb7+ 2. Qxb7# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15373,11 +15369,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "KN1R1B2/5pP1/p1p2pP1/r2Pk3/qnR4n/b6Q/2b2N1P/2r5 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Nd7+ {[%emt 0:00:00]} Kxd5 {[%emt 0:00:00]} 2. Nb6+ {[%emt 0:00:00]} Ke5 {
-[%emt 0:00:00]} 3. Bd6# {[%emt 0:00:00]} 1-0
+1. gxf7 Nxd5 2. Nd7# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15392,7 +15387,8 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qxh4 {[%emt 0:00:00]} Rexf4 {[%emt 0:00:00]} 2. Qg3+ {[%emt 0:00:00]} Rf3 {
+1. Qxh4 {[%emt 0:00:00]} (1. Qf6 Rxf6 2. c4#) (1. Qe8 Rxe8 2. Nc4#) (1. Qa8
+Rexf4 2. Qxa7+) 1... Rexf4 {[%emt 0:00:00]} 2. Qg3+ {[%emt 0:00:00]} Rf3 {
 [%emt 0:00:00]} 3. Nc4# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
@@ -15405,11 +15401,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "4Rb1B/6q1/R7/n4pN1/2Bk4/N2p1K2/3Q4/3n4 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Rd8+ {[%emt 0:00:00]} Bd6 {[%emt 0:00:00]} 2. Bxg7+ {[%emt 0:00:00]} Kc5 {
-[%emt 0:00:00]} 3. Qxa5# {[%emt 0:00:00]} 1-0
+1. Rxa5 Qxh8 2. Qxd3# (2. Rd5#) (2. Ne6#) 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15424,8 +15419,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Rf2+ {[%emt 0:00:00]} Bf5 {[%emt 0:00:00]} 2. Rxf5+ {[%emt 0:00:00]} gxf5 {
-[%emt 0:00:00]} 3. Qxh6# {[%emt 0:00:00]} 1-0
+1. Rf2+ {[%emt 0:00:00]} (1. Qf1+ Rf4 2. Qxf4+ Bf5 3. Ra6#) 1... Bf5 {[%emt 0:
+00:00]} 2. Rxf5+ {[%emt 0:00:00]} gxf5 {[%emt 0:00:00]} 3. Qxh6# {[%emt 0:00:
+00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15440,8 +15436,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Rcd2+ {[%emt 0:00:00]} Kc3 {[%emt 0:00:00]} 2. Qh8+ {[%emt 0:00:00]} Rd4 {
-[%emt 0:00:00]} 3. Qxd4# {[%emt 0:00:00]} 1-0
+1. Rcd2+ {[%emt 0:00:00]} (1. Qh5 Rxe4 2. Qf3+ Re3 3. Qxe3# (3. Qd5#) (3. Bc4#)
+(3. Red2#)) (1. Qh8 Rxa2 2. Qd4# (2. Qh3#) (2. Nb4#) (2. Qc3#)) 1... Kc3 {
+[%emt 0:00:00]} 2. Qh8+ {[%emt 0:00:00]} Rd4 {[%emt 0:00:00]} 3. Qxd4# {[%emt
+0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15453,11 +15451,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "1Qq5/8/2N5/7b/3Nr2p/4kp1R/8/1B2K3 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Qh2 {[%emt 0:00:00]} Rxd4 {[%emt 0:00:00]} 2. Qe5+ {[%emt 0:00:00]} Re4 {
-[%emt 0:00:00]} 3. Qxe4# {[%emt 0:00:00]} 1-0
+1. Qd6 Qxh3 2. Nc2# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15472,8 +15469,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qe4+ {[%emt 0:00:00]} Kb5 {[%emt 0:00:00]} 2. Rf5+ {[%emt 0:00:00]} Ka6 {
-[%emt 0:00:00]} 3. Qxb7# {[%emt 0:00:00]} 1-0
+1. Qe4+ {[%emt 0:00:00]} (1. Rxb7 Bh4+ 2. Kxh4 Nb6 3. Ra7# (3. Qa5#)) 1... Kb5
+{[%emt 0:00:00]} 2. Rf5+ {[%emt 0:00:00]} Ka6 {[%emt 0:00:00]} 3. Qxb7# {[%emt
+0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15488,8 +15486,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Nd7+ {[%emt 0:00:00]} Rf5 {[%emt 0:00:00]} 2. Rxf5+ {[%emt 0:00:00]} Kc6 {
-[%emt 0:00:00]} 3. Nb8# {[%emt 0:00:00]} 1-0
+1. Nd7+ {[%emt 0:00:00]} (1. Nc7+ Rxc7 2. Nd7+ Kc6 3. Nb8#) 1... Rf5 {[%emt 0:
+00:00]} 2. Rxf5+ {[%emt 0:00:00]} Kc6 {[%emt 0:00:00]} 3. Nb8# {[%emt 0:00:00]}
+1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15504,8 +15503,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Rd5+ {[%emt 0:00:00]} Ke6 {[%emt 0:00:00]} 2. Qxa6+ {[%emt 0:00:00]} c6 {
-[%emt 0:00:00]} 3. Qxc6# {[%emt 0:00:00]} 1-0
+1. Rd5+ {[%emt 0:00:00]} (1. Qxc5+ Nxc5 2. Rd5+ Ke6 3. Nxc5# (3. Nd4#)) 1...
+Ke6 {[%emt 0:00:00]} 2. Qxa6+ {[%emt 0:00:00]} c6 {[%emt 0:00:00]} 3. Qxc6# {
+[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15520,8 +15520,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qxf7+ {[%emt 0:00:00]} Ke4 {[%emt 0:00:00]} 2. Rxd3+ {[%emt 0:00:00]} Ke5 {
-[%emt 0:00:00]} 3. Qe6# {[%emt 0:00:00]} 1-0
+1. Qxf7+ {[%emt 0:00:00]} (1. Qc6+ Ke5 2. Ng6+ fxg6 3. Qe6#) 1... Ke4 {[%emt 0:
+00:00]} 2. Rxd3+ {[%emt 0:00:00]} Ke5 {[%emt 0:00:00]} 3. Qe6# {[%emt 0:00:00]}
+1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15533,11 +15534,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "1B6/4QK2/r3P3/5kNn/2N1pr2/3P2pP/4Rq2/3n1R2 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. dxe4+ {[%emt 0:00:00]} Rxe4 {[%emt 0:00:00]} 2. Qc5+ {[%emt 0:00:00]} Re5 {
-[%emt 0:00:00]} 3. Qxe5# {[%emt 0:00:00]} 1-0
+1. Nf3 exd3 2. Qg5# (2. Re5#) 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15549,12 +15549,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "b2q2Rr/BNkPN2R/P1P5/K2p4/n3p2p/3r4/2Q5/8 w - - 0 1"]
-[PlyCount "7"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Qf2 {[%emt 0:00:00]} Qxe7 {[%emt 0:00:00]} 2. d8=Q+ {[%emt 0:00:00]} Kxc6 {
-[%emt 0:00:00]} 3. Qc8+ {[%emt 0:00:00]} Qc7+ {[%emt 0:00:00]} 4. Qxc7# {
-[%emt 0:00:00]} 1-0
+1. Bd4 Qxd7 2. Nxd5# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15566,11 +15564,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "KB2B3/4R3/p7/3k4/1Q1N2n1/8/8/2r1nr1b w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Ne6 {[%emt 0:00:00]} Rc4 {[%emt 0:00:00]} 2. Qb7+ {[%emt 0:00:00]} Rc6 {
-[%emt 0:00:00]} 3. Qxc6# {[%emt 0:00:00]} 1-0
+1. Ne2 Be4 2. Qd4# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15597,12 +15594,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "4K3/5p2/4k3/2Q5/8/5B2/8/8 w - - 0 1"]
-[PlyCount "7"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Be4 {[%emt 0:00:00]} Kf6 {[%emt 0:00:00]} 2. Qe7+ {[%emt 0:00:00]} Kg7 {
-[%emt 0:00:00]} 3. Qxf7+ {[%emt 0:00:00]} Kh8 {[%emt 0:00:00]} 4. Qf8# {
-[%emt 0:00:00]} 1-0
+1. Qg5 f6 2. Qd5# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15614,11 +15609,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "2QR1B2/rpb2p1q/p7/2PBk1P1/p3N2r/2Ppn1P1/KN2b3/4R3 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Re8+ {[%emt 0:00:00]} Kxd5 {[%emt 0:00:00]} 2. Qd7+ {[%emt 0:00:00]} Bd6 {
-[%emt 0:00:00]} 3. Qxd6# {[%emt 0:00:00]} 1-0
+1. Nf6 Nf5 2. Nxd3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15664,7 +15658,7 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Rc3 {[%emt 0:00:00]} Nxf5 {[%emt 0:00:00]} 2. Re3# {[%emt 0:00:00]} 1-0
+1. Qxd4+ Qxd4 2. Re3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15676,11 +15670,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "7K/1nQp2pp/3N3r/nBpk3r/3b2N1/8/4R3/3R4 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Nxb7 {[%emt 0:00:00]} Nxb7 {[%emt 0:00:00]} 2. Re5+ {[%emt 0:00:00]} Rxe5 {
-[%emt 0:00:00]} 3. Qxe5# {[%emt 0:00:00]} 1-0
+1. Ne4 Re6 2. Nc3# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15707,11 +15700,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "2R5/1N3Q2/2b1n1pr/b2k3P/3Bq2R/1Pn2B2/4Np2/5K2 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxc3 {[%emt 0:00:00]} Bxc3 {[%emt 0:00:00]} 2. Rxe4 {[%emt 0:00:00]} Bxb7 {
-[%emt 0:00:00]} 3. Qxe6# {[%emt 0:00:00]} 1-0
+1. Bg7 Qxf3 2. Rd4# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15723,12 +15715,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "3N4/1p3p2/8/pR1B1Rp1/P2k2P1/1r1p1r2/1P1p1P2/Q2K2B1 w - - 0 1"]
-[PlyCount "7"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxf7 {[%emt 0:00:00]} Rxb5 {[%emt 0:00:00]} 2. Ne6+ {[%emt 0:00:00]} Kc4 {
-[%emt 0:00:00]} 3. Nc5+ {[%emt 0:00:00]} Kb4 {[%emt 0:00:00]} 4. Qa3# {
-[%emt 0:00:00]} 1-0
+1. Kxd2 Rxf5 2. f4# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15743,8 +15733,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Rf4+ {[%emt 0:00:00]} Be4 {[%emt 0:00:00]} 2. Rxe4+ {[%emt 0:00:00]} Ngxe4 {
-[%emt 0:00:00]} 3. Nb6# {[%emt 0:00:00]} 1-0
+1. Rf4+ {[%emt 0:00:00]} (1. Ba7 Nxf5 2. Rc5#) (1. Bb6 Nde4 2. Ne3#) (1. Bf2
+gxf2 2. Rf4+ Nde4 3. Ne3#) 1... Be4 {[%emt 0:00:00]} 2. Rxe4+ {[%emt 0:00:00]}
+Ngxe4 {[%emt 0:00:00]} 3. Nb6# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15759,8 +15750,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Bxg7+ {[%emt 0:00:00]} Rxg7 {[%emt 0:00:00]} 2. Qd8+ {[%emt 0:00:00]} Rd7 {
-[%emt 0:00:00]} 3. Qf6# {[%emt 0:00:00]} 1-0
+1. Bxg7+ {[%emt 0:00:00]} (1. exd7 Re7 2. d8=Q+ (2. d8=R+ Bd5 3. Rdxd5# (3.
+Rfxd5#)) (2. Bg7+ Rxg7 3. Qe4# (3. Qe3#) (3. Qe5#)) (2. Qxe7 Bxe7 3. Ne2# (3.
+Rd5#)) 2... Bd5 3. Qxd5# (3. Rxd5#)) 1... Rxg7 {[%emt 0:00:00]} 2. Qd8+ {[%emt
+0:00:00]} Rd7 {[%emt 0:00:00]} 3. Qf6# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15775,8 +15768,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qc8+ {[%emt 0:00:00]} Bc5 {[%emt 0:00:00]} 2. Qxc5+ {[%emt 0:00:00]} bxc5 {
-[%emt 0:00:00]} 3. Rxc5# {[%emt 0:00:00]} 1-0
+1. Qc8+ {[%emt 0:00:00]} (1. Rxa4+ Nb4 2. Rxb4+ Kd5 3. Qd7#) 1... Bc5 {[%emt 0:
+00:00]} 2. Qxc5+ {[%emt 0:00:00]} bxc5 {[%emt 0:00:00]} 3. Rxc5# {[%emt 0:00:
+00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15788,11 +15782,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "1Q6/3B4/2P5/2bkNp2/R2Pn3/6rp/6nK/2RN1b2 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Nf3 {[%emt 0:00:00]} Bd6 {[%emt 0:00:00]} 2. Qb3+ {[%emt 0:00:00]} Bc4 {
-[%emt 0:00:00]} 3. Qxc4# {[%emt 0:00:00]} 1-0
+1. Nd3 Bxd3 2. Qe5# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15849,12 +15842,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "7b/RR2p2K/2k5/3r1N1p/p3r3/Q3N3/7B/1b5B w - - 0 1"]
-[PlyCount "7"]
+[PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qc1+ {[%emt 0:00:00]} Bc2 {[%emt 0:00:00]} 2. Qxc2+ {[%emt 0:00:00]} Bc3 {
-[%emt 0:00:00]} 3. Qxc3+ {[%emt 0:00:00]} Rc5 {[%emt 0:00:00]} 4. Bxe4# {
-[%emt 0:00:00]} 1-0
+1. Bxe4 Bxe4 2. Qxa4+ Kc5 3. Ra5# (3. Qc4#) (3. Qb5#) 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15866,11 +15857,10 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [Annotator "Magne,Alf"]
 [SetUp "1"]
 [FEN "b4B2/2p1K3/r7/2k5/2p5/4PB2/1R2Q3/8 w - - 0 1"]
-[PlyCount "5"]
+[PlyCount "3"]
 [EventDate "1998.??.??"]
 
-1. Bxa8 {[%emt 0:00:00]} Rxa8 {[%emt 0:00:00]} 2. Qh5+ {[%emt 0:00:00]} Kc6 {
-[%emt 0:00:00]} 3. Qb5# {[%emt 0:00:00]} 1-0
+1. Bc6 Bxc6 2. Ke6# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15945,8 +15935,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qa3+ {[%emt 0:00:00]} Rb4 {[%emt 0:00:00]} 2. Qe3+ {[%emt 0:00:00]} Rd4 {
-[%emt 0:00:00]} 3. Qxd4# {[%emt 0:00:00]} 1-0
+1. Qa3+ {[%emt 0:00:00]} (1. Bxf1 Ra4+ 2. Qxa4 f5 3. Qd4# (3. Qc4#) (3. Qa3#) (
+3. Qa5#)) 1... Rb4 {[%emt 0:00:00]} 2. Qe3+ {[%emt 0:00:00]} Rd4 {[%emt 0:00:
+00]} 3. Qxd4# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -15962,8 +15953,8 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [EventDate "1998.??.??"]
 
 1. Rxc3+ {[%emt 0:00:00]} Kb4 {[%emt 0:00:00]} 2. Qxc5+ {[%emt 0:00:00]} Ka5 {
-[%emt 0:00:00]} 3. Nxa3+ {[%emt 0:00:00]} Bb5+ {[%emt 0:00:00]} 4. Qxb5# {
-[%emt 0:00:00]} 1-0
+[%emt 0:00:00]} 3. Nxa3+ {[%emt 0:00:00]} (3. Ra6+ Kxa6 4. Qb6# (4. Qa7#) (4.
+Nc7#)) 3... Bb5+ {[%emt 0:00:00]} 4. Qxb5# {[%emt 0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -16017,14 +16008,13 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [White "1001 Brilliant Ways"]
 [Black "to Checkmate"]
 [Result "1-0"]
-[Annotator "Magne,Alf"]
+[Annotator "Fritz 13 (30s)"]
 [SetUp "1"]
 [FEN "8/2K2Q2/2B5/4k3/R6r/4Bb2/8/8 w - - 0 1"]
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. Qg7+ {[%emt 0:00:00]} Ke6 {[%emt 0:00:00]} 2. Bd7+ {[%emt 0:00:00]} Kd5 {
-[%emt 0:00:00]} 3. Qg5# {[%emt 0:00:00]} 1-0
+1. Qg7+ (1. Rxh4 Bg4 2. Qe7+ Kf5 3. Be4#) 1... Ke6 2. Bd7+ Kd5 3. Qg5# 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -16039,8 +16029,9 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 [PlyCount "5"]
 [EventDate "1998.??.??"]
 
-1. exf8=R+ {[%emt 0:00:00]} Kxf8 {[%emt 0:00:00]} 2. Ng6+ {[%emt 0:00:00]} hxg6
-{[%emt 0:00:00]} 3. Qe7# {[%emt 0:00:00]} 1-0
+1. exf8=R+ {[%emt 0:00:00]} (1. exf8=Q+ Kxf8 2. Ng6+ hxg6 3. Qe7#) 1... Kxf8 {
+[%emt 0:00:00]} 2. Ng6+ {[%emt 0:00:00]} hxg6 {[%emt 0:00:00]} 3. Qe7# {[%emt
+0:00:00]} 1-0
 
 [Event " White to move."]
 [Site "?"]
@@ -16058,4 +16049,21 @@ Kxh2 {[%emt 0:00:00]} hxg4+ {[%emt 0:00:00]} 4. Kg1 {[%emt 0:00:00]} Rh1# {
 1. Rh4+ {[%emt 0:00:00]} Kd3 {[%emt 0:00:00]} 2. Bb1+ {[%emt 0:00:00]} Ke2 {
 [%emt 0:00:00]} 3. Qg2+ {[%emt 0:00:00]} Kd1 {[%emt 0:00:00]} 4. Rh1# {
 [%emt 0:00:00]} 1-0
+
+[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "6b1/6b1/K1N5/npp3Q1/2k5/1n5R/B2P4/8 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1998.??.??"]
+
+1. Rh4+ {[%emt 0:00:00]} (1. Qg4+ Kd5 2. Qd7+ Ke4 3. Bb1+ Kf4 4. Qf5#) 1... Kd3
+{[%emt 0:00:00]} 2. Bb1+ {[%emt 0:00:00]} Ke2 {[%emt 0:00:00]} 3. Qg2+ {[%emt
+0:00:00]} Kd1 {[%emt 0:00:00]} 4. Rh1# {[%emt 0:00:00]} 1-0
 
