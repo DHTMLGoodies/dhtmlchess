@@ -93,6 +93,11 @@ var app = new ludo.Application({
                 type:'linear',
                 orientation:'vertical'
             },
+            css:{
+                'border-left' : '1px solid #d7d7d7',
+                'border-bottom' : '1px solid #d7d7d7',
+                'border-top' : '1px solid #d7d7d7'
+            },
             children:[
                 {
                     type:'form.Text',
@@ -166,7 +171,7 @@ var app = new ludo.Application({
                             dataSource:'gameList'
                         },
                         {
-                            type:'paging.PageInput',
+                            type:'paging.CurrentPage',
                             dataSource:'gameList'
                         },
                         {
