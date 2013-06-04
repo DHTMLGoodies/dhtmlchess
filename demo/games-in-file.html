@@ -132,6 +132,10 @@ var app = new ludo.Application({
                                 ludo.get('gamesApp').getLayout().toggle();
                             }
                         },
+                        shim:{
+                            renderTo:'notation-view',
+                            txt : 'Loading game'
+                        },
                         paging:{
                             size:25,
                             pageQuery:false,
