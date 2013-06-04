@@ -1,4 +1,4 @@
-/* Generated Mon Jun 3 19:22:52 CEST 2013 */
+/* Generated Tue Jun 4 16:26:03 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -1120,8 +1120,6 @@ ludo.layout.Factory = new Class({
 		}
 		
         ret.type = ret.type || 'Base';
-
-
 		return ret;
 	},
 
@@ -4877,13 +4875,13 @@ ludo.view.Shim = new Class({
     initialize:function (config) {
         if (config.txt)this.txt = config.txt;
         this.renderTo = config.renderTo;
-        if(ludo.util.isString(this.renderTo))this.renderTo = ludo.get(this.renderTo).getEl();
+
     },
 
     getEl:function () {
         if (this.el === undefined) {
             this.el = ludo.dom.create({
-                renderTo:this.renderTo,
+                renderTo:this.getRenderTo(),
                 cls:'ludo-shim-loading',
                 css:{'display':'none'},
                 html : this.getTextForShim()
@@ -4894,8 +4892,9 @@ ludo.view.Shim = new Class({
 
     getShim:function () {
         if (this.shim === undefined) {
+			if(ludo.util.isString(this.renderTo))this.renderTo = ludo.get(this.renderTo).getEl();
             this.shim = ludo.dom.create({
-                renderTo:this.renderTo,
+                renderTo:this.getRenderTo(),
                 cls:'ludo-loader-shim',
                 css:{'display':'none'}
             });
@@ -4903,7 +4902,20 @@ ludo.view.Shim = new Class({
         return this.shim;
     },
 
+	getRenderTo:function(){
+
+		if(ludo.util.isString(this.renderTo)){
+			var view = ludo.get(this.renderTo);
+			if(!view)return undefined;
+			this.renderTo = ludo.get(this.renderTo).getEl();
+		}
+		return this.renderTo;
+	},
+
     show:function (txt) {
+		if(!this.getRenderTo()){
+			return;
+		}
         if (txt !== undefined) {
             this.getEl().set('html', this.getText(txt));
         }else{
@@ -5137,15 +5149,6 @@ ludo.View = new Class({
 	formConfig:undefined,
 
 	/**
-	 * When a model is specified, the submit() method will submit the model to the server
-	 * Updates made to the model will also be reflected to form elements inside this component where
-	 * modelKey is set to a column of the model
-	 * @config {Object} model - object of type ludo.model.Model
-	 * @default undefined
-	 */
-	model:undefined,
-
-	/**
 	 * @property boolean isRendered
 	 * @description Property set to true when component and it's children are rendered.
 	 */
@@ -5221,8 +5224,7 @@ ludo.View = new Class({
 	 Template for JSON compiler.
 	 Curly braces {} are used to specify keys in the JSON object. The compiler will replace {key} with JSON.key<br>
 	 The compiled string will be inserted as html of the body element.<br>
-	 The template will be compiled automatically when you're loading JSON remotely, and when you're using a
-	 ludo.model.Model. If JSON is an array of object, the template will be applied to each object, example:
+	 The template will be compiled automatically when you're loading JSON remotely. If JSON is an array of object, the template will be applied to each object, example:
 	 JSON : [ { firstname : 'Jane', lastname : 'Doe' }, { firstname : 'John', lastname: 'Doe' }] <br>
 	 tpl : '&lt;div>{lastname}, {firstname}&lt;/div><br>
 	 will produce this result:<br><br>
@@ -5262,7 +5264,6 @@ ludo.View = new Class({
 	ludoDB:undefined,
 
 	lifeCycle:function (config) {
-
 		this._createDOM();
 		if (!config.children) {
 			config.children = this.children;
@@ -5343,13 +5344,10 @@ ludo.View = new Class({
 		if (this.parentComponent)config.renderTo = undefined;
 		var keys = ['css', 'contextMenu', 'renderTo', 'tpl', 'containerCss', 'socket', 'form',, 'title', 'html', 'hidden', 'copyEvents',
 			'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
-			'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'model', 'frame', 'formConfig',
+			'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
 			'overflow', 'ludoDB'];
 
 		this.setConfigParams(config, keys);
-
-
-
 
 		if (this.socket) {
 			if (!this.socket.type)this.socket.type = 'socket.Socket';
@@ -5476,7 +5474,7 @@ ludo.View = new Class({
 		 */
 		this.fireEvent('render', this);
 		this.isRendered = true;
-		if (this.model || this.form) {
+		if (this.form) {
 			this.getForm();
 		}
 
@@ -5501,8 +5499,7 @@ ludo.View = new Class({
 	/**
 	 * Insert JSON into components body
 	 * Body of Component will be updated with compiled JSON from ludo.tpl.Parser.
-	 * This method will be called automatically when you're using a ludo.model.Model or a
-	 * JSON data-source
+	 * This method will be called automatically when you're using a JSON data-source
 	 * @method insertJSON
 	 * @param {Object} data
 	 * @return void
@@ -6006,36 +6003,14 @@ ludo.View = new Class({
 			this.children[i].dispose();
 		}
 	},
-	disposeCanceled:false,
 	/**
-	 Cancel dispose of view. A good example of where this is useful is in
-	 a tab layout where the 'x' icons might dispose children. If you want to
-	 have some validation before view is disposed, you can add event to beforeDispose
-	 and call view.cancelDispose in case you don't want to dispose the view.
-	 @method cancelDispose
-	 @example
-	    function confirmDispose(view){
-	 		if(!confirm('Are you sure')){
-	 			view.cancelDispose();
-	 		}
-	 	}
-	 view.addEvent('beforeDispose', confirmDispose);
-	 */
-	cancelDispose:function () {
-		this.disposeCanceled = true;
-	},
-	/**
-	 * Hide and destroy component
+	 * Hide and dispose view
 	 * @method dispose
 	 * @return void
 	 */
 	dispose:function () {
-		this.disposeCanceled = false;
-		this.fireEvent('beforeDispose', this);
-		if (!this.disposeCanceled) {
-			this.fireEvent('dispose', this);
-			ludo.util.dispose(this);
-		}
+        this.fireEvent('dispose', this);
+        ludo.util.dispose(this);
 	},
 	/**
 	 * Returns title of Component.
@@ -6076,17 +6051,16 @@ ludo.View = new Class({
 			this.createDependency('formManager',
 				{
 					type:'ludo.form.Manager',
-					component:this,
-					form:this.form,
-					model:this.model
+					view:this,
+					form:this.form
 				});
 		}
 		return this.getDependency('formManager');
 	},
 
-	getParentFormManager:function () {
+	getParentForm:function () {
 		var parent = this.getParent();
-		return parent ? parent.hasDependency('formManager') ? parent.getDependency('formManager') : parent.getParentFormManager() : undefined;
+		return parent ? parent.hasDependency('formManager') ? parent.getDependency('formManager') : parent.getParentForm() : undefined;
 	},
 
 	isFormElement:function () {
@@ -12499,8 +12473,8 @@ ludo.dataSource.Collection = new Class({
 
 	loadComplete:function (data, json) {
 		// TODO refactor this
-		if (this.paging && json.rows)this.paging.rows = json.rows;
-		if (this.paging && json.response && json.response.rows)this.paging.rows = json.response.rows;
+		if (this.paging && json.rows !==undefined)this.paging.rows = json.rows;
+		if (this.paging && json.response && json.response.rows !==undefined)this.paging.rows = json.response.rows;
 		this.parent(data, json);
 
 		this.fireEvent('count', this.getCount());
@@ -16061,9 +16035,9 @@ ludo.form.Element = new Class({
 			if(this.value !== undefined)this.els.formEl.set('value', this.value)
 		}
         if (this.linkWith) {
-            this.setLinkWithOfOther();
+            this.createBackLink();
         }
-		var parentFormManager = this.getParentFormManager();
+		var parentFormManager = this.getParentForm();
 	    if (parentFormManager) {
 			parentFormManager.registerFormElement(this);
 		}
@@ -16351,15 +16325,6 @@ ludo.form.Element = new Class({
     },
 
     /**
-     * Returns initial value sent to constructor
-     * @method getInitialValue
-     * @return string initial value
-     */
-    getInitialValue:function () {
-        return this.initialValue;
-    },
-
-    /**
      * Reset / Roll back to last committed value. It could be the value stored by last commit method call
      * or if the original value/default value of this field.
      * @method reset
@@ -16423,7 +16388,7 @@ ludo.form.Element = new Class({
         this.addEvent('valueChange', this.updateLinked.bind(this));
     },
 
-    setLinkWithOfOther:function (attempts) {
+    createBackLink:function (attempts) {
         attempts = attempts || 0;
         var cmp = this.getLinkWith();
         if (cmp && !cmp.linkWith) {
@@ -16434,7 +16399,7 @@ ludo.form.Element = new Class({
             cmp.setLinkWith(this);
         } else {
             if (attempts < 100) {
-                this.setLinkWithOfOther.delay(50, this, attempts + 1);
+                this.createBackLink.delay(50, this, attempts + 1);
             }
         }
     },
@@ -19621,8 +19586,8 @@ ludo.remote.ErrorMessage = new Class({
     messageTypes:['failure','serverError']
 });/* ../ludojs/src/form/manager.js */
 /**
- Utility class for form Management. Instance of this class is created on demand
- by ludo.View.getForm().
+ Class for form Management. Instance of this class is created on demand
+ by ludo.View.getForm(). Configuration is done via view.form config property.
  @namespace form
  @class Manager
  @extends Core
@@ -19653,7 +19618,7 @@ ludo.remote.ErrorMessage = new Class({
  */
 ludo.form.Manager = new Class({
 	Extends:ludo.Core,
-	component:null,
+	view:null,
 	formComponents:[],
 	map:{},
 	fileUploadComponents:[],
@@ -19663,27 +19628,128 @@ ludo.form.Manager = new Class({
 	form:{
 		method:'post'
 	},
-	currentData:undefined,
-	service:undefined,
 
+	record:undefined,
+    /**
+     Name of server side resource(example a class) which handles form data.
+     Example: "User" when you have a form representing the details of a
+     user.
+     @config {String} resource
+     @default undefined
+     @example
+        new ludo.View({
+            form:{
+                "resource": "User",
+                "autoLoad" : true,
+                "arguments" : 100
+            },
+            children:[
+                {
+                    type:"form.Text", name:"firstname"
+                },
+                {
+                    type:"form.Text", name:"lastname"
+                }
+            ]
+        });
+     */
+    resource:undefined,
+    method:undefined,
+    url:undefined,
 	currentId:undefined,
+    /**
+     * Autoload data from server on creation
+     * @config {Boolean} autoLoad
+     * @default false
+     */
+    autoLoad:false,
+    /**
+     Event listeners for the events fired by the form.
+     user.
+     @config {Object} listeners
+     @default undefined
+     @example
+        new ludo.View({
+            form:{
+                "resource": "User",
+                listeners:{
+                    "saved": function(){
+                        new ludo.Notification({ html : 'Your changes has been saved' });
+                    },
+                    "read": function(){
+                        // Record has been successfully read from the server.
+                    }
+                }
+            },
+            children:[
+                {
+                    type:"form.Text", name:"firstname"
+                },
+                {
+                    type:"form.Text", name:"lastname"
+                }
+            ]
+        });
+     */
+    listeners:undefined,
+
+    cacheStorage:{},
+    /**
+     Enable caching of read records
+     @config {Boolean} cache
+     @default false
+     @example
+        new ludo.View({
+            form:{
+                cache:true,
+                cacheTimeout : 5
+            }
+        )
+     */
+    cache:false,
+    /**
+     Time in minutes before a cached record is considered expired
+     @config {Number} cacheTimeout
+     @default undefined
+     */
+    cacheTimeout : undefined,
+
+    /**
+     * Update cached record when form value is modified
+     * @config {Boolean} updateCacheOnChange
+     * @default true
+     */
+    updateCacheOnChange :true,
+
+    /**
+     Read arguments sent when autoLoad is set to true
+     @config {String|Number} arguments
+     @default undefined
+     @example
+        form:{
+	 		url:'controller.php',
+	 		resource:'Person',
+	 		arguments:100,
+	 		autoLoad:true
+	 	}
+     will send request 'Person/100/read' to controller.php.
+     */
+    arguments:undefined,
 
 	ludoConfig:function (config) {
-		this.component = config.component;
+		this.view = config.view;
 		config.form = config.form || {};
-		this.form = config.form;
-		if (this.form && this.form.url)this.url = this.form.url;
 
-		this.form.resource = this.form.resource || this.form.name || undefined;
+        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache']);
 
 		this.id = String.uniqueID();
 
-		if (this.form.listeners !== undefined) {
-			this.addEvents(this.form.listeners);
+		if (config.form.listeners !== undefined) {
+			this.addEvents(config.form.listeners);
 		}
 		this.getFormElements();
 
-		if(config.form.autoLoad){
+		if(this.autoLoad){
 			this.read(config.form.arguments);
 		}
 	},
@@ -19694,13 +19760,13 @@ ludo.form.Manager = new Class({
 	 * @private
 	 */
 	getFormElements:function () {
-		if (!this.component.isRendered) {
+		if (!this.view.isRendered) {
 			this.getFormElements.delay(100, this);
 			return;
 		}
 
-		var children = this.component.getAllChildren();
-		children.push(this.component);
+		var children = this.view.getAllChildren();
+		children.push(this.view);
 
 		var c;
 		for (var i = 0, len = children.length; i < len; i++) {
@@ -19724,9 +19790,13 @@ ludo.form.Manager = new Class({
 
 		this.map[c.name] = c;
 
-		if(this.currentData && this.currentData[c.name]){
-			c.setValue(this.currentData[c.name]);
+		if(this.record && this.record[c.name]){
+			c.setValue(this.record[c.name]);
 		}
+
+        if(this.cache && this.updateCacheOnChange){
+            c.addEvent('valueChange', this.updateCache.bind(this));
+        }
 
 		if (c.isFileUploadComponent) {
 			this.fileUploadComponents.push(c);
@@ -19750,19 +19820,31 @@ ludo.form.Manager = new Class({
 		}
 	},
 
+    /**
+     * Set value of a form element
+     * @method set
+     * @param {String} key
+     * @param {String|Number|Object} value
+     */
 	set:function(key, value){
 		if(this.map[key]){
 			this.map[key].setValue(value);
 		}
 	},
 
+    /**
+     * Return value of form element.
+     * @method get
+     * @param {String} key
+     * @return {String|Number|Object}
+     */
 	get:function(key){
 		return this.map[key] ? this.map[key].getValue() : undefined;
 	},
 
-	registerProgressBar:function (component) {
+	registerProgressBar:function (view) {
 		if (!this.progressBar) {
-			this.progressBar = component;
+			this.progressBar = view;
 		}
 	},
 
@@ -19773,7 +19855,7 @@ ludo.form.Manager = new Class({
 		}
 		/**
 		 * @event dirty
-		 * @description Fired when value of one or more form components are different from their original start value
+		 * @description Fired when value of one or more form views are different from their original start value
 		 * @param {Object} formComponent
 		 */
 		this.fireEvent('dirty', formComponent);
@@ -19785,7 +19867,7 @@ ludo.form.Manager = new Class({
 		if (this.dirtyIds.length === 0) {
 			/**
 			 * @event clean
-			 * @description Fired when value of all components are equal to their original start value
+			 * @description Fired when value of all views are equal to their original start value
 			 */
 			this.fireEvent('clean');
 		}
@@ -19815,14 +19897,14 @@ ludo.form.Manager = new Class({
 			 * @event valid
 			 * @param {Object} form.Manager
 			 * @description form.SubmitButton listens to this event which is fired
-			 * when all form elements inside a component are valid. The submit button will
+			 * when all form elements inside a view are valid. The submit button will
 			 * be enabled automatically when this event is fired.
 			 */
 			this.fireEvent('valid', this);
 		}
 	},
 	/**
-	 * Set component invalid when a form element inside it is invalid
+	 * Set view invalid when a form element inside it is invalid
 	 *
 	 * @method onInvalid
 	 * @private
@@ -19838,7 +19920,7 @@ ludo.form.Manager = new Class({
 		 * @event invalid
 		 * @param {Object} form.Manager
 		 * @description form.SubmitButton listens to this event which is fired
-		 * when one or more form elements inside a component is invalid. The submit
+		 * when one or more form elements inside a view is invalid. The submit
 		 * button will be disabled automatically when this event is fired.
 		 */
 		this.fireEvent('invalid', this);
@@ -19866,7 +19948,7 @@ ludo.form.Manager = new Class({
 	// TODO implement a method returning values as plain array(values only)
 	/**
 	 * @method getValues
-	 * @description Return array of values of all form elements inside this component. The format is [{name:value},{name:value}]
+	 * @description Return array of values of all form elements inside this view. The format is [{name:value},{name:value}]
 	 */
 	getValues:function () {
 		var ret = {};
@@ -19899,7 +19981,7 @@ ludo.form.Manager = new Class({
 		this.save();
 	},
 
-	deleteRequest:function () {
+	deleteRecord:function () {
 		var path = this.getDeletePath();
 		var r = new ludo.remote.JSON({
 			resource:path.resource,
@@ -19911,7 +19993,7 @@ ludo.form.Manager = new Class({
 					 * @param {Object} response from server
 					 * @param {Object} View
 					 */
-					this.fireEvent('deleted', [req.getResponse(), this.component]);
+					this.fireEvent('deleted', [req.getResponse(), this.view]);
 				}.bind(this),
 				"failure":function (req) {
 					/**
@@ -19923,7 +20005,7 @@ ludo.form.Manager = new Class({
 					 * @param {Object} Component
 					 */
 
-					this.fireEvent('deleteFailed', [req.getResponse(), this.component]);
+					this.fireEvent('deleteFailed', [req.getResponse(), this.view]);
 				}.bind(this)
 			}
 		});
@@ -19933,7 +20015,7 @@ ludo.form.Manager = new Class({
 	getDeletePath:function () {
 		if (this.currentId) {
 			return {
-				resource:this.form.resource,
+				resource:this.resource,
 				service:'delete',
 				argument:this.currentId
 			}
@@ -19954,7 +20036,7 @@ ludo.form.Manager = new Class({
 	save:function () {
 		if (this.getUrl() || ludo.config.getUrl()) {
 			this.fireEvent('invalid');
-			this.requestHandler().send(this.form.service || 'save', this.currentId, this.getValues(),
+			this.requestHandler().send('save', this.currentId, this.getValues(),
 				{
 					"progressBarId":this.getProgressBarId()
 				}
@@ -19968,9 +20050,41 @@ ludo.form.Manager = new Class({
 	 * @param {String|undefined} id
 	 */
 	read:function(id){
-		this.currentId = id;
-		this.readHandler().sendToServer('read', id);
+        if(this.isInCache(id)){
+            this.currentId = id;
+            this.fill(this.getCached(id));
+        }else{
+            this.currentIdToBeSet = id;
+		    this.readHandler().sendToServer('read', id);
+
+        }
 	},
+
+    getCached:function(id){
+        return this.cacheStorage[id] ? this.cacheStorage[id].data : undefined;
+    },
+
+    updateCache:function(value, view){
+        if(this.cacheStorage[this.currentId]){
+            this.cacheStorage[this.currentId].data[view.getName()] = value;
+        }
+    },
+
+    storeCache:function(id, data){
+        this.cacheStorage[id] = {
+            data : Object.clone(data),
+            time : new Date().getTime()
+        }
+    },
+
+    isInCache:function(id){
+        if(this.cache && this.cacheStorage[id]){
+            if(!this.cacheTimeout || this.cacheStorage[id].time + (this.cacheTimeout * 1000 * 60) < new Date().getTime()){
+                return true;
+            }
+        }
+        return false;
+    },
 
 	_readHandler:undefined,
 
@@ -19978,13 +20092,17 @@ ludo.form.Manager = new Class({
 		if(this._readHandler === undefined){
 			this._readHandler = this.getDependency('readHandler', new ludo.remote.JSON({
 				url:this.url,
-				resource:this.form.resource ? this.form.resource : 'Form',
-				method:this.form.method ? this.form.method : 'post',
+				resource:this.resource ? this.resource : 'Form',
+				method:this.method ? this.method : 'post',
 				service : 'read',
 				listeners:{
 					"success":function (request) {
-						this.currentData = request.getResponseData();
-						this.fill(this.currentData);
+						this.currentId = this.currentIdToBeSet;
+						this.record = request.getResponseData();
+                        if(this.cache){
+                            this.storeCache(this.currentId, this.record);
+                        }
+						this.fill(this.record);
 						/**
 						 * Event fired after data for the form has been read successfully
 						 * To add listeners, use <br>
@@ -19992,14 +20110,14 @@ ludo.form.Manager = new Class({
 						 * @event read
 						 * @param {Object} JSON response from server
 						 */
-						this.fireEvent('read', [request.getResponse(), this.component]);
+						this.fireEvent('read', [request.getResponse(), this.view]);
 						if (this.isValid()) {
 							this.fireEvent('valid');
 						}
 						this.fireEvent('clean');
 					}.bind(this),
 					"failure":function (request) {
-						this.fireEvent('failure', [request.getResponse(), this.component]);
+						this.fireEvent('failure', [request.getResponse(), this.view]);
 					}.bind(this),
 					"error":function (request) {
 						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
@@ -20026,11 +20144,11 @@ ludo.form.Manager = new Class({
 	_request:undefined,
 	requestHandler:function () {
 		if (this._request === undefined) {
-			if (!this.form.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
+			if (!this.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
 			this._request = this.createDependency('_request', new ludo.remote.JSON({
 				url:this.url,
-				resource:this.form.resource ? this.form.resource : 'Form',
-				method:this.form.method ? this.form.method : 'post',
+				resource:this.resource ? this.resource : 'Form',
+				method:this.method ? this.method : 'post',
 				listeners:{
 					"success":function (request) {
 						this.commitFormElements();
@@ -20041,7 +20159,7 @@ ludo.form.Manager = new Class({
 						 * @event success
 						 * @param {Object} JSON response from server
 						 */
-						this.fireEvent('success', [request.getResponse(), this.component]);
+						this.fireEvent('success', [request.getResponse(), this.view]);
 						if (this.isValid()) {
 							this.fireEvent('valid');
 						}
@@ -20061,7 +20179,7 @@ ludo.form.Manager = new Class({
 						 * @param {Object} Component
 						 */
 
-						this.fireEvent('failure', [request.getResponse(), this.component]);
+						this.fireEvent('failure', [request.getResponse(), this.view]);
 					}.bind(this),
 					"error":function (request) {
 						/**
@@ -20110,7 +20228,7 @@ ludo.form.Manager = new Class({
 	/**
 	 * @method isDirty
 	 * @private
-	 * @description Returns true if one or more form elements of component have value different from it' original
+	 * @description Returns true if one or more form elements of view have value different from it' original
 	 */
 	isDirty:function () {
 		return this.dirtyIds.length > 0;
@@ -21052,7 +21170,8 @@ ludo.tree.Tree = new Class({
     renderChildrenOf:function(record){
         var p = this.getChildContainer(record);
         if(p){
-            p.innerHTML = this.getHtmlForBranch(record.getChildren());
+			var c = record.getChildren();
+            if(c)p.innerHTML = this.getHtmlForBranch(c);
         }
     },
 
@@ -21080,6 +21199,15 @@ ludo.tree.Tree = new Class({
 		ret.push('</div>');
 
 		if (includeContainer)ret.push('</div>');
+
+        /**
+         * Event fired when a node is created
+         * @event createNode
+         * @param {String} id of DOM node
+         * @param {Object} record
+         * @param {tree.Tree} tree
+         */
+        this.fireEvent('createNode', [record.uid, record, this]);
 		return ret.join('');
 	},
 
@@ -21091,7 +21219,6 @@ ludo.tree.Tree = new Class({
 		}
 		return true;
 	},
-
 
 	getNodeTextFor:function (record) {
 		var tplFields = this.getTplFields(record);
