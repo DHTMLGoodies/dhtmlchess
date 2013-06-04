@@ -1,4 +1,4 @@
-/* Generated Tue Jun 4 16:26:03 CEST 2013 */
+/* Generated Tue Jun 4 17:16:10 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -4913,9 +4913,6 @@ ludo.view.Shim = new Class({
 	},
 
     show:function (txt) {
-		if(!this.getRenderTo()){
-			return;
-		}
         if (txt !== undefined) {
             this.getEl().set('html', this.getText(txt));
         }else{
@@ -6044,6 +6041,16 @@ ludo.View = new Class({
 			obj.addEvent('load', this[method].bind(this));
 		}
 		return this.dataSourceObj;
+	},
+	_shim:undefined,
+	shim:function(){
+		if(this._shim === undefined){
+			this._shim = new ludo.view.Shim({
+				txt : '',
+				renderTo:this.getEl()
+			});
+		}
+		return this._shim;
 	},
 
 	getForm:function () {
@@ -23730,7 +23737,9 @@ window.chess.events = {
         wrongGuess:'wrongGuess',
         startAutoplay:'startAutoplay',
         stopAutoplay:'stopAutoplay',
-        gameSaved:'gameSaved'
+        gameSaved:'gameSaved',
+		beforeLoad:'beforeLoad',
+        afterLoad:'afterLoad'
     },
 
     view:{
@@ -23891,8 +23900,20 @@ chess.view.notation.Panel = new Class({
         this.controller.addEvent('nextmove', this.setCurrentMove.bind(this));
         this.controller.addEvent('updateMove', this.updateMove.bind(this));
         this.controller.addEvent('newMove', this.appendMove.bind(this));
+		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
+
+
+	beforeLoad:function(){
+		this.shim().show(chess.getPhrase('Loading game'));
+	},
+
+	afterLoad:function(){
+		this.shim().hide();
+	},
+
     ludoConfig:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['notations','showContextMenu']);
@@ -24753,7 +24774,18 @@ chess.view.board.Board = new Class({
         controller.addEvent('startOfGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('flip', this.flip.bind(this));
+		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
     },
+
+
+	beforeLoad:function(){
+		this.shim().show(chess.getPhrase('Loading game'));
+	},
+
+	afterLoad:function(){
+		this.shim().hide();
+	},
 
     clearHighlightedSquares:function(){
         this.fireEvent('clearHighlight', this);
@@ -32317,6 +32349,8 @@ chess.model.Game = new Class({
 		config = config || {};
 		this.moveParser = new chess.parser.Move0x88();
 		this.gameReader = new chess.remote.GameReader();
+		this.gameReader.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.gameReader.addEvent('load', this.afterLoad.bind(this));
 		this.gameReader.addEvent('load', this.populate.bind(this));
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
 		this.gameReader.addEvent('saved', this.gameSaved.bind(this));
@@ -32324,9 +32358,9 @@ chess.model.Game = new Class({
 
 		if (config.id || config.pgn) {
 			if(config.pgn){
-				this.loadStaticGame(config.pgn, config.gameIndex);
+				this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
 			}else{
-				this.loadGame(config.id);
+				this.loadGame.delay(20, this, config.id);
 			}
 		} else {
 			this.setDirty();
@@ -32336,6 +32370,16 @@ chess.model.Game = new Class({
 		}
 
 		if (config.databaseId !== undefined)this.databaseId = config.databaseId;
+	},
+
+
+
+	beforeLoad:function(){
+		this.fire('beforeLoad');
+	},
+
+	afterLoad:function(){
+		this.fire('afterLoad');
 	},
 
     /**
@@ -33891,6 +33935,7 @@ chess.remote.Reader = new Class({
 	onLoadEvent:undefined,
 
     query : function(config) {
+		this.fireEvent('beforeLoad');
         this.onLoadEvent = config.eventOnLoad || 'load';
 		this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
     },

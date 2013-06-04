@@ -32,6 +32,8 @@
 }
 .ludo-shim-loading span{
     white-space:nowrap;
+    font-size:12px;
+    line-height: 30px;
 }
 .ludo-loader-shim{
     position:absolute;

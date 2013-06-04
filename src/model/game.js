@@ -44,6 +44,8 @@ chess.model.Game = new Class({
 		config = config || {};
 		this.moveParser = new chess.parser.Move0x88();
 		this.gameReader = new chess.remote.GameReader();
+		this.gameReader.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.gameReader.addEvent('load', this.afterLoad.bind(this));
 		this.gameReader.addEvent('load', this.populate.bind(this));
 		this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
 		this.gameReader.addEvent('saved', this.gameSaved.bind(this));
@@ -51,9 +53,9 @@ chess.model.Game = new Class({
 
 		if (config.id || config.pgn) {
 			if(config.pgn){
-				this.loadStaticGame(config.pgn, config.gameIndex);
+				this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
 			}else{
-				this.loadGame(config.id);
+				this.loadGame.delay(20, this, config.id);
 			}
 		} else {
 			this.setDirty();
@@ -63,6 +65,16 @@ chess.model.Game = new Class({
 		}
 
 		if (config.databaseId !== undefined)this.databaseId = config.databaseId;
+	},
+
+
+
+	beforeLoad:function(){
+		this.fire('beforeLoad');
+	},
+
+	afterLoad:function(){
+		this.fire('afterLoad');
 	},
 
     /**

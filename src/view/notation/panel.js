@@ -58,8 +58,20 @@ chess.view.notation.Panel = new Class({
         this.controller.addEvent('nextmove', this.setCurrentMove.bind(this));
         this.controller.addEvent('updateMove', this.updateMove.bind(this));
         this.controller.addEvent('newMove', this.appendMove.bind(this));
+		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
+
+
+	beforeLoad:function(){
+		this.shim().show(chess.getPhrase('Loading game'));
+	},
+
+	afterLoad:function(){
+		this.shim().hide();
+	},
+
     ludoConfig:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['notations','showContextMenu']);

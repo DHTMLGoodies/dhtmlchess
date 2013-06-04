@@ -141,7 +141,18 @@ chess.view.board.Board = new Class({
         controller.addEvent('startOfGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('flip', this.flip.bind(this));
+		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
     },
+
+
+	beforeLoad:function(){
+		this.shim().show(chess.getPhrase('Loading game'));
+	},
+
+	afterLoad:function(){
+		this.shim().hide();
+	},
 
     clearHighlightedSquares:function(){
         this.fireEvent('clearHighlight', this);
