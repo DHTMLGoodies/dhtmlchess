@@ -1,4 +1,4 @@
-/* Generated Tue Jun 4 17:38:49 CEST 2013 */
+/* Generated Wed Jun 5 22:16:56 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     border-radius: 5px;
     webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    z-index: 100;
+    z-index: 40000;
     background-color: #FFF;
     font-size:11px;
 }

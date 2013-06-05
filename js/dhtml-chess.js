@@ -1,4 +1,4 @@
-/* Generated Tue Jun 4 17:38:49 CEST 2013 */
+/* Generated Wed Jun 5 22:16:56 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -12541,7 +12541,11 @@ ludo.dataSource.Collection = new Class({
 		this.getSearcher().search(search);
 	},
 
-
+	/**
+	 * Executes a remote search for records with the given data
+	 * @method remoteSearch
+	 * @param {String|Object} search
+	 */
 	remoteSearch:function(search){
 		this.postData = this.postData || {};
 		this.postData.search = search;
@@ -14832,8 +14836,19 @@ ludo.grid.Grid = new Class({
 			 * @param Component this
 			 * @param {Number} index of record
 			 */
-			this.fireEvent('click', record);
+			this.fireEvent('click', [record, this.getColumnByDom(e.target)]);
 		}
+	},
+
+	getColumnByDom:function(el){
+		el = document.id(el);
+		if (!el.hasClass('ludo-grid-data-cell')) {
+			el = el.getParent('.ludo-grid-data-cell');
+		}
+		if(el){
+			return el.getProperty('col');
+		}
+		return undefined;
 	},
 
 	setSelectedRecord:function (record) {
@@ -14935,11 +14950,10 @@ ludo.grid.Grid = new Class({
 			/**
 			 * Double click on record
 			 * @event dblclick
-			 * @param Record clicked record
-			 * @param Component this
-			 * @param {Number} index of record
+			 * @param {Object} Record clicked record
+			 * @param {String} column
 			 */
-			this.fireEvent('dblclick', record);
+			this.fireEvent('dblclick', [record, this.getColumnByDom(e.target)]);
 		}
 	},
 
@@ -15284,7 +15298,7 @@ ludo.grid.Grid = new Class({
 				rowCls = rowRenderer(data[i]);
 				if (rowCls)rowCls = ' ' + rowCls;
 			}
-			ret.push('<div id="' + id + '" ' + over + ' class="ludo-grid-data-cell ' + (rowClasses[i % 2]) + rowCls + '" uid="' + data[i].uid + '"><span class="ludo-grid-data-cell-text">' + content + '</span></div>');
+			ret.push('<div id="' + id + '" ' + over + ' col="' + col + '" class="ludo-grid-data-cell ' + (rowClasses[i % 2]) + rowCls + '" uid="' + data[i].uid + '"><span class="ludo-grid-data-cell-text">' + content + '</span></div>');
 		}
 
 		return ret.join('');
@@ -21048,9 +21062,14 @@ ludo.tree.Tree = new Class({
 		if (record) {
 			if(e.target.tagName.toLowerCase() === 'span' && this.isSelectable(record)) {
 				this.getDataSource().selectRecord(record);
-			}else{
-				this.expandOrCollapse(record, e.target);
-			}
+            }
+            if(ludo.dom.hasClass(e.target, 'ludo-tree-node-expand')){
+                this.expandOrCollapse(record, e.target);
+            }else{
+                this.expand(record, e.target);
+
+            }
+
 		}
 	},
 
@@ -21081,12 +21100,13 @@ ludo.tree.Tree = new Class({
 	},
 
 	expandOrCollapse:function (record, el) {
+        el = this.getExpandEl(record);
         var method = ludo.dom.hasClass(el, 'ludo-tree-node-collapse') ? 'collapse' : 'expand';
         this[method](record,el);
 	},
 
 	expand:function (record, el) {
-		el = el || this.getExpandEl(record);
+		el = this.getExpandEl(record);
         if(!this.areChildrenRendered(record)){
             this.renderChildrenOf(record);
         }
@@ -21095,7 +21115,7 @@ ludo.tree.Tree = new Class({
 	},
 
 	collapse:function (record, el) {
-		el = el || this.getExpandEl();
+		el = this.getExpandEl(record);
 		ludo.dom.removeClass(el, 'ludo-tree-node-collapse');
 		this.getCachedNode(record, 'children', 'child-container-').style.display = 'none';
 	},
@@ -22797,66 +22817,6 @@ ludo.paging.PageInput = new Class({
 	insertJSON:function(){
 
 	}
-});/* ../ludojs/src/paging/current-page.js */
-/**
- Displays current page number shown in a collection
- @class paging.TotalPages
- @extends View
- @constructor
- @param {Object} config
- @example
- children:[
- ...
- {
-			  type:'paging.TotalPages',
-			  dataSource:'myDataSource'
-		  }
- ...
- }
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.CurrentPage = new Class({
-	Extends:ludo.View,
-	type:'grid.paging.CurrentPage',
-	width:25,
-	onLoadMessage:'',
-	/**
-	 * Text template for view. {pages} is replaced by number of pages in data source.
-	 * @attribute {String} tpl
-	 * @default '/{pages}'
-	 */
-	tpl:'{page}',
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-current-page');
-	},
-
-	ludoEvents:function () {
-		this.parent();
-        this.dataSourceEvents();
-	},
-
-    dataSourceEvents:function(){
-        if(ludo.get(this.dataSource)){
-            var ds = this.getDataSource();
-            if (ds) {
-                ds.addEvent('page', this.setPageNumber.bind(this));
-                this.setPageNumber(ds.getPageNumber());
-            }
-        }else{
-            this.dataSourceEvents.delay(100, this);
-        }
-    },
-
-	setPageNumber:function () {
-		this.setHtml(this.tpl.replace('{page}', this.getDataSource().getPageNumber()));
-	},
-
-	insertJSON:function () {
-
-	}
 });/* ../ludojs/src/paging/total-pages.js */
 /**
  Displays number of pages in a data source
@@ -22913,6 +22873,66 @@ ludo.paging.TotalPages = new Class({
 
 	setPageNumber:function () {
 		this.setHtml(this.tpl.replace('{pages}', this.getDataSource().getPageCount()));
+	},
+
+	insertJSON:function () {
+
+	}
+});/* ../ludojs/src/paging/current-page.js */
+/**
+ Displays current page number shown in a collection
+ @class paging.TotalPages
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ children:[
+ ...
+ {
+			  type:'paging.TotalPages',
+			  dataSource:'myDataSource'
+		  }
+ ...
+ }
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.CurrentPage = new Class({
+	Extends:ludo.View,
+	type:'grid.paging.CurrentPage',
+	width:25,
+	onLoadMessage:'',
+	/**
+	 * Text template for view. {pages} is replaced by number of pages in data source.
+	 * @attribute {String} tpl
+	 * @default '/{pages}'
+	 */
+	tpl:'{page}',
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().addClass('ludo-paging-text');
+		this.getEl().addClass('ludo-paging-current-page');
+	},
+
+	ludoEvents:function () {
+		this.parent();
+        this.dataSourceEvents();
+	},
+
+    dataSourceEvents:function(){
+        if(ludo.get(this.dataSource)){
+            var ds = this.getDataSource();
+            if (ds) {
+                ds.addEvent('page', this.setPageNumber.bind(this));
+                this.setPageNumber(ds.getPageNumber());
+            }
+        }else{
+            this.dataSourceEvents.delay(100, this);
+        }
+    },
+
+	setPageNumber:function () {
+		this.setHtml(this.tpl.replace('{page}', this.getDataSource().getPageNumber()));
 	},
 
 	insertJSON:function () {
@@ -34126,7 +34146,7 @@ chess.dataSource.GameList = new Class({
  */
 chess.dataSource.PgnGames = new Class({
     Extends: ludo.dataSource.Collection,
-    type : 'chess.dataSource.GameList',
+    type : 'chess.dataSource.PgnGames',
     autoload:true,
     singleton: true,
     resource:'ChessFS',
@@ -34134,6 +34154,46 @@ chess.dataSource.PgnGames = new Class({
     "primaryKey":"index",
     getCurrentPgn:function(){
         return this.arguments;
+    },
+
+    /**
+     * Load games from this pgn file
+     @method loadFile
+     @param file
+     @example
+        dataSource:{
+            id:'gameList',
+            "type":'chess.dataSource.PgnGames',
+            // "Morphy" is the name of a pgn file inside the "pgn" folder.
+            //  You can put games inside that folder and change the argument below.
+            "arguments":"Morphy",
+            "listeners":{
+                "beforeload":function () {
+                    ludo.get("searchField").reset();
+                },
+                "select": function(){
+                    ludo.get('gamesApp').getLayout().toggle();
+                }
+            },
+            shim:{
+                txt : 'Loading games'
+            },
+            paging:{
+                size:25,
+                pageQuery:false,
+                cache:false,
+                cacheTimeout:1000
+            }
+        }
+     To change pgn file call
+
+     @example
+        ludo.get('gameList').loadFile('Lasker');
+
+     i.e. name of pgn file without the file extension.
+     */
+    loadFile:function(file){
+        this.sendRequest(this.service, file);
     }
 });/* ../dhtml-chess/src/datasource/pgn-list.js */
 /**

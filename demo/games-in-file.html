@@ -128,6 +128,10 @@ var app = new ludo.Application({
                         "type":'chess.dataSource.PgnGames',
                         // "Morphy" is the name of a pgn file inside the "pgn" folder.
                         //  You can put games inside that folder and change the argument below.
+                        // You can also call
+                        // ludo.get('gameList').loadFile('Lasker');
+                        // to change pgn file after page load. Example
+                        // <a href="#" onclick="ludo.get('gameList').loadFile('Lasker');return false">Load games of E. Lasker</a>
                         "arguments":"Morphy",
                         "listeners":{
                             "beforeload":function () {

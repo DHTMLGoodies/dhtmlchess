@@ -26,7 +26,7 @@
     border-radius: 5px;
     webkit-border-radius: 5px;
     -moz-border-radius: 5px;
-    z-index: 100;
+    z-index: 40000;
     background-color: #FFF;
     font-size:11px;
 }
