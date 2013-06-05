@@ -138,7 +138,12 @@ var app = new ludo.Application({
                                 ludo.get("searchField").reset();
                             },
                             "select": function(){
-                                ludo.get('gamesApp').getLayout().toggle();
+                                ludo.get('gamesApp').getLayout().hide();
+                            },
+                            "load": function(data){
+                                if(data.length){
+                                    ludo.get('gameList').selectRecord(data[0]);
+                                }
                             }
                         },
                         shim:{
