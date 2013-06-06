@@ -7,7 +7,11 @@
  */
 class ChessRegistry
 {
-    private static $storage = array();
+    private static $storage = array(
+        "domain" => "www.dhtml-chess.com",
+        "password_reset_subject" => "Password reset",
+        "password_reset_body" => "You have asked for a Password reset on www.dhtml-chess.com.\nClick the following link to reset the password:\n\n"
+    );
 
     public static function set($key, $value){
         self::$storage[$key] = $value;
@@ -81,4 +85,29 @@ class ChessRegistry
     public static function setImportQueueFolder($folder){
         self::set('IMPORT_QUEUE_FOLDER', $folder);
     }
+
+    public static function setDomain($domain){
+        self::set('domain', $domain);
+    }
+
+    public static function getDomain(){
+        return self::get('domain');
+    }
+
+    public static function setPasswordResetSubject($subject){
+        self::set('password_reset_subject', $subject);
+    }
+
+    public static function getPasswordResetSubject(){
+        return self::get('password_reset_subject');
+    }
+
+    public static function setPasswordResetBody($body){
+        self::set('password_reset_body', $body);
+    }
+
+    public static function getPasswordResetBody(){
+        return self::get('password_reset_body');
+    }
+
 }
