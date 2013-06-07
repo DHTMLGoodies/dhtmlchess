@@ -23,7 +23,7 @@ chess.view.highlight.Square = new Class({
 	Extends:chess.view.highlight.SquareBase,
 	ludoConfig:function (config) {
 		this.parent(config);
-		this.view.addEvent('highlight', this.highlight.bind(this));
-		this.view.addEvent('clearHighlight', this.clear.bind(this));
+		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
+		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));
 	}
 });

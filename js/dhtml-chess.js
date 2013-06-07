@@ -1,4 +1,4 @@
-/* Generated Wed Jun 5 22:16:56 CEST 2013 */
+/* Generated Fri Jun 7 14:18:53 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -14832,9 +14832,8 @@ ludo.grid.Grid = new Class({
 			/**
 			 * Click on record
 			 * @event click
-			 * @param Record clicked record
-			 * @param Component this
-			 * @param {Number} index of record
+			 * @param {Object} Record clicked record
+			 * @param {String} column
 			 */
 			this.fireEvent('click', [record, this.getColumnByDom(e.target)]);
 		}
@@ -15175,7 +15174,7 @@ ludo.grid.Grid = new Class({
 			this.emptyTextEl().style.display= this.currentData.length > 0 ? 'none' : '';
 		}
 
-		if (Browser.ie) {
+		if (Browser['ie']) {
 			this.populateDataIE();
 			return;
 		}
@@ -15289,11 +15288,7 @@ ludo.grid.Grid = new Class({
 				content = renderer(content, data[i]);
 			}
 			var id = ['cell-' , col , '-' , data[i].uid , '-' , this.uniqueId].join('');
-			var over = '';
-			if (this.mouseOverEffect) {
-				over = ' onmouseover="ludo.get(\'' + this.id + '\').enterCell(this)"';
-			}
-
+			var over = this.mouseOverEffect ? ' onmouseover="ludo.get(\'' + this.id + '\').enterCell(this)"' : '';
 			if (rowRenderer) {
 				rowCls = rowRenderer(data[i]);
 				if (rowCls)rowCls = ' ' + rowCls;
@@ -15325,9 +15320,6 @@ ludo.grid.Grid = new Class({
 
 	getSelectedRecord:function () {
 		return this.getDataSource().getSelectedRecord();
-	},
-	getColumnManager:function () {
-		return this.columnManager;
 	}
 });/* ../ludojs/src/window.js */
 /**
@@ -21067,9 +21059,7 @@ ludo.tree.Tree = new Class({
                 this.expandOrCollapse(record, e.target);
             }else{
                 this.expand(record, e.target);
-
             }
-
 		}
 	},
 
@@ -22817,6 +22807,66 @@ ludo.paging.PageInput = new Class({
 	insertJSON:function(){
 
 	}
+});/* ../ludojs/src/paging/current-page.js */
+/**
+ Displays current page number shown in a collection
+ @class paging.TotalPages
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ children:[
+ ...
+ {
+			  type:'paging.TotalPages',
+			  dataSource:'myDataSource'
+		  }
+ ...
+ }
+ where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ */
+ludo.paging.CurrentPage = new Class({
+	Extends:ludo.View,
+	type:'grid.paging.CurrentPage',
+	width:25,
+	onLoadMessage:'',
+	/**
+	 * Text template for view. {pages} is replaced by number of pages in data source.
+	 * @attribute {String} tpl
+	 * @default '/{pages}'
+	 */
+	tpl:'{page}',
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().addClass('ludo-paging-text');
+		this.getEl().addClass('ludo-paging-current-page');
+	},
+
+	ludoEvents:function () {
+		this.parent();
+        this.dataSourceEvents();
+	},
+
+    dataSourceEvents:function(){
+        if(ludo.get(this.dataSource)){
+            var ds = this.getDataSource();
+            if (ds) {
+                ds.addEvent('page', this.setPageNumber.bind(this));
+                this.setPageNumber(ds.getPageNumber());
+            }
+        }else{
+            this.dataSourceEvents.delay(100, this);
+        }
+    },
+
+	setPageNumber:function () {
+		this.setHtml(this.tpl.replace('{page}', this.getDataSource().getPageNumber()));
+	},
+
+	insertJSON:function () {
+
+	}
 });/* ../ludojs/src/paging/total-pages.js */
 /**
  Displays number of pages in a data source
@@ -22873,66 +22923,6 @@ ludo.paging.TotalPages = new Class({
 
 	setPageNumber:function () {
 		this.setHtml(this.tpl.replace('{pages}', this.getDataSource().getPageCount()));
-	},
-
-	insertJSON:function () {
-
-	}
-});/* ../ludojs/src/paging/current-page.js */
-/**
- Displays current page number shown in a collection
- @class paging.TotalPages
- @extends View
- @constructor
- @param {Object} config
- @example
- children:[
- ...
- {
-			  type:'paging.TotalPages',
-			  dataSource:'myDataSource'
-		  }
- ...
- }
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
- */
-ludo.paging.CurrentPage = new Class({
-	Extends:ludo.View,
-	type:'grid.paging.CurrentPage',
-	width:25,
-	onLoadMessage:'',
-	/**
-	 * Text template for view. {pages} is replaced by number of pages in data source.
-	 * @attribute {String} tpl
-	 * @default '/{pages}'
-	 */
-	tpl:'{page}',
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-current-page');
-	},
-
-	ludoEvents:function () {
-		this.parent();
-        this.dataSourceEvents();
-	},
-
-    dataSourceEvents:function(){
-        if(ludo.get(this.dataSource)){
-            var ds = this.getDataSource();
-            if (ds) {
-                ds.addEvent('page', this.setPageNumber.bind(this));
-                this.setPageNumber(ds.getPageNumber());
-            }
-        }else{
-            this.dataSourceEvents.delay(100, this);
-        }
-    },
-
-	setPageNumber:function () {
-		this.setHtml(this.tpl.replace('{page}', this.getDataSource().getPageNumber()));
 	},
 
 	insertJSON:function () {
@@ -25750,8 +25740,8 @@ chess.view.highlight.Square = new Class({
 	Extends:chess.view.highlight.SquareBase,
 	ludoConfig:function (config) {
 		this.parent(config);
-		this.view.addEvent('highlight', this.highlight.bind(this));
-		this.view.addEvent('clearHighlight', this.clear.bind(this));
+		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
+		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));
 	}
 });/* ../dhtml-chess/src/view/highlight/arrow-svg.js */
 chess.view.board.ArrowSVG = new Class({
@@ -26167,7 +26157,7 @@ chess.view.highlight.ArrowTactic = new Class({
 	ludoConfig:function (config) {
         this.parent(config);
         if(config.delay !== undefined)this.delay = config.delay;
-        this.view.addEvent('showSolution', this.showSolution.bind(this));
+        this.parentComponent.addEvent('showSolution', this.showSolution.bind(this));
     },
 
     showSolution:function(move){
@@ -26182,7 +26172,7 @@ chess.view.highlight.SquareTacticHint = new Class({
 	ludoConfig:function (config) {
         this.parent(config);
         if(config.delay !== undefined)this.delay = config.delay;
-        this.view.addEvent('showHint', this.showHint.bind(this));
+        this.parentComponent.addEvent('showHint', this.showHint.bind(this));
     },
 
     showHint:function(move){
