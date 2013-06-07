@@ -14,6 +14,9 @@
             margin:0;padding:0;
             font-family: arial !important;
         }
+        a{
+            color:blue;
+        }
     </style>
 
     <script type="text/javascript">
@@ -83,18 +86,34 @@
                             type:'linear',
                             orientation:'horizontal'
                         },
-                        height:25,
+                        css:{
+                            'margin-top' : 2
+                        },
+                        height:30,
                         children:[
                             { weight:1 },
                             {
-                                width:80,
+                                layout:{width:140 }
+                            },
+                            {
+                                layout:{ width: 80 },
                                 type:'chess.view.button.TacticHint',
                                 value:'Show Hint'
                             },
                             {
-                                width:80,
+                                layout:{ width: 80 },
                                 type:'chess.view.button.TacticSolution',
                                 value:'Solution'
+                            },
+                            {
+                                layout:{ width: 140 },
+                                overflow:'hidden',
+                                css:{
+                                    'font-size' : 14,
+                                    'line-height' : '20px',
+                                    'text-align' : 'right'
+                                },
+                                html : '&copy; <a href="http://www.dhtml-chess.com">dhtml-chess.com</a>'
                             },
                             {
                                 weight:1
