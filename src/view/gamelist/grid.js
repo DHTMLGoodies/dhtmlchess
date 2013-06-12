@@ -48,42 +48,42 @@ chess.view.gamelist.Grid = new Class({
 	 */
 	cols:undefined,
 
-	columnManager:{
-		columns:{
-			white:{
-				heading:chess.getPhrase('White'),
-				key:'white',
-				width:120,
-				sortable:true
-			},
-			black:{
-				heading:chess.getPhrase('Black'),
-				key:'black',
-				width:120,
-				sortable:true
-			},
-			result:{
-				heading:chess.getPhrase('Result'),
-				key:'result',
-				width:50,
-				sortable:true,
-				removable:true
-			},
-			event:{
-				heading:chess.getPhrase('Event'),
-				key:'event',
-				weight:1,
-				sortable:true,
-				removable:true
-			},
-			last_moves:{
-				heading:chess.getPhrase('Last moves'),
-				key:'last_moves',
-				weight:1,
-				sortable:true,
-				removable:true
-			}
+
+	columns:{
+		white:{
+			heading:chess.getPhrase('White'),
+			key:'white',
+			width:120,
+			sortable:true
+		},
+		black:{
+			heading:chess.getPhrase('Black'),
+			key:'black',
+			width:120,
+			sortable:true
+		},
+		result:{
+			heading:chess.getPhrase('Result'),
+			key:'result',
+			width:50,
+			sortable:true,
+			removable:true
+		},
+		event:{
+			heading:chess.getPhrase('Event'),
+			key:'event',
+			weight:1,
+			sortable:true,
+			removable:true
+		},
+		last_moves:{
+			heading:chess.getPhrase('Last moves'),
+			key:'last_moves',
+			weight:1,
+			sortable:true,
+			removable:true
 		}
+
 	},
 	/**
 	 * initial database id. Show the games from this database when the grid is first displayed.

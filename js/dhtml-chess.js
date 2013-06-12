@@ -1,4 +1,4 @@
-/* Generated Fri Jun 7 14:18:53 CEST 2013 */
+/* Generated Wed Jun 12 19:45:12 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -2867,6 +2867,7 @@ ludo.layout.Base = new Class({
      * @param {Object} c
      */
 	updateViewport:function (c) {
+
 		this.viewport[c.key] = c.value;
 	},
 
@@ -3474,7 +3475,7 @@ ludo.layout.Card = new Class({
 	 */
 	isValid:function () {
 		if (this.visibleCard) {
-			return this.visibleCard.isFormValid();
+			return this.visibleCard.getForm().isValid();
 		}
 		return true;
 	},
@@ -3600,7 +3601,7 @@ ludo.layout.Card = new Class({
 	touchStart:function (e) {
 		if (this.isOnFormElement(e.target))return undefined;
 		var isFirstCard = this.isFirstCard(this.visibleCard);
-		var isValid = this.visibleCard.isFormValid();
+		var isValid = this.visibleCard.getForm().isValid();
 		if (!isValid && isFirstCard) {
 			return undefined;
 		}
@@ -6053,6 +6054,26 @@ ludo.View = new Class({
 		return this._shim;
 	},
 
+    /**
+     Returns {{#crossLink "form.Manager"}}{{/crossLink}} for this view.  The form manager
+     gives you access to form methods like save, deleteRecord, reset etc
+     @method getForm     *
+     @return {form.Manager}
+     @example
+        view.getForm().reset();
+
+     to reset all form fields
+
+     @example
+        view.getForm().save();
+
+     to submit the form
+
+     @example
+        view.getForm().read(1);
+
+     to send a read request to the server for record with id 1.
+     */
 	getForm:function () {
 		if (!this.hasDependency('formManager')) {
 			this.createDependency('formManager',
@@ -6072,59 +6093,6 @@ ludo.View = new Class({
 
 	isFormElement:function () {
 		return false;
-	},
-	/**
-	 * Return values of all child form components, including childrens children.
-	 * @method getValues
-	 * @return Array of Objects, example: [ {name:value},{name:value}]
-	 */
-	getValues:function () {
-		return this.getForm().getValues();
-	},
-	/**
-	 * Returns true if all form components inside this component are valid(including childrens children)
-	 * @method isFormValid
-	 * @return {Boolean} valid
-	 */
-	isFormValid:function () {
-		return this.getForm().isValid();
-	},
-	/**
-	 Submit form to server. This method will call the submit method of ludo.form.Manager.
-	 It will send data to the server in this format:
-	 A submission will on success commit all form elements, i.e. set the dirty flag to
-	 false by updating initialValue to current value.
-	 On success, a "submit" event will be fired with server response as first argument
-	 and component as second argument.
-
-	 On failure a "submitfail" event will be fired with the same arguments as for "submit"
-
-	 @method submit
-	 @return void
-	 @example
-	    {
-		 saveForm: 1,
-		 componentId : id of ludo.View,
-		 componentName : name of ludo.View,
-		 data : {
-			 firstname : 'John',
-			 lastname : 'Doe'
-			 formField : 'formValue
-		 }
-	    }
-	 */
-	submit:function () {
-		this.fireEvent('submit', this);
-		this.getForm().submit();
-	},
-	/**
-	 * Reset all form elements of this component(including children's children) back to it's
-	 * initial or commited value
-	 * @method reset
-	 * @return void
-	 */
-	reset:function () {
-		this.getForm().reset();
 	},
 
 	getHeightOfButtonBar:function () {
@@ -7176,6 +7144,7 @@ ludo.layout.Tab = new Class({
 		this.parent();
         ludo.dom.addClass(this.view.getEl(), 'ludo-layout-tab');
 		this.addChild(this.getTabStrip());
+
 		this.updateViewport(this.tabStrip.getChangedViewport());
 	},
 
@@ -10380,6 +10349,7 @@ ludo.FramedView = new Class({
 		minWidth:100,
 		minHeight:100
 	},
+
 	minimized:false,
 
 	/**
@@ -10392,10 +10362,10 @@ ludo.FramedView = new Class({
 	movable:false,
 	/**
 	 * Is component minimizable. When set to true, a minimize button will appear on the title bar of the component
-	 * @attribute minimizable
-	 * @type {Boolean}
+	 * @config {Boolean} minimizable
+	 * @default false
 	 */
-	minimizable:true,
+	minimizable:false,
 
 	resizable:false,
 	/**
@@ -14674,12 +14644,67 @@ ludo.grid.Grid = new Class({
 	 */
 	mouseOverEffect:true,
 
-	/**
-	 * Column manager config object
-	 * @config {grid.ColumnManager} columnManager
-	 * @default undefined
-	 */
 	columnManager:undefined,
+
+	/**
+	 Column config
+	 @config {Object} columns
+	 @example
+	 	columns:{
+			 'country':{
+				 heading:'Country',
+				 sortable:true,
+				 movable:true,
+				 renderer:function (val) {
+					 return '<span style="color:blue">' + val + '</span>';
+				 }
+			 },
+			 'capital':{
+				 heading:'Capital',
+				 sortable:true,
+				 movable:true
+			 },
+			 population:{
+				 heading:'Population',
+				 movable:true
+			 }
+		 }
+	 or nested:
+
+	 	columns:{
+			 info:{
+				 heading:'Country and Capital',
+				 headerAlign:'center',
+				 columns:{
+					 'country':{
+						 heading:'Country',
+						 removable:false,
+						 sortable:true,
+						 movable:true,
+						 width:200,
+						 renderer:function (val) {
+							 return '<span style="color:blue">' + val + '</span>';
+						 }
+					 },
+					 'capital':{
+						 heading:'Capital',
+						 sortable:true,
+						 removable:true,
+						 movable:true,
+						 width:150
+					 }
+				 }
+			 },
+			 population:{
+				 heading:'Population',
+				 movable:true,
+				 removable:true
+			 }
+		 }
+
+	 */
+	columns:undefined,
+
 	/**
 	 * Row manager config object
 	 * @config {grid.RowManager} rowManager
@@ -14699,8 +14724,18 @@ ludo.grid.Grid = new Class({
 	ludoConfig:function (config) {
 		this.parent(config);
 
-        this.setConfigParams(config, ['headerMenu','columnManager','rowManager','mouseOverEffect','emptyText']);
+        this.setConfigParams(config, ['columns','fill','headerMenu','columnManager','rowManager','mouseOverEffect','emptyText']);
 
+		if(this.columnManager){
+			ludo.util.warn('Deprecated columnManager used, use columns instead');
+		}
+
+		if(!this.columnManager){
+			this.columnManager = {
+				columns : this.columns,
+				fill: this.fill
+			};
+		}
 		if (this.columnManager) {
 			if (!this.columnManager.type)this.columnManager.type = 'grid.ColumnManager';
 			this.columnManager.stateful = this.stateful;
@@ -15320,6 +15355,10 @@ ludo.grid.Grid = new Class({
 
 	getSelectedRecord:function () {
 		return this.getDataSource().getSelectedRecord();
+	},
+
+	getColumnManager:function(){
+		return this.columnManager;
 	}
 });/* ../ludojs/src/window.js */
 /**
@@ -16366,6 +16405,10 @@ ludo.form.Element = new Class({
      * @return void
      */
     commit:function () {
+        if(!this.isReady){
+            this.commit.delay(100, this);
+            return;
+        }
         this.initialValue = this.value;
     },
     /**
@@ -16452,12 +16495,6 @@ ludo.form.LabelElement = new Class({
         this.parent(config);
         this.setConfigParams(config, ['inlineLabel']);
         if(!this.supportsInlineLabel())this.inlineLabel = undefined;
-        /*
-		if (this.inlineLabel) {
-            this.inlineLabel = this.label;
-            this.label = undefined;
-        }
-        */
     },
 
     ludoEvents:function () {
@@ -16491,12 +16528,23 @@ ludo.form.LabelElement = new Class({
     },
 
     setInlineLabel:function () {
+		if(!this.inlineLabel)return;
         var el = this.getFormEl();
         if (el.get('value').length === 0) {
             ludo.dom.addClass(el, 'ludo-form-el-inline-label');
             el.set('value', this.inlineLabel);
         }
     },
+
+	clear:function(){
+		this.parent();
+		this.setInlineLabel();
+	},
+
+	reset:function(){
+		this.parent();
+		this.setInlineLabel();
+	},
 
     clearInlineLabel:function () {
         var el = this.getFormEl();
@@ -16898,48 +16946,6 @@ ludo.dialog.Prompt = new Class({
         }
     }
 
-});/* ../ludojs/src/dialog/form.js */
-ludo.dialog.Form = new Class({
-    Extends: ludo.dialog.Dialog,
-    type : 'dialog.Form',
-    input : undefined,
-    elements : [],
-    labelWidth : 150,
-
-    ludoConfig : function(config){
-        if(!config.buttons && !config.buttonConfig && !config.buttonBar){
-            config.buttons = [
-                {
-                    value : 'OK',
-                    width : 60
-                },
-                {
-                    value : 'Cancel',
-                    width : 60
-                }
-            ]
-        }
-        this.setConfigParams(config, 'labelWidth','elements');
-        this.parent(config);
-    },
-
-    ludoRendered : function(){
-        this.parent();
-        this.formCmp = this.addChild({
-            type : 'form.Form',
-            elements : this.elements
-        });
-        this.elements = undefined;
-    },
-
-    getValues : function(){
-        return this.formCmp.getValues();
-    },
-
-    buttonClick : function(value){
-        this.fireEvent(value.toLowerCase(), [this.getValues()]);
-        this.hide();
-    }
 });/* ../ludojs/src/external/md5.js */
 /*
  Javascript MD5 library - version 0.4
@@ -18575,6 +18581,7 @@ ludo.menu.Button = new Class({
     },
 
     hideMenu:function () {
+        if(this.menu.hidden)return;
         if (this.menu.hide !== undefined){
             if(this.menu.getLayout().hideAllMenus)this.menu.getLayout().hideAllMenus();
             this.menu.hide();
@@ -19496,7 +19503,7 @@ ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
  @constructor
  @param {Object} config
  @example
- children:[{
+ 	children:[{
         type:'remote.Message',
         listenTo:["Person", "City.save"]
     }...
@@ -19524,7 +19531,15 @@ ludo.remote.Message = new Class({
         this.parent(config);
         this.setConfigParams(config, ['listenTo']);
         if (!ludo.util.isArray(this.listenTo))this.listenTo = [this.listenTo];
+		this.validateListenTo();
+
     },
+
+	validateListenTo:function(){
+		for(var i=0;i<this.listenTo.length;i++){
+			this.listenTo[i] = this.listenTo[i].replace(/\//g,'.');
+		}
+	},
 
     ludoEvents:function () {
         this.parent();
@@ -19995,8 +20010,17 @@ ludo.form.Manager = new Class({
 		this.fireEvent('beforesubmit');
 		this.save();
 	},
-
+    /**
+     * Send delete request to the server
+     * @method deleteRecord
+     */
 	deleteRecord:function () {
+		/**
+		 * Event fired before delete request is sent to server
+		 * @event delete
+		 */
+		this.fireEvent('beforeDelete');
+		this.beforeRequest();
 		var path = this.getDeletePath();
 		var r = new ludo.remote.JSON({
 			resource:path.resource,
@@ -20009,6 +20033,7 @@ ludo.form.Manager = new Class({
 					 * @param {Object} View
 					 */
 					this.fireEvent('deleted', [req.getResponse(), this.view]);
+					this.afterRequest();
 				}.bind(this),
 				"failure":function (req) {
 					/**
@@ -20021,6 +20046,7 @@ ludo.form.Manager = new Class({
 					 */
 
 					this.fireEvent('deleteFailed', [req.getResponse(), this.view]);
+					this.afterRequest();
 				}.bind(this)
 			}
 		});
@@ -20051,6 +20077,8 @@ ludo.form.Manager = new Class({
 	save:function () {
 		if (this.getUrl() || ludo.config.getUrl()) {
 			this.fireEvent('invalid');
+			this.fireEvent('beforeSave');
+			this.beforeRequest();
 			this.requestHandler().send('save', this.currentId, this.getValues(),
 				{
 					"progressBarId":this.getProgressBarId()
@@ -20069,6 +20097,8 @@ ludo.form.Manager = new Class({
             this.currentId = id;
             this.fill(this.getCached(id));
         }else{
+			this.fireEvent('beforeRead');
+			this.beforeRequest();
             this.currentIdToBeSet = id;
 		    this.readHandler().sendToServer('read', id);
 
@@ -20130,13 +20160,18 @@ ludo.form.Manager = new Class({
 							this.fireEvent('valid');
 						}
 						this.fireEvent('clean');
+
+						this.afterRequest();
+
 					}.bind(this),
 					"failure":function (request) {
 						this.fireEvent('failure', [request.getResponse(), this.view]);
+						this.afterRequest();
 					}.bind(this),
 					"error":function (request) {
 						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
 						this.fireEvent('valid', this);
+						this.afterRequest();
 					}.bind(this)
 				}
 			}));
@@ -20149,6 +20184,7 @@ ludo.form.Manager = new Class({
 			if(this.map.hasOwnProperty(key)){
 				if(data[key] !== undefined){
 					this.map[key].setValue(data[key]);
+                    this.map[key].commit();
 				}else{
 					this.map[key].reset();
 				}
@@ -20171,14 +20207,21 @@ ludo.form.Manager = new Class({
 						 * Event fired after a form has been saved successfully.
 						 * To add listeners, use <br>
 						 * ludo.View.getForm().addEvent('success', fn);
-						 * @event success
+						 * @event saved
 						 * @param {Object} JSON response from server
 						 */
+						this.fireEvent('saved', [request.getResponse(), this.view]);
+
+						this.setCurrentId(request.getResponseData());
+
 						this.fireEvent('success', [request.getResponse(), this.view]);
 						if (this.isValid()) {
 							this.fireEvent('valid');
 						}
 						this.fireEvent('clean');
+
+						this.afterRequest();
+
 					}.bind(this),
 					"failure":function (request) {
 						if (this.isValid()) {
@@ -20195,6 +20238,8 @@ ludo.form.Manager = new Class({
 						 */
 
 						this.fireEvent('failure', [request.getResponse(), this.view]);
+
+						this.afterRequest();
 					}.bind(this),
 					"error":function (request) {
 						/**
@@ -20205,11 +20250,39 @@ ludo.form.Manager = new Class({
 						 */
 						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
 						this.fireEvent('valid', this);
+
+						this.afterRequest();
 					}.bind(this)
 				}
 			}));
 		}
 		return this._request;
+	},
+
+	afterRequest:function(){
+		/**
+		 * Event fired after read, save and delete requests has been completed with or without failures
+		 * @event requestComplete
+		 */
+		this.fireEvent('afterRequest');
+	},
+
+	beforeRequest:function(){
+		/**
+		 * Event fired before read, save and delete request
+		 * @event requestComplete
+		 */
+		this.fireEvent('beforeRequest');
+	},
+	
+	setCurrentId:function(data){
+
+		if(!isNaN(data)){
+			this.currentId = data;
+		}
+		if(ludo.util.isObject(data)){
+			this.currentId = data.id;
+		}
 	},
 
 	getProgressBarId:function () {
@@ -20231,10 +20304,21 @@ ludo.form.Manager = new Class({
 		this.fireEvent('reset');
 	},
 
+	newRecord:function(){
+		/**
+		 * Event fired when newRecord is called, i.e. when the form is cleared and currentId unset.
+		 * @event new
+		 */
+		this.fireEvent('new');
+		this.currentId = undefined;
+		this.clear();
+	},
+
 	clear:function () {
 		for (var i = 0; i < this.formComponents.length; i++) {
 			this.formComponents[i].clear();
 		}
+
 		this.dirtyIds = [];
 		this.fireEvent('clean');
 		this.fireEvent('clear');
@@ -20711,12 +20795,14 @@ ludo.form.SubmitButton = new Class({
 	ludoRendered:function () {
 		this.parent();
 		this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-		var manager = this.applyTo.getForm();
+		var form = this.applyTo.getForm();
 		if (this.applyTo) {
-			manager.addEvent('valid', this.enable.bind(this));
-			manager.addEvent('invalid', this.disable.bind(this));
+			form.addEvent('valid', this.enable.bind(this));
+			form.addEvent('invalid', this.disable.bind(this));
+			form.addEvent('clean', this.disable.bind(this));
+			form.addEvent('dirty', this.enable.bind(this));
 		}
-		if(!manager.isValid()){
+		if(!form.isValid()){
 			this.disable();
 		}
 		this.addEvent('click', this.submit.bind(this));
@@ -20724,7 +20810,7 @@ ludo.form.SubmitButton = new Class({
 
 	submit:function () {
 		if (this.applyTo) {
-			this.applyTo.submit();
+			this.applyTo.getForm().submit();
 		}
 	}
 });/* ../ludojs/src/form/cancel-button.js */
@@ -20787,14 +20873,19 @@ ludo.form.ResetButton = new Class({
      * @default 'Reset'
      */
     value:'Reset',
+    // TODO create parent class for ResetButton, DeleteButton etc.
+    applyTo:undefined,
 
-    component:undefined,
-
+    ludoConfig:function(config){
+        this.parent(config);
+        this.setConfigParams(config, ['applyTo']);
+    },
+    
     ludoRendered:function () {
         this.parent();
-        this.component = this.getParentComponent();
-        var manager = this.component.getForm();
-        if (this.component) {
+        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
+        var manager = this.applyTo.getForm();
+        if (this.applyTo) {
             manager.addEvent('dirty', this.enable.bind(this));
             manager.addEvent('clean', this.disable.bind(this));
         }
@@ -20806,8 +20897,8 @@ ludo.form.ResetButton = new Class({
     },
 
     reset:function () {
-        if (this.component) {
-            this.component.reset();
+        if (this.applyTo) {
+            this.applyTo.getForm().reset();
         }
     }
 });/* ../ludojs/src/data-source/tree-collection.js */
@@ -21467,7 +21558,7 @@ ludo.card.FinishButton = new Class({
     submitted : false,
     submit:function () {
         if (this.applyTo) {
-            this.applyTo.submit();
+            this.applyTo.getForm().submit();
         }
     },
 
@@ -22155,6 +22246,8 @@ ludo.Notification = new Class({
 	},
 
 	show:function () {
+		this.parent();
+
 		if (this.showEffect) {
 			var effect = new ludo.effect.Effect();
 			effect[this.getStartEffectFn()](
@@ -22164,13 +22257,15 @@ ludo.Notification = new Class({
 				this.getLayout().getRenderer().getPosition()
 			);
 		}
-		this.parent();
+
 	},
 
 	getStartEffectFn:function () {
 		switch (this.showEffect) {
 			case 'fade':
 				return 'fadeIn';
+			case 'slide':
+				return 'slideIn';
 			default:
 				return this.showEffect;
 		}
@@ -22180,6 +22275,8 @@ ludo.Notification = new Class({
 		switch (this.hideEffect) {
 			case 'fade':
 				return 'fadeOut';
+			case 'slide':
+				return 'slideOut';
 			default:
 				return this.hideEffect;
 		}
@@ -22303,8 +22400,6 @@ ludo.form.ComboTree = new Class({
     },
 
     ludoDOM:function () {
-
-
         if (this.label) {
             this.addChild({
                 html:'<label>' + this.label + ':</label>',
@@ -22343,7 +22438,7 @@ ludo.form.ComboTree = new Class({
         this.treePanel.addEvent('beforeresize', this.setBusy.bind(this));
         this.treePanel.addEvent('afterresize', this.setNotBusy.bind(this));
 
-        this.treePanel.children[0].addEvent('selectrecord', this.receiveSelectedRecord.bind(this));
+        this.treePanel.children[0].getDataSource().addEvent('select', this.receiveSelectedRecord.bind(this));
 
         this.parent();
 
@@ -22504,9 +22599,10 @@ ludo.form.ComboTree = new Class({
     },
 
     receiveSelectedRecord:function (record) {
-        this.setValue(record.id);
-        this.setViewValue(record.title);
-        this.fireEvent('selectrecord', [this, record]);
+
+        this.setValue(record.get('id'));
+        this.setViewValue(record.get('title'));
+        this.fireEvent('selectrecord', [this, record.getData()]);
         this.hideTree.delay(100, this);
     },
 
@@ -23161,7 +23257,6 @@ ludo.form.Select = new Class({
 
     resizeDOM:function () {
         this.parent();
-
     }
 });/* ../ludojs/src/paging/page-size.js */
 /**
@@ -26519,42 +26614,42 @@ chess.view.gamelist.Grid = new Class({
 	 */
 	cols:undefined,
 
-	columnManager:{
-		columns:{
-			white:{
-				heading:chess.getPhrase('White'),
-				key:'white',
-				width:120,
-				sortable:true
-			},
-			black:{
-				heading:chess.getPhrase('Black'),
-				key:'black',
-				width:120,
-				sortable:true
-			},
-			result:{
-				heading:chess.getPhrase('Result'),
-				key:'result',
-				width:50,
-				sortable:true,
-				removable:true
-			},
-			event:{
-				heading:chess.getPhrase('Event'),
-				key:'event',
-				weight:1,
-				sortable:true,
-				removable:true
-			},
-			last_moves:{
-				heading:chess.getPhrase('Last moves'),
-				key:'last_moves',
-				weight:1,
-				sortable:true,
-				removable:true
-			}
+
+	columns:{
+		white:{
+			heading:chess.getPhrase('White'),
+			key:'white',
+			width:120,
+			sortable:true
+		},
+		black:{
+			heading:chess.getPhrase('Black'),
+			key:'black',
+			width:120,
+			sortable:true
+		},
+		result:{
+			heading:chess.getPhrase('Result'),
+			key:'result',
+			width:50,
+			sortable:true,
+			removable:true
+		},
+		event:{
+			heading:chess.getPhrase('Event'),
+			key:'event',
+			weight:1,
+			sortable:true,
+			removable:true
+		},
+		last_moves:{
+			heading:chess.getPhrase('Last moves'),
+			key:'last_moves',
+			weight:1,
+			sortable:true,
+			removable:true
 		}
+
 	},
 	/**
 	 * initial database id. Show the games from this database when the grid is first displayed.
@@ -29410,15 +29505,14 @@ chess.view.pgn.Grid = new Class({
     statusBar:false,
     fillview:true,
 
-    columnManager:{
-        columns:{
-            file:{
-                heading:'Pgn files',
-                key:'file',
-                width:120,
-                sortable:true
-            }
-        }
+
+	columns:{
+		file:{
+			heading:'Pgn files',
+			key:'file',
+			width:120,
+			sortable:true
+		}
     },
     /**
      * initial database id. Show the games from this database when the grid is first displayed.
@@ -34008,7 +34102,7 @@ chess.remote.Reader = new Class({
 	onLoadEvent:undefined,
 
     query : function(config) {
-		this.fireEvent('beforeLoad');
+
         this.onLoadEvent = config.eventOnLoad || 'load';
 		this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
     },
@@ -34044,6 +34138,7 @@ chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
     loadGame : function(id){
+		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "Game",
 			"service": "read",
@@ -34053,6 +34148,7 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
+		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
@@ -34078,6 +34174,7 @@ chess.remote.GameReader = new Class({
     },
 
     loadRandomGame : function(databaseId) {
+		this.fireEvent('beforeLoad');
         this.query({
             "resource": "Database",
             "arguments": databaseId,

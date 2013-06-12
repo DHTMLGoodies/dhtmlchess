@@ -35,15 +35,14 @@ chess.view.pgn.Grid = new Class({
     statusBar:false,
     fillview:true,
 
-    columnManager:{
-        columns:{
-            file:{
-                heading:'Pgn files',
-                key:'file',
-                width:120,
-                sortable:true
-            }
-        }
+
+	columns:{
+		file:{
+			heading:'Pgn files',
+			key:'file',
+			width:120,
+			sortable:true
+		}
     },
     /**
      * initial database id. Show the games from this database when the grid is first displayed.

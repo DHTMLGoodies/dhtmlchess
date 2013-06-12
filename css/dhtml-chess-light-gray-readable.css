@@ -2877,23 +2877,23 @@ div.ludo-tab-strip-tab-active {
 }
 .ludo-tab-strip-tab-top {
     border: 1px solid #c6c6c6;
-    border-right: 1px solid #A6a6a6;
-    border-bottom: 1px solid #A6a6a6;
+    border-right: 1px solid #a5a5a5;
+    border-bottom: 1px solid #a5a5a5;
 }
 .ludo-tab-strip-tab-bottom {
     border: 1px solid #c6c6c6;
-    border-right: 1px solid #A6a6a6;
-    border-top: 1px solid #A6a6a6;
+    border-right: 1px solid #a5a5a5;
+    border-top: 1px solid #a5a5a5;
 }
 .ludo-tab-strip-tab-left {
     border: 1px solid #c6c6c6;
-    border-right: 1px solid #A6a6a6;
-    border-bottom: 1px solid #A6a6a6;
+    border-right: 1px solid #a5a5a5;
+    border-bottom: 1px solid #a5a5a5;
 }
 .ludo-tab-strip-tab-right {
     border: 1px solid #c6c6c6;
-    border-left: 1px solid #A6a6a6;
-    border-bottom: 1px solid #A6a6a6;
+    border-left: 1px solid #a5a5a5;
+    border-bottom: 1px solid #a5a5a5;
 }
 
 /** Collapse bar */

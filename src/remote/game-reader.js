@@ -9,6 +9,7 @@ chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
     loadGame : function(id){
+		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "Game",
 			"service": "read",
@@ -18,6 +19,7 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
+		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "ChessFs",
 			"service": "getGame",
@@ -43,6 +45,7 @@ chess.remote.GameReader = new Class({
     },
 
     loadRandomGame : function(databaseId) {
+		this.fireEvent('beforeLoad');
         this.query({
             "resource": "Database",
             "arguments": databaseId,
