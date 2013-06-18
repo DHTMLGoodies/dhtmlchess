@@ -1,4 +1,4 @@
-/* Generated Wed Jun 12 19:45:12 CEST 2013 */
+/* Generated Tue Jun 18 16:04:41 CEST 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -638,7 +638,7 @@ ludo._Config = new Class({
      * @param {String} root
      */
 	setDocumentRoot:function (root) {
-		this.storage.documentRoot = root;
+		this.storage.documentRoot = root === '.' ? '' : root;
 	},
     /**
      * @method getDocumentRoot
@@ -19015,7 +19015,49 @@ ludo.canvas.Path = new Class({
             maxX:Math.max.apply(this, x), maxY:Math.max.apply(this, y)
         };
     }
-});/* ../ludojs/src/remote/base.js */
+});/* ../ludojs/src/remote/inject.js */
+/**
+ * Class for injecting data to specific resource/service requests
+ * @namespace {remote}
+ * @class Inject
+ */
+ludo.remote.Inject = new Class({
+
+	data:{},
+
+	/**
+	 Add data to be posted with the next request.
+	 @method add
+	 @param resourceService
+	 @param data
+	 @example
+	 	ludo.remoteInject.add('Person/save', {
+	 		'customParam' : 'customValue'
+	 	});
+	 */
+	add:function(resourceService, data){
+		var tokens = resourceService.split(/\//g);
+		var resource = tokens[0];
+		var service = tokens[1];
+		if(this.data[resource] === undefined){
+			this.data[resource] = {};
+		}
+		this.data[resource][service] = data;
+	},
+
+	get:function(resource, service){
+		if(this.data[resource] && this.data[resource][service]){
+			var ret = this.data[resource][service];
+			delete this.data[resource][service];
+			return ret;
+		}
+		return undefined;
+	}
+
+});
+
+ludo.remoteInject = new ludo.remote.Inject();
+/* ../ludojs/src/remote/base.js */
 /**
  * Base class for ludo.remote.HTML and ludo.remote.JSON
  * @namespace remote
@@ -19045,6 +19087,9 @@ ludo.remote.Base = new Class({
 	},
 
 	send:function (service, resourceArguments, serviceArguments, additionalData) {
+
+		this.remoteData = undefined;
+
 		if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
 		ludo.remoteBroadcaster.clear(this, service);
 
@@ -19109,6 +19154,12 @@ ludo.remote.Base = new Class({
 		if (!ludo.config.hasModRewriteUrls() && this.resource) {
 			ret.request = this.getServicePath(service, arguments);
 		}
+
+		var injected = ludo.remoteInject.get(this.resource, service);
+		if(injected){
+			ret.data = ret.data ? Object.merge(ret.data, injected) : injected;
+		}
+
 		return ret;
 	},
 	/**
@@ -19117,7 +19168,7 @@ ludo.remote.Base = new Class({
 	 * @return {String|undefined}
 	 */
 	getResponseCode:function () {
-		return this.remoteData && this.remoteData.code ? this.remoteData.code : undefined;
+		return this.remoteData && this.remoteData.code ? this.remoteData.code : 0;
 	},
 	/**
 	 * Return response message
@@ -19188,9 +19239,9 @@ ludo.remote.JSON = new Class({
      Will trigger the following data to be sent to controller.php:
 
      @example
-     {
-         request:"Person/1/load"
-     }
+		 {
+			 request:"Person/1/load"
+		 }
      If you have the mod_rewrite module enabled and activated on your web server, you may use code like this:
      @example
 	 	ludo.config.enableModRewriteUrls();
@@ -19243,6 +19294,9 @@ ludo.remote.JSON = new Class({
 		if(resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
         // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
         // TODO the events here should be fired for the components sending the request.
+
+		this.fireEvent('start', this);
+        this.sendBroadCast(service);
         var req = new Request.JSON({
             url:this.getUrl(service, resourceArguments),
             method:this.method,
@@ -19273,6 +19327,7 @@ ludo.remote.JSON = new Class({
      * @return {Object|undefined}
      */
     getResponseData:function () {
+		if(!this.remoteData.response)return undefined;
         return this.remoteData.response.data ? this.remoteData.response.data : this.remoteData.response;
     },
 
@@ -19345,15 +19400,17 @@ ludo.remote.HTML = new Class({
 });/* ../ludojs/src/remote/broadcaster.js */
 /**
  Singleton class responsible for broadcasting messages from remote requests.
- Instance of this class is available in ludo.remoteBroadcaster
- @namespace remote
- @class Broadcasters
- @example
-    ludo.remoteBroadcaster.addEvent('successMessage', function(response){
-        if(response.resource === 'Person'){
+ Instance of this class is available in ludo.remoteBroadcaster.
 
-        }
-    });
+ The broadcaster can fire four events:
+ start, success, failure and serverError. The example below show you how
+ to add listeners to these events.
+ @namespace remote
+ @class Broadcaster
+ @example
+    ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+		// Do something
+	});
  */
 ludo.remote.Broadcaster = new Class({
     Extends:Events,
@@ -19368,18 +19425,24 @@ ludo.remote.Broadcaster = new Class({
     broadcast:function (request, service) {
         var code = request.getResponseCode();
 
-        var eventName, eventNameWithService;
+		var type, eventNameWithService;
         switch (code) {
+			case 0:
+				type = 'start';
+				break;
             case 200:
-                eventName = this.getEventName('success', request.getResource());
-                eventNameWithService = this.getEventName('success', request.getResource(), service);
+				type = 'success';
                 break;
             default:
-                eventName = this.getEventName('failure', request.getResource());
-                eventNameWithService = this.getEventName('failure', request.getResource(), service);
+				type = 'failure';
                 break;
         }
-        if (!eventName) {
+
+		var eventName = this.getEventName(type, request.getResource());
+
+		if(eventName){
+			eventNameWithService = this.getEventName(type, request.getResource(), service);
+		}else{
             eventName = this.getEventName('serverError', request.getResource());
             eventNameWithService = this.getEventName('serverError', request.getResource(), service);
         }
@@ -19388,7 +19451,8 @@ ludo.remote.Broadcaster = new Class({
             "message":request.getResponseMessage(),
             "code":request.getResponseCode(),
             "resource":request.getResource(),
-            "service":service
+            "service":service,
+            "type": type
         };
         if (!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
         this.fireEvent(eventName, eventObj);
@@ -19455,7 +19519,7 @@ ludo.remote.Broadcaster = new Class({
      @param {Array} services
      @param {Function} fn
      @example
-        ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
+        ludo.remoteBroadcaster.addEvent('failure', 'Person', ['save'], function(response){
             this.getBody().set('html', response.message');
         }.bind(this));
      The event payload is an object in this format:
@@ -19489,8 +19553,83 @@ ludo.remote.Broadcaster = new Class({
      */
     setDefaultMessage:function (message, eventType, resource, service) {
         this.defaultMessages[this.getEventName(eventType, resource, service)] = message;
+    },
 
-    }
+	eventObjToBuild :{},
+    /**
+     Chained method for adding broadcaster events.
+     @method withResourceService
+     @param {String} resourceAndService
+     @return {remote.Broadcaster}
+     @example
+     ludo.remoteBroadcaster.withResourceService('Person/save').on('success', function(){
+	 		alert('Save success');
+	 	});
+     */
+    withResourceService:function(resourceAndService){
+        var tokens = resourceAndService.split(/\//g);
+        this.withResource(tokens[0]);
+        if(tokens.length == 2)this.withService(tokens[1]);
+        return this;
+    },
+
+	/**
+	 Chained method for adding broadcaster events.
+	 @method withResource
+	 @param {String} resource
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('save').on('success', function(){
+	 		alert('Save success');
+	 	});
+	 */
+	withResource:function(resource){
+		this.eventObjToBuild = {
+			resource : resource
+		};
+		return this;
+	},
+	/**
+	 Chained method for adding broadcaster events.
+	 @method withService
+	 @param {String} service
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('read').
+            withService('save').on('success', function(){
+	 		alert('Save success');
+	 	});
+	 */
+	withService:function(service){
+		if(this.eventObjToBuild.service === undefined){
+			this.eventObjToBuild.service = [];
+		}
+		this.eventObjToBuild.service.push(service);
+		return this;
+	},
+	/**
+	 Chained method for adding broadcaster events.
+	 @method on
+	 @param {String|Array} events
+	 @param {Function} fn
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+	 		alert('Save success');
+	 	}).on('start', function(){ alert('About to save') });
+     Example with array:
+
+        ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+	 		alert('Save success');
+	 	}).on(['start','success'], function(){ alert('Remote event') });
+	 */
+	on:function(events, fn){
+        if(!ludo.util.isArray(events))events = [events];
+        for(var i=0;i<events.length;i++){
+		    this.addServiceEvent(events[i], this.eventObjToBuild.resource, this.eventObjToBuild.service, fn);
+        }
+		return this;
+	}
 });
 
 ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
@@ -19991,23 +20130,11 @@ ludo.form.Manager = new Class({
 	},
 
 	/**
-	 * Submit form to server. The ludo.View.submit() method calls this
+	 * Submit form to server
 	 * @method submit
 	 * @private
 	 */
 	submit:function () {
-		/**
-		 * Event fired before form is submitted
-		 * @event startSubmit
-		 */
-
-		var el;
-		if (el = this.getUnfinishedFileUploadComponent()) {
-			el.upload();
-			return;
-		}
-
-		this.fireEvent('beforesubmit');
 		this.save();
 	},
     /**
@@ -20067,7 +20194,7 @@ ludo.form.Manager = new Class({
 	getUnfinishedFileUploadComponent:function () {
 		for (var i = 0; i < this.fileUploadComponents.length; i++) {
 			if (this.fileUploadComponents[i].hasFileToUpload()) {
-				this.fileUploadComponents[i].addEvent('submit', this.submit.bind(this));
+				this.fileUploadComponents[i].addEvent('submit', this.save.bind(this));
 				return this.fileUploadComponents[i];
 			}
 		}
@@ -20076,6 +20203,12 @@ ludo.form.Manager = new Class({
 
 	save:function () {
 		if (this.getUrl() || ludo.config.getUrl()) {
+			var el;
+			if (el = this.getUnfinishedFileUploadComponent()) {
+				el.upload();
+				return;
+			}
+
 			this.fireEvent('invalid');
 			this.fireEvent('beforeSave');
 			this.beforeRequest();
@@ -20795,18 +20928,27 @@ ludo.form.SubmitButton = new Class({
 	ludoRendered:function () {
 		this.parent();
 		this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-		var form = this.applyTo.getForm();
+
 		if (this.applyTo) {
+            var form = this.applyTo.getForm();
 			form.addEvent('valid', this.enable.bind(this));
 			form.addEvent('invalid', this.disable.bind(this));
 			form.addEvent('clean', this.disable.bind(this));
 			form.addEvent('dirty', this.enable.bind(this));
+
+            this.checkValidity.delay(100, this);
 		}
-		if(!form.isValid()){
-			this.disable();
-		}
+
 		this.addEvent('click', this.submit.bind(this));
 	},
+
+    checkValidity:function(){
+        if(this.applyTo.getForm().isValid()){
+            this.enable();
+        }else{
+            this.disable();
+        }
+    },
 
 	submit:function () {
 		if (this.applyTo) {
@@ -21529,7 +21671,7 @@ ludo.card.FinishButton = new Class({
             lm.addEvent('lastcard', this.show.bind(this));
             lm.addEvent('notlastcard', this.hide.bind(this));
 
-            fm.addEvent('beforesubmit', this.disable.bind(this));
+            fm.addEvent('beforeSave', this.disable.bind(this));
             fm.addEvent('success', this.setSubmitted.bind(this));
 
             if(!lm.isValid()){
@@ -21666,49 +21808,52 @@ ludo.progress.DataSource = new Class({
     progressId:undefined,
     stopped : false,
     pollFrequence : 1,
-    /**
-     * Reference to parent component
-     * @property object Component
-     */
-    component:undefined,
-    requestId:'getProgress',
+
+    resource:'LudoDBProgress',
+    service:'read',
+	listenTo:undefined,
 
     ludoConfig:function(config){
         this.parent(config);
-        if(config.pollFrequence)this.pollFrequence = config.pollFrequence;
-        this.component = config.component;
-        this.component.getForm().addEvent('beforesubmit', this.startProgress.bind(this));
+
+		this.setConfigParams(config, ['pollFrequence','listenTo']);
+
+        if(this.listenTo){
+            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.startProgress.bind(this));
+        }
     },
 
     startProgress:function(){
+		this.inject();
         this.stopped = false;
         this.fireEvent('start');
         this.load.delay(1000, this);
     },
 
-    loadComplete:function (json) {
-        this.fireEvent('load', json);
+	inject:function(){
+		ludo.remoteInject.add(this.listenTo, {
+			LudoDBProgressID : this.getNewProgressBarId()
+		});
+	},
 
-        if(json.data.percent<100 && !this.stopped){
+    loadComplete:function (data) {
+        this.fireEvent('load', data);
+        if(data.percent<100 && !this.stopped){
             this.load.delay(this.pollFrequence * 1000, this);
         }else{
-            if(json.data.percent>=100){
+            if(data.percent>=100){
                 this.finish();
             }
         }
     },
 
     getNewProgressBarId:function(){
-        this.progressId = undefined;
-        return this.getProgressId();
+        this.progressId = this.progressId = 'ludo-progress-' + String.uniqueID();
+		this.arguments = this.progressId;
+        return this.progressId;
     },
 
     getProgressId:function(){
-        if(!this.progressId){
-            this.progressId = 'ludo-progress-' + String.uniqueID();
-            this.setPostParam('progressBarId', this.getProgressId());
-        }
-
         return this.progressId;
     },
 
@@ -21726,6 +21871,7 @@ ludo.progress.DataSource = new Class({
         this.stopped = true;
         this.progressId = undefined;
         this.fireEvent('finish');
+		this.inject();
     }
 });/* ../ludojs/src/progress/base.js */
 /**
@@ -21736,7 +21882,7 @@ ludo.progress.DataSource = new Class({
  */
 ludo.progress.Base = new Class({
     Extends:ludo.View,
-    component:undefined,
+	applyTo:undefined,
     pollFrequence:1,
     url:undefined,
     onLoadMessage:'',
@@ -21746,31 +21892,30 @@ ludo.progress.Base = new Class({
      */
     hideOnFinish:true,
 
+    defaultDS:'progress.DataSource',
+
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['component','pollFrequence','hideOnFinish']);
+        this.setConfigParams(config, ['applyTo','listenTo', 'pollFrequence','hideOnFinish']);
 
-        if (!this.component) {
-            this.component = this.getParent();
+        if(this.applyTo)this.applyTo = ludo.get(this.applyTo);
+        this.dataSource = this.dataSource || {};
+        this.dataSource.pollFrequence = this.pollFrequence;
+        this.dataSource.listenTo = this.listenTo;
+
+        if(this.listenTo){
+            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.show.bind(this));
         }
-        this.dataSource = {
-            url:this.getUrl(),
-            type:'progress.DataSource',
-            pollFrequence:this.pollFrequence,
-            component:this.component
-        };
 
-        this.component.getForm().addEvent('beforesubmit', this.show.bind(this));
-
-        this.getDataSource().addEvent('load', this.insertJSON.bind(this));
-        this.getDataSource().addEvent('start', this.start.bind(this));
-        if (this.hideOnFinish) {
-            this.getDataSource().addEvent('finish', this.hideAfterDelay.bind(this));
-        }
-        this.getDataSource().addEvent('finish', this.finishEvent.bind(this));
+        this.getDataSource().addEvents({
+            'load' : this.insertJSON.bind(this),
+            'start' : this.start.bind(this),
+            'finish' : this.finishEvent.bind(this)
+        });
     },
 
     start:function(){
+        this.fireEvent('start');
         this.insertJSON({text:'',percent:0});
     },
 
@@ -21798,12 +21943,19 @@ ludo.progress.Base = new Class({
     },
 
     finishEvent:function(){
+
+        if (this.hideOnFinish) {
+            this.hideAfterDelay();
+        }
+
         /**
          * Event fired when progress bar is finished
          * @event render
          * @param Component this
          */
         this.fireEvent('finish');
+
+
     }
 });/* ../ludojs/src/progress/bar.js */
 /**
@@ -21865,8 +22017,7 @@ ludo.progress.Bar = new Class({
         var percent = this.els.percent = new Element('div');
         ludo.dom.addClass(percent, 'ludo-Progress-Bar-Percent');
         this.els.progressBg.adopt(percent);
-    },
-
+	},
 
     resizeDOM:function () {
         this.parent();
@@ -21915,11 +22066,15 @@ ludo.progress.Bar = new Class({
 
     setPercent:function (percent) {
         if(percent == this.currentPercent)return;
-        this.getFx().start({
-            width: [this.currentPercent, percent]
-        });
+		if(percent === 0 && this.currentPercent === 100){
+			this.els.progress.style.width = '0px';
+		}else{
+			this.getFx().start({
+			   width: [this.currentPercent, percent]
+		    });
+		}
+
         this.currentPercent = percent;
-        //this.els.progress.style.width = size + 'px';
         this.els.percent.innerHTML = percent + '%';
     },
 
@@ -21957,41 +22112,23 @@ ludo.card.ProgressBar = new Class({
     hidden:false,
 	applyTo:undefined,
 
-    ludoConfig:function(config){
-        this.parent(config);
-		if(config.applyTo!==undefined)this.applyTo = config.applyTo;
-        this.component = this.getParentComponent();
-		if(this.component)this.component.getLayout().registerButton(this);
-    },
-
     ludoEvents:function(){
         this.parent();
-        this.component.getLayout().addEvent('showcard', this.setCardPercent.bind(this))
+        if(this.applyTo){
+			this.applyTo.getLayout().registerButton(this);
+			this.applyTo.getLayout().addEvent('showcard', this.setCardPercent.bind(this))
+		}
     },
 
     ludoRendered:function(){
         this.parent();
-        this.setCardPercent();
+		if(this.applyTo){
+			this.setCardPercent();
+		}
     },
 
     setCardPercent:function(){
-        this.setPercent(this.component.getLayout().getPercentCompleted());
-    },
-
-    getParentComponent:function () {
-		if(this.applyTo)return ludo.get(this.applyTo);
-        var cmp = this.getParent();
-        if (cmp.type.indexOf('ButtonBar') >= 0) {
-            cmp = cmp.getView();
-        }
-        if (!cmp.layout || cmp.layout.type!=='card') {
-            for (var i = 0; i < cmp.children.length; i++) {
-                if (cmp.children[i].layout.type === 'card') {
-                    return cmp.children[i];
-                }
-            }
-        }
-        return cmp;
+        this.setPercent(this.applyTo.getLayout().getPercentCompleted());
     },
 
     getProgressBarId:function(){
@@ -27334,8 +27471,7 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        resource:'GameImport',
-		service:'import'
+        resource:'GameImport'
     },
     layout:{
         width:400,
@@ -27364,10 +27500,10 @@ chess.view.dialog.GameImport = new Class({
             hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Into database'), name:'database'
         },
         {
-            type:'progress.Bar', name : 'progressbar'
+            type:'progress.Bar', name : 'progressbar', listenTo:'GameImport/save'
         },
         {
-            type:'progress.Text', css : { 'text-align' : 'center' }
+            type:'progress.Text', css : { 'text-align' : 'center', listenTo:'GameImport/save' }
         }
     ],
     buttonBar:{

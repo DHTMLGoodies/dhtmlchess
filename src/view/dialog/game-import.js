@@ -9,8 +9,7 @@ chess.view.dialog.GameImport = new Class({
     Extends:ludo.Window,
     name:'game-import',
     form:{
-        resource:'GameImport',
-		service:'import'
+        resource:'GameImport'
     },
     layout:{
         width:400,
@@ -39,10 +38,10 @@ chess.view.dialog.GameImport = new Class({
             hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Into database'), name:'database'
         },
         {
-            type:'progress.Bar', name : 'progressbar'
+            type:'progress.Bar', name : 'progressbar', listenTo:'GameImport/save'
         },
         {
-            type:'progress.Text', css : { 'text-align' : 'center' }
+            type:'progress.Text', css : { 'text-align' : 'center', listenTo:'GameImport/save' }
         }
     ],
     buttonBar:{
