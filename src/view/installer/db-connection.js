@@ -22,6 +22,7 @@ chess.view.installer.DbConnection = new Class({
     isBusyTestingConnection:false,
 
     checkConnection:function () {
+		console.log('testing connection');
         if (this.isBusyTestingConnection)return;
         this.isBusyTestingConnection = true;
         this.child['connectionTestResult'].setHtml('');
@@ -34,7 +35,7 @@ chess.view.installer.DbConnection = new Class({
                 }.bind(this)
             }
         });
-        req.send('validateConnection', undefined, this.getValues() );
+        req.send('validateConnection', undefined, this.getForm().getValues() );
 
     }
 
