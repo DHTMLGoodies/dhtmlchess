@@ -184,18 +184,17 @@
 
     <p>Drag'n drop to solve the puzzles. ps! These puzzles can also be solved on iPad and Android devices.</p>
 
-    <div style="width:95%;height:650px;" id="chess-container">
+    <div style="width:500px;height:650px;" id="chess-container">
 
 
     </div>
     <script type="text/javascript">
         new ludo.View({
-            fullScreen:true,
-
             title:'Analysis board, DHTML Chess 3.0',
             statusBar:{
                 visible:false
             },
+            renderTo:'chess-container',
 
             resizable:false,
             closable:false,
@@ -204,11 +203,16 @@
             containerCss:{
                 'background-color':'#FFF'
             },
+            css:{
+                'background-color':'#FFF'
+            },
+
             layout:{
-                type:'fill',
                 width:'100%',
-                height:'100%'
-            }
+                height:'100%',
+                type:'fill'
+
+            },
             minHeight:100,
             children:[
                 {
