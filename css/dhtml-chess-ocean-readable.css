@@ -1109,7 +1109,9 @@ div.ludo-paging-current-page .ludo-body{
     text-align:center;
 }
 
-/* ../ludojs/css-source/window.css */
+.input-cell input {
+    height: 15px;
+}/* ../ludojs/css-source/window.css */
 .ludo-window{
     box-shadow:2px 2px 3px #888;
     position:absolute;

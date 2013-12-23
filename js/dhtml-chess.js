@@ -1,4 +1,4 @@
-/* Generated Tue Jun 18 16:04:41 CEST 2013 */
+/* Generated Mon Dec 23 13:10:09 CET 2013 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2013 dhtml-chess.com
@@ -388,7 +388,7 @@ ludo.storage.LocalStorage = new Class({
 	save:function(key,value){
 		if(!this.supported)return;
 		var type = 'simple';
-		if(ludo.util.isObject(value)){
+		if(ludo.util.isObject(value) || ludo.util.isArray(value)){
 			value = JSON.encode(value);
 			type = 'object';
 		}
@@ -4589,7 +4589,7 @@ ludo.dom = {
 	getNumericStyle:function (el, style) {
 		if (!el || !style || !el.getStyle)return 0;
 		var val = el.getStyle(style);
-		return val ? parseInt(val) : 0;
+		return val && val!='thin' && val!='auto' && val!='medium' ? parseInt(val) : 0;
 	},
 
 	isInFamilies:function (el, ids) {
@@ -4710,28 +4710,36 @@ ludo.dom = {
     }
 };/* ../ludojs/src/util.js */
 ludo.util = {
-	type:function (o) {
-		return !!o && Object.prototype.toString.call(o).match(/(\w+)\]/)[1];
-	},
+
+	types:{},
 
 	isArray:function (obj) {
-		return typeof(obj) == 'object' && (obj instanceof Array);
+		return  ludo.util.type(obj) == 'array';
 	},
 
 	isObject:function (obj) {
-		return typeof(obj) == 'object';
+		return ludo.util.type(obj) === 'object';
 	},
 
 	isString:function (obj) {
-		return typeof(obj) == 'string';
+		return ludo.util.type(obj) === 'string';
 	},
 
 	isFunction:function (obj) {
-		return typeof(obj) === 'function';
+		return ludo.util.type(obj) === 'function';
 	},
 
 	argsToArray:function(arguments){
 		return Array.prototype.slice.call(arguments);
+	},
+
+	type: function( obj ) {
+		if ( obj == null ) {
+			return String( obj );
+		}
+		return typeof obj === "object" || typeof obj === "function" ?
+			ludo.util.types[ ludo.util.types.toString.call(obj) ] || "object" :
+			typeof obj;
 	},
 
     isLudoJSConfig:function(obj){
@@ -4862,10 +4870,17 @@ ludo.util = {
     supportsSVG:function(){
         return !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', 'svg')['createSVGRect'];
     }
-};/* ../ludojs/src/view/shim.js */
+};
+
+var ludoUtilTypes = "Boolean Number String Function Array Date RegExp Object Error".split(" ");
+for(var i=0;i<ludoUtilTypes.length;i++){
+	ludo.util.types[ "[object " + ludoUtilTypes[i] + "]" ] = ludoUtilTypes[i].toLowerCase();
+}
+/* ../ludojs/src/view/shim.js */
 /**
  * Render a shim
- * @type {Class}
+ * @namespace view
+ * @class Shim
  */
 ludo.view.Shim = new Class({
     txt:'Loading content...',
@@ -4876,7 +4891,6 @@ ludo.view.Shim = new Class({
     initialize:function (config) {
         if (config.txt)this.txt = config.txt;
         this.renderTo = config.renderTo;
-
     },
 
     getEl:function () {
@@ -4885,7 +4899,7 @@ ludo.view.Shim = new Class({
                 renderTo:this.getRenderTo(),
                 cls:'ludo-shim-loading',
                 css:{'display':'none'},
-                html : this.getTextForShim()
+                html : this.getText(this.txt)
             });
         }
         return this.el;
@@ -4904,7 +4918,6 @@ ludo.view.Shim = new Class({
     },
 
 	getRenderTo:function(){
-
 		if(ludo.util.isString(this.renderTo)){
 			var view = ludo.get(this.renderTo);
 			if(!view)return undefined;
@@ -4914,11 +4927,7 @@ ludo.view.Shim = new Class({
 	},
 
     show:function (txt) {
-        if (txt !== undefined) {
-            this.getEl().set('html', this.getText(txt));
-        }else{
-			this.getEl().set('html', this.getTextForShim());
-		}
+		this.getEl().innerHTML = this.getText(( txt && !ludo.util.isObject(txt) ) ? txt : this.txt);
         this.css('');
 		this.resizeShim();
     },
@@ -4928,15 +4937,11 @@ ludo.view.Shim = new Class({
 		var width = (span.offsetWidth + 5);
 		this.el.style.width = width + 'px';
 		this.el.style.marginLeft = (Math.round(width/2) * -1) + 'px';
-
-	},
-
-	getTextForShim:function(){
-		return this.getText(this.txt);
 	},
 
 	getText:function(txt){
-		return '<span>' + (ludo.util.isFunction(txt) ? txt.call() : txt ? txt : '') + '</span>';
+		txt = ludo.util.isFunction(txt) ? txt.call() : txt ? txt : '';
+		return '<span>' + txt + '</span>';
 	},
 
     hide:function () {
@@ -6007,6 +6012,7 @@ ludo.View = new Class({
 	 * @return void
 	 */
 	dispose:function () {
+
         this.fireEvent('dispose', this);
         ludo.util.dispose(this);
 	},
@@ -7175,7 +7181,7 @@ ludo.layout.Tab = new Class({
 	addChildEvents:function(child){
 		if(!this.isTabStrip(child)){
 			child.addEvent('show', this.showTab.bind(this));
-			child.addEvent('beforeDispose', this.onChildDispose.bind(this));
+			child.addEvent('dispose', this.onChildDispose.bind(this));
 		}
 	},
 
@@ -9998,9 +10004,10 @@ ludo.view.ButtonBar = new Class({
     cls:'ludo-component-button-container',
     overflow:'hidden',
     component:undefined,
+	buttonBarCss:undefined,
 
     ludoConfig:function (config) {
-        this.setConfigParams(config, ['align','component']);
+        this.setConfigParams(config, ['align','component','buttonBarCss']);
         config.children = this.getValidChildren(config.children);
         if (this.align == 'right') {
             config.children = this.getItemsWithSpacer(config.children);
@@ -10010,6 +10017,7 @@ ludo.view.ButtonBar = new Class({
                 config.children[0].containerCss['margin-left'] = 2
             }
         }
+
         this.parent(config);
     },
     ludoDOM:function () {
@@ -10020,6 +10028,11 @@ ludo.view.ButtonBar = new Class({
     ludoRendered:function () {
         this.parent();
 		this.component.addEvent('resize', this.resizeRenderer.bind(this));
+
+		if(this.buttonBarCss){
+			this.getEl().parentNode.setStyles(this.buttonBarCss);
+		}
+
     },
 
 	resizeRenderer:function(){
@@ -10475,9 +10488,26 @@ ludo.FramedView = new Class({
         }
 
         this.setConfigParams(config,['buttonBar', 'hasMenu','menuConfig','icon','titleBarHidden','titleBar','buttons','boldTitle','minimized']);
-		if (this.buttonBar && !this.buttonBar.children) {
-			this.buttonBar = { children:this.buttonBar };
-		}
+
+	},
+
+	/**
+	 * Return config of title bar using a method instead of config object. Useful when you need to refer to "this"
+	 * @method getTitleBarConfig
+	 * @return {Object|undefined}
+	 */
+	getTitleBarConfig:function(){
+		return undefined;
+	},
+
+	/**
+	 * Return button bar config using a method instead of using buttonBar config object. Useful when you need to refer to
+	 * "this"
+	 * @method getButtonBarConfig
+	 * @return {Object|undefined}
+	 */
+	getButtonBarConfig:function(){
+		return undefined;
 	},
 
 	ludoDOM:function () {
@@ -10498,6 +10528,13 @@ ludo.FramedView = new Class({
 
 	ludoRendered:function () {
         // TODO create button bar after view is rendered.
+
+
+		if(!this.buttonBar)this.buttonBar = this.getButtonBarConfig();
+		if (this.buttonBar && !this.buttonBar.children) {
+			this.buttonBar = { children:this.buttonBar };
+		}
+
         if (this.buttonBar) {
             this.getButtonBar()
         } else {
@@ -10577,7 +10614,7 @@ ludo.FramedView = new Class({
 	getTitleBar:function(){
 		if (this.titleBarObj === undefined) {
 
-			if(!this.titleBar)this.titleBar = {};
+			if(!this.titleBar)this.titleBar = this.getTitleBarConfig() || {};
 			this.titleBar.view = this;
 			this.titleBar.type = 'view.TitleBar';
 			this.titleBarObj = this.createDependency('titleBar', this.titleBar);
@@ -21098,10 +21135,16 @@ ludo.dataSource.TreeCollection = new Class({
         }.bind(this));
 	}
 });/* ../ludojs/src/collection-view.js */
+/**
+ * Base class for List and tree.Tree
+ * @class CollectionView
+ */
 ludo.CollectionView = new Class({
 	Extends: ludo.View,
 	/**
-	 * Text to display when the tree has no data, i.e. when there's no data in data source or when filter returned no data.
+	 * Text to display when the tree or list has no data, i.e. when there's no data in data source or when filter returned no data.
+	 * @config {String} emptyText
+	 * @default undefined
 	 */
 	emptyText:undefined,
 
@@ -21235,6 +21278,8 @@ ludo.tree.Tree = new Class({
 
 	/**
 	 * Key used to defined nodes inside categories. This key is used for default values and node config
+	 * @config {String} categoryKey
+	 * @default "type"
 	 */
 	categoryKey : 'type',
 

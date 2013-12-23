@@ -1109,7 +1109,9 @@ div.ludo-paging-current-page .ludo-body{
     text-align:center;
 }
 
-/* ../ludojs/css-source/window.css */
+.input-cell input {
+    height: 15px;
+}/* ../ludojs/css-source/window.css */
 .ludo-window{
     box-shadow:2px 2px 3px #888;
     position:absolute;
@@ -2777,34 +2779,34 @@ form.ComboTree
 
 /** Grid */
 .ludo-grid-Grid .ludo-header {
-    background-color: #d1e7ff;
-    background-image: url(../ludojs/images/grid/header.png);
+    background-color: #f5f5f5;
+    background-image: url(../ludojs/images/light-gray-skin/header-gray.png);
 }
 
 .ludo-grid-Grid .ludo-grid-header-cell-top {
-    background-image: url(../ludojs/images/grid/header-top.png);
+    background-image: url(../ludojs/images/light-gray-skin/header-top-gray.png);
 }
 
 .ludo-grid-Grid .ludo-grid-header-cell-bottom {
-    background-image: url(../ludojs/images/grid/header-bottom.png);
+    background-image: url(../ludojs/images/light-gray-skin/header-bottom-gray.png);
 }
 
 .ludo-grid-header-cell {
-    border-right: 1px solid #a6cbf5;
-    border-bottom: 1px solid #a6cbf5;
+    border-right: 1px solid #c6c6c6;
+    border-bottom: 1px solid #c6c6c6;
 }
 
 .ludo-grid-Grid div.ludo-active-record {
     font-weight: bold;
-    background-color: #d1e7ff;
+    background-color: #f5f5f5;
 
-    border-top:1px solid #d1e7ff;
-    border-bottom:1px solid #d1e7ff;
+    border-top:1px solid #f5f5f5;
+    border-bottom:1px solid #f5f5f5;
 }
 
 .ludo-grid-Grid .ludo-menu-button-active{
-    border-left:1px solid #A6CBF5;
-    background-color:#d1e7ff;
+    background-color:#f5f5f5;
+    border-left:1px solid #C0C0C0;
 }
 
 .ludo-form-slider-horizontal .ludo-form-slider-bg-first{
