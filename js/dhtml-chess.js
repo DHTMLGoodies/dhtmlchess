@@ -1,4 +1,4 @@
-/* Generated Sat Jan 11 20:20:02 CET 2014 */
+/* Generated Wed Apr 23 19:43:04 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -28267,7 +28267,7 @@ chess.view.user.LoginWindow = new Class({
     ludoEvents:function () {
         this.parent();
         this.getForm().addEvent('success', this.validLogin.bind(this));
-        this.getForm().addEvent('success', this.reset.bind(this));
+        this.getForm().addEvent('success', this.getForm().reset.bind(this.getForm()));
     },
     addControllerEvents:function () {
         this.controller.addEvent('showLogin', this.showCentered.bind(this));
