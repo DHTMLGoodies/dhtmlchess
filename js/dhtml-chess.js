@@ -1,4 +1,4 @@
-/* Generated Wed Apr 23 19:43:04 CEST 2014 */
+/* Generated Wed Apr 23 19:57:02 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -19856,6 +19856,7 @@ ludo.form.Manager = new Class({
         });
      */
     resource:undefined,
+    service:undefined,
     method:undefined,
     url:undefined,
 	currentId:undefined,
@@ -19942,7 +19943,7 @@ ludo.form.Manager = new Class({
 		this.view = config.view;
 		config.form = config.form || {};
 
-        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache']);
+        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache','service']);
 
 		this.id = String.uniqueID();
 
@@ -20245,7 +20246,7 @@ ludo.form.Manager = new Class({
 			this.fireEvent('invalid');
 			this.fireEvent('beforeSave');
 			this.beforeRequest();
-			this.requestHandler().send('save', this.currentId, this.getValues(),
+			this.requestHandler().send(this.service ? this.service : 'save', this.currentId, this.getValues(),
 				{
 					"progressBarId":this.getProgressBarId()
 				}
