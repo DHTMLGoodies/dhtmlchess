@@ -1,7 +1,7 @@
-/* Generated Mon Dec 23 13:10:09 CET 2013 */
+/* Generated Sat Jan 11 20:20:02 CET 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
-Copyright (C) 2012-2013 dhtml-chess.com
+Copyright (C) 2012-2014 dhtml-chess.com
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -3681,11 +3681,7 @@ ludo.layout.Card = new Class({
 			} else if (pos < 0 && pos < (this.touch.min / 2)) {
 				this.animateToNext();
 			} else {
-				if (this.touch.animateX) {
-					this.visibleCard.getEl().style.left = '0px';
-				} else {
-					this.visibleCard.getEl().style.top = '0px';
-				}
+				this.visibleCard.getEl().style[this.touch.animateX ? 'left' : 'top'] = '0px';
 			}
 		}
 	},
