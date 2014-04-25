@@ -5,8 +5,7 @@ chess.view.installer.Wizard = new Class({
 		animate:true
 	},
     form:{
-        "resource": "ChessDBInstaller",
-        "service" : "install"
+        "resource": "ChessDBInstaller"
     },
 	weight:1,
 	containerCss:{
