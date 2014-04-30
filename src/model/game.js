@@ -695,7 +695,12 @@ chess.model.Game = new Class({
 	getValidMove:function (move, pos) {
 		if (this.moveParser.isValid(move, pos)) {
 			return this.moveParser.getMoveConfig(move, pos);
-		}
+		}else{
+            if(window.console != undefined){
+                console.log("Parse error on move");
+                console.log(move);
+            }
+        }
 		return null;
 	},
 
