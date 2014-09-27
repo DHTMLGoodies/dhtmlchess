@@ -53,6 +53,15 @@ chess.remote.GameReader = new Class({
         });
     },
 
+    loadRandomGameFromFile:function(file){
+        this.fireEvent('beforeload');
+        this.query({
+            'resource' : 'ChessFS',
+            'arguments' : file,
+            'service' : 'getRandomGame'
+        });
+    },
+
     getEngineMove : function(fen){
         this.query({
             "resource": "ChessEngine",

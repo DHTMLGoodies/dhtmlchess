@@ -18,10 +18,12 @@ chess.controller.Controller = new Class({
     databaseId:undefined,
     views:{},
     disabledEvents:{},
+    pgn : undefined,
 
     ludoConfig:function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
+        this.pgn = config.pgn || this.pgn;
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -399,5 +401,18 @@ chess.controller.Controller = new Class({
      */
     getCurrentModel:function () {
         return this.currentModel;
+    },
+
+    /**
+     * Load random game from current database
+     * @method loadRandomGame
+     * @return void
+     */
+    loadRandomGame:function () {
+        if(this.databaseId){
+            this.currentModel.loadRandomGame(this.databaseId);
+        }else if(this.pgn){
+            this.currentModel.loadRandomGameFromFile(this.pgn);
+        }
     }
 });

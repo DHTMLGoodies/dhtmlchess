@@ -51,33 +51,33 @@ chess.view.gamelist.Grid = new Class({
 
 	columns:{
 		white:{
-			heading:chess.getPhrase('White'),
+			heading:'White',
 			key:'white',
 			width:120,
 			sortable:true
 		},
 		black:{
-			heading:chess.getPhrase('Black'),
+			heading:'Black',
 			key:'black',
 			width:120,
 			sortable:true
 		},
 		result:{
-			heading:chess.getPhrase('Result'),
+			heading:'Result',
 			key:'result',
 			width:50,
 			sortable:true,
 			removable:true
 		},
 		event:{
-			heading:chess.getPhrase('Event'),
+			heading:'Event',
 			key:'event',
 			weight:1,
 			sortable:true,
 			removable:true
 		},
 		last_moves:{
-			heading:chess.getPhrase('Last moves'),
+			heading:'Last moves',
 			key:'last_moves',
 			weight:1,
 			sortable:true,
@@ -129,6 +129,12 @@ chess.view.gamelist.Grid = new Class({
 				this.getColumnManager().showColumn(config.cols[i]);
 			}
 		}
+
+        for(var key in this.columns){
+            if(this.columns.hasOwnProperty(key)){
+                this.columns[key].heading = chess.getPhrase(this.columns[key].heading);
+            }
+        }
 	},
 	ludoEvents:function () {
 		this.parent();

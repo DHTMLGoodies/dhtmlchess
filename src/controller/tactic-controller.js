@@ -41,22 +41,6 @@ chess.controller.TacticController = new Class({
 		}
 	},
 
-	getDialogPuzzleComplete:function () {
-		return new ludo.dialog.Alert({
-			autoDispose:false,
-			height:150,
-			width:250,
-			hidden:true,
-			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
-			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
-			listeners:{
-				'ok':function () {
-					this.loadRandomGame();
-				}.bind(this)
-			}
-		});
-	},
-
 	addViewFeatures:function () {
 
 	},
@@ -106,10 +90,6 @@ chess.controller.TacticController = new Class({
 		if (event === 'wrongGuess') {
 			model.resetPosition.delay(200, model);
 		}
-
-		if (event === 'endOfGame') {
-			this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
-		}
 	},
 
 	shouldAutoPlayNextMove:function (colorToMove, result) {
@@ -117,14 +97,5 @@ chess.controller.TacticController = new Class({
 			return true;
 		}
 		return (result == -1 && colorToMove == 'white');
-	},
-
-	/**
-	 * Load random game from current database
-	 * @method loadRandomGame
-	 * @return void
-	 */
-	loadRandomGame:function () {
-		this.currentModel.loadRandomGame(this.databaseId);
 	}
 });

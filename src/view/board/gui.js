@@ -64,7 +64,7 @@ chess.view.board.GUI = new Class({
     },
     ludoEvents:function () {
         this.parent();
-        $(document.documentElement).addEvent('keypress', this.receiveKeyboardInput.bind(this));
+        document.id(document.documentElement).addEvent('keypress', this.receiveKeyboardInput.bind(this));
     },
 
     receiveKeyboardInput:function (e) {

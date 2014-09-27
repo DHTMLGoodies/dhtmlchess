@@ -10,6 +10,8 @@ class ChessFS implements LudoDBService
     private $pgnFile;
     private $_parser;
 
+    private $countGames = -1;
+
     public function __construct($pgnFile = null)
     {
         if (isset($pgnFile)) {
@@ -46,6 +48,11 @@ class ChessFS implements LudoDBService
         return array_pop($tokens);
     }
 
+    public function getRandomGame($noCache = false){
+        $countGames = $this->getNumberOfGames();
+        return $this->getGame(rand(0, $countGames-1), $noCache);
+    }
+
     public function getGame($index, $noCache = false)
     {
         if (is_array($index)) {
@@ -80,13 +87,35 @@ class ChessFS implements LudoDBService
 
         if (isset($this->cacheFolder)) {
             file_put_contents($this->getGameListFileName(), serialize($games));
+
+            $this->saveNumberOfGames($games);
         }
 
+    }
+
+    private function saveNumberOfGames($games){
+
+        if(isset($this->cacheFolder)){
+            file_put_contents($this->getNumberOfGamesFileName(), count($games));
+        }
     }
 
     private function getGameFromCache($index)
     {
         return unserialize(file_get_contents($this->getGameCacheFileName($index)));
+    }
+
+    private function getNumberOfGames(){
+        if($this->countGames == -1){
+            if(file_exists($this->getNumberOfGamesFileName())){
+                $this->countGames = intval(file_get_contents($this->getNumberOfGamesFileName()), 0);
+            }else{
+                $games = $this->listOfGames();
+                $this->saveNumberOfGames($games);
+                $this->countGames = count($games);
+            }
+        }
+        return $this->countGames;
     }
 
     private function getGameCacheFileName($gameIndex)
@@ -151,6 +180,10 @@ class ChessFS implements LudoDBService
         return $this->cacheFolder . $this->getCacheKey() . "_list.chess.cache";
     }
 
+    private function getNumberOfGamesFileName(){
+        return $this->cacheFolder . $this->getCacheKey() . "_count.chess.cache";
+    }
+
     private function getCacheKey()
     {
         $tokens = explode("/", $this->pgnFile);
@@ -167,7 +200,7 @@ class ChessFS implements LudoDBService
 
     public function getValidServices()
     {
-        return array("listOfGames", "getGame");
+        return array("listOfGames", "getGame", "getRandomGame");
     }
 
     public function validateArguments($service, $arguments)
@@ -190,6 +223,8 @@ class ChessFS implements LudoDBService
             case "listOfGames":
                 return "Games loaded";
             case "getGame":
+                return "Game loaded";
+            case "getRandomGame":
                 return "Game loaded";
             default:
                 return "";
