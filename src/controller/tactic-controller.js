@@ -15,6 +15,13 @@
  */
 chess.controller.TacticController = new Class({
 	Extends:chess.controller.Controller,
+    /**
+     * Delay before playing opponents piece in milliseconds
+     * @config autoMoveDelay
+     * @type {Number}
+     * @default 200
+     */
+    autoMoveDelay : 200,
 	disabledEvents:{
 		overwriteOrVariation:1
 	},
@@ -39,6 +46,7 @@ chess.controller.TacticController = new Class({
 		if (config.alwaysPlayStartingColor !== undefined) {
 			this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
 		}
+        if(config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
 	},
 
 	addViewFeatures:function () {
@@ -74,13 +82,13 @@ chess.controller.TacticController = new Class({
 				if (colorToMove == this.startingColor) {
 					this.views.board.enableDragAndDrop(model);
 				} else {
-					model.nextMove.delay(200, model);
+					model.nextMove.delay(this.autoMoveDelay, model);
 				}
 
 			} else {
 				result = model.getResult();
 				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
-					model.nextMove.delay(200, model);
+					model.nextMove.delay(this.autoMoveDelay, model);
 				}
 				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
 					this.views.board.enableDragAndDrop(model);

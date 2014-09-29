@@ -1,4 +1,4 @@
-/* Generated Mon Sep 29 16:18:32 CEST 2014 */
+/* Generated Mon Sep 29 16:20:44 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -32589,6 +32589,7 @@ chess.controller.EnginePlayController = new Class({
  */
 chess.controller.TacticController = new Class({
 	Extends:chess.controller.Controller,
+    autoMoveDelay : 200,
 	disabledEvents:{
 		overwriteOrVariation:1
 	},
@@ -32613,6 +32614,7 @@ chess.controller.TacticController = new Class({
 		if (config.alwaysPlayStartingColor !== undefined) {
 			this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
 		}
+        if(config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
 	},
 
 	addViewFeatures:function () {
@@ -32648,13 +32650,13 @@ chess.controller.TacticController = new Class({
 				if (colorToMove == this.startingColor) {
 					this.views.board.enableDragAndDrop(model);
 				} else {
-					model.nextMove.delay(200, model);
+					model.nextMove.delay(this.autoMoveDelay, model);
 				}
 
 			} else {
 				result = model.getResult();
 				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
-					model.nextMove.delay(200, model);
+					model.nextMove.delay(this.autoMoveDelay, model);
 				}
 				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
 					this.views.board.enableDragAndDrop(model);

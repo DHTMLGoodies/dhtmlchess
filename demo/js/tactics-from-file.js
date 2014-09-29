@@ -160,6 +160,7 @@ chess.TacticsFromFile = new Class({
         this.controller = new chess.controller.TacticAjedrez({
             pgn:this.pgn,
             alwaysPlayStartingColor:true,
+            autoMoveDelay:400,
             listeners:{
                 'startOfGame' : function(){
                     ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex() );
