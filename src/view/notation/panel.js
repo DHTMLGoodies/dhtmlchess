@@ -38,7 +38,9 @@ chess.view.notation.Panel = new Class({
     contextMenuMove:undefined,
     currentMoveIndex:0,
     moveIdPrefix:'',
-    _showPlayedOnly:false,
+    tactics:false,
+    comments:true,
+    currentModelMoveId:undefined,
 
 	/**
 	 * Show context menu for grading of moves, comments etc
@@ -74,7 +76,7 @@ chess.view.notation.Panel = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['notations','showContextMenu']);
+        this.setConfigParams(config, ['notations','showContextMenu','comments']);
 
         if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
 
@@ -83,7 +85,7 @@ chess.view.notation.Panel = new Class({
     },
 
     showPlayedOnly:function () {
-        this._showPlayedOnly = true;
+        this.tactics = true;
     },
 
     getContextMenuConfig:function () {
@@ -162,6 +164,8 @@ chess.view.notation.Panel = new Class({
     highlightMove:function (move) {
         this.clearHighlightedMove();
 
+        if(move == undefined)return;
+
         move.addClass('notation-chess-move-highlighted');
 
         this.highlightedMove = move.id;
@@ -187,6 +191,10 @@ chess.view.notation.Panel = new Class({
     },
 
     showMoves:function (model) {
+        var move = model.getCurrentMove();
+        if(move != undefined){
+            this.currentModelMoveId = move.uid;
+        }
         this.getBody().set('html', '');
         var moves = this.getMovesInBranch(model.getMoves(), 0, 0, 0, 0);
         this.getBody().set('html', moves.join(' '))
@@ -194,6 +202,10 @@ chess.view.notation.Panel = new Class({
 
     getMovesInBranch:function (branch, moveCounter, depth, branchIndex, countBranches) {
         var moves = [];
+
+        if(this.tactics && !this.currentModelMoveId)return moves;
+
+        if(this.tactics)depth = 0;
 
         moves.push('<span class="notation-branch-depth-' + depth + '">');
         if (depth) {
@@ -220,16 +232,16 @@ chess.view.notation.Panel = new Class({
             if (notation) {
                 moveCounter++;
             }
-            var id = branch[i].uid;
             this.currentMoveIndex++;
             moves.push('<span class="chess-move-container-' + branch[i].uid + '">');
-            moves.push(this.getDomTextForAMove(branch[i], id));
+            moves.push(this.getDomTextForAMove(branch[i]));
             moves.push('</span>');
-            if (branch[i].variations && branch[i].variations.length > 0) {
-                for (var j = 0; j < branch[i].variations.length; j++) {
-                    if (branch[i].variations[j].length > 0) {
-                        moves.push(this.getMovesInBranch(branch[i].variations[j], moveCounter - 1, depth + 1, j, branch[i].variations.length).join(' '));
-                    }
+
+            if(this.tactics && branch[i].uid === this.currentModelMoveId){
+                i = branch.length;
+            }else{
+                if(!this.tactics || this.isCurrentMoveInVariation(branch[i])){
+                    this.addVariations(branch[i], moves);
                 }
             }
         }
@@ -249,6 +261,29 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
+    addVariations:function(move, moves){
+        if (move.variations && move.variations.length > 0) {
+            for (var j = 0; j < move.variations.length; j++) {
+                if (move.variations[j].length > 0) {
+                    moves.push(this.getMovesInBranch(move.variations[j], moveCounter - 1, depth + 1, j, move.variations.length).join(' '));
+                }
+            }
+        }
+    },
+
+    isCurrentMoveInVariation:function(move){
+        if (move.variations && move.variations.length > 0) {
+            for (var j = 0; j < move.variations.length; j++) {
+                if (move.variations[j].length > 0) {
+                    var m = move.variations[j];
+                    if(m.uid == this.currentModelMoveId)return true;
+                    if(m.variations)return this.isCurrentMoveInVariation(m);
+                }
+            }
+        }
+        return false;
+    },
+
     getDomTextForAMove:function (move) {
         var ret = [];
 
@@ -256,7 +291,7 @@ chess.view.notation.Panel = new Class({
         if (move[this.notationKey]) {
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">' + move[this.notationKey] + '</span>');
         }
-        if (move.comment) {
+        if (this.comments && move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')
         }
         ret.push('</span>');

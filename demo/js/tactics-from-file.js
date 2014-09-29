@@ -89,6 +89,11 @@ chess.TacticsFromFile = new Class({
                             }
                         },
                         {
+                            height:50,
+                            comments:false,
+                            type:'chess.view.notation.TacticPanel'
+                        },
+                        {
                             layout:{
                                 type:'linear',
                                 orientation:'horizontal'
