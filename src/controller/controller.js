@@ -414,5 +414,17 @@ chess.controller.Controller = new Class({
         }else if(this.pgn){
             this.currentModel.loadRandomGameFromFile(this.pgn);
         }
+    },
+
+    loadGameFromFile:function(index){
+        if(this.pgn){
+            this.currentModel.loadStaticGame(this.pgn, index);
+        }
+    },
+
+    loadNextGameFromFile:function(){
+        if(this.pgn){
+            this.currentModel.loadNextStaticGame(this.pgn);
+        }
     }
 });

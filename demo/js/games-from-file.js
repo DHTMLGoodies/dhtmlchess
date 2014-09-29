@@ -30,7 +30,7 @@ chess.GamesFromFile = new Class({
             children:[
                 {
                     layout:{
-                        width:'90%',
+                        width:'39.1%',
                         type:'linear',
                         orientation:'vertical'
                     },
@@ -42,7 +42,7 @@ chess.GamesFromFile = new Class({
                     children:[
                         {
                             type:'form.Text',
-                            label:'Search games',
+                            label:'Busqueda',
                             id:"searchField",
                             labelWidth:90,
                             containerCss:{
@@ -91,13 +91,13 @@ chess.GamesFromFile = new Class({
                                     txt : chess.getPhrase('Loading games')
                                 },
                                 paging:{
-                                    size:25,
+                                    size:18,
                                     pageQuery:false,
                                     cache:false,
                                     cacheTimeout:1000
                                 }
                             },
-                            cols:['white', 'black', 'result', 'event', 'site']
+                            cols:['white', 'black', 'result']
                         },
                         {
                             height:30,
@@ -223,7 +223,7 @@ chess.GamesFromFile = new Class({
                             collapsed:false,
                             layout:{ type:'rows' },
                             type:'FramedView',
-                            title:'Details',
+                            title:'Detalles',
                             resizable:true,
                             collapsible:true,
                             minimizable:false,

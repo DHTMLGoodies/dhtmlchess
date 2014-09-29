@@ -1,4 +1,4 @@
-/* Generated Sat Sep 27 15:28:25 CEST 2014 */
+/* Generated Mon Sep 29 14:38:01 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -27099,7 +27099,7 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(colorToMove + ' ' + chess.getPhrase('to move'));
+        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'));
 
     },
 
@@ -32483,6 +32483,18 @@ chess.controller.Controller = new Class({
         }else if(this.pgn){
             this.currentModel.loadRandomGameFromFile(this.pgn);
         }
+    },
+
+    loadGameFromFile:function(index){
+        if(this.pgn){
+            this.currentModel.loadStaticGame(this.pgn, index);
+        }
+    },
+
+    loadNextGameFromFile:function(){
+        if(this.pgn){
+            this.currentModel.loadNextStaticGame(this.pgn);
+        }
     }
 });/* ../dhtml-chess/src/controller/engine-play-controller.js */
 chess.controller.EnginePlayController = new Class({
@@ -32633,7 +32645,7 @@ chess.controller.TacticControllerGui = new Class({
     modelEventFired:function(event, model){
         this.parent(event, model);
 
-        if (event === 'endOfGame') {
+        if (event === 'endOfGame' || event === 'endOfBranch') {
             this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
         }
     }
@@ -32697,6 +32709,9 @@ chess.model.Game = new Class({
     moveBranchMap:{},
     moveParentMap:{},
     movePreviousMap:{},
+
+    gameIndex : -1,
+    countGames:-1,
 
     INCLUDE_COMMENT_MOVES:true,
 
@@ -32770,6 +32785,20 @@ chess.model.Game = new Class({
     loadStaticGame:function (pgn, index) {
         this.gameReader.loadStaticGame(pgn, index);
     },
+
+    loadNextStaticGame:function(pgn){
+        if(this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex++;
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
+    },
+
+    getGameIndex:function(){
+        return this.gameIndex;
+    },
+
+    setGameIndex:function(index){
+        this.gameIndex = index;
+    },
+
     /**
      * Load a random game from selected database
      * @method loadRandomGame
@@ -32870,6 +32899,10 @@ chess.model.Game = new Class({
         this.currentBranch = this.model.moves;
         this.currentMove = null;
         this.registerMoves(this.model.moves, this.model.metadata.fen);
+        if(gameData.games != undefined){
+            this.countGames = gameData.games['c'];
+            this.gameIndex = gameData.games['i'];
+        }
         this.fire('newGame');
         this.toStart();
     },
@@ -33237,9 +33270,9 @@ chess.model.Game = new Class({
         if (nextMove) {
             ret.push(nextMove);
         }
-        if (nextOf.variations.length > 0) {
-            for (var i = 0; i < nextOf.variations.length; i++) {
-                var move = nextOf.variations[i][0];
+        if (nextMove.variations.length > 0) {
+            for (var i = 0; i < nextMove.variations.length; i++) {
+                var move = nextMove.variations[i][0];
                 ret.push(move);
             }
         }

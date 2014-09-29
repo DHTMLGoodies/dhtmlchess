@@ -1505,6 +1505,62 @@ TestCase("ModelTest", {
 
         // then
         assertEquals(expected, model.getCurrentMove());
+    },
+
+    "test should validate variations as correct move":function () {
+        var game = {"metadata":{"setup":"1", "eventdate":"1938.11.??", "eventrounds":"14", "eventcountry":"NED", "source":"ChessBase", "sourcedate":"1997.11.17", "castle":1}, "event":"AVRO", "site":"Holland", "date":"1938.??.??", "round":"?", "white":"Botvinnik, Mikhail M", "black":"Capablanca, Jose Raul", "result":"1-0", "eco":"E49", "annotator":"Illescas Cordoba, Miguel", "fen":"8\/p3q1kp\/1p2Pnp1\/3pQ3\/2pP4\/1nP3N1\/1B4PP\/6K1 w - - 0 30", "plycount":"23", "moves":[
+            {"m":"Ba3", "from":"b2", "to":"a3", "fen":"8\/p3q1kp\/1p2Pnp1\/3pQ3\/2pP4\/BnP3N1\/6PP\/6K1 b - - 1 30"},
+            {"m":"Qxa3", "from":"e7", "to":"a3", "fen":"8\/p5kp\/1p2Pnp1\/3pQ3\/2pP4\/qnP3N1\/6PP\/6K1 w - - 0 31"},
+            {"m":"Nh5+", "from":"g3", "to":"h5", "fen":"8\/p5kp\/1p2Pnp1\/3pQ2N\/2pP4\/qnP5\/6PP\/6K1 b - - 1 31"},
+            {"m":"gxh5", "from":"g6", "to":"h5", "fen":"8\/p5kp\/1p2Pn2\/3pQ2p\/2pP4\/qnP5\/6PP\/6K1 w - - 0 32"},
+            {"m":"Qg5+", "from":"e5", "to":"g5", "fen":"8\/p5kp\/1p2Pn2\/3p2Qp\/2pP4\/qnP5\/6PP\/6K1 b - - 1 32"},
+            {"m":"Kf8", "from":"g7", "to":"f8", "fen":"5k2\/p6p\/1p2Pn2\/3p2Qp\/2pP4\/qnP5\/6PP\/6K1 w - - 2 33"},
+            {"m":"Qxf6+", "from":"g5", "to":"f6", "fen":"5k2\/p6p\/1p2PQ2\/3p3p\/2pP4\/qnP5\/6PP\/6K1 b - - 0 33"},
+            {"m":"Kg8", "from":"f8", "to":"g8", "fen":"6k1\/p6p\/1p2PQ2\/3p3p\/2pP4\/qnP5\/6PP\/6K1 w - - 1 34"},
+            {"m":"e7", "variations":[
+                [
+                    {"m":"Qf7+", "from":"f6", "to":"f7", "fen":"6k1\/p4Q1p\/1p2P3\/3p3p\/2pP4\/qnP5\/6PP\/6K1 b - - 2 34"},
+                    {"m":"Kh8", "from":"g8", "to":"h8", "fen":"7k\/p4Q1p\/1p2P3\/3p3p\/2pP4\/qnP5\/6PP\/6K1 w - - 3 35"},
+                    {"m":"g3", "from":"g2", "to":"g3", "fen":"7k\/p4Q1p\/1p2P3\/3p3p\/2pP4\/qnP3P1\/7P\/6K1 b - - 0 35"},
+                    {"m":"Nxd4", "from":"b3", "to":"d4", "fen":"7k\/p4Q1p\/1p2P3\/3p3p\/2pn4\/q1P3P1\/7P\/6K1 w - - 0 36"},
+                    {"m":"e7", "from":"e6", "to":"e7", "fen":"7k\/p3PQ1p\/1p6\/3p3p\/2pn4\/q1P3P1\/7P\/6K1 b - - 0 36"},
+                    {"m":"Qc1+", "from":"a3", "to":"c1", "fen":"7k\/p3PQ1p\/1p6\/3p3p\/2pn4\/2P3P1\/7P\/2q3K1 w - - 1 37"},
+                    {"m":"Kg2", "from":"g1", "to":"g2", "fen":"7k\/p3PQ1p\/1p6\/3p3p\/2pn4\/2P3P1\/6KP\/2q5 b - - 2 37"},
+                    {"m":"Qc2+", "from":"c1", "to":"c2", "fen":"7k\/p3PQ1p\/1p6\/3p3p\/2pn4\/2P3P1\/2q3KP\/8 w - - 3 38"},
+                    {"m":"Kh3", "from":"g2", "to":"h3", "fen":"7k\/p3PQ1p\/1p6\/3p3p\/2pn4\/2P3PK\/2q4P\/8 b - - 4 38"}
+                ]
+            ], "from":"e6", "to":"e7", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/qnP5\/6PP\/6K1 b - - 0 34"},
+            {"m":"Qc1+", "from":"a3", "to":"c1", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/1nP5\/6PP\/2q3K1 w - - 1 35"},
+            {"m":"Kf2", "from":"g1", "to":"f2", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/1nP5\/5KPP\/2q5 b - - 2 35"},
+            {"m":"Qc2+", "from":"c1", "to":"c2", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/1nP5\/2q2KPP\/8 w - - 3 36"},
+            {"m":"Kg3", "from":"f2", "to":"g3", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/1nP3K1\/2q3PP\/8 b - - 4 36"},
+            {"m":"Qd3+", "from":"c2", "to":"d3", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP4\/1nPq2K1\/6PP\/8 w - - 5 37"},
+            {"m":"Kh4", "from":"g3", "to":"h4", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pP3K\/1nPq4\/6PP\/8 b - - 6 37"},
+            {"m":"Qe4+", "from":"d3", "to":"e4", "fen":"6k1\/p3P2p\/1p3Q2\/3p3p\/2pPq2K\/1nP5\/6PP\/8 w - - 7 38"},
+            {"m":"Kxh5", "from":"h4", "to":"h5", "fen":"6k1\/p3P2p\/1p3Q2\/3p3K\/2pPq3\/1nP5\/6PP\/8 b - - 0 38"},
+            {"m":"Qe2+", "from":"e4", "to":"e2", "fen":"6k1\/p3P2p\/1p3Q2\/3p3K\/2pP4\/1nP5\/4q1PP\/8 w - - 1 39"},
+            {"m":"Kh4", "from":"h5", "to":"h4", "fen":"6k1\/p3P2p\/1p3Q2\/3p4\/2pP3K\/1nP5\/4q1PP\/8 b - - 2 39"},
+            {"m":"Qe4+", "from":"e2", "to":"e4", "fen":"6k1\/p3P2p\/1p3Q2\/3p4\/2pPq2K\/1nP5\/6PP\/8 w - - 3 40"},
+            {"m":"g4", "from":"g2", "to":"g4", "fen":"6k1\/p3P2p\/1p3Q2\/3p4\/2pPq1PK\/1nP5\/7P\/8 b - g3 0 40"},
+            {"m":"Qe1+", "from":"e4", "to":"e1", "fen":"6k1\/p3P2p\/1p3Q2\/3p4\/2pP2PK\/1nP5\/7P\/4q3 w - - 1 41"},
+            {"m":"Kh5", "from":"h4", "to":"h5", "fen":"6k1\/p3P2p\/1p3Q2\/3p3K\/2pP2P1\/1nP5\/7P\/4q3 b - - 2 41"}
+        ], "games":{"i":"14", "c":19}};
+        var model = new chess.model.Game();
+        model.populate(game);
+
+        var move = model.getMoves()[7];
+        model.goToMove(move);
+
+        var correctMove = {
+            from : 'f6', to:'f7'
+        };
+
+        assertEquals(10, model.getAllNextMoves(model.getCurrentMove()).length);
+        assertTrue(model.tryNextMove(correctMove));
+
+        console.log(model.getCurrentMove().from)
+
+
     }
 
 

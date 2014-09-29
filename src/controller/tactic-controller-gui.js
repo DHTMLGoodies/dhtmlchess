@@ -20,7 +20,7 @@ chess.controller.TacticControllerGui = new Class({
     modelEventFired:function(event, model){
         this.parent(event, model);
 
-        if (event === 'endOfGame') {
+        if (event === 'endOfGame' || event === 'endOfBranch') {
             this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
         }
     }

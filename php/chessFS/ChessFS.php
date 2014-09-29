@@ -58,10 +58,22 @@ class ChessFS implements LudoDBService
         if (is_array($index)) {
             $index = $index['index'];
         }
-        if ($this->isGameInCache($index) && !$noCache) return $this->getGameFromCache($index);
+        if($index >= $this->getNumberOfGames())$index = 0;
+
+        if ($this->isGameInCache($index) && !$noCache){
+            return $this->injectGameIndexAndCount($this->getGameFromCache($index), $index);
+        }
 
         $game = $this->parser($this->pgnFile)->getGameByIndex($index);
         $this->saveGameInCache($game, $index);
+        return $this->injectGameIndexAndCount($game, $index);
+    }
+
+    private function injectGameIndexAndCount($game,$index){
+        $game['games'] = array(
+            'i' => $index,
+            'c' => $this->getNumberOfGames()
+        );
         return $game;
     }
 

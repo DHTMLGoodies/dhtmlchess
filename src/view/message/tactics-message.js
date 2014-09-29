@@ -24,7 +24,7 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(colorToMove + ' ' + chess.getPhrase('to move'));
+        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'));
 
     },
 

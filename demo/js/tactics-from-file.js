@@ -79,6 +79,16 @@ chess.TacticsFromFile = new Class({
                             ]
                         },
                         {
+                            height:25,
+                            type:'chess.view.metadata.Game',
+                            tpl:'{white} vs {black}, {date}',
+                            css:{
+                                'text-align' : 'center',
+                                'overflow-y':'auto',
+                                'background-color':'#FFF'
+                            }
+                        },
+                        {
                             layout:{
                                 type:'linear',
                                 orientation:'horizontal'
@@ -111,6 +121,18 @@ chess.TacticsFromFile = new Class({
                                     containerCss:{
                                         'background-color' : 'transparent'
                                     }
+                                },{
+                                    layout:{ width: 80 },
+                                    type:'form.Button',
+                                    value:chess.getPhrase('Next Game'),
+                                    containerCss:{
+                                        'background-color' : 'transparent'
+                                    },
+                                    listeners:{
+                                        click : function(){
+                                            this.controller.loadNextGameFromFile();
+                                        }.bind(this)
+                                    }
                                 },
                                 {
                                     weight:1,
@@ -125,16 +147,31 @@ chess.TacticsFromFile = new Class({
             ]
         });
 
-        this.controller = new chess.controller.TacticControllerGui({
+        var storageKey = 'key_' + this.pgn + '_tactic';
+
+
+
+
+        this.controller = new chess.controller.TacticAjedrez({
             pgn:this.pgn,
             alwaysPlayStartingColor:true,
             listeners:{
-                'endOfGame' : function(){
-                    console.log("You solved it");
-                }
+                'startOfGame' : function(){
+                    ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex() );
+                }.bind(this)
             }
         });
-        this.controller.loadRandomGame();
+
+        var index = ludo.getLocalStorage().get(storageKey);
+        if(index != undefined){
+            this.controller.getCurrentModel().setGameIndex(index);
+        }else{
+            index = 0;
+        }
+
+
+
+        this.controller.loadGameFromFile(index);
 
     }
 

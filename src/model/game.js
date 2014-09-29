@@ -25,6 +25,9 @@ chess.model.Game = new Class({
     moveParentMap:{},
     movePreviousMap:{},
 
+    gameIndex : -1,
+    countGames:-1,
+
     INCLUDE_COMMENT_MOVES:true,
 
     state:{
@@ -97,6 +100,20 @@ chess.model.Game = new Class({
     loadStaticGame:function (pgn, index) {
         this.gameReader.loadStaticGame(pgn, index);
     },
+
+    loadNextStaticGame:function(pgn){
+        if(this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex++;
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
+    },
+
+    getGameIndex:function(){
+        return this.gameIndex;
+    },
+
+    setGameIndex:function(index){
+        this.gameIndex = index;
+    },
+
     /**
      * Load a random game from selected database
      * @method loadRandomGame
@@ -197,6 +214,10 @@ chess.model.Game = new Class({
         this.currentBranch = this.model.moves;
         this.currentMove = null;
         this.registerMoves(this.model.moves, this.model.metadata.fen);
+        if(gameData.games != undefined){
+            this.countGames = gameData.games['c'];
+            this.gameIndex = gameData.games['i'];
+        }
         this.fire('newGame');
         this.toStart();
     },
@@ -564,9 +585,9 @@ chess.model.Game = new Class({
         if (nextMove) {
             ret.push(nextMove);
         }
-        if (nextOf.variations.length > 0) {
-            for (var i = 0; i < nextOf.variations.length; i++) {
-                var move = nextOf.variations[i][0];
+        if (nextMove.variations.length > 0) {
+            for (var i = 0; i < nextMove.variations.length; i++) {
+                var move = nextMove.variations[i][0];
                 ret.push(move);
             }
         }
