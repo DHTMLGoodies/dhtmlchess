@@ -89,11 +89,6 @@ chess.TacticsFromFile = new Class({
                             }
                         },
                         {
-                            height:50,
-                            comments:false,
-                            type:'chess.view.notation.TacticPanel'
-                        },
-                        {
                             layout:{
                                 type:'linear',
                                 orientation:'horizontal'
@@ -146,6 +141,11 @@ chess.TacticsFromFile = new Class({
                                     }
                                 }
                             ]
+                        },
+                        {
+                            height:50,
+                            comments:false,
+                            type:'chess.view.notation.TacticPanel'
                         }
                     ]
                 }
@@ -154,13 +154,13 @@ chess.TacticsFromFile = new Class({
 
         var storageKey = 'key_' + this.pgn + '_tactic';
 
-
-
-
-        this.controller = new chess.controller.TacticAjedrez({
+        this.controller = new chess.controller.TacticControllerGui({
             pgn:this.pgn,
             alwaysPlayStartingColor:true,
             autoMoveDelay:400,
+            gameEndHandler:function(controller){
+                controller.loadNextGameFromFile();
+            },
             listeners:{
                 'startOfGame' : function(){
                     ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex() );

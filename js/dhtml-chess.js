@@ -1,4 +1,4 @@
-/* Generated Mon Sep 29 16:20:44 CEST 2014 */
+/* Generated Mon Sep 29 16:39:14 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -32589,6 +32589,12 @@ chess.controller.EnginePlayController = new Class({
  */
 chess.controller.TacticController = new Class({
 	Extends:chess.controller.Controller,
+    /**
+     * Delay before playing opponents piece in milliseconds
+     * @config autoMoveDelay
+     * @type {Number}
+     * @default 200
+     */
     autoMoveDelay : 200,
 	disabledEvents:{
 		overwriteOrVariation:1
@@ -32678,6 +32684,13 @@ chess.controller.TacticController = new Class({
 chess.controller.TacticControllerGui = new Class({
     Extends: chess.controller.TacticController,
 
+    gameEndHandler:undefined,
+
+    ludoConfig:function(config){
+        this.parent(config);
+        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
+    },
+
     getDialogPuzzleComplete:function () {
         return new ludo.dialog.Alert({
             autoDispose:false,
@@ -32688,7 +32701,11 @@ chess.controller.TacticControllerGui = new Class({
             html:chess.getPhrase('tacticPuzzleSolvedMessage'),
             listeners:{
                 'ok':function () {
-                    this.loadRandomGame();
+                    if(this.gameEndHandler != undefined){
+                        this.gameEndHandler.apply(this, [this]);
+                    }else{
+                        this.loadRandomGame();
+                    }
                 }.bind(this)
             }
         });
