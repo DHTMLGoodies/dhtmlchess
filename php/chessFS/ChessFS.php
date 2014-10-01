@@ -12,16 +12,22 @@ class ChessFS implements LudoDBService
 
     private $countGames = -1;
 
+    private $cacheTime = 0;
+
     public function __construct($pgnFile = null)
     {
         if (isset($pgnFile)) {
             $this->pgnFile = $this->getPgnPath($pgnFile);
+
             if (!$this->isValid($this->pgnFile)) {
                 throw new Exception("Invalid file");
             }
+
             if (!$this->pgnFile || !file_exists($this->pgnFile)) {
                 throw new Exception("Pgn file " . $this->pgnFile . " not found");
             }
+
+            echo $this->cacheTime;
             $this->cacheFolder = ChessRegistry::getCacheFolder();
         }
     }
@@ -79,12 +85,14 @@ class ChessFS implements LudoDBService
 
     private function isGameInCache($index)
     {
-        return isset($this->cacheFolder) && file_exists($this->getGameCacheFileName($index));
+        $file = $this->getGameCacheFileName($index);
+        return isset($this->cacheFolder) && file_exists($file) && filemtime($file) >= $this->cacheTime;
     }
 
     private function isGameListInCache()
     {
-        return isset($this->cacheFolder) && file_exists($this->getGameListFileName());
+        $file = $this->getGameListFileName();
+        return isset($this->cacheFolder) && file_exists($file) && filemtime($file) >= $this->cacheTime;
     }
 
     private function saveGameInCache($game, $index)
@@ -190,6 +198,10 @@ class ChessFS implements LudoDBService
     private function getGameListFileName()
     {
         return $this->cacheFolder . $this->getCacheKey() . "_list.chess.cache";
+    }
+
+    private function getPgnCacheTimeFileName(){
+        return $this->cacheFolder . $this->getCacheKey() . "_time.chess.cache";
     }
 
     private function getNumberOfGamesFileName(){
