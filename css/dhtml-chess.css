@@ -1,4 +1,4 @@
-/* Generated Thu Oct 2 14:37:26 CEST 2014 */
+/* Generated Thu Oct 2 14:48:28 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -1515,6 +1515,12 @@ div.ludo-form-button-m{
 }
 
 div.ludo-form-button-l{
+    height: 35px;
+    font-size:14px;
+    line-height:30px;
+}
+
+div.ludo-form-button-xl{
     height: 45px;
     font-size:14px;
     line-height:40px;
@@ -1602,6 +1608,10 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 }
 
 .ludo-form-button-l .ludo-form-button-value{
+    font-size:16px;
+    line-height:34px;
+}
+.ludo-form-button-xl .ludo-form-button-value{
     font-size:16px;
     line-height:44px;
 }

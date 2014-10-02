@@ -1500,6 +1500,12 @@ div.ludo-form-button-m{
 }
 
 div.ludo-form-button-l{
+    height: 35px;
+    font-size:14px;
+    line-height:30px;
+}
+
+div.ludo-form-button-xl{
     height: 45px;
     font-size:14px;
     line-height:40px;
@@ -1587,6 +1593,10 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 }
 
 .ludo-form-button-l .ludo-form-button-value{
+    font-size:16px;
+    line-height:34px;
+}
+.ludo-form-button-xl .ludo-form-button-value{
     font-size:16px;
     line-height:44px;
 }
