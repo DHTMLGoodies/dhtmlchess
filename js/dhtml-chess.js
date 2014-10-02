@@ -1,4 +1,4 @@
-/* Generated Thu Oct 2 15:20:04 CEST 2014 */
+/* Generated Thu Oct 2 15:21:40 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -32679,6 +32679,59 @@ chess.controller.TacticController = new Class({
 		}
 		return (result == -1 && colorToMove == 'white');
 	}
+});/* ../dhtml-chess/src/controller/tactic-controller-gui.js */
+chess.controller.TacticControllerGui = new Class({
+    Extends: chess.controller.TacticController,
+
+    /**
+     * Function for manual handling of how next game should be loaded.
+     * @config gameEndHandler
+     * @type {Function}
+     * @example
+     *      new chess.controller.TacticControllerGui({
+     *      pgn:this.pgn,
+     *      alwaysPlayStartingColor:true,
+     *      autoMoveDelay:400,
+     *      gameEndHandler:function(controller){
+     *          controller.loadNextGameFromFile();
+     *      }
+     *  });
+     */
+    gameEndHandler:undefined,
+
+    ludoConfig:function(config){
+        this.parent(config);
+        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
+    },
+
+    getDialogPuzzleComplete:function () {
+        return new ludo.dialog.Alert({
+            autoDispose:false,
+            height:150,
+            width:250,
+            hidden:true,
+            title:chess.getPhrase('tacticPuzzleSolvedTitle'),
+            html:chess.getPhrase('tacticPuzzleSolvedMessage'),
+            listeners:{
+                'ok':function () {
+                    if(this.gameEndHandler != undefined){
+                        this.gameEndHandler.apply(this, [this]);
+                    }else{
+                        this.loadRandomGame();
+                    }
+                }.bind(this)
+            }
+        });
+    },
+
+    modelEventFired:function(event, model){
+        this.parent(event, model);
+
+        if (event === 'endOfGame' || event === 'endOfBranch') {
+            this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
+        }
+    }
+
 });/* ../dhtml-chess/src/controller/analysis-controller.js */
 /**
  Special controller for analysis boards. It extends chess.controller.Controller but calls the
