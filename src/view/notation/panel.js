@@ -241,7 +241,7 @@ chess.view.notation.Panel = new Class({
                 i = branch.length;
             }else{
                 if(!this.tactics || this.isCurrentMoveInVariation(branch[i])){
-                    this.addVariations(branch[i], moves);
+                    this.addVariations(branch[i], moves, moveCounter);
                 }
             }
         }
@@ -261,7 +261,7 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
-    addVariations:function(move, moves){
+    addVariations:function(move, moves, moveCounter){
         if (move.variations && move.variations.length > 0) {
             for (var j = 0; j < move.variations.length; j++) {
                 if (move.variations[j].length > 0) {

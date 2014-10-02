@@ -1,4 +1,4 @@
-/* Generated Thu Oct 2 15:21:40 CEST 2014 */
+/* Generated Thu Oct 2 15:49:43 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -24432,7 +24432,7 @@ chess.view.notation.Panel = new Class({
                 i = branch.length;
             }else{
                 if(!this.tactics || this.isCurrentMoveInVariation(branch[i])){
-                    this.addVariations(branch[i], moves);
+                    this.addVariations(branch[i], moves, moveCounter);
                 }
             }
         }
@@ -24452,7 +24452,7 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
-    addVariations:function(move, moves){
+    addVariations:function(move, moves, moveCounter){
         if (move.variations && move.variations.length > 0) {
             for (var j = 0; j < move.variations.length; j++) {
                 if (move.variations[j].length > 0) {
