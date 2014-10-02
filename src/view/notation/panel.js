@@ -241,7 +241,13 @@ chess.view.notation.Panel = new Class({
                 i = branch.length;
             }else{
                 if(!this.tactics || this.isCurrentMoveInVariation(branch[i])){
-                    this.addVariations(branch[i], moves, moveCounter);
+                    if (move.variations && move.variations.length > 0) {
+                        for (var j = 0; j < move.variations.length; j++) {
+                            if (move.variations[j].length > 0) {
+                                moves.push(this.getMovesInBranch(move.variations[j], moveCounter - 1, depth + 1, j, move.variations.length).join(' '));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -259,16 +265,6 @@ chess.view.notation.Panel = new Class({
         }
         moves.push('</span>');
         return moves;
-    },
-
-    addVariations:function(move, moves, moveCounter){
-        if (move.variations && move.variations.length > 0) {
-            for (var j = 0; j < move.variations.length; j++) {
-                if (move.variations[j].length > 0) {
-                    moves.push(this.getMovesInBranch(move.variations[j], moveCounter - 1, depth + 1, j, move.variations.length).join(' '));
-                }
-            }
-        }
     },
 
     isCurrentMoveInVariation:function(move){
