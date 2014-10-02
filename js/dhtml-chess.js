@@ -1,4 +1,4 @@
-/* Generated Mon Sep 29 16:39:14 CEST 2014 */
+/* Generated Thu Oct 2 14:37:26 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -3681,11 +3681,7 @@ ludo.layout.Card = new Class({
 			} else if (pos < 0 && pos < (this.touch.min / 2)) {
 				this.animateToNext();
 			} else {
-				if (this.touch.animateX) {
-					this.visibleCard.getEl().style.left = '0px';
-				} else {
-					this.visibleCard.getEl().style.top = '0px';
-				}
+				this.visibleCard.getEl().style[this.touch.animateX ? 'left' : 'top'] = '0px';
 			}
 		}
 	},
@@ -19860,6 +19856,7 @@ ludo.form.Manager = new Class({
         });
      */
     resource:undefined,
+    service:undefined,
     method:undefined,
     url:undefined,
 	currentId:undefined,
@@ -19946,7 +19943,7 @@ ludo.form.Manager = new Class({
 		this.view = config.view;
 		config.form = config.form || {};
 
-        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache']);
+        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache','service']);
 
 		this.id = String.uniqueID();
 
@@ -20249,7 +20246,7 @@ ludo.form.Manager = new Class({
 			this.fireEvent('invalid');
 			this.fireEvent('beforeSave');
 			this.beforeRequest();
-			this.requestHandler().send('save', this.currentId, this.getValues(),
+			this.requestHandler().send(this.service ? this.service : 'save', this.currentId, this.getValues(),
 				{
 					"progressBarId":this.getProgressBarId()
 				}
@@ -20617,13 +20614,15 @@ ludo.form.Button = new Class({
 	iconWidths:{
 		's' : 15,
 		'm' : 25,
-		'l' : 44
+        'l' : 34,
+		'xl' : 44
 	},
 
 	heights:{
 		's' : 15,
 		'm' : 25,
-		'l' : 45
+        'l' : 35,
+		'xl' : 45
 	},
 
 
@@ -24535,21 +24534,6 @@ chess.view.notation.Panel = new Class({
 
     getFirstBranch:function () {
         return this.getBody().getElement('.notation-branch');
-    }
-});/* ../dhtml-chess/src/view/notation/tactic-panel.js */
-chess.view.notation.TacticPanel = new Class({
-    Extends: chess.view.notation.Panel,
-    tactics : true,
-    setController:function(controller){
-        controller.addEvent('nextmove', this.showMoves.bind(this));
-        controller.addEvent('newGame', this.clearCurrentMove.bind(this));
-        this.parent(controller);
-    },
-    clearCurrentMove:function(){
-        this.currentModelMoveId = undefined;
-    },
-    clickOnMove:function(e){
-
     }
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
@@ -32680,45 +32664,6 @@ chess.controller.TacticController = new Class({
 		}
 		return (result == -1 && colorToMove == 'white');
 	}
-});/* ../dhtml-chess/src/controller/tactic-controller-gui.js */
-chess.controller.TacticControllerGui = new Class({
-    Extends: chess.controller.TacticController,
-
-    gameEndHandler:undefined,
-
-    ludoConfig:function(config){
-        this.parent(config);
-        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
-    },
-
-    getDialogPuzzleComplete:function () {
-        return new ludo.dialog.Alert({
-            autoDispose:false,
-            height:150,
-            width:250,
-            hidden:true,
-            title:chess.getPhrase('tacticPuzzleSolvedTitle'),
-            html:chess.getPhrase('tacticPuzzleSolvedMessage'),
-            listeners:{
-                'ok':function () {
-                    if(this.gameEndHandler != undefined){
-                        this.gameEndHandler.apply(this, [this]);
-                    }else{
-                        this.loadRandomGame();
-                    }
-                }.bind(this)
-            }
-        });
-    },
-
-    modelEventFired:function(event, model){
-        this.parent(event, model);
-
-        if (event === 'endOfGame' || event === 'endOfBranch') {
-            this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
-        }
-    }
-
 });/* ../dhtml-chess/src/controller/analysis-controller.js */
 /**
  Special controller for analysis boards. It extends chess.controller.Controller but calls the

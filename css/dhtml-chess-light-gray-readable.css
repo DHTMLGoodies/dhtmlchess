@@ -2383,20 +2383,45 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-left, div.ludo-form-button-
 }
 
 /** Large buttons */
+.ludo-form-button-xl-bg-right, .ludo-form-button-xl-bg-left {
+    background-image: url('../ludojs/images/light-gray-skin/l-button.png');
+}
+
+.ludo-form-button-over .ludo-form-button-xl-bg-left, .ludo-form-button-over .ludo-form-button-xl-bg-right {
+    background-image: url('../ludojs/images/light-gray-skin/l-button-over.png');
+}
+
+.ludo-form-button-down .ludo-form-button-xl-bg-left, .ludo-form-button-down .ludo-form-button-xl-bg-right {
+    background-image: url('../ludojs/images/light-gray-skin/l-button-down.png');
+}
+
+.ludo-form-button-pressed .ludo-form-button-xl-bg-left, .ludo-form-button-pressed .ludo-form-button-xl-bg-right {
+    background-image: url('../ludojs/images/light-gray-skin/l-button-over.png');
+}
+
+div.ludo-form-button-selected .ludo-form-button-xl-bg-left, div.ludo-form-button-selected .ludo-form-button-xl-bg-right {
+    background-image: url('../ludojs/images/button/l-button-over.png');
+}
+
+div.ludo-form-button-disabled .ludo-form-button-xl-bg-left, div.ludo-form-button-disabled .ludo-form-button-xl-bg-right {
+    background-image: url('../ludojs/images/light-gray-skin/l-button-disabled.png') !important;
+}
+
+/** Large buttons */
 .ludo-form-button-l-bg-right, .ludo-form-button-l-bg-left {
-    background-image: url('../ludojs/images/light-gray-skin/large-button.png');
+    background-image: url('../ludojs/images/light-gray-skin/xl-button.png');
 }
 
 .ludo-form-button-over .ludo-form-button-l-bg-left, .ludo-form-button-over .ludo-form-button-l-bg-right {
-    background-image: url('../ludojs/images/light-gray-skin/large-button-over.png');
+    background-image: url('../ludojs/images/light-gray-skin/xl-button-over.png');
 }
 
 .ludo-form-button-down .ludo-form-button-l-bg-left, .ludo-form-button-down .ludo-form-button-l-bg-right {
-    background-image: url('../ludojs/images/light-gray-skin/large-button-down.png');
+    background-image: url('../ludojs/images/light-gray-skin/xl-button-down.png');
 }
 
 .ludo-form-button-pressed .ludo-form-button-l-bg-left, .ludo-form-button-pressed .ludo-form-button-l-bg-right {
-    background-image: url('../ludojs/images/light-gray-skin/large-button-over.png');
+    background-image: url('../ludojs/images/light-gray-skin/xl-button-over.png');
 }
 
 div.ludo-form-button-selected .ludo-form-button-l-bg-left, div.ludo-form-button-selected .ludo-form-button-l-bg-right {
@@ -2404,7 +2429,7 @@ div.ludo-form-button-selected .ludo-form-button-l-bg-left, div.ludo-form-button-
 }
 
 div.ludo-form-button-disabled .ludo-form-button-l-bg-left, div.ludo-form-button-disabled .ludo-form-button-l-bg-right {
-    background-image: url('../ludojs/images/light-gray-skin/large-button-disabled.png') !important;
+    background-image: url('../ludojs/images/light-gray-skin/xl-button-disabled.png') !important;
 }
 
 
