@@ -32,6 +32,7 @@ chess.view.highlight.SquareBase = new Class({
     },
 
     highlight:function (move) {
+        this.clear();
         var squares = [move.from, move.to];
         for (var i = 0; i < squares.length; i++) {
             this.highlightSquare(squares[i]);

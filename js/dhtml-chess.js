@@ -1,4 +1,4 @@
-/* Generated Fri Oct 3 13:15:37 CEST 2014 */
+/* Generated Fri Oct 3 13:16:30 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -25167,7 +25167,6 @@ chess.view.board.Board = new Class({
         this.parent(controller);
         controller.addEvent('newGame', this.showStartBoard.bind(this));
         controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('nextMove', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newMove', this.playChainOfMoves.bind(this));
         controller.addEvent('setPosition', this.showMove.bind(this));
         controller.addEvent('nextmove', this.playChainOfMoves.bind(this));
@@ -26008,6 +26007,7 @@ chess.view.highlight.SquareBase = new Class({
     },
 
     highlight:function (move) {
+        this.clear();
         var squares = [move.from, move.to];
         for (var i = 0; i < squares.length; i++) {
             this.highlightSquare(squares[i]);
