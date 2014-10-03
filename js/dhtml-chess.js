@@ -1,4 +1,4 @@
-/* Generated Fri Oct 3 13:05:40 CEST 2014 */
+/* Generated Fri Oct 3 13:07:39 CEST 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -24534,6 +24534,21 @@ chess.view.notation.Panel = new Class({
 
     getFirstBranch:function () {
         return this.getBody().getElement('.notation-branch');
+    }
+});/* ../dhtml-chess/src/view/notation/tactic-panel.js */
+chess.view.notation.TacticPanel = new Class({
+    Extends: chess.view.notation.Panel,
+    tactics : true,
+    setController:function(controller){
+        controller.addEvent('nextmove', this.showMoves.bind(this));
+        controller.addEvent('newGame', this.clearCurrentMove.bind(this));
+        this.parent(controller);
+    },
+    clearCurrentMove:function(){
+        this.currentModelMoveId = undefined;
+    },
+    clickOnMove:function(e){
+
     }
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
