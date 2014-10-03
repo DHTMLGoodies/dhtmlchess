@@ -154,7 +154,7 @@ chess.view.buttonbar.Game = new Class({
             if (els[i].style.display !== 'none') {
                 els[i].setStyle('left', width);
                 width += parseInt(els[i].getStyle('width').replace('px', ''));
-                width += ludo.dom.getBW(els[i]);
+                width += ludo.dom.getMW(els[i]);
                 width += ludo.dom.getPW(els[i]);
                 width += ludo.dom.getBW(els[i]);
             }

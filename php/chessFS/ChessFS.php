@@ -27,7 +27,7 @@ class ChessFS implements LudoDBService
                 throw new Exception("Pgn file " . $this->pgnFile . " not found");
             }
             $this->cacheTime = filemtime($this->pgnFile);
-      
+
             $this->cacheFolder = ChessRegistry::getCacheFolder();
         }
     }
