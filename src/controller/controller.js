@@ -30,11 +30,13 @@ chess.controller.Controller = new Class({
     },
 
     createDefaultViews:function () {
-        new chess.view.dialog.OverwriteMove();
-        new chess.view.dialog.Promote();
-        new chess.view.dialog.Comment();
-        new chess.view.dialog.NewGame();
-        new chess.view.dialog.EditGameMetadata();
+        if(chess.view.dialog != undefined){
+            if(chess.view.dialog.OverwriteMove != undefined)new chess.view.dialog.OverwriteMove();
+            if(chess.view.dialog.Promote != undefined)new chess.view.dialog.Promote();
+            if(chess.view.dialog.Comment != undefined)new chess.view.dialog.Comment();
+            if(chess.view.dialog.NewGame != undefined)new chess.view.dialog.NewGame();
+            if(chess.view.dialog.EditGameMetadata != undefined)new chess.view.dialog.EditGameMetadata();
+        }
     },
 
     createDefaultModel:function () {
