@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Game editor - without any database connection</title>
+
+    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
+    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: arial !important;
+        }
+
+        .ludo-chess-board-container {
+            border: 1px solid #C0C0C0;
+            background-color: #f5f5f5;
+        }
+
+        .ludo-chess-board {
+            border: 1px solid #000;
+        }
+
+        .ludo-chess-square-highlight {
+            border: 2px solid #377FD2;
+            opacity: 1;
+            filter: alpha(opacity = 100);
+            -moz-opacity: 1;
+        }
+
+        .notation-chess-move {
+            color: #4a5c70;
+            font-weight: normal;
+        }
+
+        span.notation-chess-move-highlighted {
+            background-color: #4a5c70;
+            color: #FFF;
+        }
+
+        label {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+
+ludo.config.setUrl('../router.php');
+ludo.config.disableModRewriteUrls();
+
+var app = new ludo.Application({
+    id:'gamesApp',
+    css:{
+        border:0,
+        'margin':5,
+        padding:3
+    },
+
+    layout:{
+        type:'slideIn'
+    },
+    overflow:'hidden',
+
+    children:[
+        {
+            layout:{
+                width:500,
+                type:'linear',
+                orientation:'vertical'
+            },
+            css:{
+                'border-left' : '1px solid #d7d7d7',
+                'border-bottom' : '1px solid #d7d7d7',
+                'border-top' : '1px solid #d7d7d7'
+            },
+            children:[
+                {
+                    type:'form.Text',
+                    label:'Search games',
+                    id:"searchField",
+                    labelWidth:90,
+                    containerCss:{
+                        'border-bottom':'1px solid #C6c8c6'
+                    },
+                    listeners:{
+                        key:function (value) {
+                            ludo.get('gameList').search(value);
+                        }
+                    }
+                },
+                {
+                    visible:true,
+                    layout:{
+                        weight:1
+                    },
+                    type:'chess.view.gamelist.Grid',
+                    css:{
+                        'background-color':'#FFF',
+                        'overflow-y':'auto'
+                    },
+                    dataSource:{
+                        id:'gameList',
+                        "type":'chess.dataSource.PgnGames',
+                        // "Morphy" is the name of a pgn file inside the "pgn" folder.
+                        //  You can put games inside that folder and change the argument below.
+                        // You can also call
+                        // ludo.get('gameList').loadFile('Lasker');
+                        // to change pgn file after page load. Example
+                        // <a href="#" onclick="ludo.get('gameList').loadFile('Lasker');return false">Load games of E. Lasker</a>
+                        "arguments":"Morphy",
+                        "listeners":{
+                            "beforeload":function () {
+                                ludo.get("searchField").reset();
+                            },
+                            "select": function(){
+                                ludo.get('gamesApp').getLayout().hide();
+                            },
+                            "load": function(data){
+                                if(data.length){
+                                    ludo.get('gameList').selectRecord(data[0]);
+                                }
+                            }
+                        },
+                        shim:{
+                            txt : 'Loading games'
+                        },
+                        paging:{
+                            size:25,
+                            pageQuery:false,
+                            cache:false,
+                            cacheTimeout:1000
+                        }
+                    },
+                    cols:['white', 'black', 'result', 'event', 'site']
+                },
+                {
+                    height:30,
+                    layout:{
+                        type:'linear',
+                        orientation:'horizontal'
+                    },
+                    containerCss:{
+                        'border-top':'1px solid #c6c6c6'
+                    },
+                    css:{
+                        'padding-top':2
+                    },
+                    children:[
+                        {
+                            type:'paging.First',
+                            dataSource:'gameList'
+                        },
+                        {
+                            type:'paging.Previous',
+                            dataSource:'gameList'
+                        },
+                        {
+                            type:'paging.CurrentPage',
+                            dataSource:'gameList'
+                        },
+                        {
+                            type:'paging.TotalPages',
+                            dataSource:'gameList'
+                        },
+                        {
+                            type:'paging.Next',
+                            dataSource:'gameList'
+                        },
+                        {
+                            type:'paging.Last',
+                            dataSource:'gameList'
+                        }
+
+                    ]
+                }
+            ]
+        },
+        {
+            layout:{
+                type:'cols'
+            },
+            minHeight:100,
+            children:[
+                {
+                    weight:1,
+                    layout:{ type:'linear', orientation:'vertical' },
+                    frame:true,
+                    css:{
+                        'margin' : 5
+                    },
+                    children:[
+                        {
+                            layout:{
+                                type:'linear',
+                                orientation:'horizontal',
+                                height:50
+                            },
+                            children:[
+                                {
+                                    type:'ludo.form.Button',
+                                    size : 'l',
+                                    value : 'Games',
+                                    layout:{
+                                        width:130
+                                    },
+                                    icon:'images/menu-icon-large.png',
+                                    listeners:{
+                                        'click' : function(){
+                                            ludo.get('gamesApp').getLayout().toggle();
+                                        }
+                                    }
+                                },
+                                {
+                                    type:'chess.view.metadata.Game',
+                                    height:50,
+                                    layout:{
+                                        weight:1
+                                    },
+                                    containerCss:{
+                                        'color':'#000'
+                                    },
+                                    tpl:'<h2 style="line-height:40px;text-align:center;margin:0;font-size:22px">{white} vs {black}, {result}</h2>'
+                                }
+                            ]
+                        },
+
+                        {
+                            type:'chess.view.board.Board',
+                            labels:true,
+                            weight:1,
+                            containerCss:{
+                                'margin-bottom':5
+                            },
+                            addOns:[
+                                {
+                                    type:'chess.view.highlight.Arrow',
+                                    styles:{
+                                        'stroke':'#444',
+                                        'stroke-opacity':.8,
+                                        'stroke-width':1
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type:'chess.view.buttonbar.Game',
+
+                            containerCss:{
+                                margin:2
+                            },
+                            height:30
+                        }
+                    ]
+                },
+                {
+                    width:300,
+                    collapsed:false,
+                    layout:{ type:'rows' },
+                    type:'FramedView',
+                    title:'Details',
+                    resizable:true,
+                    collapsible:true,
+                    minimizable:false,
+                    containerCss:{
+
+                    },
+
+                    children:[
+                        {
+                            type:'chess.view.metadata.FenField',
+                            height:27,
+
+                            tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                        },
+                        {
+                            weight:1,
+
+                            css:{
+                                'margin-top':3
+                            },
+                            containerCss:{
+                                'border-top':'1px solid #C0C0C0'
+
+                            },
+                            title:'Notations',
+                            id:'notation-view',
+                            type:'chess.view.notation.Panel',
+                            notations:'long',
+                            showContextMenu:true
+                        }
+                    ]
+                }
+            ],
+            statusBar:{
+                visible:true
+            }
+        }
+
+    ]
+
+
+});
+
+var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
+var controller = new chess.controller.AnalysisController();
+controller.addEvent('newGame', function () {
+    ludo.get('notation-view').show();
+});
+controller.addEvent('selectPgn', function () {
+    ludo.get('list-of-games').show();
+});
+
+</script>
+</body>
+</html>

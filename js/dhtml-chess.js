@@ -1,4 +1,4 @@
-/* Generated Fri Oct 3 13:16:30 CEST 2014 */
+/* Generated Fri Nov 7 13:25:48 CET 2014 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2014 dhtml-chess.com
@@ -1036,6 +1036,9 @@ ludo.layout.Factory = new Class({
      * @return {ludo.layout.Base} manager
      */
 	getManager:function(view){
+        if(ludo.layout[this.getLayoutClass(view)] == undefined){
+            console.log("Could not find " + this.getLayoutClass(view));
+        }
 		return new ludo.layout[this.getLayoutClass(view)](view);
 	},
 
@@ -1166,195 +1169,7 @@ ludo.layout.Factory = new Class({
 	}
 });
 
-ludo.layoutFactory = new ludo.layout.Factory();/* ../ludojs/src/layout/resizer.js */
-ludo.layout.Resizer = new Class({
-	Extends:ludo.Core,
-	layout:{},
-	orientation:undefined,
-	view:undefined,
-	dd:undefined,
-	pos:undefined,
-	isActive:false,
-	hidden:false,
-
-	ludoConfig:function (config) {
-		this.parent(config);
-        this.setConfigParams(config, ['orientation','view','layout','pos','hidden']);
-		this.createDOM(config.renderTo);
-		this.addViewEvents();
-		this.createDragable();
-        if(this.hidden)this.hide();
-	},
-
-	createDOM:function(renderTo){
-		this.el = new Element('div');
-		this.el.addEvent('mouseenter', this.enterResizer.bind(this));
-		this.el.addEvent('mouseleave', this.leaveResizer.bind(this));
-		ludo.dom.addClass(this.el, 'ludo-resize-handle');
-		ludo.dom.addClass(this.el, 'ludo-resize-handle-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
-		ludo.dom.addClass(this.el, 'ludo-layout-resize-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
-		this.el.style.cursor = this.orientation === 'horizontal' ? 'w-resize' : 's-resize';
-		this.el.style.zIndex = 100000;
-
-		renderTo.appendChild(this.el);
-
-	},
-
-	enterResizer:function(){
-		if(!this.isActive){
-			this.el.style.zIndex = parseInt(this.el.style.zIndex) + 1;
-			ludo.dom.addClass(this.el, 'ludo-resize-handle-active');
-		}
-	},
-
-	leaveResizer:function(){
-		if(!this.isActive){
-			this.el.style.zIndex = parseInt(this.el.style.zIndex) - 1;
-			ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
-		}
-	},
-	createDragable:function(){
-		this.dd = new ludo.effect.Drag({
-			directions : this.orientation == 'horizontal' ? 'X' : 'Y'
-		});
-		this.dd.addEvent('before', this.beforeDrag.bind(this));
-		this.dd.addEvent('end', this.endDrag.bind(this));
-		this.dd.add(this.el);
-	},
-
-	beforeDrag:function(){
-		this.dd.setMinX(30);
-		this.isActive = true;
-		ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
-		ludo.dom.addClass(this.el, 'ludo-resize-handle-active');
-		this.fireEvent('before', [this, this.view]);
-		this.fireEvent('startResize');
-	},
-
-	setMinWidth:function(x){
-		if(this.pos === 'left'){
-			var el = this.view.getEl();
-			this.dd.setMaxX(el.offsetLeft + el.offsetWidth - x);
-		}else{
-			this.dd.setMinX(this.view.getEl().offsetLeft + x);
-		}
-	},
-
-	setMaxWidth:function(x){
-		var el = this.view.getEl();
-		if(this.pos === 'right'){
-			this.dd.setMaxX(el.offsetLeft + x);
-		}else{
-			var pos = 0;
-			if(this.layout.affectedSibling){
-				pos = this.layout.affectedSibling.getEl().offsetLeft + 10;
-			}
-			this.dd.setMinX(Math.max(pos, el.offsetLeft + el.offsetWidth - x));
-		}
-	},
-
-	setMinHeight:function(y){
-		if(this.pos === 'above'){
-			var el = this.view.getEl();
-			this.dd.setMaxY(el.offsetTop + el.offsetHeight - y);
-		}else{
-			this.dd.setMinY(this.view.getEl().offsetTop + y);
-		}
-
-	},
-
-	setMaxHeight:function(y){
-		var el = this.view.getEl();
-		if(this.pos === 'below'){
-			this.dd.setMaxY(el.offsetTop + y);
-		}else{
-			var pos = 10;
-			if(this.layout.affectedSibling){
-				pos = this.layout.affectedSibling.getEl().offsetTop + 10;
-			}
-			this.dd.setMinY(Math.max(pos, el.offsetTop + el.offsetHeight - y));
-		}
-	},
-
-	endDrag:function(dragged, dd){
-		ludo.dom.removeClass(this.el, 'ludo-resize-handle-over');
-		ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
-		var change = this.orientation === 'horizontal' ? dd.getDraggedX() : dd.getDraggedY();
-		if(this.pos === 'left' || this.pos === 'above'){
-			change *= -1;
-		}
-		this.fireEvent('resize', change);
-		this.fireEvent('stopResize');
-		this.isActive = false;
-	},
-
-	getEl:function(){
-		return this.el;
-	},
-
-	addViewEvents:function () {
-		this.view.addEvent('maximize', this.show.bind(this));
-		this.view.addEvent('expand', this.show.bind(this));
-		this.view.addEvent('minimize', this.hide.bind(this));
-		this.view.addEvent('collapse', this.hide.bind(this));
-		this.view.addEvent('hide', this.hide.bind(this));
-		this.view.addEvent('show', this.show.bind(this));
-	},
-
-	show:function(){
-		this.el.style.display = '';
-		this.hidden = false;
-	},
-
-	hide:function(){
-		this.hidden = true;
-		this.el.style.display = 'none';
-	},
-
-	getWidth:function(){
-		return this.hidden ? 0 : 5;
-	},
-
-	getHeight:function(){
-		return this.hidden ? 0 : 5;
-	},
-
-	resize:function(config){
-		this.el.style.left = '';
-		this.el.style.top = '';
-		this.el.style.right = '';
-		this.el.style.bottom = '';
-
-
-		if(config.width !== undefined && config.width > 0)this.el.style.width = config.width + 'px';
-		if(config.height !== undefined && config.height > 0)this.el.style.height = (config.height - ludo.dom.getMBPH(this.el)) + 'px';
-		if(config.left !== undefined)this.el.style.left = config.left + 'px';
-		if(config.top !== undefined)this.el.style.top = config.top + 'px';
-		if(config.bottom !== undefined)this.el.style.bottom = config.bottom + 'px';
-		if(config.right !== undefined)this.el.style.right = config.right + 'px';
-	},
-
-	getParent:function(){
-
-	},
-	setParentComponent:function(){
-
-	},
-	isVisible:function(){
-		return !this.hidden;
-	},
-	isHidden:function(){
-		return this.hidden;
-	},
-
-	hasChildren:function(){
-		return false;
-	},
-
-	isFormElement:function(){
-		return false;
-	}
-});/* ../ludojs/src/canvas/engine.js */
+ludo.layoutFactory = new ludo.layout.Factory();/* ../ludojs/src/canvas/engine.js */
 ludo.canvas.Engine = new Class({
 	/**
 	 * Transformation cache
@@ -2631,6 +2446,194 @@ ludo.layout.TextBox = new Class({
 
 		}
 	}
+});/* ../ludojs/src/layout/resizer.js */
+ludo.layout.Resizer = new Class({
+	Extends:ludo.Core,
+	layout:{},
+	orientation:undefined,
+	view:undefined,
+	dd:undefined,
+	pos:undefined,
+	isActive:false,
+	hidden:false,
+
+	ludoConfig:function (config) {
+		this.parent(config);
+        this.setConfigParams(config, ['orientation','view','layout','pos','hidden']);
+		this.createDOM(config.renderTo);
+		this.addViewEvents();
+		this.createDragable();
+        if(this.hidden)this.hide();
+	},
+
+	createDOM:function(renderTo){
+		this.el = new Element('div');
+		this.el.addEvent('mouseenter', this.enterResizer.bind(this));
+		this.el.addEvent('mouseleave', this.leaveResizer.bind(this));
+		ludo.dom.addClass(this.el, 'ludo-resize-handle');
+		ludo.dom.addClass(this.el, 'ludo-resize-handle-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
+		ludo.dom.addClass(this.el, 'ludo-layout-resize-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
+		this.el.style.cursor = this.orientation === 'horizontal' ? 'w-resize' : 's-resize';
+		this.el.style.zIndex = 100000;
+
+		renderTo.appendChild(this.el);
+
+	},
+
+	enterResizer:function(){
+		if(!this.isActive){
+			this.el.style.zIndex = parseInt(this.el.style.zIndex) + 1;
+			ludo.dom.addClass(this.el, 'ludo-resize-handle-active');
+		}
+	},
+
+	leaveResizer:function(){
+		if(!this.isActive){
+			this.el.style.zIndex = parseInt(this.el.style.zIndex) - 1;
+			ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
+		}
+	},
+	createDragable:function(){
+		this.dd = new ludo.effect.Drag({
+			directions : this.orientation == 'horizontal' ? 'X' : 'Y'
+		});
+		this.dd.addEvent('before', this.beforeDrag.bind(this));
+		this.dd.addEvent('end', this.endDrag.bind(this));
+		this.dd.add(this.el);
+	},
+
+	beforeDrag:function(){
+		this.dd.setMinX(30);
+		this.isActive = true;
+		ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
+		ludo.dom.addClass(this.el, 'ludo-resize-handle-active');
+		this.fireEvent('before', [this, this.view]);
+		this.fireEvent('startResize');
+	},
+
+	setMinWidth:function(x){
+		if(this.pos === 'left'){
+			var el = this.view.getEl();
+			this.dd.setMaxX(el.offsetLeft + el.offsetWidth - x);
+		}else{
+			this.dd.setMinX(this.view.getEl().offsetLeft + x);
+		}
+	},
+
+	setMaxWidth:function(x){
+		var el = this.view.getEl();
+		if(this.pos === 'right'){
+			this.dd.setMaxX(el.offsetLeft + x);
+		}else{
+			var pos = 0;
+			if(this.layout.affectedSibling){
+				pos = this.layout.affectedSibling.getEl().offsetLeft + 10;
+			}
+			this.dd.setMinX(Math.max(pos, el.offsetLeft + el.offsetWidth - x));
+		}
+	},
+
+	setMinHeight:function(y){
+		if(this.pos === 'above'){
+			var el = this.view.getEl();
+			this.dd.setMaxY(el.offsetTop + el.offsetHeight - y);
+		}else{
+			this.dd.setMinY(this.view.getEl().offsetTop + y);
+		}
+
+	},
+
+	setMaxHeight:function(y){
+		var el = this.view.getEl();
+		if(this.pos === 'below'){
+			this.dd.setMaxY(el.offsetTop + y);
+		}else{
+			var pos = 10;
+			if(this.layout.affectedSibling){
+				pos = this.layout.affectedSibling.getEl().offsetTop + 10;
+			}
+			this.dd.setMinY(Math.max(pos, el.offsetTop + el.offsetHeight - y));
+		}
+	},
+
+	endDrag:function(dragged, dd){
+		ludo.dom.removeClass(this.el, 'ludo-resize-handle-over');
+		ludo.dom.removeClass(this.el, 'ludo-resize-handle-active');
+		var change = this.orientation === 'horizontal' ? dd.getDraggedX() : dd.getDraggedY();
+		if(this.pos === 'left' || this.pos === 'above'){
+			change *= -1;
+		}
+		this.fireEvent('resize', change);
+		this.fireEvent('stopResize');
+		this.isActive = false;
+	},
+
+	getEl:function(){
+		return this.el;
+	},
+
+	addViewEvents:function () {
+		this.view.addEvent('maximize', this.show.bind(this));
+		this.view.addEvent('expand', this.show.bind(this));
+		this.view.addEvent('minimize', this.hide.bind(this));
+		this.view.addEvent('collapse', this.hide.bind(this));
+		this.view.addEvent('hide', this.hide.bind(this));
+		this.view.addEvent('show', this.show.bind(this));
+	},
+
+	show:function(){
+		this.el.style.display = '';
+		this.hidden = false;
+	},
+
+	hide:function(){
+		this.hidden = true;
+		this.el.style.display = 'none';
+	},
+
+	getWidth:function(){
+		return this.hidden ? 0 : 5;
+	},
+
+	getHeight:function(){
+		return this.hidden ? 0 : 5;
+	},
+
+	resize:function(config){
+		this.el.style.left = '';
+		this.el.style.top = '';
+		this.el.style.right = '';
+		this.el.style.bottom = '';
+
+
+		if(config.width !== undefined && config.width > 0)this.el.style.width = config.width + 'px';
+		if(config.height !== undefined && config.height > 0)this.el.style.height = (config.height - ludo.dom.getMBPH(this.el)) + 'px';
+		if(config.left !== undefined)this.el.style.left = config.left + 'px';
+		if(config.top !== undefined)this.el.style.top = config.top + 'px';
+		if(config.bottom !== undefined)this.el.style.bottom = config.bottom + 'px';
+		if(config.right !== undefined)this.el.style.right = config.right + 'px';
+	},
+
+	getParent:function(){
+
+	},
+	setParentComponent:function(){
+
+	},
+	isVisible:function(){
+		return !this.hidden;
+	},
+	isHidden:function(){
+		return this.hidden;
+	},
+
+	hasChildren:function(){
+		return false;
+	},
+
+	isFormElement:function(){
+		return false;
+	}
 });/* ../ludojs/src/layout/base.js */
 /**
 * Base class for ludoJS layouts
@@ -2946,1048 +2949,7 @@ ludo.layout.Base = new Class({
 	getHeightOf:function (child) {
 		return child.layout.height;
 	}
-});/* ../ludojs/src/layout/linear.js */
-/**
- * Abstract base class for linear layouts
- * @namespace layout
- * @class Linear
- */
-ludo.layout.Linear = new Class({
-	Extends:ludo.layout.Base,
-
-    onCreate:function(){
-        // TODO refactor this.
-        this.view.getBody().style.overflow='hidden';
-        this.parent();
-    },
-
-	onNewChild:function (child) {
-		this.parent(child);
-		this.updateLayoutObject(child);
-		child.addEvent('collapse', this.minimize.bind(this));
-		child.addEvent('expand', this.clearTemporaryValues.bind(this));
-		child.addEvent('minimize', this.minimize.bind(this));
-		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
-	},
-
-	updateLayoutObject:function (child) {
-		child.layout = child.layout || {};
-		child.layout.width = child.layout.width || child.width;
-		child.layout.height = child.layout.height || child.height;
-		child.layout.weight = child.layout.weight || child.weight;
-		child.layout.resizable = child.layout.resizable || child.resizable;
-		child.layout.minWidth = child.layout.minWidth || child.minWidth;
-		child.layout.maxWidth = child.layout.maxWidth || child.maxWidth;
-		child.layout.minHeight = child.layout.minHeight || child.minHeight;
-		child.layout.maxHeight = child.layout.maxHeight || child.maxHeight;
-	},
-
-	isResizable:function (child) {
-		return child.layout.resizable ? true : false;
-	},
-
-	beforeResize:function (resize, child) {
-		if (resize.orientation === 'horizontal') {
-			resize.setMinWidth(child.layout.minWidth || 10);
-			resize.setMaxWidth(child.layout.maxWidth || this.view.getBody().offsetWidth);
-		} else {
-			resize.setMinHeight(child.layout.minHeight || 10);
-			resize.setMaxHeight(child.layout.maxHeight || this.view.getBody().offsetHeight);
-		}
-	},
-
-	getResizableFor:function (child, r) {
-		var resizeProp = (r === 'left' || r === 'right') ? 'width' : 'height';
-		return new ludo.layout.Resizer({
-			name:'resizer-' + child.name,
-			orientation:(r === 'left' || r === 'right') ? 'horizontal' : 'vertical',
-			pos:r,
-            hidden:child.isHidden(),
-			renderTo:this.view.getBody(),
-			layout:{ width:5,height:5 },
-			view:child,
-			listeners:{
-				'resize':function (change) {
-					child.layout[resizeProp] += change;
-					this.resize();
-				}.bind(this),
-				'before':this.beforeResize.bind(this)
-			}
-		});
-	}
-});/* ../ludojs/src/layout/linear-horizontal.js */
-/**
- * This class arranges child views in a row layout.
- * @namespace layout
- * @class LinearVertical
- *
- */
-ludo.layout.LinearHorizontal = new Class({
-	Extends:ludo.layout.Linear,
-
-	resize:function () {
-		var totalWidth = this.view.getInnerWidthOfBody();
-		var height = this.hasDynamicHeight() ? 'auto' : this.view.getInnerHeightOfBody();
-		if (height == 0) {
-			return;
-		}
-
-		var totalWidthOfItems = 0;
-		var totalWeight = 0;
-		for (var i = 0; i < this.view.children.length; i++) {
-			if (this.view.children[i].isVisible()) {
-				if (!this.hasLayoutWeight(this.view.children[i])) {
-					var width = this.getWidthOf(this.view.children[i]);
-					if (width) {
-						totalWidthOfItems += width
-					}
-				} else {
-					totalWeight += this.view.children[i].layout.weight;
-				}
-			}
-		}
-		totalWeight = Math.max(1, totalWeight);
-		var remainingWidth;
-		totalWidth = remainingWidth = totalWidth - totalWidthOfItems;
-
-		var currentLeft = 0;
-		for (i = 0; i < this.view.children.length; i++) {
-			if (this.view.children[i].isVisible()) {
-				var config = { 'height':height, 'left':currentLeft };
-				if (this.hasLayoutWeight(this.view.children[i])) {
-					if (this.view.children[i].id == this.idLastDynamic) {
-						config.width = remainingWidth;
-					} else {
-						config.width = Math.round(totalWidth * this.view.children[i].layout.weight / totalWeight);
-						remainingWidth -= config.width;
-					}
-				} else {
-					config.width = this.getWidthOf(this.view.children[i]);
-				}
-				this.resizeChild(this.view.children[i], config);
-				currentLeft += config.width;
-			}
-		}
-
-		for (i = 0; i < this.resizables.length; i++) {
-			this.resizables[i].colResize();
-		}
-	},
-
-	resizeChild:function (child, resize) {
-		child.layout.width = resize.width;
-		child.layout.left = resize.left;
-		child.resize(resize);
-		child.saveState();
-	},
-
-	onNewChild:function (child) {
-		this.parent(child);
-		child.getEl().style.position = 'absolute';
-
-		if (this.isResizable(child)) {
-			var isLastSibling = this.isLastSibling(child);
-			var resizer = this.getResizableFor(child, isLastSibling ? 'left' : 'right');
-			this.addChild(resizer, child, isLastSibling ? 'before' : 'after');
-		}
-	},
-
-	hasDynamicHeight:function () {
-		return this.view.layout.height && this.view.layout.height == 'dynamic';
-	}
-});/* ../ludojs/src/layout/linear-vertical.js */
-/**
- * This class arranges child views in a column layout (side by side).
- * @namespace layout
- * @class LinearVertical
- *
- */
-ludo.layout.LinearVertical = new Class({
-	Extends:ludo.layout.Linear,
-	onCreate:function(){
-		this.parent();
-	},
-	resize:function () {
-		var componentHeight = this.view.getInnerHeightOfBody();
-		if (componentHeight == 0) {
-			return;
-		}
-		var totalHeightOfItems = 0;
-		var totalWeight = 0;
-		var height;
-		var tm = 0;
-		for (var i = 0; i < this.view.children.length; i++) {
-			if (!this.hasLayoutWeight(this.view.children[i])) {
-                height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i]);
-                totalHeightOfItems += height
-			} else {
-				if (!this.view.children[i].isHidden()) {
-					totalWeight += this.view.children[i].layout.weight;
-				}
-			}
-		}
-
-		totalWeight = Math.max(1, totalWeight);
-
-        var remainingHeight;
-		var stretchHeight = remainingHeight = (componentHeight - totalHeightOfItems);
-
-		var width = ludo.dom.getInnerWidthOf(this.view.getBody());
-		// var currentTop = 0;
-		for (i = 0; i < this.view.children.length; i++) {
-			if(!this.view.children[i].isHidden()){
-				var config = { width:width };
-				if (this.hasLayoutWeight(this.view.children[i])) {
-					if (this.view.children[i].id == this.idLastDynamic) {
-						config.height = remainingHeight;
-					} else {
-						config.height = Math.round(stretchHeight * this.view.children[i].layout.weight / totalWeight);
-						remainingHeight -= config.height;
-					}
-				} else {
-					config.height = this.getHeightOf(this.view.children[i]);
-				}
-				if (config.height < 0) {
-					config.height = undefined;
-				}
-				if(tm > 0){
-					config.top = tm;
-				}
-				if(this.view.children[i].getEl().style.position === 'absolute'){
-					tm += this.view.children[i].getHeight();
-				}
-
-				this.resizeChild(this.view.children[i], config);
-			}
-		}
-	},
-	resizeChild:function (child, resize) {
-		child.layout.height = resize.height;
-		child.resize(resize);
-		child.saveState();
-	},
-
-	onNewChild:function (child) {
-		this.parent(child);
-		if (this.isResizable(child)) {
-			var isLastSibling = this.isLastSibling(child);
-			var resizer = this.getResizableFor(child, isLastSibling ? 'above' : 'below');
-			this.addChild(resizer, child, isLastSibling ? 'before' : 'after');
-		}
-	}
-});/* ../ludojs/src/layout/card.js */
-ludo.layout.Card = new Class({
-	Extends:ludo.layout.Base,
-	visibleCard:undefined,
-	animate:false,
-	initialAnimate:false,
-	animationDuration:.25,
-	animateX:true,
-	touch:{},
-	dragging:true,
-
-	onCreate:function () {
-		this.parent();
-		var l = this.view.layout;
-
-		if (l.animate !== undefined)this.animate = l.animate;
-		if (l.dragging !== undefined)this.dragging = l.dragging;
-		if (l.animationDuration !== undefined)this.animationDuration = l.animationDuration;
-		if (l.animateX !== undefined)this.animateX = l.animateX;
-		this.initialAnimate = this.animate;
-
-		if (this.animate) {
-			this.addEvent('highercard', this.animateHigherCard.bind(this));
-			this.addEvent('lowercard', this.animateLowerCard.bind(this));
-		}
-	},
-	addChild:function (child, insertAt, pos) {
-		if (!child.layout || !child.layout.visible)child.hidden = true;
-		return this.parent(child, insertAt, pos);
-	},
-	onNewChild:function (child) {
-		this.parent(child);
-		child.getEl().style.position = 'absolute';
-		child.addEvent('show', this.setVisibleCard.bind(this));
-		if (this.shouldSetCardVisible(child)) {
-			this.visibleCard = child;
-			child.show();
-		}
-		if(this.dragging)this.addDragEvents(child);
-	},
-
-	addDragEvents:function (child) {
-        child.getBody().addEvent(ludo.util.getDragStartEvent(), this.touchStart.bind(this));
-        child.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.touchMove.bind(this));
-        child.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.touchEnd.bind(this));
-	},
-
-	resize:function () {
-		if (this.visibleCard === undefined) {
-			this.view.children[0].show();
-		}
-		var height = this.view.getInnerHeightOfBody();
-		var width = ludo.dom.getInnerWidthOf(this.view.getBody());
-		if (this.visibleCard) {
-            this.visibleCard.resize({ height:height, width:width });
-		}
-	},
-
-	getVisibleCard:function () {
-		return this.visibleCard;
-	},
-
-	shouldSetCardVisible:function (card) {
-		return card.layout && card.layout.visible == true;
-	},
-
-	/**
-	 * Return reference to previus card of passed card
-	 * @method getPreviousCardOf
-	 * @param {View} view
-	 * @return View
-	 */
-	getPreviousCardOf:function (view) {
-		var index = this.view.children.indexOf(view);
-        return index > 0 ? this.view.children[index - 1] : undefined;
-	},
-
-	getNextCardOf:function (card) {
-		var index = this.view.children.indexOf(card);
-        return index < this.view.children.length - 1 ? this.view.children[index + 1] : undefined;
-	},
-
-	/**
-	 * Show previous card of current visible card
-	 * @method showPreviousCard
-	 * @param {Boolean} skipAnimation (optional)
-	 * @return {Boolean} success
-	 */
-	showPreviousCard:function (skipAnimation) {
-		if (skipAnimation) {
-			this.temporaryDisableAnimation();
-		}
-		if (this.visibleCard) {
-			var card = this.getPreviousCardOf(this.visibleCard);
-			if (card) {
-				card.show();
-				return true;
-			}
-		}
-		return false;
-	},
-
-	/**
-	 * Show next card of current visible card
-	 * @method showNextCard
-	 * @param {Boolean} skipAnimation (optional)
-	 * @return {Boolean} success
-	 */
-	showNextCard:function (skipAnimation) {
-		if (skipAnimation) {
-			this.temporaryDisableAnimation();
-		}
-		if (this.visibleCard) {
-			var card = this.getNextCardOf(this.visibleCard);
-			if (card) {
-				card.show();
-				return true;
-			}
-		}
-		return false;
-	},
-
-
-	temporaryDisableAnimation:function () {
-		this.animate = false;
-		this.resetAnimation.delay(500, this);
-	},
-
-	resetAnimation:function () {
-		this.animate = this.initialAnimate;
-	},
-
-	setTemporaryZIndexOfVisibleCard:function () {
-		var zIndex = ludo.util.getNewZIndex(this.visibleCard);
-		this.visibleCard.getEl().style.zIndex = zIndex + 100;
-	},
-
-	/**
-	 * Show a card with this name
-	 * @method showCard
-	 * @param {String} name
-	 * @return {Boolean} success
-	 */
-	showCard:function (name) {
-		if (this.view.child[name]) {
-			this.view.child[name].show();
-			return true;
-		}
-		return false;
-	},
-	/**
-	 * Return true if passed card is last card in deck
-	 * @method isLastCard
-	 * @param {View} card
-	 * @return Boolean
-	 */
-	isLastCard:function (card) {
-		return this.view.children.indexOf(card) == this.view.children.length - 1;
-	},
-	/**
-	 * Return true if passed card is first card in deck
-	 * @method isFirstCard
-	 * @param  {View} card
-	 * @return {Boolean}
-	 */
-	isFirstCard:function (card) {
-		return this.view.children.indexOf(card) == 0;
-	},
-
-	setVisibleCard:function (card) {
-
-		this.removeValidationEvents();
-
-		var indexDiff = 0;
-		if (this.visibleCard) {
-			var indexOld = this.view.children.indexOf(this.visibleCard);
-			var indexNew = this.view.children.indexOf(card);
-			indexDiff = indexNew - indexOld;
-		}
-
-		this.visibleCard = card;
-
-		this.addValidationEvents();
-
-		if (indexDiff > 0) {
-			/**
-			 * Event fired when a higher card than current is shown
-			 * @event highercard
-			 * @param {layout.Card} this deck
-			 * @param {View} shown card
-			 */
-			this.fireEvent('highercard', [this, card]);
-		} else if (indexDiff < 0) {
-			/**
-			 * Event fired when a lower card than current is shown
-			 * @event lowercard
-			 * @param {layout.Card} this deck
-			 * @param {View} shown card
-			 */
-			this.fireEvent('lowercard', [this, card]);
-		}
-
-		/**
-		 * Event fired when a card is shown
-		 * @event showcard
-		 * @param {layout.Card} this deck
-		 * @param {View} shown card
-		 */
-		this.fireEvent('showcard', [this, this.visibleCard]);
-
-		if (this.isLastCard(card)) {
-			/**
-			 * Event fired when last card of deck is shown
-			 * @event lastcard
-			 * @param {layout.Card} this card
-			 * @param {View} shown card
-			 */
-			this.fireEvent('lastcard', [this, card]);
-		} else {
-			/**
-			 * Event fired when na card which is not the last card in the deck is shown
-			 * @event notlastcard
-			 * @param {layout.Card} this card
-			 * @param {View} shown card
-			 */
-			this.fireEvent('notlastcard', [this, card]);
-		}
-		if (this.isFirstCard(card)) {
-			/**
-			 * Event fired when first card of deck is shown
-			 * @event firstcard
-			 * @param {layout.Card} this card
-			 * @param {View} shown card
-			 */
-			this.fireEvent('firstcard', [this, card]);
-		}
-		else {
-			/**
-			 * Event fired when a card which is not the first card in the deck is shown
-			 * @event notfirstcard
-			 * @param {layout.Card} this card
-			 * @param {View} shown card
-			 */
-			this.fireEvent('notfirstcard', [this, card]);
-		}
-	},
-
-	removeValidationEvents:function () {
-		if (this.visibleCard) {
-			this.visibleCard.removeEvent('invalid', this.setInvalid);
-			this.visibleCard.removeEvent('valid', this.setValid);
-		}
-	},
-
-	addValidationEvents:function () {
-		var manager = this.visibleCard.getForm();
-		manager.addEvent('invalid', this.setInvalid.bind(this));
-		manager.addEvent('valid', this.setValid.bind(this));
-		manager.validate();
-	},
-	setInvalid:function () {
-		this.fireEvent('invalid', this);
-	},
-
-	setValid:function () {
-		this.fireEvent('valid', this);
-	},
-	/**
-	 * Show first card in deck
-	 * @method showFirstCard
-	 * @return void
-	 */
-	showFirstCard:function () {
-		if (this.view.children.length > 0)this.view.children[0].show();
-	},
-	/**
-	 * Show last card in deck
-	 * @method showLastCard
-	 * @return void
-	 */
-	showLastCard:function () {
-		if (this.view.children.length > 0)this.view.children[this.view.children.length - 1].show();
-	},
-	button:{},
-	registerButton:function (button) {
-		this.button[button.name || button.id] = button;
-
-	},
-	getButton:function (ref) {
-		return this.button[ref];
-	},
-	/**
-	 * Returns true if form of current card is valid
-	 * @method isValid
-	 * @public
-	 * @return {Boolean}
-	 */
-	isValid:function () {
-		if (this.visibleCard) {
-			return this.visibleCard.getForm().isValid();
-		}
-		return true;
-	},
-	/**
-	 * Return number of cards in deck
-	 * @method getCountCards
-	 * @return {Number} count cards
-	 */
-	getCountCards:function () {
-		return this.view.children.length;
-	},
-	/**
-	 * Return index of visible card
-	 * @method getIndexOfVisibleCard
-	 * @return {Number} card index
-	 */
-	getIndexOfVisibleCard:function () {
-        return this.visibleCard ? this.view.children.indexOf(this.visibleCard) : 0;
-	},
-
-	/**
-	 * true if first card in deck is shown.
-	 * @method isOnFirstCard
-	 * @return {Boolean} is on first card
-	 */
-	isOnFirstCard:function () {
-		return this.getIndexOfVisibleCard() == 0;
-	},
-	/**
-	 * true if last card in deck is shown.
-	 * @method isOnLastCard
-	 * @return {Boolean} is on last card
-	 */
-	isOnLastCard:function () {
-		return this.getIndexOfVisibleCard() == this.view.children.length - 1;
-	},
-
-	/**
-	 * Returns percentage position of current visible card.
-	 * @method getPercentCompleted
-	 * @return {Number} percent
-	 */
-	getPercentCompleted:function () {
-		return Math.round((this.getIndexOfVisibleCard() + 1 ) / this.view.children.length * 100);
-	},
-
-	animateHigherCard:function () {
-        if(this.animate){
-            if (this.animateX) {
-                this.animateFromRight();
-            } else {
-                this.animateFromBottom();
-            }
-        }
-	},
-
-	animateLowerCard:function () {
-		if(this.animate){
-            if (this.animateX) {
-                this.animateFromLeft();
-            } else {
-                this.animateFromTop();
-            }
-        }
-	},
-
-	getAnimationDuration:function () {
-		return this.animationDuration * 1000;
-	},
-
-	animateFromRight:function () {
-		this.animateAlongX(this.visibleCard.getParent().getBody().offsetWidth, 0);
-	},
-
-	animateFromLeft:function () {
-		this.animateAlongX(this.visibleCard.getParent().getBody().offsetWidth * -1, 0);
-	},
-
-	animateFromTop:function () {
-		this.animateAlongY(this.visibleCard.getParent().getBody().offsetHeight * -1, 0);
-	},
-
-	animateFromBottom:function () {
-		this.animateAlongY(this.visibleCard.getParent().getBody().offsetHeight, 0);
-	},
-
-	animateAlongX:function (from, to) {
-		this.visibleCard.getEl().style.left = from + 'px';
-		this.getFx().start({
-			'left':[from, to]
-		});
-	},
-
-	animateAlongY:function (from, to) {
-		this.visibleCard.getEl().style.top = from + 'px';
-		this.getFx().start({
-			'top':[from, to]
-		});
-	},
-	fx:{},
-
-	getFx:function () {
-		if (this.fx[this.visibleCard.id] === undefined) {
-			this.fx[this.visibleCard.id] = new Fx.Morph(this.visibleCard.getEl(), {
-				duration:this.getAnimationDuration()
-			});
-			this.fx[this.visibleCard.id].addEvent('complete', this.animationComplete.bind(this));
-			this.fx[this.visibleCard.id].addEvent('start', this.animationStart.bind(this));
-		}
-		return this.fx[this.visibleCard.id];
-	},
-
-    animationStart:function(){
-        // TODO apply shadow or border during dragging and animation.
-    },
-
-	animationComplete:function (el) {
-		el.style.left = '0';
-		el.style.top = '0';
-        el.style.borderWidth = '0';
-	},
-
-	touchStart:function (e) {
-		if (this.isOnFormElement(e.target))return undefined;
-		var isFirstCard = this.isFirstCard(this.visibleCard);
-		var isValid = this.visibleCard.getForm().isValid();
-		if (!isValid && isFirstCard) {
-			return undefined;
-		}
-
-		var isLastCard = this.isLastCard(this.visibleCard);
-		this.renderNextAndPreviousCard();
-		var animateX = this.shouldAnimateOnXAxis();
-		var parentSize = animateX ? this.view.getEl().offsetWidth : this.view.getEl().offsetHeight;
-		this.touch = {
-			active:true,
-			pos:animateX ? e.page.x : e.page.y,
-			previousCard:this.getPreviousCardOf(this.visibleCard),
-			nextCard:this.getNextCardOf(this.visibleCard),
-			animateX:animateX,
-			zIndex:this.visibleCard.getEl().getStyle('z-index'),
-			max:isFirstCard ? 0 : parentSize,
-			min:(isLastCard || !isValid) ? 0 : parentSize * -1,
-			previousPos:0
-		};
-		if (e.target.tagName.toLowerCase() == 'img') {
-			return false;
-		}
-		return false;
-	},
-
-	shouldAnimateOnXAxis:function () {
-		return this.animateX;
-	},
-
-	touchMove:function (e) {
-		if (this.touch && this.touch.active) {
-			var pos;
-			var key;
-			if (this.touch.animateX) {
-				pos = e.page.x - this.touch.pos;
-				key = 'left';
-			} else {
-				pos = e.page.x - this.touch.pos;
-				key = 'top'
-			}
-
-			pos = Math.min(pos, this.touch.max);
-			pos = Math.max(pos, (this.touch.min));
-
-			this.setZIndexOfOtherCards(pos);
-			this.touch.previousPos = pos;
-			this.visibleCard.els.container.style[key] = pos + 'px';
-			return false;
-		}
-		return undefined;
-	},
-
-	setZIndexOfOtherCards:function (pos) {
-		if (pos > 0 && this.touch.previousPos <= 0) {
-			if (this.touch.nextCard) {
-				this.touch.nextCard.getEl().style.zIndex = (this.touch.zIndex - 3);
-			}
-			if (this.touch.previousCard) {
-				this.touch.previousCard.getEl().style.zIndex = this.touch.zIndex - 1;
-			}
-		} else if (pos < 0 && this.touch.previousPos >= 0) {
-			if (this.touch.nextCard) {
-				this.touch.nextCard.getEl().style.zIndex = this.touch.zIndex - 1;
-			}
-			if (this.touch.previousCard) {
-				this.touch.previousCard.getEl().style.zIndex = this.touch.zIndex - 3;
-			}
-		}
-	},
-
-	touchEnd:function () {
-		if (this.touch.active) {
-			this.touch.active = false;
-			var pos = this.touch.previousPos;
-			if (pos > 0 && this.touch.max && pos > (this.touch.max / 2)) {
-				this.animateToPrevious();
-			} else if (pos < 0 && pos < (this.touch.min / 2)) {
-				this.animateToNext();
-			} else {
-				this.visibleCard.getEl().style[this.touch.animateX ? 'left' : 'top'] = '0px';
-			}
-		}
-	},
-
-	isOnFormElement:function (el) {
-		var tag = el.tagName.toLowerCase();
-		return tag == 'input' || tag == 'textarea'  || tag === 'select';
-	},
-
-	renderNextAndPreviousCard:function () {
-		this.setTemporaryZIndexOfVisibleCard();
-
-		var id = this.visibleCard.id;
-
-		this.temporaryDisableAnimation();
-		var card;
-		var skipEvents = true;
-		if (card = this.getPreviousCardOf(ludo.get(id))) {
-			card.show(skipEvents);
-		}
-		if (card = this.getNextCardOf(ludo.get(id))) {
-			card.show(skipEvents);
-		}
-		ludo.get(id).show();
-
-	},
-
-	animateToPrevious:function () {
-		if (this.touch.animateX) {
-			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'left'), this.view.getEl().offsetWidth);
-		} else {
-			this.animateAlongY(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'top'), this.view.getEl().offsetHeight);
-		}
-		this.showPreviousCard.delay(this.getAnimationDuration(), this, true);
-	},
-
-	animateToNext:function () {
-		if (this.touch.animateX) {
-			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'left'), this.view.getEl().offsetWidth * -1);
-		} else {
-			this.animateAlongX(ludo.dom.getNumericStyle(this.visibleCard.getEl(), 'top'), this.view.getEl().offsetHeight * -1);
-		}
-		this.showNextCard.delay(this.getAnimationDuration(), this, true);
-	}
-});
-/* ../ludojs/src/data-source/base.js */
-/**
- * Base class for data sources
- * @namespace dataSource
- * @class Base
- */
-ludo.dataSource.Base = new Class({
-	Extends:ludo.Core,
-	/**
-	 * Accept only one data-source of this type. You also need to specify the
-	 * "type" property which will be used as key in the global SINGELTON cache
-	 * By using singletons, you don't have to do multiple requests to the server
-	 * @attribute singleton
-	 * @type {Boolean}
-	 */
-	singleton:false,
-	/**
-	 * Remote url. If not set, global url will be used
-	 * @attribute url
-	 * @type String
-	 * @optional
-	 */
-	url:undefined,
-	/**
-	 * Remote postData sent with request, example:
-	 * postData: { getUsers: 1 }
-	 * @attribute object postData
-	 */
-	postData:{},
-
-	data:undefined,
-
-	/**
-	 * Load data from external source on creation
-	 * @attribute autoload
-	 * @type {Boolean}
-	 * @default true
-	 */
-	autoload:true,
-	/**
-	 * Name of resource to request on the server
-	 * @config resource
-	 * @type String
-	 * @default ''
-	 */
-	resource:'',
-	/**
-	 * Name of service to request on the server
-	 * @config service
-	 * @type String
-	 * @default ''
-	 */
-	service:'',
-	/**
-	 Array of arguments to send to resource on server
-	 @config arguments
-	 @type Array
-	 @default ''
-	 Here are some examples:
-
-	 Create a data source for server resource "Person", service name "load" and id : "1". You will then set these config properties:
-
-	 @example
-		 "resource": "Person",
-		 "service": "load",
-		 "arguments": [1]
-	 */
-	arguments:undefined,
-
-	inLoadMode:false,
-
-	/**
-	 Config of shim to show when content is being loaded form server. This config
-	 object supports two properties, "renderTo" and "txt". renderTo is optional
-	 and specifies where to render the shim. Default is inside body of parent
-	 view.
-	 "txt" specifies which text to display inside the shim. "txt" can be
-	 either a string or a function returning a string.
-	 @config {Object} shim
-	 @example
-	 	shim:{
-			renderTo:ludo.get('myView').getBody(),
-			txt : 'Loading content. Please wait'
-	 	}
-	 renderTo is optional. Example where "txt" is defined as function:
-	 @example
-	 	shim:{
-	 		"txt": function(){
-	 			var val = ludo.get('searchField).getValue();
-	 			return val.length ? 'Searching for ' + val : 'Searching';
-	 		}
-	 	}
-	 */
-	shim:undefined,
-
-	ludoConfig:function (config) {
-		this.parent(config);
-		this.setConfigParams(config, ['url', 'postData', 'autoload', 'resource', 'service', 'arguments', 'data', 'shim']);
-
-		if (this.arguments && !ludo.util.isArray(this.arguments)) {
-			this.arguments = [this.arguments];
-		}
-
-	},
-
-	ludoEvents:function () {
-		if (this.autoload)this.load();
-	},
-
-	/**
-	 * Send a new request
-	 * @method sendRequest
-	 * @param {String} service
-	 * @param {Array} arguments
-	 * @optional
-	 * @param {Object} data
-	 * @optional
-	 */
-	sendRequest:function (service, arguments, data) {
-		this.arguments = arguments;
-		this.beforeLoad();
-		this.requestHandler().send(service, arguments, data);
-	},
-	/**
-	 * Has data loaded from server
-	 * @method hasData
-	 * @return {Boolean}
-	 */
-	hasData:function () {
-		return (this.data !== undefined);
-	},
-	/**
-	 * Return data loaded from server
-	 * @method getData
-	 * @return object data from server, example: { success:true, data:[]}
-	 */
-	getData:function () {
-		return this.data;
-	},
-
-	setPostParam:function (param, value) {
-		this.postData[param] = value;
-	},
-
-	/**
-	 * Return data-source type(HTML or JSON)
-	 * @method getSourceType
-	 * @return string source type
-	 */
-	getSourceType:function () {
-		return 'JSON';
-	},
-
-	beforeLoad:function () {
-		this.inLoadMode = true;
-		this.fireEvent('beforeload');
-	},
-
-	load:function () {
-
-	},
-
-	/**
-	 * Load content from a specific url
-	 * @method loadUrl
-	 * @param url
-	 */
-	loadUrl:function (url) {
-		this.url = url;
-		delete this._request;
-		this.load();
-	},
-
-	loadComplete:function () {
-		this.inLoadMode = false;
-	},
-
-	isLoading:function () {
-		return this.inLoadMode;
-	},
-
-	getPostData:function () {
-		return this.postData;
-	}
-});/* ../ludojs/src/data-source/json.js */
-/**
- * Class for remote data source.
- * @namespace dataSource
- * @class JSON
- * @extends dataSource.Base
- */
-ludo.dataSource.JSON = new Class({
-    Extends:ludo.dataSource.Base,
-    type:'dataSource.JSON',
-
-    /**
-     * Reload data from server
-     * Components using this data-source will be automatically updated
-     * @method load
-     * @return void
-     */
-    load:function () {
-        if(!this.url && !this.resource)return;
-        this.parent();
-        this.sendRequest(this.service, this.arguments, this.getPostData());
-    },
-
-    _request:undefined,
-	requestHandler:function(){
-        if(this._request === undefined){
-            this._request = new ludo.remote.JSON({
-                url:this.url,
-                resource: this.resource,
-				shim:this.shim,
-                listeners:{
-                    "beforeload": function(request){
-                        this.fireEvent("beforeload", request);
-                    },
-                    "success":function (request) {
-                        this.loadComplete(request.getResponseData(), request.getResponse());
-                    }.bind(this),
-                    "failure":function (request) {
-                        /**
-                         * Event fired when success parameter in response from server is false
-                         * @event failure
-                         * @param {Object} JSON response from server. Error message should be in the "message" property
-                         * @param {ludo.dataSource.JSON} this
-                         *
-                         */
-                        this.fireEvent('failure', [request.getResponse(), this]);
-                    }.bind(this),
-                    "error":function (request) {
-                        /**
-                         * Server error event. Fired when the server didn't handle the request
-                         * @event servererror
-                         * @param {String} error text
-                         * @param {String} error message
-                         */
-                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-                    }.bind(this)
-                }
-            });
-
-        }
-        return this._request;
-    },
-
-    loadComplete:function (data) {
-		this.parent();
-		var firstLoad = !this.data;
-		this.data = data;
-        this.fireEvent('parsedata');
-        this.fireEvent('load', [this.data, this]);
-
-		if(firstLoad){
-			this.fireEvent('firstLoad', [this.data, this]);
-		}
-    }
-});
-
-ludo.factory.registerClass('dataSource.JSON', ludo.dataSource.JSON);/* ../ludojs/src/layout/renderer.js */
+});/* ../ludojs/src/layout/renderer.js */
 /**
  * @namespace layout
  * @class Renderer
@@ -4375,7 +3337,1343 @@ ludo.layout.Renderer = new Class({
 	getValue:function(key){
 		return this.view.layout[key];
 	}
-});/* ../ludojs/src/tpl/parser.js */
+});/* ../ludojs/src/layout/fill.js */
+ludo.layout.Fill = new Class({
+	Extends:ludo.layout.Base,
+
+	resize:function () {
+		var height = this.view.getInnerHeightOfBody();
+		if (height <= 0)return;
+		for (var i = 0; i < this.view.children.length; i++) {
+			this.view.children[i].resize({ height:height });
+		}
+	}
+});/* ../ludojs/src/layout/linear.js */
+/**
+ * Abstract base class for linear layouts
+ * @namespace layout
+ * @class Linear
+ */
+ludo.layout.Linear = new Class({
+	Extends:ludo.layout.Base,
+
+    onCreate:function(){
+        // TODO refactor this.
+        this.view.getBody().style.overflow='hidden';
+        this.parent();
+    },
+
+	onNewChild:function (child) {
+		this.parent(child);
+		this.updateLayoutObject(child);
+		child.addEvent('collapse', this.minimize.bind(this));
+		child.addEvent('expand', this.clearTemporaryValues.bind(this));
+		child.addEvent('minimize', this.minimize.bind(this));
+		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
+		child.addEvent('show', this.clearTemporaryValues.bind(this));
+	},
+
+	updateLayoutObject:function (child) {
+		child.layout = child.layout || {};
+		child.layout.width = child.layout.width || child.width;
+		child.layout.height = child.layout.height || child.height;
+		child.layout.weight = child.layout.weight || child.weight;
+		child.layout.resizable = child.layout.resizable || child.resizable;
+		child.layout.minWidth = child.layout.minWidth || child.minWidth;
+		child.layout.maxWidth = child.layout.maxWidth || child.maxWidth;
+		child.layout.minHeight = child.layout.minHeight || child.minHeight;
+		child.layout.maxHeight = child.layout.maxHeight || child.maxHeight;
+	},
+
+	isResizable:function (child) {
+		return child.layout.resizable ? true : false;
+	},
+
+	beforeResize:function (resize, child) {
+		if (resize.orientation === 'horizontal') {
+			resize.setMinWidth(child.layout.minWidth || 10);
+			resize.setMaxWidth(child.layout.maxWidth || this.view.getBody().offsetWidth);
+		} else {
+			resize.setMinHeight(child.layout.minHeight || 10);
+			resize.setMaxHeight(child.layout.maxHeight || this.view.getBody().offsetHeight);
+		}
+	},
+
+	getResizableFor:function (child, r) {
+		var resizeProp = (r === 'left' || r === 'right') ? 'width' : 'height';
+		return new ludo.layout.Resizer({
+			name:'resizer-' + child.name,
+			orientation:(r === 'left' || r === 'right') ? 'horizontal' : 'vertical',
+			pos:r,
+            hidden:child.isHidden(),
+			renderTo:this.view.getBody(),
+			layout:{ width:5,height:5 },
+			view:child,
+			listeners:{
+				'resize':function (change) {
+					child.layout[resizeProp] += change;
+					this.resize();
+				}.bind(this),
+				'before':this.beforeResize.bind(this)
+			}
+		});
+	}
+});/* ../ludojs/src/layout/linear-vertical.js */
+/**
+ * This class arranges child views in a column layout (side by side).
+ * @namespace layout
+ * @class LinearVertical
+ *
+ */
+ludo.layout.LinearVertical = new Class({
+	Extends:ludo.layout.Linear,
+	onCreate:function(){
+		this.parent();
+	},
+	resize:function () {
+		var componentHeight = this.view.getInnerHeightOfBody();
+		if (componentHeight == 0) {
+			return;
+		}
+		var totalHeightOfItems = 0;
+		var totalWeight = 0;
+		var height;
+		var tm = 0;
+		for (var i = 0; i < this.view.children.length; i++) {
+			if (!this.hasLayoutWeight(this.view.children[i])) {
+                height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i]);
+                totalHeightOfItems += height
+			} else {
+				if (!this.view.children[i].isHidden()) {
+					totalWeight += this.view.children[i].layout.weight;
+				}
+			}
+		}
+
+		totalWeight = Math.max(1, totalWeight);
+
+        var remainingHeight;
+		var stretchHeight = remainingHeight = (componentHeight - totalHeightOfItems);
+
+		var width = ludo.dom.getInnerWidthOf(this.view.getBody());
+		// var currentTop = 0;
+		for (i = 0; i < this.view.children.length; i++) {
+			if(!this.view.children[i].isHidden()){
+				var config = { width:width };
+				if (this.hasLayoutWeight(this.view.children[i])) {
+					if (this.view.children[i].id == this.idLastDynamic) {
+						config.height = remainingHeight;
+					} else {
+						config.height = Math.round(stretchHeight * this.view.children[i].layout.weight / totalWeight);
+						remainingHeight -= config.height;
+					}
+				} else {
+					config.height = this.getHeightOf(this.view.children[i]);
+				}
+				if (config.height < 0) {
+					config.height = undefined;
+				}
+				if(tm > 0){
+					config.top = tm;
+				}
+				if(this.view.children[i].getEl().style.position === 'absolute'){
+					tm += this.view.children[i].getHeight();
+				}
+
+				this.resizeChild(this.view.children[i], config);
+			}
+		}
+	},
+	resizeChild:function (child, resize) {
+		child.layout.height = resize.height;
+		child.resize(resize);
+		child.saveState();
+	},
+
+	onNewChild:function (child) {
+		this.parent(child);
+		if (this.isResizable(child)) {
+			var isLastSibling = this.isLastSibling(child);
+			var resizer = this.getResizableFor(child, isLastSibling ? 'above' : 'below');
+			this.addChild(resizer, child, isLastSibling ? 'before' : 'after');
+		}
+	}
+});/* ../ludojs/src/layout/linear-horizontal.js */
+/**
+ * This class arranges child views in a row layout.
+ * @namespace layout
+ * @class LinearVertical
+ *
+ */
+ludo.layout.LinearHorizontal = new Class({
+	Extends:ludo.layout.Linear,
+
+	resize:function () {
+		var totalWidth = this.view.getInnerWidthOfBody();
+		var height = this.hasDynamicHeight() ? 'auto' : this.view.getInnerHeightOfBody();
+		if (height == 0) {
+			return;
+		}
+
+		var totalWidthOfItems = 0;
+		var totalWeight = 0;
+		for (var i = 0; i < this.view.children.length; i++) {
+			if (this.view.children[i].isVisible()) {
+				if (!this.hasLayoutWeight(this.view.children[i])) {
+					var width = this.getWidthOf(this.view.children[i]);
+					if (width) {
+						totalWidthOfItems += width
+					}
+				} else {
+					totalWeight += this.view.children[i].layout.weight;
+				}
+			}
+		}
+		totalWeight = Math.max(1, totalWeight);
+		var remainingWidth;
+		totalWidth = remainingWidth = totalWidth - totalWidthOfItems;
+
+		var currentLeft = 0;
+		for (i = 0; i < this.view.children.length; i++) {
+			if (this.view.children[i].isVisible()) {
+				var config = { 'height':height, 'left':currentLeft };
+				if (this.hasLayoutWeight(this.view.children[i])) {
+					if (this.view.children[i].id == this.idLastDynamic) {
+						config.width = remainingWidth;
+					} else {
+						config.width = Math.round(totalWidth * this.view.children[i].layout.weight / totalWeight);
+						remainingWidth -= config.width;
+					}
+				} else {
+					config.width = this.getWidthOf(this.view.children[i]);
+				}
+				this.resizeChild(this.view.children[i], config);
+				currentLeft += config.width;
+			}
+		}
+
+		for (i = 0; i < this.resizables.length; i++) {
+			this.resizables[i].colResize();
+		}
+	},
+
+	resizeChild:function (child, resize) {
+		child.layout.width = resize.width;
+		child.layout.left = resize.left;
+		child.resize(resize);
+		child.saveState();
+	},
+
+	onNewChild:function (child) {
+		this.parent(child);
+		child.getEl().style.position = 'absolute';
+
+		if (this.isResizable(child)) {
+			var isLastSibling = this.isLastSibling(child);
+			var resizer = this.getResizableFor(child, isLastSibling ? 'left' : 'right');
+			this.addChild(resizer, child, isLastSibling ? 'before' : 'after');
+		}
+	},
+
+	hasDynamicHeight:function () {
+		return this.view.layout.height && this.view.layout.height == 'dynamic';
+	}
+});/* ../ludojs/src/layout/resizable.js */
+/**
+ * Resize Components within col or row layout
+ * @namespace layout
+ * @class Resizable
+ * @extends Core
+ */
+ludo.ResizableZIndex = 50000;
+ludo.layout.Resizable = new Class({
+    Extends:ludo.Core,
+    component:undefined,
+    el:undefined,
+    type:'row',
+    cls:'',
+    resizeProperties:{
+        active:false
+    },
+    position:'after',
+    alignWithCmp:undefined,
+    css:undefined,
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.component = config.component;
+        this.type = config.type || this.type;
+        this.min = config.min || 0;
+        this.max = config.max || 10000;
+        this.cls = config.cls || this.cls;
+        this.position = config.position || this.position;
+
+        if (config.css) {
+            this.css = config.css;
+        }
+        this.createDOM();
+        if (this.type === 'row') {
+            this.resizeAndPosition.delay(200, this);
+        }
+
+        this.component.addEvent('maximize', this.show.bind(this));
+        this.component.addEvent('expand', this.show.bind(this));
+        this.component.addEvent('minimize', this.hide.bind(this));
+        this.component.addEvent('collapse', this.hide.bind(this));
+
+    },
+
+    show:function () {
+        this.el.style.display = '';
+    },
+    hide:function () {
+        this.el.style.display = 'none';
+    },
+    alignWith:function (cmp) {
+        if (this.type === 'row') {
+            this.el.style.height = cmp.getEl().style.height;
+        }
+        this.alignWithCmp = cmp;
+    },
+
+    createDOM:function () {
+        this.el = new Element('div');
+        ludo.dom.addClass(this.el, 'ludo-resize-handle');
+        ludo.dom.addClass(this.el, 'ludo-resize-handle-' + this.type);
+        var styles = {
+            'position':'absolute',
+            'top':0,
+            'z-index':50000 + ludo.CmpMgr.getNewZIndex(),
+            'cursor':this.type == 'row' ? 's-resize' : 'w-resize'
+        };
+        if (this.type == 'row') {
+            styles.width = '100%';
+
+        } else {
+            styles.height = '100%';
+        }
+        this.el.setStyles(styles);
+
+        if (this.css) {
+            for (var style in this.css) {
+                if (this.css.hasOwnProperty(style)) {
+                    this.el.setStyle(style, this.css[style]);
+                }
+            }
+        }
+
+        this.addResizeEvents();
+
+        this.component.getParent().getBody().adopt(this.el);
+
+        if (this.cls) {
+            this.el.addClass(this.cls);
+        }
+
+        this.setSizeOfDragHandle.delay(100, this);
+        if (this.type === 'row') {
+            if (Browser.ie) {
+                document.id(document.documentElement).addEvent('resize', this.resizeAndPosition.bind(this));
+            } else {
+                document.id(window).addEvent('resize', this.resizeAndPosition.bind(this));
+            }
+        }
+    },
+
+    addResizeEvents:function () {
+
+        this.el.addEvent(ludo.util.getDragStartEvent(), this.startResize.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.moveResizeHandle.bind(this));
+        this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopResize.bind(this));
+
+        if (!ludo.util.isTabletOrMobile()) {
+            this.el.addEvent('mouseover', this.mouseOverResizeHandle.bind(this));
+            this.el.addEvent('mouseout', this.mouseOutResizeHandle.bind(this));
+        }
+    },
+
+    setSizeOfDragHandle:function () {
+        if (this.type === 'row') {
+            this.el.setStyle('height', this.el.getSize().y);
+        } else {
+            this.el.setStyle('width', this.el.getSize().x);
+        }
+    },
+
+    getEl:function () {
+        return this.el;
+    },
+
+    startResize:function (e) {
+		ludo.EffectObject.start();
+        ludo.dom.addClass(this.el, 'ludo-resize-handle-active');
+        var offset = this.getHandleOffset();
+        this.resizeProperties = {
+            'min':this.getMinPosOfResizeHandle() - offset,
+            'max':this.getMaxPosOfResizeHandle() - offset,
+            'currentPos':undefined,
+            'mouseX':e.page.x,
+            'mouseY':e.page.y,
+            'elX':parseInt(e.target.getStyle('left').replace('px', '')),
+            'elY':parseInt(e.target.getStyle('top').replace('px', '')),
+            'active':true
+
+        };
+        return false;
+    },
+
+    colResize:function () {
+        var el = this.alignWithCmp.getEl();
+        this.el.style.left = el.style.left;
+        this.el.style.top = el.style.top;
+        this.el.style.width = el.style.width;
+        this.el.style.height = this.getNewHeight(el);
+    },
+
+    getNewHeight:function (el) {
+
+        if (!this.css) {
+            return el.style.height;
+        }
+
+        return el.getSize().y - ludo.dom.getMH(this.el);
+    },
+
+    resizeAndPosition:function () {
+        var coordinates = this.component.getEl().getCoordinates(this.component.getParent().getBody());
+        var pos;
+        if (this.position === 'after') {
+            pos = coordinates.top + coordinates.height;
+        } else {
+            pos = coordinates.top - this.getSizeOfHandle();
+        }
+        var styles = {
+            top:pos
+        };
+        this.el.setStyles(styles);
+    },
+
+    mouseOverResizeHandle:function (e) {
+        if (!this.isResizeActive()) {
+            ludo.dom.addClass(e.target, 'ludo-resize-handle-over');
+        }
+    },
+
+    mouseOutResizeHandle:function (e) {
+        e.target.removeClass('ludo-resize-handle-over');
+    },
+
+    moveResizeHandle:function (e) {
+        if (this.isResizeActive()) {
+            var pos;
+            if (this.type == 'col') {
+                pos = this.resizeProperties.elX - this.resizeProperties.mouseX + e.page.x;
+                if (pos < this.resizeProperties.min)pos = this.resizeProperties.min;
+                else if (pos > this.resizeProperties.max)pos = this.resizeProperties.max;
+                this.el.style.left = pos + 'px';
+            }
+            if (this.type == 'row') {
+                pos = this.resizeProperties.elY - this.resizeProperties.mouseY + e.page.y;
+                if (pos < this.resizeProperties.min)pos = this.resizeProperties.min;
+                else if (pos > this.resizeProperties.max)pos = this.resizeProperties.max;
+                this.el.style.top = pos + 'px';
+            }
+            this.resizeProperties.currentPos = pos;
+
+            return false;
+        }
+    },
+
+    isResizeActive:function () {
+        return this.resizeProperties.active;
+    },
+
+    getHandleOffset:function () {
+        if (!this.handleOffset) {
+            var size = this.getSizeOfHandle();
+            var offset = Math.ceil(size / 2);
+            if (offset > 0) {
+                this.handleOffset = offset;
+            } else {
+                return 3;
+            }
+        }
+        return this.handleOffset;
+    },
+
+    handleSize:0,
+    getSizeOfHandle:function () {
+        if (!this.handleSize) {
+            this.handleSize = this.type == 'row' ? this.el.getSize().y : this.el.getSize().x;
+        }
+        return this.handleSize;
+    },
+
+    getMinPosOfResizeHandle:function () {
+        return this.min;
+    },
+
+    getMaxPosOfResizeHandle:function () {
+        return this.max;
+    },
+
+    stopResize:function () {
+        if (this.isResizeActive()) {
+			ludo.EffectObject.end();
+
+            if (this.type === 'row') {
+                this.el.setStyle('top', this.el.getStyle('top'));
+            } else {
+                this.el.setStyle('left', this.el.getStyle('left'));
+            }
+            this.resizeProperties.active = false;
+            this.el.removeClass('ludo-resize-handle-active');
+            if (this.resizeProperties.currentPos) {
+                var resizeAmount = this.resizeProperties.currentPos;
+                if (this.type === 'row') {
+                    resizeAmount -= this.resizeProperties.elY;
+                    if (this.position === 'before') {
+                        resizeAmount *= -1;
+                    }
+                    this.fireEvent('resize', [this.component.getHeight() + resizeAmount, resizeAmount]);
+                } else {
+                    resizeAmount -= this.resizeProperties.elX;
+                    if (this.position === 'before') {
+                        resizeAmount *= -1;
+                    }
+                    this.fireEvent('resize', [this.component.getWidth() + resizeAmount, resizeAmount]);
+                }
+            }
+        }
+    }
+});/* ../ludojs/src/layout/menu-container.js */
+ludo.layout.MenuContainer = new Class({
+    Extends:Events,
+    type:'layout.MenuContainer',
+    lm:undefined,
+    layout:{
+        width:'wrap',
+        height:'wrap'
+    },
+    children:[],
+    alwaysInFront:true,
+    initialize:function (layoutManager) {
+        this.lm = layoutManager;
+        this.setLayout();
+        this.createDom();
+    },
+
+    setLayout:function () {
+        var l = this.layout;
+        if (this.lm.view.parentComponent) {
+            var vAlign = this.getSubMenuVAlign();
+            var hAlign = this.getSubMenuHAlign();
+            if (this.getParentLayoutOrientation() === 'horizontal') {
+                l[vAlign] = this.lm.view.getParent().getEl();
+                l.alignLeft = this.lm.view;
+            } else {
+                l[hAlign] = this.lm.view.getEl();
+                l[vAlign === 'above' ? 'alignBottom' : 'alignTop'] = this.lm.view;
+                // TODO refactor this to dynamic value
+                l.offsetY = -3;
+            }
+
+            this.lm.view.layout.alignSubMenuV = this.lm.view.layout.alignSubMenuV || vAlign;
+            this.lm.view.layout.alignSubMenuH = this.lm.view.layout.alignSubMenuH || hAlign;
+
+            l.height = 'wrap';
+        }
+
+        l.fitVerticalViewPort = true;
+    },
+
+    getSubMenuVAlign:function () {
+        var validKeys = ['above','below'];
+        var p = this.lm.view.parentComponent;
+        return p && p.layout.alignSubMenuV  && validKeys.indexOf(p.layout.alignSubMenuV) !== -1 ? p.layout.alignSubMenuV : 'below';
+    },
+
+    getSubMenuHAlign:function () {
+        var validKeys = ['leftOrRightOf','rightOrLeftOf','leftOf','rightOf'];
+        var p = this.lm.view.parentComponent;
+        return p && p.layout.alignSubMenuH  && validKeys.indexOf(p.layout.alignSubMenuH) !== -1 ? p.layout.alignSubMenuH : 'rightOrLeftOf';
+    },
+
+	getParentLayoutOrientation:function(){
+		var p = this.lm.view.parentComponent;
+		return p ? p.layout.orientation : '';
+	},
+
+    createDom:function () {
+        this.el = ludo.dom.create({
+            'css':{
+                'position':'absolute',
+                'display':'none'
+            },
+            renderTo:document.body
+        });
+
+        ludo.dom.addClass(this.el, 'ludo-menu-vertical-' + this.getSubMenuVAlign());
+        if(this.getSubMenuHAlign().indexOf('left') === 0){
+            ludo.dom.addClass(this.el, 'ludo-menu-vertical-to-left');
+        }
+
+		if(this.getParentLayoutOrientation() === 'horizontal' && this.getSubMenuVAlign().indexOf('above') === 0){
+            ludo.dom.addClass(this.lm.view.parentComponent.getEl(), 'ludo-menu-horizontal-up');
+        }
+
+        this.body = ludo.dom.create({
+            renderTo:this.el
+        });
+    },
+
+    getEl:function () {
+        return this.el;
+    },
+
+    getBody:function () {
+        return this.body;
+    },
+
+    resize:function (config) {
+        if (config.width) {
+            this.getEl().style.width = config.width + 'px';
+        }
+    },
+
+    isHidden:function () {
+        return false;
+    },
+
+    show:function () {
+        this.getEl().style.zIndex = (ludo.util.getNewZIndex(this) + 100);
+
+        if (this.getEl().style.display === '')return;
+
+        this.getEl().style.display = '';
+
+        this.resizeChildren();
+        this.getRenderer().resize();
+
+        if (!this.layout.width || this.layout.width === 'wrap') {
+            this.setFixedRenderingWidth();
+        }
+
+        this.fireEvent('show', this);
+    },
+
+    setFixedRenderingWidth:function () {
+        this.layout.width = undefined;
+        var r = this.getRenderer();
+        r.clearFn();
+        r.setValue('width', r.getSize().x);
+        r.resize();
+        for (var i = 0; i < this.lm.view.children.length; i++) {
+            var cr = this.lm.view.children[i].getLayout().getRenderer();
+            cr.clearFn();
+            cr.setValue('width', r.getValue('width'));
+        }
+
+        this.resizeChildren();
+    },
+
+    childrenResized:false,
+    resizeChildren:function () {
+        if (this.childrenResized)return;
+        for (var i = 0; i < this.lm.view.children.length; i++) {
+            this.lm.view.children[i].getLayout().getRenderer().resize();
+        }
+        this.fireEvent('resize');
+    },
+
+    hide:function () {
+        this.getEl().style.display = 'none';
+        this.fireEvent('hide', this);
+    },
+    renderer:undefined,
+    getRenderer:function () {
+        if (this.renderer === undefined) {
+            this.renderer = new ludo.layout.Renderer({
+                view:this
+            });
+        }
+        return this.renderer;
+    }
+});/* ../ludojs/src/layout/menu.js */
+/**
+ Class for menu layouts in LudoJS
+ An instance of this class is created dynamically when
+ layout.type for a View is set to "menu".
+ @namespace layout
+ @class Menu
+ @constructor
+ @example
+ 	layout:{
+		 type:'Menu',
+		 rightOf:'leftMenu'
+	 },
+	 children:[
+		 {
+			 html:'Games',
+			 children:[
+				 { html:'Console games',
+					 children:['XBox 360',
+						 {
+							 html:'Wii U',
+							 children:['NintendoLand', 'Batman Arkham City', 'SuperMario Wii U']
+						 }, 'PlayStation']},
+				 'PC Games',
+				 'Mac Games',
+				 'Mobile games'
+			 ]
+		 },
+		 'Apps',
+		 'Utilities'
+	 ],
+ 	 listeners:{
+ 	 	'click' : function(item){
+ 	 		console.log('You clicked ' + item.html);
+ 	 	}
+ 	 }
+
+ */
+ludo.layout.Menu = new Class({
+	Extends:ludo.layout.Base,
+	active:false,
+	alwaysActive:false,
+
+	onCreate:function () {
+		this.menuContainer = new ludo.layout.MenuContainer(this);
+		if (this.view.layout.active) {
+			this.alwaysActive = true;
+		}
+
+		if (this.view.id === this.getTopMenuComponent().id) {
+			document.id(document.documentElement).addEvent('click', this.autoHideMenus.bind(this));
+			ludo.EffectObject.addEvent('start', this.hideAllMenus.bind(this));
+		}
+	},
+
+	getMenuContainer:function () {
+		return this.menuContainer;
+	},
+
+	getValidChild:function (child) {
+		if (ludo.util.isString(child))child = { html:child };
+		child.layout = child.layout || {};
+		if (child.children && !child.layout.type) {
+			child.layout.type = 'menu';
+			child.layout.orientation = 'vertical';
+		}
+		child.type = child.type || 'menu.Item';
+		if (child.type === 'menu.Item') {
+			child.orientation = this.view.layout.orientation;
+		} else {
+			child.layout.height = child.layout.height || child.height;
+		}
+
+		return child;
+	},
+
+	parentForNewChild:undefined,
+
+	getParentForNewChild:function () {
+		if (this.parentForNewChild === undefined) {
+			var isTop = !this.hasMenuLayout(this.view.parentComponent);
+			var p = isTop ? this.parent() : this.getMenuContainer().getBody();
+			ludo.dom.addClass(p.parentNode, 'ludo-menu');
+			ludo.dom.addClass(p.parentNode, 'ludo-menu-' + this.view.layout.orientation);
+
+			if (isTop && !this.view.layout.isContext)ludo.dom.addClass(p.parentNode, 'ludo-menu-top');
+			this.parentForNewChild = p;
+
+			if (isTop) {
+				this.view.addEvent('show', this.resize.bind(this));
+			}
+		}
+		return this.parentForNewChild;
+	},
+
+	onNewChild:function (child) {
+		this.assignMenuItemFns(child);
+		if (this.hasMenuLayout(child)) {
+			child.addEvent('addChild', this.assignMenuItemFns.bind(this));
+		}
+	},
+
+	hasMenuLayout:function (item) {
+		return item && item.layout && item.layout.type && item.layout.type.toLowerCase() === 'menu';
+	},
+
+	parentContainers:undefined,
+
+	getTopMenuComponent:function () {
+		var v = this.view;
+		while (v.parentComponent && this.hasMenuLayout(v.parentComponent)) {
+			v = v.getParent();
+		}
+		return v;
+	},
+
+	assignMenuItemFns:function (child) {
+		var lm = this;
+		var p = lm.view.getParent();
+		var topMenu = this.getTopMenuComponent();
+		var topLm = topMenu.getLayout();
+
+		if (child.mouseOver === undefined) {
+			child.getEl().addEvent('mouseenter', function () {
+				this.mouseOver();
+			}.bind(child));
+			child.mouseOver = function () {
+				this.fireEvent('enterMenuItem', this);
+			}.bind(child);
+		}
+
+		child.getMenuLayoutManager = function () {
+			return this.parentComponent && this.parentComponent.getMenuLayoutManager ? this.parentComponent.getMenuLayoutManager() : lm;
+		}.bind(child);
+		child.getParentMenuItem = function () {
+			return lm.hasMenuLayout(p) ? lm.view : undefined;
+		}.bind(child);
+		child.isTopMenuItem = function () {
+			return !lm.hasMenuLayout(p);
+		}.bind(child);
+		child.getMenuContainer = function () {
+			return lm.getMenuContainer();
+		}.bind(child);
+
+		child.getMenuContainerToShow = function () {
+			if (this.containerToShow === undefined) {
+				if (lm.hasMenuLayout(this) && this.children.length > 0) {
+					if (!this.children[0].lifeCycleComplete)this.children[0].remainingLifeCycle();
+					this.containerToShow = this.children[0].getMenuContainer();
+				} else {
+					this.containerToShow = undefined;
+				}
+			}
+			return this.containerToShow;
+		}.bind(child);
+
+		child.getMenuContainersToShow = function () {
+			if (!this.menuContainersToShow) {
+				var cnt = [];
+				var v = this.getParent();
+				while (v && v.layout.orientation === 'vertical') {
+					if (v.getMenuContainerToShow)cnt.unshift(v.getMenuContainerToShow());
+					v = v.getParent();
+				}
+				var cmp = this.getMenuContainerToShow();
+				if (cmp)cnt.push(cmp);
+
+				this.menuContainersToShow = cnt;
+			}
+			return this.menuContainersToShow;
+		}.bind(child);
+
+
+		child.getMenuComponent = function () {
+			return topMenu;
+		}.bind(child);
+
+		child.getParentMenuItems = function () {
+			if (!this.parentMenuItems) {
+				this.parentMenuItems = [];
+				var v = this.getParent();
+				while (v && v.getMenuContainer) {
+					this.parentMenuItems.push(v);
+					v = v.getParent();
+				}
+			}
+			return this.parentMenuItems;
+		}.bind(child);
+
+		child.addEvent('click', function () {
+			topMenu.fireEvent('click', this);
+		}.bind(child));
+
+		if (this.view.layout.orientation === 'horizontal' && child.children.length > 0) {
+			child.addEvent('click', function () {
+				topLm.activate(child);
+			}.bind(this));
+		} else {
+			child.addEvent('click', topLm.hideAllMenus.bind(topLm));
+		}
+
+		child.addEvent('enterMenuItem', function () {
+			topLm.showMenusFor(child);
+			topLm.highlightItemPath(child);
+		}.bind(this));
+	},
+	shownMenus:[],
+
+	activate:function (child) {
+		this.active = !this.active;
+		if (this.shownMenus.length === 0) {
+			ludo.EffectObject.fireEvents();
+		}
+		this.showMenusFor(child);
+	},
+
+	showMenusFor:function (child) {
+		if (!this.active && !this.alwaysActive) {
+			this.hideMenus();
+		} else {
+			var menusToShow = child.getMenuContainersToShow();
+			this.hideMenus(menusToShow);
+
+			this.shownMenus = menusToShow;
+			for (var i = 0; i < this.shownMenus.length; i++) {
+				this.shownMenus[i].show();
+			}
+		}
+	},
+
+	hideAllMenus:function () {
+		this.hideMenus();
+		this.clearHighlightedPath();
+		if (this.view.layout.isContext) {
+			this.view.getEl().style.display = 'none';
+		}
+		this.shownMenus = [];
+	},
+
+	hideMenus:function (except) {
+		except = except || [];
+		for (var i = 0; i < this.shownMenus.length; i++) {
+			if (except.indexOf(this.shownMenus[i]) === -1) this.shownMenus[i].hide();
+		}
+	},
+
+	highlightedItems:[],
+	highlightItemPath:function (child) {
+		var items = child.getParentMenuItems();
+		this.clearHighlightedPath(items);
+		for (var i = 0; i < items.length; i++) {
+			ludo.dom.addClass(items[i].getEl(), 'ludo-menu-item-active');
+		}
+		this.highlightedItems = items;
+	},
+
+	clearHighlightedPath:function (except) {
+		except = except || [];
+		var items = this.highlightedItems;
+		for (var i = 0; i < items.length; i++) {
+			if (except.indexOf(items[i]) === -1) {
+				ludo.dom.removeClass(items[i].getEl(), 'ludo-menu-item-active');
+			}
+		}
+	},
+
+	autoHideMenus:function (e) {
+		if (this.active || this.alwaysActive) {
+			if (e.target.className && e.target.className.indexOf && e.target.className.indexOf('ludo-menu-item') === -1 && !e.target.getParent('.ludo-menu')) {
+				this.hideAllMenus();
+				if (this.view.layout.orientation === 'horizontal') {
+					this.active = false;
+				}
+			}
+		}
+	}
+});/* ../ludojs/src/layout/slide-in.js */
+/**
+ * Layout where first child slides in from the left on demand
+ * @namespace layout
+ * @class SlideIn
+ */
+ludo.layout.SlideIn = new Class({
+    Extends:ludo.layout.Base,
+    slideEl:undefined,
+
+    onCreate:function(){
+        this.view.getBody().style.overflowX = 'hidden';
+    },
+
+    onNewChild:function (child) {
+        this.parent(child);
+        child.getEl().style.position = 'absolute';
+    },
+
+    resize:function () {
+        var widthOfFirst = this.getWidthOfMenu();
+
+        this.view.children[0].resize({
+            width:widthOfFirst,
+            height:this.viewport.height
+        });
+
+        this.slideEl.style.width = (this.viewport.absWidth + widthOfFirst) + 'px';
+        this.slideEl.style.left = this.view.layout.active ? 0 : (widthOfFirst * -1) + 'px';
+
+        this.view.children[1].getEl().style.left = widthOfFirst + 'px';
+        this.view.children[1].resize({
+            width:this.viewport.absWidth,
+            height:this.viewport.height
+        })
+
+    },
+    /**
+     Show menu
+     @method show
+     @example
+        view.getLayout().show();
+     */
+    show:function () {
+        if (!this.isMenuOpen()) {
+            if(this.view.children[0].hidden){
+                this.view.children[0].show();
+            }
+            this.view.layout.active = true;
+            var widthOfFirst = this.getWidthOfMenu();
+            this.effect().slide(this.slideEl, { x:widthOfFirst * -1}, {x:0 }, this.getDuration());
+        }
+    },
+    /**
+     hide menu
+     @method hide
+     @example
+        view.getLayout().hide();
+     */
+    hide:function () {
+        if (this.isMenuOpen()) {
+            this.view.layout.active = false;
+            var widthOfFirst = this.getWidthOfMenu();
+            this.effect().slide(this.slideEl, {x:0 }, { x:widthOfFirst * -1}, this.getDuration());
+        }
+    },
+
+	isMenuOpen:function(){
+		return this.view.layout.active;
+	},
+
+    /**
+     * Toggle between show and hide
+     * @method toggle
+     */
+    toggle:function () {
+        this[this.view.layout.active ? 'hide' : 'show']();
+    },
+
+    effect:function () {
+        if (this.effectObject === undefined) {
+            this.effectObject = new ludo.effect.Effect
+        }
+        return this.effectObject;
+    },
+
+    getDuration:function () {
+        return this.view.layout.duration || .15;
+    },
+
+    getWidthOfMenu:function(){
+        var ret = this.view.children[0].layout.width;
+
+        if(isNaN(ret)){
+            switch(ret){
+                case 'matchParent':
+                    return this.viewport.width;
+                default:
+                    return parseInt(ret) * this.viewport.width / 100;
+            }
+
+        }else{
+            return ret;
+        }
+    },
+
+    getParentForNewChild:function () {
+        if (!this.slideEl) {
+            this.slideEl = ludo.dom.create({
+                tag:'div',
+                renderTo:this.view.getBody(),
+                css:{
+                    height:'100%',
+                    position:'absolute'
+                }
+            });
+        }
+        return this.slideEl;
+    }
+
+});/* ../ludojs/src/layout/menu-vertical.js */
+ludo.layout.MenuVertical = new Class({
+    Extends: ludo.layout.Menu,
+	active:true,
+
+	getValidChild:function(child){
+		child = this.parent(child);
+		if (!child.layout.width) {
+			child.layout.width = 'fitParent';
+		}
+		return child;
+	},
+
+    resize:function () {
+        for (var i = 0; i < this.view.children.length; i++) {
+            this.view.children[i].getLayout().getRenderer().resize();
+        }
+    }
+});/* ../ludojs/src/data-source/base.js */
+/**
+ * Base class for data sources
+ * @namespace dataSource
+ * @class Base
+ */
+ludo.dataSource.Base = new Class({
+	Extends:ludo.Core,
+	/**
+	 * Accept only one data-source of this type. You also need to specify the
+	 * "type" property which will be used as key in the global SINGELTON cache
+	 * By using singletons, you don't have to do multiple requests to the server
+	 * @attribute singleton
+	 * @type {Boolean}
+	 */
+	singleton:false,
+	/**
+	 * Remote url. If not set, global url will be used
+	 * @attribute url
+	 * @type String
+	 * @optional
+	 */
+	url:undefined,
+	/**
+	 * Remote postData sent with request, example:
+	 * postData: { getUsers: 1 }
+	 * @attribute object postData
+	 */
+	postData:{},
+
+	data:undefined,
+
+	/**
+	 * Load data from external source on creation
+	 * @attribute autoload
+	 * @type {Boolean}
+	 * @default true
+	 */
+	autoload:true,
+	/**
+	 * Name of resource to request on the server
+	 * @config resource
+	 * @type String
+	 * @default ''
+	 */
+	resource:'',
+	/**
+	 * Name of service to request on the server
+	 * @config service
+	 * @type String
+	 * @default ''
+	 */
+	service:'',
+	/**
+	 Array of arguments to send to resource on server
+	 @config arguments
+	 @type Array
+	 @default ''
+	 Here are some examples:
+
+	 Create a data source for server resource "Person", service name "load" and id : "1". You will then set these config properties:
+
+	 @example
+		 "resource": "Person",
+		 "service": "load",
+		 "arguments": [1]
+	 */
+	arguments:undefined,
+
+	inLoadMode:false,
+
+	/**
+	 Config of shim to show when content is being loaded form server. This config
+	 object supports two properties, "renderTo" and "txt". renderTo is optional
+	 and specifies where to render the shim. Default is inside body of parent
+	 view.
+	 "txt" specifies which text to display inside the shim. "txt" can be
+	 either a string or a function returning a string.
+	 @config {Object} shim
+	 @example
+	 	shim:{
+			renderTo:ludo.get('myView').getBody(),
+			txt : 'Loading content. Please wait'
+	 	}
+	 renderTo is optional. Example where "txt" is defined as function:
+	 @example
+	 	shim:{
+	 		"txt": function(){
+	 			var val = ludo.get('searchField).getValue();
+	 			return val.length ? 'Searching for ' + val : 'Searching';
+	 		}
+	 	}
+	 */
+	shim:undefined,
+
+	ludoConfig:function (config) {
+		this.parent(config);
+		this.setConfigParams(config, ['url', 'postData', 'autoload', 'resource', 'service', 'arguments', 'data', 'shim']);
+
+		if (this.arguments && !ludo.util.isArray(this.arguments)) {
+			this.arguments = [this.arguments];
+		}
+
+	},
+
+	ludoEvents:function () {
+		if (this.autoload)this.load();
+	},
+
+	/**
+	 * Send a new request
+	 * @method sendRequest
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @optional
+	 * @param {Object} data
+	 * @optional
+	 */
+	sendRequest:function (service, arguments, data) {
+		this.arguments = arguments;
+		this.beforeLoad();
+		this.requestHandler().send(service, arguments, data);
+	},
+	/**
+	 * Has data loaded from server
+	 * @method hasData
+	 * @return {Boolean}
+	 */
+	hasData:function () {
+		return (this.data !== undefined);
+	},
+	/**
+	 * Return data loaded from server
+	 * @method getData
+	 * @return object data from server, example: { success:true, data:[]}
+	 */
+	getData:function () {
+		return this.data;
+	},
+
+	setPostParam:function (param, value) {
+		this.postData[param] = value;
+	},
+
+	/**
+	 * Return data-source type(HTML or JSON)
+	 * @method getSourceType
+	 * @return string source type
+	 */
+	getSourceType:function () {
+		return 'JSON';
+	},
+
+	beforeLoad:function () {
+		this.inLoadMode = true;
+		this.fireEvent('beforeload');
+	},
+
+	load:function () {
+
+	},
+
+	/**
+	 * Load content from a specific url
+	 * @method loadUrl
+	 * @param url
+	 */
+	loadUrl:function (url) {
+		this.url = url;
+		delete this._request;
+		this.load();
+	},
+
+	loadComplete:function () {
+		this.inLoadMode = false;
+	},
+
+	isLoading:function () {
+		return this.inLoadMode;
+	},
+
+	getPostData:function () {
+		return this.postData;
+	}
+});/* ../ludojs/src/data-source/json.js */
+/**
+ * Class for remote data source.
+ * @namespace dataSource
+ * @class JSON
+ * @extends dataSource.Base
+ */
+ludo.dataSource.JSON = new Class({
+    Extends:ludo.dataSource.Base,
+    type:'dataSource.JSON',
+
+    /**
+     * Reload data from server
+     * Components using this data-source will be automatically updated
+     * @method load
+     * @return void
+     */
+    load:function () {
+        if(!this.url && !this.resource)return;
+        this.parent();
+        this.sendRequest(this.service, this.arguments, this.getPostData());
+    },
+
+    _request:undefined,
+	requestHandler:function(){
+        if(this._request === undefined){
+            this._request = new ludo.remote.JSON({
+                url:this.url,
+                resource: this.resource,
+				shim:this.shim,
+                listeners:{
+                    "beforeload": function(request){
+                        this.fireEvent("beforeload", request);
+                    },
+                    "success":function (request) {
+                        this.loadComplete(request.getResponseData(), request.getResponse());
+                    }.bind(this),
+                    "failure":function (request) {
+                        /**
+                         * Event fired when success parameter in response from server is false
+                         * @event failure
+                         * @param {Object} JSON response from server. Error message should be in the "message" property
+                         * @param {ludo.dataSource.JSON} this
+                         *
+                         */
+                        this.fireEvent('failure', [request.getResponse(), this]);
+                    }.bind(this),
+                    "error":function (request) {
+                        /**
+                         * Server error event. Fired when the server didn't handle the request
+                         * @event servererror
+                         * @param {String} error text
+                         * @param {String} error message
+                         */
+                        this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
+                    }.bind(this)
+                }
+            });
+
+        }
+        return this._request;
+    },
+
+    loadComplete:function (data) {
+		this.parent();
+		var firstLoad = !this.data;
+		this.data = data;
+        this.fireEvent('parsedata');
+        this.fireEvent('load', [this.data, this]);
+
+		if(firstLoad){
+			this.fireEvent('firstLoad', [this.data, this]);
+		}
+    }
+});
+
+ludo.factory.registerClass('dataSource.JSON', ludo.dataSource.JSON);/* ../ludojs/src/tpl/parser.js */
 /**
  * JSON Content compiler. This component will return compiled JSON for a view. It will
  * be created on demand by a ludo.View. If you want to create your own parser, extend this
@@ -6146,4707 +6444,7 @@ ludo.View = new Class({
 	}
 });
 
-ludo.factory.registerClass('View', ludo.View);/* ../ludojs/src/layout/tab-strip.js */
-ludo.layout.TabStrip = new Class({
-    Extends:ludo.View,
-    type:'layout.TabStrip',
-    tabPos:'left',
-    lm:undefined,
-    tabs:{},
-    currentPos:-1,
-    activeTab:undefined,
-    currentZIndex:3,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        if (config.tabPos !== undefined)this.tabPos = config.tabPos;
-        this.lm = config.lm;
-    },
-    ludoEvents:function () {
-        this.parent();
-        this.lm.addEvent('addChild', this.registerChild.bind(this));
-        this.lm.addEvent('showChild', this.activateTabFor.bind(this));
-        this.lm.addEvent('removeChild', this.removeTabFor.bind(this));
-    },
-
-    registerChild:function (child) {
-        if (!this.lm.isTabStrip(child)) {
-            this.createTabFor(child);
-        }
-    },
-
-    resizeTabs:function () {
-        this.currentPos = -1;
-        for (var key in this.tabs) {
-            if (this.tabs.hasOwnProperty(key)) {
-                var node = this.tabs[key];
-                node.style[this.getPosAttribute()] = this.currentPos + 'px';
-                this.increaseCurrentPos(node);
-            }
-        }
-    },
-
-    createTabFor:function (child) {
-        var node;
-        if (this.tabPos === 'top' || this.tabPos == 'bottom') {
-            node = this.getPlainTabFor(child);
-        } else {
-            node = this.getSVGTabFor(child);
-        }
-
-        node.addEvent('click', child.show.bind(child, false));
-        this.getBody().adopt(node);
-        if (child.layout.closable) {
-            this.addCloseButton(node, child);
-        }
-        node.style[this.getPosAttribute()] = this.currentPos + 'px';
-        node.className = 'ludo-tab-strip-tab ludo-tab-strip-tab-' + this.tabPos;
-        this.tabs[child.getId()] = node;
-        this.increaseCurrentPos(node);
-        if (!child.isHidden())this.activateTabFor(child);
-    },
-
-    addCloseButton:function (node, child) {
-        var el = new Element('div');
-        el.className = 'ludo-tab-close ludo-tab-close-' + this.tabPos;
-        el.addEvent('mouseenter', this.enterCloseButton.bind(this));
-        el.addEvent('mouseleave', this.leaveCloseButton.bind(this));
-        el.id = 'tab-close-' + child.id;
-        el.addEvent('click', this.removeChild.bind(this));
-        node.appendChild(el);
-        var p;
-        switch (this.tabPos) {
-            case 'top':
-            case 'bottom':
-                p = node.getStyle('padding-right');
-                node.style.paddingRight = (parseInt(p) + el.offsetWidth) + 'px';
-                break;
-            case 'right':
-                p = node.getStyle('padding-right');
-                node.style.paddingBottom = (parseInt(p) + el.offsetHeight) + 'px';
-                break;
-            case 'left':
-                p = node.getStyle('padding-right');
-                node.style.paddingTop = (parseInt(p) + el.offsetHeight) + 'px';
-                break;
-        }
-    },
-
-    removeChild:function (e) {
-        var id = e.target.id.replace('tab-close-', '');
-        ludo.get(id).dispose();
-        return false;
-    },
-
-    removeTabFor:function (child) {
-        this.tabs[child.getId()].dispose();
-        delete this.tabs[child.getId()];
-        this.resizeTabs();
-    },
-
-    enterCloseButton:function (e) {
-        e.target.addClass('ludo-tab-close-' + this.tabPos + '-over');
-    },
-
-    leaveCloseButton:function (e) {
-        e.target.removeClass('ludo-tab-close-' + this.tabPos + '-over');
-    },
-
-    getPosAttribute:function () {
-        if (!this.posAttribute) {
-            switch (this.tabPos) {
-                case 'top':
-                case 'bottom':
-                    this.posAttribute = 'left';
-                    break;
-                case 'left':
-                case 'right':
-                    this.posAttribute = 'top';
-                    break;
-            }
-        }
-        return this.posAttribute;
-    },
-
-    increaseCurrentPos:function (node) {
-        if (this.tabPos === 'top' || this.tabPos === 'bottom') {
-            this.currentPos += node.offsetWidth + ludo.dom.getMW(node);
-        } else {
-            this.currentPos += node.offsetHeight + ludo.dom.getMH(node);
-        }
-        this.currentPos--;
-    },
-
-    getPlainTabFor:function (child) {
-        var el = new Element('div');
-        this.getBody().adopt(el);
-        el.className = 'ludo-tab-strip-tab ludo-tab-strip-tab-' + this.tabPos;
-        el.innerHTML = '<div class="ludo-tab-strip-tab-bg-first"></div><div class="ludo-tab-strip-tab-bg-last"></div>';
-        ludo.dom.create({
-            tag:'span',html : this.getTitleFor(child),renderTo:el
-        });
-        return el;
-    },
-
-    getSVGTabFor:function (child) {
-        var el = new Element('div');
-        this.getBody().adopt(el);
-        el.innerHTML = '<div class="ludo-tab-strip-tab-bg-first"></div><div class="ludo-tab-strip-tab-bg-last">';
-        var svgEl = document.createElement('div');
-        el.adopt(svgEl);
-        var box = new ludo.layout.TextBox({
-            renderTo:svgEl,
-            width:100, height:100,
-            className:'ludo-tab-strip-tab-txt-svg',
-            text:this.getTitleFor(child),
-            rotation:this.getRotation()
-        });
-        var size = box.getSize();
-        svgEl.style.width = size.x + 'px';
-        svgEl.style.height = size.y + 'px';
-
-        return el;
-    },
-
-    getRotation:function () {
-        if (this.rotation === undefined) {
-            switch (this.tabPos) {
-                case 'left' :
-                    this.rotation = 270;
-                    break;
-                case 'right' :
-                    this.rotation = 90;
-                    break;
-                case 'bottom' :
-                    this.rotation = 180;
-                    break;
-                default :
-                    this.rotation = 0;
-                    break;
-            }
-        }
-        return this.rotation;
-    },
-
-    getTitleFor:function (child) {
-        return (child.layout.title || child.getTitle());
-    },
-
-    activateTabFor:function (child) {
-        if (this.activeTab !== undefined) {
-            ludo.dom.removeClass(this.activeTab, 'ludo-tab-strip-tab-active');
-        }
-        if (this.tabs[child.id] !== undefined) {
-            ludo.dom.addClass(this.tabs[child.id], 'ludo-tab-strip-tab-active');
-            this.activeTab = this.tabs[child.id];
-            this.activeTab.style.zIndex = this.currentZIndex;
-            this.currentZIndex++;
-        }
-    },
-
-    ludoDOM:function () {
-        this.parent();
-        ludo.dom.addClass(this.getEl(), 'ludo-tab-strip');
-        ludo.dom.addClass(this.getEl(), 'ludo-tab-strip-' + this.tabPos);
-
-        var el = document.createElement('div');
-        ludo.dom.addClass(el, 'ludo-tab-strip-line');
-        this.getBody().adopt(el);
-    },
-
-    getTabFor:function (child) {
-        return this.tabs[child.id]
-    },
-
-    getChangedViewport:function () {
-        var value;
-        if (this.tabPos === 'top' || this.tabPos === 'bottom') {
-            value = this.getEl().offsetHeight + ludo.dom.getMH(this.getEl());
-        } else {
-            value = this.getEl().offsetWidth + ludo.dom.getMW(this.getEl());
-        }
-        return {
-            key:this.tabPos, value:value
-        };
-    },
-    getCount:function () {
-        return Object.keys(this.tabs).length;
-    }
-});/* ../ludojs/src/layout/relative.js */
-/**
- Class for relative positioning of child views. This is the most powerful layout
- in ludoJS.
- An instance of this class is created dynamically when
- layout.type for a View is set to "relative".
- This layout uses ideas from Android's relative layout.
- When using a relative layout, all layout properties should be defined inside a layout config object.
- That also includes width and height.
- @namespace layout
- @class Relative
- @constructor
-
- */
-ludo.layout.Relative = new Class({
-	Extends:ludo.layout.Base,
-	children:undefined,
-    /**
-     * Array of valid layout properties
-     * @property {Array} layoutFnProperties
-     * @private
-     */
-	layoutFnProperties:[
-		'width', 'height',
-		'alignParentTop', 'alignParentBottom', 'alignParentLeft', 'alignParentRight',
-		'leftOf', 'rightOf', 'below', 'above',
-		'alignLeft', 'alignRight', 'alignTop', 'alignBottom',
-		'sameWidthAs', 'sameHeightAs',
-		'centerInParent', 'centerHorizontal', 'centerVertical',
-		'fillLeft', 'fillRight', 'fillUp', 'fillDown',
-		'absBottom','absWidth','absHeight','absLeft','absTop','absRight','offsetX','offsetY'
-	],
-    /**
-     * Internal child coordinates set during resize
-     * @property {Object} newChildCoordinates
-     * @private
-     */
-	newChildCoordinates:{},
-    /**
-     * Internal storage of child coordinates for last resize
-     * @property {Object} lastChildCoordinates
-     * @private
-     */
-	lastChildCoordinates:{},
-
-	onCreate:function () {
-		this.parent();
-		this.view.getBody().style.position = 'relative';
-	},
-
-	resize:function () {
-		if (this.children === undefined) {
-			this.prepareResize();
-		}
-		for (var i = 0; i < this.children.length; i++) {
-            if(!this.children[i].layoutResizeFn){
-                this.children[i].layoutResizeFn = this.getResizeFnFor(this.children[i]);
-            }
-			this.children[i].layoutResizeFn.call(this.children[i], this);
-		}
-	},
-
-    /**
-     * No resize done yet, create resize functions
-     * @method prepareResize
-     * @private
-     */
-	prepareResize:function( ){
-		this.fixLayoutReferences();
-		this.arrangeChildren();
-     	this.createResizeFunctions();
-	},
-
-    /**
-     * Create/Compile resize functions for each child
-     * @method createResizeFunctions
-     * @private
-     */
-	createResizeFunctions:function () {
-		for (var i = 0; i < this.children.length; i++) {
-			this.children[i].layoutResizeFn = this.getResizeFnFor(this.children[i]);
-		}
-	},
-    /**
-     * Convert layout id references to direct view reference for optimal performance
-     * @method fixLayoutReferences
-     * @private
-     */
-	fixLayoutReferences:function () {
-		for (var i = 0; i < this.view.children.length; i++) {
-			var c = this.view.children[i];
-			var k = this.depKeys;
-			for (var j = 0; j < k.length; j++) {
-				if (c.layout[k[j]] !== undefined)c.layout[k[j]] = this.getReference(c.layout[k[j]]);
-			}
-		}
-	},
-    /**
-     * Return resize function for a child
-     * @method getResizeFnFor
-     * @param {ludo.View} child
-     * @return {Function}
-     * @private
-     */
-	getResizeFnFor:function (child) {
-		var fns = this.getLayoutFnsFor(child);
-		return function (layoutManager) {
-			for (var i = 0; i < fns.length; i++) {
-				fns[i].call(child, layoutManager);
-			}
-		};
-	},
-    /**
-     * Return array of resize function to call when view is resized.
-     * @method getLayoutFnsFor
-     * @param {ludo.View} child
-     * @return {Array}
-     * @private
-     */
-	getLayoutFnsFor:function (child) {
-		var ret = [];
-		var p = this.layoutFnProperties;
-		for (var i = 0; i < p.length; i++) {
-			if (child.layout[p[i]] !== undefined && child.layout[p[i]] !== false) {
-				var fn = this.getLayoutFn(p[i], child);
-				if (fn)ret.push(fn);
-			}
-		}
-		ret.push(this.getLastLayoutFn(child));
-		return ret;
-	},
-    /**
-     Return one resize function for a child
-     @method getLayoutFn
-     @param {String} property
-     @param {ludo.View} child
-     @return {Function|undefined}
-     @private
-     @example
-        getLayoutFn(left, view)
-     may return
-        function(){
-            this.newChildCoordinates[view.id]['left'] = 20;
-        }
-     The resize functions are created before first resize is made. For second resize,
-     the layout functions for each view will simply be called. This is done for optimal performance
-     so that we don't need to calculate more than we have to(Only first time).
-     */
-	getLayoutFn:function (property, child) {
-		var c = this.newChildCoordinates[child.id];
-		var refC;
-		switch (property) {
-			case 'top':
-			case 'left':
-				return function () {
-					c[property] = child.layout[property];
-				}.bind(child);
-            case 'offsetX':
-                return function(){
-                    c.left += child.layout[property];
-                }.bind(child);
-            case 'offsetY':
-                return function(){
-                    c.top += child.layout[property];
-                }.bind(child);
-			case 'width':
-			case 'height':
-				return this.getPropertyFn(child, property);
-			case 'absLeft':
-				return function () {
-					c.left = 0;
-				};
-			case 'absRight':
-				return function () {
-					c.right = 0;
-				};
-			case 'absBottom':
-				return function () {
-					c.bottom = 0;
-				};
-			case 'absWidth':
-				return function(lm){
-					c.width = lm.viewport.absWidth;
-				};
-			case 'absHeight':
-				return function(lm){
-					c.height = lm.viewport.absHeight;
-				};
-			case 'alignParentLeft':
-				return function (lm) {
-					c.left = lm.viewport.left;
-				};
-			case 'alignParentRight':
-				return function (lm) {
-					c.right = lm.viewport.right;
-				};
-			case 'alignParentTop':
-				return function (lm) {
-					c.top = lm.viewport.top;
-				};
-			case 'alignParentBottom':
-				return function (lm) {
-					c.bottom = lm.viewport.bottom;
-				};
-			case 'leftOf':
-				refC = this.lastChildCoordinates[child.layout.leftOf.id];
-				return function () {
-					c.right = refC.right + refC.width;
-				};
-			case 'rightOf':
-				refC = this.lastChildCoordinates[child.layout.rightOf.id];
-				return function () {
-                    // TODO refactor this so that Math.max is no longer needed
-					// c.left = Math.max(0, refC.left) + refC.width;
-					c.left = refC.left + refC.width;
-				};
-			case 'below':
-				refC = this.lastChildCoordinates[child.layout.below.id];
-				return function () {
-					c.top = refC.top + refC.height;
-				};
-			case 'above':
-				refC = this.lastChildCoordinates[child.layout.above.id];
-				return function () {
-					c.bottom = refC.bottom + refC.height;
-				};
-			case 'sameHeightAs':
-				refC = this.lastChildCoordinates[child.layout.sameHeightAs.id];
-				return function () {
-					c.height = refC.height;
-				};
-			case 'sameWidthAs':
-				refC = this.lastChildCoordinates[child.layout.sameWidthAs.id];
-				return function () {
-					c.width = refC.width;
-				};
-			case 'centerInParent':
-				return function (lm) {
-					c.top = parseInt(lm.viewport.height / 2 - c.height / 2);
-					c.left = parseInt(lm.viewport.width / 2 - c.width / 2);
-				};
-			case 'centerHorizontal':
-				return function (lm) {
-					c.left = parseInt(lm.viewport.width / 2 - c.width / 2);
-				};
-			case 'centerVertical':
-				return function (lm) {
-					c.top = parseInt(lm.viewport.height / 2 - c.height / 2);
-				};
-			case 'fillLeft':
-				return function (lm) {
-					if (c.right !== undefined) {
-						c.width = lm.viewport.absWidth - c.right;
-					}
-				};
-			case 'fillRight':
-				return function (lm) {
-					if (c.left === undefined)c.left = 0;
-					c.width = lm.viewport.absWidth - c.left - lm.viewport.right;
-				};
-			case 'fillDown':
-				return function (lm) {
-					if (c.top === undefined)c.top = 0;
-					c.height = lm.viewport.absHeight - c.top - lm.viewport.bottom;
-				};
-			case 'fillUp':
-				return function (lm) {
-					if (c.bottom !== undefined) {
-						c.height = lm.viewport.absHeight - c.bottom - lm.viewport.top;
-					}
-				};
-			case 'alignLeft':
-				return this.getAlignmentFn(child, property, 'left');
-			case 'alignRight':
-				return this.getAlignmentFn(child, property, 'right');
-			case 'alignTop':
-				return this.getAlignmentFn(child, property, 'top');
-			case 'alignBottom':
-				return this.getAlignmentFn(child, property, 'bottom');
-		}
-		return undefined;
-	},
-    /**
-     * Return special resize function for the properties alignLeft, alignRight, alignTop and alignBottom
-     * @method getAlignmentFn
-     * @param {ludo.View} child
-     * @param {String} alignment
-     * @param {String} property
-     * @return {Function}
-     * @private
-     */
-	getAlignmentFn:function (child, alignment, property) {
-		var c = this.newChildCoordinates[child.id];
-		var refC = this.lastChildCoordinates[child.layout[alignment].id];
-		return function () {
-			c[property] = refC[property];
-		};
-	},
-
-    /**
-     * Returns layout function for the width and height layout properties
-     * @method getPropertyFn
-     * @param {ludo.View} child
-     * @param {String} property
-     * @return {Function|undefined}
-     * @private
-     */
-	getPropertyFn:function (child, property) {
-		var c = this.newChildCoordinates[child.id];
-
-		if (isNaN(child.layout[property])) {
-			switch (child.layout[property]) {
-				case 'matchParent':
-					return function (lm) {
-						c[property] = lm.viewport[property];
-					};
-				case 'wrap':
-					var ws = ludo.dom.getWrappedSizeOfView(child);
-					var key = property === 'width' ? 'x' : 'y';
-					return function(){
-						c[property] = ws[key];
-					};
-				default:
-					if (child.layout[property].indexOf !== undefined && child.layout[property].indexOf('%') >= 0) {
-						var size = parseInt(child.layout[property].replace(/[^0-9]/g));
-						return function (lm) {
-							c[property] = parseInt(lm.viewport[property] * size / 100);
-						}
-					}
-					return undefined;
-			}
-		} else {
-			return function () {
-				c[property] = child.layout[property];
-			}.bind(child);
-		}
-	},
-
-	posProperties:['left', 'right', 'bottom', 'top'],
-
-    /**
-     * Final resize function for each child. All the other dynamically created
-     * layout function stores values for the left,width,top,bottom, width and height properties.
-     * This function call the resize function for each view with the values of these previously
-     * set properties
-     * @method getLayoutLayoutFn
-     * @param {ludo.View} child
-     * @return {Function}
-     * @private
-     */
-	getLastLayoutFn:function (child) {
-		return function (lm) {
-			var c = lm.newChildCoordinates[child.id];
-			var lc = lm.lastChildCoordinates[child.id];
-			var p = lm.posProperties;
-            if(child.layout.above && child.layout.below){
-                c.height = lm.viewport.height - c.bottom - c.top;
-            }
-			if(child.isHidden()){
-				c.width = 0;
-				c.height = 0;
-			}
-			child.resize({
-				width:c.width !== lc.width ? c.width : undefined,
-				height:c.height !== lc.height ? c.height : undefined
-			});
-
-			if(c['right'] !== undefined && c.width){
-				c.left = lm.viewport.absWidth - c.right - c.width;
-				c['right'] = undefined;
-			}
-			if(c.bottom !== undefined && c.height){
-				c.top = lm.viewport.absHeight - c.bottom - c.height;
-				c.bottom = undefined;
-			}
-			if(c.bottom !== undefined){
-				var h = lm.viewport.absHeight - c.bottom - (c.top || 0);
-				if(h!= lc.height){
-					child.resize({ height: lm.viewport.absHeight - c.bottom - (c.top || 0) });
-				}
-				c.bottom = undefined;
-			}
-
-			for (var i = 0; i < p.length; i++) {
-				var key = p[i];
-				if (c[key] !== undefined){
-					lm.positionChild(child, key, c[key]);
-				}
-				lc[key] = c[key];
-			}
-			lc.width = c.width;
-			lc.height = c.height;
-			lm.updateLastCoordinatesFor(child);
-		}
-	},
-    /**
-     * Update lastChildCoordinates properties for a child after resize is completed
-     * @method updateLastCoordinatesFor
-     * @param {ludo.View} child
-     * @private
-     */
-	updateLastCoordinatesFor:function (child) {
-		var lc = this.lastChildCoordinates[child.id];
-		var el = child.getEl();
-		if (lc.left === undefined) lc.left = el.offsetLeft > 0 ? el.offsetLeft : 0;
-		if (lc.top === undefined) lc.top = el.offsetTop > 0 ? el.offsetTop : 0;
-		if (lc.width === undefined) lc.width = el.offsetWidth;
-		if (lc.height === undefined) lc.height = el.offsetHeight;
-		if (lc.right === undefined) lc.right = this.viewport.width - lc.left - lc.width;
-		if (lc.bottom === undefined) lc.bottom = this.viewport.height - lc.top - lc.height;
-	},
-
-    /**
-     * Position child at this coordinates
-     * @method positionChild
-     * @param {ludo.View} child
-     * @param {String} property
-     * @param {Number} value
-     * @private
-     */
-	positionChild:function (child, property, value) {
-		child.getEl().style[property] = value + 'px';
-		child[property] = value;
-	},
-    /**
-     * Creates empty newChildCoordinates and lastChildCoordinates for a child view
-     * @method assignDefaultCoordinates
-     * @param {ludo.View|ludo.layout.Resizer} child
-     * @private
-     */
-	assignDefaultCoordinates:function (child) {
-		this.newChildCoordinates[child.id] = {};
-		this.lastChildCoordinates[child.id] = {};
-	},
-
-    /**
-     * Before first resize, the internal children array is arranged so that views dependent of
-     * other views are resized after the view it's depending on. example: if view "a" has leftOf property
-     * set to view "b", then view "b" should be resized and positioned first. This method rearranges
-     * the internal children array according to this
-     * @method arrangeChildren
-     * @private
-     */
-	arrangeChildren:function () {
-		this.children = [];
-		for (var i = 0; i < this.view.children.length; i++) {
-			var c = this.view.children[i];
-			this.children.push(c);
-			this.assignDefaultCoordinates(c);
-			if(c.isHidden()){
-				this.setTemporarySize(c, { width:0, height:0 });
-			}
-		}
-
-		this.createResizables();
-
-		var child = this.getWronglyArrangedChild();
-		var counter = 0;
-		while (child && counter < 30) {
-			var dep = this.getDependencies(child);
-			if (dep.length > 0) {
-				for (var j = 0; j < dep.length; j++) {
-					if (this.isArrangedBefore(child, dep[j])) {
-						var index = this.children.indexOf(child);
-						this.children.splice(index, 1);
-						this.children.push(child);
-					}
-				}
-			}
-			child = this.getWronglyArrangedChild();
-			counter++;
-		}
-
-		if (counter === 30) {
-			ludo.util.log('Possible circular layout references defined for children in Relative layout');
-		}
-	},
-
-
-	resizeKeys:{
-		'left':'leftOf',
-		'right':'rightOf',
-		'above':'above',
-		'below':'below'
-	},
-	resizables : {},
-
-    /**
-     * Create resize handles for resizable children
-     * @method createResizables
-     * @private
-     */
-	createResizables:function () {
-		for (var i = this.children.length - 1; i >= 0; i--) {
-			var c = this.children[i];
-			if (this.isChildResizable(c)) {
-				this.resizables[c.id] = {};
-				for (var j = 0; j < c.layout.resize.length; j++) {
-					var r = c.layout.resize[j];
-					var resizer = this.resizables[c.id][r] = this.getResizableFor(c, r);
-					this.assignDefaultCoordinates(resizer);
-					this.updateReference(this.resizeKeys[r], c, resizer);
-                    var pos = r == 'left' || r === 'above' ? i: i+1;
-                    this.children.splice(pos, 0, resizer);
-				}
-			}
-		}
-	},
-
-	getResizable:function(child, direction){
-		return this.resizables[child.id][direction];
-	},
-
-    /**
-     * Return resizable handle for a child view
-     * @method getResizableFor
-     * @param {ludo.View} child
-     * @param {String} direction
-     * @return {ludo.layout.Resizer}
-     * @private
-     */
-	getResizableFor:function (child, direction) {
-        // TODO should be possible to render size of resizer to sum of views (see relative.php demo)
-		var resizeProp = (direction === 'left' || direction === 'right') ? 'width' : 'height';
-		return new ludo.layout.Resizer({
-			name:'resizer-' + child.name,
-			orientation:(direction === 'left' || direction === 'right') ? 'horizontal' : 'vertical',
-			pos:direction,
-			renderTo:this.view.getBody(),
-			sibling:this.getSiblingForResize(child,direction),
-			layout:this.getResizerLayout(child, direction),
-			view:child,
-			listeners:{
-				'resize':function (change) {
-					child.layout[resizeProp] += change;
-					this.resize();
-				}.bind(this),
-				'before':this.beforeResize.bind(this)
-			}
-		});
-	},
-
-    /**
-     * Return sibling which may be affected when a child is resized
-     * @method getSiblingForResize
-     * @param {ludo.View} child
-     * @param {String} direction
-     * @return {ludo.View|undefined}
-     * @private
-     */
-	getSiblingForResize:function(child, direction){
-		switch(direction){
-			case 'left':
-				return child.layout.rightOf;
-			case 'right':
-				return child.layout.leftOf;
-			case 'above':
-				return child.layout.below;
-			case 'below':
-				return child.layout.above;
-		}
-		return undefined;
-	},
-    /**
-     * Before resize function executed for a resize handle
-     * @method beforeResize
-     * @param {ludo.layout.Resizer} resize
-     * @param {ludo.View} child
-     * @private
-     */
-	beforeResize:function(resize, child){
-		if(resize.orientation === 'horizontal'){
-			resize.setMinWidth(child.layout.minWidth || 10);
-			resize.setMaxWidth(child.layout.maxWidth || this.view.getBody().offsetWidth);
-		}else{
-			resize.setMinHeight(child.layout.minHeight || 10);
-			resize.setMaxHeight(child.layout.maxHeight || this.view.getBody().offsetHeight);
-		}
-	},
-    /**
-     * Return layout config for a resize handle
-     * @method getResizerLayout
-     * @param {ludo.View} child
-     * @param {String} resize
-     * @return {ludo.layout.RelativeSpec}
-     * @private
-     */
-	getResizerLayout:function (child, resize) {
-		var ret = {};
-		switch (resize) {
-			case 'left':
-			case 'right':
-				ret.sameHeightAs = child;
-				ret.alignTop = child;
-				ret.width = 5;
-				break;
-			default:
-				ret.sameWidthAs = child;
-				ret.alignLeft = child;
-				ret.height = 5;
-		}
-		return ret;
-	},
-
-    /**
-     * Update layout references when a resize handle has been created. example: When a resize handle
-     * is added to the left of a child view. The leftOf view of this child is now the resize handle
-     * and not another view
-     * @method updateReferences
-     * @param {String} property
-     * @param {ludo.View} child
-     * @param {ludo.layout.Resizer} resizer
-     * @private
-     */
-	updateReference:function (property, child, resizer) {
-		for (var i = 0; i < this.children.length; i++) {
-			if (this.children[i].layout[property] === child) {
-				this.children[i].layout[property] = resizer;
-				resizer.layout.affectedSibling = this.children[i];
-			}
-		}
-		resizer.layout[property] = child;
-	},
-    /**
-     * Returns true if a child is resizable
-     * @method isChildResizable
-     * @param {ludo.View} child
-     * @return {Boolean}
-     * @private
-     */
-	isChildResizable:function (child) {
-		return child.layout && child.layout.resize && child.layout.resize.length > 0;
-	},
-
-    /**
-     * Return a child which should be rearrange because it's layout depends on a next sibling
-     * @method getWronglyArrangedChild
-     * @return {ludo.View|undefined}
-     * @private
-     */
-	getWronglyArrangedChild:function () {
-		for (var i = 0; i < this.children.length; i++) {
-			var c = this.children[i];
-			var dep = this.getDependencies(c);
-			if (dep.length > 0) {
-				for (var j = 0; j < dep.length; j++) {
-					if (this.isArrangedBefore(c, dep[j])) {
-						return c;
-					}
-				}
-			}
-		}
-		return undefined;
-	},
-    /**
-     * Returns true if a child is previous sibling of another child
-     * @method isArrangedBefore
-     * @param {ludo.View} child
-     * @param {ludo.View} of
-     * @return {Boolean}
-     * @private
-     */
-	isArrangedBefore:function (child, of) {
-		return this.children.indexOf(child) < this.children.indexOf(of);
-	},
-
-    /**
-     * All the layout options where value is a reference to another child
-     * @property depKeys
-     * @private
-     */
-	depKeys:['above', 'below', 'leftOf', 'rightOf', 'alignLeft', 'alignBottom', 'alignRight', 'alignTop', 'sameWidthAs', 'sameHeightAs'],
-
-    /**
-     * Return all the siblings a child is depending on for layout
-     * @method getDependencies
-     * @param {ludo.View} child
-     * @return {Array}
-     * @private
-     */
-	getDependencies:function (child) {
-		var ret = [];
-		for (var i = 0; i < this.depKeys.length; i++) {
-			if (child.layout[this.depKeys[i]] !== undefined) {
-				var ref = child.layout[this.depKeys[i]];
-				if (ref !== undefined) {
-					ret.push(ref);
-				}
-			}
-		}
-		return ret;
-	},
-    /**
-     * Return direct reference to child
-     * @method getReference
-     * @param {String|ludo.View} child
-     * @return {ludo.View}
-     * @private
-     */
-	getReference:function (child) {
-		if (child['getId'] !== undefined)return child;
-		if (this.view.child[child] !== undefined)return this.view.child[child];
-		return ludo.get(child);
-	},
-
-    /**
-     * Clear internal children array. When this is done, resize function will be recreated. This happens
-     * when a child is removed or when a new child is added
-     * @method clearChildren
-     * @private
-     */
-	clearChildren:function () {
-		this.children = undefined;
-	},
-    /**
-     * Return internal children array
-     * @method getChildren
-     * @return {Array}
-     * @private
-     */
-	getChildren:function () {
-		return this.children;
-	},
-
-    /**
-     * Validate and set required layout properties of new children
-     * @method onNewChild
-     * @param {ludo.View} child
-     * @private
-     */
-	onNewChild:function (child) {
-		this.parent(child);
-		child.getEl().style.position = 'absolute';
-        var l = child.layout;
-		if (l.centerInParent !== undefined) {
-			l.centerHorizontal = undefined;
-			l.centerVertical = undefined;
-		}
-		if(l.fillRight === undefined){
-			if (l.width === undefined)l.width = child.width ? child.width : undefined;
-		}
-
-		if (l.height === undefined)l.height = child.height ? child.height : undefined;
-
-		if (l.leftOf)l.right = undefined;
-		if (l.rightOf)l.left = undefined;
-		if (l.below)l.top = undefined;
-		if (l.above)l.bottom = undefined;
-	},
-
-    /**
-     * Add events to child view
-     * @method addChildEvents
-     * @param {ludo.View} child
-     * @private
-     */
-	addChildEvents:function(child){
-		child.addEvent('hide', this.hideChild.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
-		child.addEvent('collapse', this.minimize.bind(this));
-		child.addEvent('minimize', this.minimize.bind(this));
-		child.addEvent('expand', this.clearTemporaryValues.bind(this));
-		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
-	}
-});/* ../ludojs/src/layout/tab.js */
-ludo.layout.Tab = new Class({
-	Extends:ludo.layout.Relative,
-	visibleChild:undefined,
-	tabStrip:undefined,
-
-	onCreate:function () {
-		this.parent();
-        ludo.dom.addClass(this.view.getEl(), 'ludo-layout-tab');
-		this.addChild(this.getTabStrip());
-
-		this.updateViewport(this.tabStrip.getChangedViewport());
-	},
-
-	addChild:function (child, insertAt, pos) {
-		if (!this.isTabStrip(child) && (!child.layout || !child.layout.visible))child.hidden = true;
-		return this.parent(child, insertAt, pos);
-	},
-
-	onNewChild:function (child) {
-
-		if (!this.isTabStrip(child)) {
-			if(!child.isHidden()){
-				this.setVisibleChild(child);
-			}
-			var l = child.layout;
-			l.alignParentLeft = true;
-			l.alignParentTop = true;
-			l.fillRight = true;
-			l.fillDown = true;
-		}
-		this.parent(child);
-	},
-
-	setTemporarySize:function(){
-
-	},
-
-	addChildEvents:function(child){
-		if(!this.isTabStrip(child)){
-			child.addEvent('show', this.showTab.bind(this));
-			child.addEvent('dispose', this.onChildDispose.bind(this));
-		}
-	},
-
-	getTabPosition:function () {
-		return this.view.layout.tabs || 'top';
-	},
-	getTabStrip:function () {
-		if (this.tabStrip === undefined) {
-			this.tabStrip = new ludo.layout.TabStrip({
-				lm : this,
-				parentComponent:this.view,
-				tabPos:this.getTabPosition(),
-				renderTo:this.view.getBody(),
-				layout:this.getTabStripLayout()
-			});
-		}
-		return this.tabStrip;
-	},
-
-	setVisibleChild:function(child){
-		if(this.visibleChild)this.visibleChild.hide();
-		this.visibleChild = child;
-		this.fireEvent('showChild', child);
-	},
-
-	showTab:function(child){
-		if(child !== this.visibleChild){
-			this.setVisibleChild(child);
-			this.resize();
-		}
-
-	},
-
-	resize:function(){
-		if(this.visibleChild === undefined){
-			if(this.view.children.length>1)this.view.children[1].show();
-		}else{
-			if (this.children === undefined || !this.visibleChild.layoutResizeFn) {
-				this.prepareResize();
-			}
-			this.tabStrip.layoutResizeFn.call(this.visibleChild, this);
-            if(!this.visibleChild.layoutResizeFn){
-                this.prepareResize();
-            }
-			this.visibleChild.layoutResizeFn.call(this.visibleChild, this);
-		}
-	},
-
-	getTabStripLayout:function () {
-		switch (this.getTabPosition()) {
-			case 'top':
-				return {
-					absTop:true,
-					absLeft:true,
-					absWidth:true
-				};
-			case 'left':
-				return {
-					absTop:true,
-					absLeft:true,
-					absHeight:true
-				};
-			case 'right':
-				return {
-					absTop:true,
-					absRight:true,
-					absHeight:true
-				};
-			case 'bottom':
-				return {
-					absBottom:true,
-					absLeft:true,
-					absWidth:true
-				};
-		}
-        return undefined;
-	},
-
-	isTabStrip:function (view) {
-		return view.type === 'layout.TabStrip';
-	},
-
-	onChildDispose:function(child){
-		if(this.visibleChild && this.visibleChild.id === child.id){
-			var i = this.view.children.indexOf(this.visibleChild);
-			if(i>1){
-				this.view.children[i-1].show();
-			}else{
-				if(this.view.children.length>2){
-					this.view.children[i+1].show();
-				}
-			}
-		}
-
-		this.fireEvent('removeChild', child);
-	}
-});/* ../ludojs/src/layout/fill.js */
-ludo.layout.Fill = new Class({
-	Extends:ludo.layout.Base,
-
-	resize:function () {
-		var height = this.view.getInnerHeightOfBody();
-		if (height <= 0)return;
-		for (var i = 0; i < this.view.children.length; i++) {
-			this.view.children[i].resize({ height:height });
-		}
-	}
-});/* ../ludojs/src/layout/grid.js */
-/**
- * Arrange child views in a grid layout
- * @namespace layout
- * @class Grid
- */
-ludo.layout.Grid = new Class({
-	Extends:ludo.layout.Base,
-    /**
-     * Number of columns
-     * @config {Number} columns
-     * @default 5
-     */
-	columns:5,
-    /**
-     * Number of rows
-     * @config {Number} rows
-     * @default 5
-     */
-	rows:5,
-
-	onCreate:function () {
-		var l = this.view.layout;
-		if (l.columns !== undefined)this.columns = l.columns;
-		if (l.rows !== undefined)this.rows = l.rows;
-	},
-
-	resize:function () {
-		this.storeCellSize();
-		var pos = 0;
-		var colspan;
-		for (var i = 0; i < this.view.children.length; i++) {
-			var c = this.view.children[i];
-			colspan = c.layout && c.layout.colspan ? c.layout.colspan : 1;
-			this.view.children[i].resize({
-				width:this.cellSize.x * colspan,
-				height:this.cellSize.y,
-				left:this.cellSize.x * (pos % this.columns),
-				top:this.cellSize.y * (Math.floor(pos / this.columns) % this.rows)
-			});
-			pos += colspan;
-		}
-	},
-
-	storeCellSize:function () {
-		this.cellSize = {
-			x:this.getAvailWidth() / this.columns,
-			y:this.getAvailHeight() / this.rows
-		}
-	},
-
-	getCellSize:function () {
-		return this.cellSize;
-	},
-
-	onNewChild:function (child) {
-		child.getEl().style.position = 'absolute';
-	}
-});/* ../ludojs/src/layout/popup.js */
-/**
- * Class handling popup layout defined by setting layout.type to "popup". The popup layout model
- * does not render it's children inside the "body" of it's parent. Instead, it's rendered as direct
- * children of document.body(&lt;body>). Layout properties are used to measure size and
- * position. One example of use is a combo box which displays a child view below a button or input box.
- * See {{#crossLink "layout.LayoutSpec"}}{{/crossLink}} for the available position and
- * sizing properties available to children inside a popup layout.
- * @namespace layout
- * @class Popup
- *
- */
-ludo.layout.Popup = new Class({
-	Extends:ludo.layout.Base,
-	visibleChild:undefined,
-	addChild:function (child, insertAt, pos) {
-		if (!child.layout || !child.layout.visible)child.hidden = true;
-		return this.parent(child, insertAt, pos);
-	},
-
-	onNewChild:function (child) {
-		if (!child.isHidden()) {
-			this.setVisibleChild(child);
-		}
-		child.getEl().style.position = 'absolute';
-		child.addEvent('show', this.setVisibleChild.bind(this));
-		this.parent(child);
-	},
-
-	setVisibleChild:function (child) {
-		if (this.visibleChild && this.shouldToggle())this.visibleChild.hide();
-		this.visibleChild = child;
-		this.fireEvent('showChild', child);
-	},
-
-	getParentForNewChild:function () {
-		return document.body;
-	},
-
-	shouldToggle:function(){
-		return this.view.layout.toggle;
-	},
-
-	resize:function(){
-		var c = this.view.children;
-		for(var i=0;i< c.length;i++){
-			if(!c[i].isHidden())c[i].getLayout().getRenderer().resize();
-		}
-	}
-});/* ../ludojs/src/layout/canvas.js */
-/**
- * Layout manager for items in a chart
- * @namespace chart
- * @class Layout
- * @extends layout.Relative
- */
-ludo.layout.Canvas = new Class({
-	Extends:ludo.layout.Relative,
-
-	addChild:function (child) {
-		child = this.getValidChild(child);
-		child = this.getNewComponent(child);
-
-		this.view.children.push(child);
-		var el = child;
-		this.view.getCanvas().adopt(el);
-
-		this.onNewChild(child);
-		this.addChildEvents(child);
-		/**
-		 * Event fired by layout manager when a new child is added
-		 * @event addChild
-		 * @param {ludo.View} child
-		 * @param {ludo.layout.Base} layout manager
-		 */
-		this.fireEvent('addChild', [child, this]);
-
-
-
-		return child;
-	},
-
-	/**
-	 * Add events to child view
-	 * @method addChildEvents
-	 * @param {ludo.View} child
-	 * @private
-	 */
-	addChildEvents:function (child) {
-		child.addEvent('hide', this.hideChild.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
-
-	},
-
-	/**
-	 * Position child at this coordinates
-	 * @method positionChild
-	 * @param {canvas.Element} child
-	 * @param {String} property
-	 * @param {Number} value
-	 * @private
-	 */
-	positionChild:function (child, property, value) {
-		child[property] = value;
-		this.currentTranslate[property] = value;
-		child['node'].translate(this.currentTranslate.left, this.currentTranslate.top);
-	},
-
-	currentTranslate:{
-		left:0,top:0
-	}
-
-
-
-});/* ../ludojs/src/layout/slide-in.js */
-/**
- * Layout where first child slides in from the left on demand
- * @namespace layout
- * @class SlideIn
- */
-ludo.layout.SlideIn = new Class({
-    Extends:ludo.layout.Base,
-    slideEl:undefined,
-
-    onCreate:function(){
-        this.view.getBody().style.overflowX = 'hidden';
-    },
-
-    onNewChild:function (child) {
-        this.parent(child);
-        child.getEl().style.position = 'absolute';
-    },
-
-    resize:function () {
-        var widthOfFirst = this.getWidthOfMenu();
-
-        this.view.children[0].resize({
-            width:widthOfFirst,
-            height:this.viewport.height
-        });
-
-        this.slideEl.style.width = (this.viewport.absWidth + widthOfFirst) + 'px';
-        this.slideEl.style.left = this.view.layout.active ? 0 : (widthOfFirst * -1) + 'px';
-
-        this.view.children[1].getEl().style.left = widthOfFirst + 'px';
-        this.view.children[1].resize({
-            width:this.viewport.absWidth,
-            height:this.viewport.height
-        })
-
-    },
-    /**
-     Show menu
-     @method show
-     @example
-        view.getLayout().show();
-     */
-    show:function () {
-        if (!this.isMenuOpen()) {
-            if(this.view.children[0].hidden){
-                this.view.children[0].show();
-            }
-            this.view.layout.active = true;
-            var widthOfFirst = this.getWidthOfMenu();
-            this.effect().slide(this.slideEl, { x:widthOfFirst * -1}, {x:0 }, this.getDuration());
-        }
-    },
-    /**
-     hide menu
-     @method hide
-     @example
-        view.getLayout().hide();
-     */
-    hide:function () {
-        if (this.isMenuOpen()) {
-            this.view.layout.active = false;
-            var widthOfFirst = this.getWidthOfMenu();
-            this.effect().slide(this.slideEl, {x:0 }, { x:widthOfFirst * -1}, this.getDuration());
-        }
-    },
-
-	isMenuOpen:function(){
-		return this.view.layout.active;
-	},
-
-    /**
-     * Toggle between show and hide
-     * @method toggle
-     */
-    toggle:function () {
-        this[this.view.layout.active ? 'hide' : 'show']();
-    },
-
-    effect:function () {
-        if (this.effectObject === undefined) {
-            this.effectObject = new ludo.effect.Effect
-        }
-        return this.effectObject;
-    },
-
-    getDuration:function () {
-        return this.view.layout.duration || .15;
-    },
-
-    getWidthOfMenu:function(){
-        var ret = this.view.children[0].layout.width;
-
-        if(isNaN(ret)){
-            switch(ret){
-                case 'matchParent':
-                    return this.viewport.width;
-                default:
-                    return parseInt(ret) * this.viewport.width / 100;
-            }
-
-        }else{
-            return ret;
-        }
-    },
-
-    getParentForNewChild:function () {
-        if (!this.slideEl) {
-            this.slideEl = ludo.dom.create({
-                tag:'div',
-                renderTo:this.view.getBody(),
-                css:{
-                    height:'100%',
-                    position:'absolute'
-                }
-            });
-        }
-        return this.slideEl;
-    }
-
-});/* ../ludojs/src/layout/menu-container.js */
-ludo.layout.MenuContainer = new Class({
-    Extends:Events,
-    type:'layout.MenuContainer',
-    lm:undefined,
-    layout:{
-        width:'wrap',
-        height:'wrap'
-    },
-    children:[],
-    alwaysInFront:true,
-    initialize:function (layoutManager) {
-        this.lm = layoutManager;
-        this.setLayout();
-        this.createDom();
-    },
-
-    setLayout:function () {
-        var l = this.layout;
-        if (this.lm.view.parentComponent) {
-            var vAlign = this.getSubMenuVAlign();
-            var hAlign = this.getSubMenuHAlign();
-            if (this.getParentLayoutOrientation() === 'horizontal') {
-                l[vAlign] = this.lm.view.getParent().getEl();
-                l.alignLeft = this.lm.view;
-            } else {
-                l[hAlign] = this.lm.view.getEl();
-                l[vAlign === 'above' ? 'alignBottom' : 'alignTop'] = this.lm.view;
-                // TODO refactor this to dynamic value
-                l.offsetY = -3;
-            }
-
-            this.lm.view.layout.alignSubMenuV = this.lm.view.layout.alignSubMenuV || vAlign;
-            this.lm.view.layout.alignSubMenuH = this.lm.view.layout.alignSubMenuH || hAlign;
-
-            l.height = 'wrap';
-        }
-
-        l.fitVerticalViewPort = true;
-    },
-
-    getSubMenuVAlign:function () {
-        var validKeys = ['above','below'];
-        var p = this.lm.view.parentComponent;
-        return p && p.layout.alignSubMenuV  && validKeys.indexOf(p.layout.alignSubMenuV) !== -1 ? p.layout.alignSubMenuV : 'below';
-    },
-
-    getSubMenuHAlign:function () {
-        var validKeys = ['leftOrRightOf','rightOrLeftOf','leftOf','rightOf'];
-        var p = this.lm.view.parentComponent;
-        return p && p.layout.alignSubMenuH  && validKeys.indexOf(p.layout.alignSubMenuH) !== -1 ? p.layout.alignSubMenuH : 'rightOrLeftOf';
-    },
-
-	getParentLayoutOrientation:function(){
-		var p = this.lm.view.parentComponent;
-		return p ? p.layout.orientation : '';
-	},
-
-    createDom:function () {
-        this.el = ludo.dom.create({
-            'css':{
-                'position':'absolute',
-                'display':'none'
-            },
-            renderTo:document.body
-        });
-
-        ludo.dom.addClass(this.el, 'ludo-menu-vertical-' + this.getSubMenuVAlign());
-        if(this.getSubMenuHAlign().indexOf('left') === 0){
-            ludo.dom.addClass(this.el, 'ludo-menu-vertical-to-left');
-        }
-
-		if(this.getParentLayoutOrientation() === 'horizontal' && this.getSubMenuVAlign().indexOf('above') === 0){
-            ludo.dom.addClass(this.lm.view.parentComponent.getEl(), 'ludo-menu-horizontal-up');
-        }
-
-        this.body = ludo.dom.create({
-            renderTo:this.el
-        });
-    },
-
-    getEl:function () {
-        return this.el;
-    },
-
-    getBody:function () {
-        return this.body;
-    },
-
-    resize:function (config) {
-        if (config.width) {
-            this.getEl().style.width = config.width + 'px';
-        }
-    },
-
-    isHidden:function () {
-        return false;
-    },
-
-    show:function () {
-        this.getEl().style.zIndex = (ludo.util.getNewZIndex(this) + 100);
-
-        if (this.getEl().style.display === '')return;
-
-        this.getEl().style.display = '';
-
-        this.resizeChildren();
-        this.getRenderer().resize();
-
-        if (!this.layout.width || this.layout.width === 'wrap') {
-            this.setFixedRenderingWidth();
-        }
-
-        this.fireEvent('show', this);
-    },
-
-    setFixedRenderingWidth:function () {
-        this.layout.width = undefined;
-        var r = this.getRenderer();
-        r.clearFn();
-        r.setValue('width', r.getSize().x);
-        r.resize();
-        for (var i = 0; i < this.lm.view.children.length; i++) {
-            var cr = this.lm.view.children[i].getLayout().getRenderer();
-            cr.clearFn();
-            cr.setValue('width', r.getValue('width'));
-        }
-
-        this.resizeChildren();
-    },
-
-    childrenResized:false,
-    resizeChildren:function () {
-        if (this.childrenResized)return;
-        for (var i = 0; i < this.lm.view.children.length; i++) {
-            this.lm.view.children[i].getLayout().getRenderer().resize();
-        }
-        this.fireEvent('resize');
-    },
-
-    hide:function () {
-        this.getEl().style.display = 'none';
-        this.fireEvent('hide', this);
-    },
-    renderer:undefined,
-    getRenderer:function () {
-        if (this.renderer === undefined) {
-            this.renderer = new ludo.layout.Renderer({
-                view:this
-            });
-        }
-        return this.renderer;
-    }
-});/* ../ludojs/src/layout/menu.js */
-/**
- Class for menu layouts in LudoJS
- An instance of this class is created dynamically when
- layout.type for a View is set to "menu".
- @namespace layout
- @class Menu
- @constructor
- @example
- 	layout:{
-		 type:'Menu',
-		 rightOf:'leftMenu'
-	 },
-	 children:[
-		 {
-			 html:'Games',
-			 children:[
-				 { html:'Console games',
-					 children:['XBox 360',
-						 {
-							 html:'Wii U',
-							 children:['NintendoLand', 'Batman Arkham City', 'SuperMario Wii U']
-						 }, 'PlayStation']},
-				 'PC Games',
-				 'Mac Games',
-				 'Mobile games'
-			 ]
-		 },
-		 'Apps',
-		 'Utilities'
-	 ],
- 	 listeners:{
- 	 	'click' : function(item){
- 	 		console.log('You clicked ' + item.html);
- 	 	}
- 	 }
-
- */
-ludo.layout.Menu = new Class({
-	Extends:ludo.layout.Base,
-	active:false,
-	alwaysActive:false,
-
-	onCreate:function () {
-		this.menuContainer = new ludo.layout.MenuContainer(this);
-		if (this.view.layout.active) {
-			this.alwaysActive = true;
-		}
-
-		if (this.view.id === this.getTopMenuComponent().id) {
-			document.id(document.documentElement).addEvent('click', this.autoHideMenus.bind(this));
-			ludo.EffectObject.addEvent('start', this.hideAllMenus.bind(this));
-		}
-	},
-
-	getMenuContainer:function () {
-		return this.menuContainer;
-	},
-
-	getValidChild:function (child) {
-		if (ludo.util.isString(child))child = { html:child };
-		child.layout = child.layout || {};
-		if (child.children && !child.layout.type) {
-			child.layout.type = 'menu';
-			child.layout.orientation = 'vertical';
-		}
-		child.type = child.type || 'menu.Item';
-		if (child.type === 'menu.Item') {
-			child.orientation = this.view.layout.orientation;
-		} else {
-			child.layout.height = child.layout.height || child.height;
-		}
-
-		return child;
-	},
-
-	parentForNewChild:undefined,
-
-	getParentForNewChild:function () {
-		if (this.parentForNewChild === undefined) {
-			var isTop = !this.hasMenuLayout(this.view.parentComponent);
-			var p = isTop ? this.parent() : this.getMenuContainer().getBody();
-			ludo.dom.addClass(p.parentNode, 'ludo-menu');
-			ludo.dom.addClass(p.parentNode, 'ludo-menu-' + this.view.layout.orientation);
-
-			if (isTop && !this.view.layout.isContext)ludo.dom.addClass(p.parentNode, 'ludo-menu-top');
-			this.parentForNewChild = p;
-
-			if (isTop) {
-				this.view.addEvent('show', this.resize.bind(this));
-			}
-		}
-		return this.parentForNewChild;
-	},
-
-	onNewChild:function (child) {
-		this.assignMenuItemFns(child);
-		if (this.hasMenuLayout(child)) {
-			child.addEvent('addChild', this.assignMenuItemFns.bind(this));
-		}
-	},
-
-	hasMenuLayout:function (item) {
-		return item && item.layout && item.layout.type && item.layout.type.toLowerCase() === 'menu';
-	},
-
-	parentContainers:undefined,
-
-	getTopMenuComponent:function () {
-		var v = this.view;
-		while (v.parentComponent && this.hasMenuLayout(v.parentComponent)) {
-			v = v.getParent();
-		}
-		return v;
-	},
-
-	assignMenuItemFns:function (child) {
-		var lm = this;
-		var p = lm.view.getParent();
-		var topMenu = this.getTopMenuComponent();
-		var topLm = topMenu.getLayout();
-
-		if (child.mouseOver === undefined) {
-			child.getEl().addEvent('mouseenter', function () {
-				this.mouseOver();
-			}.bind(child));
-			child.mouseOver = function () {
-				this.fireEvent('enterMenuItem', this);
-			}.bind(child);
-		}
-
-		child.getMenuLayoutManager = function () {
-			return this.parentComponent && this.parentComponent.getMenuLayoutManager ? this.parentComponent.getMenuLayoutManager() : lm;
-		}.bind(child);
-		child.getParentMenuItem = function () {
-			return lm.hasMenuLayout(p) ? lm.view : undefined;
-		}.bind(child);
-		child.isTopMenuItem = function () {
-			return !lm.hasMenuLayout(p);
-		}.bind(child);
-		child.getMenuContainer = function () {
-			return lm.getMenuContainer();
-		}.bind(child);
-
-		child.getMenuContainerToShow = function () {
-			if (this.containerToShow === undefined) {
-				if (lm.hasMenuLayout(this) && this.children.length > 0) {
-					if (!this.children[0].lifeCycleComplete)this.children[0].remainingLifeCycle();
-					this.containerToShow = this.children[0].getMenuContainer();
-				} else {
-					this.containerToShow = undefined;
-				}
-			}
-			return this.containerToShow;
-		}.bind(child);
-
-		child.getMenuContainersToShow = function () {
-			if (!this.menuContainersToShow) {
-				var cnt = [];
-				var v = this.getParent();
-				while (v && v.layout.orientation === 'vertical') {
-					if (v.getMenuContainerToShow)cnt.unshift(v.getMenuContainerToShow());
-					v = v.getParent();
-				}
-				var cmp = this.getMenuContainerToShow();
-				if (cmp)cnt.push(cmp);
-
-				this.menuContainersToShow = cnt;
-			}
-			return this.menuContainersToShow;
-		}.bind(child);
-
-
-		child.getMenuComponent = function () {
-			return topMenu;
-		}.bind(child);
-
-		child.getParentMenuItems = function () {
-			if (!this.parentMenuItems) {
-				this.parentMenuItems = [];
-				var v = this.getParent();
-				while (v && v.getMenuContainer) {
-					this.parentMenuItems.push(v);
-					v = v.getParent();
-				}
-			}
-			return this.parentMenuItems;
-		}.bind(child);
-
-		child.addEvent('click', function () {
-			topMenu.fireEvent('click', this);
-		}.bind(child));
-
-		if (this.view.layout.orientation === 'horizontal' && child.children.length > 0) {
-			child.addEvent('click', function () {
-				topLm.activate(child);
-			}.bind(this));
-		} else {
-			child.addEvent('click', topLm.hideAllMenus.bind(topLm));
-		}
-
-		child.addEvent('enterMenuItem', function () {
-			topLm.showMenusFor(child);
-			topLm.highlightItemPath(child);
-		}.bind(this));
-	},
-	shownMenus:[],
-
-	activate:function (child) {
-		this.active = !this.active;
-		if (this.shownMenus.length === 0) {
-			ludo.EffectObject.fireEvents();
-		}
-		this.showMenusFor(child);
-	},
-
-	showMenusFor:function (child) {
-		if (!this.active && !this.alwaysActive) {
-			this.hideMenus();
-		} else {
-			var menusToShow = child.getMenuContainersToShow();
-			this.hideMenus(menusToShow);
-
-			this.shownMenus = menusToShow;
-			for (var i = 0; i < this.shownMenus.length; i++) {
-				this.shownMenus[i].show();
-			}
-		}
-	},
-
-	hideAllMenus:function () {
-		this.hideMenus();
-		this.clearHighlightedPath();
-		if (this.view.layout.isContext) {
-			this.view.getEl().style.display = 'none';
-		}
-		this.shownMenus = [];
-	},
-
-	hideMenus:function (except) {
-		except = except || [];
-		for (var i = 0; i < this.shownMenus.length; i++) {
-			if (except.indexOf(this.shownMenus[i]) === -1) this.shownMenus[i].hide();
-		}
-	},
-
-	highlightedItems:[],
-	highlightItemPath:function (child) {
-		var items = child.getParentMenuItems();
-		this.clearHighlightedPath(items);
-		for (var i = 0; i < items.length; i++) {
-			ludo.dom.addClass(items[i].getEl(), 'ludo-menu-item-active');
-		}
-		this.highlightedItems = items;
-	},
-
-	clearHighlightedPath:function (except) {
-		except = except || [];
-		var items = this.highlightedItems;
-		for (var i = 0; i < items.length; i++) {
-			if (except.indexOf(items[i]) === -1) {
-				ludo.dom.removeClass(items[i].getEl(), 'ludo-menu-item-active');
-			}
-		}
-	},
-
-	autoHideMenus:function (e) {
-		if (this.active || this.alwaysActive) {
-			if (e.target.className && e.target.className.indexOf && e.target.className.indexOf('ludo-menu-item') === -1 && !e.target.getParent('.ludo-menu')) {
-				this.hideAllMenus();
-				if (this.view.layout.orientation === 'horizontal') {
-					this.active = false;
-				}
-			}
-		}
-	}
-});/* ../ludojs/src/layout/menu-horizontal.js */
-ludo.layout.MenuHorizontal = new Class({
-    Extends:ludo.layout.Menu,
-
-    getValidChild:function (child) {
-        child = this.parent(child);
-        child.layout.width = child.layout.width || 'wrap';
-        return child;
-    },
-
-    onNewChild:function (child) {
-        child.getEl().style.position = 'absolute';
-        this.parent(child);
-    },
-
-    resized:false,
-    resize:function () {
-        if (!this.resized) {
-            this.resized = true;
-            var left = 0;
-            for (var i = 0; i < this.view.children.length; i++) {
-                this.view.children[i].resize({ left:left,height:this.viewport.height });
-                left += this.view.children[i].getEl().offsetWidth + ludo.dom.getMW(this.view.children[i].getEl());
-            }
-        }
-    }
-});/* ../ludojs/src/layout/menu-vertical.js */
-ludo.layout.MenuVertical = new Class({
-    Extends: ludo.layout.Menu,
-	active:true,
-
-	getValidChild:function(child){
-		child = this.parent(child);
-		if (!child.layout.width) {
-			child.layout.width = 'fitParent';
-		}
-		return child;
-	},
-
-    resize:function () {
-        for (var i = 0; i < this.view.children.length; i++) {
-            this.view.children[i].getLayout().getRenderer().resize();
-        }
-    }
-});/* ../ludojs/src/layout/collapse-bar.js */
-ludo.layout.CollapseBar = new Class({
-	Extends: ludo.View,
-	orientation : undefined,
-	position : undefined,
-	views:[],
-	viewportCoordinates:{},
-	buttons:{},
-	currentPos:0,
-
-	ludoConfig:function(config){
-		this.parent(config);
-		this.position = config.position || 'left';
-		this.setLayout();
-	},
-
-	ludoDOM:function(){
-		this.parent();
-		ludo.dom.addClass(this.getEl(), 'ludo-collapse-bar');
-		ludo.dom.addClass(this.getEl(), 'ludo-collapse-bar-' + this.orientation);
-		ludo.dom.addClass(this.getEl(), 'ludo-collapse-bar-' + this.position);
-	},
-
-	setLayout:function(){
-		// this.position = layout.collapseBar || 'left';
-		this.orientation = (this.position === 'left' || this.position === 'right') ? 'vertical' : 'horizontal';
-		this.layout = {};
-		switch(this.position){
-			case 'left':
-				this.layout.absLeft = true;
-				this.layout.alignParentTop = true;
-				this.layout.fillDown = true;
-				this.layout.width = 25;
-				break;
-			case 'right':
-				this.layout.absRight = true;
-				this.layout.alignParentTop = true;
-				this.layout.fillDown = true;
-				this.layout.width = 25;
-				break;
-			case 'top':
-				this.layout.absTop = true;
-				this.layout.absLeft = true;
-				this.layout.absWidth = true;
-				this.layout.height = 25;
-				break;
-			case 'bottom':
-				this.layout.absBottom = true;
-				this.layout.absLeft = true;
-				this.layout.absWidth = true;
-				this.layout.height = 25;
-				break;
-		}
-	},
-
-	getChangedViewport:function(){
-		var value = 0;
-		if(!this.isHidden()){
-			switch(this.position){
-				case 'left':
-				case 'right':
-					value = this.layout.width;
-					break;
-				case 'top':
-				case 'bottom':
-					value = this.layout.height;
-					break;
-
-			}
-		}
-		return {
-			key:this.position,value:value
-		}
-	},
-
-	addView:function(view){
-		this.views.push(view);
-		this.addButton(view);
-	},
-
-	addButton:function(view){
-		var button = this.buttons[view.id] = new Element('div');
-		button.id = 'button-' + view.id;
-		button.addEvent('mouseenter', this.enterButton.bind(this));
-		button.addEvent('mouseleave', this.leaveButton.bind(this));
-		button.addEvent('click', this.toggleView.bind(this));
-		this.getBody().adopt(button);
-		button.innerHTML = '<div class="collapse-bar-button-bg-first"></div><div class="collapse-bar-button-bg-last"></div>';
-		button.className = 'collapse-bar-button collapse-bar-button-' + this.position;
-
-		var svgNode = new ludo.layout.TextBox({
-			renderTo:button,
-			text:view.title,
-			rotation:this.getRotation(),
-			className:'ludo-view-collapsed-title'
-		});
-
-		var size = svgNode.getSize();
-		button.style.width = size.x + 'px';
-		button.style.height = size.y + 'px';
-
-		if(this.position === 'top' || this.position === 'bottom'){
-			button.style.left = this.currentPos + 'px';
-			this.currentPos += size.x + ludo.dom.getMBPW(button);
-		}else{
-			button.style.top = this.currentPos + 'px';
-			this.currentPos += size.y  + ludo.dom.getMBPH(button);
-		}
-
-		if(!view.isHidden()){
-			this.activateButton(view);
-		}
-
-		view.addEvent('show', this.activateButton.bind(this));
-		view.addEvent('hide', this.deactivateButton.bind(this));
-	},
-
-	getRotation:function(){
-		switch(this.position){
-			case 'left' : return 270;
-			case 'right' : return 90;
-			default:return 0;
-		}
-	},
-
-	toggleView:function(e){
-		var button = this.getButtonByDom(e.target);
-		var id = button.id.replace('button-', '');
-		var view = ludo.get(id);
-		if(view.isHidden())view.show();else view.hide();
-	},
-
-	enterButton:function(e){
-		this.getButtonByDom(e.target).addClass('collapse-bar-button-over');
-	},
-
-	leaveButton:function(e){
-		this.getButtonByDom(e.target).removeClass('collapse-bar-button-over');
-	},
-
-	activateButton:function(view){
-		if(view.getParent().isHidden())view.getParent().show();
-		this.buttons[view.id].addClass('collapse-bar-button-active');
-
-	},
-
-	toggleParent:function(view){
-		if(this.allHidden(view)){
-			view.getParent().hide();
-		}
-	},
-
-	allHidden:function(view){
-		var parent = view.getParent();
-		for(var i=0;i<parent.children.length;i++){
-			if(parent.children[i].isHidden() || !parent.children[i].title){
-
-			}else{
-				return false;
-			}
-		}
-		return true;
-	},
-
-	deactivateButton:function(view){
-		this.buttons[view.id].removeClass('collapse-bar-button-active');
-		this.toggleParent.delay(50, this, view);
-
-	},
-
-	getButtonByDom:function(el){
-		while(el.tagName.toLowerCase() === 'svg' || el.tagName.toLowerCase() === 'text' || !ludo.dom.hasClass(el, 'collapse-bar-button')){
-			el = el.parentNode;
-		}
-		return el;
-	},
-	getViews:function(){
-		return this.views;
-	}
-});/* ../ludojs/src/effect/draggable-node.js */
-/**
- Specification of a draggable node objects sent to {{#crossLink "effect.Drag/add"}}{{/crossLink}}. You will
- never create objects of this class.
- @namespace effect
- @class DraggableNode
- @type {Object|String}
- */
-ludo.effect.DraggableNode = new Class({
-	/**
-	 id of node. This attribute is optional
-	 @property id
-	 @type {String}
-	 @default undefined
-	 @optional
-	 @example
-	 	var dragDrop = new ludo.effect.Drag();
-	 	var el = new Element('div');
-	 	dragDrop.add({
-	 		id: 'myId',
-			el : el
-	 	});
-	 	var ref = dragDrop.getById('myId');
-	 Or you can use this code which does the same:
-	 @example
-	 	var dragDrop = new ludo.effect.Drag();
-	 	var el = new Element('div');
-	 	el.id = 'myId';
-	 	dragDrop.add(el);
-	 	var ref = dragDrop.getById('myId');
-	 Id's are only important if you need to access nodes later using {{#crossLink "effect.Drag/getById"}}{{/crossLink}}
-	 */
-	id: undefined,
-
-	/**
-	 * Reference to dragable DOM node
-	 * @property el
-	 * @default undefined
-	 * @type {String|HTMLDivElement}
-	 */
-	el:undefined,
-	/**
-	 * Reference to handle for dragging. el will only be draggable by dragging the handle.
-	 * @property handle
-	 * @type {String|HTMLDivElement}
-	 * @default undefined
-	 * @optional
-	 */
-	handle:undefined,
-
-	/**
-	 * Minimum x position. This is an optional argument. If not set, you will use the params
-	 * set when creating the ludo.effect.Drag component if any.
-	 * @property minX
-	 * @type {Number}
-	 * @default undefined
-	 * @optional
-	 */
-	minX:undefined,
-	/**
-	 * Maximum x position. This is an optional argument. If not set, you will use the params
-	 * set when creating the ludo.effect.Drag component if any.
-	 * @property maxX
-	 * @type {Number}
-	 * @default undefined
-	 * @optional
-	 */
-	maxX:undefined,
-	/**
-	 * Minimum x position. This is an optional argument. If not set, you will use the params
-	 * set when creating the ludo.effect.Drag component if any.
-	 * @property minY
-	 * @type {Number}
-	 * @default undefined
-	 * @optional
-	 */
-	minY:undefined,
-	/**
-	 * Maximum y position. This is an optional argument. If not set, you will use the params
-	 * set when creating the ludo.effect.Drag component if any.
-	 * @property maxY
-	 * @type {Number}
-	 * @default undefined
-	 * @optional
-	 */
-	maxY:undefined,
-	/**
-	 Allow dragging in these directions. This is an optional argument. If not set, you will use the params
-	 set when creating the ludo.effect.Drag component if any.
-	 @property directions
-	 @type {String}
-	 @default 'XY'
-	 @optional
-	 @example
-	 	directions:'XY'	//
-	 	..
-	 	directions:'X' // Only allow dragging along x-axis
-	 	..
-	 	directions:'Y' // Only allow dragging along y-axis
-	 */
-	directions:undefined
-});/* ../ludojs/src/effect/effect.js */
-/**
- * Base class for animations
- * @namespace effect
- * @class Effect
- */
-ludo.effect.Effect = new Class({
-	Extends: ludo.Core,
-	fps:33,
-	/**
-	 Fly/Slide DOM node to a position
-	 @method fly
-	 @param {Object} config
-	 @example
-	 	<div id="myDiv" style="position:absolute;width:100px;height:100px;border:1px solid #000;background-color:#DEF;left:50px;top:50px"></div>
-		<script type="text/javascript">
-		 new ludo.effect.Effect().fly({
-			el: 'myDiv',
-			duration:.5,
-			to:{ x:500, y: 300 },
-			 onComplete:function(){
-				 new ludo.effect.Effect().fly({
-					el: 'myDiv',
-					duration:1,
-					to:{ x:600, y: 50 }
-				 });
-			 }
-		 });
-	 	</script>
-	 Which will first move "myDiv" to position 500x300 on the screen, then to 600x50.
-	 */
-	fly:function(config){
-		config.el = document.id(config.el);
-		config.duration = config.duration || .2;
-		if(config.from == undefined){
-			config.from = config.el.getPosition();
-		}
-		var fx = this.getFx(config.el, config.duration, config.onComplete);
-		fx.start({
-			left : [config.from.x, config.to.x],
-			top : [config.from.y, config.to.y]
-		});
-	},
-
-	/**
-	 Fly/Slide DOM node from current location to given x and y coordinats in given seconds.
-	 @method flyTo
-	 @param {HTMLElement} el
-	 @param {Number} x
-	 @param {Number} y
-	 @param {Number} seconds
-	 @example
-
-	 You may also use this method like this:
-	 @example
-	 	<div id="myDiv" style="position:absolute;width:100px;height:100px;border:1px solid #000;background-color:#DEF;left:50px;top:50px"></div>
-		<script type="text/javascript">
-	 	new ludo.effect.Effect().flyTo('myDiv', 500, 300, .5);
-	 	</script>
-	 Which slides "myDiv" to position 500x300 in 0.5 seconds.
-	 */
-	flyTo:function(el, x, y, seconds){
-		this.fly({
-			el:el,
-			to:{x : x, y: y},
-			duration: seconds
-		});
-	},
-
-	getFx:function (el, duration, onComplete) {
-		duration*=1000;
-		var fx = new Fx.Morph(el, {
-			duration:duration
-		});
-		fx.addEvent('complete', this.animationComplete.bind(this, [onComplete, el]));
-		return fx;
-	},
-
-	animationComplete:function(onComplete, el){
-		/**
-		 * Fired when animation is completed
-		 * @event animationComplete
-		 * @param {effect.Drag} this
-		 */
-		this.fireEvent('animationComplete', this);
-
-		if(onComplete !== undefined){
-			onComplete.call(this, el);
-		}
-	},
-
-	fadeOut:function(el, duration, callback){
-		var stops = this.getStops(duration);
-		var stopIncrement = 100 / stops * -1;
-		this.execute({
-			el:el,
-			index:0,
-			stops:stops,
-			styles:[
-				{ key: 'opacity', currentValue: 100, change: stopIncrement }
-			],
-			callback : callback,
-			unit:''
-		})
-	},
-
-	slideIn:function(el, duration, callback, to){
-		to = to || el.getPosition();
-		var from = {
-			x: to.x,
-			y : el.parentNode.offsetWidth + el.offsetHeight
-		};
-		this.slide(el,from, to, duration, callback);
-	},
-
-	slideOut:function(el, duration, callback, from){
-		from = from || el.getPosition();
-		var to = {
-			x: from.x,
-			y : el.parentNode.offsetHeight + el.offsetHeight
-		};
-		this.slide(el, from, to, duration, callback);
-	},
-
-	slide:function(el, from, to, duration, callback){
-		var stops = this.getStops(duration);
-		var styles = [];
-		if(from.x !== to.x){
-			el.style.left = from.x + 'px';
-			styles.push({
-				key : 'left',
-				currentValue:from.x,
-				change: (to.x - from.x) / stops
-			});
-		}
-
-		if(from.y !== to.y){
-			el.style.top = from.y + 'px';
-			styles.push({
-				key : 'top',
-				currentValue:from.y,
-				change: (to.y - from.y) / stops
-			});
-		}
-		this.execute({
-			el:el,
-			index:0,
-			stops:stops,
-			styles:styles,
-			callback : callback,
-			unit:'px'
-		});
-		this.show(el);
-	},
-
-	fadeIn:function(el, duration, callback){
-		var stops = this.getStops(duration);
-		var stopIncrement = 100 / stops;
-		this.execute({
-			el:el,
-			index:0,
-			stops:stops,
-			styles:[
-				{ key: 'opacity', currentValue: 0, change: stopIncrement }
-			],
-			callback : callback,
-			unit:''
-		});
-		this.show(el);
-	},
-
-	show:function(el){
-		if(el.style.visibility==='hidden')el.style.visibility='visible';
-	},
-
-	getStops:function(duration){
-		return Math.round(duration * this.fps);
-	},
-
-	execute:function(config){
-		var el = config.el;
-		for(var i=0;i<config.styles.length;i++){
-			var s = config.styles[i];
-			s.currentValue += s.change;
-			switch(s.key){
-				case 'opacity':
-					el.style.opacity = (s.currentValue / 100);
-					el.style.filter = ['alpha(opacity=', s.currentValue,')'].join('');
-					break;
-				default:
-					el.style[s.key] = Math.round(s.currentValue) + config.unit;
-			}
-			config.index ++;
-
-			if(config.index < config.stops){
-				this.execute.delay(this.fps, this, config);
-			}else{
-				if(config.callback)config.callback.apply(this);
-			}
-		}
-	}
-});
-
-/* ../ludojs/src/effect/drag.js */
-/**
-@namespace effect
-@class Drag
-@extends effect.Effect
-@description Class for dragging DOM elements.
-@constructor
-@param {Object} config
-@example
-	<style type="text/css">
-	.ludo-shim {
-		 border: 15px solid #AAA;
-		 background-color: #DEF;
-		 margin: 5;
-		 opacity: .5;
-		 border-radius: 5px;
-	}
-	.draggable{
-		width:150px;
-		z-index:1000;
-		height:150px;
-		border-radius:5px;
-		border:1px solid #555;
-		background-color:#DEF
-	}
-	</style>
-	<div id="draggable" class="draggable">
-		I am draggable
-	</div>
-	<script type="text/javascript">
-	 var d = new ludo.effect.Drag({
-		useShim:true,
-		 listeners:{
-			 endDrag:function(dragged, dragEffect){
-				 dragEffect.getEl().setStyles({
-					 left : dragEffect.getX(),
-					 top: dragEffect.getY()
-				 });
-			 },
-			 drag:function(pos, dragEffect){
-				 dragEffect.setShimText(dragEffect.getX() + 'x' + dragEffect.getY());
-			 }
-		 }
-	 });
-	d.add('draggable'); // "draggable" is the id of the div
- 	</script>
-
-*/
-ludo.effect.Drag = new Class({
-	Extends:ludo.effect.Effect,
-
-	/**
-	 * Reference to drag handle (Optional). If not set, "el" will be used
-	 * @config handle
-	 * @type Object|String
-	 * @default undefined
-	 */
-	handle:undefined,
-	/**
-	 * Reference to DOM element to be dragged
-	 * @config el
-	 * @type Object|String
-	 * @default undefined
-	 */
-	el:undefined,
-
-	/**
-	 * Minimum x position
-	 * @config minX
-	 * @type {Number}
-	 * @default undefined
-	 */
-	minX:undefined,
-	/**
-	 * Minimum y position
-	 * @config minY
-	 * @type {Number}
-	 * @default undefined
-	 */
-	minY:undefined,
-
-	/**
-	 * Maximum x position
-	 * @config maxX
-	 * @type {Number}
-	 * @default undefined
-	 */
-	maxX:undefined,
-	/**
-	 * config y position
-	 * @attribute maxY
-	 * @type {Number}
-	 * @default undefined
-	 */
-	maxY:undefined,
-
-	/**
-	 * minPos and maxPos can be used instead of minX,maxX,minY and maxY if
-	 * you only accept dragging along x-axis or y-axis
-	 * @config {Number} minPos
-	 * @default undefined
-	 */
-	minPos:undefined,
-	/**
-	 * @config maxPos
-	 * @type {Number}
-	 * @default undefined
-	 */
-	maxPos:undefined,
-	/**
-	 * Accept dragging in these directions
-	 * @config dragX
-	 * @type String
-	 * @default XY
-	 */
-	directions:'XY',
-
-	/**
-	 * Unit used while dragging
-	 * @config unit, example : "px", "%"
-	 * @default px
-	 */
-	unit:'px',
-
-	dragProcess:{
-		active:false
-	},
-
-	coordinatesToDrag:undefined,
-	/**
-	 * Delay in seconds from mouse down to start drag. If mouse is released within this interval,
-	 * the drag will be cancelled.
-	 * @config delay
-	 * @type {Number}
-	 * @default 0
-	 */
-	delay:0,
-
-	inDelayMode:false,
-
-	els:{},
-
-	/**
-	 * True to use dynamically created shim while dragging. When true,
-	 * the original DOM element will not be dragged.
-	 * @config useShim
-	 * @type {Boolean}
-	 * @default false
-	 */
-	useShim:false,
-
-	/**
-	 * True to automatically hide shim after drag is finished
-	 * @config autohideShim
-	 * @type {Boolean}
-	 * @default true
-	 */
-	autoHideShim:true,
-
-	/**
-	 CSS classes to add to shim
-	 @config shimCls
-	 @type Array
-	 @default undefined
-	 @example
-		 shimCls:['myShim','myShim-2']
-	 which will results in this shim :
-	 @example
-	 	<div class="ludo-shim myShim myShim-2">
-	 */
-	shimCls:undefined,
-
-	/**
-	 * While dragging, always show dragged element this amount of pixels below mouse cursor.
-	 * @config mouseYOffset
-	 * @type {Number} pixels
-	 * @default undefined
-	 */
-	mouseYOffset:undefined,
-
-	/**
-	 * While dragging, always show dragged element this amount of pixels right of mouse cursor.
-	 * @config mouseXOffset
-	 * @type {Number} pixels
-	 * @default undefined
-	 */
-	mouseXOffset:undefined,
-
-    fireEffectEvents:true,
-
-	ludoConfig:function (config) {
-		this.parent(config);
-		if (config.el !== undefined) {
-			this.add({
-				el:config.el,
-				handle:config.handle
-			});
-		}
-
-        this.setConfigParams(config, ['useShim','autoHideShim','directions','delay','minX','maxX','minY','maxY',
-            'minPos','maxPos','unit','shimCls','mouseYOffset','mouseXOffset','fireEffectEvents']);
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.drag.bind(this));
-		this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
-		if (this.useShim) {
-			this.addEvent('start', this.showShim.bind(this));
-			if(this.autoHideShim)this.addEvent('end', this.hideShim.bind(this));
-		}
-	},
-
-	/**
-	 Add draggable object
-	 @method add
-	 @param {effect.DraggableNode|String|HTMLDivElement} node
-	 @return {effect.DraggableNode}
-	 @example
-	 	dragObject.add({
-			el: 'myDiv',
-			handle : 'myHandle'
-		});
-	 handle is optional.
-
-	 @example
-	 	dragObject.add('idOfMyDiv');
-
-	 You can also add custom properties:
-
-	 @example
-	 	dragobject.add({
-	 		id: "myReference',
-			el: 'myDiv',
-			column: 'city'
-		});
-	 	...
-	 	...
-	 	dragobject.addEvent('before', beforeDrag);
-		 ...
-		 ...
-	 	function beforeDrag(dragged){
-	 		console.log(dragged.el);
-	 		console.log(dragged.column);
-	 	}
-	 */
-	add:function (node) {
-		node = this.getValidNode(node);
-		var el = document.id(node.el);
-		this.setPositioning(el);
-
-        var handle = node.handle ? document.id(node.handle) : el;
-
-		handle.id = handle.id || 'ludo-' + String.uniqueID();
-		ludo.dom.addClass(handle, 'ludo-drag');
-
-		handle.addEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
-		handle.setAttribute('forId', node.id);
-		this.els[node.id] = Object.merge(node, {
-			el:document.id(el),
-			handle:handle
-		});
-		return this.els[node.id];
-	},
-
-	/**
-	 * Remove node
-	 * @method remove
-	 * @param {String} id
-	 * @return {Boolean} success
-	 */
-	remove:function(id){
-		if(this.els[id]!==undefined){
-			var el = document.id(this.els[id].handle);
-			el.removeEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
-			this.els[id] = undefined;
-			return true;
-		}
-		return false;
-	},
-
-	removeAll:function(){
-		var keys = Object.keys(this.els);
-		for(var i=0;i<keys.length;i++){
-			this.remove(keys[i]);
-		}
-		this.els = {};
-	},
-
-	getValidNode:function(node){
-		if (!this.isElConfigObject(node)) {
-			node = {
-				el:document.id(node)
-			};
-		}
-		if(typeof node.el === 'string'){
-			node.el = document.id(node.el);
-		}
-		node.id = node.id || node.el.id || 'ludo-' + String.uniqueID();
-		if (!node.el.id)node.el.id = node.id;
-		node.el.setAttribute('forId', node.id);
-		return node;
-	},
-
-	isElConfigObject:function (config) {
-		return config.el !== undefined || config.handle !== undefined;
-	},
-
-	setPositioning:function(el){
-		if (!this.useShim){
-			el.style.position = 'absolute';
-		}else{
-            var pos = el.getStyle('position');
-			if(!pos || (pos!='relative' && pos!='absolute')){
-				el.style.position = 'relative';
-			}
-		}
-	},
-
-	getById:function(id){
-		return this.els[id];
-	},
-
-	getIdByEvent:function (e) {
-		var el = e.target;
-		if (!el.hasClass('ludo-drag')) {
-			el = el.getParent('.ludo-drag');
-		}
-		return el.getProperty('forId');
-	},
-
-	/**
-	 * Returns reference to dragged object, i.e. object added in constructor or
-	 * by use of add method
-	 * @method getDragged
-	 * @return {Object}
-	 */
-	getDragged:function(){
-		return this.els[this.dragProcess.dragged];
-	},
-
-	/**
-	 * Returns reference to draggable DOM node
-	 * @method getEl
-	 * @return {Object} DOMNode
-	 */
-	getEl:function () {
-		return this.els[this.dragProcess.dragged].el;
-	},
-
-	getShimOrEl:function () {
-		return this.useShim ? this.getShim() : this.getEl();
-	},
-
-	getSizeOf:function(el){
-		return el.getSize !== undefined ? el.getSize() : { x: 0, y: 0 };
-	},
-
-	getPositionOf:function(el){
-		return el.getPosition();
-	},
-
-	setDragCoordinates:function(){
-		this.coordinatesToDrag = {
-			x : 'x', y:'y'
-		};
-	},
-	startDrag:function (e) {
-		var id = this.getIdByEvent(e);
-
-		var el = this.getById(id).el;
-		var size = this.getSizeOf(el);
-		var pos;
-		if(this.useShim){
-			pos = el.getPosition();
-		}else{
-			var parent = this.getPositionedParent(el);
-            pos = parent ? el.getPosition(parent) : this.getPositionOf(el);
-		}
-
-		var x = pos.x;
-		var y = pos.y;
-		this.dragProcess = {
-			active:true,
-			dragged:id,
-			currentX:x,
-			currentY:y,
-			elX:x,
-			elY:y,
-			width:size.x,
-			height:size.y,
-			mouseX:e.page.x,
-			mouseY:e.page.y
-		};
-
-		this.dragProcess.el = this.getShimOrEl();
-		/**
-		 * Event fired before drag
-		 * @event {effect.DraggableNode}
-		 * @param {Object} object to be dragged
-		 * @param {ludo.effect.Drag} component
-		 * @param {Object} pos(x and y)
-		 */
-		this.fireEvent('before', [this.els[id], this, {x:x,y:y}]);
-
-		if(!this.isActive()){
-			return undefined;
-		}
-
-		this.dragProcess.minX = this.getMinX();
-		this.dragProcess.maxX = this.getMaxX();
-		this.dragProcess.minY = this.getMinY();
-		this.dragProcess.maxY = this.getMaxY();
-		this.dragProcess.dragX = this.canDragAlongX();
-		this.dragProcess.dragY = this.canDragAlongY();
-
-		if (this.delay) {
-			this.setActiveAfterDelay();
-		} else {
-			/**
-			 * Event fired before dragging
-			 * @event start
-			 * @param {effect.DraggableNode} object to be dragged.
-			 * @param {ludo.effect.Drag} component
-			 * @param {Object} pos(x and y)
-			 */
-			this.fireEvent('start', [this.els[id], this, {x:x,y:y}]);
-
-			if(this.fireEffectEvents)ludo.EffectObject.start();
-		}
-
-		return false;
-	},
-
-	getPositionedParent:function(el){
-		var parent = el.parentNode;
-		while(parent){
-			var pos = parent.getStyle('position');
-			if (pos === 'relative' || pos === 'absolute')return parent;
-			parent = parent.getParent();
-		}
-		return undefined;
-	},
-
-	/**
-	 Cancel drag. This method is designed to be called from an event handler
-	 attached to the "beforeDrag" event.
-	 @method cancelDrag
-	 @example
-	 	// Here, dd is a {{#crossLink "effect.Drag"}}{{/crossLink}} object
-	 	dd.addEvent('before', function(draggable, dd, pos){
-	 		if(pos.x > 1000 || pos.y > 500){
-	 			dd.cancelDrag();
-			}
-	 	});
-	 In this example, dragging will be cancelled when the x position of the mouse
-	 is greater than 1000 or if the y position is greater than 500. Another more
-	 useful example is this:
-	 @example
-		 dd.addEvent('before', function(draggable, dd){
-		 	if(!this.isDraggable(draggable)){
-		 		dd.cancelDrag()
-		 	}
-		});
-	 Here, we assume that we have an isDraggable method which returns true or false
-	 for whether the given node is draggable or not. "draggable" in this example
-	 is one of the {{#crossLink "effect.DraggableNode"}}{{/crossLink}} objects added
-	 using the {{#crossLink "effect.Drag/add"}}{{/crossLink}} method.
-	 */
-
-	cancelDrag:function () {
-		this.dragProcess.active = false;
-		this.dragProcess.el = undefined;
-        if(this.fireEffectEvents)ludo.EffectObject.end();
-	},
-
-	getShimFor:function (el) {
-		return el;
-	},
-
-	setActiveAfterDelay:function () {
-		this.inDelayMode = true;
-		this.dragProcess.active = false;
-		this.startIfMouseNotReleased.delay(this.delay * 1000, this);
-	},
-
-	startIfMouseNotReleased:function () {
-		if (this.inDelayMode) {
-			this.dragProcess.active = true;
-			this.inDelayMode = false;
-			this.fireEvent('start', [this.getDragged(), this, {x:this.getX(),y:this.getY()}]);
-			ludo.EffectObject.start();
-		}
-	},
-
-	drag:function (e) {
-		if (this.dragProcess.active && this.dragProcess.el) {
-			var pos = {
-				x:undefined,
-				y:undefined
-			};
-			if (this.dragProcess.dragX) {
-				pos.x = this.getXDrag(e);
-			}
-
-			if (this.dragProcess.dragY) {
-				pos.y = this.getYDrag(e);
-			}
-
-			this.move(pos);
-
-			/**
-			 * Event fired while dragging. Sends position, example {x:100,y:50}
-			 * and reference to effect.Drag as arguments
-			 * @event drag
-			 * @param {Object} x and y
-			 * @param {effect.Drag} this
-			 */
-			this.fireEvent('drag', [pos, this.els[this.dragProcess.dragged], this]);
-			if (ludo.util.isTabletOrMobile())return false;
-
-		}
-		return undefined;
-	},
-
-	move:function (pos) {
-		if (pos.x !== undefined) {
-			this.dragProcess.currentX = pos.x;
-			this.dragProcess.el.style.left = pos.x + this.unit;
-		}
-		if (pos.y !== undefined) {
-			this.dragProcess.currentY = pos.y;
-			this.dragProcess.el.style.top = pos.y + this.unit;
-		}
-	},
-
-	/**
-	 * Return current x pos
-	 * @method getX
-	 * @return {Number} x
-	 */
-	getX:function(){
-		return this.dragProcess.currentX;
-	},
-	/**
-	 * Return current y pos
-	 * @method getY
-	 * @return {Number} y
-	 */
-	getY:function(){
-		return this.dragProcess.currentY;
-	},
-
-	getXDrag:function (e) {
-		var posX;
-		if(this.mouseXOffset){
-			posX = e.page.x + this.mouseXOffset;
-		}else{
-			posX = e.page.x - this.dragProcess.mouseX + this.dragProcess.elX;
-		}
-
-		if (posX < this.dragProcess.minX) {
-			posX = this.dragProcess.minX;
-		}
-		if (posX > this.dragProcess.maxX) {
-			posX = this.dragProcess.maxX;
-		}
-		return posX;
-	},
-
-	getYDrag:function (e) {
-		var posY;
-		if(this.mouseYOffset){
-			posY = e.page.y + this.mouseYOffset;
-		}else{
-			posY = e.page.y - this.dragProcess.mouseY + this.dragProcess.elY;
-		}
-
-		if (posY < this.dragProcess.minY) {
-			posY = this.dragProcess.minY;
-		}
-		if (posY > this.dragProcess.maxY) {
-			posY = this.dragProcess.maxY;
-		}
-		return posY;
-	},
-
-	endDrag:function () {
-		if (this.dragProcess.active) {
-			this.cancelDrag();
-			/**
-			 * Event fired on drag end
-			 * @event end
-			 * @param {effect.DraggableNode} dragged
-			 * @param {ludo.effect.Drag} this
-			 * @param {Object} x and y
-			 */
-			this.fireEvent('end', [
-				this.getDragged(),
-				this,
-				{
-					x:this.getX(),
-					y:this.getY()
-				}
-			]);
-
-		}
-		if (this.inDelayMode)this.inDelayMode = false;
-
-	},
-
-	/**
-	 * Set new max X pos
-	 * @method setMaxX
-	 * @param {Number} x
-	 */
-	setMaxX:function (x) {
-		this.maxX = x;
-	},
-	/**
-	 * Set new min X pos
-	 * @method setMinX
-	 * @param {Number} x
-	 */
-	setMinX:function (x) {
-		this.minX = x;
-	},
-	/**
-	 * Set new min Y pos
-	 * @method setMinY
-	 * @param {Number} y
-	 */
-	setMinY:function (y) {
-		this.minY = y;
-	},
-	/**
-	 * Set new max Y pos
-	 * @method setMaxY
-	 * @param {Number} y
-	 */
-	setMaxY:function (y) {
-		this.maxY = y;
-	},
-	/**
-	 * Set new min pos
-	 * @method setMinPos
-	 * @param {Number} pos
-	 */
-	setMinPos:function (pos) {
-		this.minPos = pos;
-	},
-	/**
-	 * Set new max pos
-	 * @method setMaxPos
-	 * @param {Number} pos
-	 */
-	setMaxPos:function (pos) {
-		this.maxPos = pos;
-	},
-
-	getMaxX:function () {
-        return this.getMaxPos('maxX');
-	},
-
-	getMaxY:function () {
-        return this.getMaxPos('maxY');
-	},
-
-    getMaxPos:function(key){
-        var max = this.getConfigProperty(key);
-        return max !== undefined ? max : this.maxPos !== undefined ? this.maxPos : 100000;
-    },
-
-	getMinX:function () {
-		var minX = this.getConfigProperty('minX');
-        return minX !== undefined ? minX : this.minPos;
-	},
-
-	getMinY:function () {
-		var dragged = this.getDragged();
-        return dragged && dragged.minY!==undefined ? dragged.minY : this.minY!==undefined ? this.minY : this.minPos;
-	},
-	/**
-	 * Return amount dragged in x direction
-	 * @method getDraggedX
-	 * @return {Number} x
-	 */
-	getDraggedX:function(){
-		return this.getX() - this.dragProcess.elX;
-	},
-	/**
-	 * Return amount dragged in y direction
-	 * @method getDraggedY
-	 * @return {Number} y
-	 */
-	getDraggedY:function(){
-		return this.getY() - this.dragProcess.elY;
-	},
-
-	canDragAlongX:function () {
-		return this.getConfigProperty('directions').indexOf('X') >= 0;
-	},
-	canDragAlongY:function () {
-		return this.getConfigProperty('directions').indexOf('Y') >= 0;
-	},
-
-	getConfigProperty:function(property){
-		var dragged = this.getDragged();
-		return dragged && dragged[property] !== undefined ? dragged[property] : this[property];
-	},
-
-	/**
-	 * Returns width of dragged element
-	 * @method getHeight
-	 * @return {Number}
-	 */
-	getWidth:function () {
-		return this.dragProcess.width;
-	},
-
-	/**
-	 * Returns height of dragged element
-	 * @method getHeight
-	 * @return {Number}
-	 */
-	getHeight:function () {
-		return this.dragProcess.height;
-	},
-	/**
-	 * Returns current left position of dragged
-	 * @method getLeft
-	 * @return {Number}
-	 */
-	getLeft:function () {
-		return this.dragProcess.currentX;
-	},
-
-	/**
-	 * Returns current top/y position of dragged.
-	 * @method getTop
-	 * @return {Number}
-	 */
-	getTop:function () {
-		return this.dragProcess.currentY;
-	},
-
-	/**
-	 * Returns reference to DOM element of shim
-	 * @method getShim
-	 * @return {HTMLDivElement} shim
-	 */
-	getShim:function () {
-		if (this.shim === undefined) {
-			this.shim = new Element('div');
-			ludo.dom.addClass(this.shim, 'ludo-shim');
-			this.shim.setStyles({
-				position:'absolute',
-				'z-index':50000,
-				display:'none'
-			});
-			document.body.adopt(this.shim);
-
-			if (this.shimCls) {
-				for (var i = 0; i < this.shimCls.length; i++) {
-					this.shim.addClass(this.shimCls[i]);
-				}
-			}
-			/**
-			 * Event fired when shim is created
-			 * @event createShim
-			 * @param {HTMLDivElement} shim
-			 */
-			this.fireEvent('createShim', this.shim);
-		}
-		return this.shim;
-	},
-
-	/**
-	 * Show shim
-	 * @method showShim
-	 */
-	showShim:function () {
-		this.getShim().setStyles({
-			display:'',
-			left:this.getShimX(),
-			top:this.getShimY(),
-			width:this.getWidth() + this.getShimWidthDiff(),
-			height:this.getHeight() + this.getShimHeightDiff()
-		});
-
-		this.fireEvent('showShim', [this.getShim(), this]);
-	},
-
-	getShimY:function(){
-		if(this.mouseYOffset){
-			return this.dragProcess.mouseY + this.mouseYOffset;
-		}else{
-			return this.getTop() + ludo.dom.getMH(this.getEl()) - ludo.dom.getMW(this.shim);
-		}
-	},
-
-	getShimX:function(){
-		if(this.mouseXOffset){
-			return this.dragProcess.mouseX + this.mouseXOffset;
-		}else{
-			return this.getLeft() + ludo.dom.getMW(this.getEl()) - ludo.dom.getMW(this.shim);
-		}
-	},
-
-	getShimWidthDiff:function(){
-		return ludo.dom.getMW(this.getEl()) - ludo.dom.getMBPW(this.shim);
-	},
-	getShimHeightDiff:function(){
-		return ludo.dom.getMH(this.getEl()) - ludo.dom.getMBPH(this.shim);
-	},
-
-	/**
-	 * Hide shim
-	 * @method hideShim
-	 */
-	hideShim:function () {
-		this.getShim().style.display = 'none';
-	},
-
-	/**
-	 * Set text content of shim
-	 * @method setShimText
-	 * @param {String} text
-	 */
-	setShimText:function (text) {
-		this.getShim().set('html', text);
-	},
-
-	/**
-	 * Fly/Slide dragged element back to it's original position
-	 * @method flyBack
-	 */
-	flyBack:function (duration) {
-		this.fly({
-			el: this.getShimOrEl(),
-			duration: duration,
-			from:{ x: this.getLeft(), y : this.getTop() },
-			to:{ x: this.getStartX(), y : this.getStartY() },
-			onComplete : this.flyBackComplete.bind(this)
-		});
-	},
-
-	/**
-	 * Fly/Slide dragged element to position of shim. This will only
-	 * work when useShim is set to true.
-	 * @method flyToShim
-	 * @param {Number} duration in seconds(default = .2)
-	 */
-	flyToShim:function(duration){
-		this.fly({
-			el: this.getEl(),
-			duration: duration,
-			from:{ x: this.getStartX(), y : this.getStartY() },
-			to:{ x: this.getLeft(), y : this.getTop() },
-			onComplete : this.flyToShimComplete.bind(this)
-		});
-	},
-
-	getStartX:function () {
-		return this.dragProcess.elX;
-	},
-
-	getStartY:function () {
-		return this.dragProcess.elY;
-	},
-
-	flyBackComplete:function(){
-		/**
-		 * Event fired after flyBack animation is complete
-		 * @event flyBack
-		 * @param {effect.Drag} this
-		 * @param {HTMLElement} dom node
-		 */
-		this.fireEvent('flyBack', [this, this.getShimOrEl()]);
-	},
-
-	flyToShimComplete:function(){
-		/**
-		 * Event fired after flyToShim animation is complete
-		 * @event flyBack
-		 * @param {effect.Drag} this
-		 * @param {HTMLElement} dom node
-		 */
-		this.fireEvent('flyToShim', [this, this.getEl()]);
-	},
-
-	isActive:function(){
-		return this.dragProcess.active;
-	}
-});/* ../ludojs/src/effect/resize.js */
-/***
- * Make component or DOM elements resizable
- * @module effect
- * @class Resize
- * @namespace effect
- * @extends Core
- */
-ludo.effect.Resize = new Class({
-    Extends:ludo.Core,
-    /**
-     * Use shim
-     * @attribute {Boolean} useShim
-     * @optional
-     */
-    useShim:true,
-    component:undefined,
-    els:{
-        shim:undefined,
-        applyTo:undefined,
-        handle:{}
-    },
-    /**
-     * min x position
-     * @attribute {Number} minX
-     * @default undefined
-     */
-    minX:undefined,
-    /**
-     * max x position
-     * @attribute {Number} maxX
-     * @default undefined
-     */
-    maxX:undefined,
-    /**
-     * minimum width
-     * @attribute {Number} minWidth
-     * @default undefined
-     */
-    minWidth:undefined,
-    /**
-     * Maximum width
-     * @attribute {Number} maxWidth
-     * @default undefined
-     */
-    maxWidth:undefined,
-    /**
-     * min y position
-     * @attribute {Number} minY
-     * @default undefined
-     */
-    minY:undefined,
-    /**
-     * max x position
-     * @attribute {Number} maxY
-     * @default undefined
-     */
-    maxY:undefined,
-    /**
-     * minimum height
-     * @attribute {Number} minHeight
-     * @default undefined
-     */
-    minHeight:undefined,
-    /**
-     * max height
-     * @attribute {Number} maxHeight
-     * @default undefined
-     */
-    maxHeight:undefined,
-
-    /**
-     * Preserve aspect ratio while resizing
-     * @attribute {Boolean} preserveAspectRatio
-     * @default false
-     */
-    preserveAspectRatio:false,
-
-    aspectRatio:undefined,
-
-    resizeKeys:{
-        'e':['width'],
-        's':['height'],
-        'w':['left', 'width'],
-        'n':['top', 'height'],
-        'nw':['top', 'left', 'height', 'width'],
-        'ne':['top', 'width', 'height'],
-        'se':['width', 'height'],
-        'sw':['left', 'height', 'width']
-    },
-
-    aspectRatioKeys:undefined,
-
-    dragProperties:{
-        active:false
-    },
-
-    xRegions:[
-        ['w', 'nw', 'sw'],
-        ['e', 'ne', 'se']
-    ],
-    yRegions:[
-        ['n', 'nw', 'ne'],
-        ['s', 'sw', 'se']
-    ],
-
-    aspectRatioMinMaxSet:false,
-
-    ludoConfig:function (config) {
-        this.setConfigParams(config, ['useShim','minX','maxX','minY','maxY','maxWidth','minWidth','minHeight','maxHeight','preserveAspectRatio']);
-        if (config.component) {
-            this.component = config.component;
-            this.els.applyTo = this.component.getEl();
-        } else {
-            this.els.applyTo = config.applyTo;
-        }
-        if (config.listeners)this.addEvents(config.listeners);
-        this.addDragEvents();
-        this.setDisplayPropertyOfEl.delay(100, this);
-    },
-
-    setDisplayPropertyOfEl:function () {
-        var display = this.getEl().getStyle('display');
-        if (display !== 'absolute' && display !== 'relative') {
-			if(Browser['ie'] && Browser.version < 9)return;
-            this.getEl().style.display = 'relative';
-        }
-    },
-
-    addDragEvents:function () {
-        document.body.addEvent(ludo.util.getDragEndEvent(), this.stopResize.bind(this));
-        document.body.addEvent(ludo.util.getDragMoveEvent(), this.resize.bind(this));
-    },
-
-    /**
-     * Add resize handle to a region. A region can be
-     * nw,n,ne,e,se,s,sw or w.
-	 *
-	 * A new DOM element will be created for the resize handle and injected into
-	 * the resized DOM element.
-     *
-     * Second parameter cssClass is optional.
-     * @method addHandle
-     * @param {String} region
-     * @param {String} cssClass
-     * @return void
-     */
-
-    addHandle:function (region, cssClass) {
-        var el = this.els.handle[region] = new Element('div');
-        ludo.dom.addClass(el, 'ludo-component-resize-el');
-        el.addClass(this.getCssFor(region));
-        if (cssClass)el.addClass(cssClass);
-        el.set('html', '<span></span>');
-        el.style.cursor = region + '-resize';
-        el.setProperty('region', region);
-        el.addEvent(ludo.util.getDragStartEvent(), this.startResize.bind(this));
-        this.els.applyTo.adopt(el);
-    },
-
-    startResize:function (e) {
-        var region = e.target.getProperty('region');
-        /**
-         * Fired when starting resize
-         * @event start
-         * @param string region
-         */
-        this.fireEvent('start', region);
-
-		ludo.EffectObject.start();
-
-        this.dragProperties = {
-            active:true,
-            region:region,
-            start:{ x:e.page.x, y:e.page.y },
-            current:{x:e.page.x, y:e.page.y },
-            el:this.getShimCoordinates(),
-            minWidth:this.minWidth,
-            maxWidth:this.maxWidth,
-            minHeight:this.minHeight,
-            maxHeight:this.maxHeight,
-            area:this.getScalingFactors(),
-            preserveAspectRatio: this.preserveAspectRatio ? this.preserveAspectRatio : e.shift ? true : false
-        };
-        if (this.preserveAspectRatio || e.shift) {
-            this.setMinAndMax();
-        }
-        this.dragProperties.minX = this.getDragMinX();
-        this.dragProperties.maxX = this.getDragMaxX();
-        this.dragProperties.minY = this.getDragMinY();
-        this.dragProperties.maxY = this.getDragMaxY();
-
-        this.setBodyCursor();
-        if (this.useShim) {
-            this.showShim();
-        }
-        return ludo.util.isTabletOrMobile() ? false : undefined;
-
-    },
-
-    /**
-     * Set min and max width/height based on aspect ratio
-     * @method setMinAndMax
-     * @private
-     */
-    setMinAndMax:function () {
-        var ratio = this.getAspectRatio();
-        var d = this.dragProperties;
-        if (ratio === 0)return;
-        var minWidth, maxWidth, minHeight, maxHeight;
-
-        if (this.maxWidth !== undefined)maxHeight = this.maxWidth / ratio;
-        if (this.minWidth !== undefined)minHeight = this.minWidth / ratio;
-        if (this.maxHeight !== undefined)maxWidth = this.maxHeight * ratio;
-        if (this.minHeight !== undefined)minWidth = this.minHeight * ratio;
-
-        var coords = this.getEl().getPosition();
-        var absMaxWidth = this.getBodyWidth() - coords.x;
-        var absMaxHeight = this.getBodyHeight() - coords.y;
-
-        d.minWidth = Math.max(minWidth || 0, this.minWidth || 0);
-        d.maxWidth = Math.min(maxWidth || absMaxWidth, this.maxWidth || absMaxWidth);
-        d.minHeight = Math.max(minHeight || 0, this.minHeight || 0);
-        d.maxHeight = Math.min(maxHeight || absMaxHeight, this.maxHeight || absMaxHeight);
-
-        if (d.maxWidth / ratio > d.maxHeight)d.maxWidth = d.maxHeight * ratio;
-        if (d.maxHeight * ratio > d.maxWidth)d.maxHeight = d.maxWidth / ratio;
-    },
-
-    getDragMinX:function () {
-        var ret, d = this.dragProperties, r = d.region;
-        if (d.maxWidth !== undefined && this.xRegions[0].indexOf(r) >= 0) {
-            ret = d.el.left + d.el.width - d.maxWidth;
-        } else if (d.minWidth !== undefined && this.xRegions[1].indexOf(r) >= 0) {
-            ret = d.el.left + d.minWidth;
-        }
-        if (this.minX !== undefined) {
-            if (ret == undefined)ret = this.minX; else ret = Math.max(ret, this.minX);
-        }
-        return ret;
-    },
-
-    getDragMaxX:function () {
-        var ret, d = this.dragProperties, r = d.region;
-        if (d.minWidth !== undefined && this.xRegions[0].indexOf(r) >= 0) {
-            ret = d.el.left + d.el.width - d.minWidth;
-        } else if (d.maxWidth !== undefined && this.xRegions[1].indexOf(r) >= 0) {
-            ret = d.el.left + d.maxWidth;
-        }
-        if (this.maxX !== undefined) {
-            if (ret == undefined)ret = this.maxX; else ret = Math.min(ret, this.maxX);
-        }
-        return ret;
-    },
-
-    getDragMinY:function () {
-        var ret, d = this.dragProperties, r = d.region;
-        if (d.maxHeight !== undefined && this.yRegions[0].indexOf(r) >= 0) {
-            ret = d.el.top + d.el.height - d.maxHeight;
-        } else if (d.minHeight !== undefined && this.yRegions[1].indexOf(r) >= 0) {
-            ret = d.el.top + d.minHeight;
-        }
-        if (this.minY !== undefined) {
-            if (ret == undefined)ret = this.minY; else ret = Math.max(ret, this.minY);
-        }
-        return ret;
-    },
-
-    getDragMaxY:function () {
-        var ret, d = this.dragProperties, r = d.region;
-        if (d.minHeight !== undefined && this.yRegions[0].indexOf(r) >= 0) {
-            ret = d.el.top + d.el.height - d.minHeight;
-        } else if (d.maxHeight !== undefined && this.yRegions[1].indexOf(r) >= 0) {
-            ret = d.el.top + d.maxHeight;
-        }
-        if (this.maxY !== undefined) {
-            if (ret == undefined)ret = this.maxY; else ret = Math.min(ret, this.maxY);
-        }
-        return ret;
-    },
-
-    setBodyCursor:function () {
-        document.body.style.cursor = this.dragProperties.region + '-resize';
-    },
-
-    revertBodyCursor:function () {
-        document.body.style.cursor = 'default';
-    },
-
-    resize:function (e) {
-        if (this.dragProperties.active) {
-            this.dragProperties.current = this.getCurrentCoordinates(e);
-            var coordinates = this.getCoordinates();
-            /**
-             * Fired during resize. CSS coordinates are passed as parameter to this event.
-             * @event resize
-             * @param {Object} coordinates
-             */
-            this.fireEvent('resize', coordinates);
-
-            if (this.useShim) {
-                this.els.shim.setStyles(coordinates);
-            } else {
-                this.getEl().setStyles(coordinates);
-            }
-        }
-    },
-
-    getCurrentCoordinates:function (e) {
-        var ret = {x:e.page.x, y:e.page.y };
-        var d = this.dragProperties;
-        if(d.preserveAspectRatio && d.region.length === 2)return ret;
-        if (d.minX !== undefined && ret.x < d.minX)ret.x = d.minX;
-        if (d.maxX !== undefined && ret.x > d.maxX)ret.x = d.maxX;
-        if (d.minY !== undefined && ret.y < d.minY)ret.y = d.minY;
-        if (d.maxY !== undefined && ret.y > d.maxY)ret.y = d.maxY;
-        return ret;
-    },
-
-    /**
-     * Returns coordinates for current drag operation,
-     * example: {left:100,top:100,width:500,height:400}
-     * @method getCoordinates
-     * @return {Object}
-     */
-    getCoordinates:function () {
-        var d = this.dragProperties;
-        var keys = this.resizeKeys[d.region];
-        var ret = {};
-
-        if (!d.preserveAspectRatio || d.region.length === 1) {
-            for (var i = 0; i < keys.length; i++) {
-                ret[keys[i]] = this.getCoordinate(keys[i]);
-            }
-        }
-
-        if (d.preserveAspectRatio) {
-            switch (d.region) {
-                case 'e':
-                case 'w':
-                    ret.height = ret.width / this.aspectRatio;
-                    break;
-                case 'n':
-                case 's':
-                    ret.width = ret.height * this.aspectRatio;
-                    break;
-                default:
-                    var scaleFactor = this.getScaleFactor();
-                    ret.width = d.el.width * scaleFactor;
-                    ret.height = d.el.height * scaleFactor;
-                    if(d.region == 'ne' || d.region =='nw'){
-                        ret.top = d.el.top + d.el.height - ret.height;
-                    }
-                    if(d.region == 'nw' || d.region == 'sw'){
-                        ret.left = d.el.left + d.el.width - ret.width;
-                    }
-                    ret.width += this.getBWOfShim();
-                    ret.height += this.getBHOfShim();
-                    break;
-            }
-        }
-        return ret;
-    },
-
-    getScaleFactor:function () {
-        var d = this.dragProperties;
-        var r = d.region;
-        var factor;
-
-        var offsetX = (d.current.x - d.start.x) * d.area.xFactor / d.area.sum;
-        var offsetY = (d.current.y - d.start.y) * d.area.yFactor / d.area.sum;
-        switch (r) {
-            case 'se':
-                factor = 1 + offsetX + offsetY;
-                break;
-            case 'ne':
-                factor = 1 + offsetX + offsetY * -1;
-                break;
-            case 'nw':
-                factor = 1 + offsetX * -1 + offsetY * -1;
-                break;
-            case 'sw':
-                factor = 1 + offsetX * -1 + offsetY;
-                break;
-
-
-        }
-        if (d.minWidth) {
-            factor = Math.max(factor, d.minWidth / d.el.width);
-        }
-        if (d.minHeight) {
-            factor = Math.max(factor, d.minHeight / d.el.height);
-        }
-        if (d.maxWidth) {
-            factor = Math.min(factor, d.maxWidth / d.el.width);
-        }
-        if (d.maxHeight) {
-            factor = Math.min(factor, d.maxHeight / d.el.height);
-        }
-        return factor;
-
-    },
-
-    getCoordinate:function (key) {
-        var r = this.dragProperties.region;
-        var d = this.dragProperties;
-        switch (key) {
-            case 'width':
-                if (r == 'e' || r == 'ne' || r == 'se') {
-                    return d.el.width - d.start.x + d.current.x + this.getBWOfShim();
-                } else {
-                    return d.el.width + d.start.x - d.current.x + this.getBWOfShim();
-                }
-                break;
-            case 'height':
-                if (r == 's' || r == 'sw' || r == 'se') {
-                    return d.el.height - d.start.y + d.current.y + this.getBHOfShim();
-                } else {
-                    return d.el.height + d.start.y - d.current.y + this.getBHOfShim();
-                }
-            case 'top':
-                if (r == 'n' || r == 'nw' || r == 'ne') {
-                    return d.el.top - d.start.y + d.current.y;
-                } else {
-                    return d.el.top + d.start.y - d.current.y;
-                }
-            case 'left':
-                if (r == 'w' || r == 'nw' || r == 'sw') {
-                    return d.el.left - d.start.x + d.current.x;
-                } else {
-                    return d.el.left + d.start.x - d.current.x;
-                }
-        }
-        return undefined;
-    },
-
-    getBWOfShim:function () {
-        if (this.useShim) {
-            return ludo.dom.getBW(this.getShim());
-        }
-        return 0;
-    },
-
-    getBHOfShim:function () {
-        if (this.useShim) {
-            return ludo.dom.getBH(this.getShim());
-        }
-        return 0;
-    },
-
-    stopResize:function () {
-        if (this.dragProperties.active) {
-            this.dragProperties.active = false;
-            /**
-             * Fired when resize is complete.
-             * CSS coordinates are passed as parameter to this event.
-             * @event stop
-             * @param {Object} coordinates
-             */
-            this.fireEvent('stop', this.getCoordinates());
-			ludo.EffectObject.end();
-            this.revertBodyCursor();
-            if (this.useShim) {
-                this.hideShim();
-            }
-        }
-    },
-
-    getCssFor:function (region) {
-        return 'ludo-component-resize-region-' + region;
-    },
-
-    showShim:function () {
-        var shim = this.getShim();
-        var coords = this.getShimCoordinates();
-        shim.setStyles({
-            display:'',
-            left:coords.left,
-            top:coords.top,
-            width:coords.width,
-            height:coords.height
-        });
-    },
-
-    hideShim:function () {
-        this.getShim().style.display = 'none';
-    },
-
-    getShimCoordinates:function () {
-        var coords = this.getEl().getCoordinates();
-        if (this.useShim) {
-            var shim = this.getShim();
-            coords.width -= ludo.dom.getBW(shim);
-            coords.height -= ludo.dom.getBH(shim);
-        }
-        return coords;
-    },
-
-    getShim:function () {
-        if (!this.els.shim) {
-            var el = this.els.shim = new Element('div');
-            ludo.dom.addClass(el, 'ludo-shim-resize');
-            el.setStyles({
-                position:'absolute',
-                'z-index':50000
-            });
-            document.body.adopt(el);
-        }
-
-        return this.els.shim;
-    },
-    getEl:function () {
-        return this.els.applyTo;
-    },
-
-    hideAllHandles:function () {
-        this.setHandleDisplay('none');
-    },
-    showAllHandles:function () {
-        this.setHandleDisplay('');
-    },
-
-    setHandleDisplay:function (display) {
-        for (var key in this.els.handle) {
-            if (this.els.handle.hasOwnProperty(key)) {
-                this.els.handle[key].style.display = display;
-            }
-        }
-    },
-
-    getAspectRatio:function () {
-        if (this.aspectRatio === undefined) {
-            var size = this.getEl().getSize();
-            this.aspectRatio = size.x / size.y;
-        }
-        return this.aspectRatio;
-    },
-
-    getBodyWidth:function () {
-        return document.documentElement.offsetWidth;
-    },
-    getBodyHeight:function () {
-        return document.documentElement.offsetHeight;
-    },
-
-    getScalingFactors:function () {
-        var size = this.getEl().getSize();
-        return {
-            xFactor:size.x / size.y,
-            yFactor:size.y / size.x,
-            sum:size.x + size.y
-        };
-    }
-});/* ../ludojs/src/view/button-bar.js */
-/**
- * Class used to create button bars at bottom of components.
- * This class is instantiated automatically
- * @namespace view
- * @class ButtonBar
- * @extends View
- */
-ludo.view.ButtonBar = new Class({
-    Extends:ludo.View,
-    type : 'ButtonBar',
-    layout:{
-        type:'linear',
-		orientation:'horizontal',
-		width:'matchParent'
-    },
-    align:'right',
-    cls:'ludo-component-button-container',
-    overflow:'hidden',
-    component:undefined,
-	buttonBarCss:undefined,
-
-    ludoConfig:function (config) {
-        this.setConfigParams(config, ['align','component','buttonBarCss']);
-        config.children = this.getValidChildren(config.children);
-        if (this.align == 'right') {
-            config.children = this.getItemsWithSpacer(config.children);
-        }else{
-            config.children[0].containerCss = config.children[0].containerCss || {};
-            if(!config.children[0].containerCss['margin-left']){
-                config.children[0].containerCss['margin-left'] = 2
-            }
-        }
-
-        this.parent(config);
-    },
-    ludoDOM:function () {
-        this.parent();
-        this.getBody().addClass('ludo-content-buttons');
-    },
-
-    ludoRendered:function () {
-        this.parent();
-		this.component.addEvent('resize', this.resizeRenderer.bind(this));
-
-		if(this.buttonBarCss){
-			this.getEl().parentNode.setStyles(this.buttonBarCss);
-		}
-
-    },
-
-	resizeRenderer:function(){
-		this.getLayout().getRenderer().resize();
-	},
-
-    getValidChildren:function (children) {
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].value && !children[i].type) {
-                children[i].type = 'form.Button'
-            }
-        }
-        return children;
-    },
-
-    getButtons:function () {
-        var ret = [];
-        for (var i = 0; i < this.children.length; i++) {
-            if (this.children[i].isButton && this.children[i].isButton()) {
-                ret.push(this.children[i]);
-            }
-        }
-        return ret;
-    },
-
-    getButton:function (key) {
-        var c = this.children;
-        for (var i = 0; i < c.length; i++) {
-            if(c[i].id == key || c[i].name == key || (c[i].getValue && c[i].getValue().toLowerCase() == key.toLowerCase())){
-                return c[i];
-            }
-        }
-		return undefined;
-    },
-
-    getItemsWithSpacer:function (children) {
-        children.splice(0, 0, {
-            layout: { weight:1 },
-            containerCss:{ 'background-color':'transparent' },
-            css:{ 'background-color':'transparent'}
-        });
-        /*
-        for (var i = children.length; i > 0; i--) {
-            children[i] = children[i - 1];
-        }
-        children[0] = {
-            layout: { weight:1 },
-            containerCss:{ 'background-color':'transparent' },
-            css:{ 'background-color':'transparent'}
-        };*/
-        return children;
-    },
-    /**
-     * Returns the component where the button bar is placed
-	 * @method getView
-     * @return {Object} ludo Component
-     * @private
-     */
-    getView : function(){
-        return this.component;
-    }
-});/* ../ludojs/src/view/title-bar.js */
-// TODO support all kinds of buttons - customizable
-ludo.view.TitleBar = new Class({
-    Extends:ludo.Core,
-    view:undefined,
-    els:{
-        el:undefined,
-        icon:undefined,
-        title:undefined,
-        buttons:{},
-        buttonArray:[]
-    },
-
-    toggleStatus:{},
-
-    ludoConfig:function (config) {
-        this.parent(config);
-
-        this.setConfigParams(config, ['view', 'buttons']);
-
-        if (!this.buttons)this.buttons = this.getDefaultButtons();
-
-        this.view.addEvent('setTitle', this.setTitle.bind(this));
-        this.view.addEvent('resize', this.resizeDOM.bind(this));
-        this.createDOM();
-        this.setSizeOfButtonContainer();
-    },
-
-    getDefaultButtons:function () {
-        var ret = [];
-        var v = this.view;
-        if (v.isMinimizable())ret.push('minimize');
-        if (v.isCollapsible())ret.push('collapse');
-        if (v.isClosable())ret.push('close');
-        return ret;
-    },
-
-    createDOM:function () {
-        var el = this.els.el = new Element('div');
-        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-framed-view-titlebar' : 'ludo-component-titlebar');
-        var left = 0;
-        if (this.view.icon) {
-            this.createIconDOM();
-            left += ludo.dom.getNumericStyle(el, 'width');
-        }
-        this.createTitleDOM();
-        el.adopt(this.getButtonContainer());
-        this.resizeButtonContainer.delay(20, this);
-        this.els.title.style.left = left + 'px';
-        el.addEvent('selectstart', ludo.util.cancelEvent);
-    },
-
-    createIconDOM:function () {
-        this.els.icon = ludo.dom.create({
-            renderTo:this.els.el,
-            cls:'ludo-framed-view-titlebar-icon',
-            css:{ 'backgroundImage':'url(' + this.view.icon + ')'}
-        });
-    },
-
-    setTitle:function (title) {
-        this.els.title.innerHTML = title;
-    },
-
-    createTitleDOM:function () {
-        var title = this.els.title = ludo.dom.create({
-            cls:'ludo-framed-view-titlebar-title',
-            renderTo:this.els.el
-        });
-        this.setTitle(this.view.title);
-    },
-
-    cancelTextSelection:function () {
-        return false;
-    },
-
-    getButtonContainer:function () {
-        var el = this.els.controls = ludo.dom.create({
-            cls:'ludo-title-bar-button-container'
-        });
-        el.style.cursor = 'default';
-
-        this.createEdge('left', el);
-        this.createEdge('right', el);
-
-        for (var i = 0; i < this.buttons.length; i++) {
-            el.appendChild(this.getButton(this.buttons[i]));
-        }
-
-        this.addBorderToButtons();
-        return el;
-    },
-
-    createEdge:function (pos, parent) {
-        var el = ludo.dom.create({
-            cls:'ludo-title-bar-button-container-' + pos + '-edge',
-            renderTo:parent
-        });
-        el.style.cssText = 'position:absolute;z-index:1;' + pos + ':0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top ' + pos;
-        return el;
-
-    },
-
-    shouldShowCollapseButton:function () {
-        var parent = this.view.getParent();
-        return parent.layout && parent.layout.type ? parent.layout.type === 'linear' || parent.layout.type == 'relative' : false;
-    },
-
-    resizeButtonContainer:function () {
-        this.els.controls.style.width = this.getWidthOfButtons() + 'px';
-    },
-
-    getButton:function (buttonConfig) {
-        buttonConfig = ludo.util.isString(buttonConfig) ? { type:buttonConfig } : buttonConfig;
-
-        var b = this.els.buttons[buttonConfig.type] = new Element('div');
-        b.id = 'b-' + String.uniqueID();
-        b.className = 'ludo-title-bar-button ludo-title-bar-button-' + buttonConfig.type;
-        b.addEvents({
-            'click':this.getButtonClickFn(buttonConfig.type),
-            'mouseenter':this.enterButton.bind(this),
-            'mouseleave':this.leaveButton.bind(this)
-        });
-        b.setProperty('title', buttonConfig.title ? buttonConfig.title : buttonConfig.type.capitalize());
-        b.setProperty('buttonType', buttonConfig.type);
-
-        if (buttonConfig.type === 'collapse') {
-            ludo.dom.addClass(b, 'ludo-title-bar-button-collapse-' + this.getCollapseButtonDirection());
-        }
-        this.els.buttonArray.push(b);
-        return b;
-    },
-
-
-    getButtonClickFn:function (type) {
-        var buttonConfig = ludo.view.getTitleBarButton(type);
-        var toggle = buttonConfig && buttonConfig.toggle ? buttonConfig.toggle : undefined;
-
-        return function (e) {
-            this.leaveButton(e);
-            var event = type;
-            if (toggle) {
-                if (this.toggleStatus[type]) {
-                    event = this.toggleStatus[type];
-                    ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
-                    event = this.getNextToggle(toggle, event);
-
-                }
-                ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
-                this.toggleStatus[type] = event;
-                ludo.dom.addClass(e.target, 'ludo-title-bar-button-' + this.getNextToggle(toggle, event));
-            }
-            this.fireEvent(event);
-        }.bind(this);
-    },
-
-    getNextToggle:function (toggle, current) {
-        var ind = toggle.indexOf(current) + 1;
-        return toggle[ind >= toggle.length ? 0 : ind];
-    },
-
-    addBorderToButtons:function () {
-        var firstFound = false;
-        for (var i = 0; i < this.els.buttonArray.length; i++) {
-            this.els.buttonArray[i].removeClass('ludo-title-bar-button-with-border');
-            if (firstFound)this.els.buttonArray[i].addClass('ludo-title-bar-button-with-border');
-            firstFound = true;
-        }
-    },
-
-    enterButton:function (e) {
-        var el = e.target;
-        var type = el.getProperty('buttonType');
-        ludo.dom.addClass(el, 'ludo-title-bar-button-' + type + '-over');
-    },
-
-    leaveButton:function (e) {
-        var el = e.target;
-        el.removeClass('ludo-title-bar-button-' + el.getProperty('buttonType') + '-over');
-    },
-
-    getWidthOfButtons:function () {
-        var ret = 0;
-        var els = this.els.buttonArray;
-        for (var i = 0, count = els.length; i < count; i++) {
-            var width = ludo.dom.getNumericStyle(els[i], 'width') + ludo.dom.getBW(els[i]) + ludo.dom.getPW(els[i]) + ludo.dom.getMW(els[i]);
-            if (!isNaN(width) && width) {
-                ret += width;
-            } else {
-                ret += els[i].offsetWidth;
-            }
-        }
-        return ret ? ret : els.length * 10;
-    },
-
-    getEl:function () {
-        return this.els.el;
-    },
-
-    setSizeOfButtonContainer:function () {
-        if (this.els.controls) {
-            var width = this.getWidthOfButtons();
-            this.els.controls.style.width = width + 'px';
-            this.els.controls.style.display = width > 0 ? '' : 'none';
-        }
-        if (this.icon) {
-            this.els.title.setStyle('left', document.id(this.els.icon).getStyle('width'));
-        }
-    },
-
-    getWidthOfIconAndButtons:function () {
-        var ret = this.view.icon ? this.els.icon.offsetWidth : 0;
-        return ret + this.els.controls.offsetWidth;
-    },
-
-    resizeDOM:function () {
-        var width = (this.view.width - this.getWidthOfIconAndButtons());
-        if (width > 0)this.els.title.style.width = width + 'px';
-    },
-
-    height:undefined,
-    getHeight:function () {
-        if (this.height === undefined) {
-            var el = this.els.el;
-            this.height = ludo.dom.getNumericStyle(el, 'height');
-            this.height += ludo.dom.getMH(el) + ludo.dom.getBH(el) + ludo.dom.getPH(el);
-        }
-        return this.height;
-    },
-
-    getCollapseButtonDirection:function () {
-        var c = this.view;
-        if (ludo.util.isString(c.layout.collapsible)) {
-            return c.layout.collapsible;
-        }
-        var parent = c.getParent();
-        if (parent && parent.layout && parent.layout.type === 'linear' && parent.layout.orientation === 'horizontal') {
-            return parent.children.indexOf(c) === 0 ? 'left' : 'right';
-        } else {
-            return parent.children.indexOf(c) === 0 ? 'top' : 'bottom';
-        }
-    }
-});
-
-ludo.view.registerTitleBarButton = function (name, config) {
-    ludo.registry.set('titleBar-' + name, config);
-};
-
-ludo.view.getTitleBarButton = function (name) {
-    return ludo.registry.get('titleBar-' + name);
-};
-
-ludo.view.registerTitleBarButton('minimize', {
-    toggle:['minimize', 'maximize']
-});/* ../ludojs/src/framed-view.js */
-/**
- * Rich Component
- * @class FramedView
- * @extends View
- */
-ludo.FramedView = new Class({
-	Extends:ludo.View,
-	type:'FramedView',
-	layout:{
-		type:'fill',
-		minWidth:100,
-		minHeight:100
-	},
-
-	minimized:false,
-
-	/**
-	 * Title of component. A title is only useful for FramedView's or when the component is collapsible.
-	 * @attribute {String} title
-	 */
-	title:'',
-
-
-	movable:false,
-	/**
-	 * Is component minimizable. When set to true, a minimize button will appear on the title bar of the component
-	 * @config {Boolean} minimizable
-	 * @default false
-	 */
-	minimizable:false,
-
-	resizable:false,
-	/**
-	 * Is component closable. When set to true, a close button will appear on the title bar of the component
-	 * @attribute closable
-	 * @type {Boolean}
-	 * @default false
-	 */
-	closable:false,
-
-	width:null,
-	height:200,
-
-	preserveAspectRatio:false,
-	/**
-	 * Path to icon to be placed on the title bar
-	 * @config {String} icon
-     * @default undefined
-	 */
-	icon:undefined,
-
-	/**
-	 Config object for the title bar
-	 @config titleBar
-	 @type {Object}
-	 @default undefined
-	 @example
-	 	new ludo.Window({
-	 		titleBar:{
-				buttons: [{
-					type : 'reload',
-					title : 'Reload grid data'
-				},'minimize','close'],
-				listeners:{
-					'reload' : function(){
-						ludo.get('myDataSource').load();
-					}
-				}
-			}
-	 	});
-
-	 You can create your own buttons by creating the following css classes:
-	 @example
-		 .ludo-title-bar-button-minimize {
-			 background-image: url('../images/title-bar-btn-minimize.png');
-		 }
-
-		 .ludo-title-bar-button-minimize-over {
-			 background-image: url('../images/title-bar-btn-minimize-over.png');
-		 }
-
-	 Replace "minimize" with the unique name of your button.
-
-	 If you want to create a toggle button like minimize/maximize, you can do that with this code:
-
-	 @example
-		 ludo.view.registerTitleBarButton('minimize',{
-			toggle:['minimize','maximize']
-		 });
-	 */
-	titleBar:undefined,
-
-	/**
-	 * Don't show the title bar
-	 * @config {Boolean} titleBarHidden
-	 * @default false
-	 */
-	titleBarHidden:false,
-
-	/**
-	 * Bold title bar. True to give the component a window type title bar, false to give it a smaller title bar
-	 * @attribute boldTitle
-	 * @type {Boolean}
-	 * @default true
-	 */
-	boldTitle:true,
-	hasMenu:false,
-
-	buttons:[],
-	/**
-	 Button bar object. Components to be placed on the button bar.
-	 @attribute buttonBar
-	 @type Object
-	 @example
-	 	buttonBar : {
-			align : 'left',
-			children : [{ type: form.Button, value: 'Send' }]
-		}
-	 */
-	buttonBar:undefined,
-
-	menuConfig:null,
-	menuObj:null,
-
-	column:null,
-
-	state:{
-		isMinimized:false
-	},
-
-	ludoConfig:function (config) {
-		this.parent(config);
-        if (config.buttons) {
-            config.buttonBar = {
-                children:config.buttons
-            }
-        }
-
-        this.setConfigParams(config,['buttonBar', 'hasMenu','menuConfig','icon','titleBarHidden','titleBar','buttons','boldTitle','minimized']);
-
-	},
-
-	/**
-	 * Return config of title bar using a method instead of config object. Useful when you need to refer to "this"
-	 * @method getTitleBarConfig
-	 * @return {Object|undefined}
-	 */
-	getTitleBarConfig:function(){
-		return undefined;
-	},
-
-	/**
-	 * Return button bar config using a method instead of using buttonBar config object. Useful when you need to refer to
-	 * "this"
-	 * @method getButtonBarConfig
-	 * @return {Object|undefined}
-	 */
-	getButtonBarConfig:function(){
-		return undefined;
-	},
-
-	ludoDOM:function () {
-		this.parent();
-
-		ludo.dom.addClass(this.els.container, 'ludo-framed-view');
-
-		if(this.hasTitleBar()){
-			this.getTitleBar().getEl().inject(this.getBody(), 'before');
-		}
-		ludo.dom.addClass(this.getBody(), 'ludo-framed-view-body');
-
-		if (!this.getParent() && this.isResizable()) {
-			this.getResizer().addHandle('s');
-		}
-	},
-
-
-	ludoRendered:function () {
-        // TODO create button bar after view is rendered.
-
-
-		if(!this.buttonBar)this.buttonBar = this.getButtonBarConfig();
-		if (this.buttonBar && !this.buttonBar.children) {
-			this.buttonBar = { children:this.buttonBar };
-		}
-
-        if (this.buttonBar) {
-            this.getButtonBar()
-        } else {
-            ludo.dom.addClass(this.els.container, 'ludo-component-no-buttonbar')
-        }
-		this.parent();
-		if (this.minimized) {
-			this.minimize();
-		}
-	},
-
-	resizer:undefined,
-	getResizer:function () {
-		if (this.resizer === undefined) {
-			var r = this.getLayout().getRenderer();
-			this.resizer = this.createDependency('resizer', new ludo.effect.Resize({
-				component:this,
-				preserveAspectRatio:this.layout.preserveAspectRatio,
-				minWidth:r.getMinWidth(),
-				minHeight:r.getMinHeight(),
-				maxHeight:r.getMaxHeight(),
-				maxWidth:r.getMaxWidth(),
-				listeners:{
-					stop:r.setSize.bind(r)
-				}
-			}));
-			this.resizer.addEvent('stop', this.saveState.bind(this));
-		}
-		return this.resizer;
-	},
-	/**
-	 * Set new title
-	 * @method setTitle
-	 * @param {String} title
-	 */
-	setTitle:function (title) {
-		this.parent(title);
-        this.fireEvent('setTitle', title);
-	},
-
-	resizeDOM:function () {
-		var height = this.getHeight();
-		height -= (ludo.dom.getMBPH(this.els.container) + ludo.dom.getMBPH(this.els.body) +  this.getHeightOfTitleAndButtonBar());
-        if(height >= 0){
-            this.els.body.style.height = height + 'px';
-            this.cachedInnerHeight = height;
-
-            if (this.buttonBarComponent) {
-                this.buttonBarComponent.resize();
-            }
-        }
-	},
-
-	heightOfTitleAndButtonBar:undefined,
-	getHeightOfTitleAndButtonBar:function () {
-		if (this.isHidden())return 0;
-		if (!this.heightOfTitleAndButtonBar) {
-			this.heightOfTitleAndButtonBar = this.getHeightOfTitleBar() + this.getHeightOfButtonBar();
-		}
-		return this.heightOfTitleAndButtonBar;
-	},
-
-	getHeightOfButtonBar:function () {
-		if (!this.buttonBar)return 0;
-        return this.els.buttonBar.el.offsetHeight + ludo.dom.getMH(this.els.buttonBar.el);
-	},
-
-	getHeightOfTitleBar:function () {
-		if (!this.hasTitleBar())return 0;
-		return this.titleBarObj.getHeight();
-	},
-
-	hasTitleBar:function(){
-		return !this.titleBarHidden;
-	},
-
-	getTitleBar:function(){
-		if (this.titleBarObj === undefined) {
-
-			if(!this.titleBar)this.titleBar = this.getTitleBarConfig() || {};
-			this.titleBar.view = this;
-			this.titleBar.type = 'view.TitleBar';
-			this.titleBarObj = this.createDependency('titleBar', this.titleBar);
-
-			this.titleBarObj.addEvents({
-				close:this.close.bind(this),
-				minimize:this.minimize.bind(this),
-				maximize:this.maximize.bind(this),
-				collapse:this.hide.bind(this)
-			});
-
-			if (this.isMovable() && !this.getParent()) {
-				this.drag = this.createDependency('drag', new ludo.effect.Drag({
-					handle:this.titleBarObj.getEl(),
-					el:this.getEl(),
-					listeners:{
-						start:this.increaseZIndex.bind(this),
-						end:this.stopMove.bind(this)
-					}
-				}));
-				this.titleBarObj.getEl().style.cursor = 'move';
-			}
-		}
-		return this.titleBarObj;
-	},
-
-	getHeight:function () {
-        return this.isMinimized() ? this.getHeightOfTitleBar() : this.parent();
-	},
-
-	close:function () {
-		this.hide();
-		this.fireEvent('close', this);
-	},
-
-	isMinimized:function () {
-		return this.state.isMinimized;
-	},
-
-	/**
-	 * Maximize component
-	 * @method maximize
-	 * @return void
-	 */
-	maximize:function () {
-        this.state.isMinimized = false;
-        if (!this.hidden) {
-            this.resize({
-                height:this.layout.height
-            });
-            this.els.body.style.visibility = 'visible';
-            this.showResizeHandles();
-            /**
-             * Fired when a component is maximized
-             * @event maximize
-             * @param component this
-             */
-            this.fireEvent('maximize', this);
-        }
-	},
-
-	showResizeHandles:function () {
-		if (this.isResizable()) {
-			this.getResizer().showAllHandles();
-		}
-	},
-
-	hideResizeHandles:function () {
-		if (this.isResizable()) {
-			this.getResizer().hideAllHandles();
-		}
-	},
-
-	/**
-	 * Minimize component
-	 * @method minimize
-	 * @return void
-	 */
-	minimize:function () {
-        this.state.isMinimized = true;
-		if (!this.hidden) {
-            var height = this.layout.height;
-            var newHeight = this.getHeightOfTitleBar();
-            this.els.container.setStyle('height', this.getHeightOfTitleBar());
-            this.els.body.style.visibility = 'hidden';
-            this.hideResizeHandles();
-
-            this.layout.height = height;
-            /**
-             * @event minimize
-             * @param Component this
-             */
-            this.fireEvent('minimize', [this, { height: newHeight }]);
-        }
-	},
-
-	getHtml:function () {
-		return this.els.body.get('html');
-	},
-
-	getButtonBar:function () {
-		if (!this.els.buttonBar) {
-			this.els.buttonBar = this.els.buttonBar || {};
-			var el = this.els.buttonBar.el = ludo.dom.create({
-                renderTo : this.els.container,
-                cls : 'ludo-component-buttonbar'
-            });
-
-			ludo.dom.addClass(this.getEl(), 'ludo-component-with-buttonbar');
-			this.buttonBar.renderTo = el;
-			this.buttonBar.component = this;
-			this.buttonBarComponent = this.createDependency('buttonBar', new ludo.view.ButtonBar(this.buttonBar));
-		}
-		return this.els.buttonBar.el;
-	},
-
-	getButton:function (key) {
-		return this.getButtonByKey(key);
-	},
-	/**
-	 * Hide a button on the button bar
-	 * @method hideButton
-	 * @param id of button
-	 * @return {Boolean} success
-	 */
-	hideButton:function (id) {
-        return this.buttonEffect(id, 'hide');
-	},
-	/**
-	 * Show a button on the button bar
-	 * @method showButton
-	 * @param id of button
-	 * @return {Boolean} success
-	 */
-	showButton:function (id) {
-        return this.buttonEffect(id, 'show');
-	},
-
-	getButtons:function () {
-        return this.buttonBarComponent ? this.buttonBarComponent.getButtons() : [];
-	},
-	/**
-	 * Disable a button on the button bar
-	 * @method disableButton
-	 * @param id
-	 * @return {Boolean} success
-	 */
-	disableButton:function (id) {
-        return this.buttonEffect(id, 'disable');
-	},
-	/**
-	 * Enable a button on the button bar
-	 * @method enableButton
-	 * @param id
-	 * @return {Boolean} success
-	 */
-	enableButton:function (id) {
-        return this.buttonEffect(id, 'enable');
-	},
-
-    buttonEffect:function(id,effect){
-        var button = this.getButtonByKey(id);
-        if (button) {
-            button[effect]();
-            return true;
-        }
-        return false;
-    },
-
-	getButtonByKey:function (key) {
-		if (this.buttonBarComponent) {
-			return this.buttonBarComponent.getButton(key);
-		}
-		for (var i = 0; i < this.buttons.length; i++) {
-			if (this.buttons[i].getId() === key || this.buttons[i].getValue() == key || this.buttons[i].getName() == key) {
-				return this.buttons[i];
-			}
-		}
-		return null;
-	},
-	/**
-	 * Is component resizable
-	 * @method isResizable
-	 * @return {Boolean}
-	 */
-	isResizable:function () {
-		return this.resizable;
-	},
-	stopMove:function (el, drag) {
-		this.getLayout().getRenderer().setPosition(drag.getX(), drag.getY());
-		/**
-		 * Event fired after moving Component
-		 * @event stopmove
-		 * @param {Object} Component
-		 */
-		this.fireEvent('stopmove', this);
-	}
-});/* ../ludojs/src/application.js */
-/**
- * A component rendered to document.body and filling up entire screen
- * @class Application
- * @extends FramedView
- */
-ludo.Application = new Class({
-    Extends:ludo.View,
-    type:'Application',
-	layout:{
-		width:'matchParent',
-		height:'matchParent'
-	},
-
-    ludoConfig:function (config) {
-        config.renderTo = document.body;
-        this.parent(config);
-		this.setBorderStyles();
-    },
-
-    ludoRendered:function () {
-        this.parent();
-        this.getEl().addClass('ludo-application');
-        this.getBody().addClass('ludo-application-content');
-    },
-
-    setBorderStyles:function () {
-        var styles = {
-            width:'100%',
-            height:'100%',
-            overflow:'hidden',
-            margin:0,
-            padding:0,
-            border:0
-        };
-        document.body.setStyles(styles);
-        document.id(document.documentElement).setStyles(styles);
-    }
-});/* ../ludojs/src/data-source/record.js */
+ludo.factory.registerClass('View', ludo.View);/* ../ludojs/src/data-source/record.js */
 /**
  * Class representing a record in {{#crossLink "dataSource.Collection"}}{{/crossLink}}
  * Instances of this class are created from {{#crossLink "dataSource.Collection/getRecord"}}{{/crossLink}}
@@ -12787,6 +8385,1204 @@ ludo.effect.DropPoint = new Class({
 	 	captureRegions:true
 	 */
 	captureRegions:undefined
+});/* ../ludojs/src/effect/draggable-node.js */
+/**
+ Specification of a draggable node objects sent to {{#crossLink "effect.Drag/add"}}{{/crossLink}}. You will
+ never create objects of this class.
+ @namespace effect
+ @class DraggableNode
+ @type {Object|String}
+ */
+ludo.effect.DraggableNode = new Class({
+	/**
+	 id of node. This attribute is optional
+	 @property id
+	 @type {String}
+	 @default undefined
+	 @optional
+	 @example
+	 	var dragDrop = new ludo.effect.Drag();
+	 	var el = new Element('div');
+	 	dragDrop.add({
+	 		id: 'myId',
+			el : el
+	 	});
+	 	var ref = dragDrop.getById('myId');
+	 Or you can use this code which does the same:
+	 @example
+	 	var dragDrop = new ludo.effect.Drag();
+	 	var el = new Element('div');
+	 	el.id = 'myId';
+	 	dragDrop.add(el);
+	 	var ref = dragDrop.getById('myId');
+	 Id's are only important if you need to access nodes later using {{#crossLink "effect.Drag/getById"}}{{/crossLink}}
+	 */
+	id: undefined,
+
+	/**
+	 * Reference to dragable DOM node
+	 * @property el
+	 * @default undefined
+	 * @type {String|HTMLDivElement}
+	 */
+	el:undefined,
+	/**
+	 * Reference to handle for dragging. el will only be draggable by dragging the handle.
+	 * @property handle
+	 * @type {String|HTMLDivElement}
+	 * @default undefined
+	 * @optional
+	 */
+	handle:undefined,
+
+	/**
+	 * Minimum x position. This is an optional argument. If not set, you will use the params
+	 * set when creating the ludo.effect.Drag component if any.
+	 * @property minX
+	 * @type {Number}
+	 * @default undefined
+	 * @optional
+	 */
+	minX:undefined,
+	/**
+	 * Maximum x position. This is an optional argument. If not set, you will use the params
+	 * set when creating the ludo.effect.Drag component if any.
+	 * @property maxX
+	 * @type {Number}
+	 * @default undefined
+	 * @optional
+	 */
+	maxX:undefined,
+	/**
+	 * Minimum x position. This is an optional argument. If not set, you will use the params
+	 * set when creating the ludo.effect.Drag component if any.
+	 * @property minY
+	 * @type {Number}
+	 * @default undefined
+	 * @optional
+	 */
+	minY:undefined,
+	/**
+	 * Maximum y position. This is an optional argument. If not set, you will use the params
+	 * set when creating the ludo.effect.Drag component if any.
+	 * @property maxY
+	 * @type {Number}
+	 * @default undefined
+	 * @optional
+	 */
+	maxY:undefined,
+	/**
+	 Allow dragging in these directions. This is an optional argument. If not set, you will use the params
+	 set when creating the ludo.effect.Drag component if any.
+	 @property directions
+	 @type {String}
+	 @default 'XY'
+	 @optional
+	 @example
+	 	directions:'XY'	//
+	 	..
+	 	directions:'X' // Only allow dragging along x-axis
+	 	..
+	 	directions:'Y' // Only allow dragging along y-axis
+	 */
+	directions:undefined
+});/* ../ludojs/src/effect/effect.js */
+/**
+ * Base class for animations
+ * @namespace effect
+ * @class Effect
+ */
+ludo.effect.Effect = new Class({
+	Extends: ludo.Core,
+	fps:33,
+	/**
+	 Fly/Slide DOM node to a position
+	 @method fly
+	 @param {Object} config
+	 @example
+	 	<div id="myDiv" style="position:absolute;width:100px;height:100px;border:1px solid #000;background-color:#DEF;left:50px;top:50px"></div>
+		<script type="text/javascript">
+		 new ludo.effect.Effect().fly({
+			el: 'myDiv',
+			duration:.5,
+			to:{ x:500, y: 300 },
+			 onComplete:function(){
+				 new ludo.effect.Effect().fly({
+					el: 'myDiv',
+					duration:1,
+					to:{ x:600, y: 50 }
+				 });
+			 }
+		 });
+	 	</script>
+	 Which will first move "myDiv" to position 500x300 on the screen, then to 600x50.
+	 */
+	fly:function(config){
+		config.el = document.id(config.el);
+		config.duration = config.duration || .2;
+		if(config.from == undefined){
+			config.from = config.el.getPosition();
+		}
+		var fx = this.getFx(config.el, config.duration, config.onComplete);
+		fx.start({
+			left : [config.from.x, config.to.x],
+			top : [config.from.y, config.to.y]
+		});
+	},
+
+	/**
+	 Fly/Slide DOM node from current location to given x and y coordinats in given seconds.
+	 @method flyTo
+	 @param {HTMLElement} el
+	 @param {Number} x
+	 @param {Number} y
+	 @param {Number} seconds
+	 @example
+
+	 You may also use this method like this:
+	 @example
+	 	<div id="myDiv" style="position:absolute;width:100px;height:100px;border:1px solid #000;background-color:#DEF;left:50px;top:50px"></div>
+		<script type="text/javascript">
+	 	new ludo.effect.Effect().flyTo('myDiv', 500, 300, .5);
+	 	</script>
+	 Which slides "myDiv" to position 500x300 in 0.5 seconds.
+	 */
+	flyTo:function(el, x, y, seconds){
+		this.fly({
+			el:el,
+			to:{x : x, y: y},
+			duration: seconds
+		});
+	},
+
+	getFx:function (el, duration, onComplete) {
+		duration*=1000;
+		var fx = new Fx.Morph(el, {
+			duration:duration
+		});
+		fx.addEvent('complete', this.animationComplete.bind(this, [onComplete, el]));
+		return fx;
+	},
+
+	animationComplete:function(onComplete, el){
+		/**
+		 * Fired when animation is completed
+		 * @event animationComplete
+		 * @param {effect.Drag} this
+		 */
+		this.fireEvent('animationComplete', this);
+
+		if(onComplete !== undefined){
+			onComplete.call(this, el);
+		}
+	},
+
+	fadeOut:function(el, duration, callback){
+		var stops = this.getStops(duration);
+		var stopIncrement = 100 / stops * -1;
+		this.execute({
+			el:el,
+			index:0,
+			stops:stops,
+			styles:[
+				{ key: 'opacity', currentValue: 100, change: stopIncrement }
+			],
+			callback : callback,
+			unit:''
+		})
+	},
+
+	slideIn:function(el, duration, callback, to){
+		to = to || el.getPosition();
+		var from = {
+			x: to.x,
+			y : el.parentNode.offsetWidth + el.offsetHeight
+		};
+		this.slide(el,from, to, duration, callback);
+	},
+
+	slideOut:function(el, duration, callback, from){
+		from = from || el.getPosition();
+		var to = {
+			x: from.x,
+			y : el.parentNode.offsetHeight + el.offsetHeight
+		};
+		this.slide(el, from, to, duration, callback);
+	},
+
+	slide:function(el, from, to, duration, callback){
+		var stops = this.getStops(duration);
+		var styles = [];
+		if(from.x !== to.x){
+			el.style.left = from.x + 'px';
+			styles.push({
+				key : 'left',
+				currentValue:from.x,
+				change: (to.x - from.x) / stops
+			});
+		}
+
+		if(from.y !== to.y){
+			el.style.top = from.y + 'px';
+			styles.push({
+				key : 'top',
+				currentValue:from.y,
+				change: (to.y - from.y) / stops
+			});
+		}
+		this.execute({
+			el:el,
+			index:0,
+			stops:stops,
+			styles:styles,
+			callback : callback,
+			unit:'px'
+		});
+		this.show(el);
+	},
+
+	fadeIn:function(el, duration, callback){
+		var stops = this.getStops(duration);
+		var stopIncrement = 100 / stops;
+		this.execute({
+			el:el,
+			index:0,
+			stops:stops,
+			styles:[
+				{ key: 'opacity', currentValue: 0, change: stopIncrement }
+			],
+			callback : callback,
+			unit:''
+		});
+		this.show(el);
+	},
+
+	show:function(el){
+		if(el.style.visibility==='hidden')el.style.visibility='visible';
+	},
+
+	getStops:function(duration){
+		return Math.round(duration * this.fps);
+	},
+
+	execute:function(config){
+		var el = config.el;
+		for(var i=0;i<config.styles.length;i++){
+			var s = config.styles[i];
+			s.currentValue += s.change;
+			switch(s.key){
+				case 'opacity':
+					el.style.opacity = (s.currentValue / 100);
+					el.style.filter = ['alpha(opacity=', s.currentValue,')'].join('');
+					break;
+				default:
+					el.style[s.key] = Math.round(s.currentValue) + config.unit;
+			}
+			config.index ++;
+
+			if(config.index < config.stops){
+				this.execute.delay(this.fps, this, config);
+			}else{
+				if(config.callback)config.callback.apply(this);
+			}
+		}
+	}
+});
+
+/* ../ludojs/src/effect/drag.js */
+/**
+@namespace effect
+@class Drag
+@extends effect.Effect
+@description Class for dragging DOM elements.
+@constructor
+@param {Object} config
+@example
+	<style type="text/css">
+	.ludo-shim {
+		 border: 15px solid #AAA;
+		 background-color: #DEF;
+		 margin: 5;
+		 opacity: .5;
+		 border-radius: 5px;
+	}
+	.draggable{
+		width:150px;
+		z-index:1000;
+		height:150px;
+		border-radius:5px;
+		border:1px solid #555;
+		background-color:#DEF
+	}
+	</style>
+	<div id="draggable" class="draggable">
+		I am draggable
+	</div>
+	<script type="text/javascript">
+	 var d = new ludo.effect.Drag({
+		useShim:true,
+		 listeners:{
+			 endDrag:function(dragged, dragEffect){
+				 dragEffect.getEl().setStyles({
+					 left : dragEffect.getX(),
+					 top: dragEffect.getY()
+				 });
+			 },
+			 drag:function(pos, dragEffect){
+				 dragEffect.setShimText(dragEffect.getX() + 'x' + dragEffect.getY());
+			 }
+		 }
+	 });
+	d.add('draggable'); // "draggable" is the id of the div
+ 	</script>
+
+*/
+ludo.effect.Drag = new Class({
+	Extends:ludo.effect.Effect,
+
+	/**
+	 * Reference to drag handle (Optional). If not set, "el" will be used
+	 * @config handle
+	 * @type Object|String
+	 * @default undefined
+	 */
+	handle:undefined,
+	/**
+	 * Reference to DOM element to be dragged
+	 * @config el
+	 * @type Object|String
+	 * @default undefined
+	 */
+	el:undefined,
+
+	/**
+	 * Minimum x position
+	 * @config minX
+	 * @type {Number}
+	 * @default undefined
+	 */
+	minX:undefined,
+	/**
+	 * Minimum y position
+	 * @config minY
+	 * @type {Number}
+	 * @default undefined
+	 */
+	minY:undefined,
+
+	/**
+	 * Maximum x position
+	 * @config maxX
+	 * @type {Number}
+	 * @default undefined
+	 */
+	maxX:undefined,
+	/**
+	 * config y position
+	 * @attribute maxY
+	 * @type {Number}
+	 * @default undefined
+	 */
+	maxY:undefined,
+
+	/**
+	 * minPos and maxPos can be used instead of minX,maxX,minY and maxY if
+	 * you only accept dragging along x-axis or y-axis
+	 * @config {Number} minPos
+	 * @default undefined
+	 */
+	minPos:undefined,
+	/**
+	 * @config maxPos
+	 * @type {Number}
+	 * @default undefined
+	 */
+	maxPos:undefined,
+	/**
+	 * Accept dragging in these directions
+	 * @config dragX
+	 * @type String
+	 * @default XY
+	 */
+	directions:'XY',
+
+	/**
+	 * Unit used while dragging
+	 * @config unit, example : "px", "%"
+	 * @default px
+	 */
+	unit:'px',
+
+	dragProcess:{
+		active:false
+	},
+
+	coordinatesToDrag:undefined,
+	/**
+	 * Delay in seconds from mouse down to start drag. If mouse is released within this interval,
+	 * the drag will be cancelled.
+	 * @config delay
+	 * @type {Number}
+	 * @default 0
+	 */
+	delay:0,
+
+	inDelayMode:false,
+
+	els:{},
+
+	/**
+	 * True to use dynamically created shim while dragging. When true,
+	 * the original DOM element will not be dragged.
+	 * @config useShim
+	 * @type {Boolean}
+	 * @default false
+	 */
+	useShim:false,
+
+	/**
+	 * True to automatically hide shim after drag is finished
+	 * @config autohideShim
+	 * @type {Boolean}
+	 * @default true
+	 */
+	autoHideShim:true,
+
+	/**
+	 CSS classes to add to shim
+	 @config shimCls
+	 @type Array
+	 @default undefined
+	 @example
+		 shimCls:['myShim','myShim-2']
+	 which will results in this shim :
+	 @example
+	 	<div class="ludo-shim myShim myShim-2">
+	 */
+	shimCls:undefined,
+
+	/**
+	 * While dragging, always show dragged element this amount of pixels below mouse cursor.
+	 * @config mouseYOffset
+	 * @type {Number} pixels
+	 * @default undefined
+	 */
+	mouseYOffset:undefined,
+
+	/**
+	 * While dragging, always show dragged element this amount of pixels right of mouse cursor.
+	 * @config mouseXOffset
+	 * @type {Number} pixels
+	 * @default undefined
+	 */
+	mouseXOffset:undefined,
+
+    fireEffectEvents:true,
+
+	ludoConfig:function (config) {
+		this.parent(config);
+		if (config.el !== undefined) {
+			this.add({
+				el:config.el,
+				handle:config.handle
+			});
+		}
+
+        this.setConfigParams(config, ['useShim','autoHideShim','directions','delay','minX','maxX','minY','maxY',
+            'minPos','maxPos','unit','shimCls','mouseYOffset','mouseXOffset','fireEffectEvents']);
+	},
+
+	ludoEvents:function () {
+		this.parent();
+		this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.drag.bind(this));
+		this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
+		if (this.useShim) {
+			this.addEvent('start', this.showShim.bind(this));
+			if(this.autoHideShim)this.addEvent('end', this.hideShim.bind(this));
+		}
+	},
+
+	/**
+	 Add draggable object
+	 @method add
+	 @param {effect.DraggableNode|String|HTMLDivElement} node
+	 @return {effect.DraggableNode}
+	 @example
+	 	dragObject.add({
+			el: 'myDiv',
+			handle : 'myHandle'
+		});
+	 handle is optional.
+
+	 @example
+	 	dragObject.add('idOfMyDiv');
+
+	 You can also add custom properties:
+
+	 @example
+	 	dragobject.add({
+	 		id: "myReference',
+			el: 'myDiv',
+			column: 'city'
+		});
+	 	...
+	 	...
+	 	dragobject.addEvent('before', beforeDrag);
+		 ...
+		 ...
+	 	function beforeDrag(dragged){
+	 		console.log(dragged.el);
+	 		console.log(dragged.column);
+	 	}
+	 */
+	add:function (node) {
+		node = this.getValidNode(node);
+		var el = document.id(node.el);
+		this.setPositioning(el);
+
+        var handle = node.handle ? document.id(node.handle) : el;
+
+		handle.id = handle.id || 'ludo-' + String.uniqueID();
+		ludo.dom.addClass(handle, 'ludo-drag');
+
+		handle.addEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
+		handle.setAttribute('forId', node.id);
+		this.els[node.id] = Object.merge(node, {
+			el:document.id(el),
+			handle:handle
+		});
+		return this.els[node.id];
+	},
+
+	/**
+	 * Remove node
+	 * @method remove
+	 * @param {String} id
+	 * @return {Boolean} success
+	 */
+	remove:function(id){
+		if(this.els[id]!==undefined){
+			var el = document.id(this.els[id].handle);
+			el.removeEvent(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
+			this.els[id] = undefined;
+			return true;
+		}
+		return false;
+	},
+
+	removeAll:function(){
+		var keys = Object.keys(this.els);
+		for(var i=0;i<keys.length;i++){
+			this.remove(keys[i]);
+		}
+		this.els = {};
+	},
+
+	getValidNode:function(node){
+		if (!this.isElConfigObject(node)) {
+			node = {
+				el:document.id(node)
+			};
+		}
+		if(typeof node.el === 'string'){
+			node.el = document.id(node.el);
+		}
+		node.id = node.id || node.el.id || 'ludo-' + String.uniqueID();
+		if (!node.el.id)node.el.id = node.id;
+		node.el.setAttribute('forId', node.id);
+		return node;
+	},
+
+	isElConfigObject:function (config) {
+		return config.el !== undefined || config.handle !== undefined;
+	},
+
+	setPositioning:function(el){
+		if (!this.useShim){
+			el.style.position = 'absolute';
+		}else{
+            var pos = el.getStyle('position');
+			if(!pos || (pos!='relative' && pos!='absolute')){
+				el.style.position = 'relative';
+			}
+		}
+	},
+
+	getById:function(id){
+		return this.els[id];
+	},
+
+	getIdByEvent:function (e) {
+		var el = e.target;
+		if (!el.hasClass('ludo-drag')) {
+			el = el.getParent('.ludo-drag');
+		}
+		return el.getProperty('forId');
+	},
+
+	/**
+	 * Returns reference to dragged object, i.e. object added in constructor or
+	 * by use of add method
+	 * @method getDragged
+	 * @return {Object}
+	 */
+	getDragged:function(){
+		return this.els[this.dragProcess.dragged];
+	},
+
+	/**
+	 * Returns reference to draggable DOM node
+	 * @method getEl
+	 * @return {Object} DOMNode
+	 */
+	getEl:function () {
+		return this.els[this.dragProcess.dragged].el;
+	},
+
+	getShimOrEl:function () {
+		return this.useShim ? this.getShim() : this.getEl();
+	},
+
+	getSizeOf:function(el){
+		return el.getSize !== undefined ? el.getSize() : { x: 0, y: 0 };
+	},
+
+	getPositionOf:function(el){
+		return el.getPosition();
+	},
+
+	setDragCoordinates:function(){
+		this.coordinatesToDrag = {
+			x : 'x', y:'y'
+		};
+	},
+	startDrag:function (e) {
+		var id = this.getIdByEvent(e);
+
+		var el = this.getById(id).el;
+		var size = this.getSizeOf(el);
+		var pos;
+		if(this.useShim){
+			pos = el.getPosition();
+		}else{
+			var parent = this.getPositionedParent(el);
+            pos = parent ? el.getPosition(parent) : this.getPositionOf(el);
+		}
+
+		var x = pos.x;
+		var y = pos.y;
+		this.dragProcess = {
+			active:true,
+			dragged:id,
+			currentX:x,
+			currentY:y,
+			elX:x,
+			elY:y,
+			width:size.x,
+			height:size.y,
+			mouseX:e.page.x,
+			mouseY:e.page.y
+		};
+
+		this.dragProcess.el = this.getShimOrEl();
+		/**
+		 * Event fired before drag
+		 * @event {effect.DraggableNode}
+		 * @param {Object} object to be dragged
+		 * @param {ludo.effect.Drag} component
+		 * @param {Object} pos(x and y)
+		 */
+		this.fireEvent('before', [this.els[id], this, {x:x,y:y}]);
+
+		if(!this.isActive()){
+			return undefined;
+		}
+
+		this.dragProcess.minX = this.getMinX();
+		this.dragProcess.maxX = this.getMaxX();
+		this.dragProcess.minY = this.getMinY();
+		this.dragProcess.maxY = this.getMaxY();
+		this.dragProcess.dragX = this.canDragAlongX();
+		this.dragProcess.dragY = this.canDragAlongY();
+
+		if (this.delay) {
+			this.setActiveAfterDelay();
+		} else {
+			/**
+			 * Event fired before dragging
+			 * @event start
+			 * @param {effect.DraggableNode} object to be dragged.
+			 * @param {ludo.effect.Drag} component
+			 * @param {Object} pos(x and y)
+			 */
+			this.fireEvent('start', [this.els[id], this, {x:x,y:y}]);
+
+			if(this.fireEffectEvents)ludo.EffectObject.start();
+		}
+
+		return false;
+	},
+
+	getPositionedParent:function(el){
+		var parent = el.parentNode;
+		while(parent){
+			var pos = parent.getStyle('position');
+			if (pos === 'relative' || pos === 'absolute')return parent;
+			parent = parent.getParent();
+		}
+		return undefined;
+	},
+
+	/**
+	 Cancel drag. This method is designed to be called from an event handler
+	 attached to the "beforeDrag" event.
+	 @method cancelDrag
+	 @example
+	 	// Here, dd is a {{#crossLink "effect.Drag"}}{{/crossLink}} object
+	 	dd.addEvent('before', function(draggable, dd, pos){
+	 		if(pos.x > 1000 || pos.y > 500){
+	 			dd.cancelDrag();
+			}
+	 	});
+	 In this example, dragging will be cancelled when the x position of the mouse
+	 is greater than 1000 or if the y position is greater than 500. Another more
+	 useful example is this:
+	 @example
+		 dd.addEvent('before', function(draggable, dd){
+		 	if(!this.isDraggable(draggable)){
+		 		dd.cancelDrag()
+		 	}
+		});
+	 Here, we assume that we have an isDraggable method which returns true or false
+	 for whether the given node is draggable or not. "draggable" in this example
+	 is one of the {{#crossLink "effect.DraggableNode"}}{{/crossLink}} objects added
+	 using the {{#crossLink "effect.Drag/add"}}{{/crossLink}} method.
+	 */
+
+	cancelDrag:function () {
+		this.dragProcess.active = false;
+		this.dragProcess.el = undefined;
+        if(this.fireEffectEvents)ludo.EffectObject.end();
+	},
+
+	getShimFor:function (el) {
+		return el;
+	},
+
+	setActiveAfterDelay:function () {
+		this.inDelayMode = true;
+		this.dragProcess.active = false;
+		this.startIfMouseNotReleased.delay(this.delay * 1000, this);
+	},
+
+	startIfMouseNotReleased:function () {
+		if (this.inDelayMode) {
+			this.dragProcess.active = true;
+			this.inDelayMode = false;
+			this.fireEvent('start', [this.getDragged(), this, {x:this.getX(),y:this.getY()}]);
+			ludo.EffectObject.start();
+		}
+	},
+
+	drag:function (e) {
+		if (this.dragProcess.active && this.dragProcess.el) {
+			var pos = {
+				x:undefined,
+				y:undefined
+			};
+			if (this.dragProcess.dragX) {
+				pos.x = this.getXDrag(e);
+			}
+
+			if (this.dragProcess.dragY) {
+				pos.y = this.getYDrag(e);
+			}
+
+			this.move(pos);
+
+			/**
+			 * Event fired while dragging. Sends position, example {x:100,y:50}
+			 * and reference to effect.Drag as arguments
+			 * @event drag
+			 * @param {Object} x and y
+			 * @param {effect.Drag} this
+			 */
+			this.fireEvent('drag', [pos, this.els[this.dragProcess.dragged], this]);
+			if (ludo.util.isTabletOrMobile())return false;
+
+		}
+		return undefined;
+	},
+
+	move:function (pos) {
+		if (pos.x !== undefined) {
+			this.dragProcess.currentX = pos.x;
+			this.dragProcess.el.style.left = pos.x + this.unit;
+		}
+		if (pos.y !== undefined) {
+			this.dragProcess.currentY = pos.y;
+			this.dragProcess.el.style.top = pos.y + this.unit;
+		}
+	},
+
+	/**
+	 * Return current x pos
+	 * @method getX
+	 * @return {Number} x
+	 */
+	getX:function(){
+		return this.dragProcess.currentX;
+	},
+	/**
+	 * Return current y pos
+	 * @method getY
+	 * @return {Number} y
+	 */
+	getY:function(){
+		return this.dragProcess.currentY;
+	},
+
+	getXDrag:function (e) {
+		var posX;
+		if(this.mouseXOffset){
+			posX = e.page.x + this.mouseXOffset;
+		}else{
+			posX = e.page.x - this.dragProcess.mouseX + this.dragProcess.elX;
+		}
+
+		if (posX < this.dragProcess.minX) {
+			posX = this.dragProcess.minX;
+		}
+		if (posX > this.dragProcess.maxX) {
+			posX = this.dragProcess.maxX;
+		}
+		return posX;
+	},
+
+	getYDrag:function (e) {
+		var posY;
+		if(this.mouseYOffset){
+			posY = e.page.y + this.mouseYOffset;
+		}else{
+			posY = e.page.y - this.dragProcess.mouseY + this.dragProcess.elY;
+		}
+
+		if (posY < this.dragProcess.minY) {
+			posY = this.dragProcess.minY;
+		}
+		if (posY > this.dragProcess.maxY) {
+			posY = this.dragProcess.maxY;
+		}
+		return posY;
+	},
+
+	endDrag:function () {
+		if (this.dragProcess.active) {
+			this.cancelDrag();
+			/**
+			 * Event fired on drag end
+			 * @event end
+			 * @param {effect.DraggableNode} dragged
+			 * @param {ludo.effect.Drag} this
+			 * @param {Object} x and y
+			 */
+			this.fireEvent('end', [
+				this.getDragged(),
+				this,
+				{
+					x:this.getX(),
+					y:this.getY()
+				}
+			]);
+
+		}
+		if (this.inDelayMode)this.inDelayMode = false;
+
+	},
+
+	/**
+	 * Set new max X pos
+	 * @method setMaxX
+	 * @param {Number} x
+	 */
+	setMaxX:function (x) {
+		this.maxX = x;
+	},
+	/**
+	 * Set new min X pos
+	 * @method setMinX
+	 * @param {Number} x
+	 */
+	setMinX:function (x) {
+		this.minX = x;
+	},
+	/**
+	 * Set new min Y pos
+	 * @method setMinY
+	 * @param {Number} y
+	 */
+	setMinY:function (y) {
+		this.minY = y;
+	},
+	/**
+	 * Set new max Y pos
+	 * @method setMaxY
+	 * @param {Number} y
+	 */
+	setMaxY:function (y) {
+		this.maxY = y;
+	},
+	/**
+	 * Set new min pos
+	 * @method setMinPos
+	 * @param {Number} pos
+	 */
+	setMinPos:function (pos) {
+		this.minPos = pos;
+	},
+	/**
+	 * Set new max pos
+	 * @method setMaxPos
+	 * @param {Number} pos
+	 */
+	setMaxPos:function (pos) {
+		this.maxPos = pos;
+	},
+
+	getMaxX:function () {
+        return this.getMaxPos('maxX');
+	},
+
+	getMaxY:function () {
+        return this.getMaxPos('maxY');
+	},
+
+    getMaxPos:function(key){
+        var max = this.getConfigProperty(key);
+        return max !== undefined ? max : this.maxPos !== undefined ? this.maxPos : 100000;
+    },
+
+	getMinX:function () {
+		var minX = this.getConfigProperty('minX');
+        return minX !== undefined ? minX : this.minPos;
+	},
+
+	getMinY:function () {
+		var dragged = this.getDragged();
+        return dragged && dragged.minY!==undefined ? dragged.minY : this.minY!==undefined ? this.minY : this.minPos;
+	},
+	/**
+	 * Return amount dragged in x direction
+	 * @method getDraggedX
+	 * @return {Number} x
+	 */
+	getDraggedX:function(){
+		return this.getX() - this.dragProcess.elX;
+	},
+	/**
+	 * Return amount dragged in y direction
+	 * @method getDraggedY
+	 * @return {Number} y
+	 */
+	getDraggedY:function(){
+		return this.getY() - this.dragProcess.elY;
+	},
+
+	canDragAlongX:function () {
+		return this.getConfigProperty('directions').indexOf('X') >= 0;
+	},
+	canDragAlongY:function () {
+		return this.getConfigProperty('directions').indexOf('Y') >= 0;
+	},
+
+	getConfigProperty:function(property){
+		var dragged = this.getDragged();
+		return dragged && dragged[property] !== undefined ? dragged[property] : this[property];
+	},
+
+	/**
+	 * Returns width of dragged element
+	 * @method getHeight
+	 * @return {Number}
+	 */
+	getWidth:function () {
+		return this.dragProcess.width;
+	},
+
+	/**
+	 * Returns height of dragged element
+	 * @method getHeight
+	 * @return {Number}
+	 */
+	getHeight:function () {
+		return this.dragProcess.height;
+	},
+	/**
+	 * Returns current left position of dragged
+	 * @method getLeft
+	 * @return {Number}
+	 */
+	getLeft:function () {
+		return this.dragProcess.currentX;
+	},
+
+	/**
+	 * Returns current top/y position of dragged.
+	 * @method getTop
+	 * @return {Number}
+	 */
+	getTop:function () {
+		return this.dragProcess.currentY;
+	},
+
+	/**
+	 * Returns reference to DOM element of shim
+	 * @method getShim
+	 * @return {HTMLDivElement} shim
+	 */
+	getShim:function () {
+		if (this.shim === undefined) {
+			this.shim = new Element('div');
+			ludo.dom.addClass(this.shim, 'ludo-shim');
+			this.shim.setStyles({
+				position:'absolute',
+				'z-index':50000,
+				display:'none'
+			});
+			document.body.adopt(this.shim);
+
+			if (this.shimCls) {
+				for (var i = 0; i < this.shimCls.length; i++) {
+					this.shim.addClass(this.shimCls[i]);
+				}
+			}
+			/**
+			 * Event fired when shim is created
+			 * @event createShim
+			 * @param {HTMLDivElement} shim
+			 */
+			this.fireEvent('createShim', this.shim);
+		}
+		return this.shim;
+	},
+
+	/**
+	 * Show shim
+	 * @method showShim
+	 */
+	showShim:function () {
+		this.getShim().setStyles({
+			display:'',
+			left:this.getShimX(),
+			top:this.getShimY(),
+			width:this.getWidth() + this.getShimWidthDiff(),
+			height:this.getHeight() + this.getShimHeightDiff()
+		});
+
+		this.fireEvent('showShim', [this.getShim(), this]);
+	},
+
+	getShimY:function(){
+		if(this.mouseYOffset){
+			return this.dragProcess.mouseY + this.mouseYOffset;
+		}else{
+			return this.getTop() + ludo.dom.getMH(this.getEl()) - ludo.dom.getMW(this.shim);
+		}
+	},
+
+	getShimX:function(){
+		if(this.mouseXOffset){
+			return this.dragProcess.mouseX + this.mouseXOffset;
+		}else{
+			return this.getLeft() + ludo.dom.getMW(this.getEl()) - ludo.dom.getMW(this.shim);
+		}
+	},
+
+	getShimWidthDiff:function(){
+		return ludo.dom.getMW(this.getEl()) - ludo.dom.getMBPW(this.shim);
+	},
+	getShimHeightDiff:function(){
+		return ludo.dom.getMH(this.getEl()) - ludo.dom.getMBPH(this.shim);
+	},
+
+	/**
+	 * Hide shim
+	 * @method hideShim
+	 */
+	hideShim:function () {
+		this.getShim().style.display = 'none';
+	},
+
+	/**
+	 * Set text content of shim
+	 * @method setShimText
+	 * @param {String} text
+	 */
+	setShimText:function (text) {
+		this.getShim().set('html', text);
+	},
+
+	/**
+	 * Fly/Slide dragged element back to it's original position
+	 * @method flyBack
+	 */
+	flyBack:function (duration) {
+		this.fly({
+			el: this.getShimOrEl(),
+			duration: duration,
+			from:{ x: this.getLeft(), y : this.getTop() },
+			to:{ x: this.getStartX(), y : this.getStartY() },
+			onComplete : this.flyBackComplete.bind(this)
+		});
+	},
+
+	/**
+	 * Fly/Slide dragged element to position of shim. This will only
+	 * work when useShim is set to true.
+	 * @method flyToShim
+	 * @param {Number} duration in seconds(default = .2)
+	 */
+	flyToShim:function(duration){
+		this.fly({
+			el: this.getEl(),
+			duration: duration,
+			from:{ x: this.getStartX(), y : this.getStartY() },
+			to:{ x: this.getLeft(), y : this.getTop() },
+			onComplete : this.flyToShimComplete.bind(this)
+		});
+	},
+
+	getStartX:function () {
+		return this.dragProcess.elX;
+	},
+
+	getStartY:function () {
+		return this.dragProcess.elY;
+	},
+
+	flyBackComplete:function(){
+		/**
+		 * Event fired after flyBack animation is complete
+		 * @event flyBack
+		 * @param {effect.Drag} this
+		 * @param {HTMLElement} dom node
+		 */
+		this.fireEvent('flyBack', [this, this.getShimOrEl()]);
+	},
+
+	flyToShimComplete:function(){
+		/**
+		 * Event fired after flyToShim animation is complete
+		 * @event flyBack
+		 * @param {effect.Drag} this
+		 * @param {HTMLElement} dom node
+		 */
+		this.fireEvent('flyToShim', [this, this.getEl()]);
+	},
+
+	isActive:function(){
+		return this.dragProcess.active;
+	}
 });/* ../ludojs/src/effect/drag-drop.js */
 /**
  * effect.Drag with support for drop events.
@@ -15393,6 +12189,1387 @@ ludo.grid.Grid = new Class({
 	getColumnManager:function(){
 		return this.columnManager;
 	}
+});/* ../ludojs/src/effect/resize.js */
+/***
+ * Make component or DOM elements resizable
+ * @module effect
+ * @class Resize
+ * @namespace effect
+ * @extends Core
+ */
+ludo.effect.Resize = new Class({
+    Extends:ludo.Core,
+    /**
+     * Use shim
+     * @attribute {Boolean} useShim
+     * @optional
+     */
+    useShim:true,
+    component:undefined,
+    els:{
+        shim:undefined,
+        applyTo:undefined,
+        handle:{}
+    },
+    /**
+     * min x position
+     * @attribute {Number} minX
+     * @default undefined
+     */
+    minX:undefined,
+    /**
+     * max x position
+     * @attribute {Number} maxX
+     * @default undefined
+     */
+    maxX:undefined,
+    /**
+     * minimum width
+     * @attribute {Number} minWidth
+     * @default undefined
+     */
+    minWidth:undefined,
+    /**
+     * Maximum width
+     * @attribute {Number} maxWidth
+     * @default undefined
+     */
+    maxWidth:undefined,
+    /**
+     * min y position
+     * @attribute {Number} minY
+     * @default undefined
+     */
+    minY:undefined,
+    /**
+     * max x position
+     * @attribute {Number} maxY
+     * @default undefined
+     */
+    maxY:undefined,
+    /**
+     * minimum height
+     * @attribute {Number} minHeight
+     * @default undefined
+     */
+    minHeight:undefined,
+    /**
+     * max height
+     * @attribute {Number} maxHeight
+     * @default undefined
+     */
+    maxHeight:undefined,
+
+    /**
+     * Preserve aspect ratio while resizing
+     * @attribute {Boolean} preserveAspectRatio
+     * @default false
+     */
+    preserveAspectRatio:false,
+
+    aspectRatio:undefined,
+
+    resizeKeys:{
+        'e':['width'],
+        's':['height'],
+        'w':['left', 'width'],
+        'n':['top', 'height'],
+        'nw':['top', 'left', 'height', 'width'],
+        'ne':['top', 'width', 'height'],
+        'se':['width', 'height'],
+        'sw':['left', 'height', 'width']
+    },
+
+    aspectRatioKeys:undefined,
+
+    dragProperties:{
+        active:false
+    },
+
+    xRegions:[
+        ['w', 'nw', 'sw'],
+        ['e', 'ne', 'se']
+    ],
+    yRegions:[
+        ['n', 'nw', 'ne'],
+        ['s', 'sw', 'se']
+    ],
+
+    aspectRatioMinMaxSet:false,
+
+    ludoConfig:function (config) {
+        this.setConfigParams(config, ['useShim','minX','maxX','minY','maxY','maxWidth','minWidth','minHeight','maxHeight','preserveAspectRatio']);
+        if (config.component) {
+            this.component = config.component;
+            this.els.applyTo = this.component.getEl();
+        } else {
+            this.els.applyTo = config.applyTo;
+        }
+        if (config.listeners)this.addEvents(config.listeners);
+        this.addDragEvents();
+        this.setDisplayPropertyOfEl.delay(100, this);
+    },
+
+    setDisplayPropertyOfEl:function () {
+        var display = this.getEl().getStyle('display');
+        if (display !== 'absolute' && display !== 'relative') {
+			if(Browser['ie'] && Browser.version < 9)return;
+            this.getEl().style.display = 'relative';
+        }
+    },
+
+    addDragEvents:function () {
+        document.body.addEvent(ludo.util.getDragEndEvent(), this.stopResize.bind(this));
+        document.body.addEvent(ludo.util.getDragMoveEvent(), this.resize.bind(this));
+    },
+
+    /**
+     * Add resize handle to a region. A region can be
+     * nw,n,ne,e,se,s,sw or w.
+	 *
+	 * A new DOM element will be created for the resize handle and injected into
+	 * the resized DOM element.
+     *
+     * Second parameter cssClass is optional.
+     * @method addHandle
+     * @param {String} region
+     * @param {String} cssClass
+     * @return void
+     */
+
+    addHandle:function (region, cssClass) {
+        var el = this.els.handle[region] = new Element('div');
+        ludo.dom.addClass(el, 'ludo-component-resize-el');
+        el.addClass(this.getCssFor(region));
+        if (cssClass)el.addClass(cssClass);
+        el.set('html', '<span></span>');
+        el.style.cursor = region + '-resize';
+        el.setProperty('region', region);
+        el.addEvent(ludo.util.getDragStartEvent(), this.startResize.bind(this));
+        this.els.applyTo.adopt(el);
+    },
+
+    startResize:function (e) {
+        var region = e.target.getProperty('region');
+        /**
+         * Fired when starting resize
+         * @event start
+         * @param string region
+         */
+        this.fireEvent('start', region);
+
+		ludo.EffectObject.start();
+
+        this.dragProperties = {
+            active:true,
+            region:region,
+            start:{ x:e.page.x, y:e.page.y },
+            current:{x:e.page.x, y:e.page.y },
+            el:this.getShimCoordinates(),
+            minWidth:this.minWidth,
+            maxWidth:this.maxWidth,
+            minHeight:this.minHeight,
+            maxHeight:this.maxHeight,
+            area:this.getScalingFactors(),
+            preserveAspectRatio: this.preserveAspectRatio ? this.preserveAspectRatio : e.shift ? true : false
+        };
+        if (this.preserveAspectRatio || e.shift) {
+            this.setMinAndMax();
+        }
+        this.dragProperties.minX = this.getDragMinX();
+        this.dragProperties.maxX = this.getDragMaxX();
+        this.dragProperties.minY = this.getDragMinY();
+        this.dragProperties.maxY = this.getDragMaxY();
+
+        this.setBodyCursor();
+        if (this.useShim) {
+            this.showShim();
+        }
+        return ludo.util.isTabletOrMobile() ? false : undefined;
+
+    },
+
+    /**
+     * Set min and max width/height based on aspect ratio
+     * @method setMinAndMax
+     * @private
+     */
+    setMinAndMax:function () {
+        var ratio = this.getAspectRatio();
+        var d = this.dragProperties;
+        if (ratio === 0)return;
+        var minWidth, maxWidth, minHeight, maxHeight;
+
+        if (this.maxWidth !== undefined)maxHeight = this.maxWidth / ratio;
+        if (this.minWidth !== undefined)minHeight = this.minWidth / ratio;
+        if (this.maxHeight !== undefined)maxWidth = this.maxHeight * ratio;
+        if (this.minHeight !== undefined)minWidth = this.minHeight * ratio;
+
+        var coords = this.getEl().getPosition();
+        var absMaxWidth = this.getBodyWidth() - coords.x;
+        var absMaxHeight = this.getBodyHeight() - coords.y;
+
+        d.minWidth = Math.max(minWidth || 0, this.minWidth || 0);
+        d.maxWidth = Math.min(maxWidth || absMaxWidth, this.maxWidth || absMaxWidth);
+        d.minHeight = Math.max(minHeight || 0, this.minHeight || 0);
+        d.maxHeight = Math.min(maxHeight || absMaxHeight, this.maxHeight || absMaxHeight);
+
+        if (d.maxWidth / ratio > d.maxHeight)d.maxWidth = d.maxHeight * ratio;
+        if (d.maxHeight * ratio > d.maxWidth)d.maxHeight = d.maxWidth / ratio;
+    },
+
+    getDragMinX:function () {
+        var ret, d = this.dragProperties, r = d.region;
+        if (d.maxWidth !== undefined && this.xRegions[0].indexOf(r) >= 0) {
+            ret = d.el.left + d.el.width - d.maxWidth;
+        } else if (d.minWidth !== undefined && this.xRegions[1].indexOf(r) >= 0) {
+            ret = d.el.left + d.minWidth;
+        }
+        if (this.minX !== undefined) {
+            if (ret == undefined)ret = this.minX; else ret = Math.max(ret, this.minX);
+        }
+        return ret;
+    },
+
+    getDragMaxX:function () {
+        var ret, d = this.dragProperties, r = d.region;
+        if (d.minWidth !== undefined && this.xRegions[0].indexOf(r) >= 0) {
+            ret = d.el.left + d.el.width - d.minWidth;
+        } else if (d.maxWidth !== undefined && this.xRegions[1].indexOf(r) >= 0) {
+            ret = d.el.left + d.maxWidth;
+        }
+        if (this.maxX !== undefined) {
+            if (ret == undefined)ret = this.maxX; else ret = Math.min(ret, this.maxX);
+        }
+        return ret;
+    },
+
+    getDragMinY:function () {
+        var ret, d = this.dragProperties, r = d.region;
+        if (d.maxHeight !== undefined && this.yRegions[0].indexOf(r) >= 0) {
+            ret = d.el.top + d.el.height - d.maxHeight;
+        } else if (d.minHeight !== undefined && this.yRegions[1].indexOf(r) >= 0) {
+            ret = d.el.top + d.minHeight;
+        }
+        if (this.minY !== undefined) {
+            if (ret == undefined)ret = this.minY; else ret = Math.max(ret, this.minY);
+        }
+        return ret;
+    },
+
+    getDragMaxY:function () {
+        var ret, d = this.dragProperties, r = d.region;
+        if (d.minHeight !== undefined && this.yRegions[0].indexOf(r) >= 0) {
+            ret = d.el.top + d.el.height - d.minHeight;
+        } else if (d.maxHeight !== undefined && this.yRegions[1].indexOf(r) >= 0) {
+            ret = d.el.top + d.maxHeight;
+        }
+        if (this.maxY !== undefined) {
+            if (ret == undefined)ret = this.maxY; else ret = Math.min(ret, this.maxY);
+        }
+        return ret;
+    },
+
+    setBodyCursor:function () {
+        document.body.style.cursor = this.dragProperties.region + '-resize';
+    },
+
+    revertBodyCursor:function () {
+        document.body.style.cursor = 'default';
+    },
+
+    resize:function (e) {
+        if (this.dragProperties.active) {
+            this.dragProperties.current = this.getCurrentCoordinates(e);
+            var coordinates = this.getCoordinates();
+            /**
+             * Fired during resize. CSS coordinates are passed as parameter to this event.
+             * @event resize
+             * @param {Object} coordinates
+             */
+            this.fireEvent('resize', coordinates);
+
+            if (this.useShim) {
+                this.els.shim.setStyles(coordinates);
+            } else {
+                this.getEl().setStyles(coordinates);
+            }
+        }
+    },
+
+    getCurrentCoordinates:function (e) {
+        var ret = {x:e.page.x, y:e.page.y };
+        var d = this.dragProperties;
+        if(d.preserveAspectRatio && d.region.length === 2)return ret;
+        if (d.minX !== undefined && ret.x < d.minX)ret.x = d.minX;
+        if (d.maxX !== undefined && ret.x > d.maxX)ret.x = d.maxX;
+        if (d.minY !== undefined && ret.y < d.minY)ret.y = d.minY;
+        if (d.maxY !== undefined && ret.y > d.maxY)ret.y = d.maxY;
+        return ret;
+    },
+
+    /**
+     * Returns coordinates for current drag operation,
+     * example: {left:100,top:100,width:500,height:400}
+     * @method getCoordinates
+     * @return {Object}
+     */
+    getCoordinates:function () {
+        var d = this.dragProperties;
+        var keys = this.resizeKeys[d.region];
+        var ret = {};
+
+        if (!d.preserveAspectRatio || d.region.length === 1) {
+            for (var i = 0; i < keys.length; i++) {
+                ret[keys[i]] = this.getCoordinate(keys[i]);
+            }
+        }
+
+        if (d.preserveAspectRatio) {
+            switch (d.region) {
+                case 'e':
+                case 'w':
+                    ret.height = ret.width / this.aspectRatio;
+                    break;
+                case 'n':
+                case 's':
+                    ret.width = ret.height * this.aspectRatio;
+                    break;
+                default:
+                    var scaleFactor = this.getScaleFactor();
+                    ret.width = d.el.width * scaleFactor;
+                    ret.height = d.el.height * scaleFactor;
+                    if(d.region == 'ne' || d.region =='nw'){
+                        ret.top = d.el.top + d.el.height - ret.height;
+                    }
+                    if(d.region == 'nw' || d.region == 'sw'){
+                        ret.left = d.el.left + d.el.width - ret.width;
+                    }
+                    ret.width += this.getBWOfShim();
+                    ret.height += this.getBHOfShim();
+                    break;
+            }
+        }
+        return ret;
+    },
+
+    getScaleFactor:function () {
+        var d = this.dragProperties;
+        var r = d.region;
+        var factor;
+
+        var offsetX = (d.current.x - d.start.x) * d.area.xFactor / d.area.sum;
+        var offsetY = (d.current.y - d.start.y) * d.area.yFactor / d.area.sum;
+        switch (r) {
+            case 'se':
+                factor = 1 + offsetX + offsetY;
+                break;
+            case 'ne':
+                factor = 1 + offsetX + offsetY * -1;
+                break;
+            case 'nw':
+                factor = 1 + offsetX * -1 + offsetY * -1;
+                break;
+            case 'sw':
+                factor = 1 + offsetX * -1 + offsetY;
+                break;
+
+
+        }
+        if (d.minWidth) {
+            factor = Math.max(factor, d.minWidth / d.el.width);
+        }
+        if (d.minHeight) {
+            factor = Math.max(factor, d.minHeight / d.el.height);
+        }
+        if (d.maxWidth) {
+            factor = Math.min(factor, d.maxWidth / d.el.width);
+        }
+        if (d.maxHeight) {
+            factor = Math.min(factor, d.maxHeight / d.el.height);
+        }
+        return factor;
+
+    },
+
+    getCoordinate:function (key) {
+        var r = this.dragProperties.region;
+        var d = this.dragProperties;
+        switch (key) {
+            case 'width':
+                if (r == 'e' || r == 'ne' || r == 'se') {
+                    return d.el.width - d.start.x + d.current.x + this.getBWOfShim();
+                } else {
+                    return d.el.width + d.start.x - d.current.x + this.getBWOfShim();
+                }
+                break;
+            case 'height':
+                if (r == 's' || r == 'sw' || r == 'se') {
+                    return d.el.height - d.start.y + d.current.y + this.getBHOfShim();
+                } else {
+                    return d.el.height + d.start.y - d.current.y + this.getBHOfShim();
+                }
+            case 'top':
+                if (r == 'n' || r == 'nw' || r == 'ne') {
+                    return d.el.top - d.start.y + d.current.y;
+                } else {
+                    return d.el.top + d.start.y - d.current.y;
+                }
+            case 'left':
+                if (r == 'w' || r == 'nw' || r == 'sw') {
+                    return d.el.left - d.start.x + d.current.x;
+                } else {
+                    return d.el.left + d.start.x - d.current.x;
+                }
+        }
+        return undefined;
+    },
+
+    getBWOfShim:function () {
+        if (this.useShim) {
+            return ludo.dom.getBW(this.getShim());
+        }
+        return 0;
+    },
+
+    getBHOfShim:function () {
+        if (this.useShim) {
+            return ludo.dom.getBH(this.getShim());
+        }
+        return 0;
+    },
+
+    stopResize:function () {
+        if (this.dragProperties.active) {
+            this.dragProperties.active = false;
+            /**
+             * Fired when resize is complete.
+             * CSS coordinates are passed as parameter to this event.
+             * @event stop
+             * @param {Object} coordinates
+             */
+            this.fireEvent('stop', this.getCoordinates());
+			ludo.EffectObject.end();
+            this.revertBodyCursor();
+            if (this.useShim) {
+                this.hideShim();
+            }
+        }
+    },
+
+    getCssFor:function (region) {
+        return 'ludo-component-resize-region-' + region;
+    },
+
+    showShim:function () {
+        var shim = this.getShim();
+        var coords = this.getShimCoordinates();
+        shim.setStyles({
+            display:'',
+            left:coords.left,
+            top:coords.top,
+            width:coords.width,
+            height:coords.height
+        });
+    },
+
+    hideShim:function () {
+        this.getShim().style.display = 'none';
+    },
+
+    getShimCoordinates:function () {
+        var coords = this.getEl().getCoordinates();
+        if (this.useShim) {
+            var shim = this.getShim();
+            coords.width -= ludo.dom.getBW(shim);
+            coords.height -= ludo.dom.getBH(shim);
+        }
+        return coords;
+    },
+
+    getShim:function () {
+        if (!this.els.shim) {
+            var el = this.els.shim = new Element('div');
+            ludo.dom.addClass(el, 'ludo-shim-resize');
+            el.setStyles({
+                position:'absolute',
+                'z-index':50000
+            });
+            document.body.adopt(el);
+        }
+
+        return this.els.shim;
+    },
+    getEl:function () {
+        return this.els.applyTo;
+    },
+
+    hideAllHandles:function () {
+        this.setHandleDisplay('none');
+    },
+    showAllHandles:function () {
+        this.setHandleDisplay('');
+    },
+
+    setHandleDisplay:function (display) {
+        for (var key in this.els.handle) {
+            if (this.els.handle.hasOwnProperty(key)) {
+                this.els.handle[key].style.display = display;
+            }
+        }
+    },
+
+    getAspectRatio:function () {
+        if (this.aspectRatio === undefined) {
+            var size = this.getEl().getSize();
+            this.aspectRatio = size.x / size.y;
+        }
+        return this.aspectRatio;
+    },
+
+    getBodyWidth:function () {
+        return document.documentElement.offsetWidth;
+    },
+    getBodyHeight:function () {
+        return document.documentElement.offsetHeight;
+    },
+
+    getScalingFactors:function () {
+        var size = this.getEl().getSize();
+        return {
+            xFactor:size.x / size.y,
+            yFactor:size.y / size.x,
+            sum:size.x + size.y
+        };
+    }
+});/* ../ludojs/src/view/button-bar.js */
+/**
+ * Class used to create button bars at bottom of components.
+ * This class is instantiated automatically
+ * @namespace view
+ * @class ButtonBar
+ * @extends View
+ */
+ludo.view.ButtonBar = new Class({
+    Extends:ludo.View,
+    type : 'ButtonBar',
+    layout:{
+        type:'linear',
+		orientation:'horizontal',
+		width:'matchParent'
+    },
+    align:'right',
+    cls:'ludo-component-button-container',
+    overflow:'hidden',
+    component:undefined,
+	buttonBarCss:undefined,
+
+    ludoConfig:function (config) {
+        this.setConfigParams(config, ['align','component','buttonBarCss']);
+        config.children = this.getValidChildren(config.children);
+        if (this.align == 'right') {
+            config.children = this.getItemsWithSpacer(config.children);
+        }else{
+            config.children[0].containerCss = config.children[0].containerCss || {};
+            if(!config.children[0].containerCss['margin-left']){
+                config.children[0].containerCss['margin-left'] = 2
+            }
+        }
+
+        this.parent(config);
+    },
+    ludoDOM:function () {
+        this.parent();
+        this.getBody().addClass('ludo-content-buttons');
+    },
+
+    ludoRendered:function () {
+        this.parent();
+		this.component.addEvent('resize', this.resizeRenderer.bind(this));
+
+		if(this.buttonBarCss){
+			this.getEl().parentNode.setStyles(this.buttonBarCss);
+		}
+
+    },
+
+	resizeRenderer:function(){
+		this.getLayout().getRenderer().resize();
+	},
+
+    getValidChildren:function (children) {
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].value && !children[i].type) {
+                children[i].type = 'form.Button'
+            }
+        }
+        return children;
+    },
+
+    getButtons:function () {
+        var ret = [];
+        for (var i = 0; i < this.children.length; i++) {
+            if (this.children[i].isButton && this.children[i].isButton()) {
+                ret.push(this.children[i]);
+            }
+        }
+        return ret;
+    },
+
+    getButton:function (key) {
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            if(c[i].id == key || c[i].name == key || (c[i].getValue && c[i].getValue().toLowerCase() == key.toLowerCase())){
+                return c[i];
+            }
+        }
+		return undefined;
+    },
+
+    getItemsWithSpacer:function (children) {
+        children.splice(0, 0, {
+            layout: { weight:1 },
+            containerCss:{ 'background-color':'transparent' },
+            css:{ 'background-color':'transparent'}
+        });
+        /*
+        for (var i = children.length; i > 0; i--) {
+            children[i] = children[i - 1];
+        }
+        children[0] = {
+            layout: { weight:1 },
+            containerCss:{ 'background-color':'transparent' },
+            css:{ 'background-color':'transparent'}
+        };*/
+        return children;
+    },
+    /**
+     * Returns the component where the button bar is placed
+	 * @method getView
+     * @return {Object} ludo Component
+     * @private
+     */
+    getView : function(){
+        return this.component;
+    }
+});/* ../ludojs/src/view/title-bar.js */
+// TODO support all kinds of buttons - customizable
+ludo.view.TitleBar = new Class({
+    Extends:ludo.Core,
+    view:undefined,
+    els:{
+        el:undefined,
+        icon:undefined,
+        title:undefined,
+        buttons:{},
+        buttonArray:[]
+    },
+
+    toggleStatus:{},
+
+    ludoConfig:function (config) {
+        this.parent(config);
+
+        this.setConfigParams(config, ['view', 'buttons']);
+
+        if (!this.buttons)this.buttons = this.getDefaultButtons();
+
+        this.view.addEvent('setTitle', this.setTitle.bind(this));
+        this.view.addEvent('resize', this.resizeDOM.bind(this));
+        this.createDOM();
+        this.setSizeOfButtonContainer();
+    },
+
+    getDefaultButtons:function () {
+        var ret = [];
+        var v = this.view;
+        if (v.isMinimizable())ret.push('minimize');
+        if (v.isCollapsible())ret.push('collapse');
+        if (v.isClosable())ret.push('close');
+        return ret;
+    },
+
+    createDOM:function () {
+        var el = this.els.el = new Element('div');
+        ludo.dom.addClass(el, this.view.boldTitle ? 'ludo-framed-view-titlebar' : 'ludo-component-titlebar');
+        var left = 0;
+        if (this.view.icon) {
+            this.createIconDOM();
+            left += ludo.dom.getNumericStyle(el, 'width');
+        }
+        this.createTitleDOM();
+        el.adopt(this.getButtonContainer());
+        this.resizeButtonContainer.delay(20, this);
+        this.els.title.style.left = left + 'px';
+        el.addEvent('selectstart', ludo.util.cancelEvent);
+    },
+
+    createIconDOM:function () {
+        this.els.icon = ludo.dom.create({
+            renderTo:this.els.el,
+            cls:'ludo-framed-view-titlebar-icon',
+            css:{ 'backgroundImage':'url(' + this.view.icon + ')'}
+        });
+    },
+
+    setTitle:function (title) {
+        this.els.title.innerHTML = title;
+    },
+
+    createTitleDOM:function () {
+        var title = this.els.title = ludo.dom.create({
+            cls:'ludo-framed-view-titlebar-title',
+            renderTo:this.els.el
+        });
+        this.setTitle(this.view.title);
+    },
+
+    cancelTextSelection:function () {
+        return false;
+    },
+
+    getButtonContainer:function () {
+        var el = this.els.controls = ludo.dom.create({
+            cls:'ludo-title-bar-button-container'
+        });
+        el.style.cursor = 'default';
+
+        this.createEdge('left', el);
+        this.createEdge('right', el);
+
+        for (var i = 0; i < this.buttons.length; i++) {
+            el.appendChild(this.getButton(this.buttons[i]));
+        }
+
+        this.addBorderToButtons();
+        return el;
+    },
+
+    createEdge:function (pos, parent) {
+        var el = ludo.dom.create({
+            cls:'ludo-title-bar-button-container-' + pos + '-edge',
+            renderTo:parent
+        });
+        el.style.cssText = 'position:absolute;z-index:1;' + pos + ':0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top ' + pos;
+        return el;
+
+    },
+
+    shouldShowCollapseButton:function () {
+        var parent = this.view.getParent();
+        return parent.layout && parent.layout.type ? parent.layout.type === 'linear' || parent.layout.type == 'relative' : false;
+    },
+
+    resizeButtonContainer:function () {
+        this.els.controls.style.width = this.getWidthOfButtons() + 'px';
+    },
+
+    getButton:function (buttonConfig) {
+        buttonConfig = ludo.util.isString(buttonConfig) ? { type:buttonConfig } : buttonConfig;
+
+        var b = this.els.buttons[buttonConfig.type] = new Element('div');
+        b.id = 'b-' + String.uniqueID();
+        b.className = 'ludo-title-bar-button ludo-title-bar-button-' + buttonConfig.type;
+        b.addEvents({
+            'click':this.getButtonClickFn(buttonConfig.type),
+            'mouseenter':this.enterButton.bind(this),
+            'mouseleave':this.leaveButton.bind(this)
+        });
+        b.setProperty('title', buttonConfig.title ? buttonConfig.title : buttonConfig.type.capitalize());
+        b.setProperty('buttonType', buttonConfig.type);
+
+        if (buttonConfig.type === 'collapse') {
+            ludo.dom.addClass(b, 'ludo-title-bar-button-collapse-' + this.getCollapseButtonDirection());
+        }
+        this.els.buttonArray.push(b);
+        return b;
+    },
+
+
+    getButtonClickFn:function (type) {
+        var buttonConfig = ludo.view.getTitleBarButton(type);
+        var toggle = buttonConfig && buttonConfig.toggle ? buttonConfig.toggle : undefined;
+
+        return function (e) {
+            this.leaveButton(e);
+            var event = type;
+            if (toggle) {
+                if (this.toggleStatus[type]) {
+                    event = this.toggleStatus[type];
+                    ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
+                    event = this.getNextToggle(toggle, event);
+
+                }
+                ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
+                this.toggleStatus[type] = event;
+                ludo.dom.addClass(e.target, 'ludo-title-bar-button-' + this.getNextToggle(toggle, event));
+            }
+            this.fireEvent(event);
+        }.bind(this);
+    },
+
+    getNextToggle:function (toggle, current) {
+        var ind = toggle.indexOf(current) + 1;
+        return toggle[ind >= toggle.length ? 0 : ind];
+    },
+
+    addBorderToButtons:function () {
+        var firstFound = false;
+        for (var i = 0; i < this.els.buttonArray.length; i++) {
+            this.els.buttonArray[i].removeClass('ludo-title-bar-button-with-border');
+            if (firstFound)this.els.buttonArray[i].addClass('ludo-title-bar-button-with-border');
+            firstFound = true;
+        }
+    },
+
+    enterButton:function (e) {
+        var el = e.target;
+        var type = el.getProperty('buttonType');
+        ludo.dom.addClass(el, 'ludo-title-bar-button-' + type + '-over');
+    },
+
+    leaveButton:function (e) {
+        var el = e.target;
+        el.removeClass('ludo-title-bar-button-' + el.getProperty('buttonType') + '-over');
+    },
+
+    getWidthOfButtons:function () {
+        var ret = 0;
+        var els = this.els.buttonArray;
+        for (var i = 0, count = els.length; i < count; i++) {
+            var width = ludo.dom.getNumericStyle(els[i], 'width') + ludo.dom.getBW(els[i]) + ludo.dom.getPW(els[i]) + ludo.dom.getMW(els[i]);
+            if (!isNaN(width) && width) {
+                ret += width;
+            } else {
+                ret += els[i].offsetWidth;
+            }
+        }
+        return ret ? ret : els.length * 10;
+    },
+
+    getEl:function () {
+        return this.els.el;
+    },
+
+    setSizeOfButtonContainer:function () {
+        if (this.els.controls) {
+            var width = this.getWidthOfButtons();
+            this.els.controls.style.width = width + 'px';
+            this.els.controls.style.display = width > 0 ? '' : 'none';
+        }
+        if (this.icon) {
+            this.els.title.setStyle('left', document.id(this.els.icon).getStyle('width'));
+        }
+    },
+
+    getWidthOfIconAndButtons:function () {
+        var ret = this.view.icon ? this.els.icon.offsetWidth : 0;
+        return ret + this.els.controls.offsetWidth;
+    },
+
+    resizeDOM:function () {
+        var width = (this.view.width - this.getWidthOfIconAndButtons());
+        if (width > 0)this.els.title.style.width = width + 'px';
+    },
+
+    height:undefined,
+    getHeight:function () {
+        if (this.height === undefined) {
+            var el = this.els.el;
+            this.height = ludo.dom.getNumericStyle(el, 'height');
+            this.height += ludo.dom.getMH(el) + ludo.dom.getBH(el) + ludo.dom.getPH(el);
+        }
+        return this.height;
+    },
+
+    getCollapseButtonDirection:function () {
+        var c = this.view;
+        if (ludo.util.isString(c.layout.collapsible)) {
+            return c.layout.collapsible;
+        }
+        var parent = c.getParent();
+        if (parent && parent.layout && parent.layout.type === 'linear' && parent.layout.orientation === 'horizontal') {
+            return parent.children.indexOf(c) === 0 ? 'left' : 'right';
+        } else {
+            return parent.children.indexOf(c) === 0 ? 'top' : 'bottom';
+        }
+    }
+});
+
+ludo.view.registerTitleBarButton = function (name, config) {
+    ludo.registry.set('titleBar-' + name, config);
+};
+
+ludo.view.getTitleBarButton = function (name) {
+    return ludo.registry.get('titleBar-' + name);
+};
+
+ludo.view.registerTitleBarButton('minimize', {
+    toggle:['minimize', 'maximize']
+});/* ../ludojs/src/framed-view.js */
+/**
+ * Rich Component
+ * @class FramedView
+ * @extends View
+ */
+ludo.FramedView = new Class({
+	Extends:ludo.View,
+	type:'FramedView',
+	layout:{
+		type:'fill',
+		minWidth:100,
+		minHeight:100
+	},
+
+	minimized:false,
+
+	/**
+	 * Title of component. A title is only useful for FramedView's or when the component is collapsible.
+	 * @attribute {String} title
+	 */
+	title:'',
+
+
+	movable:false,
+	/**
+	 * Is component minimizable. When set to true, a minimize button will appear on the title bar of the component
+	 * @config {Boolean} minimizable
+	 * @default false
+	 */
+	minimizable:false,
+
+	resizable:false,
+	/**
+	 * Is component closable. When set to true, a close button will appear on the title bar of the component
+	 * @attribute closable
+	 * @type {Boolean}
+	 * @default false
+	 */
+	closable:false,
+
+	width:null,
+	height:200,
+
+	preserveAspectRatio:false,
+	/**
+	 * Path to icon to be placed on the title bar
+	 * @config {String} icon
+     * @default undefined
+	 */
+	icon:undefined,
+
+	/**
+	 Config object for the title bar
+	 @config titleBar
+	 @type {Object}
+	 @default undefined
+	 @example
+	 	new ludo.Window({
+	 		titleBar:{
+				buttons: [{
+					type : 'reload',
+					title : 'Reload grid data'
+				},'minimize','close'],
+				listeners:{
+					'reload' : function(){
+						ludo.get('myDataSource').load();
+					}
+				}
+			}
+	 	});
+
+	 You can create your own buttons by creating the following css classes:
+	 @example
+		 .ludo-title-bar-button-minimize {
+			 background-image: url('../images/title-bar-btn-minimize.png');
+		 }
+
+		 .ludo-title-bar-button-minimize-over {
+			 background-image: url('../images/title-bar-btn-minimize-over.png');
+		 }
+
+	 Replace "minimize" with the unique name of your button.
+
+	 If you want to create a toggle button like minimize/maximize, you can do that with this code:
+
+	 @example
+		 ludo.view.registerTitleBarButton('minimize',{
+			toggle:['minimize','maximize']
+		 });
+	 */
+	titleBar:undefined,
+
+	/**
+	 * Don't show the title bar
+	 * @config {Boolean} titleBarHidden
+	 * @default false
+	 */
+	titleBarHidden:false,
+
+	/**
+	 * Bold title bar. True to give the component a window type title bar, false to give it a smaller title bar
+	 * @attribute boldTitle
+	 * @type {Boolean}
+	 * @default true
+	 */
+	boldTitle:true,
+	hasMenu:false,
+
+	buttons:[],
+	/**
+	 Button bar object. Components to be placed on the button bar.
+	 @attribute buttonBar
+	 @type Object
+	 @example
+	 	buttonBar : {
+			align : 'left',
+			children : [{ type: form.Button, value: 'Send' }]
+		}
+	 */
+	buttonBar:undefined,
+
+	menuConfig:null,
+	menuObj:null,
+
+	column:null,
+
+	state:{
+		isMinimized:false
+	},
+
+	ludoConfig:function (config) {
+		this.parent(config);
+        if (config.buttons) {
+            config.buttonBar = {
+                children:config.buttons
+            }
+        }
+
+        this.setConfigParams(config,['buttonBar', 'hasMenu','menuConfig','icon','titleBarHidden','titleBar','buttons','boldTitle','minimized']);
+
+	},
+
+	/**
+	 * Return config of title bar using a method instead of config object. Useful when you need to refer to "this"
+	 * @method getTitleBarConfig
+	 * @return {Object|undefined}
+	 */
+	getTitleBarConfig:function(){
+		return undefined;
+	},
+
+	/**
+	 * Return button bar config using a method instead of using buttonBar config object. Useful when you need to refer to
+	 * "this"
+	 * @method getButtonBarConfig
+	 * @return {Object|undefined}
+	 */
+	getButtonBarConfig:function(){
+		return undefined;
+	},
+
+	ludoDOM:function () {
+		this.parent();
+
+		ludo.dom.addClass(this.els.container, 'ludo-framed-view');
+
+		if(this.hasTitleBar()){
+			this.getTitleBar().getEl().inject(this.getBody(), 'before');
+		}
+		ludo.dom.addClass(this.getBody(), 'ludo-framed-view-body');
+
+		if (!this.getParent() && this.isResizable()) {
+			this.getResizer().addHandle('s');
+		}
+	},
+
+
+	ludoRendered:function () {
+        // TODO create button bar after view is rendered.
+
+
+		if(!this.buttonBar)this.buttonBar = this.getButtonBarConfig();
+		if (this.buttonBar && !this.buttonBar.children) {
+			this.buttonBar = { children:this.buttonBar };
+		}
+
+        if (this.buttonBar) {
+            this.getButtonBar()
+        } else {
+            ludo.dom.addClass(this.els.container, 'ludo-component-no-buttonbar')
+        }
+		this.parent();
+		if (this.minimized) {
+			this.minimize();
+		}
+	},
+
+	resizer:undefined,
+	getResizer:function () {
+		if (this.resizer === undefined) {
+			var r = this.getLayout().getRenderer();
+			this.resizer = this.createDependency('resizer', new ludo.effect.Resize({
+				component:this,
+				preserveAspectRatio:this.layout.preserveAspectRatio,
+				minWidth:r.getMinWidth(),
+				minHeight:r.getMinHeight(),
+				maxHeight:r.getMaxHeight(),
+				maxWidth:r.getMaxWidth(),
+				listeners:{
+					stop:r.setSize.bind(r)
+				}
+			}));
+			this.resizer.addEvent('stop', this.saveState.bind(this));
+		}
+		return this.resizer;
+	},
+	/**
+	 * Set new title
+	 * @method setTitle
+	 * @param {String} title
+	 */
+	setTitle:function (title) {
+		this.parent(title);
+        this.fireEvent('setTitle', title);
+	},
+
+	resizeDOM:function () {
+		var height = this.getHeight();
+		height -= (ludo.dom.getMBPH(this.els.container) + ludo.dom.getMBPH(this.els.body) +  this.getHeightOfTitleAndButtonBar());
+        if(height >= 0){
+            this.els.body.style.height = height + 'px';
+            this.cachedInnerHeight = height;
+
+            if (this.buttonBarComponent) {
+                this.buttonBarComponent.resize();
+            }
+        }
+	},
+
+	heightOfTitleAndButtonBar:undefined,
+	getHeightOfTitleAndButtonBar:function () {
+		if (this.isHidden())return 0;
+		if (!this.heightOfTitleAndButtonBar) {
+			this.heightOfTitleAndButtonBar = this.getHeightOfTitleBar() + this.getHeightOfButtonBar();
+		}
+		return this.heightOfTitleAndButtonBar;
+	},
+
+	getHeightOfButtonBar:function () {
+		if (!this.buttonBar)return 0;
+        return this.els.buttonBar.el.offsetHeight + ludo.dom.getMH(this.els.buttonBar.el);
+	},
+
+	getHeightOfTitleBar:function () {
+		if (!this.hasTitleBar())return 0;
+		return this.titleBarObj.getHeight();
+	},
+
+	hasTitleBar:function(){
+		return !this.titleBarHidden;
+	},
+
+	getTitleBar:function(){
+		if (this.titleBarObj === undefined) {
+
+			if(!this.titleBar)this.titleBar = this.getTitleBarConfig() || {};
+			this.titleBar.view = this;
+			this.titleBar.type = 'view.TitleBar';
+			this.titleBarObj = this.createDependency('titleBar', this.titleBar);
+
+			this.titleBarObj.addEvents({
+				close:this.close.bind(this),
+				minimize:this.minimize.bind(this),
+				maximize:this.maximize.bind(this),
+				collapse:this.hide.bind(this)
+			});
+
+			if (this.isMovable() && !this.getParent()) {
+				this.drag = this.createDependency('drag', new ludo.effect.Drag({
+					handle:this.titleBarObj.getEl(),
+					el:this.getEl(),
+					listeners:{
+						start:this.increaseZIndex.bind(this),
+						end:this.stopMove.bind(this)
+					}
+				}));
+				this.titleBarObj.getEl().style.cursor = 'move';
+			}
+		}
+		return this.titleBarObj;
+	},
+
+	getHeight:function () {
+        return this.isMinimized() ? this.getHeightOfTitleBar() : this.parent();
+	},
+
+	close:function () {
+		this.hide();
+		this.fireEvent('close', this);
+	},
+
+	isMinimized:function () {
+		return this.state.isMinimized;
+	},
+
+	/**
+	 * Maximize component
+	 * @method maximize
+	 * @return void
+	 */
+	maximize:function () {
+        this.state.isMinimized = false;
+        if (!this.hidden) {
+            this.resize({
+                height:this.layout.height
+            });
+            this.els.body.style.visibility = 'visible';
+            this.showResizeHandles();
+            /**
+             * Fired when a component is maximized
+             * @event maximize
+             * @param component this
+             */
+            this.fireEvent('maximize', this);
+        }
+	},
+
+	showResizeHandles:function () {
+		if (this.isResizable()) {
+			this.getResizer().showAllHandles();
+		}
+	},
+
+	hideResizeHandles:function () {
+		if (this.isResizable()) {
+			this.getResizer().hideAllHandles();
+		}
+	},
+
+	/**
+	 * Minimize component
+	 * @method minimize
+	 * @return void
+	 */
+	minimize:function () {
+        this.state.isMinimized = true;
+		if (!this.hidden) {
+            var height = this.layout.height;
+            var newHeight = this.getHeightOfTitleBar();
+            this.els.container.setStyle('height', this.getHeightOfTitleBar());
+            this.els.body.style.visibility = 'hidden';
+            this.hideResizeHandles();
+
+            this.layout.height = height;
+            /**
+             * @event minimize
+             * @param Component this
+             */
+            this.fireEvent('minimize', [this, { height: newHeight }]);
+        }
+	},
+
+	getHtml:function () {
+		return this.els.body.get('html');
+	},
+
+	getButtonBar:function () {
+		if (!this.els.buttonBar) {
+			this.els.buttonBar = this.els.buttonBar || {};
+			var el = this.els.buttonBar.el = ludo.dom.create({
+                renderTo : this.els.container,
+                cls : 'ludo-component-buttonbar'
+            });
+
+			ludo.dom.addClass(this.getEl(), 'ludo-component-with-buttonbar');
+			this.buttonBar.renderTo = el;
+			this.buttonBar.component = this;
+			this.buttonBarComponent = this.createDependency('buttonBar', new ludo.view.ButtonBar(this.buttonBar));
+		}
+		return this.els.buttonBar.el;
+	},
+
+	getButton:function (key) {
+		return this.getButtonByKey(key);
+	},
+	/**
+	 * Hide a button on the button bar
+	 * @method hideButton
+	 * @param id of button
+	 * @return {Boolean} success
+	 */
+	hideButton:function (id) {
+        return this.buttonEffect(id, 'hide');
+	},
+	/**
+	 * Show a button on the button bar
+	 * @method showButton
+	 * @param id of button
+	 * @return {Boolean} success
+	 */
+	showButton:function (id) {
+        return this.buttonEffect(id, 'show');
+	},
+
+	getButtons:function () {
+        return this.buttonBarComponent ? this.buttonBarComponent.getButtons() : [];
+	},
+	/**
+	 * Disable a button on the button bar
+	 * @method disableButton
+	 * @param id
+	 * @return {Boolean} success
+	 */
+	disableButton:function (id) {
+        return this.buttonEffect(id, 'disable');
+	},
+	/**
+	 * Enable a button on the button bar
+	 * @method enableButton
+	 * @param id
+	 * @return {Boolean} success
+	 */
+	enableButton:function (id) {
+        return this.buttonEffect(id, 'enable');
+	},
+
+    buttonEffect:function(id,effect){
+        var button = this.getButtonByKey(id);
+        if (button) {
+            button[effect]();
+            return true;
+        }
+        return false;
+    },
+
+	getButtonByKey:function (key) {
+		if (this.buttonBarComponent) {
+			return this.buttonBarComponent.getButton(key);
+		}
+		for (var i = 0; i < this.buttons.length; i++) {
+			if (this.buttons[i].getId() === key || this.buttons[i].getValue() == key || this.buttons[i].getName() == key) {
+				return this.buttons[i];
+			}
+		}
+		return null;
+	},
+	/**
+	 * Is component resizable
+	 * @method isResizable
+	 * @return {Boolean}
+	 */
+	isResizable:function () {
+		return this.resizable;
+	},
+	stopMove:function (el, drag) {
+		this.getLayout().getRenderer().setPosition(drag.getX(), drag.getY());
+		/**
+		 * Event fired after moving Component
+		 * @event stopmove
+		 * @param {Object} Component
+		 */
+		this.fireEvent('stopmove', this);
+	}
 });/* ../ludojs/src/window.js */
 /**
 @class Window
@@ -15774,57 +13951,7 @@ ludo.dialog.Dialog = new Class({
 			this.hide();
 		}
 	}
-});/* ../ludojs/src/dialog/confirm.js */
-/**
-  Standard confirm dialog with default "OK" and "Cancel" buttons
-  @namespace dialog
-  @class Confirm
-  @extends Dialog
-  @constructor
-  @param {Object} config
-  @example
- 	new ludo.dialog.Confirm({
- 		html : 'Do you want to quit',
- 		buttons:[
- 			{
- 				value:'Yes,'type':'form.Button',width:60
- 			},
- 			{
- 				value:'No,'type':'form.Button',width:60
- 			}
- 		],
- 		listeners:{
- 			'yes':this.quit.bind(this)
- 		}
- 	});
-  will create a confirm dialog with two buttons, "Yes" and "No". When click on "Yes", the dialog will be
- closed and disposed and the quit method of the object creating the dialog will be called. On click on "No"
- the dialog will be closed and disposed(it's default behavior on button click) and the nothing else will happen.
- */
-ludo.dialog.Confirm = new Class({
-    Extends: ludo.dialog.Dialog,
-    type : 'dialog.Confirm',
-
-    ludoConfig : function(config){
-        if(!config.buttons && !config.buttonConfig && !config.buttonBar){
-            config.buttons = [
-                {
-                    value : 'OK',
-                    width : 60,
-					defaultSubmit:true,
-                    type : 'form.Button'
-                },
-                {
-                    value : 'Cancel',
-                    width : 60
-                }
-            ]
-        }
-        this.parent(config);
-    }
-});
-
-/* ../ludojs/src/dialog/alert.js */
+});/* ../ludojs/src/dialog/alert.js */
 /**
  @namespace dialog
  @class Alert
@@ -15870,7 +13997,2522 @@ ludo.dialog.Alert = new Class({
 	}
 });
 
-/* ../ludojs/src/form/validator/fns.js */
+/* ../ludojs/src/controller/manager.js */
+/**
+ * This class connects view modules and controllers
+ * @namespace controller
+ * @class Manager
+ * @extends Core
+ */
+ludo.controller.Manager = new Class({
+    Extends: ludo.Core,
+    controllers : [],
+    components : [],
+
+    registerController:function(controller){
+        this.controllers.push(controller);
+        for(var i=0;i<this.components.length;i++){
+            var c = this.components[i];
+            if(controller.shouldBeControllerFor(c)){
+                this.assignControllerTo(controller,c);
+            }
+        }
+    },
+
+    registerComponent:function(component){
+        if(!component.hasController()){
+            this.components.push(component);
+            var controller = this.getControllerFor(component);
+            if(controller){
+                this.assignControllerTo(controller,component);
+            }
+        }
+    },
+
+    getControllerFor:function(component){
+        for(var i=0;i<this.controllers.length;i++){
+            if(this.controllers[i].shouldBeControllerFor(component)){
+                return this.controllers[i];
+            }
+        }
+		return undefined;
+    },
+
+    assignSpecificControllerFor:function(controller, component){
+        if (typeof controller === "string") {
+            controller = ludo.get(controller);
+            if(controller){
+                this.assignControllerTo(controller,component);
+            }
+            return;
+        }
+        controller = component.createDependency('controller-' + String.uniqueID(), controller);
+        this.assignControllerTo(controller,component);
+    },
+
+    assignControllerTo:function(controller, component){
+        component.setController(controller);
+        controller.addBroadcastFor(component);
+        controller.addView(component);
+    }
+});
+
+ludo.controllerManager = new ludo.controller.Manager();/* ../ludojs/src/controller/controller.js */
+/**
+ * Base class for controllers
+ *
+ * A controller is by default controller for all components in the same namespace where
+ * the useController attribute is set to true. (namespace is
+ * determined by component's "type" attribute)
+ *
+ * You can use the "applyTo" attribute to override this default  applyTo is
+ * an array referring to the "module" and "submodule" property of components.
+ *
+ * example:
+ * @example
+ *  applyTo:["login", "register"]
+ *
+ * will set the controller as controller for all components in modules "login" and "register"
+ *
+ * When creating a new controller, you should extend this class and
+ * implement an addView method which takes component as only argument
+ * Example:
+ *
+ * @example
+ *  addView:function(view){
+ *      view.addEvent('someEvent', this.methodName.bind(this));
+ *  }
+ *
+ * This methods add events to the component.
+ *
+ * To let the component listen to controller events, implement the addController method
+ * for the component(it's defined in ludo.Core)
+ *
+ * @namespace controller
+ * @class controller.Controller
+ * @extends Core
+ */
+
+ludo.controller.Controller = new Class({
+	Extends:ludo.Core,
+	type:'controller.Controller',
+	/**
+	 * Apply controller to components in these modules.
+	 * By default a controller will be set as controller for all component
+	 * within the same namespace (name space is determined by parsing "type" attribute),
+	 * Example:
+	 *
+	 * You have created a Image Crop module within ludo.app.crop. You have these components there
+	 *
+	 * ludo.crop.GUI ( View component with type set to "crop.GUI")
+	 * ludo.crop.Coordinates (View component with type set to "crop.Coordinates")
+	 * ludo.crop.Controller (Controller with type set to "crop.Controller")
+	 *
+	 * The controller will in this example be set as controller for all components within
+	 * the "ludo.crop" namespace.
+	 *
+	 * (if useController for the component is set to true)
+	 * This property is used to override the default
+	 * @property applyTo
+	 * @type Array
+	 * @default undefined
+	 */
+	applyTo:undefined,
+	id:undefined,
+	components:[],
+	controller:undefined,
+	useController:false,
+
+	/**
+	 List of events which will be automatically broadcasted,i.e. re-fired by the controller
+
+	 @property broadcast
+	 @type Object
+	 @example
+	 	broadcast:{
+			'ns.Component' : ['eventOne',{'viewEventName':'controllerEventName}],
+			'ns.ComponentTwo' : ['send','receive']
+		}
+	 In this example, the controller will listen to "eventOne" and "viewEventName"  of view of "type"
+	 ns.Component and re-fire them so that other views can listen to them. The "viewEventName" will
+	 be re-fired as a "controllerEventName".
+	 */
+	broadcast:undefined,
+
+	ludoConfig:function (config) {
+		config = config || {};
+        config.controller = undefined;
+        config.useController = false;
+
+		this.parent(config);
+		if (config.broadcast)this.broadcast = config.broadcast;
+		ludo.controllerManager.registerController(this);
+		if (this['addView'] == undefined) {
+			alert('You need to implement an addView method for the controller (' + this.type + ')');
+		}
+	},
+
+	addBroadcastFor:function (component) {
+		if (this.broadcast && this.broadcast[component.type] !== undefined) {
+			var ev = this.broadcast[component.type];
+			for (var i = 0; i < ev.length; i++) {
+				var eventNames = this.getBroadcastEventNames(ev[i]);
+				component.addEvent(eventNames.component, this.getBroadcastFn(eventNames.controller).bind(this));
+			}
+		}
+	},
+
+	getBroadcastFn:function (eventName) {
+		return function () {
+			this.fireEvent(eventName, arguments);
+		}
+	},
+
+	getBroadcastEventNames:function (event) {
+		if (typeof event == 'object') {
+			for (var key in event) {
+				if (event.hasOwnProperty(key)) {
+					return { component:key, controller:event[key] };
+				}
+			}
+		}
+		return { component:event, controller:event };
+	},
+
+	shouldBeControllerFor:function (component) {
+		if(component === this)return false;
+		if (!this.applyTo) {
+			return this.isInSameNamespaceAs(component);
+		}
+		var key = this.getModuleKeyFor(component);
+		if (this.isAppliedDirectlyToModule(key)) {
+			return true;
+		}
+		return this.isAppliedIndirectlyToModule(key);
+	},
+
+	getModuleKeyFor:function (component) {
+		return component.module + (component.submodule ? '.' + component.submodule : '');
+	},
+
+	isAppliedDirectlyToModule:function (moduleKey) {
+		return (this.applyTo.indexOf(moduleKey) === 0);
+	},
+
+	isAppliedIndirectlyToModule:function (moduleKey) {
+		for (var i = 0; i < this.applyTo.length; i++) {
+			if (moduleKey.indexOf(this.applyTo[i]) === 0) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	isInSameNamespaceAs:function (component) {
+		return this.getNamespace() == component.getNamespace();
+	}
+});
+
+ludo.getController = function (controller) {
+	if (controller.substr) {
+		controller = ludo.get(controller);
+	}
+	return controller;
+};/* ../ludojs/src/menu/item.js */
+/**
+ * Class for menu items. MenuItems are created dynamically from config object(children of ludo.menu.Menu or ludo.menu.Context)
+ * @namespace menu
+ * @class MenuItem
+ * @extends View
+ */
+ludo.menu.Item = new Class({
+    Extends:ludo.View,
+    type:'menu.Item',
+    menu:null,
+    subMenu:null,
+    menuItems:[],
+    spacer:undefined,
+    /**
+     Path to menu item icon or text placed in the icon placeholder. If icon contains one
+     or more periods(.) it will be consider an image. Otherwise, config.icon will be displayed
+     as plain text
+     @config {String} icon
+     @default undefined
+     @example
+        icon: 'my-icon.jpg'
+     Sets icon to my-icon.jpg
+     @example
+        icon : '!'
+     sets icon to the character "!", i.e. text
+     */
+    icon:undefined,
+    orientation:'vertical',
+    /**
+     * Initially disable the menu item
+     * @config {Boolean} disabled
+     * @default false
+     */
+    disabled:false,
+
+    /**
+     * Text for menu item
+     * @config {String} label
+     * @default '' empty string
+     */
+    label:'',
+    /**
+     * Useful property if you want to apply only one click event for the menu
+     * and then determine which menu item was clicked. example:
+     *
+     * switch(menuItem.action){
+     *
+     *
+     *
+     * }
+     *
+     * @Attribute {String} action
+     * @type String
+     * @default undefined
+     */
+    action:undefined,
+    record:undefined,
+
+    /**
+     * Fire an event with this name on click
+     * @config {String} fire
+     * @default undefined
+     */
+    fire:undefined,
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['orientation', 'icon', 'record', 'value', 'label', 'action', 'disabled', 'fire']);
+
+        this.html = this.html || this.label;
+        if (this.html === '|') {
+            this.spacer = true;
+            this.layout.height = 1;
+		}else{
+			this.layout.height = this.layout.height || this.orientation === 'vertical' ? 25 : 'matchParent';
+        }
+
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        if (!this.isSpacer()) {
+            this.getEl().addEvents({
+                'click' : this.click.bind(this),
+                'mouseenter' : this.mouseOver.bind(this),
+                'mouseleave' : this.mouseOut.bind(this)
+            });
+        }
+    },
+
+    resizeDOM:function(){
+        this.parent();
+        this.getBody().style.lineHeight = this.cachedInnerHeight + 'px';
+    },
+	resizeParent:function(){
+
+	},
+
+    ludoDOM:function () {
+        this.parent();
+        ludo.dom.addClass(this.getEl(), 'ludo-menu-item');
+
+        if (this.isSpacer()) {
+            if (this.orientation === 'horizontal') {
+                this.getEl().setStyle('width', 1);
+            }
+            ludo.dom.addClass(this.getEl(), 'ludo-menu-item-spacer-' + this.orientation);
+        }
+
+        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-' + this.orientation);
+
+        if (this.icon) {
+            this.createIcon();
+        }
+
+        if (this.disabled) {
+            this.disable();
+        }
+
+		if(this.children.length){
+			var el = this.els.expand = new Element('div');
+		    ludo.dom.addClass(el, 'ludo-menu-item-expand');
+		    ludo.dom.addClass(el, 'ludo-menu-item-' + this.orientation + '-expand');
+		    this.getEl().adopt(el);
+		}
+    },
+
+    getLabel:function () {
+        return this.label;
+    },
+
+    getRecord:function () {
+        return this.record;
+    },
+
+    ludoRendered:function () {
+        this.parent();
+        if (this.isSpacer()) {
+            this.getBody().setStyle('visibility', 'hidden');
+        }
+    },
+
+    click:function () {
+        if (this.disabled) {
+            return;
+        }
+        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-down');
+        this.fireEvent('click', this);
+        if (this.fire)this.fireEvent(this.fire, this);
+    },
+
+
+
+    select:function () {
+        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-selected');
+    },
+
+    deselect:function () {
+        this.getEl().removeClass('ludo-menu-item-selected');
+    },
+
+    /**
+     * Disable menu item
+     * @method disable
+     * @return void
+     */
+    disable:function () {
+        this.disabled = true;
+        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-disabled');
+    },
+
+    /**
+     * Return disable state of menu item
+     * @method isDisabled
+     * @return {Boolean} disabled
+     */
+    isDisabled:function () {
+        return this.disabled;
+    },
+
+    /**
+     * Enable menu item
+     * @method enable
+     * @return void
+     */
+    enable:function () {
+        this.disabled = false;
+        this.getEl().removeClass('ludo-menu-item-disabled');
+    },
+
+    createIcon:function () {
+        var el = this.els.icon = new Element('div');
+        ludo.dom.addClass(el, 'ludo-menu-item-icon');
+        el.setStyles({
+            'background-position':'center center',
+            'background-repeat':'no-repeat',
+            'position':'absolute',
+            'text-align':'center',
+            'left':0,
+            'top':0,
+            'height':'100%'
+        });
+        if (this.icon.indexOf('.') >= 0) {
+            el.setStyle('background-image', 'url(' + this.icon + ')');
+        } else {
+            el.set('html', this.icon);
+        }
+        this.getEl().adopt(el);
+    },
+
+    mouseOver:function () {
+        if (!this.disabled) {
+            ludo.dom.addClass(this.getEl(), 'ludo-menu-item-over');
+        }
+        this.fireEvent('enterMenuItem', this);
+    },
+
+    mouseOut:function () {
+        if (!this.disabled) {
+            this.getEl().removeClass('ludo-menu-item-over');
+            this.getEl().removeClass('ludo-menu-item-down');
+            this.fireEvent('leaveMenuItem', this);
+        }
+    },
+
+    isSpacer:function () {
+        return this.spacer;
+    },
+
+    showMenu:function () {
+        this.menuHandler.showMenu(this);
+    }
+});/* ../ludojs/src/menu/menu.js */
+/**
+ * Menu class
+ * @namespace menu
+ * @class Menu
+ * @extends View
+ */
+ludo.menu.Menu = new Class({
+    Extends : ludo.View,
+    type : 'menu.Menu',
+    layout:{
+		type:'Menu',
+		orientation:'vertical',
+		width:'wrap',
+		height:'wrap'
+	},
+
+    addCoreEvents : function(){
+
+    }
+});
+
+
+/* ../ludojs/src/menu/context.js */
+/**
+ Context menu class. You can create one or more context menus for a component by using the
+ ludo.View.contextMenu config array,
+ @namespace menu
+ @class Context
+ @extends menu.Menu
+ @constructor
+ @param {Object} config
+ @example
+    new ludo.Window({
+           contextMenu:[{
+               selector : '.my-selector',
+               children:[{label:'Menu Item 1'},{label:'Menu item 2'}],
+               listeners:{
+                   click : function(menuItem, menu){
+                       // Do something
+                   }
+               }
+
+           }]
+      });
+ */
+ludo.menu.Context = new Class({
+	Extends:ludo.View,
+	type:'menu.Context',
+
+	layout:{
+		type:'Menu',
+		orientation:'vertical',
+		width:'wrap',
+		height:'wrap',
+		active:true,
+		isContext:true
+	},
+
+	renderTo:document.body,
+	/**
+	 Show context menu only for DOM nodes matching a CSS selector. The context menu will also
+	 be shown if a match is found in one of the parent DOM elements.
+	 @attribute selector
+	 @type String
+	 @default undefined
+	 @example
+	    selector : '.selected-records'
+	 */
+	selector:undefined,
+	component:undefined,
+
+	// TODO change this code to record:{ keys that has to match }, example: record:{ type:'country' }
+
+	/**
+	 Show context menu for records with these properties
+	 @config {Object} record
+	 @default undefined
+	 @example
+	 */
+	record:undefined,
+	/**
+	 Show context menu only for records of a specific type. The component creating the context
+	 menu has to have a getRecordByDOM method in order for this to work. These methods are already
+	 implemented for tree.Tree and grid.Grid
+
+	 @attribute recordType
+	 @type String
+	 @default undefined
+	 @example
+	 recordType : 'city'
+	 */
+	recordType:undefined,
+
+	/**
+	 * Add context menu to this DOM element
+	 * @config {String|HTMLElement} contextEl
+	 * @default undefined
+	 */
+	contextEl:undefined,
+
+	ludoConfig:function (config) {
+		this.renderTo = document.body;
+		this.parent(config);
+		this.setConfigParams(config, ['selector', 'recordType', 'record', 'applyTo','contextEl']);
+		if (this.recordType)this.record = { type:this.recordType };
+	},
+
+	ludoDOM:function () {
+		this.parent();
+		this.getEl().style.position = 'absolute';
+	},
+	ludoEvents:function () {
+		this.parent();
+		document.id(document.documentElement).addEvent('click', this.hideAfterDelay.bind(this));
+		if(this.contextEl){
+			document.id(this.contextEl).addEvent('contextmenu', this.show.bind(this));
+		}
+	},
+
+	hideAfterDelay:function () {
+		if (!this.isHidden()) {
+			this.hide.delay(50, this);
+		}
+	},
+
+	ludoRendered:function () {
+		this.parent();
+		this.hide();
+	},
+
+	/**
+	 * when recordType property is defined, this will return the selected record of parent applyTo,
+	 * example: record in a tree
+	 * @method getSelectedRecord
+	 * @return object record
+	 */
+	getSelectedRecord:function () {
+		return this.selectedRecord;
+	},
+
+	show:function (e) {
+		if (this.selector) {
+			var domEl = this.getValidDomElement(e.target);
+			if (!domEl) {
+				return undefined;
+			}
+			this.fireEvent('selectorclick', domEl);
+		}
+		if (this.record) {
+			var r = this.applyTo.getRecordByDOM(e.target);
+			if (!r)return undefined;
+			if (this.isContextMenuFor(r)) {
+				this.selectedRecord = r;
+			}
+		}
+
+        ludo.EffectObject.fireEvents();
+
+		this.getLayout().hideAllMenus();
+		this.parent();
+		if (!this.getParent()) {
+			var el = this.getEl();
+			var pos = this.getXAndYPos(e);
+			el.style.left = pos.x + 'px';
+			el.style.top = pos.y + 'px';
+		}
+		return false;
+	},
+
+	isContextMenuFor:function (record) {
+		for (var key in this.record) {
+			if (this.record.hasOwnProperty(key))
+				if (!record[key] || this.record[key] !== record[key])return false;
+		}
+		return true;
+	},
+
+	getXAndYPos:function (e) {
+		var ret = {
+			x:e.page.x,
+			y:e.page.y
+		};
+		var clientWidth = document.body.clientWidth;
+		var clientHeight = document.body.clientHeight;
+		var size = this.getEl().getSize();
+		var x = ret.x + size.x;
+		var y = ret.y + size.y;
+
+		if (x > clientWidth) {
+			ret.x -= (x - clientWidth);
+		}
+		if (y > clientHeight) {
+			ret.y -= (y - clientHeight);
+		}
+		return ret;
+	},
+
+	addCoreEvents:function () {
+
+	},
+
+	getValidDomElement:function (el) {
+		if (!this.selector) {
+			return true;
+		}
+		var selector = this.selector.replace(/[\.#]/g, '');
+		if (el.hasClass(selector) || el.id == selector) {
+			return el;
+		}
+		var parent = el.getParent(this.selector);
+		if (parent) {
+			return parent;
+		}
+		return false;
+	}
+});/* ../ludojs/src/menu/drop-down.js */
+/**
+ * @namespace menu
+ * @class DropDown
+ * @extends menu.Menu
+ *
+ */
+ludo.menu.DropDown = new Class({
+    Extends:ludo.menu.Menu,
+    type:'menu.DropDown',
+
+    ludoConfig:function (config) {
+        config.renderTo = document.body;
+        this.parent(config);
+		this.setConfigParams(config, ['applyTo']);
+		this.layout.below = this.layout.below || this.applyTo;
+		this.layout.alignLeft = this.layout.alignLeft || this.applyTo;
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        document.id(document.documentElement).addEvent('click', this.hideAfterDelay.bind(this));
+    },
+
+    hideAfterDelay:function () {
+        if (!this.isHidden()) {
+            this.hide.delay(50, this);
+        }
+    },
+
+    toggle:function(){
+        if(this.isHidden()){
+            this.show();
+        }else{
+            this.hide();
+        }
+    }
+});/* ../ludojs/src/menu/button.js */
+/**
+ Menu button arrow which you can apply to DOM Element to have a menu drop down
+ below it.
+ @namespace menu
+ @class Button
+ @extends Core
+ */
+ludo.menu.Button = new Class({
+    Extends:ludo.Core,
+    width:15,
+    // TODO refactor this class
+    /**
+     * Render button to this element
+     * @attribute renderTo
+     * @type {String}|DOMElement
+     * @default undefined
+     */
+    renderTo:undefined,
+
+    /**
+     * Button always visible. When false, it will be visible when mouse enters
+     * parent DOM element and hidden when it leaves it
+     * @attribute alwaysVisible
+     * @type {Boolean}
+     * default false
+     */
+    alwaysVisible:false,
+
+    /**
+     * Position button in this region. Valid values : 'nw','ne','sw' and 'se'
+     * @attribute region
+     * @type String
+     * @default 'ne'
+     */
+    region:'ne',
+
+    el:undefined,
+
+    /**
+     * Configuration object for the object to show on click on button
+     * @attribute menu
+     * @type {View}
+     * @default undefined
+     */
+    menu:undefined,
+
+    menuCreated:false,
+
+    autoPosition:true,
+
+    toggleOnClick:false,
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['alwaysVisible', 'region', 'renderTo', 'menu', 'autoPosition','toggleOnClick']);
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        this.ludoDOM();
+        this.createButtonEvents();
+    },
+
+    ludoDOM:function () {
+        var el = this.el = new Element('div');
+        el.id = 'ludo-menu-button-' + String.uniqueID();
+        ludo.dom.addClass(el, 'ludo-menu-button');
+        document.id(this.renderTo).adopt(el);
+        el.setStyles({
+            position:'absolute',
+            height:'100%'
+        });
+        this.createButtonEl();
+        this.positionButton();
+    },
+
+    createButtonEvents:function () {
+        this.buttonEl.addEvent('click', this.toggle.bind(this));
+        ludo.EffectObject.addEvent('start', this.hideMenu.bind(this));
+
+        this.buttonEl.addEvent('mouseenter', this.enterButton.bind(this));
+        this.buttonEl.addEvent('mouseleave', this.leaveButton.bind(this));
+
+        if (!this.alwaysVisible) {
+            var el = document.id(this.renderTo);
+            el.addEvent('mouseenter', this.show.bind(this));
+            el.addEvent('mouseleave', this.hide.bind(this));
+            this.hide();
+        } else {
+            this.show();
+        }
+    },
+
+    enterButton:function(){
+        ludo.dom.addClass(this.el, 'ludo-menu-button-over');
+    },
+    leaveButton:function(){
+        ludo.dom.removeClass(this.el, 'ludo-menu-button-over');
+    },
+    toggle:function(e){
+        e.stop();
+        if(this.toggleOnClick && this.menuCreated){
+            this.menu[this.menu.isHidden() ? 'show' : 'hide']();
+        }else{
+            this.showMenu();
+        }
+    },
+
+    createButtonEl:function () {
+        var el = this.buttonEl = new Element('div');
+        ludo.dom.addClass(el, 'ludo-menu-button-arrow');
+        this.getEl().adopt(el);
+    },
+
+    positionButton:function () {
+        var e = this.getEl();
+        var r = this.region;
+        if (r == 'ne' || r == 'se')e.setStyle('right', 0);
+        if (r == 'nw' || r == 'sw')e.setStyle('left', 0);
+        if (r == 'se' || r == 'sw')e.setStyle('bottom', 0);
+        if (r == 'ne' || r == 'nw')e.setStyle('top', 0);
+    },
+
+    getEl:function () {
+        return this.el;
+    },
+
+    showMenu:function () {
+        if (!this.menuCreated) {
+            this.createMenuView();
+        }
+        if (this.menu._button && this.menu._button !== this.id) {
+            var el = ludo.get(this.menu._button);
+            if (el)el.hideButton();
+        }
+
+        this.menu._button = this.id;
+        this.menu.show();
+
+        this.positionMenu();
+        this.fireEvent('show', this);
+    },
+
+    /**
+     This method should be called from function added as event handler to "beforeShow"
+     @method cancelShow
+     @example
+     button.addEvent('beforeShow', function(button){
+	 		if(!this.isOkToShowButton()){
+	 			button.cancel();
+	 		}
+	 	});
+     */
+    cancelShow:function () {
+        this.okToShowButton = false;
+    },
+
+    hideMenu:function () {
+        if(this.menu.hidden)return;
+        if (this.menu.hide !== undefined){
+            if(this.menu.getLayout().hideAllMenus)this.menu.getLayout().hideAllMenus();
+            this.menu.hide();
+        }
+        this.hide();
+    },
+
+    createMenuView:function () {
+        if (this.menu.id) {
+            var menu = ludo.get(this.menu.id);
+            if (menu)this.menu = menu;
+        }
+        this.menuCreated = true;
+        if (this.menu.getEl === undefined) {
+            this.menu.renderTo = document.body;
+            this.menu.type = this.menu.type || 'View';
+            this.menu.hidden = true;
+            this.menu = this.createDependency('menuForButton', this.menu);
+            this.menu._button = this.getEl().id;
+            document.body.addEvent('mouseup', this.autoHideMenu.bind(this));
+        } else {
+            document.body.adopt(this.menu.getEl());
+        }
+
+        this.menu.addEvent('show', this.showIf.bind(this));
+        this.menu.addEvent('hide', this.hideButton.bind(this));
+        this.menu.getEl().style.position = 'absolute';
+        this.menu.getEl().addClass('ludo-menu-button-menu');
+    },
+
+    positionMenu:function () {
+        if (this.autoPosition) {
+            var pos = this.el.getCoordinates();
+            this.menu.resize({
+                left:pos.left,
+                top:pos.top + pos.height
+            });
+        }
+    },
+
+    showIf:function () {
+        if (this.menu._button === this.id) {
+            this.show();
+        }
+    },
+
+    okToShowButton:false,
+
+    show:function () {
+        this.okToShowButton = true;
+        /**
+         * Event fired before button is shown. You can use this event and call
+         * the cancel method if there are situations where you don't always want to show the button
+         * @event beforeShow
+         * @param {menu.Button} this
+         */
+        this.fireEvent('beforeShow', this);
+
+        if (this.okToShowButton) {
+            this.buttonEl.style.display = '';
+            ludo.dom.addClass(this.el, 'ludo-menu-button-active');
+        }
+    },
+
+    hide:function () {
+        if (this.menu === undefined || this.menu.isHidden === undefined || this.menu.isHidden()) {
+            this.hideButton();
+        } else if (this.menu._button !== this.id) {
+            this.hideButton();
+        }
+    },
+
+    hideButton:function () {
+        if (this.alwaysVisible)return;
+        this.buttonEl.style.display = 'none';
+        ludo.dom.removeClass(this.el, 'ludo-menu-button-active');
+    },
+    getMenuView:function () {
+        return this.menu;
+    },
+
+    autoHideMenu:function (e) {
+        if (!this.menu || this.menu.hidden)return;
+        if (!ludo.dom.isInFamilies(e.target, [this.el.id, this.menu.getEl().id])) {
+            this.hideMenu();
+            this.hideButton();
+        }
+    }
+});/* ../ludojs/src/canvas/paint.js */
+/**
+ Class for styling of SVG DOM nodes
+ @namespace canvas
+ @class Paint
+ @constructor
+ @param {Object} config
+ @example
+ 	var canvas = new ludo.canvas.Canvas({
+		renderTo:'myDiv'
+ 	});
+
+ 	var paint = new ludo.canvas.Paint({
+		'stroke-width' : 5,
+		'stroke-opacity' : .5,
+		'stroke-color' : '#DEF'
+	}, { className : 'MyClass' );
+ 	canvas.adoptDef(paint); // Appended to &lt;defs> node
+
+ 	// create node and set "class" to paint
+ 	// alternative methods:
+ 	// paint.applyTo(node); and
+ 	// node.addClass(paint.getClassName());
+	var node = new ludo.canvas.Node('rect', { id:'myId2', 'class' : paint});
+
+ 	canvas.adopt(node);
+
+ 	// Paint object for all &lt;rect> and &lt;circle> tags:
+
+	var gradient = new ludo.canvas.Gradient({
+        id:'myGradient'
+    });
+    canvas.adopt(gradient);
+    gradient.addStop('0%', '#0FF');
+    gradient.addStop('100%', '#FFF', 0);
+    // New paint object applied to all &lt;rect> and &lt;circle> tags.
+ 	var paint = new ludo.canvas.Paint({
+		'stroke-width' : 5,
+		'fill' : gradient,
+		'stroke-opacity' : .5,
+		'stroke-color' : '#DEF'
+	}, { selectors : 'rect, circle' );
+ */
+
+ludo.canvas.Paint = new Class({
+	Extends:ludo.canvas.Node,
+	tagName:'style',
+	css:{},
+	nodes:[],
+	className:undefined,
+	tag:undefined,
+	cssPrefix : undefined,
+
+	mappings:{
+		'color':['stroke-color'],
+		'background-color':['fill-color'],
+		'opacity':['fill-opacity', 'stroke-opacity']
+	},
+
+	initialize:function (css, config) {
+		config = config || {};
+		this.className = config.className || 'css-' + String.uniqueID();
+		this.cssPrefix = config.selectors ? config.selectors : '.' + this.className;
+		if(config.selectors)delete config.selectors;
+		if(config.className)delete config.className;
+		this.parent(this.tagName, config);
+		if (css !== undefined)this.setStyles(css);
+	},
+
+	setStyles:function (styles) {
+		Object.each(styles, function (value, key) {
+			this.setStyleProperty(key, value);
+		}, this);
+		this.updateCssContent();
+	},
+
+	/**
+	 Update a css style
+	 @method setStyle
+	 @param {String} style
+	 @param {String|Number}value
+	 @example
+	 	var paint = new ludo.canvas.Paint({
+	 		css:{
+	 			'stroke-opacity' : 0.5
+	 		}
+	 	});
+	 	canvas.adopt(paint);
+	 	paint.setStyle('stroke-opacity', .2);
+	 */
+	setStyle:function (style, value) {
+		this.setStyleProperty(style, value);
+		this.updateCssContent();
+	},
+
+	updateCssContent:function () {
+		var css = JSON.encode(this.css);
+		css  = css.replace(/"/g,"");
+		css  = css.replace(/,/g,";");
+		this.text(this.cssPrefix + css);
+	},
+
+	setStyleProperty:function (style, value) {
+		value = this.getRealValue(value);
+		if (this.mappings[style]) {
+			this.setMapped(style, value);
+		} else {
+			this.css[style] = value;
+		}
+	},
+
+	setMapped:function (style, value) {
+		for (var i = 0; i < this.mappings[style].length; i++) {
+			var m = this.mappings[style][i];
+			this.css[m] = value;
+		}
+	},
+
+	/**
+	 * Return value of a css style
+	 * @method getStyle
+	 * @param {String} style
+	 * @return {String|Number} value
+	 */
+	getStyle:function (style) {
+		if (this.mappings[style])style = this.mappings[style][0];
+		return this.css[style];
+	},
+
+	getRealValue:function (value) {
+		return value && value.id !== undefined ? 'url(#' + value.id + ')' : value;
+	},
+
+	/**
+	 * Apply css to a SVG node. This is done by adding CSS class to the node
+	 * @method applyTo
+	 * @param {canvas.Node} node
+	 */
+	applyTo:function (node) {
+		ludo.canvasEngine.addClass(node.el ? node.el : node, this.className);
+	},
+
+	/**
+	 * Returns class name of Paint object
+	 * @method getClassName
+	 * @return {String} className
+	 */
+	getClassName:function () {
+		return this.className;
+	},
+
+	getUrl:function(){
+		return this.className;
+	}
+});
+/* ../ludojs/src/canvas/named-node.js */
+/**
+ * Super class for canvas.Circle, canvas.Rect +++
+ * @namespace canvas
+ * @class NamedNode
+ */
+ludo.canvas.NamedNode = new Class({
+	Extends: ludo.canvas.Node,
+
+	initialize:function (attributes, text) {
+        attributes = attributes || {};
+		if(attributes.listeners){
+			this.addEvents(attributes.listeners);
+			delete attributes.listeners;
+		}
+		this.parent(this.tagName, attributes, text);
+	}
+});/* ../ludojs/src/canvas/path.js */
+/**
+ * Returns a path SVG element which can be adopted to a canvas.
+ * @namespace canvas
+ * @class Path
+ */
+ludo.canvas.Path = new Class({
+    Extends:ludo.canvas.NamedNode,
+    tagName:'path',
+    pointString:undefined,
+    pointArray:undefined,
+    size:undefined,
+    position:undefined,
+
+    initialize:function (points, properties) {
+        properties = properties || {};
+        if (points) {
+            points = this.getValidPointString(points);
+            properties.d = points;
+        }
+        this.parent(properties);
+        this.pointString = points;
+    },
+
+    getValidPointString:function (points) {
+        return points.replace(/([A-Z])/g, '$1 ').trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
+    },
+
+    setPath:function (path) {
+        this.pointString = this.getValidPointString(path);
+        this.pointArray = undefined;
+        this.set('d', this.pointString);
+    },
+
+    getPoint:function (index) {
+        if (this.pointArray === undefined)this.buildPointArray();
+        index *= 3;
+        return {
+            x:this.pointArray[index + 1],
+            y:this.pointArray[index + 2]
+        };
+    },
+
+    setPoint:function (index, x, y) {
+        if (this.pointArray === undefined)this.buildPointArray();
+        index *= 3;
+        if (index < this.pointArray.length - 3) {
+            this.pointArray[index + 1] = x;
+            this.pointArray[index + 2] = y;
+            this.pointString = this.pointArray.join(' ');
+            this.set('d', this.pointString);
+            this.size = undefined;
+            this.position = undefined;
+        }
+    },
+
+    buildPointArray:function () {
+        var points = this.pointString.replace(/,/g, ' ').replace(/\s+/g, ' ');
+        this.pointArray = points.split(/([A-Z\s])/g).erase(" ").erase("");
+    },
+    /**
+     * Get size of polyline (max X - min X) and (max X - min Y)
+     * @method getSize
+     * @return {Object} x and y
+     */
+    getSize:function () {
+        if (this.size === undefined) {
+            var minMax = this.getMinAndMax();
+            this.size = {
+                x:Math.abs(minMax.maxX - minMax.minX),
+                y:Math.abs(minMax.maxY - minMax.minY)
+            };
+        }
+        return this.size;
+    },
+
+    getPosition:function () {
+        if (this.position === undefined) {
+            var minMax = this.getMinAndMax();
+            this.position = {
+                x:minMax.minX,
+                y:minMax.minY
+            };
+        }
+        return this.position;
+    },
+
+    getMinAndMax:function () {
+        if (this.pointArray === undefined)this.buildPointArray();
+        var p = this.pointArray;
+        var x = [];
+        var y = [];
+        for (var i = 0; i < p.length - 2; i += 3) {
+            x.push(p[i + 1]);
+            y.push(p[i + 2]);
+        }
+        return {
+            minX:Math.min.apply(this, x), minY:Math.min.apply(this, y),
+            maxX:Math.max.apply(this, x), maxY:Math.max.apply(this, y)
+        };
+    }
+});/* ../ludojs/src/remote/inject.js */
+/**
+ * Class for injecting data to specific resource/service requests
+ * @namespace {remote}
+ * @class Inject
+ */
+ludo.remote.Inject = new Class({
+
+	data:{},
+
+	/**
+	 Add data to be posted with the next request.
+	 @method add
+	 @param resourceService
+	 @param data
+	 @example
+	 	ludo.remoteInject.add('Person/save', {
+	 		'customParam' : 'customValue'
+	 	});
+	 */
+	add:function(resourceService, data){
+		var tokens = resourceService.split(/\//g);
+		var resource = tokens[0];
+		var service = tokens[1];
+		if(this.data[resource] === undefined){
+			this.data[resource] = {};
+		}
+		this.data[resource][service] = data;
+	},
+
+	get:function(resource, service){
+		if(this.data[resource] && this.data[resource][service]){
+			var ret = this.data[resource][service];
+			delete this.data[resource][service];
+			return ret;
+		}
+		return undefined;
+	}
+
+});
+
+ludo.remoteInject = new ludo.remote.Inject();
+/* ../ludojs/src/remote/base.js */
+/**
+ * Base class for ludo.remote.HTML and ludo.remote.JSON
+ * @namespace remote
+ * @class Base
+ */
+ludo.remote.Base = new Class({
+	Extends:Events,
+	remoteData:undefined,
+	method:'post',
+	
+	initialize:function (config) {
+		config = config || {};
+		if (config.listeners !== undefined) {
+			this.addEvents(config.listeners);
+		}
+		this.method = config.method || this.method;
+		if (config.resource !== undefined) this.resource = config.resource;
+		if (config.url !== undefined) this.url = config.url;
+
+		if (config.shim) {
+			new ludo.remote.Shim({
+				renderTo:config.shim.renderTo,
+				remoteObj:this,
+				txt:config.shim.txt
+			});
+		}
+	},
+
+	send:function (service, resourceArguments, serviceArguments, additionalData) {
+
+		this.remoteData = undefined;
+
+		if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
+		ludo.remoteBroadcaster.clear(this, service);
+
+		this.fireEvent('start');
+
+		this.sendToServer(service, resourceArguments, serviceArguments, additionalData);
+	},
+
+	onComplete:function () {
+		this.fireEvent('complete', this);
+	},
+	/**
+	 * Return url for the request
+	 * @method getUrl
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @return {String}
+	 * @protected
+	 */
+	getUrl:function (service, arguments) {
+		var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
+		if (ludo.config.hasModRewriteUrls()) {
+			ret = ludo.config.getDocumentRoot() + this.getServicePath(service, arguments);
+		} else {
+			ret = this.url !== undefined ? ludo.util.isFunction(this.url) ? this.url.call() : this.url : ludo.config.getUrl();
+		}
+		return ret;
+	},
+	/**
+	 * @method getServicePath
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @return {String}
+	 * @protected
+	 */
+	getServicePath:function (service, arguments) {
+		var parts = [this.resource];
+		if (arguments && arguments.length)parts.push(arguments.join('/'));
+		if (service)parts.push(service);
+		return parts.join('/');
+	},
+	/**
+	 * @method getDataForRequest
+	 * @param {String} service
+	 * @param {Array} arguments
+	 * @param {Object} data
+	 * @optional
+	 * @param {Object} additionalData
+	 * @optional
+	 * @return {Object}
+	 * @protected
+	 */
+	getDataForRequest:function (service, arguments, data, additionalData) {
+		var ret = {
+			data:data
+		};
+		if (additionalData) {
+			if (ludo.util.isObject(additionalData)) {
+				ret = Object.merge(additionalData, ret);
+			}
+		}
+		if (!ludo.config.hasModRewriteUrls() && this.resource) {
+			ret.request = this.getServicePath(service, arguments);
+		}
+
+		var injected = ludo.remoteInject.get(this.resource, service);
+		if(injected){
+			ret.data = ret.data ? Object.merge(ret.data, injected) : injected;
+		}
+
+		return ret;
+	},
+	/**
+	 * Return "code" property of last received server response.
+	 * @method getResponseCode
+	 * @return {String|undefined}
+	 */
+	getResponseCode:function () {
+		return this.remoteData && this.remoteData.code ? this.remoteData.code : 0;
+	},
+	/**
+	 * Return response message
+	 * @method getResponseMessage
+	 * @return {String|undefined}
+	 */
+	getResponseMessage:function () {
+		return this.remoteData && this.remoteData.message ? this.remoteData.message : undefined;
+	},
+
+	/**
+	 * Return name of resource
+	 * @method getResource
+	 * @return {String}
+	 */
+	getResource:function(){
+		return this.resource;
+	},
+
+	sendBroadCast:function(service){
+		ludo.remoteBroadcaster.broadcast(this, service);
+	}
+});/* ../ludojs/src/remote/json.js */
+/**
+ * LudoJS class for remote JSON queries. Remote queries in ludoJS uses a REST-like API where you have
+ * resources, arguments, service and data. An example of resource is Person and City. Example of
+ * services are "load", "save". Arguments are arguments used when instantiating the resource on the
+ * server, example: Person with id 1. The "data" property is used for data which should be sent to
+ * the service on the server. Example: For Person with id equals 1, save these data.
+ * @namespace remote
+ * @class JSON
+ * @extends Events
+ */
+ludo.remote.JSON = new Class({
+    Extends:ludo.remote.Base,
+
+    /**
+     * Name of resource to request, example: "Person"
+     * @config {String} resource
+     */
+    resource:undefined,
+    /**
+     * Optional url to use for the query instead of global set url.
+     * @config {String} url
+     * optional
+     */
+    url:undefined,
+
+    initialize:function (config) {
+		this.parent(config);
+    },
+
+    /**
+     Send request to the server
+     @method send
+     @param {String} service
+     @param {Array} resourceArguments
+     @optional
+     @param {Object} serviceArguments
+     @optional
+     @example
+        ludo.config.setUrl('/controller.php');
+        var req = new ludo.remote.JSON({
+            resource : 'Person'
+        });
+        req.send('load', 1);
+
+     Will trigger the following data to be sent to controller.php:
+
+     @example
+		 {
+			 request:"Person/1/load"
+		 }
+     If you have the mod_rewrite module enabled and activated on your web server, you may use code like this:
+     @example
+	 	ludo.config.enableModRewriteUrls();
+        ludo.config.setDocumentRoot('/');
+        var req = new ludo.remote.JSON({
+            resource : 'Person'
+        });
+        req.send('load', 1);
+
+     which will send a request to the following url:
+     @example:
+        http://<your web server url>/Person/1/load
+     The query will not contain any POST data.
+
+     Here's another example for saving data(mod rewrite deactivated)
+     @example
+	     ludo.config.setUrl('/controller.php');
+         var req = new ludo.remote.JSON({
+            resource : 'Person'
+        });
+         req.send('save', 1, {
+            "firstname": "John",
+            "lastname": "Johnson"
+         });
+
+     which will send the following POST data to "controller.php":
+
+     @example
+        {
+            "request": "Person/1/save",
+            "data": {
+                "firstname": "John",
+                "lastname": McCarthy"
+            }
+        }
+     When mod_rewrite is enabled, the request will be sent to the url /Person/1/save and POST data will contain
+
+        {
+            "data": {
+                "firstname": "John",
+                "lastname": "McCarthy"
+            }
+        }
+     i.e. without any "request" data in the post variable since it's already defined in the url.
+     @param {Object} additionalData
+     @optional
+     */
+    sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
+
+		if(resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
+        // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
+        // TODO the events here should be fired for the components sending the request.
+
+		this.fireEvent('start', this);
+        this.sendBroadCast(service);
+        var req = new Request.JSON({
+            url:this.getUrl(service, resourceArguments),
+            method:this.method,
+            noCache:true,
+            data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
+            onSuccess:function (json) {
+                this.remoteData = json;
+                if (json.success || json.success === undefined) {
+                    this.fireEvent('success', this);
+                } else {
+                    this.fireEvent('failure', this);
+                }
+                this.sendBroadCast(service);
+				this.onComplete();
+            }.bind(this),
+            onError:function (text, error) {
+                this.remoteData = { "code": 500, "message": error };
+                this.fireEvent('servererror', this);
+                this.sendBroadCast(service);
+                this.onComplete();
+            }.bind(this)
+        });
+        req.send();
+    },
+    /**
+     * Return JSON response data from last request.
+     * @method getResponseData
+     * @return {Object|undefined}
+     */
+    getResponseData:function () {
+		if(!this.remoteData.response)return undefined;
+        return this.remoteData.response.data ? this.remoteData.response.data : this.remoteData.response;
+    },
+
+    /**
+     * Return entire server response of last request.
+     * @method getResponse
+     * @return {Object|undefined}
+     */
+    getResponse:function () {
+        return this.remoteData;
+    },
+    /**
+     * Set name of resource
+     * @method setResource
+     * @param {String} resource
+     */
+    setResource:function(resource){
+        this.resource = resource;
+    }
+});
+/* ../ludojs/src/remote/html.js */
+/**
+ Class for remote HTML requests.
+ @namespace remote
+ @class HTML
+ */
+ludo.remote.HTML = new Class({
+	Extends:ludo.remote.Base,
+	HTML:undefined,
+
+	sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
+		var req = new Request({
+			url:this.getUrl(service, resourceArguments),
+			method:this.method,
+			noCache:true,
+			evalScripts:true,
+			data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
+			onSuccess:function (html) {
+				this.remoteData = html;
+				this.fireEvent('success', this);
+				this.sendBroadCast(service);
+				this.onComplete();
+			}.bind(this),
+			onError:function (text, error) {
+				this.remoteData = { "code":500, "message":error };
+				this.fireEvent('servererror', this);
+				this.sendBroadCast(service);
+				this.onComplete();
+			}.bind(this)
+		});
+		req.send();
+	},
+	/**
+	 * Return JSON response data from last request.
+	 * @method getResponseData
+	 * @return {Object|undefined}
+	 */
+	getResponseData:function () {
+		return this.remoteData;
+	},
+
+	/**
+	 * Return entire server response of last request.
+	 * @method getResponse
+	 * @return {Object|undefined}
+	 */
+	getResponse:function () {
+		return this.remoteData;
+	}
+});/* ../ludojs/src/remote/broadcaster.js */
+/**
+ Singleton class responsible for broadcasting messages from remote requests.
+ Instance of this class is available in ludo.remoteBroadcaster.
+
+ The broadcaster can fire four events:
+ start, success, failure and serverError. The example below show you how
+ to add listeners to these events.
+ @namespace remote
+ @class Broadcaster
+ @example
+    ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+		// Do something
+	});
+ */
+ludo.remote.Broadcaster = new Class({
+    Extends:Events,
+
+    defaultMessages:{},
+    /**
+     * @method broadcast
+     * @param {ludo.remote.JSON} request
+     * @param {String} service
+     * @private
+     */
+    broadcast:function (request, service) {
+        var code = request.getResponseCode();
+
+		var type, eventNameWithService;
+        switch (code) {
+			case 0:
+				type = 'start';
+				break;
+            case 200:
+				type = 'success';
+                break;
+            default:
+				type = 'failure';
+                break;
+        }
+
+		var eventName = this.getEventName(type, request.getResource());
+
+		if(eventName){
+			eventNameWithService = this.getEventName(type, request.getResource(), service);
+		}else{
+            eventName = this.getEventName('serverError', request.getResource());
+            eventNameWithService = this.getEventName('serverError', request.getResource(), service);
+        }
+
+        var eventObj = {
+            "message":request.getResponseMessage(),
+            "code":request.getResponseCode(),
+            "resource":request.getResource(),
+            "service":service,
+            "type": type
+        };
+        if (!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
+        this.fireEvent(eventName, eventObj);
+        if (service) {
+            this.fireEvent(eventNameWithService, eventObj);
+        }
+    },
+
+    getDefaultMessage:function (key) {
+        return this.defaultMessages[key] ? this.defaultMessages[key] : '';
+    },
+
+    clear:function (request, service) {
+        var eventObj = {
+            "message":request.getResponseMessage(),
+            "code":request.getResponseCode(),
+            "resource":request.getResource(),
+            "service":service
+        };
+        var eventName = this.getEventName('clear', eventObj.resource);
+        var eventNameWithService = this.getEventName('clear', eventObj.resource, service);
+
+        this.fireEvent(eventName, eventObj);
+        if (service) {
+            this.fireEvent(eventNameWithService, eventObj);
+        }
+    },
+
+    getEventName:function (eventType, resource, service) {
+        resource = resource || '';
+        service = service || '';
+        return [resource, service, eventType.capitalize(), 'Message'].join('');
+    },
+
+    /**
+     Listen to events from remote requests. EventType is either
+     success, failure or serverError. resource is a name of resource
+     specified in the request.
+     @method addResourceEvent
+     @param {String} eventType
+     @param {String} resource
+     @param {Function} fn
+     @example
+        ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
+            this.getBody().set('html', response.message');
+        }.bind(this));
+     The event payload is an object in this format:
+     @example
+         {
+             "code": 200,
+             "message": "A message",
+             "resource": "Which resource",
+             "service": "Which service"
+         }
+     */
+    addResourceEvent:function (eventType, resource, fn) {
+        this.addEvent(this.getEventName(eventType, resource), fn);
+    },
+    /**
+     Listen to remote events from a specific service only.
+     @method addResourceEvent
+     @param {String} eventType
+     @param {String} resource
+     @param {Array} services
+     @param {Function} fn
+     @example
+        ludo.remoteBroadcaster.addEvent('failure', 'Person', ['save'], function(response){
+            this.getBody().set('html', response.message');
+        }.bind(this));
+     The event payload is an object in this format:
+     @example
+         {
+             "code": 200,
+             "message": "A message",
+             "resource": "Which resource",
+             "service": "Which service"
+         }
+     */
+    addServiceEvent:function (eventType, resource, services, fn) {
+        if (!services.length) {
+            this.addEvent(this.getEventName(eventType, resource, undefined), fn);
+        } else {
+            for (var i = 0; i < services.length; i++) {
+                this.addEvent(this.getEventName(eventType, resource, services[i]), fn);
+            }
+        }
+    },
+
+    /**
+     Specify default response messages for resource service
+     @method setDefaultMessage
+     @param {String} message
+     @param {String} eventType
+     @param {String} resource
+     @param {String} service
+     @example
+        ludo.remoteBroadcaster.setDefaultMessage('You have registered successfully', 'success', 'User', 'register');
+     */
+    setDefaultMessage:function (message, eventType, resource, service) {
+        this.defaultMessages[this.getEventName(eventType, resource, service)] = message;
+    },
+
+	eventObjToBuild :{},
+    /**
+     Chained method for adding broadcaster events.
+     @method withResourceService
+     @param {String} resourceAndService
+     @return {remote.Broadcaster}
+     @example
+     ludo.remoteBroadcaster.withResourceService('Person/save').on('success', function(){
+	 		alert('Save success');
+	 	});
+     */
+    withResourceService:function(resourceAndService){
+        var tokens = resourceAndService.split(/\//g);
+        this.withResource(tokens[0]);
+        if(tokens.length == 2)this.withService(tokens[1]);
+        return this;
+    },
+
+	/**
+	 Chained method for adding broadcaster events.
+	 @method withResource
+	 @param {String} resource
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('save').on('success', function(){
+	 		alert('Save success');
+	 	});
+	 */
+	withResource:function(resource){
+		this.eventObjToBuild = {
+			resource : resource
+		};
+		return this;
+	},
+	/**
+	 Chained method for adding broadcaster events.
+	 @method withService
+	 @param {String} service
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('read').
+            withService('save').on('success', function(){
+	 		alert('Save success');
+	 	});
+	 */
+	withService:function(service){
+		if(this.eventObjToBuild.service === undefined){
+			this.eventObjToBuild.service = [];
+		}
+		this.eventObjToBuild.service.push(service);
+		return this;
+	},
+	/**
+	 Chained method for adding broadcaster events.
+	 @method on
+	 @param {String|Array} events
+	 @param {Function} fn
+	 @return {remote.Broadcaster}
+	 @example
+	 	ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+	 		alert('Save success');
+	 	}).on('start', function(){ alert('About to save') });
+     Example with array:
+
+        ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
+	 		alert('Save success');
+	 	}).on(['start','success'], function(){ alert('Remote event') });
+	 */
+	on:function(events, fn){
+        if(!ludo.util.isArray(events))events = [events];
+        for(var i=0;i<events.length;i++){
+		    this.addServiceEvent(events[i], this.eventObjToBuild.resource, this.eventObjToBuild.service, fn);
+        }
+		return this;
+	}
+});
+
+ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
+/* ../ludojs/src/remote/message.js */
+/**
+ Class displaying all messages from remote requests
+ @namespace remote
+ @class Message
+ @extends ludo.View
+ @constructor
+ @param {Object} config
+ @example
+ 	children:[{
+        type:'remote.Message',
+        listenTo:["Person", "City.save"]
+    }...
+
+ will listen to all services of the "Person" resource and the "save" service of "City".
+
+ */
+ludo.remote.Message = new Class({
+    // TODO support auto hide
+    Extends:ludo.View,
+    cls:'ludo-remote-message',
+
+    /**
+     Listen to these resources and events
+     @config {Array|String} listenTo
+     @example
+        listenTo:"Person" // listen to all Person events
+        listenTo:["Person.save","Person.read", "City"] // listen to "save" and "read" service of "Person" and all services of the "City" resource
+     */
+    listenTo:[],
+
+    messageTypes:['success', 'failure', 'error'],
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['listenTo']);
+        if (!ludo.util.isArray(this.listenTo))this.listenTo = [this.listenTo];
+		this.validateListenTo();
+
+    },
+
+	validateListenTo:function(){
+		for(var i=0;i<this.listenTo.length;i++){
+			this.listenTo[i] = this.listenTo[i].replace(/\//g,'.');
+		}
+	},
+
+    ludoEvents:function () {
+        this.parent();
+        var resources = this.getResources();
+        for (var resourceName in resources) {
+            if (resources.hasOwnProperty(resourceName)) {
+                this.addResourceEvent(resourceName, resources[resourceName]);
+            }
+        }
+    },
+
+    getResources:function () {
+        var ret = {};
+        var resource, service;
+        for (var i = 0; i < this.listenTo.length; i++) {
+            if (this.listenTo[i].indexOf('.') >= 0) {
+                var tokens = this.listenTo[i].split(/\./g);
+                if (tokens.length === 2) {
+                    service = tokens.pop();
+                    resource = tokens[0];
+                    service = service != '*' ? service : undefined;
+                }
+            } else {
+                resource = this.listenTo[i];
+                service = undefined;
+            }
+
+            if (ret[resource] == undefined) {
+                ret[resource] = [];
+            }
+            if (service && ret[resource].indexOf(service) === -1) {
+                ret[resource].push(service);
+            }
+        }
+        return ret;
+    },
+
+    addResourceEvent:function (resource, service) {
+        ludo.remoteBroadcaster.addServiceEvent("clear", resource, service, this.hideMessage.bind(this));
+        for (var i = 0; i < this.messageTypes.length; i++) {
+            ludo.remoteBroadcaster.addServiceEvent(this.messageTypes[i], resource, service, this.showMessage.bind(this));
+        }
+    },
+
+    showMessage:function (response) {
+        this.show();
+        if (response.code && response.code !== 200) {
+            ludo.dom.addClass(this.getEl(), 'ludo-remote-error-message');
+        } else {
+            ludo.dom.removeClass(this.getEl(), 'ludo-remote-error-message');
+        }
+        this.setHtml(response.message);
+
+        /**
+         * Event fired when message is shown.
+         * @event showMessage
+         * @param {remote.Message} this
+         */
+        this.fireEvent('showMessage', this);
+    },
+
+    hideMessage:function () {
+        this.setHtml('');
+    }
+});/* ../ludojs/src/remote/error-message.js */
+/**
+ * Show error messages from remote requests
+ * @namespace remote
+ * @class ErrorMessage
+ * @extends ludo.remote.Message
+ */
+ludo.remote.ErrorMessage = new Class({
+    Extends:ludo.remote.Message,
+    messageTypes:['failure','serverError']
+});/* ../ludojs/src/data-source/tree-collection.js */
+/**
+ * Special collection class for tree structures.
+ * @namespace dataSource
+ * @class TreeCollection
+ * @extends dataSource.Collection
+ */
+ludo.dataSource.TreeCollection = new Class({
+	Extends:ludo.dataSource.Collection,
+	type : 'dataSource.TreeCollection',
+	searcherType:'dataSource.TreeCollectionSearch',
+	/**
+	 * Return children of parent with this id
+	 * @method getChildren
+	 * @param {String} parent id
+	 * @return {Array|undefined} children
+	 */
+	getChildren:function (parent) {
+		var p = this.findRecord(parent);
+		if (p) {
+			if (!p.children)p.children = [];
+			return p.children;
+		}
+		return undefined;
+	},
+
+    fireSelect:function(record){
+        this.fireEvent('select', this.getRecord(record));
+    },
+
+	addRecordEvents:function(record){
+		this.parent(record);
+		record.addEvent('addChild', this.indexRecord.bind(this));
+		record.addEvent('insertBefore', this.indexRecord.bind(this));
+		record.addEvent('insertAfter', this.indexRecord.bind(this));
+
+		var events = ['insertBefore','insertAfter','addChild','removeChild'];
+		for(var i=0;i<events.length;i++){
+			record.addEvent(events[i], this.fireRecordEvent.bind(this));
+		}
+	},
+
+	fireRecordEvent:function(record, otherRecord, eventName){
+		this.fireEvent(eventName, [record, otherRecord]);
+	},
+
+	addSearcherEvents:function(){
+        this.searcher.addEvent('match', function(record){
+            this.fireEvent('show', this.getRecord(record));
+        }.bind(this));
+        this.searcher.addEvent('mismatch', function(record){
+            this.fireEvent('hide', this.getRecord(record));
+        }.bind(this));
+	}
+});/* ../ludojs/src/collection-view.js */
+/**
+ * Base class for List and tree.Tree
+ * @class CollectionView
+ */
+ludo.CollectionView = new Class({
+	Extends: ludo.View,
+	/**
+	 * Text to display when the tree or list has no data, i.e. when there's no data in data source or when filter returned no data.
+	 * @config {String} emptyText
+	 * @default undefined
+	 */
+	emptyText:undefined,
+
+	ludoConfig:function (config) {
+		this.parent(config);
+		this.setConfigParams(config, ['emptyText']);
+	},
+
+	ludoEvents:function(){
+		this.parent();
+		if(this.emptyText && !this.getDataSource().hasRemoteSearch()){
+			this.getDataSource().getSearcher().addEvents({
+				'matches' : this.hideEmptyText.bind(this),
+				'noMatches' : this.showEmptyText.bind(this)
+			});
+		}
+	},
+
+	hideEmptyText:function(){
+		this.emptyEl().style.display = 'none';
+	},
+
+	showEmptyText:function(){
+		this.emptyEl().style.display = '';
+		this._emptyEl.innerHTML = this.getEmptyText();
+	},
+
+	emptyEl:function(){
+		if(this._emptyEl === undefined){
+			this._emptyEl = ludo.dom.create({
+				tag : 'div',
+				renderTo:this.getBody(),
+				cls : 'ludo-empty-text',
+				css:{
+					position : 'absolute'
+				},
+				html : this.getEmptyText()
+			})
+		}
+		return this._emptyEl;
+	},
+
+	getEmptyText:function(){
+		return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
+	},
+
+	_nodeContainer:undefined,
+
+	nodeContainer:function(){
+		if(this._nodeContainer === undefined){
+			this._nodeContainer = ludo.dom.create({
+				tag : 'div',
+				renderTo : this.getBody()
+			});
+		}
+		return this._nodeContainer;
+	},
+
+	render:function(){
+		if(this.emptyText){
+			this[this.getDataSource().hasData() ? 'hideEmptyText' : 'showEmptyText']();
+		}
+	},
+
+	insertJSON:function(){
+
+	}
+});/* ../ludojs/src/tree/tree.js */
+/**
+ * Tree widget
+ * @namespace tree
+ * @class Tree
+ */
+ludo.tree.Tree = new Class({
+	Extends:ludo.CollectionView,
+    type:'tree.Tree',
+	nodeCache:{},
+    renderedRecords: {},
+	/**
+	 String template for nodes in the tree
+	 @config {String|Object}
+	 @example
+	 	tpl : '{title}
+	 or as an object:
+	 @example
+	 	tpl:{
+	 		tplKey : 'type',
+	 		city : 'City : {city}',
+	 		country : 'Country : {country}
+	 	}
+	 When using an object, "tplKey" is a reference to a common property of all objects, example "type". When type
+	 for a node is "city", it will use the city : 'City : {city}' tpl. When it's "country", it will use the "country" tpl.
+	 @example
+	 	[
+			{ id:1, "country":"Japan", "type":"country", "capital":"Tokyo", "population":"13,185,502",
+				children:[
+					{ id:11, city:'Kobe', "type":"city" },
+					{ id:12, city:'Kyoto', "type":"city" },
+					{ id:13, city:'Sapporo', "type":"city"},
+					{ id:14, city:'Sendai', "type":"city"},
+					{ id:15, city:'Kawasaki', "type":"city"}
+				]},
+			{id:2, "country":"South Korea", "capital":"Seoul", "population":"10,464,051", "type":"country",
+				children:[
+					{ id:21, city:'Seoul', "type":"city" }
+
+				]},
+			{id:3, "country":"Russia", "capital":"Moscow", "population":"10,126,424", "type":"country"},
+		]
+	 is an example of a data structure for this tpl.
+	 */
+	tpl : '<span class="ludo-tree-node-spacer"></span> {title}',
+	tplKey:undefined,
+	dataSource:{
+	},
+    defaultDS: 'dataSource.TreeCollection',
+
+	/**
+	 Default values when not present in node.
+	 @config {Object} defaults
+	 @default undefined
+	 @example
+	 	defaults:{
+	 		"database" : {
+	 			"icon" : "image.gif"
+	 		}
+	 	}
+	 where "database" refers to the record attribute with name defined in categoryKey property of tree(default "type" ).
+	 */
+	defaults:undefined,
+
+	/**
+	 * Key used to defined nodes inside categories. This key is used for default values and node config
+	 * @config {String} categoryKey
+	 * @default "type"
+	 */
+	categoryKey : 'type',
+
+	/**
+	 Config of tree node categories
+	 @config {Object} categoryConfig
+	 @example
+	 	categoryConfig:{
+	 		"database":{
+	 			"selectable" : false
+	 		}
+	 	}
+	 */
+	categoryConfig:undefined,
+
+	ludoConfig:function(config){
+		this.parent(config);
+		this.setConfigParams(config, ['defaults','categoryConfig','categoryKey']);
+	},
+
+	ludoEvents:function () {
+		this.parent();
+		if (this.dataSource) {
+            this.getDataSource().addEvents({
+                'select' : this.selectRecord.bind(this),
+                'deselect' : this.deSelectRecord.bind(this),
+                'add' : this.addRecord.bind(this),
+                'addChild' : this.addChild.bind(this),
+                'dispose' : this.removeChild.bind(this),
+                'removeChild' : this.removeChild.bind(this),
+                'show' : this.showRecord.bind(this),
+                'hide' : this.hideRecord.bind(this)
+            });
+
+
+		}
+	},
+
+	ludoDOM:function () {
+		this.parent();
+		this.getBody().style.overflowY = 'auto';
+        this.getBody().addEvents({
+            'click' : this.onClick.bind(this),
+            'dblclick' : this.onDblClick.bind(this)
+        });
+	},
+
+	onClick:function (e) {
+		var record = this.getRecordByDOM(e.target);
+		if (record) {
+			if(e.target.tagName.toLowerCase() === 'span' && this.isSelectable(record)) {
+				this.getDataSource().selectRecord(record);
+            }
+            if(ludo.dom.hasClass(e.target, 'ludo-tree-node-expand')){
+                this.expandOrCollapse(record, e.target);
+            }else{
+                this.expand(record, e.target);
+            }
+		}
+	},
+
+	onDblClick:function(e){
+		var record = this.getRecordByDOM(e.target);
+		if(record){
+			this.fireEvent('dblClick', record);
+		}
+	},
+
+	selectRecord:function (record) {
+        if(!record.getPlainRecord)record = this.getDataSource().getRecord(record);
+		if(!record)return;
+        if(!this.isRecordRendered(record))this.showRecord(record);
+		var el = this.getDomElement(record, '.ludo-tree-node-plain');
+		if (el)ludo.dom.addClass(el, 'ludo-tree-selected-node');
+	},
+
+	deSelectRecord:function (record) {
+		var el = this.getDomElement(record, '.ludo-tree-node-plain');
+		if (el)ludo.dom.removeClass(el, 'ludo-tree-selected-node');
+	},
+
+	getDomElement:function (record, cls) {
+		var el = this.getDomByRecord(record);
+		if (el)return document.id(el).getFirst(cls);
+		return undefined;
+	},
+
+	expandOrCollapse:function (record, el) {
+        el = this.getExpandEl(record);
+        var method = ludo.dom.hasClass(el, 'ludo-tree-node-collapse') ? 'collapse' : 'expand';
+        this[method](record,el);
+	},
+
+	expand:function (record, el) {
+		el = this.getExpandEl(record);
+        if(!this.areChildrenRendered(record)){
+            this.renderChildrenOf(record);
+        }
+		ludo.dom.addClass(el, 'ludo-tree-node-collapse');
+		this.getCachedNode(record, 'children', 'child-container-').style.display = '';
+	},
+
+	collapse:function (record, el) {
+		el = this.getExpandEl(record);
+		ludo.dom.removeClass(el, 'ludo-tree-node-collapse');
+		this.getCachedNode(record, 'children', 'child-container-').style.display = 'none';
+	},
+
+	getExpandEl:function (record) {
+		return this.getCachedNode(record, 'expand', 'expand-');
+	},
+
+	getChildContainer:function (record) {
+		return this.getCachedNode(record, 'children', 'child-container-');
+	},
+
+	hideRecord:function (record) {
+        if(this.isRecordRendered(record)){
+            this.getCachedNode(record, 'node', '').style.display = 'none';
+        }
+	},
+
+	showRecord:function (record) {
+        if(!this.isRecordRendered(record)){
+            this.showRecord(record.getParent());
+            this.expand(record.getParent());
+            this.showRecord(record.getParent());
+        }
+		this.getCachedNode(record, 'node', '').style.display = '';
+	},
+
+	getDomByRecord:function (record) {
+		return record ? this.getCachedNode(record, 'node', '') : undefined;
+	},
+
+    isRecordRendered:function(record){
+        return this.renderedRecords[record.getUID ? record.getUID() : record.uid] ? true : false;
+    },
+
+    areChildrenRendered:function(record){
+		record =  record.getUID ? record.record : record;
+        return record.children && record.children.length ? this.isRecordRendered(record.children[0]) : false;
+    },
+
+	getCachedNode:function (record, cacheKey, idPrefix) {
+		if (this.nodeCache[cacheKey] === undefined)this.nodeCache[cacheKey] = {};
+		var uid = record.getUID ? record.getUID() : record.uid;
+		if (!this.nodeCache[cacheKey][uid]) {
+			this.nodeCache[cacheKey][uid] = this.getBody().getElementById(idPrefix + uid)
+		}
+		return this.nodeCache[cacheKey][uid];
+	},
+
+	getRecordByDOM:function (el) {
+		var b = this.getBody();
+		while (el !== b && (!el.className || el.className.indexOf('ludo-tree-a-node') === -1)) {
+			el = el.parentNode;
+		}
+
+		if (el)return this.getDataSource().getRecord(el.id);
+		return undefined;
+	},
+
+	insertJSON:function () {
+		this.nodeCache = {};
+		this.renderedRecords = {};
+		this.nodeContainer().innerHTML = '';
+		this.render();
+	},
+
+	render:function () {
+		this.parent();
+		var data = this.getDataSource().getData();
+		this.nodeContainer().innerHTML = this.getHtmlForBranch(data);
+	},
+
+	getHtmlForBranch:function (branch) {
+		var html = [];
+		for (var i = 0; i < branch.length; i++) {
+			html.push(this.getHtmlFor(branch[i], (i === branch.length - 1), true));
+		}
+		return html.join('');
+	},
+
+    renderChildrenOf:function(record){
+        var p = this.getChildContainer(record);
+        if(p){
+			var c = record.getChildren();
+            if(c)p.innerHTML = this.getHtmlForBranch(c);
+        }
+    },
+
+	getHtmlFor:function (record, isLast, includeContainer) {
+		var ret = [];
+
+        this.renderedRecords[record.uid] = true;
+		if (includeContainer) {
+			ret.push('<div class="ludo-tree-a-node ludo-tree-node');
+			if (isLast)ret.push(' ludo-tree-node-last-sibling');
+			ret.push('" id="' + record.uid + '">');
+		}
+		ret.push('<div class="ludo-tree-node-plain">');
+
+        ret.push(this.isSelectable(record) ? '<span class="ludo-tree-node-selectable">' : '<span>');
+		ret.push(this.getNodeTextFor(record));
+		ret.push('</span>');
+
+		ret.push('<div class="ludo-tree-node-expand" id="expand-' + record.uid + '" style="position:absolute;display:' + (record.children && record.children.length ? '' : 'none') + '"></div>');
+		ret.push('</div>');
+
+		ret.push('<div class="ludo-tree-node-container" style="display:none" id="child-container-');
+		ret.push(record.uid);
+		ret.push('">');
+		ret.push('</div>');
+
+		if (includeContainer)ret.push('</div>');
+
+        /**
+         * Event fired when a node is created
+         * @event createNode
+         * @param {String} id of DOM node
+         * @param {Object} record
+         * @param {tree.Tree} tree
+         */
+        this.fireEvent('createNode', [record.uid, record, this]);
+		return ret.join('');
+	},
+
+	isSelectable:function (record) {
+		if(this.categoryConfig){
+			record = record.getUID ? record.getData() : record;
+			var config = this.categoryConfig[record[this.categoryKey]];
+			return config && config.selectable !== undefined ? config.selectable : true
+		}
+		return true;
+	},
+
+	getNodeTextFor:function (record) {
+		var tplFields = this.getTplFields(record);
+
+		var ret = this.getTpl(record);
+
+		for (var i = 0, count = tplFields.length; i < count; i++) {
+			var field = tplFields[i];
+			ret = ret.replace('{' + field + '}', record[field] ? record[field] : this.getDefaultValue(record, field));
+		}
+
+		ret = '<span class="ludo-tree-node-spacer"></span>' + ret;
+
+		return ret;
+	},
+
+	getDefaultValue:function(record, field){
+		if(this.defaults){
+			var key = this.categoryKey;
+			return record[key] && this.defaults && this.defaults[record[key]] ? this.defaults[record[key]][field] : '';
+		}
+		return "";
+
+	},
+
+	tpls:undefined,
+
+	getTpl:function(record){
+		return this.tpl['tplKey'] ? this.tpl[record[this.tplKey]] : this.tpl;
+	},
+
+	getTplFields:function (record) {
+		if (!this.tplFields) {
+			if(ludo.util.isString(this.tpl)){
+				this.tplFields = this.getTplMatches(this.tpl);
+			}else{
+				this.tplFields = {};
+				var tpl = Object.clone(this.tpl);
+				this.tplKey = tpl.tplKey;
+				for(var key in tpl){
+					if(tpl.hasOwnProperty(key)){
+						if(key != 'tplKey')this.tplFields[key] = this.getTplMatches(tpl[key]);
+					}
+				}
+			}
+
+		}
+		return this.tplKey ? this.tplFields[record[this.tplKey]] : this.tplFields;
+	},
+
+	getTplMatches:function(tpl){
+		var matches = tpl.match(/{([^}]+)}/g);
+		for (var i = 0; i < matches.length; i++) {
+			matches[i] = matches[i].replace(/[{}]/g, '');
+		}
+		return matches;
+	},
+
+	addRecord:function(record){
+		this.addChild(record);
+	},
+
+	addChild:function (record, parentRecord) {
+		var childContainer = parentRecord ? this.getChildContainer(parentRecord) : this.getBody();
+		if (childContainer) {
+			var node = this.getDomByRecord(record) || this.getNewNodeFor(record);
+			childContainer.appendChild(node);
+			this.cssBranch(parentRecord ? parentRecord.children : this.getDataSource().data);
+			if(parentRecord)this.getExpandEl(parentRecord).style.display='';
+		}
+	},
+
+	getNewNodeFor:function (record) {
+		record = record.getUID ? record.record : record;
+		if (!record.uid)this.getDataSource().indexRecord(record);
+		return ludo.dom.create({
+            cls : 'ludo-tree-a-node ludo-tree-node',
+            html : this.getHtmlFor(record, false, false),
+            id : record.uid
+        });
+	},
+
+	cssBranch:function (nodes) {
+		var count = nodes.length;
+		for (var i = Math.max(0,count-2); i < count; i++) {
+			var node = this.getDomByRecord(nodes[i]);
+			if (node) {
+				if (i < count - 1) {
+					ludo.dom.removeClass(node, 'ludo-tree-node-last-sibling');
+				} else {
+					ludo.dom.addClass(node, 'ludo-tree-node-last-sibling');
+				}
+			}
+		}
+	},
+
+	removeChild:function(record){
+		var el = this.getDomByRecord(record);
+		if(el){
+			el.parentNode.removeChild(el);
+
+            delete this.renderedRecords[this.getUID(record)];
+
+			if(record.parentUid){
+				var p = this.dataSource.findRecord(record.parentUid);
+				if(p)this.cssBranch(p.children);
+			}
+		}
+	},
+
+    getUID:function(record){
+        return record.getUID ? record.getUID() : record.uid;
+    }
+});/* ../ludojs/src/form/validator/fns.js */
 ludo.form.validator.required = function(value, required){
     return !required || value.length > 0;
 };
@@ -16912,3593 +17554,56 @@ ludo.form.Text = new Class({
 		} else return this.els.formEl.selectionEnd;
 	}
 });
-/* ../ludojs/src/dialog/prompt.js */
+/* ../ludojs/src/form/textarea.js */
 /**
- * Dialog with one text field. Default buttons are "OK" and "Cancel"
- * @namespace dialog
- * @class Prompt
- * @extends Dialog
- */
-ludo.dialog.Prompt = new Class({
-    Extends: ludo.dialog.Dialog,
-    type : 'dialog.Prompt',
-    input : undefined,
-    inputConfig : {},
-    label:'',
-    value:'',
-    ludoConfig : function(config){
-        if(!config.buttons && !config.buttonConfig && !config.buttonBar){
-            config.buttons = [
-                {
-                    value : 'OK',
-                    width : 60,
-					defaultSubmit:true,
-                    type:'form.Button'
-                },
-                {
-                    value : 'Cancel',
-                    width : 60
-                }
-            ]
-        }
-        this.setConfigParams(config, ['label','value','inputConfig']);
-        this.parent(config);
-    },
-
-    ludoRendered : function(){
-        this.parent();
-        var inputConfig = Object.merge(this.inputConfig, {
-            type : 'form.Text',
-            label : this.label,
-            value : this.value
-        });
-
-        this.input = this.addChild(inputConfig);
-        this.input.focus();
-    },
-    /**
-     * Return value of input field
-     * @method getValue
-     * @return String value
-     */
-    getValue : function(){
-        return this.input.getValue()
-    },
-
-    buttonClick : function(value, button){
-        /**
-         * Event fired on when clicking on dialog button
-         * @event lowercase name of button with white space removed
-         * @param {String} value of input field
-         * @param {Object} ludo.dialog.Prompt
-         *
-         */
-        this.fireEvent(button.value.toLowerCase(), [this.getValue(), this]);
-        if (this.autoHideOnBtnClick) {
-            this.hide();
-        }
-    }
-
-});/* ../ludojs/src/external/md5.js */
-/*
- Javascript MD5 library - version 0.4
-
- Coded (2011) by Luigi Galli - LG@4e71.org - http://faultylabs.com
-
- Thanks to: Roberto Viola
-
- The below code is PUBLIC DOMAIN - NO WARRANTY!
-
- Changelog:
-            Version 0.4   - 2011-06-19
-            + added compact version (md5_compact_min.js), this is a slower but smaller version
-              (more than 4KB lighter before stripping/minification)
-            + added preliminary support for Typed Arrays (see:
-              https://developer.mozilla.org/en/JavaScript_typed_arrays and
-              http://www.khronos.org/registry/typedarray/specs/latest/)
-              MD5() now accepts input data as ArrayBuffer, Float32Array, Float64Array,
-              Int16Array, Int32Array, Int8Array, Uint16Array, Uint32Array or Uint8Array
-            - moved unit tests to md5_test.js
-            - minor refactoring
-
-            Version 0.3.* - 2011-06-##
-            - Internal dev versions
-
-            Version 0.2 - 2011-05-22
-            ** FIXED: serious integer overflow problems which could cause a wrong MD5 hash being returned
-
-            Version 0.1 - 2011
-            -Initial version
-*/
-
-if (typeof faultylabs == 'undefined') {
-    faultylabs = {}
-}
-
-/*
-   MD5()
-
-    Computes the MD5 hash for the given input data
-
-    input :  data as String - (Assumes Unicode code points are encoded as UTF-8. If you
-                               attempt to digest Unicode strings using other encodings
-                               you will get incorrect results!)
-
-             data as array of characters - (Assumes Unicode code points are encoded as UTF-8. If you
-                              attempt to digest Unicode strings using other encodings
-                              you will get incorrect results!)
-
-             data as array of bytes (plain javascript array of integer numbers)
-
-             data as ArrayBuffer (see: https://developer.mozilla.org/en/JavaScript_typed_arrays)
-
-             data as Float32Array, Float64Array, Int16Array, Int32Array, Int8Array, Uint16Array, Uint32Array or Uint8Array (see: https://developer.mozilla.org/en/JavaScript_typed_arrays)
-
-             (DataView is not supported yet)
-
-   output: MD5 hash (as Hex Uppercase String)
-*/
-
-faultylabs.MD5 = function(data) {
-
-    // convert number to (unsigned) 32 bit hex, zero filled string
-    function to_zerofilled_hex(n) {
-        var t1 = (n >>> 0).toString(16);
-        return "00000000".substr(0, 8 - t1.length) + t1
-    }
-
-    // convert array of chars to array of bytes
-    function chars_to_bytes(ac) {
-        var retval = [];
-        for (var i = 0; i < ac.length; i++) {
-            retval = retval.concat(str_to_bytes(ac[i]))
-        }
-        return retval
-    }
-
-
-    // convert a 64 bit unsigned number to array of bytes. Little endian
-    function int64_to_bytes(num) {
-        var retval = [];
-        for (var i = 0; i < 8; i++) {
-            retval.push(num & 0xFF);
-            num = num >>> 8;
-        }
-        return retval;
-    }
-
-    //  32 bit left-rotation
-    function rol(num, places) {
-        return ((num << places) & 0xFFFFFFFF) | (num >>> (32 - places));
-    }
-
-    // The 4 MD5 functions
-    function fF(b, c, d) {
-        return (b & c) | (~b & d);
-    }
-
-    function fG(b, c, d) {
-        return (d & b) | (~d & c);
-    }
-
-    function fH(b, c, d) {
-        return b ^ c ^ d;
-    }
-
-    function fI(b, c, d) {
-        return c ^ (b | ~d);
-    }
-
-    // pick 4 bytes at specified offset. Little-endian is assumed
-    function bytes_to_int32(arr, off) {
-        return (arr[off + 3] << 24) | (arr[off + 2] << 16) | (arr[off + 1] << 8) | (arr[off])
-    }
-
-    /*
-    Conver string to array of bytes in UTF-8 encoding
-    See:
-    http://www.dangrossman.info/2007/05/25/handling-utf-8-in-javascript-php-and-non-utf8-databases/
-    http://stackoverflow.com/questions/1240408/reading-bytes-from-a-javascript-string
-    How about a String.getBytes(<ENCODING>) for Javascript!? Isn't it time to add it?
-    */
-    function str_to_bytes(str) {
-        var retval = [ ];
-        for (var i = 0; i < str.length; i++)
-            if (str.charCodeAt(i) <= 0x7F) {
-                retval.push(str.charCodeAt(i))
-            } else {
-                var tmp = encodeURIComponent(str.charAt(i)).substr(1).split('%');
-                for (var j = 0; j < tmp.length; j++) {
-                    retval.push(parseInt(tmp[j], 0x10))
-                }
-            }
-        return retval
-    }
-
-
-    // convert the 4 32-bit buffers to a 128 bit hex string. (Little-endian is assumed)
-    function int128le_to_hex(a, b, c, d) {
-        var ra = "";
-        var t = 0;
-        var ta = 0;
-        for (var i = 3; i >= 0; i--) {
-            ta = arguments[i];
-            t = (ta & 0xFF);
-            ta = ta >>> 8;
-            t = t << 8;
-            t = t | (ta & 0xFF);
-            ta = ta >>> 8;
-            t = t << 8;
-            t = t | (ta & 0xFF);
-            ta = ta >>> 8;
-            t = t << 8;
-            t = t | ta;
-            ra = ra + to_zerofilled_hex(t);
-        }
-        return ra
-    }
-
-    // conversion from typed byte array to plain javascript array
-    function typed_to_plain(tarr) {
-        var retval = new Array(tarr.length);
-        for (var i = 0; i < tarr.length; i++) {
-            retval[i] = tarr[i];
-        }
-        return retval;
-    }
-
-    // check input data type and perform conversions if needed
-    var databytes = null;
-    // String
-    var type_mismatch = null;
-    if (typeof data == 'string') {
-        // convert string to array bytes
-        databytes = str_to_bytes(data);
-    } else if (data.constructor == Array) {
-        if (data.length === 0) {
-            // if it's empty, just assume array of bytes
-            databytes = data
-        } else if (typeof data[0] == 'string') {
-            databytes = chars_to_bytes(data);
-        } else if (typeof data[0] == 'number') {
-            databytes = data;
-        } else {
-            type_mismatch = typeof data[0];
-        }
-    } else if (typeof ArrayBuffer != 'undefined') {
-        if (data instanceof ArrayBuffer) {
-            databytes = typed_to_plain(new Uint8Array(data));
-        } else if ((data instanceof Uint8Array) || (data instanceof Int8Array)) {
-            databytes = typed_to_plain(data)
-        } else if ((data instanceof Uint32Array) || (data instanceof Int32Array) ||
-               (data instanceof Uint16Array) || (data instanceof Int16Array) ||
-               (data instanceof Float32Array) || (data instanceof Float64Array)
-         ) {
-            databytes = typed_to_plain(new Uint8Array(data.buffer));
-        } else {
-            type_mismatch = typeof data;
-        }
-    } else {
-        type_mismatch = typeof data;
-    }
-
-    if (type_mismatch) {
-        alert('MD5 type mismatch, cannot process ' + type_mismatch)
-    }
-
-    function _add(n1, n2) {
-        return 0x0FFFFFFFF & (n1 + n2)
-    }
-
-
-    return do_digest();
-
-    function do_digest() {
-
-        // function update partial state for each run
-        function updateRun(nf, sin32, dw32, b32) {
-            var temp = d;
-            d = c;
-            c = b;
-            //b = b + rol(a + (nf + (sin32 + dw32)), b32)
-            b = _add(b,
-                rol(
-                    _add(a,
-                        _add(nf, _add(sin32, dw32))
-                    ), b32
-                )
-            );
-            a = temp
-        }
-
-        // save original length
-        var org_len = databytes.length;
-
-        // first append the "1" + 7x "0"
-        databytes.push(0x80);
-
-        // determine required amount of padding
-        var tail = databytes.length % 64;
-        // no room for msg length?
-        if (tail > 56) {
-            // pad to next 512 bit block
-            for (var i = 0; i < (64 - tail); i++) {
-                databytes.push(0x0);
-            }
-            tail = databytes.length % 64;
-        }
-        for (i = 0; i < (56 - tail); i++) {
-            databytes.push(0x0);
-        }
-        // message length in bits mod 512 should now be 448
-        // append 64 bit, little-endian original msg length (in *bits*!)
-        databytes = databytes.concat(int64_to_bytes(org_len * 8));
-
-        // initialize 4x32 bit state
-        var h0 = 0x67452301;
-        var h1 = 0xEFCDAB89;
-        var h2 = 0x98BADCFE;
-        var h3 = 0x10325476;
-
-        // temp buffers
-        var a = 0, b = 0, c = 0, d = 0;
-
-        // Digest message
-        for (i = 0; i < databytes.length / 64; i++) {
-            // initialize run
-            a = h0;
-            b = h1;
-            c = h2;
-            d = h3;
-
-            var ptr = i * 64;
-
-            // do 64 runs
-            updateRun(fF(b, c, d), 0xd76aa478, bytes_to_int32(databytes, ptr), 7);
-            updateRun(fF(b, c, d), 0xe8c7b756, bytes_to_int32(databytes, ptr + 4), 12);
-            updateRun(fF(b, c, d), 0x242070db, bytes_to_int32(databytes, ptr + 8), 17);
-            updateRun(fF(b, c, d), 0xc1bdceee, bytes_to_int32(databytes, ptr + 12), 22);
-            updateRun(fF(b, c, d), 0xf57c0faf, bytes_to_int32(databytes, ptr + 16), 7);
-            updateRun(fF(b, c, d), 0x4787c62a, bytes_to_int32(databytes, ptr + 20), 12);
-            updateRun(fF(b, c, d), 0xa8304613, bytes_to_int32(databytes, ptr + 24), 17);
-            updateRun(fF(b, c, d), 0xfd469501, bytes_to_int32(databytes, ptr + 28), 22);
-            updateRun(fF(b, c, d), 0x698098d8, bytes_to_int32(databytes, ptr + 32), 7);
-            updateRun(fF(b, c, d), 0x8b44f7af, bytes_to_int32(databytes, ptr + 36), 12);
-            updateRun(fF(b, c, d), 0xffff5bb1, bytes_to_int32(databytes, ptr + 40), 17);
-            updateRun(fF(b, c, d), 0x895cd7be, bytes_to_int32(databytes, ptr + 44), 22);
-            updateRun(fF(b, c, d), 0x6b901122, bytes_to_int32(databytes, ptr + 48), 7);
-            updateRun(fF(b, c, d), 0xfd987193, bytes_to_int32(databytes, ptr + 52), 12);
-            updateRun(fF(b, c, d), 0xa679438e, bytes_to_int32(databytes, ptr + 56), 17);
-            updateRun(fF(b, c, d), 0x49b40821, bytes_to_int32(databytes, ptr + 60), 22);
-            updateRun(fG(b, c, d), 0xf61e2562, bytes_to_int32(databytes, ptr + 4), 5);
-            updateRun(fG(b, c, d), 0xc040b340, bytes_to_int32(databytes, ptr + 24), 9);
-            updateRun(fG(b, c, d), 0x265e5a51, bytes_to_int32(databytes, ptr + 44), 14);
-            updateRun(fG(b, c, d), 0xe9b6c7aa, bytes_to_int32(databytes, ptr), 20);
-            updateRun(fG(b, c, d), 0xd62f105d, bytes_to_int32(databytes, ptr + 20), 5);
-            updateRun(fG(b, c, d), 0x2441453, bytes_to_int32(databytes, ptr + 40), 9);
-            updateRun(fG(b, c, d), 0xd8a1e681, bytes_to_int32(databytes, ptr + 60), 14);
-            updateRun(fG(b, c, d), 0xe7d3fbc8, bytes_to_int32(databytes, ptr + 16), 20);
-            updateRun(fG(b, c, d), 0x21e1cde6, bytes_to_int32(databytes, ptr + 36), 5);
-            updateRun(fG(b, c, d), 0xc33707d6, bytes_to_int32(databytes, ptr + 56), 9);
-            updateRun(fG(b, c, d), 0xf4d50d87, bytes_to_int32(databytes, ptr + 12), 14);
-            updateRun(fG(b, c, d), 0x455a14ed, bytes_to_int32(databytes, ptr + 32), 20);
-            updateRun(fG(b, c, d), 0xa9e3e905, bytes_to_int32(databytes, ptr + 52), 5);
-            updateRun(fG(b, c, d), 0xfcefa3f8, bytes_to_int32(databytes, ptr + 8), 9);
-            updateRun(fG(b, c, d), 0x676f02d9, bytes_to_int32(databytes, ptr + 28), 14);
-            updateRun(fG(b, c, d), 0x8d2a4c8a, bytes_to_int32(databytes, ptr + 48), 20);
-            updateRun(fH(b, c, d), 0xfffa3942, bytes_to_int32(databytes, ptr + 20), 4);
-            updateRun(fH(b, c, d), 0x8771f681, bytes_to_int32(databytes, ptr + 32), 11);
-            updateRun(fH(b, c, d), 0x6d9d6122, bytes_to_int32(databytes, ptr + 44), 16);
-            updateRun(fH(b, c, d), 0xfde5380c, bytes_to_int32(databytes, ptr + 56), 23);
-            updateRun(fH(b, c, d), 0xa4beea44, bytes_to_int32(databytes, ptr + 4), 4);
-            updateRun(fH(b, c, d), 0x4bdecfa9, bytes_to_int32(databytes, ptr + 16), 11);
-            updateRun(fH(b, c, d), 0xf6bb4b60, bytes_to_int32(databytes, ptr + 28), 16);
-            updateRun(fH(b, c, d), 0xbebfbc70, bytes_to_int32(databytes, ptr + 40), 23);
-            updateRun(fH(b, c, d), 0x289b7ec6, bytes_to_int32(databytes, ptr + 52), 4);
-            updateRun(fH(b, c, d), 0xeaa127fa, bytes_to_int32(databytes, ptr), 11);
-            updateRun(fH(b, c, d), 0xd4ef3085, bytes_to_int32(databytes, ptr + 12), 16);
-            updateRun(fH(b, c, d), 0x4881d05, bytes_to_int32(databytes, ptr + 24), 23);
-            updateRun(fH(b, c, d), 0xd9d4d039, bytes_to_int32(databytes, ptr + 36), 4);
-            updateRun(fH(b, c, d), 0xe6db99e5, bytes_to_int32(databytes, ptr + 48), 11);
-            updateRun(fH(b, c, d), 0x1fa27cf8, bytes_to_int32(databytes, ptr + 60), 16);
-            updateRun(fH(b, c, d), 0xc4ac5665, bytes_to_int32(databytes, ptr + 8), 23);
-            updateRun(fI(b, c, d), 0xf4292244, bytes_to_int32(databytes, ptr), 6);
-            updateRun(fI(b, c, d), 0x432aff97, bytes_to_int32(databytes, ptr + 28), 10);
-            updateRun(fI(b, c, d), 0xab9423a7, bytes_to_int32(databytes, ptr + 56), 15);
-            updateRun(fI(b, c, d), 0xfc93a039, bytes_to_int32(databytes, ptr + 20), 21);
-            updateRun(fI(b, c, d), 0x655b59c3, bytes_to_int32(databytes, ptr + 48), 6);
-            updateRun(fI(b, c, d), 0x8f0ccc92, bytes_to_int32(databytes, ptr + 12), 10);
-            updateRun(fI(b, c, d), 0xffeff47d, bytes_to_int32(databytes, ptr + 40), 15);
-            updateRun(fI(b, c, d), 0x85845dd1, bytes_to_int32(databytes, ptr + 4), 21);
-            updateRun(fI(b, c, d), 0x6fa87e4f, bytes_to_int32(databytes, ptr + 32), 6);
-            updateRun(fI(b, c, d), 0xfe2ce6e0, bytes_to_int32(databytes, ptr + 60), 10);
-            updateRun(fI(b, c, d), 0xa3014314, bytes_to_int32(databytes, ptr + 24), 15);
-            updateRun(fI(b, c, d), 0x4e0811a1, bytes_to_int32(databytes, ptr + 52), 21);
-            updateRun(fI(b, c, d), 0xf7537e82, bytes_to_int32(databytes, ptr + 16), 6);
-            updateRun(fI(b, c, d), 0xbd3af235, bytes_to_int32(databytes, ptr + 44), 10);
-            updateRun(fI(b, c, d), 0x2ad7d2bb, bytes_to_int32(databytes, ptr + 8), 15);
-            updateRun(fI(b, c, d), 0xeb86d391, bytes_to_int32(databytes, ptr + 36), 21);
-
-            // update buffers
-            h0 = _add(h0, a);
-            h1 = _add(h1, b);
-            h2 = _add(h2, c);
-            h3 = _add(h3, d)
-        }
-        // Done! Convert buffers to 128 bit (LE)
-        return int128le_to_hex(h3, h2, h1, h0).toUpperCase()
-    }
-
-};/* ../ludojs/src/form/password.js */
-// TODO indicate strength of password
-/**
- Password field
- @namespace form
- @class Password
- @extends form.Text
- @constructor
- @description Form component for passwords.
- @param {Object} config
- @example
- 	...
- 	children:[
- 		{type:'form.password',label:'Password',name:'password',md5:true },
- 		{type:'form.password',label:'Repeat password',name:'password_repeated',md5:true }
- 	]
- 	...
- */
-ludo.form.Password = new Class({
-	Extends:ludo.form.Text,
-	type:'form.Password',
-	inputType:'password',
-
-	/**
-	 * Convert password to md5 hash
-	 * getValue method will then return an md5 version of the password
-	 * @attribute {Boolean} md5
-	 */
-	md5:false,
-
-	ludoConfig:function (config) {
-		this.parent(config);
-		if (config.md5 !== undefined)this.md5 = config.md5;
-	},
-
-	getValue:function () {
-		var val = this.parent();
-		if (val.length && this.md5) {
-			return faultylabs.MD5(val);
-		}
-		return val;
-	},
-
-	reset:function () {
-		this.setValue('');
-	}
-});
-/* ../ludojs/src/form/strong-password.js */
-/**
- Strong password field, i.e
- contain at least 1 upper case letter
- contain at least 1 lower case letter
- contain at least 1 number or special character
- contain at least 8 characters in length
- not limited in length
- 
- @namespace form
- @class Password
- @extends form.Text
- @constructor
- @description Form component for passwords.
- @param {Object} config
- @example
- ...
- children:[
- {type:'form.password',label:'Password',name:'password',md5:true },
- {type:'form.password',label:'Repeat password',name:'password_repeated',md5:true }
- ]
- ...
- */
-ludo.form.StrongPassword = new Class({
-    Extends: ludo.form.Password,
-    regex : '(?=^.{_length_,}$)((?=.*[0-9])|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$',
-    /**
-     * Custom minimum length of password
-     * @config {Number} passwordLength
-     * @default 8
-     * @optional
-     */
-    passwordLength : 8,
-
-    ludoConfig:function(config){
-        config = config || {};
-        this.passwordLength = config.passwordLength || this.passwordLength;
-        this.regex = new RegExp(this.regex.replace('_length_', this.passwordLength));
-        this.parent(config);
-    }
-});/* ../ludojs/src/form/email.js */
-/**
+ * Text Area field
  * @namespace form
- * @class Email
- * @description A customized text field with automatic validation of e-mail addresses
- * @extends form.Text
+ * @class Textarea
+ * @extends form.Element
  */
-ludo.form.Email = new Class({
+ludo.form.Textarea = new Class({
     Extends:ludo.form.Text,
-    type:'form.Email',
-    regex:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)$/i,
-    validateKeyStrokes:false
-});/* ../ludojs/src/form/number.js */
-/**
- * @namespace form
- * @class Number
- * @description A customized text input only allowing numeric characters
- * @extends form.Text
- */
-ludo.form.Number = new Class({
-    Extends:ludo.form.Text,
-    type:'form.Number',
-    regex:/^[0-9]+$/,
-    validateKeyStrokes:true,
-    formCss:{
-        'text-align':'right'
-    },
-    /**
-     * Stretch is default set to false for numbers
-     * @attribute {Boolean} stretchField
-     */
-    stretchField:false,
-
-    /**
-     * Disable changing values using mousewheel
-     * @attribute {Boolean} disableWheel
-     * @default false
-     */
-    disableWheel:false,
-
-    /**
-     * Reverse wheel, i.e. down for larger value, up  for smaller
-     * @attribute {Boolean} reverseWheel
-     * @default false
-     */
-    reverseWheel:false,
-
-    /**
-     * Minimum value
-     * @attribute {Number} minValue
-     * @default undefined
-     */
-    minValue:undefined,
-
-    /**
-     * Maximum value
-     * @attribute {Number} maxValue
-     * @default undefined
-     */
-    maxValue:undefined,
-
-    /**
-     * Amount to increment/decrement when using mousewheel while pressing shift-key
-     * @attribute {Number} shiftIncrement
-     * @default 10
-     */
-    shiftIncrement:10,
+    type:'form.Textarea',
+    inputType:undefined,
+    inputTag:'textarea',
+    overflow:'hidden',
 
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['disableWheel','shiftIncrement','reverseWheel','minValue','maxValue']);
-
-        if (this.minValue !== undefined)this.minValue = parseInt(this.minValue);
-        if (this.maxValue !== undefined)this.maxValue = parseInt(this.maxValue);
-
-        this.applyValidatorFns(['minValue','maxValue']);
+        this.ucWords = false;
     },
 
-    ludoEvents:function () {
+    ludoRendered:function(){
         this.parent();
-        if (!this.disableWheel) {
-            this.getFormEl().addEvent('mousewheel', this._mouseWheel.bind(this));
-        }
-        this.getFormEl().addEvent('keydown', this.keyIncrement.bind(this));
+        this.els.formEl.style.paddingRight = 0;
+        this.els.formEl.style.paddingTop = 0;
     },
-
-    keyIncrement:function(e){
-        if(e.key === 'up' || e.key === 'down'){
-            if(e.key === 'up')this.incrementBy(1, e.shift);
-            if(e.key === 'down')this.incrementBy(-1, e.shift);
-            return false;
-        }
-        return undefined;
-    },
-
-    blur:function(){
-        var value = this.getFormEl().value;
-        if(!this.isValid(value)){
-            if (this.minValue!==undefined && parseInt(value) < this.minValue) {
-                value = this.minValue;
-            }
-            if (this.maxValue!==undefined && parseInt(value) > this.maxValue) {
-                value = this.maxValue;
-            }
-            this.setValue(value);
-        }
+    resizeDOM:function () {
         this.parent();
-    },
-
-    _mouseWheel:function (e) {
-        this.incrementBy(e.wheel > 0 ? Math.ceil(e.wheel) : Math.floor(e.wheel), e.shift);	// Math.ceil because of a mystery error in either firefox or mootools
-        return false;
-    },
-    /**
-     * Increment value by
-	 * @method incrementBy
-     * @param {Number} value
-     * @param {Boolean} shift
-     */
-    incrementBy:function (value, shift) {
-        if(this.reverseWheel)value = value * -1;
-        value = parseInt(this.value) + (shift ? value * this.shiftIncrement : value);
-        if(this.maxValue && value > this.maxValue)value = this.maxValue;
-        if(this.minValue !== undefined && value < this.minValue)value = this.minValue;
-        if(this.isValid(value)){
-            this.setValue(value);
-			this.fireEvent('change', [ value, this ]);
-        }
-    }
-});/* ../ludojs/src/form/checkbox.js */
-/**
- * Class for checkbox form elements
- * @namespace form
- * @class Checkbox
- * @extends form.LabelElement
- */
-ludo.form.Checkbox = new Class({
-    Extends:ludo.form.LabelElement,
-    type:'form.Checkbox',
-    inputType:'checkbox',
-    stretchField:false,
-    labelWidth:undefined,
-    /**
-     * Image to be displayed above the checkbox-/radio button
-     * @attribute image (Path to image).
-     * @type string
-     * @default null
-     */
-    image:undefined,
-    /**
-     * Initial state
-     * @attribute {Boolean} checked
-     * @type {Boolean}
-     * @default false
-     */
-    checked:false,
-    height:undefined,
-    labelSuffix : '',
-
-    fieldTpl:['<table ','cellpadding="0" cellspacing="0" border="0" width="100%">',
-        '<tbody>',
-        '<tr class="checkbox-image-row" style="display:none">',
-        '<td colspan="2" class="input-image"></td>',
-        '</tr>',
-        '<tr class="input-row">',
-        '<td class="input-cell" style="width:30px"></td>',
-        '<td><label class="input-label"></label></td>',
-        '<td class="suffix-cell" style="display:none"><label></label></td>',
-        '</tr>',
-        '</tbody>',
-        '</table>'
-    ],
-
-    ludoConfig:function (config) {
-        config = config || {};
-        config.value = config.value || '1';
-        this.parent(config);
-        this.setConfigParams(config, ['inputType','image','checked']);
-        this.initialValue = this.constructorValue = this.checked ? this.value : '';
-    },
-
-    ludoDOM:function () {
-        this.parent();
-        if (this.image) {
-            this.addRadioImage();
-        }
-    },
-
-    addInput:function () {
-        var id = this.getFormElId();
-        var radio;
-        if (Browser.ie && parseInt(Browser.version) < 9) {
-            radio = document.createElement('<input type="' + this.inputType + '" name="' + this.getName() + '" value="' + this.value + '" id="' + id + '">');
-            this.getInputCell().adopt(radio);
-            this.els.formEl = document.id(radio);
-        } else {
-            radio = this.els.formEl = new Element('input');
-            this.getInputCell().adopt(radio);
-            radio.setProperties({
-                'type':this.inputType,
-                'name':this.getName(),
-                'value':this.value,
-                'id':id
-            });
-        }
-        this.els.formEl.addEvent('click', this.toggleImage.bind(this));
-        if(this.inputType === 'checkbox'){
-            this.els.formEl.addEvent('click', this.valueChange.bind(this));
-        }
-        if (this.checked) {
-            this.getFormEl().checked = true;
-            this.toggleImage();
-        }
-    },
-
-    addRadioImage:function () {
-        var div = this.els.radioImageDiv = new Element('div');
-        var radioDivInner = new Element('div');
-        ludo.dom.addClass(radioDivInner, 'ludo-radio-image-inner');
-        radioDivInner.setStyles({
-            'width':'100%',
-            'height':'100%',
-            'background' : 'url(' + this.image + ') no-repeat center center'
-        });
-
-        div.adopt(radioDivInner);
-        ludo.dom.addClass(div, 'ludo-radio-image');
-        div.addEvent('click', this.clickOnImage.bind(this));
-        this.getImageCell().adopt(div);
-        this.getBody().getElement('.checkbox-image-row').style.display = '';
-    },
-
-    getImageCell:function () {
-        return this.getCell('.input-image','imageCell');
-    },
-
-    setWidthOfLabel:function () {
-
-    },
-
-    clickOnImage:function () {
-        if (this.inputType === 'checkbox') {
-            this.setChecked(!this.getFormEl().checked)
-        } else {
-            this.check();
-        }
-    },
-    /**
-     * Return true if checkbox is checked, false otherwise
-     * @method isChecked
-     * @return {Boolean} checked
-     */
-    isChecked:function () {
-        return this.getFormEl().getProperty('checked');
-    },
-    /**
-     * Set checkbox to checked
-     * @method check
-     * @return void
-     */
-    check:function () {
-        if (!this.isChecked()) {
-            this.setChecked(true);
-        }
-    },
-    /**
-     * Uncheck checkbox
-     * @method uncheck
-     * @return void
-     */
-    uncheck:function () {
-        if (this.isChecked()) {
-            this.setChecked(false);
-        }
-    },
-
-    focus:function () {
-
-    },
-
-    blur:function () {
-
-    },
-
-    getValue:function () {
-        return this.isChecked() ? this.getFormEl().get('value') : '';
-    },
-    /**
-     * Set checkbox to checked or unchecked
-     * @method setChecked
-     * @param {Boolean} checked
-     */
-    setChecked:function (checked) {
-        this.setCheckedProperty(checked);
-        this.fireEvent('change', [this.getValue(), this]);
-        this.value = this.getValue();
-        this.toggleImage();
-        this.toggleDirtyFlag();
-    },
-
-    setCheckedProperty:function(checked){
-        if(checked){
-            this.getFormEl().setProperty('checked', '1');
+		/*
+        var w;
+        if (!this.label) {
+            w = this.getInnerWidthOfBody();
+            if (w <= 0)return;
         }else{
-            this.getFormEl().removeProperty('checked');
+            var p = this.els.formEl.parentNode;
+            w = (p.offsetWidth - ludo.dom.getBW(p) - ludo.dom.getPW(p));
         }
-    },
 
-    valueChange:function(){
-        this.value = this.isChecked() ? this.getFormEl().get('value') : '';
-        this.toggleDirtyFlag();
-    },
+        if(this.stretchField)w-=10;
 
-    reset:function(){
-        this.setCheckedProperty(this.initialValue ? true : false);
-        this.fireEvent('valueChange', [this.getValue(), this]);
-        this.toggleImage();
-    },
+        this.els.formEl.setStyle('width', (w - 10) + 'px');
+        */
 
-    toggleImage:function () {
-        if (this.els.radioImageDiv) {
-            if (this.isChecked()) {
-                ludo.dom.addClass(this.els.radioImageDiv, 'ludo-radio-image-checked');
-            } else {
-                ludo.dom.removeClass(this.els.radioImageDiv, 'ludo-radio-image-checked');
+        if (this.layout && this.layout.weight) {
+            var height = this.getEl().offsetHeight;
+            height -= (ludo.dom.getMBPH(this.getEl()) + ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMH(this.els.formEl.parentNode));
+			height -=1;
+            if (height > 0) {
+                this.els.formEl.style.height = height+'px';
             }
-        }
-    },
-
-    supportsInlineLabel:function(){
-        return false;
-    }
-});/* ../ludojs/src/controller/manager.js */
-/**
- * This class connects view modules and controllers
- * @namespace controller
- * @class Manager
- * @extends Core
- */
-ludo.controller.Manager = new Class({
-    Extends: ludo.Core,
-    controllers : [],
-    components : [],
-
-    registerController:function(controller){
-        this.controllers.push(controller);
-        for(var i=0;i<this.components.length;i++){
-            var c = this.components[i];
-            if(controller.shouldBeControllerFor(c)){
-                this.assignControllerTo(controller,c);
-            }
-        }
-    },
-
-    registerComponent:function(component){
-        if(!component.hasController()){
-            this.components.push(component);
-            var controller = this.getControllerFor(component);
-            if(controller){
-                this.assignControllerTo(controller,component);
-            }
-        }
-    },
-
-    getControllerFor:function(component){
-        for(var i=0;i<this.controllers.length;i++){
-            if(this.controllers[i].shouldBeControllerFor(component)){
-                return this.controllers[i];
-            }
-        }
-		return undefined;
-    },
-
-    assignSpecificControllerFor:function(controller, component){
-        if (typeof controller === "string") {
-            controller = ludo.get(controller);
-            if(controller){
-                this.assignControllerTo(controller,component);
-            }
-            return;
-        }
-        controller = component.createDependency('controller-' + String.uniqueID(), controller);
-        this.assignControllerTo(controller,component);
-    },
-
-    assignControllerTo:function(controller, component){
-        component.setController(controller);
-        controller.addBroadcastFor(component);
-        controller.addView(component);
-    }
-});
-
-ludo.controllerManager = new ludo.controller.Manager();/* ../ludojs/src/controller/controller.js */
-/**
- * Base class for controllers
- *
- * A controller is by default controller for all components in the same namespace where
- * the useController attribute is set to true. (namespace is
- * determined by component's "type" attribute)
- *
- * You can use the "applyTo" attribute to override this default  applyTo is
- * an array referring to the "module" and "submodule" property of components.
- *
- * example:
- * @example
- *  applyTo:["login", "register"]
- *
- * will set the controller as controller for all components in modules "login" and "register"
- *
- * When creating a new controller, you should extend this class and
- * implement an addView method which takes component as only argument
- * Example:
- *
- * @example
- *  addView:function(view){
- *      view.addEvent('someEvent', this.methodName.bind(this));
- *  }
- *
- * This methods add events to the component.
- *
- * To let the component listen to controller events, implement the addController method
- * for the component(it's defined in ludo.Core)
- *
- * @namespace controller
- * @class controller.Controller
- * @extends Core
- */
-
-ludo.controller.Controller = new Class({
-	Extends:ludo.Core,
-	type:'controller.Controller',
-	/**
-	 * Apply controller to components in these modules.
-	 * By default a controller will be set as controller for all component
-	 * within the same namespace (name space is determined by parsing "type" attribute),
-	 * Example:
-	 *
-	 * You have created a Image Crop module within ludo.app.crop. You have these components there
-	 *
-	 * ludo.crop.GUI ( View component with type set to "crop.GUI")
-	 * ludo.crop.Coordinates (View component with type set to "crop.Coordinates")
-	 * ludo.crop.Controller (Controller with type set to "crop.Controller")
-	 *
-	 * The controller will in this example be set as controller for all components within
-	 * the "ludo.crop" namespace.
-	 *
-	 * (if useController for the component is set to true)
-	 * This property is used to override the default
-	 * @property applyTo
-	 * @type Array
-	 * @default undefined
-	 */
-	applyTo:undefined,
-	id:undefined,
-	components:[],
-	controller:undefined,
-	useController:false,
-
-	/**
-	 List of events which will be automatically broadcasted,i.e. re-fired by the controller
-
-	 @property broadcast
-	 @type Object
-	 @example
-	 	broadcast:{
-			'ns.Component' : ['eventOne',{'viewEventName':'controllerEventName}],
-			'ns.ComponentTwo' : ['send','receive']
-		}
-	 In this example, the controller will listen to "eventOne" and "viewEventName"  of view of "type"
-	 ns.Component and re-fire them so that other views can listen to them. The "viewEventName" will
-	 be re-fired as a "controllerEventName".
-	 */
-	broadcast:undefined,
-
-	ludoConfig:function (config) {
-		config = config || {};
-        config.controller = undefined;
-        config.useController = false;
-
-		this.parent(config);
-		if (config.broadcast)this.broadcast = config.broadcast;
-		ludo.controllerManager.registerController(this);
-		if (this['addView'] == undefined) {
-			alert('You need to implement an addView method for the controller (' + this.type + ')');
-		}
-	},
-
-	addBroadcastFor:function (component) {
-		if (this.broadcast && this.broadcast[component.type] !== undefined) {
-			var ev = this.broadcast[component.type];
-			for (var i = 0; i < ev.length; i++) {
-				var eventNames = this.getBroadcastEventNames(ev[i]);
-				component.addEvent(eventNames.component, this.getBroadcastFn(eventNames.controller).bind(this));
-			}
-		}
-	},
-
-	getBroadcastFn:function (eventName) {
-		return function () {
-			this.fireEvent(eventName, arguments);
-		}
-	},
-
-	getBroadcastEventNames:function (event) {
-		if (typeof event == 'object') {
-			for (var key in event) {
-				if (event.hasOwnProperty(key)) {
-					return { component:key, controller:event[key] };
-				}
-			}
-		}
-		return { component:event, controller:event };
-	},
-
-	shouldBeControllerFor:function (component) {
-		if(component === this)return false;
-		if (!this.applyTo) {
-			return this.isInSameNamespaceAs(component);
-		}
-		var key = this.getModuleKeyFor(component);
-		if (this.isAppliedDirectlyToModule(key)) {
-			return true;
-		}
-		return this.isAppliedIndirectlyToModule(key);
-	},
-
-	getModuleKeyFor:function (component) {
-		return component.module + (component.submodule ? '.' + component.submodule : '');
-	},
-
-	isAppliedDirectlyToModule:function (moduleKey) {
-		return (this.applyTo.indexOf(moduleKey) === 0);
-	},
-
-	isAppliedIndirectlyToModule:function (moduleKey) {
-		for (var i = 0; i < this.applyTo.length; i++) {
-			if (moduleKey.indexOf(this.applyTo[i]) === 0) {
-				return true;
-			}
-		}
-		return false;
-	},
-
-	isInSameNamespaceAs:function (component) {
-		return this.getNamespace() == component.getNamespace();
-	}
-});
-
-ludo.getController = function (controller) {
-	if (controller.substr) {
-		controller = ludo.get(controller);
-	}
-	return controller;
-};/* ../ludojs/src/menu/item.js */
-/**
- * Class for menu items. MenuItems are created dynamically from config object(children of ludo.menu.Menu or ludo.menu.Context)
- * @namespace menu
- * @class MenuItem
- * @extends View
- */
-ludo.menu.Item = new Class({
-    Extends:ludo.View,
-    type:'menu.Item',
-    menu:null,
-    subMenu:null,
-    menuItems:[],
-    spacer:undefined,
-    /**
-     Path to menu item icon or text placed in the icon placeholder. If icon contains one
-     or more periods(.) it will be consider an image. Otherwise, config.icon will be displayed
-     as plain text
-     @config {String} icon
-     @default undefined
-     @example
-        icon: 'my-icon.jpg'
-     Sets icon to my-icon.jpg
-     @example
-        icon : '!'
-     sets icon to the character "!", i.e. text
-     */
-    icon:undefined,
-    orientation:'vertical',
-    /**
-     * Initially disable the menu item
-     * @config {Boolean} disabled
-     * @default false
-     */
-    disabled:false,
-
-    /**
-     * Text for menu item
-     * @config {String} label
-     * @default '' empty string
-     */
-    label:'',
-    /**
-     * Useful property if you want to apply only one click event for the menu
-     * and then determine which menu item was clicked. example:
-     *
-     * switch(menuItem.action){
-     *
-     *
-     *
-     * }
-     *
-     * @Attribute {String} action
-     * @type String
-     * @default undefined
-     */
-    action:undefined,
-    record:undefined,
-
-    /**
-     * Fire an event with this name on click
-     * @config {String} fire
-     * @default undefined
-     */
-    fire:undefined,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['orientation', 'icon', 'record', 'value', 'label', 'action', 'disabled', 'fire']);
-
-        this.html = this.html || this.label;
-        if (this.html === '|') {
-            this.spacer = true;
-            this.layout.height = 1;
-		}else{
-			this.layout.height = this.layout.height || this.orientation === 'vertical' ? 25 : 'matchParent';
-        }
-
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        if (!this.isSpacer()) {
-            this.getEl().addEvents({
-                'click' : this.click.bind(this),
-                'mouseenter' : this.mouseOver.bind(this),
-                'mouseleave' : this.mouseOut.bind(this)
-            });
-        }
-    },
-
-    resizeDOM:function(){
-        this.parent();
-        this.getBody().style.lineHeight = this.cachedInnerHeight + 'px';
-    },
-	resizeParent:function(){
-
-	},
-
-    ludoDOM:function () {
-        this.parent();
-        ludo.dom.addClass(this.getEl(), 'ludo-menu-item');
-
-        if (this.isSpacer()) {
-            if (this.orientation === 'horizontal') {
-                this.getEl().setStyle('width', 1);
-            }
-            ludo.dom.addClass(this.getEl(), 'ludo-menu-item-spacer-' + this.orientation);
-        }
-
-        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-' + this.orientation);
-
-        if (this.icon) {
-            this.createIcon();
-        }
-
-        if (this.disabled) {
-            this.disable();
-        }
-
-		if(this.children.length){
-			var el = this.els.expand = new Element('div');
-		    ludo.dom.addClass(el, 'ludo-menu-item-expand');
-		    ludo.dom.addClass(el, 'ludo-menu-item-' + this.orientation + '-expand');
-		    this.getEl().adopt(el);
-		}
-    },
-
-    getLabel:function () {
-        return this.label;
-    },
-
-    getRecord:function () {
-        return this.record;
-    },
-
-    ludoRendered:function () {
-        this.parent();
-        if (this.isSpacer()) {
-            this.getBody().setStyle('visibility', 'hidden');
-        }
-    },
-
-    click:function () {
-        if (this.disabled) {
-            return;
-        }
-        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-down');
-        this.fireEvent('click', this);
-        if (this.fire)this.fireEvent(this.fire, this);
-    },
-
-
-
-    select:function () {
-        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-selected');
-    },
-
-    deselect:function () {
-        this.getEl().removeClass('ludo-menu-item-selected');
-    },
-
-    /**
-     * Disable menu item
-     * @method disable
-     * @return void
-     */
-    disable:function () {
-        this.disabled = true;
-        ludo.dom.addClass(this.getEl(), 'ludo-menu-item-disabled');
-    },
-
-    /**
-     * Return disable state of menu item
-     * @method isDisabled
-     * @return {Boolean} disabled
-     */
-    isDisabled:function () {
-        return this.disabled;
-    },
-
-    /**
-     * Enable menu item
-     * @method enable
-     * @return void
-     */
-    enable:function () {
-        this.disabled = false;
-        this.getEl().removeClass('ludo-menu-item-disabled');
-    },
-
-    createIcon:function () {
-        var el = this.els.icon = new Element('div');
-        ludo.dom.addClass(el, 'ludo-menu-item-icon');
-        el.setStyles({
-            'background-position':'center center',
-            'background-repeat':'no-repeat',
-            'position':'absolute',
-            'text-align':'center',
-            'left':0,
-            'top':0,
-            'height':'100%'
-        });
-        if (this.icon.indexOf('.') >= 0) {
-            el.setStyle('background-image', 'url(' + this.icon + ')');
-        } else {
-            el.set('html', this.icon);
-        }
-        this.getEl().adopt(el);
-    },
-
-    mouseOver:function () {
-        if (!this.disabled) {
-            ludo.dom.addClass(this.getEl(), 'ludo-menu-item-over');
-        }
-        this.fireEvent('enterMenuItem', this);
-    },
-
-    mouseOut:function () {
-        if (!this.disabled) {
-            this.getEl().removeClass('ludo-menu-item-over');
-            this.getEl().removeClass('ludo-menu-item-down');
-            this.fireEvent('leaveMenuItem', this);
-        }
-    },
-
-    isSpacer:function () {
-        return this.spacer;
-    },
-
-    showMenu:function () {
-        this.menuHandler.showMenu(this);
-    }
-});/* ../ludojs/src/menu/menu.js */
-/**
- * Menu class
- * @namespace menu
- * @class Menu
- * @extends View
- */
-ludo.menu.Menu = new Class({
-    Extends : ludo.View,
-    type : 'menu.Menu',
-    layout:{
-		type:'Menu',
-		orientation:'vertical',
-		width:'wrap',
-		height:'wrap'
-	},
-
-    addCoreEvents : function(){
-
-    }
-});
-
-
-/* ../ludojs/src/menu/context.js */
-/**
- Context menu class. You can create one or more context menus for a component by using the
- ludo.View.contextMenu config array,
- @namespace menu
- @class Context
- @extends menu.Menu
- @constructor
- @param {Object} config
- @example
-    new ludo.Window({
-           contextMenu:[{
-               selector : '.my-selector',
-               children:[{label:'Menu Item 1'},{label:'Menu item 2'}],
-               listeners:{
-                   click : function(menuItem, menu){
-                       // Do something
-                   }
-               }
-
-           }]
-      });
- */
-ludo.menu.Context = new Class({
-	Extends:ludo.View,
-	type:'menu.Context',
-
-	layout:{
-		type:'Menu',
-		orientation:'vertical',
-		width:'wrap',
-		height:'wrap',
-		active:true,
-		isContext:true
-	},
-
-	renderTo:document.body,
-	/**
-	 Show context menu only for DOM nodes matching a CSS selector. The context menu will also
-	 be shown if a match is found in one of the parent DOM elements.
-	 @attribute selector
-	 @type String
-	 @default undefined
-	 @example
-	    selector : '.selected-records'
-	 */
-	selector:undefined,
-	component:undefined,
-
-	// TODO change this code to record:{ keys that has to match }, example: record:{ type:'country' }
-
-	/**
-	 Show context menu for records with these properties
-	 @config {Object} record
-	 @default undefined
-	 @example
-	 */
-	record:undefined,
-	/**
-	 Show context menu only for records of a specific type. The component creating the context
-	 menu has to have a getRecordByDOM method in order for this to work. These methods are already
-	 implemented for tree.Tree and grid.Grid
-
-	 @attribute recordType
-	 @type String
-	 @default undefined
-	 @example
-	 recordType : 'city'
-	 */
-	recordType:undefined,
-
-	/**
-	 * Add context menu to this DOM element
-	 * @config {String|HTMLElement} contextEl
-	 * @default undefined
-	 */
-	contextEl:undefined,
-
-	ludoConfig:function (config) {
-		this.renderTo = document.body;
-		this.parent(config);
-		this.setConfigParams(config, ['selector', 'recordType', 'record', 'applyTo','contextEl']);
-		if (this.recordType)this.record = { type:this.recordType };
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().style.position = 'absolute';
-	},
-	ludoEvents:function () {
-		this.parent();
-		document.id(document.documentElement).addEvent('click', this.hideAfterDelay.bind(this));
-		if(this.contextEl){
-			document.id(this.contextEl).addEvent('contextmenu', this.show.bind(this));
-		}
-	},
-
-	hideAfterDelay:function () {
-		if (!this.isHidden()) {
-			this.hide.delay(50, this);
-		}
-	},
-
-	ludoRendered:function () {
-		this.parent();
-		this.hide();
-	},
-
-	/**
-	 * when recordType property is defined, this will return the selected record of parent applyTo,
-	 * example: record in a tree
-	 * @method getSelectedRecord
-	 * @return object record
-	 */
-	getSelectedRecord:function () {
-		return this.selectedRecord;
-	},
-
-	show:function (e) {
-		if (this.selector) {
-			var domEl = this.getValidDomElement(e.target);
-			if (!domEl) {
-				return undefined;
-			}
-			this.fireEvent('selectorclick', domEl);
-		}
-		if (this.record) {
-			var r = this.applyTo.getRecordByDOM(e.target);
-			if (!r)return undefined;
-			if (this.isContextMenuFor(r)) {
-				this.selectedRecord = r;
-			}
-		}
-
-        ludo.EffectObject.fireEvents();
-
-		this.getLayout().hideAllMenus();
-		this.parent();
-		if (!this.getParent()) {
-			var el = this.getEl();
-			var pos = this.getXAndYPos(e);
-			el.style.left = pos.x + 'px';
-			el.style.top = pos.y + 'px';
-		}
-		return false;
-	},
-
-	isContextMenuFor:function (record) {
-		for (var key in this.record) {
-			if (this.record.hasOwnProperty(key))
-				if (!record[key] || this.record[key] !== record[key])return false;
-		}
-		return true;
-	},
-
-	getXAndYPos:function (e) {
-		var ret = {
-			x:e.page.x,
-			y:e.page.y
-		};
-		var clientWidth = document.body.clientWidth;
-		var clientHeight = document.body.clientHeight;
-		var size = this.getEl().getSize();
-		var x = ret.x + size.x;
-		var y = ret.y + size.y;
-
-		if (x > clientWidth) {
-			ret.x -= (x - clientWidth);
-		}
-		if (y > clientHeight) {
-			ret.y -= (y - clientHeight);
-		}
-		return ret;
-	},
-
-	addCoreEvents:function () {
-
-	},
-
-	getValidDomElement:function (el) {
-		if (!this.selector) {
-			return true;
-		}
-		var selector = this.selector.replace(/[\.#]/g, '');
-		if (el.hasClass(selector) || el.id == selector) {
-			return el;
-		}
-		var parent = el.getParent(this.selector);
-		if (parent) {
-			return parent;
-		}
-		return false;
-	}
-});/* ../ludojs/src/menu/drop-down.js */
-/**
- * @namespace menu
- * @class DropDown
- * @extends menu.Menu
- *
- */
-ludo.menu.DropDown = new Class({
-    Extends:ludo.menu.Menu,
-    type:'menu.DropDown',
-
-    ludoConfig:function (config) {
-        config.renderTo = document.body;
-        this.parent(config);
-		this.setConfigParams(config, ['applyTo']);
-		this.layout.below = this.layout.below || this.applyTo;
-		this.layout.alignLeft = this.layout.alignLeft || this.applyTo;
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        document.id(document.documentElement).addEvent('click', this.hideAfterDelay.bind(this));
-    },
-
-    hideAfterDelay:function () {
-        if (!this.isHidden()) {
-            this.hide.delay(50, this);
-        }
-    },
-
-    toggle:function(){
-        if(this.isHidden()){
-            this.show();
-        }else{
-            this.hide();
         }
     }
-});/* ../ludojs/src/menu/button.js */
-/**
- Menu button arrow which you can apply to DOM Element to have a menu drop down
- below it.
- @namespace menu
- @class Button
- @extends Core
- */
-ludo.menu.Button = new Class({
-    Extends:ludo.Core,
-    width:15,
-    // TODO refactor this class
-    /**
-     * Render button to this element
-     * @attribute renderTo
-     * @type {String}|DOMElement
-     * @default undefined
-     */
-    renderTo:undefined,
-
-    /**
-     * Button always visible. When false, it will be visible when mouse enters
-     * parent DOM element and hidden when it leaves it
-     * @attribute alwaysVisible
-     * @type {Boolean}
-     * default false
-     */
-    alwaysVisible:false,
-
-    /**
-     * Position button in this region. Valid values : 'nw','ne','sw' and 'se'
-     * @attribute region
-     * @type String
-     * @default 'ne'
-     */
-    region:'ne',
-
-    el:undefined,
-
-    /**
-     * Configuration object for the object to show on click on button
-     * @attribute menu
-     * @type {View}
-     * @default undefined
-     */
-    menu:undefined,
-
-    menuCreated:false,
-
-    autoPosition:true,
-
-    toggleOnClick:false,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['alwaysVisible', 'region', 'renderTo', 'menu', 'autoPosition','toggleOnClick']);
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        this.ludoDOM();
-        this.createButtonEvents();
-    },
-
-    ludoDOM:function () {
-        var el = this.el = new Element('div');
-        el.id = 'ludo-menu-button-' + String.uniqueID();
-        ludo.dom.addClass(el, 'ludo-menu-button');
-        document.id(this.renderTo).adopt(el);
-        el.setStyles({
-            position:'absolute',
-            height:'100%'
-        });
-        this.createButtonEl();
-        this.positionButton();
-    },
-
-    createButtonEvents:function () {
-        this.buttonEl.addEvent('click', this.toggle.bind(this));
-        ludo.EffectObject.addEvent('start', this.hideMenu.bind(this));
-
-        this.buttonEl.addEvent('mouseenter', this.enterButton.bind(this));
-        this.buttonEl.addEvent('mouseleave', this.leaveButton.bind(this));
-
-        if (!this.alwaysVisible) {
-            var el = document.id(this.renderTo);
-            el.addEvent('mouseenter', this.show.bind(this));
-            el.addEvent('mouseleave', this.hide.bind(this));
-            this.hide();
-        } else {
-            this.show();
-        }
-    },
-
-    enterButton:function(){
-        ludo.dom.addClass(this.el, 'ludo-menu-button-over');
-    },
-    leaveButton:function(){
-        ludo.dom.removeClass(this.el, 'ludo-menu-button-over');
-    },
-    toggle:function(e){
-        e.stop();
-        if(this.toggleOnClick && this.menuCreated){
-            this.menu[this.menu.isHidden() ? 'show' : 'hide']();
-        }else{
-            this.showMenu();
-        }
-    },
-
-    createButtonEl:function () {
-        var el = this.buttonEl = new Element('div');
-        ludo.dom.addClass(el, 'ludo-menu-button-arrow');
-        this.getEl().adopt(el);
-    },
-
-    positionButton:function () {
-        var e = this.getEl();
-        var r = this.region;
-        if (r == 'ne' || r == 'se')e.setStyle('right', 0);
-        if (r == 'nw' || r == 'sw')e.setStyle('left', 0);
-        if (r == 'se' || r == 'sw')e.setStyle('bottom', 0);
-        if (r == 'ne' || r == 'nw')e.setStyle('top', 0);
-    },
-
-    getEl:function () {
-        return this.el;
-    },
-
-    showMenu:function () {
-        if (!this.menuCreated) {
-            this.createMenuView();
-        }
-        if (this.menu._button && this.menu._button !== this.id) {
-            var el = ludo.get(this.menu._button);
-            if (el)el.hideButton();
-        }
-
-        this.menu._button = this.id;
-        this.menu.show();
-
-        this.positionMenu();
-        this.fireEvent('show', this);
-    },
-
-    /**
-     This method should be called from function added as event handler to "beforeShow"
-     @method cancelShow
-     @example
-     button.addEvent('beforeShow', function(button){
-	 		if(!this.isOkToShowButton()){
-	 			button.cancel();
-	 		}
-	 	});
-     */
-    cancelShow:function () {
-        this.okToShowButton = false;
-    },
-
-    hideMenu:function () {
-        if(this.menu.hidden)return;
-        if (this.menu.hide !== undefined){
-            if(this.menu.getLayout().hideAllMenus)this.menu.getLayout().hideAllMenus();
-            this.menu.hide();
-        }
-        this.hide();
-    },
-
-    createMenuView:function () {
-        if (this.menu.id) {
-            var menu = ludo.get(this.menu.id);
-            if (menu)this.menu = menu;
-        }
-        this.menuCreated = true;
-        if (this.menu.getEl === undefined) {
-            this.menu.renderTo = document.body;
-            this.menu.type = this.menu.type || 'View';
-            this.menu.hidden = true;
-            this.menu = this.createDependency('menuForButton', this.menu);
-            this.menu._button = this.getEl().id;
-            document.body.addEvent('mouseup', this.autoHideMenu.bind(this));
-        } else {
-            document.body.adopt(this.menu.getEl());
-        }
-
-        this.menu.addEvent('show', this.showIf.bind(this));
-        this.menu.addEvent('hide', this.hideButton.bind(this));
-        this.menu.getEl().style.position = 'absolute';
-        this.menu.getEl().addClass('ludo-menu-button-menu');
-    },
-
-    positionMenu:function () {
-        if (this.autoPosition) {
-            var pos = this.el.getCoordinates();
-            this.menu.resize({
-                left:pos.left,
-                top:pos.top + pos.height
-            });
-        }
-    },
-
-    showIf:function () {
-        if (this.menu._button === this.id) {
-            this.show();
-        }
-    },
-
-    okToShowButton:false,
-
-    show:function () {
-        this.okToShowButton = true;
-        /**
-         * Event fired before button is shown. You can use this event and call
-         * the cancel method if there are situations where you don't always want to show the button
-         * @event beforeShow
-         * @param {menu.Button} this
-         */
-        this.fireEvent('beforeShow', this);
-
-        if (this.okToShowButton) {
-            this.buttonEl.style.display = '';
-            ludo.dom.addClass(this.el, 'ludo-menu-button-active');
-        }
-    },
-
-    hide:function () {
-        if (this.menu === undefined || this.menu.isHidden === undefined || this.menu.isHidden()) {
-            this.hideButton();
-        } else if (this.menu._button !== this.id) {
-            this.hideButton();
-        }
-    },
-
-    hideButton:function () {
-        if (this.alwaysVisible)return;
-        this.buttonEl.style.display = 'none';
-        ludo.dom.removeClass(this.el, 'ludo-menu-button-active');
-    },
-    getMenuView:function () {
-        return this.menu;
-    },
-
-    autoHideMenu:function (e) {
-        if (!this.menu || this.menu.hidden)return;
-        if (!ludo.dom.isInFamilies(e.target, [this.el.id, this.menu.getEl().id])) {
-            this.hideMenu();
-            this.hideButton();
-        }
-    }
-});/* ../ludojs/src/panel.js */
-/**
- * A Panel
- * A Panel is a component where the body element is a &lt;fieldset> with a &lt;legend>
- * @class Panel
- * @extends View
- */
-ludo.Panel = new Class({
-	Extends:ludo.View,
-	tagBody:'fieldset',
-
-	_createDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-panel');
-		this.els.legend = new Element('legend');
-		this.els.body.adopt(this.els.legend);
-		this.getEl().addClass('ludo-panel');
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.setTitle(this.title);
-	},
-
-	ludoRendered:function () {
-		this.parent();
-		this.getBody().setStyle('display', 'block');
-	},
-	autoSetHeight:function () {
-		this.parent();
-		var sizeLegend = this.els.legend.measure(function () {
-			return this.getSize();
-		});
-		this.layout.height += sizeLegend.y;
-
-	},
-
-	getInnerHeightOfBody:function () {
-		return this.parent() - this.getHeightOfLegend() - 5;
-	},
-
-	heightOfLegend:undefined,
-	getHeightOfLegend:function () {
-		if (this.layout.heightOfLegend === undefined) {
-			this.layout.heightOfLegend = this.els.legend.offsetHeight;
-		}
-		return this.layout.heightOfLegend;
-	},
-
-	resizeDOM:function () {
-		var height = this.getHeight();
-		if (height == 0) {
-			return;
-		}
-
-		height -= (ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMBPH(this.getEl()));
-		if (height > 0 && !isNaN(height)) {
-			this.getBody().style.height = height + 'px';
-		}
-
-		var width = this.getWidth();
-		width -= (ludo.dom.getMBPW(this.getBody()) + ludo.dom.getMBPW(this.getEl()));
-
-		if (width > 0 && !isNaN(width)) {
-			this.getBody().style.width = width + 'px';
-		}
-	},
-
-	setTitle:function (title) {
-		this.parent(title);
-		this.els.legend.set('html', title);
-	}
-});/* ../ludojs/src/canvas/paint.js */
-/**
- Class for styling of SVG DOM nodes
- @namespace canvas
- @class Paint
- @constructor
- @param {Object} config
- @example
- 	var canvas = new ludo.canvas.Canvas({
-		renderTo:'myDiv'
- 	});
-
- 	var paint = new ludo.canvas.Paint({
-		'stroke-width' : 5,
-		'stroke-opacity' : .5,
-		'stroke-color' : '#DEF'
-	}, { className : 'MyClass' );
- 	canvas.adoptDef(paint); // Appended to &lt;defs> node
-
- 	// create node and set "class" to paint
- 	// alternative methods:
- 	// paint.applyTo(node); and
- 	// node.addClass(paint.getClassName());
-	var node = new ludo.canvas.Node('rect', { id:'myId2', 'class' : paint});
-
- 	canvas.adopt(node);
-
- 	// Paint object for all &lt;rect> and &lt;circle> tags:
-
-	var gradient = new ludo.canvas.Gradient({
-        id:'myGradient'
-    });
-    canvas.adopt(gradient);
-    gradient.addStop('0%', '#0FF');
-    gradient.addStop('100%', '#FFF', 0);
-    // New paint object applied to all &lt;rect> and &lt;circle> tags.
- 	var paint = new ludo.canvas.Paint({
-		'stroke-width' : 5,
-		'fill' : gradient,
-		'stroke-opacity' : .5,
-		'stroke-color' : '#DEF'
-	}, { selectors : 'rect, circle' );
- */
-
-ludo.canvas.Paint = new Class({
-	Extends:ludo.canvas.Node,
-	tagName:'style',
-	css:{},
-	nodes:[],
-	className:undefined,
-	tag:undefined,
-	cssPrefix : undefined,
-
-	mappings:{
-		'color':['stroke-color'],
-		'background-color':['fill-color'],
-		'opacity':['fill-opacity', 'stroke-opacity']
-	},
-
-	initialize:function (css, config) {
-		config = config || {};
-		this.className = config.className || 'css-' + String.uniqueID();
-		this.cssPrefix = config.selectors ? config.selectors : '.' + this.className;
-		if(config.selectors)delete config.selectors;
-		if(config.className)delete config.className;
-		this.parent(this.tagName, config);
-		if (css !== undefined)this.setStyles(css);
-	},
-
-	setStyles:function (styles) {
-		Object.each(styles, function (value, key) {
-			this.setStyleProperty(key, value);
-		}, this);
-		this.updateCssContent();
-	},
-
-	/**
-	 Update a css style
-	 @method setStyle
-	 @param {String} style
-	 @param {String|Number}value
-	 @example
-	 	var paint = new ludo.canvas.Paint({
-	 		css:{
-	 			'stroke-opacity' : 0.5
-	 		}
-	 	});
-	 	canvas.adopt(paint);
-	 	paint.setStyle('stroke-opacity', .2);
-	 */
-	setStyle:function (style, value) {
-		this.setStyleProperty(style, value);
-		this.updateCssContent();
-	},
-
-	updateCssContent:function () {
-		var css = JSON.encode(this.css);
-		css  = css.replace(/"/g,"");
-		css  = css.replace(/,/g,";");
-		this.text(this.cssPrefix + css);
-	},
-
-	setStyleProperty:function (style, value) {
-		value = this.getRealValue(value);
-		if (this.mappings[style]) {
-			this.setMapped(style, value);
-		} else {
-			this.css[style] = value;
-		}
-	},
-
-	setMapped:function (style, value) {
-		for (var i = 0; i < this.mappings[style].length; i++) {
-			var m = this.mappings[style][i];
-			this.css[m] = value;
-		}
-	},
-
-	/**
-	 * Return value of a css style
-	 * @method getStyle
-	 * @param {String} style
-	 * @return {String|Number} value
-	 */
-	getStyle:function (style) {
-		if (this.mappings[style])style = this.mappings[style][0];
-		return this.css[style];
-	},
-
-	getRealValue:function (value) {
-		return value && value.id !== undefined ? 'url(#' + value.id + ')' : value;
-	},
-
-	/**
-	 * Apply css to a SVG node. This is done by adding CSS class to the node
-	 * @method applyTo
-	 * @param {canvas.Node} node
-	 */
-	applyTo:function (node) {
-		ludo.canvasEngine.addClass(node.el ? node.el : node, this.className);
-	},
-
-	/**
-	 * Returns class name of Paint object
-	 * @method getClassName
-	 * @return {String} className
-	 */
-	getClassName:function () {
-		return this.className;
-	},
-
-	getUrl:function(){
-		return this.className;
-	}
-});
-/* ../ludojs/src/canvas/named-node.js */
-/**
- * Super class for canvas.Circle, canvas.Rect +++
- * @namespace canvas
- * @class NamedNode
- */
-ludo.canvas.NamedNode = new Class({
-	Extends: ludo.canvas.Node,
-
-	initialize:function (attributes, text) {
-        attributes = attributes || {};
-		if(attributes.listeners){
-			this.addEvents(attributes.listeners);
-			delete attributes.listeners;
-		}
-		this.parent(this.tagName, attributes, text);
-	}
-});/* ../ludojs/src/canvas/path.js */
-/**
- * Returns a path SVG element which can be adopted to a canvas.
- * @namespace canvas
- * @class Path
- */
-ludo.canvas.Path = new Class({
-    Extends:ludo.canvas.NamedNode,
-    tagName:'path',
-    pointString:undefined,
-    pointArray:undefined,
-    size:undefined,
-    position:undefined,
-
-    initialize:function (points, properties) {
-        properties = properties || {};
-        if (points) {
-            points = this.getValidPointString(points);
-            properties.d = points;
-        }
-        this.parent(properties);
-        this.pointString = points;
-    },
-
-    getValidPointString:function (points) {
-        return points.replace(/([A-Z])/g, '$1 ').trim().replace(/,/g, ' ').replace(/\s+/g, ' ');
-    },
-
-    setPath:function (path) {
-        this.pointString = this.getValidPointString(path);
-        this.pointArray = undefined;
-        this.set('d', this.pointString);
-    },
-
-    getPoint:function (index) {
-        if (this.pointArray === undefined)this.buildPointArray();
-        index *= 3;
-        return {
-            x:this.pointArray[index + 1],
-            y:this.pointArray[index + 2]
-        };
-    },
-
-    setPoint:function (index, x, y) {
-        if (this.pointArray === undefined)this.buildPointArray();
-        index *= 3;
-        if (index < this.pointArray.length - 3) {
-            this.pointArray[index + 1] = x;
-            this.pointArray[index + 2] = y;
-            this.pointString = this.pointArray.join(' ');
-            this.set('d', this.pointString);
-            this.size = undefined;
-            this.position = undefined;
-        }
-    },
-
-    buildPointArray:function () {
-        var points = this.pointString.replace(/,/g, ' ').replace(/\s+/g, ' ');
-        this.pointArray = points.split(/([A-Z\s])/g).erase(" ").erase("");
-    },
-    /**
-     * Get size of polyline (max X - min X) and (max X - min Y)
-     * @method getSize
-     * @return {Object} x and y
-     */
-    getSize:function () {
-        if (this.size === undefined) {
-            var minMax = this.getMinAndMax();
-            this.size = {
-                x:Math.abs(minMax.maxX - minMax.minX),
-                y:Math.abs(minMax.maxY - minMax.minY)
-            };
-        }
-        return this.size;
-    },
-
-    getPosition:function () {
-        if (this.position === undefined) {
-            var minMax = this.getMinAndMax();
-            this.position = {
-                x:minMax.minX,
-                y:minMax.minY
-            };
-        }
-        return this.position;
-    },
-
-    getMinAndMax:function () {
-        if (this.pointArray === undefined)this.buildPointArray();
-        var p = this.pointArray;
-        var x = [];
-        var y = [];
-        for (var i = 0; i < p.length - 2; i += 3) {
-            x.push(p[i + 1]);
-            y.push(p[i + 2]);
-        }
-        return {
-            minX:Math.min.apply(this, x), minY:Math.min.apply(this, y),
-            maxX:Math.max.apply(this, x), maxY:Math.max.apply(this, y)
-        };
-    }
-});/* ../ludojs/src/remote/inject.js */
-/**
- * Class for injecting data to specific resource/service requests
- * @namespace {remote}
- * @class Inject
- */
-ludo.remote.Inject = new Class({
-
-	data:{},
-
-	/**
-	 Add data to be posted with the next request.
-	 @method add
-	 @param resourceService
-	 @param data
-	 @example
-	 	ludo.remoteInject.add('Person/save', {
-	 		'customParam' : 'customValue'
-	 	});
-	 */
-	add:function(resourceService, data){
-		var tokens = resourceService.split(/\//g);
-		var resource = tokens[0];
-		var service = tokens[1];
-		if(this.data[resource] === undefined){
-			this.data[resource] = {};
-		}
-		this.data[resource][service] = data;
-	},
-
-	get:function(resource, service){
-		if(this.data[resource] && this.data[resource][service]){
-			var ret = this.data[resource][service];
-			delete this.data[resource][service];
-			return ret;
-		}
-		return undefined;
-	}
-
-});
-
-ludo.remoteInject = new ludo.remote.Inject();
-/* ../ludojs/src/remote/base.js */
-/**
- * Base class for ludo.remote.HTML and ludo.remote.JSON
- * @namespace remote
- * @class Base
- */
-ludo.remote.Base = new Class({
-	Extends:Events,
-	remoteData:undefined,
-	method:'post',
-	
-	initialize:function (config) {
-		config = config || {};
-		if (config.listeners !== undefined) {
-			this.addEvents(config.listeners);
-		}
-		this.method = config.method || this.method;
-		if (config.resource !== undefined) this.resource = config.resource;
-		if (config.url !== undefined) this.url = config.url;
-
-		if (config.shim) {
-			new ludo.remote.Shim({
-				renderTo:config.shim.renderTo,
-				remoteObj:this,
-				txt:config.shim.txt
-			});
-		}
-	},
-
-	send:function (service, resourceArguments, serviceArguments, additionalData) {
-
-		this.remoteData = undefined;
-
-		if (resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
-		ludo.remoteBroadcaster.clear(this, service);
-
-		this.fireEvent('start');
-
-		this.sendToServer(service, resourceArguments, serviceArguments, additionalData);
-	},
-
-	onComplete:function () {
-		this.fireEvent('complete', this);
-	},
-	/**
-	 * Return url for the request
-	 * @method getUrl
-	 * @param {String} service
-	 * @param {Array} arguments
-	 * @return {String}
-	 * @protected
-	 */
-	getUrl:function (service, arguments) {
-		var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
-		if (ludo.config.hasModRewriteUrls()) {
-			ret = ludo.config.getDocumentRoot() + this.getServicePath(service, arguments);
-		} else {
-			ret = this.url !== undefined ? ludo.util.isFunction(this.url) ? this.url.call() : this.url : ludo.config.getUrl();
-		}
-		return ret;
-	},
-	/**
-	 * @method getServicePath
-	 * @param {String} service
-	 * @param {Array} arguments
-	 * @return {String}
-	 * @protected
-	 */
-	getServicePath:function (service, arguments) {
-		var parts = [this.resource];
-		if (arguments && arguments.length)parts.push(arguments.join('/'));
-		if (service)parts.push(service);
-		return parts.join('/');
-	},
-	/**
-	 * @method getDataForRequest
-	 * @param {String} service
-	 * @param {Array} arguments
-	 * @param {Object} data
-	 * @optional
-	 * @param {Object} additionalData
-	 * @optional
-	 * @return {Object}
-	 * @protected
-	 */
-	getDataForRequest:function (service, arguments, data, additionalData) {
-		var ret = {
-			data:data
-		};
-		if (additionalData) {
-			if (ludo.util.isObject(additionalData)) {
-				ret = Object.merge(additionalData, ret);
-			}
-		}
-		if (!ludo.config.hasModRewriteUrls() && this.resource) {
-			ret.request = this.getServicePath(service, arguments);
-		}
-
-		var injected = ludo.remoteInject.get(this.resource, service);
-		if(injected){
-			ret.data = ret.data ? Object.merge(ret.data, injected) : injected;
-		}
-
-		return ret;
-	},
-	/**
-	 * Return "code" property of last received server response.
-	 * @method getResponseCode
-	 * @return {String|undefined}
-	 */
-	getResponseCode:function () {
-		return this.remoteData && this.remoteData.code ? this.remoteData.code : 0;
-	},
-	/**
-	 * Return response message
-	 * @method getResponseMessage
-	 * @return {String|undefined}
-	 */
-	getResponseMessage:function () {
-		return this.remoteData && this.remoteData.message ? this.remoteData.message : undefined;
-	},
-
-	/**
-	 * Return name of resource
-	 * @method getResource
-	 * @return {String}
-	 */
-	getResource:function(){
-		return this.resource;
-	},
-
-	sendBroadCast:function(service){
-		ludo.remoteBroadcaster.broadcast(this, service);
-	}
-});/* ../ludojs/src/remote/json.js */
-/**
- * LudoJS class for remote JSON queries. Remote queries in ludoJS uses a REST-like API where you have
- * resources, arguments, service and data. An example of resource is Person and City. Example of
- * services are "load", "save". Arguments are arguments used when instantiating the resource on the
- * server, example: Person with id 1. The "data" property is used for data which should be sent to
- * the service on the server. Example: For Person with id equals 1, save these data.
- * @namespace remote
- * @class JSON
- * @extends Events
- */
-ludo.remote.JSON = new Class({
-    Extends:ludo.remote.Base,
-
-    /**
-     * Name of resource to request, example: "Person"
-     * @config {String} resource
-     */
-    resource:undefined,
-    /**
-     * Optional url to use for the query instead of global set url.
-     * @config {String} url
-     * optional
-     */
-    url:undefined,
-
-    initialize:function (config) {
-		this.parent(config);
-    },
-
-    /**
-     Send request to the server
-     @method send
-     @param {String} service
-     @param {Array} resourceArguments
-     @optional
-     @param {Object} serviceArguments
-     @optional
-     @example
-        ludo.config.setUrl('/controller.php');
-        var req = new ludo.remote.JSON({
-            resource : 'Person'
-        });
-        req.send('load', 1);
-
-     Will trigger the following data to be sent to controller.php:
-
-     @example
-		 {
-			 request:"Person/1/load"
-		 }
-     If you have the mod_rewrite module enabled and activated on your web server, you may use code like this:
-     @example
-	 	ludo.config.enableModRewriteUrls();
-        ludo.config.setDocumentRoot('/');
-        var req = new ludo.remote.JSON({
-            resource : 'Person'
-        });
-        req.send('load', 1);
-
-     which will send a request to the following url:
-     @example:
-        http://<your web server url>/Person/1/load
-     The query will not contain any POST data.
-
-     Here's another example for saving data(mod rewrite deactivated)
-     @example
-	     ludo.config.setUrl('/controller.php');
-         var req = new ludo.remote.JSON({
-            resource : 'Person'
-        });
-         req.send('save', 1, {
-            "firstname": "John",
-            "lastname": "Johnson"
-         });
-
-     which will send the following POST data to "controller.php":
-
-     @example
-        {
-            "request": "Person/1/save",
-            "data": {
-                "firstname": "John",
-                "lastname": McCarthy"
-            }
-        }
-     When mod_rewrite is enabled, the request will be sent to the url /Person/1/save and POST data will contain
-
-        {
-            "data": {
-                "firstname": "John",
-                "lastname": "McCarthy"
-            }
-        }
-     i.e. without any "request" data in the post variable since it's already defined in the url.
-     @param {Object} additionalData
-     @optional
-     */
-    sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
-
-		if(resourceArguments && !ludo.util.isArray(resourceArguments))resourceArguments = [resourceArguments];
-        // TODO escape slashes in resourceArguments and implement replacement in LudoDBRequestHandler
-        // TODO the events here should be fired for the components sending the request.
-
-		this.fireEvent('start', this);
-        this.sendBroadCast(service);
-        var req = new Request.JSON({
-            url:this.getUrl(service, resourceArguments),
-            method:this.method,
-            noCache:true,
-            data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
-            onSuccess:function (json) {
-                this.remoteData = json;
-                if (json.success || json.success === undefined) {
-                    this.fireEvent('success', this);
-                } else {
-                    this.fireEvent('failure', this);
-                }
-                this.sendBroadCast(service);
-				this.onComplete();
-            }.bind(this),
-            onError:function (text, error) {
-                this.remoteData = { "code": 500, "message": error };
-                this.fireEvent('servererror', this);
-                this.sendBroadCast(service);
-                this.onComplete();
-            }.bind(this)
-        });
-        req.send();
-    },
-    /**
-     * Return JSON response data from last request.
-     * @method getResponseData
-     * @return {Object|undefined}
-     */
-    getResponseData:function () {
-		if(!this.remoteData.response)return undefined;
-        return this.remoteData.response.data ? this.remoteData.response.data : this.remoteData.response;
-    },
-
-    /**
-     * Return entire server response of last request.
-     * @method getResponse
-     * @return {Object|undefined}
-     */
-    getResponse:function () {
-        return this.remoteData;
-    },
-    /**
-     * Set name of resource
-     * @method setResource
-     * @param {String} resource
-     */
-    setResource:function(resource){
-        this.resource = resource;
-    }
-});
-/* ../ludojs/src/remote/html.js */
-/**
- Class for remote HTML requests.
- @namespace remote
- @class HTML
- */
-ludo.remote.HTML = new Class({
-	Extends:ludo.remote.Base,
-	HTML:undefined,
-
-	sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
-		var req = new Request({
-			url:this.getUrl(service, resourceArguments),
-			method:this.method,
-			noCache:true,
-			evalScripts:true,
-			data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
-			onSuccess:function (html) {
-				this.remoteData = html;
-				this.fireEvent('success', this);
-				this.sendBroadCast(service);
-				this.onComplete();
-			}.bind(this),
-			onError:function (text, error) {
-				this.remoteData = { "code":500, "message":error };
-				this.fireEvent('servererror', this);
-				this.sendBroadCast(service);
-				this.onComplete();
-			}.bind(this)
-		});
-		req.send();
-	},
-	/**
-	 * Return JSON response data from last request.
-	 * @method getResponseData
-	 * @return {Object|undefined}
-	 */
-	getResponseData:function () {
-		return this.remoteData;
-	},
-
-	/**
-	 * Return entire server response of last request.
-	 * @method getResponse
-	 * @return {Object|undefined}
-	 */
-	getResponse:function () {
-		return this.remoteData;
-	}
-});/* ../ludojs/src/remote/broadcaster.js */
-/**
- Singleton class responsible for broadcasting messages from remote requests.
- Instance of this class is available in ludo.remoteBroadcaster.
-
- The broadcaster can fire four events:
- start, success, failure and serverError. The example below show you how
- to add listeners to these events.
- @namespace remote
- @class Broadcaster
- @example
-    ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-		// Do something
-	});
- */
-ludo.remote.Broadcaster = new Class({
-    Extends:Events,
-
-    defaultMessages:{},
-    /**
-     * @method broadcast
-     * @param {ludo.remote.JSON} request
-     * @param {String} service
-     * @private
-     */
-    broadcast:function (request, service) {
-        var code = request.getResponseCode();
-
-		var type, eventNameWithService;
-        switch (code) {
-			case 0:
-				type = 'start';
-				break;
-            case 200:
-				type = 'success';
-                break;
-            default:
-				type = 'failure';
-                break;
-        }
-
-		var eventName = this.getEventName(type, request.getResource());
-
-		if(eventName){
-			eventNameWithService = this.getEventName(type, request.getResource(), service);
-		}else{
-            eventName = this.getEventName('serverError', request.getResource());
-            eventNameWithService = this.getEventName('serverError', request.getResource(), service);
-        }
-
-        var eventObj = {
-            "message":request.getResponseMessage(),
-            "code":request.getResponseCode(),
-            "resource":request.getResource(),
-            "service":service,
-            "type": type
-        };
-        if (!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
-        this.fireEvent(eventName, eventObj);
-        if (service) {
-            this.fireEvent(eventNameWithService, eventObj);
-        }
-    },
-
-    getDefaultMessage:function (key) {
-        return this.defaultMessages[key] ? this.defaultMessages[key] : '';
-    },
-
-    clear:function (request, service) {
-        var eventObj = {
-            "message":request.getResponseMessage(),
-            "code":request.getResponseCode(),
-            "resource":request.getResource(),
-            "service":service
-        };
-        var eventName = this.getEventName('clear', eventObj.resource);
-        var eventNameWithService = this.getEventName('clear', eventObj.resource, service);
-
-        this.fireEvent(eventName, eventObj);
-        if (service) {
-            this.fireEvent(eventNameWithService, eventObj);
-        }
-    },
-
-    getEventName:function (eventType, resource, service) {
-        resource = resource || '';
-        service = service || '';
-        return [resource, service, eventType.capitalize(), 'Message'].join('');
-    },
-
-    /**
-     Listen to events from remote requests. EventType is either
-     success, failure or serverError. resource is a name of resource
-     specified in the request.
-     @method addResourceEvent
-     @param {String} eventType
-     @param {String} resource
-     @param {Function} fn
-     @example
-        ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
-            this.getBody().set('html', response.message');
-        }.bind(this));
-     The event payload is an object in this format:
-     @example
-         {
-             "code": 200,
-             "message": "A message",
-             "resource": "Which resource",
-             "service": "Which service"
-         }
-     */
-    addResourceEvent:function (eventType, resource, fn) {
-        this.addEvent(this.getEventName(eventType, resource), fn);
-    },
-    /**
-     Listen to remote events from a specific service only.
-     @method addResourceEvent
-     @param {String} eventType
-     @param {String} resource
-     @param {Array} services
-     @param {Function} fn
-     @example
-        ludo.remoteBroadcaster.addEvent('failure', 'Person', ['save'], function(response){
-            this.getBody().set('html', response.message');
-        }.bind(this));
-     The event payload is an object in this format:
-     @example
-         {
-             "code": 200,
-             "message": "A message",
-             "resource": "Which resource",
-             "service": "Which service"
-         }
-     */
-    addServiceEvent:function (eventType, resource, services, fn) {
-        if (!services.length) {
-            this.addEvent(this.getEventName(eventType, resource, undefined), fn);
-        } else {
-            for (var i = 0; i < services.length; i++) {
-                this.addEvent(this.getEventName(eventType, resource, services[i]), fn);
-            }
-        }
-    },
-
-    /**
-     Specify default response messages for resource service
-     @method setDefaultMessage
-     @param {String} message
-     @param {String} eventType
-     @param {String} resource
-     @param {String} service
-     @example
-        ludo.remoteBroadcaster.setDefaultMessage('You have registered successfully', 'success', 'User', 'register');
-     */
-    setDefaultMessage:function (message, eventType, resource, service) {
-        this.defaultMessages[this.getEventName(eventType, resource, service)] = message;
-    },
-
-	eventObjToBuild :{},
-    /**
-     Chained method for adding broadcaster events.
-     @method withResourceService
-     @param {String} resourceAndService
-     @return {remote.Broadcaster}
-     @example
-     ludo.remoteBroadcaster.withResourceService('Person/save').on('success', function(){
-	 		alert('Save success');
-	 	});
-     */
-    withResourceService:function(resourceAndService){
-        var tokens = resourceAndService.split(/\//g);
-        this.withResource(tokens[0]);
-        if(tokens.length == 2)this.withService(tokens[1]);
-        return this;
-    },
-
-	/**
-	 Chained method for adding broadcaster events.
-	 @method withResource
-	 @param {String} resource
-	 @return {remote.Broadcaster}
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('save').on('success', function(){
-	 		alert('Save success');
-	 	});
-	 */
-	withResource:function(resource){
-		this.eventObjToBuild = {
-			resource : resource
-		};
-		return this;
-	},
-	/**
-	 Chained method for adding broadcaster events.
-	 @method withService
-	 @param {String} service
-	 @return {remote.Broadcaster}
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('read').
-            withService('save').on('success', function(){
-	 		alert('Save success');
-	 	});
-	 */
-	withService:function(service){
-		if(this.eventObjToBuild.service === undefined){
-			this.eventObjToBuild.service = [];
-		}
-		this.eventObjToBuild.service.push(service);
-		return this;
-	},
-	/**
-	 Chained method for adding broadcaster events.
-	 @method on
-	 @param {String|Array} events
-	 @param {Function} fn
-	 @return {remote.Broadcaster}
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-	 		alert('Save success');
-	 	}).on('start', function(){ alert('About to save') });
-     Example with array:
-
-        ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-	 		alert('Save success');
-	 	}).on(['start','success'], function(){ alert('Remote event') });
-	 */
-	on:function(events, fn){
-        if(!ludo.util.isArray(events))events = [events];
-        for(var i=0;i<events.length;i++){
-		    this.addServiceEvent(events[i], this.eventObjToBuild.resource, this.eventObjToBuild.service, fn);
-        }
-		return this;
-	}
-});
-
-ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
-/* ../ludojs/src/remote/message.js */
-/**
- Class displaying all messages from remote requests
- @namespace remote
- @class Message
- @extends ludo.View
- @constructor
- @param {Object} config
- @example
- 	children:[{
-        type:'remote.Message',
-        listenTo:["Person", "City.save"]
-    }...
-
- will listen to all services of the "Person" resource and the "save" service of "City".
-
- */
-ludo.remote.Message = new Class({
-    // TODO support auto hide
-    Extends:ludo.View,
-    cls:'ludo-remote-message',
-
-    /**
-     Listen to these resources and events
-     @config {Array|String} listenTo
-     @example
-        listenTo:"Person" // listen to all Person events
-        listenTo:["Person.save","Person.read", "City"] // listen to "save" and "read" service of "Person" and all services of the "City" resource
-     */
-    listenTo:[],
-
-    messageTypes:['success', 'failure', 'error'],
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['listenTo']);
-        if (!ludo.util.isArray(this.listenTo))this.listenTo = [this.listenTo];
-		this.validateListenTo();
-
-    },
-
-	validateListenTo:function(){
-		for(var i=0;i<this.listenTo.length;i++){
-			this.listenTo[i] = this.listenTo[i].replace(/\//g,'.');
-		}
-	},
-
-    ludoEvents:function () {
-        this.parent();
-        var resources = this.getResources();
-        for (var resourceName in resources) {
-            if (resources.hasOwnProperty(resourceName)) {
-                this.addResourceEvent(resourceName, resources[resourceName]);
-            }
-        }
-    },
-
-    getResources:function () {
-        var ret = {};
-        var resource, service;
-        for (var i = 0; i < this.listenTo.length; i++) {
-            if (this.listenTo[i].indexOf('.') >= 0) {
-                var tokens = this.listenTo[i].split(/\./g);
-                if (tokens.length === 2) {
-                    service = tokens.pop();
-                    resource = tokens[0];
-                    service = service != '*' ? service : undefined;
-                }
-            } else {
-                resource = this.listenTo[i];
-                service = undefined;
-            }
-
-            if (ret[resource] == undefined) {
-                ret[resource] = [];
-            }
-            if (service && ret[resource].indexOf(service) === -1) {
-                ret[resource].push(service);
-            }
-        }
-        return ret;
-    },
-
-    addResourceEvent:function (resource, service) {
-        ludo.remoteBroadcaster.addServiceEvent("clear", resource, service, this.hideMessage.bind(this));
-        for (var i = 0; i < this.messageTypes.length; i++) {
-            ludo.remoteBroadcaster.addServiceEvent(this.messageTypes[i], resource, service, this.showMessage.bind(this));
-        }
-    },
-
-    showMessage:function (response) {
-        this.show();
-        if (response.code && response.code !== 200) {
-            ludo.dom.addClass(this.getEl(), 'ludo-remote-error-message');
-        } else {
-            ludo.dom.removeClass(this.getEl(), 'ludo-remote-error-message');
-        }
-        this.setHtml(response.message);
-
-        /**
-         * Event fired when message is shown.
-         * @event showMessage
-         * @param {remote.Message} this
-         */
-        this.fireEvent('showMessage', this);
-    },
-
-    hideMessage:function () {
-        this.setHtml('');
-    }
-});/* ../ludojs/src/remote/error-message.js */
-/**
- * Show error messages from remote requests
- * @namespace remote
- * @class ErrorMessage
- * @extends ludo.remote.Message
- */
-ludo.remote.ErrorMessage = new Class({
-    Extends:ludo.remote.Message,
-    messageTypes:['failure','serverError']
-});/* ../ludojs/src/form/manager.js */
-/**
- Class for form Management. Instance of this class is created on demand
- by ludo.View.getForm(). Configuration is done via view.form config property.
- @namespace form
- @class Manager
- @extends Core
- @constructor
- @param {Object} config
- @example
- 	var view = new ludo.View({
-        form:{
-            'resource' : 'Person',
-            autoLoad:true,
-            arguments:1
-        },
-        children:[
-            { type:'form.Text', label:'First name' },
-            {
-                layout:{ type:'linear',orientation:'horizontal',height:25},
-                children:[
-                    { type:'form.SubmitButton', value:'Save' },
-                    { type:'form.ResetButton', value:'Reset form }
-                ]
-            }
-        ]
-    });
- An instance of this class is created automatically and configured from the "form"
- config object of the View. You will get access to the instance of this class by calling
- View.getForm(), example: v.getForm().submit(); for the example above.
-
- */
-ludo.form.Manager = new Class({
-	Extends:ludo.Core,
-	view:null,
-	formComponents:[],
-	map:{},
-	fileUploadComponents:[],
-	progressBar:undefined,
-	invalidIds:[],
-	dirtyIds:[],
-	form:{
-		method:'post'
-	},
-
-	record:undefined,
-    /**
-     Name of server side resource(example a class) which handles form data.
-     Example: "User" when you have a form representing the details of a
-     user.
-     @config {String} resource
-     @default undefined
-     @example
-        new ludo.View({
-            form:{
-                "resource": "User",
-                "autoLoad" : true,
-                "arguments" : 100
-            },
-            children:[
-                {
-                    type:"form.Text", name:"firstname"
-                },
-                {
-                    type:"form.Text", name:"lastname"
-                }
-            ]
-        });
-     */
-    resource:undefined,
-    service:undefined,
-    method:undefined,
-    url:undefined,
-	currentId:undefined,
-    /**
-     * Autoload data from server on creation
-     * @config {Boolean} autoLoad
-     * @default false
-     */
-    autoLoad:false,
-    /**
-     Event listeners for the events fired by the form.
-     user.
-     @config {Object} listeners
-     @default undefined
-     @example
-        new ludo.View({
-            form:{
-                "resource": "User",
-                listeners:{
-                    "saved": function(){
-                        new ludo.Notification({ html : 'Your changes has been saved' });
-                    },
-                    "read": function(){
-                        // Record has been successfully read from the server.
-                    }
-                }
-            },
-            children:[
-                {
-                    type:"form.Text", name:"firstname"
-                },
-                {
-                    type:"form.Text", name:"lastname"
-                }
-            ]
-        });
-     */
-    listeners:undefined,
-
-    cacheStorage:{},
-    /**
-     Enable caching of read records
-     @config {Boolean} cache
-     @default false
-     @example
-        new ludo.View({
-            form:{
-                cache:true,
-                cacheTimeout : 5
-            }
-        )
-     */
-    cache:false,
-    /**
-     Time in minutes before a cached record is considered expired
-     @config {Number} cacheTimeout
-     @default undefined
-     */
-    cacheTimeout : undefined,
-
-    /**
-     * Update cached record when form value is modified
-     * @config {Boolean} updateCacheOnChange
-     * @default true
-     */
-    updateCacheOnChange :true,
-
-    /**
-     Read arguments sent when autoLoad is set to true
-     @config {String|Number} arguments
-     @default undefined
-     @example
-        form:{
-	 		url:'controller.php',
-	 		resource:'Person',
-	 		arguments:100,
-	 		autoLoad:true
-	 	}
-     will send request 'Person/100/read' to controller.php.
-     */
-    arguments:undefined,
-
-	ludoConfig:function (config) {
-		this.view = config.view;
-		config.form = config.form || {};
-
-        this.setConfigParams(config.form, ['resource','method', 'url','autoLoad','cache','service']);
-
-		this.id = String.uniqueID();
-
-		if (config.form.listeners !== undefined) {
-			this.addEvents(config.form.listeners);
-		}
-		this.getFormElements();
-
-		if(this.autoLoad){
-			this.read(config.form.arguments);
-		}
-	},
-
-	/**
-	 * Get all form elements, store them in an array and add valid and invalid events to them
-	 * @method getFormElements
-	 * @private
-	 */
-	getFormElements:function () {
-		if (!this.view.isRendered) {
-			this.getFormElements.delay(100, this);
-			return;
-		}
-
-		var children = this.view.getAllChildren();
-		children.push(this.view);
-
-		var c;
-		for (var i = 0, len = children.length; i < len; i++) {
-			c = children[i];
-			if (c['getProgressBarId'] !== undefined) {
-				this.registerProgressBar(c);
-			}
-			else if (c.isFormElement()) {
-				this.registerFormElement(c);
-			}
-		}
-
-		this.fireEvent((this.invalidIds.length == 0) ? 'valid' : 'invalid');
-		this.fireEvent((this.dirtyIds.length == 0) ? 'clean' : 'dirty');
-	},
-
-	registerFormElement:function (c) {
-		if (this.formComponents.indexOf(c) >= 0) {
-			return;
-		}
-
-		this.map[c.name] = c;
-
-		if(this.record && this.record[c.name]){
-			c.setValue(this.record[c.name]);
-		}
-
-        if(this.cache && this.updateCacheOnChange){
-            c.addEvent('valueChange', this.updateCache.bind(this));
-        }
-
-		if (c.isFileUploadComponent) {
-			this.fileUploadComponents.push(c);
-		}
-		this.formComponents.push(c);
-
-		c.addEvents({
-			'valid':this.onValid.bind(this),
-			'invalid':this.onInvalid.bind(this),
-			'dirty':this.onDirty.bind(this),
-			'clean':this.onClean.bind(this),
-			'change':this.onChange.bind(this)
-		});
-
-		if (!c.isValid()) {
-			this.invalidIds.push(c.getId());
-		}
-
-		if (c.isDirty()) {
-			this.dirtyIds.push(c.getId());
-		}
-	},
-
-    /**
-     * Set value of a form element
-     * @method set
-     * @param {String} key
-     * @param {String|Number|Object} value
-     */
-	set:function(key, value){
-		if(this.map[key]){
-			this.map[key].setValue(value);
-		}
-	},
-
-    /**
-     * Return value of form element.
-     * @method get
-     * @param {String} key
-     * @return {String|Number|Object}
-     */
-	get:function(key){
-		return this.map[key] ? this.map[key].getValue() : undefined;
-	},
-
-	registerProgressBar:function (view) {
-		if (!this.progressBar) {
-			this.progressBar = view;
-		}
-	},
-
-	onDirty:function (value, formComponent) {
-		var elId = formComponent.getId();
-		if (this.dirtyIds.indexOf(elId) == -1) {
-			this.dirtyIds.push(elId);
-		}
-		/**
-		 * @event dirty
-		 * @description Fired when value of one or more form views are different from their original start value
-		 * @param {Object} formComponent
-		 */
-		this.fireEvent('dirty', formComponent);
-	},
-
-	onClean:function (value, formComponent) {
-		this.dirtyIds.erase(formComponent.getId());
-
-		if (this.dirtyIds.length === 0) {
-			/**
-			 * @event clean
-			 * @description Fired when value of all views are equal to their original start value
-			 */
-			this.fireEvent('clean');
-		}
-	},
-
-	onChange:function (value, formComponent) {
-		/**
-		 * Event fired when a form element has been changed
-		 * @event change
-		 * @param {ludo.form.Manager} form
-		 * @param {ludo.form.Element} form element
-		 *
-		 */
-		this.fireEvent('change', [this, formComponent])
-	},
-	/**
-	 * One form element is valid. Fire valid event if all form elements are valid
-	 * @method onValid
-	 * @private
-	 * @param {String} value
-	 * @param {object } formComponent
-	 */
-	onValid:function (value, formComponent) {
-		this.invalidIds.erase(formComponent.getId());
-		if (this.invalidIds.length == 0) {
-			/**
-			 * @event valid
-			 * @param {Object} form.Manager
-			 * @description form.SubmitButton listens to this event which is fired
-			 * when all form elements inside a view are valid. The submit button will
-			 * be enabled automatically when this event is fired.
-			 */
-			this.fireEvent('valid', this);
-		}
-	},
-	/**
-	 * Set view invalid when a form element inside it is invalid
-	 *
-	 * @method onInvalid
-	 * @private
-	 * @param {String} value
-	 * @param {Object} formComponent
-	 */
-	onInvalid:function (value, formComponent) {
-		var elId = formComponent.getId();
-		if (this.invalidIds.indexOf(elId) == -1) {
-			this.invalidIds.push(elId);
-		}
-		/**
-		 * @event invalid
-		 * @param {Object} form.Manager
-		 * @description form.SubmitButton listens to this event which is fired
-		 * when one or more form elements inside a view is invalid. The submit
-		 * button will be disabled automatically when this event is fired.
-		 */
-		this.fireEvent('invalid', this);
-	},
-	/**
-	 * Validate form and fire "invalid" or "valid" event
-	 * @method validate
-	 * @return void
-	 */
-	validate:function () {
-		if (this.invalidIds.length > 0) {
-			this.fireEvent('invalid', this);
-		} else {
-			this.fireEvent('valid', this);
-		}
-	},
-	/**
-	 * @method isValid
-	 * @private
-	 * @description Returns true when form is valid.
-	 */
-	isValid:function () {
-		return this.invalidIds.length === 0;
-	},
-	// TODO implement a method returning values as plain array(values only)
-	/**
-	 * @method getValues
-	 * @description Return array of values of all form elements inside this view. The format is [{name:value},{name:value}]
-	 */
-	getValues:function () {
-		var ret = {};
-		for (var i = 0; i < this.formComponents.length; i++) {
-			var el = this.formComponents[i];
-			ret[el.getName()] = el.getValue();
-		}
-
-		return ret;
-	},
-
-	/**
-	 * Submit form to server
-	 * @method submit
-	 * @private
-	 */
-	submit:function () {
-		this.save();
-	},
-    /**
-     * Send delete request to the server
-     * @method deleteRecord
-     */
-	deleteRecord:function () {
-		/**
-		 * Event fired before delete request is sent to server
-		 * @event delete
-		 */
-		this.fireEvent('beforeDelete');
-		this.beforeRequest();
-		var path = this.getDeletePath();
-		var r = new ludo.remote.JSON({
-			resource:path.resource,
-			listeners:{
-				success:function (req) {
-					/**
-					 * Event fired after successful delete request
-					 * @event deleted
-					 * @param {Object} response from server
-					 * @param {Object} View
-					 */
-					this.fireEvent('deleted', [req.getResponse(), this.view]);
-					this.afterRequest();
-				}.bind(this),
-				"failure":function (req) {
-					/**
-					 * Event fired after form submission when success parameter in response is false.
-					 * To add listeners, use <br>
-					 * ludo.View.getForm().addEvent('failure', fn);<br>
-					 * @event deleteFailed
-					 * @param {Object} JSON response from server
-					 * @param {Object} Component
-					 */
-
-					this.fireEvent('deleteFailed', [req.getResponse(), this.view]);
-					this.afterRequest();
-				}.bind(this)
-			}
-		});
-		r.send(path.service, path.argument);
-	},
-
-	getDeletePath:function () {
-		if (this.currentId) {
-			return {
-				resource:this.resource,
-				service:'delete',
-				argument:this.currentId
-			}
-		}
-		return undefined;
-	},
-
-	getUnfinishedFileUploadComponent:function () {
-		for (var i = 0; i < this.fileUploadComponents.length; i++) {
-			if (this.fileUploadComponents[i].hasFileToUpload()) {
-				this.fileUploadComponents[i].addEvent('submit', this.save.bind(this));
-				return this.fileUploadComponents[i];
-			}
-		}
-		return undefined;
-	},
-
-	save:function () {
-		if (this.getUrl() || ludo.config.getUrl()) {
-			var el;
-			if (el = this.getUnfinishedFileUploadComponent()) {
-				el.upload();
-				return;
-			}
-
-			this.fireEvent('invalid');
-			this.fireEvent('beforeSave');
-			this.beforeRequest();
-			this.requestHandler().send(this.service ? this.service : 'save', this.currentId, this.getValues(),
-				{
-					"progressBarId":this.getProgressBarId()
-				}
-			);
-		}
-	},
-
-	/**
-	 * Read form values from the server
-	 * @method read
-	 * @param {String|undefined} id
-	 */
-	read:function(id){
-        if(this.isInCache(id)){
-            this.currentId = id;
-            this.fill(this.getCached(id));
-        }else{
-			this.fireEvent('beforeRead');
-			this.beforeRequest();
-            this.currentIdToBeSet = id;
-		    this.readHandler().sendToServer('read', id);
-
-        }
-	},
-
-    getCached:function(id){
-        return this.cacheStorage[id] ? this.cacheStorage[id].data : undefined;
-    },
-
-    updateCache:function(value, view){
-        if(this.cacheStorage[this.currentId]){
-            this.cacheStorage[this.currentId].data[view.getName()] = value;
-        }
-    },
-
-    storeCache:function(id, data){
-        this.cacheStorage[id] = {
-            data : Object.clone(data),
-            time : new Date().getTime()
-        }
-    },
-
-    isInCache:function(id){
-        if(this.cache && this.cacheStorage[id]){
-            if(!this.cacheTimeout || this.cacheStorage[id].time + (this.cacheTimeout * 1000 * 60) < new Date().getTime()){
-                return true;
-            }
-        }
-        return false;
-    },
-
-	_readHandler:undefined,
-
-	readHandler:function(){
-		if(this._readHandler === undefined){
-			this._readHandler = this.getDependency('readHandler', new ludo.remote.JSON({
-				url:this.url,
-				resource:this.resource ? this.resource : 'Form',
-				method:this.method ? this.method : 'post',
-				service : 'read',
-				listeners:{
-					"success":function (request) {
-						this.currentId = this.currentIdToBeSet;
-						this.record = request.getResponseData();
-                        if(this.cache){
-                            this.storeCache(this.currentId, this.record);
-                        }
-						this.fill(this.record);
-						/**
-						 * Event fired after data for the form has been read successfully
-						 * To add listeners, use <br>
-						 * ludo.View.getForm().addEvent('success', fn);
-						 * @event read
-						 * @param {Object} JSON response from server
-						 */
-						this.fireEvent('read', [request.getResponse(), this.view]);
-						if (this.isValid()) {
-							this.fireEvent('valid');
-						}
-						this.fireEvent('clean');
-
-						this.afterRequest();
-
-					}.bind(this),
-					"failure":function (request) {
-						this.fireEvent('failure', [request.getResponse(), this.view]);
-						this.afterRequest();
-					}.bind(this),
-					"error":function (request) {
-						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-						this.fireEvent('valid', this);
-						this.afterRequest();
-					}.bind(this)
-				}
-			}));
-		}
-		return this._readHandler;
-	},
-
-	fill:function(data){
-		for(var key in this.map){
-			if(this.map.hasOwnProperty(key)){
-				if(data[key] !== undefined){
-					this.map[key].setValue(data[key]);
-                    this.map[key].commit();
-				}else{
-					this.map[key].reset();
-				}
-			}
-		}
-	},
-
-	_request:undefined,
-	requestHandler:function () {
-		if (this._request === undefined) {
-			if (!this.resource)ludo.util.warn("Warning: form does not have a resource property. Falling back to default: 'Form'");
-			this._request = this.createDependency('_request', new ludo.remote.JSON({
-				url:this.url,
-				resource:this.resource ? this.resource : 'Form',
-				method:this.method ? this.method : 'post',
-				listeners:{
-					"success":function (request) {
-						this.commitFormElements();
-						/**
-						 * Event fired after a form has been saved successfully.
-						 * To add listeners, use <br>
-						 * ludo.View.getForm().addEvent('success', fn);
-						 * @event saved
-						 * @param {Object} JSON response from server
-						 */
-						this.fireEvent('saved', [request.getResponse(), this.view]);
-
-						this.setCurrentId(request.getResponseData());
-
-						this.fireEvent('success', [request.getResponse(), this.view]);
-						if (this.isValid()) {
-							this.fireEvent('valid');
-						}
-						this.fireEvent('clean');
-
-						this.afterRequest();
-
-					}.bind(this),
-					"failure":function (request) {
-						if (this.isValid()) {
-							this.fireEvent('valid');
-						}
-
-						/**
-						 * Event fired after form submission when success parameter in response is false.
-						 * To add listeners, use <br>
-						 * ludo.View.getForm().addEvent('failure', fn);<br>
-						 * @event failure
-						 * @param {Object} JSON response from server
-						 * @param {Object} Component
-						 */
-
-						this.fireEvent('failure', [request.getResponse(), this.view]);
-
-						this.afterRequest();
-					}.bind(this),
-					"error":function (request) {
-						/**
-						 * Server error event. Fired when the server didn't handle the request
-						 * @event servererror
-						 * @param {String} error text
-						 * @param {String} error message
-						 */
-						this.fireEvent('servererror', [request.getResponseMessage(), request.getResponseCode()]);
-						this.fireEvent('valid', this);
-
-						this.afterRequest();
-					}.bind(this)
-				}
-			}));
-		}
-		return this._request;
-	},
-
-	afterRequest:function(){
-		/**
-		 * Event fired after read, save and delete requests has been completed with or without failures
-		 * @event requestComplete
-		 */
-		this.fireEvent('afterRequest');
-	},
-
-	beforeRequest:function(){
-		/**
-		 * Event fired before read, save and delete request
-		 * @event requestComplete
-		 */
-		this.fireEvent('beforeRequest');
-	},
-	
-	setCurrentId:function(data){
-
-		if(!isNaN(data)){
-			this.currentId = data;
-		}
-		if(ludo.util.isObject(data)){
-			this.currentId = data.id;
-		}
-	},
-
-	getProgressBarId:function () {
-		return this.progressBar ? this.progressBar.getProgressBarId() : undefined;
-	},
-
-	commitFormElements:function () {
-		for (var i = 0; i < this.formComponents.length; i++) {
-			this.formComponents[i].commit();
-		}
-	},
-
-	reset:function () {
-		for (var i = 0; i < this.formComponents.length; i++) {
-			this.formComponents[i].reset();
-		}
-		this.dirtyIds = [];
-		this.fireEvent('clean');
-		this.fireEvent('reset');
-	},
-
-	newRecord:function(){
-		/**
-		 * Event fired when newRecord is called, i.e. when the form is cleared and currentId unset.
-		 * @event new
-		 */
-		this.fireEvent('new');
-		this.currentId = undefined;
-		this.clear();
-	},
-
-	clear:function () {
-		for (var i = 0; i < this.formComponents.length; i++) {
-			this.formComponents[i].clear();
-		}
-
-		this.dirtyIds = [];
-		this.fireEvent('clean');
-		this.fireEvent('clear');
-	},
-
-	/**
-	 * @method isDirty
-	 * @private
-	 * @description Returns true if one or more form elements of view have value different from it' original
-	 */
-	isDirty:function () {
-		return this.dirtyIds.length > 0;
-	}
 });/* ../ludojs/src/form/button.js */
 /**
  * Button component
@@ -20935,1915 +18040,6 @@ ludo.form.Button = new Class({
     isActive:function () {
         return this.active;
     }
-});/* ../ludojs/src/form/submit-button.js */
-/**
- * Special Button for form submission.
- * This button will automatically be disabled when a form is invalid, and automatically enabled when it's valid.
- * A form consists of all form elements of parent component, including form elements of child components.
- * @namespace form
- * @class SubmitButton
- * @extends form.Button
- */
-ludo.form.SubmitButton = new Class({
-	Extends:ludo.form.Button,
-	type:'form.SubmitButton',
-	value:'Submit',
-	disableOnInvalid:true,
-	/**
-	 * Apply submit button to form of this LudoJS component. If not defined, it will be applied
-     * to parent view.
-	 * @config {String|View} applyTo
-	 * @default undefined
-	 */
-	applyTo:undefined,
-	ludoConfig:function(config){
-		this.parent(config);
-		this.setConfigParams(config, ['applyTo']);
-	},
-
-	ludoRendered:function () {
-		this.parent();
-		this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-
-		if (this.applyTo) {
-            var form = this.applyTo.getForm();
-			form.addEvent('valid', this.enable.bind(this));
-			form.addEvent('invalid', this.disable.bind(this));
-			form.addEvent('clean', this.disable.bind(this));
-			form.addEvent('dirty', this.enable.bind(this));
-
-            this.checkValidity.delay(100, this);
-		}
-
-		this.addEvent('click', this.submit.bind(this));
-	},
-
-    checkValidity:function(){
-        if(this.applyTo.getForm().isValid()){
-            this.enable();
-        }else{
-            this.disable();
-        }
-    },
-
-	submit:function () {
-		if (this.applyTo) {
-			this.applyTo.getForm().submit();
-		}
-	}
-});/* ../ludojs/src/form/cancel-button.js */
-/**
- * Cancel button. This is a pre-configured ludo.form.Button which will close/hide parent view(or view defined in
- * applyTo) on click.
- * Default value of this button is "Cancel".
- * @namespace form
- * @class CancelButton
- * @extends form.Button
- */
-ludo.form.CancelButton = new Class({
-    Extends:ludo.form.Button,
-    type:'form.CancelButton',
-    /**
-     * @attribute value
-     * @description Default value of button
-     * @default 'Cancel'
-     */
-    value:'Cancel',
-
-	/**
-	 * Apply cancel button to form of this LudoJS component. If not defined, it
-     * will be applied to parent view.
-	 * @config {String|View} applyTo
-	 * @default undefined
-	 */
-	applyTo:undefined,
-
-	ludoConfig:function(config){
-		this.parent(config);
-		this.setConfigParams(config, ['applyTo']);
-	},
-
-    ludoRendered:function () {
-        this.parent();
-        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-        this.addEvent('click', this.hideComponent.bind(this));
-    },
-
-    hideComponent:function () {
-        if (this.applyTo) {
-            this.applyTo.hide();
-        }
-    }
-});/* ../ludojs/src/form/reset-button.js */
-/**
- * Special Button used to reset all form fields of component back to it's original state.
- * This button will automatically be disabled when the form is "clean", and disabled when it's "dirty".
- * @namespace form
- * @class ResetButton
- * @extends form.Button
- */
-ludo.form.ResetButton = new Class({
-    Extends:ludo.form.Button,
-    type:'form.ResetButton',
-    /**
-     * Value of button
-     * @attribute {String} value
-     * @default 'Reset'
-     */
-    value:'Reset',
-    // TODO create parent class for ResetButton, DeleteButton etc.
-    applyTo:undefined,
-
-    ludoConfig:function(config){
-        this.parent(config);
-        this.setConfigParams(config, ['applyTo']);
-    },
-    
-    ludoRendered:function () {
-        this.parent();
-        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-        var manager = this.applyTo.getForm();
-        if (this.applyTo) {
-            manager.addEvent('dirty', this.enable.bind(this));
-            manager.addEvent('clean', this.disable.bind(this));
-        }
-
-        if(!manager.isDirty()){
-            this.disable();
-        }
-        this.addEvent('click', this.reset.bind(this));
-    },
-
-    reset:function () {
-        if (this.applyTo) {
-            this.applyTo.getForm().reset();
-        }
-    }
-});/* ../ludojs/src/data-source/tree-collection.js */
-/**
- * Special collection class for tree structures.
- * @namespace dataSource
- * @class TreeCollection
- * @extends dataSource.Collection
- */
-ludo.dataSource.TreeCollection = new Class({
-	Extends:ludo.dataSource.Collection,
-	type : 'dataSource.TreeCollection',
-	searcherType:'dataSource.TreeCollectionSearch',
-	/**
-	 * Return children of parent with this id
-	 * @method getChildren
-	 * @param {String} parent id
-	 * @return {Array|undefined} children
-	 */
-	getChildren:function (parent) {
-		var p = this.findRecord(parent);
-		if (p) {
-			if (!p.children)p.children = [];
-			return p.children;
-		}
-		return undefined;
-	},
-
-    fireSelect:function(record){
-        this.fireEvent('select', this.getRecord(record));
-    },
-
-	addRecordEvents:function(record){
-		this.parent(record);
-		record.addEvent('addChild', this.indexRecord.bind(this));
-		record.addEvent('insertBefore', this.indexRecord.bind(this));
-		record.addEvent('insertAfter', this.indexRecord.bind(this));
-
-		var events = ['insertBefore','insertAfter','addChild','removeChild'];
-		for(var i=0;i<events.length;i++){
-			record.addEvent(events[i], this.fireRecordEvent.bind(this));
-		}
-	},
-
-	fireRecordEvent:function(record, otherRecord, eventName){
-		this.fireEvent(eventName, [record, otherRecord]);
-	},
-
-	addSearcherEvents:function(){
-        this.searcher.addEvent('match', function(record){
-            this.fireEvent('show', this.getRecord(record));
-        }.bind(this));
-        this.searcher.addEvent('mismatch', function(record){
-            this.fireEvent('hide', this.getRecord(record));
-        }.bind(this));
-	}
-});/* ../ludojs/src/collection-view.js */
-/**
- * Base class for List and tree.Tree
- * @class CollectionView
- */
-ludo.CollectionView = new Class({
-	Extends: ludo.View,
-	/**
-	 * Text to display when the tree or list has no data, i.e. when there's no data in data source or when filter returned no data.
-	 * @config {String} emptyText
-	 * @default undefined
-	 */
-	emptyText:undefined,
-
-	ludoConfig:function (config) {
-		this.parent(config);
-		this.setConfigParams(config, ['emptyText']);
-	},
-
-	ludoEvents:function(){
-		this.parent();
-		if(this.emptyText && !this.getDataSource().hasRemoteSearch()){
-			this.getDataSource().getSearcher().addEvents({
-				'matches' : this.hideEmptyText.bind(this),
-				'noMatches' : this.showEmptyText.bind(this)
-			});
-		}
-	},
-
-	hideEmptyText:function(){
-		this.emptyEl().style.display = 'none';
-	},
-
-	showEmptyText:function(){
-		this.emptyEl().style.display = '';
-		this._emptyEl.innerHTML = this.getEmptyText();
-	},
-
-	emptyEl:function(){
-		if(this._emptyEl === undefined){
-			this._emptyEl = ludo.dom.create({
-				tag : 'div',
-				renderTo:this.getBody(),
-				cls : 'ludo-empty-text',
-				css:{
-					position : 'absolute'
-				},
-				html : this.getEmptyText()
-			})
-		}
-		return this._emptyEl;
-	},
-
-	getEmptyText:function(){
-		return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
-	},
-
-	_nodeContainer:undefined,
-
-	nodeContainer:function(){
-		if(this._nodeContainer === undefined){
-			this._nodeContainer = ludo.dom.create({
-				tag : 'div',
-				renderTo : this.getBody()
-			});
-		}
-		return this._nodeContainer;
-	},
-
-	render:function(){
-		if(this.emptyText){
-			this[this.getDataSource().hasData() ? 'hideEmptyText' : 'showEmptyText']();
-		}
-	},
-
-	insertJSON:function(){
-
-	}
-});/* ../ludojs/src/tree/tree.js */
-/**
- * Tree widget
- * @namespace tree
- * @class Tree
- */
-ludo.tree.Tree = new Class({
-	Extends:ludo.CollectionView,
-    type:'tree.Tree',
-	nodeCache:{},
-    renderedRecords: {},
-	/**
-	 String template for nodes in the tree
-	 @config {String|Object}
-	 @example
-	 	tpl : '{title}
-	 or as an object:
-	 @example
-	 	tpl:{
-	 		tplKey : 'type',
-	 		city : 'City : {city}',
-	 		country : 'Country : {country}
-	 	}
-	 When using an object, "tplKey" is a reference to a common property of all objects, example "type". When type
-	 for a node is "city", it will use the city : 'City : {city}' tpl. When it's "country", it will use the "country" tpl.
-	 @example
-	 	[
-			{ id:1, "country":"Japan", "type":"country", "capital":"Tokyo", "population":"13,185,502",
-				children:[
-					{ id:11, city:'Kobe', "type":"city" },
-					{ id:12, city:'Kyoto', "type":"city" },
-					{ id:13, city:'Sapporo', "type":"city"},
-					{ id:14, city:'Sendai', "type":"city"},
-					{ id:15, city:'Kawasaki', "type":"city"}
-				]},
-			{id:2, "country":"South Korea", "capital":"Seoul", "population":"10,464,051", "type":"country",
-				children:[
-					{ id:21, city:'Seoul', "type":"city" }
-
-				]},
-			{id:3, "country":"Russia", "capital":"Moscow", "population":"10,126,424", "type":"country"},
-		]
-	 is an example of a data structure for this tpl.
-	 */
-	tpl : '<span class="ludo-tree-node-spacer"></span> {title}',
-	tplKey:undefined,
-	dataSource:{
-	},
-    defaultDS: 'dataSource.TreeCollection',
-
-	/**
-	 Default values when not present in node.
-	 @config {Object} defaults
-	 @default undefined
-	 @example
-	 	defaults:{
-	 		"database" : {
-	 			"icon" : "image.gif"
-	 		}
-	 	}
-	 where "database" refers to the record attribute with name defined in categoryKey property of tree(default "type" ).
-	 */
-	defaults:undefined,
-
-	/**
-	 * Key used to defined nodes inside categories. This key is used for default values and node config
-	 * @config {String} categoryKey
-	 * @default "type"
-	 */
-	categoryKey : 'type',
-
-	/**
-	 Config of tree node categories
-	 @config {Object} categoryConfig
-	 @example
-	 	categoryConfig:{
-	 		"database":{
-	 			"selectable" : false
-	 		}
-	 	}
-	 */
-	categoryConfig:undefined,
-
-	ludoConfig:function(config){
-		this.parent(config);
-		this.setConfigParams(config, ['defaults','categoryConfig','categoryKey']);
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		if (this.dataSource) {
-            this.getDataSource().addEvents({
-                'select' : this.selectRecord.bind(this),
-                'deselect' : this.deSelectRecord.bind(this),
-                'add' : this.addRecord.bind(this),
-                'addChild' : this.addChild.bind(this),
-                'dispose' : this.removeChild.bind(this),
-                'removeChild' : this.removeChild.bind(this),
-                'show' : this.showRecord.bind(this),
-                'hide' : this.hideRecord.bind(this)
-            });
-
-
-		}
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.getBody().style.overflowY = 'auto';
-        this.getBody().addEvents({
-            'click' : this.onClick.bind(this),
-            'dblclick' : this.onDblClick.bind(this)
-        });
-	},
-
-	onClick:function (e) {
-		var record = this.getRecordByDOM(e.target);
-		if (record) {
-			if(e.target.tagName.toLowerCase() === 'span' && this.isSelectable(record)) {
-				this.getDataSource().selectRecord(record);
-            }
-            if(ludo.dom.hasClass(e.target, 'ludo-tree-node-expand')){
-                this.expandOrCollapse(record, e.target);
-            }else{
-                this.expand(record, e.target);
-            }
-		}
-	},
-
-	onDblClick:function(e){
-		var record = this.getRecordByDOM(e.target);
-		if(record){
-			this.fireEvent('dblClick', record);
-		}
-	},
-
-	selectRecord:function (record) {
-        if(!record.getPlainRecord)record = this.getDataSource().getRecord(record);
-		if(!record)return;
-        if(!this.isRecordRendered(record))this.showRecord(record);
-		var el = this.getDomElement(record, '.ludo-tree-node-plain');
-		if (el)ludo.dom.addClass(el, 'ludo-tree-selected-node');
-	},
-
-	deSelectRecord:function (record) {
-		var el = this.getDomElement(record, '.ludo-tree-node-plain');
-		if (el)ludo.dom.removeClass(el, 'ludo-tree-selected-node');
-	},
-
-	getDomElement:function (record, cls) {
-		var el = this.getDomByRecord(record);
-		if (el)return document.id(el).getFirst(cls);
-		return undefined;
-	},
-
-	expandOrCollapse:function (record, el) {
-        el = this.getExpandEl(record);
-        var method = ludo.dom.hasClass(el, 'ludo-tree-node-collapse') ? 'collapse' : 'expand';
-        this[method](record,el);
-	},
-
-	expand:function (record, el) {
-		el = this.getExpandEl(record);
-        if(!this.areChildrenRendered(record)){
-            this.renderChildrenOf(record);
-        }
-		ludo.dom.addClass(el, 'ludo-tree-node-collapse');
-		this.getCachedNode(record, 'children', 'child-container-').style.display = '';
-	},
-
-	collapse:function (record, el) {
-		el = this.getExpandEl(record);
-		ludo.dom.removeClass(el, 'ludo-tree-node-collapse');
-		this.getCachedNode(record, 'children', 'child-container-').style.display = 'none';
-	},
-
-	getExpandEl:function (record) {
-		return this.getCachedNode(record, 'expand', 'expand-');
-	},
-
-	getChildContainer:function (record) {
-		return this.getCachedNode(record, 'children', 'child-container-');
-	},
-
-	hideRecord:function (record) {
-        if(this.isRecordRendered(record)){
-            this.getCachedNode(record, 'node', '').style.display = 'none';
-        }
-	},
-
-	showRecord:function (record) {
-        if(!this.isRecordRendered(record)){
-            this.showRecord(record.getParent());
-            this.expand(record.getParent());
-            this.showRecord(record.getParent());
-        }
-		this.getCachedNode(record, 'node', '').style.display = '';
-	},
-
-	getDomByRecord:function (record) {
-		return record ? this.getCachedNode(record, 'node', '') : undefined;
-	},
-
-    isRecordRendered:function(record){
-        return this.renderedRecords[record.getUID ? record.getUID() : record.uid] ? true : false;
-    },
-
-    areChildrenRendered:function(record){
-		record =  record.getUID ? record.record : record;
-        return record.children && record.children.length ? this.isRecordRendered(record.children[0]) : false;
-    },
-
-	getCachedNode:function (record, cacheKey, idPrefix) {
-		if (this.nodeCache[cacheKey] === undefined)this.nodeCache[cacheKey] = {};
-		var uid = record.getUID ? record.getUID() : record.uid;
-		if (!this.nodeCache[cacheKey][uid]) {
-			this.nodeCache[cacheKey][uid] = this.getBody().getElementById(idPrefix + uid)
-		}
-		return this.nodeCache[cacheKey][uid];
-	},
-
-	getRecordByDOM:function (el) {
-		var b = this.getBody();
-		while (el !== b && (!el.className || el.className.indexOf('ludo-tree-a-node') === -1)) {
-			el = el.parentNode;
-		}
-
-		if (el)return this.getDataSource().getRecord(el.id);
-		return undefined;
-	},
-
-	insertJSON:function () {
-		this.nodeCache = {};
-		this.renderedRecords = {};
-		this.nodeContainer().innerHTML = '';
-		this.render();
-	},
-
-	render:function () {
-		this.parent();
-		var data = this.getDataSource().getData();
-		this.nodeContainer().innerHTML = this.getHtmlForBranch(data);
-	},
-
-	getHtmlForBranch:function (branch) {
-		var html = [];
-		for (var i = 0; i < branch.length; i++) {
-			html.push(this.getHtmlFor(branch[i], (i === branch.length - 1), true));
-		}
-		return html.join('');
-	},
-
-    renderChildrenOf:function(record){
-        var p = this.getChildContainer(record);
-        if(p){
-			var c = record.getChildren();
-            if(c)p.innerHTML = this.getHtmlForBranch(c);
-        }
-    },
-
-	getHtmlFor:function (record, isLast, includeContainer) {
-		var ret = [];
-
-        this.renderedRecords[record.uid] = true;
-		if (includeContainer) {
-			ret.push('<div class="ludo-tree-a-node ludo-tree-node');
-			if (isLast)ret.push(' ludo-tree-node-last-sibling');
-			ret.push('" id="' + record.uid + '">');
-		}
-		ret.push('<div class="ludo-tree-node-plain">');
-
-        ret.push(this.isSelectable(record) ? '<span class="ludo-tree-node-selectable">' : '<span>');
-		ret.push(this.getNodeTextFor(record));
-		ret.push('</span>');
-
-		ret.push('<div class="ludo-tree-node-expand" id="expand-' + record.uid + '" style="position:absolute;display:' + (record.children && record.children.length ? '' : 'none') + '"></div>');
-		ret.push('</div>');
-
-		ret.push('<div class="ludo-tree-node-container" style="display:none" id="child-container-');
-		ret.push(record.uid);
-		ret.push('">');
-		ret.push('</div>');
-
-		if (includeContainer)ret.push('</div>');
-
-        /**
-         * Event fired when a node is created
-         * @event createNode
-         * @param {String} id of DOM node
-         * @param {Object} record
-         * @param {tree.Tree} tree
-         */
-        this.fireEvent('createNode', [record.uid, record, this]);
-		return ret.join('');
-	},
-
-	isSelectable:function (record) {
-		if(this.categoryConfig){
-			record = record.getUID ? record.getData() : record;
-			var config = this.categoryConfig[record[this.categoryKey]];
-			return config && config.selectable !== undefined ? config.selectable : true
-		}
-		return true;
-	},
-
-	getNodeTextFor:function (record) {
-		var tplFields = this.getTplFields(record);
-
-		var ret = this.getTpl(record);
-
-		for (var i = 0, count = tplFields.length; i < count; i++) {
-			var field = tplFields[i];
-			ret = ret.replace('{' + field + '}', record[field] ? record[field] : this.getDefaultValue(record, field));
-		}
-
-		ret = '<span class="ludo-tree-node-spacer"></span>' + ret;
-
-		return ret;
-	},
-
-	getDefaultValue:function(record, field){
-		if(this.defaults){
-			var key = this.categoryKey;
-			return record[key] && this.defaults && this.defaults[record[key]] ? this.defaults[record[key]][field] : '';
-		}
-		return "";
-
-	},
-
-	tpls:undefined,
-
-	getTpl:function(record){
-		return this.tpl['tplKey'] ? this.tpl[record[this.tplKey]] : this.tpl;
-	},
-
-	getTplFields:function (record) {
-		if (!this.tplFields) {
-			if(ludo.util.isString(this.tpl)){
-				this.tplFields = this.getTplMatches(this.tpl);
-			}else{
-				this.tplFields = {};
-				var tpl = Object.clone(this.tpl);
-				this.tplKey = tpl.tplKey;
-				for(var key in tpl){
-					if(tpl.hasOwnProperty(key)){
-						if(key != 'tplKey')this.tplFields[key] = this.getTplMatches(tpl[key]);
-					}
-				}
-			}
-
-		}
-		return this.tplKey ? this.tplFields[record[this.tplKey]] : this.tplFields;
-	},
-
-	getTplMatches:function(tpl){
-		var matches = tpl.match(/{([^}]+)}/g);
-		for (var i = 0; i < matches.length; i++) {
-			matches[i] = matches[i].replace(/[{}]/g, '');
-		}
-		return matches;
-	},
-
-	addRecord:function(record){
-		this.addChild(record);
-	},
-
-	addChild:function (record, parentRecord) {
-		var childContainer = parentRecord ? this.getChildContainer(parentRecord) : this.getBody();
-		if (childContainer) {
-			var node = this.getDomByRecord(record) || this.getNewNodeFor(record);
-			childContainer.appendChild(node);
-			this.cssBranch(parentRecord ? parentRecord.children : this.getDataSource().data);
-			if(parentRecord)this.getExpandEl(parentRecord).style.display='';
-		}
-	},
-
-	getNewNodeFor:function (record) {
-		record = record.getUID ? record.record : record;
-		if (!record.uid)this.getDataSource().indexRecord(record);
-		return ludo.dom.create({
-            cls : 'ludo-tree-a-node ludo-tree-node',
-            html : this.getHtmlFor(record, false, false),
-            id : record.uid
-        });
-	},
-
-	cssBranch:function (nodes) {
-		var count = nodes.length;
-		for (var i = Math.max(0,count-2); i < count; i++) {
-			var node = this.getDomByRecord(nodes[i]);
-			if (node) {
-				if (i < count - 1) {
-					ludo.dom.removeClass(node, 'ludo-tree-node-last-sibling');
-				} else {
-					ludo.dom.addClass(node, 'ludo-tree-node-last-sibling');
-				}
-			}
-		}
-	},
-
-	removeChild:function(record){
-		var el = this.getDomByRecord(record);
-		if(el){
-			el.parentNode.removeChild(el);
-
-            delete this.renderedRecords[this.getUID(record)];
-
-			if(record.parentUid){
-				var p = this.dataSource.findRecord(record.parentUid);
-				if(p)this.cssBranch(p.children);
-			}
-		}
-	},
-
-    getUID:function(record){
-        return record.getUID ? record.getUID() : record.uid;
-    }
-});/* ../ludojs/src/card/button.js */
-/**
- * Special Button for card.Deck component
- * @namespace card
- * @class Button
- * @extends form.Button
- */
-ludo.card.Button = new Class({
-    Extends:ludo.form.Button,
-    type:'card.Button',
-
-    /**
-     * Automatically hide button instead of disabling it. This will happen on
-     * first cards for previous buttons and on last card for next and finish buttons.
-     * @attribute autoHide
-     * @type {Boolean}
-     * @default false
-     */
-    autoHide:false,
-
-    /**
-     * Apply button to a specific view with this id. This view has to have layout type set to "card".
-     * @attribute applyTo
-     * @type String
-     * @default undefined
-     */
-    applyTo : undefined,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['autoHide', 'applyTo']);
-        if(config.applyTo && !ludo.get(config.applyTo)){
-            this.onCreate.delay(50, this);
-        }else{
-            this.onCreate();
-        }
-    },
-
-    onCreate:function(){
-        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
-        if(this.applyTo){
-            this.applyTo.getLayout().registerButton(this);
-        }
-        this.addButtonEvents();
-    },
-
-    getParentComponent:function () {
-        var cmp = this.parent();
-        if (cmp.layout === undefined || (cmp.layout.type!=='card')) {
-            for (var i = 0; i < cmp.children.length; i++) {
-                if (cmp.children[i].layout && cmp.children[i].layout.type==='card') {
-                    return cmp.children[i];
-                }
-            }
-        }
-        return cmp.layout && cmp.layout.type === 'card' ? cmp : undefined;
-    }
-});/* ../ludojs/src/card/finish-button.js */
-/**
- * Special Button for card.Deck component
- * This button will automatically be disabled when a form is invalid, and automatically enabled when it's valid.
- * A form consists of all form elements of parent component, including form elements of child components.
- * When clicked, it will submit the form of card.Deck.
- *
- * A ludo.card.FinishButton will only be visible when last card in the deck is shown.
- *
- * @namespace card
- * @class FinishButton
- * @extends card.Button
- */
-ludo.card.FinishButton = new Class({
-    Extends:ludo.card.Button,
-    type:'card.FinishButton',
-    value:'Finish',
-    hidden:true,
-
-    addButtonEvents:function(){
-		var lm;
-        if (this.applyTo) {
-			lm = this.applyTo.getLayout();
-            var fm = this.applyTo.getForm();
-
-            lm.addEvent('valid', this.enable.bind(this));
-            lm.addEvent('invalid', this.disable.bind(this));
-            lm.addEvent('lastcard', this.show.bind(this));
-            lm.addEvent('notlastcard', this.hide.bind(this));
-
-            fm.addEvent('beforeSave', this.disable.bind(this));
-            fm.addEvent('success', this.setSubmitted.bind(this));
-
-            if(!lm.isValid()){
-                this.disabled = true;
-            }
-        }
-        this.addEvent('click', this.submit.bind(this));
-
-        if(lm && lm.isOnLastCard()){
-            this.show();
-        }
-    },
-
-    enable:function(){
-        if(this.applyTo.getLayout().isValid()){
-            this.parent();
-        }
-    },
-
-    show:function(){
-        if(!this.submitted){
-            return this.parent();
-        }
-        return undefined;
-    },
-    submitted : false,
-    submit:function () {
-        if (this.applyTo) {
-            this.applyTo.getForm().submit();
-        }
-    },
-
-    setSubmitted:function(){
-        this.submitted = true;
-    }
-});/* ../ludojs/src/card/next-button.js */
-/**
- * Special Button for card.Deck used to navigate to next card.
- * This button will automatically be disabled when a form is invalid, and automatically enabled when it's valid.
- * A form consists of all form elements of parent component, including form elements of child components.
- * When clicked, next card will be shown
- *
- * @namespace card
- * @class NextButton
- * @extends card.Button
- */
-ludo.card.NextButton = new Class({
-	Extends:ludo.card.Button,
-	type:'card.NextButton',
-	value:'Next',
-
-	addButtonEvents:function () {
-		if (this.applyTo) {
-			var lm = this.applyTo.getLayout();
-			lm.addEvent('valid', this.enable.bind(this));
-			lm.addEvent('invalid', this.disable.bind(this));
-			if (!lm.isValid()) {
-				this.disable();
-			}
-			if (this.autoHide) {
-				if (lm.isOnLastCard())this.hide(); else this.show();
-				lm.addEvent('lastcard', this.hide.bind(this));
-				lm.addEvent('notlastcard', this.show.bind(this));
-			} else {
-				if (lm.isOnLastCard())this.disable(); else this.enable();
-				lm.addEvent('lastcard', this.disable.bind(this));
-				lm.addEvent('notlastcard', this.enable.bind(this));
-			}
-		}
-
-		this.addEvent('click', this.nextCard.bind(this));
-	},
-
-	enable:function () {
-		if (this.applyTo.getLayout().isValid()) {
-			this.parent();
-		}
-	},
-
-	nextCard:function () {
-		if (this.applyTo) {
-			this.applyTo.getLayout().showNextCard();
-		}
-	}
-});/* ../ludojs/src/card/previous-button.js */
-/**
- *
- * @namespace card
- * @class PreviousButton
- * @extends card.Button
- * @description Special Button for card.Deck component for navigation to previous card.
- * On click, this button will show previous card.
- * The button will be automatically disabled when first card in deck is shown.
- * When clicked, next card will be shown
- */
-ludo.card.PreviousButton = new Class({
-	Extends:ludo.card.Button,
-	type:'card.PreviousButton',
-	value:'Previous',
-
-	addButtonEvents:function () {
-		this.addEvent('click', this.showPreviousCard.bind(this));
-		if (this.applyTo) {
-			var lm = this.applyTo.getLayout();
-			if (this.autoHide) {
-				if(!lm.isOnFirstCard())this.show(); else this.hide();
-				lm.addEvent('firstcard', this.hide.bind(this));
-				lm.addEvent('notfirstcard', this.show.bind(this));
-			} else {
-				if(!lm.isOnFirstCard())this.enable(); else this.disable();
-				lm.addEvent('firstcard', this.disable.bind(this));
-				lm.addEvent('notfirstcard', this.enable.bind(this));
-			}
-		}
-	},
-
-	showPreviousCard:function () {
-		if (this.applyTo) {
-			this.applyTo.getLayout().showPreviousCard();
-		}
-	}
-});/* ../ludojs/src/progress/datasource.js */
-/**
- * Data source for progress bars
- * @namespace progress
- * @class DataSource
- * @extends dataSource.JSON
- */
-ludo.progress.DataSource = new Class({
-    Extends:ludo.dataSource.JSON,
-    type:'progress.DataSource',
-    singleton:true,
-    autoload:false,
-    progressId:undefined,
-    stopped : false,
-    pollFrequence : 1,
-
-    resource:'LudoDBProgress',
-    service:'read',
-	listenTo:undefined,
-
-    ludoConfig:function(config){
-        this.parent(config);
-
-		this.setConfigParams(config, ['pollFrequence','listenTo']);
-
-        if(this.listenTo){
-            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.startProgress.bind(this));
-        }
-    },
-
-    startProgress:function(){
-		this.inject();
-        this.stopped = false;
-        this.fireEvent('start');
-        this.load.delay(1000, this);
-    },
-
-	inject:function(){
-		ludo.remoteInject.add(this.listenTo, {
-			LudoDBProgressID : this.getNewProgressBarId()
-		});
-	},
-
-    loadComplete:function (data) {
-        this.fireEvent('load', data);
-        if(data.percent<100 && !this.stopped){
-            this.load.delay(this.pollFrequence * 1000, this);
-        }else{
-            if(data.percent>=100){
-                this.finish();
-            }
-        }
-    },
-
-    getNewProgressBarId:function(){
-        this.progressId = this.progressId = 'ludo-progress-' + String.uniqueID();
-		this.arguments = this.progressId;
-        return this.progressId;
-    },
-
-    getProgressId:function(){
-        return this.progressId;
-    },
-
-    stop:function(){
-        this.stopped = true;
-        this.fireEvent('stop');
-    },
-
-    proceed : function(){
-        this.stopped = false;
-        this.load();
-    },
-
-    finish:function(){
-        this.stopped = true;
-        this.progressId = undefined;
-        this.fireEvent('finish');
-		this.inject();
-    }
-});/* ../ludojs/src/progress/base.js */
-/**
- * Super class for all progress bar views
- * @namespace progress
- * @class Base
- * @extends View
- */
-ludo.progress.Base = new Class({
-    Extends:ludo.View,
-	applyTo:undefined,
-    pollFrequence:1,
-    url:undefined,
-    onLoadMessage:'',
-    /**
-     * Hide progress bar on finish
-     * @attribute {Boolean} hideOnFinish
-     */
-    hideOnFinish:true,
-
-    defaultDS:'progress.DataSource',
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['applyTo','listenTo', 'pollFrequence','hideOnFinish']);
-
-        if(this.applyTo)this.applyTo = ludo.get(this.applyTo);
-        this.dataSource = this.dataSource || {};
-        this.dataSource.pollFrequence = this.pollFrequence;
-        this.dataSource.listenTo = this.listenTo;
-
-        if(this.listenTo){
-            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.show.bind(this));
-        }
-
-        this.getDataSource().addEvents({
-            'load' : this.insertJSON.bind(this),
-            'start' : this.start.bind(this),
-            'finish' : this.finishEvent.bind(this)
-        });
-    },
-
-    start:function(){
-        this.fireEvent('start');
-        this.insertJSON({text:'',percent:0});
-    },
-
-    hideAfterDelay:function(){
-        this.hide.delay(1000, this);
-    },
-
-    getProgressBarId:function () {
-        return this.getDataSource().getProgressId();
-    },
-
-    stop:function () {
-        this.getDataSource().stop();
-    },
-
-    proceed:function(){
-        this.getDataSource().proceed();
-    },
-    /**
-     * Finish progress bar manually
-     * @method finish
-     */
-    finish:function () {
-        this.getDataSource().finish();
-    },
-
-    finishEvent:function(){
-
-        if (this.hideOnFinish) {
-            this.hideAfterDelay();
-        }
-
-        /**
-         * Event fired when progress bar is finished
-         * @event render
-         * @param Component this
-         */
-        this.fireEvent('finish');
-
-
-    }
-});/* ../ludojs/src/progress/bar.js */
-/**
- * Progress bar class
- * @namespace progress
- * @class Bar
- * @extends progress.Base
- */
-ludo.progress.Bar = new Class({
-    Extends:ludo.progress.Base,
-    type:'ProgressBar',
-    width:300,
-    height:35,
-    progressBarWidth:0,
-    currentPercent:0,
-    stopped:false,
-    hidden:true,
-    fx:undefined,
-
-    ludoRendered:function () {
-        this.parent();
-
-        this.createBackgroundForProgressBar();
-        this.createMovablePartOfProgressBar();
-        this.createTextElement();
-
-        this.autoSetProgressWidth();
-    },
-    createBackgroundForProgressBar:function () {
-        var el = this.els.progressBg = new Element('div');
-        ludo.dom.addClass(el, 'ludo-Progress-Bar-Bg');
-        this.getBody().adopt(el);
-
-        var left = this.els.progressBgRight = new Element('div');
-        ludo.dom.addClass(left, 'ludo-Progress-Bar-Bg-Left');
-        el.adopt(left);
-
-        var right = this.els.progressBgRight = new Element('div');
-        ludo.dom.addClass(right, 'ludo-Progress-Bar-Bg-Right');
-        el.adopt(right);
-    },
-
-    createMovablePartOfProgressBar:function () {
-        var el = this.els.progress = new Element('div');
-        ludo.dom.addClass(el, 'ludo-Progress-Bar');
-        this.els.progressBg.adopt(el);
-        this.els.progress.setStyle('width', '0px');
-
-        var left = this.els.progressLeft = new Element('div');
-        ludo.dom.addClass(left, 'ludo-Progress-Bar-Left');
-        el.adopt(left);
-
-        var right = this.els.progressRight = new Element('div');
-        ludo.dom.addClass(right, 'ludo-Progress-Bar-Right');
-        el.adopt(right);
-    },
-
-    createTextElement:function () {
-        var percent = this.els.percent = new Element('div');
-        ludo.dom.addClass(percent, 'ludo-Progress-Bar-Percent');
-        this.els.progressBg.adopt(percent);
-	},
-
-    resizeDOM:function () {
-        this.parent();
-        if (this.els.progressBg) {
-            this.autoSetProgressWidth();
-        }
-    },
-
-    insertJSON:function (json) {
-        var data = json.data ? json.data : json;
-        this.setPercent(data.percent);
-    },
-
-    startProgress:function () {
-        this.parent();
-        this.stopped = false;
-        this.setPercent(0);
-        this.els.progress.style.width = '0px';
-        this.currentPercent = 0;
-    },
-
-    finish:function () {
-        this.parent();
-        this.setPercent(100);
-    },
-
-    autoSetProgressWidth:function () {
-        if (!this.isVisible()) {
-            return;
-        }
-        var width = parseInt(this.getBody().getStyle('width').replace('px', ''));
-        width -= ludo.dom.getMW(this.els.progressBg);
-        this.setProgressBarWidth(width);
-        this.setPercent(this.currentPercent);
-    },
-
-    setProgressBarWidth:function (width) {
-        if (isNaN(width)) {
-            return;
-        }
-        this.progressBarWidth = width;
-        this.els.progressBg.setStyle('width', width);
-
-        this.progressBarWidth = width;
-    },
-
-    setPercent:function (percent) {
-        if(percent == this.currentPercent)return;
-		if(percent === 0 && this.currentPercent === 100){
-			this.els.progress.style.width = '0px';
-		}else{
-			this.getFx().start({
-			   width: [this.currentPercent, percent]
-		    });
-		}
-
-        this.currentPercent = percent;
-        this.els.percent.innerHTML = percent + '%';
-    },
-
-    getCurrentPercent:function () {
-        return this.currentPercent;
-    },
-
-    animate:function () {
-        if (this.currentPercent < 100) {
-            this.currentPercent++;
-            this.setPercent(this.currentPercent);
-            this.animate.delay(50, this);
-        }
-    },
-
-    getFx:function () {
-        if (this.fx === undefined) {
-            this.fx = new Fx.Morph(this.els.progress, {
-                duration:100,
-                unit : '%'
-            });
-        }
-        return this.fx;
-    }
-});/* ../ludojs/src/card/progress-bar.js */
-/**
- * Progress bar for cards in a deck. percentage will be position of current curd
- * relative to number of cards
- * @namespace card
- * @class ProgressBar
- * @extends progress.Bar
- */
-ludo.card.ProgressBar = new Class({
-    Extends: ludo.progress.Bar,
-    hidden:false,
-	applyTo:undefined,
-
-    ludoEvents:function(){
-        this.parent();
-        if(this.applyTo){
-			this.applyTo.getLayout().registerButton(this);
-			this.applyTo.getLayout().addEvent('showcard', this.setCardPercent.bind(this))
-		}
-    },
-
-    ludoRendered:function(){
-        this.parent();
-		if(this.applyTo){
-			this.setCardPercent();
-		}
-    },
-
-    setCardPercent:function(){
-        this.setPercent(this.applyTo.getLayout().getPercentCompleted());
-    },
-
-    getProgressBarId:function(){
-        return undefined;
-    }
-});/* ../ludojs/src/accordion.js */
-/**
- * @class Accordion
- * @extends FramedView
- * @description Accordion component
- */
-ludo.Accordion = new Class({
-	Extends:ludo.FramedView,
-	type:'Accordion',
-	closable:false,
-	heightBeforeMinimize:undefined,
-	slideInProgress:false,
-	fx:undefined,
-	fxContent:undefined,
-	minimized:false,
-
-	ludoConfig:function (config) {
-		if (!config.height) {
-			config.height = 'auto';
-		}
-		this.parent(config);
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-accordion');
-	},
-	ludoRendered:function () {
-		this.fx = new Fx.Morph(this.getEl(), {
-			duration:100
-		});
-		this.fxContent = new Fx.Morph(this.getBody(), {
-			duration:100
-		});
-		this.fx.addEvent('complete', this.animationComplete.bind(this));
-
-        this.getTitleBar().getEl().addEvent('click', this.toggleExpandCollapse.bind(this));
-		this.parent();
-	},
-	toggleExpandCollapse:function () {
-        this.state.isMinimized ? this.maximize() : this.minimize();
-	},
-	/**
-	 * Maximize accordion component
-	 * @method maximmize
-	 * @return void
-	 */
-	maximize:function () {
-		if (this.slideInProgress)return;
-		this.slideInProgress = true;
-		this.state.isMinimized = false;
-
-        this.showResizeHandles();
-		this.fx.start({
-			'height':[this.getHeightOfTitleBar(), this.heightBeforeMinimize]
-		});
-		this.fxContent.start({
-			'margin-top':[this.getBody().getStyle('margin-top'), 0]
-		});
-		this.fireEvent('maximize', this);
-	},
-	/**
-	 * Minimize accordion component
-	 * @method minimize
-	 * @return void
-	 */
-	minimize:function () {
-		if (this.slideInProgress)return;
-		this.heightBeforeMinimize = this.getEl().offsetHeight - ludo.dom.getBH(this.getEl()) - ludo.dom.getPH(this.getEl());
-		this.slideInProgress = true;
-
-		this.state.isMinimized = true;
-		this.hideResizeHandles();
-        var h = this.getHeightOfTitleBar();
-		this.fx.start({
-			'height':[this.heightBeforeMinimize, h]
-		});
-		this.fxContent.start({
-			'margin-top':[ 0, (this.heightBeforeMinimize - h) * -1 ]
-		});
-        this.fireEvent('minimize', [this, { height: h }]);
-	},
-
-	animationComplete:function () {
-		this.slideInProgress = false;
-	}
-});/* ../ludojs/src/form/textarea.js */
-/**
- * Text Area field
- * @namespace form
- * @class Textarea
- * @extends form.Element
- */
-ludo.form.Textarea = new Class({
-    Extends:ludo.form.Text,
-    type:'form.Textarea',
-    inputType:undefined,
-    inputTag:'textarea',
-    overflow:'hidden',
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.ucWords = false;
-    },
-
-    ludoRendered:function(){
-        this.parent();
-        this.els.formEl.style.paddingRight = 0;
-        this.els.formEl.style.paddingTop = 0;
-    },
-    resizeDOM:function () {
-        this.parent();
-		/*
-        var w;
-        if (!this.label) {
-            w = this.getInnerWidthOfBody();
-            if (w <= 0)return;
-        }else{
-            var p = this.els.formEl.parentNode;
-            w = (p.offsetWidth - ludo.dom.getBW(p) - ludo.dom.getPW(p));
-        }
-
-        if(this.stretchField)w-=10;
-
-        this.els.formEl.setStyle('width', (w - 10) + 'px');
-        */
-
-        if (this.layout && this.layout.weight) {
-            var height = this.getEl().offsetHeight;
-            height -= (ludo.dom.getMBPH(this.getEl()) + ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMH(this.els.formEl.parentNode));
-			height -=1;
-            if (height > 0) {
-                this.els.formEl.style.height = height+'px';
-            }
-        }
-    }
-});/* ../ludojs/src/notification.js */
-/**
- Class for providing short messages and feedback in a small popup.
- Notifications automatically disappear after a timeout. Positioning
- of notification can be configured using the layout object.
-
- @class Notification
- @extends View
- @constructor
- @param {Object} config
- @example
- 	new ludo.Notification({
- 		html : 'Your e-mail has been sent',
- 		duration:4
-	});
- */
-ludo.Notification = new Class({
-	Extends:ludo.View,
-	alwaysInFront:true,
-	/**
-	 * Seconds before notification is automatically hidden
-	 * @config {Number} duration
-	 * @default 3
-	 */
-	duration:3,
-
-	/**
-	 * Use an effect when notification is shown
-	 * Possible values: fade, slide
-	 * @config {String} effect
-	 * @default undefined
-	 */
-	showEffect:undefined,
-	/**
-	 * Use an effect when notification is hidden
-	 * Possible values: fade, slide
-	 * @config {String} effect
-	 * @default undefined
-	 */
-	hideEffect:undefined,
-	/**
-	 * Effect used for both show and hide. Individual effects can be set by
-	 * defining showEffect and hideEffect
-	 * Possible values: fade, slide
-	 * @config {String} effect
-	 * @default 'fade'
-	 */
-	effect:'fade',
-	/**
-	 * Duration of animation effect
-	 * @config {Number} effectDuration
-	 * @default 1
-	 */
-	effectDuration:1,
-
-	/**
-	 * true to dispose/erase notification on hide
-	 * @config {Boolean} autoDispose
-	 * @default false
-	 */
-	autoDispose:false,
-
-	ludoConfig:function (config) {
-		config.renderTo = config.renderTo || document.body;
-
-        this.setConfigParams(config, ['autoDispose','showEffect','hideEffect','effect','effectDuration','duration']);
-		this.showEffect = this.showEffect || this.effect;
-		this.hideEffect = this.hideEffect || this.effect;
-		if (!config.layout && !this.layout) {
-			config.layout = {
-				centerIn:config.renderTo
-			};
-		}
-		this.parent(config);
-	},
-
-	ludoEvents:function(){
-		this.parent();
-		if(this.autoDispose){
-			this.addEvent('hide', this.dispose.bind(this));
-		}
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-notification');
-	},
-
-	ludoRendered:function () {
-		if (!this.layout.width || !this.layout.height) {
-			var size = ludo.dom.getWrappedSizeOfView(this);
-			if (!this.layout.width)this.layout.width = size.x;
-			if (!this.layout.height)this.layout.height = size.y;
-		}
-		this.parent();
-		this.show();
-	},
-
-	hide:function () {
-		if (this.hideEffect) {
-			var effect = new ludo.effect.Effect();
-			effect[this.getEndEffectFn()](
-				this.getEl(),
-				this.effectDuration,
-				this.onHideComplete.bind(this),
-				this.getLayout().getRenderer().getPosition()
-			);
-		} else {
-			this.parent();
-		}
-	},
-
-	show:function () {
-		this.parent();
-
-		if (this.showEffect) {
-			var effect = new ludo.effect.Effect();
-			effect[this.getStartEffectFn()](
-				this.getEl(),
-				this.effectDuration,
-				this.autoHide.bind(this),
-				this.getLayout().getRenderer().getPosition()
-			);
-		}
-
-	},
-
-	getStartEffectFn:function () {
-		switch (this.showEffect) {
-			case 'fade':
-				return 'fadeIn';
-			case 'slide':
-				return 'slideIn';
-			default:
-				return this.showEffect;
-		}
-	},
-
-	getEndEffectFn:function () {
-		switch (this.hideEffect) {
-			case 'fade':
-				return 'fadeOut';
-			case 'slide':
-				return 'slideOut';
-			default:
-				return this.hideEffect;
-		}
-	},
-
-	autoHide:function () {
-		this.hide.delay(this.duration * 1000, this);
-	},
-
-	onHideComplete:function () {
-		this.getEl().style.display = 'none';
-		this.fireEvent('hide', this);
-	}
-});/* ../ludojs/src/form/combo-tree.js */
-/**
- * @namespace form
- * @class ComboTree
- * @description A "combo" where you select value from a tree. id of clicked tree node will be set as
- * value.
- * @extends form.Element
- */
-ludo.form.ComboTree = new Class({
-    Extends:ludo.form.Element,
-    type:'form.ComboTree',
-    cssSignature:'form-combo',
-    /**
-     * Configuration for tree panel. It can be a new config for ludo.tree.Tree or
-     * a simple reference to your own pre-configured tree, example:
-     * { width: 500, height: 500, type: 'myApp.tree.Folders'
-     * 'myApp.tree.Folders' will here be  class named ludo.myApp.tree.Folders
-     * This is an example of a custom made ludo.tree.Tree:<br>
-     * ludo.chess.view.folder.Tree = new Class({<br>
-     Extends:ludo.tree.Tree,<br>
-     module:'folder.tree',<br>
-     remote:{<br>
-     url:window.ludo.chess.URL,<br>
-     data:{<br>
-     getFolders:1<br>
-     }<br>
-     },<br>
-     nodeTpl:'<img src="' + window.ludo.chess.ROOT + 'images/{icon}"><span>{title}</span>',<br><br>
-
-     recordConfig:{<br>
-     'folder':{<br>
-     selectable:false,<br>
-     defaults:{<br>
-     icon:'folder.png'<br>
-     }<br>
-     },<br>
-     'database':{<br>
-     selectable:true,<br>
-     defaults:{<br>
-     icon:'database.png'<br>
-     }<br>
-     }<br>
-     },<br><br>
-
-     treeConfig:{<br>
-     defaultValues:{<br>
-     icon:'folder.png'<br>
-     }<br>
-     },<br>
-     <br>
-     ludoEvents:function () {<br>
-     this.parent();<br>
-     this.addEvent('selectrecord', this.selectDatabase.bind(this));<br>
-     },<br>
-     <br>
-     selectDatabase:function (record) {<br>
-     this.fireEvent('selectdatabase', record);<br>
-     }<br>
-     });
-     * @attribute treeConfig
-	 * @type Object
-     * @default undefined
-     */
-    treeConfig:undefined,
-
-    /**
-     * Text to display in combo when no value is selected
-     * @attribute emptyText
-	 * @type String
-     * @default '' (empty string);
-     */
-    emptyText:'',
-
-    width:400,
-    height:26,
-    /**
-     *
-     * @attribute Object inputConfig
-     *
-     */
-    inputConfig:{
-        fieldWidth:440,
-        labelWidth:1,
-        width:350
-    },
-    selectedRecord:undefined,
-    layout:{
-        type:'cols'
-    },
-    treePanel:undefined,
-    input:undefined,
-    searchable:false,
-    timeStamp:0,
-    currentSearchValue:'',
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['searchable','inputConfig','treeConfig','emptyText']);
-
-        if (this.treeConfig.type === undefined)this.treeConfig.type = 'tree.Tree';
-        this.inputConfig.type = 'form.Text';
-        this.inputConfig.stretchField = true;
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        document.body.addEvent('mousedown', this.autoHide.bind(this));
-    },
-
-    ludoDOM:function () {
-        if (this.label) {
-            this.addChild({
-                html:'<label>' + this.label + ':</label>',
-                width:this.labelWidth
-            });
-        }
-
-        this.viewField = this.addChild({
-            type:'form.ComboField',
-            weight:1
-        });
-        this.viewField.addEvent('click', this.showTree.bind(this));
-
-        this.input = this.addChild(this.inputConfig);
-        this.input.addEvent('focus', this.showTree.bind(this));
-        this.input.addEvent('focus', this.selectInputText.bind(this));
-        this.input.addEvent('blur', this.blurInput.bind(this));
-        this.input.addEvent('key_up', this.filter.bind(this));
-        this.input.addEvent('key_down', this.keyDown.bind(this));
-        this.input.hide();
-
-        this.treePanel = new ludo.Window({
-            cls:'ludo-Filter-Tree-Window',
-            width:this.treeConfig.width,
-            alwaysInFront:true,
-            resizeTop:false,
-            resizeLeft:false,
-            minWidth:this.fieldWidth,
-            height:this.treeConfig.height,
-            titleBar:false,
-            renderTo:document.body,
-            layout:'fill',
-            children:[this.treeConfig]
-        });
-        this.treePanel.hide();
-        this.treePanel.addEvent('beforeresize', this.setBusy.bind(this));
-        this.treePanel.addEvent('afterresize', this.setNotBusy.bind(this));
-
-        this.treePanel.children[0].getDataSource().addEvent('select', this.receiveSelectedRecord.bind(this));
-
-        this.parent();
-
-        this.getEl().addClass('ludo-filter-tree');
-
-        this.resize.delay(100, this);
-
-        this.resizeChildren();
-    },
-
-    ludoRendered:function () {
-        this.parent();
-        if (this.emptyText) {
-            this.setViewValue(this.emptyText);
-        }
-    },
-
-    busyWithResize:false,
-
-    setBusy:function () {
-        this.busyWithResize = true;
-    },
-
-    setNotBusy:function () {
-        this.setNotBusyAfterDelay.delay(500, this);
-    },
-
-    setNotBusyAfterDelay:function () {
-        this.busyWithResize = false;
-    },
-
-    arrowClick:function () {
-        if (this.treePanel.isHidden()) {
-            this.selectInputText();
-            this.showTree();
-        } else {
-            this.hideTree();
-        }
-    },
-
-    selectInputText:function () {
-        this.input.getFormEl().select();
-    },
-    blurInput:function () {
-        this.input.getFormEl().removeClass('ludo-filter-tree-input-active');
-    },
-
-    autoHide:function (e) {
-        if (this.busyWithResize) {
-            return;
-        }
-        if (!this.treePanel.isVisible()) {
-            return;
-        }
-        var el = e.target;
-
-        if (el.id == this.input.getFormEl().id || el.hasClass('ludo-shim-resize')) {
-            return;
-        }
-        var viewField = this.viewField.getEl();
-        if (el.id == viewField.id || el.getParent('#' + viewField.id)) {
-            return;
-        }
-        if (el.getParent('.ludo-shim-resize')) {
-            return;
-        }
-        if (!el.getParent('#' + this.input.getFormEl().id) && !el.getParent('#' + this.treePanel.id)) {
-            this.hideTree();
-        }
-    },
-
-    hideTree:function () {
-        this.treePanel.hide();
-        if (this.searchable) {
-            this.input.hide();
-            this.viewField.show();
-        }
-    },
-
-    keyDown:function (key) {
-        if (key === 'esc' || key == 'tab') {
-            this.hideTree();
-        }
-    },
-
-    filter:function (key) {
-        if (key === 'esc') {
-            return;
-        }
-        this.treePanel.show();
-
-        var val = this.input.getValue();
-        if (val == this.currentSearchValue) {
-            return;
-        }
-        var d = new Date();
-        this.timeStamp = d.getTime();
-
-        this.filterAfterDelay(this.input.getValue());
-        this.currentSearchValue = val;
-    },
-
-    filterAfterDelay:function (val) {
-        var d = new Date();
-        if (d.getTime() - this.timeStamp < 200) {
-            this.filterAfterDelay.delay(100, this, val);
-            return;
-        }
-        this.timeStamp = d.getTime();
-        if (val == this.input.getValue()) {
-            this.treePanel.children[0].filter(this.input.getValue());
-        }
-    },
-
-    showTree:function () {
-
-        if (this.searchable) {
-            this.viewField.hide();
-            this.input.show();
-            this.input.getFormEl().addClass('ludo-filter-tree-input-active');
-            this.input.getFormEl().focus();
-        }
-
-        this.treePanel.show();
-
-        this.positionTree();
-        this.resizeChildren();
-
-        this.treePanel.increaseZIndex();
-    },
-
-    setViewValue:function (value) {
-        this.input.setValue(value);
-        this.viewField.setViewValue(value);
-    },
-
-    positionTree:function () {
-        var el;
-        if (this.searchable) {
-            el = this.input.getEl();
-
-        } else {
-            el = this.viewField.getEl();
-        }
-        var pos = el.getCoordinates();
-        this.treePanel.setPosition({
-            left:pos.left,
-            top:pos.top + el.getSize().y
-        });
-    },
-
-    getFormEl:function () {
-          return this.input.getFormEl();
-    },
-
-    selectRecord:function (record) {
-        this.treePanel.children[0].selectRecord(record);
-    },
-
-    receiveSelectedRecord:function (record) {
-
-        this.setValue(record.get('id'));
-        this.setViewValue(record.get('title'));
-        this.fireEvent('selectrecord', [this, record.getData()]);
-        this.hideTree.delay(100, this);
-    },
-
-    /**
-     * Return id of selected record
-     * @method getValue
-     * @return {String} id (tree.selectedRecord.id);
-     */
-    getValue:function () {
-        return this.value;
-    },
-
-    /**
-     * Return selected record
-     * @method getSelectedRecord
-     * @return object record
-     */
-    getSelectedRecord:function () {
-        return this.treePanel.children[0].getSelectedRecord();
-    },
-
-    getParentRecord:function (record) {
-        return this.treePanel.children[0].getParentRecord(record);
-    }
-});
-
-ludo.form.ComboField = new Class({
-    Extends:ludo.View,
-    cls:'ludo-Filter-Tree-Combo-Field',
-
-    ludoEvents:function () {
-        this.parent();
-        this.getBody().addEvent('click', this.clickEvent.bind(this));
-    },
-
-    clickEvent:function () {
-        this.fireEvent('click');
-    },
-
-    setViewValue:function (value) {
-        this.els.valueField.set('html', value);
-    },
-
-    ludoDOM:function () {
-        this.parent();
-        var el = new Element('div');
-        ludo.dom.addClass(el, 'ludo-Filter-Tree-Field-Arrow');
-        this.getBody().adopt(el);
-
-        var left = new Element('div');
-        ludo.dom.addClass(left, 'ludo-Filter-Tree-Bg-Left');
-        this.getBody().adopt(left);
-        var right = new Element('div');
-        ludo.dom.addClass(right, 'ludo-Filter-Tree-Bg-Right');
-        this.getBody().adopt(right);
-
-        var valueField = this.els.valueField = new Element('div');
-        ludo.dom.addClass(valueField, 'ludo-Filter-Tree-Combo-Value');
-        this.getBody().adopt(valueField);
-    }
 });/* ../ludojs/src/paging/button.js */
 /**
  * Base class, paging buttons for datasource.Collection
@@ -23033,6 +18229,123 @@ ludo.paging.First = new Class({
 		this.getDataSource().firstPage();
 	}
 
+});/* ../ludojs/src/form/number.js */
+/**
+ * @namespace form
+ * @class Number
+ * @description A customized text input only allowing numeric characters
+ * @extends form.Text
+ */
+ludo.form.Number = new Class({
+    Extends:ludo.form.Text,
+    type:'form.Number',
+    regex:/^[0-9]+$/,
+    validateKeyStrokes:true,
+    formCss:{
+        'text-align':'right'
+    },
+    /**
+     * Stretch is default set to false for numbers
+     * @attribute {Boolean} stretchField
+     */
+    stretchField:false,
+
+    /**
+     * Disable changing values using mousewheel
+     * @attribute {Boolean} disableWheel
+     * @default false
+     */
+    disableWheel:false,
+
+    /**
+     * Reverse wheel, i.e. down for larger value, up  for smaller
+     * @attribute {Boolean} reverseWheel
+     * @default false
+     */
+    reverseWheel:false,
+
+    /**
+     * Minimum value
+     * @attribute {Number} minValue
+     * @default undefined
+     */
+    minValue:undefined,
+
+    /**
+     * Maximum value
+     * @attribute {Number} maxValue
+     * @default undefined
+     */
+    maxValue:undefined,
+
+    /**
+     * Amount to increment/decrement when using mousewheel while pressing shift-key
+     * @attribute {Number} shiftIncrement
+     * @default 10
+     */
+    shiftIncrement:10,
+
+    ludoConfig:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['disableWheel','shiftIncrement','reverseWheel','minValue','maxValue']);
+
+        if (this.minValue !== undefined)this.minValue = parseInt(this.minValue);
+        if (this.maxValue !== undefined)this.maxValue = parseInt(this.maxValue);
+
+        this.applyValidatorFns(['minValue','maxValue']);
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        if (!this.disableWheel) {
+            this.getFormEl().addEvent('mousewheel', this._mouseWheel.bind(this));
+        }
+        this.getFormEl().addEvent('keydown', this.keyIncrement.bind(this));
+    },
+
+    keyIncrement:function(e){
+        if(e.key === 'up' || e.key === 'down'){
+            if(e.key === 'up')this.incrementBy(1, e.shift);
+            if(e.key === 'down')this.incrementBy(-1, e.shift);
+            return false;
+        }
+        return undefined;
+    },
+
+    blur:function(){
+        var value = this.getFormEl().value;
+        if(!this.isValid(value)){
+            if (this.minValue!==undefined && parseInt(value) < this.minValue) {
+                value = this.minValue;
+            }
+            if (this.maxValue!==undefined && parseInt(value) > this.maxValue) {
+                value = this.maxValue;
+            }
+            this.setValue(value);
+        }
+        this.parent();
+    },
+
+    _mouseWheel:function (e) {
+        this.incrementBy(e.wheel > 0 ? Math.ceil(e.wheel) : Math.floor(e.wheel), e.shift);	// Math.ceil because of a mystery error in either firefox or mootools
+        return false;
+    },
+    /**
+     * Increment value by
+	 * @method incrementBy
+     * @param {Number} value
+     * @param {Boolean} shift
+     */
+    incrementBy:function (value, shift) {
+        if(this.reverseWheel)value = value * -1;
+        value = parseInt(this.value) + (shift ? value * this.shiftIncrement : value);
+        if(this.maxValue && value > this.maxValue)value = this.maxValue;
+        if(this.minValue !== undefined && value < this.minValue)value = this.minValue;
+        if(this.isValid(value)){
+            this.setValue(value);
+			this.fireEvent('change', [ value, this ]);
+        }
+    }
 });/* ../ludojs/src/paging/page-input.js */
 /**
  * Text input for navigating to a specific page in a datasource.Collection
@@ -23526,471 +18839,6 @@ ludo.form.DisplayField = new Class({
     supportsInlineLabel:function(){
         return false;
     }
-});/* ../ludojs/src/progress/text.js */
-/**
- * Component used to display text for a progress bar, example
- * Step 1 of 10
- * @namespace progress
- * @class Text
- * @extends progress.Base
- */
-ludo.progress.Text = new Class({
-    Extends:ludo.progress.Base,
-    type:'progress.Text',
-    width:300,
-    height:30,
-    stopped:false,
-    hidden:true,
-
-    /**
-     * Template for text content, example {text}.
-     * @property tpl
-     * @type String
-     */
-    tpl : '{text}'
-});/* ../ludojs/src/form/file.js */
-/**
- File upload component<br>
- This components submits the file to an iframe. The url of this iframe is by default.<br>
- LUDOJS_CONFIG.fileupload.url. You can override it with remote.url config property.
-
- The file upload component should be implemented this way:
-
- 1) File is uploaded to the server<br>
- 2) You copy the file to a temporary area and save a reference to it in a database<br>
- 3) You return the reference to the file, example id of database row(e.g. 1000)<br>
- 4) The reference(1000) will be sent back from the server and saved as value of file upload component.<br>
-
- A PHP implementation of the PHP code of this can be obtained by contacting post[at]dhtmlgoodies.com.
-
- @namespace form
- @class File
- @extends form.Element
- @constructor
- @param {Object} config
- @example
-	 ...
-	 children:[{
-		 type:'form.File', label:'Pgn File', name:'pgnfile', required:true, labelButton:'Find Pgn file', buttonWidth:100
-	 }]
- 	 ...
- is example of code used to add a file components as child of a component.
-
- When the file is uploaded to the server(happens instantly when instantUpload is set to true), the name
- of the file will be sent in POST variable ludo-file-upload-name. The actual file should be available in the
- FILES array sent to the server.
-
- Example of code sent to server:
- 	{
-		ludo-file-upload-name : '<name of file>',
-		'name-of-file-upload-component' : 'pgnfile'
-    }
-
-
- Example of PHP Code used to handle the file:
-
- @example
-
-	 if(isset($_POST['ludo-file-upload-name'])){
-		 header('Content-Type: text/html; charset=utf-8');
-		 $uploadInfo = FileUpload::uploadFile($_FILES[$_POST['ludo-file-upload-name']]);
-
-		 $data = array('success' => true, 'message' => '', 'data' => $uploadInfo);
-
-		 die(utf8_encode(json_encode($data)));
-	 }
- Response from server may look like this:
-
- @example
-	 {
-	 	success : true,
-	 	value : '100'
-	 }
-
- where success indicates if the upload was successful and value is a reference to the file. When the form with this
- file upload component is later submitted,
-
- */
-ludo.form.File = new Class({
-	Extends:ludo.form.LabelElement,
-	type:'form.File',
-
-	inputTag:'input',
-	inputType:'file',
-
-	/**
-	 * Label of "Browse" button
-	 * @attribute labelButton
-	 * @type String
-	 * @default "Browse"
-	 */
-	labelButton:'Browse',
-
-	/**
-	 * Label for "Remove" new file link
-	 * @attribute labelRemove
-	 * @type String
-	 * @default Remove
-	 */
-	labelRemove:'Remove',
-	/**
-	 * Label for "Delete" new file link
-	 * @attribute {String} labelDelete
-	 * @default Delete
-	 */
-	labelDelete:'Delete',
-
-	/**
-	 * Private property for displayed file name. The file upload component is read only. It will only
-	 * submit a value if a new file has been selected.
-	 * @property valueForDisplay
-	 * @private
-	 */
-	valueForDisplay:'',
-	/**
-	 * Upload instantly when selecting file. During upload the form component will be flagged
-	 * as invalid, i.e. submit button will be disabled during file upload.
-	 * @attribute instantUpload
-	 * @type {Boolean}
-	 * @default true
-	 */
-	instantUpload:true,
-
-	uploadInProgress:false,
-
-	/**
-	 * false when a file has been selected but not uploaded. Happens
-	 * when instantUpload is set to false
-	 * @property fileUploadComplete
-	 * @type {Boolean}
-	 */
-	fileUploadComplete:true,
-
-	/*
-	 * Property used to identify file upload components
-	 */
-	isFileUploadComponent:true,
-
-	/**
-	 * Width of browse button
-	 * @attribute buttonWidth
-	 * @type {Number}
-	 * @default 80
-	 */
-	buttonWidth:80,
-
-	/**
-	 * Comma separated string of valid extensions, example : 'png,gif,bmp'
-	 * @attribute accept
-	 * @type String
-	 */
-	accept:undefined,
-
-    /**
-     * Name of resource on server to handle uploaded file.
-     * @config {String} FileUpload
-     * @default 'FileUpload'
-     */
-    resource:'FileUpload',
-
-	ludoConfig:function (config) {
-		this.parent(config);
-        this.setConfigParams(config, ['resource','instantUpload','labelButton','labelRemove','labelDelete','buttonWidth']);
-		if (config.accept) {
-			this.accept = config.accept.toLowerCase().split(/,/g);
-		}
-		if (config.value) {
-			this.valueForDisplay = config.value;
-		}
-		this.value = '';
-	},
-
-	ludoRendered:function () {
-		this.parent();
-
-		var cell = new Element('td');
-		cell.width = this.buttonWidth;
-		cell.style.textAlign = 'right';
-		this.getInputRow().adopt(cell);
-		cell.adopt(this.getFormEl());
-
-		var btn = new ludo.form.Button({
-			type:'form.Button',
-			layout:{
-				height:30,
-				width:this.buttonWidth
-			},
-			value:this.labelButton,
-			overflow:'hidden',
-			renderTo:cell
-		});
-
-		var fe = this.getFormEl();
-		fe.setStyles({
-			opacity:0,
-			'-moz-opacity':0,
-			height:'100%',
-			'position':'absolute',
-			'right':0,
-			top:0,
-			'z-index':100000,
-			cursor:'pointer',
-			filter:'alpha(opacity=0)'
-		});
-
-        fe.addEvents({
-            'mouseover': btn.mouseOver.bind(btn),
-            'mouseout' : btn.mouseOut.bind(btn),
-            'mousedown' : btn.mouseDown.bind(btn),
-            'mouseup' : btn.mouseUp.bind(btn),
-            'change' : this.selectFile.bind(this)
-        });
-
-		btn.getEl().adopt(fe);
-
-		this.createIframe();
-		this.createFormElementForComponent();
-
-		if (this.valueForDisplay) {
-			this.displayFileName();
-		}
-	},
-
-	createFormElementForComponent:function () {
-		var formEl = this.els.form = new Element('form');
-		formEl.target = this.getIframeName();
-
-        formEl.setProperties({
-            'method' : 'post',
-            'action' : this.getUploadUrl(),
-            'enctype' : 'multipart/form-data'
-        });
-
-		formEl.setStyles({ margin:0, padding:0, border:0});
-		this.getEl().adopt(formEl);
-		formEl.adopt(this.getBody());
-
-		this.addElToForm('ludo-file-upload-name',this.getName());
-		this.addElToForm('request', this.getResource() + '/save');
-
-	},
-
-    getResource:function(){
-        return this.resource || 'FileUpload';
-    },
-
-	addElToForm:function(name,value){
-		var el = new Element('input');
-		el.type = 'hidden';
-		el.name = name;
-		el.value = value;
-		this.els.form.adopt(el);
-	},
-
-	createIframe:function () {
-		var el = this.els.iframe = new Element('iframe');
-		el.name = this.iframeName = this.getIframeName();
-		el.setStyles({
-			width:1, height:1,
-			visibility:'hidden',
-			position:'absolute'
-		});
-		this.getEl().adopt(el);
-		el.addEvent('load', this.onUploadComplete.bind(this));
-
-	},
-
-	getIframeName:function () {
-		return 'iframe-' + this.getId();
-	},
-
-	onUploadComplete:function () {
-		this.fileUploadComplete = true;
-
-		if (window.frames[this.iframeName].location.href.indexOf('http:') == -1) {
-
-			return;
-		}
-		try {
-			var json = JSON.decode(window.frames[this.iframeName].document.body.innerHTML);
-			if (json.success) {
-				this.value = json.response;
-				/**
-				 * Event fired after a successful file upload, i.e. no server errors and json.success in
-				 * response is true
-				 * @event submit
-				 * @param {Object} JSON from server (json.response)
-				 * @param {Object} ludo.form.file
-				 */
-				this.fireEvent('submit', [json.response, this]);
-			} else {
-				/**
-				 * Event fired after an unsuccessful file upload because json.success was false
-				 * @event submitfail
-				 * @param {Object} json from server
-				 * @param {Object} ludo.form.file
-				 */
-				this.fireEvent('submitfail', [json, this]);
-			}
-
-			this.fireEvent('valid', ['', this]);
-		} catch (e) {
-			var html = '';
-			try {
-				html = window.frames[this.iframeName].document.body.innerHTML;
-			} catch (e) {
-			}
-			/**
-			 * Event fired when upload failed
-			 * @event fail
-			 * @param {Object} Exception
-			 * @param {String} response from server
-			 * @param {Object} ludo.form.file
-			 */
-			this.fireEvent('fail', [e, html, this]);
-
-		}
-
-		this.uploadInProgress = false;
-		this.displayFileName();
-
-        this.validate();
-	},
-
-	isValid:function () {
-		if (this.required && !this.getValue() && !this.hasFileToUpload()) {
-			return false;
-		}
-		if (!this.hasValidExtension())return false;
-		return !this.uploadInProgress;
-	},
-
-	hasValidExtension:function () {
-		if (!this.hasFileToUpload() || this.accept === undefined) {
-			return true;
-		}
-		return this.accept.indexOf(this.getExtension()) >= 0;
-
-	},
-
-	getExtension:function () {
-		var file = this.getValue();
-		var tokens = file.split(/\./g);
-        return tokens.pop().toLowerCase();
-	},
-
-	getUploadUrl:function () {
-        var url = ludo.config.getFileUploadUrl() || this.getUrl();
-        if (!url) {
-            ludo.util.warn('No url defined for file upload. You can define it with the code ludo.config.setFileUploadUrl(url)');
-        }
-		return url;
-	},
-
-	selectFile:function () {
-		this.value = this.valueForDisplay = this.getFormEl().get('value');
-		this.fileUploadComplete = false;
-		this.displayFileName();
-		this.setDirty();
-		if (this.instantUpload) {
-			this.upload();
-		}
-
-	},
-
-	displayFileName:function () {
-        var ci = this.els.cellInput;
-		ci.set('html', '');
-		ludo.dom.removeClass(ci, 'ludo-input-file-name-new-file');
-        ludo.dom.removeClass(ci, 'ludo-input-file-name-initial');
-        ludo.dom.removeClass(ci, 'ludo-input-file-name-not-uploaded');
-		if (this.valueForDisplay) {
-
-            var span = ludo.dom.create({
-                tag:'span',
-                html : this.valueForDisplay + ' ',
-                renderTo:ci
-            });
-
-			var deleteLink = new Element('a');
-			deleteLink.addEvent('click', this.removeFile.bind(this));
-			deleteLink.set('href', '#');
-			var html = this.labelRemove;
-			if (this.valueForDisplay == this.initialValue) {
-				html = this.labelDelete;
-				ludo.dom.addClass(ci, 'ludo-input-file-name-initial');
-			} else {
-				ludo.dom.addClass(ci, 'ludo-input-file-name-new-file');
-			}
-			if (!this.fileUploadComplete) {
-				ludo.dom.addClass(ci, 'ludo-input-file-name-not-uploaded');
-			}
-			deleteLink.set('html', html);
-			ci.adopt(deleteLink);
-		}
-	},
-	resizeDOM:function () {
-		/* No DOM resize necessary for this component */
-	},
-	upload:function () {
-		if (!this.hasValidExtension()) {
-			return;
-		}
-		this.fireEvent('invalid', ['', this]);
-		this.uploadInProgress = true;
-		this.els.form.submit();
-	},
-
-	getValue:function () {
-		return this.value;
-	},
-	/**
-	 * setValue for file inputs is display only. File inputs are readonly
-	 * @method setValue
-	 * @param {Object} value
-	 */
-	setValue:function (value) {
-		this.valueForDisplay = value;
-		this.displayFileName();
-		this.validate();
-	},
-
-	commit:function () {
-		this.initialValue = this.valueForDisplay;
-		this.displayFileName();
-	},
-
-	removeFile:function () {
-        this.valueForDisplay = this.valueForDisplay === this.initialValue ? '' : this.initialValue;
-		this.value = '';
-		this.displayFileName();
-		this.validate();
-		return false;
-	},
-
-	hasFileToUpload:function () {
-		return !this.fileUploadComplete;
-	},
-
-	blur:function () {
-
-	},
-
-    supportsInlineLabel:function(){
-        return false;
-    }
-});
-/* ../ludojs/src/form/radio.js */
-/**
- * Radio button
- * @namespace form
- * @class Radio
- * @extends form.Checkbox
- */
-ludo.form.Radio = new Class({
-    Extends:ludo.form.Checkbox,
-    type:'form.Radio',
-    inputType:'radio'
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
 window.chess = {
@@ -24243,16 +19091,16 @@ chess.view.notation.Panel = new Class({
 
     setController:function (controller) {
         this.parent(controller);
-        this.controller = controller;
-        this.controller.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
-        this.controller.addEvent('newGame', this.showMoves.bind(this));
-        this.controller.addEvent('deleteMove', this.showMoves.bind(this));
-        this.controller.addEvent('setPosition', this.setCurrentMove.bind(this));
-        this.controller.addEvent('nextmove', this.setCurrentMove.bind(this));
-        this.controller.addEvent('updateMove', this.updateMove.bind(this));
-        this.controller.addEvent('newMove', this.appendMove.bind(this));
-		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
-		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
+        var c = this.controller = controller;
+        c.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
+        c.addEvent('newGame', this.showMoves.bind(this));
+        c.addEvent('deleteMove', this.showMoves.bind(this));
+        c.addEvent('setPosition', this.setCurrentMove.bind(this));
+        c.addEvent('nextmove', this.setCurrentMove.bind(this));
+        c.addEvent('updateMove', this.updateMove.bind(this));
+        c.addEvent('newMove', this.appendMove.bind(this));
+		c.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		c.addEvent('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -27173,103 +22021,6 @@ chess.view.message.TacticsMessage = new Class({
     autoHideMessage:function () {
         this.getBody().set('html','');
     }
-});/* ../dhtml-chess/src/view/dialog/new-game.js */
-/**
- * New game dialog. This dialog listens to the newGameDialog event from the controller.
- * @submodule Dialog
- * @namespace chess.view.dialog
- * @class NewGame
- */
-chess.view.dialog.NewGame = new Class({
-    Extends:ludo.Window,
-    type:'chess.view.dialog.NewGame',
-    name:'game-import',
-    module:'chess',
-    submodule:'dialogNewGame',
-    autoHideOnBtnClick:false,
-    title:'New game',
-    layout:{
-        type:'linear',
-        orientation:'vertical',
-        width:400,height:270,top:20,left:20
-    },
-    hidden:true,
-    singleton:true,
-    formConfig:{
-        labelWidth:100
-    },
-    children:[
-        { type:'form.Text', label:chess.getPhrase('White'), name:'white', required:true },
-        { type:'form.Text', label:chess.getPhrase('Black'), name:'black', required:true },
-        { type:'form.Text', label:chess.getPhrase('Event'), name:'event' },
-        { type:'form.Text', label:chess.getPhrase('Site'), name:'site' },
-        { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
-        { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
-        {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
-        }
-    ],
-    buttonBar:{
-        children:[
-            {
-                type:'form.Button', name:'okButton', id:'newGameOkButton', value:chess.getPhrase('OK'), disableOnInvalid:true
-            },
-            {
-                type:'form.CancelButton', value:chess.getPhrase('Cancel')
-            }
-        ]
-    },
-
-    addControllerEvents:function () {
-        this.controller.addEvent('newGameDialog', this.show.bind(this));
-    },
-    ludoRendered:function () {
-        this.parent();
-        this.addButtonEvents();
-    },
-
-    addButtonEvents:function(){
-        this.getButton('okButton').addEvent('click', function () {
-            /**
-             * New game event. When fired it will send all values from the form as only argument.
-             * @event newGame
-             * @param {Array} metadata values
-             */
-            this.fireEvent('newGame', this.getValues());
-            this.hide();
-        }.bind(this))
-    }
-});/* ../dhtml-chess/src/view/dialog/edit-game-metadata.js */
-/**
- * Dialog for editing metadata on a game.
- * @submodule Dialog
- * @namespace chess.view.dialog
- * @class EditGameMetadata
- */
-chess.view.dialog.EditGameMetadata = new Class({
-    Extends:chess.view.dialog.NewGame,
-    type:'chess.view.dialog.EditGameMetadata',
-    submodule:'dialogEditGameMetadata',
-    title:chess.getPhrase('Edit metadata'),
-    model:['white','black','result','event','site','databaseId'],
-    addControllerEvents:function () {
-        this.controller.addEvent('editMetadata', this.show.bind(this));
-    },
-    addButtonEvents:function () {
-        this.getButton('okButton').addEvent('click', function () {
-            /**
-             * New game event. When fired it will send all values from the form as only argument.
-             * @event editMetadata
-             * @param {Array} metadata values
-             */
-            this.fireEvent('editMetadata', this.getValues());
-            this.hide();
-        }.bind(this))
-    },
-    show:function(model){
-        this.getForm().fill(model.getMetadata());
-        this.parent();
-    }
 });/* ../dhtml-chess/src/view/dialog/overwrite-move.js */
 /**
  * Displays an overwrite move dialog. This dialog listens to
@@ -27545,7 +22296,6 @@ chess.view.dialog.Comment = new Class({
 	 */
     commentAfter:function (model, move) {
         this.commentPos = 'after';
-        console.log(move);
         this.showDialog(model, move);
     },
 
@@ -27728,52 +22478,6 @@ chess.view.button.TacticSolution = new Class({
     showSolution : function() {
         this.fireEvent('showSolution')
     }
-});/* ../dhtml-chess/src/view/button/next-game.js */
-/**
- * Special button used to navigate to next game in a database
- * @namespace chess.view.button
- * @class NextGame
- * @extends form.Button
- */
-chess.view.button.NextGame = new Class({
-    Extends : ludo.form.Button,
-    type : 'chess.view.button.NextGame',
-    module:'chess',
-    submodule : 'buttonNextGame',
-    value : '>',
-    width : 30,
-
-    ludoEvents : function(){
-        this.parent();
-        this.addEvent('click', this.nextGame.bind(this));
-    },
-
-    nextGame : function() {
-        this.fireEvent('nextGame');
-    }
-});/* ../dhtml-chess/src/view/button/previous-game.js */
-/**
- * Special button used to navigate to previous button in a database
- * @namespace chess.view.button
- * @class PreviousGame
- * @extends form.Button
- */
-chess.view.button.PreviousGame = new Class({
-    Extends : ludo.form.Button,
-    type : 'chess.view.button.NextGame',
-    module:'chess',
-    submodule : 'buttonPreviousGame',
-    value : '<',
-    width : 30,
-
-    ludoEvents : function(){
-        this.parent();
-        this.addEvent('click', this.previousGame.bind(this));
-    },
-
-    previousGame : function() {
-        this.fireEvent('previousGame');
-    }
 });/* ../dhtml-chess/src/view/folder/tree.js */
 /**
  * This view displays a list of folders and databases as a tree.
@@ -27840,1870 +22544,6 @@ chess.view.folder.Tree = new Class({
 		 */
 		this.fireEvent('selectDatabase', record.getData());
 	}
-});/* ../dhtml-chess/src/view/eco/variation-tree.js */
-/**
- Eco variation tree view. This view displays available next moves according to ECO.
- @namespace chess.view.eco
- @class VariationTree
- @extends tree.Tree
- @example
- 	children:[
- 	 ...
- 	 {
-		 title:'Eco',
-		 type:'chess.view.eco.VariationTree'
-	 }
- 	...
- 	]
- */
-chess.view.eco.VariationTree = new Class({
-	Extends:ludo.tree.Tree,
-	type:'chess.view.eco.VariationTree',
-	module:'chess',
-	submodule:'eco.VariationTree',
-	dataSource:{
-        resource : 'Eco',
-		autoload:false
-	},
-	openingCache:{},
-	currentFen:'',
-	showLines:false,
-
-	tpl:'<span><b>{notation} </b>: {eco_code} {opening}</span>',
-	treeConfig:{
-		defaultValues:{
-
-		}
-	},
-	overflow:'auto',
-	ludoEvents:function () {
-		this.parent();
-		this.addEvent('load', this.cacheVariations.bind(this));
-		this.addEvent('selectrecord', this.selectMove.bind(this));
-	},
-
-	selectMove:function (move) {
-		this.fireEvent('selectMove', { from:move.from, to:move.to });
-	},
-
-	setController:function (controller) {
-		this.parent(controller);
-		controller.addEvent('setPosition', this.loadVariations.bind(this));
-		controller.addEvent('newMove', this.loadVariations.bind(this));
-		controller.addEvent('nextmove', this.loadVariations.bind(this));
-	},
-
-	loadVariations:function (model) {
-		var pos = model.getCurrentPosition();
-		if (this.openingCache[pos]) {
-			this.insertJSON(this.openingCache[pos]);
-			return;
-		}
-		this.currentFen = pos;
-        this.getDataSource().sendRequest("moves", pos.replace(/\//g,"_"));
-	},
-
-	cacheVariations:function (json) {
-		this.openingCache[this.currentFen] = json.data;
-	}
-});/* ../dhtml-chess/src/view/tree/select-folder.js */
-chess.view.tree.SelectFolder = new Class({
-    Extends:ludo.tree.Tree,
-    module:'chess',
-    submodule:'folder.tree',
-    dataSource:{
-        type : 'chess.dataSource.FolderTree'
-    },
-    nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
-    expandDepth:3,
-    recordConfig:{
-        'folder':{
-            selectable:true,
-            defaults:{
-                icon:'folder.png'
-            }
-        },
-        'database':{
-            selectable:false,
-            defaults:{
-                icon:'database.png'
-            }
-        }
-    },
-
-    treeConfig:{
-        defaultValues:{
-            icon:'folder.png'
-        }
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        this.addEvent('selectrecord', this.selectDatabase.bind(this));
-    },
-
-    selectDatabase:function (record) {
-        this.fireEvent('selectDatabase', record);
-    }
-});/* ../dhtml-chess/src/view/user/country.js */
-/**
- * Country input field for the user profile form
- * @submodule User
- * @namespace chess.view.user
- * @class Country
- * @extends form.Select
- */
-chess.view.user.Country = new Class({
-    Extends:ludo.form.Select,
-    type : 'chess.view.user.Country',
-    filterOnServer:false,
-    emptyItem:{
-        id:'',
-        name:chess.getPhrase('Your country')
-    },
-    valueKey:'name',
-    textKey:'name',
-    dataSource:{
-        singleton:true,
-        resource:'Countries',
-        service:'read'
-    }
-});
-/* ../dhtml-chess/src/view/user/login-button.js */
-/**
- * Login button. This button will be hidden automatically when
- * a valid user-session is created. It will be shown when there isn't
- * a valid user session.
- * @submodule User
- * @namespace chess.view.user
- * @class LoginButton
- * @extends form.Button
- */
-chess.view.user.LoginButton = new Class({
-    Extends:ludo.form.Button,
-    type:'chess.view.user.LoginButton',
-    module:'user',
-    submodule:'loginButton',
-    value:chess.getPhrase('Sign in'),
-    hidden:true,
-
-    setController:function (controller) {
-        this.parent(controller);
-        controller.addEvent('invalidSession', this.show.bind(this));
-        controller.addEvent('validSession', this.hide.bind(this));
-    },
-
-    show:function(){
-        this.parent();
-
-    }
-});/* ../dhtml-chess/src/view/user/controller.js */
-/**
- * Controller for the user login/registration module
- * @submodule User
- * @namespace chess.view.user
- * @class Controller
- * @extends controller.Controller
- */
-chess.view.user.Controller = new Class({
-    Extends:ludo.controller.Controller,
-    singleton:true,
-    type:'chess.view.user.Controller',
-    components:{},
-    applyTo: ['user'],
-
-	ludoConfig:function (config) {
-        this.parent(config);
-        this.createWindows();
-        this.validateSession();
-    },
-
-    addView:function (component) {
-        this.components[component.submodule] = component;
-        switch (component.submodule) {
-            case 'settingsButton':
-                component.addEvent('click', function(){
-                    this.fireEvent('showProfile');
-                }.bind(this));
-                break;
-            case 'registerWindow':
-                component.addEvent('registerSuccess', this.login.bind(this));
-                break;
-            case 'loginWindow':
-                component.addEvent('loginSuccess', this.login.bind(this));
-                break;
-            case 'loginButton':
-                component.addEvent('click', function(){
-                    this.fireEvent('showLogin');
-                }.bind(this));
-                break;
-            case 'logoutButton':
-                component.addEvent('click', this.logout.bind(this));
-                break;
-            case 'registerButton':
-                component.addEvent('click', function(){
-                    this.fireEvent('showRegister');
-                }.bind(this));
-                break;
-        }
-    },
-
-    validateSession:function () {
-        var token = this.getSessionToken();
-        if (!token) {
-            this.fireEvent('invalidSession');
-            return;
-        }
-
-		var req = new ludo.remote.JSON({
-            resource:'Session',
-			listeners:{
-				"success": function(request){
-					var userDetails = request.getResponseData();
-					this.fireEvent('validSession', userDetails.id);
-     				this.fireEvent('userAccess', userDetails.user_access);
-				}.bind(this),
-				"failure": function(){
-					this.fireEvent("invalidSession");
-				}.bind(this)
-			}
-		});
-        req.send('authenticate', undefined, token);
-    },
-
-    getSessionToken:function () {
-        return Cookie.read(chess.COOKIE_NAME)
-    },
-
-    createWindows:function(){
-        new chess.view.user.RegisterWindow();
-        new chess.view.user.LoginWindow();
-        new chess.view.user.ProfileWindow();
-    },
-
-    login:function(token, access){
-        this.fireEvent('validSession', token);
-        this.fireEvent('userAccess', access);
-    },
-
-    logout:function(){
-        var req = new ludo.remote.JSON({
-            "resource": "Session"
-        });
-        req.send("signOut");
-        this.fireEvent('invalidSession');
-    }
-});/* ../dhtml-chess/src/view/user/register-button.js */
-/**
- * "Register" button. This button is shown when there's no valid user session.
- * If a valid user session exists, it will be hidden. This button fires a click
- * event which is picked up by chess.view.user.Controller.
- * @submodule User
- * @namespace chess.view.user
- * @class RegisterButton
- * @extends form.Button
- */
-chess.view.user.RegisterButton = new Class({
-    Extends:ludo.form.Button,
-    type:'chess.view.user.LoginButton',
-    module:'user',
-    submodule:'registerButton',
-    value:chess.getPhrase('Register'),
-    hidden:true,
-
-    addControllerEvents:function () {
-        this.controller.addEvent('invalidSession', this.show.bind(this));
-        this.controller.addEvent('validSession', this.hide.bind(this));
-    }
-});/* ../dhtml-chess/src/view/user/logout-button.js */
-/**
- * Log out button. This button is hidden when there are no valid
- * user sessions. It will be shown when a valid user session exists.
- * @submodule User
- * @namespace chess.view.user
- * @class LogoutButton
- * @extends form.Button
- */
-chess.view.user.LogoutButton = new Class({
-    Extends:ludo.form.Button,
-    type:'chess.view.user.LoginButton',
-    module:'user',
-    submodule:'logoutButton',
-    hidden : true,
-    value : chess.getPhrase('Sign out'),
-
-    addControllerEvents:function(){
-        this.controller.addEvent('invalidSession', this.hide.bind(this));
-        this.controller.addEvent('validSession', this.show.bind(this));
-    }
-});/* ../dhtml-chess/src/view/user/register-window.js */
-/**
- * User registration window.
- * @submodule User
- * @namespace chess.view.user
- * @class RegisterWindow
- * @extends Window
- */
-chess.view.user.RegisterWindow = new Class({
-    Extends:ludo.Window,
-    type:'chess.view.user.Login',
-    left:50, top:50,
-    width:500, height:225,
-    title:chess.getPhrase('Register'),
-    hidden:true,
-    module:'user',
-    submodule:'registerWindow',
-    form:{
-        resource:'Player',
-        service:'register'
-    },
-    layout:{
-        "type": "linear",
-        "orientation": "vertical"
-    },
-    formConfig:{
-        labelWidth:150
-    },
-    children:[
-        {
-            type:'form.Text', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
-        },
-        {
-            type:'form.Email', name:'email', label:chess.getPhrase('E-mail'), required:true, stretchField:true
-        },
-        {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), required:true, stretchField:true
-        },
-        {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), required:true, stretchField:true
-        },
-        {
-            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
-        },
-        {
-            hidden:true, name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
-        }
-    ],
-
-    buttonBar:[
-        {
-            type:'form.SubmitButton', value:chess.getPhrase('Register')
-        },
-        {
-            type:'form.CancelButton', value:chess.getPhrase('Cancel')
-        }
-
-    ],
-
-    ludoRendered:function () {
-        this.parent();
-        this.getForm().addEvent('beforesubmit', this.hideErrorMessage.bind(this));
-        this.getForm().addEvent('success', this.successfulRegistration.bind(this));
-        this.getForm().addEvent('failure', this.registrationFailed.bind(this));
-    },
-
-    addControllerEvents:function () {
-        this.controller.addEvent('showRegister', this.showCentered.bind(this));
-    },
-
-    successfulRegistration:function (json) {
-		/**
-		 * Event fired when user registration was successful.
-		 * @event registerSuccess
-		 * @param {Object} JSON
-		 * @param {Boolean} rememberMe
-		 */
-        this.fireEvent('registerSuccess', [json.response.token, json.response.access]);
-        this.hide();
-        this.reset();
-    },
-    registrationFailed:function (json) {
-        this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.language[json.message]);
-    },
-
-    hideErrorMessage:function () {
-        this.child['errorMessage'].hide();
-    }
-
-});/* ../dhtml-chess/src/view/user/panel.js */
-/**
- * Small user info panel.
- * @submodule User
- * @namespace chess.view.user
- * @class Panel
- * @extends View
- */
-chess.view.user.Panel = new Class({
-    Extends:ludo.View,
-    width:200,
-    type:'chess.view.user.Panel',
-    module:'user',
-    submodule:'userPanel',
-    hidden:true,
-	/**
-	 * Text template for the panel
-	 * @config tpl
-	 * @type String
-	 * @default '<b>' + chess.getPhrase('signedInAs') + ' {username}</b>'
-	 */
-    tpl : '<b>' + chess.getPhrase('Signed in as') + ' {username}</b>',
-
-	/**
-	 * @config css
-	 * @type {Object}
-	 * @default css : {
-	         'text-align' : 'right'
-	     }
-	 */
-    css : {
-        'text-align' : 'right'
-    },
-
-	dataSource:{
-		resource : 'CurrentPlayer',
-		service:'read'
-	},
-
-    addControllerEvents:function () {
-        this.controller.addEvent('invalidSession', this.hide.bind(this));
-        this.controller.addEvent('validSession', this.getUserDetails.bind(this));
-    },
-
-    getUserDetails:function(){
-        this.show();
-        this.getForm().read();
-    }
-});/* ../dhtml-chess/src/view/user/login-window.js */
-/**
- * Login dialog.
- * @submodule User
- * @namespace chess.view.user
- * @class LoginWindow
- * @extends Window
- */
-chess.view.user.LoginWindow = new Class({
-    Extends:ludo.Window,
-    title:chess.getPhrase('Sign in'),
-    left:50,top:50,
-    width:400,height:180,
-    hidden:true,
-    type:'chess.view.user.Login',
-    module:'user',
-    submodule:'loginWindow',
-    form:{
-        resource:'Session',
-        service:"signIn"
-    },
-    layout:{
-        "type":"linear",
-        "orientation":"vertical"
-    },
-    children:[
-        {
-            type:'form.Text', name:'username', regex:/[a-zA-Z0-9\-_\.]/, label:chess.getPhrase('Username'), required:true, stretchField:true
-        },
-        {
-            type:'form.Password', name:'password', md5:true, label:chess.getPhrase('Password'), required:true, stretchField:true
-        },
-        {
-            type:'form.Checkbox', name:'rememberMe', label:chess.getPhrase('Remember me'), value:1
-        },
-        {
-            type:'remote.ErrorMessage', listenTo:"Session.signIn",
-            name:'errorMessage', css:{ color:'red', 'padding-left':10, height:30 }
-        }
-    ],
-
-    buttonBar:[
-        {
-            type:'form.SubmitButton', value:chess.getPhrase('Sign in')
-        },
-        {
-            type:'form.CancelButton', value:chess.getPhrase('Cancel')
-        }
-    ],
-
-    ludoEvents:function () {
-        this.parent();
-        this.getForm().addEvent('success', this.validLogin.bind(this));
-        this.getForm().addEvent('success', this.getForm().reset.bind(this.getForm()));
-    },
-    addControllerEvents:function () {
-        this.controller.addEvent('showLogin', this.showCentered.bind(this));
-    },
-
-    validLogin:function (json) {
-        this.fireEvent('loginSuccess', [ [json.response.token, json.response.access]]);
-        this.hide();
-    }
-});/* ../dhtml-chess/src/view/user/settings-button.js */
-/**
- * User settings button. This button looks like a gear and will fire a "click" event
- * which is picked up by chess.view.user.Controller. The controller will handle the event
- * and fire a "showProfile" event which is picked up by chess.view.user.ProfileWindow.
- * chess.view.user.ProfileWindow will show it's self when this event is fired.
- * @namespace chess.view.user
- * @class SettingsButton
- * @extends form.Button
- */
-chess.view.user.SettingsButton = new Class({
-    Extends:ludo.form.Button,
-    type:'chess.view.user.SettingsButton',
-    module:'user',
-    submodule:'settingsButton',
-    icon : ludo.config.getDocumentRoot() + '/images/gear.png',
-    value:'',
-    hidden:true,
-    width:30,
-	layout:{
-		height:26
-	},
-    setController:function (controller) {
-        this.parent(controller);
-        controller.addEvent('invalidSession', this.hide.bind(this));
-        controller.addEvent('validSession', this.show.bind(this));
-    }
-});/* ../dhtml-chess/src/view/user/profile-window.js */
-/**
- * User profile dialog
- * @submodule User
- * @namespace chess.view.user
- * @class ProfileWindow
- * @extends Window
- */
-chess.view.user.ProfileWindow = new Class({
-    Extends:ludo.Window,
-    type:'chess.view.user.ProfileWindow',
-    left:50, top:50,
-    width:500, height:250,
-    layout:{
-        type:'linear',
-        orientation:'vertical'
-    },
-    title:chess.getPhrase('My profile'),
-    hidden:true,
-    module:'user',
-    submodule:'profileWindow',
-    form:{
-		resource:'CurrentPlayer',
-		autoLoad:true
-	},
-    formConfig:{
-        labelWidth:150
-    },
-    children:[
-        {
-            type:'form.DisplayField', name:'username', minLength:5, label:chess.getPhrase('Username'), required:true, stretchField:true
-        },
-        {
-            type:'form.Text', name:'full_name', minLength:5, label:chess.getPhrase('Full name'), stretchField:true
-        },
-        {
-            type:'form.DisplayField', name:'email', label:chess.getPhrase('E-mail')
-        },
-
-        {
-            type:'chess.view.user.Country', id:'fieldCountry', name:'country', label:chess.getPhrase('Country'), required:false, stretchField:true
-        },
-        {
-            type:'form.Password', name:'password', minLength:5, md5:true, twin:'repeat_password', label:chess.getPhrase('Password'), stretchField:true
-        },
-        {
-            type:'form.Password', name:'repeat_password', minLength:5, md5:true, label:chess.getPhrase('Repeat password'), stretchField:true
-        },
-        {
-            type:'remote.Message', listenTo:'CurrentPlayer.save', name:'errorMessage', css:{ color:'red', 'padding-left':5, height:30 }
-        }
-    ],
-
-    buttonBar:[
-        {
-            type:'form.SubmitButton', value:chess.getPhrase('OK')
-        },
-        {
-            type:'form.CancelButton', value:chess.getPhrase('Cancel')
-        }
-
-    ],
-
-    ludoEvents:function(){
-        this.parent();
-        this.getForm().addEvent('success', this.showSaveConfirmMessage.bind(this));
-    },
-
-    showSaveConfirmMessage :function(){
-        this.hide.delay(1000, this);
-    },
-    addControllerEvents:function () {
-        this.controller.addEvent('showProfile', this.showProfile.bind(this));
-    },
-
-    showProfile:function(){
-        this.showCentered();
-    }
-});/* ../dhtml-chess/src/view/command/line.js */
-/**
- * Command line input field
- * @namespace chess.view.command
- * @class Line
- * @extends form.Text
- */
-chess.view.command.Line = new Class({
-	Extends: ludo.form.Text,
-	type: 'chess.view.command.Line',
-	controller:{
-		type:'chess.view.command.Controller'
-	},
-
-	validateKeyStrokes:true,
-
-    /**
-     * Key stroke listener
-	 * @method validateKey
-     * @param {Event} e
-     * @return {Boolean|undefined}
-     * @private
-     */
-	validateKey:function(e){
-		if(e.key === 'enter'){
-			this.value = this.els.formEl.value;
-			this.send();
-			this.setValue('');
-			return false;
-		}
-        return undefined;
-	},
-
-    /**
-     * Fire sendMessage event with value of text field
-     * @method send
-     * @private
-     */
-	send:function(){
-        /**
-         * @event sendMessage
-         * @param {String} value of command line input
-         */
-		this.fireEvent('sendMessage', this.getValue());
-	}
-});/* ../dhtml-chess/src/view/command/controller.js */
-/**
- * Controller for the command line view
- * @namespace chess.view.command
- * @class Controller
- * @extends controller.Controller
- */
-chess.view.command.Controller = new Class({
-	Extends:ludo.controller.Controller,
-	type:'chess.view.command.Controller',
-	singleton:true,
-	useController:true,
-	validCommands:['help', 'move', 'cls', 'fen','load','flip','grade','back','forward'],
-	module:'chess',
-	submodule:'commandLine',
-	addView:function (view) {
-		view.addEvent('sendMessage', this.receiveMessage.bind(this));
-
-	},
-
-	receiveMessage:function (message) {
-		if(!message)return;
-		var command = this.getValidCommand(message);
-		if (command) {
-			this.execute(command, this.getCommandArguments(command, message));
-		} else {
-			this.errorMessage('Invalid command: "' + message + '"');
-		}
-	},
-
-    /**
-     * Add listeners to the controller
-     * @method addControllerEvents
-     */
-	addControllerEvents:function () {
-		this.controller.addEvent('invalidMove', this.onInvalidMove.bind(this));
-		this.controller.addEvent('newMove', this.receiveMove.bind(this));
-		this.controller.addEvent('updateMove', this.receiveMoveUpdate.bind(this));
-	},
-
-    /**
-     * Return valid command name
-     * @method getValidCommand
-     * @param {String} command
-     * @return {String|undefined}
-     * @private
-     */
-	getValidCommand:function (command) {
-		var c = command.split(/\s/)[0];
-		if (this.validCommands.indexOf(c) !== -1)return c;
-		if (this.isChessMove(command))return 'move';
-		return undefined;
-	},
-
-    /**
-     Extract command arguments from command message. The whole message would be returned
-     when message is not a valid command.
-     @method getCommandArguments
-     @param {String} command
-     @param {String} message
-     @return {String}
-     @private
-     @example
-        var args = controller.getCommandArguments('move', 'move e4');
-        // will return "e4"
-     */
-	getCommandArguments:function (command, message) {
-		var c = message.split(/\s/)[0];
-		if (this.validCommands.indexOf(c) !== -1) {
-			message = message.split(/\s/);
-			message.splice(0, 1);
-			return message.join(' ');
-		}
-        if(command === 'move'){
-            message = message.replace(/o/g,'O');
-            message = message.replace(/([nrqb])(x|[a-h])/, function(c){ return c.substr(0,1).toUpperCase() + c.substr(1); });
-        }
-		return message;
-	},
-
-    /**
-     * Execute a command
-     * @method execute
-     * @param {String} command
-     * @param {String} arg
-     */
-	execute:function (command, arg) {
-		switch (command) {
-			case 'help':
-				this.showHelp();
-				break;
-			case 'cls':
-				this.fireEvent('clear');
-				break;
-			case 'load':
-				if(!isNaN(arg)){
-					this.fireEvent(command,{ id : arg });
-				}else{
-					this.errorMessage(chess.getPhrase('Invalid game') + ': ' + arg);
-				}
-				break;
-			case 'grade':
-				arg = arg || '';
-				if(this.isValidGrade(arg)){
-					this.fireEvent(command, arg);
-				}else{
-					this.errorMessage(chess.getPhrase('Invalid grade') + ': ' + arg);
-				}
-				break;
-			case 'fen':
-				try {
-					this.fireEvent('setPosition', arg);
-				} catch (e) {
-					this.errorMessage(chess.getPhrase('Invalid position') + ': ' + arg);
-				}
-				break;
-			default:
-				this.fireEvent(command, arg);
-		}
-
-	},
-
-	helpMessage:undefined,
-    /**
-     * Show command line help screen
-     * @method showHelp
-     */
-	showHelp:function () {
-		if (this.helpMessage === undefined) {
-			var msg = [];
-			for (var i = 0; i < this.validCommands.length; i++) {
-				var c = this.validCommands[i];
-				msg.push(['<span class="chess-command-help-label">', c, '</span>: ', chess.getPhrase('command_' + c)].join(''));
-			}
-			this.helpMessage = msg.join('<br>');
-		}
-
-		this.message(this.helpMessage);
-	},
-    /**
-     * Show invalid move message
-     * @method onInvalidMove
-     */
-	onInvalidMove:function () {
-		this.errorMessage(chess.getPhrase('Invalid move'));
-	},
-    /**
-     * Using RegEx to validate a chess move.
-	 * @method isChessMove
-     * @param {String} move
-     * @return {Boolean}
-     */
-	isChessMove:function (move) {
-		return /([PNBRQK]?[a-h]?[1-8]?x?[a-h][1-8](?:\=[PNBRQK])?|[Oo](-?[Oo]){1,2})[\+#]?(\s*[\!\?]+)?/g.test(move)
-	},
-    /**
-     * Receive move from main controller and display move message on screen
-     * @method receiveMove
-     * @param {chess.controller.Controller} controller
-     * @param {chess.model.Move} move
-     * @private
-     */
-	receiveMove:function (controller, move) {
-		this.message(chess.getPhrase('Moving') + ' ' + move.lm);
-	},
-
-    /**
-     * Fire a "sendMessage" event. Listening views may display this message on screen
-     * (example a chess.view.command.Panel view).
-     * @method message
-     * @param {String} msg
-     */
-	message:function (msg) {
-		this.fireEvent('sendMessage', msg);
-	},
-    /**
-     * Fire a "sendErrorMessage" event. A chess.view.command.Panel view will listen to
-     * this event and display the error message on screen
-     * @method errorMessage
-     * @param {String} msg
-     */
-	errorMessage:function (msg) {
-		this.fireEvent('sendErrorMessage', msg);
-	},
-
-    /**
-     * Returns true if passed argument is a valid move grade/short comment, i.e.
-     * !,?,!!,??,!? or ?!
-	 * @method isValidGrade
-     * @param arg
-     * @return {Boolean}
-     */
-	isValidGrade:function(arg){
-		return ['','?','??','!','!!','?!','!?'].indexOf(arg) !== -1;
-	},
-    /**
-     * Receive move update from main controller and fire a message event which will
-     * be displayed by a chess.view.command.Panel view
-     * @method recieveMoveUpdate
-     * @param {chess.model.Game} model
-     * @param {chess.model.Move} move
-     */
-	receiveMoveUpdate:function(model, move){
-		this.message(chess.getPhrase('Move updated to') + ': ' + move.lm);
-	}
-});/* ../dhtml-chess/src/view/command/panel.js */
-/**
- * Command line message panel
- * @namespace chess.view.command
- * @class Panel
- * @extends View
- */
-chess.view.command.Panel = new Class({
-	Extends: ludo.View,
-	useController:true,
-	cssSignature : 'chess-command-panel',
-	controller:{
-		type:'chess.view.command.Controller'
-	},
-	currentLine:undefined,
-
-	ludoRendered:function(){
-		this.parent();
-		this.renderLine(chess.getPhrase('commandWelcome'));
-	},
-
-    /**
-     * Add events to a chess.view.command.Controller instance
-     * @method addControllerEvents
-     */
-	addControllerEvents:function(){
-		this.controller.addEvent('sendMessage', this.renderLine.bind(this));
-		this.controller.addEvent('sendErrorMessage', this.renderErrorLine.bind(this));
-		this.controller.addEvent('clear', this.clear.bind(this));
-	},
-
-    /**
-     * Clear message panel
-     * @method clear
-     */
-	clear:function(){
-		this.getBody().innerHTML = '';
-		this.currentLine = undefined;
-	},
-
-    /**
-     * Render error message inside panel
-     * @method renderErrorLine
-     * @param {String} text
-     */
-	renderErrorLine:function(text){
-		this.renderLine(text, 'chess-command-panel-error-message');
-	},
-    /**
-     * Render message inside panel assigned to optional CSS class(cls)
-     * @method renderLine
-     * @param {String} text
-     * @param {String} cls
-     * @optional
-     */
-	renderLine:function(text, cls){
-		if(this.currentLine)ludo.dom.addClass(this.currentLine, 'chess-command-panel-message-old');
-		var el = document.createElement('div');
-		el.className = cls || 'chess-command-panel-message';
-		el.innerHTML = text;
-		this.getBody().adopt(el);
-		this.getBody().scrollTop += 100;
-		this.currentLine = el;
-	}
-});/* ../dhtml-chess/src/view/menu-item/game-import.js */
-/**
- * The game import menu item. This menu item will automatically be disabled when there are no
- * valid user sessions or if the user does not have access to the game import user role.
- * On click it will create a new chess.view.dialog.GameImport
- * @module View
- * @submodule Menu
- * @namespace chess.view.menuItems
- * @class GameImport
- */
-chess.view.menuItems.GameImport = new Class({
-    Extends: ludo.menu.Item,
-    type : 'chess.view.menuItems.GameImport',
-    label : chess.getPhrase('Import games(PGN)'),
-    module : 'user',
-    submodule : 'menuItemGameImport',
-    disabled:true,
-
-    addControllerEvents:function(){
-        this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
-        this.controller.addEvent('invalidSession', this.disable.bind(this));
-    },
-
-    toggleOnUserAccess:function(access){
-        if((access & window.chess.UserRoles.GAME_IMPORT)){
-            this.enable();
-        }else{
-            this.disable();
-        }
-    },
-
-    ludoEvents:function(){
-        this.parent();
-        this.addEvent('click', this.showImportDialog.bind(this));
-    },
-    showImportDialog:function(){
-        new chess.view.dialog.GameImport();
-    }
-});/* ../dhtml-chess/src/view/menu-item/save-game.js */
-/**
- * Menu item "Save Game". This menu item is automatically disabled when no user session exists and when
- * a user does not have access to edit games.
- * @module View
- * @submodule Menu
- * @namespace chess.view.SaveGame
- * @class NewGame
- */
-chess.view.menuItems.SaveGame = new Class({
-    Extends: ludo.menu.Item,
-    type : 'chess.view.menuItems.saveGame',
-    label : chess.getPhrase('Save game'),
-    module : 'user',
-    submodule : 'menuItemSaveGame',
-    disabled:true,
-	/**
-	 * Fired on click
-	 * @event saveGame
-	 */
-    copyEvents:{
-        click : 'saveGame'
-    },
-
-    addControllerEvents:function(){
-        this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
-        this.controller.addEvent('invalidSession', this.disable.bind(this));
-    },
-
-    toggleOnUserAccess:function(access){
-        if((access & window.chess.UserRoles.EDIT_GAMES)){
-            this.enable();
-        }else{
-            this.disable();
-        }
-    },
-
-    ludoEvents:function(){
-        this.parent();
-    }
-});/* ../dhtml-chess/src/view/menu-item/new-game.js */
-/**
- * Menu item "New Game". This menu item is automatically disabled when no user session exists and when
- * a user does not have access to edit games.
- * @module View
- * @submodule Menu
- * @namespace chess.view.menuItems
- * @class NewGame
- */
-chess.view.menuItems.NewGame = new Class({
-    Extends: ludo.menu.Item,
-    type : 'chess.view.menuItems.newGame',
-    label : chess.getPhrase('Game'),
-    module : 'user',
-    submodule : 'menuItemNewGame',
-    disabled:true,
-	orientation:'vertical',
-	/**
-	 * Fired on click
-	 * @event newGame
-	 */
-    copyEvents:{
-        click : 'newGame'
-    },
-
-    addControllerEvents:function(){
-        this.controller.addEvent('userAccess', this.toggleOnUserAccess.bind(this));
-        this.controller.addEvent('invalidSession', this.disable.bind(this));
-    },
-
-    toggleOnUserAccess:function(access){
-        if((access & window.chess.UserRoles.EDIT_GAMES)){
-            this.enable();
-        }else{
-            this.disable();
-        }
-    }
-});/* ../dhtml-chess/src/view/position/board.js */
-/**
- * Chess board for the position setup dialog
- * @namespace chess.view.position
- * @class Board
- * @extends chess.view.board.Board
- */
-chess.view.position.Board = new Class({
-    Extends:chess.view.board.Board,
-    type : 'chess.view.position.Board',
-    vAlign:'top',
-    pieceLayout:'alphapale',
-    boardLayout:'wood',
-    module:'positionsetup',
-    submodule:'chesspositionboard',
-    boardCss:{
-        'background-color':'transparent',
-        border:0
-    },
-    lowerCaseLabels:true,
-    selectedPiece:undefined,
-
-    ludoEvents:function () {
-        this.parent();
-        this.els.board.addEvent('click', this.insertPiece.bind(this));
-        this.addEvent('resetboard', this.sendFen.bind(this));
-        this.addEvent('modifyboard', this.sendFen.bind(this));
-        this.addEvent('clearboard', this.sendFen.bind(this));
-        this.addEvent('render', this.sendFen.bind(this));
-    },
-
-    setController:function(){
-
-    },
-
-    sendFen:function () {
-        this.fireEvent('setPosition', this.getFen());
-    },
-
-    deleteSelectedPiece:function () {
-        this.selectedPiece = undefined;
-        this.els.board.style.cursor = 'default';
-    },
-
-    setSelectedPiece:function (piece) {
-        this.selectedPiece = piece;
-        this.els.board.style.cursor = 'pointer';
-    },
-
-    insertPiece:function (e) {
-        if (!this.selectedPiece) {
-            return;
-        }
-        var square = this.getSquareByEvent(e);
-        if (square === undefined) {
-            return;
-        }
-        if (!this.isValidSquareForSelectedPiece(square)) {
-            return;
-        }
-        var p;
-        if (this.selectedPiece.pieceType == 'king') {
-            p = this.getKingPiece(this.selectedPiece.color);
-            var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
-            if (visiblePieceOnSquare) {
-                this.hidePiece(visiblePieceOnSquare);
-                if (this.isEqualPiece(visiblePieceOnSquare, p)) {
-                    this.fireEvent('modifyboard');
-                    return;
-                }
-            }
-            this.hidePiece(p);
-        }
-        if (!p) {
-            p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.pieceType == 'king') {
-                this.hidePiece(p);
-            }
-            else if (p) {
-                if (this.isEqualPiece(p, this.selectedPiece) && p.isVisible()) {
-                    this.hidePiece(p);
-                    this.fireEvent('modifyboard');
-                    return;
-                }
-            } else {
-                p = this.pieces[this.getIndexForNewPiece(this.selectedPiece.color)];
-            }
-        }
-
-        this.configurePieceAndPlaceOnSquare(p, square);
-        this.fireEvent('modifyboard');
-
-    },
-
-    isValidSquareForSelectedPiece:function (square) {
-        var p = this.selectedPiece;
-
-        if (p.pieceType == 'pawn') {
-            var rank = ((square & 240) / 16) + 1;
-            if (rank < 2 || rank > 7) {
-                return false;
-            }
-        }
-
-        return true;
-    },
-
-    configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
-        piece.square = placeOnSquare;
-        piece.pieceType = this.selectedPiece.pieceType;
-        piece.color = this.selectedPiece.color;
-        piece.position();
-        piece.updateBackgroundImage();
-        piece.show();
-        this.pieceMap[piece.square] = piece;
-    },
-
-    isEqualPiece:function (piece1, piece2) {
-        return piece1.color == piece2.color && piece1.pieceType == piece2.pieceType;
-    },
-
-    getIndexForNewPiece:function (color) {
-        var firstIndex;
-        for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
-                if (!firstIndex)firstIndex = i;
-                if (!this.pieces[i].isVisible()) {
-                    return i;
-                }
-            }
-        }
-        return firstIndex;
-    },
-
-    getIndexesOfPiecesOfAColor:function (color) {
-        var ret = [];
-        for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
-                ret.push(i);
-            }
-        }
-        return ret;
-    },
-
-    getKingPiece:function (color) {
-        for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType == 'king' && this.pieces[i].color == color) {
-                return this.pieces[i];
-            }
-        }
-        return null;
-    },
-
-    getVisiblePieceOnNumericSquare:function (square) {
-        var piece = this.pieceMap[square];
-        if (piece && piece.isVisible()) {
-            return piece;
-        }
-        return null;
-    },
-
-    getSquareByEvent:function (e) {
-        var boardPos = this.els.board.getPosition();
-        var squareSize = this.getSquareSize();
-
-        var x = Math.floor((e.page.x - boardPos.x) / squareSize);
-        var y = Math.floor((e.page.y - boardPos.y) / squareSize);
-        if (!this.isFlipped()) {
-            y = 7 - y;
-        } else {
-            x = 7 - x;
-        }
-        var square = y * 16 + x;
-        if ((square & 0x88) === 0) {
-            return square;
-        }
-        return undefined;
-    },
-
-    getFen:function () {
-        var fen = '';
-        var emptyCounter = 0;
-        for (var i = 0; i < Board0x88Config.fenSquaresNumeric.length; i++) {
-            var square = Board0x88Config.fenSquaresNumeric[i];
-            if (i && i % 8 == 0) {
-                if (emptyCounter > 0) {
-                    fen = fen + emptyCounter;
-                }
-                fen = fen + '/';
-                emptyCounter = 0;
-            }
-            var piece = this.pieceMap[square];
-            if (piece) {
-                if (emptyCounter > 0) {
-                    fen = fen + emptyCounter;
-                    emptyCounter = 0;
-                }
-                fen = fen + Board0x88Config.fenNotations[piece.color][piece.pieceType];
-            } else {
-                emptyCounter++;
-            }
-        }
-        if (emptyCounter > 0) {
-            fen = fen + emptyCounter;
-        }
-        return fen;
-    }
-});/* ../dhtml-chess/src/view/position/pieces.js */
-/**
- * Piece panel for the position setup dialog
- * @namespace chess.view.position
- * @class Pieces
- * @extends View
- */
-chess.view.position.Pieces = new Class({
-    Extends:ludo.View,
-    pieceColor:'white',
-    pieceLayout:'alphapale',
-    pieceTypes:['king', 'queen', 'rook', 'bishop', 'knight', 'pawn'],
-    pieces : {},
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['pieceColor','pieceLayout']);
-    },
-
-    ludoRendered:function () {
-        this.parent();
-        for (var i = 0; i < this.pieceTypes.length; i++) {
-            this.pieces[this.pieceTypes[i]] = this.addChild({
-                type:'chess.view.position.Piece',
-                pieceType:this.pieceTypes[i],
-                pieceLayout:this.pieceLayout,
-                pieceColor:this.pieceColor,
-                listeners:{
-                    selectpiece:this.selectPiece.bind(this)
-                }
-            });
-        }
-    },
-
-    clearSelections : function() {
-        for(var pieceType in this.pieces){
-            if(this.pieces.hasOwnProperty(pieceType)){
-                this.pieces[pieceType].clearSelectionCls();
-            }
-        }
-    },
-
-    addSelection : function(pieceType){
-        this.pieces[pieceType].addSelectionCls();
-    },
-
-    selectPiece:function (obj) {
-        this.fireEvent('selectpiece', obj);
-    }
-});
-
-chess.view.position.Piece = new Class({
-    Extends:ludo.View,
-    pieceColor:'white',
-    pieceType:'pawn',
-    pieceLayout:'pawn',
-    size:45,
-    height:55,
-
-    ludoConfig:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['pieceColor','pieceType','pieceLayout']);
-        this.parent(config);
-    },
-
-    ludoRendered:function () {
-        this.parent();
-        var piece = this.els.piece = new Element('div');
-        piece.setStyles({
-            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
-            'background-position':'center center',
-            'background-repeat':'no-repeat',
-            'cursor':'pointer'
-        });
-
-        piece.setProperty('pieceType', this.pieceType);
-        piece.addEvent('click', this.selectPiece.bind(this));
-        this.getBody().adopt(piece);
-        piece.addClass('position-setup-piece');
-        piece.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
-        piece.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
-        this.resizePiece.delay(50, this);
-    },
-
-    mouseEnterPiece : function() {
-        this.els.piece.addClass('position-setup-piece-over');
-        this.resizePiece();
-    },
-
-    mouseLeavePiece : function() {
-        this.els.piece.removeClass('position-setup-piece-over');
-        this.resizePiece();
-    },
-
-    resizePiece : function() {
-        var size = this.getBody().getSize();
-
-        size.x -= this.getPadding('x');
-        size.y -= this.getPadding('y');
-
-        this.els.piece.setStyles({
-            width : size.x,
-            height : size.y
-        });
-    },
-    piecePadding:{
-        width:undefined,height:undefined
-    },
-    getPadding:function(type){
-
-        if(this.piecePadding[type] === undefined){
-            var c = this.getBody();
-            switch(type){
-                case "x":
-                    this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getMBPW(this.els.piece));
-                    break;
-                default:
-                    this.piecePadding[type] = (ludo.dom.getBH(c) + ludo.dom.getPH(c) + ludo.dom.getMBPH(this.els.piece));
-
-            }
-
-        }
-        return this.piecePadding[type];
-    },
-
-    getColorCode:function () {
-        return this.pieceColor === 'white' ? 'w' : 'b';
-    },
-
-    getTypeCode:function () {
-        return this.pieceType === 'knight' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
-    },
-    selectPiece:function (e) {
-        var obj = {
-            color:this.pieceColor,
-            pieceType:e.target.getProperty('pieceType')
-        };
-        this.fireEvent('selectpiece', obj);
-    },
-
-    clearSelectionCls : function() {
-        this.els.piece.removeClass('position-setup-selected-piece');
-        this.resizePiece();
-    },
-    addSelectionCls : function() {
-        this.els.piece.addClass('position-setup-selected-piece');
-        this.resizePiece();
-    }
-});/* ../dhtml-chess/src/view/position/dialog.js */
-/**
- * Position setup dialog
- * @namespace chess.view.position
- * @class Dialog
- * @extends ludo.dialog.Dialog
- */
-chess.view.position.Dialog = new Class({
-    Extends:ludo.dialog.Dialog,
-    module:'chess',
-    submodule : 'positionSetup',
-    autoDispose:false,
-    autoHideOnBtnClick:false,
-    width:640,
-    height:450,
-    title:chess.getPhrase('Position setup'),
-    layout:{
-        type:'relative'
-    },
-    selectedPiece:undefined,
-	closable:true,
-	minimizable : false,
-	resizable : false,
-    positionValidator:undefined,
-
-    position:{
-        board:'',
-        color:'w',
-        castling:'KQkq',
-        enPassant:'-',
-        halfMoves:'0',
-        fullMoves:'0'
-    },
-
-    ludoConfig:function (config) {
-        this.positionValidator = new chess.parser.PositionValidator();
-
-        config.buttonBar = {
-            align:'left',
-            children:[
-                {
-                    value:'OK',
-                    listeners:{
-                        click:this.sendPosition.bind(this)
-                    }
-                },
-                {
-                    weight:1
-                },
-                {
-                    value:'Reset',
-                    listeners:{
-                        click:this.resetBoard.bind(this)
-                    }
-                },
-                {
-                    value:'Clear board',
-                    listeners:{
-                        click:this.clearBoard.bind(this)
-                    }
-                },
-                {
-                    value:'Load fen',
-                    listeners:{
-                        click:this.showLoadFenDialog.bind(this)
-                    }
-                },
-                {
-                    value:'Flip',
-                    listeners:{
-                        click:this.flipBoard.bind(this)
-                    }
-                },
-                {
-                    value:'Cancel',
-                    listeners:{
-                        click:this.hide.bind(this)
-                    }
-                }
-            ]
-        };
-        this.parent(config);
-
-    },
-
-
-    ludoRendered:function () {
-        this.parent();
-
-        this.board = this.addChild({
-            type:'chess.view.position.Board',
-            id:'boardContainer',
-            autoResize : false,
-            layout:{
-                alignParentLeft:true,
-                alignParentTop:true,
-                width:380,
-                height:380
-            },
-            containerCss:{
-                margin:3
-            },
-            listeners:{
-                setPosition:this.receivePosition.bind(this)
-            }
-        });
-
-        this.pieces = {};
-        this.pieces.white = this.addChild({
-            type:'chess.view.position.Pieces',
-            layout:{
-                height:430,
-                width:55,
-                type:'linear',
-                orientation:'vertical',
-                alignParentTop:true,
-                fillDown:true,
-                rightOf:'boardContainer'
-            },
-            pieceColor:'white',
-            listeners:{
-                selectpiece:this.selectPiece.bind(this)
-            }
-        });
-        this.pieces.black = this.addChild({
-            type:'chess.view.position.Pieces',
-            id:'blackPieces',
-            width:55,
-            pieceColor:'black',
-            listeners:{
-                selectpiece:this.selectPiece.bind(this)
-            },
-            layout:{
-                height:400,
-                rightOf : this.pieces.white,
-                type:'linear',
-                orientation:'vertical'
-            }
-        });
-
-
-        this.castling = this.addChild({
-            type:'chess.view.position.Castling',
-            listeners:{
-                change:this.receiveCastling.bind(this)
-            },
-            layout:{
-                type:'linear',
-                orientation:'vertical',
-                rightOf:'blackPieces',
-                width:130,
-                alignParentTop:true,
-                height:125
-            }
-        });
-
-        this.sideToMove = this.addChild({
-            type:'chess.view.position.SideToMove',
-            listeners:{
-                change:this.receiveColor.bind(this)
-            },
-            layout:{
-                sameWidthAs:this.castling,
-                height:80,
-                below:this.castling,
-                alignLeft:this.castling
-            }
-        });
-
-        this.moveNumber = this.addChild({
-            label:chess.getPhrase('Move number'),
-            width:150,
-            type:'form.Number',
-            minValue:1,
-            maxValue:500,
-            required:true,
-            value:'1',
-            fieldWidth:35,
-            listeners:{
-                change:this.receiveFullMoves.bind(this)
-            },
-            layout:{
-                below:this.sideToMove,
-                sameWidthAs:this.sideToMove,
-                alignLeft:this.sideToMove,
-                height:25
-            }
-        });
-        this.enPassant = this.addChild({
-            label:chess.getPhrase('En passant'),
-            type:'form.Text',
-            width:100,
-            fieldWidth:35,
-            maxLength:1,
-            required:false,
-            stretchField:false,
-            validateKeyStrokes:true,
-            regex:/[a-h]/g,
-            listeners:{
-                change:this.receiveEnPassant.bind(this)
-            },
-            layout:{
-                below:this.moveNumber,
-                sameWidthAs:this.moveNumber,
-                alignLeft:this.moveNumber,
-                height:25
-            }
-        });
-
-    },
-    receiveCastling:function (castling) {
-        this.updatePosition('castling', castling);
-    },
-    receiveColor:function (color) {
-        this.updatePosition('color', color);
-    },
-    receiveEnPassant:function (enPassant) {
-        enPassant = enPassant || '-';
-        this.updatePosition('enPassant', enPassant);
-    },
-
-    receiveFullMoves:function (fullMoves) {
-        fullMoves = fullMoves || '0';
-        this.updatePosition('fullMoves', fullMoves);
-    },
-
-    receivePosition:function (fen) {
-        this.updatePosition('board', fen);
-        this.position.board = fen;
-    },
-
-    updatePosition : function(key, value){
-        this.position[key] = value;
-        var button = this.getButton('ok');
-        if(this.positionValidator.isValid(this.getPosition())){
-            button.enable();
-        }else{
-            button.disable();
-        }
-    },
-
-    getPosition:function () {
-        var obj = this.position;
-        return obj.board + ' ' + obj.color + ' ' + obj.castling + ' ' + obj.enPassant + ' ' + obj.halfMoves + ' ' + obj.fullMoves;
-    },
-
-    clearBoard:function () {
-        this.board.clearBoard();
-    },
-    resetBoard:function () {
-        this.board.resetBoard();
-        this.castling.resetOptions();
-        this.sideToMove.resetOptions();
-        this.moveNumber.setValue('0');
-        this.enPassant.setValue('');
-    },
-    sendPosition:function () {
-        /**
-         * @event setPosition
-         * @param String FEN position
-         */
-        this.fireEvent('setPosition', this.getPosition());
-        this.hide();
-    },
-    flipBoard:function () {
-        this.board.flip();
-    },
-    selectPiece:function (obj) {
-        this.pieces.white.clearSelections();
-        this.pieces.black.clearSelections();
-        if (this.selectedPiece && this.selectedPiece.pieceType == obj.pieceType && this.selectedPiece.color == obj.color) {
-            this.selectedPiece = undefined;
-            this.board.deleteSelectedPiece();
-        } else {
-            this.selectedPiece = obj;
-            this.pieces[obj.color].addSelection(obj.pieceType);
-            this.board.setSelectedPiece(obj);
-        }
-
-    },
-    showLoadFenDialog:function () {
-        new ludo.dialog.Prompt({
-            width:400,
-            height:130,
-            html:chess.getPhrase('Paste fen into the text box below'),
-            inputConfig:{
-                stretchField:true
-            },
-            modal:true,
-            label:chess.getPhrase('FEN'),
-            title:chess.getPhrase('Load fen'),
-            listeners:{
-                'ok':this.loadFen.bind(this)
-            }
-        });
-    },
-
-    loadFen:function (fen) {
-        if (this.isValidFen(fen)) {
-            this.positionValidator.setFen(fen);
-
-            this.sideToMove.setColor(this.positionValidator.getColor());
-            this.castling.setValue(this.positionValidator.getCastle());
-            this.moveNumber.setValue(this.positionValidator.getFullMoves());
-            this.enPassant.setValue(this.positionValidator.getEnPassantSquare());
-            this.board.showFen(fen);
-        }
-    },
-
-    isValidFen:function () {
-        return true;
-    },
-
-    show:function(){
-        this.parent();
-        if(this.controller){
-            var model = this.controller.getCurrentModel();
-            if(model){
-                this.loadFen(model.getCurrentPosition());
-            }
-        }
-
-    }
-});
-
-chess.view.position.Dialog.getDialog = function(config) {
-    if(!chess.view.position.Dialog.dialogObject){
-        chess.view.position.Dialog.dialogObject = new chess.view.position.Dialog(config);
-    }
-    return chess.view.position.Dialog.dialogObject;
-};/* ../dhtml-chess/src/view/position/castling.js */
-/**
- * Castling panel for the position setup dialog
- * @namespace chess.view.position
- * @class Castling
- * @extends Panel
- */
-chess.view.position.Castling = new Class({
-    Extends:ludo.Panel,
-    height:125,
-    title:chess.getPhrase('Castling'),
-    values : {
-        'K' : 'K',
-        'Q' : 'Q',
-        'k' : 'k',
-        'q' : 'q'
-    },
-
-    value : 'KQkq',
-    checkboxes : [],
-
-    ludoRendered:function () {
-        this.parent();
-        var options = [
-            {
-                name:'K',
-                value : 'K',
-                checked:true,
-                label:'White O-O'
-            },
-            {
-                name:'Q',
-                value : 'Q',
-                checked:true,
-                label:'White O-O-O'
-            },
-            {
-                name:'k',
-                value : 'k',
-                checked:true,
-                label:'Black O-O'
-            },
-            {
-                name:'q',
-                value : 'q',
-                checked:true,
-                label:'Black O-O-O'
-            }
-
-        ];
-
-        for(var i=0;i<options.length;i++){
-            var obj = options[i];
-            obj.height = 25;
-            obj.type = 'form.Checkbox';
-            obj.listeners = {
-                change : this.receiveInput.bind(this)
-            };
-            this.checkboxes[i] = this.addChild(obj);
-        }
-    },
-
-    resetOptions: function() {
-        for(var i=0;i<this.checkboxes.length;i++){
-            this.checkboxes[i].check();
-        }
-    },
-    /**
-     * Set castle value, example value: 'qKQ'
-	 * @method setValue
-     * @param {String} castle
-     * @return undefined
-     */
-    setValue:function(castle){
-        for(var i=0;i<this.checkboxes.length;i++)this.checkboxes[i].setChecked(false);
-        for(i=0;i<castle.length;i++){
-            var key = castle.substr(i,1);
-            if(this.child[key])this.child[key].check();
-        }
-    },
-
-    getValue : function() {
-        var keys = ['K','Q','k','q'];
-        var ret = '';
-        for(var i=0;i<keys.length;i++){
-            ret = ret + this.values[keys[i]];
-        }
-        if(ret.length==0)ret = '-';
-        return ret;
-    },
-    receiveInput : function(value, obj){
-        this.values[obj.getName()] = value;
-        this.fireEvent('change', this.getValue());
-    }
-});/* ../dhtml-chess/src/view/position/side-to-move.js */
-/**
- * Side to move panel for the position setup dialog
- * @namespace chess.view.position
- * @class SideToMove
- * @extends Panel
- */
-chess.view.position.SideToMove = new Class({
-    Extends:ludo.Panel,
-    height:80,
-    title:chess.getPhrase('Side to move'),
-
-    ludoRendered:function () {
-        this.parent();
-        var options = [
-            {
-                name:'color',
-                checked:true,
-                label:chess.getPhrase('White'),
-                value : 'w'
-            },
-            {
-                name:'color',
-                value : 'b',
-                label:chess.getPhrase('Black')
-            }
-        ];
-
-        for (var i = 0; i < options.length; i++) {
-            var obj = options[i];
-            obj.height = 25;
-            obj.type = 'form.Radio';
-            obj.listeners = {
-                change : this.receiveInput.bind(this)
-            };
-            this.addChild(obj);
-        }
-    },
-
-    receiveInput : function(value){
-        this.fireEvent('change', value);
-    },
-
-    resetOptions : function(){
-        this.setColor('white');
-    },
-
-    setColor : function(color){
-        if(color == 'white'){
-            this.children[0].check();
-        }else{
-            this.children[1].check();
-        }
-    }
 });/* ../dhtml-chess/src/view/pgn/grid.js */
 if(chess.view.pgn === undefined)chess.view.pgn = {};
 /**
@@ -32071,51 +24911,6 @@ chess.parser.Move0x88 = new Class({
         this.parser.setFen(fen);
         return this.parser.getMobility();
     }
-});/* ../dhtml-chess/src/parser0x88/position-validator.js */
-/**
- * Class used by position setup dialog to validate positions on the board.
- * When the position is valid the "OK" button will be enabled, otherwise it will be disabled.
- * @namespace chess.parser
- * @class PositionValidator
- * @extends chess.parser.FenParser0x88
- */
-chess.parser.PositionValidator = new Class({
-   Extends : chess.parser.FenParser0x88,
-
-	/**
-	 * Returns true if a position is valid.
-	 * @method isValid
-	 * @param {String} fenPosition
-	 * @return {Boolean} valid
-	 */
-    isValid : function(fenPosition){
-		try{
-	        this.setFen(fenPosition);
-		}catch(e){
-			return false;
-		}
-        if(!this.hasBothKings()){
-            return false;
-        }
-        var oppositeConfig = this.getValidMovesAndResult(this.getOppositeColor());
-		return oppositeConfig.check ? false : true;
-    },
-
-    getValidMovesAndResult : function(color) {
-        if(!this.getKing('white') || !this.getKing('black')){
-            return { moves: [], result : 0, check : 0 }
-        }
-        return this.parent(color);
-    },
-
-    hasBothKings : function(){
-		return this.getKing('white') && this.getKing('black');
-    },
-
-    getOppositeColor : function(){
-        return this.getColor() === 'white' ? 'black' : 'white';
-    }
-
 });/* ../dhtml-chess/src/controller/controller.js */
 /**
   Game controller base class. This class acts as the glue between
@@ -32149,11 +24944,13 @@ chess.controller.Controller = new Class({
     },
 
     createDefaultViews:function () {
-        new chess.view.dialog.OverwriteMove();
-        new chess.view.dialog.Promote();
-        new chess.view.dialog.Comment();
-        new chess.view.dialog.NewGame();
-        new chess.view.dialog.EditGameMetadata();
+        if(chess.view.dialog != undefined){
+            if(chess.view.dialog.OverwriteMove != undefined)new chess.view.dialog.OverwriteMove();
+            if(chess.view.dialog.Promote != undefined)new chess.view.dialog.Promote();
+            if(chess.view.dialog.Comment != undefined)new chess.view.dialog.Comment();
+            if(chess.view.dialog.NewGame != undefined)new chess.view.dialog.NewGame();
+            if(chess.view.dialog.EditGameMetadata != undefined)new chess.view.dialog.EditGameMetadata();
+        }
     },
 
     createDefaultModel:function () {
@@ -32546,31 +25343,6 @@ chess.controller.Controller = new Class({
             this.currentModel.loadNextStaticGame(this.pgn);
         }
     }
-});/* ../dhtml-chess/src/controller/engine-play-controller.js */
-chess.controller.EnginePlayController = new Class({
-    Extends:chess.controller.Controller,
-    disabledEvents:{
-        overwriteOrVariation:1
-    },
-    dialog : {
-
-    },
-    modelEventFired:function (event, model) {
-        if (event === 'newMove' || event == 'newGame') {
-            var result = model.getResult();
-            var colorToMove = model.getColorToMove();
-            if(this.shouldAutoPlayNextMove(colorToMove, result)){
-                model.getEngineMove();
-            }
-            if (colorToMove === 'white') {
-                this.views.board.enableDragAndDrop(model);
-            }
-        }
-    },
-
-    shouldAutoPlayNextMove : function(colorToMove){
-        return colorToMove == 'black'
-    }
 });/* ../dhtml-chess/src/controller/tactic-controller.js */
 /**
  Chess game controller for tactic puzzles, i.e. boards where you make a move
@@ -32680,6 +25452,28 @@ chess.controller.TacticController = new Class({
 		}
 		return (result == -1 && colorToMove == 'white');
 	}
+});/* ../dhtml-chess/src/controller/analysis-controller.js */
+/**
+ Special controller for analysis boards. It extends chess.controller.Controller but calls the
+ enableDragAndDrop method of the board when the events "setPosition", "nextmove" and "newMove" is
+ fired by current game model.
+ @namespace chess.controller
+ @class AnalysisController
+ @extends chess.controller.Controller
+ @constructor
+ @param {Object} config
+ @example
+ 	new chess.controller.AnalysisController();
+ */
+chess.controller.AnalysisController = new Class({
+	Extends:chess.controller.Controller,
+
+	modelEventFired:function (event, model, param) {
+		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
+			this.views.board.enableDragAndDrop(model);
+		}
+	}
+
 });/* ../dhtml-chess/src/controller/tactic-controller-gui.js */
 chess.controller.TacticControllerGui = new Class({
     Extends: chess.controller.TacticController,
@@ -32733,38 +25527,6 @@ chess.controller.TacticControllerGui = new Class({
         }
     }
 
-});/* ../dhtml-chess/src/controller/analysis-controller.js */
-/**
- Special controller for analysis boards. It extends chess.controller.Controller but calls the
- enableDragAndDrop method of the board when the events "setPosition", "nextmove" and "newMove" is
- fired by current game model.
- @namespace chess.controller
- @class AnalysisController
- @extends chess.controller.Controller
- @constructor
- @param {Object} config
- @example
- 	new chess.controller.AnalysisController();
- */
-chess.controller.AnalysisController = new Class({
-	Extends:chess.controller.Controller,
-
-	modelEventFired:function (event, model, param) {
-		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			this.views.board.enableDragAndDrop(model);
-		}
-	}
-
-});/* ../dhtml-chess/src/controller/gameplay-controller.js */
-chess.controller.GameplayController = new Class({
-    Extends:chess.controller.Controller,
-
-    fireModelEvent:function (event, model, param) {
-        if (model.getId() == this.currentModel.getId()) {
-            if (!Browser.ie)console.log(event);
-            this.fireEvent(event, [model, param]);
-        }
-    }
 });/* ../dhtml-chess/src/model/game.js */
 /**
  * Chess game model
@@ -34541,21 +27303,6 @@ chess.dataSource.FolderTree = new Class({
     service : 'read',
     autoload:true,
 	primaryKey:['id','type']
-});/* ../dhtml-chess/src/datasource/game-list.js */
-/**
- * Data source for list of games. An object of this class is automatically created
- * by chess.view.gamelist.Grid
- * @module DataSource
- * @namespace chess.dataSource
- * @class GameList
- * @extends dataSource.Collection
- */
-chess.dataSource.GameList = new Class({
-    Extends: ludo.dataSource.Collection,
-    type : 'chess.dataSource.GameList',
-    autoload:false,
-    singleton: true,
-	resource:'Database'
 });/* ../dhtml-chess/src/datasource/pgn-games.js */
 /**
  * Data source for list of games in a static pgn file. An object of this class is automatically created
@@ -34632,120 +27379,4 @@ chess.dataSource.PgnList = new Class({
     singleton: true,
     resource:'ChessFSPgn',
     service:'read'
-});/* ../dhtml-chess/src/pgn/parser.js */
-/**
- Model to PGN parser. Takes a
- {{#crossLink "chess.model.Game"}}{{/crossLink}} as only argument
- and returns a PGN string for the game.
- @namespace chess.pgn
- @class Parser
- @constructor
- @param {chess.model.Game} model
- @example
-	 var game = new chess.model.Game();
-	 game.setMetadataValue('white','Magnus Carlsen');
-	 game.setMetadataValue('black','Levon Aronian');
-	 game.appendMove('e4');
-	 game.appendMove('e5');
-
-	 var parser = new chess.pgn.Parser(game);
- 	 console.log(parser.getPgn());
- */
-chess.pgn.Parser = new Class({
-	/**
-	 * @property {chess.model.Game} model
-     * @private
-	 */
-	model:undefined,
-
-
-	initialize:function(model){
-		this.model = model;
-	},
-
-	/**
-	 * Return pgn in string format
-	 * @method getPgn
-	 * @return {String}
-	 */
-	getPgn:function(){
-		return [this.getMetadata(),this.getMoves()].join("\n\n");
-	},
-
-    /**
-     * @method getMetadata
-     * @return {String}
-     * @private
-     */
-	getMetadata:function(){
-		var ret = [];
-		var metadata = this.model.getMetadata();
-		for(var key in metadata){
-			if(metadata.hasOwnProperty(key)){
-				ret.push('[' + key + ' "' + metadata[key] + '"]');
-			}
-		}
-		return ret.join('\n');
-	},
-    /**
-     * @method getMoves
-     * @return {String}
-     * @private
-     */
-	getMoves:function(){
-        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
-	},
-
-    /**
-     * Return comment before first move
-     * @method getFirstComment
-     * @return {String}
-     * @private
-     */
-    getFirstComment:function(){
-        var m = this.model.getMetadata();
-        if(m['comment']!==undefined && m['comment'].length > 0){
-            return '{' + m['comment'] + '} ';
-        }
-        return '';
-    },
-
-    /**
-     * Return main line of moves or a variation
-     * @method getMovesInBranch
-     * @param {Array} moves
-     * @param {Number} moveIndex
-     * @return {String}
-     * @private
-     */
-    getMovesInBranch:function(moves, moveIndex){
-        moveIndex = moveIndex || 0;
-        var ret = [];
-        var insertNumber = true;
-        for(var i=0;i<moves.length;i++){
-            if(moves[i]['m'] !== undefined){
-                if(moveIndex % 2 === 0 || insertNumber){
-                    var isWhite = moveIndex % 2 === 0;
-                    ret.push([Math.floor(moveIndex/2) + 1, (isWhite ? '.' : '..')].join(''));
-                }
-                ret.push(moves[i]['m']);
-                moveIndex++;
-
-                insertNumber = false;
-            }
-            if(moves[i]['comment'] !== undefined){
-                ret.push("{" + moves[i]['comment'] + "}");
-            }
-
-            if(moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0){
-                var variations = moves[i]['variations'];
-                for(var j=0;j<variations.length;j++){
-                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
-
-                }
-                insertNumber = true;
-            }
-        }
-        return ret.join(' ');
-    }
 });

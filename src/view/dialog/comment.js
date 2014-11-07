@@ -69,7 +69,6 @@ chess.view.dialog.Comment = new Class({
 	 */
     commentAfter:function (model, move) {
         this.commentPos = 'after';
-        console.log(move);
         this.showDialog(model, move);
     },
 

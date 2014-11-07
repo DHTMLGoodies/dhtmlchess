@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample file - Games in a pgn file</title>
+
+    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
+    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+    <script type="text/javascript" src="js/tactics-from-file.js"></script>
+    <style type="text/css">
+        body{
+            width:100%;
+            text-align:center;
+        }
+        .container{
+            border:1px solid #ddd;
+            width:800px;
+            margin:0 auto;
+            text-align:left;
+            padding:10px;
+        }
+        .ludo-chess-board-container{
+            border:0;
+        }
+        body{
+            font-family:arial;
+        }
+        .game-heading{
+            line-height:30px;text-align:center;margin:0;font-size:18px
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="chess_container" style="height:600px"></div>
+    <script type="text/javascript">
+        var c = new chess.TacticsFromFile({
+            renderTo:'chess_container',
+            pgn:'1001-brilliant-checkmates'
+        });
+    </script>
+
+</div>
+</body>
+</html>

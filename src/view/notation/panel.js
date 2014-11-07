@@ -52,16 +52,16 @@ chess.view.notation.Panel = new Class({
 
     setController:function (controller) {
         this.parent(controller);
-        this.controller = controller;
-        this.controller.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
-        this.controller.addEvent('newGame', this.showMoves.bind(this));
-        this.controller.addEvent('deleteMove', this.showMoves.bind(this));
-        this.controller.addEvent('setPosition', this.setCurrentMove.bind(this));
-        this.controller.addEvent('nextmove', this.setCurrentMove.bind(this));
-        this.controller.addEvent('updateMove', this.updateMove.bind(this));
-        this.controller.addEvent('newMove', this.appendMove.bind(this));
-		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
-		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
+        var c = this.controller = controller;
+        c.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
+        c.addEvent('newGame', this.showMoves.bind(this));
+        c.addEvent('deleteMove', this.showMoves.bind(this));
+        c.addEvent('setPosition', this.setCurrentMove.bind(this));
+        c.addEvent('nextmove', this.setCurrentMove.bind(this));
+        c.addEvent('updateMove', this.updateMove.bind(this));
+        c.addEvent('newMove', this.appendMove.bind(this));
+		c.addEvent('beforeLoad', this.beforeLoad.bind(this));
+		c.addEvent('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 

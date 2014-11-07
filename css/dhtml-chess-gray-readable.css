@@ -582,278 +582,7 @@ div.ludo-resize-handle-active {
     z-index: 15500;
     right: 0;
 }
-/* ../ludojs/css-source/layout/tab.css */
-.ludo-tab-close{
-    background-repeat:no-repeat;
-    background-position:center center;
-    background-image:url(../ludojs/images/layout/tab-close.png);
-    position:absolute;
-    cursor:pointer;
-}
-.ludo-tab-close-top-over,.ludo-tab-close-bottom-over{
-    background-image:url(../ludojs/images/layout/tab-close-over.png);
-}
-.ludo-tab-close-top, .ludo-tab-close-bottom{
-    right:2px;
-    top:2px;
-    height:90%;
-    width:12px;
-}
-
-.ludo-tab-close-right{
-    background-image:url(../ludojs/images/layout/tab-close-right.png);
-    bottom:2px;
-    width:90%;
-    height:12px;
-}
-.ludo-tab-close-left{
-    background-image:url(../ludojs/images/layout/tab-close-left.png);
-    top:2px;
-    width:90%;
-    height:12px;
-}
-.ludo-tab-close-right-over{
-    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
-}
-.ludo-tab-close-left-over{
-    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
-}/* ../ludojs/css-source/layout/tab-strip.css */
-.ludo-tab-strip {
-    margin: 0;
-}
-
-.ludo-tab-strip-line {
-    position: absolute;
-    z-index:1;
-}
-.ludo-tab-strip-tab {
-    position: absolute;
-    white-space: nowrap;
-    cursor: pointer;
-    z-index: 2;
-    overflow:hidden;
-}
-
-.ludo-tab-strip-tab-bg-first, .ludo-tab-strip-tab-bg-last{
-    position:absolute;
-    border:0;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-line,.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    height:3px;
-    width:100%;
-}
-/** Tab strip on top */
-.ludo-tab-strip-top .ludo-tab-strip-line {
-    bottom: 0;
-    border-top: 1px solid;
-}
-
-.ludo-tab-strip-top {
-    border-bottom: 1px solid;
-    height: 26px;
-    padding-bottom: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-left-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-right-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-tab-top {
-    bottom: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-top: 0;
-}
-
-div.ludo-tab-strip-top .ludo-tab-strip-tab-active {
-    height: 22px;
-    bottom: 3px;
-    border-bottom:0;
-}
-
-/** Tab strip left */
-.ludo-tab-strip-left {
-    border-right: 1px solid;
-    padding-right: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-line {
-    right: 0;
-    width: 3px;
-    border-left: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-left {
-    right: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-left: 0;
-}
-
-div.ludo-tab-strip-left .ludo-tab-strip-tab-active {
-    width: 22px;
-    right: 3px;
-    border-right:0;
-}
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-left-width: 1px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    height: 55%;
-    width: 120%;
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-left div.ludo-body {
-    border-right: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-/** Tab strip bottom */
-.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    top: 0;
-    border-bottom: 1px solid;
-}
-
-.ludo-tab-strip-bottom {
-    border-top: 1px solid;
-    height: 26px;
-    padding-top: 1px;
-}
-.ludo-tab-strip-tab-bg-first,.ludo-tab-strip-tab-bg-last{
-    border-style: solid;
-    position:absolute;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right:0;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-right-width:1px;
-    border-left:0;
-
-}
-
-.ludo-tab-strip-tab-bottom {
-    top: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-bottom: 0;
-}
-
-div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active {
-    height: 21px;
-    padding-top:1px;
-    top: 3px;
-    border-top:0;
-}
-
-/** Right tabs */
-
-.ludo-tab-strip-right {
-    border-left: 1px solid;
-    padding-left: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-line {
-    left: 0;
-    width: 3px;
-    border-right: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-right {
-    left: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-right: 0;
-}
-
-div.ludo-tab-strip-right .ludo-tab-strip-tab-active {
-    width: 21px;
-    padding-left:1px;
-    left: 3px;
-    border-left:0;
-}
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-right-width: 1px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-right div.ludo-body {
-    border-left: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-.ludo-tab-strip-tab-txt-svg{
-    font-family:arial, helvetica, serif;
-    font-size:11px;
-    line-height:20px;
-}/* ../ludojs/css-source/grid/grid.css */
+/* ../ludojs/css-source/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -1137,135 +866,6 @@ div.ludo-paging-current-page .ludo-body{
     background-color:#FFF;
     color:#000;
     font-family:arial, Sans-Serif;
-}/* ../ludojs/css-source/form/form.css */
-.ludo-form-element div.ludo-body {
-    padding: 2px;
-}
-
-.ludo-body label.ludo-form-label-disabled {
-    color: #AAA;
-}
-
-.ludo-body input, .ludo-body textarea {
-    font-family: arial, helvetica, Sans-Serif;
-}/* ../ludojs/css-source/form/text.css */
-.ludo-richcomponent .ludo-form_text .ludo-body,
-.ludo-richcomponent .ludo-form_select .ludo-body {
-    margin: 3px;
-}
-
-.ludo-form-autocomplete-suggestion {
-    height: 18px;
-    line-height: 18px;
-    width: 1000px;
-    cursor: pointer;
-    padding: 1px;
-    font-family: arial, sans-serif;
-}
-
-.ludo-body input {
-    font-size: 12px;
-}
-
-.ludo-form-autocomplete-suggestion-over {
-    background-color: #EEE;
-    color: #000;
-}
-
-.ludo-form-text-autocomplete-container {
-    position: relative;
-    overflow: hidden;
-    height: 20px;
-    padding: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    border: 1px solid #CCC;;
-    border-top: 1px solid #abadb3;
-    background-color: #FFF;
-}
-
-.ludo-form-text-autocomplete {
-    /*
-    background : url("data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D") repeat scroll 0 0 transparent;
-    */
-    position: absolute;
-    background-clip: border-box;
-    /* background-origin: padding-box;*/
-    background-size: auto;
-    left: 0;
-    border: 0;
-    width: 100%;
-    height: auto;
-    top: 2px;
-    overflow: hidden;
-    z-index: 5;
-    -moz-box-sizing: content-box;
-    background-color: #FFF;
-    /** cursor:none; */
-}
-
-.ludo-form-text-autocomplete-suggestion {
-    background-color: #FFF;
-}
-
-.ludo-body textarea {
-    resize: none;
-    font-family: arial, sans-serif;
-    font-size: 12px;
-}
-
-input.ludo-form-el-invalid {
-    background-image: url('../ludojs/images/form/form-el-invalid.png');
-    background-position: 5px bottom;
-    background-repeat: repeat-x;
-}
-
-.ludo-body label {
-    color: #555;
-    font-family: arial, sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-div.ludo-menu-menu label {
-    font-size: 11px;
-}
-
-.ludo-form-text-element input, .ludo-form-text-element textarea {
-    border: 0;
-    padding: 0;
-    outline: none;
-}
-
-.ludo-form-element select {
-    border: 1px solid #ccc;
-}
-
-.ludo-form-text-element {
-    border: 1px solid #ccc;
-    background-color: #FFF;
-    padding: 1px;
-}
-
-.input-row .input-cell {
-    margin-top: 1px;
-    margin-bottom: 1px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-}
-
-.input-row textarea {
-    overflow-y: auto;
-}
-
-.ludo-form-el-inline-label {
-    color: #777;
 }/* ../ludojs/css-source/menu/menu.css */
 .ludo-menu {
     font-family: arial, sans-serif  !important;
@@ -1446,174 +1046,13 @@ div.ludo-menu-horizontal-up div.ludo-menu-item-expand {
     height:100%;
 
 }
-/* ../ludojs/css-source/Panel.css */
-.ludo-panel{
-    margin:5px;
-}
-
-.ludo-panel fieldset{
-    border-radius : 5px;
-     webkit-border-radius: 5px;
-     -moz-border-radius : 5px;    
-
-}
-.ludo-panel .ludo-view-container{
-    margin:2px;
-}
-.ludo-panel .ludo-view-container .ludo-view-container{
-    padding-left:0px;
-    padding-right:0px;
-}
-
-fieldset{
-    padding:0px;
-    margin:2px;
-}/* ../ludojs/css-source/remote/message.css */
+/* ../ludojs/css-source/remote/message.css */
 .ludo-remote-message{
 
 }
 .ludo-remote-error-message{
     color:#f00;
-}/* ../ludojs/css-source/form/button.css */
-.ludo-component-buttonbar {
-    box-shadow: 0 !important;
-    padding-right: 2px;
-}
-
-div.ludo-form-button {
-    margin-left: 2px;
-    margin-right:2px;
-    background-repeat: no-repeat;
-    color: #000;
-    position: relative;
-    text-align: center;
-    cursor: pointer;
-    font-size: 11px;
-    font-weight: bold;
-    background-color: transparent;
-
-}
-
-
-div.ludo-form-button-m{
-    height: 23px;
-}
-
-div.ludo-form-button-l{
-    height: 35px;
-    font-size:14px;
-    line-height:30px;
-}
-
-div.ludo-form-button-xl{
-    height: 45px;
-    font-size:14px;
-    line-height:40px;
-}
-
-div.ludo-form-button-s{
-    height: 14px;
-}
-
-div.ludo-form-button-l{
-    height:45px;
-}
-
-.ludo-form-tiny-button{
-    margin-top:2px;
-}
-div.ludo-form-button div {
-    padding: 0 ! important;
-    background-color: transparent;
-    -moz-user-select: none;
-}
-
-div.ludo-form-button-disabled {
-    cursor: default;
-    color:#555;
-}
-
-.ludo-form-button-selected .ludo-form-button-m-bg-left {
-    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
-}
-
-.ludo-form-button-selected .ludo-form-button-m-bg-right {
-    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
-}
-
-div.ludo-form-button-disabled .ludo-form-button-m-bg-left {
-    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
-}
-
-div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
-    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
-}
-
-.ludo-form-button-over .ludo-form-button-m-bg-left {
-    background-image: url('../ludojs/images/button/button-bg-light-over.png');
-}
-
-.ludo-form-button-over .ludo-form-button-m-bg-right {
-    background-image: url('../ludojs/images/button/button-bg-light-over.png');
-}
-
-.ludo-form-button-down .ludo-form-button-m-bg-left {
-    background-image: url('../ludojs/images/button/button-bg-light-down.png');
-}
-
-.ludo-form-button-down .ludo-form-button-m-bg-right {
-    background-image: url('../ludojs/images/button/button-bg-light-down.png');
-}
-.ludo-form-button-bg-left{
-    width: 55%;
-    height: 100%;
-    position: absolute;
-    background-repeat: no-repeat;
-}
-.ludo-form-button-bg-right{
-    height: 100%;
-    width: 55%;
-    background-repeat: no-repeat;
-    position: absolute;
-    background-position: top right;
-}
-
-.ludo-form-button-m-bg-left {
-    background-image: url('../ludojs/images/button/button-bg-light.png');
-}
-
-.ludo-form-button-m-bg-right {
-    background-image: url('../ludojs/images/button/button-bg-light.png');
-}
-
-
-.ludo-form-button-value {
-    background-repeat:no-repeat;
-    background-position:center center;
-}
-
-.ludo-form-button-l .ludo-form-button-value{
-    font-size:16px;
-    line-height:34px;
-}
-.ludo-form-button-xl .ludo-form-button-value{
-    font-size:16px;
-    line-height:44px;
-}
-.ludo-form-button-s .ludo-form-button-value{
-    line-height:14px;
-}
-
-.ludo-form-button-m .ludo-form-button-value{
-    line-height:22px;
-}
-
-.ludo-buttonbar-component-content .ludo-form-button {
-    padding-top: 2px;
-}
-
-
-/* ../ludojs/css-source/tree/tree.css */
+}/* ../ludojs/css-source/tree/tree.css */
 div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
@@ -1767,235 +1206,275 @@ div.ludo-tree-movable-shim img{
 }
 
 
-/* ../ludojs/css-source/progress/progress-bar.css */
-.ludo-Progress-Bar-Bg{
-    width:300px;
-    height:20px;
-    position:relative;
-    margin-left:2px;
+/* ../ludojs/css-source/form/form.css */
+.ludo-form-element div.ludo-body {
+    padding: 2px;
+}
+
+.ludo-body label.ludo-form-label-disabled {
+    color: #AAA;
+}
+
+.ludo-body input, .ludo-body textarea {
+    font-family: arial, helvetica, Sans-Serif;
+}/* ../ludojs/css-source/form/text.css */
+.ludo-richcomponent .ludo-form_text .ludo-body,
+.ludo-richcomponent .ludo-form_select .ludo-body {
+    margin: 3px;
+}
+
+.ludo-form-autocomplete-suggestion {
+    height: 18px;
+    line-height: 18px;
+    width: 1000px;
+    cursor: pointer;
+    padding: 1px;
+    font-family: arial, sans-serif;
+}
+
+.ludo-body input {
+    font-size: 12px;
+}
+
+.ludo-form-autocomplete-suggestion-over {
+    background-color: #EEE;
+    color: #000;
+}
+
+.ludo-form-text-autocomplete-container {
+    position: relative;
+    overflow: hidden;
+    height: 20px;
+    padding: 0;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 1px solid #CCC;;
+    border-top: 1px solid #abadb3;
+    background-color: #FFF;
+}
+
+.ludo-form-text-autocomplete {
+    /*
+    background : url("data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D") repeat scroll 0 0 transparent;
+    */
+    position: absolute;
+    background-clip: border-box;
+    /* background-origin: padding-box;*/
+    background-size: auto;
+    left: 0;
+    border: 0;
+    width: 100%;
+    height: auto;
+    top: 2px;
+    overflow: hidden;
+    z-index: 5;
+    -moz-box-sizing: content-box;
+    background-color: #FFF;
+    /** cursor:none; */
+}
+
+.ludo-form-text-autocomplete-suggestion {
+    background-color: #FFF;
+}
+
+.ludo-body textarea {
+    resize: none;
+    font-family: arial, sans-serif;
+    font-size: 12px;
+}
+
+input.ludo-form-el-invalid {
+    background-image: url('../ludojs/images/form/form-el-invalid.png');
+    background-position: 5px bottom;
+    background-repeat: repeat-x;
+}
+
+.ludo-body label {
+    color: #555;
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.ludo-menu-menu label {
+    font-size: 11px;
+}
+
+.ludo-form-text-element input, .ludo-form-text-element textarea {
+    border: 0;
+    padding: 0;
+    outline: none;
+}
+
+.ludo-form-element select {
+    border: 1px solid #ccc;
+}
+
+.ludo-form-text-element {
+    border: 1px solid #ccc;
+    background-color: #FFF;
+    padding: 1px;
+}
+
+.input-row .input-cell {
+    margin-top: 1px;
+    margin-bottom: 1px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.input-row textarea {
+    overflow-y: auto;
+}
+
+.ludo-form-el-inline-label {
+    color: #777;
+}/* ../ludojs/css-source/form/button.css */
+.ludo-component-buttonbar {
+    box-shadow: 0 !important;
+    padding-right: 2px;
+}
+
+div.ludo-form-button {
+    margin-left: 2px;
     margin-right:2px;
-    margin-top:1px;
-    overflow:hidden;
+    background-repeat: no-repeat;
+    color: #000;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    background-color: transparent;
+
 }
-.ludo-Progress-Bar-Bg-Left{
-    background-image:url('../ludojs/images/progress-bar/progress-bg.png');
-    width:60%;
-    left:0;
-    position:absolute;
-    background-position:top left;
-    height:20px;
+
+
+div.ludo-form-button-m{
+    height: 23px;
+}
+
+div.ludo-form-button-l{
+    height: 35px;
+    font-size:14px;
+    line-height:30px;
+}
+
+div.ludo-form-button-xl{
+    height: 45px;
+    font-size:14px;
+    line-height:40px;
+}
+
+div.ludo-form-button-s{
+    height: 14px;
+}
+
+div.ludo-form-button-l{
+    height:45px;
+}
+
+.ludo-form-tiny-button{
+    margin-top:2px;
+}
+div.ludo-form-button div {
+    padding: 0 ! important;
+    background-color: transparent;
+    -moz-user-select: none;
+}
+
+div.ludo-form-button-disabled {
+    cursor: default;
+    color:#555;
+}
+
+.ludo-form-button-selected .ludo-form-button-m-bg-left {
+    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
+}
+
+.ludo-form-button-selected .ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light-selected.png');
+}
+
+div.ludo-form-button-disabled .ludo-form-button-m-bg-left {
+    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
+}
+
+div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light-disabled.png');
+}
+
+.ludo-form-button-over .ludo-form-button-m-bg-left {
+    background-image: url('../ludojs/images/button/button-bg-light-over.png');
+}
+
+.ludo-form-button-over .ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light-over.png');
+}
+
+.ludo-form-button-down .ludo-form-button-m-bg-left {
+    background-image: url('../ludojs/images/button/button-bg-light-down.png');
+}
+
+.ludo-form-button-down .ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light-down.png');
+}
+.ludo-form-button-bg-left{
+    width: 55%;
+    height: 100%;
+    position: absolute;
+    background-repeat: no-repeat;
+}
+.ludo-form-button-bg-right{
+    height: 100%;
+    width: 55%;
+    background-repeat: no-repeat;
+    position: absolute;
+    background-position: top right;
+}
+
+.ludo-form-button-m-bg-left {
+    background-image: url('../ludojs/images/button/button-bg-light.png');
+}
+
+.ludo-form-button-m-bg-right {
+    background-image: url('../ludojs/images/button/button-bg-light.png');
+}
+
+
+.ludo-form-button-value {
     background-repeat:no-repeat;
-
-}
-.ludo-Progress-Bar-Bg-Right{
-    background-image:url('../ludojs/images/progress-bar/progress-bg.png');
-    position:absolute;
-    background-position:top right;
-    right:0;
-    top:0;
-    width:60%;
-    height:20px;
-    background-repeat:no-repeat;
-}
-
-
-.ludo-Progress-Bar{
-    background-repeat:repeat-x;
-    background-position:top left;
-    position:absolute;
-    top:0;
-    left:0;
-    height:20px;
-    width:300px;
-    overflow:hidden;
-}
-
-.ludo-Progress-Bar-Left{
-    background-image:url('../ludojs/images/progress-bar/progress-bg-filled.png');
-    background-repeat:no-repeat;
-    position:absolute;
-    left:0;
-    top:0;
-    height:20px;
-    width:55%;
-}
-
-.ludo-Progress-Bar-Right{
-    background-image:url('../ludojs/images/progress-bar/progress-bg-filled.png');
-    background-repeat:no-repeat;
-    background-position:top right;
-    position:absolute;
-    top:0;
-    right:0;
-    height:20px;
-    width:55%;
-}
-
-.ludo-Progress-Bar-Percent{
-    width:100%;
-    height:100%;
-    text-align:center;
-    color:#000;
-    line-height:20px;
-    z-index:100;
-    position:relative;
-    font-family:arial;
-    font-size:0.9em;
-}
-
-.ludo-Progress-Bar-Message{
-    text-align:center;
-}/* ../ludojs/css-source/accordion.css */
-.ludo-accordion{
-    border-radius:0;
-    border:1px solid #CCC;
-}
-.ludo-accordion .ludo-framed-view-titlebar{
-    border-bottom:0;
-    cursor:pointer;
-}
-.ludo-accordion .ludo-framed-view-titlebar-title{
-    margin-left:20px;
-    line-height:25px;
-}
-.ludo-accordion .ludo-title-bar-button-container{
-    left:2px !important;
-    top:4px !important;
-    height:20px;
-    border:0;
-    background-color:transparent;
-}
-.ludo-accordion .ludo-title-bar-button{
     background-position:center center;
 }
-.ludo-accordion .ludo-title-bar-button-minimize {
-    background-image:url(../ludojs/images/accordion/accordion-minimize.png);
+
+.ludo-form-button-l .ludo-form-button-value{
+    font-size:16px;
+    line-height:34px;
 }
-.ludo-accordion .ludo-title-bar-button-maximize {
-    background-image:url(../ludojs/images/accordion/accordion-maximize.png);
+.ludo-form-button-xl .ludo-form-button-value{
+    font-size:16px;
+    line-height:44px;
+}
+.ludo-form-button-s .ludo-form-button-value{
+    line-height:14px;
 }
 
-.ludo-accordion .ludo-title-bar-button-container-left-edge, .ludo-accordion .ludo-title-bar-button-container-right-edge{
-    background-image:none;
-}
-
-.ludo-accordion .ludo-framed-view-titlebar{
-    height:25px;
-}/* ../ludojs/css-source/form/filter-tree.css */
-.ludo-Filter-Tree-Window{
-    border-radius:0;
-    padding:2px;
-    padding-top:0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-color:#000;
-}
-.ludo-Filter-Tree-Window .ludo-window-component-content{
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-.ludo-Filter-Tree-Window .ludo-component-resize-both{
-    background-image:none;
-}
-.ludo-Filter-Tree-Window .ludo-body{
-    background-color:#FFF;
-    padding-right:0;
-    padding-top:0;
-}
-.ludo-filter-tree input{
-    border-radius:2px;
-    background-color:#FFF;
-}
-
-input.ludo-filter-tree-input-active{
-    background-color:#FFF;
-}
-
-.ludo-input-simple-filter-tree{
-    background-color:#f1f1f1;
-    border-bottom:1px solid #959595;
-}
-
-.ludo-Filter-Tree-Combo-Field{
-    cursor:pointer;
-}
-div.ludo-Filter-Tree-Combo-Field div.ludo-body{
-    padding:0;
-    height:22px;
-}
-
-.ludo-Filter-Tree-Field-Arrow{
-    position:absolute;
-    right:3px;
-    top:0;
-    height:22px;
-    width:15px;
-    background-image: url("../../ludojs/images/dropdown-arrow.gif");
-    background-position: center center;
-    background-repeat:no-repeat;
-    z-index:100;
-}
-.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
-    background-image:url('../../ludojs/images/bg-combo-field.png');
-    background-repeat:no-repeat;
-}
-.ludo-Filter-Tree-Bg-Left{
-    width:60%;
-    position:absolute;
-    height:100%;
-    left:0;
-    background-position:top left;
-}
-.ludo-Filter-Tree-Bg-Right{
-    width:60%;
-    position:absolute;
-    height:100%;
-    right:0;
-    background-position:top right;
-}
-.ludo-Filter-Tree-Combo-Value{
-    z-index:120;
-    position:absolute;
+.ludo-form-button-m .ludo-form-button-value{
     line-height:22px;
-    left:5px;
-    top:0;
-    font-size:10px;
-    font-weight:bold;
-    width:100%;
-}/* ../ludojs/css-source/form/file.css */
-.ludo-input-file-name-initial{
-    font-weight:bold;
-    font-style:normal;
-}
-.ludo-input-file-name-new-file{
-
-}
-.ludo-input-file-name-not-uploaded{
-    font-style:italic;
-    color:#999;
-}/* ../ludojs/css-source/form/radio.css */
-.ludo-radio-image{
-    cursor: pointer;
-    width: 60px;
-    height : 60px;
-    margin: 0 auto;
-    padding:2px;
-    border-radius : 5px;
-    webkit-border-radius: 5px;
-     -moz-border-radius : 5px;
-}
-.ludo-radio-image-inner{
-    width:100%;
-    height:100%;
-    background-repeat: no-repeat;
-    background-position: center center;
 }
 
-.ludo-radio-image-checked{
-    border:2px solid #555;
-    padding:0;
-    background-color:#bbd46d;
-}/* ../dhtml-chess/css-source/view/notation/panel.css */
+.ludo-buttonbar-component-content .ludo-form-button {
+    padding-top: 2px;
+}
+
+
+/* ../dhtml-chess/css-source/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
@@ -2178,41 +1657,7 @@ div.ludo-grid-data-cell {
 }
 .chess-promote-black-knight .ludo-body{
     background-image:url('../images/alphapale90bn.png');
-}/* ../dhtml-chess/css-source/view/command/command.css */
-.chess-command-panel-message, .chess-command-panel-error-message{
-    margin:2px;
-}
-.chess-command-panel-error-message{
-    color:#F00;
-}
-.chess-command-panel .ludo-body{
-    padding:2px;
-    overflow-y:auto;
-}
-.chess-command-help-label{
-    font-weight:bold;
-}
-.chess-command-panel-message-old{
-    font-style:italic;
-    color:#555;
-}/* ../dhtml-chess/css-source/view/position/dialog.css */
-div.position-setup-piece{
-    background-color:#FFF;
-    border:1px solid #AAA;
-    border-radius:5px;
-    padding:1px;
-    margin:2px;
-}
-div.position-setup-piece-over{
-    background-color:#EEE;
-}
-
-div.position-setup-selected-piece{
-    background-color:#cbf8a2;
-    border:2px solid blue;
-    padding:0px;
-}
-.ludo-body label, .ludo-body legend {
+}.ludo-body label, .ludo-body legend {
     color: #354150;
     font-weight: bold;
     line-height: 20px;
