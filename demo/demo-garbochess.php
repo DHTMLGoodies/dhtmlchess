@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../src/controller/garbochess-controller.js"></script>
-    <script type="text/javascript" src="../garbochess/js/garbochess.js"></script>
+    <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
     <style type="text/css">

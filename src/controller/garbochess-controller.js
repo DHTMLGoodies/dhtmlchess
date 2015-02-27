@@ -108,7 +108,7 @@ chess.controller.GarboChessController = new Class({
             this.backgroundEngineValid = true;
             try {
                 var that = this;
-                this.engine = new Worker('../garbochess/js/garbochess.js');
+                this.engine = new Worker('../garbochess-engine/garbochess.js');
                 this.engine.onmessage = function (e) {
                     if (e.data.match("^pv") == "pv") {
                         that.updatePVDisplay(e.data.substr(3, e.data.length - 3));
