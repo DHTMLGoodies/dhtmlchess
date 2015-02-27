@@ -85,7 +85,7 @@ chess.TacticsFromFile = new Class({
                             css:{
                                 'text-align' : 'center',
                                 'overflow-y':'auto',
-                                'background-color':'#FFF'
+                                'background-color':'transparent'
                             }
                         },
                         {
