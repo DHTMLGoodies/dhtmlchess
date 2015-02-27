@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title>Demo - Play against Chess Engine</title>
+    <title>Demo - Play against GarboChess</title>
 
     <script type="text/javascript">
         var hostname = location.hostname.toLowerCase();
@@ -43,7 +43,7 @@
         title:'Analysis board, DHTML Chess 3.0',
         layout:{
             type:'linear',
-            orientation:'horizontal'
+            orientation:'vertical'
         },
         children:[
             {
@@ -62,20 +62,37 @@
 
             },
             {
+                id:'engineoutput',
+                layout:{
+                    height:50
+                },
+                css:{
+                    'text-align' : 'center'
+                }
+            },
+            {
                 type:'chess.view.notation.Panel',
                 layout:{
-                    width:300
+                    height:200
                 },
                 framed:true,
-                resizable:true
+                resizable:false
 
             }
         ]
     });
 
     var controller = new chess.controller.GarboChessController({
-        garboChess:'../garbochess/js/garbochess.js'
+        garboChess:'../garbochess/js/garbochess.js',
+        listeners:{
+            'engineupdate' :updateMove
+        }
     });
+
+
+    function updateMove(move){
+        ludo.get('engineoutput').setHtml(move);
+    }
 
 
 </script>

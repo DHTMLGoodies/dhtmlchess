@@ -27,11 +27,18 @@ chess.controller.GarboChessController = new Class({
     modelEventFired:function (event, model) {
         this.chessModel = model;
         if (event === 'newMove' || event == 'newGame') {
-            var result = model.getResult();
+
+
+            if(model.getResult() != 0){
+                console.log("Game over");
+                return;
+            }
+
             var colorToMove = model.getColorToMove();
             if (colorToMove === 'white') {
                 this.views.board.enableDragAndDrop(model);
             }else{
+
                 if(this.initializeBackgroundEngine()){
 
                     var lastMove = model.getLastMoveInGame();
@@ -137,7 +144,7 @@ chess.controller.GarboChessController = new Class({
     },
 
     updatePVDisplay:function(move){
-        console.log(move);
+        this.fireEvent("engineupdate", move);
     },
 
     playMove:function(move, pv){
@@ -153,8 +160,6 @@ chess.controller.GarboChessController = new Class({
 
         MakeMove(move);
 
-        this.updatePVDisplay(move);
-
         this.updateFromMove(move);
     },
 
@@ -163,10 +168,7 @@ chess.controller.GarboChessController = new Class({
     },
 
     finishMove:function(bestmove, value, timeTaken, ply){
-
-        console.log("Received move " + bestMove);
         if(bestMove != null){
-            console.log("Play move " + bestmove);
             this.playMove(move, BuildPVMessage(bestMove, value, timeTaken, ply));
         }
     },
@@ -182,11 +184,9 @@ chess.controller.GarboChessController = new Class({
         }
 
         if(this.initializeBackgroundEngine()){
-            this.engine.postMessage("search " + 40);
+            this.engine.postMessage("search " + 2000);
         }else{
            Search(this.finishMove, 99, null);
         }
     }
-
-
 });
