@@ -9,7 +9,7 @@ chess.controller.GarboChessController = new Class({
 
     analyzing: false,
 
-    pathToGarboChess: undefined,
+    garboChess: undefined,
 
     backgroundEngineValid: true,
 
@@ -21,9 +21,12 @@ chess.controller.GarboChessController = new Class({
 
     myColor: 'white',
 
+    garboChess:'../garbochess-engine/garbochess.js',
+
     ludoConfig: function (config) {
         if(config.myColor != undefined)this.myColor = config.myColor;
-        this.pathToGarboChess = config.garboChess;
+        if(config.garboChess != undefined)this.garboChess = config.garboChess;
+        this.garboChess = config.garboChess;
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
         }
@@ -131,7 +134,7 @@ chess.controller.GarboChessController = new Class({
             this.backgroundEngineValid = true;
             try {
                 var that = this;
-                this.engine = new Worker('../garbochess-engine/garbochess.js');
+                this.engine = new Worker(this.garboChess);
                 this.engine.onmessage = function (e) {
                     if (e.data.match("^pv") == "pv") {
                         that.updatePVDisplay(e.data.substr(3, e.data.length - 3));

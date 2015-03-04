@@ -115,8 +115,8 @@
     });
 
     var controller = new chess.controller.GarboChessController({
-        garboChess:'../garbochess/js/garbochess.js',
-        myColor:'white',
+        garboChess:'../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
+        myColor:'white',    // Human color
         listeners:{
             'start': onNewGame,
             'engineupdate' :updateMove, //
