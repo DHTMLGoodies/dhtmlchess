@@ -44,10 +44,14 @@ chess.controller.GarboChessController = new Class({
                 return;
             }
 
+
+
             var colorToMove = model.getColorToMove();
             if (colorToMove === this.myColor) {
                 this.views.board.enableDragAndDrop(model);
             } else {
+
+                this.views.board.disableDragAndDrop();
 
                 if (this.initializeBackgroundEngine()) {
 

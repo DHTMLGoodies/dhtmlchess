@@ -23,7 +23,7 @@
 
     <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
     <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../src/controller/garbochess-controller.js"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
@@ -114,14 +114,16 @@
         ]
     });
 
+    var myColor = 'white';
+
     var controller = new chess.controller.GarboChessController({
         garboChess:'../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
-        myColor:'white',    // Human color
+        myColor:myColor,    // Human color
         listeners:{
             'start': onNewGame,
             'engineupdate' :updateMove, //
             'gameover':onGameOver,  // Function to call when game is over
-            'thinkingTime' : 100 // Time in 1/1000 seconds
+            'thinkingTime' : 10 // Time in 1/1000 seconds
         }
     });
 
@@ -134,9 +136,24 @@
         }
     }
 
+
     function onGameOver(result){
         // result is either 1(White win), 0.5(draw) or -1(black wins)
 
+        var message = result == 0.5 ? "The game is a draw" : result == 1 && myColor == 'white' ? "You won" : "You lost";
+
+        new ludo.Notification({
+            containerCss:{
+                "background-color" : "#f5f5f5",
+                "color" : "#000"
+
+            },
+            css:{
+                "font-size":20
+            },
+            html : message,
+            duration:5
+        });
 
     }
 
