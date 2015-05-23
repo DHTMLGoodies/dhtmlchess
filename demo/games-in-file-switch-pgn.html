@@ -163,6 +163,10 @@ var app = new ludo.Application({
                                     initialGameLoaded = true;
                                     ludo.get('gameList').selectRecord(data[0]);
                                 }
+
+                                // Update download link
+                                var pgnFile = ludo.get("gameList").arguments[0];
+                                ludo.get("downloadLink").setHtml('<p>Download the <a title="Chicago Open 2015 PGN File" href="../pgn/' + pgnFile + '.pgn">' + pgnFile + ' PGN File</a>.</p>')
                             }
                         },
                         shim:{
@@ -252,6 +256,18 @@ var app = new ludo.Application({
                         }
 
                     ]
+                },
+                {
+                    id:"downloadLink",
+                    height:30,
+                    containerCss:{
+                        'border-top':'1px solid #c6c6c6'
+                    },
+                    css:{
+                        padding:5
+                    },
+                    html: "Download pgn"
+
                 }
             ]
         },
