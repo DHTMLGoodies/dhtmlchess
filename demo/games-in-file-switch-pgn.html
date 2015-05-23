@@ -136,6 +136,7 @@ var app = new ludo.Application({
                         weight:1
                     },
                     type:'chess.view.gamelist.Grid',
+
                     css:{
                         'background-color':'#FFF',
                         'overflow-y':'auto'
@@ -174,7 +175,43 @@ var app = new ludo.Application({
                             cacheTimeout:1000
                         }
                     },
-                    cols:['white', 'black', 'result', 'event', 'site']
+                    columns:{
+                        white:{
+                            heading:'White', // heading in grid
+                            key:'white', // key in pgn, example: [White "Anderssen,A"]
+                            width:120, // width in pixels
+                            sortable:true // is this column sortable by clicking
+                        },
+                        black:{
+                            heading:'Black',
+                            key:'black',
+                            width:120,
+                            sortable:true
+                        },
+                        result:{
+                            heading:'Result',
+                            key:'result',
+                            width:50,
+                            sortable:true,
+                            removable:true
+                        },
+                        round:{
+                            heading:'Round',
+                            key:'round',
+                            width:50,
+                            sortable:true,
+                            removable:true
+                        },
+                        last_moves:{ // "last_moves" is a custom key which is always available and created by dhtml chess.
+                            heading:'Last moves',
+                            key:'last_moves',
+                            weight:1,
+                            hidden:true, // this column is initial hidden
+                            sortable:true,
+                            removable:true
+                        }
+
+                    }
                 },
                 {
                     height:30,
