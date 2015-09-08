@@ -150,7 +150,7 @@ var app = new ludo.Application({
                         // ludo.get('gameList').loadFile('Lasker');
                         // to change pgn file after page load. Example
                         // <a href="#" onclick="ludo.get('gameList').loadFile('Lasker');return false">Load games of E. Lasker</a>
-                        "arguments":"Morphy",
+                        "arguments":"chicagoopen2015",
                         "listeners":{
                             "beforeload":function () {
                                 ludo.get("searchField").reset();
@@ -161,7 +161,26 @@ var app = new ludo.Application({
                             "load": function(data){
                                 if(data.length && !initialGameLoaded){
                                     initialGameLoaded = true;
-                                    ludo.get('gameList').selectRecord(data[0]);
+
+                                    // Get a reference to the game list
+                                    var collection = ludo.get("gameList");
+
+                                    // Find max round - round of last game in pgn
+                                    var round = data[data.length-1].round;
+
+                                    // Find all games within that round
+                                    var recordsInRound = collection.findRecords({ round : round });
+                                    if(recordsInRound.length > 0){ // games found
+                                        ludo.get('gameList').selectRecord(recordsInRound[0]); // select first game in that round
+                                    }else{
+                                        ludo.get("gameList").selectRecord(data[0]); // No games found - should not happen -> select first game in collection
+                                    }
+
+                                }
+
+                                // Sort the game list descending by round
+                                if(collection != undefined){
+                                    collection.by("round").descending().sort();
                                 }
 
                                 // Update download link
@@ -180,6 +199,12 @@ var app = new ludo.Application({
                         }
                     },
                     columns:{
+                        round: {
+                            heading : 'Round',
+                            key : 'round',
+                            width: 50,
+                            sortable : true
+                        },
                         white:{
                             heading:'White', // heading in grid
                             key:'white', // key in pgn, example: [White "Anderssen,A"]

@@ -4,8 +4,6 @@ require_once(dirname(__FILE__)."/autoload.php");
 require_once("php/jsonwrapper/jsonwrapper.php");
 date_default_timezone_set("Europe/Berlin");
 
-ini_set('display_errors','on');
-
 if(file_exists("connection.php")){
     require("connection.php");
 }
