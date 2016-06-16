@@ -11,6 +11,39 @@
  * @type {Class}
  */
 
+
+
+/** Creating custom controller for handling end of games */
+chess.controller.DemoController = new Class({
+    Extends: chess.controller.TacticControllerGui,
+
+    /** Show a dialog when the puzzle has been solved - Click on OK will load next game **/
+    getDialogPuzzleComplete:function () {
+        return new ludo.dialog.Alert({
+            autoDispose:false,
+            height:150,
+            width:250,
+            css:{
+                color:'#1565C0',
+                'font-size': '1.1em',
+                'padding' : 3
+            },
+            hidden:true,
+            title:'Chess Tactics', // Title of dialog
+            html:'Good Job - Puzzle solved. Click OK to load another puzzle',
+            listeners:{
+                'ok':function () {
+                    if(this.gameEndHandler != undefined){
+                        this.gameEndHandler.apply(this, [this]);
+                    }else{
+                        this.loadRandomGame();
+                    }
+                }.bind(this)
+            }
+        });
+    }
+});
+
 chess.TacticsFromFile2016 = new Class({
     Extends: Events,
 
@@ -147,7 +180,7 @@ chess.TacticsFromFile2016 = new Class({
 
         var storageKey = 'key_' + this.pgn + '_tactic';
 
-        this.controller = new chess.controller.TacticControllerGui({
+        this.controller = new chess.controller.DemoController({
             pgn:this.pgn,
             alwaysPlayStartingColor:true,
             autoMoveDelay:400,
