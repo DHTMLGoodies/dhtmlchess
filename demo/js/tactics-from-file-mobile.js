@@ -95,7 +95,7 @@ chess.TacticsFromFile2016 = new Class({
                                 'margin-top' : 2,
                                 'background-color' : 'transparent'
                             },
-                            height:30,
+                            height:50,
                             children:[
                                 {
                                     type:'chess.view.message.TacticsMessage',
@@ -107,6 +107,7 @@ chess.TacticsFromFile2016 = new Class({
                                 {
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticHint',
+                                    size:'l',
                                     value:chess.getPhrase('Hint'),
                                     containerCss:{
                                         'background-color' : 'transparent'
@@ -115,6 +116,7 @@ chess.TacticsFromFile2016 = new Class({
                                 {
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticSolution',
+                                    size:'l',
                                     value:chess.getPhrase('Solution'),
                                     containerCss:{
                                         'background-color' : 'transparent'
@@ -122,6 +124,7 @@ chess.TacticsFromFile2016 = new Class({
                                 },{
                                     layout:{ width: 80 },
                                     type:'form.Button',
+                                    size:'l',
                                     value:chess.getPhrase('Next Game'),
                                     containerCss:{
                                         'background-color' : 'transparent'
@@ -141,12 +144,13 @@ chess.TacticsFromFile2016 = new Class({
                         },
                         {
                             type:'chess.view.board.Board',
-                            overflow:'hidden',
+                            overflow:'visible',
                             pieceLayout:'merida',
                             css:{
                                 border:'1px solid',
                                 'overflow' : 'visible'
                             },
+                            vAlign:'top',
                             labels:true,
                             containerCss:{
                                 'background-color' : 'transparent',

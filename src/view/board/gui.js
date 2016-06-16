@@ -21,7 +21,7 @@ chess.view.board.GUI = new Class({
     lowerCaseLabels:false,
 
     internal:{
-        squareSize:30,
+        squareSize:30,  
         piezeSize:30,
         squareSizes:[30, 45, 60, 75, 90, 105],
         timestampLastResize:0
@@ -29,7 +29,7 @@ chess.view.board.GUI = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet']);
+        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign']);
     },
 
     ludoDOM:function () {
@@ -37,7 +37,15 @@ chess.view.board.GUI = new Class({
 
         this.els.labels = {};
 
+        this.getBody().setStyles({
+            'padding':0,
+            'margin':0,
+            'border':0
+        });
+
+
         this.createBoardContainer();
+
 
         if (this.hasLabels()) {
             this.addLabelsForRanks();
@@ -52,11 +60,7 @@ chess.view.board.GUI = new Class({
             this.addLabelsForFiles();
         }
 
-        this.getBody().setStyles({
-            'padding':0,
-            'margin':0,
-            'border':0
-        });
+
 
         if (this.boardLayout) {
             this.els.boardContainer.addClass('ludo-chess-board-container-' + this.boardLayout);
@@ -277,6 +281,10 @@ chess.view.board.GUI = new Class({
         } else {
             marginTop = 0;
         }
+
+        console.log(this.vAlign);
+
+
 
         this.els.boardContainer.setStyles({
             width:(boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
