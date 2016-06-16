@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample file - Games in a pgn file</title>
+
+    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
+    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+    <script type="text/javascript" src="js/tactics-from-file-mobile.js"></script>
+    <style type="text/css">
+        body{
+            width:100%;
+            text-align:center;
+            background-color:#1565C0;
+            color:#FFF;
+        }
+        .ludo-chess-view-notation-panel .ludo-body,
+        .ludo-chess-board-container,
+        div.chess-notation-panel{
+            background-color:transparent;
+        }
+
+        .ludo-chess-board-container{
+            border:0;
+        }
+        body{
+            font-family:arial;
+        }
+        .game-heading{
+            line-height:30px;text-align:center;margin:0;font-size:18px
+        }
+
+        .ludo-chess-board-container{
+            border:1px solid #90CAF9;
+            border-radius:5px;
+        }
+        #chess_container{
+            width:600px;
+            height:600px;
+        }
+        /** Mobile css */
+        @media only screen and (max-device-width: 600px) {
+            html,body{
+                width:100%;
+                height:100%;
+            }
+            #chess_container{
+                width:100%;
+                height:100%;
+            }
+        }
+
+        .ludo-chess-square-white{
+            background-image:none !important;
+            background-color: #FFF8E1;
+
+        }
+        .ludo-chess-square-black{
+            background-image:none !important;
+            background-color:#90CAF9;
+
+        }
+
+        .ludo-chess-board{
+            border-color:#1976D2;
+        }
+        .ludo-chess-board-label-ranks-container,.ludo-chess-board-label-files-container{
+            font-weight:normal;
+            font-size:0.9em;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="chess_container"></div>
+<script type="text/javascript">
+    var c = new chess.TacticsFromFile2016({
+        renderTo:'chess_container',
+        pgn:'tactics'
+    });
+</script>
+
+
+</body>
+</html>

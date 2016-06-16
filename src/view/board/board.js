@@ -8,23 +8,23 @@
  *
  */
 chess.view.board.Board = new Class({
-    Extends:chess.view.board.GUI,
-    type:'chess.view.board.Board',
-    pieces:[],
-    pieceMap:{},
-    fen:'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+    Extends: chess.view.board.GUI,
+    type: 'chess.view.board.Board',
+    pieces: [],
+    pieceMap: {},
+    fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     /**
      * Duration of piece animations in seconds.
      * @config float animationDuration
      * @default 0.35
      */
-    animationDuration:.35,
+    animationDuration: .35,
     /**
      * Layout of pieces, examples: "alphapale", "alpha", "merida", "kingdom"
      * @config string pieceLayout
      * @default alphapale
      */
-    pieceLayout:'alphapale',
+    pieceLayout: 'alphapale',
     /**
      * Layout of board. The name correspondes to the suffix of the CSS class
      * ludo-chess-board-container-wood. (In this example wood). If you want to create your own
@@ -33,56 +33,58 @@ chess.view.board.Board = new Class({
      * @config string boardLayout
      * @default wood
      */
-    boardLayout:'wood',
-    positionParser:undefined,
-    currentValidMoves:undefined,
-    ddEnabled:false,
-    addOns:[],
+    boardLayout: 'wood',
+    positionParser: undefined,
+    currentValidMoves: undefined,
+    ddEnabled: false,
+    addOns: [],
 
-    currentAnimation:{
-        index:0,
-        moves:[],
-        duration:.5,
-        isBusy:false
+    currentAnimation: {
+        index: 0,
+        moves: [],
+        duration: .5,
+        isBusy: false
     },
-    ludoConfig:function (config) {
+    ludoConfig: function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['pieceLayout','animationDuration','addOns']);
+        this.setConfigParams(config, ['pieceLayout', 'animationDuration', 'addOns']);
 
-        if(this.addOns && Browser.ie && Browser.version < 9){
-            for(var i=0;i<this.addOns.length;i++){
-                if(this.addOns[i].type === 'chess.view.highlight.Arrow'){
+        if (this.addOns && Browser.ie && Browser.version < 9) {
+            for (var i = 0; i < this.addOns.length; i++) {
+                if (this.addOns[i].type === 'chess.view.highlight.Arrow') {
                     this.addOns[i].type = 'chess.view.highlight.Square';
                 }
             }
         }
+
+        
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
-    getTimeForAnimation:function () {
+    getTimeForAnimation: function () {
         return this.animationDuration;
     },
 
-    ludoRendered:function () {
+    ludoRendered: function () {
         this.createPieces();
         this.showFen(this.fen);
         this.parent();
     },
 
-    createPieces:function () {
+    createPieces: function () {
         var flipped = this.isFlipped();
 
         for (var i = 0; i < 32; i++) {
             var config = {
-                square:0,
-                color:'white',
-                pieceType:'pawn',
-                pieceLayout:this.pieceLayout,
-                squareSize:30,
-                flipped:flipped,
-                aniDuration:this.animationDuration,
-                board:this
+                square: 0,
+                color: 'white',
+                pieceType: 'pawn',
+                pieceLayout: this.pieceLayout,
+                squareSize: 30,
+                flipped: flipped,
+                aniDuration: this.animationDuration,
+                board: this
             };
             var piece = new chess.view.board.Piece(config);
             piece.addEvent('animationComplete', this.pieceMoveFinished.bind(this));
@@ -95,25 +97,25 @@ chess.view.board.Board = new Class({
         this.addPieceDragEvents();
     },
 
-    addPieceDragEvents:function(){
+    addPieceDragEvents: function () {
         // var on = this.getEventEl().addEvent;
         this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
         this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
-    draggedPiece : undefined,
-    startPieceDrag:function(piece){
+    draggedPiece: undefined,
+    startPieceDrag: function (piece) {
         this.draggedPiece = piece;
     },
 
-    dragPiece:function(e){
-        if(this.draggedPiece){
+    dragPiece: function (e) {
+        if (this.draggedPiece) {
             this.draggedPiece.dragPiece(e);
         }
     },
 
-    stopDragPiece:function(e){
-        if(this.draggedPiece){
+    stopDragPiece: function (e) {
+        if (this.draggedPiece) {
             this.draggedPiece.stopDragPiece(e);
             this.draggedPiece = undefined;
         }
@@ -128,10 +130,10 @@ chess.view.board.Board = new Class({
      *         controller.addEvent('newGame', this.doSomethingOnNewGame.bind(this));
      *     }
      * Here, the method doSomethingOnNewGame will be executed every time the controller loads a new game
-	 * @method setController
+     * @method setController
      * @param {Object} controller
      */
-    setController:function (controller) {
+    setController: function (controller) {
         this.parent(controller);
         controller.addEvent('newGame', this.showStartBoard.bind(this));
         controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
@@ -141,20 +143,20 @@ chess.view.board.Board = new Class({
         controller.addEvent('startOfGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('newGame', this.clearHighlightedSquares.bind(this));
         controller.addEvent('flip', this.flip.bind(this));
-		this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
-		this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
+        this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
+        this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
     },
 
 
-	beforeLoad:function(){
-		this.shim().show(chess.getPhrase('Loading game'));
-	},
+    beforeLoad: function () {
+        this.shim().show(chess.getPhrase('Loading game'));
+    },
 
-	afterLoad:function(){
-		this.shim().hide();
-	},
+    afterLoad: function () {
+        this.shim().hide();
+    },
 
-    clearHighlightedSquares:function(){
+    clearHighlightedSquares: function () {
         this.fireEvent('clearHighlight', this);
     },
     /**
@@ -165,7 +167,7 @@ chess.view.board.Board = new Class({
      * @param model
      * @return void
      */
-    enableDragAndDrop:function (model) {
+    enableDragAndDrop: function (model) {
         if (this.currentAnimation.isBusy) {
             this.enableDragAndDrop.delay(200, this, model);
             return;
@@ -178,7 +180,7 @@ chess.view.board.Board = new Class({
         this.currentValidMoves = this.positionParser.getValidMovesAndResult().moves;
         this.resetPieceDragAndDrop();
         for (var square in this.currentValidMoves) {
-            if(this.currentValidMoves.hasOwnProperty(square)){
+            if (this.currentValidMoves.hasOwnProperty(square)) {
                 this.pieceMap[square].enableDragAndDrop();
             }
         }
@@ -188,11 +190,11 @@ chess.view.board.Board = new Class({
      * @method disableDragAndDrop
      * @return void
      */
-    disableDragAndDrop:function () {
+    disableDragAndDrop: function () {
         this.ddEnabled = false;
         this.resetPieceDragAndDrop();
     },
-    resetPieceDragAndDrop:function () {
+    resetPieceDragAndDrop: function () {
         for (var i = 0; i < this.pieces.length; i++) {
             this.pieces[i].disableDragAndDrop();
         }
@@ -205,9 +207,9 @@ chess.view.board.Board = new Class({
      @param {game.model.Game} model
      @param {Object} move
      @example
-        { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
+     { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
-    playChainOfMoves:function (model, move) {
+    playChainOfMoves: function (model, move) {
         if (this.currentAnimation.isBusy) {
             this.playChainOfMoves.delay(200, this, [model, move]);
             return;
@@ -221,7 +223,7 @@ chess.view.board.Board = new Class({
         this.animateAMove();
     },
 
-    animateAMove:function () {
+    animateAMove: function () {
         var move = this.currentAnimation.moves[this.currentAnimation.index];
 
         if (move.capture) {
@@ -241,7 +243,7 @@ chess.view.board.Board = new Class({
         }
     },
 
-    pieceMoveFinished:function (move) {
+    pieceMoveFinished: function (move) {
         this.currentAnimation.index++;
         if (this.pieceMap[move.to]) {
             this.pieceMap[move.to].hide();
@@ -258,7 +260,7 @@ chess.view.board.Board = new Class({
         }
     },
 
-    getDurationPerMovedPiece:function (move) {
+    getDurationPerMovedPiece: function (move) {
         var count = 0;
         for (var i = 0; i < move.moves.length; i++) {
             if (move.moves[i].from) {
@@ -268,7 +270,7 @@ chess.view.board.Board = new Class({
         return (this.animationDuration / count) * 1000;
     },
 
-    showMove:function (model, move, pos) {
+    showMove: function (model, move, pos) {
         if (this.currentAnimation.isBusy) {
             pos = model.getCurrentPosition();
             this.showMove.delay(200, this, [model, move, pos]);
@@ -281,7 +283,7 @@ chess.view.board.Board = new Class({
             this.highlightMove(move);
         }
     },
-    highlightMove:function (move) {
+    highlightMove: function (move) {
         if (!move) {
             return;
         }
@@ -295,7 +297,7 @@ chess.view.board.Board = new Class({
      * @param {game.model.Game} model
      * @return void
      */
-    showStartBoard:function (model) {
+    showStartBoard: function (model) {
         this.showFen(model.getCurrentPosition());
     },
     /**
@@ -304,7 +306,7 @@ chess.view.board.Board = new Class({
      * @param {String} fen
      * @return undefined
      */
-    showFen:function (fen) {
+    showFen: function (fen) {
         this.positionParser.setFen(fen);
         var pieces = this.positionParser.getPieces();
         this.pieceMap = {};
@@ -320,7 +322,7 @@ chess.view.board.Board = new Class({
             p.updateBackgroundImage();
             p.show();
 
-            this.pieceMap[ pieces[i].s] = p;
+            this.pieceMap[pieces[i].s] = p;
         }
 
         for (var j = i; j < this.pieces.length; j++) {
@@ -332,7 +334,7 @@ chess.view.board.Board = new Class({
      * @method getCountPiecesOnBoard
      * @return int
      */
-    getCountPiecesOnBoard:function () {
+    getCountPiecesOnBoard: function () {
         var ret = 32;
         for (var i = this.pieces.length - 1; i >= 0; i--) {
             if (!this.pieces[i].isVisible()) {
@@ -342,7 +344,7 @@ chess.view.board.Board = new Class({
         return ret;
     },
 
-    hidePiece:function (piece) {
+    hidePiece: function (piece) {
         if (piece) {
             delete this.pieceMap[piece.square];
             piece.hide();
@@ -354,7 +356,7 @@ chess.view.board.Board = new Class({
      * @method resetBoard
      * @return void
      */
-    resetBoard:function () {
+    resetBoard: function () {
         this.showFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
         /**
          * Event fired when board is reset to standard start position,
@@ -369,7 +371,7 @@ chess.view.board.Board = new Class({
      * @method clearBoard
      * @return void
      */
-    clearBoard:function () {
+    clearBoard: function () {
         for (var i = 0; i < this.pieces.length; i++) {
             this.pieces[i].hide();
             this.pieceMap = {};
@@ -382,7 +384,7 @@ chess.view.board.Board = new Class({
         this.fireEvent('clearboard', this);
     },
 
-    makeMove:function (move) {
+    makeMove: function (move) {
         /**
          * Event fired when a piece is moved from one square to another
          * @event move
@@ -390,7 +392,7 @@ chess.view.board.Board = new Class({
          */
         this.fireEvent('move', move);
     },
-    getValidMovesForPiece:function (piece) {
+    getValidMovesForPiece: function (piece) {
         return this.currentValidMoves[piece.square] || [];
     },
 
@@ -399,15 +401,15 @@ chess.view.board.Board = new Class({
      @method getPieceOnSquare
      @param {String} square
      @example
-        alert(board.getPieceOnSquare('e4');
+     alert(board.getPieceOnSquare('e4');
      */
-    getPieceOnSquare:function (square) {
+    getPieceOnSquare: function (square) {
         return this.pieceMap[Board0x88Config.mapping[square]];
     },
 
-    currentPieceSize:undefined,
+    currentPieceSize: undefined,
 
-    resizePieces:function () {
+    resizePieces: function () {
         var squareSize = this.getSquareSize();
         for (var i = 0; i < this.pieces.length; i++) {
             this.pieces[i].resize(squareSize)
@@ -418,7 +420,7 @@ chess.view.board.Board = new Class({
      * @method flip
      * @return void
      */
-    flip:function () {
+    flip: function () {
         this.parent();
         for (var i = 0, count = this.pieces.length; i < count; i++) {
             this.pieces[i].flip();
@@ -428,7 +430,7 @@ chess.view.board.Board = new Class({
      * Show whites pieces at the bottom. If white is allready on the bottom, this method will do nothing.
      * @method flipToWhite
      */
-    flipToWhite:function () {
+    flipToWhite: function () {
         if (this.flipped) {
             this.flip();
         }
@@ -437,17 +439,17 @@ chess.view.board.Board = new Class({
      * Show blacks pieces at the bottom. If black is allready on the bottom, this method will do nothing.
      * @method flipToBlack
      */
-    flipToBlack:function () {
+    flipToBlack: function () {
         if (!this.flipped) {
             this.flip();
         }
     },
 
-    showSolution:function(move){
+    showSolution: function (move) {
         this.fireEvent('showSolution', move);
     },
 
-    showHint:function(move){
+    showHint: function (move) {
         this.fireEvent('showHint', move);
     }
 });

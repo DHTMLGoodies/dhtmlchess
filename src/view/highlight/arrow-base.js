@@ -20,6 +20,7 @@ chess.view.highlight.ArrowBase = new Class({
 		if (config.styles !== undefined) {
 			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
 		}
+
 		this.arrowPaint = new ludo.canvas.Paint(Object.clone(this.arrowStyles));
 		this.createDOM();
 
