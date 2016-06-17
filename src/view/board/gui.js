@@ -187,7 +187,7 @@ chess.view.board.GUI = new Class({
         var el = this.els.labels.files = new Element('div');
         el.addClass('ludo-chess-board-label-files-container');
         el.setStyles({
-            position:this.labelPos == 'outside' ? 'relative' : 'absolute'
+            position:this.labelPos == 'outside' ? 'relative' : 'absolute','z-index' : 100
         });
         if(this.labelPos == 'inside'){
             el.setStyle('bottom', 0);
@@ -217,7 +217,7 @@ chess.view.board.GUI = new Class({
             position:this.labelPos == 'outside' ? 'relative' : 'absolute',
             'float':'left',
             left:'0px', top:'0px',
-            height:'100%'
+            height:'100%','z-index' : 100
         });
 
         this.els.ranks = [];

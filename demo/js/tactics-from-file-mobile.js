@@ -20,28 +20,6 @@ chess.controller.DemoController = new Class({
     getDialogPuzzleComplete: function () {
         return ludo.get('puzzleCompleteView');
 
-        return new ludo.dialog.Alert({
-            autoDispose: false,
-            height: 150,
-            width: 250,
-            css: {
-                color: '#1565C0',
-                'font-size': '1.1em',
-                'padding': 3
-            },
-            hidden: true,
-            title: 'Chess Tactics', // Title of dialog
-            html: 'Good Job - Puzzle solved. Click OK to load another puzzle',
-            listeners: {
-                'ok': function () {
-                    if (this.gameEndHandler != undefined) {
-                        this.gameEndHandler.apply(this, [this]);
-                    } else {
-                        this.loadRandomGame();
-                    }
-                }.bind(this)
-            }
-        });
     }
 });
 
@@ -61,11 +39,11 @@ chess.TacticsFromFile2016 = new Class({
     },
 
     render: function () {
+        // Render the views
         new ludo.View({
             renderTo: document.id(this.renderTo),
             containerCss: {
-
-                'background-color': 'transparent'
+                'background-color': 'transparent' // default background color is white, set transparent for this demo.
             },
             layout: {
                 type: 'relative',
@@ -109,6 +87,7 @@ chess.TacticsFromFile2016 = new Class({
                                     height: 50,
                                     children: [
                                         {
+                                            /* Tactic message module - showing good move, wrong move, color to move automatically */
                                             type: 'chess.view.message.TacticsMessage',
                                             autoHideAfterMs: false,
                                             weight: 1,
@@ -117,6 +96,7 @@ chess.TacticsFromFile2016 = new Class({
                                             }
                                         },
                                         {
+                                            /* Tactic button hint - will highlight square to move from automatically */
                                             layout: {width: 80},
                                             type: 'chess.view.button.TacticHint',
                                             size: 'l',
@@ -126,14 +106,16 @@ chess.TacticsFromFile2016 = new Class({
                                             }
                                         },
                                         {
+                                            /** Tactic button solution - will show corrrect move using arrows or from-to square automatically */
                                             layout: {width: 80},
                                             type: 'chess.view.button.TacticSolution',
                                             size: 'l',
-                                            value: chess.getPhrase('Solution'),
+                                            value: chess.getPhrase('Solution'), // You can type a string here instead(example: 'Solution') if you only supports 1 language
                                             containerCss: {
                                                 'background-color': 'transparent'
                                             }
                                         }, {
+                                            /** Button loading another puzzle */
                                             layout: {width: 80},
                                             type: 'form.Button',
                                             size: 'l',
@@ -157,21 +139,23 @@ chess.TacticsFromFile2016 = new Class({
                                 {
                                     type: 'chess.view.board.Board',
                                     overflow: 'visible',
-                                    pieceLayout: 'merida',
+                                    pieceLayout: 'merida', // Chess pieces to use, example: 'merida','alpha', 'alphapale','cases','kingdom','leipzig', 'meridapale','motif','smart','traveler' (names can be found inside the images folder. It's the prefix which is followed by size and type
                                     css: {
                                         border: '1px solid',
                                         'overflow': 'visible'
                                     },
-                                    vAlign: 'top',
-                                    labels: true,
-                                    labelPos:'inside',
+                                    vAlign: 'top', // can be center
+                                    labels: true, // show labels for ranks, A-H, 1-8
+                                    labelPos:'inside', // show labels inside board, default is 'outside'
                                     containerCss: {
                                         'background-color': 'transparent',
                                         'overflow': 'visible'
                                     },
                                     weight: 1,
+                                    /** List of addons to implement */
                                     addOns: [
                                         {
+                                            /** Arrow for highlighting active moves, chess.view.highlight.Square is an alternative which will highlight from and to square instead of showing arrows.*/
                                             type: 'chess.view.highlight.Arrow',
                                             styles: {
                                                 stroke: '#FF8F00',
@@ -179,6 +163,7 @@ chess.TacticsFromFile2016 = new Class({
                                             }
                                         },
                                         {
+                                            /** Add On for arrows for tactic solutions */
                                             type: 'chess.view.highlight.ArrowTactic',
                                             styles: {
                                                 stroke: '#FF8F00',
@@ -186,6 +171,7 @@ chess.TacticsFromFile2016 = new Class({
                                             }
                                         },
                                         {
+                                            /** Add on for highlighting hints, ie highlighting square to move from */
                                             type: 'chess.view.highlight.SquareTacticHint'
                                         }
                                     ]
@@ -195,8 +181,8 @@ chess.TacticsFromFile2016 = new Class({
                     ]
                 },
                 {
+                    /** View to show when a puzzle is solved. This view is initially hidden, but will be shown automatically when a puzzle is solved. It is referred to by chess.controller.DemoController at the top of this page.*/
                     id: 'puzzleCompleteView',
-
                     layout: {
                         centerInParent: true,
                         type: 'relative',
@@ -226,6 +212,7 @@ chess.TacticsFromFile2016 = new Class({
                                 'background-color': 'transparent'
                             }
                         },{
+                            /** Next puzzle button. Click event will load a new puzzle */
                             type:'form.Button',
                             value:'Next Puzzle',
                             layout:{
@@ -242,7 +229,7 @@ chess.TacticsFromFile2016 = new Class({
                                     }
                                 }.bind(this)
                             },
-                            size:'xl'
+                            size:'xl' // Extra large button
                         }
                     ]
 
