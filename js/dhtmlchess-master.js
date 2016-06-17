@@ -1,4 +1,4 @@
-/* Generated Fri Jun 17 14:25:38 CEST 2016 */
+/* Generated Fri Jun 17 14:19:20 CEST 2016 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2016 dhtml-chess.com
@@ -27184,6 +27184,7 @@ chess.view.message.TacticsMessage = new Class({
 
     showMessage:function (message, delayBeforeHide) {
         this.getBody().set('html', message);
+        console.log('Delay' + delayBeforeHide);
         if(delayBeforeHide){
             this.autoHideMessage.delay(delayBeforeHide, this);
         }

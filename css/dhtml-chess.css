@@ -1,7 +1,7 @@
-/* Generated Tue Feb 3 15:08:47 CET 2015 */
+/* Generated Fri Jun 17 14:25:38 CEST 2016 */
 /**
 DHTML Chess - Javascript and PHP chess software
-Copyright (C) 2012-2015 dhtml-chess.com
+Copyright (C) 2012-2016 dhtml-chess.com
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -2010,7 +2010,7 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
     border:2px solid #555;
     padding:0;
     background-color:#bbd46d;
-}/* ../dhtmlchess/css-source/view/notation/panel.css */
+}/* ../dhtmlchess-master/css-source/view/notation/panel.css */
 .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
@@ -2075,7 +2075,7 @@ div.chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
-/* ../dhtmlchess/css-source/view/board/board.css */
+/* ../dhtmlchess-master/css-source/view/board/board.css */
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
@@ -2145,16 +2145,16 @@ div.chess-notation-panel .ludo-body {
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
-/* ../dhtmlchess/css-source/view/gamelist/grid.css */
+/* ../dhtmlchess-master/css-source/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
 }
-/* ../dhtmlchess/css-source/view/message/tactics-message.css */
+/* ../dhtmlchess-master/css-source/view/message/tactics-message.css */
 .chess-tactics-message .ludo-body{
     text-align:center;
     font-size:20px;
     font-weight:bold;
-}/* ../dhtmlchess/css-source/view/dialog/promote.css */
+}/* ../dhtmlchess-master/css-source/view/dialog/promote.css */
 .chess-promote-piece{
     cursor:pointer;
     padding:5px;
@@ -2193,7 +2193,7 @@ div.ludo-grid-data-cell {
 }
 .chess-promote-black-knight .ludo-body{
     background-image:url('../images/alphapale90bn.png');
-}/* ../dhtmlchess/css-source/view/command/command.css */
+}/* ../dhtmlchess-master/css-source/view/command/command.css */
 .chess-command-panel-message, .chess-command-panel-error-message{
     margin:2px;
 }
@@ -2210,7 +2210,7 @@ div.ludo-grid-data-cell {
 .chess-command-panel-message-old{
     font-style:italic;
     color:#555;
-}/* ../dhtmlchess/css-source/view/position/dialog.css */
+}/* ../dhtmlchess-master/css-source/view/position/dialog.css */
 div.position-setup-piece{
     background-color:#FFF;
     border:1px solid #AAA;

@@ -11,6 +11,14 @@ chess.view.message.TacticsMessage = new Class({
     module:'chess',
     submodule:'TacticsMessage',
 
+    // Auto hide messages after milliseconds, pass false or undefined to disable this
+    autoHideAfterMs:3000,
+
+    ludoConfig:function(config){
+        this.parent(config);
+        this.setConfigParams(config, ['autoHideAfterMs']);
+    },
+
     ludoDOM:function () {
         this.parent();
         this.getEl().addClass('chess-tactics-message');
@@ -29,12 +37,12 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showWrongGuess:function () {
-        this.showMessage(chess.getPhrase('Wrong move - please try again'), 3000);
+        this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
     showCorrectGuess:function () {
-        this.showMessage(chess.getPhrase('Good move'), 3000);
+        this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
 
     },
 
