@@ -164,6 +164,7 @@ chess.TacticsFromFile2016 = new Class({
                                     },
                                     vAlign: 'top',
                                     labels: true,
+                                    labelPos:'inside',
                                     containerCss: {
                                         'background-color': 'transparent',
                                         'overflow': 'visible'

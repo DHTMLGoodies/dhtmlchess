@@ -13,6 +13,7 @@ chess.view.board.GUI = new Class({
     module:'chess',
     submodule:'board',
     labels:true,
+    labelPos:'outside', // outside or inside - inside = in the corner of the left and bottom squares.
     flipped:false,
     boardLayout:undefined,
     vAlign:'center',
@@ -21,7 +22,7 @@ chess.view.board.GUI = new Class({
     lowerCaseLabels:false,
 
     internal:{
-        squareSize:30,  
+        squareSize:30,
         piezeSize:30,
         squareSizes:[30, 45, 60, 75, 90, 105],
         timestampLastResize:0
@@ -29,7 +30,7 @@ chess.view.board.GUI = new Class({
 
     ludoConfig:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign']);
+        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
 
     ludoDOM:function () {
@@ -47,7 +48,7 @@ chess.view.board.GUI = new Class({
         this.createBoardContainer();
 
 
-        if (this.hasLabels()) {
+        if (this.hasLabelsOutside()) {
             this.addLabelsForRanks();
         }
 
@@ -55,6 +56,11 @@ chess.view.board.GUI = new Class({
         this.createBoard();
         this.createSquares();
         this.createPieceContainer();
+
+        if (this.hasLabelsInside()) {
+            this.addLabelsForRanks();
+        }
+
 
         if (this.hasLabels()) {
             this.addLabelsForFiles();
@@ -84,6 +90,12 @@ chess.view.board.GUI = new Class({
         this.updateLabels();
     },
 
+    hasLabelsOutside:function(){
+        return this.labels && this.labelPos == 'outside';
+    },
+    hasLabelsInside:function(){
+        return this.labels && this.labelPos == 'inside';
+    },
     hasLabels:function () {
         return this.labels;
     },
@@ -175,8 +187,11 @@ chess.view.board.GUI = new Class({
         var el = this.els.labels.files = new Element('div');
         el.addClass('ludo-chess-board-label-files-container');
         el.setStyles({
-            position:'relative'
+            position:this.labelPos == 'outside' ? 'relative' : 'absolute'
         });
+        if(this.labelPos == 'inside'){
+            el.setStyle('bottom', 0);
+        }
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
             var file = this.els.files[i] = new Element('div');
@@ -190,14 +205,16 @@ chess.view.board.GUI = new Class({
         }
 
 
-        this.els.boardContainerInner.adopt(el);
+        var parent = this.labelPos == 'outside' ? this.els.boardContainer : this.els.board;
+
+        parent.adopt(el);
     },
 
     addLabelsForRanks:function () {
         var el = this.els.labels.ranks = new Element('div');
         el.addClass('ludo-chess-board-label-ranks-container');
         el.setStyles({
-            position:'relative',
+            position:this.labelPos == 'outside' ? 'relative' : 'absolute',
             'float':'left',
             left:'0px', top:'0px',
             height:'100%'
@@ -206,15 +223,23 @@ chess.view.board.GUI = new Class({
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
             var rank = this.els.ranks[i] = new Element('div');
+            rank.addClass('ludo-chess-board-label-rank');
             rank.setStyles({
                 'height':this.internal.squareSize + 'px',
                 'text-align':'center',
-                'line-height':this.internal.squareSize + 'px',
                 'overflow':'hidden'
             });
+            if(this.labelPos == 'outside'){
+                rank.setStyle('line-height', this.internal.squareSize);
+            }
+
             el.adopt(rank);
         }
-        this.els.boardContainer.adopt(el);
+
+
+        var parent = this.labelPos == 'outside' ? this.els.boardContainer : this.els.board;
+
+        parent.adopt(el);
     },
 
     updateLabels:function () {
@@ -282,10 +307,6 @@ chess.view.board.GUI = new Class({
             marginTop = 0;
         }
 
-        console.log(this.vAlign);
-
-
-
         this.els.boardContainer.setStyles({
             width:(boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
             height:boardContainerHeight + 'px',
@@ -314,7 +335,7 @@ chess.view.board.GUI = new Class({
         }
         for (var i = 0; i < 8; i++) {
             this.els.ranks[i].setStyle('height', sizeRanks + 'px');
-            this.els.ranks[i].setStyle('line-height', sizeRanks + 'px');
+            if(this.labelPos == 'outside')this.els.ranks[i].setStyle('line-height', sizeRanks + 'px');
             this.els.files[i].setStyle('width', sizeFiles + 'px');
         }
     },
@@ -368,7 +389,7 @@ chess.view.board.GUI = new Class({
 
     labelHeight:undefined,
     getLabelHeight:function () {
-        if (!this.labels) {
+        if (!this.labels ||this.labelPos == 'inside') {
             return 0;
         }
         if (this.labelHeight === undefined) {
@@ -379,7 +400,7 @@ chess.view.board.GUI = new Class({
 
     labelWidth:undefined,
     getLabelWidth:function () {
-        if (!this.labels) {
+        if (!this.labels ||this.labelPos == 'inside') {
             return 0;
         }
         if (this.labelWidth === undefined) {
