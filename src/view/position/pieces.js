@@ -65,7 +65,7 @@ chess.view.position.Piece = new Class({
     ludoRendered:function () {
         this.parent();
         var piece = this.els.piece = new Element('div');
-        piece.setStyles({
+        piece.css({
             'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
             'background-repeat':'no-repeat',
@@ -74,7 +74,7 @@ chess.view.position.Piece = new Class({
 
         piece.setProperty('pieceType', this.pieceType);
         piece.addEvent('click', this.selectPiece.bind(this));
-        this.getBody().adopt(piece);
+        this.getBody().append(piece);
         piece.addClass('position-setup-piece');
         piece.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
         piece.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
@@ -97,7 +97,7 @@ chess.view.position.Piece = new Class({
         size.x -= this.getPadding('x');
         size.y -= this.getPadding('y');
 
-        this.els.piece.setStyles({
+        this.els.piece.css({
             width : size.x,
             height : size.y
         });

@@ -49,6 +49,26 @@ chess.controller.TacticController = new Class({
         if(config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
 	},
 
+	getDialogPuzzleComplete:function () {
+		return new ludo.dialog.Alert({
+			autoDispose:false,
+			height:150,
+			width:250,
+			hidden:true,
+			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
+			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
+			listeners:{
+				'ok':function () {
+					if(this.gameEndHandler != undefined){
+						this.gameEndHandler.apply(this, [this]);
+					}else{
+						this.loadRandomGame();
+					}
+				}.bind(this)
+			}
+		});
+	},
+	
 	addViewFeatures:function () {
 
 	},

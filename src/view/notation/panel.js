@@ -126,7 +126,7 @@ chess.view.notation.Panel = new Class({
         };
     },
     ludoEvents:function () {
-        this.getBody().addEvent('click', this.clickOnMove.bind(this));
+        this.getBody().on('click', this.clickOnMove.bind(this));
     },
 
     ludoDOM:function () {
@@ -135,7 +135,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove:function (el) {
-        this.contextMenuMove = { uid:el.getProperty('moveId')}
+        this.contextMenuMove = { uid:el.attr('moveId')}
     },
 
     getContextMenuMove:function () {
@@ -143,8 +143,8 @@ chess.view.notation.Panel = new Class({
     },
 
     clickOnMove:function (e) {
-        if (e.target.hasClass('notation-chess-move')) {
-            this.fireEvent('setCurrentMove', { uid:e.target.getProperty('moveId')});
+        if ($(e.target).hasClass('notation-chess-move')) {
+            this.fireEvent('setCurrentMove', { uid:$(e.target).attr('moveId')});
             this.highlightMove(e.target);
         }
     },
@@ -154,28 +154,24 @@ chess.view.notation.Panel = new Class({
 
     setCurrentMove:function (model) {
         var move = model.getCurrentMove();
-
         if (move) {
-            this.highlightMove(document.id(this.moveMapNotation[move.uid]));
+            this.highlightMove($("#" + this.moveMapNotation[move.uid]));
         } else {
             this.clearHighlightedMove();
         }
     },
     highlightMove:function (move) {
         this.clearHighlightedMove();
-
         if(move == undefined)return;
-
-        move.addClass('notation-chess-move-highlighted');
-
-        this.highlightedMove = move.id;
+        $(move).addClass('notation-chess-move-highlighted');
+        this.highlightedMove = $(move).attr("id");
         this.scrollMoveIntoView(move);
     },
 
     clearHighlightedMove:function () {
         var el;
-        if (el = document.getElementById(this.highlightedMove)) {
-            ludo.dom.removeClass(el, 'notation-chess-move-highlighted');
+        if (el = $("#" + this.highlightedMove)) {
+            el.removeClass('notation-chess-move-highlighted');
         }
     },
 
@@ -195,9 +191,9 @@ chess.view.notation.Panel = new Class({
         if(move != undefined){
             this.currentModelMoveId = move.uid;
         }
-        this.getBody().set('html', '');
+        this.getBody().html( '');
         var moves = this.getMovesInBranch(model.getMoves(), 0, 0, 0, 0);
-        this.getBody().set('html', moves.join(' '))
+        this.getBody().html( moves.join(' '))
     },
 
     getMovesInBranch:function (branch, moveCounter, depth, branchIndex, countBranches) {
@@ -306,7 +302,7 @@ chess.view.notation.Panel = new Class({
     updateMove:function (model, move) {
         var domEl = this.getEl().getElement('.chess-move-container-' + move.uid);
         if(domEl){
-            domEl.set('html', this.getDomTextForAMove(move));
+            domEl.html( this.getDomTextForAMove(move));
         }else{
             this.showMoves(model);
         }
@@ -328,7 +324,7 @@ chess.view.notation.Panel = new Class({
                 moveString = moveNumber + '. ';
             }
             moveString += this.getDomTextForAMove(move, id);
-            branch.set('html', branch.get('html') + moveString);
+            branch.html( branch.html() + moveString);
 
         } else {
             this.showMoves(model);
@@ -337,8 +333,8 @@ chess.view.notation.Panel = new Class({
     },
 
     getDomBranch:function (move) {
-        var domEl = document.id(this.moveMap[move.uid]);
-        return domEl.getParent('.notation-branch');
+        var domEl = $("#" + this.moveMap[move.uid]);
+        return domEl.closest('.notation-branch');
     },
 
     getFirstBranch:function () {

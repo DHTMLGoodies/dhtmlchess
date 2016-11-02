@@ -6,11 +6,11 @@
     $keywords = "DHTML Chess, Chess,Broadcast games,Pgn viewer,Pgn parser";
     @include("../../php/log-visitors.php");
     ?>
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         body, html {
             width: 100%;
@@ -51,10 +51,11 @@
         ]
     });
 
-    var controller = new chess.controller.TacticController({
-        databaseId:2
+    var c = new chess.TacticsFromFile({
+        renderTo:'chess_container',
+        pgn:'1001-brilliant-checkmates'
     });
-    controller.loadRandomGame();
+
 
 </script>
 </body>

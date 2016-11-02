@@ -1,14 +1,14 @@
 chess.view.highlight.SquareBase = new Class({
-    Extends:chess.view.highlight.Base,
-    els:{},
-    visibleSquares:[],
+    Extends: chess.view.highlight.Base,
+    els: {},
+    visibleSquares: [],
 
-	ludoConfig:function (config) {
+    ludoConfig: function (config) {
         this.parent(config);
         this.createDOM();
     },
 
-    createDOM:function () {
+    createDOM: function () {
         var files = 'abcdefgh';
         var squares = this.getParent().getSquares();
         this.els.square = {};
@@ -19,19 +19,19 @@ chess.view.highlight.SquareBase = new Class({
         this.getParent().addEvent('resize', this.resizeSquares.bind(this));
     },
 
-    createHighlightElement:function (square, renderTo) {
-        var el = renderTo.getElement('.ludo-chess-square-highlight');
-        if (!el) {
-            el = new Element('div');
-            el.id = 'ludo-square-highlight-' + String.uniqueID();
+    createHighlightElement: function (square, renderTo) {
+        var el = renderTo.find('.ludo-chess-square-highlight').first();
+        if (!el.length) {
+            el = $('<div>');
+            el.attr('id', 'ludo-square-highlight-' + String.uniqueID());
             el.addClass('ludo-chess-square-highlight');
         }
-        el.style.display = 'none';
-        this.els.square[square] = el.id;
-        renderTo.adopt(el);
+        el.css('display', 'none');
+        this.els.square[square] = el.attr('id');
+        renderTo.append(el);
     },
 
-    highlight:function (move) {
+    highlight: function (move) {
         this.clear();
         var squares = [move.from, move.to];
         for (var i = 0; i < squares.length; i++) {
@@ -39,30 +39,31 @@ chess.view.highlight.SquareBase = new Class({
         }
     },
 
-    highlightSquare:function (square) {
-        var el = document.id(this.els.square[square]);
+    highlightSquare: function (square) {
+        var el = $("#" + this.els.square[square]);
         this.visibleSquares.push(el);
-        el.style.display = '';
+        el.css('display', '');
         this.resizeSquare(el);
     },
 
-    resizeSquares:function () {
+    resizeSquares: function () {
         for (var i = 0; i < this.visibleSquares.length; i++) {
             this.resizeSquare(this.visibleSquares[i]);
         }
     },
 
-    resizeSquare:function (el) {
-        var size = el.getParent().getSize().x;
+    resizeSquare: function (el) {
+        var size = el.parent().outerWidth();
         var width = size - ludo.dom.getMBPW(el);
         var height = size - ludo.dom.getMBPH(el);
-        el.style.width = width + 'px';
-        el.style.height = height + 'px';
+        el.css({
+            width: width, height: height
+        });
     },
 
-    clear:function () {
+    clear: function () {
         for (var i = 0; i < this.visibleSquares.length; i++) {
-            this.visibleSquares[i].style.display = 'none';
+            this.visibleSquares[i].css('display', 'none');
         }
         this.visibleSquares = [];
     }

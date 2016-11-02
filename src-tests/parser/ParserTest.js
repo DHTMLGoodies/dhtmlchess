@@ -1763,7 +1763,7 @@ TestCase("ParserTest", {
     assertThatPieceOnCanMoveTo:function (moves, from, toSquares) {
         var squares = moves.moves[Board0x88Config.mapping[from]];
 
-        var msg = Board0x88Config.mapping[from] + '\n' + JSON.encode(moves.moves);
+        var msg = Board0x88Config.mapping[from] + '\n' + JSON.stringify(moves.moves);
         assertNotUndefined(msg, squares);
         assertEquals(msg, toSquares.length, squares.length);
 

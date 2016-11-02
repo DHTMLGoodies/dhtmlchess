@@ -9,52 +9,52 @@
  */
 ludo_CHESS_PIECE_GLOBAL_Z_INDEX = 200;
 chess.view.board.Piece = new Class({
-    Extends:ludo.Core,
-    type:'chess.view.board.Piece',
+    Extends: ludo.Core,
+    type: 'chess.view.board.Piece',
     /**
      Color of piece, "white" or "black"
      @config {String} color
      @default "white"
      */
-    color:'white',
-    pieceLayout:'alpha',
-    size:null,
-    squareSize:null,
-    validSizes:[30, 45, 60, 75, 90, 105],
+    color: 'white',
+    pieceLayout: 'alpha',
+    size: null,
+    squareSize: null,
+    validSizes: [30, 45, 60, 75, 90, 105],
     /**
      * 0x88 board position of piece
      * @config {Number} square
      */
-    square:undefined,
-    el:null,
-    flipped:false,
-    toSquare:null,
-    Fx:null,
-    board:undefined,
-    ddEnabled:false,
-    aniDuration:250,
+    square: undefined,
+    el: null,
+    flipped: false,
+    toSquare: null,
+    Fx: null,
+    board: undefined,
+    ddEnabled: false,
+    aniDuration: 250,
     /**
      Type of piece
      @config {String} pieceType
      @example
-        pieceType:'knight'
+     pieceType:'knight'
      */
-    pieceType:'pawn',
-    dd:{
-        active:false,
-        el:{ x:0, y:0},
-        mouse:{x:0, y:0 }
+    pieceType: 'pawn',
+    dd: {
+        active: false,
+        el: {x: 0, y: 0},
+        mouse: {x: 0, y: 0}
     },
-    internal:{
-        files:{
-            a:0, b:1, c:2, d:3, e:4, f:5, g:6, h:7
+    internal: {
+        files: {
+            a: 0, b: 1, c: 2, d: 3, e: 4, f: 5, g: 6, h: 7
         }
     },
 
-    validTargetSquares:[],
+    validTargetSquares: [],
 
-	ludoConfig:function (config) {
-		this.parent(config);
+    ludoConfig: function (config) {
+        this.parent(config);
         this.square = config.square;
         this.squareSize = config.squareSize;
         this.pieceLayout = config.pieceLayout;
@@ -74,39 +74,41 @@ chess.view.board.Piece = new Class({
      * @method createDOM
      * @private
      */
-    createDOM:function () {
-        this.el = new Element('div');
-        this.el.setStyles({
-            'position':'absolute',
-            padding:0,
-            margin:0,
-            borders:0,
-            width:'12.5%',
-            height:'12.5%',
-            'z-index':100,
-            overflow:'hidden'
+    createDOM: function () {
+        this.el = $('<div>');
+        this.el.css({
+            'position': 'absolute',
+            padding: 0,
+            margin: 0,
+            borders: 0,
+            width: '12.5%',
+            height: '12.5%',
+            'z-index': 100,
+            overflow: 'hidden'
         });
 
-        this.el.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
-        this.el.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
+        this.el.mouseenter(this.mouseEnterPiece.bind(this));
+        this.el.mouseleave(this.mouseLeavePiece.bind(this));
 
-        this.el.addEvent(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
+        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
         this.el.addClass('ludo-chess-piece');
         this.position();
 
-        this.Fx = new Fx.Morph(this.el, {
+        /**
+         this.Fx = new Fx.Morph(this.el, {
             duration:this.aniDuration * 1000,
             unit:'%'
         });
-        this.Fx.addEvent('complete', this.animationComplete.bind(this));
+         this.Fx.addEvent('complete', this.animationComplete.bind(this));
+         */
     },
     /**
      * Method executed when mouse enters a chess piece
      * @method mouseEnterPiece
      * @private
      */
-    mouseEnterPiece:function () {
+    mouseEnterPiece: function () {
         this.fireEvent('mouseenter', this)
     },
     /**
@@ -114,7 +116,7 @@ chess.view.board.Piece = new Class({
      * @method mouseLeavePiece
      * @private
      */
-    mouseLeavePiece:function () {
+    mouseLeavePiece: function () {
         this.fireEvent('mouseleave', this)
     },
 
@@ -123,40 +125,40 @@ chess.view.board.Piece = new Class({
      * false and reset cursor to arrow.
      * @method disableDragAndDrop
      */
-    disableDragAndDrop:function () {
+    disableDragAndDrop: function () {
         this.ddEnabled = false;
-        this.el.style.cursor = 'default';
+        this.el.css('cursor', 'default');
     },
     /**
      * Enable drag and drop for the chess piece. This will set the internal ddEnabled property to true
      * and update the cursor to a pointer/hand.
-	 * @method enableDragAndDrop
+     * @method enableDragAndDrop
      */
-    enableDragAndDrop:function () {
+    enableDragAndDrop: function () {
         this.ddEnabled = true;
-        this.el.style.cursor = 'pointer';
+        this.el.css('cursor', 'pointer');
     },
     /**
      * Returns true if chess piece is currently on board.
      * @method isVisible
      * @return {Boolean}
      */
-    isVisible:function () {
-        return this.el.style.display != 'none';
+    isVisible: function () {
+        return this.el.css('display') != 'none';
     },
     /**
      * Hide the chess piece
      * @method hide
      */
-    hide:function () {
-        this.el.style.display = 'none';
+    hide: function () {
+        this.el.css('display', 'none');
     },
     /**
      * Show the chess piece
      * @method show
      */
-    show:function () {
-        this.el.style.display = '';
+    show: function () {
+        this.el.css('display', '');
     },
     /**
      * Start dragging a chess piece
@@ -165,17 +167,18 @@ chess.view.board.Piece = new Class({
      * @return {Boolean|undefined}
      * @private
      */
-    initDragPiece:function (e) {
+    initDragPiece: function (e) {
         if (this.ddEnabled) {
             this.increaseZIndex();
             this.validTargetSquares = this.board.getValidMovesForPiece(this);
             this.fireEvent('initdrag', this);
-            this.el.style.left = this.el.offsetLeft + 'px';
-            this.el.style.top = this.el.offsetTop + 'px';
+            var pos = this.el.position();
+            this.el.css('left', pos.left + 'px');
+            this.el.css('top', pos.top + 'px');
             this.dd = {
-                active:true,
-                mouse:{ x:e.page.x, y:e.page.y},
-                el:{ x:this.el.offsetLeft, y:this.el.offsetTop }
+                active: true,
+                mouse: {x: e.pageX, y: e.pageY},
+                el: {x: pos.left, y: pos.top}
             };
 
             return false;
@@ -189,10 +192,17 @@ chess.view.board.Piece = new Class({
      * @return {Boolean|undefined}
      * @private
      */
-    dragPiece:function (e) {
+    dragPiece: function (e) {
+
         if (this.dd.active === true) {
-            this.el.style.left = (e.page.x + this.dd.el.x - this.dd.mouse.x) + 'px';
-            this.el.style.top = (e.page.y + this.dd.el.y - this.dd.mouse.y) + 'px';
+
+            this.el.css(
+                {
+                    left: (e.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
+                    top: (e.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
+                }
+            );
+
             return false;
         }
         return undefined;
@@ -203,18 +213,18 @@ chess.view.board.Piece = new Class({
      * @param {Event} e
      * @private
      */
-    stopDragPiece:function (e) {
+    stopDragPiece: function (e) {
         if (this.dd.active) {
             var coords;
             if (ludo.util.isTabletOrMobile()) {
                 coords = {
-                    x:e.target.offsetLeft,
-                    y:e.target.offsetTop
+                    x: e.target.offsetLeft,
+                    y: e.target.offsetTop
                 }
             } else {
                 coords = {
-                    x:e.page.x + this.dd.el.x - this.dd.mouse.x,
-                    y:e.page.y + this.dd.el.y - this.dd.mouse.y
+                    x: e.pageX + this.dd.el.x - this.dd.mouse.x,
+                    y: e.pageY + this.dd.el.y - this.dd.mouse.y
                 }
             }
 
@@ -226,8 +236,8 @@ chess.view.board.Piece = new Class({
             if (this.validTargetSquares.indexOf(square) >= 0) {
                 this.position(square);
                 this.fireEvent('move', {
-                    from:Board0x88Config.numberToSquareMapping[this.square],
-                    to:Board0x88Config.numberToSquareMapping[square]
+                    from: Board0x88Config.numberToSquareMapping[this.square],
+                    to: Board0x88Config.numberToSquareMapping[square]
                 });
             } else {
                 this.position();
@@ -243,7 +253,7 @@ chess.view.board.Piece = new Class({
      * @return {Number}
      * @private
      */
-    getSquareByCoordinates:function (x, y) {
+    getSquareByCoordinates: function (x, y) {
         x += this.squareSize / 2;
         y += this.squareSize / 2;
 
@@ -266,7 +276,7 @@ chess.view.board.Piece = new Class({
      * @method getSquare
      * @return {String} square
      */
-    getSquare:function () {
+    getSquare: function () {
         return this.square;
     },
 
@@ -275,9 +285,9 @@ chess.view.board.Piece = new Class({
      @method promote
      @param {String} toType
      @example
-        piece.promote('queen');
+     piece.promote('queen');
      */
-    promote:function (toType) {
+    promote: function (toType) {
         this.pieceType = toType;
         this.updateBackgroundImage();
     },
@@ -286,8 +296,8 @@ chess.view.board.Piece = new Class({
      * @method updateBackgroundImage
      * @private
      */
-    updateBackgroundImage:function () {
-        this.el.setStyle('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
+    updateBackgroundImage: function () {
+        this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
     },
 
     /**
@@ -295,7 +305,7 @@ chess.view.board.Piece = new Class({
      * @method resize
      * @param {Number} squareSize
      */
-    resize:function (squareSize) {
+    resize: function (squareSize) {
         this.squareSize = squareSize;
         if (squareSize < this.validSizes[0]) {
             squareSize = this.validSizes[0];
@@ -319,10 +329,14 @@ chess.view.board.Piece = new Class({
      * @param {Number} square
      * @optional
      */
-    position:function (square) {
+    position: function (square) {
         var pos = this.getPos(square);
-        this.el.style.left = pos.x;
-        this.el.style.top = pos.y;
+
+        this.el.css({
+            'left': pos.x,
+            'top': pos.y
+        });
+
     },
 
     /**
@@ -330,7 +344,7 @@ chess.view.board.Piece = new Class({
      * @method playMove
      * @param {String} toSquare
      */
-    playMove:function (toSquare) {
+    playMove: function (toSquare) {
         toSquare = Board0x88Config.mapping[toSquare];
 
         if (this.isAlreadyOnSquare(toSquare)) {
@@ -338,14 +352,13 @@ chess.view.board.Piece = new Class({
             this.animationComplete();
         } else {
             var posTo = this.getPosOfSquare(toSquare);
-            var posFrom = this.getPosOfSquare(this.square);
-
             this.increaseZIndex();
+            this.el.animate({
+                top: posTo.y + '%',
+                left : posTo.x + '%'
+            }, this.aniDuration * 1000, this.animationComplete.bind(this));
 
-            this.Fx.start({
-                'left':[posFrom.x, posTo.x],
-                'top':[posFrom.y, posTo.y]
-            });
+
             this.toSquare = toSquare;
         }
     },
@@ -357,28 +370,28 @@ chess.view.board.Piece = new Class({
      * @return {Boolean}
      * @private
      */
-    isAlreadyOnSquare:function (square) {
+    isAlreadyOnSquare: function (square) {
         var pos = this.getPos(square);
-        return pos.x == this.el.style.left && pos.y === this.el.style.top;
+        return pos.x == this.el[0].style.left && pos.y === this.el[0].style.top;
     },
     /**
      * Move piece to front
      * @method increaseZindex
      * @private
      */
-    increaseZIndex:function () {
+    increaseZIndex: function () {
         ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
-        this.el.style.zIndex = ludo_CHESS_PIECE_GLOBAL_Z_INDEX;
+        this.el.css('zIndex', ludo_CHESS_PIECE_GLOBAL_Z_INDEX);
     },
     /**
      * Method executed when move animation is complete
      * @method animationComplete
      * @private
      */
-    animationComplete:function () {
+    animationComplete: function () {
         this.fireEvent('animationComplete', {
-            from:this.square,
-            to:this.toSquare
+            from: this.square,
+            to: this.toSquare
         });
         this.square = this.toSquare;
     },
@@ -388,18 +401,18 @@ chess.view.board.Piece = new Class({
      @param {Number} square
      @return {Object}
      @example
-		var pos = piece.getPos();
-		// may return
-		{
-			"x":"12.5%",
-			"y":"25%"
-		}
+     var pos = piece.getPos();
+     // may return
+     {
+         "x":"12.5%",
+         "y":"25%"
+     }
      */
-    getPos:function (square) {
+    getPos: function (square) {
         var pos = this.getPosOfSquare(square !== undefined ? square : this.square);
         return {
-            'x':pos.x + '%',
-            'y':pos.y + '%'
+            'x': pos.x + '%',
+            'y': pos.y + '%'
         };
     },
     /**
@@ -408,7 +421,7 @@ chess.view.board.Piece = new Class({
      * @param {Number} square
      * @return {Object}
      */
-    getPosOfSquare:function (square) {
+    getPosOfSquare: function (square) {
         var file = (square & 15);
         var rank = 7 - ((square & 240) / 16);
 
@@ -417,8 +430,8 @@ chess.view.board.Piece = new Class({
             rank = 7 - rank;
         }
         return {
-            x:(file * 12.5),
-            y:(rank * 12.5)
+            x: (file * 12.5),
+            y: (rank * 12.5)
         }
     },
     /**
@@ -426,7 +439,7 @@ chess.view.board.Piece = new Class({
      * @method getEl
      * @return {HTMLElement}
      */
-    getEl:function () {
+    getEl: function () {
         return this.el;
     },
     /**
@@ -435,7 +448,7 @@ chess.view.board.Piece = new Class({
      * @return {String}
      * @private
      */
-    getColorCode:function () {
+    getColorCode: function () {
         return this.color == 'white' ? 'w' : 'b';
     },
     /**
@@ -444,7 +457,7 @@ chess.view.board.Piece = new Class({
      * @return {String}
      * @private
      */
-    getTypeCode:function () {
+    getTypeCode: function () {
         switch (this.pieceType) {
             case 'pawn':
             case 'rook':
@@ -462,7 +475,7 @@ chess.view.board.Piece = new Class({
      * Executed when board is flipped. It will call the position method.
      * @method flip
      */
-    flip:function () {
+    flip: function () {
         this.flipped = !this.flipped;
         this.position();
     },
@@ -471,7 +484,7 @@ chess.view.board.Piece = new Class({
      * @method isFlipped
      * @return {Boolean}
      */
-    isFlipped:function () {
+    isFlipped: function () {
         return this.flipped;
     }
 });

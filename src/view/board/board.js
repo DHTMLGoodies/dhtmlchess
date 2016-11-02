@@ -91,7 +91,7 @@ chess.view.board.Board = new Class({
             piece.addEvent('move', this.makeMove.bind(this));
             piece.addEvent('initdrag', this.startPieceDrag.bind(this));
             this.pieces.push(piece);
-            this.getBoard().adopt(piece.getEl());
+            this.getBoard().append(piece.getEl());
         }
         this.resizePieces();
         this.addPieceDragEvents();
@@ -99,8 +99,8 @@ chess.view.board.Board = new Class({
 
     addPieceDragEvents: function () {
         // var on = this.getEventEl().addEvent;
-        this.getEventEl().addEvent(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
-        this.getEventEl().addEvent(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
+        this.getEventEl().on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        this.getEventEl().on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
 
     draggedPiece: undefined,

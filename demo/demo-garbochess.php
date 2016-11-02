@@ -21,8 +21,7 @@
         }
     </script>
 
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../src/controller/garbochess-controller.js"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>

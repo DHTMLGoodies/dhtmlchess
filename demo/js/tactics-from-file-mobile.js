@@ -33,15 +33,16 @@ chess.TacticsFromFile2016 = new Class({
 
     initialize: function (config) {
         this.renderTo = config.renderTo;
+        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
         this.pgn = config.pgn;
 
-        window.addEvent('domready', this.render.bind(this));
+        $(document).ready(this.render.bind(this));
     },
 
     render: function () {
         // Render the views
         new ludo.View({
-            renderTo: document.id(this.renderTo),
+            renderTo: $(this.renderTo),
             containerCss: {
                 'background-color': 'transparent' // default background color is white, set transparent for this demo.
             },

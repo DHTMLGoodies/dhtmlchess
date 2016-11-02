@@ -47,13 +47,13 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showMessage:function (message, delayBeforeHide) {
-        this.getBody().set('html', message);
+        this.getBody().html( message);
         if(delayBeforeHide){
             this.autoHideMessage.delay(delayBeforeHide, this);
         }
     },
 
     autoHideMessage:function () {
-        this.getBody().set('html','');
+        this.getBody().html('');
     }
 });

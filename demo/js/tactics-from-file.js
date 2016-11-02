@@ -22,13 +22,13 @@ chess.TacticsFromFile = new Class({
     initialize:function(config){
         this.renderTo = config.renderTo;
         this.pgn = config.pgn;
-
-        window.addEvent('domready', this.render.bind(this));
+        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
+        $(document).ready(this.render.bind(this));
     },
 
     render:function(){
         new ludo.View({
-            renderTo:document.id(this.renderTo),
+            renderTo:$(this.renderTo),
             containerCss:{
 
                 'background-color' : 'transparent'
@@ -174,6 +174,8 @@ chess.TacticsFromFile = new Class({
         }else{
             index = 0;
         }
+
+     
 
 
 

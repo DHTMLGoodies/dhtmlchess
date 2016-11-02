@@ -1,0 +1,1596 @@
+[Event "001 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[PlyCount "5"]
+
+1. e4 (1. d4 Nf6) (1. c4) (1. f4) e5 2. Nf3 (2. Nc3) f5
+
+[Event "002 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "r2qr1k1/1b1n1ppp/p1p1p3/1p6/3P4/2P2N2/PPQB1PPP/R3R1K1 w - - 0 1"]
+[PlyCount "3"]
+
+1. Ng5 g6 (1... Nf6 2. Bf4) (1... Nf8 2. Ne4) 2. Ne4 *
+
+[Event "003 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate motifs"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "8/1K1Q4/6pB/4kB2/3b1n1P/5p2/8/8 b - - 0 1"]
+[PlyCount "2"]
+
+1... Kf6 (1... Nd3 2. Qe6#) (1... gxf5 2. Bg7+ Ke4 3. Qxd4#) 2. Bg7# 1-0
+
+[Event "004 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Removal of defenders"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "8/p5K1/1p2p3/4kp2/1Q6/2PpbP2/1R2n1B1/q7 w - - 0 1"]
+[PlyCount "5"]
+
+1. Rxe2 {elimination of defender} dxe2 (1... Kd5 2. f4#) (1... Qc1 2. Qd4#) (
+1... f4 2. Qd4+ Kf5 3. Qf6#) 2. f4+ {deflection} Bxf4 3. Qd4# *
+
+[Event "005 cr"]
+[Site "?"]
+[Date "1928.??.??"]
+[Round "?"]
+[White "Meesen"]
+[Black "Mueller"]
+[Result "0-1"]
+[ECO "A28"]
+[PlyCount "28"]
+[EventDate "1928.??.??"]
+
+1. c4 e5 2. Nc3 Nf6 3. Nf3 Nc6 4. d4 exd4 5. Nxd4 Bb4 6. Nxc6 bxc6 7. g3 Qe7 8.
+Bg2 Ba6 9. Qd3 d5 10. b3 d4 11. Qxd4 Rd8 12. Bxc6+ Kf8 13. Bd5 Rxd5 14. cxd5
+Qxe2# 0-1
+
+[Event "006 Ostende"]
+[Site "?"]
+[Date "1906.??.??"]
+[Round "?"]
+[White "Chigorin"]
+[Black "Burn, Amos"]
+[Result "*"]
+[SetUp "1"]
+[FEN "r1bqk2r/ppp2ppp/2n2n2/2bppP2/4P3/2PP1N2/PP2Q1PP/RNB1KB1R b KQkq - 0 1"]
+[PlyCount "3"]
+
+1... Bxf5 2. exf5 e4 *
+
+[Event "007 Oslo Norway"]
+[Site "?"]
+[Date "1928.??.??"]
+[Round "?"]
+[White "Hansen, O."]
+[Black "Lundin, E."]
+[Result "0-1"]
+[ECO "C36"]
+[PlyCount "38"]
+[EventDate "1928.??.??"]
+[Source "Check Computers"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 d5 4. exd5 Nf6 5. Nc3 Nxd5 6. Nxd5 Qxd5 7. d4 Bg4 8.
+Bxf4 Nc6 9. Be2 O-O-O 10. c3 Qe4 11. Qd2 Rxd4 12. Nxd4 Nxd4 13. cxd4 Bb4 14.
+Kf2 Bxd2 15. Bxg4+ f5 16. Bxd2 fxg4 17. Rhe1 Qxd4+ 18. Be3 Qxb2+ 19. Kf1 Re8
+0-1
+
+[Event "008 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Diagramm"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "r1nqk2r/ppp1bp2/3p2p1/6Bp/3P4/5N2/PPP3PP/R2QR1K1 w kq - 0 1"]
+[PlyCount "11"]
+
+1. Bf6 Rf8 2. Rxe7+ Nxe7 3. Qe2 Qd7 4. Re1 Qe6 5. Qb5+ c6 6. Qxb7 *
+
+[Event "009 Wien"]
+[Site "Wien"]
+[Date "1898.??.??"]
+[Round "?"]
+[White "Showalter, Jackson Whipps"]
+[Black "Caro, Horatio"]
+[Result "1-0"]
+[ECO "C70"]
+[PlyCount "61"]
+[EventDate "1898.??.??"]
+[Source "ChessBase"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 b5 5. Bb3 Bb7 6. O-O g6 7. c3 Bg7 8. d4
+exd4 9. cxd4 d6 10. Nc3 Nge7 11. Bg5 h6 12. Bh4 Qd7 13. a4 b4 14. Nd5 g5 15.
+Bg3 g4 16. Nh4 Nxd4 17. Nxe7 Qxe7 18. Re1 Be5 19. Nf5 Nxf5 20. exf5 h5 21. Rc1
+c6 22. f4 gxf3 23. Qxf3 Rc8 24. f6 Qc7 25. Bxe5 dxe5 26. Rc5 Kf8 27. Rcxe5 c5
+28. Qg3 Rh7 29. Re8+ Rxe8 30. Qg8+ Kxg8 31. Rxe8# 1-0
+
+[Event "010 Hastings"]
+[Site "?"]
+[Date "1895.??.??"]
+[Round "?"]
+[White "Steinitz, W."]
+[Black "Von Bardeleben, C."]
+[Result "1-0"]
+[ECO "C54"]
+[WhiteElo "2590"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "69"]
+[EventDate "1895.??.??"]
+
+1. e4 e5 {Opening = C54_03 Italianische Partie 5.d4 / Italian Opening 5.d4} 2.
+Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. cxd4 Bb4+ 7. Nc3 d5 8. exd5 Nxd5 9.
+O-O Be6 10. Bg5 Be7 11. Bxd5 Bxd5 12. Nxd5 Qxd5 13. Bxe7 Nxe7 14. Re1 f6 15.
+Qe2 Qd7 16. Rac1 c6 17. d5 cxd5 {Black creates threats along the open c-file}
+18. Nd4 Kf7 19. Ne6 Rhc8 (19... Qd6 20. Rc7 Rab8 21. Qh5+) 20. Qg4 g6 21. Ng5+
+Ke8 22. Rxe7+ Kf8 23. Rf7+ Kg8 24. Rg7+ Kh8 25. Rxh7+ Kg8 $146 26. Rg7+ $1 (26.
+Qxd7 $4 Rxc1#) 26... Kh8 (26... Qxg7 27. Rxc8+ Rxc8 28. Qxc8+ Qf8 29. Qe6+ (29.
+Qxb7 $6 fxg5 30. Qxd5+ Kg7 $18) 29... Kg7 30. Qd7+ (30. Qxd5 $6 fxg5 31. Qxb7+
+Kh6 $18) 30... Kh6 31. Nf7+ Kh7 32. Nd8+ Qg7 33. Qxd5 $18) 27. Qh4+ $1 (27.
+Qxd7 $4 Rxc1#) 27... Kxg7 {Do you see the mate threat?} 28. Qh7+ Kf8 29. Qh8+
+$1 (29. Qxd7 $4 Rxc1#) 29... Ke7 30. Qg7+ Ke8 31. Qg8+ (31. Qxg6+ $6 Kf8 32.
+Qxf6+ Kg8 33. Qg6+ Kh8 $18) 31... Ke7 {Threatening mate... how?} 32. Qf7+ Kd8
+33. Qf8+ (33. Qxf6+ Qe7 34. Ne6+ Ke8 35. Qxg6+ Qf7 36. Qxf7+ Kxf7 $15) 33...
+Qe8 {Threatening mate: Rxc1} 34. Nf7+ Kd7 35. Qd6# 1-0
+
+[Event "010a Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Attack via f7"]
+[Black "?"]
+[Result "1-0"]
+[ECO "C41"]
+[PlyCount "20"]
+
+1. e4 e5 2. Nf3 d6 3. Bc4 Ne7 4. Ng5 d5 5. exd5 Nxd5 6. Qf3 (6. d4 exd4 7. Qxd4
+Qe7+ 8. Be3) 6... Qxg5 7. Bxd5 Qg6 (7... f5 $2 8. Bxb7 e4 9. Qb3 Qxg2 10. Rf1)
+(7... Qf4 8. Bxb7 Qxf3 9. Bxf3 c6) 8. Bxb7 Bxb7 9. Qxb7 Qc6 10. Qxc6+ Nxc6 1-0
+
+[Event "011 Budapest ct"]
+[Site "Budapest"]
+[Date "1950.??.??"]
+[Round "5"]
+[White "Keres, Paul"]
+[Black "Kotov, Alexander"]
+[Result "1-0"]
+[ECO "B92"]
+[Annotator "G. Ossimitz"]
+[PlyCount "53"]
+[EventDate "1950.??.??"]
+[Source "ChessBase"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Be2 Qc7 7. Bg5 Nbd7 8.
+O-O e6 9. Bh5 Qc4 10. Nxe6 Qxe6 11. Nd5 Kd8 (11... Nxd5 12. exd5 Qf5 13. Re1+
+Ne5 14. f4 g6 (14... h6 $1 15. fxe5 Qxg5 16. exd6+ Kd8 17. Bxf7 Bxd6 18. Qd4
+Rf8 19. Be6 Rf4) 15. g4 (15. fxe5 Qxg5 16. exd6+ Kd7 17. Bg4+ Kxd6) 15... Qxg5
+16. fxg5 Bg7 (16... gxh5 $1)) 12. Bg4 Qe5 13. f4 Qxe4 14. Bxd7 Bxd7 15. Nxf6
+gxf6 16. Bxf6+ Kc7 17. Bxh8 Bc6 18. Qd2 Bh6 19. Rae1 Qg6 20. Re7+ Kd8 21. Rfe1
+a5 22. Bd4 Ra6 23. Qf2 Bf8 24. Bb6+ Kc8 25. Re8+ Bxe8 26. Rxe8+ Kd7 27. Rxf8
+1-0
+
+[Event "012 Warsaw ol"]
+[Site "Warsaw"]
+[Date "1935.??.??"]
+[Round "14"]
+[White "Keres, Paul"]
+[Black "Winter, William"]
+[Result "1-0"]
+[ECO "B29"]
+[Annotator "G. Ossimitz"]
+[PlyCount "37"]
+[EventDate "1935.??.??"]
+[Source "ChessBase"]
+
+1. e4 c5 2. Nf3 Nf6 3. e5 Nd5 4. Nc3 e6 5. Nxd5 exd5 6. d4 d6 7. Bg5 Qa5+ 8. c3
+cxd4 9. Bd3 dxc3 10. O-O cxb2 11. Rb1 dxe5 12. Nxe5 Bd6 13. Nxf7 Kxf7 14. Qh5+
+g6 (14... Kf8 $1 15. Rfe1 Bd7) 15. Bxg6+ hxg6 16. Qxh8 Bf5 17. Rfe1 Be4 18.
+Rxe4 dxe4 19. Qf6+ 1-0
+
+[Event "013 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Diagramm"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "rnb1k2r/ppp2ppp/8/8/1bBPPp2/2N5/PPP1Q1Pq/R1B2KN1 w kq - 0 1"]
+[PlyCount "21"]
+
+1. Bxf7+ Kxf7 2. Nd5 Be7 3. Bxf4 Qh4 4. Nf3 Qh1+ 5. Kf2 Qxa1 6. Ne5+ Ke8 7.
+Qh5+ g6 8. Nxc7+ Kf8 9. Qh6+ Kg8 10. Ne8 Bf8 11. Nf6# 1-0
+
+[Event "014 Muenchen ol"]
+[Site "Muenchen"]
+[Date "1936.??.??"]
+[Round "9"]
+[White "Asgeirsson, Asmundur"]
+[Black "Raud, Ilmar"]
+[Result "0-1"]
+[ECO "D61"]
+[PlyCount "58"]
+[EventDate "1936.??.??"]
+[Source "ChessBase"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 d5 4. Bg5 Be7 5. Nf3 Nbd7 6. e3 O-O 7. Qc2 h6 8. Bh4
+c6 9. a3 a6 10. c5 Re8 11. Bd3 e5 12. dxe5 Ng4 13. Bxe7 Qxe7 14. b4 Ndxe5 15.
+Be2 Nxf2 16. Kxf2 Ng4+ 17. Ke1 Nxe3 18. Qd2 d4 19. Nd1 Nxg2+ 20. Kf2 Nh4 21.
+Rf1 Bh3 22. Rg1 Rad8 23. Rg3 d3 24. Bxd3 Nxf3 25. Rxf3 Qh4+ 26. Rg3 Rxd3 27.
+Qxd3 Qf4+ 28. Qf3 Qd2+ 29. Kg1 Re1+ 0-1
+
+[Event "015 Teplitz-Schoenau"]
+[Site "Teplitz-Schoenau"]
+[Date "1922.??.??"]
+[Round "6"]
+[White "Reti, Richard"]
+[Black "Wolf, Heinrich"]
+[Result "0-1"]
+[ECO "D64"]
+[PlyCount "64"]
+[EventDate "1922.??.??"]
+[Source "ChessBase"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Be7 5. e3 O-O 6. Nf3 Nbd7 7. Rc1 c6 8. Qc2
+a6 9. c5 e5 10. dxe5 Ng4 11. Bxe7 Qxe7 12. Na4 Re8 13. Bd3 h6 14. Nd4 Ndxe5 15.
+Nb6 Nxf2 16. Bh7+ (16. Kxf2 Ng4+ 17. Ke1 Qxe3+ 18. Ne2 Bf5 19. Bxf5 Qf2+ 20.
+Kd2 (20. Kd1 Ne3+ 21. Kd2 Nxc2 22. Rxc2 Rxe2+ 23. Kd1 Rae8) 20... Rxe2+ 21. Kc3
+Qxc5+) 16... Kh8 17. O-O Nfg4 18. Nxa8 Nxe3 19. Qe2 (19. Qc3 Nxf1 20. Bf5)
+19... Nxf1 20. Bb1 Nxh2 21. Nb6 Nef3+ 22. gxf3 Qg5+ 23. Kxh2 Rxe2+ 24. Nxe2
+Qe5+ 25. Ng3 Qxb2+ 26. Rc2 Qxb1 27. Re2 Be6 28. f4 g6 29. Na8 h5 30. Nc7 h4 31.
+Nh1 Qd3 32. Rf2 Bf5 0-1
+
+[Event "016 The Hague"]
+[Site "The Hague"]
+[Date "1921.??.??"]
+[Round "5"]
+[White "Euwe, Max"]
+[Black "Rubinstein, Akiba"]
+[Result "0-1"]
+[ECO "B29"]
+[PlyCount "66"]
+[EventDate "1921.??.??"]
+[Source "ChessBase"]
+
+1. e4 c5 2. Nf3 Nf6 3. e5 Nd5 4. d4 cxd4 5. Qxd4 e6 6. c4 Nc6 7. Qd1 Nde7 8.
+Bd2 Ng6 9. Qe2 Qc7 10. Bc3 b6 11. h4 d6 12. exd6 Bxd6 13. Nbd2 Nf4 14. Qe3 Bc5
+15. Qe4 f5 16. Qc2 O-O 17. g3 Ng6 18. h5 Nge5 19. Nxe5 Nxe5 20. b4 Bxf2+ 21.
+Kxf2 Ng4+ 22. Ke2 Qxg3 23. Bd4 Bb7 24. Rh3 Qd6 25. Qc3 e5 26. Bg1 f4 27. c5 Qh6
+28. Ke1 e4 29. Rh4 Qg5 30. Qh3 Ne3 31. Bxe3 fxe3 32. Bc4+ Kh8 33. Nf1 Qf6 0-1
+
+[Event "016a St Petersburg"]
+[Site "St Petersburg"]
+[Date "1912.??.??"]
+[Round "?"]
+[White "Potemkin, P."]
+[Black "Alekhine, Alexander"]
+[Result "0-1"]
+[ECO "B20"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "38"]
+
+1. e4 c5 2. g3 g6 3. Bg2 Bg7 4. Ne2 Nc6 5. c3 Nf6 (5... e6 6. d4 d6 7. Be3 cxd4
+8. cxd4 Nge7 9. Nbc3 O-O 10. O-O a6 11. Qd2 d5 12. e5 Bd7 13. Rab1 Nf5 14. b4
+f6 15. f4 fxe5 16. dxe5 Nxe3 17. Qxe3 Ne7 18. g4 Kh8 19. Nd4 Qb6 20. Rf3 {
+Buchenau,F-Hallier,K/BL2-N 8889 1989/BL2/1/2-1/2 (44)}) (5... e5 6. Na3 Nge7 7.
+d3 d5 8. exd5 Nxd5 9. Qb3 Nc7 10. Be3 Ne6 11. Rd1 O-O 12. Nc4 Qc7 13. O-O Bd7
+14. f4 b5 15. Nd2 Rad8 16. Ne4 c4 17. Qa3 f5 18. Nc5 Nxc5 19. Bxc5 cxd3 20.
+Bd5+ Kh8 21. Rxd3 Rf6 22. Rfd1 e4 23. R3d2 {
+1/2-1/2 Buchenthal,D-Eising,J/NRW-II 1996/GER 13}) 6. Na3 $146 (6. d4 cxd4 7.
+cxd4 O-O 8. Nbc3 d6 9. d5 Nb8 10. Bg5 h6 11. Be3 Nbd7 12. Qd2 Kh7 13. h3 a6 14.
+Nd4 Nb6 15. b3 a5 16. O-O Nbd7 17. Rac1 Nc5 18. Qe2 Bd7 19. Rfd1 Be8 20. f4 Rc8
+{Biegler,H-Syska,A/GER-CupT 1992/BIG 90/1/2-1/2 (43)}) (6. O-O d5 7. d3 O-O 8.
+Qc2 h6 9. Na3 Re8 10. Nf4 e6 11. Re1 Re7 12. h4 b6 13. Bd2 Bb7 14. Rad1 Rc8 15.
+Qb1 dxe4 16. dxe4 Rd7 17. Be3 Rcc7 18. Nb5 Rxd1 19. Rxd1 Rd7 20. Rxd7 Qxd7 21.
+Qd3 Qxd3 22. Nxd3 Ba6 23. a4 Na5 24. Ne5 Ne8 25. b4 Bxb5 26. axb5 Bxe5 27. bxa5
+Bxc3 28. axb6 axb6 29. Bxh6 Nd6 30. Bf1 Nxe4 31. Bd3 Nd6 32. g4 e5 33. Bg5 f6
+34. Bc1 Kf7 35. Kg2 Bd4 36. f3 f5 37. gxf5 gxf5 38. h5 Ke6 39. Bg5 e4 40. fxe4
+fxe4 41. Be2 c4 42. Bd8 c3 43. Bd1 Nxb5 44. h6 Kd7 45. Bg5 Nd6 46. Bb3 b5 47.
+h7 Kc6 48. Kf1 {0-1 Klibor,L-Riedel,W/BL2-N 8182 1982/BIG 80}) 6... d5 7. exd5
+Nxd5 8. Nc2 O-O 9. d4 cxd4 10. cxd4 $15 (10. Nexd4 Nxd4 11. Nxd4 e5 $11) 10...
+Bg4 11. f3 $17 (11. h3 Bxe2 12. Qxe2 Bxd4 $15) 11... Bf5 12. Ne3 Qa5+ 13. Kf2
+Ndb4 14. Nxf5 Qxf5 15. g4 Nd3+ $14 (15... Qc2 $142 16. Be3 Qxb2 $17) 16. Kg3
+$17 (16. Ke3 Bh6+ 17. f4 Qxg4 18. Bf3 Bxf4+ 19. Nxf4 Qxf4+ 20. Kxd3 Ne5+ 21.
+dxe5 Rad8+ 22. Kc3 Qxe5+ 23. Kb3 Qb5+ 24. Kc3 Rc8+ 25. Kd2 Rfd8+ 26. Ke3 Qe5+
+27. Kf2 Rxd1 28. Bxd1 $19) (16. Kf1 Qb5) 16... Nxd4 {Schwarz droht De5.} 17.
+gxf5 $4 {ein Versehen in unangenehmer Stellung} (17. f4 $142 Qd7 18. Rf1 $17 (
+18. Qxd3 $4 {den Springer zu nehmen, verliert} Nf5+ 19. Qxf5 gxf5 $19)) 17...
+Nxf5+ 18. Kg4 h5+ 19. Kh3 Nf2# 0-1
+
+[Event "016b Dorpat"]
+[Site "?"]
+[Date "1862.??.??"]
+[Round "?"]
+[White "Clemens"]
+[Black "Eisenschmidt"]
+[Result "1-0"]
+[ECO "C51"]
+[PlyCount "47"]
+[EventDate "1862.??.??"]
+[Source "Check Computers"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Bc5 6. d4 exd4 7. cxd4 Bb6 8.
+O-O d6 9. Nc3 Bd7 10. e5 dxe5 11. Re1 Nge7 12. Ng5 Be6 13. Bxe6 fxe6 14. Nxe6
+Qd6 15. Nxg7+ Kf8 16. Qg4 exd4 17. Ne4 Qb4 18. Ne6+ Ke8 19. Nf6+ Kf7 20. Ng5+
+Kf8 21. Ba3 Qxa3 22. Qe6 Nd8 23. Qf7+ Nxf7 24. Ne6# 1-0
+
+[Event "017 Leningrad"]
+[Site "?"]
+[Date "1936.??.??"]
+[Round "?"]
+[White "Kotov, Alexander"]
+[Black "Bondarevsky, I."]
+[Result "0-1"]
+[ECO "A90"]
+[PlyCount "54"]
+[EventDate "1936.??.??"]
+[Source "Check Computers"]
+
+1. d4 e6 2. Nf3 f5 3. g3 Nf6 4. Bg2 d5 5. O-O Bd6 6. c4 c6 7. Nbd2 O-O 8. b3
+Qe8 9. Ne1 Nbd7 10. Nd3 Ne4 11. Nf3 Qh5 12. Nf4 Qf7 13. Qc2 g5 14. Nd3 Qh5 15.
+Nfe5 Rf6 16. f3 Rh6 17. h4 Nxg3 18. hxg5 Qh2+ 19. Kf2 Rh4 20. Rg1 Rxd4 21. Bb2
+Qh4 22. Bxd4 Ne4+ 23. Ke3 f4+ 24. Nxf4 Qf2+ 25. Kd3 Qxd4+ 26. Kxd4 Bc5+ 27. Kd3
+Nxe5# 0-1
+
+[Event "018 Tarnopol"]
+[Site "?"]
+[Date "1920.??.??"]
+[Round "?"]
+[White "Alekhine, Alexander"]
+[Black "Feldt"]
+[Result "1-0"]
+[ECO "C11"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "35"]
+[EventDate "1920.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. exd5 Nxd5 {aus dem Buch} 5. Ne4 f5 6. Ng5 Be7
+7. N1f3 c6 {Kontrolliert b5} 8. Ne5 {Die Sturmspitze auf e5} O-O 9. Ngf3 b6 10.
+Bd3 Bb7 11. O-O Re8 12. c4 {Weis entwickelt eine todliche Initiative} Nf6 13.
+Bf4 Nbd7 14. Qe2 c5 $16 (14... Nxe5 $5 {kam sehr in Betracht} 15. Bxe5 c5 $14)
+15. Nf7 Kxf7 (15... Qc8 16. Qxe6 Ne5 17. Nh6+ Kh8 18. Qxe5 gxh6 $18) 16. Qxe6+
+Kg6 17. g4 Be4 (17... Bxf3 {andert nichts am Ausgang der Partie} 18. Bxf5#) 18.
+Nh4# 1-0
+
+[Event "019 Zuerich ct"]
+[Site "Zuerich"]
+[Date "1953.??.??"]
+[Round "14"]
+[White "Averbakh, Yuri L"]
+[Black "Kotov, Alexander"]
+[Result "0-1"]
+[ECO "A55"]
+[PlyCount "102"]
+[EventDate "1953.??.??"]
+[Source "ChessBase"]
+
+1. d4 Nf6 2. c4 d6 3. Nf3 Nbd7 4. Nc3 e5 5. e4 Be7 6. Be2 O-O 7. O-O c6 8. Qc2
+Re8 9. Rd1 Bf8 10. Rb1 a5 11. d5 Nc5 12. Be3 Qc7 13. h3 Bd7 14. Rbc1 g6 15. Nd2
+Rab8 16. Nb3 Nxb3 17. Qxb3 c5 18. Kh2 Kh8 19. Qc2 Ng8 20. Bg4 Nh6 21. Bxd7 Qxd7
+22. Qd2 Ng8 23. g4 f5 24. f3 Be7 25. Rg1 Rf8 26. Rcf1 Rf7 27. gxf5 gxf5 28. Rg2
+f4 29. Bf2 Rf6 30. Ne2 Qxh3+ 31. Kxh3 Rh6+ 32. Kg4 Nf6+ 33. Kf5 Nd7 34. Rg5
+Rf8+ 35. Kg4 Nf6+ 36. Kf5 Ng8+ 37. Kg4 Nf6+ 38. Kf5 Nxd5+ 39. Kg4 Nf6+ 40. Kf5
+Ng8+ 41. Kg4 Nf6+ 42. Kf5 Ng8+ 43. Kg4 Bxg5 44. Kxg5 Rf7 45. Bh4 Rg6+ 46. Kh5
+Rfg7 47. Bg5 Rxg5+ 48. Kh4 Nf6 49. Ng3 Rxg3 50. Qxd6 R3g6 51. Qb8+ Rg8 0-1
+
+[Event "020 Belgrade"]
+[Site "?"]
+[Date "1954.??.??"]
+[Round "?"]
+[White "Gligoric, Svetozar"]
+[Black "Petrosian, Tigran V"]
+[Result "1-0"]
+[ECO "A56"]
+[WhiteElo "2470"]
+[BlackElo "2675"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "71"]
+[EventDate "1954.??.??"]
+
+1. d4 Nf6 {
+Opening = A56 - Altindisch-sehe auch A43, A44 /Old Indian-see also A43,A44} 2.
+c4 c5 3. d5 e5 4. Nc3 d6 5. e4 Nbd7 6. Nf3 a6 7. Be2 Be7 8. O-O O-O 9. Ne1 {
+out of book} Ne8 10. Nd3 Nc7 11. a4 Rb8 12. Be3 Bg5 13. Qd2 Bxe3 14. Qxe3 h6
+15. a5 b5 16. axb6 Nxb6 17. b3 Ra8 (17... Qf6 18. Qg3 $11) 18. f4 exf4 19. Qxf4
+f6 20. Nd1 Qe7 21. Ne3 g5 22. Nf5 Bxf5 {Attacking the backward pawn on e4} (
+22... gxf4 $2 23. Nxe7+ Kf7 24. Nxc8 Rfxc8 25. Nxf4 $18) 23. Qxf5 Qh7 24. Qg4
+Rae8 25. Rf5 Nd7 26. Raf1 Re7 27. b4 cxb4 28. c5 $15 (28. Nxb4 $5 Ne5 29. Qg3
+$11) 28... h5 $11 (28... dxc5 29. d6 h5 30. Qxh5 Qxh5 31. Bxh5 $16) 29. Qg3
+Rxe4 30. c6 $17 (30. Bxh5 a5 31. c6 $16 (31. Qxd6 Nb5 32. Bg6 Nxd6 33. Bxh7+
+Kxh7 34. cxd6 Kg6 $19)) 30... Rxe2 31. Qxd6 Nb5 32. Qxb4 $17 (32. Qxd7 $5 Qxd7
+33. cxd7 $11) 32... Nb8 $14 (32... Rfe8 $142 33. Nc1 Rc2 34. cxd7 Qxd7 $17) 33.
+Rxg5+ Kf7 34. Rxf6+ $3 Kxf6 35. Qxf8+ Kxg5 (35... Qf7 36. Rf5+ $3 Kxf5 37.
+Qxf7+ Ke4 38. Qf3+ Kd4 39. Qxe2 Kxd5 40. Qe5+ Kxc6 41. Qxb8 Nc7 $18) 36. h4+ $1
+(36. h4+ Kxh4 37. Qf4#) 1-0
+
+[Event "021 New York Rosenwald"]
+[Site "New York"]
+[Date "1957.??.??"]
+[Round "?"]
+[White "Byrne, Donald"]
+[Black "Fischer, Robert James"]
+[Result "0-1"]
+[ECO "D97"]
+[PlyCount "82"]
+[EventDate "1957.??.??"]
+[Source "ChessBase"]
+
+1. Nf3 Nf6 2. c4 g6 3. Nc3 Bg7 4. d4 O-O 5. Bf4 d5 6. Qb3 dxc4 7. Qxc4 c6 8. e4
+Nbd7 9. Rd1 Nb6 10. Qc5 Bg4 11. Bg5 Na4 12. Qa3 Nxc3 13. bxc3 Nxe4 14. Bxe7 Qb6
+15. Bc4 Nxc3 16. Bc5 Rfe8+ 17. Kf1 Be6 18. Bxb6 Bxc4+ 19. Kg1 Ne2+ 20. Kf1
+Nxd4+ 21. Kg1 Ne2+ 22. Kf1 Nc3+ 23. Kg1 axb6 24. Qb4 Ra4 25. Qxb6 Nxd1 26. h3
+Rxa2 27. Kh2 Nxf2 28. Re1 Rxe1 29. Qd8+ Bf8 30. Nxe1 Bd5 31. Nf3 Ne4 32. Qb8 b5
+33. h4 h5 34. Ne5 Kg7 35. Kg1 Bc5+ 36. Kf1 Ng3+ 37. Ke1 Bb4+ 38. Kd1 Bb3+ 39.
+Kc1 Ne2+ 40. Kb1 Nc3+ 41. Kc1 Rc2# {mate} 0-1
+
+[Event "022 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Smyslow"]
+[Black "Florian"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "r3r3/pp3pkp/n5p1/q1pP1b2/4n2Q/P1N2N2/1P2BPPP/R4RK1 w - - 0 1"]
+[PlyCount "21"]
+
+1. Ng5 Nxc3 (1... Nxg5 $142 2. Qxg5 $14) 2. Qxh7+ Kf6 3. bxc3 Kxg5 $2 (3...
+Rxe2 4. f4 Rf8 $1 $11 (4... Qc7 5. d6 Qd7 6. Rae1 Bd3 (6... Bg4 $16 7. Ne4+
+Rxe4 (7... Ke6 8. Qg7) 8. Rxe4 Qxd6 9. f5 (9. Qh4+ $143 Kg7 10. Qxg4 (10. Rfe1
+Bf5)) 9... Bxf5 10. g4) (6... Ree8 7. g4 Bxg4 (7... Rh8 8. Ne6 Qxd6 9. Qg7+ Ke7
+10. gxf5 Kd7 11. Rd1 Qxd1 12. Qxf7+ Kc6 13. Rxd1) 8. Re5 Bf3 (8... Rxe5 9.
+fxe5+ Kxe5 10. Nxf7+ Kd5 11. c4+) 9. Rxf3 Rxe5 10. fxe5+ Kxg5 11. h4+ Kg4 12.
+Rxf7 Qe6 13. Rf6 Qe8 14. Qxb7 Qxe5 15. Rxg6+ Kf4 16. Qf7+ Ke4 17. Qc4+ Ke3 18.
+Re6 Qxe6 19. Qxe6+) (6... Rae8 7. Rxe2 Rxe2 8. Qh8#) 7. Rxe2 Bxe2 8. Re1 Re8 9.
+Rxe2 Rxe2 ({otherwise} 9... -- 10. Re5 {and mate.} Rxe5 11. Qh8+ Kf5 12. Qxe5+
+Kg4 13. h3+ Kh4 14. Nf3+ Kg3 15. f5#) 10. Qh8+ Kf5 11. Qh3+ Kxf4 12. Qxd7 {
+and white wins.}) 5. Qh4 Kg7 6. Qh7+ Kf6 7. Qh6 Rfe8 8. Nh7+ Ke7 9. Qg7 (9.
+Qg5+ Kd6 10. Qf6+ Kxd5 11. Rfd1+ Kc4 12. Qxf7+ Kxc3 13. Rac1+ Bc2 (13... Kb2
+14. Qg7+ Ka2 15. Qf7+ Kb2 16. Qxb7+ Kxa3 17. Ra1+ Ra2 18. g4 Bc2 19. Rdc1 (19.
+Qf7 c4 $8 20. Qxc4 Qc5+ 21. Qxc5+ Nxc5 22. Rxa2+ Kxa2 $19) 19... Nb4 20. Rxa2+
+$11 Kxa2 21. Qf7+ Kb2 22. Rxc2+ Nxc2 23. Qxe8 Qa1+ 24. Kf2 Qh1 25. Kg3 Qg1+ 26.
+Kh3 Qf1+ 27. Kg3 Qg1+ $11 28. Kh4 Qxh2+ 29. Kg5 Qxh7 30. Qb5+)) 9... Kd6 10.
+Qf6+ (10. Nf6 R8e7 11. Ng8 R7e3 12. Qxf7 Rxc3 13. Qf8+ Kxd5 14. Ne7+ Rxe7 15.
+Rfd1+ Rd3 16. Rxd3+ Bxd3 17. Qxe7 Qc7 $15) 10... Kxd5 11. Rfd1+ Kc4 12. Qxf7+
+Kxc3 13. Rdc1+ Bc2 14. Rxc2+ Kxc2 15. Qa2+ Kd3 16. Rd1+ Rd2 17. Qb1+ Kc4 18.
+Qc1+ Kd3 19. Qb1+ $11) (3... Rh8 4. Qxf7+ Kxg5 5. Qg7 Kf4 6. Rae1 -- (6... Ke4
+7. Bc4+ Kf4 8. g3+ Kg5 (8... Kg4 9. Kg2 Rae8 10. f3+ Kh5 11. Rxe8 Rh6 12. g4+
+Bxg4 13. fxg4+ Kxg4 14. Be2+ Kg5 15. Qf6#) 9. Qe7+ Kh6 10. Qh4+ Kg7 11. Re7+
+Kg8 12. d6+ Be6 13. Bxe6+ Kf8 14. Qxh8#) 7. g3+ Ke4 8. f4) 4. Qg7 Re4 5. f4+
+Rxf4 6. Rxf4 Kxf4 7. Rf1+ Ke3 8. Qe5+ Kd2 9. Bc4 Qxc3 (9... Re8 10. Rf2+ Kd1
+11. Bb3+ Bc2 12. Qxe8 Qxc3 13. Rf1+ Kd2 14. Qe1+ Kd3 15. Rf3+ Kd4 16. Qxc3+ Ke4
+17. Qe3#) 10. Rf2+ Kc1 11. Qxc3+ 1-0
+
+[Event "022a Art of Attack"]
+[Site "?"]
+[Date "1938.??.??"]
+[Round "?"]
+[White "Belavenets, S."]
+[Black "Chistiakov, A."]
+[Result "0-1"]
+[ECO "C12"]
+[PlyCount "44"]
+[EventDate "1938.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. Bg5 Bb4 5. e5 h6 6. Bd2 Bxc3 7. bxc3 Ne4 8. Qg4
+g6 9. Bd3 Nxd2 10. Kxd2 c5 11. Nf3 Nc6 12. Rhb1 Qc7 13. Qh4 Bd7 14. Qf6 Rg8 15.
+h4 Rc8 16. h5 gxh5 17. Qxh6 cxd4 18. cxd4 Nxd4 19. Nxd4 Qc3+ 20. Ke3 Rc4 21.
+Qf4 Rg4 22. Ne2 Re4+ 0-1
+
+[Event "023 Art of Attack"]
+[Site "Venice"]
+[Date "1948.??.??"]
+[Round "?"]
+[White "Tartakower, Saviely"]
+[Black "Euwe, Max"]
+[Result "0-1"]
+[ECO "C53"]
+[PlyCount "84"]
+[EventDate "1948.??.??"]
+[Source "ChessBase"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Bb6 5. d4 Qe7 6. O-O d6 7. h3 Nf6 8. Re1
+O-O 9. Na3 Nd8 10. Bf1 Ne8 11. Nc4 f6 12. a4 c6 13. Nxb6 axb6 14. Qb3+ Ne6 15.
+Qxb6 g5 16. Bc4 h6 17. h4 Kh7 18. hxg5 hxg5 19. dxe5 dxe5 20. Be3 Rh8 21. g3
+Kg6 22. Kg2 Nf4+ 23. gxf4 Bh3+ 24. Kg3 (24. Kg1 gxf4 25. Bc5 (25. Bxf4 exf4 (
+25... Qg7 26. Bg3) 26. Nh2 Qg7 27. Kh1 Bg4 28. Kg2 Rxh2+ 29. Kxh2 Nd6 $1 30.
+Rh1 Nxc4 31. Qb4 Nd2 32. Kg1 Rh8 33. Rxh8 Qxh8 $19) 25... Qg7 {/\ Kh6, Qg2#}
+26. Kh1 (26. Ng5 Kxg5) (26. -- Kh6+ 27. Kh2 Qg2#) 26... Bf1+ 27. Nh2 Qh6 {
+and mate}) 24... gxf4+ 25. Bxf4 Qd7 26. Nh2 exf4+ 27. Kxf4 Rh4+ 28. Ke3 Bg2 29.
+Nf3 Rxe4+ 30. Kxe4 Nd6+ 31. Kd3 Qf5+ 32. Kd4 Qf4+ 33. Kd3 Qxc4+ 34. Kc2 Bxf3
+35. b3 Be4+ 36. Kb2 Qd3 37. Rg1+ Kf7 38. Rac1 Qd2+ 39. Ka3 Nc4+ 40. bxc4 Rxa4+
+41. Kxa4 Qa2+ 42. Kb4 Qb2+ 0-1
+
+[Event "024 Art of Attack"]
+[Site "Wien"]
+[Date "1898.??.??"]
+[Round "?"]
+[White "Chigorin, Mikhail"]
+[Black "Caro, Horatio"]
+[Result "1-0"]
+[ECO "C29"]
+[PlyCount "71"]
+[EventDate "1898.??.??"]
+[Source "ChessBase"]
+
+1. e4 e5 2. Nc3 Nf6 3. f4 d5 4. d3 Bb4 5. fxe5 Nxe4 6. dxe4 Qh4+ 7. Ke2 Bxc3 8.
+bxc3 Bg4+ 9. Nf3 dxe4 10. Qd4 Bh5 11. Ke3 Bxf3 12. Bb5+ c6 13. gxf3 Qh6+ 14.
+Kxe4 Qg6+ 15. Ke3 cxb5 16. Ba3 Nc6 17. Qd5 Qxc2 18. Rac1 Qf5 19. Rhe1 Rd8 20.
+Qxb5 a6 21. Qb1 Qg5+ 22. f4 Qg2 23. Bd6 Qh3+ 24. Ke4 f5+ 25. Kd5 Qg2+ (25...
+Rc8 $1 26. Qxb7 (26. Kc4 g6 27. Rc2 (27. Rcd1 Nd4+ 28. Bc5 Ne6 29. Rd5) (27.
+Red1 Qe3) (27. Kb3 Qxh2 28. Rc2 Qxf4 29. Rce2 Na5+ 30. Kc2) 27... b5+ 28. Kb3
+Nd4+) (26. Kc5 Qxh2 27. Kb6 Qxf4 28. Kxb7 (28. Qb3 Qf2+ 29. Bc5 Qxc5+ 30. Kxc5
+Na5+ $19) 28... Qc4 29. Kxc8 Nb4+ 30. Kb7 Qb5+ 31. Ka7 Nc6+ 32. Ka8 Kd7+ 33.
+Bb8 Rxb8#) 26... Qg2+ 27. Kc5 Ne7+ 28. Kb6 Rc6+ 29. Ka7 Qf2+ 30. Ka8 O-O+) 26.
+Kc4 b5+ 27. Kd3 Qf3+ 28. Kc2 Qf2+ 29. Kb3 Rc8 30. Rc2 Qxf4 31. Kb2 Na5 32. Ka1
+Qc4 33. e6 Nc6 34. Qd1 h5 35. Rg1 Rh7 36. Rxg7 1-0
+
+[Event "024a Art of Attack"]
+[Site "?"]
+[Date "1872.??.??"]
+[Round "?"]
+[White "Hamppe"]
+[Black "Meitner, P."]
+[Result "1/2-1/2"]
+[ECO "C25"]
+[BlackElo "2330"]
+[PlyCount "35"]
+[EventDate "1872.??.??"]
+
+1. e4 e5 2. Nc3 Bc5 3. Na4 Bxf2+ 4. Kxf2 Qh4+ 5. Ke3 Qf4+ 6. Kd3 d5 7. Kc3 Qxe4
+8. Kb3 Na6 9. a3 Qxa4+ 10. Kxa4 Nc5+ 11. Kb5 a5 12. Kxc5 Ne7 13. Bb5+ Kd8 14.
+Bc6 b6+ 15. Kb5 Nxc6 16. Kxc6 Bb7+ 17. Kb5 Ba6+ 18. Kc6 1/2-1/2
+
+[Event "025 Art of Attack"]
+[Site "?"]
+[Date "1859.??.??"]
+[Round "?"]
+[White "Morphy, P."]
+[Black "Barnes, T."]
+[Result "0-1"]
+[ECO "C42"]
+[WhiteElo "2690"]
+[BlackElo "2410"]
+[PlyCount "76"]
+[EventDate "1859.??.??"]
+
+1. e4 e5 2. Nf3 Nf6 3. Bc4 Nxe4 4. Nc3 Nxc3 5. dxc3 f6 6. O-O Qe7 7. Nh4 d6 8.
+Qh5+ Kd8 9. f4 Be6 10. Bxe6 Qxe6 11. fxe5 dxe5 12. Ng6 Bc5+ 13. Kh1 Re8 14.
+Qxh7 Qg8 15. Qh4 Nd7 16. b4 Bd6 17. Bd2 Qf7 18. Qg4 Qe6 19. Qe4 Nb6 20. Qxb7
+Qg4 21. a4 Rc8 22. Rad1 Qxg6 23. Be3 Nc4 24. Qc6 Qf7 25. Bxa7 e4 26. Rd4 Qh5
+27. Rf4 e3 28. g4 e2 29. gxh5 e1=Q+ 30. Kg2 Re2+ 31. Kh3 f5 32. Qxc4 Qf1+ 33.
+Kh4 Rxh2+ 34. Kg5 Qg2+ 35. Rg4 fxg4 36. Qf7 Qc6 37. b5 Qd7 38. Rxd6 Qxd6 0-1
+
+[Event "026 Art of Attack"]
+[Site "?"]
+[Date "1845.??.??"]
+[Round "?"]
+[White "Michelet"]
+[Black "Kieseritzky"]
+[Result "1-0"]
+[ECO "C37"]
+[PlyCount "71"]
+[EventDate "1845.??.??"]
+[Source "Check Computers"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 g4 5. Ne5 Qh4+ 6. Kf1 f3 7. d4 Nf6 8. Nc3
+Bg7 9. g3 Qh3+ 10. Kf2 d6 11. Nxf7 Rf8 12. Ng5 Qg2+ 13. Ke3 Bh6 14. Kd3 Nc6 15.
+a3 Bxg5 16. Bxg5 Nxe4 17. Qe1 Bf5 18. Nxe4 f2 19. Qe3 Kd7 20. Bd5 Rae8 21. Raf1
+Bxe4+ 22. Bxe4 Rf3 23. Qxf3 gxf3 24. Bf5+ Re6 25. d5 Ne5+ 26. Ke4 h5 27. dxe6+
+Ke8 28. Bf6 h4 29. Bxe5 dxe5 30. Kxe5 hxg3 31. h3 Qxh1 32. Kf6 Qxf1 33. Bg6+
+Kd8 34. e7+ Kd7 35. e8=Q+ Kd6 36. Qe6+ 1-0
+
+[Event "027 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Artificial 0-0"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "r1bqk2r/ppppbppp/2n2n2/4p3/2B1P3/2N2N2/PPPP1PPP/R1BQ1RK1 b kq - 0 1"]
+[PlyCount "9"]
+
+1... Nxe4 2. Bxf7+ Kxf7 3. Nxe4 d5 4. Ng3 Rf8 5. d3 Kg8 *
+
+[Event "028 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Delay of castling"]
+[Black "[+4844.88e1e8]"]
+[Result "*"]
+[SetUp "1"]
+[FEN "r3k2r/pppbq1pp/2n1p3/3pPp2/3P1P2/2PB1NP1/PP5P/R2QK2R w KQkq - 0 1"]
+[PlyCount "6"]
+
+1. Qe2 (1. O-O $6 O-O) 1... Nd8 2. h3 Nf7 3. Qd2 O-O-O *
+
+[Event "028a Wch13"]
+[Site "Buenos Aires"]
+[Date "1927.??.??"]
+[Round "6"]
+[White "Alekhine, Alexander"]
+[Black "Capablanca, Jose Raul"]
+[Result "1/2-1/2"]
+[ECO "D67"]
+[PlyCount "79"]
+[EventDate "1927.??.??"]
+[Source "ChessBase"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 d5 4. Bg5 Nbd7 5. e3 Be7 6. Nf3 O-O 7. Rc1 c6 8. Bd3
+dxc4 9. Bxc4 Nd5 10. Bxe7 Qxe7 11. Ne4 Qb4+ 12. Qd2 Qxd2+ 13. Kxd2 Rd8 14. Rhd1
+N5f6 15. Nxf6+ Nxf6 16. Bb3 Kf8 17. Ke2 Ke7 18. Ne5 Bd7 19. f3 Be8 20. e4 Nd7
+21. Nc4 Nb6 22. Ne3 Rd7 23. a4 Rad8 24. a5 Na8 25. d5 cxd5 26. exd5 Rc7 27.
+dxe6 Rxd1 28. Nf5+ Kf6 29. Rxd1 fxe6 30. Nd6 Bg6 31. Rd4 Rc5 32. Rb4 b6 33.
+axb6 Nxb6 34. Kd2 Ke7 35. Ne4 Bxe4 36. Rxe4 Nd5 37. Bxd5 Rxd5+ 38. Kc3 a5 39.
+Rc4 h5 40. h4 1/2-1/2
+
+[Event "028b Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Slave Defence Variation"]
+[Black "?"]
+[Result "*"]
+[ECO "D10"]
+[PlyCount "11"]
+
+1. d4 d5 2. c4 c6 3. Nc3 dxc4 4. e4 e5 5. dxe5 Qxd1+ 6. Kxd1 $1 *
+
+[Event "029 Art of Attack"]
+[Site "?"]
+[Date "1500.??.??"]
+[Round "?"]
+[White "from Lucena"]
+[Black "?"]
+[Result "0-1"]
+[SetUp "1"]
+[FEN "rn2k2r/4bnpp/p1ppq3/4p3/PP2Pp2/2N2N1P/1BP2PP1/R2Q1RK1 b kq - 0 1"]
+[PlyCount "35"]
+
+1... g5 2. Nh2 h5 3. f3 $2 (3. b5 $1) 3... Nh6 4. b5 Rg8 5. Qe2 $2 (5. bxc6
+$142 Nxc6 6. Qd5 Qd7 7. Ba3) 5... g4 6. fxg4 hxg4 7. Nxg4 $2 (7. Kh1 gxh3 8.
+Qh5+ $1) 7... Nxg4 8. hxg4 Rxg4 9. bxc6 Nxc6 10. Nd5 Bd8 11. c4 $2 (11. Ra3)
+11... Ra7 12. Rf2 Rh7 13. Qd1 $2 Qh6 (13... Rgh4 $142 14. Rf1 Qg6 {and now?}
+15. Kf2 $145 (15. Qf3 $145 Qg3 16. Qxg3 fxg3 17. Rf8+ Kxf8 18. Kf1 {
+escapes just immediate mate.}) 15... Qg3+ 16. Ke2 Qxg2+ 17. Rf2 (17. Ke1 Rh1
+18. Qe2 Rxf1+ 19. Qxf1 Bh4+ 20. Kd1 Qxf1+) 17... f3+ 18. Ke3 Bg5+ 19. Kd3 Qxf2)
+14. Kf1 Qh5 15. Qf3 Qg6 16. Qd3 Rh1+ $2 (16... Rg3 17. Qc2 Qg4 (17... Rh1+ $145
+$1 18. Ke2 Qg4+ 19. Kd2 Rxg2 20. Rxh1 (20. Kc3 Rh3+ 21. Qd3 Rxd3+ 22. Kxd3 Qg3+
+23. Kd2 Rxf2+ 24. Ke1 Qg1#) (20. Rxg2 Ba5+ 21. Nb4 Bxb4+ 22. Bc3 Qxg2+ 23. Kd3
+Rh3#) 20... Rxf2+ 21. Kc1 Rxc2+ 22. Kxc2 Qg2+ 23. Kb3 Qxh1) 18. Ke1 Ba5+) 17.
+Ke2 Rxa1 18. Bxa1 Rxg2 0-1
+
+[Event "029a Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Greco"]
+[Black "?"]
+[Result "*"]
+[ECO "C50"]
+[PlyCount "36"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. O-O Nf6 5. Re1 O-O 6. c3 Qe7 $2 (6... d6) 7.
+d4 exd4 8. e5 $1 Ng4 9. cxd4 $2 (9. Bg5 $1 Qe8 10. cxd4) 9... Nxd4 $1 10. Nxd4
+Qh4 11. Be3 (11. Nf3 $4 Qxf2+ 12. Kh1 Qg1+ 13. Nxg1 Nf2#) 11... Qxh2+ 12. Kf1
+Qh1+ $6 (12... Nxe5 13. -- d6) 13. Ke2 Qxg2 14. Rg1 Nxe3 15. Kxe3 $2 (15. Rxg2
+Nxd1 16. Nf5 d5 $1 (16... Nxb2 17. Nh6+ Kh8 18. Nxf7+) 17. Nxg7 Bh3 $1 18. Rg3
+Bxf2 19. Rxh3 dxc4 20. Nd2) 15... Bxd4+ 16. Kxd4 Qxf2+ 17. Kc3 Qe3+ 18. Bd3
+Qxe5+ $19 *
+
+[Event "030 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "7k/7B/7Q/8/8/8/8/K7 w - - 0 1"]
+[PlyCount "5"]
+
+1. Bg6+ (1. Bf5+ Kg8 2. Be6#) 1... Kg8 2. Qh7+ Kf8 3. Qf7# 1-0
+
+[Event "031 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "6k1/4R3/4P3/7N/8/8/8/K7 w - - 0 1"]
+[PlyCount "3"]
+
+1. Nf6+ Kh8 (1... Kf8 2. Rf7#) 2. Rh7# 1-0
+
+[Event "032 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Two knights mate"]
+[Black "(can't be forced)"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "5k2/3K4/4N2N/8/8/8/8/8 b - - 0 1"]
+[PlyCount "0"]
+
+ 1-0
+
+[Event "033 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Back rank mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "3R2k1/5ppp/8/8/8/8/8/6K1 b - - 0 1"]
+[PlyCount "0"]
+
+ 1-0
+
+[Event "034 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "4r1k1/5p2/4pPp1/6Q1/8/6K1/8/8 b - - 0 1"]
+[PlyCount "6"]
+
+1... Kh7 (1... -- 2. Qh6 -- 3. Qg7#) 2. Qh4+ Kg8 3. Qh6 -- 4. Qg7# 1-0
+
+[Event "035 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Damiano's Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "4qrk1/6p1/5pP1/8/8/8/4P3/K2Q1R1R w - - 0 1"]
+[PlyCount "9"]
+
+1. Rh8+ Kxh8 2. Rh1+ Kg8 3. Rh8+ Kxh8 4. Qh1+ Kg8 5. Qh7# 1-0
+
+[Event "036 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "[+1030.13a1g8]"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "5bk1/6p1/3pp1P1/Q7/8/8/8/K7 w - - 0 5"]
+[PlyCount "5"]
+
+5. Qh5 Be7 6. Qh7+ Kf8 7. Qh8# 1-0
+
+[Event "037 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Always mate"]
+[Black "Black to move"]
+[Result "*"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "5rk1/5p2/8/8/8/8/P6Q/K6R b - - 0 1"]
+[PlyCount "4"]
+
+1... Kg7 (1... f6 2. Qh7#) (1... Ra8 2. Qh8#) 2. Qh6+ Kg8 3. Qh7# *
+
+[Event "037a Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Not immediately mate"]
+[Black "Black to move"]
+[Result "*"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "5rk1/5pp1/8/8/8/8/P6Q/K6R b - - 0 1"]
+[PlyCount "3"]
+
+1... f6 2. Qh8+ (2. Qh7+ Kf7) 2... Kf7 *
+
+[Event "037b Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Not immediately mate"]
+[Black "Black to move"]
+[Result "*"]
+[SetUp "1"]
+[FEN "5rk1/5p2/6p1/8/8/8/P6Q/K6R b - - 0 1"]
+[PlyCount "3"]
+
+1... Kg7 2. Qh7+ Kf6 *
+
+[Event "038 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Always mate"]
+[Black "?"]
+[Result "1-0"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "5r1k/4pppB/8/7Q/8/8/P7/K7 b - - 0 1"]
+[PlyCount "8"]
+
+1... g6 2. Qh6 $1 (2. Bxg6+ $2 Kg7 3. Qh7+ Kf6 {and escapes.}) 2... Rd8 (2...
+f6 3. Bxg6+ Kg8 4. Qh7#) 3. Bxg6+ Kg8 4. Qh7+ Kf8 5. Qxf7# 1-0
+
+[Event "039 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Smothered mate"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "4r2k/6pp/5n2/3Q2N1/8/8/8/K7 w - - 0 1"]
+[PlyCount "7"]
+
+1. Nf7+ Kg8 2. Nh6+ Kh8 3. Qg8+ Rxg8 4. Nf7# *
+
+[Event "040 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "5rk1/5pp1/8/6NQ/8/8/P7/K7 b - - 0 1"]
+[PlyCount "6"]
+
+1... Rb8 2. Qxf7+ Kh8 3. Ne6 Rg8 4. Qh5# 1-0
+
+[Event "041 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "*"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "6k1/3N1p1p/6p1/4Q3/8/8/8/K7 w - - 0 1"]
+[PlyCount "5"]
+
+1. Nf6+ Kh8 (1... Kg7 2. Ne8+ Kh6 3. Qf4+ g5 4. Qf6+ Kh5 5. Ng7+) 2. Nh5+ Kg8
+3. Qg7# *
+
+[Event "042 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Greco's mate"]
+[Black "?"]
+[Result "*"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "5rk1/5ppp/8/3B2NQ/8/8/P7/K7 b - - 0 1"]
+[PlyCount "6"]
+
+1... h6 (1... Rd8 2. Qxf7+ Kh8 3. Qg8+ Rxg8 4. Nf7#) 2. Bxf7+ Kh8 (2... Rxf7 3.
+Qxf7+ Kh8 4. Qf8#) 3. Qg6 hxg5 4. Qh5# *
+
+[Event "043 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[Annotator "go"]
+[SetUp "1"]
+[FEN "5rk1/3b1p1p/2p1pB2/7R/8/8/P7/K7 b - - 0 1"]
+[PlyCount "8"]
+
+1... Rc8 {RR: (??)} (1... Ra8 $145 $1 2. Rg5+ Kf8 3. Rg7 Bc8 4. Rxh7 Ke8 5.
+Rh8+ Kd7 {and Black has escaped.}) 2. Rg5+ Kf8 3. Rg7 Ra8 4. Rxh7 Ke8 5. Rh8#
+1-0
+
+[Event "044 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Morphy's mate"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "5rk1/5ppp/5b2/5Q2/8/8/1B6/R6K w - - 0 1"]
+[PlyCount "5"]
+
+1. Qxf6 gxf6 2. Rg1+ Kh8 3. Bxf6# *
+
+[Event "045 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Morphy's discovered mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "5rk1/5ppp/8/4B1R1/8/8/8/7K w - - 0 1"]
+[PlyCount "9"]
+
+1. Rxg7+ Kh8 2. Rxf7+ Kg8 3. Rg7+ Kh8 4. Rg6+ Rf6 5. Bxf6# 1-0
+
+[Event "046 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "6k1/6p1/3R2N1/5P2/8/8/8/K7 w - - 0 1"]
+[PlyCount "3"]
+
+1. Rd8+ Kf7 2. Rf8# 1-0
+
+[Event "047 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Anastasia's Mate"]
+[Black "?"]
+[Result "*"]
+[SetUp "1"]
+[FEN "5rk1/5ppp/8/2RN3R/8/8/P7/K7 w - - 0 1"]
+[PlyCount "5"]
+
+1. Ne7+ Kh8 2. Rxh7+ Kxh7 3. Rh5# *
+
+[Event "048 Art of Attack"]
+[Site "Warsaw"]
+[Date "????.??.??"]
+[Round "?"]
+[White "mate"]
+[Black "[+1400.23a2g8]"]
+[Result "*"]
+[SetUp "1"]
+[FEN "5rk1/5p1p/5Pp1/4Q3/8/P7/K7/R7 w - - 0 1"]
+[PlyCount "7"]
+[EventDate "1935.??.??"]
+
+1. Qg5 Kh8 2. Qh6 Rg8 3. Qxh7+ Kxh7 4. Rh1# *
+
+[Event "050 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Epauletten-Matt"]
+[Black "[+1600.00a1f8]"]
+[Result "*"]
+[SetUp "1"]
+[FEN "4rkr1/8/8/4Q3/8/8/8/K7 w - - 0 1"]
+[PlyCount "1"]
+
+1. Qf6# *
+
+[Event "057 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Legals Mate"]
+[Black "?"]
+[Result "*"]
+[ECO "C41"]
+[Annotator "G. Ossimitz"]
+[PlyCount "13"]
+
+1. e4 e5 2. Nf3 d6 3. Bc4 Bg4 4. Nc3 g6 $2 5. Nxe5 Bxd1 $4 (5... Be6 6. Bxe6
+dxe5 7. Bb3 $16) (5... dxe5 6. Qxg4 Nf6 $16) 6. Bxf7+ Ke7 7. Nd5# *
+
+[Event "058 Art of Attack"]
+[Site "?"]
+[Date "1859.??.??"]
+[Round "?"]
+[White "Anderssen, Adolf"]
+[Black "Lange, Max"]
+[Result "0-1"]
+[ECO "C61"]
+[Annotator "go"]
+[PlyCount "42"]
+[EventDate "1859.??.??"]
+[Source "Check Computers"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 Nd4 4. Nxd4 exd4 5. Bc4 Nf6 6. e5 d5 7. Bb3 Bg4 8.
+f3 Ne4 9. O-O d3 10. fxg4 Bc5+ 11. Kh1 Ng3+ 12. hxg3 Qg5 13. Rf5 h5 14. gxh5 (
+14. Rxg5 hxg4+ 15. Rh5 Rxh5#) 14... Qxf5 15. g4 Rxh5+ 16. gxh5 Qe4 17. Qf3 Qh4+
+18. Qh3 Qe1+ 19. Kh2 Bg1+ 20. Kh1 Bf2+ 21. Kh2 Qg1# 0-1
+
+[Event "059 Art of Attack"]
+[Site "?"]
+[Date "1910.??.??"]
+[Round "?"]
+[White "Reti, R."]
+[Black "Tartakower, Saviely"]
+[Result "1-0"]
+[ECO "B15"]
+[WhiteElo "2550"]
+[BlackElo "2560"]
+[PlyCount "21"]
+[EventDate "1910.??.??"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Qd3 e5 6. dxe5 Qa5+ 7. Bd2 Qxe5 8.
+O-O-O Nxe4 9. Qd8+ Kxd8 10. Bg5+ Ke8 11. Rd8# 1-0
+
+[Event "061 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Mate on g7"]
+[Black "[+4881.77g1g8]"]
+[Result "*"]
+[Annotator "G. Ossimitz"]
+[SetUp "1"]
+[FEN "r3r1k1/2p1bppp/pq1pb3/1p5N/4P3/P2Q3P/1PP2PP1/R1BR1BK1 w - - 0 1"]
+[PlyCount "11"]
+
+1. Bh6 g6 (1... gxh6 2. Qc3 f6 (2... Bf8 3. Nf6+ Kh8 4. Nxe8+ Kg8 5. Nf6+ Kh8
+6. Nh5+ Kg8 7. Rd3 Qc5 (7... Bg4 8. Rg3 f5 9. exf5 Kf7 10. Qf6+ Ke8 11. Rxg4)
+8. Rg3+ Qg5 9. Nf6+ Kh8 10. Rxg5 hxg5) 3. Qg3+ Bg4 4. Qxg4+ Kf7 5. Qg7+ Ke6 6.
+Nf4+ Kd7 7. Nd5 Qc5 8. Nxf6+ Kc6 9. Nxe8 Rxe8) 2. Qc3 f6 3. Nxf6+ Bxf6 4. Qxf6
+Qxf2+ 5. Qxf2 Re7 6. Qg3 *
+
+[Event "062 Art of Attack"]
+[Site "?"]
+[Date "1914.??.??"]
+[Round "?"]
+[White "Coria, V."]
+[Black "Capablanca, J."]
+[Result "0-1"]
+[ECO "C49"]
+[BlackElo "2725"]
+[PlyCount "38"]
+[EventDate "1914.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Nc3 Nf6 4. Bb5 Bb4 5. O-O O-O 6. d3 d6 7. Bg5 Bxc3 8.
+bxc3 Qe7 9. Nd2 h6 10. Bh4 Nd8 11. d4 Ne6 12. dxe5 dxe5 13. Bd3 Nf4 14. Nc4 Rd8
+15. Bxf6 Qxf6 16. Qd2 Bh3 17. Ne3 Bxg2 18. Nf5 Bxe4 19. Ng3 Nh3# 0-1
+
+[Event "063 Art of Attack"]
+[Site "?"]
+[Date "1923.??.??"]
+[Round "?"]
+[White "Field"]
+[Black "Tenner"]
+[Result "0-1"]
+[ECO "C58"]
+[PlyCount "34"]
+[EventDate "1923.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Nf6 4. Ng5 d5 5. exd5 Na5 6. d3 h6 7. Nf3 e4 8. Qe2
+Nxc4 9. dxc4 Bc5 10. O-O O-O 11. Nfd2 Bg4 12. Qe1 Qd7 13. Nb3 Bf3 14. Bf4 Qg4
+15. Bg3 Nh5 16. Nxc5 Nf4 17. Nxe4 Qh3 0-1
+
+[Event "064 Art of Attack"]
+[Site "?"]
+[Date "1943.??.??"]
+[Round "?"]
+[White "Boleslavsky, I."]
+[Black "Ufimtsev, A."]
+[Result "0-1"]
+[ECO "C10"]
+[WhiteElo "2600"]
+[PlyCount "52"]
+[EventDate "1943.??.??"]
+
+1. e4 e6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Nxf6+ gxf6 6. Nf3 b6 7. Bb5+ c6 8.
+Bc4 Ba6 9. Bb3 Qc7 10. c4 Nd7 11. O-O O-O-O 12. Qe2 Bd6 13. a4 Rdg8 14. a5 c5
+15. axb6 Qxb6 16. Be3 Bb7 17. dxc5 Nxc5 18. Bd1 Rg4 19. Qd2 Ne4 20. Qa5 Rhg8
+21. Ne1 Rxg2+ 22. Nxg2 Nd2 23. Qd5 Bxd5 24. cxd5 Qxb2 25. Bxd2 Qxa1 26. Bf3
+Bxh2+ 0-1
+
+[Event "064a Art of Attack"]
+[Site "?"]
+[Date "1909.??.??"]
+[Round "?"]
+[White "Vygodchikov"]
+[Black "Alekhine, Alexander"]
+[Result "0-1"]
+[ECO "C78"]
+[BlackElo "2690"]
+[PlyCount "64"]
+[EventDate "1909.??.??"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Bc5 6. Nxe5 Nxe5 7. d4 Nxe4 8.
+Re1 Be7 9. Rxe4 Ng6 10. Nc3 O-O 11. Nd5 Bd6 12. Qf3 f5 13. Bb3 Kh8 14. Re2 f4
+15. c4 c6 16. c5 Bb8 17. Nb6 d5 18. Nxa8 Nh4 19. Qc3 f3 20. Re5 Bxe5 21. dxe5
+Nxg2 22. Qd4 Qd7 23. e6 Qxe6 24. Bd2 Qg6 25. Bc2 Qxc2 26. Kh1 Qg6 27. Rg1 Bh3
+28. Nb6 Nf4 29. Rxg6 Bg2+ 30. Rxg2 fxg2+ 31. Kg1 Ne2+ 32. Kxg2 Nxd4 0-1
+
+[Event "064b Art of Attack"]
+[Site "?"]
+[Date "1934.??.??"]
+[Round "?"]
+[White "Alekhine, Alexander"]
+[Black "Lasker, Em"]
+[Result "1-0"]
+[ECO "D67"]
+[WhiteElo "2690"]
+[PlyCount "51"]
+[EventDate "1934.??.??"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Nf3 Be7 5. Bg5 Nbd7 6. e3 O-O 7. Rc1 c6 8. Bd3
+dxc4 9. Bxc4 Nd5 10. Bxe7 Qxe7 11. Ne4 N5f6 12. Ng3 e5 13. O-O exd4 14. Nf5 Qd8
+15. N3xd4 Ne5 16. Bb3 Bxf5 17. Nxf5 Qb6 18. Qd6 Ned7 19. Rfd1 Rad8 20. Qg3 g6
+21. Qg5 Kh8 22. Nd6 Kg7 23. e4 Ng8 24. Rd3 f6 25. Nf5+ Kh8 26. Qxg6 1-0
+
+[Event "065 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Attack on h7"]
+[Black "[+4431.54h2g8]"]
+[Result "*"]
+[Annotator "G. Ossimitz"]
+[SetUp "1"]
+[FEN "4r1k1/5pp1/1p5b/1q4N1/p2PR2P/P5P1/5P1K/Q7 w - - 0 1"]
+[PlyCount "11"]
+
+1. Qb1 Qd7 (1... Qc6 2. d5 Qc8 (2... Rxe4 3. dxc6) 3. Rxe8+ Qxe8 4. Qh7+ Kf8 5.
+d6 Bxg5 6. Qh8#) 2. Re7 (2. Rxe8+ $2 Qxe8 3. Qh7+ Kf8 4. Qh8+ Ke7) 2... Bxg5 (
+2... Rxe7 3. Qh7+ Kf8 4. Qh8#) (2... Qxe7 3. Qh7+ Kf8 4. Qh8#) (2... Qd8 3.
+Qh7+ Kf8 4. Rxf7#) 3. Rxd7 Rd8 4. Rxd8+ Bxd8 5. Qb5 Be7 6. Qxa4 *
+
+[Event "066 Art of Attack"]
+[Site "?"]
+[Date "1946.??.??"]
+[Round "?"]
+[White "Szabo, L."]
+[Black "Kotov, A."]
+[Result "1-0"]
+[ECO "D40"]
+[WhiteElo "2460"]
+[BlackElo "2580"]
+[PlyCount "59"]
+[EventDate "1946.??.??"]
+
+1. d4 Nf6 2. c4 e6 3. Nf3 d5 4. Nc3 c5 5. e3 Nc6 6. a3 Be7 7. dxc5 Bxc5 8. b4
+Bb6 9. Bb2 O-O 10. Be2 dxc4 11. Bxc4 Qe7 12. O-O a6 13. Qc2 Bc7 14. Ng5 Bxh2+
+15. Kh1 h6 16. Nd5 exd5 17. Bxf6 Bf5 18. Qxf5 g6 19. Qxg6+ fxg6 20. Bxd5+ Rf7
+21. Bxe7 hxg5 22. Kxh2 Nxe7 23. Bxf7+ Kxf7 24. Rac1 Nc6 25. Rfd1 Ke6 26. Rc5
+Rh8+ 27. Kg3 Rh5 28. Rdd5 Ne7 29. Rxg5 Rh1 30. Rge5+ 1-0
+
+[Event "069 Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Moeller Attacke"]
+[Black "?"]
+[Result "*"]
+[ECO "C54"]
+[PlyCount "49"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 Nf6 5. d4 exd4 6. cxd4 Bb4+ 7. Nc3 Nxe4 8.
+O-O Bxc3 9. d5 Bf6 10. Re1 Ne7 11. Rxe4 d6 12. Bg5 Bxg5 13. Nxg5 O-O 14. Nxh7
+Kxh7 15. Qh5+ Kg8 16. Rh4 f5 17. Qh7+ (17. g3 Re8 (17... Bd7 18. Re1 Rf6 (18...
+Qe8 19. Qh7+ Kf7 20. Qh5+ Kf6 21. Qf3 g5 22. Rhe4 Rf7 23. g4 Kg6 24. gxf5+ Bxf5
+25. R4e2 Qd7 26. Bd3 Raf8 27. Re6+ Kg7 28. Bxf5 Nxf5 29. Qh5 Rf6 30. Qxg5+ Kf7
+31. Rxf6# {1-0 Puskas,M-Priehoda,V/Presov 1978/MCD (31)}) 19. Rxe7 Qxe7 20.
+Qh8+ Kf7 21. Qxa8 Qe1+ 22. Kg2 f4 23. f3 fxg3 24. hxg3 Qd2+ 25. Kf1 Rxf3+ {
+0-1 Pearsall,A-Dittmann,H/cr 0/CHECK99 (25)}) 18. Re1 Ng6 19. Re6 Bxe6 20. dxe6
+d5 21. Qxg6 Qf6 22. Qxf6 gxf6 23. Bxd5 c6 24. Bb3 Kg7 25. Rf4 Rad8 26. Rxf5 Rd2
+27. g4 Rxb2 28. g5 fxg5 29. Rf7+ Kg6 30. Rxb7 Rxe6 31. Rb8 Ree2 32. Rf8 a5 33.
+Rg8+ Kf5 34. Ra8 Ke4 35. Rxa5 Rxf2 36. Rxg5 Rfd2 37. Kh1 Rxh2+ 38. Kg1 Rhd2 39.
+Kh1 Rb1+ 40. Rg1 Rxg1+ 41. Kxg1 Kd3 {0-1 Schuler-Eckert,D/cr 1934 (41)}) (17.
+Re1 Qe8 (17... Re8 18. Re6 Kf8 19. g3 (19. Be2 Bxe6 20. dxe6 Ng6 21. Qxg6 Qf6
+22. Qxf6+ gxf6 23. Rh7 Kg8 24. Rd7 Rad8 25. Bc4 Kh8 26. Rf7 d5 27. e7 dxc4 28.
+exd8=Q Rxd8 29. Kf1 Rd2 30. Rxc7 Rxb2 31. Rxc4 Rxa2 32. Rc8+ Kg7 33. Rc7+ Kg6
+34. Rxb7 a5 35. Ra7 a4 36. g3 a3 37. Kg2 Ra1 38. Kf3 a2 39. h4 Kh5 40. Kf4 Kg6
+41. h5+ Kxh5 42. Kxf5 Kh6 43. Kxf6 {
+1-0 Euwe,M-Kroone,G/Amsterdam m1 1919/CHECK99 (43)}) 19... c6 20. Rf6+ gxf6 21.
+Qh6+ Kf7 22. Qh7+ Kf8 23. Rh6 Ng8 24. Rg6 Re1+ 25. Kg2 Nh6 26. Rg7 {
+1-0 Ohls-Wagner,H/cr 1929 (26)}) (17... Ng6 18. Rh3 Rf6 (18... f4 19. Re6 Rf6
+20. Qh7+ Kf8 21. Qh8+ Nxh8 22. Rxh8+ Kf7 23. Rxd8 c6 24. Ree8 Bd7 25. dxc6+ Be6
+26. Bxe6+ Rxe6 27. Rxa8 Rxe8 28. Rxe8 Kxe8 29. cxb7 {
+1-0 Euwe,M-O'Hanlon,J/Hastings 1919/EXT 99 (29)}) 19. Qh7+ (19. Rg3 Kf7 (19...
+Ne5 20. f4 Nf7 21. Rge3 Kf8 22. Qe2 Bd7 23. Rb3 Rb8 24. Qf2 b5 25. Be2 c6 26.
+dxc6 Bxc6 27. Qxa7 Qb6+ 28. Qxb6 Rxb6 29. a4 Re6 30. Kf2 Nd8 31. axb5 Bb7 32.
+Rg1 Re4 33. g3 Ne6 34. Bd3 Nc5 35. Bxe4 Nxb3 36. Bxb7 Rxb7 37. g4 Rxb5 38. Ke3
+fxg4 {0-1 Essegern,K-Passler,H/3.DDR-PZ/5 L62/73/4 1973/CHECK99 (38)}) 20. Bb5
+c6 21. dxc6 Qa5 22. Qe2 (22. Bc4+ d5 23. b4 Qd8 24. c7 Qd6 25. Rd1 Be6 26. Bxd5
+Bxd5 27. Rgd3 Re8 28. h4 Qxc7 29. Rxd5 Qc3 30. Rd7+ Kg8 31. Rd8 Qe5 32. Qf3
+Rxd8 33. Rxd8+ Nf8 34. Qb3+ Qe6 35. Qd3 Qe4 {
+0-1 Kopaev,N-Dus Chotimirsky,F/Kiev 1938/EXT 98 (35)}) 22... Re6 23. Re3 Rxe3
+24. Qxe3 Ne5 25. Bc4+ Kf8 26. f4 bxc6 27. fxe5 d5 28. Bb3 Qb6 29. Kf2 Be6 30.
+Rc1 Bd7 31. Kf3 Re8 32. Qc3 g5 {
+1/2-1/2 Essegern,K-Schaller,K/3.DDR-PV/23 L62/72/ 1972/CHECK99 (32)}) 19... Kf7
+20. Re6 c6 21. Rhe3 Bd7 22. Rxf6+ Kxf6 23. Rg3 Be8 24. Qh5 Ke7 25. Qxf5 cxd5
+26. Bxd5 Qc8 27. Qg5+ Kd7 28. Rc3 Qb8 29. Rb3 b6 30. Re3 a5 31. Qf5+ Kc7 32.
+Qc2+ Kd8 33. Rxe8+ Kxe8 34. Qxg6+ Kd8 35. Bxa8 Qxa8 36. Qxg7 {
+1-0 Keres,P-Sachsenmaier/cr 1934 (36)}) (17... Bd7 18. Re6 Ng6 (18... b5 19.
+Be2 Nxd5 20. Rh6 {
+1-0 Haik,A-Gresser Gisela Kahn/Blitz New York USA 1979/CHECK99 (20)}) (18...
+Be8 19. Qh7+ Kf7 20. Rhh6 Ba4 21. b3 Ke8 22. Qxg7 Kd7 23. Rh7 Re8 24. bxa4 a6
+25. Be2 c6 26. Rxd6+ Kc7 27. Rxd8 {
+1-0 Vozka,P-Dufek,J/Usti n.L.-simultanka 1987/CHECK99 (27)}) 19. Qh7+ {
+1-0 Bomberault-Foster,P/Usa 1963 (19)}) 18. Qh7+ Kf7 19. Rh6 Rg8 20. Be2 Ng6
+21. Qxg6+ Kf8 22. Qxe8+ Kxe8 23. Bh5+ Kd8 24. Rh7 g6 25. Bd1 b5 26. Ree7 Re8
+27. Rxe8+ Kxe8 28. Rxc7 Bd7 29. Bc2 Kd8 30. Rc3 Ke7 31. g4 Kf6 32. Rc7 Rc8 33.
+Rxd7 Rxc2 34. Rxd6+ Ke5 35. Rxg6 fxg4 36. Ra6 Rxb2 37. d6 Rd2 38. Kg2 Rxd6 39.
+Rxa7 Kf4 40. Rf7+ Kg5 41. f4+ gxf3+ 42. Kxf3 Rd2 43. Rg7+ Kf5 44. Rg2 Rd3+ 45.
+Kf2 Ra3 46. Kg1 b4 47. h4 b3 48. axb3 Rxb3 49. Kh2 Rb4 50. Kh3 Rb3+) ({B)} 17.
+Rh3 Bd7 (17... Qe8 18. Qh7+ Kf7 19. Be2 Rh8 20. Qxh8 Qxh8 21. Rxh8 Nxd5 22. Bc4
+{1-0 Keres,P-Sachsenmaier/cr 1936/CHECK99 (22)}) (17... f4 18. g4 (18. Qh7+ Kf7
+19. Rf3 (19. Qh5+ g6 (19... Ng6 20. Bd3 Qf6 21. Rf3 Rh8 22. Bxg6+ Kg8 23. Bh7+
+Rxh7 24. Qe8+ Qf8 25. Qa4 g5 26. Rc1 c6 27. dxc6 bxc6 28. Qxc6 Bb7 29. Qc4+ Qf7
+30. Qxf7+ Kxf7 31. Rb3 Kf6 32. f3 Rc8 33. Rd1 d5 {
+0-1 Olszewki,W-Ziemianek,M/cr Krakow ch 1988/CHECK99 (33)}) (19... Kf6 20. Qh4+
+g5 21. Qh6+ Ng6 22. Rh5 Rh8 23. Qxg5+ Kg7 24. Bd3 Qxg5 25. Rxg5 Rh6 26. Rc1 Kf6
+27. Rxg6+ Rxg6 28. Bxg6 Kxg6 29. Rxc7 Kf6 30. f3 b6 31. Rc4 Kf5 32. Rc7 Ke5 33.
+Re7+ Kxd5 34. Re4 Be6 35. Rxf4 Rc8 36. h4 Rc2 37. h5 Ke5 {
+1/2-1/2 Heinzl,G-Hirschhorn,P/Two Game Match 1996/CHECK99 (37)}) (19... Kg8)
+20. Qh7+ Ke8 21. Re1 Bxh3 22. Bb5+ Bd7 23. Qxg6+ Rf7 24. Qg8+ {
+1/2-1/2 Pantaleoni,L-Bertino,G/cr 1987/CHECK99 (24)}) 19... Nf5 20. Rxf4 Qg5
+21. g3 Bd7 22. Bb5 c6 23. dxc6 bxc6 24. Bxc6 Rh8 25. Bxd7 Qxf4 26. Qxh8 Rxh8
+27. gxf4 Nh4 (27... Nd4 28. Bg4 Kf6 29. Rd1 Nf5 30. Rd5 g6 31. Bxf5 gxf5 32.
+Rxd6+ Ke7 33. Ra6 {1-0 Rogers,I-Garcia Gonzales,G/Philadelphia 1986/EXT 98 (33)
+}) 28. Bg4 {1-0 Rogers,I-Garcia,G/World 1986/CHECK99 (28)}) 18... Bxg4 19. Qxg4
+Qc8 20. Qf3 Rf6 21. Bd3 Ng6 22. Qh5 Ne5 23. Qh7+ Kf7 24. Qh5+ Ke7 25. Re1 Qf8
+26. Rxe5+ dxe5 27. Qxe5+ Kd8 28. Bc2 Qe7 29. Rh8+ Rf8 30. Rxf8+ Qxf8 31. Qg5+
+Qf6 {0-1 Campbell,C-Mendozo,I/cr 1946/CHECK99 (31)}) 18. Re1 Rf6 19. Qh7+ Kf7
+20. Rg3 Ng6 21. Re6 Bxe6 (21... a5 22. Rxg6 Rxg6 23. Qxg6+ Kg8 24. Re3 Qf8 25.
+Rb3 Re8 26. Bf1 Re1 27. Rh3 Qe8 28. Qh7+ Kf8 29. Qh8+ Kf7 30. Qh5+ Kf8 31. Qh8+
+Kf7 32. Qh5+ Kf8 33. Qh8+ {
+1/2-1/2 COMP Chessmaster 4000-COMP CM Schroder/CHECK99 (33)}) 22. dxe6+ Kf8 23.
+e7+ Kxe7 24. Qxg7+ Ke8 25. Rxg6 {1-0 Keres,P-Kunerth/cr 1935/CHECK99 (25)}) ({
+C)
+} 17. Be2 $2 Re8 $1 (17... Ng6 18. Qh7+ Kf7 19. Rh6 Rh8 (19... Nf4) (19...
+Nf4 20. Bh5+ Nxh5 21. Qg6+ Kg8 22. Qxh5 gxh6 23. Qg6+ Kh8 24. Qxh6+ Kg8 25.
+Qg6+ Kh8 26. Qh6+ Kg8 27. Qg6+ Kh8 {
+1/2-1/2 Jandecka,T-Sott,P/CZE 1997/EXT 98 (27)}) 20. Qxg6+ Kg8 21. Rxh8+ Kxh8
+22. Rc1 a5 23. Rc3 f4 24. Bd3 Kg8 25. Qh7+ {
+1-0 Rueda,O-Arnaiz,M/Preferente 1992/CHECK99 (25)}) 18. Qh7+ Kf8 19. Rh6 Ng8
+20. Rg6 Qe7 21. h3 (21. Rc1 Qe5 22. Rc3 Re7 23. Bf1 Bd7 24. Rf3 Rae8 25. h4
+Qxb2 26. Bd3 Qa1+ 27. Kh2 Rf7 28. h5 Re1 29. Rf4 Rh1+ 30. Kg3 Qc3 {
+0-1 Sorri,J-Ruotanen,A/cr FI ch 1973/CHECK99 (30)}) 21... Qe5 22. Bh5 Re7 23.
+Rc1 Qf4 24. Rd1 Bd7 25. g3 Qe5 26. Rd3 Qxb2 27. Kg2 Qa1 28. Rf3 Re1 29. g4 Rg1+
+30. Kh2 Rh1+ 31. Kg3 Qe5+ 32. Kh4 Qd4 33. Rf4 Qe5 34. Rf3 Re1 35. gxf5 Re4+ 36.
+Bg4 Ne7 37. f6 Nxg6+ 38. Qxg6 Rxg4+ 39. hxg4 Qh2+ 40. Kg5 Qh6+ 41. Qxh6 gxh6+
+42. Kg6 Ba4 43. f7 Bd1 44. Rh3 Bxg4 45. Rxh6 Ke7 46. Kg7 Rf8 47. Rf6 c6 48. f4
+Bd7 49. dxc6 bxc6 50. f5 d5 51. Re6+ Bxe6 52. f6+ Kd7 53. Kxf8 d4 54. Kg7 Bxf7
+55. Kxf7 d3 56. Kg7 d2 57. f7 d1=Q 58. f8=Q Qg4+ 59. Kh6 Qe6+ 60. Kg5 Qe7+ 61.
+Qxe7+ Kxe7 62. Kf5 Kd6 {0-1 Sorri,J-Lampela,O/cr Finland ch 1969/CHECK99 (62)})
+17... Kf7 18. Rh6 (18. Re1 $6 Ng6 $1 19. Rh6 Qg5 (19... Qf6 20. Re6 Bxe6 21.
+dxe6+ Ke8 22. Rxg6 Qe7 (22... Qxb2 23. Rxg7 Qa1+ 24. Bf1 Qf6 25. e7 Rf7 26.
+Rxf7 Qxf7 27. Qh8+ Kxe7 28. Qxa8 Qxa2 29. Qxb7 Qa5 30. h4 d5 31. Qb5 Qa2 32.
+Qe2+ Qxe2 33. Bxe2 c5 34. Kf1 c4 35. Ke1 a5 36. Kd1 a4 37. Kc1 a3 38. Kb1 c3
+39. Bd3 {1-0 Blauhut,H-Schulz,B/HSG Uni op 1997/CHECK99 (39)}) 23. Rxg7 Qf6 24.
+Rxc7 Rh8 25. Qd7+ Kf8 26. e7+ {1-0 Stratmann,B-Pavanello/Caorle 1986 (26)}) 20.
+Rxg6 (20. Rh5 Qd2 (20... Qf6 21. Re6 Bxe6 22. dxe6+ Ke7 23. Rg5 Rh8 24. Qxg6
+Qxg6 25. Rxg6 Rhg8 26. g4 fxg4 27. Be2 Raf8 28. Bxg4 d5 29. Kf1 c5 30. Ke2 b5
+31. h4 Rd8 32. f4 c4 33. h5 d4 34. f5 c3 35. Kd3 cxb2 36. Kc2 d3+ 37. Kxb2 d2
+38. Kc2 Rd5 39. f6+ Kd6 40. Rxg7 Rc8+ 41. Kb2 d1=N+ 42. Bxd1 Rd2+ 43. Ka3 Rd3+
+44. Bb3 Rxb3+ 45. axb3 Kxe6 46. f7 Rf8 47. h6 Kf6 48. Kb4 a6 49. Ka5 Ke7 50. h7
+{1-0 Thompson,D-Dangremond,L/Dearborn 1992/EXT 97 (50)}) 21. Re6 Qd1+ 22. Bf1
+Bxe6 23. dxe6+ Kf6 24. e7 Rh8 25. Rxf5+ Kxf5 26. Qxg7 Ne5 27. h3 Nf3+ 28. gxf3
+Rhg8 29. Qg4+ Rxg4+ 30. hxg4+ Kf4 {
+0-1 Mares,V-Niessen,H/Bayern 1996/EXT 99 (30)}) 20... Qxg6 21. Re7+ Kf6 22.
+Qh4+ Qg5 23. Qxg5+ Kxg5 24. Rxg7+ Kf6 25. Rxc7 Rf7 26. Rxf7+ Kxf7 27. f4 b5 28.
+Bxb5 Rb8 29. Bc4 Rxb2 30. h3 Rb4 {
+0-1 Abdul Razzak A A-Mansoor,M/ch World cadets (under 1990/CHECK99 (30)}) (18.
+Qh5+ Ng6 19. Rh3 (19. Rd4 Qf6 20. Rad1 Rh8 21. Qe2 Bd7 22. Bb5 Rae8 23. Qc4
+Bxb5 24. Qxb5 Qxd4 25. Rxd4 Re1+ 26. Qf1 Rxf1+ 27. Kxf1 Rh4 28. Rxh4 Nxh4 29.
+g3 Ng6 30. Ke2 Ne7 31. Kd3 Nxd5 32. a3 Ke6 {
+0-1 Frebault Roger 1367 FRA-Kriechel Ben 1519 NE/P-721 1997/CHECK99 (32)})
+19... Rh8 20. Qf3 Ne5 21. Qf4 Rxh3 22. gxh3 g5 23. Qc1 f4 24. Qc2 Kg7 25. Bf1
+Bd7 {0-1 Lehti,J-Solozhenkin,J/Jyvaskyla op 1994/CHECK99 (25)}) 18... Rg8 19.
+Re1 (19. Be2 Kf8 20. Bh5 Nxd5 $19 {
+1-0 Majewski-Dybal/cr ch POL 1992/CHECK99 (31)}) 19... Qf8 (19... f4 20. Bd3
+Kf8 21. Rh4 Nxd5 22. Bc4 Nf6 23. Rxf4 d5 24. Bxd5 Qxd5 25. Rxf6+ Qf7 26. Rxf7+
+Kxf7 27. Qh5+ g6 28. Qd5+ Kg7 29. Re7+ Kh8 30. Qe5+ {
+1-0 Potesta-Roedner/Milan 1970 (30)}) (19... Bd7 20. Be2 (20. Ree6 Bxe6 21.
+dxe6+ Ke8 22. Rg6 d5 23. Rxg7 Qd6 24. Rxg8+ Nxg8 25. Qf7+ Kd8 26. Qxg8+ Ke7 27.
+Qf7+ Kd8 28. Bxd5 c6 (28... Qe7 29. Qxf5 c6 30. Bc4 b5 31. Bxb5 {
+1-0 Stambulin,A-Mnatsakanian,E/Erevan 1994/EXT 97 (31)}) 29. Qxb7 Rc8 30. Bb3
+Rb8 31. Qf7 Qe7 32. Qxf5 Rb5 {
+1-0 H.J.Rosenfeld-Peter +,J/cor Switzerland-Norw 1994/CHECK99 (32)}) 20... Nxd5
+21. Bc4 c6 22. Qg6+ Kf8 23. Qxd6+ Kf7 24. Bxd5+ cxd5 25. Qxd5+ Kf8 26. Rd6 Rh8
+27. Rxd7 Qf6 28. Re6 {1-0 Pinkus,A-Steiner,H/New York Dimock 1925/CHECK99 (28)}
+) (19... Kf8 20. Rh3 Bd7 (20... f4 21. Rf3 (21. Rh4 g5 22. Rh6 Nf5 23. Re8+
+Kxe8 24. Qxg8+ Ke7 25. Rh7+ Kf6 26. Qxd8+ {
+1-0 Giuoco Piano Stunner-Moritz/CHECK99 (26)}) 21... g5 22. h3 Bf5 23. Qh6+ Kf7
+24. g4 Bd7 25. Re6 Ng6 26. Bd3 Bxe6 27. dxe6+ Kf6 28. h4 Ke5 29. hxg5 Qf8 30.
+Qh1 d5 31. Rh3 Re8 32. Kg2 Qb4 33. Bf5 Ne7 34. Rb3 Qd2 35. Rd3 Qe2 36. Qc1 Nxf5
+{0-1 Sandholm,K-Raassina,T/cr 1986/CHECK99 (36)}) 21. Rhe3 Nc8 (21... b5 22.
+Bb3 a5 23. Rxe7 Qxe7 24. Rxe7 Kxe7 25. Bc2 Raf8 26. f4 Kd8 27. Qh4+ Rf6 28. Qe1
+g5 29. fxg5 Rxg5 30. Qxa5 f4 31. Kf2 f3 32. gxf3 Rh6 33. Be4 Rxh2+ 34. Ke3 Rxb2
+35. Qc3 Rgg2 36. Qh8+ Ke7 37. Qh4+ Ke8 38. Bg6+ Rxg6 39. Qh8+ Ke7 40. Qxb2 Rg5
+41. f4 Rf5 42. Qh8 Rf8 43. Qc3 Kd8 44. Qg7 Ke8 45. a3 Rf7 46. Qh8+ Rf8 47. Qd4
+Rf5 48. Qa7 c5 49. dxc6 Bxc6 50. Qc7 {
+1-0 Dueball,J-Pachman,L/BL 1976/CHECK99 (50)}) 22. Bd3 g6 (22... Nb6 23. Bxf5
+Nxd5 24. Rf3 Bxf5 25. Qxf5+ Nf6 26. g4 g6 27. Qxf6+ Qxf6 28. Rxf6+ Kg7 29. Ree6
+Kh6 30. h4 Rg7 31. h5 Rag8 32. f4 d5 33. f5 Kg5 34. Rxg6+ Rxg6 35. Rxg6+ Rxg6
+36. hxg6 Kf6 37. Kf2 b5 38. Ke3 c5 39. g5+ Kg7 40. b4 cxb4 41. Kd4 a5 42. Kc5
+a4 43. Kxb4 d4 44. a3 Kg8 45. f6 Kf8 46. g7+ Kf7 47. g6+ Kg8 48. Kc5 d3 49. Kd6
+d2 50. Ke7 d1=Q 51. f7+ Kxg7 52. f8=Q+ Kxg6 53. Qf6+ Kh5 54. Qf5+ Kh4 55. Qxb5
+Qe1+ 56. Kd7 Qd2+ 57. Kc6 Qc3+ 58. Qc5 Qb3 59. Kd6 Kg4 60. Ke5 Kf3 61. Kd4 {
+1/2-1/2 Steiner,H-Santasiere,A/New York Dimock 1925/CHECK99 (61)}) 23. h4 (23.
+Bxf5 Bxf5 24. Re8+ Qxe8 25. Rxe8+ Kxe8 26. Qxg8+ Ke7 27. Qh7+ Kd8 28. h4 {
+1-0 del Pozo Hernssndez Jos  M-El_Messiry Raouf 1/Swiss 1997/CHECK99 (28)})
+23... Rg7 24. Qh8+ Rg8 25. Qh6+ Kf7 26. h5 Qf6 27. Re6 Bxe6 28. Rxe6 Ne7 29.
+Rxf6+ Kxf6 30. f4 Nxd5 31. g4 Ne7 32. Qg5+ Ke6 33. hxg6 Raf8 34. gxf5+ Nxf5 35.
+g7 Rf7 36. Kf2 Ne7 37. f5+ Rxf5+ 38. Bxf5+ Nxf5 39. Qf4 c6 40. Qa4 Rxg7 41.
+Qxa7 d5 42. Qb6 Nd6 43. b4 Nc4 44. Qd4 Rf7+ 45. Ke2 Ne5 46. a4 Rg7 47. Qb6 Rd7
+{0-1 Kovassy,S-Jenik,G/cr 1968 (47)}) 20. Bb5 Rh8 (20... a6 21. Ree6 axb5 22.
+Rhf6+ Ke8 23. Qg6+ Kd7 24. Rxf8 Nxg6 25. Rxg8 Nf4 26. Rxg7+ Kd8 27. Rg8+ Kd7
+28. Rg7+ Kd8 29. Rg8+ Kd7 30. Rg7+ {
+1/2-1/2 Garcia,L-Fontgivell/Ind Tarragona (4-04) 1994/CHECK99 (30)}) 21. Qxh8
+gxh6 22. Qh7+ Kf6 23. Rxe7 Qxe7 24. Qxh6+ Kf7 (24... Ke5 25. Qe3+ Kf6 26. Qh6+
+Ke5 {1/2-1/2 Schulz,J-Schlesinger,O/Hessen-ch qual-C 1988/GER (26)}) 25. Qh7+ {
+1/2-1/2 Durik,L-Durik,P/SVK-chJ U18 Trnava ( 1994/CHECK99 (25)} *
+
+[Event "070 Art of Attackl"]
+[Site "?"]
+[Date "1929.??.??"]
+[Round "?"]
+[White "Tylor, T."]
+[Black "Koltanowski, G."]
+[Result "1-0"]
+[ECO "C41"]
+[PlyCount "57"]
+[EventDate "1929.??.??"]
+
+1. d4 Nf6 2. Nf3 d6 3. Nc3 Nbd7 4. e4 e5 5. Bc4 Be7 6. O-O O-O 7. Qe2 exd4 8.
+Nxd4 Re8 9. Bxf7+ Kxf7 10. Ne6 Kxe6 11. Qc4+ d5 12. exd5+ Kf7 13. d6+ Nd5 14.
+dxe7 Rxe7 15. Nxd5 Ne5 16. Qf4+ Kg8 17. Nxe7+ Qxe7 18. Bd2 Ng6 19. Qg3 Be6 20.
+Rfe1 Qf7 21. Bc3 Rf8 22. Re3 Bd5 23. Rae1 h5 24. h4 c5 25. f3 b5 26. b3 a5 27.
+Qg5 b4 28. Ba1 Qf5 29. Re7 1-0
+
+[Event "071 Art of Attack"]
+[Site "?"]
+[Date "1912.??.??"]
+[Round "?"]
+[White "Burn, A."]
+[Black "Cohn, E."]
+[Result "1-0"]
+[ECO "D60"]
+[WhiteElo "2530"]
+[BlackElo "2480"]
+[PlyCount "49"]
+[EventDate "1912.??.??"]
+
+1. d4 d5 2. c4 e6 3. Nc3 Nf6 4. Bg5 Nbd7 5. e3 Be7 6. Nf3 O-O 7. Bd3 dxc4 8.
+Bxc4 a6 9. O-O c5 10. Qe2 b5 11. Bb3 Bb7 12. Rad1 Qa5 13. Ne5 Rfe8 14. f4 c4
+15. Bc2 Nf8 16. f5 Qc7 17. fxe6 Nxe6 18. Nxf7 Kxf7 19. Qh5+ Kg8 20. Bxf6 Bxf6
+21. Qxh7+ Kf8 22. d5 Qe5 23. dxe6 Qxe3+ 24. Kh1 Qxe6 25. Bg6 1-0
+
+[Event "072 Art of Attack"]
+[Site "?"]
+[Date "1911.??.??"]
+[Round "?"]
+[White "Capablanca, J."]
+[Black "Illa, R."]
+[Result "1-0"]
+[ECO "D00"]
+[WhiteElo "2725"]
+[PlyCount "53"]
+[EventDate "1911.??.??"]
+
+1. d4 d5 2. e3 Nf6 3. Nd2 e6 4. Bd3 c5 5. c3 Nc6 6. f4 Bd6 7. Nh3 O-O 8. O-O
+Ne7 9. Kh1 Bd7 10. Nf3 Bc6 11. Ne5 Qe8 12. a4 a6 13. b3 b5 14. axb5 axb5 15.
+Rxa8 Qxa8 16. dxc5 Bxc5 17. Qe2 b4 18. cxb4 Bxb4 19. Bb2 Qd8 20. Ng5 Ba8 21.
+Ng4 Ng6 22. Bxf6 gxf6 23. Nh6+ Kg7 24. Nhxf7 Qe8 25. Qh5 fxg5 26. Qh6+ Kg8 27.
+Nxg5 1-0
+
+[Event "073 Art of Attack"]
+[Site "?"]
+[Date "1955.??.??"]
+[Round "?"]
+[White "Najdorf, M."]
+[Black "Ivkov, B."]
+[Result "1/2-1/2"]
+[ECO "E95"]
+[WhiteElo "2445"]
+[BlackElo "2445"]
+[PlyCount "64"]
+[EventDate "1955.??.??"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 Bg7 4. e4 d6 5. Nf3 O-O 6. Be2 e5 7. O-O Nbd7 8. Re1
+c6 9. Rb1 a5 10. b3 Re8 11. Bf1 Ng4 12. Bg5 f6 13. Bc1 exd4 14. Nxd4 f5 15. h3
+Qb6 16. Nce2 Nxf2 17. Kxf2 Rxe4 18. Bb2 Nc5 19. Kg1 Ne6 20. Kh1 Nxd4 21. Nxd4
+Rxd4 22. Bxd4 Qxd4 23. Qxd4 Bxd4 24. Rbd1 c5 25. Re8+ Kf7 26. Rde1 Be5 27. Rd8
+b6 28. Bd3 h5 29. Bc2 Ke7 30. Rh8 Kf7 31. Rd8 Ke7 32. Rh8 Kf7 1/2-1/2
+
+[Event "073b Art of Attack"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Janowski/Soldatenkow"]
+[Black "Lasker/Taubenhaus"]
+[Result "*"]
+[ECO "C21"]
+[Annotator "Fritz 5"]
+[PlyCount "47"]
+[EventDate "1955.??.??"]
+
+1. e4 e5 {Opening = C21 - Nordisches Gambit /Nordic Gambit} 2. d4 exd4 3. c3
+dxc3 4. Bc4 cxb2 5. Bxb2 Nf6 (5... Nc6 6. f4 d6 7. Nc3 Nf6 8. h3 Be6 9. Bb5
+Nxe4 10. Nxe4 Qh4+ 11. g3 Qe7 12. Ne2 d5 13. N4c3 Qc5 14. Qd4 O-O-O 15. Qxc5
+Bxc5 16. Bxc6 bxc6 17. Na4 Bb4+ 18. Kf2 f6 19. a3 Ba5 20. Rac1 {
+Mueller,M-Engel,M/Kassel op 1994/GER 08/1/2-1/2 (54)}) 6. e5 $146 (6. Nc3 Nc6
+7. Nf3 Bb4 8. Qc2 d6 9. O-O-O Bxc3 10. Bxc3 O-O 11. e5 Ne8 12. h4 Qe7 13. Ng5
+g6 14. exd6 Nxd6 15. Rhe1 Qd8 16. Qb2 Nxc4 17. Rxd8 Nxb2 18. Rxf8+ Kxf8 19.
+Nxh7+ Kg8 20. Re8+ Kxh7 21. Rh8# {
+1-0 Bier,M-Rocamora,R/Hamburg 1876/CBM 41/[Huebner,R]}) 6... Bb4+ $17 (6... Qe7
+7. Qe2 Ng8 8. Nf3 $19) 7. Nc3 $19 (7. Kf1 Ne4 8. Bxf7+ Kxf7 9. Qf3+ Ke8 10.
+Qxe4 Nc6 $17) 7... Qe7 8. Nge2 $2 (8. Qe2 $142 Ng8 9. Nf3 $19) 8... Ne4 (8...
+Ng4 $142 $5 9. f4 Nxe5 10. Bd5 $19) 9. O-O Nxc3 (9... Qxe5 $6 10. Nd5 Qd6 11.
+Bxg7 $15) 10. Bxc3 (10. Nxc3 Bxc3 (10... Qxe5 $2 11. Re1 Qxe1+ 12. Qxe1+ Kd8
+13. Qe3 $18) 11. Bxc3 Nc6 $19) 10... Bxc3 (10... Nc6 11. Bxb4 Nxb4 12. f4 $19)
+11. Nxc3 O-O (11... Qxe5 $2 12. Re1 Qxe1+ 13. Qxe1+ Kd8 14. Bxf7 $18) 12. Nd5 {
+White launches an attack} Qxe5 13. Re1 Qd6 14. Qh5 $19 (14. Ne7+ $5 Kh8 15.
+Qxd6 cxd6 16. Nf5 $15) 14... c6 $17 (14... Kh8 $5 $19) 15. Nc7 g6 (15... Qxc7
+$4 16. Qxf7+ $3 Rxf7 17. Re8#) 16. Qh6 Qxc7 $4 $16 (16... b5 $142 $15) 17.
+Bxf7+ $1 Kxf7 18. Qxh7+ Kf6 19. Qh4+ Kg7 {
+If Black now would get Qd6 in, he might survive} 20. Re7+ Rf7 {
+Black threatens to counter with Qb6} 21. Qd4+ Kf8 22. Qh8+ $1 Kxe7 23. Re1+ Kd6
+(23... Qe5 24. Qxe5+ Kd8 25. Qe8+ Kc7 26. Qxf7 c5 $18) 24. Qd4# (24. Qe5#) *
+
+[Event "077 Art of Attack"]
+[Site "Muenchen"]
+[Date "1936.??.??"]
+[Round "4"]
+[White "Vukovic, Vladimir"]
+[Black "Endzelins, Lucius"]
+[Result "1-0"]
+[ECO "E48"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "65"]
+[EventDate "1936.??.??"]
+[Source "ChessBase"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. e3 O-O 5. Bd3 c5 6. Nge2 d5 7. cxd5 cxd4 8.
+exd4 Nxd5 9. O-O Nc6 10. a3 Be7 11. Qb3 (11. Qc2 Nf6) (11. Bb1 Re8 12. Qd3 g6
+13. Ba2 Nxc3 14. bxc3 Bf6 15. Be3 b6 16. Rfd1 Bb7 17. Ng3 Na5 18. Rac1 Rc8 19.
+c4 Qd7 20. d5 Bg7 21. c5 Bxd5) 11... Nf6 12. Rd1 b6 (12... Nxd4 13. Nxd4 e5 14.
+Nf3) 13. Be3 Bb7 14. Qa2 Bd6 15. h3 Ne7 16. Rac1 Ned5 17. Qb1 Nxc3 18. Nxc3 h6
+19. Qc2 (19. Ne4 Nxe4 20. Bxe4 Bxe4 21. Qxe4 Rc8) 19... Rc8 20. Qd2 Bb8 21.
+Bxh6 Qd6 22. g3 Qc6 23. d5 exd5 24. Ne2 Qe6 25. Bxg7 Kxg7 26. Qg5+ (26. Nd4 Qe5
+27. Nf5+ Kh8 28. Qh6+ Nh7 29. Nd6) 26... Kh8 27. Qh4+ Kg7 (27... Kg8 28. Nd4
+Rxc1 29. Qg5+ Kh8 30. Qh6+ Kg8 31. Qg5+ Kh8 32. Qh6+ Kg8 33. Qg5+) 28. Nd4 Rg8
+(28... Rxc1 29. Rxc1 Re8) 29. Qg5+ Kf8 30. Nxe6+ Ke7 31. Ng7 Rxg7 32. Qxg7 (32.
+Re1+ Kf8 33. Qxf6 Rg8 34. Rxc8+ Bxc8) 32... Rg8 (32... Bc7 33. Bg6 Bd8 34.
+Qxf7+ Kd6 35. Qxb7 Rc5 36. Qb8+ Bc7 37. Qf8+ Kc6 38. Qxf6+ Kb7 39. b4 a5 40.
+Rxc5 bxc5 41. bxc5 Ka7 42. Qc6 Bxg3 43. Rb1 Bxf2+ 44. Kxf2 a4 45. Qxa4#) 33.
+Re1+ (33. Re1+ Ne4 34. Qxg8) 1-0
+
+[Event "080 Art of Attack"]
+[Site "Amsterdam KNSB ;HCL 33"]
+[Date "1939.??.??"]
+[Round "5"]
+[White "Euwe, Max"]
+[Black "Flohr, Salo"]
+[Result "1-0"]
+[ECO "D93"]
+[Annotator "Fritz 5.00 (5s)"]
+[PlyCount "77"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 (3... dxc4 4. e4 $15) 4. Nc3 $15 (4. e3 e6 $11)
+4... g6 $11 (4... dxc4 5. e4 b5 6. Ne5 $15) 5. Bf4 (5. cxd5 cxd5 6. Qb3 Bg7 $11
+) 5... Bg7 (5... dxc4 6. e3 b5 7. a4 $15) 6. e3 O-O 7. Qb3 dxc4 8. Bxc4 Nbd7 9.
+Ne5 {Wird f7 fallen?} Qe8 10. Be2 Nxe5 11. Bxe5 ({Schlechter ist} 11. dxe5 Nd7
+$11) 11... Qd8 12. O-O Qb6 13. Qa3 Re8 14. Rac1 Bf8 15. Na4 Qd8 16. Rfd1 Nd5
+$16 (16... Nd7 17. Qb3 $14) 17. e4 e6 (17... Nf6 18. d5 e6 19. Qf3 $14) 18. Qf3
+Nb6 19. Nc5 Nd7 20. Nxd7 Bxd7 21. Bf6 Qa5 22. Rc5 $11 (22. a3 $142 $5 $16)
+22... Qxa2 23. Rh5 $17 (23. Rcc1 $5 {mus gepruft werden} Qa4 24. Rc4 $11) 23...
+e5 $11 (23... Qxb2 $142 $5 24. Ra5 Qb6 $17) 24. dxe5 $15 (24. Rxe5 Qxb2 25.
+Rxe8 Rxe8 $11) 24... Be6 (24... gxh5 25. Rxd7 h6 26. Qg3+ (26. Rxb7 $6 {
+scheitert an} Rab8 27. Qg3+ Kh7 28. Rxb8 Rxb8 $14) (26. Qxh5 {bringt nichts} b6
+$18) 26... Kh7 27. b3 (27. Rxb7 $6 {scheint erheblich schwacher} Reb8 28. Rxb8
+Rxb8 $14) (27. Bxh5 $6 Re7 28. Bxe7 Bxe7 $18) 27... Qb1+ 28. Bf1 Qxb3 29. Qxb3
+Re7 30. Rxe7 Bg7 31. Qxf7 Rg8 32. Bxg7 Rf8 33. Bxf8+ Kh8 34. Qg7#) (24... Qxb2
+$4 {den sollte Schwarz lieber stehen lassen} 25. e6 (25. Rxd7 $6 b5 $18) 25...
+Qxf6 26. Qxf6 Bxe6 27. Ra5 $18) 25. Qf4 $17 (25. Qc3 $5 $15 {ist zu erwagen})
+25... Qxb2 26. Bf1 $19 (26. Bd3 b5 $19) 26... Be7 $11 (26... b5 $142 $19 {
+mit klarem Vorteil fur Schwarz}) 27. Qh4 $17 (27. Bxe7 $142 $5 {
+ist eine gute Alternative} Rxe7 28. Rxh7 $11) 27... Bc5 (27... gxh5 $4 {
+Schwarz mus den Turm stehen lassen} 28. Qg5+ Kf8 29. Qg7#) 28. Rh6 (28. Rxh7 $2
+{ist nicht korrekt} Qxf2+ $1 {hubsch} 29. Qxf2 Bxf2+ 30. Kxf2 Kxh7 $19) 28...
+a5 $11 (28... Qc2 29. Re1 Bxf2+ 30. Qxf2 Qxf2+ 31. Kxf2 a5 $14) 29. Rd3 $15 (
+29. Re1 Qd4 30. Re2 $18 (30. Rxh7 $4 {Weis schlagt einen vergifteten Bauern}
+Qxf2+ 31. Qxf2 Bxf2+ 32. Kxf2 Kxh7 $19)) 29... Bxf2+ $11 (29... Bc4 30. Rd7
+Qxf2+ 31. Qxf2 Bxf2+ 32. Kxf2 Bxf1 33. Kxf1 c5 $16) 30. Qxf2 Qxf2+ 31. Kxf2 a4
+32. Be2 Ra5 (32... a3 33. g4 g5 34. Rdh3 (34. Bxg5 $2 a2 35. Rd1 a1=Q 36. Rxa1
+Rxa1 $19) 34... Bf5 35. gxf5 Rxe5 36. Rxh7 Rxf5+ 37. exf5 a2 38. Rh8#) 33. g4 {
+Mit der Mattdrohung Txh7} Rxe5 34. Bxe5 Bc4 35. Rdh3 (35. Bc3 $5 {
+erleichterte Weis die Gewinnfuhrung} Bxd3 36. Bxd3 Ra8 $18) 35... Bxe2 36. Bf6
+{Es droht Matt} Re6 (36... Rxe4 $4 {der Bauer ist nicht zu nehmen} 37. Rxh7
+Rf4+ 38. Ke3 Rf3+ 39. Rxf3 Kxh7 40. Rh3+ Kg8 41. Rh8#) (36... Bxg4 $4 {
+das Schlagen des Bauern ist schlecht} 37. Rxh7 $1 {das wars} Bxh3 38. Rh8#) 37.
+e5 Bxg4 38. Rxh7 $16 (38. R3h4 $142 $5 Bh5 39. Rxa4 $18) 38... Rxf6+ 39. exf6 (
+39. exf6 Bxh3 40. Rxh3 $18) 1-0
+
+[Event "081 Art of Attack"]
+[Site "Amsterdam KNSB ;HCL 33"]
+[Date "????.??.??"]
+[Round "?"]
+[White "Pilnik"]
+[Black "Najdorf"]
+[Result "*"]
+[ECO "B15"]
+[Annotator "G. Ossimitz"]
+[PlyCount "63"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Nxf6+ exf6 6. c3 Bd6 7. Bd3 O-O 8.
+Qh5 g6 9. Qh4 (9. Qh6 c5 10. Ne2 cxd4 11. Nxd4 Nc6 12. Nxc6 bxc6 13. Be3 Qa5
+14. O-O Rb8 15. Qh4 Rxb2 16. Qxf6 Be5 17. Qxc6 Bb7 18. Qc5 {
+1/2-1/2 Suttles,D-Flohr,S/Polanica Zdroj 1967 (18)}) 9... c5 10. Ne2 Nc6 11.
+Bh6 $146 (11. O-O cxd4 12. Nxd4 Nxd4 13. Qxd4 Be5 14. Qxd8 Rxd8 15. Bc4 Be6 16.
+Bb3 a5 17. Be3 a4 18. Bxe6 fxe6 19. f4 Bc7 20. Rfd1 e5 21. fxe5 Bxe5 22. a3 Kf7
+23. Bb6 Rxd1+ 24. Rxd1 Ke6 25. h3 Ra6 {
+Wagenmakers,E-Boersma,P/NED-ch sf Enschede 1993/EXT 93ch/0-1 (50)}) 11... f5
+12. Bg5 Qb6 (12... f6 13. Bc4+ Kh8 14. Bh6 $14) 13. O-O (13. dxc5 Qxc5 14. O-O
+Be7 $16) 13... cxd4 14. cxd4 $14 (14. Nxd4 Bd7 $16) 14... Re8 (14... Be6 15. b3
+$14) 15. Bc4 $11 (15. b3 $5 $14) 15... h5 $14 (15... Be6 16. d5 Bxd5 17. Bxd5
+Rxe2 18. Bxf7+ Kxf7 19. Qxh7+ Ke6 20. Qxg6+ Kd7 21. Qxf5+ Kc7 22. Qf7+ Ne7 23.
+Qc4+ Qc5 24. Qxe2 Qxg5 25. f4 Qc5+ 26. Kh1 $18) 16. Rae1 $11 (16. Be3 Na5 17.
+Bd5 Be7 $14) 16... Re4 {Incrementando la presion sobre el peon aislado en d4}
+17. Nf4 {Blanco toma el control} Qxd4 (17... Bxf4 18. Rxe4 Bxh2+ 19. Qxh2 fxe4
+20. Qd6 Nxd4 21. Bxf7+ Kxf7 22. Qe7+ Kg8 23. Bf6 Ne2+ 24. Kh2 Qxf6 25. Qxf6 $18
+) 18. Rxe4 fxe4 $16 (18... Qxe4 19. Nxg6 $1 {
+certificando un impreso hacia la victoria} Qxh4 20. Nxh4 $16) 19. Nxh5 $1 {
+Blanco esta todavia con ventaja. Amenazando mate-? como?} gxh5 20. Bf6 {
+Amenazando mate: Qg5} Qc5 21. Rd1 Kf8 (21... e3 22. Rxd6 exf2+ 23. Kf1 $16) 22.
+b4 Nxb4 23. Qg3 $1 {conservando la ventaja. ? Ve la amenaza de mate?} Bg4 24.
+Rxd6 Nd3 {la unica posibilidad para Negro es devolver el material} 25. Bxd3
+Qc1+ $4 $18 {pero a veces una buena jugada no puede salvar la partida} (25...
+exd3 $142 26. Qf4 Ke8 27. Rxd3 Be6 $18) 26. Bf1 Rc8 {Amenazando mate-? como?}
+27. h3 Qxf1+ $5 28. Kh2 {La amenaza de mate es Qf4} Qc1 29. hxg4 hxg4 30. Qxg4
+{Amenazando mate: Qg7} Qh6+ 31. Kg3 {? Ve la amenaza de mate?} Rc3+ 32. f3 {
+La amenaza de mate es Rd8} (32. f3 Qxf6 $5 33. Rxf6 $18) *
+
+[Event "082 Art of Attack"]
+[Site "Roma"]
+[Date "1801.??.??"]
+[Round "?"]
+[White "Greco, Gioacchino"]
+[Black "NN"]
+[Result "1-0"]
+[ECO "C00"]
+[Annotator "G. Ossimitz"]
+[PlyCount "21"]
+[EventDate "1801.??.??"]
+[Source "ChessBase"]
+[SourceDate "1998.11.10"]
+
+1. e4 e6 2. d4 Nf6 3. Bd3 Nc6 4. Nf3 Be7 5. h4 O-O 6. e5 Nd5 7. Bxh7+ Kxh7 8.
+Ng5+ Kg8 (8... Bxg5 9. hxg5+ Kg8 (9... Kg6 10. Qh5+ Kf5 11. Qh3+ Kg6 (11... Ke4
+12. Qd3#) 12. Qh7#) 10. Qh5 f5 11. g6 Qh4 12. Qxh4 Nxe5 13. Qh8#) 9. Qh5 Re8 (
+9... Bb4+ 10. c3 Bxc3+ 11. bxc3 Re8 12. Qxf7+ Kh8 13. Qh5+ Kg8 14. Qh7+ Kf8 15.
+Qh8+ Ke7 16. Qxg7#) 10. Qh7+ Kf8 11. Qh8# 1-0
+

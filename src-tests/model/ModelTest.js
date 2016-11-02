@@ -57,23 +57,25 @@ TestCase("ModelTest", {
             {"m":"Nf3", "from":"g1", "to":"f3", "fen":"rnbqkbnr\/pppp1ppp\/8\/4p3\/4P3\/5N2\/PPPP1PPP\/RNBQKB1R b KQkq - 1 2"},
             {"m":"Nc6", "from":"b8", "to":"c6", "fen":"r1bqkbnr\/pppp1ppp\/2n5\/4p3\/4P3\/5N2\/PPPP1PPP\/RNBQKB1R w KQkq - 2 2"},
             {"m":"Bb5", "from":"f1", "to":"b5", "fen":"r1bqkbnr\/pppp1ppp\/2n5\/1B2p3\/4P3\/5N2\/PPPP1PPP\/RNBQK2R b KQkq - 3 3"},
-            {"m":"Nf6", "from":"g8", "to":"f6", "fen":"r1bqkb1r\/pppp1ppp\/2n2n2\/1B2p3\/4P3\/5N2\/PPPP1PPP\/RNBQK2R w KQkq - 4 3"},
+            {"m":"Nf6", "from":"g8", "to":"f6", "fen":"r1bqkb1r\/pppp1ppp\/2n2n2\/1B2p3\/4P3\/5N2\/PPPP1PPP\/RNBQK2R w KQkq - 4 3"}, // 5
             {"m":"Nc3", "from":"b1", "to":"c3", "fen":"r1bqkb1r\/pppp1ppp\/2n2n2\/1B2p3\/4P3\/2N2N2\/PPPP1PPP\/R1BQK2R b KQkq - 5 4"},
             {"m":"Be7", "from":"f8", "to":"e7", "fen":"r1bqk2r\/ppppbppp\/2n2n2\/1B2p3\/4P3\/2N2N2\/PPPP1PPP\/R1BQK2R w KQkq - 6 4"},
             {"m":"d3", "from":"d2", "to":"d3", "fen":"r1bqk2r\/ppppbppp\/2n2n2\/1B2p3\/4P3\/2NP1N2\/PPP2PPP\/R1BQK2R b KQkq - 0 5"},
             {"m":"d6", "from":"d7", "to":"d6", "fen":"r1bqk2r\/ppp1bppp\/2np1n2\/1B2p3\/4P3\/2NP1N2\/PPP2PPP\/R1BQK2R w KQkq - 0 5"},
-            {"m":"Be3", "from":"c1", "to":"e3", "fen":"r1bqk2r\/ppp1bppp\/2np1n2\/1B2p3\/4P3\/2NPBN2\/PPP2PPP\/R2QK2R b KQkq - 1 6"},
+            {"m":"Be3", "from":"c1", "to":"e3", "fen":"r1bqk2r\/ppp1bppp\/2np1n2\/1B2p3\/4P3\/2NPBN2\/PPP2PPP\/R2QK2R b KQkq - 1 6"}, // 10
             {"m":"Bd7", "from":"c8", "to":"d7", "fen":"r2qk2r\/pppbbppp\/2np1n2\/1B2p3\/4P3\/2NPBN2\/PPP2PPP\/R2QK2R w KQkq - 2 6"},
             {"m":"Qd2", "from":"d1", "to":"d2", "fen":"r2qk2r\/pppbbppp\/2np1n2\/1B2p3\/4P3\/2NPBN2\/PPPQ1PPP\/R3K2R b KQkq - 3 7"},
             {"m":"a6", "from":"a7", "to":"a6", "fen":"r2qk2r\/1ppbbppp\/p1np1n2\/1B2p3\/4P3\/2NPBN2\/PPPQ1PPP\/R3K2R w KQkq - 0 7"},
             {"m":"Ba4", "from":"b5", "to":"a4", "fen":"r2qk2r\/1ppbbppp\/p1np1n2\/4p3\/B3P3\/2NPBN2\/PPPQ1PPP\/R3K2R b KQkq - 1 8"},
-            {"m":"b5", "from":"b7", "to":"b5", "fen":"r2qk2r\/2pbbppp\/p1np1n2\/1p2p3\/B3P3\/2NPBN2\/PPPQ1PPP\/R3K2R w KQkq b6 0 8"},
+            {"m":"b5", "from":"b7", "to":"b5", "fen":"r2qk2r\/2pbbppp\/p1np1n2\/1p2p3\/B3P3\/2NPBN2\/PPPQ1PPP\/R3K2R w KQkq b6 0 8"}, // 15
             {"m":"Bb3", "from":"a4", "to":"b3", "fen":"r2qk2r\/2pbbppp\/p1np1n2\/1p2p3\/4P3\/1BNPBN2\/PPPQ1PPP\/R3K2R b KQkq - 1 9"},
             {"m":"O-O", "from":"e8", "to":"g8", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/1p2p3\/4P3\/1BNPBN2\/PPPQ1PPP\/R3K2R w KQ - 2 9"},
             {"m":"O-O-O", "from":"e1", "to":"c1", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/1p2p3\/4P3\/1BNPBN2\/PPPQ1PPP\/2KR3R b - - 3 10"},
             {"m":"b4", "from":"b5", "to":"b4", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/4p3\/1p2P3\/1BNPBN2\/PPPQ1PPP\/2KR3R w - - 0 10"},
             // index 20
-            {"m":"Nd5", "variations":[
+            {"m":"Nd5",
+                "from":"c3", "to":"d5", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/3Np3\/1p2P3\/1B1PBN2\/PPPQ1PPP\/2KR3R b - - 1 10",
+                "variations":[
                 [
                     {"m":"Nb1", "from":"c3", "to":"b1", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/4p3\/1p2P3\/1B1PBN2\/PPPQ1PPP\/1NKR3R b - - 1 11"},
                     {"m":"h6", "from":"h7", "to":"h6", "fen":"r2q1rk1\/2pbbpp1\/p1np1n1p\/4p3\/1p2P3\/1B1PBN2\/PPPQ1PPP\/1NKR3R w - - 0 11"},
@@ -88,7 +90,7 @@ TestCase("ModelTest", {
                     {"m":"g4", "from":"g2", "to":"g4", "fen":"r2q1rk1\/2pbbpp1\/2np1n1p\/p3p3\/1p2P1PP\/1B1PBN2\/PPPQ1P2\/1NKR3R b - g3 0 12"},
                     {"m":"Nxg4", "from":"f6", "to":"g4", "fen":"r2q1rk1\/2pbbpp1\/2np3p\/p3p3\/1p2P1nP\/1B1PBN2\/PPPQ1P2\/1NKR3R w - - 0 12"}
                 ]
-            ], "from":"c3", "to":"d5", "fen":"r2q1rk1\/2pbbppp\/p1np1n2\/3Np3\/1p2P3\/1B1PBN2\/PPPQ1PPP\/2KR3R b - - 1 10"},
+            ]},
             {"m":"Nxd5", "from":"f6", "to":"d5", "fen":"r2q1rk1\/2pbbppp\/p1np4\/3np3\/1p2P3\/1B1PBN2\/PPPQ1PPP\/2KR3R w - - 0 10"},
             {"m":"Bxd5", "from":"b3", "to":"d5", "fen":"r2q1rk1\/2pbbppp\/p1np4\/3Bp3\/1p2P3\/3PBN2\/PPPQ1PPP\/2KR3R b - - 0 11"},
             {"m":"Rb8", "from":"a8", "to":"b8", "fen":"1r1q1rk1\/2pbbppp\/p1np4\/3Bp3\/1p2P3\/3PBN2\/PPPQ1PPP\/2KR3R w - - 1 11"},
@@ -1199,11 +1201,11 @@ TestCase("ModelTest", {
     "test should be able to guess next move including variations":function () {
         // given
         var model = this.getModelWithVariations();
-        var sourceMove = model.model.moves[20];
+        var sourceMove = model.model.moves[19];
 
 
         // when
-        var guesses = 'f6d5,c3b1';
+        var guesses = 'c3d5,c3b1';
         // then
 
         var tokens = guesses.split(',');
@@ -1555,7 +1557,7 @@ TestCase("ModelTest", {
             from : 'f6', to:'f7'
         };
 
-        assertEquals(10, model.getAllNextMoves(model.getCurrentMove()).length);
+        assertEquals(2, model.getAllNextMoves(model.getCurrentMove()).length);
         assertTrue(model.tryNextMove(correctMove));
 
         console.log(model.getCurrentMove().from)

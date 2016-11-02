@@ -25,7 +25,7 @@ chess.view.metadata.FenField = new Class({
 
     showFen : function(model){
         var fen = model.getCurrentPosition();
-        this.setValue(fen);
+        this._set(fen);
     }
 
 });

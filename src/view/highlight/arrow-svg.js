@@ -42,7 +42,7 @@ chess.view.board.ArrowSVG = new Class({
 		this.parent(config);
 		if (config.arrowPaint !== undefined){
 			this.arrowPaint = config.arrowPaint;
-			this.adoptDef(this.arrowPaint);
+			this.appendDef(this.arrowPaint);
 		}
 		this.createArrow();
 	},
@@ -51,7 +51,7 @@ chess.view.board.ArrowSVG = new Class({
 		var pathConfig = {};
 		if(this.arrowPaint)pathConfig['class'] = this.arrowPaint;
 		this.pathEl = new ludo.canvas.Node('path', pathConfig);
-		this.adopt(this.pathEl);
+		this.append(this.pathEl);
 		this.set('width', '100%');
 		this.set('height', '100%');
 	},

@@ -57,7 +57,7 @@ chess.view.command.Panel = new Class({
 		var el = document.createElement('div');
 		el.className = cls || 'chess-command-panel-message';
 		el.innerHTML = text;
-		this.getBody().adopt(el);
+		this.getBody().append(el);
 		this.getBody().scrollTop += 100;
 		this.currentLine = el;
 	}

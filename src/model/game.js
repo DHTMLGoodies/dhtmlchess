@@ -448,17 +448,16 @@ chess.model.Game = new Class({
             return true;
         }
         var nextMoves = this.getAllNextMoves(this.currentMove);
+
+
+
         for (var i = 0; i < nextMoves.length; i++) {
             if (this.isCorrectGuess(move, nextMoves[i])) {
                 if (nextMoves[i].promoteTo) {
                     move.promoteTo = nextMoves[i].promoteTo;
                 }
                 this.fire('correctGuess', nextMoves[i]);
-                if (i === 0) {
-                    this.nextMove();
-                } else {
-                    this.goToMove(nextMoves[i]);
-                }
+                this.goToMove(nextMoves[i]);
                 return true;
             }
         }
@@ -577,14 +576,21 @@ chess.model.Game = new Class({
      */
     getAllNextMoves:function (nextOf) {
         nextOf = nextOf || this.currentMove;
+        var nextMove;
+
+        if(this.model.moves.length == 0)return [];
+
         if (!nextOf) {
-            return [this.model.moves[0]];
+            nextMove = this.model.moves[0];
+        }else{
+            nextMove = this.getNextMove(nextOf);
         }
         var ret = [];
-        var nextMove = this.getNextMove(nextOf);
+
         if (nextMove) {
             ret.push(nextMove);
         }
+
         if (nextMove.variations.length > 0) {
             for (var i = 0; i < nextMove.variations.length; i++) {
                 var move = nextMove.variations[i][0];
@@ -592,7 +598,6 @@ chess.model.Game = new Class({
             }
         }
         return ret;
-
     },
 
     /**
