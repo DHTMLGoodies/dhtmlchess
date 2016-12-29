@@ -39,7 +39,7 @@ chess.view.folder.Tree = new Class({
 	selected:undefined,
 	defaultDS:'chess.dataSource.FolderTree',
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
 		this.parent(config);
 		this.setConfigParams(config, ['selected']);
 	},

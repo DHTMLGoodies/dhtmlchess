@@ -9,7 +9,7 @@ chess.view.position.SideToMove = new Class({
     height:80,
     title:chess.getPhrase('Side to move'),
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         var options = [
             {

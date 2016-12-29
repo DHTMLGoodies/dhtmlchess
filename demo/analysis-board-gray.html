@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
-    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
@@ -93,7 +93,7 @@
 
                         labels:true,
                         weight:1,
-                        containerCss:{
+                        elCss:{
                             'margin-bottom':5
                         },
                         addOns:[
@@ -110,7 +110,7 @@
                     {
                         type:'chess.view.buttonbar.Game',
                         width:200,
-                        containerCss:{
+                        elCss:{
                             margin:2
                         },
                         height:30
@@ -126,7 +126,7 @@
                 resizable:true,
                 collapsible:true,
                 minimizable:false,
-                containerCss:{
+                elCss:{
 
                 },
 
@@ -140,7 +140,7 @@
                     {
                         weight:1,
                         layout:'tabs',
-                        containerCss:{
+                        elCss:{
                             'border-top':'1px solid #C0C0C0',
                             'padding-top' : 3
                         },

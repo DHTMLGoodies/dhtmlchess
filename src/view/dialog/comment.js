@@ -41,7 +41,7 @@ chess.view.dialog.Comment = new Class({
         this.parent();
         this.addEvent('ok', this.sendComment.bind(this));
     },
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
     },
 

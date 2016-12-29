@@ -2,7 +2,7 @@ chess.view.highlight.SquareTacticHint = new Class({
     Extends:chess.view.highlight.SquareBase,
     delay : 1,
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
         this.parent(config);
         if(config.delay !== undefined)this.delay = config.delay;
         this.parentComponent.addEvent('showHint', this.showHint.bind(this));

@@ -11,12 +11,12 @@ chess.view.position.Pieces = new Class({
     pieceTypes:['king', 'queen', 'rook', 'bishop', 'knight', 'pawn'],
     pieces : {},
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['pieceColor','pieceLayout']);
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         for (var i = 0; i < this.pieceTypes.length; i++) {
             this.pieces[this.pieceTypes[i]] = this.addChild({
@@ -56,13 +56,13 @@ chess.view.position.Piece = new Class({
     size:45,
     height:55,
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['pieceColor','pieceType','pieceLayout']);
         this.parent(config);
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         var piece = this.els.piece = new Element('div');
         piece.css({

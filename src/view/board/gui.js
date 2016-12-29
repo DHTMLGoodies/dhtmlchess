@@ -28,7 +28,7 @@ chess.view.board.GUI = new Class({
         timestampLastResize:0
     },
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
@@ -83,7 +83,7 @@ chess.view.board.GUI = new Class({
         }
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         this.resizeSquares();
         this.resizeBoard.delay(50, this);

@@ -31,7 +31,7 @@ chess.view.position.Dialog = new Class({
         fullMoves:'0'
     },
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.positionValidator = new chess.parser.PositionValidator();
 
         config.buttonBar = {
@@ -83,7 +83,7 @@ chess.view.position.Dialog = new Class({
     },
 
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
 
         this.board = this.addChild({
@@ -96,7 +96,7 @@ chess.view.position.Dialog = new Class({
                 width:380,
                 height:380
             },
-            containerCss:{
+            elCss:{
                 margin:3
             },
             listeners:{

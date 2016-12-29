@@ -5,7 +5,27 @@ chess.remote.Reader = new Class({
     query : function(config) {
 
         this.onLoadEvent = config.eventOnLoad || 'load';
-		this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
+		console.log(config);
+		console.log(config);
+
+		$.ajax({
+			url: '../router.php',
+			method: 'post',
+			cache: false,
+			dataType: 'json',
+			data: config,
+			success: function (json) {
+				this.fireEvent(this.onLoadEvent, json.response);
+			}.bind(this),
+			fail: function (text, error) {
+				this.fireEvent('fail', [text, error, this]);
+			}.bind(this)
+		});
+
+
+		// this.remoteHandler(config.resource).send(config.service, config.arguments, config.data);
+
+
     },
 	_remoteHandler:undefined,
 

@@ -14,8 +14,13 @@ chess.dataSource.PgnGames = new Class({
     resource:'ChessFS',
     service:"listOfGames",
     "primaryKey":"index",
+    "url" : "../router.php",
+    postData:{
+        "resource": "ChessFS",
+        "service": "listOfGames"
+    },
     getCurrentPgn:function(){
-        return this.arguments;
+        return this.postData.arguments;
     },
 
     /**
@@ -55,6 +60,7 @@ chess.dataSource.PgnGames = new Class({
      i.e. name of pgn file without the file extension.
      */
     loadFile:function(file){
+        console.log(file);
         this.sendRequest(this.service, file);
     }
 });

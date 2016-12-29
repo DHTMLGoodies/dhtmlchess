@@ -47,7 +47,7 @@ chess.view.dialog.NewGame = new Class({
     addControllerEvents:function () {
         this.controller.addEvent('newGameDialog', this.show.bind(this));
     },
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         this.addButtonEvents();
     },

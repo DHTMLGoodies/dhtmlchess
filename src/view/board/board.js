@@ -37,7 +37,7 @@ chess.view.board.Board = new Class({
     positionParser: undefined,
     currentValidMoves: undefined,
     ddEnabled: false,
-    addOns: [],
+    plugins: [],
 
     currentAnimation: {
         index: 0,
@@ -45,15 +45,15 @@ chess.view.board.Board = new Class({
         duration: .5,
         isBusy: false
     },
-    ludoConfig: function (config) {
+    __construct: function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['pieceLayout', 'animationDuration', 'addOns']);
+        this.setConfigParams(config, ['pieceLayout', 'animationDuration', 'plugins']);
 
-        if (this.addOns && Browser.ie && Browser.version < 9) {
-            for (var i = 0; i < this.addOns.length; i++) {
-                if (this.addOns[i].type === 'chess.view.highlight.Arrow') {
-                    this.addOns[i].type = 'chess.view.highlight.Square';
+        if (this.plugins && Browser.ie && Browser.version < 9) {
+            for (var i = 0; i < this.plugins.length; i++) {
+                if (this.plugins[i].type === 'chess.view.highlight.Arrow') {
+                    this.plugins[i].type = 'chess.view.highlight.Square';
                 }
             }
         }
@@ -66,7 +66,7 @@ chess.view.board.Board = new Class({
         return this.animationDuration;
     },
 
-    ludoRendered: function () {
+    __rendered: function () {
         this.createPieces();
         this.showFen(this.fen);
         this.parent();

@@ -20,7 +20,7 @@ chess.controller.Controller = new Class({
     disabledEvents:{},
     pgn : undefined,
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
         this.pgn = config.pgn || this.pgn;
@@ -331,6 +331,7 @@ chess.controller.Controller = new Class({
     },
 
     selectGame:function (game, pgn) {
+        console.trace();
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -354,6 +355,8 @@ chess.controller.Controller = new Class({
     },
 
     getNewModel:function (game, pgn) {
+
+
 
         game = game || {};
 		if(pgn)game.pgn = pgn;
@@ -419,6 +422,7 @@ chess.controller.Controller = new Class({
     },
 
     loadGameFromFile:function(index){
+
         if(this.pgn){
             this.currentModel.loadStaticGame(this.pgn, index);
         }

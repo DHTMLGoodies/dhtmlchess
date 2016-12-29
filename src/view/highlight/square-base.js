@@ -3,7 +3,7 @@ chess.view.highlight.SquareBase = new Class({
     els: {},
     visibleSquares: [],
 
-    ludoConfig: function (config) {
+    __construct: function (config) {
         this.parent(config);
         this.createDOM();
     },

@@ -21,16 +21,16 @@ chess.TacticsFromFile = new Class({
 
     initialize:function(config){
         this.renderTo = config.renderTo;
-        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
         this.pgn = config.pgn;
-
+        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
         $(document).ready(this.render.bind(this));
     },
 
     render:function(){
         new ludo.View({
             renderTo:$(this.renderTo),
-            containerCss:{
+            elCss:{
+
                 'background-color' : 'transparent'
             },
             layout:{
@@ -42,7 +42,7 @@ chess.TacticsFromFile = new Class({
                 {
                     weight:1,
                     layout:'rows',
-                    containerCss:{
+                    elCss:{
                         'background-color' : 'transparent'
                     },
 
@@ -50,7 +50,7 @@ chess.TacticsFromFile = new Class({
                         {
                             type:'chess.view.message.TacticsMessage',
                             height:25,
-                            containerCss:{
+                            elCss:{
                                 'background-color' : 'transparent'
                             }
                         },
@@ -62,7 +62,7 @@ chess.TacticsFromFile = new Class({
                                 border:0
                             },
                             labels:true,
-                            containerCss:{
+                            elCss:{
                                 'background-color' : 'transparent'
                             },
                             weight:1,
@@ -85,7 +85,7 @@ chess.TacticsFromFile = new Class({
                             css:{
                                 'text-align' : 'center',
                                 'overflow-y':'auto',
-                                'background-color':'#FFF'
+                                'background-color':'transparent'
                             }
                         },
                         {
@@ -97,20 +97,20 @@ chess.TacticsFromFile = new Class({
                                 'margin-top' : 2,
                                 'backgrund-color' : 'transparent'
                             },
-                            containerCss:{
+                            elCss:{
                                 'background-color' : 'transparent'
                             },
                             height:30,
                             children:[
                                 { weight:1,
-                                    containerCss:{
+                                    elCss:{
                                         'background-color' : 'transparent'
                                     } },
                                 {
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticHint',
                                     value:chess.getPhrase('Hint'),
-                                    containerCss:{
+                                    elCss:{
                                         'background-color' : 'transparent'
                                     }
                                 },
@@ -118,14 +118,14 @@ chess.TacticsFromFile = new Class({
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticSolution',
                                     value:chess.getPhrase('Solution'),
-                                    containerCss:{
+                                    elCss:{
                                         'background-color' : 'transparent'
                                     }
                                 },{
                                     layout:{ width: 80 },
                                     type:'form.Button',
                                     value:chess.getPhrase('Next Game'),
-                                    containerCss:{
+                                    elCss:{
                                         'background-color' : 'transparent'
                                     },
                                     listeners:{
@@ -136,7 +136,7 @@ chess.TacticsFromFile = new Class({
                                 },
                                 {
                                     weight:1,
-                                    containerCss:{
+                                    elCss:{
                                         'background-color' : 'transparent'
                                     }
                                 }
@@ -174,6 +174,8 @@ chess.TacticsFromFile = new Class({
         }else{
             index = 0;
         }
+
+     
 
 
 

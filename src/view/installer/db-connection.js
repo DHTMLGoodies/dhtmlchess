@@ -14,7 +14,7 @@ chess.view.installer.DbConnection = new Class({
         { name:'connectionTestResult', layout:{ weight:1}, css:{ padding:3, color: '#f00'}, type:'remote.Message', 'listenTo' : "ChessDBInstaller" }
     ],
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         this.child['connectionTest'].addEvent('click', this.checkConnection.bind(this));
     },

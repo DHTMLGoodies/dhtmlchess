@@ -1,4 +1,36 @@
-/* ../ludojs/css-source/view.css */
+/* ../ludojs/css-source/layout/accordion.css */
+.ludo-accordion-container{
+    overflow:hidden;
+    position:relative;
+}
+
+.ludo-accordion-collapsed{
+    width:14px;
+    height:100%;
+    float:left;
+    background: url(../ludojs/images/accordion/accordion-collapsed.png) no-repeat center center;
+}
+
+.ludo-accordion-expanded{
+    background: url(../ludojs/images/accordion/accordion-expanded.png) no-repeat center center;
+
+}
+
+
+.ludo-accordion-titlebar{
+    cursor:pointer;
+    border-radius:0;
+
+}
+div.ludo-accordion-title
+{
+    position:relative;
+    float:left;
+}
+
+.ludo-accordion-titlebar .ludo-framed-view-titlebar-title{
+    width:auto;
+}/* ../ludojs/css-source/view.css */
 /**
 * CSS RULES
 * All components are assigned to class ludo-<namespace>-<component name>
@@ -82,7 +114,7 @@
 }
 
 /* No bold titlebar */
-.ludo-component-titlebar {
+.ludo-view-titlebar {
     width: 100%;
     z-index: 100;
     height: 22px;
@@ -91,7 +123,7 @@
     border-bottom: 1px solid;
 }
 
-.ludo-component-titlebar .ludo-component-buttonbar {
+.ludo-view-titlebar .ludo-view-buttonbar {
     height: 22px;
 }
 
@@ -110,9 +142,7 @@
     height: 100%;
     font-family: arial;
     font-size:12px;
-    font-weight: bold;
     line-height: 23px;
-    color: #000;
 
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -137,7 +167,7 @@
     position: relative;
 }
 
-.ludo-component-buttonbar {
+.ludo-view-buttonbar {
     position: relative;
     padding-right: 1px;
     padding-top: 2px;
@@ -147,19 +177,19 @@
     height: 24px;
 }
 
-.ludo-component-statusbar {
+.ludo-view-statusbar {
     height: 18px;
     border-top: 1px solid;
     position: relative;
 }
 
-.ludo-component-statusbar div {
+.ludo-view-statusbar div {
     float: left;
     padding-left: 3px;
 }
 
 
-.ludo-component-statusbar-icon {
+.ludo-view-statusbar-icon {
     position: relative;
     left: 2px;
     top: 0;
@@ -169,7 +199,7 @@
     width: 20px;
 }
 
-.ludo-component-statusbar-text {
+.ludo-view-statusbar-text {
     position: relative;
     line-height: 18px;
     height: 100%;
@@ -341,11 +371,11 @@
     overflow: hidden;
 }
 
-.ludo-component-full-screen .ludo-body {
+.ludo-view-full-screen .ludo-body {
     overflow: hidden;
 }
 
-.ludo-component-full-screen-view-effect {
+.ludo-view-full-screen-view-effect {
     border: 1px dotted #000;
 }
 
@@ -358,20 +388,20 @@ div.ludo-content-child-of-fullscreen {
     margin: 0;
 }
 
-.ludo-view-container {
+.ludo-view {
     overflow: hidden;
     font-family:arial;
 }
 
-.ludo-richcomponent .ludo-component-resize {
+.ludo-richcomponent .ludo-view-resize {
     display: none;
 }
 
-.ludo-component-resize, .ludo-window .ludo-component-resize, .ludo-dashboard-column .ludo-component-resize {
+.ludo-view-resize, .ludo-window .ludo-view-resize, .ludo-dashboard-column .ludo-view-resize {
     display: block;
 }
 
-.ludo-application-content .ludo-component-resize {
+.ludo-application-content .ludo-view-resize {
     display: none;
 }
 
@@ -407,23 +437,21 @@ div.ludo-content-child-of-fullscreen {
     padding-left:3px;
 }
 /* Button container at the bottom */
-div.ludo-component-button-container, div.ludo-content-buttons {
+div.ludo-view-button-container, div.ludo-content-buttons {
     padding: 0 !important;
     margin: 0 !important;
     border: 0 !important;
     background-color: transparent !important;
 }
 
-.ludo-content-buttons .ludo-view-container{
+.ludo-content-buttons .ludo-view{
     background-color:transparent;
 }
-.ludo-component-button-container{
+.ludo-view-button-container{
     padding-left:3px;
 }
 
-div.ludo-window, div.ludo-framed-view-shim, div.ludo-dashboard-insertion-marker{
-    border-radius:3px;
-}
+
 div.ludo-FramedView {
     border-radius: 0;
 }
@@ -435,7 +463,7 @@ div.ludo-FramedView {
     -ms-user-select: none;
 }
 
-.ludo-view-container {
+.ludo-view {
     border-width: 1px;
     background-color: #FFF;
     overflow: hidden;
@@ -502,7 +530,7 @@ div.ludo-resize-handle-active {
     border: 1px dashed #777;
 }
 
-.ludo-component-resize-el {
+.ludo-view-resize-el {
     position: absolute;
     padding: 0 !important;
     border: 0 !important;
@@ -511,7 +539,7 @@ div.ludo-resize-handle-active {
     background-color: transparent !important;
 }
 
-.ludo-component-resize-region-s {
+.ludo-view-resize-region-s {
     background-repeat: no-repeat;
     background-position: center center;
     position: absolute;
@@ -522,14 +550,14 @@ div.ludo-resize-handle-active {
     z-index: 15500;
 }
 
-.ludo-component-resize-region-e {
+.ludo-view-resize-region-e {
     top: 5%;
     width: 5px;
     right: 0;
     height: 90%;
 }
 
-.ludo-component-resize-region-w {
+.ludo-view-resize-region-w {
     height: 90%;
     left: 0;
     top: 5%;
@@ -537,7 +565,7 @@ div.ludo-resize-handle-active {
     cursor: w-resize;
 }
 
-.ludo-component-resize-region-n {
+.ludo-view-resize-region-n {
     width: 90%;
     top: 0;
     left: 5%;
@@ -545,27 +573,27 @@ div.ludo-resize-handle-active {
     cursor: s-resize;
 }
 
-.ludo-component-resize-region-nw, .ludo-component-resize-region-ne, .ludo-component-resize-region-sw {
+.ludo-view-resize-region-nw, .ludo-view-resize-region-ne, .ludo-view-resize-region-sw {
     width: 7px;
     height: 7px;
 }
 
-.ludo-component-resize-region-nw {
+.ludo-view-resize-region-nw {
     top: 0;
     left: 0;
 }
 
-.ludo-component-resize-region-ne {
+.ludo-view-resize-region-ne {
     top: 0;
     right: 0;
 }
 
-.ludo-component-resize-region-sw {
+.ludo-view-resize-region-sw {
     left: 0;
     bottom: 0;
 }
 
-.ludo-component-resize-region-se {
+.ludo-view-resize-region-se {
     background-image: none;
     background-repeat: no-repeat;
     position: absolute;
@@ -577,11 +605,11 @@ div.ludo-resize-handle-active {
     cursor: se-resize;
 }
 
-.ludo-component-resize-right {
+.ludo-view-resize-right {
     background-position: left center;
 }
 
-.ludo-component-resize-right {
+.ludo-view-resize-right {
     cursor: w-resize;
     height: 100%;
     width: 3px;
@@ -589,6 +617,284 @@ div.ludo-resize-handle-active {
     right: 0;
 }
 /* ../ludojs/css-source/layout/tab.css */
+
+
+/* ../ludojs/css-source/layout/tab-strip.css */
+
+.ludo-tab-strip {
+    margin: 0;
+}
+
+.ludo-tab-strip span{
+    font-size:11px;
+}
+
+.ludo-tab-layout-parent-for-tabs{
+    z-index:100;
+
+}
+
+.ludo-tab-strip-tab-bg{
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+
+.ludo-tab-strip-line {
+    position: absolute;
+    z-index:11;
+}
+.ludo-tab-strip-tab {
+    position: absolute;
+    white-space: nowrap;
+    cursor: pointer;
+    z-index: 12;
+    overflow:hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ludo-tab-strip-top .ludo-tab-strip-line,.ludo-tab-strip-bottom .ludo-tab-strip-line {
+    height:3px;
+    width:100%;
+}
+/******************************************************************
+Tab strip on top
+****************************************************************/
+
+.ludo-tab-strip-top .ludo-tab-strip-tab-bg{
+    left:0;
+    bottom:0;
+    width:100%;
+    height:1px;
+    border-bottom:1px solid #aaa;
+}
+
+div.ludo-tab-strip-top .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-bottom-color:#555;
+}
+
+
+.ludo-tab-layout-parent-for-tabs-top{
+    bottom:4px;
+}
+
+
+.ludo-tab-strip-top .ludo-tab-strip-line {
+    bottom: 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.ludo-tab-strip-top {
+    height: 30px;
+    padding-bottom: 1px;
+}
+
+.ludo-tab-strip-tab-top {
+    bottom:0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid;
+    border-left-width:0;
+    border-bottom-width:0;
+    border-top-width: 0;
+    height:27px;
+    line-height:24px;
+
+}
+
+div.ludo-tab-strip-top .ludo-tab-strip-tab-active {
+
+}
+
+
+/** Tab strip left */
+
+.ludo-tab-strip-left .ludo-tab-strip-tab-bg{
+    right:0;
+    top:0;
+    height:100%;
+    width:1px;
+    border-right:1px solid #aaa;
+}
+
+.ludo-tab-layout-parent-for-tabs-left{
+    right:3px;
+}
+
+.ludo-tab-strip-left {
+    padding-right: 1px;
+    width: 25px;
+}
+
+.ludo-tab-strip-left .ludo-tab-strip-line {
+    right: 0;
+    width: 3px;
+    height: 100%;
+    z-index: 11;
+}
+.ludo-tab-strip-tab-left {
+    width: 23px;
+    right:0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+    border-right-width: 0;
+    border-top-width:0;
+    border-left-width:0;
+}
+
+/********************************************
+Tab strip bottom
+*******************************************************/
+
+.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg{
+    left:0;
+    top:0;
+    width:100%;
+    height:1px;
+    border-top:1px solid #aaa;
+}
+
+div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-top-color:#555;
+}
+
+
+.ludo-tab-layout-parent-for-tabs-bottom{
+    top:4px;
+}
+
+.ludo-tab-strip-bottom .ludo-tab-strip-line {
+    top: 0;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+
+.ludo-tab-strip-bottom {
+    height: 30px;
+    padding-top: 1px;
+}
+
+.ludo-tab-strip-tab-bottom {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid;
+    border-bottom-width: 0;
+    border-left-width:0;
+    border-top-width:0;
+    height:27px;
+    line-height:23px;
+    top:0;
+
+}
+
+div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active {
+    border-top-color:transparent;
+}
+
+div.ludo-tab-strip-bottom div.ludo-body {
+    border-top: 0;
+}
+
+
+/** Right tabs */
+.ludo-tab-layout-parent-for-tabs-right{
+    left:3px;
+}
+
+.ludo-tab-strip-right .ludo-tab-strip-tab-bg{
+    left:0;
+    top:0;
+    height:100%;
+    width:1px;
+    border-left:1px solid #aaa;
+}
+
+div.ludo-tab-strip-right .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-left-color:transparent;
+}
+
+.ludo-tab-strip-right {
+    border-left: 1px solid;
+    padding-left: 1px;
+    width: 26px;
+}
+
+.ludo-tab-strip-right .ludo-tab-strip-line {
+    left: 0;
+    width: 3px;
+    height: 100%;
+}
+
+.ludo-tab-strip-tab-right {
+    width: 23px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+    border-right-width: 0;
+    border-top-width:0;
+    border-left-width:0;
+}
+
+
+div.ludo-tab-strip-top div.ludo-body {
+    border-bottom: 0;
+}
+
+div.ludo-tab-strip-right div.ludo-body {
+    border-right-width:0;
+}
+
+.ludo-tab-strip-tab-txt-svg{
+    font-family:arial, helvetica, serif;
+    font-size:11px;
+    line-height:19px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.ludo-tab-expand-box{
+    position:absolute;
+    z-index:200;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    font-size:10px;
+}
+
+
+.ludo-tab-expand-box-top, .ludo-tab-expand-box-bottom{
+    right:0;
+    top:0;
+    margin-left:4px;
+}
+
+.ludo-tab-expand-box-top{
+    background-image:url(../images/layout/tabs-expand-top.png?rnd=3);
+}
+
+.ludo-tab-expand-box-top-over{
+    background-image:url(../images/layout/tabs-expand-top-over.png?rnd=3);
+}
+
+
+.ludo-tab-expand-box-bottom{
+    background-image:url(../images/layout/tabs-expand-bottom.png?rnd=3);
+}
+
+.ludo-tab-expand-box-bottom-over{
+    background-image:url(../images/layout/tabs-expand-bottom-over.png?rnd=3);
+}
+
+
+
 .ludo-tab-close{
     background-repeat:no-repeat;
     background-position:center center;
@@ -601,273 +907,30 @@ div.ludo-resize-handle-active {
 }
 .ludo-tab-close-top, .ludo-tab-close-bottom{
     right:2px;
-    top:2px;
+    top:0;
     height:90%;
-    width:12px;
+    width:22px;
 }
 
 .ludo-tab-close-right{
-    background-image:url(../ludojs/images/layout/tab-close-right.png);
     bottom:2px;
     width:90%;
-    height:12px;
+    height:22px;
 }
 .ludo-tab-close-left{
-    background-image:url(../ludojs/images/layout/tab-close-left.png);
     top:2px;
     width:90%;
-    height:12px;
-}
-.ludo-tab-close-right-over{
-    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
-}
-.ludo-tab-close-left-over{
-    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
-}/* ../ludojs/css-source/layout/tab-strip.css */
-.ludo-tab-strip {
-    margin: 0;
+    height:22px;
 }
 
-.ludo-tab-strip-line {
-    position: absolute;
-    z-index:1;
-}
-.ludo-tab-strip-tab {
-    position: absolute;
-    white-space: nowrap;
-    cursor: pointer;
-    z-index: 2;
-    overflow:hidden;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.ludo-tab-expand-box{
+    width:auto;
+    padding-left:17px;
+    padding-right:2px;
+    background-position: left center;
 }
 
-.ludo-tab-strip-tab-bg-first, .ludo-tab-strip-tab-bg-last{
-    position:absolute;
-    border:0;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-line,.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    height:3px;
-    width:100%;
-}
-/** Tab strip on top */
-.ludo-tab-strip-top .ludo-tab-strip-line {
-    bottom: 0;
-    border-top: 1px solid;
-}
-
-.ludo-tab-strip-top {
-    border-bottom: 1px solid;
-    height: 26px;
-    padding-bottom: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-left-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-right-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-tab-top {
-    bottom: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-top: 0;
-}
-
-div.ludo-tab-strip-top .ludo-tab-strip-tab-active {
-    height: 22px;
-    bottom: 3px;
-    border-bottom:0;
-}
-
-/** Tab strip left */
-.ludo-tab-strip-left {
-    border-right: 1px solid;
-    padding-right: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-line {
-    right: 0;
-    width: 3px;
-    border-left: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-left {
-    right: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-left: 0;
-}
-
-div.ludo-tab-strip-left .ludo-tab-strip-tab-active {
-    width: 22px;
-    right: 3px;
-    border-right:0;
-}
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-left-width: 1px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    height: 55%;
-    width: 120%;
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-left div.ludo-body {
-    border-right: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-/** Tab strip bottom */
-.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    top: 0;
-    border-bottom: 1px solid;
-}
-
-.ludo-tab-strip-bottom {
-    border-top: 1px solid;
-    height: 26px;
-    padding-top: 1px;
-}
-.ludo-tab-strip-tab-bg-first,.ludo-tab-strip-tab-bg-last{
-    border-style: solid;
-    position:absolute;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right:0;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-right-width:1px;
-    border-left:0;
-
-}
-
-.ludo-tab-strip-tab-bottom {
-    top: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-bottom: 0;
-}
-
-div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active {
-    height: 21px;
-    padding-top:1px;
-    top: 3px;
-    border-top:0;
-}
-
-/** Right tabs */
-
-.ludo-tab-strip-right {
-    border-left: 1px solid;
-    padding-left: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-line {
-    left: 0;
-    width: 3px;
-    border-right: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-right {
-    left: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-right: 0;
-}
-
-div.ludo-tab-strip-right .ludo-tab-strip-tab-active {
-    width: 21px;
-    padding-left:1px;
-    left: 3px;
-    border-left:0;
-}
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-right-width: 1px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-right div.ludo-body {
-    border-left: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-.ludo-tab-strip-tab-txt-svg{
-    font-family:arial, helvetica, serif;
-    font-size:11px;
-    line-height:20px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}/* ../ludojs/css-source/grid/grid.css */
+/* ../ludojs/css-source/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -1134,7 +1197,7 @@ div.ludo-paging-current-page .ludo-body{
 .ludo-window, .ludo-richcomponent, .ludo-framed-view-shim {
     border-radius: 7px 7px 0 0;
     -moz-border-radius: 7px 7px 0 0;
-    webkit-border-radius: 7px 7px 0 0;
+    -webkit-border-radius: 7px 7px 0 0;
 }/* ../ludojs/css-source/dialog/dialog.css */
 .ludo-dialog-shim{
     position:absolute;
@@ -1467,20 +1530,20 @@ div.ludo-menu-horizontal-up div.ludo-menu-item-expand {
 
 .ludo-panel fieldset{
     border-radius : 5px;
-     webkit-border-radius: 5px;
+     -webkit-border-radius: 5px;
      -moz-border-radius : 5px;    
 
 }
-.ludo-panel .ludo-view-container{
+.ludo-panel .ludo-view{
     margin:2px;
 }
-.ludo-panel .ludo-view-container .ludo-view-container{
-    padding-left:0px;
-    padding-right:0px;
+.ludo-panel .ludo-view .ludo-view{
+    padding-left:0;
+    padding-right:0;
 }
 
 fieldset{
-    padding:0px;
+    padding:0;
     margin:2px;
 }/* ../ludojs/css-source/remote/message.css */
 .ludo-remote-message{
@@ -1489,7 +1552,7 @@ fieldset{
 .ludo-remote-error-message{
     color:#f00;
 }/* ../ludojs/css-source/form/button.css */
-.ludo-component-buttonbar {
+.ludo-view-buttonbar {
     box-shadow: 0 !important;
     padding-right: 2px;
 }
@@ -1635,7 +1698,6 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
-    background-color:#FFF;
     padding-left:4px;
 }
 
@@ -1785,7 +1847,88 @@ div.ludo-tree-movable-shim img{
 }
 
 
-/* ../ludojs/css-source/progress/progress-bar.css */
+/* ../ludojs/css-source/form/filter-tree.css */
+.ludo-Filter-Tree-Window{
+    border-radius:0;
+    padding:2px;
+    padding-top:0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-color:#000;
+}
+.ludo-Filter-Tree-Window .ludo-window-component-content{
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+.ludo-Filter-Tree-Window .ludo-view-resize-both{
+    background-image:none;
+}
+.ludo-Filter-Tree-Window .ludo-body{
+    background-color:#FFF;
+    padding-right:0;
+    padding-top:0;
+}
+.ludo-filter-tree input{
+    border-radius:2px;
+    background-color:#FFF;
+}
+
+input.ludo-filter-tree-input-active{
+    background-color:#FFF;
+}
+
+.ludo-input-simple-filter-tree{
+    background-color:#f1f1f1;
+    border-bottom:1px solid #959595;
+}
+
+.ludo-Filter-Tree-Combo-Field{
+    cursor:pointer;
+}
+div.ludo-Filter-Tree-Combo-Field div.ludo-body{
+    padding:0;
+    height:22px;
+}
+
+.ludo-Filter-Tree-Field-Arrow{
+    position:absolute;
+    right:3px;
+    top:0;
+    height:22px;
+    width:15px;
+    background-image: url("../../ludojs/images/dropdown-arrow.gif");
+    background-position: center center;
+    background-repeat:no-repeat;
+    z-index:100;
+}
+.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
+    background-image:url('../../ludojs/images/bg-combo-field.png');
+    background-repeat:no-repeat;
+}
+.ludo-Filter-Tree-Bg-Left{
+    width:60%;
+    position:absolute;
+    height:100%;
+    left:0;
+    background-position:top left;
+}
+.ludo-Filter-Tree-Bg-Right{
+    width:60%;
+    position:absolute;
+    height:100%;
+    right:0;
+    background-position:top right;
+}
+.ludo-Filter-Tree-Combo-Value{
+    z-index:120;
+    position:absolute;
+    line-height:22px;
+    left:5px;
+    top:0;
+    font-size:10px;
+    font-weight:bold;
+    width:100%;
+}/* ../ludojs/css-source/progress/progress-bar.css */
 .ludo-Progress-Bar-Bg{
     width:300px;
     height:20px;
@@ -1863,123 +2006,6 @@ div.ludo-tree-movable-shim img{
 
 .ludo-Progress-Bar-Message{
     text-align:center;
-}/* ../ludojs/css-source/accordion.css */
-.ludo-accordion{
-    border-radius:0;
-    border:1px solid #CCC;
-}
-.ludo-accordion .ludo-framed-view-titlebar{
-    border-bottom:0;
-    cursor:pointer;
-}
-.ludo-accordion .ludo-framed-view-titlebar-title{
-    margin-left:20px;
-    line-height:25px;
-}
-.ludo-accordion .ludo-title-bar-button-container{
-    left:2px !important;
-    top:4px !important;
-    height:20px;
-    border:0;
-    background-color:transparent;
-}
-.ludo-accordion .ludo-title-bar-button{
-    background-position:center center;
-}
-.ludo-accordion .ludo-title-bar-button-minimize {
-    background-image:url(../ludojs/images/accordion/accordion-minimize.png);
-}
-.ludo-accordion .ludo-title-bar-button-maximize {
-    background-image:url(../ludojs/images/accordion/accordion-maximize.png);
-}
-
-.ludo-accordion .ludo-title-bar-button-container-left-edge, .ludo-accordion .ludo-title-bar-button-container-right-edge{
-    background-image:none;
-}
-
-.ludo-accordion .ludo-framed-view-titlebar{
-    height:25px;
-}/* ../ludojs/css-source/form/filter-tree.css */
-.ludo-Filter-Tree-Window{
-    border-radius:0;
-    padding:2px;
-    padding-top:0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-color:#000;
-}
-.ludo-Filter-Tree-Window .ludo-window-component-content{
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-.ludo-Filter-Tree-Window .ludo-component-resize-both{
-    background-image:none;
-}
-.ludo-Filter-Tree-Window .ludo-body{
-    background-color:#FFF;
-    padding-right:0;
-    padding-top:0;
-}
-.ludo-filter-tree input{
-    border-radius:2px;
-    background-color:#FFF;
-}
-
-input.ludo-filter-tree-input-active{
-    background-color:#FFF;
-}
-
-.ludo-input-simple-filter-tree{
-    background-color:#f1f1f1;
-    border-bottom:1px solid #959595;
-}
-
-.ludo-Filter-Tree-Combo-Field{
-    cursor:pointer;
-}
-div.ludo-Filter-Tree-Combo-Field div.ludo-body{
-    padding:0;
-    height:22px;
-}
-
-.ludo-Filter-Tree-Field-Arrow{
-    position:absolute;
-    right:3px;
-    top:0;
-    height:22px;
-    width:15px;
-    background-image: url("../../ludojs/images/dropdown-arrow.gif");
-    background-position: center center;
-    background-repeat:no-repeat;
-    z-index:100;
-}
-.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
-    background-image:url('../../ludojs/images/bg-combo-field.png');
-    background-repeat:no-repeat;
-}
-.ludo-Filter-Tree-Bg-Left{
-    width:60%;
-    position:absolute;
-    height:100%;
-    left:0;
-    background-position:top left;
-}
-.ludo-Filter-Tree-Bg-Right{
-    width:60%;
-    position:absolute;
-    height:100%;
-    right:0;
-    background-position:top right;
-}
-.ludo-Filter-Tree-Combo-Value{
-    z-index:120;
-    position:absolute;
-    line-height:22px;
-    left:5px;
-    top:0;
-    font-size:10px;
-    font-weight:bold;
-    width:100%;
 }/* ../ludojs/css-source/form/file.css */
 .ludo-input-file-name-initial{
     font-weight:bold;
@@ -2230,96 +2256,98 @@ div.position-setup-selected-piece{
     border:2px solid blue;
     padding:0px;
 }
-.ludo-body label, .ludo-body legend {
+.ludo-body label, .ludo-blue .ludo-body legend {
     color: #354150;
     font-weight: bold;
     line-height: 20px;
 }
-.ludo-window .ludo-body{
+
+.ludo-blue .ludo-window > .ludo-body {
     margin: 5px;
     border: 1px solid #a6cbf5;
 }
-.ludo-framed-view .ludo-body {
+
+.ludo-blue .ludo-framed-view .ludo-body {
     overflow: hidden;
 }
 
-.ludo-component-with-buttonbar {
+.ludo-blue .ludo-view-with-buttonbar {
     padding-bottom: 5px !important;
 }
 
 /** Rich component with button bar */
-.ludo-component-with-buttonbar .ludo-body {
+.ludo-blue .ludo-view-with-buttonbar .ludo-body {
     margin-bottom: 0;
 }
 
 /** Rich component without button bar */
-.ludo-component-no-buttonbar .ludo-body {
+.ludo-blue .ludo-view-no-buttonbar .ludo-body {
     margin-bottom: 5px;
 }
 
-.ludo-framed-view .ludo-body div.ludo-body {
+.ludo-blue .ludo-framed-view .ludo-body div.ludo-body {
     border: 0;
 }
 
-.ludo-framed-view .ludo-body .ludo-body {
+.ludo-blue .ludo-framed-view .ludo-body .ludo-body {
     margin: 0;
 }
 
-.ludo-view-container {
+.ludo-blue .ludo-view {
     background-color: #d1e7ff;
 }
 
-div.ludo-framed-view-body {
+.ludo-blue div.ludo-framed-view-body {
     background-color: #d1e7ff;
 }
 
-div.ludo-framed-view-titlebar {
+.ludo-blue div.ludo-framed-view-titlebar {
     background-image: url("../ludojs/images/blue-skin/bg-title-bar.png");
     border-bottom: 1px solid #a6cbf5;
     background-color: #c6e1ff;
 }
 
-div.ludo-framed-view-titlebar {
+.ludo-blue div.ludo-framed-view-titlebar {
     border-bottom: 1px solid #a6cbf5;
 }
 
-div.ludo-framed-view {
+.ludo-blue div.ludo-framed-view {
     border: 1px solid #a6cbf5;
 }
 
-.ludo-body {
+.ludo-blue .ludo-body {
     font-size: 11px;
 }
 
-div.ludo-framed-view-titlebar-title {
+.ludo-blue div.ludo-framed-view-titlebar-title {
     font-size: 12px;
     color: #354150;
 }
 
-div.ludo-component-statusbar {
+.ludo-blue div.ludo-view-statusbar {
     background-color: #d1e7ff;
     border-top: 0 solid #AAAAAA;
 }
 
-div.ludo-window, div.ludo-framed-view-shim, div.ludo-dashboard-insertion-marker {
+.ludo-blue div.ludo-window, .ludo-blue div.ludo-framed-view-shim, .ludo-blue div.ludo-dashboard-insertion-marker {
     border-radius: 3px;
 }
 
-div.ludo-FramedView {
+.ludo-blue div.ludo-FramedView {
     border-radius: 0;
 }
 
-.ludo-FramedView .ludo-component-statusbar-resize-height {
+.ludo-blue .ludo-FramedView .ludo-view-statusbar-resize-height {
     display: none;
 }
 
-.ludo-component-buttonbar {
+.ludo-blue .ludo-view-buttonbar {
     background-color: #d1e7ff;
     border: 1px solid #a6cbf5;
     border-top: 0 solid #a6cbf5;
 }
 
-.ludo-window {
+.ludo-blue .ludo-window {
     background-image: url('../ludojs/images/blue-skin/bg-window-panels.png');
     background-repeat: repeat-x;
     border-left: 1px solid #577696 !important;
@@ -2328,218 +2356,193 @@ div.ludo-FramedView {
     border-top: 1px solid #92a2b3 !important;
 }
 
-.ludo-window .ludo-component-statusbar-resize-height {
+.ludo-blue .ludo-window .ludo-view-statusbar-resize-height {
     display: block;
 }
 
-div.ludo-application, div.ludo-application-content {
+.ludo-blue div.ludo-application, .ludo-blue div.ludo-application-content {
     border-width: 0 !important;
 }
 
-div.ludo-layout-resize-col {
+.ludo-blue div.ludo-layout-resize-col {
     background-color: transparent;
     background-image: url('../ludojs/images/blue-skin/horizontal-resize.png')
 }
 
-div.ludo-layout-resize-row {
+.ludo-blue div.ludo-layout-resize-row {
     background-color: transparent;
     background-image: url('../ludojs/images/blue-skin/vertical-resize.png')
 }
 
-.ludo-component-resize-region-se {
+.ludo-blue .ludo-view-resize-region-se {
     background-image: url('../ludojs/images/blue-skin/resize-dots.png');
 }
 
-div.ludo-resize-handle-over {
+.ludo-blue div.ludo-resize-handle-over {
     background-color: #a6cbf5;
 }
 
-div.ludo-resize-handle-active {
+.ludo-blue div.ludo-resize-handle-active {
     background-color: #a6cbf5;
 }
 
-.ludo-layout-resize-row {
+.ludo-blue .ludo-layout-resize-row {
     height: 6px;
     opacity: 1;
     background-color: transparent;
-    filter: alpha(opacity = 100);
+    filter: alpha(opacity=100);
     background-image: url('../ludojs/images/vertical-resize.gif');
     background-position: center center;
     background-repeat: no-repeat;
 }
 
-.ludo-application-content .ludo-component-statusbar-resize-horizontal {
+.ludo-blue .ludo-application-content .ludo-view-statusbar-resize-horizontal {
     display: none;
 }
 
-.ludo-application-content .ludo-component-statusbar-resize {
+.ludo-blue .ludo-application-content .ludo-view-statusbar-resize {
     display: none;
 }
 
-.ludo-application-content .ludo-component-statusbar-resize-both {
+.ludo-blue .ludo-application-content .ludo-view-statusbar-resize-both {
     display: none;
 }
 
-div.ludo-container-frame {
+.ludo-blue div.ludo-container-frame {
     border: 1px solid #a6cbf5 !important;
 }
 
-.ludo-form-button-m-bg-right, .ludo-form-button-m-bg-left {
+.ludo-blue .ludo-form-button-m-bg-right, .ludo-blue .ludo-form-button-m-bg-left {
     background-image: url('../ludojs/images/blue-skin/button-blue.png');
 }
 
-.ludo-form-button-over .ludo-form-button-m-bg-left, .ludo-form-button-over .ludo-form-button-m-bg-right {
+.ludo-blue .ludo-form-button-over .ludo-form-button-m-bg-left, .ludo-blue .ludo-form-button-over .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/blue-skin/button-blue-over.png');
 }
 
-.ludo-form-button-down .ludo-form-button-m-bg-left, .ludo-form-button-down .ludo-form-button-m-bg-right {
+.ludo-blue .ludo-form-button-down .ludo-form-button-m-bg-left, .ludo-blue .ludo-form-button-down .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/blue-skin/button-blue-down.png');
 }
 
-.ludo-form-button-pressed .ludo-form-button-m-bg-left, .ludo-form-button-pressed .ludo-form-button-m-bg-right {
+.ludo-blue .ludo-form-button-pressed .ludo-form-button-m-bg-left, .ludo-blue .ludo-form-button-pressed .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/blue-skin/button-blue-pressed.png');
 }
 
-div.ludo-form-button-selected .ludo-form-button-m-bg-left, div.ludo-form-button-selected .ludo-form-button-m-bg-right {
+.ludo-blue div.ludo-form-button-selected .ludo-form-button-m-bg-left, .ludo-blue div.ludo-form-button-selected .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/blue-skin/button-blue-selected.png');
 }
 
-div.ludo-form-button-disabled .ludo-form-button-m-bg-left, div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
+.ludo-blue div.ludo-form-button-disabled .ludo-form-button-m-bg-left, .ludo-blue div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/blue-skin/button-blue-disabled.png') !important;
 }
 
 /** Large buttons */
-.ludo-form-button-l-bg-right, .ludo-form-button-l-bg-left {
+.ludo-blue .ludo-form-button-l-bg-right, .ludo-blue .ludo-form-button-l-bg-left {
     background-image: url('../ludojs/images/blue-skin/l-button.png');
 }
 
-.ludo-form-button-over .ludo-form-button-l-bg-left, .ludo-form-button-over .ludo-form-button-l-bg-right {
+.ludo-blue .ludo-form-button-over .ludo-form-button-l-bg-left, .ludo-blue .ludo-form-button-over .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/blue-skin/l-button-over.png');
 }
 
-.ludo-form-button-down .ludo-form-button-l-bg-left, .ludo-form-button-down .ludo-form-button-l-bg-right {
+.ludo-blue .ludo-form-button-down .ludo-form-button-l-bg-left, .ludo-blue .ludo-form-button-down .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/blue-skin/l-button-down.png');
 }
 
-.ludo-form-button-pressed .ludo-form-button-l-bg-left, .ludo-form-button-pressed .ludo-form-button-l-bg-right {
+.ludo-blue .ludo-form-button-pressed .ludo-form-button-l-bg-left, .ludo-blue .ludo-form-button-pressed .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/blue-skin/l-button-over.png');
 }
 
-div.ludo-form-button-selected .ludo-form-button-l-bg-left, div.ludo-form-button-selected .ludo-form-button-l-bg-right {
+.ludo-blue div.ludo-form-button-selected .ludo-form-button-l-bg-left, .ludo-blue div.ludo-form-button-selected .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/blue-skin/l-button-selected.png');
 }
 
-div.ludo-form-button-disabled .ludo-form-button-l-bg-left, div.ludo-form-button-disabled .ludo-form-button-l-bg-right {
+.ludo-blue div.ludo-form-button-disabled .ludo-form-button-l-bg-left, .ludo-blue div.ludo-form-button-disabled .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/blue-skin/form/l-button-disabled.png') !important;
 }
 
 /** XL buttons */
-.ludo-form-button-xl-bg-right, .ludo-form-button-xl-bg-left {
+.ludo-blue .ludo-form-button-xl-bg-right, .ludo-blue .ludo-form-button-xl-bg-left {
     background-image: url('../ludojs/images/blue-skin/xl-button.png');
 }
 
-.ludo-form-button-over .ludo-form-button-xl-bg-left, .ludo-form-button-over .ludo-form-button-xl-bg-right {
+.ludo-blue .ludo-form-button-over .ludo-form-button-xl-bg-left, .ludo-blue .ludo-form-button-over .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/blue-skin/xl-button-over.png');
 }
 
-.ludo-form-button-down .ludo-form-button-xl-bg-left, .ludo-form-button-down .ludo-form-button-xl-bg-right {
+.ludo-blue .ludo-form-button-down .ludo-form-button-xl-bg-left, .ludo-blue .ludo-form-button-down .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/blue-skin/xl-button-down.png');
 }
 
-.ludo-form-button-pressed .ludo-form-button-xl-bg-left, .ludo-form-button-pressed .ludo-form-button-xl-bg-right {
+.ludo-blue .ludo-form-button-pressed .ludo-form-button-xl-bg-left, .ludo-blue .ludo-form-button-pressed .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/blue-skin/xl-button-over.png');
 }
 
-div.ludo-form-button-selected .ludo-form-button-xl-bg-left, div.ludo-form-button-selected .ludo-form-button-xl-bg-right {
+.ludo-blue div.ludo-form-button-selected .ludo-form-button-xl-bg-left, .ludo-blue div.ludo-form-button-selected .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/blue-skin/xl-button-selected.png');
 }
 
-div.ludo-form-button-disabled .ludo-form-button-xl-bg-left, div.ludo-form-button-disabled .ludo-form-button-xl-bg-right {
+.ludo-blue div.ludo-form-button-disabled .ludo-form-button-xl-bg-left, .ludo-blue div.ludo-form-button-disabled .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/blue-skin/xl-button-disabled.png') !important;
 }
 
-div.ludo-form-button-disabled {
+.ludo-blue div.ludo-form-button-disabled {
     color: #555;
     cursor: default;
 }
 
-.ludo-view-collapsed {
+.ludo-blue .ludo-view-collapsed {
     border-color: #a6cbf5;
 }
 
-.ludo-view-collapsed-over {
+.ludo-blue .ludo-view-collapsed-over {
     background-color: #bbd7f9;
 }
 
 /** Title bar buttons */
-.ludo-title-bar-button-container-left-edge {
+.ludo-blue .ludo-title-bar-button-container-left-edge {
     background-image: url('../ludojs/images/gray-skin/bg-title-bar-buttons.png');
 }
 
-.ludo-title-bar-button-container-right-edge {
+.ludo-blue .ludo-title-bar-button-container-right-edge {
     background-image: url('../ludojs/images/gray-skin/bg-title-bar-buttons.png');
 }
 
-.ludo-title-bar-button-with-border {
+.ludo-blue .ludo-title-bar-button-with-border {
     /** Border between buttons in title bar can be set here */
 }
 
-/** Tab strip */
-
-.ludo-tab-strip {
-    background-color: #d1e7ff;
-}
-
-.ludo-tab-strip div.ludo-tab {
-    background-color: #6c9ad1;
-
-}
-
-/** Bg behind tabs */
-.ludo-tab-strip-bg {
-    height: 1px;
-    background-color: #a6cbf5;
-}
-
-.ludo-tab-strip div.ludo-tab-active {
-    height: 21px;
-    border-left: 1px solid #a6cbf5;
-    border-top: 1px solid #a6cbf5;
-    border-right: 1px solid #a6cbf5;
-}
 
 /** Resize shim */
-.ludo-shim-resize {
+.ludo-blue .ludo-shim-resize {
     border: 1px dashed #777;
 }
 
 /* Menu */
-.ludo-menu-item-horizontal {
+.ludo-blue .ludo-menu-item-horizontal {
     padding-top: 0;
     padding-bottom: 0;
     line-height: 20px;
 }
 
-.ludo-body {
+.ludo-blue .ludo-body {
     text-align: left;
 }
 
-
-div.ludo-menu-item-horizontal.ludo-menu-item-over, div.ludo-menu-horizontal .ludo-menu-item-active {
+.ludo-blue div.ludo-menu-item-horizontal.ludo-menu-item-over, .ludo-blue div.ludo-menu-horizontal .ludo-menu-item-active {
     /* background-image: url(../ludojs/images/light-gray-skin/bg-horizontal-menu-over.png); */
-    background-color:#a6cbf5;
+    background-color: #a6cbf5;
 }
 
-div.ludo-menu-vertical {
+.ludo-blue div.ludo-menu-vertical {
     background-color: #FFF;
 }
 
-.ludo-menu-vertical .ludo-menu-item {
+.ludo-blue .ludo-menu-vertical .ludo-menu-item {
     background-color: transparent;
 }
 
-
-.ludo-menu-item-horizontal {
+.ludo-blue .ludo-menu-item-horizontal {
     padding-top: 0;
     padding-bottom: 0;
     margin: 0;
@@ -2547,31 +2550,31 @@ div.ludo-menu-vertical {
 
 }
 
-.ludo-menu {
-    font-family: arial,serif !important;
+.ludo-blue .ludo-menu {
+    font-family: arial, serif !important;
     font-size: 11px;
 }
 
-.ludo-menu div {
+.ludo-blue .ludo-menu div {
     background-color: transparent;
 }
 
-.ludo-menu div.ludo-menu-item-spacer-horizontal {
+.ludo-blue .ludo-menu div.ludo-menu-item-spacer-horizontal {
     background-color: #a6cbf5;
 }
 
-.ludo-menu-horizontal .ludo-menu-item {
+.ludo-blue .ludo-menu-horizontal .ludo-menu-item {
     font-weight: bold;
     color: #354150;
 }
 
-.ludo-menu-horizontal .ludo-menu-item-over {
+.ludo-blue .ludo-menu-horizontal .ludo-menu-item-over {
     background-color: transparent;
     color: #000;
     border-color: #000;
 }
 
-.ludo-menu-vertical {
+.ludo-blue .ludo-menu-vertical {
     border: 1px solid #a6cbf5;
     background: url(../ludojs/images/blue-skin/menu-bg-vertical.png) repeat-y;
     -moz-box-shadow: 1px 1px 4px #555;
@@ -2579,7 +2582,7 @@ div.ludo-menu-vertical {
     box-shadow: 1px 1px 3px #555;
 }
 
-.ludo-menu-vertical .ludo-menu-item-over, .ludo-menu-vertical .ludo-menu-item-active {
+.ludo-blue .ludo-menu-vertical .ludo-menu-item-over, .ludo-blue .ludo-menu-vertical .ludo-menu-item-active {
     background-color: #FFF;
     border: 1px solid #a6cbf5;
     padding-left: 34px;
@@ -2590,43 +2593,43 @@ div.ludo-menu-vertical {
     color: #000;
 }
 
-.ludo-menu-item-vertical-expand {
+.ludo-blue .ludo-menu-item-vertical-expand {
     background-image: url(../ludojs/images/expand-menu.png);
 }
 
-.ludo-menu-item-horizontal-expand {
+.ludo-blue .ludo-menu-item-horizontal-expand {
     background-image: url(../ludojs/images/blue-skin/expand-menu-horizontal.png);
 }
 
-.ludo-form-button-s .ludo-form-button-s-bg-left, .ludo-form-button-s .ludo-form-button-s-bg-right {
+.ludo-blue .ludo-form-button-s .ludo-form-button-s-bg-left, .ludo-blue .ludo-form-button-s .ludo-form-button-s-bg-right {
     background-image: url('../ludojs/images/blue-skin/tiny-button.png');
 }
 
-.ludo-form-button-s .ludo-form-button-over .ludo-form-button-s-bg-left, .ludo-form-button-s .ludo-form-button-over .ludo-form-button-s-bg-right {
+.ludo-blue .ludo-form-button-s .ludo-form-button-over .ludo-form-button-s-bg-left, .ludo-blue .ludo-form-button-s .ludo-form-button-over .ludo-form-button-s-bg-right {
     background-image: url('../ludojs/images/blue-skin/tiny-button-over.png');
 }
 
-.ludo-form-button-s .ludo-form-button-down .ludo-form-button-s-bg-left, .ludo-form-button-s .ludo-form-button-down .ludo-form-button-s-bg-right {
+.ludo-blue .ludo-form-button-s .ludo-form-button-down .ludo-form-button-s-bg-left, .ludo-blue .ludo-form-button-s .ludo-form-button-down .ludo-form-button-s-bg-right {
     background-image: url('../ludojs/images/blue-skin/tiny-button-down.png');
 }
 
-.ludo-form-button-s .ludo-form-button-disabled .ludo-form-button-s-bg-left, .ludo-form-button-s .ludo-form-button-disabled .ludo-form-button-s-bg-right {
+.ludo-blue .ludo-form-button-s .ludo-form-button-disabled .ludo-form-button-s-bg-left, .ludo-blue .ludo-form-button-s .ludo-form-button-disabled .ludo-form-button-s-bg-right {
     background-image: url('../ludojs/images/blue-skin/tiny-button-disabled.png');
 }
 
-.ludo-form-tiny-button .ludo-form-button-value {
+.ludo-blue .ludo-form-tiny-button .ludo-form-button-value {
     line-height: 15px;
 }
 
 /** Calendar */
-.ludo-calendar-year-container {
+.ludo-blue .ludo-calendar-year-container {
     background-color: #a6cbf5;
     padding-bottom: 5px;
     padding-top: 5px;
     height: 20;
 }
 
-.ludo-calendar-month-year-container {
+.ludo-blue .ludo-calendar-month-year-container {
     background-color: #d1e7ff;
     padding-top: 3px;
     padding-bottom: 3px;
@@ -2635,7 +2638,7 @@ div.ludo-menu-vertical {
     height: 20;
 }
 
-.ludo-calendar-year, .ludo-calendar-month-year {
+.ludo-blue .ludo-calendar-year, .ludo-blue .ludo-calendar-month-year {
     color: #555;
     float: left;
     font-size: 10px;
@@ -2644,7 +2647,7 @@ div.ludo-menu-vertical {
     cursor: pointer;
 }
 
-.ludo-calendar-year-selected {
+.ludo-blue .ludo-calendar-year-selected {
     background-color: #d1e7ff;
 
     color: #000;
@@ -2655,7 +2658,7 @@ div.ludo-menu-vertical {
     font-weight: bold;
 }
 
-.ludo-calendar-month-year-selected {
+.ludo-blue .ludo-calendar-month-year-selected {
     background-color: #d1e7ff;
     color: #000;
     font-size: 11px;
@@ -2665,18 +2668,18 @@ div.ludo-menu-vertical {
     font-weight: bold;
 }
 
-.ludo-calendar-year-disabled {
+.ludo-blue .ludo-calendar-year-disabled {
     cursor: default;
     color: #CCC;
 }
 
-.ludo-calendar-month-container {
+.ludo-blue .ludo-calendar-month-container {
     background-color: #a6cbf5;
     padding-top: 5px;
     height: 14px;
 }
 
-.ludo-calendar-month {
+.ludo-blue .ludo-calendar-month {
     cursor: pointer;
     float: left;
     font-size: 10px;
@@ -2684,7 +2687,7 @@ div.ludo-menu-vertical {
 
 }
 
-.ludo-calendar-month-selected {
+.ludo-blue .ludo-calendar-month-selected {
     background-color: #d1e7ff;
     color: #000;
     border-top-left-radius: 5px;
@@ -2694,11 +2697,11 @@ div.ludo-menu-vertical {
     padding-right: 10px;
 }
 
-.ludo-calendar-month-tip {
+.ludo-blue .ludo-calendar-month-tip {
     background-color: #a6cbf5;
 }
 
-.ludo-calendar-month-inactive {
+.ludo-blue .ludo-calendar-month-inactive {
     width: 10px;
     height: 10px;
     background-image: url(../ludojs/images/calendar-month-dot.png);
@@ -2708,48 +2711,48 @@ div.ludo-menu-vertical {
     padding-right: 5px;
 }
 
-.ludo-calendar-header {
+.ludo-blue .ludo-calendar-header {
     border-bottom: 1px solid #a6cbf5;
     background-color: #d1e7ff;
 }
 
-.ludo-calendar-header td {
+.ludo-blue .ludo-calendar-header td {
     text-align: center;
 }
 
-.ludo-calendar-days-container {
+.ludo-blue .ludo-calendar-days-container {
     background-color: #a6cbf5;
 }
 
-.ludo-calendar-view {
+.ludo-blue .ludo-calendar-view {
     font-size: 11px;
     background-color: #a6cbf5;
 }
 
-.ludo-calendar-header {
+.ludo-blue .ludo-calendar-header {
     height: 20px;
     line-height: 20px;
     position: relative;
 }
 
-.ludo-calendar-container-days {
+.ludo-blue .ludo-calendar-container-days {
     border-bottom: 1px solid #a6cbf5;
 }
 
-.ludo-calendar-container-days td, .ludo-calendar-container-days tr {
+.ludo-blue .ludo-calendar-container-days td, .ludo-blue .ludo-calendar-container-days tr {
     padding: 0;
     margin: 0;
 }
 
-.ludo-calendar-body-days {
+.ludo-blue .ludo-calendar-body-days {
     background-color: #FFF;
 }
 
-.ludo-calendar-container-days td {
+.ludo-blue .ludo-calendar-container-days td {
     line-height: 15px;
 }
 
-.calendar-week {
+.ludo-blue .calendar-week {
     border-right: 1px solid #a6cbf5;
     text-align: center;
     background-color: #d1e7ff;
@@ -2761,15 +2764,15 @@ td.calendar-day {
     cursor: pointer;
 }
 
-.calendar-sunday {
+.ludo-blue .calendar-sunday {
     color: red;
 }
 
-.calendar-day-inactive {
+.ludo-blue .calendar-day-inactive {
     color: #999;
 }
 
-.ludo-calendar-month-info {
+.ludo-blue .ludo-calendar-month-info {
     text-align: center !important;
     color: #000;
     font-size: 10px;
@@ -2777,15 +2780,15 @@ td.calendar-day {
     border-top: 0;
 }
 
-.ludo-calendar-month-info div {
+.ludo-blue .ludo-calendar-month-info div {
     text-align: center;
 }
 
-.calendar-day {
+.ludo-blue .calendar-day {
     border: 1px solid #FFF;
 }
 
-.calendar-day-today {
+.ludo-blue .calendar-day-today {
     border: 1px solid #d1e7ff;
 }
 
@@ -2794,231 +2797,300 @@ td.calendar-day-selected {
     border: 1px solid #a6cbf5;
 }
 
-.calendar-day-mouse-over {
+.ludo-blue .calendar-day-mouse-over {
     background-color: #d1e7ff;
 }
 
 /** form.FilterText component */
-.ludo-form-text-autocomplete-container {
+.ludo-blue .ludo-form-text-autocomplete-container {
     background-color: #FFF;
 }
 
 /**
 form.ComboTree
 */
-.ludo-Filter-Tree-Combo-Field {
+.ludo-blue .ludo-Filter-Tree-Combo-Field {
     margin-left: 3px;
     margin-right: 3px;
 }
 
-.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right {
+.ludo-blue .ludo-Filter-Tree-Bg-Left, .ludo-blue .ludo-Filter-Tree-Bg-Right {
     background-image: url("../ludojs/images/blue-skin/combo-bg.png");
     background-repeat: no-repeat;
 }
 
-.ludo-Filter-Tree-Field-Arrow {
+.ludo-blue .ludo-Filter-Tree-Field-Arrow {
     background-image: url('../ludojs/images/blue-skin/combo-arrow.png');
 }
 
-.ludo-Filter-Tree-Window {
+.ludo-blue .ludo-Filter-Tree-Window {
     padding: 0;
 }
 
-.ludo-Filter-Tree-Window .ludo-body {
+.ludo-blue .ludo-Filter-Tree-Window .ludo-body {
     padding: 0;
     overflow-y: auto;
     background-color: #FFF;
 }
 
 /** Grid */
-.ludo-grid-Grid .ludo-header {
+.ludo-blue .ludo-grid-Grid .ludo-header {
     background-color: #f5f5f5;
     background-image: url(../ludojs/images/light-gray-skin/header-gray.png);
 }
 
-.ludo-grid-Grid .ludo-grid-header-cell-top {
+.ludo-blue .ludo-grid-Grid .ludo-grid-header-cell-top {
     background-image: url(../ludojs/images/light-gray-skin/header-top-gray.png);
 }
 
-.ludo-grid-Grid .ludo-grid-header-cell-bottom {
+.ludo-blue .ludo-grid-Grid .ludo-grid-header-cell-bottom {
     background-image: url(../ludojs/images/light-gray-skin/header-bottom-gray.png);
 }
 
-.ludo-grid-header-cell {
+.ludo-blue .ludo-grid-header-cell {
     border-right: 1px solid #c6c6c6;
     border-bottom: 1px solid #c6c6c6;
 }
 
-.ludo-grid-Grid div.ludo-active-record {
+.ludo-blue .ludo-grid-Grid div.ludo-active-record {
     font-weight: bold;
     background-color: #f5f5f5;
 
-    border-top:1px solid #f5f5f5;
-    border-bottom:1px solid #f5f5f5;
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 1px solid #f5f5f5;
 }
 
-.ludo-grid-Grid .ludo-menu-button-active{
-    background-color:#f5f5f5;
-    border-left:1px solid #C0C0C0;
+.ludo-blue .ludo-grid-Grid .ludo-menu-button-active {
+    background-color: #f5f5f5;
+    border-left: 1px solid #C0C0C0;
 }
 
-.ludo-form-slider-horizontal .ludo-form-slider-bg-first{
-    background-image:url(../ludojs/images/blue-skin/form/slider.png);
+.ludo-blue .ludo-form-slider-horizontal .ludo-form-slider-bg-first {
+    background-image: url(../ludojs/images/blue-skin/form/slider.png);
 
 }
 
-.ludo-form-slider-horizontal .ludo-form-slider-bg-last{
-    background-image:url(../ludojs/images/blue-skin/form/slider.png);
+.ludo-blue .ludo-form-slider-horizontal .ludo-form-slider-bg-last {
+    background-image: url(../ludojs/images/blue-skin/form/slider.png);
 }
 
-.ludo-form-slider-horizontal .ludo-form-slider-handle{
-    background-image:url(../ludojs/images/blue-skin/form/slider-handle.png);
-}
-.ludo-form-slider-vertical .ludo-form-slider-bg-first{
-    background-image:url(../ludojs/images/blue-skin/form/slider-vertical.png);
+.ludo-blue .ludo-form-slider-horizontal .ludo-form-slider-handle {
+    background-image: url(../ludojs/images/blue-skin/form/slider-handle.png);
 }
 
-.ludo-form-slider-vertical .ludo-form-slider-bg-last{
-    background-image:url(../ludojs/images/blue-skin/form/slider-vertical.png);
+.ludo-blue .ludo-form-slider-vertical .ludo-form-slider-bg-first {
+    background-image: url(../ludojs/images/blue-skin/form/slider-vertical.png);
 }
 
-.ludo-form-slider-vertical .ludo-form-slider-handle{
-    background-image:url(../ludojs/images/blue-skin/form/slider-handle-vertical.png);
+.ludo-blue .ludo-form-slider-vertical .ludo-form-slider-bg-last {
+    background-image: url(../ludojs/images/blue-skin/form/slider-vertical.png);
+}
+
+.ludo-blue .ludo-form-slider-vertical .ludo-form-slider-handle {
+    background-image: url(../ludojs/images/blue-skin/form/slider-handle-vertical.png);
+}
+
+/** Accordion layout **/
+.ludo-blue .ludo-accordion-titlebar-below-expanded {
+    border-top: 1px solid #A6CBF5;
 }
 
 /**
 tab layout */
-.ludo-tab-strip {
-    border:0;
+
+/** Tab strip */
+.ludo-blue div.ludo-tab-strip-tab-bg{
+    border-bottom-color:#a6cbf5;
 }
-.ludo-tab-strip .ludo-body,.ludo-tab-strip-tab {
+.ludo-blue div.ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-bottom-color:#FFF;
+}
+.ludo-blue .ludo-tab-strip {
     background-color: #d1e7ff;
-    border-color:#A6CBF5;
 }
 
-.ludo-tab-strip .ludo-tab-strip-line {
+.ludo-blue .ludo-tab-strip div.ludo-tab {
+    background-color: #6c9ad1;
+
+}
+
+.ludo-blue .ludo-tab-strip-tab span{
+    line-height:28px;
+}
+
+.ludo-blue .ludo-tab-strip-bg {
+    background-color: #a6cbf5;
+}
+
+.ludo-blue .ludo-tab-strip div.ludo-tab-active {
+
+    border-left: 1px solid #a6cbf5;
+    border-top: 1px solid #a6cbf5;
+    border-right: 1px solid #a6cbf5;
+}
+
+.ludo-blue .ludo-tab-strip .ludo-body, .ludo-blue .ludo-tab-strip-tab {
+    background-color: #d1e7ff;
+    border-color: #A6CBF5;
+}
+
+.ludo-blue .ludo-tab-strip .ludo-tab-strip-line {
     background-color: #fff;
-    border-color:#a3c7f0;
+    border-color: #a3c7f0;
 }
-div.ludo-tab-strip-tab-bg-first, div.ludo-tab-strip-tab-bg-last {
-    border-color:#EBF0F5;
+
+.ludo-blue .ludo-tab-strip,
+.ludo-blue div.ludo-tab-strip-left div.ludo-body,
+.ludo-blue .ludo-tab-strip-top {
+    border-color: #A6CBF5;
 }
-.ludo-tab-strip,div.ludo-tab-strip-left div.ludo-body,.ludo-tab-strip-top {
-    border-color:#A6CBF5;
-}
-div.ludo-tab-strip-tab-active {
+
+.ludo-blue div.ludo-tab-strip-tab-active {
     background-color: #fff;
+
 }
-.ludo-layout-tabstrip{
-    background-color:#a6cbf5;
+
+.ludo-blue .ludo-layout-tabstrip {
+    background-color: #a6cbf5;
 }
-.ludo-layout-tab{
-    background-color:#FFF;
+
+.ludo-blue .ludo-layout-tab {
+    background-color: #FFF;
 }
-.ludo-tab-strip-tab-top {
-    border: 1px solid #A6CBF5;
-    border-right: 1px solid #A6CBF5;
-    border-bottom: 1px solid #A6CBF5;
+
+.ludo-blue .ludo-tab-close-left{
+    top:0;
 }
-.ludo-tab-strip-tab-bottom {
-    border: 1px solid #A6CBF5;
-    border-right: 1px solid #A6CBF5;
-    border-top: 1px solid #A6CBF5;
+
+.ludo-blue .ludo-tab-close-right{
+    bottom:0;
 }
-.ludo-tab-strip-tab-left {
-    border: 1px solid #A6CBF5;
-    border-right: 1px solid #A6CBF5;
-    border-bottom: 1px solid #A6CBF5;
+
+.ludo-blue .ludo-tab-expand-box{
+    width:auto;
+    padding-left:17px;
+    padding-right:2px;
+    background-position: left center;
+    background-color:#d1e7ff;
 }
-.ludo-tab-strip-tab-right {
-    border: 1px solid #A6CBF5;
-    border-left: 1px solid #A6CBF5;
-    border-bottom: 1px solid #A6CBF5;
+
+.ludo-blue div.ludo-tab-strip-left .ludo-tab-strip-tab-active {
+    right: 2px;
 }
+
+
+.ludo-blue .ludo-tab-expand-box-top{
+    background-image:url(../images/blue-skin/tabs-expand-top.png?rnd=3);
+}
+
+.ludo-blue .ludo-tab-expand-box-top-over{
+    background-image:url(../images/blue-skin/tabs-expand-top-over.png?rnd=3);
+}
+
+
+.ludo-blue .ludo-tab-expand-box-bottom{
+    background-image:url(../images/blue-skin/tabs-expand-bottom.png?rnd=3);
+}
+
+.ludo-blue .ludo-tab-expand-box-bottom-over{
+    background-image:url(../images/blue-skin/tabs-expand-bottom-over.png?rnd=3);
+}
+
 
 /** Collapse bar */
 
-.ludo-view-collapsed-title{
-    font-size:11px;
-    line-height:16px;
-    font-family:arial, helvetica, serif;
-    font-weight:normal;
-}
-.ludo-collapse-bar{
-    background-color:#d1e7ff;
-}
-.ludo-collapse-bar-left{
-    border-left:1px solid #A6CBF5;
-    border-top:1px solid #A6CBF5;
-    border-bottom:1px solid #A6CBF5;
-}
-.ludo-collapse-bar-right{
-    border-right:1px solid #A6CBF5;
-    border-top:1px solid #A6CBF5;
-    border-bottom:1px solid #A6CBF5;
-}
-.ludo-collapse-bar-bottom{
-    border:1px solid #A6CBF5;
-    border-top:1px solid #A6CBF5;
-}
-.ludo-collapse-bar-top{
-    border:1px solid #A6CBF5;
-}
-.collapse-bar-button{
-    border:1px solid #d1e7ff;
+.ludo-blue .ludo-view-collapsed-title {
+    font-size: 11px;
+    line-height: 16px;
+    font-family: arial, helvetica, serif;
+    font-weight: normal;
 }
 
-.collapse-bar-button-over{
-    border:1px solid #A6CBF5;
-}
-.collapse-bar-button-active{
-    background-color:#c0dcfb;
-    border-left:1px solid #95b6db;
-    border-top:1px solid #95b6db;
-}
-.collapse-bar-button-active .collapse-bar-button-bg-first{
-    border-top:1px solid #A6CBF5;
-    border-right:1px solid #A6CBF5;
-}
-.collapse-bar-button-active .collapse-bar-button-bg-last{
-    border-bottom:1px solid #A6CBF5;
-    border-left:1px solid #A6CBF5;
-}
-div.ludo-form-el-invalid label{
-    color:#F00;
+.ludo-blue .ludo-collapse-bar {
+    background-color: #d1e7ff;
 }
 
-.ludo-notification{
-    background-color:#f5f5f5;
-    padding:3px;
-    padding-left:5px;
-    padding-right:5px;
-    border:1px solid #b3b3b3;
+.ludo-blue .ludo-collapse-bar-left {
+    border-left: 1px solid #A6CBF5;
+    border-top: 1px solid #A6CBF5;
+    border-bottom: 1px solid #A6CBF5;
 }
 
-.input-row .ludo-menu-button{
-    background-color:#d1e7ff;
+.ludo-blue .ludo-collapse-bar-right {
+    border-right: 1px solid #A6CBF5;
+    border-top: 1px solid #A6CBF5;
+    border-bottom: 1px solid #A6CBF5;
+}
+
+.ludo-blue .ludo-collapse-bar-bottom {
+    border: 1px solid #A6CBF5;
+    border-top: 1px solid #A6CBF5;
+}
+
+.ludo-blue .ludo-collapse-bar-top {
+    border: 1px solid #A6CBF5;
+}
+
+.ludo-blue .collapse-bar-button {
+    border: 1px solid #d1e7ff;
+}
+
+.ludo-blue .collapse-bar-button-over {
+    border: 1px solid #A6CBF5;
+}
+
+.ludo-blue .collapse-bar-button-active {
+    background-color: #c0dcfb;
+    border-left: 1px solid #95b6db;
+    border-top: 1px solid #95b6db;
+}
+
+.ludo-blue .collapse-bar-button-active .collapse-bar-button-bg-first {
+    border-top: 1px solid #A6CBF5;
+    border-right: 1px solid #A6CBF5;
+}
+
+.ludo-blue .collapse-bar-button-active .collapse-bar-button-bg-last {
+    border-bottom: 1px solid #A6CBF5;
+    border-left: 1px solid #A6CBF5;
+}
+
+.ludo-blue div.ludo-form-el-invalid label {
+    color: #F00;
+}
+
+.ludo-blue .ludo-notification {
+    background-color: #f5f5f5;
+    padding: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid #b3b3b3;
+}
+
+.ludo-blue .input-row .ludo-menu-button {
+    background-color: #d1e7ff;
 
 }
-.form-combo-child{
-    border:1px solid #A6CBF5;
+
+.ludo-blue .form-combo-child {
+    border: 1px solid #A6CBF5;
     box-shadow: 2px 2px 5px 0 #555;
 }
-.input-row .ludo-menu-button-arrow{
-    border-left:1px solid #A6CBF5;
+
+.ludo-blue .input-row .ludo-menu-button-arrow {
+    border-left: 1px solid #A6CBF5;
 }
 
-.input-row .ludo-menu-button-over{
-    background-color:#A6CBF5;
+.ludo-blue .input-row .ludo-menu-button-over {
+    background-color: #A6CBF5;
 }
 
-
-div.ludo-tabs-in-dropdown{
-    border-top : 0;
-    border-left : 1px solid #A6CBF5;
-    border-right : 1px solid #A6CBF5;
-    border-bottom : 1px solid #A6CBF5;
-    padding : 0;
-    margin-top : 0;
-    background-color : #A6CBF5;
+.ludo-blue div.ludo-tabs-in-dropdown {
+    border-top: 0;
+    border-left: 1px solid #A6CBF5;
+    border-right: 1px solid #A6CBF5;
+    border-bottom: 1px solid #A6CBF5;
+    padding: 0;
+    margin-top: 0;
+    background-color: #A6CBF5;
 }

@@ -20,7 +20,7 @@ chess.view.metadata.Game = new Class({
     tpl : '',
     overflow:'hidden',
 
-    ludoConfig : function(config){
+    __construct : function(config){
         this.parent(config);
         this.tpl = config.tpl || this.tpl;
     },
@@ -30,7 +30,7 @@ chess.view.metadata.Game = new Class({
         this.controller.addEvent('newGame', this.updateMetadata.bind(this));
     },
 
-    ludoRendered : function(){
+    __rendered : function(){
         this.parent();
     },
 

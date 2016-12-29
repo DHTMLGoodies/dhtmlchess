@@ -19,7 +19,7 @@ chess.GamesFromFile = new Class({
                 padding:3
             },
             renderTo:document.id(this.renderTo),
-            containerCss:{
+            elCss:{
                 height:'100%'
             },
             layout:{
@@ -45,7 +45,7 @@ chess.GamesFromFile = new Class({
                             label:'Busqueda',
                             id:"searchField",
                             labelWidth:90,
-                            containerCss:{
+                            elCss:{
                                 'border-bottom':'1px solid #C6c8c6'
                             },
                             listeners:{
@@ -105,7 +105,7 @@ chess.GamesFromFile = new Class({
                                 type:'linear',
                                 orientation:'horizontal'
                             },
-                            containerCss:{
+                            elCss:{
                                 'border-top':'1px solid #c6c6c6'
                             },
                             css:{
@@ -182,7 +182,7 @@ chess.GamesFromFile = new Class({
                                             layout:{
                                                 weight:1
                                             },
-                                            containerCss:{
+                                            elCss:{
                                                 'color':'#000'
                                             },
                                             tpl:'<h2 class="game_heading">{white} vs {black}, {result}</h2>'
@@ -194,7 +194,7 @@ chess.GamesFromFile = new Class({
                                     type:'chess.view.board.Board',
                                     labels:true,
                                     weight:1,
-                                    containerCss:{
+                                    elCss:{
                                         'margin-bottom':5
                                     },
                                     addOns:[
@@ -211,7 +211,7 @@ chess.GamesFromFile = new Class({
                                 {
                                     type:'chess.view.buttonbar.Game',
                                     width:200,
-                                    containerCss:{
+                                    elCss:{
                                         margin:2
                                     },
                                     height:30
@@ -227,7 +227,7 @@ chess.GamesFromFile = new Class({
                             resizable:true,
                             collapsible:true,
                             minimizable:false,
-                            containerCss:{
+                            elCss:{
 
                             },
 
@@ -244,7 +244,7 @@ chess.GamesFromFile = new Class({
                                     css:{
                                         'margin-top':3
                                     },
-                                    containerCss:{
+                                    elCss:{
                                         'border-top':'1px solid #C0C0C0'
 
                                     },

@@ -26,14 +26,14 @@ chess.view.buttonbar.Game = new Class({
         this.controller.addEvent('newGame', this.newGame.bind(this));
     },
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.els.chessButtons = {};
         if(config.buttons !== undefined)this.buttons = config.buttons;
         this.buttonTheme = config.buttonTheme || this.buttonTheme;
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
 
         this.getBody().css('width', '100%');

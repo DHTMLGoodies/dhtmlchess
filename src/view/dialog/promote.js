@@ -47,7 +47,7 @@ chess.view.dialog.Promote = new Class({
         this.controller.addEvent('verifyPromotion', this.showDialog.bind(this))
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         for(var i=0;i<this.children.length;i++){
             this.children[i].addEvent('click', this.clickOnPiece.bind(this));
@@ -85,12 +85,12 @@ chess.view.dialog.PromotePiece = new Class({
     type:'chess.view.dialog.PromotePiece',
     piece:undefined,
     framed : true,
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.piece = config.piece
     },
 
-    ludoRendered : function() {
+    __rendered : function() {
         this.parent();
         this.getEl().addClass('chess-promote-piece');
         this.getEl().addEvent('click', this.clickOnPiece.bind(this));

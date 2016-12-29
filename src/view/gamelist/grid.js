@@ -120,7 +120,7 @@ chess.view.gamelist.Grid = new Class({
         this.getDataSource().sendRequest('listOfGames', pgn);
     },
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
 		this.parent(config);
 		this.databaseId = config.databaseId || this.databaseId;
 		if (config.cols) {
@@ -140,7 +140,7 @@ chess.view.gamelist.Grid = new Class({
 		this.parent();
 		this.getDataSource().addEvent('select', this.selectGame.bind(this))
 	},
-	ludoRendered:function () {
+	__rendered:function () {
 		this.parent();
 		if (this.databaseId) {
 			this.loadGames(this.databaseId);

@@ -66,7 +66,7 @@ chess.view.dialog.GameImport = new Class({
         this.child['progressbar'].finish();
     },
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         this.child['importAsNew'].addEvent('change', this.toggleImport.bind(this));
     },

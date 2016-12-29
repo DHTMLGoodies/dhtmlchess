@@ -53,7 +53,7 @@ chess.view.board.Piece = new Class({
 
     validTargetSquares: [],
 
-    ludoConfig: function (config) {
+    __construct: function (config) {
         this.parent(config);
         this.square = config.square;
         this.squareSize = config.squareSize;

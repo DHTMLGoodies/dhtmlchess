@@ -11,7 +11,7 @@
 		 type:'chess.view.board.Board',
 		 labels:true,
 		 weight:1,
-		 addOns:[
+		 plugins:[
 			 {
 				 type:'chess.view.highlight.Square'
 			 }
@@ -21,7 +21,7 @@
  */
 chess.view.highlight.Square = new Class({
 	Extends:chess.view.highlight.SquareBase,
-	ludoConfig:function (config) {
+	__construct:function (config) {
 		this.parent(config);
 		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
 		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));

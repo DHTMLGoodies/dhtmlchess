@@ -13,7 +13,7 @@ chess.view.command.Panel = new Class({
 	},
 	currentLine:undefined,
 
-	ludoRendered:function(){
+	__rendered:function(){
 		this.parent();
 		this.renderLine(chess.getPhrase('commandWelcome'));
 	},

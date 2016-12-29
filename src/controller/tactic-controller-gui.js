@@ -17,7 +17,7 @@ chess.controller.TacticControllerGui = new Class({
      */
     gameEndHandler:undefined,
 
-    ludoConfig:function(config){
+    __construct:function(config){
         this.parent(config);
         if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
     },

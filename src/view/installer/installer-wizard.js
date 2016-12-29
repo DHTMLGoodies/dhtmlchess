@@ -8,7 +8,7 @@ chess.view.installer.Wizard = new Class({
         "resource": "ChessDBInstaller"
     },
 	weight:1,
-	containerCss:{
+	elCss:{
 		border:0
 	},
 	children:[
@@ -23,7 +23,7 @@ chess.view.installer.Wizard = new Class({
 		}
 	],
 
-	ludoRendered:function () {
+	__rendered:function () {
 		this.parent();
 		this.addEvent('submit', this.beforeSubmit.bind(this));
 		this.getForm().addEvent('success', this.installationComplete.bind(this));

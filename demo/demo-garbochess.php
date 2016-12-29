@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Demo - Play against GarboChess</title>
 
     <script type="text/javascript">
@@ -22,11 +23,12 @@
     </script>
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
-    <script type="text/javascript" src="../src/controller/garbochess-controller.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/controller/garbochess-controller.js?rnd=3"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
+    <script type="text/javascript" src="../src/view/score/bar.js?rnd=3"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
@@ -59,6 +61,16 @@
         },
         children:[
             {
+                id:'scoreBar',
+                css:{
+                    'margin': 5
+                },
+                type:'chess.view.score.Bar',
+                layout:{
+                    height:50
+                }
+            },
+            {
                 id:'board',
                 type:'chess.view.board.Board',
                 pieceLayout:'alphapale',
@@ -77,7 +89,7 @@
             {
                 id:'engineoutput',
                 layout:{
-                    height:50
+                    height:30
                 },
                 css:{
                     'text-align' : 'center'
@@ -101,7 +113,7 @@
             {
                 type:'chess.view.notation.Panel',
                 layout:{
-                    height:200
+                    height:100
                 },
                 css:{
                     "text-align": "center"
@@ -121,9 +133,10 @@
         listeners:{
             'start': onNewGame,
             'engineupdate' :updateMove, //
-            'gameover':onGameOver,  // Function to call when game is over
-            'thinkingTime' : 10 // Time in 1/1000 seconds
-        }
+            'gameover':onGameOver  // Function to call when game is over
+
+        },
+        'thinkingTime' : 3000 // Time in 1/1000 seconds
     });
 
     function onNewGame(myColor){
@@ -142,7 +155,7 @@
         var message = result == 0.5 ? "The game is a draw" : result == 1 && myColor == 'white' ? "You won" : "You lost";
 
         new ludo.Notification({
-            containerCss:{
+            elCss:{
                 "background-color" : "#f5f5f5",
                 "color" : "#000"
 
@@ -157,7 +170,10 @@
     }
 
     function updateMove(move){
-        ludo.get('engineoutput').setHtml(move);
+        var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
+        ludo.$('scoreBar').setScore(-(s/1000));
+        var moves = move.replace(/.*NPS:[0-9]+?[^0-9](.+)/g, '$1');
+        ludo.get('engineoutput').html(moves);
     }
 
     // Update engines thinking time if required

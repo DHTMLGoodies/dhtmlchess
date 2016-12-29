@@ -23,7 +23,7 @@ chess.view.dialog.OverwriteMove = new Class({
 	modal:true,
 	autoDispose:false,
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
 		config = config || {};
 		config.buttons = [
 			{
@@ -80,7 +80,7 @@ chess.view.dialog.OverwriteMove = new Class({
 		this.controller.addEvent('overwriteOrVariation', this.showDialog.bind(this))
 	},
 
-	ludoRendered:function () {
+	__rendered:function () {
 		this.parent();
 	},
 

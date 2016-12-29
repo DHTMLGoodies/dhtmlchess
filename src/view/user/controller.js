@@ -12,7 +12,7 @@ chess.view.user.Controller = new Class({
     components:{},
     applyTo: ['user'],
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
         this.parent(config);
         this.createWindows();
         this.validateSession();

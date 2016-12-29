@@ -29,9 +29,9 @@
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
     <script type="text/javascript" src="../src/view/eco/variation-tree.js"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow.js"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow-svg.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-base.js?rnd=1"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow.js?rnd=1"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-svg.js?rnd=1"></script>
     <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
@@ -79,7 +79,7 @@
         }
     </style>
 </head>
-<body>
+<body class="ludo-blue">
 <script type="text/javascript">
     ludo.config.setUrl('../router.php');
     ludo.config.disableModRewriteUrls();
@@ -114,7 +114,7 @@
 
                         labels:true,
                         weight:1,
-                        containerCss:{
+                        elCss:{
                             'margin-bottom':5
                         },
                         addOns:[
@@ -131,7 +131,7 @@
                     {
                         type:'chess.view.buttonbar.Game',
                         width:200,
-                        containerCss:{
+                        elCss:{
                             margin:2
                         },
                         height:30
@@ -147,7 +147,7 @@
                 weight:1,
                 collapsible:true,
                 minimizable:false,
-                containerCss:{
+                elCss:{
 
                 },
 
@@ -161,7 +161,7 @@
                     {
                         weight:1,
                         layout:'tabs',
-                        containerCss:{
+                        elCss:{
                             'border-top':'1px solid #9abee8',
                             'padding-top' : 3
                         },

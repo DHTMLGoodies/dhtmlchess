@@ -21,8 +21,7 @@
         }
     </script>
 
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js"></script>
 
     <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
@@ -61,7 +60,7 @@ var app = new ludo.Application({
     layout:{
         type:'rows'
     },
-    containerCss:{
+    elCss:{
         'padding':'5px'
     },
     children:[
@@ -102,7 +101,7 @@ var app = new ludo.Application({
                 orientation:'horizontal',
                 height:20
             },
-            containerCss:{
+            elCss:{
                 // 'background-image':"url('../ludojs/images/bg-menu-bar.png')",
                 'background-image':'url(images/bg-horizontal-menu.png)',
                 'border':'1px solid #9abee8',
@@ -145,7 +144,7 @@ var app = new ludo.Application({
             weight:1,
             layout:'cols',
             minHeight:100,
-            containerCss:{
+            elCss:{
                 'margin-top' : '5px'
             },
             children:[
@@ -158,7 +157,7 @@ var app = new ludo.Application({
                     collapsible:true,
                     resizable:true,
                     minimizable:false,
-                    containerCss:{
+                    elCss:{
                         border:0
                     },
                     frame:false,
@@ -201,7 +200,7 @@ var app = new ludo.Application({
                             type:'form.Text',
                             label:'Search games',
                             labelWidth:90,
-                            containerCss:{
+                            elCss:{
                                 border:'1px solid #A6CBF5',
                                 'border-bottom':'0px'
                             },
@@ -244,13 +243,13 @@ var app = new ludo.Application({
                             children:[
                                 {
                                     type:'chess.view.button.PreviousGame',
-                                    containerCss:{ 'padding-left':2 }
+                                    elCss:{ 'padding-left':2 }
                                 },
                                 {
                                     weight:1,
                                     type:'chess.view.metadata.Game',
                                     height:30,
-                                    containerCss:{
+                                    elCss:{
                                         // 'background-image':'url(../images/headings/bg-player-info.png)',
                                         'color':'#000'
                                     },
@@ -258,7 +257,7 @@ var app = new ludo.Application({
                                 },
                                 {
                                     type:'chess.view.button.NextGame',
-                                    containerCss:{ 'padding-right':2 }
+                                    elCss:{ 'padding-right':2 }
 
                                 }
                             ],
@@ -288,7 +287,7 @@ var app = new ludo.Application({
                             pieceLayout:'alphapale',
                             boardLayout:'wood',
                             weight:1,
-                            containerCss:{
+                            elCss:{
                                 'margin-bottom':5
                             }
                         },

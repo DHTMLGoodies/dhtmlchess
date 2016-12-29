@@ -56,7 +56,7 @@ chess.view.pgn.Grid = new Class({
         this.parent(controller);
     },
 
-    ludoConfig:function (config) {
+    __construct:function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
         if (config.cols) {

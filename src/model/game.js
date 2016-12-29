@@ -56,6 +56,7 @@ chess.model.Game = new Class({
 
         if (config.id || config.pgn) {
             if (config.pgn) {
+                console.trace();
                 this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
             } else {
                 this.loadGame.delay(20, this, config.id);
@@ -98,6 +99,7 @@ chess.model.Game = new Class({
     },
 
     loadStaticGame:function (pgn, index) {
+
         this.gameReader.loadStaticGame(pgn, index);
     },
 

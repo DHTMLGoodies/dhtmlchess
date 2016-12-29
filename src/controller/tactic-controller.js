@@ -40,7 +40,7 @@ chess.controller.TacticController = new Class({
 	alwaysPlayStartingColor:false,
 	startingColor:undefined,
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
 		this.parent(config);
 		this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
 		if (config.alwaysPlayStartingColor !== undefined) {

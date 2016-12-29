@@ -35,7 +35,7 @@
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-light-gray.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
@@ -108,7 +108,7 @@
                     {
                         type:'chess.view.metadata.Game',
                         height:30,
-                        containerCss:{
+                        elCss:{
                             'color':'#000'
                         },
                         tpl:'<h2 style="line-height:30px;text-align:center;margin:0">{white} vs {black} - {result}</h2>'
@@ -118,7 +118,7 @@
 
                         labels:true,
                         weight:1,
-                        containerCss:{
+                        elCss:{
                             'margin-bottom':5
                         },
                         addOns:[
@@ -135,7 +135,7 @@
                     {
                         type:'chess.view.buttonbar.Game',
                         width:200,
-                        containerCss:{
+                        elCss:{
                             margin:2
                         },
                         height:30
@@ -151,7 +151,7 @@
                 resizable:true,
                 collapsible:true,
                 minimizable:false,
-                containerCss:{
+                elCss:{
 
                 },
 
@@ -168,7 +168,7 @@
                         css:{
                             'margin-top' : 3
                         },
-                        containerCss:{
+                        elCss:{
                             'border-top':'1px solid #C0C0C0'
 
                         },
@@ -186,7 +186,7 @@
                                         label:'Search games',
                                         id:"searchField",
                                         labelWidth:90,
-                                        containerCss:{
+                                        elCss:{
                                             'border-bottom':'1px solid #C6c8c6'
                                         },
                                         listeners:{
@@ -229,7 +229,7 @@
                                             type:'linear',
                                             orientation:'horizontal'
                                         },
-                                        containerCss:{
+                                        elCss:{
                                             'border-top' : '1px solid #c6c6c6'
                                         },
                                         css:{

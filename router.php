@@ -16,8 +16,13 @@ LudoDB::enableLogging();
 ChessRegistry::setPgnFolder("pgn");
 ChessRegistry::setCacheFolder("cache"); // Path to cache
 
-$request = isset($_GET['request']) ? $_GET['request'] : $_POST['request'];
+$request = isset($_GET['request']) ? $_GET['request'] : isset($_POST["request"]) ? $_POST['request'] : null;
 $requestData = isset($_POST['data']) ? $_POST['data'] : null;
+
+if(!isset($request) && isset($_POST["resource"])){
+    $request = $_POST["resource"] . "/" . $_POST["arguments"] . "/" . $_POST["service"];
+
+}
 
 
 $handler = new LudoDBRequestHandler();

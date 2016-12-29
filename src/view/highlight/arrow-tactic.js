@@ -7,7 +7,7 @@ chess.view.highlight.ArrowTactic = new Class({
      */
     delay:1,
 
-	ludoConfig:function (config) {
+	__construct:function (config) {
         this.parent(config);
         if(config.delay !== undefined)this.delay = config.delay;
         this.parentComponent.addEvent('showSolution', this.showSolution.bind(this));

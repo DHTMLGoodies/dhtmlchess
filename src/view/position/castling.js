@@ -18,7 +18,7 @@ chess.view.position.Castling = new Class({
     value : 'KQkq',
     checkboxes : [],
 
-    ludoRendered:function () {
+    __rendered:function () {
         this.parent();
         var options = [
             {

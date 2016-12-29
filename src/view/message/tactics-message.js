@@ -14,7 +14,7 @@ chess.view.message.TacticsMessage = new Class({
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs:3000,
 
-    ludoConfig:function(config){
+    __construct:function(config){
         this.parent(config);
         this.setConfigParams(config, ['autoHideAfterMs']);
     },

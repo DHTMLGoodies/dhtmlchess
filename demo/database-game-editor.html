@@ -21,8 +21,7 @@
         }
     </script>
 
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+	<script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
 
@@ -71,14 +70,14 @@ function showDatabaseDialog() {
 					type:'chess.view.folder.Tree',
 					width:200,
 					resizable:true,
-					containerCss:{
+					elCss:{
 						'border-right':'1px solid #A6CBF5'
 					}
 				},
 				{
 					layout:'rows',
 					weight:1,
-					containerCss:{
+					elCss:{
 						'border-left':'1px solid #A6CBF5'
 					},
 					children:[
@@ -87,7 +86,7 @@ function showDatabaseDialog() {
 							type:'form.Text',
 							label:'Search games',
 							labelWidth:90,
-							containerCss:{
+							elCss:{
 								'border-bottom':'1px solid #A6CBF5'
 							},
 							listeners:{
@@ -138,7 +137,7 @@ var app = new ludo.Application({
 					weight:1,
 					type:'chess.view.metadata.Game',
 					height:30,
-					containerCss:{
+					elCss:{
 						'color':'#000'
 					},
 					tpl:'<h2 style="line-height:30px;text-align:center;margin:0">{white} vs {black}</h2>'
@@ -175,7 +174,7 @@ var app = new ludo.Application({
 							pieceLayout:'alphapale',
 							boardLayout:'wood',
 							weight:1,
-							containerCss:{
+							elCss:{
 								'margin-bottom':5
 							}
 						},

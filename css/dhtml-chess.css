@@ -1,4 +1,4 @@
-/* Generated Wed Nov 2 19:47:25 CET 2016 */
+/* Generated Thu Dec 29 20:05:50 CET 2016 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2016 dhtml-chess.com
@@ -13,7 +13,39 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* ../ludojs/css-source/view.css */
+/* ../ludojs/css-source/layout/accordion.css */
+.ludo-accordion-container{
+    overflow:hidden;
+    position:relative;
+}
+
+.ludo-accordion-collapsed{
+    width:14px;
+    height:100%;
+    float:left;
+    background: url(../ludojs/images/accordion/accordion-collapsed.png) no-repeat center center;
+}
+
+.ludo-accordion-expanded{
+    background: url(../ludojs/images/accordion/accordion-expanded.png) no-repeat center center;
+
+}
+
+
+.ludo-accordion-titlebar{
+    cursor:pointer;
+    border-radius:0;
+
+}
+div.ludo-accordion-title
+{
+    position:relative;
+    float:left;
+}
+
+.ludo-accordion-titlebar .ludo-framed-view-titlebar-title{
+    width:auto;
+}/* ../ludojs/css-source/view.css */
 /**
 * CSS RULES
 * All components are assigned to class ludo-<namespace>-<component name>
@@ -97,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 }
 
 /* No bold titlebar */
-.ludo-component-titlebar {
+.ludo-view-titlebar {
     width: 100%;
     z-index: 100;
     height: 22px;
@@ -106,7 +138,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     border-bottom: 1px solid;
 }
 
-.ludo-component-titlebar .ludo-component-buttonbar {
+.ludo-view-titlebar .ludo-view-buttonbar {
     height: 22px;
 }
 
@@ -125,9 +157,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     height: 100%;
     font-family: arial;
     font-size:12px;
-    font-weight: bold;
     line-height: 23px;
-    color: #000;
 
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -152,7 +182,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     position: relative;
 }
 
-.ludo-component-buttonbar {
+.ludo-view-buttonbar {
     position: relative;
     padding-right: 1px;
     padding-top: 2px;
@@ -162,19 +192,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     height: 24px;
 }
 
-.ludo-component-statusbar {
+.ludo-view-statusbar {
     height: 18px;
     border-top: 1px solid;
     position: relative;
 }
 
-.ludo-component-statusbar div {
+.ludo-view-statusbar div {
     float: left;
     padding-left: 3px;
 }
 
 
-.ludo-component-statusbar-icon {
+.ludo-view-statusbar-icon {
     position: relative;
     left: 2px;
     top: 0;
@@ -184,7 +214,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     width: 20px;
 }
 
-.ludo-component-statusbar-text {
+.ludo-view-statusbar-text {
     position: relative;
     line-height: 18px;
     height: 100%;
@@ -356,11 +386,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     overflow: hidden;
 }
 
-.ludo-component-full-screen .ludo-body {
+.ludo-view-full-screen .ludo-body {
     overflow: hidden;
 }
 
-.ludo-component-full-screen-view-effect {
+.ludo-view-full-screen-view-effect {
     border: 1px dotted #000;
 }
 
@@ -373,20 +403,20 @@ div.ludo-content-child-of-fullscreen {
     margin: 0;
 }
 
-.ludo-view-container {
+.ludo-view {
     overflow: hidden;
     font-family:arial;
 }
 
-.ludo-richcomponent .ludo-component-resize {
+.ludo-richcomponent .ludo-view-resize {
     display: none;
 }
 
-.ludo-component-resize, .ludo-window .ludo-component-resize, .ludo-dashboard-column .ludo-component-resize {
+.ludo-view-resize, .ludo-window .ludo-view-resize, .ludo-dashboard-column .ludo-view-resize {
     display: block;
 }
 
-.ludo-application-content .ludo-component-resize {
+.ludo-application-content .ludo-view-resize {
     display: none;
 }
 
@@ -422,23 +452,21 @@ div.ludo-content-child-of-fullscreen {
     padding-left:3px;
 }
 /* Button container at the bottom */
-div.ludo-component-button-container, div.ludo-content-buttons {
+div.ludo-view-button-container, div.ludo-content-buttons {
     padding: 0 !important;
     margin: 0 !important;
     border: 0 !important;
     background-color: transparent !important;
 }
 
-.ludo-content-buttons .ludo-view-container{
+.ludo-content-buttons .ludo-view{
     background-color:transparent;
 }
-.ludo-component-button-container{
+.ludo-view-button-container{
     padding-left:3px;
 }
 
-div.ludo-window, div.ludo-framed-view-shim, div.ludo-dashboard-insertion-marker{
-    border-radius:3px;
-}
+
 div.ludo-FramedView {
     border-radius: 0;
 }
@@ -450,7 +478,7 @@ div.ludo-FramedView {
     -ms-user-select: none;
 }
 
-.ludo-view-container {
+.ludo-view {
     border-width: 1px;
     background-color: #FFF;
     overflow: hidden;
@@ -517,7 +545,7 @@ div.ludo-resize-handle-active {
     border: 1px dashed #777;
 }
 
-.ludo-component-resize-el {
+.ludo-view-resize-el {
     position: absolute;
     padding: 0 !important;
     border: 0 !important;
@@ -526,7 +554,7 @@ div.ludo-resize-handle-active {
     background-color: transparent !important;
 }
 
-.ludo-component-resize-region-s {
+.ludo-view-resize-region-s {
     background-repeat: no-repeat;
     background-position: center center;
     position: absolute;
@@ -537,14 +565,14 @@ div.ludo-resize-handle-active {
     z-index: 15500;
 }
 
-.ludo-component-resize-region-e {
+.ludo-view-resize-region-e {
     top: 5%;
     width: 5px;
     right: 0;
     height: 90%;
 }
 
-.ludo-component-resize-region-w {
+.ludo-view-resize-region-w {
     height: 90%;
     left: 0;
     top: 5%;
@@ -552,7 +580,7 @@ div.ludo-resize-handle-active {
     cursor: w-resize;
 }
 
-.ludo-component-resize-region-n {
+.ludo-view-resize-region-n {
     width: 90%;
     top: 0;
     left: 5%;
@@ -560,27 +588,27 @@ div.ludo-resize-handle-active {
     cursor: s-resize;
 }
 
-.ludo-component-resize-region-nw, .ludo-component-resize-region-ne, .ludo-component-resize-region-sw {
+.ludo-view-resize-region-nw, .ludo-view-resize-region-ne, .ludo-view-resize-region-sw {
     width: 7px;
     height: 7px;
 }
 
-.ludo-component-resize-region-nw {
+.ludo-view-resize-region-nw {
     top: 0;
     left: 0;
 }
 
-.ludo-component-resize-region-ne {
+.ludo-view-resize-region-ne {
     top: 0;
     right: 0;
 }
 
-.ludo-component-resize-region-sw {
+.ludo-view-resize-region-sw {
     left: 0;
     bottom: 0;
 }
 
-.ludo-component-resize-region-se {
+.ludo-view-resize-region-se {
     background-image: none;
     background-repeat: no-repeat;
     position: absolute;
@@ -592,11 +620,11 @@ div.ludo-resize-handle-active {
     cursor: se-resize;
 }
 
-.ludo-component-resize-right {
+.ludo-view-resize-right {
     background-position: left center;
 }
 
-.ludo-component-resize-right {
+.ludo-view-resize-right {
     cursor: w-resize;
     height: 100%;
     width: 3px;
@@ -604,6 +632,284 @@ div.ludo-resize-handle-active {
     right: 0;
 }
 /* ../ludojs/css-source/layout/tab.css */
+
+
+/* ../ludojs/css-source/layout/tab-strip.css */
+
+.ludo-tab-strip {
+    margin: 0;
+}
+
+.ludo-tab-strip span{
+    font-size:11px;
+}
+
+.ludo-tab-layout-parent-for-tabs{
+    z-index:100;
+
+}
+
+.ludo-tab-strip-tab-bg{
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+
+
+.ludo-tab-strip-line {
+    position: absolute;
+    z-index:11;
+}
+.ludo-tab-strip-tab {
+    position: absolute;
+    white-space: nowrap;
+    cursor: pointer;
+    z-index: 12;
+    overflow:hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.ludo-tab-strip-top .ludo-tab-strip-line,.ludo-tab-strip-bottom .ludo-tab-strip-line {
+    height:3px;
+    width:100%;
+}
+/******************************************************************
+Tab strip on top
+****************************************************************/
+
+.ludo-tab-strip-top .ludo-tab-strip-tab-bg{
+    left:0;
+    bottom:0;
+    width:100%;
+    height:1px;
+    border-bottom:1px solid #aaa;
+}
+
+div.ludo-tab-strip-top .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-bottom-color:#555;
+}
+
+
+.ludo-tab-layout-parent-for-tabs-top{
+    bottom:4px;
+}
+
+
+.ludo-tab-strip-top .ludo-tab-strip-line {
+    bottom: 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+}
+
+.ludo-tab-strip-top {
+    height: 30px;
+    padding-bottom: 1px;
+}
+
+.ludo-tab-strip-tab-top {
+    bottom:0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid;
+    border-left-width:0;
+    border-bottom-width:0;
+    border-top-width: 0;
+    height:27px;
+    line-height:24px;
+
+}
+
+div.ludo-tab-strip-top .ludo-tab-strip-tab-active {
+
+}
+
+
+/** Tab strip left */
+
+.ludo-tab-strip-left .ludo-tab-strip-tab-bg{
+    right:0;
+    top:0;
+    height:100%;
+    width:1px;
+    border-right:1px solid #aaa;
+}
+
+.ludo-tab-layout-parent-for-tabs-left{
+    right:3px;
+}
+
+.ludo-tab-strip-left {
+    padding-right: 1px;
+    width: 25px;
+}
+
+.ludo-tab-strip-left .ludo-tab-strip-line {
+    right: 0;
+    width: 3px;
+    height: 100%;
+    z-index: 11;
+}
+.ludo-tab-strip-tab-left {
+    width: 23px;
+    right:0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+    border-right-width: 0;
+    border-top-width:0;
+    border-left-width:0;
+}
+
+/********************************************
+Tab strip bottom
+*******************************************************/
+
+.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg{
+    left:0;
+    top:0;
+    width:100%;
+    height:1px;
+    border-top:1px solid #aaa;
+}
+
+div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-top-color:#555;
+}
+
+
+.ludo-tab-layout-parent-for-tabs-bottom{
+    top:4px;
+}
+
+.ludo-tab-strip-bottom .ludo-tab-strip-line {
+    top: 0;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+
+.ludo-tab-strip-bottom {
+    height: 30px;
+    padding-top: 1px;
+}
+
+.ludo-tab-strip-tab-bottom {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid;
+    border-bottom-width: 0;
+    border-left-width:0;
+    border-top-width:0;
+    height:27px;
+    line-height:23px;
+    top:0;
+
+}
+
+div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active {
+    border-top-color:transparent;
+}
+
+div.ludo-tab-strip-bottom div.ludo-body {
+    border-top: 0;
+}
+
+
+/** Right tabs */
+.ludo-tab-layout-parent-for-tabs-right{
+    left:3px;
+}
+
+.ludo-tab-strip-right .ludo-tab-strip-tab-bg{
+    left:0;
+    top:0;
+    height:100%;
+    width:1px;
+    border-left:1px solid #aaa;
+}
+
+div.ludo-tab-strip-right .ludo-tab-strip-tab-active .ludo-tab-strip-tab-bg{
+    border-left-color:transparent;
+}
+
+.ludo-tab-strip-right {
+    border-left: 1px solid;
+    padding-left: 1px;
+    width: 26px;
+}
+
+.ludo-tab-strip-right .ludo-tab-strip-line {
+    left: 0;
+    width: 3px;
+    height: 100%;
+}
+
+.ludo-tab-strip-tab-right {
+    width: 23px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+    border-right-width: 0;
+    border-top-width:0;
+    border-left-width:0;
+}
+
+
+div.ludo-tab-strip-top div.ludo-body {
+    border-bottom: 0;
+}
+
+div.ludo-tab-strip-right div.ludo-body {
+    border-right-width:0;
+}
+
+.ludo-tab-strip-tab-txt-svg{
+    font-family:arial, helvetica, serif;
+    font-size:11px;
+    line-height:19px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.ludo-tab-expand-box{
+    position:absolute;
+    z-index:200;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    font-size:10px;
+}
+
+
+.ludo-tab-expand-box-top, .ludo-tab-expand-box-bottom{
+    right:0;
+    top:0;
+    margin-left:4px;
+}
+
+.ludo-tab-expand-box-top{
+    background-image:url(../images/layout/tabs-expand-top.png?rnd=3);
+}
+
+.ludo-tab-expand-box-top-over{
+    background-image:url(../images/layout/tabs-expand-top-over.png?rnd=3);
+}
+
+
+.ludo-tab-expand-box-bottom{
+    background-image:url(../images/layout/tabs-expand-bottom.png?rnd=3);
+}
+
+.ludo-tab-expand-box-bottom-over{
+    background-image:url(../images/layout/tabs-expand-bottom-over.png?rnd=3);
+}
+
+
+
 .ludo-tab-close{
     background-repeat:no-repeat;
     background-position:center center;
@@ -616,273 +922,30 @@ div.ludo-resize-handle-active {
 }
 .ludo-tab-close-top, .ludo-tab-close-bottom{
     right:2px;
-    top:2px;
+    top:0;
     height:90%;
-    width:12px;
+    width:22px;
 }
 
 .ludo-tab-close-right{
-    background-image:url(../ludojs/images/layout/tab-close-right.png);
     bottom:2px;
     width:90%;
-    height:12px;
+    height:22px;
 }
 .ludo-tab-close-left{
-    background-image:url(../ludojs/images/layout/tab-close-left.png);
     top:2px;
     width:90%;
-    height:12px;
-}
-.ludo-tab-close-right-over{
-    background-image:url(../ludojs/images/layout/tab-close-right-over.png);
-}
-.ludo-tab-close-left-over{
-    background-image:url(../ludojs/images/layout/tab-close-left-over.png);
-}/* ../ludojs/css-source/layout/tab-strip.css */
-.ludo-tab-strip {
-    margin: 0;
+    height:22px;
 }
 
-.ludo-tab-strip-line {
-    position: absolute;
-    z-index:1;
-}
-.ludo-tab-strip-tab {
-    position: absolute;
-    white-space: nowrap;
-    cursor: pointer;
-    z-index: 2;
-    overflow:hidden;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.ludo-tab-expand-box{
+    width:auto;
+    padding-left:17px;
+    padding-right:2px;
+    background-position: left center;
 }
 
-.ludo-tab-strip-tab-bg-first, .ludo-tab-strip-tab-bg-last{
-    position:absolute;
-    border:0;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-line,.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    height:3px;
-    width:100%;
-}
-/** Tab strip on top */
-.ludo-tab-strip-top .ludo-tab-strip-line {
-    bottom: 0;
-    border-top: 1px solid;
-}
-
-.ludo-tab-strip-top {
-    border-bottom: 1px solid;
-    height: 26px;
-    padding-bottom: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-left-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-top .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-right-width: 1px;
-    border-top-width: 1px;
-}
-
-.ludo-tab-strip-tab-top {
-    bottom: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-top: 0;
-}
-
-div.ludo-tab-strip-top .ludo-tab-strip-tab-active {
-    height: 22px;
-    bottom: 3px;
-    border-bottom:0;
-}
-
-/** Tab strip left */
-.ludo-tab-strip-left {
-    border-right: 1px solid;
-    padding-right: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-line {
-    right: 0;
-    width: 3px;
-    border-left: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-left {
-    right: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-left: 0;
-}
-
-div.ludo-tab-strip-left .ludo-tab-strip-tab-active {
-    width: 22px;
-    right: 3px;
-    border-right:0;
-}
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-left-width: 1px;
-}
-
-.ludo-tab-strip-left .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    height: 55%;
-    width: 120%;
-    border-left-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-left div.ludo-body {
-    border-right: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-/** Tab strip bottom */
-.ludo-tab-strip-bottom .ludo-tab-strip-line {
-    top: 0;
-    border-bottom: 1px solid;
-}
-
-.ludo-tab-strip-bottom {
-    border-top: 1px solid;
-    height: 26px;
-    padding-top: 1px;
-}
-.ludo-tab-strip-tab-bg-first,.ludo-tab-strip-tab-bg-last{
-    border-style: solid;
-    position:absolute;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-first {
-    left: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-left-width:1px;
-    border-right:0;
-}
-
-.ludo-tab-strip-bottom .ludo-tab-strip-tab-bg-last {
-    right: 0;
-    width: 55%;
-    height: 120%;
-    border-bottom-width:1px;
-    border-right-width:1px;
-    border-left:0;
-
-}
-
-.ludo-tab-strip-tab-bottom {
-    top: 3px;
-    height: 21px;
-    line-height: 22px;
-    padding-left: 5px;
-    padding-right: 5px;
-    border: 1px solid;
-    border-bottom: 0;
-}
-
-div.ludo-tab-strip-bottom .ludo-tab-strip-tab-active {
-    height: 21px;
-    padding-top:1px;
-    top: 3px;
-    border-top:0;
-}
-
-/** Right tabs */
-
-.ludo-tab-strip-right {
-    border-left: 1px solid;
-    padding-left: 1px;
-    width: 25px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-line {
-    left: 0;
-    width: 3px;
-    border-right: 1px solid;
-    height: 100%;
-    z-index: 1;
-}
-.ludo-tab-strip-tab-right {
-    left: 3px;
-    width: 21px;
-    line-height: 22px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 1px solid;
-    border-right: 0;
-}
-
-div.ludo-tab-strip-right .ludo-tab-strip-tab-active {
-    width: 21px;
-    padding-left:1px;
-    left: 3px;
-    border-left:0;
-}
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-first {
-    top: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-top-width: 1px;
-    border-right-width: 1px;
-}
-
-.ludo-tab-strip-right .ludo-tab-strip-tab-bg-last {
-    bottom: 0;
-    right:0;
-    height: 55%;
-    width: 120%;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-}
-
-div.ludo-tab-strip-right div.ludo-body {
-    border-left: 1px solid;
-}
-
-div.ludo-tab-strip-top div.ludo-body {
-    border-bottom: 0;
-}
-
-.ludo-tab-strip-tab-txt-svg{
-    font-family:arial, helvetica, serif;
-    font-size:11px;
-    line-height:20px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}/* ../ludojs/css-source/grid/grid.css */
+/* ../ludojs/css-source/grid/grid.css */
 .ludo-grid-Grid {
     border-radius:0;
     border:0;
@@ -1149,7 +1212,7 @@ div.ludo-paging-current-page .ludo-body{
 .ludo-window, .ludo-richcomponent, .ludo-framed-view-shim {
     border-radius: 7px 7px 0 0;
     -moz-border-radius: 7px 7px 0 0;
-    webkit-border-radius: 7px 7px 0 0;
+    -webkit-border-radius: 7px 7px 0 0;
 }/* ../ludojs/css-source/dialog/dialog.css */
 .ludo-dialog-shim{
     position:absolute;
@@ -1482,20 +1545,20 @@ div.ludo-menu-horizontal-up div.ludo-menu-item-expand {
 
 .ludo-panel fieldset{
     border-radius : 5px;
-     webkit-border-radius: 5px;
+     -webkit-border-radius: 5px;
      -moz-border-radius : 5px;    
 
 }
-.ludo-panel .ludo-view-container{
+.ludo-panel .ludo-view{
     margin:2px;
 }
-.ludo-panel .ludo-view-container .ludo-view-container{
-    padding-left:0px;
-    padding-right:0px;
+.ludo-panel .ludo-view .ludo-view{
+    padding-left:0;
+    padding-right:0;
 }
 
 fieldset{
-    padding:0px;
+    padding:0;
     margin:2px;
 }/* ../ludojs/css-source/remote/message.css */
 .ludo-remote-message{
@@ -1504,7 +1567,7 @@ fieldset{
 .ludo-remote-error-message{
     color:#f00;
 }/* ../ludojs/css-source/form/button.css */
-.ludo-component-buttonbar {
+.ludo-view-buttonbar {
     box-shadow: 0 !important;
     padding-right: 2px;
 }
@@ -1650,7 +1713,6 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 div.ludo-tree-tree div.ludo-body{
     overflow-y:auto;
     overflow-x:hidden;
-    background-color:#FFF;
     padding-left:4px;
 }
 
@@ -1800,7 +1862,88 @@ div.ludo-tree-movable-shim img{
 }
 
 
-/* ../ludojs/css-source/progress/progress-bar.css */
+/* ../ludojs/css-source/form/filter-tree.css */
+.ludo-Filter-Tree-Window{
+    border-radius:0;
+    padding:2px;
+    padding-top:0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-color:#000;
+}
+.ludo-Filter-Tree-Window .ludo-window-component-content{
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+.ludo-Filter-Tree-Window .ludo-view-resize-both{
+    background-image:none;
+}
+.ludo-Filter-Tree-Window .ludo-body{
+    background-color:#FFF;
+    padding-right:0;
+    padding-top:0;
+}
+.ludo-filter-tree input{
+    border-radius:2px;
+    background-color:#FFF;
+}
+
+input.ludo-filter-tree-input-active{
+    background-color:#FFF;
+}
+
+.ludo-input-simple-filter-tree{
+    background-color:#f1f1f1;
+    border-bottom:1px solid #959595;
+}
+
+.ludo-Filter-Tree-Combo-Field{
+    cursor:pointer;
+}
+div.ludo-Filter-Tree-Combo-Field div.ludo-body{
+    padding:0;
+    height:22px;
+}
+
+.ludo-Filter-Tree-Field-Arrow{
+    position:absolute;
+    right:3px;
+    top:0;
+    height:22px;
+    width:15px;
+    background-image: url("../../ludojs/images/dropdown-arrow.gif");
+    background-position: center center;
+    background-repeat:no-repeat;
+    z-index:100;
+}
+.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
+    background-image:url('../../ludojs/images/bg-combo-field.png');
+    background-repeat:no-repeat;
+}
+.ludo-Filter-Tree-Bg-Left{
+    width:60%;
+    position:absolute;
+    height:100%;
+    left:0;
+    background-position:top left;
+}
+.ludo-Filter-Tree-Bg-Right{
+    width:60%;
+    position:absolute;
+    height:100%;
+    right:0;
+    background-position:top right;
+}
+.ludo-Filter-Tree-Combo-Value{
+    z-index:120;
+    position:absolute;
+    line-height:22px;
+    left:5px;
+    top:0;
+    font-size:10px;
+    font-weight:bold;
+    width:100%;
+}/* ../ludojs/css-source/progress/progress-bar.css */
 .ludo-Progress-Bar-Bg{
     width:300px;
     height:20px;
@@ -1878,123 +2021,6 @@ div.ludo-tree-movable-shim img{
 
 .ludo-Progress-Bar-Message{
     text-align:center;
-}/* ../ludojs/css-source/accordion.css */
-.ludo-accordion{
-    border-radius:0;
-    border:1px solid #CCC;
-}
-.ludo-accordion .ludo-framed-view-titlebar{
-    border-bottom:0;
-    cursor:pointer;
-}
-.ludo-accordion .ludo-framed-view-titlebar-title{
-    margin-left:20px;
-    line-height:25px;
-}
-.ludo-accordion .ludo-title-bar-button-container{
-    left:2px !important;
-    top:4px !important;
-    height:20px;
-    border:0;
-    background-color:transparent;
-}
-.ludo-accordion .ludo-title-bar-button{
-    background-position:center center;
-}
-.ludo-accordion .ludo-title-bar-button-minimize {
-    background-image:url(../ludojs/images/accordion/accordion-minimize.png);
-}
-.ludo-accordion .ludo-title-bar-button-maximize {
-    background-image:url(../ludojs/images/accordion/accordion-maximize.png);
-}
-
-.ludo-accordion .ludo-title-bar-button-container-left-edge, .ludo-accordion .ludo-title-bar-button-container-right-edge{
-    background-image:none;
-}
-
-.ludo-accordion .ludo-framed-view-titlebar{
-    height:25px;
-}/* ../ludojs/css-source/form/filter-tree.css */
-.ludo-Filter-Tree-Window{
-    border-radius:0;
-    padding:2px;
-    padding-top:0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-color:#000;
-}
-.ludo-Filter-Tree-Window .ludo-window-component-content{
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-.ludo-Filter-Tree-Window .ludo-component-resize-both{
-    background-image:none;
-}
-.ludo-Filter-Tree-Window .ludo-body{
-    background-color:#FFF;
-    padding-right:0;
-    padding-top:0;
-}
-.ludo-filter-tree input{
-    border-radius:2px;
-    background-color:#FFF;
-}
-
-input.ludo-filter-tree-input-active{
-    background-color:#FFF;
-}
-
-.ludo-input-simple-filter-tree{
-    background-color:#f1f1f1;
-    border-bottom:1px solid #959595;
-}
-
-.ludo-Filter-Tree-Combo-Field{
-    cursor:pointer;
-}
-div.ludo-Filter-Tree-Combo-Field div.ludo-body{
-    padding:0;
-    height:22px;
-}
-
-.ludo-Filter-Tree-Field-Arrow{
-    position:absolute;
-    right:3px;
-    top:0;
-    height:22px;
-    width:15px;
-    background-image: url("../../ludojs/images/dropdown-arrow.gif");
-    background-position: center center;
-    background-repeat:no-repeat;
-    z-index:100;
-}
-.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
-    background-image:url('../../ludojs/images/bg-combo-field.png');
-    background-repeat:no-repeat;
-}
-.ludo-Filter-Tree-Bg-Left{
-    width:60%;
-    position:absolute;
-    height:100%;
-    left:0;
-    background-position:top left;
-}
-.ludo-Filter-Tree-Bg-Right{
-    width:60%;
-    position:absolute;
-    height:100%;
-    right:0;
-    background-position:top right;
-}
-.ludo-Filter-Tree-Combo-Value{
-    z-index:120;
-    position:absolute;
-    line-height:22px;
-    left:5px;
-    top:0;
-    font-size:10px;
-    font-weight:bold;
-    width:100%;
 }/* ../ludojs/css-source/form/file.css */
 .ludo-input-file-name-initial{
     font-weight:bold;

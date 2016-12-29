@@ -31,8 +31,7 @@
             twitter.hovercards();
         });
     </script>
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <style type="text/css">
         body, html {
@@ -200,7 +199,7 @@
             closable:false,
 
             minimizable:false,
-            containerCss:{
+            elCss:{
                 'background-color':'#FFF'
             },
             css:{
@@ -223,7 +222,7 @@
                         {
                             type:'chess.view.message.TacticsMessage',
                             height:25,
-                            containerCss:{
+                            elCss:{
                                 'background-color':'#FFF'
                             }
                         },
@@ -232,7 +231,7 @@
                             chessSet:'alphapale',
                             labels:true,
                             weight:1,
-                            containerCss:{
+                            elCss:{
                                 'background-color':'#FFF'
                             },
                             addOns:[
@@ -250,19 +249,19 @@
                         {
                             layout:'cols',
                             height:25,
-                            containerCss:{
+                            elCss:{
                                 'background-color':'#FFF'
                             },
                             children:[
                                 { weight:1,
-                                    containerCss:{
+                                    elCss:{
                                         'background-color':'#FFF'
                                     } },
                                 {
                                     width:80,
                                     type:'chess.view.button.TacticHint',
                                     value:'Show Hint',
-                                    containerCss:{
+                                    elCss:{
                                         'background-color':'#FFF'
                                     }
                                 },
@@ -270,13 +269,13 @@
                                     width:80,
                                     type:'chess.view.button.TacticSolution',
                                     value:'Solution',
-                                    containerCss:{
+                                    elCss:{
                                         'background-color':'#FFF'
                                     }
                                 },
                                 {
                                     weight:1,
-                                    containerCss:{
+                                    elCss:{
                                         'background-color':'#FFF'
                                     }
                                 }

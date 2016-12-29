@@ -23,7 +23,7 @@ chess.controller.GarboChessController = new Class({
 
     garboChess:'../garbochess-engine/garbochess.js',
 
-    ludoConfig: function (config) {
+    __construct: function (config) {
         if(config.myColor != undefined)this.myColor = config.myColor;
         if(config.garboChess != undefined)this.garboChess = config.garboChess;
         this.garboChess = config.garboChess;

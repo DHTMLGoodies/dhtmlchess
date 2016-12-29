@@ -62,7 +62,7 @@ var app = new ludo.Application({
     layout:{
         type:'rows'
     },
-    containerCss:{
+    elCss:{
         'padding':'5px'
     },
     children:[
@@ -99,7 +99,7 @@ var app = new ludo.Application({
         {
             height:27,
             type:'menu.Menu',
-            containerCss:{
+            elCss:{
                 // 'background-image':"url('../ludojs/images/bg-menu-bar.png')",
                 'background-image':'url(../ludojs/images/blue-skin/bg-horizontal-menu.png)',
                 'border':'1px solid #9abee8',
@@ -154,7 +154,7 @@ var app = new ludo.Application({
                     collapsible:true,
                     resizable:true,
                     minimizable:false,
-                    containerCss:{
+                    elCss:{
                         border:0
                     },
                     frame:false,
@@ -199,7 +199,7 @@ var app = new ludo.Application({
                             type:'form.Text',
                             label:'Search games',
                             labelWidth:90,
-                            containerCss:{
+                            elCss:{
                                 border:'1px solid #A6CBF5',
                                 'border-bottom':'0px'
                             },
@@ -232,13 +232,13 @@ var app = new ludo.Application({
                             children:[
                                 {
                                     type:'chess.view.button.PreviousGame',
-                                    containerCss:{ 'padding-left':2 }
+                                    elCss:{ 'padding-left':2 }
                                 },
                                 {
                                     weight:1,
                                     type:'chess.view.metadata.Game',
                                     height:30,
-                                    containerCss:{
+                                    elCss:{
                                         // 'background-image':'url(../images/headings/bg-player-info.png)',
                                         'color':'#000'
                                     },
@@ -246,7 +246,7 @@ var app = new ludo.Application({
                                 },
                                 {
                                     type:'chess.view.button.NextGame',
-                                    containerCss:{ 'padding-right':2 }
+                                    elCss:{ 'padding-right':2 }
 
                                 }
                             ],
@@ -276,7 +276,7 @@ var app = new ludo.Application({
                             pieceLayout:'alphapale',
                             boardLayout:'wood',
                             weight:1,
-                            containerCss:{
+                            elCss:{
                                 'margin-bottom':5
                             }
                         },
