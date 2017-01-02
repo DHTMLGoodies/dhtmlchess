@@ -239,7 +239,7 @@ chess.view.board.Board = new Class({
             this.currentAnimation.isBusy = false;
         } else if (move.from) {
             var piece = this.getPieceOnSquare(move.from);
-            piece.playMove(move.to, this.currentAnimation.duration);
+            if(piece)piece.playMove(move.to, this.currentAnimation.duration);
         }
     },
 

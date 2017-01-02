@@ -276,6 +276,48 @@ chess.parser.FenParser0x88 = new Class({
 		return (square1 & 15) === (square2 & 15);
 	},
 
+	secondParser:undefined,
+
+	isCheckmate:function(fen, move){
+		if(this.secondParser == undefined){
+			this.secondParser = new chess.parser.FenParser0x88();
+		}
+
+		this.secondParser.setFen(fen);
+		this.secondParser.move(move);
+
+		var notation = this.secondParser.getNotation();
+
+		return notation.indexOf('#')>0 ? notation:undefined;
+
+	},
+
+	getAllCheckmateMoves:function(){
+		var obj = this.getValidMovesAndResult();
+		var moves = obj.moves;
+		var fen = this.getFen();
+
+
+
+		var ret = [];
+		jQuery.each(moves, function(from, toSquares){
+			var fs = Board0x88Config.numberToSquareMapping[from];
+
+			jQuery.each(toSquares, function(i, toSquare){
+				var m = {
+					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
+				};
+				var notation = this.getNotationForAMove(m);
+				if(this.isCheckmate(fen, m)){
+					ret.push(notation + '#');
+				}
+			}.bind(this))
+
+		}.bind(this));
+		return ret;
+
+	},
+
 	/**
 	 Returns valid moves and results for the position according to the 0x88 chess programming
 	 algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).

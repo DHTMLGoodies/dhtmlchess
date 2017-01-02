@@ -14,13 +14,17 @@ chess.dataSource.PgnGames = new Class({
     resource:'ChessFS',
     service:"listOfGames",
     "primaryKey":"index",
-    "url" : "../router.php",
     postData:{
         "resource": "ChessFS",
         "service": "listOfGames"
     },
     getCurrentPgn:function(){
         return this.postData.arguments;
+    },
+
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
     },
 
     /**

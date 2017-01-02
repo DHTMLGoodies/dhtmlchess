@@ -19,7 +19,7 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
-        console.trace();
+
 		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "ChessFs",

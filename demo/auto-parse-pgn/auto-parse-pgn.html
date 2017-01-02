@@ -1,0 +1,353 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo - Play against GarboChess</title>
+
+    <script type="text/javascript">
+        var hostname = location.hostname.toLowerCase();
+        if (hostname.indexOf('dhtml-chess.com') >= 0) {
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-34147162-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        }
+    </script>
+
+    <?php
+    date_default_timezone_set("Europe/Berlin");
+
+    ?>
+
+    <script type="text/javascript" src="../../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../../js/dhtml-chess.js?rnd=4"></script>
+    <script type="text/javascript" src="../../src/controller/garbochess-controller.js?rnd=3"></script>
+    <script type="text/javascript" src="../../garbochess-engine/garbochess.js"></script>
+    <script type="text/javascript" src="../../src/view/score/bar.js?rnd=4"></script>
+    <script type="text/javascript" src="../../src/view/board/gui.js?rnd=4"></script>
+    <script type="text/javascript" src="../../src/view/board/board.js?rnd=3"></script>
+    <script type="text/javascript" src="../../src/view/board/piece.js?rnd=3"></script>
+    <script type="text/javascript" src="../../src/controller/analysis-engine-controller.js?rnd=1"></script>
+    <script type="text/javascript" src="../../src/remote/reader.js?rnd=1"></script>
+    <script type="text/javascript" src="../../src/model/game.js?rnd=1"></script>
+    <script type="text/javascript" src="../../src/remote/game-reader.js?rnd=1"></script>
+    <script type="text/javascript" src="../../src/parser0x88/fen-parser-0x88.js?rnd=1"></script>
+    <link rel="stylesheet" href="../../css-source/buttonbar/gray.css" type="text/css">
+    <link rel="stylesheet" href="../../css/dhtml-chess-all.css?rnd=2" type="text/css">
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: arial !important;
+        }
+
+        .ludo-chess-board-container {
+            border: 0;
+            background-color: transparent;
+        }
+
+        .ludo-view-container {
+            background-color: transparent;
+        }
+
+        .ludo-chess-board-label-ranks-container, .ludo-chess-board-label-files-container {
+            color: #aeb0b0;
+
+        }
+
+        .ludo-twilight .notation-chess-move {
+            color: #aeb0b0;
+            display: inline-block;
+            padding: 2px;
+
+        }
+
+        .ludo-twilight span.notation-chess-move-highlighted {
+            background-color: #aeb0b0;
+            color: #444;
+            border-radius: 3px;
+        }
+
+        .ludo-twilight .ludo-chess-board-container {
+            background-color: #444;
+            border-radius: 10px;
+            padding-right: 25px;
+            padding-top: 25px;
+        }
+
+    </style>
+
+</head>
+<body class="ludo-twilight">
+<script type="text/javascript">
+    ludo.config.setUrl('../../router.php');
+    ludo.config.setDocumentRoot('../../');
+    ludo.config.setFileUploadUrl('../../router.php');
+    var app = new ludo.Application({
+        title: 'Analysis board, DHTML Chess 3.0',
+        layout: {
+            type: 'linear',
+            orientation: 'vertical'
+        },
+        children: [
+            {
+                id: 'scoreBar',
+                css: {
+                    'margin': 5
+                },
+                type: 'chess.view.score.Bar',
+                layout: {
+                    height: 60
+                },
+                borderRadius: 5,
+                blackColor: '#3E2723',
+                whiteColor: '#EEEEEE',
+                markerColor: '#B71C1C',
+                markerTextColor: '#FFF',
+                stroke: '#222222',
+                range: 5
+            },
+            {
+                id: 'board',
+                type: 'chess.view.board.Board',
+                pieceLayout: 'alphapale',
+                boardLayout: 'wood',
+                animationDuration: .1,
+                labels: true,
+                layout: {
+                    weight: 1
+                },
+                plugins: [
+                    {
+                        type: 'chess.view.highlight.Arrow'
+                    }
+                ]
+
+            },
+            {
+                type: 'chess.view.notation.Panel',
+                layout: {
+                    height: 100
+                },
+                css: {
+                    "text-align": "center"
+                },
+                framed: true,
+                resizable: false
+
+            }
+        ]
+    });
+
+    var colorToMove;
+    var lastEngineMove;
+    var pgnDestination = '1001bwtc.pgn'
+    function createPgn() {
+        $.ajax(
+                {
+                    url: 'auto-parse-pgn-controller.php',
+                    method: 'post',
+                    data: {
+                        pgn: pgnDestination,
+                        initialize: true
+                    }
+                }
+        )
+    }
+
+    createPgn();
+
+    var currentPgn;
+    var index = 17;
+    var countGames;
+    var startTime;
+    var currentMoves = [];
+
+    var ds = new chess.dataSource.PgnGames({
+        id: 'gameList',
+
+        postData: {"arguments": "1001bwtc"},
+        "listeners": {
+            "load": function (data) {
+                startTime = new Date().getTime();
+                countGames = data.length;
+                currentPgn = data[index];
+                controller.loadGameFromFile(index);
+
+
+            }
+        },
+        shim: {
+            txt: 'Loading games'
+        },
+        paging: {
+            size: 25,
+            pageQuery: false,
+            cache: false,
+            cacheTimeout: 1000
+        }
+    });
+
+
+    function loadNext() {
+        if (index < countGames - 1) {
+            controller.loadGameFromFile(++index);
+        }
+    }
+
+    var controller = new chess.controller.AnalysisEngineController({
+        pgn: '1001bwtc',
+        garboChess: '../../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
+        stopped: false,
+        listeners: {
+            'engineupdate': updateMove,
+            'newGame': function () {
+                currentMoves = [];
+                colorToMove = this.getCurrentModel().getColorToMove();
+
+                if (this.stopped) {
+                    this.startEngine();
+                }
+            },
+            loadGame: function (model, gameData) {
+
+                currentPgn = gameData.metadata;
+
+                console.log(arguments);
+                console.log(gameData.metadata);
+            }
+
+        }
+    });
+
+    function onGameEnd() {
+
+
+        for (var i = 0; i < currentMoves.length; i += 2) {
+            var m = currentMoves[i];
+            var num = Math.floor(i / 2) + 1;
+            var prefix = num + ".";
+            if (colorToMove == 'black')prefix += '..';
+
+            if (jQuery.type(m) == 'object') {
+                var notation = m.move + ' ';
+
+                jQuery.each(m.variations, function (i, variation) {
+                    notation += '(' + prefix + ' ' + variation + ') ';
+                });
+                m = notation;
+            }
+
+            currentMoves[i] = prefix + ' ' + m;
+        }
+
+        currentPgn.moves = currentMoves.join(' ');
+        currentPgn.result = colorToMove == 'white' ? '1-0' : '0-1';
+
+        $.ajax({
+            url: "auto-parse-pgn-controller.php",
+            method: "post",
+            data: {
+                pgn: pgnDestination,
+                game: currentPgn,
+                append: true
+            },
+
+            success: function () {
+                new ludo.Notification({
+                    html: 'Game saved'
+                });
+                lastEngineMove = undefined;
+                loadNext.delay(2000);
+            }
+        });
+
+
+    }
+
+    // controller.setPosition('r1b2rk1/pp1p1pp1/1b1p2B1/n1qQ2p1/8/5N2/P3RPPP/4R1K1 w - - 0 1');
+
+    var parser = new chess.parser.FenParser0x88();
+
+    var thinkingTreshold = 20000;
+
+    function updateMove(move) {
+        var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
+        var c = controller.currentModel.getColorToMove();
+        var score = (s / 1000);
+        if (c == 'black')score *= -1;
+        ludo.$('scoreBar').setScore(score);
+
+        var elapsed = new Date().getTime() - startTime;
+
+        if (Math.abs(s) >= 100 * 1000 || elapsed > thinkingTreshold) {
+            var m = move.replace(/^.*?NPS:[0-9]+?[^0-9](.*)$/g, '$1');
+            m = m.trim();
+            m = m.replace(/[\s]+/, ' ');
+
+
+            var moves = m.split(/\s/g);
+            if (lastEngineMove == undefined) {
+                lastEngineMove = moves[moves.length - 1];
+            }
+
+
+            var model = controller.currentModel;
+
+            controller.stopEngine();
+
+            var pos = model.getCurrentPosition();
+            parser.setFen(pos);
+
+            var checkmateMoves = parser.getAllCheckmateMoves();
+
+
+            if (checkmateMoves.length > 1) {
+                var lastMove = {
+                    move: checkmateMoves[0],
+                    variations: []
+                };
+
+                for (var i = 1; i < checkmateMoves.length; i++) {
+                    lastMove.variations.push(checkmateMoves[i]);
+                }
+
+                model.appendRemoteMove(checkmateMoves[0]);
+
+                currentMoves.push(lastMove);
+
+                onGameEnd();
+            } else {
+
+                currentMoves.push(moves[0]);
+                model.appendRemoteMove(moves[0]);
+
+
+                var cm = model.getLastMoveInGame().m.indexOf('#') >= 0;
+
+                var fin = lastEngineMove.indexOf('#') == -1 && elapsed > thinkingTreshold;
+                if (cm > 0 || fin) {
+                    startTime = new Date().getTime();
+                    if (fin) {
+                        loadNext.delay(2000);
+                    } else {
+                        onGameEnd();
+                    }
+                } else {
+                    controller.startEngine.delay(900, controller);
+                }
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

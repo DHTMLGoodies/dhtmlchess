@@ -25,6 +25,7 @@ chess.controller.AnalysisEngineController = new Class({
 
     __construct: function (config) {
         if(config.garboChess != undefined)this.garboChess = config.garboChess;
+        this.setConfigParams(config, ['stopped']);
         this.garboChess = config.garboChess;
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
@@ -37,7 +38,7 @@ chess.controller.AnalysisEngineController = new Class({
         this.chessModel = model;
 
         if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-            this.views.board.enableDragAndDrop(model);
+            // this.views.board.enableDragAndDrop(model);
         }
 
         if (event === 'fen') {

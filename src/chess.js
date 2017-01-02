@@ -56,6 +56,7 @@ window.chess.COOKIE_NAME = 'chess_cookie';
 
 window.chess.events = {
     game: {
+        loadGame:'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
         newMove: 'newMove',

@@ -20,7 +20,7 @@ chess.view.score.Bar = new Class({
                 type: 'chess.view.score.BarBackground',
                 layout: {
                     height: 'matchParent',
-                    width: 'matchParent',
+                    width: 'matchParent'
                 },
                 borderRadius: this.borderRadius,
                 whiteColor:this.whiteColor,
@@ -74,7 +74,8 @@ chess.view.score.BarBackground = new Class({
         this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
     },
 
-    rendered: function () {
+    __rendered: function () {
+
         this.backgroundW = this.$('path');
         this.backgroundW.css('fill', this.whiteColor);
         this.append(this.backgroundW);

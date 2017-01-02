@@ -204,6 +204,9 @@ chess.model.Game = new Class({
      * @private
      */
     populate:function (gameData) {
+
+
+        this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;

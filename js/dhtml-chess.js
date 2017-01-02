@@ -1,4 +1,4 @@
-/* Generated Mon Jan 2 14:01:30 CET 2017 */
+/* Generated Mon Jan 2 20:36:03 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -3604,15 +3604,7 @@ ludo.Core = new Class({
  * @class ludo.layout.Factory
  */
 ludo.layout.Factory = new Class({
-
-    /**
-     * Returns layout manager, a layout.Base or subclass
-	 * @function getManager
-     * @param {ludo.View} view
-     * @return {ludo.layout.Base} manager
-	 * @private
-	 * @memberof ludo.layout.Factory.prototype
-     */
+	
 	getManager:function(view){
 		return new ludo.layout[this.getLayoutClass(view)](view);
 	},
@@ -5867,9 +5859,6 @@ ludo.layout.Base = new Class({
         this.viewport.absHeight = this.getAvailHeight();
         this.viewport.width = this.getAvailWidth();
         this.viewport.height = this.getAvailHeight();
-        //this.viewport.width = this.getAvailWidth() - this.viewport.left - this.viewport.right;
-        //this.viewport.height = this.getAvailHeight() - this.viewport.top - this.viewport.bottom;
-
     },
 
     previousContentWidth: undefined,
@@ -10887,85 +10876,105 @@ ludo.layout.Popup = new Class({
  * @augments layout.Relative
  */
 ludo.layout.Canvas = new Class({
-	Extends:ludo.layout.Relative,
+    Extends: ludo.layout.Relative,
+    type:'layout.Canvas',
 
-	addChild:function (child) {
-		child = this.getValidChild(child);
-		child = this.getNewComponent(child);
-
-		this.view.children.push(child);
-		var el = child;
-		this.view.getCanvas().append(el);
-
-		this.onNewChild(child);
-		this.addChildEvents(child);
-
-		this.fireEvent('addChild', [child, this]);
+    addChild: function (child) {
 
 
-
-		return child;
-	},
-
-	/**
-	 * Add events to child view
-	 * @function addChildEvents
-	 * @param {ludo.View} child
-	 * @private
-	 */
-	addChildEvents:function (child) {
-		child.addEvent('hide', this.hideChild.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
-
-	},
-
-	/**
-	 * Position child at this coordinates
-	 * @function positionChild
-	 * @param {canvas.View} child
-	 * @param {String} property
-	 * @param {Number} value
-	 * @private
-	 */
-	positionChild:function (child, property, value) {
-
-		child[property] = value;
-		this.currentTranslate[property] = value;
-		child['node'].setTranslate(this.currentTranslate.left, this.currentTranslate.top);
-	},
-
-	currentTranslate:{
-		left:0,top:0
-	},
-
-	zIndexAdjusted:false,
-	_rendered:false,
-
-	resize:function(){
-		this.parent();
-
-		if(!this.zIndexAdjusted){
-			this.zIndexAdjusted = true;
-
-			for (var i = 0; i < this.children.length; i++) {
-				if(this.children[i].layout.zIndex != undefined){
-					this.view.getCanvas().append(this.children[i]);
-				}
-			}
-		}
-
-		if(!this._rendered){
-			this._rendered = true;
-
-			jQuery.each(this.children, function(i, child){
-				child.rendered();
-			});
-		}
-
-	}
+        child = this.getValidChild(child);
+        child = this.getNewComponent(child);
 
 
+        this.view.children.push(child);
 
+        var p = child.parentNode ? this.view : this.view.getCanvas();
+
+        p.append(child);
+
+        this.onNewChild(child);
+        this.addChildEvents(child);
+
+        this.fireEvent('addChild', [child, this]);
+
+
+        return child;
+    },
+
+    /**
+     * Add events to child view
+     * @function addChildEvents
+     * @param {ludo.View} child
+     * @private
+     */
+    addChildEvents: function (child) {
+        child.addEvent('hide', this.hideChild.bind(this));
+        child.addEvent('show', this.clearTemporaryValues.bind(this));
+
+    },
+
+    /**
+     * Position child at this coordinates
+     * @function positionChild
+     * @param {canvas.View} child
+     * @param {String} property
+     * @param {Number} value
+     * @private
+     */
+    positionChild: function (child, property, value) {
+
+        child[property] = value;
+        this.currentTranslate[property] = value;
+        child['node'].setTranslate(this.currentTranslate.left, this.currentTranslate.top);
+    },
+
+    currentTranslate: {
+        left: 0, top: 0
+    },
+
+    zIndexAdjusted: false,
+    _rendered: false,
+
+    resize: function () {
+        this.parent();
+
+
+        if (!this.zIndexAdjusted) {
+            this.zIndexAdjusted = true;
+
+            for (var i = 0; i < this.children.length; i++) {
+                if (this.children[i].layout.zIndex != undefined) {
+                    // TODO this needs to be refactored
+                    var p = this.view.parentNode ? this.view.parentNode: this.view.getCanvas();
+                    p.append(this.children[i]);
+                }
+            }
+        }
+
+        if (!this._rendered) {
+            this._rendered = true;
+            jQuery.each(this.view.children, function (i, child) {
+                if (child.__rendered != undefined) {
+                    child.__rendered();
+                }
+            });
+        }
+
+    },
+
+    getAvailWidth: function () {
+        if (!this.view.parentNode)return this.parent();
+        return this.view.width;
+    },
+
+    getAvailHeight: function () {
+        if (!this.view.parentNode)return this.parent();
+        return this.view.height;
+    },
+
+    getParentForNewChild: function () {
+        return this.view.node;
+    }
 });/* ../ludojs/src/layout/nav-bar.js */
 /**
  * In the Navigation Bar layout, you have to two child views. The first child view is the
@@ -23529,53 +23538,139 @@ ludo.remote.ErrorMessage = new Class({
  * @class ludo.svg.Group
  */
 ludo.svg.Group = new Class({
-    Extends:ludo.svg.View,
-    tag:'g',
-    layout:{},
+    Extends: ludo.svg.View,
+    type: 'svg.Group',
+    tag: 'g',
+    layout: {},
 
-    __construct:function (config) {
+    /**
+     * Width of SVG group
+     * @property {Number} width
+     * @memberof ludo.svg.Group.prototype
+     */
+    width: undefined,
+
+
+    children: undefined,
+
+    parentGroup: undefined,
+
+    /**
+     * Height of SVG group
+     * @property {Number} height
+     * @memberof ludo.svg.Group.prototype
+     */
+    height: undefined,
+
+    child: undefined,
+
+    __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['layout', 'renderTo', 'parentComponent']);
+        this.setConfigParams(config, ['layout', 'renderTo', 'parentComponent', 'parentGroup', '__rendered']);
+
+        this.layout = this.layout || {};
+        this.layout.type = 'Canvas';
+
+        config.children = config.children || this.__children();
+        this.children = [];
+
+        this.child = {};
+
         if (this.renderTo) {
             this.renderTo.append(this);
         }
+
+
+
+        jQuery.each(config.children, function (i, child) {
+            child.layout = child.layout || {};
+            child.parentGroup = this;
+            this.children[i] = child = this.getLayout().addChild(child);
+            child.renderTo = this;
+            this.child[child.id || child.name] = child;
+        }.bind(this));
+
+
 
         if (config.css) {
             this.node.css(this.css);
         }
     },
 
-    rendered:function(){
-        
+    __children: function () {
+        return this.children || [];
     },
-    
-    resize:function (coordinates) {
+
+    __rendered: function () {
+
+
+    },
+
+    resize: function (coordinates) {
         if (coordinates.width) {
-            this.width = coordinates.width;
+            this.width = Math.max(0, coordinates.width);
             this.set('width', coordinates.width + 'px');
         }
         if (coordinates.height) {
-            this.height = coordinates.height;
+            this.height = Math.max(0, coordinates.height);
             this.set('height', coordinates.height + 'px');
         }
+
+        if (this.children.length > 0)this.getLayout().resizeChildren();
+
+        this.fireEvent('resize', coordinates);
     },
 
-    getSize:function () {
+    getSize: function () {
         return {
-            x:this.width || this.renderTo.width(),
-            y:this.height || this.renderTo.height()
+            x: this.width || this.renderTo.width(),
+            y: this.height || this.renderTo.height()
         }
     },
 
-    getCenter:function(){
+    getCenter: function () {
         var s = this.getSize();
         return {
-            x : s.x / 2, y: s.y / 2
+            x: s.x / 2, y: s.y / 2
         }
     },
 
-    isHidden:function () {
+    isHidden: function () {
         return false;
+    },
+
+    /**
+     * Returns or set position of a SVG group. On no arguments, position will be returned, otherwise,
+     * it will be set.
+     * @param {Number} x
+     * @param {Number} y
+     * @returns {{left: *, top: *}}
+     * @memberof ludo.svg.Group.prototype
+     */
+    position: function (x, y) {
+        if (arguments.length > 0) {
+            this.node.setTranslate(x, y);
+        } else {
+            var t = this.node.getTranslate();
+            return {left: t[0], top: t[1]};
+        }
+
+    },
+
+
+    getLayout: function () {
+        if (!this.hasDependency('layoutManager')) {
+            this.createDependency('layoutManager', ludo.layoutFactory.getManager(this));
+        }
+        return this.getDependency('layoutManager');
+    },
+
+    getBody: function () {
+        return this.node;
+    },
+
+    append: function (el) {
+        return this.node.append(el);
     }
 });/* ../ludojs/src/form/manager.js */
 /**
@@ -27550,6 +27645,7 @@ window.chess.COOKIE_NAME = 'chess_cookie';
 
 window.chess.events = {
     game: {
+        loadGame:'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
         newMove: 'newMove',
@@ -33495,13 +33591,14 @@ chess.view.score.Bar = new Class({
     },
 
     __children: function () {
+        console.log('return');
         return [
             {
                 name: 'scoreBar',
                 type: 'chess.view.score.BarBackground',
                 layout: {
                     height: 'matchParent',
-                    width: 'matchParent',
+                    width: 'matchParent'
                 },
                 borderRadius: this.borderRadius,
                 whiteColor:this.whiteColor,
@@ -33555,7 +33652,8 @@ chess.view.score.BarBackground = new Class({
         this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
     },
 
-    rendered: function () {
+    __rendered: function () {
+
         this.backgroundW = this.$('path');
         this.backgroundW.css('fill', this.whiteColor);
         this.append(this.backgroundW);
@@ -36995,6 +37093,9 @@ chess.model.Game = new Class({
      * @private
      */
     populate:function (gameData) {
+
+
+        this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
@@ -38465,11 +38566,9 @@ chess.remote.Reader = new Class({
     query : function(config) {
 
         this.onLoadEvent = config.eventOnLoad || 'load';
-		console.log(config);
-		console.log(config);
 
 		$.ajax({
-			url: '../router.php',
+			url: ludo.config.getUrl(),
 			method: 'post',
 			cache: false,
 			dataType: 'json',
@@ -38529,7 +38628,7 @@ chess.remote.GameReader = new Class({
     },
 
 	loadStaticGame:function(pgn, index){
-        console.trace();
+
 		this.fireEvent('beforeLoad');
 		this.query({
 			"resource": "ChessFs",
@@ -38630,13 +38729,17 @@ chess.dataSource.PgnGames = new Class({
     resource:'ChessFS',
     service:"listOfGames",
     "primaryKey":"index",
-    "url" : "../router.php",
     postData:{
         "resource": "ChessFS",
         "service": "listOfGames"
     },
     getCurrentPgn:function(){
         return this.postData.arguments;
+    },
+
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
     },
 
     /**
