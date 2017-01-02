@@ -24,7 +24,7 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
-    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
@@ -35,6 +35,12 @@
     <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js?rnd=1"></script>
+    <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-engine-controller.js?rnd=1"></script>
+    <script type="text/javascript" src="../src/model/game.js?rnd=2"></script>
+    <script type="text/javascript" src="../src/view/score/bar.js?rnd=3"></script>
+
     <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
     <style type="text/css">
@@ -153,16 +159,59 @@
 
                 children:[
                     {
-                        type:'chess.view.metadata.FenField',
-                        height:27,
+                        layout:{
+                            type:'table',
+                            columns:[{width:30},{weight:1}],
+                            vAlign:'middle',
+                            height:27
+                        },
+                        children:[
+                            { type:'form.Label',height:27, label:'Fen:',css:{ 'padding-left': 2} },
+                            {
+                                type:'chess.view.metadata.FenField',
+                                height:27,
+                                tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                            }
+                        ]
 
-                        tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
                     },
+                    {
+                        id:'scoreBar',
+                        type:'chess.view.score.Bar',
+                        layout:{
+                            height:40
+                        },
+                        css:{
+                            margin:2
+                        }
+                    },
+
+                    {
+                        id:'toggleEngine',
+                        type:'form.Button',
+                        value:'Analyze',
+                        layout:{
+                            height:35,
+                            width:'matchParent'
+                        },
+                        listeners:{
+                            'click': function(){
+                                if(controller.stopped){
+                                    controller.startEngine();
+                                }else{
+                                    controller.stopEngine();
+                                }
+                                this.val(controller.stopped ? 'Analyze' : 'Stop');
+
+                            }
+                        }
+                    },
+
                     {
                         weight:1,
                         layout:'tabs',
                         elCss:{
-                            'border-top':'1px solid #9abee8',
+                            'border-top':'1px solid #444',
                             'padding-top' : 3
                         },
                         children:[
@@ -191,7 +240,18 @@
     });
 
     var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
-    var controller = new chess.controller.AnalysisController();
+    var controller = new chess.controller.AnalysisEngineController({
+        garboChess:'../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
+        listeners:{
+            'engineupdate': function(move, color){
+
+                var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
+                if(color == 'black')s*=-1;
+                console.log(s);
+                ludo.$('scoreBar').setScore((s/1000));
+            }
+        }
+    });
     //controller.setPosition('r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4');
 
 </script>

@@ -22,13 +22,21 @@
         }
     </script>
 
+    <?php
+    date_default_timezone_set("Europe/Berlin");
+
+    ?>
+
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=3"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
     <script type="text/javascript" src="../src/controller/garbochess-controller.js?rnd=3"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
-    <script type="text/javascript" src="../src/view/score/bar.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/view/score/bar.js?rnd=4"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js?rnd=4"></script>
+    <script type="text/javascript" src="../src/view/board/board.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js?rnd=3"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=2" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
@@ -43,14 +51,34 @@
             background-color:transparent;
         }
         .ludo-chess-board-label-ranks-container,.ludo-chess-board-label-files-container{
-            color:#669900;
+            color:#aeb0b0;
 
+        }
+
+        .ludo-twilight .notation-chess-move {
+            color: #aeb0b0;
+            display:inline-block;
+            padding:2px;
+
+        }
+
+        .ludo-twilight span.notation-chess-move-highlighted {
+            background-color: #aeb0b0;
+            color: #444;
+            border-radius:3px;
+        }
+
+        .ludo-twilight .ludo-chess-board-container{
+            background-color:#444;
+            border-radius:10px;
+            padding-right:25px;
+            padding-top:25px;
         }
 
     </style>
 
 </head>
-<body>
+<body class="ludo-twilight">
 <script type="text/javascript">
 
     var app = new ludo.Application({
@@ -67,8 +95,15 @@
                 },
                 type:'chess.view.score.Bar',
                 layout:{
-                    height:50
-                }
+                    height:60
+                },
+                borderRadius:5,
+                blackColor:'#3E2723',
+                whiteColor:'#EEEEEE',
+                markerColor:'#B71C1C',
+                markerTextColor:'#FFF',
+                stroke:'#222222',
+                range:5
             },
             {
                 id:'board',
@@ -85,15 +120,6 @@
                     }
                 ]
 
-            },
-            {
-                id:'engineoutput',
-                layout:{
-                    height:30
-                },
-                css:{
-                    'text-align' : 'center'
-                }
             },
             {
                 height:50,
@@ -155,14 +181,6 @@
         var message = result == 0.5 ? "The game is a draw" : result == 1 && myColor == 'white' ? "You won" : "You lost";
 
         new ludo.Notification({
-            elCss:{
-                "background-color" : "#f5f5f5",
-                "color" : "#000"
-
-            },
-            css:{
-                "font-size":20
-            },
             html : message,
             duration:5
         });
@@ -172,15 +190,12 @@
     function updateMove(move){
         var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
         ludo.$('scoreBar').setScore(-(s/1000));
-        var moves = move.replace(/.*NPS:[0-9]+?[^0-9](.+)/g, '$1');
-        ludo.get('engineoutput').html(moves);
     }
 
     // Update engines thinking time if required
     function setThinkingTime(thinkingTime){
         controller.setThinkingTime(thinkingTime);
     }
-
 
 </script>
 </body>

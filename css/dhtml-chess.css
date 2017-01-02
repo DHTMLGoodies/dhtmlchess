@@ -1,7 +1,7 @@
-/* Generated Thu Dec 29 20:05:50 CET 2016 */
+/* Generated Mon Jan 2 14:01:30 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
-Copyright (C) 2012-2016 dhtml-chess.com
+Copyright (C) 2012-2017 dhtml-chess.com
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -2055,7 +2055,7 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
     padding:0;
     background-color:#bbd46d;
 }/* ../dhtml-chess/css-source/view/notation/panel.css */
-.ludo-chess-view-notation-panel .ludo-body{
+.ludo-blue .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
 .notation-chess-move {
@@ -2069,7 +2069,6 @@ span.notation-chess-move-highlighted {
 }
 
 div.chess-notation-panel {
-    background-color: #FFF;
     cursor: default;
 }
 
@@ -2117,6 +2116,19 @@ div.ludo-grid-data-cell {
 
 div.chess-notation-panel .ludo-body {
     overflow-y: auto;
+}
+
+.ludo-twilight .notation-chess-move {
+    color: #aeb0b0;
+    display:inline-block;
+    padding:2px;
+
+}
+
+.ludo-twilight span.notation-chess-move-highlighted {
+    background-color: #aeb0b0;
+    color: #444;
+    border-radius: 3px;
 }
 
 /* ../dhtml-chess/css-source/view/board/board.css */

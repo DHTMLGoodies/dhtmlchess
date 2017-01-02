@@ -95,13 +95,6 @@ chess.view.board.Piece = new Class({
         this.el.addClass('ludo-chess-piece');
         this.position();
 
-        /**
-         this.Fx = new Fx.Morph(this.el, {
-            duration:this.aniDuration * 1000,
-            unit:'%'
-        });
-         this.Fx.addEvent('complete', this.animationComplete.bind(this));
-         */
     },
     /**
      * Method executed when mouse enters a chess piece
@@ -168,6 +161,7 @@ chess.view.board.Piece = new Class({
      * @private
      */
     initDragPiece: function (e) {
+
         if (this.ddEnabled) {
             this.increaseZIndex();
             this.validTargetSquares = this.board.getValidMovesForPiece(this);
@@ -175,11 +169,15 @@ chess.view.board.Piece = new Class({
             var pos = this.el.position();
             this.el.css('left', pos.left + 'px');
             this.el.css('top', pos.top + 'px');
+
+            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+
             this.dd = {
                 active: true,
-                mouse: {x: e.pageX, y: e.pageY},
+                mouse: {x: p.pageX, y: p.pageY},
                 el: {x: pos.left, y: pos.top}
             };
+
 
             return false;
         }
@@ -195,11 +193,11 @@ chess.view.board.Piece = new Class({
     dragPiece: function (e) {
 
         if (this.dd.active === true) {
-
+            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
             this.el.css(
                 {
-                    left: (e.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
-                    top: (e.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
+                    left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
+                    top: (p.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
                 }
             );
 
@@ -214,6 +212,7 @@ chess.view.board.Piece = new Class({
      * @private
      */
     stopDragPiece: function (e) {
+
         if (this.dd.active) {
             var coords;
             if (ludo.util.isTabletOrMobile()) {

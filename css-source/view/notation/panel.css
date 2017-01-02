@@ -1,4 +1,4 @@
-.ludo-chess-view-notation-panel .ludo-body{
+.ludo-blue .ludo-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
 }
 .notation-chess-move {
@@ -12,7 +12,6 @@ span.notation-chess-move-highlighted {
 }
 
 div.chess-notation-panel {
-    background-color: #FFF;
     cursor: default;
 }
 
@@ -60,5 +59,18 @@ div.ludo-grid-data-cell {
 
 div.chess-notation-panel .ludo-body {
     overflow-y: auto;
+}
+
+.ludo-twilight .notation-chess-move {
+    color: #aeb0b0;
+    display:inline-block;
+    padding:2px;
+
+}
+
+.ludo-twilight span.notation-chess-move-highlighted {
+    background-color: #aeb0b0;
+    color: #444;
+    border-radius: 3px;
 }
 

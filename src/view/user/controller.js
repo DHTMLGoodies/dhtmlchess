@@ -72,7 +72,7 @@ chess.view.user.Controller = new Class({
     },
 
     getSessionToken:function () {
-        return Cookie.read(chess.COOKIE_NAME)
+        return Cookies.get(chess.COOKIE_NAME)
     },
 
     createWindows:function(){

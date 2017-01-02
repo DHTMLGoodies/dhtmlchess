@@ -21,7 +21,7 @@ chess.view.position.Board = new Class({
 
     ludoEvents:function () {
         this.parent();
-        this.els.board.addEvent('click', this.insertPiece.bind(this));
+        this.els.board.on('click', this.insertPiece.bind(this));
         this.addEvent('resetboard', this.sendFen.bind(this));
         this.addEvent('modifyboard', this.sendFen.bind(this));
         this.addEvent('clearboard', this.sendFen.bind(this));

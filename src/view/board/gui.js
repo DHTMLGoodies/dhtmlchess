@@ -29,6 +29,7 @@ chess.view.board.GUI = new Class({
     },
 
     __construct:function (config) {
+
         this.parent(config);
         this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
@@ -278,9 +279,13 @@ chess.view.board.GUI = new Class({
 
         this.lastBoardSize = size;
 
-        var boardSize = Math.min(size.x - this.getLabelWidth() - ludo.dom.getBW(this.els.board),
-            size.y - this.getLabelHeight() - ludo.dom.getBH(this.els.board));
 
+
+        var wOffset = this.els.board.outerWidth(true) - this.els.board.width();
+        var hOffset = this.els.board.outerHeight(true) - this.els.board.height();
+        var boardSize = Math.min(
+            size.x - this.getLabelWidth() - wOffset,
+            size.y - this.getLabelHeight() - hOffset);
 
         boardSize = Math.max(this.internal.squareSizes[0] * 8, Math.floor(boardSize / 8) * 8);
 
@@ -292,19 +297,23 @@ chess.view.board.GUI = new Class({
 
         var boardContainerHeight = (boardSize + this.getLabelHeight() + ludo.dom.getMBPH(this.els.board));
 
+        this.els.boardContainer.css({
+            width:(boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
+            height:boardContainerHeight + 'px'
+        });
+
+
         var marginTop;
         if (this.vAlign === 'center') {
-            marginTop = Math.floor((this.getHeightOfContainer() - boardContainerHeight) / 2);
+            marginTop = Math.floor(this.getBody().height - this.els.boardContainer.outerHeight(true) / 2);
             marginTop = Math.max(0, marginTop);
         } else {
             marginTop = 0;
         }
 
-        this.els.boardContainer.css({
-            width:(boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
-            height:boardContainerHeight + 'px',
-            top:marginTop
-        });
+        this.els.boardContainer.css('margin-top', marginTop);
+
+
 
         this.els.board.css({
             width:boardSize,
@@ -349,23 +358,13 @@ chess.view.board.GUI = new Class({
     getNewSizeOfBoardContainer:function () {
         var b = this.els.boardContainer;
         var c = this.getBody();
-        var e = this.getEl();
-
-
-        var bSW = ludo.dom.getPW(b) + ludo.dom.getBW(b);
-        var cSW = ludo.dom.getMBPW(c);
-        var eSW = ludo.dom.getMBPW(e);
-
-        var bSH = ludo.dom.getMBPH(b);
-        var cSH = ludo.dom.getMBPH(c);
-        var eSH = ludo.dom.getMBPH(e);
-
-        var size = { x: e.outerWidth(), y: e.outerHeight() };
+        var widthOffset = b.outerWidth(true) - b.width();
+        var heightOffset = b.outerHeight(true) - b.height();
+        var size = { x: c.width(), y: c.height() };
         size = {
-            x:size.x - (bSW + cSW + eSW),
-            y:size.y - (bSH + cSH + eSH)
+            x:size.x - widthOffset,
+            y:size.y - heightOffset
         };
-
         return size;
     },
 
@@ -386,7 +385,7 @@ chess.view.board.GUI = new Class({
             return 0;
         }
         if (this.labelHeight === undefined) {
-            this.labelHeight = this.els.labels.files.outerHeight();
+            this.labelHeight = this.els.labels.files.outerHeight(true);
         }
         return this.labelHeight;
     },
@@ -397,7 +396,7 @@ chess.view.board.GUI = new Class({
             return 0;
         }
         if (this.labelWidth === undefined) {
-            this.labelWidth = this.els.labels.ranks.outerWidth();
+            this.labelWidth = this.els.labels.ranks.outerWidth(true);
         }
         return this.labelWidth;
     },
@@ -419,8 +418,7 @@ chess.view.board.GUI = new Class({
     },
 
     getHeightOfContainer:function () {
-        var el = this.getBody();
-        return el.height();
+        return this.getBody().height();
 
     },
 

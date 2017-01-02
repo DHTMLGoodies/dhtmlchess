@@ -728,8 +728,9 @@ chess.model.Game = new Class({
             return this.moveParser.getMoveConfig(move, pos);
         } else {
             if (window.console != undefined) {
-                console.log("Parse error on move");
+                console.log("Parse error on move", move, pos);
                 console.log(move);
+                console.trace();
             }
         }
         return null;
@@ -1517,6 +1518,11 @@ chess.model.Game = new Class({
         }
         var event = chess.events.game[eventName] || eventName;
         this.fireEvent(event, [event, this, param]);
+
+
+        if(event == 'newGame' || event == 'setPosition' || event == 'newMove' || event == 'nextmove'){
+            this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+        }
     },
 
     /**

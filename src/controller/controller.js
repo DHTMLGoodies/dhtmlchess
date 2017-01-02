@@ -331,7 +331,7 @@ chess.controller.Controller = new Class({
     },
 
     selectGame:function (game, pgn) {
-        console.trace();
+
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;

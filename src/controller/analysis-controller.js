@@ -12,6 +12,12 @@
  */
 chess.controller.AnalysisController = new Class({
 	Extends:chess.controller.Controller,
+	useEngine:false,
+
+	__construct:function(config){
+		this.parent(config);
+		this.setConfigParams(config, ['useEngine']);
+	},
 
 	modelEventFired:function (event, model, param) {
 		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
