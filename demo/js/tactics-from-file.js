@@ -66,7 +66,7 @@ chess.TacticsFromFile = new Class({
                                 'background-color' : 'transparent'
                             },
                             weight:1,
-                            addOns:[
+                            plugins:[
                                 {
                                     type:'chess.view.highlight.Arrow'
                                 },

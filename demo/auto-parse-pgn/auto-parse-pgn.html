@@ -120,7 +120,7 @@
                 type: 'chess.view.board.Board',
                 pieceLayout: 'alphapale',
                 boardLayout: 'wood',
-                animationDuration: .1,
+                animationDuration: 0,
                 labels: true,
                 layout: {
                     weight: 1
@@ -166,10 +166,11 @@
     createPgn();
 
     var currentPgn;
-    var index = 17;
+    var index = 29;
     var countGames;
     var startTime;
     var currentMoves = [];
+    var thinkingTreshold = 20000;
 
     var ds = new chess.dataSource.PgnGames({
         id: 'gameList',
@@ -199,6 +200,7 @@
 
     function loadNext() {
         if (index < countGames - 1) {
+            lastEngineMove = undefined;
             controller.loadGameFromFile(++index);
         }
     }
@@ -218,11 +220,8 @@
                 }
             },
             loadGame: function (model, gameData) {
-
                 currentPgn = gameData.metadata;
-
-                console.log(arguments);
-                console.log(gameData.metadata);
+                startTime = new Date().getTime();
             }
 
         }
@@ -248,9 +247,12 @@
 
             currentMoves[i] = prefix + ' ' + m;
         }
-
+        currentPgn.black = currentPgn.white + ' ' + currentPgn.black;
+        currentPgn.index = index;
+        currentPgn.white =(colorToMove == 'white' ? 'White':'Black') + ' mates in ' + (Math.ceil(currentMoves.length/2))
         currentPgn.moves = currentMoves.join(' ');
         currentPgn.result = colorToMove == 'white' ? '1-0' : '0-1';
+        currentPgn.plycount = currentMoves.length;
 
         $.ajax({
             url: "auto-parse-pgn-controller.php",
@@ -262,11 +264,12 @@
             },
 
             success: function () {
+                startTime = new Date().getTime();
                 new ludo.Notification({
-                    html: 'Game saved'
+                    html: 'Game #' + (index+1) + ' saved'
                 });
                 lastEngineMove = undefined;
-                loadNext.delay(2000);
+                loadNext.delay(1000);
             }
         });
 
@@ -277,16 +280,36 @@
 
     var parser = new chess.parser.FenParser0x88();
 
-    var thinkingTreshold = 20000;
+    function checkTimeout(){
+        var elapsed = new Date().getTime() - startTime;
+
+
+        if(elapsed > thinkingTreshold * 2){
+            controller.stopEngine();
+            loadNext.delay(2000);
+
+        }
+        checkTimeout.delay(1000);
+    }
+
+    checkTimeout();
 
     function updateMove(move) {
         var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
         var c = controller.currentModel.getColorToMove();
         var score = (s / 1000);
+
+        if(isNaN(score)){
+            controller.stopEngine();
+            loadNext.delay(2);
+            return;
+        }
         if (c == 'black')score *= -1;
         ludo.$('scoreBar').setScore(score);
 
         var elapsed = new Date().getTime() - startTime;
+
+
 
         if (Math.abs(s) >= 100 * 1000 || elapsed > thinkingTreshold) {
             var m = move.replace(/^.*?NPS:[0-9]+?[^0-9](.*)$/g, '$1');
@@ -309,6 +332,7 @@
 
             var checkmateMoves = parser.getAllCheckmateMoves();
 
+            console.log(checkmateMoves.length);
 
             if (checkmateMoves.length > 1) {
                 var lastMove = {
@@ -333,6 +357,8 @@
 
                 var cm = model.getLastMoveInGame().m.indexOf('#') >= 0;
 
+                console.log(elapsed);
+
                 var fin = lastEngineMove.indexOf('#') == -1 && elapsed > thinkingTreshold;
                 if (cm > 0 || fin) {
                     startTime = new Date().getTime();
@@ -342,7 +368,7 @@
                         onGameEnd();
                     }
                 } else {
-                    controller.startEngine.delay(900, controller);
+                    controller.startEngine.delay(10, controller);
                 }
             }
         }

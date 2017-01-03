@@ -32,7 +32,7 @@ chess.view.board.Piece = new Class({
     Fx: null,
     board: undefined,
     ddEnabled: false,
-    aniDuration: 250,
+    aniDuration: .25,
     /**
      Type of piece
      @config {String} pieceType
@@ -63,7 +63,10 @@ chess.view.board.Piece = new Class({
         this.pieceType = config.pieceType;
         this.color = config.color;
         this.board = config.board;
-        this.aniDuration = config.aniDuration || this.aniDuration;
+        this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
+
+        console.log(this.aniDuration);
+
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
@@ -356,8 +359,6 @@ chess.view.board.Piece = new Class({
                 top: posTo.y + '%',
                 left : posTo.x + '%'
             }, this.aniDuration * 1000, this.animationComplete.bind(this));
-
-
             this.toSquare = toSquare;
         }
     },

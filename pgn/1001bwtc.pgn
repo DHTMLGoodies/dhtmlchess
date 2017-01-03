@@ -62,20 +62,6 @@
 [Black "to Checkmate"]
 [Result "*"]
 [SetUp "1"]
-[FEN "r2qk1r1/p4p2/bp2pQp1/1n1pP1Bp/7P/3P2N1/P1R2PP1/2R3K1 w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
-
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
 [FEN "r2q1r2/pp2np2/1bp4p/3p2pk/1P1N2b1/2PB2B1/P5PP/R2QK2R w KQ - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
@@ -413,20 +399,6 @@
 [Result "*"]
 [SetUp "1"]
 [FEN "2r4k/5rp1/pb3p1p/npqP1P2/2p1B1RQ/7R/PB4PP/7K w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
-
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
-[FEN "2qrr1n1/3b1kp1/2pBpn1p/1p2PP2/p2P4/1BP5/P3Q1PP/4RRK1 w - - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
 

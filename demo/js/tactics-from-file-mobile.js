@@ -154,7 +154,7 @@ chess.TacticsFromFile2016 = new Class({
                                     },
                                     weight: 1,
                                     /** List of addons to implement */
-                                    addOns: [
+                                    plugins: [
                                         {
                                             /** Arrow for highlighting active moves, chess.view.highlight.Square is an alternative which will highlight from and to square instead of showing arrows.*/
                                             type: 'chess.view.highlight.Arrow',

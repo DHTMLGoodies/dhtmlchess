@@ -197,7 +197,7 @@ chess.GamesFromFile = new Class({
                                     elCss:{
                                         'margin-bottom':5
                                     },
-                                    addOns:[
+                                    plugins:[
                                         {
                                             type:'chess.view.highlight.Arrow',
                                             styles:{

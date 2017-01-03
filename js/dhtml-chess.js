@@ -1,4 +1,4 @@
-/* Generated Mon Jan 2 20:36:03 CET 2017 */
+/* Generated Tue Jan 3 2:51:16 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -28853,10 +28853,6 @@ chess.view.board.Board = new Class({
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
-    getTimeForAnimation: function () {
-        return this.animationDuration;
-    },
-
     __rendered: function () {
         this.createPieces();
         this.showFen(this.fen);
@@ -29001,6 +28997,10 @@ chess.view.board.Board = new Class({
      { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves: function (model, move) {
+        if(this.animationDuration == 0){
+            this.showMove(model,move);
+            return;
+        }
         if (this.currentAnimation.isBusy) {
             this.playChainOfMoves.delay(200, this, [model, move]);
             return;
@@ -29018,6 +29018,7 @@ chess.view.board.Board = new Class({
         var move = this.currentAnimation.moves[this.currentAnimation.index];
 
         if (move.capture) {
+
             var sq = Board0x88Config.mapping[move.capture];
             if (sq != move.to) {
                 this.pieceMap[sq].hide();
@@ -29030,7 +29031,7 @@ chess.view.board.Board = new Class({
             this.currentAnimation.isBusy = false;
         } else if (move.from) {
             var piece = this.getPieceOnSquare(move.from);
-            piece.playMove(move.to, this.currentAnimation.duration);
+            if(piece)piece.playMove(move.to, this.currentAnimation.duration);
         }
     },
 
@@ -29278,7 +29279,7 @@ chess.view.board.Piece = new Class({
     Fx: null,
     board: undefined,
     ddEnabled: false,
-    aniDuration: 250,
+    aniDuration: .25,
     /**
      Type of piece
      @config {String} pieceType
@@ -29309,7 +29310,10 @@ chess.view.board.Piece = new Class({
         this.pieceType = config.pieceType;
         this.color = config.color;
         this.board = config.board;
-        this.aniDuration = config.aniDuration || this.aniDuration;
+        this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
+
+        console.log(this.aniDuration);
+
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
@@ -29602,8 +29606,6 @@ chess.view.board.Piece = new Class({
                 top: posTo.y + '%',
                 left : posTo.x + '%'
             }, this.aniDuration * 1000, this.animationComplete.bind(this));
-
-
             this.toSquare = toSquare;
         }
     },
@@ -33591,7 +33593,6 @@ chess.view.score.Bar = new Class({
     },
 
     __children: function () {
-        console.log('return');
         return [
             {
                 name: 'scoreBar',
@@ -34473,6 +34474,48 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	isOnSameFile:function (square1, square2) {
 		return (square1 & 15) === (square2 & 15);
+	},
+
+	secondParser:undefined,
+
+	isCheckmate:function(fen, move){
+		if(this.secondParser == undefined){
+			this.secondParser = new chess.parser.FenParser0x88();
+		}
+
+		this.secondParser.setFen(fen);
+		this.secondParser.move(move);
+
+		var notation = this.secondParser.getNotation();
+
+		return notation.indexOf('#')>0 ? notation:undefined;
+
+	},
+
+	getAllCheckmateMoves:function(){
+		var obj = this.getValidMovesAndResult();
+		var moves = obj.moves;
+		var fen = this.getFen();
+
+
+
+		var ret = [];
+		jQuery.each(moves, function(from, toSquares){
+			var fs = Board0x88Config.numberToSquareMapping[from];
+
+			jQuery.each(toSquares, function(i, toSquare){
+				var m = {
+					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
+				};
+				var notation = this.getNotationForAMove(m);
+				if(this.isCheckmate(fen, m)){
+					ret.push(notation + '#');
+				}
+			}.bind(this))
+
+		}.bind(this));
+		return ret;
+
 	},
 
 	/**

@@ -38,7 +38,7 @@ chess.controller.AnalysisEngineController = new Class({
         this.chessModel = model;
 
         if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-            // this.views.board.enableDragAndDrop(model);
+            this.views.board.enableDragAndDrop(model);
         }
 
         if (event === 'fen') {
