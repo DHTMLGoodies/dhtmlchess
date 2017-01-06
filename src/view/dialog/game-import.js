@@ -60,7 +60,7 @@ chess.view.dialog.GameImport = new Class({
     },
 
     importFinished:function(){
-        this.hideAfterDelay(2);
+        this.hide.delay(2000, this);
         this.getForm().clear();
         this.fireEvent('pgnImportComplete');
         this.child['progressbar'].finish();

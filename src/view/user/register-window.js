@@ -80,7 +80,7 @@ chess.view.user.RegisterWindow = new Class({
     },
     registrationFailed:function (json) {
         this.child['errorMessage'].show();
-        this.child['errorMessage'].setHtml(chess.language[json.message]);
+        this.child['errorMessage'].html(chess.language[json.message]);
     },
 
     hideErrorMessage:function () {

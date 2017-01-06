@@ -1542,6 +1542,27 @@ TestCase("ParserTest", {
         }
     },
 
+    "test should find valid pawn moves": function(){
+
+        var parser = this.getParser('7k/4pppp/PPPB1rrr/8/8/4NNP1/4PP1P/4K3 w - - 0 1');
+
+        var moves = parser.getAllMovesReadable();
+
+        this.assertHasNotMove('d6', 'd8', moves);
+
+    },
+
+    assertHasNotMove:function(from, to, moves){
+
+        jQuery.each(moves, function(i, m){
+
+            var equal = m.from == from && m.to == to;
+
+            assertFalse(moves, equal);
+        });
+    },
+
+
     "test should perform well on makeMove":function () {
 
 

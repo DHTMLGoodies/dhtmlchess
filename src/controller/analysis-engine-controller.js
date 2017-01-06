@@ -23,6 +23,10 @@ chess.controller.AnalysisEngineController = new Class({
 
     stopped:true,
 
+    debug:false,
+    
+    startFen:undefined,
+
     __construct: function (config) {
         if(config.garboChess != undefined)this.garboChess = config.garboChess;
         this.setConfigParams(config, ['stopped']);
@@ -38,7 +42,7 @@ chess.controller.AnalysisEngineController = new Class({
         this.chessModel = model;
 
         if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-            this.views.board.enableDragAndDrop(model);
+           // this.views.board.enableDragAndDrop(model);
         }
 
         if (event === 'fen') {
@@ -59,6 +63,7 @@ chess.controller.AnalysisEngineController = new Class({
         if (event == 'newGame') {
             this.ensureAnalysisStopped();
 
+            this.startFen = this.currentModel.model.startFen;
             ResetGame();
 
             if (this.initializeBackgroundEngine()) {
@@ -70,10 +75,7 @@ chess.controller.AnalysisEngineController = new Class({
 
     updateEngine:function(){
         if (this.initializeBackgroundEngine()) {
-
-
             this.engine.postMessage("position " + this.getFen());
-
             this.searchAndRedraw.delay(20, this);
 
         }
@@ -82,9 +84,11 @@ chess.controller.AnalysisEngineController = new Class({
     stopEngine:function(){
         this.stopped = true;
         this.ensureAnalysisStopped();
+
     },
 
     startEngine:function(){
+     
         this.stopped = false;
         this.updateEngine();
 

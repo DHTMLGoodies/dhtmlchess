@@ -29,6 +29,8 @@ chess.model.Game = new Class({
     countGames:-1,
 
     INCLUDE_COMMENT_MOVES:true,
+    
+    startFen:undefined,
 
     state:{
         autoplay:false
@@ -206,12 +208,14 @@ chess.model.Game = new Class({
     populate:function (gameData) {
 
 
-        this.fire('loadGame', gameData);
+        // this.fire('loadGame', gameData); 
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
+        this.startFen = this.model.metadata.fen;
+
         this.model.result = this.getResult();
         this.model.moves = gameData.moves || [];
         this.model.metadata = gameData.metadata || {};
@@ -223,6 +227,7 @@ chess.model.Game = new Class({
             this.countGames = gameData.games['c'];
             this.gameIndex = gameData.games['i'];
         }
+        this.fire('loadGame', gameData);
         this.fire('newGame');
         this.toStart();
     },

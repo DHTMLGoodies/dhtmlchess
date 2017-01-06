@@ -25,7 +25,7 @@ chess.view.installer.DbConnection = new Class({
 		console.log('testing connection');
         if (this.isBusyTestingConnection)return;
         this.isBusyTestingConnection = true;
-        this.child['connectionTestResult'].setHtml('');
+        this.child['connectionTestResult'].html('');
 
         var req = new ludo.remote.JSON({
             resource:'ChessDBInstaller',

@@ -184,7 +184,7 @@ var app = new ludo.Application({
 
                                 // Update download link
                                 var pgnFile = ludo.get("gameList").arguments[0];
-                                ludo.get("downloadLink").setHtml('<p>Download the <a title="Chicago Open 2015 PGN File" href="../pgn/' + pgnFile + '.pgn">' + pgnFile + ' PGN File</a>.</p>')
+                                ludo.get("downloadLink").html('<p>Download the <a title="Chicago Open 2015 PGN File" href="../pgn/' + pgnFile + '.pgn">' + pgnFile + ' PGN File</a>.</p>')
                             }
                         },
                         shim:{

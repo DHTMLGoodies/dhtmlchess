@@ -555,6 +555,7 @@ div.ludo-resize-handle-active {
     width: 5px;
     right: 0;
     height: 90%;
+    cursor: ew-resize;
 }
 
 .ludo-view-resize-region-w {
@@ -562,7 +563,7 @@ div.ludo-resize-handle-active {
     left: 0;
     top: 5%;
     width: 3px;
-    cursor: w-resize;
+    cursor: ew-resize;
 }
 
 .ludo-view-resize-region-n {
@@ -570,7 +571,7 @@ div.ludo-resize-handle-active {
     top: 0;
     left: 5%;
     height: 4px;
-    cursor: s-resize;
+    cursor: ns-resize;
 }
 
 .ludo-view-resize-region-nw, .ludo-view-resize-region-ne, .ludo-view-resize-region-sw {
@@ -581,28 +582,32 @@ div.ludo-resize-handle-active {
 .ludo-view-resize-region-nw {
     top: 0;
     left: 0;
+    cursor:nwse-resize;
 }
 
 .ludo-view-resize-region-ne {
     top: 0;
     right: 0;
+    cursor:nesw-resize;
+
 }
 
 .ludo-view-resize-region-sw {
     left: 0;
     bottom: 0;
+    cursor:nesw-resize;
 }
 
 .ludo-view-resize-region-se {
     background-image: none;
     background-repeat: no-repeat;
+    cursor:nwse-resize;
     position: absolute;
     bottom: 0;
     right: 0;
     z-index: 15500;
     width: 11px;
     height: 11px;
-    cursor: se-resize;
 }
 
 .ludo-view-resize-right {
@@ -2422,6 +2427,10 @@ tab layout */
     color:#aeb0b0;
 }
 
+.ludo-twilight .ludo-tab-strip-tab-txt-svg-active{
+    color:#fff;
+}
+
 /** Accordion **/
 .ludo-twilight .ludo-accordion{
     border:1px solid #383838;
@@ -2503,13 +2512,11 @@ Collapse bar
 }
 
 .ludo-twilight div.ludo-resize-handle-active{
-    background-color:#424242;
+    background-color:#666;
 }
 
 
-
-
-    /** Button **/
+/** Button **/
 
 .ludo-twilight .ludo-form-button-bg-right,
 .ludo-twilight .ludo-form-button-bg-left{
@@ -2950,6 +2957,14 @@ Tree
 
 .ludo-twilight div.ludo-tree-node-last-sibling{
     background-image:url(../ludojs/images/twilight-skin/tree-dots-last-node-2.png);
+}
+
+.ludo-twilight .ludo-tree-node-expand{
+    top:5px;
+}
+
+.ludo-twilight .ludo-tree-node span.ludo-tree-node-spacer{
+    top:1px;
 }
 
 

@@ -189,10 +189,14 @@ Board0x88Config = {
     typeToNumberMapping:{
         'pawn':0x01,
         'knight':0x02,
+        'N':0x02,
         'king':0x03,
         'bishop':0x05,
+        'B':0x05,
         'rook':0x06,
-        'queen':0x07
+        'R':0x06,
+        'queen':0x07,
+        'Q':0x07
     },
 
     colorMapping:{

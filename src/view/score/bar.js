@@ -306,9 +306,7 @@ chess.view.score.BarBackground = new Class({
         this.textNode.setTranslate(0, (r / 2) + this.height / 2);
         this.textNode.css('font-size', r / 1.5);
         this.textNode.css('line-height', r / 1.5);
-
-        //  this.debugCircle.setTranslate(0, (r/2) + this.height / 2);
-
+        
         this.resizeRects();
 
     },

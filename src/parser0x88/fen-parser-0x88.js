@@ -261,6 +261,19 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
+	 * Returns rank 0-7 where 0 is first rank and 7 is last rank
+	 * @function rank
+	 * @param {Number|String} square
+	 * @returns {number}
+     */
+	rank:function(square){
+		if(square.substr != undefined){
+			square = Board0x88Config.mapping[square];
+		}
+		return (square & 240) / 16;
+	},
+
+	/**
 	 * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
 	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
 	 @method isOnSameFile
@@ -286,17 +299,68 @@ chess.parser.FenParser0x88 = new Class({
 		this.secondParser.setFen(fen);
 		this.secondParser.move(move);
 
-		var notation = this.secondParser.getNotation();
+		var notation = this.secondParser.notation;
 
 		return notation.indexOf('#')>0 ? notation:undefined;
 
 	},
 
+	getAllMovesReadable:function(){
+		var obj = this.getValidMovesAndResult();
+		var moves = obj.moves;
+		var ret = [];
+		var promoteTo = ['R','N', 'B', 'Q'];
+		jQuery.each(moves, function(from, toSquares){
+			var fs = Board0x88Config.numberToSquareMapping[from];
+			jQuery.each(toSquares, function(i, toSquare){
+				var addPromotion = false;
+				var rank = this.rank(toSquare);
+				if(rank == 0 || rank == 7){
+					var p = this.getPieceOnSquare(from);
+					if(p.type == 'pawn')addPromotion = true;
+				}
+				var ts = Board0x88Config.numberToSquareMapping[toSquare];
+				if(addPromotion){
+					jQuery.each(promoteTo, function(i, promote){
+						ret.push({
+							from: fs,
+							to: ts,
+							promoteTo:promote
+						})
+					});
+				}else{
+					ret.push({
+						from: fs,
+						to: ts
+					})
+				}
+
+			}.bind(this))
+
+		}.bind(this));
+		
+		return ret;
+	},
+	
 	getAllCheckmateMoves:function(){
+		var fen = this.getFen();
+		var moves = this.getAllMovesReadable();
+		var ret = [];
+		jQuery.each(moves, function(i, m){
+			var notation = this.getNotationForAMove(m);
+
+			if(this.isCheckmate(fen, m)){
+				ret.push(notation + '#');
+			}
+		}.bind(this));
+		return ret;
+
+		/*
+
 		var obj = this.getValidMovesAndResult();
 		var moves = obj.moves;
 		var fen = this.getFen();
-
+		var promoteTo = ['R','N', 'B', 'Q'];
 
 
 		var ret = [];
@@ -304,6 +368,14 @@ chess.parser.FenParser0x88 = new Class({
 			var fs = Board0x88Config.numberToSquareMapping[from];
 
 			jQuery.each(toSquares, function(i, toSquare){
+
+				var addPromotion = false;
+				var rank = this.rank(toSquare);
+				if(rank == 0 || rank == 7){
+					var p = this.getPieceOnSquare(from);
+					if(p.type == 'pawn')addPromotion = true;
+				}
+
 				var m = {
 					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
 				};
@@ -315,6 +387,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		}.bind(this));
 		return ret;
+		*/
 
 	},
 
@@ -1377,6 +1450,7 @@ chess.parser.FenParser0x88 = new Class({
         );
 
 		var config = this.getValidMovesAndResult();
+
 		if (config.result === 1 || config.result === -1) {
 			this.notation += '#';
 			this.longNotation += '#';
@@ -1642,6 +1716,10 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {String} long notation
 	 */
 	getLongNotationForAMove:function (move, shortNotation) {
+		if(!shortNotation){
+			console.trace();
+			console.log(move);
+		}
 		if (shortNotation.indexOf('O-') >= 0) {
 			return shortNotation;
 		}
@@ -1688,7 +1766,8 @@ chess.parser.FenParser0x88 = new Class({
 				}
 				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
 				if (move.promoteTo) {
-					ret += '=' + chess.language.pieces[move.promoteTo];
+					var pr = chess.language.pieces[move.promoteTo] != undefined ? chess.language.pieces[move.promoteTo] : move.promoteTo;
+					ret += '=' + pr;
 				}
 				break;
 			case 0x02:

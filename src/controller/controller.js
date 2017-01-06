@@ -19,11 +19,11 @@ chess.controller.Controller = new Class({
     views:{},
     disabledEvents:{},
     pgn : undefined,
+    debug:true,
 
     __construct:function (config) {
         this.parent(config);
-        this.databaseId = config.databaseId || this.databaseId;
-        this.pgn = config.pgn || this.pgn;
+        this.setConfigParams(config, ['debug', 'pgn','databaseId']);
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -389,7 +389,7 @@ chess.controller.Controller = new Class({
 
     fireModelEvent:function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            ludo.util.log(event);
+            if(this.debug)ludo.util.log(event);
             this.fireEvent(event, [model, param]);
             this.modelEventFired(event, model, param);
         }

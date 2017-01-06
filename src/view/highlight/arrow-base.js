@@ -30,11 +30,14 @@ chess.view.highlight.ArrowBase = new Class({
 	},
 
 	initDragPiece:function (e) {
+
 		if (this.getParent().ddEnabled) {
 			var pos = this.getParent().getBoard().offset();
+
+			var p = e.touches != undefined && e.touches.length> 0 ? e.touches[0] : e;
 			var coords = {
-				x:e.pageX - pos.left,
-				y:e.pageY - pos.top
+				x:p.pageX - pos.left,
+				y:p.pageY - pos.top
 			};
 
 			var ss = this.getParent().getSquareSize();

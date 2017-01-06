@@ -31,17 +31,17 @@ chess.view.installer.Wizard = new Class({
 	},
 
     onInstallError:function(){
-        ludo.get('message').setHtml('');
+        ludo.get('message').html('');
         ludo.get('finishButton').show();
     },
 
 	beforeSubmit:function () {
-		ludo.get('message').setHtml('<img src="../images/ajax-loader.gif"> Installing - please wait');
+		ludo.get('message').html('<img src="../images/ajax-loader.gif"> Installing - please wait');
 		ludo.get('previousButton').hide();
 		ludo.get('finishButton').hide();
 	},
 	installationComplete:function () {
-		ludo.get('message').setHtml('Installation complete');
+		ludo.get('message').html('Installation complete');
 		ludo.get('completeButton').show();
 	}
 });

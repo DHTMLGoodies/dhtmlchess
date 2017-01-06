@@ -21,24 +21,28 @@ chess.view.dialog.Promote = new Class({
     title : 'Promote to',
     pieces : [],
     move : undefined,
-    autoDispose : false,
+    autoRemove : false,
 
     children:[
         {
             type:'chess.view.dialog.PromotePiece',
-            piece:'queen'
+            piece:'queen',
+            layout:{x:0,y:0}
         },
         {
             type:'chess.view.dialog.PromotePiece',
-            piece:'rook'
+            piece:'rook',
+            layout:{x:1,y:0}
         },
         {
             type:'chess.view.dialog.PromotePiece',
-            piece:'bishop'
+            piece:'bishop',
+            layout:{x:0,y:1}
         },
         {
             type:'chess.view.dialog.PromotePiece',
-            piece:'knight'
+            piece:'knight',
+            layout:{x:1,y:1}
         }
     ],
 
@@ -93,7 +97,7 @@ chess.view.dialog.PromotePiece = new Class({
     __rendered : function() {
         this.parent();
         this.getEl().addClass('chess-promote-piece');
-        this.getEl().addEvent('click', this.clickOnPiece.bind(this));
+        this.getEl().on('click', this.clickOnPiece.bind(this));
 
     },
 

@@ -12,7 +12,7 @@ if (isset($_POST['initialize']) && isset($_POST['pgn'])) {
 
 if (isset($_POST['append']) && isset($_POST['pgn']) && isset($_POST['game'])) {
 
-    /*
+    
 
 
     $fh = fopen($_POST['pgn'], "a");
@@ -32,8 +32,6 @@ if (isset($_POST['append']) && isset($_POST['pgn']) && isset($_POST['game'])) {
 
 
     fclose($fh);
-
-    */
 
     $ret = array("success" => "true");
     echo json_encode($ret);

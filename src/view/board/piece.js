@@ -53,6 +53,9 @@ chess.view.board.Piece = new Class({
 
     validTargetSquares: [],
 
+    svg: false,
+    extension: 'pgn',
+
     __construct: function (config) {
         this.parent(config);
         this.square = config.square;
@@ -65,8 +68,8 @@ chess.view.board.Piece = new Class({
         this.board = config.board;
         this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
 
-        console.log(this.aniDuration);
-
+        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.extension = this.svg ? 'svg' : 'png';
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
@@ -293,13 +296,29 @@ chess.view.board.Piece = new Class({
         this.pieceType = toType;
         this.updateBackgroundImage();
     },
+    bgUpdated: false,
     /**
      * Update background image of piece when piece type is set or changed and when size of square is changed.
      * @method updateBackgroundImage
      * @private
      */
     updateBackgroundImage: function () {
-        this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)');
+
+        var s = this.svg ? 45 : this.size;
+
+        if (this.piece = this.bgUpdated && this.svg) {
+
+        } else {
+            this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
+
+        }
+
+        if (this.svg) {
+            this.el.css('background-size', '100% 100%');
+        }
+
+        this.bgUpdated = this.piece;
+
     },
 
     /**
@@ -357,7 +376,7 @@ chess.view.board.Piece = new Class({
             this.increaseZIndex();
             this.el.animate({
                 top: posTo.y + '%',
-                left : posTo.x + '%'
+                left: posTo.x + '%'
             }, this.aniDuration * 1000, this.animationComplete.bind(this));
             this.toSquare = toSquare;
         }

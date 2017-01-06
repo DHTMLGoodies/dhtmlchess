@@ -6,6 +6,76 @@
 [Black "to Checkmate"]
 [Result "*"]
 [SetUp "1"]
+[FEN "r1b2r2/3pNpkp/3pn1p1/2pN3P/2PnP3/q3QP2/4BKP1/1R5R w - - 0 1"]
+[PlyCount "0"]
+[EventDate "1998.??.??"]
+
+ *
+
+[Event "Carlsen - Karjakin World Championship"]
+[Site "0:01:33-0:00:33"]
+[Date "2016.11.30"]
+[EventDate "2016.11.11"]
+[Round "13.4"]
+[Result "*"]
+[White "Magnus Carlsen"]
+[Black "Sergey Karjakin"]
+[ECO "B54"]
+[WhiteElo "?"]
+[FEN "2R5/4bppk/1p1p4/5R1P/4PQ2/5P2/r4q1P/7K w - - 0 1"]
+[BlackElo "?"]
+[PlyCount "99"]
+
+*
+
+[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "*"]
+[SetUp "1"]
+[FEN "4r1b1/1p4B1/pN2pR2/RB2k3/1P2N2p/2p3b1/n2P1p1r/5K1n w - - 0 1"]
+[PlyCount "0"]
+
+*
+
+[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "*"]
+[SetUp "1"]
+[FEN "k1K5/p7/P1N5/1P6/4pP2/2p1P3/pp6/r3Q3 w - - 0 1"]
+[PlyCount "0"]
+
+*
+
+[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "*"]
+[SetUp "1"]
+[FEN "6rk/R6p/2pp4/1pP2n2/1P2B1Q1/n6P/7K/r3q3 w - - 0 1"]
+[PlyCount "0"]
+
+*
+
+[EventDate "1998.??.??"]
+[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "*"]
+[SetUp "1"]
 [FEN "r1b2rk1/pp1p1pp1/1b1p2B1/n1qQ2p1/8/5N2/P3RPPP/4R1K1 w - - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
@@ -636,20 +706,6 @@
 [Black "to Checkmate"]
 [Result "*"]
 [SetUp "1"]
-[FEN "2r2b1r/pN1k2pn/2pP1p2/4Pqnp/2Q5/2P3P1/PP4BP/2KRR3 w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
-
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
 [FEN "r2q4/3rk3/1pRp3p/1P1PpRpP/p3P1P1/PpQ5/8/1K6 w - - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
@@ -749,20 +805,6 @@
 [Result "*"]
 [SetUp "1"]
 [FEN "1rb3k1/p5pp/2Q2n2/8/2P5/2N4P/Pq4B1/5R1K w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
-
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
-[FEN "2k4r/1pp1q1p1/2n1b3/1Q3p1p/2Pr2n1/6P1/3NPPBP/R4RK1 w - - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
 
@@ -987,20 +1029,6 @@
 [Result "*"]
 [SetUp "1"]
 [FEN "1r5r/3Rbkpn/Bp2p1p1/2P2p2/4pP2/1Q2P3/PP3qPP/1K1R4 w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
-
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
-[FEN "r1b4k/ppp2Bb1/6Pp/3pP3/1qnP1p1Q/8/PPP3P1/1K1R3R w - - 0 1"]
 [PlyCount "0"]
 [EventDate "1998.??.??"]
 
@@ -1650,19 +1678,6 @@
 
  *
 
-[Event " White to move."]
-[Site "?"]
-[Date "1998.??.??"]
-[Round "?"]
-[White "1001 Brilliant Ways"]
-[Black "to Checkmate"]
-[Result "*"]
-[SetUp "1"]
-[FEN "r1b2r2/3pNpkp/3pn1p1/2pN3P/2PnP3/q3QP2/4BKP1/1R5R w - - 0 1"]
-[PlyCount "0"]
-[EventDate "1998.??.??"]
-
- *
 
 [Event " White to move."]
 [Site "?"]

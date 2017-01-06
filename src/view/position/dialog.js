@@ -8,7 +8,7 @@ chess.view.position.Dialog = new Class({
     Extends:ludo.dialog.Dialog,
     module:'chess',
     submodule : 'positionSetup',
-    autoDispose:false,
+    autoRemove:false,
     autoHideOnBtnClick:false,
     width:640,
     height:450,

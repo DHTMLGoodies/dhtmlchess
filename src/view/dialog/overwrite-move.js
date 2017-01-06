@@ -21,7 +21,7 @@ chess.view.dialog.OverwriteMove = new Class({
 	fullScreen:false,
 	resizable:false,
 	modal:true,
-	autoDispose:false,
+	autoRemove:false,
 
 	__construct:function (config) {
 		config = config || {};
@@ -88,7 +88,7 @@ chess.view.dialog.OverwriteMove = new Class({
         this.show();
 		this.move = moves;
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
-		this.setHtml('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
+		this.html('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
 
 	}
 });

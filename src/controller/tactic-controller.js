@@ -51,7 +51,7 @@ chess.controller.TacticController = new Class({
 
 	getDialogPuzzleComplete:function () {
 		return new ludo.dialog.Alert({
-			autoDispose:false,
+			autoRemove:false,
 			height:150,
 			width:250,
 			hidden:true,

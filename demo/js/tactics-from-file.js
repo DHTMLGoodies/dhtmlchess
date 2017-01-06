@@ -14,138 +14,113 @@
 chess.TacticsFromFile = new Class({
     Extends: Events,
 
-    renderTo:undefined,
-    pgn : undefined,
+    renderTo: undefined,
+    pgn: undefined,
 
-    controller:undefined,
+    controller: undefined,
 
-    initialize:function(config){
+    initialize: function (config) {
         this.renderTo = config.renderTo;
         this.pgn = config.pgn;
-        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
         $(document).ready(this.render.bind(this));
     },
 
-    render:function(){
-        new ludo.View({
-            renderTo:$(this.renderTo),
-            elCss:{
+    render: function () {
 
-                'background-color' : 'transparent'
+        new ludo.View({
+            renderTo: $(this.renderTo),
+
+            layout: {
+                type: 'fill',
+                height: 'matchParent',
+                width: 'matchParent'
             },
-            layout:{
-                type:'fill',
-                height:'matchParent',
-                width:'matchParent'
-            },
-            children:[
+            children: [
                 {
-                    weight:1,
-                    layout:'rows',
-                    elCss:{
-                        'background-color' : 'transparent'
+                    layout: {
+                        type: 'linear', orientation: 'vertical'
                     },
 
-                    children:[
+
+                    children: [
                         {
-                            type:'chess.view.message.TacticsMessage',
-                            height:25,
-                            elCss:{
-                                'background-color' : 'transparent'
-                            }
+                            type: 'chess.view.message.TacticsMessage',
+                            height: 25
                         },
                         {
-                            type:'chess.view.board.Board',
-                            overflow:'hidden',
-                            chessSet:'alphapale',
-                            boardCss:{
-                                border:0
+                            type: 'chess.view.board.Board',
+                            overflow: 'hidden',
+                            pieceLayout: 'svg3',
+                            boardCss: {
+                                border: 0
                             },
-                            labels:true,
-                            elCss:{
-                                'background-color' : 'transparent'
-                            },
-                            weight:1,
-                            plugins:[
+                            labels: true,
+
+                            weight: 1,
+                            plugins: [
                                 {
-                                    type:'chess.view.highlight.Arrow'
+                                    type: 'chess.view.highlight.Arrow'
                                 },
                                 {
-                                    type:'chess.view.highlight.ArrowTactic'
+                                    type: 'chess.view.highlight.ArrowTactic'
                                 },
                                 {
-                                    type:'chess.view.highlight.SquareTacticHint'
+                                    type: 'chess.view.highlight.SquareTacticHint'
                                 }
                             ]
                         },
                         {
-                            height:25,
-                            type:'chess.view.metadata.Game',
-                            tpl:'{white} vs {black}, {date}',
-                            css:{
-                                'text-align' : 'center',
-                                'overflow-y':'auto',
-                                'background-color':'transparent'
+                            height: 25,
+                            type: 'chess.view.metadata.Game',
+                            tpl: '#{index} - {white}',
+                            css: {
+                                'text-align': 'center',
+                                'overflow-y': 'auto'
                             }
                         },
                         {
-                            layout:{
-                                type:'linear',
-                                orientation:'horizontal'
+                            layout: {
+                                type: 'linear',
+                                orientation: 'horizontal'
                             },
-                            css:{
-                                'margin-top' : 2,
-                                'backgrund-color' : 'transparent'
+                            css: {
+                                'margin-top': 2
                             },
-                            elCss:{
-                                'background-color' : 'transparent'
-                            },
-                            height:30,
-                            children:[
-                                { weight:1,
-                                    elCss:{
-                                        'background-color' : 'transparent'
-                                    } },
+
+                            height: 30,
+                            children: [
                                 {
-                                    layout:{ width: 80 },
-                                    type:'chess.view.button.TacticHint',
-                                    value:chess.getPhrase('Hint'),
-                                    elCss:{
-                                        'background-color' : 'transparent'
-                                    }
+                                    weight: 1
                                 },
                                 {
-                                    layout:{ width: 80 },
-                                    type:'chess.view.button.TacticSolution',
-                                    value:chess.getPhrase('Solution'),
-                                    elCss:{
-                                        'background-color' : 'transparent'
-                                    }
-                                },{
-                                    layout:{ width: 80 },
-                                    type:'form.Button',
-                                    value:chess.getPhrase('Next Game'),
-                                    elCss:{
-                                        'background-color' : 'transparent'
-                                    },
-                                    listeners:{
-                                        click : function(){
+                                    layout: {width: 80},
+                                    type: 'chess.view.button.TacticHint',
+                                    value: chess.getPhrase('Hint')
+                                },
+                                {
+                                    layout: {width: 80},
+                                    type: 'chess.view.button.TacticSolution',
+                                    value: chess.getPhrase('Solution')
+                                }, {
+                                    layout: {width: 80},
+                                    type: 'form.Button',
+                                    value: chess.getPhrase('Next Game'),
+                                    listeners: {
+                                        click: function () {
                                             this.controller.loadNextGameFromFile();
                                         }.bind(this)
                                     }
                                 },
                                 {
-                                    weight:1,
-                                    elCss:{
-                                        'background-color' : 'transparent'
-                                    }
+                                    weight: 1
                                 }
                             ]
                         },
                         {
-                            height:50,
-                            comments:false,
-                            type:'chess.view.notation.TacticPanel'
+                            height: 50,
+                            comments: false,
+                            type: 'chess.view.notation.TacticPanel'
                         }
                     ]
                 }
@@ -155,28 +130,25 @@ chess.TacticsFromFile = new Class({
         var storageKey = 'key_' + this.pgn + '_tactic';
 
         this.controller = new chess.controller.TacticControllerGui({
-            pgn:this.pgn,
-            alwaysPlayStartingColor:true,
-            autoMoveDelay:400,
-            gameEndHandler:function(controller){
+            pgn: this.pgn,
+            alwaysPlayStartingColor: true,
+            autoMoveDelay: 400,
+            gameEndHandler: function (controller) {
                 controller.loadNextGameFromFile();
             },
-            listeners:{
-                'startOfGame' : function(){
-                    ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex() );
+            listeners: {
+                'startOfGame': function () {
+                    ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex());
                 }.bind(this)
             }
         });
 
         var index = ludo.getLocalStorage().get(storageKey);
-        if(index != undefined){
+        if (index != undefined) {
             this.controller.getCurrentModel().setGameIndex(index);
-        }else{
+        } else {
             index = 0;
         }
-
-     
-
 
 
         this.controller.loadGameFromFile(index);

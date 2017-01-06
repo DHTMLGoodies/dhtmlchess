@@ -15,7 +15,7 @@ chess.view.dialog.Comment = new Class({
     hidden:true,
     title:chess.getPhrase('Add comment'),
     move:undefined,
-    autoDispose:false,
+    autoRemove:false,
     buttonConfig:'OkCancel',
     commentPos:undefined,
     css:{

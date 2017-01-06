@@ -29,6 +29,8 @@
 
     <script type="text/javascript" src="../../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../../js/dhtml-chess.js?rnd=4"></script>
+    <script type="text/javascript" src="../../src/controller/controller.js?rnd=3"></script>
+    <script type="text/javascript" src="../../src/controller/analysis-controller.js?rnd=3"></script>
     <script type="text/javascript" src="../../src/controller/garbochess-controller.js?rnd=3"></script>
     <script type="text/javascript" src="../../garbochess-engine/garbochess.js"></script>
     <script type="text/javascript" src="../../src/view/score/bar.js?rnd=4"></script>
@@ -40,6 +42,7 @@
     <script type="text/javascript" src="../../src/model/game.js?rnd=1"></script>
     <script type="text/javascript" src="../../src/remote/game-reader.js?rnd=1"></script>
     <script type="text/javascript" src="../../src/parser0x88/fen-parser-0x88.js?rnd=1"></script>
+    <script type="text/javascript" src="auto-parse.js?rnd=1"></script>
     <link rel="stylesheet" href="../../css-source/buttonbar/gray.css" type="text/css">
     <link rel="stylesheet" href="../../css/dhtml-chess-all.css?rnd=2" type="text/css">
     <style type="text/css">
@@ -91,6 +94,19 @@
     ludo.config.setUrl('../../router.php');
     ludo.config.setDocumentRoot('../../');
     ludo.config.setFileUploadUrl('../../router.php');
+
+    var pgnInput = "1001bwtc";
+    var pgnDestination = '1001bwtc.pgn';
+    var thinkingTreshold = 120000;
+    var index = 0;
+
+
+    var currentPgn;
+    var countGames;
+    var startTime;
+    var currentMoves = [];
+
+
     var app = new ludo.Application({
         title: 'Analysis board, DHTML Chess 3.0',
         layout: {
@@ -118,7 +134,7 @@
             {
                 id: 'board',
                 type: 'chess.view.board.Board',
-                pieceLayout: 'alphapale',
+                pieceLayout: 'svg3',
                 boardLayout: 'wood',
                 animationDuration: 0,
                 labels: true,
@@ -143,13 +159,22 @@
                 framed: true,
                 resizable: false
 
+            },
+            {
+                type:'chess.view.metadata.FenField',
+                layout:{
+                    height:20
+                }
             }
         ]
     });
 
     var colorToMove;
     var lastEngineMove;
-    var pgnDestination = '1001bwtc.pgn'
+
+
+
+
     function createPgn() {
         $.ajax(
                 {
@@ -165,19 +190,16 @@
 
     createPgn();
 
-    var currentPgn;
-    var index = 29;
-    var countGames;
-    var startTime;
-    var currentMoves = [];
-    var thinkingTreshold = 20000;
 
     var ds = new chess.dataSource.PgnGames({
         id: 'gameList',
 
-        postData: {"arguments": "1001bwtc"},
+        postData: {"arguments": pgnInput},
         "listeners": {
             "load": function (data) {
+
+
+
                 startTime = new Date().getTime();
                 countGames = data.length;
                 currentPgn = data[index];
@@ -208,7 +230,8 @@
     var controller = new chess.controller.AnalysisEngineController({
         pgn: '1001bwtc',
         garboChess: '../../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
-        stopped: false,
+        stopped: true,
+        debug:false,
         listeners: {
             'engineupdate': updateMove,
             'newGame': function () {
@@ -221,6 +244,7 @@
             },
             loadGame: function (model, gameData) {
                 currentPgn = gameData.metadata;
+                currentPgn.result = '*'; // to ensure engine is running
                 startTime = new Date().getTime();
             }
 
@@ -266,6 +290,7 @@
             success: function () {
                 startTime = new Date().getTime();
                 new ludo.Notification({
+                    duration:1.5,
                     html: 'Game #' + (index+1) + ' saved'
                 });
                 lastEngineMove = undefined;
@@ -284,7 +309,7 @@
         var elapsed = new Date().getTime() - startTime;
 
 
-        if(elapsed > thinkingTreshold * 2){
+        if(elapsed > thinkingTreshold){
             controller.stopEngine();
             loadNext.delay(2000);
 
@@ -295,10 +320,10 @@
     checkTimeout();
 
     function updateMove(move) {
+        console.log(move);
         var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
         var c = controller.currentModel.getColorToMove();
         var score = (s / 1000);
-
         if(isNaN(score)){
             controller.stopEngine();
             loadNext.delay(2);
@@ -306,12 +331,14 @@
         }
         if (c == 'black')score *= -1;
         ludo.$('scoreBar').setScore(score);
-
         var elapsed = new Date().getTime() - startTime;
 
 
+        if (Math.abs(score) >= 1000) {
 
-        if (Math.abs(s) >= 100 * 1000 || elapsed > thinkingTreshold) {
+            startTime = new Date().getTime();
+
+
             var m = move.replace(/^.*?NPS:[0-9]+?[^0-9](.*)$/g, '$1');
             m = m.trim();
             m = m.replace(/[\s]+/, ' ');
@@ -332,7 +359,7 @@
 
             var checkmateMoves = parser.getAllCheckmateMoves();
 
-            console.log(checkmateMoves.length);
+
 
             if (checkmateMoves.length > 1) {
                 var lastMove = {
@@ -357,7 +384,7 @@
 
                 var cm = model.getLastMoveInGame().m.indexOf('#') >= 0;
 
-                console.log(elapsed);
+
 
                 var fin = lastEngineMove.indexOf('#') == -1 && elapsed > thinkingTreshold;
                 if (cm > 0 || fin) {
