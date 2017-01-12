@@ -16,7 +16,8 @@ chess.dataSource.PgnGames = new Class({
     "primaryKey":"index",
     postData:{
         "resource": "ChessFS",
-        "service": "listOfGames"
+        "service": "listOfGames",
+        "arguments":undefined
     },
     getCurrentPgn:function(){
         return this.postData.arguments;
@@ -24,6 +25,7 @@ chess.dataSource.PgnGames = new Class({
 
     __construct:function(config){
         this.url = ludo.config.getUrl();
+        if(config.pgn != undefined)this.postData.arguments= config.pgn;
         this.parent(config);
     },
 
@@ -64,7 +66,11 @@ chess.dataSource.PgnGames = new Class({
      i.e. name of pgn file without the file extension.
      */
     loadFile:function(file){
-        console.log(file);
+        this.postData.arguments = file;
         this.sendRequest(this.service, file);
+    },
+
+    getPgnFileName:function(){
+        return this.postData.arguments;
     }
 });

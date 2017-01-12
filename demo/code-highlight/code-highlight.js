@@ -2,6 +2,16 @@ ludo.CodeHighlight = new Class({
     previewEl:undefined,
     clipboardPath : '/dhtmlgoodies/dg-web-tools/api/demo/code-highlight/',
 
+    cls:{
+        keyWords:"h-keywords",
+        configs:"h-configs",
+        numbers:"h-numbers",
+        text:"h-text",
+        comments:"h-comments",
+        methods:"h-methods",
+        variables:"h-variables"
+    },
+
     styling:{
         keyWords:{ color:'#000080', 'font-weight':'bold' },
         configs:{ color:'#660e7a', 'font-weight':'bold' },
@@ -34,33 +44,39 @@ ludo.CodeHighlight = new Class({
             //this.previewEl = document.body.getElement('.source-code-preview');
             if (!this.previewEl) {
                 this.previewEl = new Element('div');
-                document.body.adopt(this.previewEl);
+                this.previewEl.inject(sourceCodeEl, 'after');
             }
-                //this.autoResizePreview();
-                //(window).addEvent('resize', this.autoResizePreview.bind(this));
+            if(sourceCodeEl.hasClass('ah')){
+                this.previewEl.addClass('ah');
+            }
+            //this.autoResizePreview();
+            //(window).addEvent('resize', this.autoResizePreview.bind(this));
 
         }
 
-        this.previewEl.setStyles({
+
+        this.previewEl.addClass('source-code-preview');
+
+        this.previewEl.css({
             position:'relative',
-            padding:5,
-            overflow:'auto',
-            border:'1px solid #777',
-            'background-color':'#EEE'
+            overflow:'auto'
         });
-        if(!this.previewEl.style.height && !this.previewEl.hasClass('ah')){
-            this.previewEl.setStyle('height', 300);
-            this.previewEl.setStyle('margin', 5);
-        }
+
 
         this.previewEl.id = 'preview-' + Math.random();
 
         if(!sourceCodeEl.hasClass('skip-copy')){
-            this.createCopyToClipBoardAnchor();
+            // this.createCopyToClipBoardAnchor();
         }
         for (var i = 0, len = blocks.length; i < len; i++) {
             this.highlightBlock(blocks[i], this.previewEl);
         }
+        var c = $('<div>');
+        c.className='source-code-preview-container';
+        c.insertBefore(this.previewEl);
+
+        // this.previewEl.parentNode.insertBefore(c, this.previewEl);
+        c.append(this.previewEl);
     },
 
     createCopyToClipBoardAnchor:function () {
@@ -92,9 +108,7 @@ ludo.CodeHighlight = new Class({
                     el.setStyles({
                         'border-radius':'5px',
                         position:'absolute',
-                        'border':'1px solid #555',
                         'padding':5,
-                        'background-color':'#FFF',
                         'width':75,
                         'font-size':'10px'
                     });
@@ -118,20 +132,20 @@ ludo.CodeHighlight = new Class({
         });
     },
     /*
-    autoResizePreview:function () {
-        this.previewEl.setStyles({
-            height:(document.body.clientHeight - this.previewEl.offsetTop) - 10,
-            padding:5,
-            overflow:'auto'
-        })
-    },*/
+     autoResizePreview:function () {
+     this.previewEl.setStyles({
+     height:(document.body.clientHeight - this.previewEl.offsetTop) - 10,
+     padding:5,
+     overflow:'auto'
+     })
+     },*/
 
     highlightBlock:function (domEl, previewEl) {
-        var html = domEl.get('html');
+        var html = domEl.html();
         html = html.replace(/</g,'&lt');
-        previewEl.setStyle('white-space', 'pre');
-        previewEl.setStyle('font-family', 'courier');
-        previewEl.setStyle('font-size', '12px');
+        previewEl.css('white-space', 'pre');
+        previewEl.css('font-family', 'courier');
+        previewEl.css('font-size', '12px');
         html = this.stripTabulators(html);
         html = html.trim();
         html = this.highlightComments(html);
@@ -145,7 +159,7 @@ ludo.CodeHighlight = new Class({
         html = this.highlightClassDeclarations(html);
         html = this.insertComments(html);
 
-        previewEl.set('html', html);
+        previewEl.html(html);
     },
 
     stripTabulators:function (html) {
@@ -267,14 +281,17 @@ ludo.CodeHighlight = new Class({
         var styling = this.styling[keyWord];
         var ret = ['<span style="'];
         for (var prop in styling) {
-            ret.push(prop + ':' + styling[prop] + ';');
+            // ret.push(prop + ':' + styling[prop] + ';');
         }
-        ret.push('">');
+        ret.push('"');
+        ret.push(' class="' + this.cls[keyWord] + '"');
+        ret.push('>');
         return ret.join('');
     }
 });
 
-window.addEvent('domready', function () {
+/**
+ window.addEvent('domready', function () {
     var els = document.body.getElements('.source-code');
 
 
@@ -286,4 +303,4 @@ window.addEvent('domready', function () {
     for (i = 0; i < els.length; i++) {
         new ludo.CodeHighlight(els[i]);
     }
-});
+});*/

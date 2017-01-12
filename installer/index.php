@@ -1,14 +1,13 @@
 <?php
 if(file_exists("chess.lock")){
-   die('chess.lock file exists in the installer folder. Installer not available until this file has been deleted.');
+  # die('chess.lock file exists in the installer folder. Installer not available until this file has been deleted.');
 };
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <title>DHTML Chess - Installer</title>
-    <script type="text/javascript" src="../mootools/mootools-core-1.4.5.js"></script>
-    <script type="text/javascript" src="../mootools/mootools-more-1.4.0.1.js"></script>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js"></script>
     <script type="text/javascript" src="../src/view/installer/admin-user.js"></script>
     <script type="text/javascript" src="../src/view/installer/db-connection.js"></script>
@@ -16,9 +15,11 @@ if(file_exists("chess.lock")){
     <script type="text/javascript" src="../src/view/installer/installer.js"></script>
     <script type="text/javascript" src="../src/view/installer/license-key.js"></script>
     <script type="text/javascript" src="../src/view/installer/welcome.js"></script>
+    <script type="text/javascript" src="../src/view/installer/installation-views.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
+        body,html{ width:100%;height:100%;padding:0;margin:0}
         .invalid-cell{
             width:3px;
         }
@@ -38,9 +39,16 @@ if(file_exists("chess.lock")){
 
     </style>
 </head>
-<body>
+<body class="ludo-twilight">
 <script type="text/javascript">
-new chess.view.installer.Installer();
+
+    $( document ).ready(function() {
+        new chess.view.installer.Installer({
+            renderTo:document.body
+        });
+    });
+
+
 </script>
 </body>
 </html>

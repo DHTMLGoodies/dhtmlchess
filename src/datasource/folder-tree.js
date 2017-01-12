@@ -13,5 +13,17 @@ chess.dataSource.FolderTree = new Class({
     resource : 'Folders',
     service : 'read',
     autoload:true,
-	primaryKey:['id','type']
+	primaryKey:['id','type'],
+
+    postData:{
+        resource : 'Folders',
+        service : 'read'
+    },
+
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
+        console.log(this.url);
+
+    }
 });

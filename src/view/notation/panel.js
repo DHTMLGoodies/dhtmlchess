@@ -41,6 +41,7 @@ chess.view.notation.Panel = new Class({
     tactics:false,
     comments:true,
     currentModelMoveId:undefined,
+    interactive:true,
 
 	/**
 	 * Show context menu for grading of moves, comments etc
@@ -76,7 +77,7 @@ chess.view.notation.Panel = new Class({
 
     __construct:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['notations','showContextMenu','comments']);
+        this.setConfigParams(config, ['notations','showContextMenu','comments','interactive']);
 
         if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
 
@@ -126,7 +127,9 @@ chess.view.notation.Panel = new Class({
         };
     },
     ludoEvents:function () {
-        this.getBody().on('click', this.clickOnMove.bind(this));
+        if(this.interactive){
+            this.getBody().on('click', this.clickOnMove.bind(this));
+        }
     },
 
     ludoDOM:function () {
@@ -135,7 +138,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove:function (el) {
-        this.contextMenuMove = { uid:el.attr('moveId')}
+        this.contextMenuMove = { uid:$(el).attr('moveId')}
     },
 
     getContextMenuMove:function () {
@@ -300,7 +303,7 @@ chess.view.notation.Panel = new Class({
 
 
     updateMove:function (model, move) {
-        var domEl = this.getEl().getElement('.chess-move-container-' + move.uid);
+        var domEl = this.getEl().find('.chess-move-container-' + move.uid);
         if(domEl){
             domEl.html( this.getDomTextForAMove(move));
         }else{

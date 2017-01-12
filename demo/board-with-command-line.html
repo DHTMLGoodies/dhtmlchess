@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Example of a Game Editor/Analysis board</title>
 
     <script type="text/javascript">
@@ -26,7 +27,10 @@
     <script type="text/javascript" src="../src/parser0x88/fen-parser-0x88.js"></script>
     <script type="text/javascript" src="../src/parser0x88/move-0x88.js"></script>
     <script type="text/javascript" src="../src/model/game.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/command/controller.js"></script>
+    <script type="text/javascript" src="../src/view/command/line.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
@@ -37,8 +41,9 @@
         }
 
         .ludo-chess-board-container {
-            border: 1px solid #C0C0C0;
-            background-color: #f5f5f5;
+            border-radius:5px;
+            border: 1px solid #aeb0b0;
+            background-color: #444;
         }
 
         .ludo-chess-board {
@@ -65,27 +70,26 @@
         label {
             font-size: 10px;
         }
+        .ludo-twilight .chess-command-panel-message-old{
+            font-style:italic;
+            color:#999;
+        }
+
     </style>
 </head>
-<body>
+<body class="ludo-twilight">
 <script type="text/javascript">
 
-    var app = new ludo.Window({
-        stateful:true,
-        width:800,
-        height:450,
-        left:20,
-        top:20,
+    var app = new ludo.FramedView({
+        renderTo:document.body,
         title:'Analysis board, DHTML Chess 3.0',
-        resizable:true,
-        closable:true,
-        fullScreen:false,
-        minimizable:true,
         css:{
             border:0
         },
-        layout:{ type:'cols' },
-        minHeight:100,
+        layout:{
+            type:'cols',
+            width:'matchParent',height:'matchParent'
+        },
         children:[
             {
                 weight:1,
@@ -119,7 +123,7 @@
                         elCss:{
                             margin:2
                         },
-                        height:30
+                        height:40
                     }
                 ]
             },
@@ -171,8 +175,7 @@
                                             weight:1
                                         },
                                         css:{
-                                            'background-color':'#FFF',
-                                            'border-bottom':'1px solid #C0C0C0'
+                                            'border-bottom':'1px solid ' + ludo.$C('border')
                                         }
                                     },
                                     {

@@ -11,6 +11,8 @@ chess.dataSource.PgnList = new Class({
     type : 'chess.dataSource.PgnList',
     autoload:true,
     singleton: true,
-    resource:'ChessFSPgn',
-    service:'read'
+    postData:{
+        resource:'ChessFSPgn',
+        service:'read'
+    }
 });

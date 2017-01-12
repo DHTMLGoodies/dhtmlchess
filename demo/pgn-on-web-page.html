@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pgn Viewer on web page</title>
+
+    <style type="text/css">
+        /* Demo css rules */
+        body{
+            background-color:#039BE5 !important;
+            -webkit-font-smoothing: antialiased;
+            color:#333;
+            font: 15px "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+        }
+
+        nav ul{
+            padding:0;
+        }
+
+        nav#main{
+            border-radius:5px;
+        }
+
+        nav#main li a:hover, nav#main li.current a, nav#main .searchform {
+            background: none;
+            box-shadow: inset 0 0 5px rgba(0,0,0, 0.4), rgba(255,255,255,0.1) 0 1px 0;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.25);
+            color: #fff;
+            text-shadow: rgba(0, 0, 0, 0.796875) 0 -1px 0, rgba(255, 255, 255, 0.296875) 0 0 10px;
+        }
+
+
+        nav ul, nav ol {
+            list-style: none;
+            list-style-image: none;
+        }
+
+        nav#main li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 10px;
+            display: block;
+            border: 1px solid transparent;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.76);
+        }
+
+        nav#main ul {
+            margin: 0;
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        nav#main li {
+            float: left;
+            font: normal normal 16px "klavika-web", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+            margin-right: 2px;
+        }
+
+        .menu {
+            background-color: #01579B;
+            padding:10px;
+            border-radius:5px;
+
+            display:block;
+        }
+
+        .body{
+            background-color:#FFF;
+            padding:10px;
+        }
+
+        .footer{
+            background-color: #01579B;
+            padding:10px;
+            color:#FFF;
+            font-size:0.8em;
+        }
+        .ludo-layout-resize-col{
+            border-left:1px solid #aaa;
+            border-right:1px solid #aaa;
+        }
+    </style>
+    <!-- INCLUDING DHTML CHESS JS AND CSS -->
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../src/datasource/pgn-games.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
+
+
+    <!-- Custom styling of board -->
+
+    <style type="text/css">
+        .ludo-chess-board{
+            border:1px solid #aaa;
+        }
+
+        .ludo-chess-board-container{
+            background-color:#ddd;
+            border:1px solid #aaa;
+            border-radius:4px;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content">
+
+        <div class="header">
+            <img src="images/sample-heading.png">
+        </div>
+        <div class="menu">
+
+        <nav id="main">
+            <div>
+                <ul id="menu-top" class="menu">
+                    <li class="menu-item"><a href="#">Download</a></li>
+                    <li class="menu-item"><a href="#">Learn</a></li>
+                    <li class="menu-item"><a href="#">Samples</a></li>
+                    <li class="menu-item"><a href="#">License</a></li>
+                    <li class="menu-item"><a href="#">Contact</a></li>
+                    <li class="menu-item"><a href="#">Forums</a></li>
+                </ul>
+
+                <form class="searchform" style="display:none">
+                    <input type="text" name="s" placeholder="Search">
+                </form>
+                <div style="clear:both"></div>
+            </div>
+            <div style="clear:both"></div>
+        </nav>
+        </div>
+
+        <div class="body">
+            <h1>World Championship 1927 - Capablanca - Alekhine</h1>
+            <!--
+
+            Start DHTML Chess code
+
+            -->
+
+            <!-- Parent for DHTML Chess HTML
+            To show the DHTML Chess boards in dark theme, assign the class to ludo-twilight.
+            Other options are
+            ludo-lightgray
+            ludo-gray
+            ludo-blue
+            -->
+            <div id="dhtml-chess" style="height:900px;max-width:800px;border:1px solid #aaa" class="ludo-light-gray"></div>
+
+            <script type="text/javascript">
+
+            $( document ).ready(function() {
+                // Now we add all the Dhtml chess widgets we want to show.
+                // Here, we will show a list of games above
+                new ludo.View({
+                    renderTo:'#dhtml-chess', // render it to the div above
+                    layout:{
+                        height:'matchParent',width:'matchParent', // Use full width and height */
+                        type:'linear', orientation:'vertical' // render list of games, board and notations beneath each other
+                    },
+                    children:[ // Array of child views, i.e. list of games board and notations
+                        {
+                            layout:{
+                                height:200,
+                                type:'Docking'
+                            },
+                            children:[
+                                {
+                                    title:'Games',
+                                    id:'gameListView',
+                                    layout:{
+                                        visible:true
+                                    },
+                                    type:'chess.view.gamelist.Grid', // A game list view
+                                    css:{
+                                        'overflow-y':'auto'
+                                    },
+                                    loadMessage:'Loading Games',
+                                    dataSource:{
+                                        url:'../router.php', // The dhtml chess php file which handles loading of games
+                                        type:'chess.dataSource.PgnGames', // A pgn data source. the data source loads game data from the server
+                                        pgn:'WorldChamp1927', // name of pgn file without the .pgn extension
+                                        "listeners":{
+                                            "load": function(data){
+                                                // when games has been loaded, show first game
+                                                if(data.length){
+                                                    ludo.get('gameListView').selectRecord(data[0]);
+                                                }
+                                            }
+                                        }
+                                    },
+                                    cols:['white', 'black', 'result', 'event', 'site'],
+                                    elCss:{
+                                        'border-bottom': '1px solid #aaa'
+                                    }
+                                }
+                            ]
+
+                        },
+                        {
+                            type:'chess.view.board.Board',
+                            layout:{
+                                weight:1
+                            },
+                            elCss:{
+                                padding:2
+                            },
+                            plugins:[
+                                {
+                                    type:'chess.view.highlight.Arrow',
+                                    styles:{
+                                        'stroke':'#aaa',
+                                        'stroke-opacity':.8,
+                                        'stroke-width':1
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            type:'chess.view.buttonbar.Game',
+
+                            elCss:{
+                                margin:2
+                            },
+                            height:30
+                        },
+                        {
+                            type:'chess.view.notation.Panel',
+                            layout: {
+                                height: 150
+                            }
+                        }
+                    ]
+
+                });
+
+                var controller = new chess.controller.AnalysisController();
+
+
+                ludo.$('gameListView').selectPgn('WorldChamp1927');
+            });
+
+
+
+            </script>
+
+        </div>
+        <div class="footer">
+            Footer of Web page &copy; dhtmlchess.com
+        </div>
+    </div>
+
+</body>
+</html>

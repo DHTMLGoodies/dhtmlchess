@@ -6,44 +6,44 @@
  * @extends dialog.Dialog
  */
 chess.view.installer.Installer = new Class({
-    Extends:ludo.dialog.Dialog,
+    Extends:ludo.FramedView,
+
     type:'chess.view.installer.Installer',
     layout:{
         type:'linear',
         orientation:'vertical',
-        width:500,
-        height:350
+        
+        width:'matchParent',
+        height:'matchParent'
     },
-    resizable:false,
     title:'DHTML Chess Installer',
-    autoHideOnBtnClick:false,
     children:[
         {
             height:50,
             html:'<img src="../demo/images/logo.png">'
         },
         {
-            type:'chess.view.installer.Wizard'
+            name:'views',
+            type:'chess.view.installer.InstallationViews',
+            layout:{
+                weight:1
+            }
         }
     ],
     buttonBar:{
         align:'left',
         children:[
             {
-                id:'message', weight:1, css:{ padding:4}
-            },
-            {
-                type:'card.PreviousButton', id:'previousButton'
-            },
-            {
-                type:'card.NextButton', autoHide:true
-            },
-            {
-                type:'card.FinishButton', id:'finishButton'
-            },
-            {
-                type:'form.CancelButton', hidden:true, value:'OK', id:'completeButton'
+                type:'form.Button', name:'install', value:'Install'
             }
         ]
+    },
+
+    __rendered:function(){
+        this.parent();
+        this.getButton('install').on('click', function(){
+            this.child['views'].install();
+        }.bind(this));
+
     }
 });

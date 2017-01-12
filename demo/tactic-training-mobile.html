@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tactic Training</title>
     <?php
     $keywords = "DHTML Chess, Chess,Broadcast games,Pgn viewer,Pgn parser";
@@ -9,51 +10,22 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         body, html {
             width: 100%;
             height: 100%;
-            font-family: arial !important;
-
         }
     </style>
 </head>
-<body>
+<body class="ludo-twilight">
 <script type="text/javascript">
 
-    var app = new ludo.Application({
-
-        title:'Analysis board, DHTML Chess 3.0',
-        statusBar:{
-            visible:false
-        },
-
-            resizable:false,
-            closable:false,
-            fullScreen:false,
-            minimizable:false,
-
-        layout:'cols',
-        minHeight:100,
-        children:[
-            {
-                type:'chess.view.board.Board',
-                labels:true,
-                weight:1,
-                plugins:[
-                    {
-                        type:'chess.view.highlight.Arrow'
-                    }
-                ]
-            }
-        ]
-    });
 
     var c = new chess.TacticsFromFile({
-        renderTo:'chess_container',
-        pgn:'1001-brilliant-checkmates'
+        renderTo:document.body,
+        pgn:'tactic-checkmates'
     });
 
 

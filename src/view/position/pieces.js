@@ -64,7 +64,7 @@ chess.view.position.Piece = new Class({
 
     __rendered:function () {
         this.parent();
-        var piece = this.els.piece = new Element('div');
+        var piece = this.els.piece = $('<div>');
         piece.css({
             'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
@@ -72,12 +72,12 @@ chess.view.position.Piece = new Class({
             'cursor':'pointer'
         });
 
-        piece.setProperty('pieceType', this.pieceType);
-        piece.addEvent('click', this.selectPiece.bind(this));
+        piece.attr('pieceType', this.pieceType);
+        piece.on('click', this.selectPiece.bind(this));
         this.getBody().append(piece);
         piece.addClass('position-setup-piece');
-        piece.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
-        piece.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
+        piece.on('mouseenter', this.mouseEnterPiece.bind(this));
+        piece.on('mouseleave', this.mouseLeavePiece.bind(this));
         this.resizePiece.delay(50, this);
     },
 
@@ -92,7 +92,8 @@ chess.view.position.Piece = new Class({
     },
 
     resizePiece : function() {
-        var size = this.getBody().getSize();
+        var b = this.getBody();
+        var size = { x : b.width(), y: b.height() };
 
         size.x -= this.getPadding('x');
         size.y -= this.getPadding('y');
@@ -132,7 +133,7 @@ chess.view.position.Piece = new Class({
     selectPiece:function (e) {
         var obj = {
             color:this.pieceColor,
-            pieceType:e.target.getProperty('pieceType')
+            pieceType:$(e.target).attr('pieceType')
         };
         this.fireEvent('selectpiece', obj);
     },

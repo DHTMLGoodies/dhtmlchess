@@ -11,5 +11,13 @@ chess.dataSource.GameList = new Class({
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
-	resource:'Database'
+	resource:'Database',
+    postData:{
+        resource:'Database'
+    },
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
+
+    }
 });

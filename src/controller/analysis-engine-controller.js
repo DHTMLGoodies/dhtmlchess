@@ -85,12 +85,16 @@ chess.controller.AnalysisEngineController = new Class({
         this.stopped = true;
         this.ensureAnalysisStopped();
 
+        //console.log('stop engine');
+
     },
 
     startEngine:function(){
      
         this.stopped = false;
         this.updateEngine();
+
+       // console.log('start engine');
 
 
     },
@@ -163,8 +167,8 @@ chess.controller.AnalysisEngineController = new Class({
     color:function(){
         return this.models[0].getColorToMove();  
     },
-    updatePVDisplay: function (move) {
 
+    updatePVDisplay: function (move) {
         this.fireEvent("engineupdate", [move, this.color()] );
     },
 

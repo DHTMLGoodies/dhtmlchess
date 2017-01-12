@@ -1,7 +1,6 @@
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
-    background-color: #FFF;
     padding: 2px;
     border:1px solid #000;
     cursor:default;

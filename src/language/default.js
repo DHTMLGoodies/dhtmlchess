@@ -51,7 +51,7 @@ chess.language = {
     'tacticPuzzleSolvedMessage':'Good job! You have solved this puzzle. Click OK to load next game',
 
 
-    'commandWelcome':'Type in your commands. For help, type help (+ enter).',
+    'commandWelcome':'Type in your commands. For help, type "help" + enter.',
     'command_help':'Displays help screen',
     'command_move':'Type "move + notation" or notation only(e.g. "e4") to add moves',
     'command_cls':'Clear screen',

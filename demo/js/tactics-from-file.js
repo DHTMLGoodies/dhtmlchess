@@ -45,40 +45,17 @@ chess.TacticsFromFile = new Class({
 
                     children: [
                         {
-                            type: 'chess.view.message.TacticsMessage',
-                            height: 25
-                        },
-                        {
-                            type: 'chess.view.board.Board',
-                            overflow: 'hidden',
-                            pieceLayout: 'svg3',
-                            boardCss: {
-                                border: 0
-                            },
-                            labels: true,
-
-                            weight: 1,
-                            plugins: [
-                                {
-                                    type: 'chess.view.highlight.Arrow'
-                                },
-                                {
-                                    type: 'chess.view.highlight.ArrowTactic'
-                                },
-                                {
-                                    type: 'chess.view.highlight.SquareTacticHint'
-                                }
-                            ]
-                        },
-                        {
-                            height: 25,
+                            height: 35,
                             type: 'chess.view.metadata.Game',
                             tpl: '#{index} - {white}',
                             css: {
                                 'text-align': 'center',
-                                'overflow-y': 'auto'
+                                'overflow-y': 'auto',
+                                'font-size': '1.2em',
+                                'font-weight': 'bold'
                             }
                         },
+
                         {
                             layout: {
                                 type: 'linear',
@@ -114,6 +91,28 @@ chess.TacticsFromFile = new Class({
                                 },
                                 {
                                     weight: 1
+                                }
+                            ]
+                        },
+                        {
+                            type: 'chess.view.board.Board',
+                            overflow: 'hidden',
+                            pieceLayout: 'svg3',
+                            boardCss: {
+                                border: 0
+                            },
+                            labels: true,
+
+                            weight: 1,
+                            plugins: [
+                                {
+                                    type: 'chess.view.highlight.Arrow'
+                                },
+                                {
+                                    type: 'chess.view.highlight.ArrowTactic'
+                                },
+                                {
+                                    type: 'chess.view.highlight.SquareTacticHint'
                                 }
                             ]
                         },

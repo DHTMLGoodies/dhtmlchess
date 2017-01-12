@@ -20,8 +20,9 @@ chess.controller.AnalysisController = new Class({
 	},
 
 	modelEventFired:function (event, model, param) {
+
 		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			this.views.board.enableDragAndDrop(model);
+			if(this.views.board)this.views.board.enableDragAndDrop(model);
 		}
 	}
 

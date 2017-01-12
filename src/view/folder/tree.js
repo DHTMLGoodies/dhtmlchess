@@ -47,6 +47,7 @@ chess.view.folder.Tree = new Class({
 	ludoEvents:function () {
 		this.parent();
 		this.getDataSource().addEvent('select', this.selectDatabase.bind(this));
+		console.log('event');
 		if (this.selected) {
 
 		}

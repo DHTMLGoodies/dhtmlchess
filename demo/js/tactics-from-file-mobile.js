@@ -33,13 +33,14 @@ chess.TacticsFromFile2016 = new Class({
 
     initialize: function (config) {
         this.renderTo = config.renderTo;
-        if(this.renderTo.substr(0,1) != "#")this.renderTo = "#" + this.renderTo;
+
         this.pgn = config.pgn;
 
         $(document).ready(this.render.bind(this));
     },
 
     render: function () {
+        console.log(this.renderTo);
         // Render the views
         new ludo.View({
             renderTo: $(this.renderTo),
@@ -64,7 +65,9 @@ chess.TacticsFromFile2016 = new Class({
                     children: [
                         {
                             weight: 1,
-                            layout: 'rows',
+                            layout: {
+                                type:'linear', orientation:'vertical'
+                            },
                             elCss: {
                                 'background-color': 'transparent'
                             },
@@ -140,19 +143,21 @@ chess.TacticsFromFile2016 = new Class({
                                 {
                                     type: 'chess.view.board.Board',
                                     overflow: 'visible',
-                                    pieceLayout: 'merida', // Chess pieces to use, example: 'merida','alpha', 'alphapale','cases','kingdom','leipzig', 'meridapale','motif','smart','traveler' (names can be found inside the images folder. It's the prefix which is followed by size and type
+                                    pieceLayout: 'svgblue', // Chess pieces to use, example: 'merida','alpha', 'alphapale','cases','kingdom','leipzig', 'meridapale','motif','smart','traveler' (names can be found inside the images folder. It's the prefix which is followed by size and type
                                     css: {
                                         border: '1px solid',
                                         'overflow': 'visible'
                                     },
                                     vAlign: 'top', // can be center
-                                    labels: true, // show labels for ranks, A-H, 1-8
+                                    labels: !ludo.util.isTabletOrMobile(), // show labels for ranks, A-H, 1-8
                                     labelPos:'inside', // show labels inside board, default is 'outside'
                                     elCss: {
                                         'background-color': 'transparent',
                                         'overflow': 'visible'
                                     },
-                                    weight: 1,
+                                    layout:{
+                                        weight:1
+                                    },
                                     /** List of addons to implement */
                                     plugins: [
                                         {

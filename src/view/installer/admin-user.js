@@ -9,13 +9,13 @@ chess.view.installer.AdminUser = new Class({
 			html:'<h3>Enter administrators username and password:</h3>'
 		},
 		{
-			type:'form.Text', label:'Username', name:'adminUserName', required:true,minLength:5
+			type:'form.Text', autoComplete:false, placeholder:'Username', name:'adminUserName', required:true,minLength:3
 		},
 		{
-			type:'form.Password', label:'Password', id:'adminPassword', name:'adminPassword', required:true, minLength:5,md5:true
+			type:'form.Password', autoComplete:false, placeholder:'Password', id:'adminPassword', name:'adminPassword', minLength:1,md5:true
 		},
 		{
-			type:'form.Password', label:'Repeat password', name:'adminPasswordRepeated', minLength:5,required:true, twin:'adminPassword',md5:true
+			type:'form.Password', autoComplete:false, placeholder:'Repeat password', name:'adminPasswordRepeated', minLength:1,required:true, twin:'adminPassword',md5:true
 		}
 	]
 });

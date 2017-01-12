@@ -126,7 +126,7 @@ var app = new ludo.Application({
             children:[
                 {
                     type:'form.Text',
-                    label:'Search games',
+                    placeholder:'Search games',
                     id:"searchField",
                     labelWidth:90,
                     elCss:{
@@ -322,7 +322,7 @@ var app = new ludo.Application({
                             type:'chess.view.metadata.FenField',
                             height:27,
 
-                            tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                            tpl:'FEN: <input type="text" value="{fen}">'
                         },
                         {
                             weight:1,

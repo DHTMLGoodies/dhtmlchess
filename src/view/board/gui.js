@@ -279,8 +279,6 @@ chess.view.board.GUI = new Class({
 
         this.lastBoardSize = size;
 
-
-
         var wOffset = this.els.board.outerWidth(true) - this.els.board.width();
         var hOffset = this.els.board.outerHeight(true) - this.els.board.height();
         var boardSize = Math.min(
@@ -288,6 +286,8 @@ chess.view.board.GUI = new Class({
             size.y - this.getLabelHeight() - hOffset);
 
         boardSize = Math.max(this.internal.squareSizes[0] * 8, Math.floor(boardSize / 8) * 8);
+
+
 
         if (isNaN(boardSize) || boardSize < 0) {
             return;
@@ -358,8 +358,8 @@ chess.view.board.GUI = new Class({
     getNewSizeOfBoardContainer:function () {
         var b = this.els.boardContainer;
         var c = this.getBody();
-        var widthOffset = b.outerWidth(true) - b.width();
-        var heightOffset = b.outerHeight(true) - b.height();
+        var widthOffset = ludo.dom.getBW(b) + ludo.dom.getPW(b);
+        var heightOffset = ludo.dom.getPH(b) + ludo.dom.getPH(b);
         var size = { x: c.width(), y: c.height() };
         size = {
             x:size.x - widthOffset,

@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Example of a game viewer</title>
+
+    <script type="text/javascript">
+        var hostname = location.hostname.toLowerCase();
+        if (hostname.indexOf('dhtml-chess.com') >= 0) {
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-34147162-1']);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script');
+                ga.type = 'text/javascript';
+                ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(ga, s);
+            })();
+        }
+    </script>
+
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/datasource/folder-tree.js"></script>
+    <script type="text/javascript" src="../src/datasource/game-list.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/folder/tree.js"></script>
+    <script type="text/javascript">
+        ludo.config.setUrl('../router.php');
+        ludo.config.setDocumentRoot('../');
+        ludo.config.setFileUploadUrl('../router.php');
+    </script>
+    <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            font-family: arial, sans-serif;
+        }
+
+        .ludo-tree-node span {
+            -moz-user-select: none;
+            line-height: 16px;
+            height: 18px;
+        }
+
+        span.ludo-tree-node-spacer {
+            height: 10px;
+            background-position: left bottom;
+        }
+
+        .ludo-grid-resize-handle {
+            background-color: transparent;
+        }
+    </style>
+</head>
+<body class="ludo-blue">
+<script type="text/javascript">
+    ludo.config.setUrl('../router.php');
+    ludo.config.setDocumentRoot('../');
+    ludo.config.disableModRewriteUrls();
+
+    var d = new Date();
+    var app = new ludo.Application({
+        layout: {
+            type: 'rows'
+        },
+        elCss: {
+            'padding': '5px'
+        },
+        children: [
+            {
+                height: 75,
+                layout: 'cols',
+                children: [
+                    {
+                        html: '<img src="http://www.dhtml-chess.com/images/logo.png">',
+                        overflow: 'hidden',
+                        layout: {weight: 1}
+                    },
+                    {
+                        type: 'chess.view.user.LoginButton'
+                    },
+                    {
+                        type: 'chess.view.user.RegisterButton'
+                    },
+                    {
+                        type: 'chess.view.user.Panel',
+                        css: {
+                            'padding': 5,
+                            'text-align': 'right'
+                        }
+                    },
+                    {
+                        type: 'chess.view.user.SettingsButton'
+                    },
+                    {
+                        type: 'chess.view.user.LogoutButton'
+                    }
+                ]
+            },
+            {
+
+                layout: {
+                    type: 'Menu',
+                    orientation: 'horizontal',
+                    height: 20
+                },
+                elCss: {
+                    // 'background-image':"url('../ludojs/images/bg-menu-bar.png')",
+                    'background-image': 'url(images/bg-horizontal-menu.png)',
+                    'border': '1px solid #9abee8',
+                    'padding': 0
+                },
+                listeners: {
+                    'click': function (obj) {
+                        var id = obj.getId();
+                        switch (id) {
+                            case 'posSetup':
+                                chess.view.position.Dialog.getDialog({
+                                            id: 'positionSetupDialog',
+                                            controller: 'myChessController'
+                                        }
+                                ).show();
+                                break;
+                        }
+                    }
+                },
+                children: [
+                    {
+                        label: 'File',
+                        children: [
+                            {type: 'chess.view.menuItems.GameImport'},
+                            {type: 'chess.view.menuItems.SaveGame'}
+                        ]
+                    },
+                    '|',
+                    {
+                        label: 'New',
+                        children: [
+                            {type: 'chess.view.menuItems.NewGame'},
+                            {label: 'Position setup', id: 'posSetup'}
+                        ]
+                    },
+                    '|'
+                ]
+            },
+            {
+                weight: 1,
+                layout: 'cols',
+                minHeight: 100,
+                elCss: {
+                    'margin-top': '5px'
+                },
+                children: [
+                    {
+                        type: 'View',
+                        title: 'Databases',
+                        layout: {
+                            type: 'linear', orientation: 'vertical',
+                            width: 290
+                        },
+                        collapsible: true,
+                        resizable: true,
+                        minimizable: false,
+                        elCss: {
+                            border: 0
+                        },
+                        frame: false,
+                        children: [
+                            {
+                                type: 'FramedView',
+                                height: 200,
+                                frame: true,
+                                title: 'Databases',
+                                resizable: true,
+                                css: {
+                                    margin: 0,
+                                    border: 0
+                                },
+                                children: [
+                                    {
+                                        id: 'databaseTree',
+                                        type: 'chess.view.folder.Tree',
+                                        contextMenu: {
+                                            children: [
+                                                {
+                                                    label: 'Reload',
+                                                    listeners: {
+                                                        click: function () {
+                                                            ludo.get('databaseTree').load();
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        dataSource: {
+                                            selected: {id: 1, type: 'database'}
+                                        },
+                                        css: {'overflow-y': 'auto', 'background-color': '#FFF'}
+
+                                    }
+                                ]
+                            },
+                            {
+                                type: 'form.Text',
+                                label: 'Search games',
+                                labelWidth: 90,
+                                elCss: {
+                                    border: '1px solid #A6CBF5',
+                                    'border-bottom': '0px'
+                                },
+                                listeners: {
+                                    key: function (value) {
+                                        ludo.get('gameList').getDataSource().search(value);
+                                    }
+                                }
+                            },
+                            {
+                                titleBar: false,
+                                title: 'Games',
+                                type: 'chess.view.gamelist.Grid',
+                                weight: 1,
+                                frame: true,
+                                fillview: true,
+                                id: 'gameList',
+                                cols: ['white', 'black', 'result'],
+                                contextMenu: [
+                                    {
+                                        record: {type: 'game'},
+                                        module: 'chess',
+                                        children: [{
+                                            label: chess.getPhrase('Edit game details'),
+                                            fire: 'editGameMetadata'
+                                        }]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        weight: 1,
+                        layout: 'rows',
+
+                        children: [
+                            {
+                                height: 30,
+                                layout: 'cols',
+                                children: [
+                                    {
+                                        type: 'chess.view.button.PreviousGame',
+                                        elCss: {'padding-left': 2}
+                                    },
+                                    {
+                                        weight: 1,
+                                        type: 'chess.view.metadata.Game',
+                                        height: 30,
+                                        elCss: {
+                                            // 'background-image':'url(../images/headings/bg-player-info.png)',
+                                            'color': '#000'
+                                        },
+                                        tpl: '<h2 style="line-height:30px;text-align:center;margin:0">{white} vs {black}</h2>'
+                                    },
+                                    {
+                                        type: 'chess.view.button.NextGame',
+                                        elCss: {'padding-right': 2}
+
+                                    }
+                                ],
+                                frame: true
+                            },
+                            {
+                                height: 3
+                            },
+                            {
+                                type: 'chess.view.board.Board',
+                                frame: true,
+                                boardCss: {
+                                    'background-color': 'transparent',
+                                    border: 0
+                                },
+                                plugins: [
+                                    {
+                                        type: 'chess.view.highlight.Arrow',
+                                        styles: {
+                                            'stroke': '#444',
+                                            'stroke-opacity': .8,
+                                            'stroke-width': 1
+                                        }
+                                    }
+                                ],
+                                labels: true,
+                                pieceLayout: 'alphapale',
+                                boardLayout: 'wood',
+                                weight: 1,
+                                elCss: {
+                                    'margin-bottom': 5
+                                }
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Game',
+                                width: 200
+                            }
+                        ]
+                    },
+
+                    {
+                        width: 200,
+                        layout: 'rows',
+                        resizable: true,
+                        children: [
+                            {
+                                type: 'FramedView',
+                                title: 'Info',
+                                css: {
+                                    margin: 0,
+                                    border: 0
+                                },
+                                resizable: false,
+                                children: [
+                                    {
+
+                                        type: 'chess.view.metadata.Game',
+                                        tpl: '<table>'
+                                        + '<tr><td><b>White:</b></td><td>: {white}</td></tr>'
+                                        + '<tr><td><b>Black:</b></td><td>: {black}</td></tr>'
+                                        + '<tr><td><b>Result:</b></td><td>: {result}</td></tr>'
+                                        + '<tr><td><b>ECO:</b></td><td>: {eco}</td></tr>'
+                                        + '<tr><td><b>Event:</b></td><td>: {event}</td></tr>'
+                                        + '<tr><td><b>Site:</b></td><td>: {site}</td></tr>'
+                                        + '<tr><td><b>Date:</b></td><td>: {date}</td></tr>'
+                                        + '<tr><td><b>Round:</b></td><td>: {round}</td></tr>',
+                                        css: {
+                                            'overflow-y': 'auto',
+                                            'background-color': '#FFF'
+                                        }
+                                    }
+                                ],
+
+                                height: 180
+                            },
+                            {
+                                type: 'chess.view.metadata.FenField',
+                                height: 27,
+
+                                tpl: 'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                            },
+
+                            {
+                                layout: 'fill',
+                                type: 'FramedView',
+                                title: 'Notations',
+                                css: {
+                                    margin: 0,
+                                    border: 0
+                                },
+                                resizable: false,
+                                minimizable: false,
+                                weight: 1,
+                                children: [
+                                    {
+
+                                        type: 'chess.view.notation.Panel',
+                                        notations: 'long',
+                                        showContextMenu: true
+                                    }
+                                ]
+                            },
+                            {
+                                height: 30,
+                                layout: 'cols',
+                                css: {
+                                    'margin-top': 2
+                                },
+                                children: [
+                                    {
+                                        weight: 1
+                                    },
+                                    {
+                                        type: 'chess.view.button.SaveGame'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        statusBar: false
+    });
+
+    var d2 = new Date();
+    // console.log('Time to render view: ' + (d2.getTime() - d.getTime()));
+    var controller = new chess.controller.AnalysisController({
+        id: 'myChessController'
+    });
+
+    new chess.view.user.Controller();
+
+</script>
+</body>
+</html>

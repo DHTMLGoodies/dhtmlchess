@@ -1,4 +1,4 @@
-/* Generated Thu Jan 5 15:55:31 CET 2017 */
+/* Generated Thu Jan 12 14:44:28 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2599,7 +2599,8 @@ ludo.FormMgrClass = new Class({
 });
 ludo.Form = new ludo.FormMgrClass();
 
-Events.prototype.on = Events.prototype.addEvent;/* ../ludojs/src/util.js */
+Events.prototype.on = Events.prototype.addEvent;
+Events.prototype.off = Events.prototype.removeEvent;/* ../ludojs/src/util.js */
 ludo.util = {
 	types:{},
 
@@ -2764,6 +2765,14 @@ ludo.util = {
 			if(obj.hasOwnProperty(key))l++;
 		}
 		return l;
+	},
+	
+	pageXY:function(e){
+		return e.touches && e.touches.length > 0 ? {
+			x: e.touches[0].pageX, y: e.touches[0].pageY
+		}: {
+			x: e.pageX, y: e.pageY
+		};
 	}
 };
 
@@ -3117,7 +3126,7 @@ ludo._Config = new Class({
 
 	setDefaultValues:function () {
 		this.storage = {
-			url:'/controller.php',
+			url:undefined,
 			documentRoot:'/',
 			socketUrl:'http://your-node-js-server-url:8080/',
 			modRewrite:false,
@@ -3610,6 +3619,7 @@ ludo.layout.Factory = new Class({
 	getLayoutClass:function(view){
 		if(!view.layout || !view.layout.type)return 'Base';
 
+
 		switch(view.layout.type.toLowerCase()){
 			case "docking":
 				return "Docking";
@@ -3647,7 +3657,7 @@ ludo.layout.Factory = new Class({
 			case 'linear':
 				return ['Linear', (view.layout.orientation && view.layout.orientation.toLowerCase()=='horizontal') ? 'Horizontal' : 'Vertical'].join('');
 			default:
-				return 'LinearVertical';
+				return 'Base';
 		}
 	},
 
@@ -6813,6 +6823,11 @@ ludo.layout.LinearVertical = new Class({
 ludo.layout.ViewPager = new Class({
     Extends: ludo.layout.Base,
     lastIndex:undefined,
+    /**
+     * Index of selected page
+     * @property {Number} selectedIndex
+     * @memberof ludo.layout.ViewPager.prototype
+     */
     selectedIndex: undefined,
     animate: true,
     initialAnimate: false,
@@ -6821,6 +6836,11 @@ ludo.layout.ViewPager = new Class({
     dragging: true,
     orientation: 'horizontal',
     parentDiv: undefined,
+    /**
+     * Number of child views/pages in view pager layout
+     * @property {Number} count
+     * @memberof ludo.layout.ViewPager.prototype
+     */
     count : undefined,
 
 
@@ -7078,25 +7098,47 @@ ludo.layout.ViewPager = new Class({
     },
 
     removeValidationEvents: function () {
-        if (this.selectedIndex != undefined) {
-            this.getVisiblePage().removeEvent('invalid', this.setInvalid);
-            this.getVisiblePage().removeEvent('valid', this.setValid);
+        if (this.selectedIndex != undefined && this.validFn) {
+            var f = this.getVisiblePage().getForm();
+            if(f != undefined){
+                f.off('invalid', this.validFn);
+                f.off('valid', this.invalidFn);
+            }
         }
     },
 
+    validFn:undefined,
+    invalidFn:undefined,
+
     addValidationEvents: function () {
-        var manager = this.getVisiblePage().getForm();
-        manager.addEvent('invalid', this.setInvalid.bind(this));
-        manager.addEvent('valid', this.setValid.bind(this));
-        manager.validate();
+        if(this.validFn == undefined){
+            this.validFn = this.setValid.bind(this);
+            this.invalidFn = this.setInvalid.bind(this);
+        }
+
+        var f = this.getVisiblePage().getForm();
+        f.on('invalid', this.invalidFn );
+        f.on('valid', this.validFn);
+        f.validate();
     },
     setInvalid: function () {
+        console.log('set invalid', arguments);
         this.fireEvent('invalid', [this, this.view, this.view.children[this.selectedIndex]]);
     },
 
     setValid: function () {
+        console.log('set valid', arguments);
         this.fireEvent('valid', [this, this.view, this.view.children[this.selectedIndex]]);
     },
+
+    isFormValid:function(){
+        var v = this.getVisiblePage();
+        if(v == undefined)return true;
+        var f = v.getForm();
+        if(f != undefined)return f.isValid();
+        return true;
+    },
+
     /**
      * Go to first child view
      * @function showFirstPage
@@ -7136,7 +7178,10 @@ ludo.layout.ViewPager = new Class({
         var animateX = this.orientation == 'horizontal';
         var parentSize = animateX ? this.viewport.width : this.viewport.height;
 
-        var min = this.selectedIndex < this.view.children.length-1 ? (parentSize * -1) : 0;
+        var min = 0;
+        if(this.selectedIndex < this.view.children.length-1 && isValid){
+            min = (parentSize * -1);
+        }
         var max = this.selectedIndex > 0 ? parentSize : 0;
 
 
@@ -7173,7 +7218,6 @@ ludo.layout.ViewPager = new Class({
                 key = 'top'
             }
 
-
             pos = Math.min(pos, this.touch.max);
             pos = Math.max(pos, (this.touch.min));
 
@@ -7181,8 +7225,6 @@ ludo.layout.ViewPager = new Class({
             this.touch.previousPos = pos;
 
             pos += this.touch.currentPos[key];
-
-
 
             this.parentDiv.css(key, pos + 'px');
             return false;
@@ -7245,30 +7287,7 @@ ludo.dataSource.Base = new Class({
 
 	inLoadMode:false,
 	dataHandler:undefined,
-
-	/**
-	 Config of shim to show when content is being loaded form server. This config
-	 object supports two properties, "renderTo" and "txt". renderTo is optional
-	 and specifies where to render the shim. Default is inside body of parent
-	 view.
-	 "txt" specifies which text to display inside the shim. "txt" can be
-	 either a string or a function returning a string.
-	 @config {Object} shim
-	 @memberof ludo.dataSource.Base.prototype
-	 @example
-	 	shim:{
-			renderTo:ludo.get('myView').getBody(),
-			txt : 'Loading content. Please wait'
-	 	}
-	 renderTo is optional. Example where "txt" is defined as function:
-	 @example
-	 	shim:{
-	 		"txt": function(){
-	 			var val = ludo.get('searchField).getValue();
-	 			return val.length ? 'Searching for ' + val : 'Searching';
-	 		}
-	 	}
-	 */
+	
 	shim:undefined,
 
 	__construct:function (config) {
@@ -7405,6 +7424,13 @@ ludo.dataSource.JSON = new Class({
     Extends:ludo.dataSource.Base,
     type:'dataSource.JSON',
 
+    _loaded:false,
+
+    isWaitingData:function(){
+        return !this._loaded && this._url() != undefined;  
+    },
+
+
     /**
      * Reload data from server
      * Components using this data-source will be automatically updated
@@ -7413,32 +7439,46 @@ ludo.dataSource.JSON = new Class({
      * @memberof ludo.dataSource.JSON.prototype
      */
     load:function () {
-        if(!this.url && !this.resource)return;
-        this.parent();
-        this.sendRequest(this.getPostData());
+        if(this._url()){
+            this.parent();
+            this.sendRequest(this.getPostData());
+
+        }
+    },
+
+    _url:function(){
+        return this.url || ludo.config.getUrl();
     },
 
     sendRequest:function(data){
         this.parent();
         $.ajax({
-            url: this.url,
+            url: this._url(),
             method: 'post',
             cache: false,
             dataType: 'json',
             data: data,
-            success: function (json) {
-                var data = this.dataHandler(json);
+            complete: function (response, status) {
+                this._loaded = true;
+                if(status == 'success'){
+                    var json = response.responseJSON;
+                    var data = this.dataHandler(json);
+                    if(data === false){
+                        this.fireEvent('fail', ['error', 'error', this]);
+                    }else{
+                        this.parseNewData(data, json);
+                        this.fireEvent('success', [json, this]);
 
-                if(data === false){
-                    this.fireEvent('fail', ['Validation error', 'Validation error', this]);
+                    }
                 }else{
-                    this.parseNewData(data, json);
-                    this.fireEvent('success', [json, this]);
-
+                    this.fireEvent('fail', [response.responseText, status, this]);
                 }
+                
+                this.fireEvent('complete');
+
             }.bind(this),
             fail: function (text, error) {
-
+                console.log('error');
                 this.fireEvent('fail', [text, error, this]);
             }.bind(this)
         });
@@ -7533,7 +7573,7 @@ ludo.layout.Renderer = new Class({
         ludo.dom.clearCache();
         this.addResizeEvent();
 
-        if(this.view.getLayout != undefined){
+        if (this.view.getLayout != undefined) {
             this.view.getLayout().on('addChild', this.clearFn.bind(this));
         }
         this.view.on('addChild', this.clearFn.bind(this));
@@ -7596,17 +7636,19 @@ ludo.layout.Renderer = new Class({
         this.view.layout.height = this.view.layout.height || 'matchParent';
     },
 
-    resizeFn:undefined,
+    resizeFn: undefined,
 
     addResizeEvent: function () {
         // todo no resize should be done for absolute positioned views with a width. refactor the next line
         if (this.view.isWindow)return;
-        var node = this.getParentNode();
-        this.resizeFn =this.resize.bind(this);
-        node.on('resize', this.resizeFn);
+        this.resizeFn = this.resize.bind(this);
+        //var node = this.getParentNode();
+        // node.resize(this.resizeFn);
+
+        $(window).resize(this.resizeFn);
     },
 
-    getParentNode:function(){
+    getParentNode: function () {
         var node = this.view.getEl().parent();
         if (!node || !node.prop("tagName"))return;
         if (node.prop("tagName").toLowerCase() !== 'body') {
@@ -7617,8 +7659,9 @@ ludo.layout.Renderer = new Class({
         return node;
     },
 
-    removeEvents:function(){
-        this.getParentNode().off('resize', this.resizeFn);
+    removeEvents: function () {
+        // this.getParentNode().off('resize', this.resizeFn);
+        $(window).off('resize', this.resizeFn);
     },
 
     buildResizeFn: function () {
@@ -7838,7 +7881,7 @@ ludo.layout.Renderer = new Class({
     },
 
     setViewport: function () {
-        if(!this.view.getEl || !this.view.getEl()){
+        if (!this.view.getEl || !this.view.getEl()) {
             console.trace();
             console.log(this.view);
             return;
@@ -8275,17 +8318,17 @@ ludo.dom = {
 
  */
 ludo.view.Shim = new Class({
-    txt:'Loading content...',
-    el:undefined,
-    shim:undefined,
-    renderTo:undefined,
+    txt: 'Loading content...',
+    el: undefined,
+    shim: undefined,
+    renderTo: undefined,
 
-    initialize:function (config) {
+    initialize: function (config) {
         if (config.txt)this.txt = config.txt;
         this.renderTo = config.renderTo;
     },
 
-    getEl:function () {
+    getEl: function () {
         if (this.el === undefined) {
             this.el = $('<div class="ludo-shim-loading" style="display:none">' + this.getText(this.txt) + "</div>");
             this.getRenderTo().append(this.el);
@@ -8293,9 +8336,9 @@ ludo.view.Shim = new Class({
         return this.el;
     },
 
-    getShim:function () {
+    getShim: function () {
         if (this.shim === undefined) {
-			if(ludo.util.isString(this.renderTo))this.renderTo = ludo.get(this.renderTo).getEl();
+            if (ludo.util.isString(this.renderTo))this.renderTo = ludo.get(this.renderTo).getEl();
             this.shim = $('<div class="ludo-loader-shim" style="display:none"></div>');
             this.getRenderTo().append(this.shim);
 
@@ -8303,39 +8346,39 @@ ludo.view.Shim = new Class({
         return this.shim;
     },
 
-	getRenderTo:function(){
-		if(ludo.util.isString(this.renderTo)){
-			var view = ludo.get(this.renderTo);
-			if(!view)return undefined;
-			this.renderTo = ludo.get(this.renderTo).getEl();
-		}
-		return this.renderTo;
-	},
-
-    show:function (txt) {
-		this.getEl().html(this.getText(( txt && !ludo.util.isObject(txt) ) ? txt : this.txt));
-        this.css('');
-		this.resizeShim();
+    getRenderTo: function () {
+        if (ludo.util.isString(this.renderTo)) {
+            var view = ludo.get(this.renderTo);
+            if (!view)return undefined;
+            this.renderTo = ludo.get(this.renderTo).getEl();
+        }
+        return this.renderTo;
     },
 
-	resizeShim:function(){
-		var span = $(this.el).find('span');
-		var width = (span.width() + 5);
-		this.el.css('width',  width + 'px');
-		this.el.css('marginLeft',  (Math.round(width/2) * -1) + 'px');
-	},
+    show: function (txt) {
+        this.getEl().html(this.getText(( txt && !ludo.util.isObject(txt) ) ? txt : this.txt));
+        this.css('');
+        this.resizeShim();
+    },
 
-	getText:function(txt){
-		txt = ludo.util.isFunction(txt) ? txt.call() : txt ? txt : '';
-		return '<span>' + txt + '</span>';
-	},
+    resizeShim: function () {
+        var span = $(this.el).find('span');
+        var width = (span.width() + 5);
+        this.el.css('width', width + 'px');
+        this.el.css('marginLeft', (Math.round(width / 2) * -1) + 'px');
+    },
 
-    hide:function () {
+    getText: function (txt) {
+        txt = ludo.util.isFunction(txt) ? txt.call() : txt ? txt : '';
+        return '<span>' + txt + '</span>';
+    },
+
+    hide: function () {
         this.css('none');
     },
-    css:function (d) {
-        this.getShim().css('display',  d);
-        this.getEl().css('display',  d === '' && this.txt ? '' : 'none');
+    css: function (d) {
+        this.getShim().css('display', d);
+        this.getEl().css('display', d === '' && this.txt ? '' : 'none');
     }
 });/* ../ludojs/src/remote/shim.js */
 ludo.remote.Shim = new Class({
@@ -8382,7 +8425,8 @@ ludo.remote.Shim = new Class({
  @param {String} config.tpl A template for string when inserting JSON Content(the insertJSON method), example: "name:{firstname} {lastname}<br>"
  @param {Boolean} config.alwaysInFront True to make this view always appear in front of the other views.
  @param {Object} config.form Configuration for the form Manager. See <a href="ludo.form.Manager">ludo.form.Manager</a> for details.
- @fires ludo.View#rendered Fired when view has been rendered on screen. Argument: ludo.View
+ @param {String} config.loadMessage Message to show if a data source is used and data is being loaded from server.
+ @fires ludo.View#rendered Fired when the view has been rendered and resized. Argument: ludo.View
  @fires ludo.View#toFront Fired when view has brought to front. Argument: ludo.View
  @fires ludo.View#hide Fired when view has been hidden using the hide method. Argument: ludo.View
  @fires ludo.View#show Fired when view is displayed using the show method. Argument. ludo.View
@@ -8456,6 +8500,7 @@ ludo.View = new Class({
     initialItemsObject: [],
     contextMenu: undefined,
     lifeCycleComplete: false,
+    loadMessage:undefined,
 
     lifeCycle: function (config) {
         this._createDOM();
@@ -8497,7 +8542,7 @@ ludo.View = new Class({
         this.lifeCycleComplete = true;
         this._styleDOM();
 
-        if (config.children) {
+        if (config.children && config.children.length > 0) {
             this.getLayout().prepareForChildrenOnCreate(config.children);
             for (var i = 0; i < config.children.length; i++) {
                 config.children[i].id = config.children[i].id || config.children[i].name || 'ludo-' + String.uniqueID();
@@ -8530,7 +8575,7 @@ ludo.View = new Class({
         // TODO remove 'render' and replace with 'rendered'
 
         this.fireEvent('render', this);
-        this.fireEvent('rendered', this);
+
     },
     /**
      * Constructor for Views.
@@ -8545,7 +8590,7 @@ ludo.View = new Class({
         var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'socket', 'form', 'title', 'hidden',
             'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
             'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
-            'overflow'];
+            'overflow','loadMessage'];
 
         if (config.css != undefined) {
             if (this.css != undefined) {
@@ -8609,7 +8654,7 @@ ludo.View = new Class({
      @return void
      @private
      @example
-     ludoEvents:function(){
+     ludoEvents:function(){∂'
 			 this.parent();
 			 this.addEvent('load', this.myMethodOnLoad.bind(this));
 		 }
@@ -8645,14 +8690,16 @@ ludo.View = new Class({
      * Parse and insert JSON into the view
      * The JSON will be sent to the JSON parser(defined in JSONParser) and
      * This method will be called automatically when you're using a JSON data-source
-     * @function insertJSON
+     * @function JSON
      * @param {Object} json
+     * @param {String} tpl - Optional String template
      * @return void
      * @memberof ludo.View.prototype
      */
-    JSON: function (json) {
-        if (this.tpl) {
-            this.getBody().html(this.getTplParser().asString(json, this.tpl));
+    JSON: function (json, tpl) {
+        tpl = tpl || this.tpl;
+        if (tpl) {
+            this.getBody().html(this.getTplParser().asString(json, tpl));
         }
     },
 
@@ -8751,6 +8798,7 @@ ludo.View = new Class({
         this.els.container.attr("id", this.getId());
 
         this.els.body.css('height', '100%');
+
         if (this.overflow == 'hidden') {
             this.els.body.css('overflow', 'hidden');
         }
@@ -8974,6 +9022,8 @@ ludo.View = new Class({
         return this.layout.pixelHeight ? this.layout.pixelHeight : this.layout.height;
     },
 
+    _fr:false,
+
     /**
      Resize View and it's children.
      @function resize
@@ -8990,6 +9040,8 @@ ludo.View = new Class({
         if (this.isHidden()) {
             return;
         }
+
+
         size = size || {};
 
         if (size.width) {
@@ -9026,6 +9078,12 @@ ludo.View = new Class({
         if (size.height || size.width) {
             this.fireEvent('resize', size);
         }
+
+        if(this._fr == false){
+            this.fireEvent('rendered', this);
+            this._fr = true;
+        }
+
         if (this.children.length > 0)this.getLayout().resizeChildren();
     },
 
@@ -9180,7 +9238,10 @@ ludo.View = new Class({
      * @returns {undefined|*}
      */
     getDataSource: function () {
+
         if (!this.dataSourceObj && this.dataSource) {
+
+
             var obj;
             if (ludo.util.isString(this.dataSource)) {
                 obj = this.dataSourceObj = ludo.get(this.dataSource);
@@ -9188,13 +9249,25 @@ ludo.View = new Class({
                 if (!this.dataSource.type) {
                     this.dataSource.type = this.defaultDS;
                 }
-                if (this.dataSource.shim && !this.dataSource.shim.renderTo) {
-                    this.dataSource.shim.renderTo = this.getEl()
-                }
+
+
+
                 obj = this.dataSourceObj = this.createDependency('viewDataSource', this.dataSource);
             }
 
-            var method = obj.getSourceType() === 'HTML' ? 'html' : 'insertJSON';
+            if(this.loadMessage){
+                obj.on('init', function(){
+                    this.shim().show(this.loadMessage);
+                }.bind(this));
+                obj.on('complete', function(){
+                    this.shim().hide();
+                }.bind(this));
+                if(obj.isWaitingData()){
+                    this.shim().show(this.loadMessage);
+                }
+            }
+
+            var method = obj.getSourceType() === 'HTML' ? 'html' : 'JSON';
 
             if (obj.hasData()) {
                 this[method](obj.getData());
@@ -12782,7 +12855,7 @@ ludo.effect.Drag = new Class({
              * @param {effect.Drag} this
              */
             this.fireEvent('drag', [pos, this.els[this.dragProcess.dragged], this]);
-            if (ludo.util.isTabletOrMobile())return false;
+            return false;
 
         }
         return undefined;
@@ -14821,6 +14894,7 @@ ludo.dataSource.CollectionSearch = new Class({
 			this.dataSource.addEvent('beforeload', this.clearSearchIndex.bind(this));
 			this.dataSource.addEvent('beforeload', this.deleteSearch.bind(this));
 			this.dataSource.addEvent('update', this.clearSearchIndex.bind(this));
+			this.dataSource.addEvent('delete', this.onDelete.bind(this));
 		}
 	},
 	/**
@@ -15112,6 +15186,20 @@ ludo.dataSource.CollectionSearch = new Class({
 		return this.delay || 0;
 	},
 
+	onDelete:function(record){
+		if(this.searchResult && this.searchResult.length > 0){
+			for(var i=0;i<this.searchResult.length-1;i++){
+				var rec = this.searchResult[i];
+				if(rec.uid == record.uid){
+					this.clearSearchIndex();
+					this.searchResult.splice(i, 1);
+					console.log(this.searchResult.length);
+				}
+			}
+		}
+
+	},
+
 	clearSearchIndex:function () {
 		this.searchIndexCreated = false;
 	},
@@ -15236,7 +15324,7 @@ ludo.dataSource.CollectionSearch = new Class({
  @fires ludo.dataSource.Collection#notFirstPage Fired when navigating to a page which is not first page.  No arguments
  @fires ludo.dataSource.Collection#change Fires when data has been updated or page navigation occurs.
  @example
- 	dataSource:{
+ dataSource:{
 		url:'data-source/grid.php',
 		id:'myDataSource',
 		paging:{
@@ -15256,1058 +15344,1080 @@ ludo.dataSource.CollectionSearch = new Class({
 	}
  */
 ludo.dataSource.Collection = new Class({
-	Extends:ludo.dataSource.JSON,
-	sortFn:{},
+    Extends: ludo.dataSource.JSON,
+    sortFn: {},
 
-	selectedRecords:[],
+    selectedRecords: [],
 
-	primaryKey:'id',
-
-
-	paging:undefined,
-
-	dataCache:{},
-
-	sortedBy:{
-		column:undefined,
-		order:undefined
-	},
-
-	searchConfig:undefined,
-
-	statefulProperties:['sortedBy', 'paging'],
-
-	index:undefined,
-
-	searcherType:'dataSource.CollectionSearch',
-
-	uidMap:{},
+    primaryKey: 'id',
 
 
-	selected:undefined,
+    paging: undefined,
 
-	__construct:function (config) {
-		this.parent(config);
-        this.setConfigParams(config, ['searchConfig','sortFn','primaryKey','sortedBy','paging','selected']);
+    dataCache: {},
 
-		if (this.primaryKey && !ludo.util.isArray(this.primaryKey))this.primaryKey = [this.primaryKey];
-		if (this.paging) {
-			this.paging.offset = this.paging.offset || 0;
-			this.paging.initialOffset = this.paging.offset;
-			if (this.paging.initialOffset !== undefined) {
-				this.fireEvent('page', (this.paging.initialOffset / this.paging.size) + 1);
-			}
-			if (this.isCacheEnabled()) {
-				this.addEvent('load', this.populateCache.bind(this));
-			}
-		}
+    sortedBy: {
+        column: undefined,
+        order: undefined
+    },
 
-		this.addEvent('parsedata', this.createIndex.bind(this));
+    searchConfig: undefined,
+
+    statefulProperties: ['sortedBy', 'paging'],
+
+    index: undefined,
+
+    searcherType: 'dataSource.CollectionSearch',
+
+    uidMap: {},
 
 
-		if(this.selected){
-			this.addEvent('firstLoad', this.setInitialSelected.bind(this));
-		}
+    selected: undefined,
 
-		if(this.data && !this.index)this.createIndex();
-	},
+    __construct: function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['searchConfig', 'sortFn', 'primaryKey', 'sortedBy', 'paging', 'selected']);
 
-	hasRemoteSearch:function(){
-		return this.paging && this.paging.remotePaging;
-	},
+        if (this.primaryKey && !ludo.util.isArray(this.primaryKey))this.primaryKey = [this.primaryKey];
+        if (this.paging) {
+            this.paging.offset = this.paging.offset || 0;
+            this.paging.initialOffset = this.paging.offset;
+            if (this.paging.initialOffset !== undefined) {
+                this.fireEvent('page', (this.paging.initialOffset / this.paging.size) + 1);
+            }
+            if (this.isCacheEnabled()) {
+                this.addEvent('load', this.populateCache.bind(this));
+            }
+        }
 
-	setInitialSelected:function(){
-		this.selectRecord(this.selected);
-	},
+        this.addEvent('parsedata', this.createIndex.bind(this));
 
-	/**
-	 * Returns 1) If search is specified: number of records in search result, or 2) number of records in entire collection.
-	 * @function getCount
-	 * @return {Number} count
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getCount:function () {
-		if (this.paging && this.paging.rows)return this.paging.rows;
-		if (this.searcher && this.searcher.hasData())return this.searcher.getCount();
-		return this.data ? this.data.length : 0;
-	},
 
-	isCacheEnabled:function () {
-		return this.paging && this.paging['remotePaging'] && this.paging.cache;
-	},
+        if (this.selected) {
+            this.addEvent('firstLoad', this.setInitialSelected.bind(this));
+        }
 
-	/**
-	 * Resort data-source
-	 * @function sort
-	 * @return void
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	sort:function () {
-		if (this.sortedBy.column && this.sortedBy.order) {
-			this.sortBy(this.sortedBy.column, this.sortedBy.order);
-		}
-	},
+        if (this.data && !this.index)this.createIndex();
+    },
 
-	/**
-	 Set sorted by column
-	 @function by
-	 @param {String} column
-	 @return {dataSource.Collection} this
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	collection.by('country').ascending().sort();
-	 or
-	 @example
-	 	collection.by('country').sort();
-	 */
-	by:function(column){
-		this.sortedBy.column = column;
-		this.sortedBy.order = this.getSortOrderFor(column);
-		return this;
-	},
-	/**
-	 Set sort order to ascending
-	 @function ascending
-	 @return {dataSource.Collection} this
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	collection.by('country').ascending().sort();
-	 */
-	ascending:function(){
-		this.sortedBy.order = 'asc';
-		return this;
-	},
-	/**
-	 Set sort order to descending
-	 @function descending
-	 @return {dataSource.Collection} this
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	collection.by('country').descending().sort();
-	 */
-	descending:function(){
-		this.sortedBy.order = 'desc';
-		return this;
-	},
+    hasRemoteSearch: function () {
+        return this.paging && this.paging.remotePaging;
+    },
 
-	/**
-	 Sort by column and order
+    setInitialSelected: function () {
+        this.selectRecord(this.selected);
+    },
 
-	 The second argument(order) is optional
-	 @function sortBy
-	 @param {String} column
-	 @param {String} order
+    /**
+     * Returns 1) If search is specified: number of records in search result, or 2) number of records in entire collection.
+     * @function getCount
+     * @return {Number} count
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getCount: function () {
+        if (this.paging && this.paging.rows)return this.paging.rows;
+        if (this.searcher && this.searcher.hasData())return this.searcher.getCount();
+        return this.data ? this.data.length : 0;
+    },
+
+    isCacheEnabled: function () {
+        return this.paging && this.paging['remotePaging'] && this.paging.cache;
+    },
+
+    /**
+     * Resort data-source
+     * @function sort
+     * @return void
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    sort: function () {
+        if (this.sortedBy.column && this.sortedBy.order) {
+            this.sortBy(this.sortedBy.column, this.sortedBy.order);
+        }
+    },
+
+    /**
+     Set sorted by column
+     @function by
+     @param {String} column
+     @return {dataSource.Collection} this
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     collection.by('country').ascending().sort();
+     or
+     @example
+     collection.by('country').sort();
+     */
+    by: function (column) {
+        this.sortedBy.column = column;
+        this.sortedBy.order = this.getSortOrderFor(column);
+        return this;
+    },
+    /**
+     Set sort order to ascending
+     @function ascending
+     @return {dataSource.Collection} this
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     collection.by('country').ascending().sort();
+     */
+    ascending: function () {
+        this.sortedBy.order = 'asc';
+        return this;
+    },
+    /**
+     Set sort order to descending
+     @function descending
+     @return {dataSource.Collection} this
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     collection.by('country').descending().sort();
+     */
+    descending: function () {
+        this.sortedBy.order = 'desc';
+        return this;
+    },
+
+    /**
+     Sort by column and order
+
+     The second argument(order) is optional
+     @function sortBy
+     @param {String} column
+     @param {String} order
      @optional
-	 @return {dataSource.Collection} this
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	grid.getDataSource().sortBy('firstname', 'desc');
-	 which also can be written as
-	 @example
-	 	grid.getDataSource().by('firstname').descending().sort();
-	 */
-	sortBy:function (column, order) {
+     @return {dataSource.Collection} this
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     grid.getDataSource().sortBy('firstname', 'desc');
+     which also can be written as
+     @example
+     grid.getDataSource().by('firstname').descending().sort();
+     */
+    sortBy: function (column, order) {
         order = order || this.getSortOrderFor(column);
 
-		this.sortedBy = {
-			column:column,
-			order:order
-		};
+        this.sortedBy = {
+            column: column,
+            order: order
+        };
 
-		if (this.paging) {
-			this.paging.offset = this.paging.initialOffset || 0;
-			this.fireEvent('page', Math.round(this.paging.offset / this.paging.size) + 1);
-		}
+        if (this.paging) {
+            this.paging.offset = this.paging.initialOffset || 0;
+            this.fireEvent('page', Math.round(this.paging.offset / this.paging.size) + 1);
+        }
 
-		if (this.shouldSortOnServer()) {
-			this.loadOrGetFromCache();
-		} else {
-			var data = this._getData();
-			data.sort(this.getSortFnFor(column, order));
-			this.fireEvent('change');
-		}
+        if (this.shouldSortOnServer()) {
+            this.loadOrGetFromCache();
+        } else {
+            var data = this._getData();
+            data.sort(this.getSortFnFor(column, order));
+            this.fireEvent('change');
+        }
 
-		this.fireEvent('sort', this.sortedBy);
-        if(this.paging)this.firePageEvents();
-		this.fireEvent('state');
+        this.fireEvent('sort', this.sortedBy);
+        if (this.paging)this.firePageEvents();
+        this.fireEvent('state');
 
-		return this;
-	},
+        return this;
+    },
 
-	/**
-	 * Return current sorted by column
-	 * @function getSortedBy
-	 * @return {String} column
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getSortedBy:function () {
-		return this.sortedBy.column;
-	},
-	/**
-	 * Return current sort order (asc|desc)
-	 * @function getSortOrder
-	 * @return {String} order
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getSortOrder:function () {
-		return this.sortedBy.order;
-	},
+    /**
+     * Return current sorted by column
+     * @function getSortedBy
+     * @return {String} column
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getSortedBy: function () {
+        return this.sortedBy.column;
+    },
+    /**
+     * Return current sort order (asc|desc)
+     * @function getSortOrder
+     * @return {String} order
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getSortOrder: function () {
+        return this.sortedBy.order;
+    },
 
-	shouldSortOnServer:function () {
-		return this.paging && this.paging.remotePaging;
-	},
+    shouldSortOnServer: function () {
+        return this.paging && this.paging.remotePaging;
+    },
 
-	getSortFnFor:function (column, order) {
-		if (this.sortFn[column] !== undefined) {
-			return this.sortFn[column][order];
-		}
-		if (order === 'asc') {
-			return function (a, b) {
-				return a[column] + '_' + a[this.primaryKey] < b[column] + '_' + b[this.primaryKey] ? -1 : 1
-			};
-		} else {
-			return function (a, b) {
-				return a[column] + '_' + a[this.primaryKey] < b[column] + '_' +  b[this.primaryKey] ? 1 : -1
-			};
-		}
-	},
+    getSortFnFor: function (column, order) {
+        if (this.sortFn[column] !== undefined) {
+            return this.sortFn[column][order];
+        }
+        if (order === 'asc') {
+            return function (a, b) {
+                return a[column] + '_' + a[this.primaryKey] < b[column] + '_' + b[this.primaryKey] ? -1 : 1
+            };
+        } else {
+            return function (a, b) {
+                return a[column] + '_' + a[this.primaryKey] < b[column] + '_' + b[this.primaryKey] ? 1 : -1
+            };
+        }
+    },
 
-	getSortOrderFor:function (column) {
-		if (this.sortedBy.column === column) {
-			return this.sortedBy.order === 'asc' ? 'desc' : 'asc';
-		}
-		return 'asc';
-	},
+    getSortOrderFor: function (column) {
+        if (this.sortedBy.column === column) {
+            return this.sortedBy.order === 'asc' ? 'desc' : 'asc';
+        }
+        return 'asc';
+    },
 
-	/**
-	 * Add a record to data-source
-	 * @function addRecord
-	 * @param record
-	 * @return {Object} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	addRecord:function (record) {
+    /**
+     * Add a record to data-source
+     * @function addRecord
+     * @param record
+     * @return {Object} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    addRecord: function (record) {
         this.data = this.data || [];
-		this.data.push(record);
+        this.data.push(record);
 
-		if(!this.index)this.createIndex();
+        if (!this.index)this.createIndex();
 
-		this.fireEvent('add', record);
+        this.fireEvent('add', record);
 
-		return this.createRecord(record);
-	},
+        return this.createRecord(record);
+    },
 
-	/**
-	 * Returns plain object for a record from search. To get a
-	 * {{#crossLink "dataSource.Record"}}{{/crossLink}} object
-	 * use {{#crossLink "dataSource.Collection/getRecord"}}{{/crossLink}}
-	 *
-	 * collection.find({ capital : 'Oslo' });
-	 *
-	 * @function findRecord
-	 * @param {Object} search
-	 * @return {Object|undefined} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	findRecord:function (search) {
+    find: function (search) {
+        return this.findRecord(search);
+    },
 
-		if (!this.data)return undefined;
-		if(search['getUID'] !== undefined)search = search.getUID();
+    /**
+     * Returns plain object for a record from search. To get a
+     * {{#crossLink "dataSource.Record"}}{{/crossLink}} object
+     * use {{#crossLink "dataSource.Collection/getRecord"}}{{/crossLink}}
+     *
+     * collection.find({ capital : 'Oslo' });
+     *
+     * @function findRecord
+     * @param {Object} search
+     * @return {Object|undefined} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    findRecord: function (search) {
 
-		if(search.uid)search = search.uid;
-		var rec = this.getById(search);
-		if(rec)return rec;
+        if (!this.data)return undefined;
+        if (search['getUID'] !== undefined)search = search.getUID();
 
-		var searchMethod = ludo.util.isObject(search) ? 'isRecordMatchingSearch' : 'hasMatchInPrimaryKey';
+        if (search.uid)search = search.uid;
+        var rec = this.getById(search);
+        if (rec)return rec;
+
+        var searchMethod = ludo.util.isObject(search) ? 'isRecordMatchingSearch' : 'hasMatchInPrimaryKey';
 
 
-		for (var i = 0; i < this.data.length; i++) {
-			if (this[searchMethod](this.data[i], search)) {
-				return this.data[i];
-			}
-		}
-		return undefined;
-	},
+        for (var i = 0; i < this.data.length; i++) {
+            if (this[searchMethod](this.data[i], search)) {
+                return this.data[i];
+            }
+        }
+        return undefined;
+    },
 
-	isRecordMatchingSearch:function (record, search) {
-		for (var key in search) {
-			if (search.hasOwnProperty(key)) {
-				if (record[key] !== search[key]) {
-					return false;
-				}
-			}
-		}
-		return true;
-	},
+    isRecordMatchingSearch: function (record, search) {
+        for (var key in search) {
+            if (search.hasOwnProperty(key)) {
+                if (record[key] !== search[key]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    },
 
-	hasMatchInPrimaryKey:function(record, search){
-		if(this.primaryKey){
-			for(var j=0;j<this.primaryKey.length;j++){
-				if(record[this.primaryKey[j]]  === search)return true;
-			}
-		}
-		return false;
-	},
+    hasMatchInPrimaryKey: function (record, search) {
+        if (this.primaryKey) {
+            for (var j = 0; j < this.primaryKey.length; j++) {
+                if (record[this.primaryKey[j]] === search)return true;
+            }
+        }
+        return false;
+    },
 
-	/**
-	 * Find specific records, example:
-	 * var records = collection.findRecords({ country:'Norway'});
-	 * @function findRecords
-	 * @param {Object} search
-	 * @return {Array} records
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	findRecords:function (search) {
-		var ret = [];
-		for (var i = 0; i < this.data.length; i++) {
-			if (this.isRecordMatchingSearch(this.data[i], search)) {
-				ret.push(this.data[i]);
-			}
-		}
-		return ret;
-	},
+    /**
+     * Find specific records, example:
+     * var records = collection.findRecords({ country:'Norway'});
+     * @function findRecords
+     * @param {Object} search
+     * @return {Array} records
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    findRecords: function (search) {
+        var ret = [];
+        for (var i = 0; i < this.data.length; i++) {
+            if (this.isRecordMatchingSearch(this.data[i], search)) {
+                ret.push(this.data[i]);
+            }
+        }
+        return ret;
+    },
 
-    getLinearData:function(){
+    getLinearData: function () {
         return this.data;
     },
 
-	/**
-	 * Select the first record matching search
-	 * @function selectRecord
-	 * @param {Object} search
-	 * @return {Object|undefined} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	selectRecord:function (search) {
-		var rec = this.findRecord(search);
-		if (rec) {
-			this._setSelectedRecord(rec);
-			return rec;
-		}
-		return undefined;
-	},
+    /**
+     * Select the first record matching search
+     * @function selectRecord
+     * @param {Object} search
+     * @return {Object|undefined} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    selectRecord: function (search) {
+        var rec = this.findRecord(search);
+        if (rec) {
+            this._setSelectedRecord(rec);
+            return rec;
+        }
+        return undefined;
+    },
 
 
-	/**
-	 * Select all records matching search
-	 * @function selectRecords
-	 * @param {Object} search
-	 * @return {Array} records
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	selectRecords:function (search) {
-		this.selectedRecords = this.findRecords(search);
-		for (var i = 0; i < this.selectedRecords.length; i++) {
-			this.fireSelect(this.selectedRecords[i]);
-		}
-		return this.selectedRecords;
-	},
+    /**
+     * Select all records matching search
+     * @function selectRecords
+     * @param {Object} search
+     * @return {Array} records
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    selectRecords: function (search) {
+        this.selectedRecords = this.findRecords(search);
+        for (var i = 0; i < this.selectedRecords.length; i++) {
+            this.fireSelect(this.selectedRecords[i]);
+        }
+        return this.selectedRecords;
+    },
 
-	/**
-	 * Select a specific record by index
-	 * @function selectRecordIndex
-	 * @param {number} index
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	selectRecordIndex:function (index) {
-		var data = this._getData();
-		if (data.length && index >= 0 && index < data.length) {
-			var rec = data[index];
-			this._setSelectedRecord(rec);
-			return rec;
-		}
-		return undefined;
-	},
+    /**
+     * Select a specific record by index
+     * @function selectRecordIndex
+     * @param {number} index
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    selectRecordIndex: function (index) {
+        var data = this._getData();
+        if (data.length && index >= 0 && index < data.length) {
+            var rec = data[index];
+            this._setSelectedRecord(rec);
+            return rec;
+        }
+        return undefined;
+    },
 
-	_getData:function () {
-		if (this.hasSearchResult())return this.searcher.getData();
-		return this.data;
-	},
+    _getData: function () {
+        if (this.hasSearchResult())return this.searcher.getData();
+        return this.data;
+    },
 
-	getRecordByIndex:function (index) {
-		if (this.data.length && index >= 0 && index < this.data.length) {
-			return this.data[index];
-		}
-		return undefined;
-	},
+    getRecordByIndex: function (index) {
+        if (this.data.length && index >= 0 && index < this.data.length) {
+            return this.data[index];
+        }
+        return undefined;
+    },
 
-	/**
-	 * Select previous record. If no record is currently selected, first record will be selected
-	 * @function previous
-	 * @return {Object} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	previous:function () {
-		var rec = this.getPreviousOf(this.getSelectedRecord());
-		if (rec) {
-			this._setSelectedRecord(rec);
-		}
-		return rec;
-	},
+    /**
+     * Select previous record. If no record is currently selected, first record will be selected
+     * @function previous
+     * @return {Object} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    previous: function () {
+        var rec = this.getPreviousOf(this.getSelectedRecord());
+        if (rec) {
+            this._setSelectedRecord(rec);
+        }
+        return rec;
+    },
 
-	/**
-	 * Returns previous record of given record
-	 * @function getPreviousOf
-	 * @param {Object} record
-	 * @return {Object} previous record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getPreviousOf:function (record) {
-		var data = this._getData();
-		if (record) {
-			var index = data.indexOf(record);
-            return index > 0 ? data[index-1] : undefined;
-		} else {
+    /**
+     * Returns previous record of given record
+     * @function getPreviousOf
+     * @param {Object} record
+     * @return {Object} previous record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getPreviousOf: function (record) {
+        var data = this._getData();
+        if (record) {
+            var index = data.indexOf(record);
+            return index > 0 ? data[index - 1] : undefined;
+        } else {
             return data.length > 0 ? data[0] : undefined;
-		}
-	},
+        }
+    },
 
-	/**
-	 * Select next record. If no record is currently selected, first record will be selected
-	 * @function next
-	 * @return {Object} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	next:function () {
-		var rec = this.getNextOf(this.getSelectedRecord());
-		if (rec) {
-			this._setSelectedRecord(rec);
-		}
-		return rec;
-	},
-	/**
-	 * Returns next record of given record.
-	 * @function getNextOf
-	 * @param {Object} record
-	 * @return {Object} next record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getNextOf:function (record) {
-		var data = this._getData();
-		if (record) {
-			var index = data.indexOf(record);
-            return index < data.length - 1 ? data[index+1] : undefined;
-		} else {
+    /**
+     * Select next record. If no record is currently selected, first record will be selected
+     * @function next
+     * @return {Object} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    next: function () {
+        var rec = this.getNextOf(this.getSelectedRecord());
+        if (rec) {
+            this._setSelectedRecord(rec);
+        }
+        return rec;
+    },
+    /**
+     * Returns next record of given record.
+     * @function getNextOf
+     * @param {Object} record
+     * @return {Object} next record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getNextOf: function (record) {
+        var data = this._getData();
+        if (record) {
+            var index = data.indexOf(record);
+            return index < data.length - 1 ? data[index + 1] : undefined;
+        } else {
             return data.length > 0 ? data[0] : undefined;
-		}
-	},
+        }
+    },
 
-	_setSelectedRecord:function (rec) {
-		if (this.selectedRecords.length) {
+    _setSelectedRecord: function (rec) {
+        if (this.selectedRecords.length) {
 
-			this.fireEvent('deselect', this.selectedRecords[0]);
-		}
-		this.selectedRecords = [rec];
-		this.fireSelect(Object.clone(rec));
-	},
+            this.fireEvent('deselect', this.selectedRecords[0]);
+        }
+        this.selectedRecords = [rec];
+        this.fireSelect(Object.clone(rec));
+    },
 
-	/**
-	 * Return first selected record
-	 * @function getSelectedRecord
-	 * @return {Object|undefined} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getSelectedRecord:function () {
+    /**
+     * Return first selected record
+     * @function getSelectedRecord
+     * @return {Object|undefined} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getSelectedRecord: function () {
         return this.selectedRecords.length > 0 ? this.selectedRecords[0] : undefined;
-	},
+    },
 
-	/**
-	 * Return selected records
-	 * @function getSelectedRecords
-	 * @return {Array} records
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getSelectedRecords:function () {
-		return this.selectedRecords;
-	},
+    /**
+     * Return selected records
+     * @function getSelectedRecords
+     * @return {Array} records
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getSelectedRecords: function () {
+        return this.selectedRecords;
+    },
 
-	/**
-	 Delete records matching search,
-	 @function deleteRecords
-	 @param {Object} search
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	grid.getDataSource().deleteRecords({ country: 'Norway' });
-	 will delete all records from collection where country is equal to "Norway". A delete event
-	 will be fired for each deleted record.
-	 */
-	deleteRecords:function (search) {
-		var records = this.findRecords(search);
-		for (var i = 0; i < records.length; i++) {
-			this.data.erase(records[i]);
-			this.fireEvent('delete', records[i]);
-		}
-	},
-	/**
-	 Delete a single record. Deletes first match when
-	 multiple matches found.
-	 @function deleteRecord
-	 @param {Object} search
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	grid.getDataSource().deleteRecord({ country: 'Norway' });
-	 Will delete first found record where country is equal to Norway. It will fire a
-	 delete event if a record is found and deleted.
-	 */
-	deleteRecord:function (search) {
-		var rec = this.findRecord(search);
-		if (rec) {
-			this.data.erase(rec);
+    /**
+     Delete records matching search,
+     @function deleteRecords
+     @param {Object} search
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     grid.getDataSource().deleteRecords({ country: 'Norway' });
+     will delete all records from collection where country is equal to "Norway". A delete event
+     will be fired for each deleted record.
+     */
+    deleteRecords: function (search) {
+        var records = this.findRecords(search);
+        for (var i = 0; i < records.length; i++) {
+            this.data.erase(records[i]);
+            this.fireEvent('delete', records[i]);
+        }
 
-			this.fireEvent('delete', rec);
-		}
-	},
+        this.onChange();
+    },
 
-	/**
-	 Select records from current selected record to record matching search,
-	 @function selectTo
-	 @param {Object} search
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	collection.selectRecord({ country: 'Norway' });
-	 	collection.selectTo({country: 'Denmark'});
-	 	var selectedRecords = collection.getSelectedRecords();
-	 */
-	selectTo:function (search) {
-		var selected = this.getSelectedRecord();
-		if (!selected) {
-			this.selectRecord(search);
-			return;
-		}
-		var rec = this.findRecord(search);
-		if (rec) {
-			this.selectedRecords = [];
-			var index = this.data.indexOf(rec);
-			var indexSelected = this.data.indexOf(selected);
-			var i;
-			if (index > indexSelected) {
-				for (i = indexSelected; i <= index; i++) {
-					this.selectedRecords.push(this.data[i]);
-					this.fireSelect(this.data[i]);
-				}
-			} else {
-				for (i = indexSelected; i >= index; i--) {
-					this.selectedRecords.push(this.data[i]);
-					this.fireSelect(this.data[i]);
-				}
-			}
-		}
-	},
+    /**
+     Delete ONE item from the data source.
+     @function deleteRecord
+     @param {Object|String} search
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     // delete first record where property country matches "Norway"
+     grid.getDataSource().deleteRecord({ country: 'Norway' });
 
-	/**
-	 * Update a record
-	 * @function updateRecord
-	 * @param {Object} search
-	 * @param {Object} updates
-	 * @return {dataSource.Record} record
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	updateRecord:function (search, updates) {
-		var rec = this.getRecord(search);
-		if (rec) {
-			rec.setProperties(updates);
-		}
-		return rec;
-	},
+     // delete first record where record.uid = 'uid_ixrky8vq'
+     grid.getDataSource().deleteRecord('uid_ixrky8vq');
 
-	getPostData:function () {
-		if (!this.paging) {
-			return this.parent();
-		}
-		var ret = this.postData || {};
-		ret._paging = {
-			size:this.paging.size,
-			offset:this.paging.offset
-		};
-		ret._sort = this.sortedBy;
-		return ret;
-	},
-	/**
-	 * When paging is enabled, go to previous page.
-	 * fire previousPage event
-	 * @function previousPage
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	previousPage:function () {
-		if (!this.paging || this.isOnFirstPage())return;
-		this.paging.offset -= this.paging.size;
+     // delete the first record in the data source
+     var rec = grid.getDataSource().getData()[0];
+     grid.getDataSource().deleteRecord(rec);
+     */
+    remove: function (search) {
+        var rec = this.findRecord(search);
+        if (rec) {
+            this.data.erase(rec);
 
-		this.onPageChange('previousPage');
-	},
+            this.fireEvent('delete', rec);
+            this.onChange();
+        }
+    },
 
-	/**
-	 * When paging is enabled, go to next page
-	 * fire nextPage event
-	 * @function nextPage
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	nextPage:function () {
-		if (!this.paging || this.isOnLastPage())return;
-		this.paging.offset += this.paging.size;
 
-		this.onPageChange('nextPage');
-	},
+    deleteRecord: function (search) {
+        this.remove(search);
+    },
 
-	/**
-	 * Go to last page
-	 * @function lastPage
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	lastPage:function () {
-		if (!this.paging || this.isOnLastPage())return;
-		var count = this.getCount();
-		var decr = count % this.paging.size;
-		if(decr === 0) decr = this.paging.size;
-		this.paging.offset = count - decr;
-		this.onPageChange('lastPage');
-	},
+    onChange: function () {
+        this.fireEvent('count', this.searcher != undefined ? this.searcher.getCount() : this.getCount());
+    },
 
-	/**
-	 * Go to first page
-	 * @function firstPage
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	firstPage:function () {
-		if (!this.paging || this.isOnFirstPage())return;
-		this.paging.offset = 0;
+    /**
+     Select records from current selected record to record matching search,
+     @function selectTo
+     @param {Object} search
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     collection.selectRecord({ country: 'Norway' });
+     collection.selectTo({country: 'Denmark'});
+     var selectedRecords = collection.getSelectedRecords();
+     */
+    selectTo: function (search) {
+        var selected = this.getSelectedRecord();
+        if (!selected) {
+            this.selectRecord(search);
+            return;
+        }
+        var rec = this.findRecord(search);
+        if (rec) {
+            this.selectedRecords = [];
+            var index = this.data.indexOf(rec);
+            var indexSelected = this.data.indexOf(selected);
+            var i;
+            if (index > indexSelected) {
+                for (i = indexSelected; i <= index; i++) {
+                    this.selectedRecords.push(this.data[i]);
+                    this.fireSelect(this.data[i]);
+                }
+            } else {
+                for (i = indexSelected; i >= index; i--) {
+                    this.selectedRecords.push(this.data[i]);
+                    this.fireSelect(this.data[i]);
+                }
+            }
+        }
+    },
 
-		this.onPageChange('firstPage');
-	},
+    /**
+     * Update a record
+     * @function updateRecord
+     * @param {Object} search
+     * @param {Object} updates
+     * @return {dataSource.Record} record
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    updateRecord: function (search, updates) {
+        var rec = this.getRecord(search);
+        if (rec) {
+            rec.setProperties(updates);
+        }
+        return rec;
+    },
 
-	isOnFirstPage:function () {
-		if (!this.paging)return true;
-		return this.paging.offset === undefined || this.paging.offset === 0;
-	},
+    getPostData: function () {
+        if (!this.paging) {
+            return this.parent();
+        }
+        var ret = this.postData || {};
+        ret._paging = {
+            size: this.paging.size,
+            offset: this.paging.offset
+        };
+        ret._sort = this.sortedBy;
+        return ret;
+    },
+    /**
+     * When paging is enabled, go to previous page.
+     * fire previousPage event
+     * @function previousPage
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    previousPage: function () {
+        if (!this.paging || this.isOnFirstPage())return;
+        this.paging.offset -= this.paging.size;
 
-	isOnLastPage:function () {
-		return this.paging.size + this.paging.offset >= this.getCount();
-	},
+        this.onPageChange('previousPage');
+    },
 
-	onPageChange:function (event) {
-		if (this.paging['remotePaging']) {
-			this.loadOrGetFromCache();
-		}
-		this.fireEvent('change');
-		this.fireEvent(event);
-		this.firePageEvents();
-	},
+    /**
+     * When paging is enabled, go to next page
+     * fire nextPage event
+     * @function nextPage
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    nextPage: function () {
+        if (!this.paging || this.isOnLastPage())return;
+        this.paging.offset += this.paging.size;
 
-	loadOrGetFromCache:function () {
-		if (this.isDataInCache()) {
-			this.data = this.dataCache[this.getCacheKey()].data;
-			this.fireEvent('change');
-		} else {
-			this.load();
-		}
-	},
+        this.onPageChange('nextPage');
+    },
 
-	populateCache:function () {
-		if (this.isCacheEnabled()) {
-			this.dataCache[this.getCacheKey()] = {
-				data:this.data,
-				time:new Date().getTime()
-			}
-		}
-	},
+    /**
+     * Go to last page
+     * @function lastPage
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    lastPage: function () {
+        if (!this.paging || this.isOnLastPage())return;
+        var count = this.getCount();
+        var decr = count % this.paging.size;
+        if (decr === 0) decr = this.paging.size;
+        this.paging.offset = count - decr;
+        this.onPageChange('lastPage');
+    },
 
-	isDataInCache:function () {
-		return this.dataCache[this.getCacheKey()] !== undefined && !this.isCacheOutOfDate();
-	},
+    /**
+     * Go to first page
+     * @function firstPage
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    firstPage: function () {
+        if (!this.paging || this.isOnFirstPage())return;
+        this.paging.offset = 0;
 
-    clearCache:function(){
+        this.onPageChange('firstPage');
+    },
+
+    isOnFirstPage: function () {
+        if (!this.paging)return true;
+        return this.paging.offset === undefined || this.paging.offset === 0;
+    },
+
+    isOnLastPage: function () {
+        return this.paging.size + this.paging.offset >= this.getCount();
+    },
+
+    onPageChange: function (event) {
+        if (this.paging['remotePaging']) {
+            this.loadOrGetFromCache();
+        }
+        this.fireEvent('change');
+        this.fireEvent(event);
+        this.firePageEvents();
+    },
+
+    loadOrGetFromCache: function () {
+        if (this.isDataInCache()) {
+            this.data = this.dataCache[this.getCacheKey()].data;
+            this.fireEvent('change');
+        } else {
+            this.load();
+        }
+    },
+
+    populateCache: function () {
+        if (this.isCacheEnabled()) {
+            this.dataCache[this.getCacheKey()] = {
+                data: this.data,
+                time: new Date().getTime()
+            }
+        }
+    },
+
+    isDataInCache: function () {
+        return this.dataCache[this.getCacheKey()] !== undefined && !this.isCacheOutOfDate();
+    },
+
+    clearCache: function () {
         this.dataCache = {};
     },
 
-	isCacheOutOfDate:function () {
-		if (!this.paging['cacheTimeout'])return false;
+    isCacheOutOfDate: function () {
+        if (!this.paging['cacheTimeout'])return false;
 
-		var created = this.dataCache[this.getCacheKey()].time;
-		return created + (this.paging['cacheTimeout'] * 1000) < (new Date().getTime());
-	},
+        var created = this.dataCache[this.getCacheKey()].time;
+        return created + (this.paging['cacheTimeout'] * 1000) < (new Date().getTime());
+    },
 
-	getCacheKey:function () {
-		var keys = [
-			'key', this.paging.offset, this.sortedBy.column, this.sortedBy.order
-		];
-		if (this.searcher !== undefined && this.searcher.hasData())keys.push(this.searcher.searchToString());
-		return keys.join('|');
-	},
+    getCacheKey: function () {
+        var keys = [
+            'key', this.paging.offset, this.sortedBy.column, this.sortedBy.order
+        ];
+        if (this.searcher !== undefined && this.searcher.hasData())keys.push(this.searcher.searchToString());
+        return keys.join('|');
+    },
 
-    hasData:function(){
+    hasData: function () {
         return this.data != undefined && this.data.length > 0;
     },
 
-	firePageEvents:function (skipState) {
-		if (this.isOnLastPage()) {
+    firePageEvents: function (skipState) {
+        if (this.isOnLastPage()) {
 
-			this.fireEvent('lastPage');
-		} else {
+            this.fireEvent('lastPage');
+        } else {
 
-			this.fireEvent('notLastPage');
-		}
+            this.fireEvent('notLastPage');
+        }
 
-		if (this.isOnFirstPage()) {
-			this.fireEvent('firstPage');
+        if (this.isOnFirstPage()) {
+            this.fireEvent('firstPage');
 
-		} else {
+        } else {
 
-			this.fireEvent('notFirstPage');
-		}
+            this.fireEvent('notFirstPage');
+        }
 
-		this.fireEvent('page', this.getPageNumber());
-		if (skipState === undefined)this.fireEvent('state');
-	},
+        this.fireEvent('page', this.getPageNumber());
+        if (skipState === undefined)this.fireEvent('state');
+    },
 
-	/**
-	 * Go to a specific page
-	 * @function toPage
-	 * @param {Number} pageNumber
-	 * @return {Boolean} success
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	toPage:function (pageNumber) {
-		if (pageNumber > 0 && pageNumber <= this.getPageCount() && !this.isOnPage(pageNumber)) {
-			this.paging.offset = (pageNumber - 1) * this.paging.size;
-
-			this.onPageChange('toPage');
-			return true;
-		}
-		return false;
-	},
-
-	/**
-	 * @function setPageSize
-	 * @param {Number} size
-	 * @memberof ludo.dataSource.Collection.prototype
+    /**
+     * Go to a specific page
+     * @function toPage
+     * @param {Number} pageNumber
+     * @return {Boolean} success
+     * @memberof ludo.dataSource.Collection.prototype
      */
-	setPageSize:function(size){
-		if(this.paging){
-			this.dataCache = {};
-			this.paging.size = parseInt(size);
-			this.paging.offset = 0;
+    toPage: function (pageNumber) {
+        if (pageNumber > 0 && pageNumber <= this.getPageCount() && !this.isOnPage(pageNumber)) {
+            this.paging.offset = (pageNumber - 1) * this.paging.size;
 
-			this.onPageChange('toPage');
-		}
-	},
+            this.onPageChange('toPage');
+            return true;
+        }
+        return false;
+    },
 
-	/**
-	 * True if on given page
-	 * @function isOnPage
-	 * @param {Number} pageNumber
-	 * @return {Boolean}
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	isOnPage:function (pageNumber) {
-		return pageNumber == this.getPageNumber();
-	},
+    /**
+     * @function setPageSize
+     * @param {Number} size
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    setPageSize: function (size) {
+        if (this.paging) {
+            this.dataCache = {};
+            this.paging.size = parseInt(size);
+            this.paging.offset = 0;
 
-	/**
-	 * Return current page number
-	 * @function getPageNumber
-	 * @return {Number} page
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getPageNumber:function () {
+            this.onPageChange('toPage');
+        }
+    },
+
+    /**
+     * True if on given page
+     * @function isOnPage
+     * @param {Number} pageNumber
+     * @return {Boolean}
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    isOnPage: function (pageNumber) {
+        return pageNumber == this.getPageNumber();
+    },
+
+    /**
+     * Return current page number
+     * @function getPageNumber
+     * @return {Number} page
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getPageNumber: function () {
         return this.paging ? Math.floor(this.paging.offset / this.paging.size) + 1 : 1;
-	},
+    },
 
-	/**
-	 * Return number of pages
-	 * @function getPageCount
-	 * @return {Number}
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getPageCount:function () {
-        return this.paging ? Math.ceil(this.getCount() / this.paging.size) : 1;
-	},
-
-	/**
-	 * Return data in collection
-	 * @function getData
-	 * @memberof ludo.dataSource.Collection.prototype
-	 * @returns {Array}
+    /**
+     * Return number of pages
+     * @function getPageCount
+     * @return {Number}
+     * @memberof ludo.dataSource.Collection.prototype
      */
-	getData:function () {
-		if (this.hasSearchResult()){
-			if (this.paging && this.paging.size) {
-				return this.getDataForPage(this.searcher.getData());
-			}
-			return this.searcher.getData();
-		}
-		if (!this.paging || this.paging.remotePaging) {
-			return this.parent();
-		}
-		return this.getDataForPage(this.data);
-	},
+    getPageCount: function () {
+        return this.paging ? Math.ceil(this.getCount() / this.paging.size) : 1;
+    },
+
+    /**
+     * Return data in collection
+     * @function getData
+     * @memberof ludo.dataSource.Collection.prototype
+     * @returns {Array}
+     */
+    getData: function () {
+        if (this.hasSearchResult()) {
+            if (this.paging && this.paging.size) {
+                return this.getDataForPage(this.searcher.getData());
+            }
+            return this.searcher.getData();
+        }
+        if (!this.paging || this.paging.remotePaging) {
+            return this.parent();
+        }
+        return this.getDataForPage(this.data);
+    },
 
 
-	getDataForPage:function (data) {
-		if (!data || data.length == 0)return [];
-		var offset = this.paging.initialOffset || this.paging.offset;
-		if (offset > data.length) {
-			this.toPage(this.getPageCount());
-			offset = (this.getPageCount() - 1) * this.paging.size;
-		}
-		this.resetInitialOffset.delay(200, this);
-		return data.slice(offset, Math.min(data.length, offset + this.paging.size));
-	},
+    getDataForPage: function (data) {
+        if (!data || data.length == 0)return [];
+        var offset = this.paging.initialOffset || this.paging.offset;
+        if (offset > data.length) {
+            this.toPage(this.getPageCount());
+            offset = (this.getPageCount() - 1) * this.paging.size;
+        }
+        this.resetInitialOffset.delay(200, this);
+        return data.slice(offset, Math.min(data.length, offset + this.paging.size));
+    },
 
-	resetInitialOffset:function () {
-		this.paging.initialOffset = undefined;
-	},
+    resetInitialOffset: function () {
+        this.paging.initialOffset = undefined;
+    },
 
-	parseNewData:function (data, json) {
-		// TODO refactor this
-		if (json != undefined && this.paging && json.rows !==undefined)this.paging.rows = json.rows;
-		if (json != undefined && this.paging && json.response && json.response.rows !==undefined)this.paging.rows = json.response.rows;
-		this.parent(data, json);
+    parseNewData: function (data, json) {
+        // TODO refactor this
+        if (json != undefined && this.paging && json.rows !== undefined)this.paging.rows = json.rows;
+        if (json != undefined && this.paging && json.response && json.response.rows !== undefined)this.paging.rows = json.response.rows;
+        this.parent(data, json);
 
-		this.fireEvent('count', this.getCount());
-		if (this.shouldSortAfterLoad()) {
-			this.sort();
-		} else {
-			this.fireEvent('change');
-		}
-		if (this.paging !== undefined) {
-			this.firePageEvents(true);
-		}
-	},
+        this.fireEvent('count', this.getCount());
+        if (this.shouldSortAfterLoad()) {
+            this.sort();
+        } else {
+            this.fireEvent('change');
+        }
+        if (this.paging !== undefined) {
+            this.firePageEvents(true);
+        }
+    },
 
-	createIndex:function () {
-		this.index = {};
-		this.indexBranch(this.data);
-	},
+    createIndex: function () {
+        this.index = {};
+        this.indexBranch(this.data);
+    },
 
-	indexBranch:function(branch, parent){
-		for (var i = 0; i < branch.length; i++) {
-			this.indexRecord(branch[i], parent);
-			if(branch[i].children && branch[i].children.length)this.indexBranch(branch[i].children, branch[i]);
-		}
-	},
+    indexBranch: function (branch, parent) {
+        for (var i = 0; i < branch.length; i++) {
+            this.indexRecord(branch[i], parent);
+            if (branch[i].children && branch[i].children.length)this.indexBranch(branch[i].children, branch[i]);
+        }
+    },
 
-	indexRecord:function(record, parent){
-		if(!this.index)this.createIndex();
-		if(parent)record.parentUid = parent.uid;
-		var pk = this.getPrimaryKeyIndexFor(record);
-		if(pk)this.index[pk] = record;
-		if(!record.uid)record.uid = ['uid_', String.uniqueID()].join('');
-		this.index[record.uid] = record;
-	},
+    indexRecord: function (record, parent) {
+        if (!this.index)this.createIndex();
+        if (parent)record.parentUid = parent.uid;
+        var pk = this.getPrimaryKeyIndexFor(record);
+        if (pk)this.index[pk] = record;
+        if (!record.uid)record.uid = ['uid_', String.uniqueID()].join('');
+        this.index[record.uid] = record;
+    },
 
-	shouldSortAfterLoad:function(){
-		if(this.paging && this.paging.remotePaging)return false;
-		return this.sortedBy !== undefined && this.sortedBy.column && this.sortedBy.order;
-	},
+    shouldSortAfterLoad: function () {
+        if (this.paging && this.paging.remotePaging)return false;
+        return this.sortedBy !== undefined && this.sortedBy.column && this.sortedBy.order;
+    },
 
-	/**
-	 Filter collection based on given search term. To filter on multiple search terms, you should
-	 get a reference to the {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object and
-	 use the available {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} methods to add
-	 multiple search terms.
-	 @function Search
-	 @param {String} search
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	ludo.get('myCollection').search('New York');
-	 	// or with the {{#crossLink "dataSource.CollectionSearch/add"}}{{/crossLink}} method
-	 	var searcher = ludo.get('myCollection').getSearcher();
-	 	searcher.where('New York').execute();
-	 	searcher.execute();
-	 */
-	search:function (search) {
-		this.getSearcher().search(search);
-	},
+    /**
+     Filter collection based on given search term. To filter on multiple search terms, you should
+     get a reference to the {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object and
+     use the available {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} methods to add
+     multiple search terms.
+     @function Search
+     @param {String} search
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     ludo.get('myCollection').search('New York');
+     // or with the {{#crossLink "dataSource.CollectionSearch/add"}}{{/crossLink}} method
+     var searcher = ludo.get('myCollection').getSearcher();
+     searcher.where('New York').execute();
+     searcher.execute();
+     */
+    search: function (search) {
+        this.getSearcher().search(search);
+    },
 
-	/**
-	 * Executes a remote search for records with the given data
-	 * @function remoteSearch
-	 * @param {String|Object} search
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	remoteSearch:function(search){
-		this.postData = this.postData || {};
-		this.postData.search = search;
-		this.toPage(1);
-		this.load();
-	},
+    /**
+     * Executes a remote search for records with the given data
+     * @function remoteSearch
+     * @param {String|Object} search
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    remoteSearch: function (search) {
+        this.postData = this.postData || {};
+        this.postData.search = search;
+        this.toPage(1);
+        this.load();
+    },
 
-	afterSearch:function(){
-		var searcher = this.getSearcher();
-		this.fireEvent('count', searcher.hasData() ? searcher.getCount() : this.getCount());
-		if (this.paging !== undefined) {
-			this.paging.offset = 0;
-			this.firePageEvents(true);
-			this.fireEvent('pageCount', this.getPageCount());
-		}
-		this.fireEvent('change');
-	},
+    afterSearch: function () {
+        var searcher = this.getSearcher();
+        this.fireEvent('count', searcher.hasData() ? searcher.getCount() : this.getCount());
+        if (this.paging !== undefined) {
+            this.paging.offset = 0;
+            this.firePageEvents(true);
+            this.fireEvent('pageCount', this.getPageCount());
+        }
+        this.fireEvent('change');
+    },
 
-	searcher:undefined,
-	/**
-	 * Returns a {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object which
-	 * you can use to filter a collection.
-	 * @function getSearcher
-	 * @return {dataSource.CollectionSearch}
-	 * @memberof ludo.dataSource.Collection.prototype
-	 */
-	getSearcher:function () {
-		if (this.searcher === undefined) {
-			this.searchConfig = this.searchConfig || {};
-			var config = Object.merge({
-				type:this.searcherType,
-				dataSource:this
-			}, this.searchConfig);
-			this.searcher = ludo._new(config);
-			this.addSearcherEvents();
-		}
-		return this.searcher;
-	},
+    searcher: undefined,
+    /**
+     * Returns a {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object which
+     * you can use to filter a collection.
+     * @function getSearcher
+     * @return {dataSource.CollectionSearch}
+     * @memberof ludo.dataSource.Collection.prototype
+     */
+    getSearcher: function () {
+        if (this.searcher === undefined) {
+            this.searchConfig = this.searchConfig || {};
+            var config = Object.merge({
+                type: this.searcherType,
+                dataSource: this
+            }, this.searchConfig);
+            this.searcher = ludo._new(config);
+            this.addSearcherEvents();
+        }
+        return this.searcher;
+    },
 
-	addSearcherEvents:function(){
-		this.searcher.addEvent('search', this.afterSearch.bind(this));
-		this.searcher.addEvent('deleteSearch', this.afterSearch.bind(this));
-	},
+    addSearcherEvents: function () {
+        this.searcher.addEvent('search', this.afterSearch.bind(this));
+        this.searcher.addEvent('deleteSearch', this.afterSearch.bind(this));
+    },
 
-	hasSearchResult:function(){
-		return this.searcher !== undefined && this.searcher.hasData();
-	},
-	/**
-	 Return record by id or undefined if not found. Records are indexed by id. This method
-	 gives you quick access to a record by it's id. The method returns a reference to the
-	 actual record. You can use Object.clone(record) to create a copy of it in case you
-	 want to update the record but not make those changes to the collection.
-	 @function getById
-	 @param {String|Number|Object} id
-	 @return {Object} record
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-	 	var collection = new ludo.dataSource.Collection({
+    hasSearchResult: function () {
+        return this.searcher !== undefined && this.searcher.hasData();
+    },
+    /**
+     Return record by id or undefined if not found. Records are indexed by id. This method
+     gives you quick access to a record by it's id. The method returns a reference to the
+     actual record. You can use Object.clone(record) to create a copy of it in case you
+     want to update the record but not make those changes to the collection.
+     @function getById
+     @param {String|Number|Object} id
+     @return {Object} record
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     var collection = new ludo.dataSource.Collection({
 	 		url : 'get-countries.php',
 	 		primaryKey:'country'
 	 	});
-	 	var record = collection.getById('Japan'); // Returns record for Japan if it exists.
-	 You can also define multiple keys as id
-	 @example
-		 var collection = new ludo.dataSource.Collection({
+     var record = collection.getById('Japan'); // Returns record for Japan if it exists.
+     You can also define multiple keys as id
+     @example
+     var collection = new ludo.dataSource.Collection({
 			url : 'get-countries.php',
 			primaryKey:['id', 'country']
 		 });
-	   	 var record = collection.getById({ id:1, country:'Japan' });
-	 This is especially useful when you have a {{#crossLink "dataSource.TreeCollection"}}{{/crossLink}}
-	 where child nodes may have same numeric id as it's parent.
-	 @example
-	 	{ id:1, type:'country', title : 'Japan',
-	 	 	children:[ { id:1, type:'city', title:'Tokyo }]
-	 By setting primaryKey to ['id', 'type'] will make it possible to distinguish between countries and cities.
-	 */
-	getById:function(id){
-		if(this.index[id] !== undefined){
-			return this.index[id];
-		}
+     var record = collection.getById({ id:1, country:'Japan' });
+     This is especially useful when you have a {{#crossLink "dataSource.TreeCollection"}}{{/crossLink}}
+     where child nodes may have same numeric id as it's parent.
+     @example
+     { id:1, type:'country', title : 'Japan',
+          children:[ { id:1, type:'city', title:'Tokyo }]
+ By setting primaryKey to ['id', 'type'] will make it possible to distinguish between countries and cities.
+ */
+    getById: function (id) {
+        if (this.index[id] !== undefined) {
+            return this.index[id];
+        }
 
-		if(this.primaryKey.length===1){
-			return this.index[id];
-		}else{
-			var key = [];
-			for(var i=0;i<this.primaryKey.length;i++){
-				key.push(id[this.primaryKey[i]]);
-			}
-			return this.index[key.join('')];
-		}
-	},
+        if (this.primaryKey.length === 1) {
+            return this.index[id];
+        } else {
+            var key = [];
+            for (var i = 0; i < this.primaryKey.length; i++) {
+                key.push(id[this.primaryKey[i]]);
+            }
+            return this.index[key.join('')];
+        }
+    },
 
-	recordObjects:{},
+    recordObjects: {},
 
-	/**
-	 Returns {{#crossLink "dataSource.Record"}}{{/crossLink}} object for a record.
-	 If you want to update a record, you should
-	 first get a reference to {{#crossLink "dataSource.Record"}}{{/crossLink}} and then call one
-	 of it's methods.
-	 @function getRecord
-	 @param {String|Object} search
-	 @return {dataSource.Record|undefined}
-	 @memberof ludo.dataSource.Collection.prototype
-	 @example
-		 var collection = new ludo.dataSource.Collection({
+    /**
+     Returns {{#crossLink "dataSource.Record"}}{{/crossLink}} object for a record.
+     If you want to update a record, you should
+     first get a reference to {{#crossLink "dataSource.Record"}}{{/crossLink}} and then call one
+     of it's methods.
+     @function getRecord
+     @param {String|Object} search
+     @return {dataSource.Record|undefined}
+     @memberof ludo.dataSource.Collection.prototype
+     @example
+     var collection = new ludo.dataSource.Collection({
 			url : 'get-countries.php',
 			primaryKey:'country'
 		 });
-	 	 collection.getRecord('Japan').set('capital', 'tokyo');
-	 */
-	getRecord:function(search){
-		var rec = this.findRecord(search);
-		if(rec){
-			return this.createRecord(rec);
-		}
-		return undefined;
-	},
+     collection.getRecord('Japan').set('capital', 'tokyo');
+     */
+    getRecord: function (search) {
+        var rec = this.findRecord(search);
+        if (rec) {
+            return this.createRecord(rec);
+        }
+        return undefined;
+    },
 
-	createRecord:function(data){
-		var id = data.uid;
-		if(!this.recordObjects[id]){
-			this.recordObjects[id] = this.recordInstance(data, this);
-			this.addRecordEvents(this.recordObjects[id]);
-		}
-		return this.recordObjects[id];
-	},
+    createRecord: function (data) {
+        var id = data.uid;
+        if (!this.recordObjects[id]) {
+            this.recordObjects[id] = this.recordInstance(data, this);
+            this.addRecordEvents(this.recordObjects[id]);
+        }
+        return this.recordObjects[id];
+    },
 
-    recordInstance:function(data){
+    recordInstance: function (data) {
         return new ludo.dataSource.Record(data, this);
     },
 
-	addRecordEvents:function(record){
-		record.addEvent('update', this.onRecordUpdate.bind(this));
-		record.addEvent('remove', this.onRecordDispose.bind(this));
-		record.addEvent('select', this.selectRecord.bind(this));
-	},
+    addRecordEvents: function (record) {
+        record.addEvent('update', this.onRecordUpdate.bind(this));
+        record.addEvent('remove', this.onRecordDispose.bind(this));
+        record.addEvent('select', this.selectRecord.bind(this));
+    },
 
-    fireSelect:function(record){
+    fireSelect: function (record) {
         this.fireEvent('select', record);
     },
 
-	onRecordUpdate:function(record){
-		this.indexRecord(record);
-		this.fireEvent('update', record);
-	},
+    onRecordUpdate: function (record) {
+        this.indexRecord(record);
+        this.fireEvent('update', record);
+    },
 
-	onRecordDispose:function(record){
-		var branch = this.getBranchFor(record);
-		if(branch){
-			var index = branch.indexOf(record);
-			if(index !== -1){
-				branch.splice(index,1);
-			}
-			this.removeFromIndex(record);
-			this.fireEvent('remove', record);
-		}
-	},
+    onRecordDispose: function (record) {
+        var branch = this.getBranchFor(record);
+        if (branch) {
+            var index = branch.indexOf(record);
+            if (index !== -1) {
+                branch.splice(index, 1);
+            }
+            this.removeFromIndex(record);
+            this.fireEvent('remove', record);
+        }
+    },
 
-	getBranchFor:function(record){
-		if(record.parentUid){
-			var parent = this.findRecord(record.parentUid);
-			return parent ? parent.children : undefined;
-		}else{
-			return this.data;
-		}
-	},
+    getBranchFor: function (record) {
+        if (record.parentUid) {
+            var parent = this.findRecord(record.parentUid);
+            return parent ? parent.children : undefined;
+        } else {
+            return this.data;
+        }
+    },
 
-	removeFromIndex:function(record){
-		this.recordObjects[record.uid] = undefined;
-		this.index[record.uid] = undefined;
-		var pk = this.getPrimaryKeyIndexFor(record);
-		if(pk)this.index[pk] = undefined;
-	},
+    removeFromIndex: function (record) {
+        this.recordObjects[record.uid] = undefined;
+        this.index[record.uid] = undefined;
+        var pk = this.getPrimaryKeyIndexFor(record);
+        if (pk)this.index[pk] = undefined;
+    },
 
-	getPrimaryKeyIndexFor:function(record){
-		if(this.primaryKey){
-			var key = [];
-			for(var j=0;j<this.primaryKey.length;j++){
-				key.push(record[this.primaryKey[j]]);
-			}
-			return key.join('');
-		}
-		return undefined;
-	}
+    getPrimaryKeyIndexFor: function (record) {
+        if (this.primaryKey) {
+            var key = [];
+            for (var j = 0; j < this.primaryKey.length; j++) {
+                key.push(record[this.primaryKey[j]]);
+            }
+            return key.join('');
+        }
+        return undefined;
+    }
 });
 
 ludo.factory.registerClass('dataSource.Collection', ludo.dataSource.Collection);/* ../ludojs/src/effect/drop-point.js */
@@ -18604,7 +18714,7 @@ ludo.grid.Grid = new Class({
 		this.showResizeHandles();
 	},
 
-	insertJSON:function () {
+	JSON:function () {
 
 	},
 
@@ -19637,7 +19747,7 @@ ludo.form.Element = new Class({
     hasFocus:function () {
         return this._focus;
     },
-    insertJSON:function (data) {
+    JSON:function (data) {
         this.populate(data);
     },
     populate:function () {
@@ -20000,6 +20110,7 @@ ludo.form.LabelElement = new Class({
  * @param {Boolean} config.readonly True to make this form field read only. (Default: false)
  * @param {Boolean} config.selectOnFocus Automatically make the text selected on focus. Default: false
  * @param {Boolean} config.validateKeyStrokes True to run validation after every key stroke(Default: false)
+ * @param {Boolean} config.autoComplete False to disable browsers auto complete(default : true)
  * @param {Function} config.validator Optional validator function for the value.
  * @fires ludo.form.Text#key Fired when a key is pressed. Argument: {String} key pressed.
  * @augments ludo.form.Element
@@ -20025,11 +20136,12 @@ ludo.form.Text = new Class({
     formFieldWidth: undefined,
     readonly: false,
     selectOnFocus: false,
-
+    autoComplete:true,
 
     __construct: function (config) {
         this.parent(config);
-        var keys = ['placeholder', 'selectOnFocus', 'regex', 'minLength', 'maxLength', 'defaultValue', 'validateKeyStrokes', 'ucFirst', 'ucWords', 'readonly'];
+        
+        var keys = ['placeholder', 'selectOnFocus', 'regex', 'minLength', 'maxLength', 'defaultValue', 'autoComplete', 'validateKeyStrokes', 'ucFirst', 'ucWords', 'readonly'];
         this.setConfigParams(config, keys);
         if (this.regex && ludo.util.isString(this.regex)) {
             var tokens = this.regex.split(/\//g);
@@ -20048,6 +20160,11 @@ ludo.form.Text = new Class({
         this.parent();
         if(this.placeholder){
             this.getFormEl().attr('placeholder', this.placeholder);
+        }
+
+        if(!this.autoComplete){
+            this.getFormEl().attr('x-autocompletetype', String.uniqueID());
+            this.getFormEl().attr('autocomplete', 'false');
         }
     },
 
@@ -21888,7 +22005,7 @@ ludo.Panel = new Class({
 
 	__rendered:function () {
 		this.parent();
-		this.getBody().setStyle('display', 'block');
+		this.getBody().css('display', 'block');
 	},
 	autoSetHeight:function () {
 		this.parent();
@@ -21912,6 +22029,8 @@ ludo.Panel = new Class({
 	},
 
 	resizeDOM:function () {
+		this.parent();
+		return;
 		var height = this.getHeight();
 		if (height == 0) {
 			return;
@@ -21919,14 +22038,14 @@ ludo.Panel = new Class({
 
 		height -= (ludo.dom.getMBPH(this.getBody()) + ludo.dom.getMBPH(this.getEl()));
 		if (height > 0 && !isNaN(height)) {
-			this.getBody().style.height = height + 'px';
+			this.getBody().css('height', height);
 		}
 
 		var width = this.getWidth();
 		width -= (ludo.dom.getMBPW(this.getBody()) + ludo.dom.getMBPW(this.getEl()));
 
 		if (width > 0 && !isNaN(width)) {
-			this.getBody().style.width = width + 'px';
+			this.getBody().css('width', width);
 		}
 	},
 
@@ -24840,7 +24959,7 @@ ludo.form.Button = new Class({
         $(document.body).on('mouseup', this.mouseUpBound);
         if (this.defaultSubmit) {
 			this.keyPressBound = this.keyPress.bind(this);
-            $(window).addEvent('keypress', this.keyPressBound);
+            $(window).on('keypress', this.keyPressBound);
         }
     },
 
@@ -25321,73 +25440,70 @@ ludo.dataSource.TreeCollection = new Class({
  * @param {String} config.emptyText Text to show on no data
  */
 ludo.CollectionView = new Class({
-	Extends: ludo.View,
+    Extends: ludo.View,
 
-	emptyText:undefined,
+    emptyText: undefined,
 
-	__construct:function (config) {
-		this.parent(config);
-		this.setConfigParams(config, ['emptyText']);
-	},
+    __construct: function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['emptyText']);
+    },
 
-	ludoEvents:function(){
-		this.parent();
-		if(this.emptyText && !this.getDataSource().hasRemoteSearch()){
-			this.getDataSource().getSearcher().addEvents({
-				'matches' : this.hideEmptyText.bind(this),
-				'noMatches' : this.showEmptyText.bind(this)
-			});
-		}
-	},
+    ludoEvents: function () {
+        this.parent();
+        if (this.emptyText && !this.getDataSource().hasRemoteSearch()) {
+            this.getDataSource().getSearcher().addEvents({
+                'matches': this.hideEmptyText.bind(this),
+                'noMatches': this.showEmptyText.bind(this)
+            });
+        }
+    },
 
-	hideEmptyText:function(){
-		this.emptyEl().css('display', 'none');
-	},
+    hideEmptyText: function () {
+        this.emptyEl().css('display', 'none');
+    },
 
-	showEmptyText:function(){
-		this.emptyEl().css('display',  '');
-		this._emptyEl.html(this.getEmptyText());
-	},
+    showEmptyText: function () {
+        this.emptyEl().css('display', '');
+        this._emptyEl.html(this.getEmptyText());
+    },
 
-	emptyEl:function(){
-		if(this._emptyEl === undefined){
-			this._emptyEl = ludo.dom.create({
-				tag : 'div',
-				renderTo:this.getBody(),
-				cls : 'ludo-empty-text',
-				css:{
-					position : 'absolute'
-				},
-				html : this.getEmptyText()
-			})
-		}
-		return this._emptyEl;
-	},
+    emptyEl: function () {
+        if (this._emptyEl === undefined) {
+            this._emptyEl = $('<div class="ludo-empty-text" style="position:absolute">' + this.getEmptyText() + '</div>');
+            this.getBody().append(this._emptyEl);
+        }
+        return this._emptyEl;
+    },
 
-	getEmptyText:function(){
-		return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
-	},
+    getEmptyText: function () {
+        return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
+    },
 
-	_nodeContainer:undefined,
+    _nodeContainer: undefined,
 
-	nodeContainer:function(){
-		if(this._nodeContainer === undefined){
-			this._nodeContainer = $('<div>');
-			this.getBody().append(this._nodeContainer);
-	
-		}
-		return this._nodeContainer;
-	},
+    nodeContainer: function () {
+        if (this._nodeContainer === undefined) {
+            this._nodeContainer = $('<div style="position:relative">');
+            this.getBody().append(this._nodeContainer);
 
-	render:function(){
-		if(this.emptyText){
-			this[this.getDataSource().hasData() ? 'hideEmptyText' : 'showEmptyText']();
-		}
-	},
+        }
+        return this._nodeContainer;
+    },
 
-	insertJSON:function(){
+    render: function () {
+        if (this.emptyText) {
+            var ds = this.getDataSource();
 
-	}
+            var hasData = ds.isWaitingData() || ds.getCount() > 0;
+            
+            this[hasData ? 'hideEmptyText' : 'showEmptyText']();
+        }
+    },
+
+    JSON: function () {
+
+    }
 });/* ../ludojs/src/tree/tree.js */
 /**
  * Tree widget
@@ -25654,7 +25770,7 @@ ludo.tree.Tree = new Class({
 		return undefined;
 	},
 
-	insertJSON:function () {
+	JSON:function () {
 
 		this.nodeCache = {};
 		this.renderedRecords = {};
@@ -25841,6 +25957,206 @@ ludo.tree.Tree = new Class({
 
     getUID:function(record){
         return record.getUID ? record.getUID() : record.uid;
+    }
+});/* ../ludojs/src/card/button.js */
+
+ludo.card.Button = new Class({
+    Extends:ludo.form.Button,
+    type:'card.Button',
+
+    /*
+     * Automatically hide button instead of disabling it. This will happen on
+     * first cards for previous buttons and on last card for next and finish buttons.
+     * attribute autoHide
+     * type {Boolean}
+     * default false
+     */
+    autoHide:false,
+
+    /*
+     * Apply button to a specific view with this id. This view has to have layout type set to "card".
+     * attribute applyTo
+     * type String
+     * default undefined
+     */
+    applyTo : undefined,
+
+    __construct:function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['autoHide', 'applyTo']);
+        if(config.applyTo && !ludo.get(config.applyTo)){
+            this.onCreate.delay(50, this);
+        }else{
+            this.onCreate();
+        }
+
+    },
+
+    onRendered:function(){
+
+    },
+
+    onCreate:function(){
+        this.applyTo = this.applyTo ? ludo.get(this.applyTo) : this.getParentComponent();
+        this.applyTo.getLayout().on('rendered', this.onRendered.bind(this));
+    },
+
+    getParentComponent:function () {
+        var cmp = this.parent();
+
+        if (cmp.layout === undefined || (cmp.layout.type.toLowerCase()!=='viewpager')) {
+            for (var i = 0; i < cmp.children.length; i++) {
+
+                if (cmp.children[i].layout && cmp.children[i].layout.type.toLowerCase()==='viewpager') {
+                    return cmp.children[i];
+                }
+            }
+        }
+        return cmp.layout && cmp.layout.type.toLowerCase()!=='viewpager' ? cmp : undefined;
+    }
+});/* ../ludojs/src/card/previous-button.js */
+
+ludo.card.PreviousButton = new Class({
+	Extends:ludo.card.Button,
+	type:'page.PreviousButton',
+	value:'Previous',
+
+	onRendered:function () {
+		this.addEvent('click', this.showPreviousPage.bind(this));
+		if (this.applyTo) {
+			var lm = this.applyTo.getLayout();
+			if (this.autoHide) {
+				if(lm.selectedIndex != 0)this.show(); else this.hide();
+				lm.addEvent('firstpage', this.hide.bind(this));
+				lm.addEvent('notfirstpage', this.show.bind(this));
+			} else {
+				if(lm.selectedIndex != 0)this.enable(); else this.disable();
+				lm.addEvent('firstpage', this.disable.bind(this));
+				lm.addEvent('notfirstpage', this.enable.bind(this));
+			}
+		}
+	},
+
+	showPreviousPage:function () {
+		if (this.applyTo) {
+			this.applyTo.getLayout().previousPage();
+		}
+	}
+});/* ../ludojs/src/card/next-button.js */
+
+ludo.card.NextButton = new Class({
+	Extends:ludo.card.Button,
+	type:'page.NextButton',
+	value:'Next',
+
+	onRendered:function () {
+		window.alf = this.applyTo;
+		if (this.applyTo) {
+			var lm = this.applyTo.getLayout();
+			console.log(lm.count, lm.selectedIndex);
+			lm.addEvent('valid', this.enable.bind(this));
+			lm.addEvent('invalid', this.disable.bind(this));
+			if (!lm.isFormValid()) {
+				this.disable();
+			}else{
+				this.enable();
+			}
+			if (this.autoHide) {
+				if (lm.selectedIndex == lm.count-1)this.hide(); else this.show();
+				lm.addEvent('lastpage', this.hide.bind(this));
+				lm.addEvent('notlastpage', this.show.bind(this));
+			} else {
+				if (lm.selectedIndex == lm.count-1)this.disable(); else this.enable();
+				lm.addEvent('lastpage', this.disable.bind(this));
+				lm.addEvent('notlastpage', this.enable.bind(this));
+			}
+		}
+
+		this.addEvent('click', this.nextPage.bind(this));
+	},
+
+	enable:function () {
+		console.log('enable',this.applyTo.getLayout().isFormValid() )
+		if (this.applyTo.getLayout().isFormValid()) {
+			this.parent();
+		}
+	},
+
+	disable:function(){
+		console.log('disable');
+		this.parent();
+	},
+
+	nextPage:function () {
+		if (this.applyTo) {
+			this.applyTo.getLayout().nextPage();
+		}
+	}
+});/* ../ludojs/src/card/finish-button.js */
+ludo.card.FinishButton = new Class({
+    Extends:ludo.card.Button,
+    type:'card.FinishButton',
+    value:'Finish',
+    hidden:true,
+
+    onRendered:function(){
+		var lm;
+        if (this.applyTo) {
+			lm = this.applyTo.getLayout();
+            var fm = this.applyTo.getForm();
+
+            lm.on('valid', this.enable.bind(this));
+            lm.on('invalid', this.disable.bind(this));
+            lm.on('lastpage', this.show.bind(this));
+            lm.on('notlastpage', this.hide.bind(this));
+
+            fm.on('submit.init', this.disable.bind(this));
+            fm.on('submit.success', this.setSubmitted.bind(this));
+            fm.on('submit.fail', this.setSubmitted.bind(this));
+
+            if(!lm.isFormValid()){
+                this.disable();
+            }else{
+                this.enable();
+            }
+        }
+        this.on('click', this.submit.bind(this));
+
+        if(lm && lm.selectedIndex == lm.count - 1){
+            this.show();
+        }
+    },
+
+    enable:function(){
+
+        if(this.applyTo.getLayout().isFormValid()){
+            this.parent();
+        }else{
+            console.log('not valid');
+        }
+    },
+
+    disable:function(){
+        console.log('disable');
+        console.trace();
+        this.parent();
+    },
+
+    show:function(){
+        if(!this.submitted){
+            return this.parent();
+        }
+        return undefined;
+    },
+    submitted : false,
+    submit:function () {
+        if (this.applyTo) {
+            this.applyTo.getForm().save();
+        }
+    },
+
+    setSubmitted:function(){
+        this.submitted = true;
     }
 });/* ../ludojs/src/form/textarea.js */
 /**
@@ -26370,7 +26686,7 @@ ludo.form.ComboField = new Class({
 
     ludoEvents:function () {
         this.parent();
-        this.getBody().addEvent('click', this.clickEvent.bind(this));
+        this.getBody().on('click', this.clickEvent.bind(this));
     },
 
     clickEvent:function () {
@@ -26436,7 +26752,7 @@ ludo.paging.Button = new Class({
 
     addDataSourceEvents:function(){},
 
-	insertJSON:function(){}
+	JSON:function(){}
 });/* ../ludojs/src/paging/next.js */
 /**
  Button used to navigate to next page in a dataSource.Collection
@@ -26636,7 +26952,7 @@ ludo.paging.PageInput = new Class({
         this.maxValue = this.getDataSource().getPageCount();
     },
 
-	insertJSON:function(){
+    JSON:function(){
 
 	}
 });/* ../ludojs/src/paging/current-page.js */
@@ -26687,11 +27003,16 @@ ludo.paging.CurrentPage = new Class({
         }
     },
 
+	resize:function(config){
+		this.parent(config);
+		this.getBody().css('line-height', (this.getBody().height() * 0.8) + 'px');
+	},
+
 	setPageNumber:function () {
 		this.html(this.tpl.replace('{page}', this.getDataSource().getPageNumber()));
 	},
 
-	insertJSON:function () {
+	JSON:function () {
 
 	}
 });/* ../ludojs/src/paging/total-pages.js */
@@ -26753,7 +27074,7 @@ ludo.paging.TotalPages = new Class({
 		this.html(this.tpl.replace('{pages}', this.getDataSource().getPageCount()));
 	},
 
-	insertJSON:function () {
+	JSON:function () {
 
 	}
 });/* ../ludojs/src/paging/nav-bar.js */
@@ -26827,7 +27148,7 @@ ludo.paging.NavBar = new Class({
 		}
 	},
 
-	insertJSON:function(){
+	JSON:function(){
 
 	}
 });/* ../ludojs/src/form/select.js */
@@ -27158,7 +27479,7 @@ ludo.progress.Base = new Class({
         }
 
         this.getDataSource().addEvents({
-            'load' : this.insertJSON.bind(this),
+            'load' : this.JSON.bind(this),
             'start' : this.start.bind(this),
             'finish' : this.finishEvent.bind(this)
         });
@@ -27166,7 +27487,7 @@ ludo.progress.Base = new Class({
 
     start:function(){
         this.fireEvent('start');
-        this.insertJSON({text:'',percent:0});
+        this.JSON({text:'',percent:0});
     },
 
     hideAfterDelay:function(){
@@ -27275,7 +27596,7 @@ ludo.progress.Bar = new Class({
         }
     },
 
-    insertJSON:function (json) {
+    JSON:function (json) {
         var data = json.data ? json.data : json;
         this.setPercent(data.percent);
     },
@@ -28275,7 +28596,7 @@ chess.language = {
     'tacticPuzzleSolvedMessage':'Good job! You have solved this puzzle. Click OK to load next game',
 
 
-    'commandWelcome':'Type in your commands. For help, type help (+ enter).',
+    'commandWelcome':'Type in your commands. For help, type "help" + enter.',
     'command_help':'Displays help screen',
     'command_move':'Type "move + notation" or notation only(e.g. "e4") to add moves',
     'command_cls':'Clear screen',
@@ -28344,6 +28665,7 @@ chess.view.notation.Panel = new Class({
     tactics:false,
     comments:true,
     currentModelMoveId:undefined,
+    interactive:true,
 
 	/**
 	 * Show context menu for grading of moves, comments etc
@@ -28379,7 +28701,7 @@ chess.view.notation.Panel = new Class({
 
     __construct:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['notations','showContextMenu','comments']);
+        this.setConfigParams(config, ['notations','showContextMenu','comments','interactive']);
 
         if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
 
@@ -28429,7 +28751,9 @@ chess.view.notation.Panel = new Class({
         };
     },
     ludoEvents:function () {
-        this.getBody().on('click', this.clickOnMove.bind(this));
+        if(this.interactive){
+            this.getBody().on('click', this.clickOnMove.bind(this));
+        }
     },
 
     ludoDOM:function () {
@@ -28438,7 +28762,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove:function (el) {
-        this.contextMenuMove = { uid:el.attr('moveId')}
+        this.contextMenuMove = { uid:$(el).attr('moveId')}
     },
 
     getContextMenuMove:function () {
@@ -28603,7 +28927,7 @@ chess.view.notation.Panel = new Class({
 
 
     updateMove:function (model, move) {
-        var domEl = this.getEl().getElement('.chess-move-container-' + move.uid);
+        var domEl = this.getEl().find('.chess-move-container-' + move.uid);
         if(domEl){
             domEl.html( this.getDomTextForAMove(move));
         }else{
@@ -28992,8 +29316,6 @@ chess.view.board.GUI = new Class({
 
         this.lastBoardSize = size;
 
-
-
         var wOffset = this.els.board.outerWidth(true) - this.els.board.width();
         var hOffset = this.els.board.outerHeight(true) - this.els.board.height();
         var boardSize = Math.min(
@@ -29001,6 +29323,8 @@ chess.view.board.GUI = new Class({
             size.y - this.getLabelHeight() - hOffset);
 
         boardSize = Math.max(this.internal.squareSizes[0] * 8, Math.floor(boardSize / 8) * 8);
+
+
 
         if (isNaN(boardSize) || boardSize < 0) {
             return;
@@ -29071,8 +29395,8 @@ chess.view.board.GUI = new Class({
     getNewSizeOfBoardContainer:function () {
         var b = this.els.boardContainer;
         var c = this.getBody();
-        var widthOffset = b.outerWidth(true) - b.width();
-        var heightOffset = b.outerHeight(true) - b.height();
+        var widthOffset = ludo.dom.getBW(b) + ludo.dom.getPW(b);
+        var heightOffset = ludo.dom.getPH(b) + ludo.dom.getPH(b);
         var size = { x: c.width(), y: c.height() };
         size = {
             x:size.x - widthOffset,
@@ -30973,162 +31297,172 @@ chess.view.buttonbar.Game = new Class({
  @constructor
  @param {Object} config
  @example
- 	children:[
- 	... ,
- 	{
-		 titleBar:false,
-		 type:'chess.view.gamelist.Grid',
-		 weight:1,
-		 frame:true,
-		 fillview:true,
-		 cols:['white', 'black', 'result']
-	 }
- 	...
- 	]
+ children:[
+ ... ,
+ {
+     titleBar:false,
+     type:'chess.view.gamelist.Grid',
+     weight:1,
+     frame:true,
+     fillview:true,
+     cols:['white', 'black', 'result']
+ }
+ ...
+ ]
  */
 chess.view.gamelist.Grid = new Class({
-	Extends:ludo.grid.Grid,
-	type:'chess.view.gamelist.Grid',
-	module:'chess',
-	submodule:'gameList',
-	titleBar:false,
-	dataSource:{
-		'type':'chess.dataSource.GameList',
-        shim:{
-            txt : 'Loading games. Please wait'
+    Extends: ludo.grid.Grid,
+    type: 'chess.view.gamelist.Grid',
+    module: 'chess',
+    submodule: 'gameList',
+    titleBar: false,
+    dataSource: {
+        'type': 'chess.dataSource.GameList',
+        shim: {
+            txt: 'Loading games. Please wait'
         }
-	},
-	resizable:false,
-	statusBar:false,
-	fillview:true,
+    },
+    resizable: false,
+    statusBar: false,
+    fillview: true,
 
-	/**
-	 Columns to show in grid. Columns correspondes to metadata of games, example
-	 white,black,result, event, eco
-	 @config cols
-	 @type Array
-	 @optional
-	 @example
-	 	cols:['white','black']
-	 */
-	cols:undefined,
+    /**
+     Columns to show in grid. Columns correspondes to metadata of games, example
+     white,black,result, event, eco
+     @config cols
+     @type Array
+     @optional
+     @example
+     cols:['white','black']
+     */
+    cols: undefined,
 
 
-	columns:{
-		white:{
-			heading:'White',
-			key:'white',
-			width:120,
-			sortable:true
-		},
-		black:{
-			heading:'Black',
-			key:'black',
-			width:120,
-			sortable:true
-		},
-		result:{
-			heading:'Result',
-			key:'result',
-			width:50,
-			sortable:true,
-			removable:true
-		},
-		event:{
-			heading:'Event',
-			key:'event',
-			weight:1,
-			sortable:true,
-			removable:true
-		},
-		last_moves:{
-			heading:'Last moves',
-			key:'last_moves',
-			weight:1,
-			sortable:true,
-			removable:true
-		}
+    columns: {
+        white: {
+            heading: 'White',
+            key: 'white',
+            width: 120,
+            sortable: true
+        },
+        black: {
+            heading: 'Black',
+            key: 'black',
+            width: 120,
+            sortable: true
+        },
+        result: {
+            heading: 'Result',
+            key: 'result',
+            width: 50,
+            sortable: true,
+            removable: true
+        },
+        event: {
+            heading: 'Event',
+            key: 'event',
+            weight: 1,
+            sortable: true,
+            removable: true
+        },
+        last_moves: {
+            heading: 'Last moves',
+            key: 'last_moves',
+            weight: 1,
+            sortable: true,
+            removable: true
+        }
 
-	},
-	/**
-	 * initial database id. Show the games from this database when the grid is first displayed.
-	 * @config databaseId
-	 * @type {Number}
-	 * @default undefined
-	 */
-	databaseId:undefined,
+    },
+    /**
+     * initial database id. Show the games from this database when the grid is first displayed.
+     * @config databaseId
+     * @type {Number}
+     * @default undefined
+     */
+    databaseId: undefined,
 
-	setController:function (controller) {
-		this.parent(controller);
-		var ds = this.getDataSource();
-		controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
-		controller.addEvent('nextGame', ds.next.bind(ds));
-		controller.addEvent('previousGame', ds.previous.bind(ds));
+    setController: function (controller) {
+        this.parent(controller);
+        var ds = this.getDataSource();
+        controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
+        controller.addEvent('nextGame', ds.next.bind(ds));
+        controller.addEvent('previousGame', ds.previous.bind(ds));
         controller.addEvent('selectPgn', this.selectPgn.bind(this));
         controller.addEvent('gameSaved', this.onGameSave.bind(this));
-	},
-
-
-    onGameSave:function(game){
-        if(game.databaseId)this.selectDatabase({ id: game.databaseId });
-    },
-	/**
-	 Select a new database
-	 @method selectDatabase
-	 @param {Object} record
-	 */
-	selectDatabase:function (record) {
-		this.loadGames(record.id);
-	},
-
-    selectPgn:function(pgn){
-        this.getDataSource().sendRequest('listOfGames', pgn);
     },
 
-	__construct:function (config) {
-		this.parent(config);
-		this.databaseId = config.databaseId || this.databaseId;
-		if (config.cols) {
-			this.getColumnManager().hideAllColumns();
-			for (var i = 0; i < config.cols.length; i++) {
-				this.getColumnManager().showColumn(config.cols[i]);
-			}
-		}
 
-        for(var key in this.columns){
-            if(this.columns.hasOwnProperty(key)){
+    onGameSave: function (game) {
+        if (game.databaseId)this.selectDatabase({id: game.databaseId});
+    },
+    /**
+     Select a new database
+     @method selectDatabase
+     @param {Object} record
+     */
+    selectDatabase: function (record) {
+        this.loadGames(record.id);
+    },
+
+    selectPgn: function (pgn) {
+
+        var r = this.getDataSource().postData.resource;
+
+        this.getDataSource().postData.arguments = pgn;
+
+        this.getDataSource().sendRequest({
+            resource: r,
+            service: 'listOfGames',
+            arguments: pgn
+        });
+    },
+
+    __construct: function (config) {
+        this.parent(config);
+        this.databaseId = config.databaseId || this.databaseId;
+        if (config.cols) {
+            this.getColumnManager().hideAllColumns();
+            for (var i = 0; i < config.cols.length; i++) {
+                this.getColumnManager().showColumn(config.cols[i]);
+            }
+        }
+
+        for (var key in this.columns) {
+            if (this.columns.hasOwnProperty(key)) {
                 this.columns[key].heading = chess.getPhrase(this.columns[key].heading);
             }
         }
-	},
-	ludoEvents:function () {
-		this.parent();
-		this.getDataSource().addEvent('select', this.selectGame.bind(this))
-	},
-	__rendered:function () {
-		this.parent();
-		if (this.databaseId) {
-			this.loadGames(this.databaseId);
-		}
-	},
+    },
+    ludoEvents: function () {
+        this.parent();
+        this.getDataSource().addEvent('select', this.selectGame.bind(this))
+    },
+    __rendered: function () {
+        this.parent();
+        if (this.databaseId) {
+            this.loadGames(this.databaseId);
+        }
+    },
 
-	loadGames:function (databaseId) {
-		this.databaseId = databaseId;
-		this.getDataSource().sendRequest('games', databaseId);
-	},
+    loadGames: function (databaseId) {
+        this.databaseId = databaseId;
+        this.getDataSource().sendRequest('games', databaseId);
+    },
 
-	selectGame:function (record) {
-		/**
-		 * Event fired on click on game in grid.
-		 * @event selectGame
-		 * @param {Object} game
-		 */
-		if(record.gameIndex !== undefined){
-			this.fireEvent('selectGame', [record, this.getDataSource().getCurrentPgn()]);
-		}else{
-			this.fireEvent('selectGame', record);
-		}
-	}
+    selectGame: function (record) {
+        /**
+         * Event fired on click on game in grid.
+         * @event selectGame
+         * @param {Object} game
+         */
+        if (record.gameIndex !== undefined) {
+            console.log(this.getDataSource().getCurrentPgn());
+            this.fireEvent('selectGame', [record, this.getDataSource().getCurrentPgn()]);
+        } else {
+            this.fireEvent('selectGame', record);
+        }
+    }
 });/* ../dhtml-chess/src/view/metadata/game.js */
 /**
  * This class shows metadata(example: white,black etc) of current game. It listens to the "newGame" event of the controller
@@ -32002,6 +32336,7 @@ chess.view.folder.Tree = new Class({
 	ludoEvents:function () {
 		this.parent();
 		this.getDataSource().addEvent('select', this.selectDatabase.bind(this));
+		console.log('event');
 		if (this.selected) {
 
 		}
@@ -32644,10 +32979,11 @@ chess.view.command.Line = new Class({
      * @private
      */
 	validateKey:function(e){
-		if(e.key === 'enter'){
-			this.value = this.els.formEl.value;
+
+		if(e.keyCode == 13){
+			this.value = this.val();
 			this.send();
-			this.setValue('');
+			this.val('');
 			return false;
 		}
         return undefined;
@@ -32663,7 +32999,7 @@ chess.view.command.Line = new Class({
          * @event sendMessage
          * @param {String} value of command line input
          */
-		this.fireEvent('sendMessage', this.getValue());
+		this.fireEvent('sendMessage', this.val());
 	}
 });/* ../dhtml-chess/src/view/command/controller.js */
 /**
@@ -32906,7 +33242,7 @@ chess.view.command.Panel = new Class({
      * @method clear
      */
 	clear:function(){
-		this.getBody().innerHTML = '';
+		this.getBody().html('');
 		this.currentLine = undefined;
 	},
 
@@ -33090,12 +33426,12 @@ chess.view.position.Board = new Class({
 
     deleteSelectedPiece:function () {
         this.selectedPiece = undefined;
-        this.els.board.style.cursor = 'default';
+        this.els.board.css('cursor', 'default');
     },
 
     setSelectedPiece:function (piece) {
         this.selectedPiece = piece;
-        this.els.board.style.cursor = 'pointer';
+        this.els.board.css('cursor', 'pointer');
     },
 
     insertPiece:function (e) {
@@ -33211,11 +33547,11 @@ chess.view.position.Board = new Class({
     },
 
     getSquareByEvent:function (e) {
-        var boardPos = this.els.board.getPosition();
+        var boardPos = this.els.board.offset();
         var squareSize = this.getSquareSize();
 
-        var x = Math.floor((e.page.x - boardPos.x) / squareSize);
-        var y = Math.floor((e.page.y - boardPos.y) / squareSize);
+        var x = Math.floor((e.pageX - boardPos.left) / squareSize);
+        var y = Math.floor((e.pageY - boardPos.top) / squareSize);
         if (!this.isFlipped()) {
             y = 7 - y;
         } else {
@@ -33323,7 +33659,7 @@ chess.view.position.Piece = new Class({
 
     __rendered:function () {
         this.parent();
-        var piece = this.els.piece = new Element('div');
+        var piece = this.els.piece = $('<div>');
         piece.css({
             'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
@@ -33331,12 +33667,12 @@ chess.view.position.Piece = new Class({
             'cursor':'pointer'
         });
 
-        piece.setProperty('pieceType', this.pieceType);
-        piece.addEvent('click', this.selectPiece.bind(this));
+        piece.attr('pieceType', this.pieceType);
+        piece.on('click', this.selectPiece.bind(this));
         this.getBody().append(piece);
         piece.addClass('position-setup-piece');
-        piece.addEvent('mouseenter', this.mouseEnterPiece.bind(this));
-        piece.addEvent('mouseleave', this.mouseLeavePiece.bind(this));
+        piece.on('mouseenter', this.mouseEnterPiece.bind(this));
+        piece.on('mouseleave', this.mouseLeavePiece.bind(this));
         this.resizePiece.delay(50, this);
     },
 
@@ -33351,7 +33687,8 @@ chess.view.position.Piece = new Class({
     },
 
     resizePiece : function() {
-        var size = this.getBody().getSize();
+        var b = this.getBody();
+        var size = { x : b.width(), y: b.height() };
 
         size.x -= this.getPadding('x');
         size.y -= this.getPadding('y');
@@ -33391,7 +33728,7 @@ chess.view.position.Piece = new Class({
     selectPiece:function (e) {
         var obj = {
             color:this.pieceColor,
-            pieceType:e.target.getProperty('pieceType')
+            pieceType:$(e.target).attr('pieceType')
         };
         this.fireEvent('selectpiece', obj);
     },
@@ -33412,75 +33749,75 @@ chess.view.position.Piece = new Class({
  * @extends ludo.dialog.Dialog
  */
 chess.view.position.Dialog = new Class({
-    Extends:ludo.dialog.Dialog,
-    module:'chess',
-    submodule : 'positionSetup',
-    autoRemove:false,
-    autoHideOnBtnClick:false,
-    width:640,
-    height:450,
-    title:chess.getPhrase('Position setup'),
-    layout:{
-        type:'relative'
+    Extends: ludo.dialog.Dialog,
+    module: 'chess',
+    submodule: 'positionSetup',
+    autoRemove: false,
+    autoHideOnBtnClick: false,
+    width: 640,
+    height: 450,
+    title: chess.getPhrase('Position setup'),
+    layout: {
+        type: 'relative'
     },
-    selectedPiece:undefined,
-	closable:true,
-	minimizable : false,
-	resizable : false,
-    positionValidator:undefined,
+    selectedPiece: undefined,
+    closable: true,
+    minimizable: false,
+    resizable: false,
+    positionValidator: undefined,
 
-    position:{
-        board:'',
-        color:'w',
-        castling:'KQkq',
-        enPassant:'-',
-        halfMoves:'0',
-        fullMoves:'0'
+    position: {
+        board: '',
+        color: 'w',
+        castling: 'KQkq',
+        enPassant: '-',
+        halfMoves: '0',
+        fullMoves: '0'
     },
 
-    __construct:function (config) {
+    __construct: function (config) {
         this.positionValidator = new chess.parser.PositionValidator();
 
         config.buttonBar = {
-            align:'left',
-            children:[
+            align: 'left',
+            children: [
                 {
-                    value:'OK',
-                    listeners:{
-                        click:this.sendPosition.bind(this)
+                    value: 'OK',
+                    listeners: {
+                        click: this.sendPosition.bind(this)
                     }
                 },
                 {
-                    weight:1
+                    weight: 1
                 },
                 {
-                    value:'Reset',
-                    listeners:{
-                        click:this.resetBoard.bind(this)
+                    value: 'Reset',
+                    listeners: {
+                        click: this.resetBoard.bind(this)
                     }
                 },
                 {
-                    value:'Clear board',
-                    listeners:{
-                        click:this.clearBoard.bind(this)
+                    value: 'Clear board',
+                    listeners: {
+                        click: this.clearBoard.bind(this)
                     }
                 },
                 {
-                    value:'Load fen',
-                    listeners:{
-                        click:this.showLoadFenDialog.bind(this)
+                    value: 'Load fen',
+                    listeners: {
+                        click: this.showLoadFenDialog.bind(this)
                     }
                 },
                 {
-                    value:'Flip',
-                    listeners:{
-                        click:this.flipBoard.bind(this)
+                    value: 'Flip',
+                    listeners: {
+                        click: this.flipBoard.bind(this)
                     }
                 },
                 {
-                    value:'Cancel',
-                    listeners:{
-                        click:this.hide.bind(this)
+                    value: 'Cancel',
+                    listeners: {
+                        click: this.hide.bind(this)
                     }
                 }
             ]
@@ -33490,177 +33827,195 @@ chess.view.position.Dialog = new Class({
     },
 
 
-    __rendered:function () {
+    __rendered: function () {
         this.parent();
 
         this.board = this.addChild({
-            type:'chess.view.position.Board',
-            id:'boardContainer',
-            autoResize : false,
-            layout:{
-                alignParentLeft:true,
-                alignParentTop:true,
-                width:380,
-                height:380
+            type: 'chess.view.position.Board',
+            id: 'boardContainer',
+            autoResize: false,
+            layout: {
+                alignParentLeft: true,
+                alignParentTop: true,
+                width: 380,
+                height: 380
             },
-            elCss:{
-                margin:3
+            elCss: {
+                margin: 3
             },
-            listeners:{
-                setPosition:this.receivePosition.bind(this)
+            listeners: {
+                setPosition: this.receivePosition.bind(this)
             }
         });
 
         this.pieces = {};
         this.pieces.white = this.addChild({
-            type:'chess.view.position.Pieces',
-            layout:{
-                height:430,
-                width:55,
-                type:'linear',
-                orientation:'vertical',
-                alignParentTop:true,
-                fillDown:true,
-                rightOf:'boardContainer'
+            type: 'chess.view.position.Pieces',
+            layout: {
+                height: 470,
+                width: 55,
+                type: 'linear',
+                orientation: 'vertical',
+                alignParentTop: true,
+                fillDown: true,
+                rightOf: 'boardContainer'
             },
-            pieceColor:'white',
-            listeners:{
-                selectpiece:this.selectPiece.bind(this)
+            pieceColor: 'white',
+            listeners: {
+                selectpiece: this.selectPiece.bind(this)
             }
         });
         this.pieces.black = this.addChild({
-            type:'chess.view.position.Pieces',
-            id:'blackPieces',
-            width:55,
-            pieceColor:'black',
-            listeners:{
-                selectpiece:this.selectPiece.bind(this)
+            type: 'chess.view.position.Pieces',
+            id: 'blackPieces',
+            width: 55,
+            pieceColor: 'black',
+            listeners: {
+                selectpiece: this.selectPiece.bind(this)
             },
-            layout:{
-                height:400,
-                rightOf : this.pieces.white,
-                type:'linear',
-                orientation:'vertical'
+            layout: {
+                height: 400,
+                rightOf: this.pieces.white,
+                type: 'linear',
+                orientation: 'vertical'
             }
         });
 
 
         this.castling = this.addChild({
-            type:'chess.view.position.Castling',
-            listeners:{
-                change:this.receiveCastling.bind(this)
+            type: 'chess.view.position.Castling',
+            listeners: {
+                change: this.receiveCastling.bind(this)
             },
-            layout:{
-                type:'linear',
-                orientation:'vertical',
-                rightOf:'blackPieces',
-                width:130,
-                alignParentTop:true,
-                height:125
+            layout: {
+                rightOf: 'blackPieces',
+                width: 130,
+                alignParentTop: true,
+                height: 145
             }
         });
 
         this.sideToMove = this.addChild({
-            type:'chess.view.position.SideToMove',
-            listeners:{
-                change:this.receiveColor.bind(this)
+            type: 'chess.view.position.SideToMove',
+            listeners: {
+                change: this.receiveColor.bind(this)
             },
-            layout:{
-                sameWidthAs:this.castling,
-                height:80,
-                below:this.castling,
-                alignLeft:this.castling
+            layout: {
+                sameWidthAs: this.castling,
+                height: 100,
+                below: this.castling,
+                alignLeft: this.castling
             }
         });
 
         this.moveNumber = this.addChild({
-            label:chess.getPhrase('Move number'),
-            width:150,
-            type:'form.Number',
-            minValue:1,
-            maxValue:500,
-            required:true,
-            value:'1',
-            fieldWidth:35,
-            listeners:{
-                change:this.receiveFullMoves.bind(this)
-            },
-            layout:{
-                below:this.sideToMove,
-                sameWidthAs:this.sideToMove,
-                alignLeft:this.sideToMove,
-                height:25
+            children: [
+                {
+
+                    type: 'form.Label', labelFor: 'moveNumber',
+                    label: chess.getPhrase('Move number'),
+                },
+                {
+                    id:'positionMoveNumber',
+                    name: 'moveNumber',
+                    type: 'form.Number',
+                    minValue: 1,
+                    maxValue: 500,
+                    required: true,
+                    value: '1',
+                    listeners: {
+                        change: this.receiveFullMoves.bind(this)
+                    }
+                }
+            ],
+            layout: {
+                type: 'table',
+                columns: [{weight: 1}, {width: 40}],
+                below: this.sideToMove,
+                sameWidthAs: this.sideToMove,
+                alignLeft: this.sideToMove,
+                height: 25
             }
         });
         this.enPassant = this.addChild({
-            label:chess.getPhrase('En passant'),
-            type:'form.Text',
-            width:100,
-            fieldWidth:35,
-            maxLength:1,
-            required:false,
-            stretchField:false,
-            validateKeyStrokes:true,
-            regex:/[a-h]/g,
-            listeners:{
-                change:this.receiveEnPassant.bind(this)
-            },
-            layout:{
-                below:this.moveNumber,
-                sameWidthAs:this.moveNumber,
-                alignLeft:this.moveNumber,
-                height:25
+            children:[
+                {
+                    type: 'form.Label', labelFor: 'enPassant',
+                    label: chess.getPhrase('En passant'),
+                },
+                {
+                    id:'positionEnPassant',
+                    type: 'form.Text',
+                    name:'enPassant',
+                    maxLength: 1,
+                    required: false,
+                    stretchField: false,
+                    validateKeyStrokes: true,
+                    regex: /[a-h]/g,
+                    listeners: {
+                        change: this.receiveEnPassant.bind(this)
+                    }
+                }
+            ],
+
+            layout: {
+                type: 'table',
+                columns: [{weight: 1}, {width: 40}],
+                below: this.moveNumber,
+                sameWidthAs: this.moveNumber,
+                alignLeft: this.moveNumber,
+                height: 25
             }
         });
 
     },
-    receiveCastling:function (castling) {
+    receiveCastling: function (castling) {
         this.updatePosition('castling', castling);
     },
-    receiveColor:function (color) {
+    receiveColor: function (color) {
         this.updatePosition('color', color);
     },
-    receiveEnPassant:function (enPassant) {
+    receiveEnPassant: function (enPassant) {
         enPassant = enPassant || '-';
         this.updatePosition('enPassant', enPassant);
     },
 
-    receiveFullMoves:function (fullMoves) {
+    receiveFullMoves: function (fullMoves) {
         fullMoves = fullMoves || '0';
         this.updatePosition('fullMoves', fullMoves);
     },
 
-    receivePosition:function (fen) {
+    receivePosition: function (fen) {
         this.updatePosition('board', fen);
         this.position.board = fen;
     },
 
-    updatePosition : function(key, value){
+    updatePosition: function (key, value) {
         this.position[key] = value;
         var button = this.getButton('ok');
-        if(this.positionValidator.isValid(this.getPosition())){
+        if (this.positionValidator.isValid(this.getPosition())) {
             button.enable();
-        }else{
+        } else {
             button.disable();
         }
     },
 
-    getPosition:function () {
+    getPosition: function () {
         var obj = this.position;
         return obj.board + ' ' + obj.color + ' ' + obj.castling + ' ' + obj.enPassant + ' ' + obj.halfMoves + ' ' + obj.fullMoves;
     },
 
-    clearBoard:function () {
+    clearBoard: function () {
         this.board.clearBoard();
     },
-    resetBoard:function () {
+    resetBoard: function () {
         this.board.resetBoard();
         this.castling.resetOptions();
         this.sideToMove.resetOptions();
-        this.moveNumber.setValue('0');
-        this.enPassant.setValue('');
+        ludo.$('positionMoveNumber').val('0');
+        ludo.$('positionEnPassant').val('');
     },
-    sendPosition:function () {
+    sendPosition: function () {
         /**
          * @event setPosition
          * @param String FEN position
@@ -33668,10 +34023,10 @@ chess.view.position.Dialog = new Class({
         this.fireEvent('setPosition', this.getPosition());
         this.hide();
     },
-    flipBoard:function () {
+    flipBoard: function () {
         this.board.flip();
     },
-    selectPiece:function (obj) {
+    selectPiece: function (obj) {
         this.pieces.white.clearSelections();
         this.pieces.black.clearSelections();
         if (this.selectedPiece && this.selectedPiece.pieceType == obj.pieceType && this.selectedPiece.color == obj.color) {
@@ -33684,44 +34039,44 @@ chess.view.position.Dialog = new Class({
         }
 
     },
-    showLoadFenDialog:function () {
+    showLoadFenDialog: function () {
         new ludo.dialog.Prompt({
-            width:400,
-            height:130,
-            html:chess.getPhrase('Paste fen into the text box below'),
-            inputConfig:{
-                stretchField:true
+            width: 400,
+            height: 130,
+            html: chess.getPhrase('Paste fen into the text box below'),
+            inputConfig: {
+                stretchField: true
             },
-            modal:true,
-            label:chess.getPhrase('FEN'),
-            title:chess.getPhrase('Load fen'),
-            listeners:{
-                'ok':this.loadFen.bind(this)
+            modal: true,
+            label: chess.getPhrase('FEN'),
+            title: chess.getPhrase('Load fen'),
+            listeners: {
+                'ok': this.loadFen.bind(this)
             }
         });
     },
 
-    loadFen:function (fen) {
+    loadFen: function (fen) {
         if (this.isValidFen(fen)) {
             this.positionValidator.setFen(fen);
 
             this.sideToMove.setColor(this.positionValidator.getColor());
-            this.castling.setValue(this.positionValidator.getCastle());
-            this.moveNumber.setValue(this.positionValidator.getFullMoves());
-            this.enPassant.setValue(this.positionValidator.getEnPassantSquare());
+            this.castling.val(this.positionValidator.getCastle());
+            ludo.$('positionMoveNumber').val(this.positionValidator.getFullMoves());
+            ludo.$('positionEnPassant').val(this.positionValidator.getEnPassantSquare());
             this.board.showFen(fen);
         }
     },
 
-    isValidFen:function () {
+    isValidFen: function () {
         return true;
     },
 
-    show:function(){
+    show: function () {
         this.parent();
-        if(this.controller){
+        if (this.controller) {
             var model = this.controller.getCurrentModel();
-            if(model){
+            if (model) {
                 this.loadFen(model.getCurrentPosition());
             }
         }
@@ -33729,8 +34084,8 @@ chess.view.position.Dialog = new Class({
     }
 });
 
-chess.view.position.Dialog.getDialog = function(config) {
-    if(!chess.view.position.Dialog.dialogObject){
+chess.view.position.Dialog.getDialog = function (config) {
+    if (!chess.view.position.Dialog.dialogObject) {
         chess.view.position.Dialog.dialogObject = new chess.view.position.Dialog(config);
     }
     return chess.view.position.Dialog.dialogObject;
@@ -33742,91 +34097,128 @@ chess.view.position.Dialog.getDialog = function(config) {
  * @extends Panel
  */
 chess.view.position.Castling = new Class({
-    Extends:ludo.Panel,
-    height:125,
-    title:chess.getPhrase('Castling'),
-    values : {
-        'K' : 'K',
-        'Q' : 'Q',
-        'k' : 'k',
-        'q' : 'q'
+    Extends: ludo.FramedView,
+    height: 125,
+    title: chess.getPhrase('Castling'),
+    values: {
+        'K': 'K',
+        'Q': 'Q',
+        'k': 'k',
+        'q': 'q'
     },
+    layout: {
+        type: 'table',
+        height: 125,
+        columns: [
+            {width: 30 }, {weight: 1}
+        ],
+        simple: true
+    },
+    value: 'KQkq',
+    checkboxes: [],
 
-    value : 'KQkq',
-    checkboxes : [],
-
-    __rendered:function () {
-        this.parent();
+    __children: function () {
         var options = [
             {
-                name:'K',
-                value : 'K',
-                checked:true,
-                label:'White O-O'
+                name: 'K',
+                value: 'K',
+                type: 'form.Checkbox',
+                checked: true,
+                label: 'White O-O'
             },
             {
-                name:'Q',
-                value : 'Q',
-                checked:true,
-                label:'White O-O-O'
+                type: 'form.Label', labelFor: 'K', label: 'White O-O'
             },
             {
-                name:'k',
-                value : 'k',
-                checked:true,
-                label:'Black O-O'
+                name: 'Q',
+                value: 'Q',
+                checked: true,
+                type: 'form.Checkbox',
+                label: 'White O-O-O'
             },
             {
-                name:'q',
-                value : 'q',
-                checked:true,
-                label:'Black O-O-O'
+                type: 'form.Label', labelFor: 'q', label: 'White O-O-O'
+            },
+            {
+                name: 'k',
+                value: 'k',
+                checked: true,
+                type: 'form.Checkbox',
+                label: 'Black O-O'
+            },
+            {
+                type: 'form.Label', labelFor: 'k', label: 'Black O-O'
+            },
+            {
+                name: 'q',
+                value: 'q',
+                checked: true,
+                type: 'form.Checkbox',
+                label: 'Black O-O-O'
+            },
+            {
+                type: 'form.Label', labelFor: 'q', label: 'Black O-O-O'
             }
 
         ];
 
-        for(var i=0;i<options.length;i++){
+        for (var i = 0; i < options.length; i++) {
             var obj = options[i];
             obj.height = 25;
-            obj.type = 'form.Checkbox';
-            obj.listeners = {
-                change : this.receiveInput.bind(this)
-            };
-            this.checkboxes[i] = this.addChild(obj);
+
+            if (obj.type == 'form.Checkbox') {
+                obj.listeners = {
+                    change: this.receiveInput.bind(this)
+                };
+            }
+
         }
+
+        return options;
+
     },
 
-    resetOptions: function() {
-        for(var i=0;i<this.checkboxes.length;i++){
+
+    __rendered: function () {
+        this.parent();
+        this.checkboxes = [];
+        jQuery.each(this.children, function (i, c) {
+            if (c.type == 'form.Checkbox')this.checkboxes.push(c);
+        }.bind(this))
+
+    },
+
+    resetOptions: function () {
+        for (var i = 0; i < this.checkboxes.length; i++) {
             this.checkboxes[i].check();
         }
     },
     /**
      * Set castle value, example value: 'qKQ'
-	 * @method setValue
+     * @method setValue
      * @param {String} castle
      * @return undefined
      */
-    setValue:function(castle){
-        for(var i=0;i<this.checkboxes.length;i++)this.checkboxes[i].setChecked(false);
-        for(i=0;i<castle.length;i++){
-            var key = castle.substr(i,1);
-            if(this.child[key])this.child[key].check();
+    setValue: function (castle) {
+        for (var i = 0; i < this.checkboxes.length; i++)this.checkboxes[i].setChecked(false);
+        for (i = 0; i < castle.length; i++) {
+            var key = castle.substr(i, 1);
+            if (this.child[key])this.child[key].check();
         }
     },
 
-    getValue : function() {
-        var keys = ['K','Q','k','q'];
+    val: function () {
+        var keys = ['K', 'Q', 'k', 'q'];
         var ret = '';
-        for(var i=0;i<keys.length;i++){
+        for (var i = 0; i < keys.length; i++) {
             ret = ret + this.values[keys[i]];
         }
-        if(ret.length==0)ret = '-';
+        if (ret.length == 0)ret = '-';
         return ret;
     },
-    receiveInput : function(value, obj){
+    receiveInput: function (value, obj) {
         this.values[obj.getName()] = value;
-        this.fireEvent('change', this.getValue());
+        this.fireEvent('change', value);
     }
 });/* ../dhtml-chess/src/view/position/side-to-move.js */
 /**
@@ -33836,35 +34228,50 @@ chess.view.position.Castling = new Class({
  * @extends Panel
  */
 chess.view.position.SideToMove = new Class({
-    Extends:ludo.Panel,
+    Extends:ludo.FramedView,
     height:80,
     title:chess.getPhrase('Side to move'),
+    layout:{
+        type:'table',
+        columns:[{width:30},{weight:1}],
+        simple:true
+    },
 
-    __rendered:function () {
-        this.parent();
+    __children:function () {
+
         var options = [
             {
                 name:'color',
                 checked:true,
-                label:chess.getPhrase('White'),
+                type:'form.Radio',
+                placeholder:chess.getPhrase('White'),
                 value : 'w'
+            },
+            {
+                type:'form.Label',
+                label:chess.getPhrase('White')
             },
             {
                 name:'color',
                 value : 'b',
+                type:'form.Radio',
+                placeholder:chess.getPhrase('Black')
+            },
+            {
+                type:'form.Label',
                 label:chess.getPhrase('Black')
             }
         ];
 
-        for (var i = 0; i < options.length; i++) {
-            var obj = options[i];
-            obj.height = 25;
-            obj.type = 'form.Radio';
-            obj.listeners = {
-                change : this.receiveInput.bind(this)
-            };
-            this.addChild(obj);
-        }
+        jQuery.each(options, function(i, opt){
+            opt.height= 25;
+            if(opt.type == 'form.Radio'){
+                opt.listeners = {
+                    change : this.receiveInput.bind(this)
+                };
+            }
+        }.bind(this));
+        return options;
     },
 
     receiveInput : function(value){
@@ -33967,6 +34374,7 @@ chess.view.pgn.Grid = new Class({
          * @event selectPgn
          * @param {Object} game
          */
+
         this.fireEvent('selectPgn', record.file);
     }
 });/* ../dhtml-chess/src/view/score/bar.js */
@@ -34100,7 +34508,7 @@ chess.view.score.BarBackground = new Class({
 
         var s = this.scoreArea();
 
-        var fill = colorUtil.offsetBrightness(this.whiteColor, -(this.range * 10));
+        var fill = colorUtil.offsetBrightness(this.whiteColor, -(this.range * 15));
         var score = this.range;
         var x = this.scoreAreaStart();
 
@@ -34109,12 +34517,13 @@ chess.view.score.BarBackground = new Class({
         for (var i = 0; i < this.range * 2; i++) {
 
             if (i == this.range) {
-                fill = colorUtil.offsetBrightness(this.blackColor, (this.range * 10) + 10);
+                fill = colorUtil.offsetBrightness(this.blackColor, (this.range * 10));
                 textFill = this.whiteColor;
             }
 
             var index = i % this.range;
             var fillOpacity = i >= this.range ? this.range - 1 - index : index;
+            fillOpacity = (fillOpacity / this.range) / (this.range / 3);
 
             var g = this.$('g');
             this.append(g);
@@ -34122,7 +34531,7 @@ chess.view.score.BarBackground = new Class({
             var h = (this.height / 2) - (this.height * i / 24);
 
             var r = this.$('rect', {x: 0, y: 0, height: h, width: s / (this.range * 2)});
-            r.css('fill-opacity', (fillOpacity / this.range) * 1);
+            r.css('fill-opacity', fillOpacity);
             r.css('fill', fill);
 
             g.append(r);
@@ -34482,10 +34891,14 @@ Board0x88Config = {
     typeToNumberMapping:{
         'pawn':0x01,
         'knight':0x02,
+        'N':0x02,
         'king':0x03,
         'bishop':0x05,
+        'B':0x05,
         'rook':0x06,
-        'queen':0x07
+        'R':0x06,
+        'queen':0x07,
+        'Q':0x07
     },
 
     colorMapping:{
@@ -34852,6 +35265,19 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	/**
+	 * Returns rank 0-7 where 0 is first rank and 7 is last rank
+	 * @function rank
+	 * @param {Number|String} square
+	 * @returns {number}
+     */
+	rank:function(square){
+		if(square.substr != undefined){
+			square = Board0x88Config.mapping[square];
+		}
+		return (square & 240) / 16;
+	},
+
+	/**
 	 * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
 	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
 	 @method isOnSameFile
@@ -34877,7 +35303,7 @@ chess.parser.FenParser0x88 = new Class({
 		this.secondParser.setFen(fen);
 		this.secondParser.move(move);
 
-		var notation = this.secondParser.getNotation();
+		var notation = this.secondParser.notation;
 
 		return notation.indexOf('#')>0 ? notation:undefined;
 
@@ -34887,13 +35313,32 @@ chess.parser.FenParser0x88 = new Class({
 		var obj = this.getValidMovesAndResult();
 		var moves = obj.moves;
 		var ret = [];
+		var promoteTo = ['R','N', 'B', 'Q'];
 		jQuery.each(moves, function(from, toSquares){
 			var fs = Board0x88Config.numberToSquareMapping[from];
 			jQuery.each(toSquares, function(i, toSquare){
-				ret.push({
-					from: fs,
-					to: Board0x88Config.numberToSquareMapping[toSquare]
-				})
+				var addPromotion = false;
+				var rank = this.rank(toSquare);
+				if(rank == 0 || rank == 7){
+					var p = this.getPieceOnSquare(from);
+					if(p.type == 'pawn')addPromotion = true;
+				}
+				var ts = Board0x88Config.numberToSquareMapping[toSquare];
+				if(addPromotion){
+					jQuery.each(promoteTo, function(i, promote){
+						ret.push({
+							from: fs,
+							to: ts,
+							promoteTo:promote
+						})
+					});
+				}else{
+					ret.push({
+						from: fs,
+						to: ts
+					})
+				}
+
 			}.bind(this))
 
 		}.bind(this));
@@ -34902,10 +35347,24 @@ chess.parser.FenParser0x88 = new Class({
 	},
 	
 	getAllCheckmateMoves:function(){
+		var fen = this.getFen();
+		var moves = this.getAllMovesReadable();
+		var ret = [];
+		jQuery.each(moves, function(i, m){
+			var notation = this.getNotationForAMove(m);
+
+			if(this.isCheckmate(fen, m)){
+				ret.push(notation + '#');
+			}
+		}.bind(this));
+		return ret;
+
+		/*
+
 		var obj = this.getValidMovesAndResult();
 		var moves = obj.moves;
 		var fen = this.getFen();
-
+		var promoteTo = ['R','N', 'B', 'Q'];
 
 
 		var ret = [];
@@ -34913,6 +35372,14 @@ chess.parser.FenParser0x88 = new Class({
 			var fs = Board0x88Config.numberToSquareMapping[from];
 
 			jQuery.each(toSquares, function(i, toSquare){
+
+				var addPromotion = false;
+				var rank = this.rank(toSquare);
+				if(rank == 0 || rank == 7){
+					var p = this.getPieceOnSquare(from);
+					if(p.type == 'pawn')addPromotion = true;
+				}
+
 				var m = {
 					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
 				};
@@ -34924,6 +35391,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		}.bind(this));
 		return ret;
+		*/
 
 	},
 
@@ -35986,6 +36454,7 @@ chess.parser.FenParser0x88 = new Class({
         );
 
 		var config = this.getValidMovesAndResult();
+
 		if (config.result === 1 || config.result === -1) {
 			this.notation += '#';
 			this.longNotation += '#';
@@ -36251,6 +36720,10 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {String} long notation
 	 */
 	getLongNotationForAMove:function (move, shortNotation) {
+		if(!shortNotation){
+			console.trace();
+			console.log(move);
+		}
 		if (shortNotation.indexOf('O-') >= 0) {
 			return shortNotation;
 		}
@@ -36297,7 +36770,8 @@ chess.parser.FenParser0x88 = new Class({
 				}
 				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
 				if (move.promoteTo) {
-					ret += '=' + chess.language.pieces[move.promoteTo];
+					var pr = chess.language.pieces[move.promoteTo] != undefined ? chess.language.pieces[move.promoteTo] : move.promoteTo;
+					ret += '=' + pr;
 				}
 				break;
 			case 0x02:
@@ -37323,8 +37797,9 @@ chess.controller.AnalysisController = new Class({
 	},
 
 	modelEventFired:function (event, model, param) {
+
 		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			this.views.board.enableDragAndDrop(model);
+			if(this.views.board)this.views.board.enableDragAndDrop(model);
 		}
 	}
 
@@ -37370,6 +37845,8 @@ chess.model.Game = new Class({
     countGames:-1,
 
     INCLUDE_COMMENT_MOVES:true,
+    
+    startFen:undefined,
 
     state:{
         autoplay:false
@@ -37397,7 +37874,6 @@ chess.model.Game = new Class({
 
         if (config.id || config.pgn) {
             if (config.pgn) {
-                console.trace();
                 this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
             } else {
                 this.loadGame.delay(20, this, config.id);
@@ -37547,12 +38023,14 @@ chess.model.Game = new Class({
     populate:function (gameData) {
 
 
-        this.fire('loadGame', gameData);
+        // this.fire('loadGame', gameData); 
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
+        this.startFen = this.model.metadata.fen;
+
         this.model.result = this.getResult();
         this.model.moves = gameData.moves || [];
         this.model.metadata = gameData.metadata || {};
@@ -37564,6 +38042,7 @@ chess.model.Game = new Class({
             this.countGames = gameData.games['c'];
             this.gameIndex = gameData.games['i'];
         }
+        this.fire('loadGame', gameData);
         this.fire('newGame');
         this.toStart();
     },
@@ -39148,7 +39627,19 @@ chess.dataSource.FolderTree = new Class({
     resource : 'Folders',
     service : 'read',
     autoload:true,
-	primaryKey:['id','type']
+	primaryKey:['id','type'],
+
+    postData:{
+        resource : 'Folders',
+        service : 'read'
+    },
+
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
+        console.log(this.url);
+
+    }
 });/* ../dhtml-chess/src/datasource/game-list.js */
 /**
  * Data source for list of games. An object of this class is automatically created
@@ -39163,7 +39654,15 @@ chess.dataSource.GameList = new Class({
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
-	resource:'Database'
+	resource:'Database',
+    postData:{
+        resource:'Database'
+    },
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
+
+    }
 });/* ../dhtml-chess/src/datasource/pgn-games.js */
 /**
  * Data source for list of games in a static pgn file. An object of this class is automatically created
@@ -39183,7 +39682,8 @@ chess.dataSource.PgnGames = new Class({
     "primaryKey":"index",
     postData:{
         "resource": "ChessFS",
-        "service": "listOfGames"
+        "service": "listOfGames",
+        "arguments":undefined
     },
     getCurrentPgn:function(){
         return this.postData.arguments;
@@ -39191,6 +39691,7 @@ chess.dataSource.PgnGames = new Class({
 
     __construct:function(config){
         this.url = ludo.config.getUrl();
+        if(config.pgn != undefined)this.postData.arguments= config.pgn;
         this.parent(config);
     },
 
@@ -39231,8 +39732,12 @@ chess.dataSource.PgnGames = new Class({
      i.e. name of pgn file without the file extension.
      */
     loadFile:function(file){
-        console.log(file);
+        this.postData.arguments = file;
         this.sendRequest(this.service, file);
+    },
+
+    getPgnFileName:function(){
+        return this.postData.arguments;
     }
 });/* ../dhtml-chess/src/datasource/pgn-list.js */
 /**
@@ -39248,8 +39753,10 @@ chess.dataSource.PgnList = new Class({
     type : 'chess.dataSource.PgnList',
     autoload:true,
     singleton: true,
-    resource:'ChessFSPgn',
-    service:'read'
+    postData:{
+        resource:'ChessFSPgn',
+        service:'read'
+    }
 });/* ../dhtml-chess/src/pgn/parser.js */
 /**
  Model to PGN parser. Takes a

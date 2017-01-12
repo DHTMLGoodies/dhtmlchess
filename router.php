@@ -1,8 +1,9 @@
 <?php
 
+date_default_timezone_set("Europe/Berlin");
+
 require_once(dirname(__FILE__)."/autoload.php");
 require_once("php/jsonwrapper/jsonwrapper.php");
-date_default_timezone_set("Europe/Berlin");
 
 if(file_exists("connection.php")){
     require("connection.php");
@@ -20,8 +21,11 @@ $request = isset($_GET['request']) ? $_GET['request'] : isset($_POST["request"])
 $requestData = isset($_POST['data']) ? $_POST['data'] : null;
 
 if(!isset($request) && isset($_POST["resource"])){
-    $request = $_POST["resource"] . "/" . $_POST["arguments"] . "/" . $_POST["service"];
-
+    $request = $_POST["resource"];
+    if(isset($_POST["arguments"])){
+        $request.="/".$_POST["arguments"];
+    }
+    $request.="/" . $_POST["service"];
 }
 
 

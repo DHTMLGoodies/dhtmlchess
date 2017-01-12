@@ -21,10 +21,11 @@ chess.view.command.Line = new Class({
      * @private
      */
 	validateKey:function(e){
-		if(e.key === 'enter'){
-			this.value = this.els.formEl.value;
+
+		if(e.keyCode == 13){
+			this.value = this.val();
 			this.send();
-			this.setValue('');
+			this.val('');
 			return false;
 		}
         return undefined;
@@ -40,6 +41,6 @@ chess.view.command.Line = new Class({
          * @event sendMessage
          * @param {String} value of command line input
          */
-		this.fireEvent('sendMessage', this.getValue());
+		this.fireEvent('sendMessage', this.val());
 	}
 });

@@ -98,12 +98,12 @@
                     height:60
                 },
                 borderRadius:5,
-                blackColor:'#3E2723',
+                blackColor:'#444444',
                 whiteColor:'#EEEEEE',
                 markerColor:'#B71C1C',
                 markerTextColor:'#FFF',
                 stroke:'#222222',
-                range:5
+                range:3
             },
             {
                 id:'board',
@@ -154,7 +154,7 @@
     var myColor = 'white';
 
     var controller = new chess.controller.GarboChessController({
-        garboChess:'../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
+        garboChess:'../garbochess/js/garbochess.js',    // Path to garbochess.js, relative to this file
         myColor:myColor,    // Human color
         listeners:{
             'start': onNewGame,
@@ -162,7 +162,7 @@
             'gameover':onGameOver  // Function to call when game is over
 
         },
-        'thinkingTime' : 3000 // Time in 1/1000 seconds
+        'thinkingTime' : 3000 // Computers pondering time in 1/1000 seconds
     });
 
     function onNewGame(myColor){

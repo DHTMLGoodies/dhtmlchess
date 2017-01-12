@@ -2108,11 +2108,19 @@ div.chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
+.notation-chess-move{
+    display:inline-block;
+    padding:2px;
+}
 .ludo-twilight .notation-chess-move {
     color: #aeb0b0;
     display:inline-block;
     padding:2px;
 
+}
+
+span.notation-chess-move-highlighted{
+    border-radius: 3px;
 }
 
 .ludo-twilight span.notation-chess-move-highlighted {
@@ -2125,7 +2133,6 @@ div.chess-notation-panel .ludo-body {
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
-    background-color: #FFF;
     padding: 2px;
     border:1px solid #000;
     cursor:default;
@@ -2972,7 +2979,7 @@ tab layout */
 }
 
 .ludo-blue .ludo-layout-tab {
-    background-color: #FFF;
+
 }
 
 .ludo-blue .ludo-tab-close-left{
@@ -2997,20 +3004,20 @@ tab layout */
 
 
 .ludo-blue .ludo-tab-expand-box-top{
-    background-image:url(../images/blue-skin/tabs-expand-top.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-top.png);
 }
 
 .ludo-blue .ludo-tab-expand-box-top-over{
-    background-image:url(../images/blue-skin/tabs-expand-top-over.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-top-over.png);
 }
 
 
 .ludo-blue .ludo-tab-expand-box-bottom{
-    background-image:url(../images/blue-skin/tabs-expand-bottom.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-bottom.png);
 }
 
 .ludo-blue .ludo-tab-expand-box-bottom-over{
-    background-image:url(../images/blue-skin/tabs-expand-bottom-over.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-bottom-over.png);
 }
 
 

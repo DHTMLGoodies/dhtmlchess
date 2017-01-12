@@ -34,6 +34,9 @@
     <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
+    <script type="text/javascript" src="../src/view/gamelist/grid.js"></script>
+    <script type="text/javascript" src="../src/view/pgn/grid.js"></script>
+    <script type="text/javascript" src="../src/datasource/pgn-list.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
@@ -45,10 +48,26 @@
             font-family: arial !important;
         }
 
+        .ludo-blue .notation-chess-move {
+            color: #354150;
+            font-size:14px;
+            line-height:150%;
+            display:inline-block;
+            padding:2px;
+        }
 
+        .ludo-blue span.notation-chess-move-highlighted {
+            background-color: #354150;
+            color: #FFF;
+            border-radius:2px;
+        }
+
+
+        .ludo-blue .ludo-grid-header-cell{
+            background-color:#d7d7d7;
+        }
         .ludo-chess-board-container {
-            border: 1px solid #C0C0C0;
-            background-color: #f5f5f5;
+            border: 0;
         }
 
         .ludo-chess-board {
@@ -77,7 +96,7 @@
         }
     </style>
 </head>
-<body>
+<body class="ludo-blue">
 <script type="text/javascript">
 
     ludo.config.setUrl('../router.php');
@@ -159,8 +178,10 @@
                     {
                         type:'chess.view.metadata.FenField',
                         height:27,
+                        tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">',
+                        elCss:{
 
-                        tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                        }
                     },
                     {
                         weight:1,
@@ -169,7 +190,7 @@
                             'margin-top' : 3
                         },
                         elCss:{
-                            'border-top':'1px solid #C0C0C0'
+                            'border-top':'1px solid ' + ludo.$C('border')
 
                         },
                         children:[
@@ -187,7 +208,7 @@
                                         id:"searchField",
                                         labelWidth:90,
                                         elCss:{
-                                            'border-bottom':'1px solid #C6c8c6'
+                                            'border-bottom':'1px solid ' + ludo.$C('border')
                                         },
                                         listeners:{
                                             key:function (value) {
@@ -202,13 +223,12 @@
                                         },
                                         type:'chess.view.gamelist.Grid',
                                         css:{
-                                            'background-color':'#FFF',
                                             'overflow-y':'auto'
                                         },
                                         dataSource:{
                                             id:'gameList',
                                             "type":'chess.dataSource.PgnGames',
-                                            "arguments":"Morphy",
+                                            "pgn":"Morphy",
                                             "listeners":{
                                                 "beforeload":function () {
                                                     ludo.get("searchField").reset();
@@ -230,7 +250,7 @@
                                             orientation:'horizontal'
                                         },
                                         elCss:{
-                                            'border-top' : '1px solid #c6c6c6'
+                                            'border-top' : '1px solid ' + ludo.$C('border')
                                         },
                                         css:{
                                             'padding-top' : 2

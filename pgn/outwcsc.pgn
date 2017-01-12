@@ -1,0 +1,7310 @@
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bq4/1p4kp/3p1n2/5pB1/p1pQ4/8/1P4PP/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "1"]
+
+
+1. Re8  Qxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rk1/ppp1qn1p/3pB1pr/3Pp3/2P1Pn2/PPB5/1Q4RP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "4"]
+
+
+1. Rxf4  g5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/4R3/p1pp4/3p1bQ1/3q1P2/7P/P2B2P1/7K w - - 0 1"]
+[plycount "2"]
+[index "5"]
+
+
+1. Qh4+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn3b1r/pQpk2p1/2qnppB1/8/6PP/2N1B3/PPP2P2/2KR3R w - - 0 1"]
+[plycount "2"]
+[index "7"]
+
+
+1. Be4  Qxb7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2rr2k1/1pbb1ppp/4p3/pP1nN3/P7/1B2P3/1B2KPPP/2R4R w - - 0 1"]
+[plycount "2"]
+[index "8"]
+
+
+1. Nxd7  Rxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3q2kr/1p3pnp/p5rQ/3N1p2/3P4/6R1/PP3P1P/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "11"]
+
+
+1. Ne7+  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3q1r1k/2r3np/p1p1P1b1/Pp1p1pN1/1P1Q1P2/3B3R/7P/6RK w - - 0 1"]
+[plycount "2"]
+[index "14"]
+
+
+1. Nf7+  Rfxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/pp1b2p1/2p4n/2Qp1p1R/3P4/3BP3/PP2NPq1/1K5R w - - 0 1"]
+[plycount "2"]
+[index "15"]
+
+
+1. Rxh6  gxh6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn3R2/pp4p1/2p3k1/8/8/2P1B3/PPP3PP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "16"]
+
+
+1. Bf4  b5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1r3k1/3R1p1p/p3p1qp/1p6/3R4/P1P3P1/1P3Q1P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "18"]
+
+
+1. Rg4  Rf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/1p2r1kp/q1pRbpp1/2Pn4/r7/P3P1P1/1Q1N1PBP/1R4K1 w - - 0 1"]
+[plycount "2"]
+[index "19"]
+
+
+1. Bxd5  cxd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/pp1R2pp/2p5/4P3/1bP2P1P/1P2pPq1/P1Q1P3/5K1R w - - 0 1"]
+[plycount "2"]
+[index "20"]
+
+
+1. Rxg7+  Qxg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r3/5qpk/ppR2B1p/3p3P/n2P4/P2P2Q1/5PP1/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "21"]
+
+
+1. Bxg7  Qxg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2n1r2k/ppp3pp/2n3q1/3Q2N1/3P1p2/2P4P/PP3PP1/R4NK1 w - - 0 1"]
+[plycount "2"]
+[index "22"]
+
+
+1. Nf7+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2kr1r2/p6p/5Pp1/2p5/1qp2Q1P/7R/PP6/1KR5 w - - 0 1"]
+[plycount "2"]
+[index "29"]
+
+
+1. Rb3  Qb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2qkbnr/ppp1pppp/8/3Pn3/6b1/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 1"]
+[plycount "2"]
+[index "30"]
+
+
+1. Nxe5  Bxd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/1bpk2b1/1p2p3/1qn3N1/1p1pPP2/3P3B/1PPKQ2R/r2N4 w - - 0 1"]
+[plycount "2"]
+[index "31"]
+
+
+1. Qh5  b3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2r1k2/pb2qp2/1n2p2p/1p3pN1/3p3P/1B1P2Q1/PPP3P1/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "34"]
+
+
+1. Nxe6+  fxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "Q1b3k1/pq3pp1/1pN1p2p/3n4/1P1PB2P/P7/5PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "35"]
+
+
+1. Ne7+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1r2/pb2bpkp/1p2pnp1/nP2Q3/6N1/P2B2N1/1BP2PPP/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "39"]
+
+
+1. Nh5+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1nb1rk2/p3q1pp/1n3p2/1p1p1N2/2pP1PQ1/1PP3P1/P5BP/R1B1rRK1 w - - 0 1"]
+[plycount "2"]
+[index "44"]
+
+
+1. Ba3  Bxf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1rk1/1bp2p2/1p1p1npp/3P4/PpP2P1B/3Q4/2B3PP/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "47"]
+
+
+1. Re6  Qd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r1k1/pp1Rbpnp/q1p1p1p1/4P3/1PP2QP1/P3B2P/4BP2/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "50"]
+
+
+1. Bc5  Rad8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q2k1/pp5p/4b1pQ/3Nn3/8/6PP/P5B1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "53"]
+
+
+1. Qe3  Qb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2qkbnr/pp2pppp/3p4/3Pn3/4P1b1/5N2/PP3PPP/RNBQKB1R w KQkq - 0 1"]
+[plycount "2"]
+[index "58"]
+
+
+1. Nxe5  dxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4rkr1/1p1Rn1pp/p3p2B/4Qp2/8/8/PPq2PPP/3R2K1 w - - 0 1"]
+[plycount "1"]
+[index "59"]
+
+
+1. Qf6#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6rk/1p4q1/p3p3/3b4/4p3/1P2B2P/P4PP1/2QR2K1 w - - 0 1"]
+[plycount "2"]
+[index "60"]
+
+
+1. Bd4  Kh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/6b1/1p1r3p/3q2pP/4Q3/8/4BPP1/1R4K1 w - - 0 1"]
+[plycount "2"]
+[index "63"]
+
+
+1. Bc4  Qxc4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r2rk/p4p1p/3p1Pp1/3R4/2p1B2Q/8/1q4PP/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "65"]
+
+
+1. Qxh7+  Kxh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6r1/R2b2qk/2p1p2p/1pPpPrp1/1P1Qp3/4P3/4N1PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "67"]
+
+
+1. Rxf5  exf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r1r4/1b3pk1/5qp1/pP1p3p/2pN3P/3nP1P1/PQR2PB1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "69"]
+
+
+1. Rxd3  Ra8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r2bqk1/2p1rpbn/3p3p/1p4n1/3PP2N/1BP1B2P/1P1N1R1K/3Q1R2 w - - 0 1"]
+[plycount "2"]
+[index "71"]
+
+
+1. Ng6  Nxe4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r3/1p4pk/2b2pq1/7p/3B1P2/7P/4RQP1/7K b - - 0 1"]
+[plycount "2"]
+[index "72"]
+
+
+1... Qxg2+ 2. Qxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/1p3k2/8/p2qp1QP/P1Bpb3/1P3r2/2P5/1K6 b - - 0 1"]
+[plycount "2"]
+[index "74"]
+
+
+1... Rxb3+ 2. Ka2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1rr3k1/p3ppbp/3pbnp1/7P/qP1BP1P1/5P2/1PPQ4/1NKR1B1R b - - 0 1"]
+[plycount "2"]
+[index "75"]
+
+
+1... Bh6 2. Bc3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/1bpq1ppp/p7/4P3/3bnP2/4B3/PPP1Q1PP/R4R1K b - - 0 1"]
+[plycount "2"]
+[index "76"]
+
+
+1... Ng3+ 2. Kg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b1r1k1/ppp2ppp/2n2n2/8/1bq5/1PN2NP1/P1QBPPBP/R3K2R b KQ - 0 1"]
+[plycount "2"]
+[index "82"]
+
+
+1... Rxe2+ 2. Kd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4rrk1/ppp2qpp/3b4/3p4/6b1/2P1B3/PP1Q1PPP/R3KN1R b KQ - 0 1"]
+[plycount "2"]
+[index "86"]
+
+
+1... d4 2. b4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/p1p1p1bp/2Q1p1p1/8/4r2P/3qN3/PP1PNPP1/R1B2K2 b - - 0 1"]
+[plycount "2"]
+[index "87"]
+
+
+1... Rxe3 2. Kg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/6p1/p7/3Pn3/5p2/4rBqP/P4RP1/5QK1 b - - 0 1"]
+[plycount "2"]
+[index "89"]
+
+
+1... Re1 2. Be2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2q3k1/pbR1bppp/4r3/1Q2p3/8/4P1P1/P4PPK/1BBR4 b - - 0 1"]
+[plycount "2"]
+[index "90"]
+
+
+1... Rh6+ 2. Kg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/pp2q3/2p2n2/4pr1p/1P1B2pQ/P2R2P1/5r1P/4R1K1 b - - 0 1"]
+[plycount "2"]
+[index "91"]
+
+
+1... exd4 2. Rdd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/b4pp1/q1pp1nr1/1p5p/1P1BP2P/3P1P2/4N1PQ/5RK1 b - - 0 1"]
+[plycount "2"]
+[index "93"]
+
+
+1... Bxd4+ 2. Nxd4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2k5/ppp2pp1/1b5p/1P6/R2PP3/7P/1P3RP1/2rr1NK1 b - - 0 1"]
+[plycount "2"]
+[index "95"]
+
+
+1... Rxd4 2. Kh2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/6p1/p4Q1p/1p1P1b2/8/1P4RP/PBr3PK/4q3 b - - 0 1"]
+[plycount "2"]
+[index "97"]
+
+
+1... Qxg3+ 2. Kxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r4k1/p3bppp/1qp1b3/8/4P3/P1NP4/1P1Q1PPP/2KR3R b - - 0 1"]
+[plycount "2"]
+[index "98"]
+
+
+1... Bg5 2. Na4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2rr2k1/5pp1/p1q2n1p/4pP2/2p1P1P1/2P5/2PNQ2P/R5RK b - - 0 1"]
+[plycount "2"]
+[index "99"]
+
+
+1... Rxd2 2. Qe3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/p3q2p/4n1p1/3BR3/3p2P1/8/P2Q3P/7K b - - 0 1"]
+[plycount "2"]
+[index "100"]
+
+
+1... Rxd5 2. Rxd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "k4rr1/pp5p/2b5/2P2p1Q/2pp1B2/2P2R1B/2P1q2P/5R1K b - - 0 1"]
+[plycount "2"]
+[index "101"]
+
+
+1... Rg4 2. Qxg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r2qk2r/pp3ppp/4p3/5b2/1Pp1n3/1P1pPQ2/5PPP/RN1K1B1R b kq - 0 1"]
+[plycount "2"]
+[index "102"]
+
+
+1... Bg4 2. Qxg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/pp4pk/6qp/1P1p4/r2N2r1/1RP1R3/P1Q4K/8 b - - 0 1"]
+[plycount "2"]
+[index "103"]
+
+
+1... Rxa2 2. Rb2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/1p3pp1/4p2p/3nP3/8/2PQ4/qP4PP/rNKRR3 b - - 0 1"]
+[plycount "2"]
+[index "105"]
+
+
+1... Nxc3 2. Kd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r5k1/pp4p1/6r1/3p4/2nPNpPq/2P4P/P3Q2K/1R4R1 b - - 0 1"]
+[plycount "2"]
+[index "106"]
+
+
+1... Qe7 2. Rbe1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/1q2bppp/p1n5/1p1NP3/8/2Q5/PP3PPP/R1BR2K1 w - - 0 1"]
+[plycount "2"]
+[index "108"]
+
+
+1. Qxc6  Rab8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1kb2/pNn2n1p/2p4B/3p1p1B/P7/1P2P3/4KP1P/6R1 w - - 0 1"]
+[plycount "2"]
+[index "110"]
+
+
+1. Bxf8  Kxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r1r1k/pp2N1qp/3p2p1/2n1b3/8/4BR1Q/PPP4P/5R1K w - - 0 1"]
+[plycount "2"]
+[index "112"]
+
+
+1. Rxf8+  Rxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4b3/5Nk1/7p/3p3P/3r4/4R3/5PPK/8 w - - 0 1"]
+[plycount "2"]
+[index "115"]
+
+
+1. Nd6  Rh4+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3rk2/5ppQ/np1bbq1p/p1ppN3/3P4/P1N1P3/1P3PPP/1BR2RK1 w - - 0 1"]
+[plycount "2"]
+[index "118"]
+
+
+1. Nd7+  Ke7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2rk1/pp4p1/2p4n/2Qp1pq1/3P1N1n/3BP1N1/PP3PP1/1K1R3R w - - 0 1"]
+[plycount "2"]
+[index "119"]
+
+
+1. Rxh4  Qxh4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rr1/pp1b1P1p/5Q2/3p3k/5K2/8/2P3P1/8 w - - 0 1"]
+[plycount "2"]
+[index "120"]
+
+
+1. fxg8=N  Rxf6+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "7r/1bk2q2/2p2p2/p1Q1pP1p/4P2P/2N3r1/PPPR4/2K5 w - - 0 1"]
+[plycount "2"]
+[index "122"]
+
+
+1. Nb5+  Kc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2k4r/1bpq2b1/p1np2p1/1p1N4/4QP1p/1B5P/PPP2BP1/2KR4 w - - 0 1"]
+[plycount "2"]
+[index "123"]
+
+
+1. Nb6+  cxb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r2/2q2b2/2p5/1pPp1pk1/1P1P1NnR/3BPK2/3Q2P1/8 w - - 0 1"]
+[plycount "2"]
+[index "124"]
+
+
+1. Rh5+  Bxh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/p1r3n1/R1p2k2/4p3/8/1P2NPP1/P6P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "125"]
+
+
+1. Nd5+  Kf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4r3/1qrnpk2/p1Np1pp1/1p6/1P2Q3/2P4P/P5PK/3RR3 w - - 0 1"]
+[plycount "2"]
+[index "127"]
+
+
+1. Nd8+  Rxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bn1k1r/4bppp/pq6/1ppBNQ2/5B2/8/PP3PPP/R2R2K1 w - - 0 1"]
+[plycount "2"]
+[index "128"]
+
+
+1. Qxc8  Rxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "7k/6pp/2p5/4Nr2/pp2pPQb/4q2P/1P1R2K1/8 w - - 0 1"]
+[plycount "2"]
+[index "131"]
+
+
+1. Nf7+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rk1/pb1qrpb1/1pn3pn/2p1p1Np/2B1NP1P/PP2P1P1/1BQP1K2/1R2R3 w - - 0 1"]
+[plycount "2"]
+[index "134"]
+
+
+1. Nf6+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4rbk1/pppqrppp/1n1p4/3P4/2PBN3/3Q3P/PP3PP1/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "135"]
+
+
+1. Nf6+  gxf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r6/RN1nbkpp/5p2/3p4/3N4/4P3/1P2KPPP/8 w - - 0 1"]
+[plycount "2"]
+[index "136"]
+
+
+1. Nd6+  Bxd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "R4n2/pp2qpp1/2p3pk/6N1/7P/2P2P2/P5P1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "137"]
+
+
+1. Rxf8  Qxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r2/6p1/PNk5/2N1p2p/1PP5/6P1/6K1/8 w - - 0 1"]
+[plycount "2"]
+[index "138"]
+
+
+1. b5+  Kxb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2brk1r1/p3bp1q/2p4p/1p2PP2/2p1N3/5Q1B/PP6/2KR3R w - - 0 1"]
+[plycount "2"]
+[index "139"]
+
+
+1. Nf6+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3qnk2/pp3pb1/6p1/8/3pN3/1P5Q/1Pr3PP/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "141"]
+
+
+1. Rxf7+  Kxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2k2/1pr3q1/p2pQ3/3PpPN1/8/1P2P3/1P6/6RK w - - 0 1"]
+[plycount "2"]
+[index "145"]
+
+
+1. Qxc8+  Rxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bq1n1r/pp4k1/2p3pp/5p2/2BP1N2/6Q1/PP3PPP/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "146"]
+
+
+1. Re8  Qg5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r2r1k1/2q2p1p/b2p1npB/2pP4/3bNP2/1P4PB/3Q3P/1R2R1K1 w - - 0 1"]
+[plycount "2"]
+[index "148"]
+
+
+1. Qxd4  cxd4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4rn2/pp4k1/5qp1/4pp1P/P1Pb3N/6Q1/1B3PP1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "149"]
+
+
+1. Rxd4  Kh6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/4q1pp/3p4/R2Ppr2/1p2Qn2/5BP1/1P1R1P1P/6K1 b - - 0 1"]
+[plycount "2"]
+[index "151"]
+
+
+1... Nh3+ 2. Kg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2k1r3/p1q3pp/2R2p2/3pP3/1b1N1n2/6Q1/PP3PPP/6K1 b - - 0 1"]
+[plycount "2"]
+[index "155"]
+
+
+1... Qxc6 2. Nxc6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/p2r2pk/2q2p1p/2P1p1n1/4P3/6P1/PBQ4P/1R4K1 b - - 0 1"]
+[plycount "2"]
+[index "156"]
+
+
+1... Nf3+ 2. Kf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b1r1k1/ppp2ppp/3B4/8/2P1N1P1/P1np3P/1P3P2/R3KB1R b KQ - 0 1"]
+[plycount "2"]
+[index "157"]
+
+
+1... Nxe4 2. Bxc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/1p3p1p/2n1p1p1/p4n2/2B1pP2/7P/P1N1K1P1/8 b - - 0 1"]
+[plycount "2"]
+[index "159"]
+
+
+1... b5 2. Bxb5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/3n2kp/p3p1p1/4P1P1/4Nr2/PK6/2B5/8 b - - 0 1"]
+[plycount "2"]
+[index "160"]
+
+
+1... Rxe4 2. Bxe4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/1p3pBp/8/qN1p4/3Qn3/P3PB2/2rnRPPb/R2K4 b - - 0 1"]
+[plycount "2"]
+[index "161"]
+
+
+1... Qxb5 2. Qxd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/8/8/1p3B1p/p6k/P3p2P/1P1n4/4K3 b - - 0 1"]
+[plycount "2"]
+[index "164"]
+
+
+1... Nf3+ 2. Kd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r7/pp1n1k2/2pbpp2/3n4/P1BP4/5NNr/1P3PK1/R2R4 b - - 0 1"]
+[plycount "2"]
+[index "165"]
+
+
+1... Rxg3+ 2. fxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2rr2k1/1b3p1p/pq2pp1Q/1p2n3/1P2P2N/P2nN1P1/3p1PBP/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "171"]
+
+
+1... Nxf2 2. Rxf2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "rn2k2r/pp6/4pQp1/qb1pP2p/3P4/P1n1BP2/2P2KPP/R5NR b kq - 0 1"]
+[plycount "2"]
+[index "172"]
+
+
+1... Ne4+ 2. fxe4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r1k1/p2b1p2/1p1q1n1p/3p2p1/P1pP2P1/2P1rPNP/3Q1K2/R3RB2 b - - 0 1"]
+[plycount "2"]
+[index "173"]
+
+
+1... Qxg3+ 2. Kxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r5k1/pp1B2b1/8/3p3p/3Pq3/BP1n1R2/P6P/3Q1N1K b - - 0 1"]
+[plycount "2"]
+[index "178"]
+
+
+1... Nf2+ 2. Kg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/1Q2ppk1/6p1/2qN4/p1r3n1/6P1/P5KP/5R2 b - - 0 1"]
+[plycount "2"]
+[index "179"]
+
+
+1... Rc2+ 2. Kh3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r2k1/5ppp/bn6/ppp2N2/3Pq3/P1P5/1B1Q2PP/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "181"]
+
+
+1. Qg5  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r1k2/2rP1ppp/5b2/pp6/n7/P1NR1P2/1PK2P1P/4RB2 w - - 0 1"]
+[plycount "2"]
+[index "184"]
+
+
+1. Re8+  Rxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2rnk/2q1bppp/p2pp3/1b4P1/4PP1P/2B1n1N1/1P2N1B1/2RQ1R1K w - - 0 1"]
+[plycount "2"]
+[index "185"]
+
+
+1. Qd4  f6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r7/pp4k1/2p1b1p1/8/7r/1P1Q4/P5PP/5R1K w - - 0 1"]
+[plycount "2"]
+[index "186"]
+
+
+1. Qc3+  Kh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2b4R/4rkp1/1p1Q3p/p1p2q2/2P1p1p1/1P2P1P1/PB3P1P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "188"]
+
+
+1. Qd8  Qd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bnr2k/4q1pp/p2Rp3/1p2Qp2/1P5P/P3P3/1B3PP1/1BR3K1 w - - 0 1"]
+[plycount "2"]
+[index "189"]
+
+
+1. Rc7  Qxc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2rk1/ppppbppp/8/2q5/8/2PB1Q2/PPP2PPP/R1B1R1K1 w - - 0 1"]
+[plycount "2"]
+[index "190"]
+
+
+1. b4  Qd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3k1/4bppp/1q6/1p1Pp3/nP1p4/3B1Q1P/5PP1/R4NK1 w - - 0 1"]
+[plycount "2"]
+[index "191"]
+
+
+1. Qf5  g6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3rbk1/3n1pp1/2N4p/2pP4/qpN2B2/5Q2/1P3PPP/2RR2K1 w - - 0 1"]
+[plycount "2"]
+[index "194"]
+
+
+1. Bxh6  Qa2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bbr1k1/p2n1ppp/1p1Bp3/3q3Q/3PNP2/3B4/PP4PP/2R2R1K w - - 0 1"]
+[plycount "2"]
+[index "197"]
+
+
+1. Ng5  Qxg2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q4/1bp1p1k1/1pn1pbB1/4N1B1/p2p3P/7R/PP2QPP1/1K6 w - - 0 1"]
+[plycount "2"]
+[index "198"]
+
+
+1. Bh6+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1q2r1k/p1pp1pbp/6p1/2P5/4P3/4B3/PnBQ1PPP/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "199"]
+
+
+1. Bd4  Qa6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/1p1P1p1p/p1q2bp1/1N3n2/8/1P4PB/P2Q1P2/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "200"]
+
+
+1. Na7  Rxa7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/3nrppp/2B5/p1b2P2/5Q2/1P5P/Pr6/5R1K w - - 0 1"]
+[plycount "2"]
+[index "201"]
+
+
+1. f6  Re6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1n6/2pq1kp1/p2pNpp1/b2r4/2R1Q3/7P/1B3PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "202"]
+
+
+1. Nd8+  Qxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2b1r1k/p4bR1/1p3P2/n2p3p/2pP1Bp1/2Pq2N1/PP2Q1PP/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "203"]
+
+
+1. Rxf7  Bxf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r7/3p4/2n1k3/4q3/4p3/4N1P1/2R2P2/2Q3K1 w - - 0 1"]
+[plycount "2"]
+[index "206"]
+
+
+1. Rxc6+  Ke7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/r4pbk/4p2p/8/p5R1/Pq3N1P/1P1Q1PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "207"]
+
+
+1. Rxg7+  Kxg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn2kb1r/p3pppp/b4n2/3qN3/2pP4/4P3/5PPP/RNBQKB1R w KQkq - 0 1"]
+[plycount "2"]
+[index "209"]
+
+
+1. Rxa6  Nxa6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r6k/6p1/7p/4p3/3rb3/1P5P/6PK/2Q1R3 w - - 0 1"]
+[plycount "2"]
+[index "210"]
+
+
+1. Rxe4  Rxe4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rk1/p1p2ppp/2r1b3/4P1Nq/3Q2n1/1P3N2/P5PP/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "211"]
+
+
+1. h3  Nxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/2p1q1pp/p2p1n2/n3p1B1/Pp2P3/5N2/1PP2PPP/R2Q1RK1 w - - 0 1"]
+[plycount "2"]
+[index "213"]
+
+
+1. Bxf6  Qe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/1p3pbp/p1q3p1/3n4/2N5/1PB2P2/P5PP/3RQ2K w - - 0 1"]
+[plycount "2"]
+[index "217"]
+
+
+1. Bxg7  b5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r4k1/p4p1p/1p1r1n2/4p1B1/8/1P3P1P/P1Q3PK/8 w - - 0 1"]
+[plycount "2"]
+[index "218"]
+
+
+1. Qc7  Rbd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/2qn2pp/p3b3/1pp1pn2/7N/2P1B3/PPB2PPP/3QR1KR w - - 0 1"]
+[plycount "2"]
+[index "219"]
+
+
+1. Nxf5  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4rk2/ppp3pp/8/4b1n1/6N1/2N4P/PPP2PP1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "224"]
+
+
+1. Nxe5  Rxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/1r3p2/1P4p1/2P2q2/8/5N1P/3Q2PK/8 w - - 0 1"]
+[plycount "2"]
+[index "227"]
+
+
+1. c6  Rxb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4r2/p1p3Qp/4kp2/2pp1N1q/5P2/7P/PPP3P1/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "228"]
+
+
+1. Qe7+  Kxf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/1p2r1k1/1p1rPp2/P1pPnP1p/1PP2Kp1/1B2R3/8/3R4 w - - 0 1"]
+[plycount "2"]
+[index "229"]
+
+
+1. Rxe5  cxb4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rbr2/pp2ppkp/2q1P1p1/5P2/6PP/2N2R2/PPP2Q2/2K2R2 w - - 0 1"]
+[plycount "2"]
+[index "230"]
+
+
+1. f6+  exf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r3/pp3k1p/2p1p3/3n1bp1/P1BPq3/4P1Q1/1P1B1PP1/R1R3K1 w - - 0 1"]
+[plycount "2"]
+[index "232"]
+
+
+1. f3  Qh4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1rq2n2/1pp2kbr/p1n1p1pp/2N1P3/5P2/1Q2B2B/PP3P1P/2RR2K1 w - - 0 1"]
+[plycount "2"]
+[index "233"]
+
+
+1. Nxe6  Nxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4r2k/6np/3P2q1/1b4p1/6p1/8/1B1Q1PBP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "234"]
+
+
+1. d7  Bxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2b1rn1k/p4Rbp/1p6/3p2B1/8/P5N1/1q2B1PP/5Q1K w - - 0 1"]
+[plycount "2"]
+[index "235"]
+
+
+1. Rxg7  Qxe2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2k1r/pp4pp/1b1p1q1n/4n3/8/BBPN4/P4PPP/RN1Q1RK1 w - - 0 1"]
+[plycount "2"]
+[index "237"]
+
+
+1. Nxe5  Bc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5qk1/pr6/1p1n1rpp/2p1p3/2P3P1/2NRP2Q/PP3P1P/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "239"]
+
+
+1. g5  hxg5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r2r1k1/p4p1p/6pB/q7/8/3Q2P1/PbP2PKP/1R3R2 w - - 0 1"]
+[plycount "2"]
+[index "240"]
+
+
+1. Rxb2  Rbd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1rr3k1/4qppp/pn6/1pp1n2b/4P3/P1PP2QP/2B3PN/R1B2RK1 w - - 0 1"]
+[plycount "2"]
+[index "241"]
+
+
+1. Rf5  Nxd3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4Q3/8/2r3pk/3b4/1PpP2P1/8/7P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "243"]
+
+
+1. h4  Kg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2r1k/1q1nbppp/pp2p3/4Q1B1/3N4/2N3R1/PPP2PPP/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "250"]
+
+
+1. Bh6  Qxg2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1r3k1/p3bp1p/1n4p1/N2bp3/3P4/4P3/1BqQBPPP/R2R2K1 b - - 0 1"]
+[plycount "2"]
+[index "254"]
+
+
+1... Qxd2 2. Rxd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/p2q2pp/2bb3r/1pp2p2/3p1P2/3P2PP/PPPNN2K/5RQ1 b - - 0 1"]
+[plycount "2"]
+[index "257"]
+
+
+1... Qe6 2. Nf3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3qrk1/p4pbp/B4np1/2p1p3/2Pp4/PP1P2Pb/1N1BPP1P/R1Q1K2R b KQ - 0 1"]
+[plycount "2"]
+[index "258"]
+
+
+1... Qc6 2. f3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3k3/1p1b1p2/8/p1b1P1N1/5p2/P6r/1PP2P2/1RBR2K1 b - - 0 1"]
+[plycount "2"]
+[index "259"]
+
+
+1... Rg3+ 2. Kh2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/pp4p1/7p/2b2p1P/8/P1Nr1Q2/1Pq1RPP1/1R4K1 b - - 0 1"]
+[plycount "2"]
+[index "267"]
+
+
+1... Qxb1+ 2. Nxb1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5n1k/5pp1/1qb4p/1p1p3Q/2pP4/R1P2P1P/1RB3PK/4r3 b - - 0 1"]
+[plycount "2"]
+[index "269"]
+
+
+1... Qc7+ 2. Qe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "Q7/ppp2kpp/8/2b5/4RP1q/7b/PPP3PP/3R2BK b - - 0 1"]
+[plycount "2"]
+[index "273"]
+
+
+1... Bxg2+ 2. Kxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/p1p1r1p1/1b5p/4B2q/5P2/6P1/P1Q4P/R3K3 b Q - 0 1"]
+[plycount "2"]
+[index "274"]
+
+
+1... Qf3 2. Qa4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/R4ppp/5b2/8/8/1N3P2/Pr4PP/5RK1 b - - 0 1"]
+[plycount "2"]
+[index "276"]
+
+
+1... Rxb3 2. Rxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/1p2q1pp/4bp2/pB6/Q7/P3P3/1r3PPP/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "278"]
+
+
+1... Rd5 2. Rfb1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r1rk1/p1p2ppp/1bp2n2/8/1P2p3/N1Pq1P2/P2P2PP/R1BQ1R1K b - - 0 1"]
+[plycount "2"]
+[index "279"]
+
+
+1... e3 2. Re1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/6pk/7p/3p1p1Q/3PbPP1/2p3KP/2P2B2/1rb5 b - - 0 1"]
+[plycount "2"]
+[index "280"]
+
+
+1... g6 2. Qh4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2k1n3/1pb2p2/p1p4p/8/2P2P1P/2N2RB1/PPP3r1/2K5 b - - 0 1"]
+[plycount "2"]
+[index "284"]
+
+
+1... Rxg3 2. Rf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r1k1/1pp3p1/p3q2p/4p1b1/1P5N/6QP/1PP3P1/5R1K b - - 0 1"]
+[plycount "2"]
+[index "285"]
+
+
+1... Qc4 2. Qf3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r3rk1/p1p4p/3q2pb/3Ppb2/2Q2n2/P1N1BN2/1P4PP/2KR1R2 b - - 0 1"]
+[plycount "2"]
+[index "286"]
+
+
+1... Qb6 2. b4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r2qr1k1/pp3p1p/2p1bnp1/2P1p3/3nPP2/1PNQ4/P2NB1PP/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "287"]
+
+
+1... Nxe2+ 2. Qxe2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/1bp3pp/1p1p4/p3p2r/P1P2r2/1P1Q1PqP/2P3P1/3R1RBK b - - 0 1"]
+[plycount "2"]
+[index "288"]
+
+
+1... Rxf3 2. Rxf3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3r1k1/1b1q1p2/3p2pB/p3p3/4n3/2P5/PP2N1PP/R2Q1R1K b - - 0 1"]
+[plycount "2"]
+[index "289"]
+
+
+1... Qh3 2. Qc2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5k2/pb1q1p1p/1p6/6R1/3p4/8/PP4PP/R2N3K b - - 0 1"]
+[plycount "2"]
+[index "292"]
+
+
+1... Qe7 2. Nf2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2r1k2/p1p1qp2/1p2pN1p/4Q3/2P5/P6P/1B4P1/5R1K w - - 0 1"]
+[plycount "2"]
+[index "294"]
+
+
+1. Nd5  Ke8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2q2r2/R1P4k/6pp/1pQ5/1P3P2/7P/6P1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "298"]
+
+
+1. Qxf8  Qxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b3k1/ppp1n2p/2n2qpB/6N1/3NP3/2QP2P1/P1P3BP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "300"]
+
+
+1. Nxc6  Qf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rrbk1/p2b3p/5qp1/2ppN3/5P2/8/PP1NQ1PP/4RR1K w - - 0 1"]
+[plycount "2"]
+[index "301"]
+
+
+1. Nxd7  Qxb2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r1k1/ppqn1ppp/2p2n2/4pN2/2P5/Q4PPB/PP1R1P1P/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "303"]
+
+
+1. Ne7+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/p2q1ppp/bp1p4/n1pPpN2/2P1PP2/P1PB4/6PP/R2Q1RK1 w - - 0 1"]
+[plycount "2"]
+[index "305"]
+
+
+1. Qg4  Qxf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r1k1/p1p1qppp/1b6/2pp1P2/Q2Pn1P1/4BN2/PP3P1P/2R1R1K1 w - - 0 1"]
+[plycount "2"]
+[index "310"]
+
+
+1. dxc5  h5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r4R/1pkbbp2/1q6/3pP1p1/QP1N4/2P1BP2/5KP1/8 w - - 0 1"]
+[plycount "2"]
+[index "311"]
+
+
+1. Ne6+  Bxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/pb3B1p/3r4/6Q1/1p2q3/8/PP3RPP/5R1K w - - 0 1"]
+[plycount "2"]
+[index "313"]
+
+
+1. Bd5  Rdf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1n6/1P4p1/6k1/p7/4N3/P6Q/K6b/4q3 w - - 0 1"]
+[plycount "2"]
+[index "315"]
+
+
+1. Qe6+  Kh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r1q3k/1bp1n1pp/3p4/4n3/4Nr2/1P1Q3R/P1P2PPP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "320"]
+
+
+1. Nf6  Nf3+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/1p3pbp/pn1pq3/6P1/3P4/1PN1BQ1R/1P5P/R6K w - - 0 1"]
+[plycount "2"]
+[index "321"]
+
+
+1. d5  Nxd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1q2rk1/pbpnbppp/1p6/4p3/2P5/1PQ2NP1/PB2PPBP/R2R2K1 w - - 0 1"]
+[plycount "2"]
+[index "324"]
+
+
+1. Rxd7  Qxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5b1k/8/2p2P2/1pp1Q1P1/2P4q/3PKP2/1P6/8 w - - 0 1"]
+[plycount "2"]
+[index "325"]
+
+
+1. f7+  Kh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r3rk1/5ppp/1q1p4/pnp5/4P3/1PP2P2/PB2QP1P/1K1R2R1 w - - 0 1"]
+[plycount "2"]
+[index "327"]
+
+
+1. Qxb5  Qxb5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r1k1/1p3pp1/6q1/p1P3bp/NP5n/P1Q4P/2Pr1BP1/R3R1K1 b - - 0 1"]
+[plycount "2"]
+[index "332"]
+
+
+1... Be3 2. g4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/1p4pp/5qb1/2pPr3/P1P3R1/P4P2/3QP3/2KR3B b - - 0 1"]
+[plycount "2"]
+[index "333"]
+
+
+1... Rxe2 2. Rxg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r3rk1/5pb1/p2p2p1/Q1n1q2p/1NP1P3/3p1P1B/PP1R3P/1K2R3 b - - 0 1"]
+[plycount "2"]
+[index "335"]
+
+
+1... Nxe4 2. Qxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1q1k2r/pp1bppbp/2np1np1/8/3NP3/2N3PP/PPP2PBK/R1BQ1R2 b kq - 0 1"]
+[plycount "2"]
+[index "336"]
+
+
+1... Nxd4 2. Be3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/2r1ppbp/p5p1/q2pP3/3BbP2/1P5P/PQNR1RPK/8 b - - 0 1"]
+[plycount "2"]
+[index "338"]
+
+
+1... Qxd2 2. Rxd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b2rk1/ppp2ppp/1b1p1q2/3P4/BPPp4/8/PB1PQPPP/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "343"]
+
+
+1... d3 2. Qxd3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b4Q/ppp2kpp/3b4/8/4RP1q/8/PPP3PP/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "344"]
+
+
+1... Bh3 2. Rxd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1k6/ppp4p/1n2pq2/1N2Rb2/2P2Q2/8/P4KPP/3r1B2 b - - 0 1"]
+[plycount "2"]
+[index "346"]
+
+
+1... Rxf1+ 2. Kxf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/ppp2ppp/6q1/b4n2/3nQB2/2p5/P4PPP/RN3RK1 b - - 0 1"]
+[plycount "2"]
+[index "347"]
+
+
+1... Ng3 2. Qxd4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rk1r1/pp3p1p/1nb1p3/8/qn2P2Q/3B1N2/PP3PPP/3R1RK1 w - - 0 1"]
+[plycount "2"]
+[index "348"]
+
+
+1. Bc2  Rc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bq1rk1/pp1n1pp1/2p1p3/6b1/2PPBB2/4P3/PPQ2PP1/R3K2R w KQ - 0 1"]
+[plycount "2"]
+[index "349"]
+
+
+1. Bh7+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2Q4/pbR2pkp/1p1Nq1p1/3p4/1n6/3BP3/PP3PPP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "351"]
+
+
+1. Nxf7  Rxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2RNknQ/1p1b1rpR/p1p1p3/2P1qp2/8/P3P3/1P3PP1/4K3 w - - 0 1"]
+[plycount "2"]
+[index "353"]
+
+
+1. Qxg8+  Ke7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r4r/1k4bp/p5p1/2B1p3/8/8/3R1PPP/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "354"]
+
+
+1. Rd7+  Rc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/6pp/4q3/2pp2P1/4pQbk/2P1P3/7K/6R1 w - - 0 1"]
+[plycount "2"]
+[index "355"]
+
+
+1. Rh1  Kh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/p4R1p/1p5q/5Q2/2Pb4/8/P6P/7K w - - 0 1"]
+[plycount "2"]
+[index "356"]
+
+
+1. Qd5  Qc6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3rk2/pbp2Bpp/8/4N1n1/5P2/4Q2R/Pq4PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "357"]
+
+
+1. Qc5+  Re7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5rk/pp3n1p/4q3/5pp1/3P4/PP1Q1N1P/1B5K/5R2 w - - 0 1"]
+[plycount "2"]
+[index "358"]
+
+
+1. d5+  Qf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3kb1r/2p1nppp/p1Np4/1pnP2B1/B5b1/8/PPP2PPP/RN2R1K1 w kq - 0 1"]
+[plycount "2"]
+[index "360"]
+
+
+1. Bxe7  Bxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4r1k/p1q3pp/1pbb4/5p2/1PP5/1BBR3P/PQ4P1/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "362"]
+
+
+1. Rxd6  Rf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn2kbr1/pp3p1p/2p5/q2Pp3/6b1/1BN2Q2/PPP1NPPP/R3K2R w KQ - 0 1"]
+[plycount "2"]
+[index "363"]
+
+
+1. Qxf7+  Kxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2nk1/p4q2/bp4p1/3pPp2/6p1/1P2P2R/PB3R1P/3Q2K1 w - - 0 1"]
+[plycount "2"]
+[index "364"]
+
+
+1. Rh8+  Kxh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b4r/ppp1kppp/q7/8/3pN3/8/PPP2PPP/R2QR1K1 w - - 0 1"]
+[plycount "2"]
+[index "365"]
+
+
+1. Nc5+  Be6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r4/r7/pp1p1bnk/2pP1RN1/P1P3QP/6P1/1qB2P1K/8 w - - 0 1"]
+[plycount "2"]
+[index "366"]
+
+
+1. Qh5+  Kg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1r1k1/ppq2p1p/3b1ppQ/2n5/8/3B2N1/PPP2PPP/R1B2RK1 w - - 0 1"]
+[plycount "2"]
+[index "367"]
+
+
+1. Nh5  Bxh2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2rk1/1pq2p1p/p4Q2/1pP5/5p2/3BR3/P4PPP/5K1R w - - 0 1"]
+[plycount "2"]
+[index "368"]
+
+
+1. Rg3+  fxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r7/p1b3pk/2N4p/2pb4/8/1P1P4/PBP3PP/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "369"]
+
+
+1. Re7  Bxh2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r7/2b1qr1k/2p2pRn/p1Pppp2/Pp1P1N1P/5P2/PBBQ4/2K3R1 w - - 0 1"]
+[plycount "2"]
+[index "370"]
+
+
+1. Nxd5  f4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2k2brr/1ppbqp2/2np4/1B2p1P1/Q3P3/2PPB1p1/P2N1PP1/RR4K1 w - - 0 1"]
+[plycount "2"]
+[index "371"]
+
+
+1. Qa8+  Nb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1q2r1k/p4b2/1p2pP2/3p3p/1P1B1P2/2PB4/P3Q2P/6RK w - - 0 1"]
+[plycount "2"]
+[index "373"]
+
+
+1. Qxh5+  Bxh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4r1k/ppb1q2p/2p1Bp2/2P2P2/n1PP4/5K1Q/P2B1P2/R6R w - - 0 1"]
+[plycount "2"]
+[index "375"]
+
+
+1. Qxh7+  Qxh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r4kr/p2p1R1p/p2Np1nB/4p3/6PP/7N/P1PK2b1/8 w - - 0 1"]
+[plycount "2"]
+[index "376"]
+
+
+1. Rg7+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r3r/pk3ppp/1ppB1q2/4p3/2B1P1n1/Q2R4/1PP1NPPP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "377"]
+
+
+1. Qxa7+  Kxa7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1n3/p1q2krR/2bpp1pQ/1p4P1/4PP2/1PP5/2PBB3/2K4R w - - 0 1"]
+[plycount "2"]
+[index "378"]
+
+
+1. Qxg6+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5r1/p1q2p1k/1p1R2pB/3p4/6bQ/2p5/P1P1NPPP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "379"]
+
+
+1. Bf8+  Bh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1q1r1/pb1n1ppk/3pNn1p/2pP1P2/2p4B/P1P4R/3Q2PP/1B3RK1 w - - 0 1"]
+[plycount "2"]
+[index "380"]
+
+
+1. Bxf6  Nxf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/2R2Bk1/p2r3p/np2p2K/4P2P/1P2P3/8/8 w - - 0 1"]
+[plycount "2"]
+[index "381"]
+
+
+1. b4  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2r2/5P1p/ppn3pk/2p1p1Nq/1bP1PQ2/3P4/PB4BP/1R3RK1 w - - 0 1"]
+[plycount "2"]
+[index "382"]
+
+
+1. Ne6+  g5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2r2k1/p2nqpp1/2b1p2p/4B1P1/2p4Q/3B4/PPP2P1P/2KR2R1 w - - 0 1"]
+[plycount "2"]
+[index "383"]
+
+
+1. Qxh6  gxh6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/6pp/p7/3N4/P7/3n1NPP/2r1n2K/3R4 b - - 0 1"]
+[plycount "2"]
+[index "386"]
+
+
+1... Nd4+ 2. Nd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "rn2kb1r/ppp1pppp/8/8/4q3/3P1N1b/PPP1BPnP/RNBQ1K1R b kq - 0 1"]
+[plycount "2"]
+[index "387"]
+
+
+1... Nh4+ 2. Kg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1bqk3/pppp1pQ1/8/2b1P2r/4nP1p/8/PPP1B1PP/RNB2R1K b - - 0 1"]
+[plycount "2"]
+[index "389"]
+
+
+1... Ng3+ 2. Qxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5r1k/1b4pp/6r1/p1R5/Pp2p2q/1Q2B2P/1P3PPK/4R3 b - - 0 1"]
+[plycount "2"]
+[index "390"]
+
+
+1... Rxg2+ 2. Kxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6rk/6np/p6Q/3q4/BP6/3p4/P4PR1/6K1 b - - 0 1"]
+[plycount "2"]
+[index "391"]
+
+
+1... Qxg2+ 2. Kxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2Q5/k1p5/pb5p/6p1/3r4/p2q2BP/5PP1/2R3K1 b - - 0 1"]
+[plycount "2"]
+[index "392"]
+
+
+1... Qxg3 2. fxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b2rk1/ppb1n2p/4pp2/8/3qNPPN/1P2pQ2/P1P3BP/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "394"]
+
+
+1... e2+ 2. Kh1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/1b2qpbp/3P2p1/Q7/N3r3/6B1/PP2r1PP/3RR2K b - - 0 1"]
+[plycount "2"]
+[index "395"]
+
+
+1... Rxg2 2. Rd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn2kb1r/pp2pp1p/2p2p2/8/8/3Q1N2/qPPB1PPP/2KR3R w kq - 0 1"]
+[plycount "2"]
+[index "398"]
+
+
+1. Qd8+  Kxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3kb1r/1pp3p1/p3bp1p/5q2/3QN3/1P6/PBP3P1/3RR1K1 w kq - 0 1"]
+[plycount "2"]
+[index "400"]
+
+
+1. Qd7+  Bxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1rk1/pbp3pp/1p1b4/3N1p2/2B5/P3PPn1/1P3P1P/2RQK2R w K - 0 1"]
+[plycount "2"]
+[index "401"]
+
+
+1. Ne7+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1k2r/pppn1ppp/2n5/1B1Qpq2/8/B1p2N2/P4PPP/R3R1K1 w kq - 0 1"]
+[plycount "2"]
+[index "402"]
+
+
+1. Nxe5  Qxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rnb1k1r1/ppp2p1p/4p3/8/1b2q2Q/8/PPPB1nPP/2KR1BNR w - - 0 1"]
+[plycount "2"]
+[index "404"]
+
+
+1. Qd8+  Kxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 1"]
+[plycount "2"]
+[index "405"]
+
+
+1. Qd8+  Kxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1rq5/2k5/2Bp1r1p/2nP1PpQ/1R2p3/P1P1P1RP/P5P1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "406"]
+
+
+1. Rxg5  Qf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1k2r/ppp2ppp/2p5/8/3Qn1q1/8/PPPB2PP/2KR1B1R w kq - 0 1"]
+[plycount "2"]
+[index "408"]
+
+
+1. Qd8+  Kxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4r1k/ppp2pRp/1P1p4/8/1P2P3/3n4/PB3P1P/R6K w - - 0 1"]
+[plycount "2"]
+[index "409"]
+
+
+1. Rg8+  Kxg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "k3r2r/p2q2b1/2p5/4N2p/4Q1p1/1R4B1/PP3PPP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "412"]
+
+
+1. Rb8+  Rxb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3kb1r/ppp3p1/4bp1p/5q2/3QN2B/1PP5/P4PPP/3RR1K1 w kq - 0 1"]
+[plycount "2"]
+[index "413"]
+
+
+1. Qd7+  Bxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "rn3rk1/p5pp/2p5/3Ppb2/8/1Q6/PPPB2PP/R4KNR b - - 0 1"]
+[plycount "2"]
+[index "414"]
+
+
+1... Bd3+ 2. Ke1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r5k1/pQp2qpp/8/4pbN1/3P4/6P1/PPr4P/1K1R3R b - - 0 1"]
+[plycount "2"]
+[index "415"]
+
+
+1... Rc1+ 2. Kxc1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b1k2r/ppp1qppp/5B2/3Pn3/8/8/PPP2PPP/RN1QKB1R b KQkq - 0 1"]
+[plycount "1"]
+[index "416"]
+
+
+1... Nf3#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/1bpp2p1/3bp3/p4B2/2P5/P3BrPq/1PQ2P1P/4RRK1 b - - 0 1"]
+[plycount "2"]
+[index "417"]
+
+
+1... Qg2+ 2. Kxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r2qr1k1/ppp1bppp/5n2/6B1/2PR4/P3P3/1PQ2PPP/4KB1R b K - 0 1"]
+[plycount "2"]
+[index "418"]
+
+
+1... Qxd4 2. Be2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/pb3pp1/8/7p/2Q5/P2r1P1B/4q2P/1R3N1K b - - 0 1"]
+[plycount "2"]
+[index "419"]
+
+
+1... Rxf3 2. Rxb7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r1rk1/1p4pp/p5N1/4p3/2p5/2Pnp1Pq/PP4QP/R2K1R2 w - - 0 1"]
+[plycount "2"]
+[index "420"]
+
+
+1. Qd5+  Rxd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rnb1r1k1/ppp2ppp/5q2/8/5B2/4NQP1/P3RPP1/6KR w - - 0 1"]
+[plycount "2"]
+[index "421"]
+
+
+1. Nd5  Qd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1Rn1k/1p1q2pp/p7/5p2/3P4/1B4P1/P1P1QP1P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "422"]
+
+
+1. Qc4  Qd5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/ppbrq1p1/4np2/2P4Q/3P3P/1B2B3/PP1K1P2/6RR w - - 0 1"]
+[plycount "2"]
+[index "424"]
+
+
+1. Rxg7+  Qxg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6kr/1q2r1p1/1p2N1Q1/5p2/1P1p4/6R1/7P/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "425"]
+
+
+1. Rc8+  Re8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/2RR4/1r6/1k6/1p1p1nBp/1K2b3/7P/8 w - - 0 1"]
+[plycount "2"]
+[index "426"]
+
+
+1. Rd5+  Ka6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4r1k1/1p3p2/p2PqBnr/P1p3R1/8/4P1QP/6RK/8 w - - 0 1"]
+[plycount "2"]
+[index "427"]
+
+
+1. Re5  Rxh3+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/p1n2pbp/5Bp1/2pN4/2p3q1/8/PP1Q2B1/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "429"]
+
+
+1. Qh6  Ne6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1b1k1/5r1p/3p1QpB/q2Pp3/1pp1P3/5R1P/P4PP1/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "431"]
+
+
+1. Qe7  Ba4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3kbnr/2p2ppp/p1q5/1p2p3/4P3/1P1Q4/1PP2PPP/RNBR2K1 w kq - 0 1"]
+[plycount "2"]
+[index "432"]
+
+
+1. Rxa6  Bd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6rr/pp2kpRb/4p2p/4P3/3N1P2/4K3/P1P4P/6R1 w - - 0 1"]
+[plycount "2"]
+[index "433"]
+
+
+1. Rxh7  Rxg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1r1k/pb3p1p/2n1p2Q/5p2/8/3B2N1/PP3PPP/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "434"]
+
+
+1. Bxf5  exf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1Rb1q1rk/6p1/4p2p/1p1pB3/p2P4/4P2P/P1Q2PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "435"]
+
+
+1. Rxc8  Qf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn1q2rk/pp3p1p/2p4Q/3p4/7P/2NP2R1/PPP3P1/4RK2 w - - 0 1"]
+[plycount "2"]
+[index "437"]
+
+
+1. Re8  Qg5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bqn2k/1p2n1p1/p2bppQ1/2pp2PP/8/PP2P3/1BPP4/2K3RR w - - 0 1"]
+[plycount "2"]
+[index "438"]
+
+
+1. gxf6  Nxg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r6k/3b2rq/4p3/p2pQp2/1p6/3R4/PPP1N2P/2K3R1 w - - 0 1"]
+[plycount "2"]
+[index "439"]
+
+
+1. Rh3  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3Q4/qr4R1/k2p1p2/2pPpP2/p1P5/8/PP6/7K w - - 0 1"]
+[plycount "2"]
+[index "442"]
+
+
+1. Qe8  Qb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1bk1/1pp2ppp/p2p1n2/5NB1/4r3/2Q5/PPP2PPP/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "443"]
+
+
+1. Nh6+  gxh6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2qk1/pnp4p/3p1BpQ/2pr4/5P2/8/PPP3PP/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "444"]
+
+
+1. Re8  Rd1+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn2r2k/pbq2ppB/2p1p2p/1p1nN3/P1pP4/B1P1P1P1/2Q2P1P/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "445"]
+
+
+1. Bd6  Qe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/1pQ2bpp/p1n1Rp2/3B4/1q6/6BP/PP3PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "446"]
+
+
+1. Re8+  Rxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b3kr/pppp1p1p/5n1B/3PR3/4n3/2P2N2/P4PPP/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "447"]
+
+
+1. Nd2  c6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2r1k/pp3Rpp/2p5/2q2p2/8/1B6/P3QPPP/1R4K1 w - - 0 1"]
+[plycount "2"]
+[index "448"]
+
+
+1. Qe5  Rxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3r1/1kn1q2n/1p2p1Q1/p2pP3/3P4/P2N1N2/1PR4P/2R4K w - - 0 1"]
+[plycount "2"]
+[index "450"]
+
+
+1. Rxc7+  Rxc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4bkr/ppp3pp/8/3qn1N1/2pp2P1/8/PPP2P1P/R1BQR1K1 w - - 0 1"]
+[plycount "2"]
+[index "451"]
+
+
+1. Rxe5  Qd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rr1k1/ppqbRppp/2p5/8/3Q1n2/2P3N1/PPB2PPP/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "452"]
+
+
+1. Qxd7  Qb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2rn3k/p2q2bp/1p1p2p1/3B1p2/2P2P2/Q6P/P4BP1/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "453"]
+
+
+1. Qxa7  Nb7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bqkb2/ppp1p3/2P4r/6p1/7p/2pBP3/PPP3PP/R2QK1NR w KQ - 0 1"]
+[plycount "2"]
+[index "454"]
+
+
+1. Qh5+  Rxh5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1r1k1/pp3pBn/1q1p2p1/2pPp1n1/2P1P1P1/2N2P2/PPR1B2Q/4K2R w K - 0 1"]
+[plycount "2"]
+[index "455"]
+
+
+1. Bf6  Qd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/1pq3pp/3bNp2/1Q6/4P3/2B5/2PP2PP/r4R1K b - - 0 1"]
+[plycount "2"]
+[index "457"]
+
+
+1... Qd7 2. Nxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r2r2k1/pp1bpp1p/6p1/2ppn3/6P1/1PbPPB2/q1PN1P2/1R1QKN1R b K - 0 1"]
+[plycount "2"]
+[index "458"]
+
+
+1... Nxf3+ 2. Ke2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/1R3p1p/P2Pp3/4n3/8/8/r5BP/2r2N1K b - - 0 1"]
+[plycount "2"]
+[index "460"]
+
+
+1... Nf3 2. Rb8+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3r1k1/1p3ppp/2p2b2/p7/8/Q1BP2Pq/PPP4P/4RR1K b - - 0 1"]
+[plycount "2"]
+[index "461"]
+
+
+1... Re2 2. Rf2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "b3r1k1/p4ppp/1pq5/8/8/1P1P2P1/P1P2QNP/3B2K1 b - - 0 1"]
+[plycount "2"]
+[index "462"]
+
+
+1... Re1+ 2. Nxe1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r4/p1r2bk1/5p2/2p1q1pp/8/1PR1P2P/P4QP1/2RB2K1 b - - 0 1"]
+[plycount "2"]
+[index "464"]
+
+
+1... Rxd1+ 2. Rxd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6r1/1ppb1k2/p2p1p2/3P4/2P2P1N/4R1nP/PP1K2B1/8 b - - 0 1"]
+[plycount "2"]
+[index "466"]
+
+
+1... Nf5 2. Rb3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2kr2r1/1bb2pq1/p1p4p/1pP1p3/4Pp2/1PNN1Q1P/1P3PP1/R4RK1 b - - 0 1"]
+[plycount "2"]
+[index "467"]
+
+
+1... Rxd3 2. Qg4+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/5p1p/p3q1p1/2n3P1/1p1QP2P/1P4N1/PK6/2R5 b - - 0 1"]
+[plycount "2"]
+[index "468"]
+
+
+1... Qe5 2. Rd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/5pb1/1N2p2p/8/3nBq1p/2r4P/R1p2PP1/2R1Q2K b - - 0 1"]
+[plycount "2"]
+[index "470"]
+
+
+1... Be5 2. g3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r2r2k1/pp1bpp1p/6p1/q1ppn3/6P1/1PbPPBN1/P1PN1P2/1R1QK2R b K - 0 1"]
+[plycount "2"]
+[index "472"]
+
+
+1... Bxd2+ 2. Kf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r4k1/6pp/4N3/3r4/b7/3R4/K2R2PP/8 b - - 0 1"]
+[plycount "2"]
+[index "473"]
+
+
+1... Ra5 2. Rb2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4r3/pp1q2kp/1bpn1p2/4p2p/6P1/1BP2Q2/PP3PK1/2B1R3 w - - 0 1"]
+[plycount "2"]
+[index "475"]
+
+
+1. Bh6+  Kg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5nk1/1p4pp/5r2/p2qNb2/2Npn3/P5P1/1P3PBP/2R1Q1K1 w - - 0 1"]
+[plycount "2"]
+[index "476"]
+
+
+1. g4  g6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q1b2/5pk1/pp1p1np1/2pP2B1/6BQ/7P/PPP3P1/4R2K w - - 0 1"]
+[plycount "2"]
+[index "477"]
+
+
+1. Re8  Nxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1k3/6pr/p1nBP3/1p3p1p/2q5/2P5/P1R4P/K2Q2R1 w - - 0 1"]
+[plycount "2"]
+[index "478"]
+
+
+1. Rxg7  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2q4/5pk1/p1npr3/1pp1p1p1/4P1P1/1PPP1Q2/1P1B1PK1/R6R w - - 0 1"]
+[plycount "2"]
+[index "479"]
+
+
+1. Rh7+  Kxh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4bkr/1pp3p1/p2qb2p/3n4/2B5/P2P1Q1P/1PP2PP1/R1B1R1K1 w - - 0 1"]
+[plycount "2"]
+[index "480"]
+
+
+1. Rxe6  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2Nqb1r/pQ1bp1pp/1pn1p3/2kp4/P1p2B2/2P5/1PP2PPP/R3KB1R w KQ - 0 1"]
+[plycount "2"]
+[index "481"]
+
+
+1. Qxc6+  Bxc6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rn2k/3q1ppp/pp1p4/3Pp1Q1/nP2P3/6P1/5PBP/2R1R1K1 w - - 0 1"]
+[plycount "2"]
+[index "482"]
+
+
+1. Bh3  f6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r4k1/4pp1p/6p1/3PQn2/2R5/7P/1q2NPP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "483"]
+
+
+1. Rc8+  Rxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r2k/6Rp/p2q1Qp1/5n2/P5R1/3Np2P/6B1/7K w - - 0 1"]
+[plycount "2"]
+[index "484"]
+
+
+1. Rh4  Nxg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4r1k1/p1pq1p1p/8/3p4/5Q2/1P3PP1/P1P3KP/4R3 w - - 0 1"]
+[plycount "2"]
+[index "485"]
+
+
+1. Qg4+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1b1rrnk1/1b2q1pp/pp2p3/3nN3/2P4Q/3B2N1/PB4PP/3R1RK1 w - - 0 1"]
+[plycount "2"]
+[index "486"]
+
+
+1. Rxf8+  Kxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2rk1/5ppp/p1R2n2/1p1p4/3P4/3BP1P1/qP1N1PP1/3QK2R w K - 0 1"]
+[plycount "2"]
+[index "487"]
+
+
+1. Rxf6  h6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "R7/6kn/3p1rp1/3B3p/3Q4/2P4P/6PK/4q3 w - - 0 1"]
+[plycount "2"]
+[index "488"]
+
+
+1. Ra7+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/8/2R5/1Q4r1/1p2kq2/1P5P/3n2P1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "490"]
+
+
+1. Qxb4+  Kf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5Q2/p1r2ppp/4pk2/3pN3/3Pn3/2q1P3/5PPP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "491"]
+
+
+1. Qd8+  Re7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2r2/3bqpk1/p7/1pn1p1pQ/1B2P3/1B3R2/PP3PP1/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "492"]
+
+
+1. Rxc5  Bg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rbn1k/p1p2n1p/1p2pNp1/6q1/2BP4/1N3Q1P/PP4P1/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "493"]
+
+
+1. Nxe8  Qe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/pb3p1p/1p1q3n/8/2Q3P1/P3B2P/1P3P2/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "497"]
+
+
+1. Qc7  Nf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/pp5p/3p1np1/2pP4/8/8/PPP1Q1PP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "499"]
+
+
+1. Qe6+  Kg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3k3/6b1/1pb1r1p1/3n4/1pQp4/P2P4/2P5/1KBN1R2 w - - 0 1"]
+[plycount "2"]
+[index "500"]
+
+
+1. Re1  Rxe1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn1qk2r/p2b3p/1p2p1p1/1B5Q/4P3/B1P1n3/P1P3PP/R4RK1 w kq - 0 1"]
+[plycount "2"]
+[index "501"]
+
+
+1. Qe5  Nf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1k1nr/ppp2ppp/1bP2q2/8/2B5/BQ6/P4PpP/RN1R2K1 w kq - 0 1"]
+[plycount "2"]
+[index "503"]
+
+
+1. Bxf7+  Qxf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/5qnp/p5pB/1ppr4/3p1PP1/3P3P/PP4Q1/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "506"]
+
+
+1. Re7  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3rk/3q1p1p/5p2/1p1p1b2/2pN3R/P1P1R3/1P3PPP/3Q2K1 w - - 0 1"]
+[plycount "2"]
+[index "508"]
+
+
+1. Re7  Rxg2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rB1R4/2Q3pk/5q1p/4p3/6n1/6P1/5P1P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "509"]
+
+
+1. Qc2+  Qg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5rk/1pp1n1pp/p1n1b1q1/3p1p2/7R/2QB1N2/PB3PPP/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "510"]
+
+
+1. Rxe6  Raf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/3bbpp1/1pNq1n1p/4p3/1PP1B3/6B1/4QPPP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "511"]
+
+
+1. Bxe5  Qe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3R4/1p6/2pN3k/p6p/2b2r1P/P4P2/5K2/8 w - - 0 1"]
+[plycount "2"]
+[index "512"]
+
+
+1. Kg3  Rf7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r1k1/pb1qbp1p/1pn3pB/3N4/3pQ3/6P1/PP2PPBP/2RR2K1 w - - 0 1"]
+[plycount "2"]
+[index "519"]
+
+
+1. Qxe7  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r1r2k1/pbq2pb1/1p2p1p1/2p5/4N2R/2PBQ1P1/PPP2P2/1K5R w - - 0 1"]
+[plycount "2"]
+[index "520"]
+
+
+1. Rh8+  Bxh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "b1r3k1/3N1pp1/2nRp2p/p3P3/1p3P2/5B2/PP3KPP/8 w - - 0 1"]
+[plycount "2"]
+[index "521"]
+
+
+1. Nb6  Rb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r3/ppp2k1r/3p2p1/2PP4/5P2/P1B2QPq/1P3R2/6K1 b - - 0 1"]
+[plycount "2"]
+[index "522"]
+
+
+1... Re3 2. cxd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r2kb2/p4p2/b1p1p3/8/3P4/8/qBKN1PPP/Q6R b - - 0 1"]
+[plycount "2"]
+[index "523"]
+
+
+1... Rxb2+ 2. Qxb2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "br4k1/5pp1/4p2p/2N5/8/Q1qP1P2/6PP/R5K1 b - - 0 1"]
+[plycount "2"]
+[index "524"]
+
+
+1... Rb1+ 2. Rxb1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r4r1k/7p/1p1p1Pq1/2pP4/bPP1Qp1P/p2K4/P3BP2/4R2R b - - 0 1"]
+[plycount "2"]
+[index "525"]
+
+
+1... Bc2+ 2. Kxc2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5bk1/5pp1/3N2b1/2B4p/6P1/1R4QP/1P2rP1K/5q2 b - - 0 1"]
+[plycount "2"]
+[index "526"]
+
+
+1... h4 2. Rb8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/6pp/p1R1P3/P2p4/3P4/1B3Pq1/1P3QPr/6K1 b - - 0 1"]
+[plycount "2"]
+[index "527"]
+
+
+1... Rh1+ 2. Kxh1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4r1k1/1pp2bbp/p1n3p1/5p2/5N2/2N2P2/PPP1B1PP/1K1R4 b - - 0 1"]
+[plycount "2"]
+[index "528"]
+
+
+1... g5 2. Bd3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3r1k1/ppp2pp1/2nb3p/3n1b2/7B/2PN4/PP1NBPPP/R2K3R b - - 0 1"]
+[plycount "2"]
+[index "531"]
+
+
+1... Rxe2 2. Kxe2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3r1k1/pppq1ppp/8/8/1Q4n1/7P/PPP2PP1/RNB1R1K1 b - - 0 1"]
+[plycount "2"]
+[index "534"]
+
+
+1... Qd6 2. hxg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2q3k1/5pb1/p5pp/1p6/3rPP2/P7/NP2Q1PP/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "535"]
+
+
+1... Qc4 2. Re1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b1k2r/pp2npbp/3pp1p1/2p5/1q1nPP2/2NPB1P1/P1PQN1BP/1R2K2R b Kkq - 0 1"]
+[plycount "2"]
+[index "536"]
+
+
+1... Nxe2 2. Rxb4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3k1nr/ppp2ppp/8/3Bp3/3nPPb1/2P3P1/PP1PN2q/R1BQKR2 b Qkq - 0 1"]
+[plycount "2"]
+[index "537"]
+
+
+1... Nc2+ 2. Qxc2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "N1br2k1/pp3ppp/2n5/5nq1/4p3/2P1P1P1/PP3K1P/RNQ2B1R b - - 0 1"]
+[plycount "2"]
+[index "538"]
+
+
+1... Rd1 2. Nc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r4k/p3qp2/1pn3rp/5b2/4NQ2/2P1P2P/P5BK/1R3R2 b - - 0 1"]
+[plycount "2"]
+[index "539"]
+
+
+1... Rxg2+ 2. Kxg2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1b1k2r/ppp1bppp/2nq4/8/2B3n1/2p2N1P/PP2QPP1/RNB2RK1 b kq - 0 1"]
+[plycount "2"]
+[index "540"]
+
+
+1... Nd4 2. hxg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r4rk1/5ppp/pq2p3/2b5/3N4/1Q2PPP1/7P/R2R2K1 b - - 0 1"]
+[plycount "2"]
+[index "541"]
+
+
+1... Bxd4 2. Qxb6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3k1nr/p5b1/2qpp2p/1Q2n1p1/3N1p2/2P5/PP4PP/RNB2RK1 b kq - 0 1"]
+[plycount "2"]
+[index "542"]
+
+
+1... Nf3+ 2. Kh1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3k1r1/pp3p1p/4p3/4n3/b1qNP3/4B2P/P4PP1/R1Q3KR b - - 0 1"]
+[plycount "2"]
+[index "543"]
+
+
+1... Qxd4 2. Kh2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1br1r1k1/p2q1ppp/1p6/4p3/1PPp1n1n/P2P1PNP/1B1Q3K/3R2NR b - - 0 1"]
+[plycount "2"]
+[index "544"]
+
+
+1... Qxh3+ 2. Nxh3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/5pp1/2pp4/p1b4q/Pp2P2P/1B2B3/1PP1QPr1/1R3K2 b - - 0 1"]
+[plycount "2"]
+[index "545"]
+
+
+1... Rg1+ 2. Kxg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/1b1q1p1r/pp1p1Q1p/2pPrP1N/4P3/6P1/PP5P/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "547"]
+
+
+1. Qxe5  dxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3nR3/r1BP1rpk/2p4p/p1p2p2/8/7P/P4PP1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "548"]
+
+
+1. Rxd8  Rxc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2qkb1r/1b1n1p1p/p2pp3/1p3N2/8/2N3P1/PPP2P1P/R1BQR1K1 w kq - 0 1"]
+[plycount "2"]
+[index "550"]
+
+
+1. Rxe6+  Qe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1kb1r/1p3ppp/p1n3q1/8/3B4/5B2/PPPQ1P1P/2KR3R w kq - 0 1"]
+[plycount "2"]
+[index "551"]
+
+
+1. Bf6  Nd4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2q3r1/4Q1p1/p1kP1p1p/2r1p3/Pp6/6P1/1P3P1P/R2R2K1 w - - 0 1"]
+[plycount "2"]
+[index "555"]
+
+
+1. d7  Qd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/p1pb1qp1/3n1p1R/2pPpN2/2P5/P1PB4/4Q1PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "556"]
+
+
+1. Ne7+  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/1bn2qnp/3p1B1Q/p2P1pP1/1pp5/5N1P/PPB2P2/2KR3R w - - 0 1"]
+[plycount "2"]
+[index "559"]
+
+
+1. g6  Qxg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2rk1/pp4b1/2nppq2/5b2/2B1pP2/1PN1B3/PP5Q/2K3RR w - - 0 1"]
+[plycount "2"]
+[index "561"]
+
+
+1. Nd5  Qg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4b1rk/pnq1P1r1/1p3Qp1/1Pp5/2Pp4/3B2N1/P3RPP1/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "563"]
+
+
+1. Re4  Qe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3kr/ppp2n1p/7B/5q1N/1bp5/2Pp4/PP2RPPP/R2Q2K1 w - - 0 1"]
+[plycount "2"]
+[index "564"]
+
+
+1. Re8+  Rxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r5r/1bq1bpk1/p1p1pNp1/1p2P1P1/1P1P3N/P2Q4/6P1/3R1RK1 w - - 0 1"]
+[plycount "2"]
+[index "565"]
+
+
+1. Nh5+  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1nrk1/p4p1p/1p2p1pQ/nPqbRN2/8/P2B4/1BP2PPP/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "566"]
+
+
+1. Ne7+  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/ppp3p1/2bpq3/5pPR/3Qn3/5N2/PPP2PP1/2K4R w - - 0 1"]
+[plycount "2"]
+[index "567"]
+
+
+1. Ne5  Qxe5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r2/5rk1/3p1ppR/p2Np1n1/Pp2P3/5Pq1/1PP1Q3/1K5R w - - 0 1"]
+[plycount "2"]
+[index "568"]
+
+
+1. f4  Rh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6qk/1p2Q2p/pbb3p1/5pN1/1P1p1P2/3P4/P2B2PP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "569"]
+
+
+1. Ne6  h5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2k2/pppq1prp/3p1Qp1/8/2B5/2P5/PPP2PPP/R3R1K1 w - - 0 1"]
+[plycount "2"]
+[index "571"]
+
+
+1. Bxf7  a6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3rbk1/ppqb1pp1/2p3P1/8/2n3P1/2N5/PPP2P2/1KQR3R w - - 0 1"]
+[plycount "2"]
+[index "572"]
+
+
+1. Rh8+  Kxh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b4k/ppp2Bb1/6Pp/3pP3/1qnP1p1Q/8/PPP3P1/1K1R3R w - - 0 1"]
+[plycount "2"]
+[index "573"]
+
+
+1. Qd8+  Qf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2kr2nr/ppp2ppp/1b6/1B2q3/8/4BP2/PPQ3PP/3RR2K w - - 0 1"]
+[plycount "2"]
+[index "575"]
+
+
+1. Rxd8+  Kxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/p4p1p/3p1p2/2p1r3/2PnrqN1/P6P/1P1Q1PP1/3R1RK1 b - - 0 1"]
+[plycount "2"]
+[index "576"]
+
+
+1... Ne2+ 2. Kh1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3rr1k1/2p3pR/1p6/p1nPP3/2P5/2Nq1p2/PP6/2K1Q2R b - - 0 1"]
+[plycount "2"]
+[index "578"]
+
+
+1... Qxh7 2. Rxh7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3k2r/pp3p1p/2nq4/P3nbp1/1bPpp3/1P4PP/3BPPN1/RN1QKB1R b KQkq - 0 1"]
+[plycount "2"]
+[index "580"]
+
+
+1... e3 2. f4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r3k/p3Qp1p/4p3/1pR4P/3qr3/P5R1/1P3PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "582"]
+
+
+1. Rd5  Rc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/6pp/2r1q3/4B3/3pn3/1Q6/6PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "583"]
+
+
+1. Bd6  h5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "rn1qr3/pb5p/1p3b1R/5Pp1/2pp2k1/3B4/PP1B2PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "585"]
+
+
+1. Be4  Qc7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r2bnr/3b1k1p/p3pP2/1p2q2p/3NN2Q/8/1PP3PP/2BR1RK1 w - - 0 1"]
+[plycount "2"]
+[index "586"]
+
+
+1. Nf3  Qf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1bq2k1/ppp3rp/2n1P3/2Bp2pQ/5p2/2PB4/P1PP2PP/4RRK1 w - - 0 1"]
+[plycount "2"]
+[index "589"]
+
+
+1. e7  Nxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r2k4/pb2np2/1p1p1p1Q/1BP1qPr1/3pPN2/P6R/6PP/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "590"]
+
+
+1. Ne6+  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1rb2rk1/7p/p3p3/2Pp4/3Q1q2/2R5/P1P3BP/K2R4 w - - 0 1"]
+[plycount "2"]
+[index "591"]
+
+
+1. Rg3+  Qxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3r1/3q3p/p6b/Pkp1B3/1p1p1P2/1P1P1Q2/2R3PP/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "593"]
+
+
+1. Bc7  Rxg2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r4rk1/pq4pp/4P3/3p3Q/2pP1P2/4P2P/PbK5/1N4RR w - - 0 1"]
+[plycount "2"]
+[index "594"]
+
+
+1. e7  Qxe7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1r2k/1b5p/p2QNq2/3p1P2/3Pp3/8/6RP/6RK w - - 0 1"]
+[plycount "2"]
+[index "596"]
+
+
+1. Nf8  Rxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b1rqk1/5p2/5Pp1/ppp1B1Q1/8/1P1P3R/P5PP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "597"]
+
+
+1. Qxg6+  fxg6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "Q2b1k2/p4p1r/3PnR2/P3P1q1/1p4p1/6Nr/1P5P/5RBK w - - 0 1"]
+[plycount "2"]
+[index "598"]
+
+
+1. Rxe6  Rxg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r4r1/1p1b1p1k/pq5b/4pP1R/3NP1P1/6K1/PP1Q2B1/3R4 w - - 0 1"]
+[plycount "2"]
+[index "599"]
+
+
+1. Ne6  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r6k/1p2RQ1p/3p4/p1q3r1/8/1P4N1/P1b3PP/5R1K w - - 0 1"]
+[plycount "2"]
+[index "601"]
+
+
+1. Qf6+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/6p1/pb3pQB/5P2/2P1K3/3P3R/4q1PP/8 w - - 0 1"]
+[plycount "2"]
+[index "602"]
+
+
+1. Re3  Qxe3+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2b2r2/1pn3pk/r7/p3N3/2Q2p1N/7R/Pq4PP/5R1K w - - 0 1"]
+[plycount "2"]
+[index "603"]
+
+
+1. Qe6  Bxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r3k/p5p1/1p5p/3bpP2/4Bq2/1P5K/P5Q1/6R1 b - - 0 1"]
+[plycount "2"]
+[index "608"]
+
+
+1... g5 2. Qg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3R4/2B5/8/5k2/1b2b3/4K2p/3p4/8 b - - 0 1"]
+[plycount "2"]
+[index "609"]
+
+
+1... Bd6 2. Kxd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r3r1k1/1pp2ppp/p2b4/7q/3P4/1Q4Pb/PP3P1P/RNBR2K1 b - - 0 1"]
+[plycount "2"]
+[index "610"]
+
+
+1... Qe2 2. Nd2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1r3k1/6p1/3Rp2p/1b3p2/3Q4/1P6/3N2qP/1K4R1 b - - 0 1"]
+[plycount "2"]
+[index "611"]
+
+
+1... Bd3+ 2. Qxd3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1br3k1/1p4p1/p3p2r/5pq1/3Nb3/P1B1PpP1/1P1R3P/2R1Q1K1 b - - 0 1"]
+[plycount "2"]
+[index "615"]
+
+
+1... Rxh2 2. Rxh2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/1p4pp/3p4/p1P1n2Q/q2BP3/2P4P/3p2P1/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "616"]
+
+
+1... Nf3+ 2. Qxf3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1k6/p2q2pp/1p3p2/2pn4/3P2PP/Q1P2PK1/P3r3/6RR b - - 0 1"]
+[plycount "2"]
+[index "621"]
+
+
+1... Qd6+ 2. Kh3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r4k1/5r1p/1qPb1Pp1/p1Np2Pn/P3p2P/KP2Q2N/3B1P2/2R5 b - - 0 1"]
+[plycount "2"]
+[index "622"]
+
+
+1... d4 2. Bxa5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6k1/4P1pp/1p1n4/p7/8/1P3PP1/4B1KP/8 w - - 0 1"]
+[plycount "2"]
+[index "624"]
+
+
+1. Bc4+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/6p1/5pPp/2pBpP1P/p2nP3/q7/3Q4/6RK w - - 0 1"]
+[plycount "2"]
+[index "625"]
+
+
+1. Qxh6+  gxh6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "Rr4k1/1P1n1p2/6p1/3p1N1p/1Pn1p3/6PP/6P1/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "626"]
+
+
+1. Ne7+  Kg7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/p2q2pp/1p1Pr3/3QPp2/1B6/P7/1P4PP/6K1 w - - 0 1"]
+[plycount "2"]
+[index "629"]
+
+
+1. Qxe6  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/4Pk1p/6p1/1r6/8/5N2/2B2PPP/b5K1 w - - 0 1"]
+[plycount "2"]
+[index "630"]
+
+
+1. e8=B+ (1. e8=Q+) Kxe8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1k3/ppP1r1pp/3R4/5R2/8/6P1/P4PP1/6K1 w - - 0 1"]
+[plycount "2"]
+[index "632"]
+
+
+1. Rd8+  Rxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6rk/p6p/1pp1P2r/5P2/3RP1n1/8/PP5P/6RK w - - 0 1"]
+[plycount "2"]
+[index "633"]
+
+
+1. Rxg4  Rxg4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4k3/p1P3p1/2q1np1p/3N4/8/1Q3PP1/6KP/8 w - - 0 1"]
+[plycount "2"]
+[index "634"]
+
+
+1. Qb5  Qxb5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "8/1P1R4/1r4kp/p5p1/3p2P1/4PK2/1P3P1P/8 w - - 0 1"]
+[plycount "2"]
+[index "635"]
+
+
+1. Rd6+  Rxd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2q3k1/pp2P2p/3p1Q1p/2pP2r1/4P3/6N1/P5PP/7K w - - 0 1"]
+[plycount "2"]
+[index "636"]
+
+
+1. Qe6+  Qxe6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3k1/1p3p2/pn1P2pp/4p3/6Q1/6B1/1q3PPP/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "637"]
+
+
+1. Qxc8+  Nxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3qr1k1/pp3Rp1/2ppP2p/8/4N3/1B4P1/PP5P/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "639"]
+
+
+1. e7  Qb6+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/p1q2p1p/2Pr2p1/4Q3/P7/6P1/5P1P/2R3K1 w - - 0 1"]
+[plycount "2"]
+[index "640"]
+
+
+1. Qxd6+  Qxd6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/6b1/2p4p/P1pr4/2Q5/1P4P1/2P4P/7K w - - 0 1"]
+[plycount "2"]
+[index "641"]
+
+
+1. a6  Rd1+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5k2/ppq1r1b1/4P3/3Q2R1/P7/8/1P5P/6RK w - - 0 1"]
+[plycount "2"]
+[index "642"]
+
+
+1. Rf1+  Ke8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1r1b2k1/pp3ppp/P2P1n2/3p4/8/6P1/1P3PKP/2R1R3 w - - 0 1"]
+[plycount "2"]
+[index "643"]
+
+
+1. Rc8  Rxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3Q4/p3b1k1/2p2rPp/2q5/4B3/P2P4/8/6RK w - - 0 1"]
+[plycount "2"]
+[index "644"]
+
+
+1. Qh8+  Kxh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3qr2/ppp1ppkP/3p1nb1/6Q1/3P3N/8/PPP1PPP1/R3KB1R w KQ - 0 1"]
+[plycount "2"]
+[index "646"]
+
+
+1. h8=Q+  Rxh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3rk3/P2np2p/2p3p1/8/4N3/1P2P3/5PP1/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "647"]
+
+
+1. Rxd7  Kxd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/p1k2p2/5n2/4pP2/1P6/2pB1K2/8/8 b - - 0 1"]
+[plycount "2"]
+[index "648"]
+
+
+1... e4+ 2. Ke2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r3k1/5pb1/3Qp2p/5p2/5P2/R3N3/1pP1q1PP/1K6 b - - 0 1"]
+[plycount "2"]
+[index "650"]
+
+
+1... Rxc2 2. Qf8+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/p1pp4/1p2p1p1/2P1r1N1/7P/3Q4/PP3pq1/1K3R2 b - - 0 1"]
+[plycount "2"]
+[index "651"]
+
+
+1... Qxf1+ 2. Qxf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r4r1k/4N2p/4n1p1/4Pp2/1p1P1PP1/1q5P/p5R1/3R1QK1 b - - 0 1"]
+[plycount "2"]
+[index "654"]
+
+
+1... Nxf4 2. Ra1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7k/7p/4rN2/p7/2P5/P2n3P/5pRK/1R2r3 b - - 0 1"]
+[plycount "2"]
+[index "656"]
+
+
+1... f1=N+ 2. Kh1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7r/1pR5/6k1/3p4/p3n1np/4P3/PPP3PP/5R1K b - - 0 1"]
+[plycount "2"]
+[index "658"]
+
+
+1... Ng3+ 2. Kg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2k1r3/1pp5/p2p4/3P1p2/3N2p1/5PPp/PPPK2n1/6R1 b - - 0 1"]
+[plycount "2"]
+[index "659"]
+
+
+1... Re1 2. Rxe1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2r4k/3q2bp/4Q3/1pB2p2/1P6/3p4/P4PPP/4R1K1 b - - 0 1"]
+[plycount "2"]
+[index "660"]
+
+
+1... d2 2. Qe2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2rk4/1b1p3p/pp2p3/5p2/1PPp2rq/P2B2N1/5QpP/3RR1K1 b - - 0 1"]
+[plycount "2"]
+[index "663"]
+
+
+1... Qxh2+ 2. Kxh2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6r1/5k2/8/3pb3/p1p2p2/P1PnpP1P/1P6/2BR1KN1 b - - 0 1"]
+[plycount "2"]
+[index "665"]
+
+
+1... Rxg1+ 2. Kxg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3r3k/3P1ppp/p3q3/1pR1P3/2p5/Q5PP/P4P1K/8 w - - 0 1"]
+[plycount "2"]
+[index "666"]
+
+
+1. Rc8  Rxc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "1R2rq1k/2p3p1/Q2p1pPp/8/4P3/8/P1r3PP/1R4K1 w - - 0 1"]
+[plycount "2"]
+[index "667"]
+
+
+1. Qb5  Rc1+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r5k1/6pp/4q3/pb1pNp2/1n1P4/1Q2P1P1/1B1n1PBP/R5K1 w - - 0 1"]
+[plycount "2"]
+[index "668"]
+
+
+1. Qxb4  axb4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "7k/p2r1ppp/1pQ2bq1/3B4/4P3/2BR2Pb/PP3P1P/6K1 w - - 0 1"]
+[plycount "2"]
+[index "669"]
+
+
+1. Be6  h5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rkr/1p3ppp/8/p7/4R3/Q7/PPPq2PP/4R2K w - - 0 1"]
+[plycount "2"]
+[index "670"]
+
+
+1. Qxf8+  Kxf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/3b2p1/p6p/1pRpR3/1P1P4/P4pPq/5Qn1/1B4K1 w - - 0 1"]
+[plycount "2"]
+[index "671"]
+
+
+1. Qxf3  Nf4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rk1/6pp/3P4/2Q2p2/6n1/2P5/P1q3PP/R4RK1 w - - 0 1"]
+[plycount "2"]
+[index "672"]
+
+
+1. d7  Nf6
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "4rrk1/1pp1R1pp/p7/q1P5/8/5P2/PPQ4P/5R1K w - - 0 1"]
+[plycount "2"]
+[index "673"]
+
+
+1. Qc4+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "3R1r1k/6pp/5p2/5B1b/p1p5/q4P2/PrPQ2PP/4R2K w - - 0 1"]
+[plycount "2"]
+[index "674"]
+
+
+1. Qc3  Rxd8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "6kr/pp4p1/2n5/3qpNNp/2Qp4/2n5/P4PPP/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "675"]
+
+
+1. Rxe5  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5r1k/pp5p/2p2n2/5N2/4qP2/2Q5/1PP4K/3R4 w - - 0 1"]
+[plycount "2"]
+[index "677"]
+
+
+1. Qxf6+  Kg8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r1r1k1/1p1q1ppp/3p1b2/p2P4/2Q5/5N2/PP2RPPP/4R1K1 w - - 0 1"]
+[plycount "2"]
+[index "678"]
+
+
+1. Qc7  Qb5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r1b2r1k/ppp3pp/3b4/4Npq1/2B5/8/PPP2PPP/R2QR1K1 w - - 0 1"]
+[plycount "2"]
+[index "679"]
+
+
+1. Qxd6  Qxg2+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "2r3k1/Q4Rpp/p1q1n3/P2pP3/8/1pP5/1P4PP/5R1K w - - 0 1"]
+[plycount "2"]
+[index "680"]
+
+
+1. Rxg7+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "Rnk5/1p4pp/1Pp2pq1/2B1r3/1P6/7P/3r2PQ/5RK1 w - - 0 1"]
+[plycount "2"]
+[index "681"]
+
+
+1. Rxb8+  Kd7
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "5rk1/ppq2ppp/2p5/4bN2/4P3/6Q1/PP3PPP/3R2K1 w - - 0 1"]
+[plycount "2"]
+[index "682"]
+
+
+1. Nh6+  Kh8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "White to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "1-0"]
+[fen "r3r1k1/3R1ppp/p3p1q1/2p5/2p5/5Q2/PPP3PP/1K1R4 w - - 0 1"]
+[plycount "2"]
+[index "683"]
+
+
+1. Qxa8  Kf8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5r1k/1p4p1/2p4p/8/2QPp3/8/PP3qPP/2R4K b - - 0 1"]
+[plycount "2"]
+[index "684"]
+
+
+1... b5 2. Qxb5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r1b1k/pp4p1/2p1Qp2/5N2/PP2Pp2/2Pq4/5PKP/5R2 b - - 0 1"]
+[plycount "2"]
+[index "685"]
+
+
+1... f3+ 2. Kg3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5rk1/1pp3bp/3p2p1/2PPp3/1P2P3/2Q1B3/4q1PP/R5K1 b - - 0 1"]
+[plycount "2"]
+[index "686"]
+
+
+1... Bh6 2. Qe1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "2rr2k1/5pp1/pN2pb2/Q7/1R6/P2q4/5PPP/5RK1 b - - 0 1"]
+[plycount "2"]
+[index "688"]
+
+
+1... Rc1 2. h4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "1r2r1k1/p2q1pbp/6p1/4n3/5Q2/2N3Pb/PPP2PBP/R1BR2K1 b - - 0 1"]
+[plycount "2"]
+[index "689"]
+
+
+1... Qxd1+ 2. Nxd1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "r1r3k1/p2qbppp/4b3/3p2P1/1pnP1P2/3Q2N1/PP1B3P/1K1NRR2 b - - 0 1"]
+[plycount "2"]
+[index "690"]
+
+
+1... Bf5 2. Nxf5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5r1k/ppp3pp/2b1p3/8/2PPP3/P1BQ4/5qPP/4R2K b - - 0 1"]
+[plycount "2"]
+[index "691"]
+
+
+1... Bxe4 2. Rg1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "8/pQRq2pk/4p2p/3r1p2/3P4/4P3/PP3PPP/6K1 b - - 0 1"]
+[plycount "2"]
+[index "692"]
+
+
+1... Rc5 2. Rxc5
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "6k1/1bp2ppp/p2p1b2/7R/Q1P5/P3q3/1r3NPP/5RK1 b - - 0 1"]
+[plycount "2"]
+[index "693"]
+
+
+1... Qxf2+ 2. Rxf2
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r2k1/p4ppp/1q6/8/8/2R1P3/P3QPPP/6K1 b - - 0 1"]
+[plycount "2"]
+[index "694"]
+
+
+1... Qb2 2. Rc8
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "7Q/1bq1kp2/p3p2p/8/PNp1r3/6P1/1P3P2/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "696"]
+
+
+1... Qd6 2. Rf1
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "4k3/8/2pr1Q2/p2qp3/Pp2N3/1P1P4/2P3PP/7K b - - 0 1"]
+[plycount "2"]
+[index "697"]
+
+
+1... Qxe4 2. Qh8+
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3rr1k1/p4p1p/1p2p1pB/2n1q3/2P3Q1/1P6/P1R2PPP/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "698"]
+
+
+1... Qe4 2. Qf3
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "3r1rk1/q4ppp/p1Rnp3/8/1p6/1N3P2/PP3QPP/3R2K1 b - - 0 1"]
+[plycount "2"]
+[index "699"]
+
+
+1... Ne4 2. Qd4
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "Black to move & win"]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Find the best move"]
+[black "1001 Winning Chess Sacrifices and Combinations"]
+[result "0-1"]
+[fen "5r1k/1p4pp/8/3Pp1R1/1q6/8/PP4PP/2Q4K b - - 0 1"]
+[plycount "2"]
+[index "700"]
+
+
+1... Qd2 2. Qg1
+

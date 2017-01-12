@@ -2108,11 +2108,19 @@ div.chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
+.notation-chess-move{
+    display:inline-block;
+    padding:2px;
+}
 .ludo-twilight .notation-chess-move {
     color: #aeb0b0;
     display:inline-block;
     padding:2px;
 
+}
+
+span.notation-chess-move-highlighted{
+    border-radius: 3px;
 }
 
 .ludo-twilight span.notation-chess-move-highlighted {
@@ -2125,7 +2133,6 @@ div.chess-notation-panel .ludo-body {
 .ludo-chess-board-container {
     position: relative;
     margin: 0 auto;
-    background-color: #FFF;
     padding: 2px;
     border:1px solid #000;
     cursor:default;
@@ -2450,10 +2457,6 @@ tab layout */
 /** Not the first child */
 .ludo-twilight .ludo-accordion-titlebar-below-expanded{
     border-top: 1px solid #383838;
-}
-
-.ludo-twilight .ludo-framed-view .ludo-body {
-    overflow: hidden;
 }
 
 .ludo-twilight .ludo-accordion-collapsed {
@@ -2865,7 +2868,7 @@ Collapse bar
 }
 
 .ludo-twilight  .ludo-paging-first .ludo-form-button-value{
-    background-image:url(../images/twilight-skin/paging-first.png?rnd=1);
+    background-image:url(../ludojs/images/twilight-skin/paging-first.png);
 }
 
 .ludo-twilight  .ludo-paging-next .ludo-form-button-value{
@@ -2880,10 +2883,10 @@ Collapse bar
     background-image:url(../ludojs/images/twilight-skin/paging-next-disabled.png);
 }
 
-.ludo-paging-last .ludo-form-button-value{
+.ludo-twilight .ludo-paging-last .ludo-form-button-value{
     background-image:url(../ludojs/images/twilight-skin/paging-last.png);
 }
-.ludo-form-button-disabled.ludo-paging-last .ludo-form-button-value{
+.ludo-twilight .ludo-form-button-disabled.ludo-paging-last .ludo-form-button-value{
     background-image:url(../ludojs/images/twilight-skin/paging-last-disabled.png);
 }
 
@@ -2979,4 +2982,12 @@ On Off Switch */
 /** Label */
 .ludo-twilight .ludo-form-el-invalid label{
     color:#EF9A9A;
+}
+
+/**
+Shim **/
+.ludo-twilight .ludo-shim-loading {
+    background-color:#0D47A1;
+    color:#FFF;
+    background-image:url(../ludojs/images/twilight-skin/ajax-loader-shim.gif);
 }

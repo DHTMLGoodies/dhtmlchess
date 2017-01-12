@@ -1,7 +1,7 @@
 chess.view.installer.Wizard = new Class({
 	Extends:ludo.View,
 	layout:{
-		type:'card',
+		type:'viewpager',
 		animate:true
 	},
     form:{

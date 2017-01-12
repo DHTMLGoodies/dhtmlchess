@@ -128,7 +128,7 @@ chess.view.score.BarBackground = new Class({
 
         var s = this.scoreArea();
 
-        var fill = colorUtil.offsetBrightness(this.whiteColor, -(this.range * 10));
+        var fill = colorUtil.offsetBrightness(this.whiteColor, -(this.range * 15));
         var score = this.range;
         var x = this.scoreAreaStart();
 
@@ -137,12 +137,13 @@ chess.view.score.BarBackground = new Class({
         for (var i = 0; i < this.range * 2; i++) {
 
             if (i == this.range) {
-                fill = colorUtil.offsetBrightness(this.blackColor, (this.range * 10) + 10);
+                fill = colorUtil.offsetBrightness(this.blackColor, (this.range * 10));
                 textFill = this.whiteColor;
             }
 
             var index = i % this.range;
             var fillOpacity = i >= this.range ? this.range - 1 - index : index;
+            fillOpacity = (fillOpacity / this.range) / (this.range / 3);
 
             var g = this.$('g');
             this.append(g);
@@ -150,7 +151,7 @@ chess.view.score.BarBackground = new Class({
             var h = (this.height / 2) - (this.height * i / 24);
 
             var r = this.$('rect', {x: 0, y: 0, height: h, width: s / (this.range * 2)});
-            r.css('fill-opacity', (fillOpacity / this.range) * 1);
+            r.css('fill-opacity', fillOpacity);
             r.css('fill', fill);
 
             g.append(r);

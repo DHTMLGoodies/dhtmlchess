@@ -33,7 +33,7 @@ chess.view.command.Panel = new Class({
      * @method clear
      */
 	clear:function(){
-		this.getBody().innerHTML = '';
+		this.getBody().html('');
 		this.currentLine = undefined;
 	},
 

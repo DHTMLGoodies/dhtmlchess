@@ -1,333 +1,177 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>DHTML, Ajax And Javascript Code Library - DHTMLGoodies.com</title>
-    <meta http-equiv="content-type" content="text/html;charset=iso-8859-1"/>
-    <meta name="Author" content="Alf Magne Kalleland (post@dhtmlgoodies.com)"/>
-    <META NAME="Generator" CONTENT="Alf Magne Kalleland (www.dhtmlgoodies.com)"/>
-    <meta name="KeyWords"
-          content="Ajax scripts,Ajax tutorials,Free DHTML scripts,Tab menu,Slide menu, Slide out menu,XP wiludoet,DHTML, HTML, Dynamic HTML,DHTML Calendar,Dhtml Menu,Drag and drop, Drag, Drop,dhtml slideshow,Library, Javascript, Java"/>
-    <meta name="Description"
-          content="Free DHTML, Javascript and Ajax code library, demos and tutorials - DHTMLGoodies.com."/>
-    <meta name="country" content="Norway"/>
-    <meta name="organization-Email" content="post@dhtmlgoodies.com" v>
-    <meta name="copyright" content="copyright 2012 - Alf Magne Kalleland"/>
-    <meta name="coverage" content="Worldwide"/>
-    <meta name="revisit_after" content="30days"/>
-    <meta name="title" content="DHTML, Ajax And Javascript Code Library - DHTMLGoodies.com "/>
-    <meta name="identifier" content="http://www.dhtmlgoodies.com/"/>
-    <meta name="language" content="English"/>
-    <meta name="robots" content="follow"/>
-    <meta name="googlebot" content="index, follow"/>
-    <link rel="stylesheet" href="http://www.dhtmlgoodies.com/css/dhtmlgoodies.css?inputArg=20100913" media="screen"
-          type="text/css">
-    <link rel="stylesheet" href="http://www.dhtmlgoodies.com/css/print.css?inputArg=20070307" media="print"
-          type="text/css">
-    <meta name="google-site-verification" content="CLFWhzvdwS3JxkdvluEuPbVNrET0BHngdFC3VUMRnAQ"/>
-    <script src="http://platform.twitter.com/anywhere.js?id=WR0EMH8LQQkenolLlsDVSw&amp;v=1">
-    </script>
-    <script type="text/javascript">
-        twttr.anywhere(function (twitter) {
-            twitter.hovercards();
-        });
-    </script>
-    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pgn Viewer on web page</title>
+
     <style type="text/css">
-        body, html {
-            overflow-y: auto !important;
+        /* Demo css rules */
+        body{
+            background-color:#039BE5 !important;
+            -webkit-font-smoothing: antialiased;
+            color:#333;
+            font: 15px "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+        }
+
+        nav ul{
+            padding:0;
+        }
+
+        nav#main{
+            border-radius:5px;
+        }
+
+        nav#main li a:hover, nav#main li.current a, nav#main .searchform {
+            background: none;
+            box-shadow: inset 0 0 5px rgba(0,0,0, 0.4), rgba(255,255,255,0.1) 0 1px 0;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.25);
+            color: #fff;
+            text-shadow: rgba(0, 0, 0, 0.796875) 0 -1px 0, rgba(255, 255, 255, 0.296875) 0 0 10px;
+        }
+
+
+        nav ul, nav ol {
+            list-style: none;
+            list-style-image: none;
+        }
+
+        nav#main li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 10px;
+            display: block;
+            border: 1px solid transparent;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.76);
+        }
+
+        nav#main ul {
+            margin: 0;
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        nav#main li {
+            float: left;
+            font: normal normal 16px "klavika-web", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+            margin-right: 2px;
+        }
+
+        .menu {
+            background-color: #01579B;
+            padding:10px;
+            border-radius:5px;
+
+            display:block;
+        }
+
+        .body{
+            background-color:#FFF;
+            padding:10px;
+        }
+
+        .footer{
+            background-color: #01579B;
+            padding:10px;
+            color:#FFF;
+            font-size:0.8em;
+        }
+        .ludo-layout-resize-col{
+            border-left:1px solid #aaa;
+            border-right:1px solid #aaa;
         }
     </style>
-    <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
-    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <!-- INCLUDING DHTML CHESS JS AND CSS -->
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../src/datasource/pgn-games.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
 
+    <script type="text/javascript" src="js/tactics-from-file.js"></script>
+    <!-- Custom styling of board -->
+
+    <style type="text/css">
+        .ludo-chess-board{
+            border:1px solid #aaa;
+        }
+
+        .ludo-chess-board-container{
+            background-color:#ddd;
+            border:1px solid #aaa;
+            border-radius:4px;
+
+        }
+    </style>
 </head>
 <body>
-<div id="pageContainer">
+
+<div class="content">
+
+    <div class="header">
+        <img src="images/sample-heading.png">
+    </div>
+    <div class="menu">
+
+        <nav id="main">
+            <div>
+                <ul id="menu-top" class="menu">
+                    <li class="menu-item"><a href="#">Download</a></li>
+                    <li class="menu-item"><a href="#">Learn</a></li>
+                    <li class="menu-item"><a href="#">Samples</a></li>
+                    <li class="menu-item"><a href="#">License</a></li>
+                    <li class="menu-item"><a href="#">Contact</a></li>
+                    <li class="menu-item"><a href="#">Forums</a></li>
+                </ul>
+
+                <form class="searchform" style="display:none">
+                    <input type="text" name="s" placeholder="Search">
+                </form>
+                <div style="clear:both"></div>
+            </div>
+            <div style="clear:both"></div>
+        </nav>
+    </div>
+
+    <div class="body">
+        <h1>Tactic Training</h1>
+        <!--
+
+        Start DHTML Chess code
+
+        -->
+
+        <!-- Parent for DHTML Chess HTML
+        To show the DHTML Chess boards in dark theme, assign the class to ludo-twilight.
+        Other options are
+        ludo-lightgray
+        ludo-gray
+        ludo-blue
+        -->
+        <div id="dhtml-chess" style="height:700px;max-width:800px" class="ludo-light-gray"></div>
+
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+                new chess.TacticsFromFile({
+                    renderTo:'#dhtml-chess',
+                    pgn:'tactic-checkmates'
+                });
+
+            });
 
 
-<div id="textLinkAds"
-     style="position:relative;clear:both;height:25px;width:100%;background-color:#317082;color:#FFF;width:940px">
 
-    <ul style="margin:0px;margin-left:3px;padding:0px;list-style-type:none">
-        <li style="float: left; clear: none; margin: 0; display: inline; padding: 0;"><span
-            style="width: 100%; margin: 0; color: #FFF; font-size: 12px; display: block; padding-right: 3px;padding-left:3px">  <a
-            onmouseover="this.style.color='red'" onmouseout="this.style.color='white'"
-            style="font-size:12px;color:#FFFFFF" href="http://www.123print.co.uk">123Print</a>  </span></li>
-        <li style="float:left"> |</li>
-        <li style="float: left; clear: none; margin: 0; display: inline; padding: 0;"><span
-            style="width: 100%; margin: 0; color: #FFF; font-size: 12px; display: block; padding-right: 3px;padding-left:3px">  <a
-            onmouseover="this.style.color='red'" onmouseout="this.style.color='white'"
-            style="font-size:12px;color:#FFFFFF" href="http://www.tradebit.com">sell videos</a>  </span></li>
-        <li style="float:left"> |</li>
-        <li style="float: left; clear: none; margin: 0; display: inline; padding: 0;"><span
-            style="width: 100%; margin: 0; color: #FFF; font-size: 12px; display: block; padding-right: 3px;padding-left:3px">  <a
-            onmouseover="this.style.color='red'" onmouseout="this.style.color='white'"
-            style="font-size:12px;color:#FFFFFF" href="http://groups.drupal.org/node/110889">Photon Infotech Consulting
-            Firm</a>  </span></li>
-    </ul>
-</div>
-
-
-<div id="mainContainer">
-
-
-<div id="ad">
-
-</div>
-<div id="siteSearch">
-    <form action="http://www.dhtmlgoodies.com" id="cse-search-box">
-        <div>
-            <input type="hidden" name="cx" value="partner-pub-0714236485040063:nuisg6-v31i"/>
-            <input type="hidden" name="cof" value="FORID:11"/>
-            <input type="hidden" name="ie" value="ISO-8859-1"/>
-            <input type="text" name="q" size="15"/>
-            <input type="submit" name="sa" value="Search"/>
-        </div>
-    </form>
-    <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
-    <!--
-         <form action="/index.html" method="post">
-             <table>
-                 <tr>
-                     <td><input type="text" name="search_query" class="searchField" value=""></td>
-                     <td><input type="submit" name="search" value="Search" class="searchButton"></td>
-                 </tr>
-             </table>
-         </form>-->
-</div>
-<div id="header"><a href="http://www.dhtmlgoodies.com/index.html"><img
-    src="http://www.dhtmlgoodies.com/images/heading3.gif"
-    alt="DHTMLGoodies.com gives you free DHTML/Javascript and Ajax scripts"></a>
-</div>
-<div id="leftMenu" class="konafilter">
-    <ul>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=menuScripts">Menu scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=windowScript">Window scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=calendarScripts">Calendar scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=galleryScripts">Gallery scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=formWiludoets">Form wiludoets</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=tab-view-scripts">Tab view scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=tableWiludoets">Table wiludoets</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=dragDrop">Drag and drop</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=folderTree">Folder trees</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=tooltip">Tooltips</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=ajax">AJAX scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=content-effects">Content Effects</a> <img
-            src="http://www.dhtmlgoodies.com/images/menu_new.gif"></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=smallscripts">Misc scripts</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=forfun">Javascript games</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=chess">Chess wiludoets</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=dhtml-suite">DHTML Suite</a></li>
-    </ul>
-
-    <ul>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=tutorials">Tutorials</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=tipsAndTricks">Tips and Tricks</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/scripts/color-schemer/color-schemer.html">Color schemer</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/scripts/color-schemer-v2/color-schemer-v2.html"
-               onclick="var colorWin = window.open(this.href);return false">Color schemer II</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/scripts/regular-expression/regular-expression.html"
-               onclick="var colorWin = window.open(this.href);return false">Regex tool</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/scripts/css-lookup/css-lookup.html"
-               onclick="var cssLookupWin = window.open(this.href);return false">CSS lookup</a></li>
-        <li><a href="http://www.realmetrics.com/b/6412839473241242">Hosting Reviews</a></li>
-    </ul>
-    <ul>
-        <li><a href="/forum/" title="Need help? Ask a question at my forum">Forum</a></li>
-        <li><strong><a href="http://www.dhtmlgoodies.com/index.html?page=commercial-license">Licensing</a></strong></li>
-        <li><strong><a href="http://www.dhtmlgoodies.com/index.html?page=custom-work">Custom work</a></strong></li>
-        <li>
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td><img src="http://www.dhtmlgoodies.com/images/twitter.png" alt="Go to DHTMLGoodies on twitter">
-                    </td>
-                    <td><a href="http://twitter.com/DHTMLGoodies">Twitter<br><span
-                        style="font-size:10px">DHTMLGoodies</span></a></td>
-                </tr>
-            </table>
-        </li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=linkToUs">Link to us</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=rss">RSS feed <img
-            src="http://www.dhtmlgoodies.com/images/rss.gif"
-            alt="RSS feed from DHTMLGoodies.com"></a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=advertise">Advertise</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=donate">Donate</a></li>
-
-    </ul>
-    <ul>
-        <li><b>Resources</b></li>
-        <li><a href="http://www.cbolson.com" onclick="var linkWin = window.open(this.href);return false">cbolson.com</a>
-        </li>
-        <li><a href="http://www.vision.to" onclick="var linkWin = window.open(this.href);return false">Vision.To
-            Design</a></li>
-        <li><a href="http://www.dhtmlgoodies.com/index.html?page=resources">Other resources</a></li>
-    </ul>
-</div>
-<div id="mainContent">
-    <div style="margin:0 auto;width:300px;padding:3px;padding-top:8px">
-        <script type="text/javascript"><!--
-        google_ad_client = "ca-pub-0714236485040063";
-        /* 300x250, opprettet 03.09.08 */
-        google_ad_slot = "6355262921";
-        google_ad_width = 300;
-        google_ad_height = 250;
-        //-->
-        </script>
-        <script type="text/javascript"
-                src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
         </script>
 
     </div>
-    <h2>Tactic training</h2>
-
-    <p>Drag'n drop to solve the puzzles. ps! These puzzles can also be solved on iPad and Android devices.</p>
-
-    <div style="width:500px;height:650px;" id="chess-container">
-
-
+    <div class="footer">
+        Footer of Web page &copy; dhtmlchess.com
     </div>
-    <script type="text/javascript">
-        new ludo.View({
-            title:'Analysis board, DHTML Chess 3.0',
-            statusBar:{
-                visible:false
-            },
-            renderTo:'chess-container',
-
-            resizable:false,
-            closable:false,
-
-            minimizable:false,
-            elCss:{
-                'background-color':'#FFF'
-            },
-            css:{
-                'background-color':'#FFF'
-            },
-
-            layout:{
-                width:'100%',
-                height:'100%',
-                type:'fill'
-
-            },
-            minHeight:100,
-            children:[
-                {
-                    weight:1,
-                    layout:'rows',
-
-                    children:[
-                        {
-                            type:'chess.view.message.TacticsMessage',
-                            height:25,
-                            elCss:{
-                                'background-color':'#FFF'
-                            }
-                        },
-                        {
-                            type:'chess.view.board.Board',
-                            chessSet:'alphapale',
-                            labels:true,
-                            weight:1,
-                            elCss:{
-                                'background-color':'#FFF'
-                            },
-                            plugins:[
-                                {
-                                    type:'chess.view.highlight.Arrow'
-                                },
-                                {
-                                    type:'chess.view.highlight.ArrowTactic'
-                                },
-                                {
-                                    type:'chess.view.highlight.SquareTacticHint'
-                                }
-                            ]
-                        },
-                        {
-                            layout:'cols',
-                            height:25,
-                            elCss:{
-                                'background-color':'#FFF'
-                            },
-                            children:[
-                                { weight:1,
-                                    elCss:{
-                                        'background-color':'#FFF'
-                                    } },
-                                {
-                                    width:80,
-                                    type:'chess.view.button.TacticHint',
-                                    value:'Show Hint',
-                                    elCss:{
-                                        'background-color':'#FFF'
-                                    }
-                                },
-                                {
-                                    width:80,
-                                    type:'chess.view.button.TacticSolution',
-                                    value:'Solution',
-                                    elCss:{
-                                        'background-color':'#FFF'
-                                    }
-                                },
-                                {
-                                    weight:1,
-                                    elCss:{
-                                        'background-color':'#FFF'
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
-        var controller = new chess.controller.TacticController({
-            databaseId:1,
-            alwaysPlayStartingColor:true
-        });
-        controller.loadRandomGame();
-    </script>
-    <h2 style="clear:both">Find the best host for your site</h2>
-
-
-    <p>micfo offers a complete suite of powerful <a href="http://www.micfo.com/" target="_blank">web hosting</a>
-        solutions, designed to guarantee the smooth functionality of your online presence.</p>
-
-    <div style="width:460px;padding-left:47px">
-    </div>
-    <div class="clear"></div>
-
-
 </div>
-<div class="clear"></div>
-</div>
-<div id="sponsorContainer">
-    <a href="http://www.cbolson.com/" onclick="var linkWin = window.open(this.href);return false"><img border="0"
-                                                                                                       alt="Go to cbolson.com"
-                                                                                                       title=""
-                                                                                                       src="http://www.dhtmlgoodies.com/images/cbolson_120x60.jpg"/></a><br>
-    <br>
-    <br>
-</div>
-<div class="clear"></div>
-<div id="signature">
-    <div>
-        <a href="http://www.dhtmlgoodies.com/index.html?page=contact">About/Contact</a> | <a
-        href="http://www.dhtmlgoodies.com/index.html?page=goodIdea">A good idea?</a> | <a
-        href="http://www.dhtmlgoodies.com/index.html?page=submit">Submit a script</a> | <a
-        href="http://www.dhtmlgoodies.com/index.html?page=privacy">Privacy notice</a>
-        <br>
-
-        &copy; 2005 - 2012 <a href="http://www.dhtmlgoodies.com">dhtmlgoodies.com</a></div>
-</div>
-
-</div>
-
 
 </body>
 </html>

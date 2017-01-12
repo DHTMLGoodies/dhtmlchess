@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Demo - Play against GarboChess</title>
+    <title>Demo - Auto generate PGN</title>
 
     <script type="text/javascript">
         var hostname = location.hostname.toLowerCase();
@@ -174,9 +174,13 @@
 
     var parser = new chess.AutoParse({
         in: "1001bwtc",
-        "out": "out.pgn",
+        "out": "tactic-checkmates.pgn",
         timeout:240000,
-        startIndex:1,
+        ///acceptedScore:3,
+        checkmatesOnly:true,
+       // maxMoves:3,
+        append:true,
+        startIndex:223,
         listeners:{
             score:function(score){
                 ludo.$('scoreBar').setScore(score);

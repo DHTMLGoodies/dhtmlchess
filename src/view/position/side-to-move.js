@@ -5,35 +5,50 @@
  * @extends Panel
  */
 chess.view.position.SideToMove = new Class({
-    Extends:ludo.Panel,
+    Extends:ludo.FramedView,
     height:80,
     title:chess.getPhrase('Side to move'),
+    layout:{
+        type:'table',
+        columns:[{width:30},{weight:1}],
+        simple:true
+    },
 
-    __rendered:function () {
-        this.parent();
+    __children:function () {
+
         var options = [
             {
                 name:'color',
                 checked:true,
-                label:chess.getPhrase('White'),
+                type:'form.Radio',
+                placeholder:chess.getPhrase('White'),
                 value : 'w'
+            },
+            {
+                type:'form.Label',
+                label:chess.getPhrase('White')
             },
             {
                 name:'color',
                 value : 'b',
+                type:'form.Radio',
+                placeholder:chess.getPhrase('Black')
+            },
+            {
+                type:'form.Label',
                 label:chess.getPhrase('Black')
             }
         ];
 
-        for (var i = 0; i < options.length; i++) {
-            var obj = options[i];
-            obj.height = 25;
-            obj.type = 'form.Radio';
-            obj.listeners = {
-                change : this.receiveInput.bind(this)
-            };
-            this.addChild(obj);
-        }
+        jQuery.each(options, function(i, opt){
+            opt.height= 25;
+            if(opt.type == 'form.Radio'){
+                opt.listeners = {
+                    change : this.receiveInput.bind(this)
+                };
+            }
+        }.bind(this));
+        return options;
     },
 
     receiveInput : function(value){

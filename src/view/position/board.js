@@ -38,12 +38,12 @@ chess.view.position.Board = new Class({
 
     deleteSelectedPiece:function () {
         this.selectedPiece = undefined;
-        this.els.board.style.cursor = 'default';
+        this.els.board.css('cursor', 'default');
     },
 
     setSelectedPiece:function (piece) {
         this.selectedPiece = piece;
-        this.els.board.style.cursor = 'pointer';
+        this.els.board.css('cursor', 'pointer');
     },
 
     insertPiece:function (e) {
@@ -159,11 +159,11 @@ chess.view.position.Board = new Class({
     },
 
     getSquareByEvent:function (e) {
-        var boardPos = this.els.board.getPosition();
+        var boardPos = this.els.board.offset();
         var squareSize = this.getSquareSize();
 
-        var x = Math.floor((e.page.x - boardPos.x) / squareSize);
-        var y = Math.floor((e.page.y - boardPos.y) / squareSize);
+        var x = Math.floor((e.pageX - boardPos.left) / squareSize);
+        var y = Math.floor((e.pageY - boardPos.top) / squareSize);
         if (!this.isFlipped()) {
             y = 7 - y;
         } else {
