@@ -490,7 +490,7 @@ chess.AutoParse = new Class({
                     html: 'Game #' + (this.index + 1) + ' saved'
                 });
                 this.lastEngineMove = undefined;
-                this.loadNext.delay(10000, this);
+                this.loadNext.delay(120000, this);
             }.bind(this)
         });
 
