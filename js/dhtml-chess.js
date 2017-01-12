@@ -1,4 +1,4 @@
-/* Generated Thu Jan 12 18:33:37 CET 2017 */
+/* Generated Fri Jan 13 0:17:28 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -37796,7 +37796,7 @@ chess.controller.AnalysisController = new Class({
 	modelEventFired:function (event, model, param) {
 
 		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			if(this.views.board)this.views.board.enableDragAndDrop(model);
+			this.views.board.enableDragAndDrop(model);
 		}
 	}
 

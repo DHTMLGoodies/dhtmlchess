@@ -2287,7 +2287,7 @@ div.position-setup-selected-piece{
     line-height: 20px;
 }
 
-.ludo-light-gray .ludo-window .ludo-body{
+.ludo-light-gray .ludo-window > .ludo-body{
     margin: 5px;
     border: 1px solid #c6c6c6;
 }
@@ -2962,12 +2962,13 @@ tab layout */
 }
 
 .ludo-light-gray .ludo-tab-strip{
-    background-color:#dddddd
-
+    background-color:#dddddd;
 }
+
 .ludo-light-gray .ludo-tab-strip-tab{
     border-color:#aeb0b0;
     background-color:#dddddd
+
 }
 
 .ludo-light-gray .ludo-tab-strip-tab-active div.ludo-tab-strip-tab-bg{
