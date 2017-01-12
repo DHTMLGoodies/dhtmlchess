@@ -1,4 +1,4 @@
-/* Generated Thu Jan 12 14:44:28 CET 2017 */
+/* Generated Thu Jan 12 15:26:44 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
