@@ -170,6 +170,9 @@
                                 type:'Docking'
                             },
                             children:[
+                                    /*
+                                    List of games view
+                                     */
                                 {
                                     title:'Games',
                                     id:'gameListView',
@@ -184,7 +187,6 @@
                                     dataSource:{
                                         url:'../router.php', // The dhtml chess php file which handles loading of games
                                         type:'chess.dataSource.PgnGames', // A pgn data source. the data source loads game data from the server
-                                        pgn:'WorldChamp1927', // name of pgn file without the .pgn extension
                                         "listeners":{
                                             "load": function(data){
                                                 // when games has been loaded, show first game
@@ -203,6 +205,9 @@
 
                         },
                         {
+                            /*
+                             * Chess board view
+                             */
                             type:'chess.view.board.Board',
                             layout:{
                                 weight:1
@@ -211,6 +216,12 @@
                                 padding:2
                             },
                             plugins:[
+                                    /* Show arrows to indicate from and to square
+                                    You may use
+                                     chess.view.highlight.Square
+                                     instead of chess.view.highlight.Arrow
+
+                                     */
                                 {
                                     type:'chess.view.highlight.Arrow',
                                     styles:{
@@ -222,14 +233,15 @@
                             ]
                         },
                         {
+                            /** Game Navigation buttons */
                             type:'chess.view.buttonbar.Game',
-
                             elCss:{
                                 margin:2
                             },
                             height:30
                         },
                         {
+                            /** Notation panel */
                             type:'chess.view.notation.Panel',
                             layout: {
                                 height: 150
@@ -239,7 +251,12 @@
 
                 });
 
-                var controller = new chess.controller.AnalysisController();
+                /* You may replace the line below with
+                 new chess.controller.TacticController();
+                 to let the user analyze the game.
+
+                 */
+                new chess.controller.Controller();
 
 
                 ludo.$('gameListView').selectPgn('WorldChamp1927');

@@ -77,26 +77,23 @@
             color:#FFF;
             font-size:0.8em;
         }
-        .ludo-layout-resize-col{
-            border-left:1px solid #aaa;
-            border-right:1px solid #aaa;
-        }
+
     </style>
-    <!-- INCLUDING DHTML CHESS JS AND CSS -->
+    <!-- DHTML CHESS Part 1-->
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js"></script>
     <script type="text/javascript" src="../src/datasource/pgn-games.js"></script>
     <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
-
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
-    <!-- Custom styling of board -->
-
     <style type="text/css">
+        /* Styling of board */
+
         .ludo-chess-board{
             border:1px solid #aaa;
         }
+
 
         .ludo-chess-board-container{
             background-color:#ddd;
@@ -104,7 +101,12 @@
             border-radius:4px;
 
         }
+        .ludo-layout-resize-col{
+            border-left:1px solid #aaa;
+            border-right:1px solid #aaa;
+        }
     </style>
+    <!-- End DHTML Chess part 1 -->
 </head>
 <body>
 
@@ -139,7 +141,7 @@
         <h1>Tactic Training</h1>
         <!--
 
-        Start DHTML Chess code
+        DHTML Chess part 2
 
         -->
 
@@ -155,18 +157,18 @@
         <script type="text/javascript">
 
             $( document ).ready(function() {
-
                 new chess.TacticsFromFile({
                     renderTo:'#dhtml-chess',
                     pgn:'tactic-checkmates'
                 });
-
             });
-
-
-
         </script>
 
+        <!--
+
+        END DHTML Chess Part 2
+
+        -->
     </div>
     <div class="footer">
         Footer of Web page &copy; dhtmlchess.com
