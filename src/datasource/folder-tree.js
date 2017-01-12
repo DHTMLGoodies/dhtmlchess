@@ -23,7 +23,6 @@ chess.dataSource.FolderTree = new Class({
     __construct:function(config){
         this.url = ludo.config.getUrl();
         this.parent(config);
-        console.log(this.url);
 
     }
 });

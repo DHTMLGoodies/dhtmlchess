@@ -149,7 +149,6 @@ chess.view.buttonbar.Game = new Class({
         var els = this.els.buttonContainer.find('> div');
         var width = 0;
 
-        console.log(els.length);
 
         for (var i = 0, count = els.length; i < count; i++) {
 

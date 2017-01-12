@@ -1,4 +1,4 @@
-/* Generated Thu Jan 12 15:30:00 CET 2017 */
+/* Generated Thu Jan 12 18:33:37 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -31149,7 +31149,6 @@ chess.view.buttonbar.Game = new Class({
         var els = this.els.buttonContainer.find('> div');
         var width = 0;
 
-        console.log(els.length);
 
         for (var i = 0, count = els.length; i < count; i++) {
 
@@ -31457,7 +31456,6 @@ chess.view.gamelist.Grid = new Class({
          * @param {Object} game
          */
         if (record.gameIndex !== undefined) {
-            console.log(this.getDataSource().getCurrentPgn());
             this.fireEvent('selectGame', [record, this.getDataSource().getCurrentPgn()]);
         } else {
             this.fireEvent('selectGame', record);
@@ -32336,7 +32334,6 @@ chess.view.folder.Tree = new Class({
 	ludoEvents:function () {
 		this.parent();
 		this.getDataSource().addEvent('select', this.selectDatabase.bind(this));
-		console.log('event');
 		if (this.selected) {
 
 		}
@@ -39637,7 +39634,6 @@ chess.dataSource.FolderTree = new Class({
     __construct:function(config){
         this.url = ludo.config.getUrl();
         this.parent(config);
-        console.log(this.url);
 
     }
 });/* ../dhtml-chess/src/datasource/game-list.js */
