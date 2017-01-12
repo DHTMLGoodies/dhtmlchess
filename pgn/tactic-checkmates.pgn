@@ -3594,3 +3594,143 @@
 
 
 1... Qd2+ 2. Kb1  Qd1+ 3. Rxd1  Rxd1#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 3"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "1k1r4/ppp2ppp/8/1Q2P3/8/b1q4B/PRP4P/2K4R b - - 0 1"]
+[plycount "5"]
+[index "222"]
+
+
+1... Qd2+ 2. Kb1  Qd1+ 3. Rxd1  Rxd1#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 3"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "4R3/4q1kp/6p1/1Q3b2/1P1b1P2/6KP/8/8 b - - 0 1"]
+[plycount "5"]
+[index "223"]
+
+
+1... Qh4+ 2. Kxh4  Bf2+ 3. Kg5  h6#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 3"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "6k1/1Q4p1/6rp/r3qp2/P1P1n3/3p3P/1R3P2/R2B1K2 b - - 0 1"]
+[plycount "5"]
+[index "224"]
+
+
+1... Nd2+ 2. Rxd2  Qe1+ 3. Kxe1  Rg1#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 4"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "6k1/pp3ppp/8/3b4/4N3/2Q5/PP1r1qPP/6RK b - - 0 1"]
+[plycount "7"]
+[index "226"]
+
+
+1... Qxg2+ 2. Rxg2  Rd1+ 3. Rg1  Bxe4+ 4. Qf3  Bxf3#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 2"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "6k1/1Q1R1p1p/6p1/2b1pq2/P7/4P3/2r2PPP/5RK1 b - - 0 1"]
+[plycount "3"]
+[index "227"]
+
+
+1... Qxf2+ 2. Kh1  Qxf1#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 2"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "5rk1/pp2b1pp/1q2p3/1b1p4/8/1Q6/PPN3PP/R1B3NK b - - 0 1"]
+[plycount "3"]
+[index "228"]
+
+
+1... Qxg1+ 2. Kxg1  Rf1#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 4"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "rnbkr3/ppp2Bpp/5b2/7q/2Q2p2/5N2/PPPP2PP/R1B2K1R b - - 0 1"]
+[plycount "7"]
+[index "229"]
+
+
+1... Qxf3+ 2. gxf3  Bh3+ 3. Kg1  Re1+ 4. Kf2  Bh4#
+
+[setup "1"]
+[eventdate "1998.??.??"]
+[castle "1"]
+[event "  Black to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "Black mates in 5"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "0-1"]
+[fen "N1bk3r/p5pp/3b1p2/3B4/3nP1nq/3P3N/PPP3KP/R1B1Q2R b - - 0 1"]
+[plycount "9"]
+[index "230"]
+
+
+1... Qxh3+ 2. Kxh3  Ne3+ 3. Be6  Bxe6+ 4. Kh4  Nf3+ 5. Kh5  Bg4# (5... Bf7#)
+
+
+
+
