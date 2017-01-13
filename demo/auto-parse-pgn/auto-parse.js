@@ -124,8 +124,7 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
-        location.href = 'index.php?index=' + (++this.index);
-        return;
+
         if(this.index > 0 && this.index % 20 == 0){
             return;
         }
@@ -490,7 +489,7 @@ chess.AutoParse = new Class({
                     html: 'Game #' + (this.index + 1) + ' saved'
                 });
                 this.lastEngineMove = undefined;
-                this.loadNext.delay(120000, this);
+                this.loadNext.delay(30000, this);
             }.bind(this)
         });
 

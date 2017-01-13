@@ -1,4 +1,4 @@
-/* Generated Fri Jan 13 0:17:28 CET 2017 */
+/* Generated Sat Jan 14 0:15:37 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2310,9 +2310,9 @@ Date.implement({
 ).alias('timeAgoInWords', 'timeDiffInWords');
 /* ../ludojs/src/ludo.js */
 /**
- * @module ludo
- * @main ludo
+ * @namespace ludo
  */
+
 window.ludo = {
     form:{ validator:{} },color:{}, dialog:{},remote:{},tree:{},model:{},tpl:{},video:{},storage:{},
     grid:{}, effect:{},paging:{},calendar:{},layout:{},progress:{},keyboard:{},chart:{},
@@ -2624,8 +2624,8 @@ ludo.util = {
 		return ludo.util.type(obj) === 'function';
 	},
 
-	argsToArray:function(arguments){
-		return Array.prototype.slice.call(arguments);
+	argsToArray:function(args){
+		return Array.prototype.slice.call(args);
 	},
 
 	clamp:function(num, min,max){
@@ -2862,6 +2862,10 @@ ludo.RegistryClass = new Class({
 
 ludo.registry = new ludo.RegistryClass();/* ../ludojs/src/storage/storage.js */
 /**
+ * Utility for saving data in Browsers local storage.
+ * @namespace ludo.storage
+ */
+/**
  * Class for saving data to local storage(browser cache).
  *
  * ludo.getLocalStorage() returns a singleton for ludo.storage.LocalStorage
@@ -2871,6 +2875,8 @@ ludo.registry = new ludo.RegistryClass();/* ../ludojs/src/storage/storage.js */
  * @example
  * ludo.getLocalStorage().save('name', 'John');
  * ludo.getLocalStorage().save('myobject', { "a": 1, "b" : 2 ));
+ * ludo.getLocalStorage().get('myobject');
+ *
  */
 ludo.storage.LocalStorage = new Class({
 	supported:false,
@@ -4095,7 +4101,76 @@ ludo.svgEngine = new ludo.svg.Engine();
 
 
 
-/* ../ludojs/src/svg/node.js */
+/* ../ludojs/src/svg/util.js */
+ludo.svg.Util = {
+
+    pathStyles:function(className){
+
+        var node = $('<div>');
+        node.addClass(className);
+        node.css('display', 'none');
+        $(document.body).append(node);
+
+        var ret = {
+            'fill': ludo.svg.Util.toRGBColor(node.css('background-color')),
+            'stroke': ludo.svg.Util.toRGBColor(node.css('border-color')),
+            'stroke-width': node.css('border-width').replace('px', '')
+        };
+        ret['line-height'] = ret['line-height'] || ret['font-size'];
+        node.remove();
+        return ret;
+    },
+
+    textStyles: function (className) {
+        var node = $('<div>');
+        node.addClass(className);
+        node.css('display', 'none');
+        $(document.body).append(node);
+
+        var lh = node.css('line-height').replace(/[^0-9\.]/g, '');
+        if (!lh) {
+            lh = node.css('font-size');
+        }
+
+
+        var fontSize = parseInt(node.css('font-size'));
+        fontSize++;
+
+
+        var ret = {
+            'font-size': fontSize + "px",
+            'font-family': node.css('font-family'),
+            'font-weight': node.css('font-weight'),
+            'font-style': node.css('font-style'),
+            'line-height': lh,
+            'fill': ludo.svg.Util.toRGBColor(node.css('color')),
+            'stroke': 'none',
+            'stroke-opacity': 0
+        };
+        ret['line-height'] = ret['line-height'] || ret['font-size'];
+        node.remove();
+        return ret;
+    },
+
+    toRGBColor:function(val){
+        if(val.indexOf('rgb') >= 0){
+            if(this.colorUtil == undefined){
+                this.colorUtil = new ludo.color.Color();
+            }
+            val = val.replace(/[^0-9,]/g,'');
+            var colors = val.split(/,/g);
+            if(colors.length == 4)return val;
+            val = this.colorUtil.rgbCode(colors[0]/1, colors[1]/1, colors[2]/1);
+            return val;
+        }
+
+        return val;
+    }
+};/* ../ludojs/src/svg/node.js */
+/**
+ * @namespace ludo.svg
+ */
+
 /**
  Class for creating SVG DOM Nodes
  @namespace ludo.canvas
@@ -4107,14 +4182,27 @@ ludo.svgEngine = new ludo.svg.Engine();
  @param {String} text
  @optional
  @example
- var paint = new ludo.svg.Paint({
-		'stroke-color' : '#000'
- 	});
- var node = new ludo.svg.Node('rect', { id:'myRect', x:20,y:20,width:100,height:100 , "class": paint, filter:filter });
+ var v = new ludo.View({
+    renderTo: document.body,
+    layout:{
+        width:'matchParent', height:'matchParent'
+    }
+ });
+ var svg = v.svg();
 
- or
- @example
- var node = new ludo.svg.Node('title', {}, 'My title' );
+ var circle = svg.$('circle', { cx: 100, cy: 100, r: 50 });
+ circle.css('fill', '#ff0000');
+
+ svg.append(circle);
+
+ circle.animate({
+    cx:300, cy: 200
+ },{
+    duration: 1000,
+    complete:function(){
+        console.log('completed');
+    }
+ });
 
  */
 ludo.svg.Node = new Class({
@@ -4540,7 +4628,8 @@ ludo.svg.Node = new Class({
      * Set or get CSS property
      * @param {String} key
      * @param {String|Number} value
-     * @returns {*}
+     * @returns {ludo.svg.Node}
+     * @memberof ludo.svg.Node.prototype
      * @example
      * var stroke = node.css('stroke'); // Get stroke css attribute
      * node.css('stroke', '#FFFFFF'); // set stroke css property
@@ -4557,12 +4646,14 @@ ludo.svg.Node = new Class({
         } else {
             this.el.style[String.camelCase(key)] = value;
         }
+        return this;
     },
 
     /**
      * Add css class to SVG node
      * @function addClass
      * @param {String} className
+     * @returns {ludo.svg.Node}
      * @memberof ludo.svg.Node.prototype
      */
     addClass: function (className) {
@@ -4579,6 +4670,7 @@ ludo.svg.Node = new Class({
         } else {
             this.set('class', className);
         }
+        return this;
     },
     /**
      Returns true if svg node has given css class name
@@ -4620,6 +4712,7 @@ ludo.svg.Node = new Class({
             this.classNameCache.erase(className);
             this.updateNodeClassNameById();
         }
+        return this;
     },
 
     updateNodeClassNameById: function () {
@@ -4845,11 +4938,11 @@ ludo.svg.Node = new Class({
 
     /**
      * The nearest ancestor 'svg' element. Null if the given element is the outermost svg element.
-     * @function getCanvas
+     * @function svg
      * @return {ludo.svg.Node.el} svg
      * @memberof ludo.svg.Node.prototype
      */
-    getCanvas: function () {
+    svg: function () {
         return this.el.ownerSVGElement;
     },
     /**
@@ -5106,6 +5199,7 @@ ludo.svg.View = new Class({
      * @param {String} tag
      * @param {Object} properties
      * @returns {ludo.svg.Node}
+     * @memberof ludo.svg.View.prototype
      * @example
      * var circle = svg.$('circle', { r: 50, cx:100,cy:150, fill: '#ff0000' });
      */
@@ -5346,8 +5440,7 @@ ludo.svg.Canvas = new Class({
 	fitParent:function(){
 		var size = { x: this.renderTo.width(), y: this.renderTo.height() };
 		if(size.x === 0 || size.y === 0)return;
-		size.x -= (ludo.dom.getPW(this.renderTo) + ludo.dom.getBW(this.renderTo));
-		size.y -= (ludo.dom.getPH(this.renderTo) + ludo.dom.getBH(this.renderTo));
+
 		this.set('width', size.x);
 		this.set('height', size.y);
 		this.setViewBox(size.x, size.y);
@@ -5554,8 +5647,8 @@ ludo.layout.TextBox = new Class({
     },
 
     createStyles: function () {
-        this.styles = this.getStyles(this.className);
-        this.stylesOver = this.getStyles(this.classNameOver);
+        this.styles = ludo.svg.Util.textStyles(this.className);
+        this.stylesOver = ludo.svg.Util.textStyles(this.classNameOver);
         this.stylesOver['font-size'] = this.styles['font-size'];
         this.stylesOver['line-height'] = this.styles['line-height'];
 
@@ -5572,51 +5665,6 @@ ludo.layout.TextBox = new Class({
         });
         el.text(this.text);
         this.append(el);
-    },
-
-    getStyles: function (className) {
-        var node = $('<div>');
-        node.addClass(className);
-        node.css('display', 'none');
-        $(document.body).append(node);
-
-        var lh = node.css('line-height').replace(/[^0-9\.]/g, '');
-        if (!lh) {
-            lh = node.css('font-size');
-        }
-
-
-        var fontSize = parseInt(node.css('font-size'));
-        fontSize++;
-
-
-        var ret = {
-            'font-size': fontSize + "px",
-            'font-family': node.css('font-family'),
-            'font-weight': node.css('font-weight'),
-            'font-style': node.css('font-style'),
-            'line-height': lh,
-            'fill': this.toRGBColor(node.css('color')),
-            'stroke': 'none',
-            'stroke-opacity': 0
-        };
-        ret['line-height'] = ret['line-height'] || ret['font-size'];
-        node.remove();
-        return ret;
-    },
-
-    toRGBColor:function(val){
-        if(val.indexOf('rgb') >= 0){
-            if(this.colorUtil == undefined){
-                this.colorUtil = new ludo.color.Color();
-            }
-            val = val.replace(/[^0-9,]/g,'');
-            var colors = val.split(/,/g);
-            val = this.colorUtil.rgbCode(colors[0]/1, colors[1]/1, colors[2]/1);
-            return val;
-        }
-
-        return val;
     },
 
     storeSize: function () {
@@ -5660,7 +5708,13 @@ ludo.layout.TextBox = new Class({
     }
 });/* ../ludojs/src/layout/base.js */
 /**
+ *  @namespace ludo.layout
+ */
+/**
  * Base class for ludoJS layouts
+ *
+ * For tutorial on layouts, see <a href="http://www.ludojs.com/learn/layout.html">ludojs.com/learn/layout.html</a>
+ *
  * @namespace ludo.layout
  * @class ludo.layout.Base
  * @property {object} viewport
@@ -5670,6 +5724,7 @@ ludo.layout.TextBox = new Class({
  * @fires ludo.layout.Base#addChild Fired after adding new child to parent view. Arguments: 1) Layout, 2) parent view, 3) child
  * @fires ludo.layout.Base#addChildRuntime Fired after adding new child to parent during runtime, i.e. after first rendering with
  * code <code>view.addChild()</code>. Arguments: 1) Layout, 2) parent view, 3) child
+ *
  */
 ludo.layout.Base = new Class({
     Extends: Events,
@@ -5695,17 +5750,16 @@ ludo.layout.Base = new Class({
         };
 
 
-
         if (view.getBody())this.onCreate();
 
         this.hasWrapWidth = !view.layout.weight && view.layout.width == 'wrap';
-        this.hasWrapHeight = !view.layout.weight &&  view.layout.height == 'wrap';
+        this.hasWrapHeight = !view.layout.weight && view.layout.height == 'wrap';
 
 
     },
-    
-    prepareForChildrenOnCreate:function(){
-        
+
+    prepareForChildrenOnCreate: function () {
+
     },
 
     onCreate: function () {
@@ -5731,7 +5785,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     addChild: function (child, insertAt, pos) {
-
 
 
         child = this.getValidChild(child);
@@ -5987,7 +6040,7 @@ ludo.layout.Base = new Class({
      */
     updateViewport: function (c) {
 
-        if(c)this.viewport[c.key] = c.value;
+        if (c)this.viewport[c.key] = c.value;
     },
 
     createRenderer: function () {
@@ -6056,7 +6109,8 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     clearTemporaryValues: function (child) {
-        if(child){}
+        if (child) {
+        }
         if (child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
         if (child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
         child.layout.cached_width = undefined;
@@ -6070,8 +6124,8 @@ ludo.layout.Base = new Class({
 
     getHeightOf: function (child, size) {
         var h = child.wrappedHeight != undefined ? child.wrappedHeight(size) : undefined;
-        if(h != undefined)return h;
-        if(child.layout.height == 'wrap'){
+        if (h != undefined)return h;
+        if (child.layout.height == 'wrap') {
             child.layout.height = child.getEl().outerHeight(true);
         }
         return isNaN(child.layout.height) ? child.getEl().outerHeight(true) : child.layout.height;
@@ -7260,8 +7314,12 @@ ludo.layout.ViewPager = new Class({
 });
 /* ../ludojs/src/data-source/base.js */
 /**
+ * @namespace ludo.dataSource
+ */
+
+/**
  * Base class for data sources
- * @namespace dataSource
+ *
  * @class ludo.dataSource.Base
  * @augments ludo.Core, 'resource', 'service', 'arguments'
  * @param {String} url URL for the data source
@@ -7275,6 +7333,7 @@ ludo.layout.ViewPager = new Class({
  * </code>
  * @param {Function} dataHandler Custom function which receives data from server and returns data in appropriate format for the data source.
  * If this function returns false, it will trigger the fail event.
+ *
  */
 ludo.dataSource.Base = new Class({
 	Extends:ludo.Core,
@@ -8702,14 +8761,7 @@ ludo.View = new Class({
             this.getBody().html(this.getTplParser().asString(json, tpl));
         }
     },
-
-    insertJSON: function (data) {
-        console.warn("Use of deprecated insertJSON");
-        if (this.tpl) {
-            this.getBody().html(this.getTplParser().asString(data, this.tpl));
-        }
-    },
-
+    
     getTplParser: function () {
         if (!this.tplParser) {
             this.tplParser = this.createDependency('tplParser', this.JSONParser);
@@ -8792,35 +8844,36 @@ ludo.View = new Class({
     },
 
     _styleDOM: function () {
-        this.els.container.addClass('ludo-view');
-        this.els.body.addClass('ludo-body');
+        var b = this.els.body;
+        var e = this.els.container;
+        e.addClass('ludo-view');
+        b.addClass('ludo-body');
 
-        this.els.container.attr("id", this.getId());
+        e.attr("id", this.getId());
 
-        this.els.body.css('height', '100%');
+        b.css('height', '100%');
 
         if (this.overflow == 'hidden') {
-            this.els.body.css('overflow', 'hidden');
+            b.css('overflow', 'hidden');
         }
 
         if (ludo.util.isTabletOrMobile()) {
-            this.els.container.addClass('ludo-view-mobile');
+            e.addClass('ludo-view-mobile');
         }
-
 
         if (this.cls) {
-            this.els.container.addClass(this.cls);
+            e.addClass(this.cls);
         }
-        if (this.bodyCls)this.els.body.addClass(this.bodyCls);
-        if (this.type)this.els.container.addClass('ludo-' + (this.type.replace(/\./g, '-').toLowerCase()));
-        if (this.css)this.els.body.css(this.css);
-        if (this.elCss)this.els.container.css(this.elCss);
+        if (this.bodyCls)b.addClass(this.bodyCls);
+        if (this.type)e.addClass('ludo-' + (this.type.replace(/\./g, '-').toLowerCase()));
+        if (this.css)b.css(this.css);
+        if (this.elCss)e.css(this.elCss);
 
         if (this.frame) {
-            this.els.container.addClass('ludo-container-frame');
-            this.els.body.addClass('ludo-body-frame');
+            e.addClass('ludo-container-frame');
+            b.addClass('ludo-body-frame');
         }
-        if (this.cssSignature !== undefined)this.els.container.addClass(this.cssSignature);
+        if (this.cssSignature !== undefined)e.addClass(this.cssSignature);
 
         this.setContent();
     },
@@ -8928,8 +8981,6 @@ ludo.View = new Class({
 
 
         if (!skipEvents)this.fireEvent('show', this);
-
-
     },
 
     resizeParent: function () {
@@ -9031,26 +9082,25 @@ ludo.View = new Class({
      @param {Object} size Object with optional width and height properties. Example: { width: 200, height: 100 }
      @example
      view.resize(
-     { width: 200, height:200 }
+        { width: 200, height:200 }
      );
      */
     resize: function (size) {
-
 
         if (this.isHidden()) {
             return;
         }
 
-
+        var l = this.layout;
         size = size || {};
 
         if (size.width) {
-            if (this.layout.aspectRatio && this.layout.preserveAspectRatio && size.width && !this.isMinimized()) {
-                size.height = size.width / this.layout.aspectRatio;
+            if (l.aspectRatio && l.preserveAspectRatio && size.width && !this.isMinimized()) {
+                size.height = size.width / l.aspectRatio;
             }
             // TODO layout properties should not be set here.
-            this.layout.pixelWidth = size.width;
-            if (!isNaN(this.layout.width))this.layout.width = size.width;
+            l.pixelWidth = size.width;
+            if (!isNaN(l.width))l.width = size.width;
             var width = size.width - ludo.dom.getMBPW(this.els.container);
             if (width > 0) {
                 this.els.container.css('width', width);
@@ -9060,8 +9110,8 @@ ludo.View = new Class({
         if (size.height && !this.state.isMinimized) {
             // TODO refactor this part.
             if (!this.state.isMinimized) {
-                this.layout.pixelHeight = size.height;
-                if (!isNaN(this.layout.height))this.layout.height = size.height;
+                l.pixelHeight = size.height;
+                if (!isNaN(l.height))l.height = size.height;
             }
             var height = size.height - ludo.dom.getMBPH(this.els.container);
             if (height > 0) {
@@ -9249,9 +9299,6 @@ ludo.View = new Class({
                 if (!this.dataSource.type) {
                     this.dataSource.type = this.defaultDS;
                 }
-
-
-
                 obj = this.dataSourceObj = this.createDependency('viewDataSource', this.dataSource);
             }
 
@@ -9349,18 +9396,12 @@ ludo.View = new Class({
 		   }
 	   });
      // Get reference to canvas
-     var canvas = win.getCanvas();
+     var canvas = win.svg();
      // Using the svg dollar function to create SVG DOM nodes.
      var circle = canvas.$('circle', { cx:100,cy:100, r: 50, fill: "#000" });
      canvas.append(circle);
      */
     svg: function () {
-        return this.getCanvas();
-    },
-
-    canvas: undefined,
-
-    getCanvas: function () {
         if (this.canvas === undefined) {
             this.canvas = this.createDependency('canvas', new ludo.svg.Canvas({
                 renderTo: this
@@ -9368,6 +9409,8 @@ ludo.View = new Class({
         }
         return this.canvas;
     },
+
+    canvas: undefined,
 
     wrappedWidth: function () {
         return undefined;
@@ -10675,12 +10718,7 @@ ludo.layout.Relative = new Class({
 		if (l.above)l.bottom = undefined;
 	},
 
-    /**
-     * Add events to child view
-     * @function addChildEvents
-     * @param {ludo.View} child
-	 * @protected
-     */
+
 	addChildEvents:function(child){
 		child.addEvent('hide', this.hideChild.bind(this));
 		child.addEvent('show', this.clearTemporaryValues.bind(this));
@@ -11327,7 +11365,7 @@ ludo.layout.Canvas = new Class({
 
         this.view.children.push(child);
 
-        var p = child.parentNode ? this.view : this.view.getCanvas();
+        var p = child.parentNode ? this.view : this.view.svg();
 
         p.append(child);
 
@@ -11384,7 +11422,7 @@ ludo.layout.Canvas = new Class({
             for (var i = 0; i < this.children.length; i++) {
                 if (this.children[i].layout.zIndex != undefined) {
                     // TODO this needs to be refactored
-                    var p = this.view.parentNode ? this.view.parentNode: this.view.getCanvas();
+                    var p = this.view.parentNode ? this.view.parentNode: this.view.svg();
                     p.append(this.children[i]);
                 }
             }
@@ -12004,7 +12042,7 @@ ludo.layout.MenuHorizontal = new Class({
             var left = 0;
             for (var i = 0; i < this.view.children.length; i++) {
                 this.view.children[i].resize({ left:left,height:this.viewport.height });
-                left += this.view.children[i].getEl().outerWidth() + ludo.dom.getMW(this.view.children[i].getEl());
+                left += this.view.children[i].getEl().outerWidth(true);
             }
         }
     }
@@ -13856,7 +13894,7 @@ ludo.view.TitleBar = new Class({
         var left = 0;
         if (this.view.icon) {
             this.createIconDOM();
-            left += ludo.dom.getNumericStyle(el, 'width');
+            left += el.width();
         }
         this.createTitleDOM();
         el.append(this.getButtonContainer());
@@ -14499,7 +14537,7 @@ ludo.Application = new Class({
     }
 });/* ../ludojs/src/data-source/record.js */
 /**
- * Class representing a record in a <a href="ludo.dataSource.Collection.html">Collection</a>
+ * Class representing a record in a <a href="ludo.dataSource.JSONArray.html">Collection</a>
  * Instances of this class are created by the collections getRecord method.
  * When you update a record
  * @namespace ludo.dataSource
@@ -14556,7 +14594,7 @@ ludo.dataSource.Record = new Class({
 	 @return {dataSource.Record|undefined}
 	 @memberof ludo.dataSource.Record.prototype
 	 @example
-	    var collection = new ludo.dataSource.Collection({
+	    var collection = new ludo.dataSource.JSONArray({
 	 		idField:'id'
 		});
 	 collection.getRecord(100).setProperties({ country:'Norway', capital:'Oslo' });
@@ -14851,21 +14889,21 @@ ludo.dataSource.SearchParser = new Class({
 	setOperator:function (operator) {
 		this.branches[this.branches.length - 1].operator = operator;
 	}
-});/* ../ludojs/src/data-source/collection-search.js */
+});/* ../ludojs/src/data-source/json-array-search.js */
 /**
- Class created dynamically by dataSource.Collection.
+ Class created dynamically by dataSource.JSONArray.
  It is used to search and filter data in a collection.
  @namespace ludo.dataSource
- @class ludo.dataSource.CollectionSearch
+ @class ludo.dataSource.JSONArraySearch
  @param {object} config
  @param {object} config.delay  Delay in seconds between call to search and execution of search.
  A delay is useful when using text fields to search. Default : 0
  @param {Array} config.index Columns in datasource to index for search
- @fires ludo.dataSource.CollectionSearch#initSearch Fired just before search starts
- @fires ludo.dataSource.CollectionSearch#search Fired when search is finished
- @fires ludo.dataSource.CollectionSearch#deleteSearch
+ @fires ludo.dataSource.JSONArraySearch#initSearch Fired just before search starts
+ @fires ludo.dataSource.JSONArraySearch#search Fired when search is finished
+ @fires ludo.dataSource.JSONArraySearch#deleteSearch
  */
-ludo.dataSource.CollectionSearch = new Class({
+ludo.dataSource.JSONArraySearch = new Class({
 	Extends:ludo.Core,
 	dataSource:undefined,
 	searchResult:undefined,
@@ -14901,7 +14939,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * execute a text search
 	 * @function Search
 	 * @param {String} search
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 */
 	search:function (search) {
 		if (!search && this.searches.length == 0)return;
@@ -14927,8 +14965,8 @@ ludo.dataSource.CollectionSearch = new Class({
 	 Clear all search terms and search functions
 	 @function clear
 	 @chainable
-	 @return {dataSource.CollectionSearch} this
-	 @memberof ludo.dataSource.CollectionSearch.prototype
+	 @return {dataSource.JSONArraySearch} this
+	 @memberof ludo.dataSource.JSONArraySearch.prototype
 	 */
 	clear:function () {
 		this.searches = [];
@@ -14937,10 +14975,10 @@ ludo.dataSource.CollectionSearch = new Class({
 
 	/**
 	 * Delete search terms/functions and dispose search result. This method will fire a deleteSearch event which
-	 * {{#crossLink "dataSource.Collection"}}{{/crossLink}} listens to. It will trigger an update of
-	 * views using the {{#crossLink "dataSource.Collection"}}{{/crossLink}} object as dataSource.
+	 * {{#crossLink "dataSource.JSONArray"}}{{/crossLink}} listens to. It will trigger an update of
+	 * views using the {{#crossLink "dataSource.JSONArray"}}{{/crossLink}} object as dataSource.
 	 * @function deleteSearch
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 */
 	deleteSearch:function () {
 		this.fireEvent('deleteSearch');
@@ -14951,8 +14989,8 @@ ludo.dataSource.CollectionSearch = new Class({
 	 Start building a new search
 	 @function where
 	 @param {String|Function} search
-	 @return {dataSource.CollectionSearch} this
-	 @memberof ludo.dataSource.CollectionSearch.prototype
+	 @return {dataSource.JSONArraySearch} this
+	 @memberof ludo.dataSource.JSONArraySearch.prototype
 	 @chainable
 	 @example
 		 var searcher = ludo.get('idOfDataSearch').getSearcher();
@@ -14964,7 +15002,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	 	searcher.where(function(record){
 	 		return parseInt(record.price) < 100
 	 	});
-	 is example of a function search. On {{#crossLink "dataSource.Collection/execute"}}{{/crossLink}} this
+	 is example of a function search. On {{#crossLink "dataSource.JSONArray/execute"}}{{/crossLink}} this
 	 function will be called for each record. It should return true if match is found, false otherwise.
 	 The function above will return true for all records where the value of record.price is less than 100.
 	 */
@@ -14978,8 +15016,8 @@ ludo.dataSource.CollectionSearch = new Class({
 	 OR search
 	 @function or
 	 @param {String|Function} search
-	 @return {dataSource.CollectionSearch} this
-	 @memberof ludo.dataSource.CollectionSearch.prototype
+	 @return {dataSource.JSONArraySearch} this
+	 @memberof ludo.dataSource.JSONArraySearch.prototype
 	 @chainable
 	 @example
 		 var searcher = myDataSource.getSearcher();
@@ -15014,9 +15052,9 @@ ludo.dataSource.CollectionSearch = new Class({
 	 AND search
 	 @function and
 	 @param {String|Function} search
-	 @return {dataSource.CollectionSearch} this
+	 @return {dataSource.JSONArraySearch} this
 	 @chainable
-	 @memberof ludo.dataSource.CollectionSearch.prototype
+	 @memberof ludo.dataSource.JSONArraySearch.prototype
 	 @example
 		 var searcher = myDataSource.getSearcher();
 		 var populationFn = function(record){
@@ -15060,8 +15098,8 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * @function withIn
 	 * @param {Array} searches
 	 * @chainable
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
-	 * @return {dataSource.CollectionSearch} this
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
+	 * @return {dataSource.JSONArraySearch} this
 	 */
 	withIn:function (searches) {
 		for (var i = 0; i < searches.length; i++) {
@@ -15074,8 +15112,8 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * Start grouping search items together
 	 * @function branch
 	 * @chainable
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
-	 * @return {dataSource.CollectionSearch} this
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
+	 * @return {dataSource.JSONArraySearch} this
 	 */
 	branch:function () {
 		this.appendOperator('(');
@@ -15085,7 +15123,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * Close group of search items.
 	 * @function branch
 	 * @chainable
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 * @return {endBranch.CollectionSearch} this
 	 */
 	endBranch:function () {
@@ -15102,10 +15140,10 @@ ludo.dataSource.CollectionSearch = new Class({
 	 Execute a search based on current search terms
 	 @function execute
 	 @chainable
-	 @return {dataSource.CollectionSearch} this
-	 @memberof ludo.dataSource.CollectionSearch.prototype
+	 @return {dataSource.JSONArraySearch} this
+	 @memberof ludo.dataSource.JSONArraySearch.prototype
 	 @example
-		 // Assumes that ludo.get('collection') returns a {{#crossLink "dataSource.Collection"}}{{/crossLink}} object
+		 // Assumes that ludo.get('collection') returns a {{#crossLink "dataSource.JSONArray"}}{{/crossLink}} object
 		 var searcher = ludo.get('collection').getSearcher();
 		 searcher.clear();
 		 searcher.where('Oslo').or('Moscow');
@@ -15148,7 +15186,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	/**
 	 * Returns true if search terms or search functions exists.
 	 * @function hasSearchTokens
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 * @return {Boolean}
 	 */
 	hasSearchTokens:function () {
@@ -15167,7 +15205,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * Returns false when<br>
 	 *  - search result is undefined because no search has been executed or search has been deleted.
 	 * @function hasData
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 * @return {Boolean}
 	 */
 	hasData:function () {
@@ -15257,7 +15295,7 @@ ludo.dataSource.CollectionSearch = new Class({
 	 * Returns number of records in search result
 	 * @function getCount
 	 * @return {Number}
-	 * @memberof ludo.dataSource.CollectionSearch.prototype
+	 * @memberof ludo.dataSource.JSONArraySearch.prototype
 	 */
 	getCount:function () {
 		return this.searchResult ? this.searchResult.length : 0;
@@ -15267,11 +15305,11 @@ ludo.dataSource.CollectionSearch = new Class({
 	searchToString:function () {
 		return this.hasData() ? '' : '';
 	}
-});/* ../ludojs/src/data-source/collection.js */
+});/* ../ludojs/src/data-source/json-array.js */
 /**
  Data source collection
  @namespace ludo.dataSource.
- @class ludo.dataSource.Collection
+ @class ludo.dataSource.JSONArray
  @augments dataSource.JSON
  @param {Object} config
  @param {Object} config.sortFn custom sort functions, which should return -1 if record a is smaller than
@@ -15310,19 +15348,19 @@ ludo.dataSource.CollectionSearch = new Class({
  which makes the record keys/columns "city" and "country" searchable. It waits .5 seconds
  before the search is executed. This is useful when searching large collections and you
  want to delay the search until the user has finished entering into a search box.
- @fires ludo.dataSource.Collection#sort Fires on sort. Arguments: {String} sortedBy key
- @fires ludo.dataSource.Collection#add Fires when a new record has been added to the collection. Arguments: {Object} record
- @fires ludo.dataSource.Collection#deselect Fires when a record has been deselected, arguments. {Object} deselected record
- @fires ludo.dataSource.Collection#select Fires when a record has selected, arguments. {Object} selected record
- @fires ludo.dataSource.Collection#delete Fires when a record has been deleted, arguments. {Object} deleted record
- @fires ludo.dataSource.Collection#page Fires on navigation to new page when paging is enabled. Arguments: {Number} page index
- @fires ludo.dataSource.Collection#previousPage Fires when paging is enabled and navigating to current page -1. No arguments
- @fires ludo.dataSource.Collection#nextPage Fires when paging is enabled and navigating to current page +1. No arguments
- @fires ludo.dataSource.Collection#firstPage Fired when navigating to first page.  No arguments
- @fires ludo.dataSource.Collection#lastPage Fired when navigating to last page.  No arguments
- @fires ludo.dataSource.Collection#notLastPage Fired when navigating to a page which is not last page.  No arguments
- @fires ludo.dataSource.Collection#notFirstPage Fired when navigating to a page which is not first page.  No arguments
- @fires ludo.dataSource.Collection#change Fires when data has been updated or page navigation occurs.
+ @fires ludo.dataSource.JSONArray#sort Fires on sort. Arguments: {String} sortedBy key
+ @fires ludo.dataSource.JSONArray#add Fires when a new record has been added to the collection. Arguments: {Object} record
+ @fires ludo.dataSource.JSONArray#deselect Fires when a record has been deselected, arguments. {Object} deselected record
+ @fires ludo.dataSource.JSONArray#select Fires when a record has selected, arguments. {Object} selected record
+ @fires ludo.dataSource.JSONArray#delete Fires when a record has been deleted, arguments. {Object} deleted record
+ @fires ludo.dataSource.JSONArray#page Fires on navigation to new page when paging is enabled. Arguments: {Number} page index
+ @fires ludo.dataSource.JSONArray#previousPage Fires when paging is enabled and navigating to current page -1. No arguments
+ @fires ludo.dataSource.JSONArray#nextPage Fires when paging is enabled and navigating to current page +1. No arguments
+ @fires ludo.dataSource.JSONArray#firstPage Fired when navigating to first page.  No arguments
+ @fires ludo.dataSource.JSONArray#lastPage Fired when navigating to last page.  No arguments
+ @fires ludo.dataSource.JSONArray#notLastPage Fired when navigating to a page which is not last page.  No arguments
+ @fires ludo.dataSource.JSONArray#notFirstPage Fired when navigating to a page which is not first page.  No arguments
+ @fires ludo.dataSource.JSONArray#change Fires when data has been updated or page navigation occurs.
  @example
  dataSource:{
 		url:'data-source/grid.php',
@@ -15343,7 +15381,7 @@ ludo.dataSource.CollectionSearch = new Class({
 		}
 	}
  */
-ludo.dataSource.Collection = new Class({
+ludo.dataSource.JSONArray = new Class({
     Extends: ludo.dataSource.JSON,
     sortFn: {},
 
@@ -15367,7 +15405,7 @@ ludo.dataSource.Collection = new Class({
 
     index: undefined,
 
-    searcherType: 'dataSource.CollectionSearch',
+    searcherType: 'dataSource.JSONArraySearch',
 
     uidMap: {},
 
@@ -15412,7 +15450,7 @@ ludo.dataSource.Collection = new Class({
      * Returns 1) If search is specified: number of records in search result, or 2) number of records in entire collection.
      * @function getCount
      * @return {Number} count
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getCount: function () {
         if (this.paging && this.paging.rows)return this.paging.rows;
@@ -15428,7 +15466,7 @@ ludo.dataSource.Collection = new Class({
      * Resort data-source
      * @function sort
      * @return void
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     sort: function () {
         if (this.sortedBy.column && this.sortedBy.order) {
@@ -15440,8 +15478,8 @@ ludo.dataSource.Collection = new Class({
      Set sorted by column
      @function by
      @param {String} column
-     @return {dataSource.Collection} this
-     @memberof ludo.dataSource.Collection.prototype
+     @return {dataSource.JSONArray} this
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      collection.by('country').ascending().sort();
      or
@@ -15456,8 +15494,8 @@ ludo.dataSource.Collection = new Class({
     /**
      Set sort order to ascending
      @function ascending
-     @return {dataSource.Collection} this
-     @memberof ludo.dataSource.Collection.prototype
+     @return {dataSource.JSONArray} this
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      collection.by('country').ascending().sort();
      */
@@ -15468,8 +15506,8 @@ ludo.dataSource.Collection = new Class({
     /**
      Set sort order to descending
      @function descending
-     @return {dataSource.Collection} this
-     @memberof ludo.dataSource.Collection.prototype
+     @return {dataSource.JSONArray} this
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      collection.by('country').descending().sort();
      */
@@ -15486,8 +15524,8 @@ ludo.dataSource.Collection = new Class({
      @param {String} column
      @param {String} order
      @optional
-     @return {dataSource.Collection} this
-     @memberof ludo.dataSource.Collection.prototype
+     @return {dataSource.JSONArray} this
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      grid.getDataSource().sortBy('firstname', 'desc');
      which also can be written as
@@ -15526,7 +15564,7 @@ ludo.dataSource.Collection = new Class({
      * Return current sorted by column
      * @function getSortedBy
      * @return {String} column
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getSortedBy: function () {
         return this.sortedBy.column;
@@ -15535,7 +15573,7 @@ ludo.dataSource.Collection = new Class({
      * Return current sort order (asc|desc)
      * @function getSortOrder
      * @return {String} order
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getSortOrder: function () {
         return this.sortedBy.order;
@@ -15572,7 +15610,7 @@ ludo.dataSource.Collection = new Class({
      * @function addRecord
      * @param record
      * @return {Object} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     addRecord: function (record) {
         this.data = this.data || [];
@@ -15592,14 +15630,14 @@ ludo.dataSource.Collection = new Class({
     /**
      * Returns plain object for a record from search. To get a
      * {{#crossLink "dataSource.Record"}}{{/crossLink}} object
-     * use {{#crossLink "dataSource.Collection/getRecord"}}{{/crossLink}}
+     * use {{#crossLink "dataSource.JSONArray/getRecord"}}{{/crossLink}}
      *
      * collection.find({ capital : 'Oslo' });
      *
      * @function findRecord
      * @param {Object} search
      * @return {Object|undefined} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     findRecord: function (search) {
 
@@ -15647,7 +15685,7 @@ ludo.dataSource.Collection = new Class({
      * @function findRecords
      * @param {Object} search
      * @return {Array} records
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     findRecords: function (search) {
         var ret = [];
@@ -15668,7 +15706,7 @@ ludo.dataSource.Collection = new Class({
      * @function selectRecord
      * @param {Object} search
      * @return {Object|undefined} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     selectRecord: function (search) {
         var rec = this.findRecord(search);
@@ -15685,7 +15723,7 @@ ludo.dataSource.Collection = new Class({
      * @function selectRecords
      * @param {Object} search
      * @return {Array} records
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     selectRecords: function (search) {
         this.selectedRecords = this.findRecords(search);
@@ -15699,7 +15737,7 @@ ludo.dataSource.Collection = new Class({
      * Select a specific record by index
      * @function selectRecordIndex
      * @param {number} index
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     selectRecordIndex: function (index) {
         var data = this._getData();
@@ -15727,7 +15765,7 @@ ludo.dataSource.Collection = new Class({
      * Select previous record. If no record is currently selected, first record will be selected
      * @function previous
      * @return {Object} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     previous: function () {
         var rec = this.getPreviousOf(this.getSelectedRecord());
@@ -15742,7 +15780,7 @@ ludo.dataSource.Collection = new Class({
      * @function getPreviousOf
      * @param {Object} record
      * @return {Object} previous record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getPreviousOf: function (record) {
         var data = this._getData();
@@ -15758,7 +15796,7 @@ ludo.dataSource.Collection = new Class({
      * Select next record. If no record is currently selected, first record will be selected
      * @function next
      * @return {Object} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     next: function () {
         var rec = this.getNextOf(this.getSelectedRecord());
@@ -15772,7 +15810,7 @@ ludo.dataSource.Collection = new Class({
      * @function getNextOf
      * @param {Object} record
      * @return {Object} next record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getNextOf: function (record) {
         var data = this._getData();
@@ -15797,7 +15835,7 @@ ludo.dataSource.Collection = new Class({
      * Return first selected record
      * @function getSelectedRecord
      * @return {Object|undefined} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getSelectedRecord: function () {
         return this.selectedRecords.length > 0 ? this.selectedRecords[0] : undefined;
@@ -15807,7 +15845,7 @@ ludo.dataSource.Collection = new Class({
      * Return selected records
      * @function getSelectedRecords
      * @return {Array} records
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getSelectedRecords: function () {
         return this.selectedRecords;
@@ -15817,7 +15855,7 @@ ludo.dataSource.Collection = new Class({
      Delete records matching search,
      @function deleteRecords
      @param {Object} search
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      grid.getDataSource().deleteRecords({ country: 'Norway' });
      will delete all records from collection where country is equal to "Norway". A delete event
@@ -15837,7 +15875,7 @@ ludo.dataSource.Collection = new Class({
      Delete ONE item from the data source.
      @function deleteRecord
      @param {Object|String} search
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      // delete first record where property country matches "Norway"
      grid.getDataSource().deleteRecord({ country: 'Norway' });
@@ -15872,7 +15910,7 @@ ludo.dataSource.Collection = new Class({
      Select records from current selected record to record matching search,
      @function selectTo
      @param {Object} search
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      collection.selectRecord({ country: 'Norway' });
      collection.selectTo({country: 'Denmark'});
@@ -15910,7 +15948,7 @@ ludo.dataSource.Collection = new Class({
      * @param {Object} search
      * @param {Object} updates
      * @return {dataSource.Record} record
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     updateRecord: function (search, updates) {
         var rec = this.getRecord(search);
@@ -15936,7 +15974,7 @@ ludo.dataSource.Collection = new Class({
      * When paging is enabled, go to previous page.
      * fire previousPage event
      * @function previousPage
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     previousPage: function () {
         if (!this.paging || this.isOnFirstPage())return;
@@ -15949,7 +15987,7 @@ ludo.dataSource.Collection = new Class({
      * When paging is enabled, go to next page
      * fire nextPage event
      * @function nextPage
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     nextPage: function () {
         if (!this.paging || this.isOnLastPage())return;
@@ -15961,7 +15999,7 @@ ludo.dataSource.Collection = new Class({
     /**
      * Go to last page
      * @function lastPage
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     lastPage: function () {
         if (!this.paging || this.isOnLastPage())return;
@@ -15975,7 +16013,7 @@ ludo.dataSource.Collection = new Class({
     /**
      * Go to first page
      * @function firstPage
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     firstPage: function () {
         if (!this.paging || this.isOnFirstPage())return;
@@ -16073,7 +16111,7 @@ ludo.dataSource.Collection = new Class({
      * @function toPage
      * @param {Number} pageNumber
      * @return {Boolean} success
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     toPage: function (pageNumber) {
         if (pageNumber > 0 && pageNumber <= this.getPageCount() && !this.isOnPage(pageNumber)) {
@@ -16088,7 +16126,7 @@ ludo.dataSource.Collection = new Class({
     /**
      * @function setPageSize
      * @param {Number} size
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     setPageSize: function (size) {
         if (this.paging) {
@@ -16105,7 +16143,7 @@ ludo.dataSource.Collection = new Class({
      * @function isOnPage
      * @param {Number} pageNumber
      * @return {Boolean}
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     isOnPage: function (pageNumber) {
         return pageNumber == this.getPageNumber();
@@ -16115,7 +16153,7 @@ ludo.dataSource.Collection = new Class({
      * Return current page number
      * @function getPageNumber
      * @return {Number} page
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getPageNumber: function () {
         return this.paging ? Math.floor(this.paging.offset / this.paging.size) + 1 : 1;
@@ -16125,7 +16163,7 @@ ludo.dataSource.Collection = new Class({
      * Return number of pages
      * @function getPageCount
      * @return {Number}
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getPageCount: function () {
         return this.paging ? Math.ceil(this.getCount() / this.paging.size) : 1;
@@ -16134,7 +16172,7 @@ ludo.dataSource.Collection = new Class({
     /**
      * Return data in collection
      * @function getData
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      * @returns {Array}
      */
     getData: function () {
@@ -16211,15 +16249,15 @@ ludo.dataSource.Collection = new Class({
 
     /**
      Filter collection based on given search term. To filter on multiple search terms, you should
-     get a reference to the {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object and
-     use the available {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} methods to add
+     get a reference to the {{#crossLink "dataSource.JSONArraySearch"}}{{/crossLink}} object and
+     use the available {{#crossLink "dataSource.JSONArraySearch"}}{{/crossLink}} methods to add
      multiple search terms.
      @function Search
      @param {String} search
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
      ludo.get('myCollection').search('New York');
-     // or with the {{#crossLink "dataSource.CollectionSearch/add"}}{{/crossLink}} method
+     // or with the {{#crossLink "dataSource.JSONArraySearch/add"}}{{/crossLink}} method
      var searcher = ludo.get('myCollection').getSearcher();
      searcher.where('New York').execute();
      searcher.execute();
@@ -16232,7 +16270,7 @@ ludo.dataSource.Collection = new Class({
      * Executes a remote search for records with the given data
      * @function remoteSearch
      * @param {String|Object} search
-     * @memberof ludo.dataSource.Collection.prototype
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     remoteSearch: function (search) {
         this.postData = this.postData || {};
@@ -16254,11 +16292,11 @@ ludo.dataSource.Collection = new Class({
 
     searcher: undefined,
     /**
-     * Returns a {{#crossLink "dataSource.CollectionSearch"}}{{/crossLink}} object which
+     * Returns a {{#crossLink "dataSource.JSONArraySearch"}}{{/crossLink}} object which
      * you can use to filter a collection.
      * @function getSearcher
-     * @return {dataSource.CollectionSearch}
-     * @memberof ludo.dataSource.Collection.prototype
+     * @return {dataSource.JSONArraySearch}
+     * @memberof ludo.dataSource.JSONArray.prototype
      */
     getSearcher: function () {
         if (this.searcher === undefined) {
@@ -16289,21 +16327,21 @@ ludo.dataSource.Collection = new Class({
      @function getById
      @param {String|Number|Object} id
      @return {Object} record
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
-     var collection = new ludo.dataSource.Collection({
+     var collection = new ludo.dataSource.JSONArray({
 	 		url : 'get-countries.php',
 	 		primaryKey:'country'
 	 	});
      var record = collection.getById('Japan'); // Returns record for Japan if it exists.
      You can also define multiple keys as id
      @example
-     var collection = new ludo.dataSource.Collection({
+     var collection = new ludo.dataSource.JSONArray({
 			url : 'get-countries.php',
 			primaryKey:['id', 'country']
 		 });
      var record = collection.getById({ id:1, country:'Japan' });
-     This is especially useful when you have a {{#crossLink "dataSource.TreeCollection"}}{{/crossLink}}
+     This is especially useful when you have a {{#crossLink "dataSource.JSONTree"}}{{/crossLink}}
      where child nodes may have same numeric id as it's parent.
      @example
      { id:1, type:'country', title : 'Japan',
@@ -16336,9 +16374,9 @@ ludo.dataSource.Collection = new Class({
      @function getRecord
      @param {String|Object} search
      @return {dataSource.Record|undefined}
-     @memberof ludo.dataSource.Collection.prototype
+     @memberof ludo.dataSource.JSONArray.prototype
      @example
-     var collection = new ludo.dataSource.Collection({
+     var collection = new ludo.dataSource.JSONArray({
 			url : 'get-countries.php',
 			primaryKey:'country'
 		 });
@@ -16420,7 +16458,7 @@ ludo.dataSource.Collection = new Class({
     }
 });
 
-ludo.factory.registerClass('dataSource.Collection', ludo.dataSource.Collection);/* ../ludojs/src/effect/drop-point.js */
+ludo.factory.registerClass('dataSource.JSONArray', ludo.dataSource.JSONArray);/* ../ludojs/src/effect/drop-point.js */
 /**
  Specification of a drop point node sent to {{#crossLink "effect.DragDrop/addDropTarget"}}{{/crossLink}}.
  You may add your own properties in addition to the ones below.
@@ -18216,6 +18254,10 @@ ludo.grid.RowManager = new Class({
 
 });/* ../ludojs/src/grid/grid.js */
 /**
+ * @namespace ludo.grid
+ */
+
+/**
  @namespace ludo.grid
  @class ludo.grid.Grid
  @augments View
@@ -18291,6 +18333,7 @@ ludo.grid.RowManager = new Class({
  @example
  	new ludo.grid.Grid({...})
  where {...} can be the same code as above. use the "renderTo" config property to specify where you want the grid to be rendered.
+
  */
 ludo.grid.Grid = new Class({
 	Extends:ludo.View,
@@ -18382,7 +18425,7 @@ ludo.grid.Grid = new Class({
 
 	emptyText:'No data',
 
-	defaultDS : 'dataSource.Collection',
+	defaultDS : 'dataSource.JSONArray',
 
 	__construct:function (config) {
 		this.parent(config);
@@ -19205,6 +19248,9 @@ ludo.Window = new Class({
     }
 });/* ../ludojs/src/dialog/dialog.js */
 /**
+ * @namespace ludo.dialog
+ */
+/**
  * Basic dialog class and base class for all other dialogs. This class extends
  * <a href="ludo.Window.html">ludo.Window</a>.
  * @class ludo.dialog.Dialog
@@ -19224,6 +19270,7 @@ ludo.Window = new Class({
                    'no' : function() { this.discardWork() }
                }
           });
+
  */
 ludo.dialog.Dialog = new Class({
 	Extends:ludo.Window,
@@ -19463,7 +19510,6 @@ ludo.form.validator.twin = function(value, twin){
  * Super class for form Views.
  * This class inherits from <a href="ludo.View.html">ludo.View</a>.
  * @module form
- * @namespace ludo.form
  * @class ludo.form.Element
  * @param {Object} config Configuration when creating the View. These properties and properties from superclass is available
  * @param {String} config.name Name of element. A call to parentView.getForm().values() will return &lt;name> : &lt;value>.
@@ -19488,6 +19534,7 @@ ludo.form.validator.twin = function(value, twin){
  * @fires ludo.form.Element#clean - Fired on new value which is the same as initial. Arguments. value, ludo.form.Element
  * @fires ludo.form.Element#value - Fired when a new valid value is set. Arguments. value, ludo.form.Element
  * @fires ludo.form.Element#invalid - Fired when a new value is set which is invalid. Arguments. value, ludo.form.Element
+ * @namespace ludo.form
  */
 ludo.form.Element = new Class({
     Extends:ludo.View,
@@ -22327,6 +22374,10 @@ ludo.svg.Path = new Class({
     }
 });/* ../ludojs/src/color/color.js */
 /**
+ * Utilities for easy handling of colors
+ * @namespace ludo.color
+ */
+/**
  * A class with a lot of color conversion functions.
  *
  * With this class, you can convert between RGB and HSV, darken and brighten colors,
@@ -22345,6 +22396,7 @@ ludo.color.Color = new Class({
     /**
      * Function returning a random color
      * @returns {string}
+     * @memberof ludo.color.Color.prototype
      * @example
      * var util = new ludo.color.Color();
      * var color = util.randomColor(); // returns color in #RRGGBB format
@@ -23055,30 +23107,135 @@ ludo.svg.Animation = new Class({
 
 ludo.svgAnimation = new ludo.svg.Animation();
 
+
+/**
+ * Easing methods for SVG animations.
+ *
+ * To see how the different functions work, see the <a href="../demo/svg/animation.php">SVG animation demo</a>.
+ *
+ * @class ludo.svg.easing
+ * @example
+ * circle.animate({
+ *      cx : 100, cy: 100, r: 10
+ * }, {
+ *      duration: 200,
+ *      easing: ludo.svg.easing.outCubic,
+ *      complete: function(){ console.log('finished') }
+ * });
+ */
+
+
 ludo.svg.easing = {
 
     /**
      *
-     * @param t current time
-     * @param b start value
-     * @param c change in value
-     * @param d duration
-     * @returns {*}
+     * @function linear
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body,
+     *      layout:{
+     *          width:'matchParent', height:'matchParent'
+     *      }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50 });
+     * circle.css('fill', '#ff0000');
+     * svg.append(circle);
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.linear
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
      */
     linear: function (t, b, c, d) {
         return c * t / d + b;
     },
 
+    /**
+     * inQuad easing functions
+     * @function inQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inQuad: function (t, b, c, d) {
         t /= d;
         return c * t * t + b;
     },
 
+    /**
+     * outQuad easing functions
+     * @function outQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outQuad: function (t, b, c, d) {
         t /= d;
         return -c * t * (t - 2) + b;
     },
 
+    /**
+     * inOutQuad easing functions
+     * @function inOutQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutQuad: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * t * t + b;
@@ -23086,18 +23243,86 @@ ludo.svg.easing = {
         return -c / 2 * (t * (t - 2) - 1) + b;
     },
 
-
+    /**
+     * inCubic easing functions
+     * @function inCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inCubic: function (t, b, c, d) {
         t /= d;
         return c * t * t * t + b;
     },
 
+    /**
+     * outCubic easing functions
+     * @function outCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outCubic: function (t, b, c, d) {
         t /= d;
         t--;
         return c * (t * t * t + 1) + b;
     },
 
+    /**
+     * inOutCubic easing functions
+     * @function inOutCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutCubic: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * t * t * t + b;
@@ -23105,17 +23330,86 @@ ludo.svg.easing = {
         return c / 2 * (t * t * t + 2) + b;
     },
 
+    /**
+     * inQuart easing functions
+     * @function inQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inQuart: function (t, b, c, d) {
         t /= d;
         return c * t * t * t * t + b;
     },
 
+    /**
+     * outQuart easing functions
+     * @function outQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outQuart: function (t, b, c, d) {
         t /= d;
         t--;
         return -c * (t * t * t * t - 1) + b;
     },
 
+    /**
+     * inOutQuart easing functions
+     * @function inOutQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutQuart: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * t * t * t * t + b;
@@ -23123,17 +23417,86 @@ ludo.svg.easing = {
         return -c / 2 * (t * t * t * t - 2) + b;
     },
 
+    /**
+     * inQuint easing functions
+     * @function inQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inQuint: function (t, b, c, d) {
         t /= d;
         return c * t * t * t * t * t + b;
     },
 
+    /**
+     * outQuint easing functions
+     * @function outQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outQuint: function (t, b, c, d) {
         t /= d;
         t--;
         return c * (t * t * t * t * t + 1) + b;
     },
 
+    /**
+     * inOutQuint easing functions
+     * @function inOutQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutQuint: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * t * t * t * t * t + b;
@@ -23141,33 +23504,170 @@ ludo.svg.easing = {
         return c / 2 * (t * t * t * t * t + 2) + b;
     },
 
+    /**
+     * inSine easing functions
+     * @function inSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inSine: function (t, b, c, d) {
         return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
     },
 
-    // sinusoidal easing out - decelerating to zero velocity
+    /**
+     * outSine easing functions
+     * @function outSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outSine: function (t, b, c, d) {
         return c * Math.sin(t / d * (Math.PI / 2)) + b;
     },
 
-    // sinusoidal easing in/out - accelerating until halfway, then decelerating
+    /**
+     * outSine easing functions
+     * sinusoidal easing in/out - accelerating until halfway, then decelerating
+     * @function outSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutSine: function (t, b, c, d) {
         return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
     },
 
-    // exponential easing in - accelerating from zero velocity
+
+    /**
+     * inExpo easing functions
+     * exponential easing in - accelerating from zero velocity
+     * @function inExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inExpo: function (t, b, c, d) {
         return c * Math.pow(2, 10 * (t / d - 1)) + b;
     },
 
-
-    // exponential easing out - decelerating to zero velocity
+    /**
+     * outExpo easing functions
+     * exponential easing out - decelerating to zero velocity
+     * @function outExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outExpo: function (t, b, c, d) {
         return c * ( -Math.pow(2, -10 * t / d) + 1 ) + b;
     },
 
 
-    // exponential easing in/out - accelerating until halfway, then decelerating
+    /**
+     * inOutExpo easing functions
+     * exponential easing in/out - accelerating until halfway, then decelerating
+     * @function inOutExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutExpo: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
@@ -23175,22 +23675,90 @@ ludo.svg.easing = {
         return c / 2 * ( -Math.pow(2, -10 * t) + 2 ) + b;
     },
 
-    // circular easing in - accelerating from zero velocity
+    /**
+     * inCirc easing functions
+     * circular easing in - accelerating from zero velocity
+     * @function inCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inCirc: function (t, b, c, d) {
         t /= d;
         return -c * (Math.sqrt(1 - t * t) - 1) + b;
     },
 
 
-    // circular easing out - decelerating to zero velocity
+    /**
+     * outCirc easing functions
+     * circular easing out - decelerating to zero velocity
+     * @function outCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     outCirc: function (t, b, c, d) {
         t /= d;
         t--;
         return c * Math.sqrt(1 - t * t) + b;
     },
 
-
-    // circular easing in/out - acceleration until halfway, then deceleration
+    /**
+     * inOutCirc easing functions
+     * circular easing in/out - acceleration until halfway, then deceleration
+     * @function inOutCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     inOutCirc: function (t, b, c, d) {
         t /= d / 2;
         if (t < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
@@ -23199,25 +23767,85 @@ ludo.svg.easing = {
     },
 
     /**
+     * bounce easing functions
+     * @function bounce
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
      *
-     * @param t current time
-     * @param b start value
-     * @param c change in value
-     * @param d duration
-     * @returns {*}
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.bounce
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
      */
-
     bounce: function (t, b, c, d) {
         var progress = t / d;
         progress = 1 - ludo.svg.easing._bounce(1 - progress);
         return c * progress + b;
     },
 
+    /**
+     * bounce easing functions
+     * @function bounce
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     bow:function(t,b,c,d){
-        var progress = ludo.svg.easing._back(t/d, 1.5);
+        var progress = ludo.svg.easing._bow(t/d, 1.5);
         return c * progress + b;
     },
 
+    /**
+     * elastic easing functions
+     * @function elastic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.elastic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
     elastic:function(t,b,c,d){
         var progress = ludo.svg.easing._elastic(t/d, 1.5);
         return c * progress + b;
@@ -23236,7 +23864,7 @@ ludo.svg.easing = {
         }
     },
 
-    _back:function(progress, x){
+    _bow:function(progress, x){
         return Math.pow(progress, 2) * ((x + 1) * progress - x)
 
     }
@@ -23331,14 +23959,14 @@ ludo.remote.Base = new Class({
 	 * Return url for the request
 	 * @function getUrl
 	 * @param {String} service
-	 * @param {Array} arguments
+	 * @param {Array} args
 	 * @return {String}
 	 * @protected
 	 */
-	getUrl:function (service, arguments) {
+	getUrl:function (service, args) {
 		var ret = this.url !== undefined ? this.url : ludo.config.getUrl();
 		if (ludo.config.hasModRewriteUrls()) {
-			ret = ludo.config.getDocumentRoot() + this.getServicePath(service, arguments);
+			ret = ludo.config.getDocumentRoot() + this.getServicePath(service, args);
 		} else {
 			ret = this.url !== undefined ? ludo.util.isFunction(this.url) ? this.url.call() : this.url : ludo.config.getUrl();
 		}
@@ -23347,20 +23975,20 @@ ludo.remote.Base = new Class({
 	/**
 	 * @function getServicePath
 	 * @param {String} service
-	 * @param {Array} arguments
+	 * @param {Array} args
 	 * @return {String}
 	 * @protected
 	 */
-	getServicePath:function (service, arguments) {
+	getServicePath:function (service, args) {
 		var parts = [this.resource];
-		if (arguments && arguments.length)parts.push(arguments.join('/'));
+		if (args && args.length)parts.push(args.join('/'));
 		if (service)parts.push(service);
 		return parts.join('/');
 	},
 	/**
 	 * @function getDataForRequest
 	 * @param {String} service
-	 * @param {Array} arguments
+	 * @param {Array} args
 	 * @param {Object} data
 	 * @optional
 	 * @param {Object} additionalData
@@ -23368,7 +23996,7 @@ ludo.remote.Base = new Class({
 	 * @return {Object}
 	 * @protected
 	 */
-	getDataForRequest:function (service, arguments, data, additionalData) {
+	getDataForRequest:function (service, args, data, additionalData) {
 		var ret = {
 			data:data
 		};
@@ -23378,7 +24006,7 @@ ludo.remote.Base = new Class({
 			}
 		}
 		if (!ludo.config.hasModRewriteUrls() && this.resource) {
-			ret.request = this.getServicePath(service, arguments);
+			ret.request = this.getServicePath(service, args);
 		}
 
 		var injected = ludo.remoteInject.get(this.resource, service);
@@ -25377,23 +26005,23 @@ ludo.form.ResetButton = new Class({
             this.applyTo.getForm().reset();
         }
     }
-});/* ../ludojs/src/data-source/tree-collection.js */
+});/* ../ludojs/src/data-source/json-tree.js */
 /**
  * Special collection class for tree structures.
  * @namespace ludo.dataSource
- * @class ludo.dataSource.TreeCollection
- * @augments ludo.dataSource.Collection
+ * @class ludo.dataSource.JSONTree
+ * @augments ludo.dataSource.JSONArray
  */
-ludo.dataSource.TreeCollection = new Class({
-	Extends:ludo.dataSource.Collection,
-	type : 'dataSource.TreeCollection',
-	searcherType:'dataSource.TreeCollectionSearch',
+ludo.dataSource.JSONTree = new Class({
+	Extends:ludo.dataSource.JSONArray,
+	type : 'dataSource.JSONTree',
+	searcherType:'dataSource.JSONTreeSearch',
 	/**
 	 * Return children of parent with this id
 	 * @function getChildren
 	 * @param {String} parent id
 	 * @return {Array|undefined} children
-	 * @memberof ludo.dataSource.TreeCollection.prototype
+	 * @memberof ludo.dataSource.JSONTree.prototype
 	 */
 	getChildren:function (parent) {
 		var p = this.findRecord(parent);
@@ -25506,8 +26134,10 @@ ludo.CollectionView = new Class({
     }
 });/* ../ludojs/src/tree/tree.js */
 /**
- * Tree widget
  * @namespace ludo.tree
+ */
+/**
+ * Tree widget
  * @class ludo.tree.Tree
  * @param {Object} config
  * @param {Object} config.defaults: Default values for properties not present in data, example:
@@ -25538,6 +26168,7 @@ ludo.CollectionView = new Class({
  * </code>
  * tplKey refers to the "type" attribute. When type is "country", it should use the "country" tpl. When type is "city",
  * it should use the "city" template.
+ *
  */
 ludo.tree.Tree = new Class({
 	Extends:ludo.CollectionView,
@@ -25582,7 +26213,7 @@ ludo.tree.Tree = new Class({
 	tplKey:undefined,
 	dataSource:{
 	},
-    defaultDS: 'dataSource.TreeCollection',
+    defaultDS: 'dataSource.JSONTree',
 
 	/*
 	 Default values when not present in node.
@@ -26203,7 +26834,7 @@ ludo.form.Textarea = new Class({
  Custom CSS styling can be done by adding styles to the .ludo-notification class.
  
  @class ludo.Notification
- @augments ludo.View
+ @parent ludo.View
  @param {Object} config
  @param {String} config.html Message to display
  @param {Number} config.duration Seconds before notification is automatically hidden. Default is 3
@@ -26211,7 +26842,8 @@ ludo.form.Textarea = new Class({
  @param {String} config.showEffect Effect used when Notification is displayed(fade or slide)
  @param {String} config.hideEffect Effect used when Notification is hidden(fade or slide)
  @param {Number} config.effectDuration Duration of show/hide effect in seconds. Default: 1
- @param {Boolean} config.autoRemove True to automatically remove the view from DOM when hiding it.
+ @param {Boolean} config.autoRemove True to automatically destroy the view(remove from DOM) hiding it, default:true 
+ @summary new ludo.Notification({ ... });
  @example
 
  new ludo.Notification({
@@ -26755,7 +27387,7 @@ ludo.paging.Button = new Class({
 	JSON:function(){}
 });/* ../ludojs/src/paging/next.js */
 /**
- Button used to navigate to next page in a dataSource.Collection
+ Button used to navigate to next page in a dataSource.JSONArray
  @namespace paging
  @class ludo.paging.Next
  @augments paging.Button
@@ -26770,7 +27402,7 @@ ludo.paging.Button = new Class({
 		 }
  		...
  	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.Next = new Class({
 	Extends:ludo.paging.Button,
@@ -26794,7 +27426,7 @@ ludo.paging.Next = new Class({
 	}
 });/* ../ludojs/src/paging/previous.js */
 /**
- Button used to navigate to previous page in a dataSource.Collection
+ Button used to navigate to previous page in a dataSource.JSONArray
  @namespace ludo.paging
  @class ludo.paging.Last
  @augments ludo.paging.Button
@@ -26809,7 +27441,7 @@ ludo.paging.Next = new Class({
 		 }
  		...
  	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.Previous = new Class({
 	Extends:ludo.paging.Button,
@@ -26833,7 +27465,7 @@ ludo.paging.Previous = new Class({
 
 });/* ../ludojs/src/paging/last.js */
 /**
- Button used to navigate to last page in a dataSource.Collection
+ Button used to navigate to last page in a dataSource.JSONArray
  @namespace ludo.paging
  @class ludo.paging.Last
  @augments ludo.paging.Button
@@ -26848,7 +27480,7 @@ ludo.paging.Previous = new Class({
 		 }
  		...
  	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.Last = new Class({
 	Extends:ludo.paging.Button,
@@ -26867,7 +27499,7 @@ ludo.paging.Last = new Class({
 	}
 });/* ../ludojs/src/paging/first.js */
 /**
- Button used to navigate to first page in a dataSource.Collection
+ Button used to navigate to first page in a dataSource.JSONArray
  @namespace ludo.paging
  @class ludo.paging.First
  @augments ludo.paging.Button
@@ -26882,7 +27514,7 @@ ludo.paging.Last = new Class({
 		 }
  		...
  	}
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.First = new Class({
 	Extends:ludo.paging.Button,
@@ -26970,7 +27602,7 @@ ludo.paging.PageInput = new Class({
 		  }
  ...
  }
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.CurrentPage = new Class({
 	Extends:ludo.View,
@@ -27030,7 +27662,7 @@ ludo.paging.CurrentPage = new Class({
 		  }
  ...
  }
- where 'myDataSource' is the id of a dataSource.Collection object used by a view.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by a view.
  */
 ludo.paging.TotalPages = new Class({
 	Extends:ludo.View,
@@ -27079,7 +27711,7 @@ ludo.paging.TotalPages = new Class({
 	}
 });/* ../ludojs/src/paging/nav-bar.js */
 /**
- A view containing buttons and views for navigating in a dataSource.Collection.
+ A view containing buttons and views for navigating in a dataSource.JSONArray.
  default children: ['paging.First','paging.Previous','paging.PageInput','paging.TotalPages','paging.Next','paging.Last']
  You can customize which views to show by using the children constructor property.
  @namespace ludo.paging
@@ -27108,7 +27740,7 @@ ludo.paging.TotalPages = new Class({
 		}
  		...
  	}
- where 'myDataSource' is the id of a dataSource.Collection object used by the Grid above.
+ where 'myDataSource' is the id of a dataSource.JSONArray object used by the Grid above.
  */
 ludo.paging.NavBar = new Class({
 	Extends:ludo.View,
@@ -27203,7 +27835,7 @@ ludo.form.Select = new Class({
 
     options:undefined,
 
-	defaultDS:'dataSource.Collection',
+	defaultDS:'dataSource.JSONArray',
 
     __construct:function (config) {
         this.parent(config);
@@ -27364,321 +27996,326 @@ ludo.form.DisplayField = new Class({
     supportsInlineLabel:function(){
         return false;
     }
-});/* ../ludojs/src/progress/datasource.js */
-/**
- * Data source for progress bars
- * @namespace ludo.progress
- * @class ludo.progress.DataSource
- * @augments dataSource.JSON
- */
-ludo.progress.DataSource = new Class({
-    Extends:ludo.dataSource.JSON,
-    type:'progress.DataSource',
-    singleton:true,
-    autoload:false,
-    progressId:undefined,
-    stopped : false,
-    pollFrequence : 1,
-
-    resource:'LudoDBProgress',
-    service:'read',
-	listenTo:undefined,
-
-    __construct:function(config){
-        this.parent(config);
-
-		this.setConfigParams(config, ['pollFrequence','listenTo']);
-
-        if(this.listenTo){
-            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.startProgress.bind(this));
-        }
-    },
-
-    startProgress:function(){
-		this.inject();
-        this.stopped = false;
-        this.fireEvent('start');
-        this.load.delay(1000, this);
-    },
-
-	inject:function(){
-		ludo.remoteInject.add(this.listenTo, {
-			LudoDBProgressID : this.getNewProgressBarId()
-		});
-	},
-
-    parseNewData:function (data) {
-        this.fireEvent('load', data);
-        if(data.percent<100 && !this.stopped){
-            this.load.delay(this.pollFrequence * 1000, this);
-        }else{
-            if(data.percent>=100){
-                this.finish();
-            }
-        }
-    },
-
-    getNewProgressBarId:function(){
-        this.progressId = this.progressId = 'ludo-progress-' + String.uniqueID();
-		this.arguments = this.progressId;
-        return this.progressId;
-    },
-
-    getProgressId:function(){
-        return this.progressId;
-    },
-
-    stop:function(){
-        this.stopped = true;
-        this.fireEvent('stop');
-    },
-
-    proceed : function(){
-        this.stopped = false;
-        this.load();
-    },
-
-    finish:function(){
-        this.stopped = true;
-        this.progressId = undefined;
-        this.fireEvent('finish');
-		this.inject();
-    }
-});/* ../ludojs/src/progress/base.js */
-/**
- * Super class for all progress bar views
- * @namespace progress
- * @class ludo.progress.Base
- * @param {Object} config
- * @param {Boolean} config.hideOnFinish Hide View on finish. Default: true
- * @augments View
- * @fires ludo.progress.Base#finish Fired on finish(100%)
- */
-ludo.progress.Base = new Class({
-    Extends:ludo.View,
-	applyTo:undefined,
-    pollFrequence:1,
-    url:undefined,
-    onLoadMessage:'',
-
-    hideOnFinish:true,
-
-    defaultDS:'progress.DataSource',
-
-    __construct:function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['applyTo','listenTo', 'pollFrequence','hideOnFinish']);
-
-        if(this.applyTo)this.applyTo = ludo.get(this.applyTo);
-        this.dataSource = this.dataSource || {};
-        this.dataSource.pollFrequence = this.pollFrequence;
-        this.dataSource.listenTo = this.listenTo;
-
-        if(this.listenTo){
-            ludo.remoteBroadcaster.withResourceService(this.listenTo).on('start', this.show.bind(this));
-        }
-
-        this.getDataSource().addEvents({
-            'load' : this.JSON.bind(this),
-            'start' : this.start.bind(this),
-            'finish' : this.finishEvent.bind(this)
-        });
-    },
-
-    start:function(){
-        this.fireEvent('start');
-        this.JSON({text:'',percent:0});
-    },
-
-    hideAfterDelay:function(){
-        this.hide.delay(1000, this);
-    },
-
-    getProgressBarId:function () {
-        return this.getDataSource().getProgressId();
-    },
-
-    stop:function () {
-        this.getDataSource().stop();
-    },
-
-    proceed:function(){
-        this.getDataSource().proceed();
-    },
-    /**
-     * Finish progress bar manually
-     * @function finish
-     * @memberof ludo.progress.Base.prototype
-     */
-    finish:function () {
-        this.getDataSource().finish();
-    },
-
-    finishEvent:function(){
-
-        if (this.hideOnFinish) {
-            this.hideAfterDelay();
-        }
-
-        /*
-         * Event fired when progress bar is finished
-         * @event render
-         * @param Component this
-         */
-        this.fireEvent('finish');
-        
-    }
 });/* ../ludojs/src/progress/bar.js */
 /**
+ * @namespace ludo.progress
+ */
+/**
  * Progress bar class
+ *
+ * Demo: <a href="../demo/progress/bar.php">Progress Bar Demo</a>
+ *
  * @namespace progress
  * @class ludo.progress.Bar
  * @augments ludo.progress.Base
+ * @param {Object} config
+ * @param {Number} config.steps Number of progress bar steps, default = 10
+ * @param {Number} config.progress Initial step, default = 0
+ * @param {float} config.textSizeRatio Size of text relative to height of progress bar, default = 0.6
+ * @param {float} config.borderRadius Fixed border radius, default = height / 2
+ * @param {float} config.backgroundStyles SVG background styles
+ * @param {float} config.barStyles SVG moving bar styles
+ * @param {float} config.textStyles Styling of text on progress bar
+ * @param {Number} config.animationDuration Animation duration in milliseconds (1/1000s) - default: 100
+ * @fires ludo.progress.Bar#change Fired when value is changed. Arguments. 1) Percent completed 2) current step 3) number of steps, 4) ludo.progress.Bar 4) Current percentage
+ * @fires ludo.progress.Bar#animate Fired when value is animated. Arguments. 1) Animated percent completed
+ * @fires ludo.progress.Bar#animated Fired when animation is complete. Arguments: 1) Percent completed
  */
 ludo.progress.Bar = new Class({
-    Extends:ludo.progress.Base,
-    type:'ProgressBar',
-    width:300,
-    height:35,
-    progressBarWidth:0,
-    currentPercent:0,
-    stopped:false,
-    hidden:true,
-    fx:undefined,
+    Extends: ludo.View,
+    type: 'progress.Bar',
+    orientation: 'horizontal',
+    steps: 10,
+    progress: 0,
+    lastProgress: 0,
+    lastSteps: 0,
+    lastRatio:0,
+    outerBorderWidth: 0,
+    innerBorderWidth: 0,
 
-    __rendered:function () {
-        this.parent();
+    borderRadius: undefined,
+    textSizeRatio: 0.6,
 
-        this.createBackgroundForProgressBar();
-        this.createMovablePartOfProgressBar();
-        this.createTextElement();
+    backgroundStyles: undefined,
+    barStyles: undefined,
+    textStyles: undefined,
+    _text: undefined,
 
-        this.autoSetProgressWidth();
-    },
-    createBackgroundForProgressBar:function () {
-        var el = this.els.progressBg = $('<div>');
-        el.addClass('ludo-Progress-Bar-Bg');
-        this.getBody().append(el);
+    animationDuration: 100,
 
-        var left = this.els.progressBgRight = $('<div>');
-        left.addClass('ludo-Progress-Bar-Bg-Left');
-        el.append(left);
+    debugRect: undefined,
 
-        var right = this.els.progressBgRight = $('<div>');
-        right.addClass('ludo-Progress-Bar-Bg-Right');
-        el.append(right);
-    },
-
-    createMovablePartOfProgressBar:function () {
-        var el = this.els.progress = $('<div class="ludo-Progress-Bar">');
-        this.els.progressBg.append(el);
-        this.els.progress.css('width', '0px');
-
-        var left = this.els.progressLeft = $('<div>');
-        left.addClass('ludo-Progress-Bar-Left');
-        el.append(left);
-
-        var right = this.els.progressRight = $('<div>');
-        right.addClass('ludo-Progress-Bar-Right');
-        el.append(right);
-    },
-
-    createTextElement:function () {
-        var percent = this.els.percent = $('<div>');
-        percent.addClass('ludo-Progress-Bar-Percent');
-        this.els.progressBg.append(percent);
-	},
-
-    resizeDOM:function () {
-        this.parent();
-        if (this.els.progressBg) {
-            this.autoSetProgressWidth();
+    __construct: function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['animationDuration', 'steps', 'progress', 'borderRadius', 'textSizeRatio', 'backgroundStyles',
+            'barStyles', 'textStyles']);
+        if (!this.layout.height) {
+            this.layout.height = 25;
+        }
+        if (config.text != undefined) {
+            this._text = config.text;
         }
     },
 
-    JSON:function (json) {
-        var data = json.data ? json.data : json;
-        this.setPercent(data.percent);
-    },
-
-    startProgress:function () {
+    __rendered: function () {
         this.parent();
-        this.stopped = false;
-        this.setPercent(0);
-        this.els.progress.css('width',  '0');
-        this.currentPercent = 0;
+        this.svg().set('fill', '#000066');
+        this.renderBar();
     },
 
-    finish:function () {
-        this.parent();
-        this.setPercent(100);
-    },
-
-    autoSetProgressWidth:function () {
-        if (!this.isVisible()) {
-            return;
+    /**
+     * Increment progress bar
+     * @param {Number} by
+     * @param {Boolean} animate
+     * @memberof ludo.progress.Bar.prototype
+     */
+    increment: function (by, animate) {
+        by = by != undefined ? by : 1;
+        animate = animate != undefined ? animate : true;
+        this.lastProgress = this.progress;
+        this.progress += by;
+        this.progress = Math.min(this.progress, this.steps);
+        if (this.progress != this.lastProgress || this.steps != this.lastSteps) {
+            var ratio = this.progress / this.steps;
+            this.onChange();
+            this.ratio(ratio, animate);
         }
-        var width = parseInt(this.getBody().css('width').replace('px', ''));
-        width -= ludo.dom.getMW(this.els.progressBg);
-        this.setProgressBarWidth(width);
-        this.setPercent(this.currentPercent);
     },
 
-    setProgressBarWidth:function (width) {
+    onChange:function(){
+        var ratio = this.progress / this.steps;
+        this.fireEvent('change', [ratio * 100, this.progress, this.steps, this, ratio]);
+    },
 
-        if (isNaN(width)) {
-            return;
+    finished: function () {
+        return this.progress >= this.steps;
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        this.resizeItems();
+    },
+
+    setMax: function (steps, animate) {
+        this.lastSteps = this.steps;
+        this.steps = steps;
+        this.increment(0, animate);
+    },
+
+    /**
+     * Set new progress value
+     * @param {Number} progress
+     * @param {Boolean} animate
+     * @memberof ludo.progress.Bar.prototype
+     */
+    setProgress: function (progress, animate) {
+        this.increment(progress - this.progress, animate);
+    },
+
+    renderBar: function () {
+
+        var s = this.svg();
+
+
+        this.els.clipPath = s.$('clipPath');
+        s.appendDef(this.els.clipPath);
+
+        this.els.clipRect = s.$('rect', {
+            x: 0, y: 0, width: 0, height: 0
+        });
+        this.els.clipPath.append(this.els.clipRect);
+
+        var cls = 'ludo-progress-bg';
+        var styles = ludo.svg.Util.pathStyles(cls);
+        this.outerBorderWidth = parseInt(styles['stroke-width']);
+
+
+        s.addStyleSheet(cls + '-svg', styles);
+        var bg = this.els.bg = s.$('path');
+
+        bg.addClass(cls + '-svg');
+
+        s.append(bg);
+        if (this.backgroundStyles != undefined) {
+            bg.css(this.backgroundStyles);
         }
-        this.progressBarWidth = width;
-        this.els.progressBg.css('width', width);
+        bg.set('stroke-linecap', 'round');
+        bg.set('stroke-linejoin', 'round');
 
-        this.progressBarWidth = width;
+        this.els.g = s.$('g');
+        s.append(this.els.g);
+        var el = this.els.bar = s.$('path');
+
+
+        cls = 'ludo-progress-pr';
+        styles = ludo.svg.Util.pathStyles(cls);
+        s.addStyleSheet(cls + '-svg', styles);
+        el.addClass(cls + '-svg');
+        this.els.g.append(el);
+        if (this.barStyles != undefined) {
+            el.css(this.barStyles);
+        }
+        el.set('stroke-linecap', 'round');
+        el.set('stroke-linejoin', 'round');
+        this.innerBorderWidth = parseInt(styles['stroke-width']);
+
+        this.els.g.applyClipPath(this.els.clipPath);
+
+
+        if (this._text != undefined) {
+            this.text(this._text);
+        }
+
     },
 
-    setPercent:function (percent) {
-        if(percent == this.currentPercent)return;
-		if(percent === 0 && this.currentPercent === 100){
-			this.els.progress.css('width',  '0px');
-		}else{
-            this.els.progress.animate({
-                width : percent + "%"
-            }, 100);
-		}
-
-        this.currentPercent = percent;
-        this.els.percent.html(percent + '%');
+    bar:function(){
+        return this.els.bar;
     },
 
-    getCurrentPercent:function () {
-        return this.currentPercent;
+    resizeItems: function () {
+        var p = this.bgPath()
+        this.els.bg.set('d', p);
+        var padding = (this.outerBorderWidth / 2) + (this.innerBorderWidth / 2);
+        this.els.bar.set('d', this.bgPath(padding));
+
+        this.positionTextNode();
+
+        this.percent(this.progress / this.steps * 100);
+
+        this.els.clipRect.set('height', this.svg().height);
+        this.els.clipRect.set('x', this.outerBorderWidth);
     },
 
-    animate:function () {
-        if (this.currentPercent < 100) {
-            this.currentPercent++;
-            this.setPercent(this.currentPercent);
-            this.animate.delay(50, this);
+    positionTextNode: function () {
+        if (this.els.textNode) {
+            this.els.textNode.set('x', this.getBody().width() / 2);
+            this.els.textNode.set('y', (this.svg().height / 2));
+            this.els.textNode.css('font-size', this.svg().height * this.textSizeRatio);
+        }
+    },
+
+    bgPath: function (extraPadding) {
+        extraPadding = extraPadding || 0;
+        var padding = (this.outerBorderWidth / 2) + extraPadding;
+
+        var w = this.svg().width;
+        var h = this.svg().height;
+
+        var radius = this.borderRadius ? this.borderRadius : this.orientation == 'horizontal' ? (h - padding) / 2 : (w - padding) / 2;
+        if (this.orientation == 'horizontal') {
+            radius = Math.min(radius, (h - padding) / 2);
+        } else {
+            radius = Math.min(radius, (w - padding) / 2);
+        }
+
+        var offset = radius;
+
+        var path;
+        if (this.borderRadius || 1 == 1) {
+            path = [
+                'M', offset, padding,
+                'L', w - offset, padding,
+                'A', radius, radius, 90, 0, 1, w - padding, padding + radius,
+                'L', w - padding, h - radius,
+                'A', radius, radius, 90, 0, 1, w - offset, h - padding,
+                'L', offset, h - padding,
+                'A', radius, radius, 90, 0, 1, padding, h - padding - radius,
+                'L', padding, radius,
+                'A', radius, radius, 90, 0, 1, offset, padding
+            ];
+
+        } else {
+            var e = 0;
+            path = [
+                'M', offset, padding,
+                'L', w - offset + e, padding,
+                'A', radius, radius, 180, 0, 1, w - offset + e, h - padding,
+                'L', offset - e, h - padding,
+                'A', radius, radius, 180, 0, 1, offset - e, padding
+            ];
+
+        }
+
+
+        return path.join(' ');
+    },
+
+    /**
+     * Display text on progress bar
+     * @param {String} text
+     * @memberof ludo.progress.Bar.prototype
+     */
+    text: function (txt) {
+        if (this.els.textNode == undefined) {
+            this.els.textNode = this.svg().$('text');
+            var styles = ludo.svg.Util.textStyles('ludo-progress-text');
+            this.svg().addStyleSheet('ludo-progress-text-svg', styles);
+            this.els.textNode.addClass('ludo-progress-text-svg');
+            this.els.textNode.set('text-anchor', 'middle');
+            this.els.textNode.set('alignment-baseline', 'central');
+            this.svg().append(this.els.textNode);
+            if (this.textStyles != undefined) {
+                this.els.textNode.css(this.textStyles);
+            }
+            this.positionTextNode();
+        }
+
+        this.els.textNode.text(txt);
+    },
+
+    animate: function (percent) {
+        this.percent(percent, true);
+    },
+
+    /**
+     * Update percentage value directly.
+     * @param {Number} percent New percentage value
+     * @param {Boolean} animate True to animate, default = false
+     * @memberof ludo.progress.Bar.prototype
+     */
+    percent: function (percent, animate) {
+        this.ratio(percent / 100, animate);
+    },
+
+
+    /**
+     * Update ratio value (0-1) directly.
+     * @param {Number} ratio New ratio - 0 = starting, 1 = finished
+     * @param {Boolean} animate True to animate, default = false
+     * @memberof ludo.progress.Bar.prototype
+     */
+    ratio: function (ratio, animate) {
+        if (arguments.length == 0) {
+            return this.progress / this.steps * 100;
+        }
+        var w = (this.svg().width - this.outerBorderWidth) * ratio;
+
+        if (animate) {
+            var diff = ratio - this.lastRatio;
+            this.els.clipRect.animate({
+                width: w
+            }, {
+                duration: this.animationDuration,
+                easing:ludo.svg.easing.outSine,
+                complete: function () {
+                    this.lastRatio = ratio;
+                    this.fireEvent('animate', this.lastRatio * 100);
+                    this.onChange();
+                    this.fireEvent('animated', this.lastRatio * 100);
+                }.bind(this),
+                progress: function (t) {
+                    var prs = Math.min(100, (this.lastRatio + (diff * t)) * 100);
+                    this.fireEvent('animate', prs);
+                }.bind(this)
+            });
+        } else {
+            this.els.clipRect.set('width', w);
+            this.lastRatio = ratio;
+            this.fireEvent('animate', this.lastRatio * 100);
+
         }
     }
-});/* ../ludojs/src/progress/text.js */
-/**
- * Component used to display text for a progress bar, example
- * Step 1 of 10
- * @namespace progress
- * @class ludo.progress.Text
- * @augments ludo.progress.Base
- * @param {Object} config
- * @param {String} tpl JSON template, default: "{text}"
- */
-ludo.progress.Text = new Class({
-    Extends:ludo.progress.Base,
-    type:'progress.Text',
-    width:300,
-    height:30,
-    stopped:false,
-    hidden:true,
 
-    tpl : '{text}'
 });/* ../ludojs/src/form/file.js */
 /**
  File upload component<br>
@@ -28162,11 +28799,14 @@ ludo.theme.Themes = new Class({
 
     getCurrentTheme:function(){
         if(this.currentTheme == undefined){
-            var b = $(document.body);
+            var b = $(document.documentElement);
             jQuery.each(this.themes, function(theme){
-                var cls = 'ludo-' + theme;
-                if(b.hasClass(cls)){
-                    this.currentTheme = theme;
+                if(!this.currentTheme){
+                    var cls = '.ludo-' + theme;
+                    var els = b.find(cls);
+                    if(els.length > 0){
+                        this.currentTheme = theme;
+                    }
                 }
             }.bind(this));
         }
@@ -29008,7 +29648,7 @@ chess.view.seek.View = new Class({
             suffix:'days',
             value:'1',
             dataSource:{
-                type:'dataSource.Collection',
+                type:'dataSource.JSONArray',
                 resource:'TimeControl',
                 service:'list',
                 arguments:'correspondence'
@@ -32406,7 +33046,7 @@ chess.view.eco.VariationTree = new Class({
 	loadVariations:function (model) {
 		var pos = model.getCurrentPosition();
 		if (this.openingCache[pos]) {
-			this.insertJSON(this.openingCache[pos]);
+			this.JSON(this.openingCache[pos]);
 			return;
 		}
 		this.currentFen = pos;
@@ -39615,10 +40255,10 @@ chess.remote.GameReader = new Class({
  * @module DataSource
  * @namespace chess.dataSource
  * @class FolderTree
- * @extends dataSource.TreeCollection
+ * @extends dataSource.JSONTree
  */
 chess.dataSource.FolderTree = new Class({
-    Extends: ludo.dataSource.TreeCollection,
+    Extends: ludo.dataSource.JSONTree,
     type : 'chess.dataSource.FolderTree',
     singleton: true,
     resource : 'Folders',
@@ -39643,10 +40283,10 @@ chess.dataSource.FolderTree = new Class({
  * @module DataSource
  * @namespace chess.dataSource
  * @class GameList
- * @extends dataSource.Collection
+ * @extends dataSource.JSONArray
  */
 chess.dataSource.GameList = new Class({
-    Extends: ludo.dataSource.Collection,
+    Extends: ludo.dataSource.JSONArray,
     type : 'chess.dataSource.GameList',
     autoload:false,
     singleton: true,
@@ -39666,10 +40306,10 @@ chess.dataSource.GameList = new Class({
  * @module DataSource
  * @namespace chess.dataSource
  * @class GameList
- * @extends dataSource.Collection
+ * @extends dataSource.JSONArray
  */
 chess.dataSource.PgnGames = new Class({
-    Extends: ludo.dataSource.Collection,
+    Extends: ludo.dataSource.JSONArray,
     type : 'chess.dataSource.PgnGames',
     autoload:true,
     singleton: true,
@@ -39742,10 +40382,10 @@ chess.dataSource.PgnGames = new Class({
  * @module DataSource
  * @namespace chess.dataSource
  * @class GameList
- * @extends dataSource.Collection
+ * @extends dataSource.JSONArray
  */
 chess.dataSource.PgnList = new Class({
-    Extends: ludo.dataSource.Collection,
+    Extends: ludo.dataSource.JSONArray,
     type : 'chess.dataSource.PgnList',
     autoload:true,
     singleton: true,

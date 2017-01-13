@@ -23,7 +23,7 @@ chess.view.seek.View = new Class({
             suffix:'days',
             value:'1',
             dataSource:{
-                type:'dataSource.Collection',
+                type:'dataSource.JSONArray',
                 resource:'TimeControl',
                 service:'list',
                 arguments:'correspondence'

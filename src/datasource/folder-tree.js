@@ -4,10 +4,10 @@
  * @module DataSource
  * @namespace chess.dataSource
  * @class FolderTree
- * @extends dataSource.TreeCollection
+ * @extends dataSource.JSONTree
  */
 chess.dataSource.FolderTree = new Class({
-    Extends: ludo.dataSource.TreeCollection,
+    Extends: ludo.dataSource.JSONTree,
     type : 'chess.dataSource.FolderTree',
     singleton: true,
     resource : 'Folders',

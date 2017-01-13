@@ -53,7 +53,7 @@ chess.view.eco.VariationTree = new Class({
 	loadVariations:function (model) {
 		var pos = model.getCurrentPosition();
 		if (this.openingCache[pos]) {
-			this.insertJSON(this.openingCache[pos]);
+			this.JSON(this.openingCache[pos]);
 			return;
 		}
 		this.currentFen = pos;

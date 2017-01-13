@@ -4,10 +4,10 @@
  * @module DataSource
  * @namespace chess.dataSource
  * @class GameList
- * @extends dataSource.Collection
+ * @extends dataSource.JSONArray
  */
 chess.dataSource.PgnList = new Class({
-    Extends: ludo.dataSource.Collection,
+    Extends: ludo.dataSource.JSONArray,
     type : 'chess.dataSource.PgnList',
     autoload:true,
     singleton: true,
