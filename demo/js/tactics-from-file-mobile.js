@@ -208,7 +208,8 @@ chess.TacticsFromFile2016 = new Class({
                             html: 'Good Job. Puzzle Solved',
                             css:{
                                 'font-size' : '1.5em',
-                                'text-align' : 'center'
+                                'text-align' : 'center',
+                                'color': '#fff'
                             },
                             layout:{
                                 centerInParent:true, width:'100%'
