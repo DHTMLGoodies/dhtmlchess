@@ -97,7 +97,7 @@ chess.TacticsFromFile = new Class({
                         {
                             type: 'chess.view.board.Board',
                             overflow: 'hidden',
-                            pieceLayout: 'alphapale',
+                            pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
                             },
