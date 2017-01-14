@@ -5,3 +5,5 @@ RewriteRule ^([a-zA-Z0-9\/_%\s+\-]+)/?$ router.php?request=$1 [QSA]
 
 RewriteCond %{THE_REQUEST} router\.php
 RewriteRule ^router2\.php - [F]
+
+AddType image/svg+xml svg svgz

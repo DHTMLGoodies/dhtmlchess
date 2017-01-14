@@ -318,8 +318,8 @@ chess.view.board.Piece = new Class({
             this.el.css('background-size', '100% 100%');
             this.el.css('-moz-background-size', 'cover');
             this.el.css('-o-background-size', 'cover');
-            this.el.css(' -webkit-background-size', 'cover');
-  
+            this.el.css('-webkit-background-size', 'cover');
+
 
         }
 
