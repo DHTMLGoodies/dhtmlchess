@@ -46,7 +46,7 @@ function parseDirectory($dir, $replacements, $prefix)
 }
 
 $replacements = array(
-    "#e5e0bf" => "#E1F5FE"
+    "#e5e0bf" => "#FFFFFF"
 );
 
 
