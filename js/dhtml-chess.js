@@ -1,4 +1,4 @@
-/* Generated Sat Jan 14 2:09:23 CET 2017 */
+/* Generated Sat Jan 14 2:25:04 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -30886,18 +30886,25 @@ chess.view.board.Piece = new Class({
 
         if (this.piece = this.bgUpdated && this.svg) {
 
-            this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
         } else {
-            this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
+
+            if(this.svg){
+
+                this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
+
+            }else{
+                this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
+
+            }
 
         }
 
-        if (this.svg) {
+        if (this.svg && !this.bgUpdated) {
             this.el.css('background-size', '100% 100%');
             this.el.css('-moz-background-size', 'cover');
             this.el.css('-o-background-size', 'cover');
-            this.el.css(' -webkit-background-size', 'cover');
-  
+            this.el.css('-webkit-background-size', 'cover');
+
 
         }
 

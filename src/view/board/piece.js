@@ -312,7 +312,7 @@ chess.view.board.Piece = new Class({
 
             if(this.svg){
 
-                this.el.css('background-image', 'data-url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
+                this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
 
             }else{
                 this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
@@ -321,7 +321,7 @@ chess.view.board.Piece = new Class({
 
         }
 
-        if (this.svg) {
+        if (this.svg && !this.bgUpdated) {
             this.el.css('background-size', '100% 100%');
             this.el.css('-moz-background-size', 'cover');
             this.el.css('-o-background-size', 'cover');
