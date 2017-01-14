@@ -126,7 +126,7 @@ chess.TacticsFromFile = new Class({
             ]
         });
 
-        var storageKey = 'key_' + this.pgn + '_tactic';
+        var storageKey = 'key_' + this.pgn + '_tactic2';
 
         this.controller = new chess.controller.TacticControllerGui({
             pgn: this.pgn,
