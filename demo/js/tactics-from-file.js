@@ -101,7 +101,8 @@ chess.TacticsFromFile = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: true,
+                            labels: !ludo.util.isTabletOrMobile(), // show labels for ranks, A-H, 1-8
+                            labelPos:'inside', // show labels inside board, default is 'outside'
 
                             weight: 1,
                             plugins: [

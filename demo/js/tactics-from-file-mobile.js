@@ -40,7 +40,6 @@ chess.TacticsFromFile2016 = new Class({
     },
 
     render: function () {
-        console.log(this.renderTo);
         // Render the views
         new ludo.View({
             renderTo: $(this.renderTo),
