@@ -221,8 +221,12 @@ chess.TacticsFromFile2016 = new Class({
                         },{
                             /** Next puzzle button. Click event will load a new puzzle */
                             type:'form.Button',
+                            elCss:{
+                                'background-color': 'transparent'
+                            },
                             value:'Next Puzzle',
                             layout:{
+                                height:50,
                                 alignParentBottom:true,
                                 alignParentRight:true
                             },
