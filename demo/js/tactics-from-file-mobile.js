@@ -143,6 +143,7 @@ chess.TacticsFromFile2016 = new Class({
                                 {
                                     type: 'chess.view.board.Board',
                                     overflow: 'visible',
+                                    loadMessage:'Loading Puzzle',
                                     pieceLayout: 'svgblue', // Chess pieces to use, example: 'merida','alpha', 'alphapale','cases','kingdom','leipzig', 'meridapale','motif','smart','traveler' (names can be found inside the images folder. It's the prefix which is followed by size and type
                                     css: {
                                         border: '1px solid',
