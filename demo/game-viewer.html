@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tacic Puzzles - DHTML Chess</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/eco/variation-tree.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-svg.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-tactic-hint.js"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
+    <script type="text/javascript" src="../src/view/notation/panel.js"></script>
+    <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
+
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <!-- The file below contains the configuration for this demo-->
+    <script type="text/javascript" src="js/tactics-from-file-mobile.js"></script>
+    <style type="text/css">
+        html, body{
+            width:100%;height:100%;margin:0;padding:0;
+        }
+        body{
+            width:100%;
+            text-align:center;
+            background-color:#1565C0;
+            color:#FFF;
+        }
+        .ludo-chess-view-notation-panel .ludo-body,
+        .ludo-chess-board-container,
+        div.chess-notation-panel{
+            background-color:transparent;
+        }
+
+        .ludo-chess-board-container{
+            border:0;
+        }
+        body{
+            font-family:arial;
+        }
+        .game-heading{
+            line-height:30px;text-align:center;margin:0;font-size:18px
+        }
+
+        .ludo-chess-board-container{
+            border:1px solid #90CAF9;
+            border-radius:5px;
+        }
+        #chess_container{
+            width:600px;
+            height:600px;
+        }
+        /** Mobile css */
+        @media only screen and (max-device-width: 600px) {
+            html,body{
+                width:100%;
+                height:100%;
+            }
+            #chess_container{
+                width:100%;
+                height:100%;
+            }
+        }
+
+        .ludo-chess-square-white{
+            background-image:none !important;
+            background-color: #FFF8E1;
+
+        }
+        .ludo-chess-square-black{
+            background-image:none !important;
+            background-color:#90CAF9;
+
+        }
+
+        .ludo-chess-board{
+            border-color:#1976D2;
+            border-radius:5px;
+            overflow:hidden;
+        }
+        .ludo-chess-board-label-ranks-container,.ludo-chess-board-label-files-container{
+            font-weight:normal;
+            font-size:0.8em;
+        }
+
+        .ludo-chess-board-label-files-container{
+            height:auto;
+        }
+
+        .ludo-chess-board-label-ranks-container{
+            width:auto;
+            padding-left:5px;
+            padding-top:5px;
+        }
+
+        .ludo-chess-board-label-file{
+            text-align:right;
+            padding-right:5px;
+        }
+        .ludo-chess-board-label-file, .ludo-chess-board-label-rank{
+            color:#0A246A;
+        }
+
+    </style>
+</head>
+<body class="ludo-twilight">
+
+
+<script type="text/javascript">
+    var c = new chess.TacticsFromFile2016({
+        renderTo:$(document.body),
+        pgn:'tactic-checkmates'
+    });
+</script>
+
+<script type="text/javascript" class="google-analytics">
+    var hostname = location.hostname.toLowerCase();
+    if (hostname.indexOf('dhtml-chess.com') >= 0) {
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34147162-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    }
+</script>
+
+</body>
+</html>
