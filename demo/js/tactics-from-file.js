@@ -22,6 +22,11 @@ chess.TacticsFromFile = new Class({
     initialize: function (config) {
         this.renderTo = config.renderTo;
         this.pgn = config.pgn;
+        this.board = config.board || {};
+        this.arrow = config.arrow || {};
+        this.arrowSolution = config.arrowSolution || {};
+        this.hint = config.hint || {};
+
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
         $(document).ready(this.render.bind(this));
     },
@@ -94,7 +99,7 @@ chess.TacticsFromFile = new Class({
                                 }
                             ]
                         },
-                        {
+                        Object.merge({
                             type: 'chess.view.board.Board',
                             overflow: 'hidden',
                             pieceLayout: 'svg3',
@@ -106,17 +111,17 @@ chess.TacticsFromFile = new Class({
 
                             weight: 1,
                             plugins: [
-                                {
+                                Object.merge({
                                     type: 'chess.view.highlight.Arrow'
-                                },
-                                {
+                                }, this.arrow),
+                                Object.merge({
                                     type: 'chess.view.highlight.ArrowTactic'
-                                },
-                                {
+                                }, this.arrowSolution),
+                                Object.merge({
                                     type: 'chess.view.highlight.SquareTacticHint'
-                                }
+                                },this.hint)
                             ]
-                        },
+                        }, this.board),
                         {
                             height: 50,
                             comments: false,

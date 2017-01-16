@@ -46,9 +46,10 @@ function parseDirectory($dir, $replacements, $prefix)
 }
 
 $replacements = array(
-    "#e5e0bf" => "#FFFFFF"
+    "#e5e0bf" => "#e5e0bf",
+    "#000000" => "#000000"
 );
 
 
 
-parseDirectory("./", $replacements, "svgblue");
+parseDirectory("./", $replacements, "svg_egg");

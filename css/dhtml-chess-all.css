@@ -1933,6 +1933,33 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
     font-size:10px;
     font-weight:bold;
     width:100%;
+}/* ../ludojs/css-source/progress/bar.css */
+.ludo-progress-bg {
+    background-color: #444;
+    border: 2px solid #333333;
+}
+
+.ludo-progress-pr {
+    background-color: #1976D2;
+
+}
+
+.ludo-progress-text {
+    color: #FFFFFF;
+    font-size: 12px;
+}
+.ludo-progress-donut-text {
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+.ludo-progress-donut-bg {
+    background-color: #444444;
+    border: 2px solid #333333;
+}
+
+.ludo-progress-donut-bar {
+    background-color: #1976D2;
 }/* ../ludojs/css-source/form/file.css */
 .ludo-input-file-name-initial{
     font-weight:bold;
@@ -3771,9 +3798,6 @@ tab layout */
     margin: 5px;
     border: 1px solid #c6c6c6;
 }
-.ludo-light-gray .ludo-framed-view .ludo-body {
-    overflow: hidden;
-}
 
 .ludo-light-gray .ludo-view-with-buttonbar {
     padding-bottom: 5px !important;
@@ -3834,7 +3858,9 @@ tab layout */
     border-top: 0 solid #AAAAAA;
 }
 
-.ludo-light-gray div.ludo-window, .ludo-light-gray .ludo-light-gray div.ludo-framed-view-shim, .ludo-light-gray .ludo-light-gray div.ludo-dashboard-insertion-marker {
+.ludo-light-gray div.ludo-window,
+.ludo-light-gray div.ludo-framed-view-shim,
+.ludo-light-gray div.ludo-dashboard-insertion-marker {
     border-radius: 3px;
 }
 
@@ -3865,7 +3891,8 @@ tab layout */
     display: block;
 }
 
-.ludo-light-gray div.ludo-application, .ludo-light-gray .ludo-light-gray div.ludo-application-content {
+.ludo-light-gray div.ludo-application,
+.ludo-light-gray div.ludo-application-content {
     border-width: 0 !important;
 }
 
@@ -3933,11 +3960,11 @@ tab layout */
     background-image: url('../ludojs/images/button/button-bg-light-down.png');
 }
 
-.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-m-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-m-bg-right {
+.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-m-bg-left, .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-over.png');
 }
 
-.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-m-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
+.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-m-bg-left, .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
     background-image: url('../ludojs/images/button/button-bg-light-disabled.png') !important;
 }
 
@@ -3958,11 +3985,11 @@ tab layout */
     background-image: url('../ludojs/images/light-gray-skin/xl-button-over.png');
 }
 
-.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-xl-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-xl-bg-right {
+.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-xl-bg-left, .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/light-gray-skin/xl-button-selected.png');
 }
 
-.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-xl-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-xl-bg-right {
+.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-xl-bg-left, .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-xl-bg-right {
     background-image: url('../ludojs/images/light-gray-skin/xl-button-disabled.png') !important;
 }
 
@@ -3983,11 +4010,11 @@ tab layout */
     background-image: url('../ludojs/images/light-gray-skin/l-button-over.png');
 }
 
-.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-l-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-l-bg-right {
+.ludo-light-gray div.ludo-form-button-selected .ludo-form-button-l-bg-left, .ludo-light-gray div.ludo-form-button-selected .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/light-gray-skin/l-button-selected.png');
 }
 
-.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-l-bg-left, .ludo-light-gray .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-l-bg-right {
+.ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-l-bg-left, .ludo-light-gray div.ludo-form-button-disabled .ludo-form-button-l-bg-right {
     background-image: url('../ludojs/images/light-gray-skin/l-button-disabled.png') !important;
 }
 
@@ -4602,6 +4629,17 @@ tab layout */
 .ludo-light-gray .ludo-accordion-titlebar-below-expanded{
     border-top: 1px solid #c6c6c6;
 }
+
+/** Progress */
+.ludo-light-gray .ludo-progress-donut-text {
+    color: #333333;
+}
+
+
+.ludo-light-gray .ludo-progress-text {
+    color: #FFF;
+}
+
 
 .ludo-body label, .ludo-ocean .ludo-body legend {
     color: #384350;
@@ -5398,7 +5436,9 @@ body.ludo-twilight{
 }
 
 .ludo-twilight .ludo-window{
-    box-shadow:2px 2px 3px #111;
+    box-shadow:2px 2px 3px #222;
+    -webkit-box-shadow: 2px 2px 3px #222;
+    -moz-box-shadow:    2px 2px 3px #222;
 }
 
 /**

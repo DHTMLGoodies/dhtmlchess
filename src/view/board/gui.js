@@ -188,10 +188,12 @@ chess.view.board.GUI = new Class({
         });
         if(this.labelPos == 'inside'){
             el.css('bottom', 0);
+            el.addClass('chess-board-label-inside');
         }
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
             var file = this.els.files[i] = $('<div class="ludo-chess-board-label-file"></div>');
+            file.addClass('chess-file-label-' + (i % 2 == 0 ? 'odd' : 'even'));
             file.css({
                 'width':this.internal.squareSize + 'px',
                 'float':'left',
@@ -208,6 +210,9 @@ chess.view.board.GUI = new Class({
 
     addLabelsForRanks:function () {
         var el = this.els.labels.ranks = $('<div class="ludo-chess-board-label-ranks-container"></div>');
+        if(this.labelPos == 'inside'){
+            el.addClass('chess-board-label-inside');
+        }
         el.css({
             position:this.labelPos == 'outside' ? 'relative' : 'absolute',
             'float':'left',
@@ -218,9 +223,9 @@ chess.view.board.GUI = new Class({
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
             var rank = this.els.ranks[i] = $('<div class="ludo-chess-board-label-rank"></div>');
+            rank.addClass('chess-rank-label-' + (i % 2 == 0 ? 'odd' : 'even'));
             rank.css({
                 'height':this.internal.squareSize + 'px',
-                'text-align':'center',
                 'overflow':'hidden'
             });
             if(this.labelPos == 'outside'){
@@ -253,8 +258,8 @@ chess.view.board.GUI = new Class({
             files = files.toLowerCase();
         }
         for (var i = 0; i < 8; i++) {
-            this.els.ranks[i].html( ranks.substr(i, 1));
-            this.els.files[i].html( files.substr(i, 1));
+            this.els.ranks[i].html( '<span>' + ranks.substr(i, 1) + '</span>');
+            this.els.files[i].html( '<span>' + files.substr(i, 1) + '</span>');
 
         }
     },

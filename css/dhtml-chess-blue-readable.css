@@ -1933,6 +1933,33 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
     font-size:10px;
     font-weight:bold;
     width:100%;
+}/* ../ludojs/css-source/progress/bar.css */
+.ludo-progress-bg {
+    background-color: #444;
+    border: 2px solid #333333;
+}
+
+.ludo-progress-pr {
+    background-color: #1976D2;
+
+}
+
+.ludo-progress-text {
+    color: #FFFFFF;
+    font-size: 12px;
+}
+.ludo-progress-donut-text {
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+.ludo-progress-donut-bg {
+    background-color: #444444;
+    border: 2px solid #333333;
+}
+
+.ludo-progress-donut-bar {
+    background-color: #1976D2;
 }/* ../ludojs/css-source/form/file.css */
 .ludo-input-file-name-initial{
     font-weight:bold;
