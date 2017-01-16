@@ -1,4 +1,4 @@
-/* Generated Mon Jan 16 13:21:21 CET 2017 */
+/* Generated Tue Jan 17 0:31:13 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -4534,7 +4534,7 @@ ludo.svg.Node = new Class({
         if (key.substring(0, 6) == "xlink:") {
             return this.el.getAttributeNS("http://www.w3.org/1999/xlink", key.substring(6));
         } else {
-            return this.el.getAttribute(key);
+            return this.el[key] != undefined && this.el[key].animVal != undefined ? this.el[key].animVal.value : this.el.getAttribute(key);
         }
     },
 
@@ -23944,7 +23944,7 @@ ludo.remote.Inject = new Class({
 
 ludo.remoteInject = new ludo.remote.Inject();
 /* ../ludojs/src/remote/base.js */
-/**
+/*
  * Base class for ludo.remote.HTML and ludo.remote.JSON
  * @namespace ludo.remote
  * @class ludo.remote.Base
@@ -23987,12 +23987,13 @@ ludo.remote.Base = new Class({
 	onComplete:function () {
 		this.fireEvent('complete', this);
 	},
-	/**
+	/*
 	 * Return url for the request
 	 * @function getUrl
 	 * @param {String} service
 	 * @param {Array} args
 	 * @return {String}
+	 * @memberof ludo.remote.Base.prototype
 	 * @protected
 	 */
 	getUrl:function (service, args) {
@@ -24004,11 +24005,12 @@ ludo.remote.Base = new Class({
 		}
 		return ret;
 	},
-	/**
+	/*
 	 * @function getServicePath
 	 * @param {String} service
 	 * @param {Array} args
 	 * @return {String}
+	 * @memberof ludo.remote.Base.prototype
 	 * @protected
 	 */
 	getServicePath:function (service, args) {
@@ -24017,7 +24019,7 @@ ludo.remote.Base = new Class({
 		if (service)parts.push(service);
 		return parts.join('/');
 	},
-	/**
+	/*
 	 * @function getDataForRequest
 	 * @param {String} service
 	 * @param {Array} args
@@ -24026,6 +24028,7 @@ ludo.remote.Base = new Class({
 	 * @param {Object} additionalData
 	 * @optional
 	 * @return {Object}
+	 * @memberof ludo.remote.Base.prototype
 	 * @protected
 	 */
 	getDataForRequest:function (service, args, data, additionalData) {
@@ -24048,27 +24051,30 @@ ludo.remote.Base = new Class({
 
 		return ret;
 	},
-	/**
+	/*
 	 * Return "code" property of last received server response.
 	 * @function getResponseCode
 	 * @return {String|undefined}
+	 * @memberof ludo.remote.Base.prototype
 	 */
 	getResponseCode:function () {
 		return this.remoteData && this.remoteData.code ? this.remoteData.code : 0;
 	},
-	/**
+	/*
 	 * Return response message
 	 * @function getResponseMessage
 	 * @return {String|undefined}
+	 * @memberof ludo.remote.Base.prototype
 	 */
 	getResponseMessage:function () {
 		return this.remoteData && this.remoteData.message ? this.remoteData.message : undefined;
 	},
 
-	/**
+	/*
 	 * Return name of resource
 	 * @function getResource
 	 * @return {String}
+	 * @memberof ludo.remote.Base.prototype
 	 */
 	getResource:function(){
 		return this.resource;
