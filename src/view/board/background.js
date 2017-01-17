@@ -16,7 +16,7 @@ chess.view.board.Background = new Class({
 
     size: undefined,
 
-    borderRadius:0,
+    borderRadius: 0,
 
     initialize: function (config) {
         this.view = config.view;
@@ -24,7 +24,7 @@ chess.view.board.Background = new Class({
 
         this.svg.css('position', 'absolute');
 
-        if(config.borderRadius != undefined)this.borderRadius = config.borderRadius;
+        if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
 
 
         this.view.on('boardResized', this.resize.bind(this));
@@ -50,7 +50,7 @@ chess.view.board.Background = new Class({
         this.applyPattern();
     },
 
-    createClipPath:function(){
+    createClipPath: function () {
         this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
         this.els.clip.set('rx', this.borderRadius);
@@ -82,7 +82,7 @@ chess.view.board.Background = new Class({
             that[sizeKey] = {
                 x: bbox.width, y: bbox.height
             };
-            console.log(bbox);
+
             img.set('width', bbox.width);
             img.set('height', bbox.height);
             img.set('opacity', 1);
@@ -106,13 +106,13 @@ chess.view.board.Background = new Class({
     updatePatternSize: function () {
         if (this.size == undefined)this.size = 1;
         if (this.horizontalSize != undefined) {
-            this.els.horizontalPattern.set('width', Math.min(2, this.horizontalSize.x / this.size));
-            this.els.horizontalPattern.set('height', Math.min(2, this.horizontalSize.y / this.size));
+            this.els.horizontalPattern.set('width', Math.min(5, this.horizontalSize.x / this.size));
+            this.els.horizontalPattern.set('height', Math.min(5, this.horizontalSize.y / this.size));
         }
 
         if (this.verticalSize != undefined) {
-            this.els.verticalPattern.set('width', Math.min(2, this.verticalSize.x / this.size));
-            this.els.verticalPattern.set('height', Math.min(2, this.verticalSize.y / this.size));
+            this.els.verticalPattern.set('width', Math.min(5, this.verticalSize.x / this.size));
+            this.els.verticalPattern.set('height', Math.min(5, this.verticalSize.y / this.size));
         }
     },
 
