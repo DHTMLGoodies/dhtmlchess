@@ -33,7 +33,6 @@ chess.view.board.Background = new Class({
         this.vertical = config.vertical;
         this.els = {};
 
-        console.log(config)
 
         this.render();
     },
@@ -131,7 +130,6 @@ chess.view.board.Background = new Class({
 
     resize: function (size) {
 
-        console.log(size);
         this.size = Math.min(size.width, size.height);
 
         this.els.clip.set('x', size.left);

@@ -94,6 +94,8 @@
     <style type="text/css">
         /* Styling of board */
 
+
+
         .ludo-chess-board {
             border: 1px solid #daac78;
         }
@@ -194,6 +196,16 @@
 
         body.ludo-twilight{
             background-color:transparent;
+        }
+
+        /** Mobile css */
+        @media only screen and (max-device-width: 600px) {
+            /* Smaller padding around board on mobile */
+            .ludo-chess-board-container {
+                border-radius: 0;
+                padding:5px;
+
+            }
         }
 
     </style>

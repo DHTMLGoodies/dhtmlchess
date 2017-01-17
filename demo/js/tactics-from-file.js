@@ -19,6 +19,8 @@ chess.TacticsFromFile = new Class({
 
     controller: undefined,
 
+    showLabels:undefined,
+
     initialize: function (config) {
         this.renderTo = config.renderTo;
         this.pgn = config.pgn;
@@ -27,6 +29,8 @@ chess.TacticsFromFile = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
+
+        this.showLabels = !ludo.util.isTabletOrMobile();
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
         $(document).ready(this.render.bind(this));
     },
