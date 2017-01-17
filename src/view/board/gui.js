@@ -20,7 +20,7 @@ chess.view.board.GUI = new Class({
     boardCls:undefined,
     boardCss:undefined,
     lowerCaseLabels:false,
-
+    background:undefined,
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -31,7 +31,9 @@ chess.view.board.GUI = new Class({
     __construct:function (config) {
 
         this.parent(config);
-        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
+        this.setConfigParams(config, [
+            'background',
+            'labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
 
     ludoDOM:function () {
@@ -45,6 +47,13 @@ chess.view.board.GUI = new Class({
             'border':0
         });
 
+        if(this.background){
+            new chess.view.board.Background(
+                Object.merge({
+                    view:this
+                }, this.background)
+            )
+        }
 
         this.createBoardContainer();
 
@@ -275,6 +284,20 @@ chess.view.board.GUI = new Class({
     },
     lastBoardSize:{ x:0, y:0 },
 
+    boardCoordinates:function() {
+        var b = this.els.boardContainer;
+        var bodyOff = this.getBody().offset();
+        var off = b.offset();
+
+        var ret = {
+            left: off.left - bodyOff.left,
+            top: off.top - bodyOff.top
+        };
+        ret.width = this.els.boardContainer.outerWidth();
+        ret.height = this.els.boardContainer.outerHeight();
+        return ret;
+    },
+
     resizeBoard:function () {
 
         var size = this.getNewSizeOfBoardContainer();
@@ -327,6 +350,8 @@ chess.view.board.GUI = new Class({
         this.resizeLabels();
 
         this.resizePieces();
+
+        this.fireEvent('boardResized', this.boardCoordinates());
     },
 
     resizeLabels:function () {

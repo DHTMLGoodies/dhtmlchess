@@ -85,20 +85,27 @@
     <!-- DHTML CHESS Part 1-->
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/background.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         /* Styling of board */
 
         .ludo-chess-board {
-            border: 1px solid #039BE5;
+            border: 1px solid #daac78;
         }
 
         .ludo-chess-board-container {
             background-color: #039BE5;
-            border: 1px solid #0D47A1;
+            border: 1px solid #daac78;
             border-radius: 5px;
-            padding:8px;
+            padding-left:8px;
+            padding-bottom:8px;
+            padding-right:20px;
+            padding-top:20px;
 
         }
 
@@ -108,10 +115,8 @@
         }
 
         .ludo-chess-board-label-ranks-container {
-            text-align: left;
         }
         .ludo-chess-board-label-files-container .ludo-chess-board-label-file {
-            text-align:right;
         }
 
         .chess-board-label-inside span {
@@ -132,17 +137,16 @@
         /** Display labels(A-H, 1-8) in smaller font */
         .ludo-chess-board-label-ranks-container,
         .ludo-chess-board-label-files-container{
-            font-size:0.7em;
         }
 
 
         /* Coloring of labels */
         .chess-rank-label-odd, .chess-file-label-even {
-            color: #333;
+            color: #daac78;
         }
 
         .chess-rank-label-even,  .chess-file-label-odd {
-            color: #ddd;
+            color: #daac78;
         }
 
         /** Notation styling */
@@ -166,6 +170,9 @@
             border-width:0;
         }
 
+        .ludo-chess-board-container{
+            background-color:transparent;!important;
+        }
 
         /** Override some default theme styles */
         .ludo-twilight div.ludo-window{
@@ -246,6 +253,19 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
                     renderTo: '#dhtml-chess',
                     pgn: 'tactic-checkmates',
                     board:{ // Board configuration
+                        labelPos:'outside',
+                        /**
+                         * Board background
+                         * the board background is rendered using SVG with four triangles with the tip
+                         * at the center of the board.
+                         * The top and bottom triangle uses the horizontal background image below
+                         * The left and right triangle uses the vertical background image.
+                         */
+                        background:{
+                            borderRadius:5,
+                            horizontal:'../images/board/darker-wood-rotated.png',
+                            vertical:'../images/board/darker-wood.png'
+                        },
                         // Pieces to choose. The SVG(Scalable vector graphics)
                         // has all prefix svg.
                         // Options: svg_egg, svg_bw(black and white), merida, alpha, alphapale, smart, motif, meridapale,

@@ -1,4 +1,4 @@
-/* Generated Tue Jan 17 0:31:13 CET 2017 */
+/* Generated Tue Jan 17 2:16:42 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -30264,7 +30264,7 @@ chess.view.board.GUI = new Class({
     boardCls:undefined,
     boardCss:undefined,
     lowerCaseLabels:false,
-
+    background:undefined,
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -30275,7 +30275,9 @@ chess.view.board.GUI = new Class({
     __construct:function (config) {
 
         this.parent(config);
-        this.setConfigParams(config, ['labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
+        this.setConfigParams(config, [
+            'background',
+            'labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
 
     ludoDOM:function () {
@@ -30289,6 +30291,13 @@ chess.view.board.GUI = new Class({
             'border':0
         });
 
+        if(this.background){
+            new chess.view.board.Background(
+                Object.merge({
+                    view:this
+                }, this.background)
+            )
+        }
 
         this.createBoardContainer();
 
@@ -30519,6 +30528,20 @@ chess.view.board.GUI = new Class({
     },
     lastBoardSize:{ x:0, y:0 },
 
+    boardCoordinates:function() {
+        var b = this.els.boardContainer;
+        var bodyOff = this.getBody().offset();
+        var off = b.offset();
+
+        var ret = {
+            left: off.left - bodyOff.left,
+            top: off.top - bodyOff.top
+        };
+        ret.width = this.els.boardContainer.outerWidth();
+        ret.height = this.els.boardContainer.outerHeight();
+        return ret;
+    },
+
     resizeBoard:function () {
 
         var size = this.getNewSizeOfBoardContainer();
@@ -30571,6 +30594,8 @@ chess.view.board.GUI = new Class({
         this.resizeLabels();
 
         this.resizePieces();
+
+        this.fireEvent('boardResized', this.boardCoordinates());
     },
 
     resizeLabels:function () {
@@ -31456,19 +31481,10 @@ chess.view.board.Piece = new Class({
 
         var s = this.svg ? 45 : this.size;
 
-        if (this.piece = this.bgUpdated && this.svg) {
+        if (this.svg && this.getColorCode() + this.getTypeCode() == this.bgUpdated) {
 
         } else {
-
-            if(this.svg){
-
-                this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
-
-            }else{
-                this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
-
-            }
-
+            this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
         }
 
         if (this.svg && !this.bgUpdated) {
@@ -31481,7 +31497,7 @@ chess.view.board.Piece = new Class({
         }
 
 
-        this.bgUpdated = this.piece;
+        this.bgUpdated = this.getColorCode() + this.getTypeCode();
 
     },
 
@@ -31670,6 +31686,172 @@ chess.view.board.Piece = new Class({
     isFlipped: function () {
         return this.flipped;
     }
+});/* ../dhtml-chess/src/view/board/background.js */
+/**
+ * Created by alfmagne1 on 17/01/2017.
+ */
+chess.view.board.Background = new Class({
+
+    view: undefined,
+
+    paths: {
+        t: undefined, l: undefined, r: undefined, b: undefined
+    },
+
+    els: undefined,
+
+    verticalSize: undefined,
+    horizontalSize: undefined,
+
+    size: undefined,
+
+    borderRadius:0,
+
+    initialize: function (config) {
+        this.view = config.view;
+        this.svg = this.view.svg();
+
+        this.svg.css('position', 'absolute');
+
+        if(config.borderRadius != undefined)this.borderRadius = config.borderRadius;
+
+
+        this.view.on('boardResized', this.resize.bind(this));
+
+        this.horizontal = config.horizontal;
+        this.vertical = config.vertical;
+        this.els = {};
+
+        console.log(config)
+
+        this.render();
+    },
+
+    render: function () {
+        this.createClipPath();
+        this.createPattern();
+
+        this.createPath('t');
+        this.createPath('l');
+        this.createPath('b');
+        this.createPath('r');
+
+        this.applyPattern();
+    },
+
+    createClipPath:function(){
+        this.els.clipPath = this.svg.$('clipPath');
+        this.els.clip = this.svg.$('rect');
+        this.els.clip.set('rx', this.borderRadius);
+        this.els.clip.set('ry', this.borderRadius);
+        this.els.clipPath.append(this.els.clip);
+        this.svg.appendDef(this.els.clipPath);
+    },
+
+    createPath: function (key) {
+        this.paths[key] = this.svg.$('path');
+        this.paths[key].clip(this.els.clipPath);
+        this.svg.append(this.paths[key]);
+
+    },
+
+
+    getPattern: function (image, sizeKey, imageKey) {
+        var s = this.svg;
+        var p = s.$('pattern');
+        p.set('width', 1);
+        p.set('height', 1);
+        p.set('x', 0);
+        p.set('y', 0);
+        var img = this.els[imageKey] = s.$('image');
+        var that = this;
+        img.set('opacity', 0);
+        img.on('load', function () {
+            var bbox = this.getBBox();
+            that[sizeKey] = {
+                x: bbox.width, y: bbox.height
+            };
+            console.log(bbox);
+            img.set('width', bbox.width);
+            img.set('height', bbox.height);
+            img.set('opacity', 1);
+
+            that.updatePatternSize();
+
+        }.bind(img));
+        img.set('xlink:href', image);
+        p.append(img);
+        s.appendDef(p);
+        return p;
+    },
+
+    createPattern: function () {
+
+        this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
+        this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
+
+    },
+
+    updatePatternSize: function () {
+        if (this.size == undefined)this.size = 1;
+        if (this.horizontalSize != undefined) {
+            this.els.horizontalPattern.set('width', Math.min(2, this.horizontalSize.x / this.size));
+            this.els.horizontalPattern.set('height', Math.min(2, this.horizontalSize.y / this.size));
+        }
+
+        if (this.verticalSize != undefined) {
+            this.els.verticalPattern.set('width', Math.min(2, this.verticalSize.x / this.size));
+            this.els.verticalPattern.set('height', Math.min(2, this.verticalSize.y / this.size));
+        }
+    },
+
+    applyPattern: function () {
+        if (this.els.horizontal) {
+            this.paths.t.setPattern(this.els.horizontalPattern);
+            this.paths.b.setPattern(this.els.horizontalPattern);
+        }
+
+        if (this.els.vertical) {
+            this.paths.l.setPattern(this.els.verticalPattern);
+            this.paths.r.setPattern(this.els.verticalPattern);
+        }
+    },
+
+
+    resize: function (size) {
+
+        console.log(size);
+        this.size = Math.min(size.width, size.height);
+
+        this.els.clip.set('x', size.left);
+        this.els.clip.set('y', size.top);
+        this.els.clip.set('width', this.size);
+        this.els.clip.set('height', this.size);
+
+        var cx = size.width / 2 + size.left;
+        var cy = size.height / 2 + size.top;
+        var radius = this.size / 2;
+
+        this.paths.t.set('d', [
+            'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
+        ].join(' '));
+        this.paths.b.set('d', [
+            'M', cx, cy, 'L', cx - radius, this.size, cx + radius, this.size, 'Z'
+        ].join(' '));
+
+        this.paths.l.set('d', [
+            'M', cx, cy, cx - radius, cy - radius, cx - radius, cy + radius, 'Z'
+        ].join(' '));
+
+        this.paths.r.set('d', [
+            'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
+        ].join(' '));
+
+
+        this.updatePatternSize();
+
+    }
+
 });/* ../dhtml-chess/src/view/highlight/base.js */
 chess.view.highlight.Base = new Class({
     Extends: ludo.Core,
