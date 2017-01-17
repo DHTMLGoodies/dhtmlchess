@@ -7,36 +7,25 @@
  */
 
 
-if(!file_exists("output")){
+if (!file_exists("output")) {
     mkdir("output");
     chmod("output", 0775);
 }
 
-function parseDirectory($dir, $replacements, $prefix)
+function clearFiles($dir)
 {
-    echo "<h1>Parsing $dir </h1>";
 
     if ($handle = opendir($dir)) {
         /* This is the correct way to loop over the directory. */
         while (false !== ($entry = readdir($handle))) {
 
 
-
             if (!is_dir($dir . $entry)) {
 
-                if(strstr($entry, ".svg")){
+                if (strstr($entry, ".svg")) {
 
-                    $filename = $prefix . substr($entry, 4);
+                    unlink($dir . $entry);
 
-                    $data = file_get_contents($dir.$entry);
-
-                    foreach($replacements as $from=>$to){
-                        $data = str_replace($from, $to, $data );
-                    }
-
-                    file_put_contents("output/".$filename, $data);
-                    echo $filename."<br>";
-                    echo "<img src='output/".$filename. "'>";
                 }
             }
         }
@@ -45,11 +34,60 @@ function parseDirectory($dir, $replacements, $prefix)
     }
 }
 
-$replacements = array(
-    "#e5e0bf" => "#e5e0bf",
+function parseDirectory($dir, $replacements, $prefix, $whiteToBlack = false, $bgWhite = "", $bgBlack = "")
+{
+    echo "<h1>Parsing $dir </h1>";
+
+    if ($handle = opendir($dir)) {
+        /* This is the correct way to loop over the directory. */
+        while (false !== ($entry = readdir($handle))) {
+
+
+            if (!is_dir($dir . $entry)) {
+
+                if (strstr($entry, ".svg")) {
+
+                    $filename = $prefix . substr($entry, 4);
+
+                    $data = file_get_contents($dir . $entry);
+
+                    foreach ($replacements as $from => $to) {
+                        $data = str_replace($from, $to, $data);
+                    }
+
+                    if($whiteToBlack){
+                        $filename = str_replace("45w", "45b", $filename);
+                    }
+                    file_put_contents("output/" . $filename, $data);
+                    echo $filename . "<br>";
+                    echo '<div style="float:left;width:90px;background-image:url('. $bgWhite . ')">';
+                    echo "<img src='output/" . $filename . "' width=\"90\">";
+                    echo '</div>';
+                    echo '<div style="float:left;width:90px;background-image:url('. $bgBlack . ')">';
+                    echo "<img src='output/" . $filename . "' width=\"90\">";
+                    echo '</div>';
+                    echo '<div style="clear:both"></div>';
+                }
+            }
+        }
+
+        closedir($handle);
+    }
+}
+
+$replacementsWhite = array(
+    "#e5e0bf" => "#B0BEC5",
     "#000000" => "#000000"
 );
 
+$replacementsBlack = array(
+    "#e5e0bf" => "#000001",
+    "#000000" => "#FFF",
+    'stroke-width:1.5' => 'stroke-width:1'
+);
+
+clearFiles("output/");
 
 
-parseDirectory("./", $replacements, "svg_egg");
+parseDirectory("white/", $replacementsWhite, "svg_bluegrey", false, "../board/lightest-wood.png", "../board/darkest-wood.png");
+parseDirectory("white/", $replacementsBlack, "svg_bluegrey", true, "../board/lightest-wood.png", "../board/darkest-wood.png");

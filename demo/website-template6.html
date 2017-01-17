@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tactic Training on a Web Page - DHTML Chess</title>
+
+    <style type="text/css">
+        /* Demo css rules */
+        body {
+            background-color: #039BE5 !important;
+            -webkit-font-smoothing: antialiased;
+            color: #333;
+            font: 15px "Helvetica Neue", HelveticaNeue, Helvetica, Arial, sans-serif;
+        }
+
+        nav ul {
+            padding: 0;
+        }
+
+        nav#main {
+            border-radius: 5px;
+        }
+
+        nav#main li a:hover, nav#main li.current a, nav#main .searchform {
+            background: none;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.1) 0 1px 0;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.25);
+            color: #fff;
+            text-shadow: rgba(0, 0, 0, 0.796875) 0 -1px 0, rgba(255, 255, 255, 0.296875) 0 0 10px;
+        }
+
+        nav ul, nav ol {
+            list-style: none;
+            list-style-image: none;
+        }
+
+        nav#main li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 6px 10px;
+            display: block;
+            border: 1px solid transparent;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.76);
+        }
+
+        nav#main ul {
+            margin: 0;
+            float: left;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        nav#main li {
+            float: left;
+            font: normal normal 16px "klavika-web", "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
+            margin-right: 2px;
+        }
+
+        .menu {
+            background-color: #01579B;
+            padding: 10px;
+            border-radius: 5px;
+
+            display: block;
+        }
+
+        .body {
+            background-color: #FFF;
+            padding: 10px;
+        }
+
+        .footer {
+            background-color: #01579B;
+            padding: 10px;
+            color: #FFF;
+            font-size: 0.8em;
+        }
+
+        .
+
+
+    </style>
+    <!-- DHTML CHESS Part 1-->
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/background.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <script type="text/javascript" src="js/tactics-from-file.js"></script>
+    <style type="text/css">
+        /* Styling of board */
+
+
+
+        .ludo-chess-board {
+            border: 1px solid #b0abab;
+        }
+
+        .ludo-chess-board-container {
+            background-color: #039BE5;
+            border: 1px solid #b0abab;
+            border-radius: 5px;
+            padding-left:8px;
+            padding-bottom:8px;
+            padding-right:28px;
+            padding-top:28px;
+
+        }
+
+        .ludo-layout-resize-col {
+            border-left: 1px solid #aaa;
+            border-right: 1px solid #aaa;
+        }
+
+        .ludo-chess-board-label-ranks-container {
+        }
+        .ludo-chess-board-label-files-container .ludo-chess-board-label-file {
+        }
+
+        .chess-board-label-inside span {
+            padding-left:2px;
+            padding-right: 2px;
+        }
+
+        /** custom square background */
+
+        .ludo-chess-board-container-wood .ludo-chess-square-white {
+            background-image: url(../images/board/light-grey-wood.png);
+        }
+
+        .ludo-chess-board-container-wood .ludo-chess-square-black {
+            background-image: url(../images/board/grey-wood.png);
+        }
+
+        /** Display labels(A-H, 1-8) in smaller font */
+        .ludo-chess-board-label-ranks-container,
+        .ludo-chess-board-label-files-container{
+        }
+
+
+        /* Coloring of labels */
+
+        .ludo-chess-board-label-file{
+            line-height:27px;
+        }
+        .chess-rank-label-odd, .chess-file-label-even, .chess-rank-label-even,  .chess-file-label-odd {
+            color: #EEE;
+        }
+
+        /** Notation styling */
+        div.chess-notation-panel{
+            text-align:center;
+        }
+        div.chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move  {
+            color: #0D47A1;
+        }
+
+        /** Highlighted notation styles */
+        .ludo-twilight span.notation-chess-move-highlighted {
+            background-color: #0D47A1;
+            color: #FFF;
+            border-radius: 3px;
+        }
+
+        /** Styling of the highlighted square when clicking the hint button */
+        .ludo-chess-square-highlight{
+            background-color:#0D47A1;
+            border-width:0;
+        }
+
+        .ludo-chess-board-container{
+            background-color:transparent;!important;
+        }
+
+        /** Override some default theme styles */
+        .ludo-twilight div.ludo-window{
+            background-color:#535353;
+
+        }
+
+        .ludo-twilight .ludo-view{
+            background-color:transparent;
+        }
+
+        .ludo-chess-view-metadata-game div.ludo-body{
+            color:#333;
+        }
+
+        body.ludo-twilight{
+            background-color:transparent;
+        }
+
+        /** Mobile css */
+        @media only screen and (max-device-width: 600px) {
+            /* Smaller padding around board on mobile */
+            .ludo-chess-board-container {
+                border-radius: 0;
+                padding:5px;
+
+            }
+        }
+
+    </style>
+    <!-- End DHTML Chess part 1 -->
+</head>
+
+<!--
+
+NOTICE THAT THE BODY HAS BEEN ASSIGNED TO CSS CLASS ludo-twilight.
+
+This is the theme used for DHTML Chess.
+
+Other options are ludo-light-gray, ludo-gray and ludo-blue
+-->
+<body class="ludo-twilight">
+
+<div class="content">
+
+    <div class="header">
+        <img src="images/sample-heading.png">
+    </div>
+    <div class="menu">
+
+        <nav id="main">
+            <div>
+                <ul id="menu-top" class="menu">
+                    <li class="menu-item"><a href="#">Download</a></li>
+                    <li class="menu-item"><a href="#">Learn</a></li>
+                    <li class="menu-item"><a href="#">Samples</a></li>
+                    <li class="menu-item"><a href="#">License</a></li>
+                    <li class="menu-item"><a href="#">Contact</a></li>
+                    <li class="menu-item"><a href="#">Forums</a></li>
+                </ul>
+
+                <form class="searchform" style="display:none">
+                    <input type="text" name="s" placeholder="Search">
+                </form>
+                <div style="clear:both"></div>
+            </div>
+            <div style="clear:both"></div>
+        </nav>
+    </div>
+
+    <div class="body">
+        <h1>Tactic Training</h1>
+        <p>You can use this page as a template when implementing DHTML Chess on your web site.</p>
+        <!--
+
+        DHTML Chess part 2
+
+        -->
+
+        <!-- Parent for DHTML Chess HTML        -->
+        <div id="dhtml-chess" style="height:700px;max-width:800px"></div>
+
+
+        <script type="text/javascript">
+
+            /**
+             * The config values below shows the default values for path
+             * - the path to dhtml-chess/router.php
+             * - path to the root folder of dhtml chess.
+             * These should be the path FROM this html file.
+             */
+            // Path to DHTML Chess router.php
+            ludo.config.setUrl('../router.php');
+
+            // Path to DHTML Chess root folder
+            ludo.config.setDocumentRoot('../');
+
+            $(document).ready(function () {
+                new chess.TacticsFromFile({
+                    renderTo: '#dhtml-chess',
+                    pgn: 'tactic-checkmates',
+                    board:{ // Board configuration
+                        labelPos:'outside',
+                        /**
+                         * Board background
+                         * the board background is rendered using SVG with four triangles with the tip
+                         * at the center of the board. This opens the possibility for a realistic wooden
+                         * edge at the four corners of the board.
+                         *
+                         * The top and bottom triangle uses the horizontal background image below
+                         * The left and right triangle uses the vertical background image.
+                         */
+                        background:{
+                            borderRadius:5,
+                            horizontal:'../images/board/grey-wood-strip-horizontal.png',
+                            vertical:'../images/board/grey-wood-strip-vertical.png'
+                        },
+                        // Pieces to choose. The SVG(Scalable vector graphics)
+                        // has all prefix svg.
+                        // Options: svg_egg, svg_bw(black and white), merida, alpha, alphapale, smart, motif, meridapale,
+                        // leipzig, kingdom, cases, alphablue
+                        //
+                        pieceLayout:'svg_bw'
+                    },
+                    arrow:{
+                        styles:{
+                            'fill': '#039BE5',
+                            'stroke':'#0D47A1'
+                        }
+                    },
+                    arrowSolution:{
+                        styles:{
+                            'fill': '#039BE5',
+                            'stroke':'#0D47A1'
+                        }
+                    }
+                });
+            });
+        </script>
+
+        <!--
+
+        END DHTML Chess Part 2
+
+        -->
+    </div>
+    <div class="footer">
+        Footer of Web page &copy; dhtmlchess.com
+    </div>
+</div>
+<script type="text/javascript" class="google-analytics">
+    var hostname = location.hostname.toLowerCase();
+    if (hostname.indexOf('dhtml-chess.com') >= 0) {
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34147162-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    }
+</script>
+</body>
+</html>

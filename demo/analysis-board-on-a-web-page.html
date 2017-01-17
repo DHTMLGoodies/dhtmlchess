@@ -190,6 +190,20 @@
 
     </div>
     <script type="text/javascript">
+        /**
+         * The config values below shows the default values for path
+         * - the path to dhtml-chess/router.php
+         * - path to the root folder of dhtml chess.
+         * These should be the path FROM this html file.
+         */
+        // Path to DHTML Chess router.php
+        ludo.config.setUrl('../router.php');
+
+        // Path to DHTML Chess root folder
+        ludo.config.setDocumentRoot('../');
+
+
+
         var chess = new ludo.View({
             left:20,
             top:20,

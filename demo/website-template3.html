@@ -152,6 +152,9 @@
             background-color:#598db5;
             border-width:0;
         }
+        .ludo-chess-board-label-file{
+            line-height:27px;
+        }
 
 
         /** Override some default theme styles */
@@ -258,6 +261,20 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
 
 
         <script type="text/javascript">
+
+            /**
+             * The config values below shows the default values for path
+             * - the path to dhtml-chess/router.php
+             * - path to the root folder of dhtml chess.
+             * These should be the path FROM this html file.
+             */
+            // Path to DHTML Chess router.php
+            ludo.config.setUrl('../router.php');
+
+            // Path to DHTML Chess root folder
+            ludo.config.setDocumentRoot('../');
+
+
 
             $(document).ready(function () {
                 new chess.TacticsFromFile({

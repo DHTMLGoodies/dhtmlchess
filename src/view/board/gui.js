@@ -146,7 +146,7 @@ chess.view.board.GUI = new Class({
             var square = files.substr((i % 8), 1) + Math.ceil(8 - (i / 8));
             var el = this.els.squares[i] = $('<div class="ludo-chess-square" style="position:relative"></div>');
             this.els.board.append(el);
-            var backgroundPos = Math.round(Math.random() * 150);
+            var backgroundPos = Math.round(Math.random() * 100) * -1;
             el.css('backgroundPosition',  backgroundPos + 'px ' + backgroundPos + 'px');
         }
         this.updateSquares();
