@@ -11,7 +11,7 @@
 chess.controller.Controller = new Class({
     Extends:ludo.controller.Controller,
     models:[],
-    applyTo:['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'],
+    applyTo:undefined,
     currentModel:null,
     modelCacheSize:15,
 
@@ -22,8 +22,10 @@ chess.controller.Controller = new Class({
     debug:true,
 
     __construct:function (config) {
+        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.setConfigParams(config, ['debug', 'pgn','databaseId']);
+
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -47,6 +49,7 @@ chess.controller.Controller = new Class({
     },
 
     addView:function (view) {
+
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
             ludo.util.log('submodule ' + view.submodule + ' already registered in controller');

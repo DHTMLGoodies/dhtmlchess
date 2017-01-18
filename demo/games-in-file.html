@@ -36,6 +36,10 @@
             font-family: arial !important;
         }
 
+        .chess-move-group{
+
+            display:inline-block;
+        }
 
         .ludo-chess-square-highlight {
             border: 2px solid #377FD2;
@@ -68,6 +72,9 @@
             background-color:transparent;
         }
 
+        .chess-move-number,.notation-result{
+            color:#FFF;
+        }
         label {
             font-size: 10px;
         }
@@ -271,7 +278,9 @@ var app = new ludo.Application({
                         {
                             type:'chess.view.board.Board',
                             labels:true,
-                            weight:1,
+                            layout:{
+                                height:'wrap'
+                            },
                             elCss:{
                                 'margin-bottom':5
                             },
@@ -330,7 +339,9 @@ var app = new ludo.Application({
                             id:'notation-view',
                             type:'chess.view.notation.Panel',
                             notations:'long',
-                            showContextMenu:true
+                            showContextMenu:true,
+                            figurines: 'svg_bw',
+                            figurineHeight:18
                         }
                     ]
                 }

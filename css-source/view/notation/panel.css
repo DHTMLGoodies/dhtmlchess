@@ -38,6 +38,12 @@ div.ludo-grid-data-cell {
     font-style: italic;
 }
 
+.chess-move-number, .notation-result{
+    font-size:0.8em;
+    font-weight:bold;
+    color:#000;
+}
+
 .notation-chess-move-highlighted .notation-comment {
     background-color: transparent;
     text-decoration: underline;
@@ -64,12 +70,10 @@ div.chess-notation-panel .ludo-body {
 .notation-chess-move{
     display:inline-block;
     padding:2px;
+    margin-right:4px;
 }
 .ludo-twilight .notation-chess-move {
     color: #aeb0b0;
-    display:inline-block;
-    padding:2px;
-
 }
 
 span.notation-chess-move-highlighted{
@@ -82,3 +86,7 @@ span.notation-chess-move-highlighted{
     border-radius: 3px;
 }
 
+.chess-move-group {
+    display:inline-block;
+    padding-right:4px;
+}

@@ -1,4 +1,4 @@
-/* Generated Tue Jan 17 13:03:51 CET 2017 */
+/* Generated Wed Jan 18 16:16:00 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -6139,8 +6139,22 @@ ludo.layout.Base = new Class({
         return child.layout.width;
     },
 
-    getHeightOf: function (child, size) {
-        var h = child.wrappedHeight != undefined ? child.wrappedHeight(size) : undefined;
+
+
+    heightSizeForWrap:function(forChild){
+        var ret = {
+            width: this.viewport.width, height:this.viewport.height
+        };
+        jQuery.each(this.view.children, function(i, child){
+            if(child.id != forChild.id && child.layout != undefined && !isNaN(child.layout.height)){
+                ret.height -= child.layout.height
+            }
+        });
+        return ret;
+    },
+
+    getHeightOf: function (child) {
+        var h = child.wrappedHeight != undefined ? child.wrappedHeight(this.heightSizeForWrap(child)) : undefined;
         if (h != undefined)return h;
         if (child.layout.height == 'wrap') {
             child.layout.height = child.getEl().outerHeight(true);
@@ -6780,6 +6794,10 @@ ludo.layout.LinearVertical = new Class({
 		var availHeight = this.viewport.height;
 
 
+		var s = {
+			width:this.viewport.width,
+			height: availHeight
+		};
 
 		var totalHeightOfItems = 0;
 		var totalWeight = 0;
@@ -6787,7 +6805,7 @@ ludo.layout.LinearVertical = new Class({
 		var tm = this.viewport.top;
 		for (var i = 0; i < this.view.children.length; i++) {
 			if (!this.hasLayoutWeight(this.view.children[i])) {
-                height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i]);
+                height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i], s);
                 totalHeightOfItems += height
 			} else {
 				if (!this.view.children[i].isHidden()) {
@@ -21346,6 +21364,7 @@ ludo.controller.Controller = new Class({
 			return this.isInSameNamespaceAs(component);
 		}
 		var key = this.getModuleKeyFor(component);
+
 		if (this.isAppliedDirectlyToModule(key)) {
 			return true;
 		}
@@ -21425,7 +21444,6 @@ ludo.menu.Item = new Class({
 
         this._html = this._html || this.label;
 
-        console.log(this._html);
         if(this._html == '|')this.spacer = true;
 
         if (this.spacer) {
@@ -28097,7 +28115,7 @@ ludo.progress.Bar = new Class({
     debugRect: undefined,
     bgPattern: undefined,
     frontPattern: undefined,
-    patternSize: undefined,
+    bgPatternSize: undefined,
     frontPatternSize: undefined,
 
     __construct: function (config) {
@@ -28196,8 +28214,6 @@ ludo.progress.Bar = new Class({
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg();
         var p = s.$('pattern');
-        p.set('width', 0.2);
-        p.set('height', 1);
         p.set('x', 0);
         p.set('y', 0);
         var img = this.els[imageKey] = s.$('image');
@@ -28223,11 +28239,11 @@ ludo.progress.Bar = new Class({
 
 
         if(this.bgPattern){
-            this.els.bgPattern = this.getPattern(this.bgPattern, 'patternSize','bgImage');
+            this.els.bgPattern = this.getPattern(this.bgPattern, 'bgPatternSize','bgPatternImage');
         }
 
         if(this.frontPattern){
-            this.els.frontPattern = this.getPattern(this.frontPattern, 'frontPatternSize','frontImage');
+            this.els.frontPattern = this.getPattern(this.frontPattern, 'frontPatternSize','frontPatternImage');
         }
     },
 
@@ -28251,9 +28267,9 @@ ludo.progress.Bar = new Class({
     },
 
     updatePatternSize: function () {
-        if (this.patternSize != undefined) {
-            this.els.bgPattern.set('width', Math.min(1, this.patternSize.x / this.svg().width));
-            this.els.bgPattern.set('height', Math.min(1, this.patternSize.y / this.svg().height));
+        if (this.bgPatternSize != undefined) {
+            this.els.bgPattern.set('width', Math.min(1, this.bgPatternSize.x / this.svg().width));
+            this.els.bgPattern.set('height', Math.min(1, this.bgPatternSize.y / this.svg().height));
         }
 
         if(this.frontPatternSize){
@@ -28546,10 +28562,11 @@ ludo.progress.Bar = new Class({
  *  down.
  *  3) Progress Bar SVG path
  *  4) Eventual background image defined in frontPattern.
- * 
+ *
  * @augments ludo.progress.Bar
  * @param {Object} config
- * @param {Function} config.innerRadius - Function returning inner radius. Arguments to this function : 1) outer radius.
+ * @param {Function} config.innerRadius - Function returning inner radius. Arguments to this function : 1) total radius of progress bar( min(width,height)).
+ * @param {Function} config.outerRadius - Function returning outer radius radius. Arguments to this function : 1) total radius of progress bar( min(width,height)). default: (size / 2)
  * default: function(outerRadius){ return outerRadius * 0.5 }
  * @param {Number} config.steps Number of progress bar steps, default = 10
  * @param {Number} config.progress Initial step, default = 0
@@ -28558,7 +28575,7 @@ ludo.progress.Bar = new Class({
  * @param {float} config.bgStyles SVG background styles
  * @param {float} config.barStyles SVG moving bar styles
  * @param {float} config.textStyles Styling of text on progress bar
- * @param {String} config.bgPattern Path to background image for the progress bar background. 
+ * @param {String} config.bgPattern Path to background image for the progress bar background.
  * @param {String} config.frontPattern Path to background image for the progress bar. The background images will be repeated if smaller than the progress bar. If bigger, it will be scaled down.
  * @param {Function} config.easing Easing function for animation. default: ludo.svg.easing.linear
  * @param {Number} config.animationDuration Animation duration in milliseconds (1/1000s) - default: 100
@@ -28577,22 +28594,28 @@ ludo.progress.Donut = new Class({
     outerBorderWidth: 0,
     innerBorderWidth: 0,
 
-    startAngle : 0,
+    startAngle: 0,
 
+    bgPattern2:undefined,
 
-
-    __construct:function(config){
+    __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['innerRadius', 'startAngle']);
+        this.setConfigParams(config, ['innerRadius', 'outerRadius', 'startAngle','bgPattern2','outerPattern']);
     },
 
 
-    applyPattern:function(){
+    applyPattern: function () {
 
         var s = this.svg();
 
+        if(this.outerPattern){
 
-        if(this.bgPattern){
+            this.els.outerPatternPath = s.$('path');
+            s.append(this.els.outerPatternPath);
+            this.els.outerPatternPath.setPattern(this.els.outerPattern);
+            this.els.outerPatternPath.set('fill-rule', 'evenodd');
+        }
+        if (this.bgPattern) {
             this.els.bgPatternPath = s.$('path');
             s.append(this.els.bgPatternPath);
             this.els.bgPatternPath.setPattern(this.els.bgPattern);
@@ -28600,12 +28623,33 @@ ludo.progress.Donut = new Class({
         }
 
 
-        if(this.frontPattern){
+        if (this.frontPattern) {
             this.els.frontPatternPath = s.$('path');
             this.els.frontGroup.append(this.els.frontPatternPath);
             this.els.frontPatternPath.setPattern(this.els.frontPattern);
             this.els.frontPatternPath.clip(this.els.clipPath);
             this.els.frontPatternPath.set('fill-rule', 'evenodd');
+        }
+
+        if(this.bgPattern2){
+
+            this.els.bgPatternPath2 = s.$('circle');
+            s.append(this.els.bgPatternPath2);
+            this.els.bgPatternPath2.setPattern(this.els.bgPattern2);
+        }
+
+    },
+
+    createPattern:function(){
+        if(this.outerPattern){
+            this.els.outerPattern = this.getPattern(this.outerPattern, 'outerPatternSize','outerPatternImage');
+        }
+
+
+        this.parent();
+
+        if(this.bgPattern2){
+            this.els.bgPattern2 = this.getPattern(this.bgPattern2, 'bgPattern2Size','bgPatternImage2');
         }
     },
 
@@ -28624,9 +28668,9 @@ ludo.progress.Donut = new Class({
         s.append(this.els.bg);
         this.els.bg.set('fill-rule', 'evenodd');
 
-        if(this.bgStyles){
+        if (this.bgStyles) {
             this.els.bg.css(this.bgStyles);
-            if(this.bgStyles['stroke-width'] != undefined){
+            if (this.bgStyles['stroke-width'] != undefined) {
                 this.outerBorderWidth = parseInt(this.bgStyles['stroke-width']);
             }
         }
@@ -28639,9 +28683,9 @@ ludo.progress.Donut = new Class({
         this.els.frontGroup.append(this.els.bar);
         this.els.bar.set('fill-rule', 'evenodd');
         this.els.frontGroup.clip(this.els.clipPath);
-        if(this.barStyles){
+        if (this.barStyles) {
             this.els.bar.css(this.barStyles);
-            if(this.barStyles['stroke-width'] != undefined){
+            if (this.barStyles['stroke-width'] != undefined) {
                 this.outerBorderWidth = parseInt(this.barStyles['stroke-width']);
             }
         }
@@ -28657,10 +28701,17 @@ ludo.progress.Donut = new Class({
         s.append(this.els.debug);
         this.els.debug.css('fill', '#ff0000');
 
-        if(this.els.frontPatternPath){
+        if (this.els.frontPatternPath) {
             this.els.frontPatternPath.toFront();
         }
 
+        if(this.els.textNode){
+            this.els.textNode.toFront();
+        }
+
+        if(this.els.outerPatternSize){
+            this.els.outerPatternSize.toBack();
+        }
     },
 
     createClipPath: function () {
@@ -28702,52 +28753,94 @@ ludo.progress.Donut = new Class({
     updatePatternSize: function () {
         var s = this.rect();
 
-        if (this.patternSize != undefined) {
+        if (this.bgPatternSize != undefined) {
 
-            if(this.patternSize.x > s){
-                this.els.bgImage.set('width', s);
-                this.els.bgImage.set('height', s);
+            if (this.bgPatternSize.x > s) {
+                this.els.bgPatternImage.set('width', s);
+                this.els.bgPatternImage.set('height', s);
             }
 
-            this.els.bgPattern.set('width', Math.min(1, this.patternSize.x /s));
-            this.els.bgPattern.set('height', Math.min(1, this.patternSize.y / s));
+            this.els.bgPattern.set('width', Math.min(1, this.bgPatternSize.x / s));
+            this.els.bgPattern.set('height', Math.min(1, this.bgPatternSize.y / s));
         }
 
-        if(this.frontPatternSize){
+        if (this.frontPatternSize) {
 
-            if(this.frontPatternSize.x > s){
-                this.els.frontImage.set('width', s);
-                this.els.frontImage.set('height', s);
+            if (this.frontPatternSize.x > s) {
+                this.els.frontPatternImage.set('width', s);
+                this.els.frontPatternImage.set('height', s);
             }
-            this.els.frontPattern.set('width', Math.min(1, this.frontPatternSize.x /s));
+            this.els.frontPattern.set('width', Math.min(1, this.frontPatternSize.x / s));
             this.els.frontPattern.set('height', Math.min(1, this.frontPatternSize.y / s));
         }
+
+        if(this.bgPattern2Size){
+
+            var r = this.innerRadius(s/2) * 2;
+            if (this.bgPattern2Size.x > r) {
+                this.els.bgPatternImage2.set('width', r);
+                this.els.bgPatternImage2.set('height', r);
+            }
+
+            this.els.bgPattern2.set('width', Math.min(1, this.bgPattern2Size.x / r));
+            this.els.bgPattern2.set('height', Math.min(1, this.bgPattern2Size.y / r));
+
+
+        }
+        if(this.outerPatternSize){
+
+            if (this.outerPatternSize.x > s) {
+                this.els.outerPatternImage.set('width', s);
+                this.els.outerPatternImage.set('height', s);
+            }
+
+            this.els.outerPattern.set('width', Math.min(1, this.outerPatternSize.x / s));
+            this.els.outerPattern.set('height', Math.min(1, this.outerPatternSize.y / s));
+
+
+        }
     },
-    
+
     resizeItems: function () {
         var s = this.rect();
         var c = s / 2;
-        var radius = c - 2;
-        var innerRadius = this.innerRadius(radius);
+        var radius = this.outerRadius(c);
+        var innerRadius = this.innerRadius(c);
 
+        console.log(innerRadius);
         this.els.bg.set('d', this.bgPath(radius, innerRadius));
 
         this.els.bar.set('d', this.bgPath(radius - this.outerBorderWidth, innerRadius + this.outerBorderWidth));
 
-        if(this.els.bgPatternPath){
+        if (this.els.bgPatternPath) {
             this.els.bgPatternPath.set('d', this.bgPath(radius - this.outerBorderWidth, innerRadius + this.outerBorderWidth));
         }
 
-        if(this.els.frontPatternPath){
+        if (this.els.frontPatternPath) {
             var p = this.bgPath(radius - this.outerBorderWidth - this.innerBorderWidth, innerRadius + this.outerBorderWidth + this.innerBorderWidth);
             this.els.frontPatternPath.set('d', p);
         }
 
+        if(this.els.bgPatternPath2){
+            this.els.bgPatternPath2.set('cx', c);
+            this.els.bgPatternPath2.set('cy', c);
+            this.els.bgPatternPath2.set('r', innerRadius);
+        }
 
+
+        if(this.els.outerPatternPath){
+
+            this.els.outerPatternPath.set('d', this.bgPath(c, radius - this.outerBorderWidth));
+
+        }
 
         this.updatePatternSize();
 
         this.positionTextNode();
+    },
+
+    outerRadius:function(size){
+        return size - 2;
     },
 
 
@@ -28779,7 +28872,7 @@ ludo.progress.Donut = new Class({
             var c = this.rect() / 2;
             this.els.textNode.set('x', c);
             this.els.textNode.set('y', c);
-            this.els.textNode.css('font-size',  this.innerRadius(this.rect()) * this.textSizeRatio);
+            this.els.textNode.css('font-size', this.innerRadius(this.rect()) * this.textSizeRatio);
         }
     },
 
@@ -28812,20 +28905,20 @@ ludo.progress.Donut = new Class({
             return this.progress / this.steps;
         }
         ratio = ludo.util.clamp(ratio, 0, 1);
-        if(animate){
-            var p= this.clipArray(ratio).join(' ');
+        if (animate) {
+            var p = this.clipArray(ratio).join(' ');
             var s = this.rect();
             var c = s / 2;
             var a = this.startAngle;
             var diff = ratio - this.lastRatio;
             this.els.clip.set('d', this.clipArray(this.lastRatio).join(' '));
             this.els.clip.animate({
-                d : p
-            },{
-                easing:this.easing,
-                duration:this.animationDuration,
-                step:function(value, delta, elapsed){
-                    if(ratio == 1 && elapsed == 1)value[9] = 359.99999;
+                d: p
+            }, {
+                easing: this.easing,
+                duration: this.animationDuration,
+                step: function (value, delta, elapsed) {
+                    if (ratio == 1 && elapsed == 1)value[9] = 359.99999;
                     var d = value[9] - 90 + a;
 
                     var r = ludo.geometry.toRadians(d);
@@ -28839,17 +28932,17 @@ ludo.progress.Donut = new Class({
                     var prs = Math.min(100, (this.lastRatio + (diff * t)) * 100);
                     this.fireEvent('animate', prs);
                 }.bind(this),
-                complete:function(){
+                complete: function () {
                     this.lastRatio = ratio;
                     this.fireEvent('animate', this.lastRatio * 100);
                     this.onChange();
                 }.bind(this)
             });
-        }else{
+        } else {
             var path = this.clipArray(Math.min(ratio, 0.9999999));
             this.els.clip.set('d', path.join(' '));
 
-            if(ratio != this.lastRatio){
+            if (ratio != this.lastRatio) {
                 this.onChange();
             }
             this.fireEvent('animate', this.lastRatio * 100);
@@ -28865,7 +28958,7 @@ ludo.progress.Donut = new Class({
 
         var radius = 30000;
 
-        var radStart = ludo.geometry.toRadians(- 90 + this.startAngle);
+        var radStart = ludo.geometry.toRadians(-90 + this.startAngle);
         var xStart = c + (Math.cos(radStart) * radius)
         var yStart = c + (Math.sin(radStart) * radius)
 
@@ -28875,12 +28968,12 @@ ludo.progress.Donut = new Class({
         return [
             'M', c, c,
             'L', xStart, yStart,
-            'A', radius, radius, degrees , 1, 1, x, y, 'Z'
+            'A', radius, radius, degrees, 1, 1, x, y, 'Z'
         ]
 
     },
 
-    innerRadius:function(outerRadius){
+    innerRadius: function (outerRadius) {
         return outerRadius * 0.5;
     }
 });/* ../ludojs/src/form/file.js */
@@ -29830,59 +29923,63 @@ chess.getPhrase = function (phrase) {
     return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
 };/* ../dhtml-chess/src/view/notation/panel.js */
 /**
-  Game notation panel.
-  @namespace chess.view.notation
-  @class Panel
-  @extends View
-  @constructor
-  @param {Object} config
-  @example
- 	children:[
- 	...
- 	{
-		 type:'chess.view.notation.Panel',
-		 notations:'long',
-		 showContextMenu:true
-	 }
- 	...
+ Game notation panel.
+ @namespace chess.view.notation
+ @class Panel
+ @extends View
+ @constructor
+ @param {Object} config
+ @example
+ children:[
+ ...
+ {
+     type:'chess.view.notation.Panel',
+     notations:'long',
+     showContextMenu:true
+ }
+ ...
  */
 chess.view.notation.Panel = new Class({
-    Extends:ludo.View,
-    type:'chess.view.notation.Panel',
-    module:'chess',
-    submodule:'notation',
-    css : {
-        'overflow-y' : 'auto'
+    Extends: ludo.View,
+    type: 'chess.view.notation.Panel',
+    module: 'chess',
+    submodule: 'notation',
+    css: {
+        'overflow-y': 'auto'
     },
-    highlightedMove:undefined,
-    moveMap:{},
-    moveMapNotation:{},
-    notationKey:'m',
-	/**
-	 * Long or short notations. Example of long: "e2-e4". Example of short: "e4".
-	 * Valid values : "short" and "long"
-	 * @config notations
-	 * @type {String}
-	 * @default 'short'
-	 */
-    notations:'short',
-    contextMenuMove:undefined,
-    currentMoveIndex:0,
-    moveIdPrefix:'',
-    tactics:false,
-    comments:true,
-    currentModelMoveId:undefined,
-    interactive:true,
+    highlightedMove: undefined,
+    moveMap: {},
+    moveMapNotation: {},
+    notationKey: 'm',
+    figurineHeight: 18,
+    /**
+     * Long or short notations. Example of long: "e2-e4". Example of short: "e4".
+     * Valid values : "short" and "long"
+     * @config notations
+     * @type {String}
+     * @default 'short'
+     */
+    notations: 'short',
+    contextMenuMove: undefined,
+    currentMoveIndex: 0,
+    moveIdPrefix: '',
+    tactics: false,
+    comments: true,
+    currentModelMoveId: undefined,
+    interactive: true,
+    figurines: false,
 
-	/**
-	 * Show context menu for grading of moves, comments etc
-	 * @config showContextMenu
-	 * @type {Boolean}
-	 * @default false
-	 */
-    showContextMenu : false,
+    /**
+     * Show context menu for grading of moves, comments etc
+     * @config showContextMenu
+     * @type {Boolean}
+     * @default false
+     */
+    showContextMenu: false,
 
-    setController:function (controller) {
+    showResult:false,
+
+    setController: function (controller) {
         this.parent(controller);
         var c = this.controller = controller;
         c.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
@@ -29892,38 +29989,42 @@ chess.view.notation.Panel = new Class({
         c.addEvent('nextmove', this.setCurrentMove.bind(this));
         c.addEvent('updateMove', this.updateMove.bind(this));
         c.addEvent('newMove', this.appendMove.bind(this));
-		c.addEvent('beforeLoad', this.beforeLoad.bind(this));
-		c.addEvent('afterLoad', this.afterLoad.bind(this));
+        c.addEvent('beforeLoad', this.beforeLoad.bind(this));
+        c.addEvent('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
 
-	beforeLoad:function(){
-		this.shim().show(chess.getPhrase('Loading game'));
-	},
+    beforeLoad: function () {
+        this.shim().show(chess.getPhrase('Loading game'));
+    },
 
-	afterLoad:function(){
-		this.shim().hide();
-	},
+    afterLoad: function () {
+        this.shim().hide();
+    },
 
-    __construct:function (config) {
+    __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['notations','showContextMenu','comments','interactive']);
+        if(!this.tactics){
+            this.showResult = true;
+        }
+        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight','showResult']);
 
-        if(this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
+
+        if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
 
         this.notationKey = this.notations === 'long' ? 'lm' : 'm';
         this.moveIdPrefix = 'move-' + String.uniqueID() + '-';
     },
 
-    showPlayedOnly:function () {
+    showPlayedOnly: function () {
         this.tactics = true;
     },
 
-    getContextMenuConfig:function () {
+    getContextMenuConfig: function () {
         return {
-            listeners:{
-                click:function (el) {
+            listeners: {
+                click: function (el) {
                     switch (el.action) {
                         case 'grade':
                             this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
@@ -29936,57 +30037,61 @@ chess.view.notation.Panel = new Class({
                             break;
                     }
                 }.bind(this),
-                selectorclick:function (el) {
+                selectorclick: function (el) {
                     this.setContextMenuMove(el);
                 }.bind(this)
             },
-            selector:'notation-chess-move',
-            children:[
-                { label:chess.getPhrase('Add comment before'), action : 'commentBefore' },
-                { label:chess.getPhrase('Add comment after'), action : 'commentAfter'},
-                { label:'Grade', children:[
-                    { icon:'', label:chess.getPhrase('Clear'), action:'grade' },
-                    { icon:'!', label:chess.getPhrase('Good move'), action:'grade' },
-                    { icon:'?', label:chess.getPhrase('Poor move'), action:'grade' },
-                    { icon:'!!', label:chess.getPhrase('Very good move'), action:'grade' },
-                    { icon:'??', label:chess.getPhrase('Very poor move'), action:'grade' },
-                    { icon:'?!', label:chess.getPhrase('Questionable move'), action:'grade' },
-                    { icon:'!?', label:chess.getPhrase('Speculative move'), action:'grade' }
-                ]},
-                { label:'Delete remaining moves'}
+            selector: 'notation-chess-move',
+            children: [
+                {label: chess.getPhrase('Add comment before'), action: 'commentBefore'},
+                {label: chess.getPhrase('Add comment after'), action: 'commentAfter'},
+                {
+                    label: 'Grade', children: [
+                    {icon: '', label: chess.getPhrase('Clear'), action: 'grade'},
+                    {icon: '!', label: chess.getPhrase('Good move'), action: 'grade'},
+                    {icon: '?', label: chess.getPhrase('Poor move'), action: 'grade'},
+                    {icon: '!!', label: chess.getPhrase('Very good move'), action: 'grade'},
+                    {icon: '??', label: chess.getPhrase('Very poor move'), action: 'grade'},
+                    {icon: '?!', label: chess.getPhrase('Questionable move'), action: 'grade'},
+                    {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
+                ]
+                },
+                {label: 'Delete remaining moves'}
             ]
         };
     },
-    ludoEvents:function () {
-        if(this.interactive){
+    ludoEvents: function () {
+        if (this.interactive) {
             this.getBody().on('click', this.clickOnMove.bind(this));
         }
     },
 
-    ludoDOM:function () {
+    ludoDOM: function () {
         this.parent();
         this.getEl().addClass('chess-notation-panel');
     },
 
-    setContextMenuMove:function (el) {
-        this.contextMenuMove = { uid:$(el).attr('moveId')}
+    setContextMenuMove: function (el) {
+        this.contextMenuMove = {uid: $(el).attr('moveId')}
     },
 
-    getContextMenuMove:function () {
+    getContextMenuMove: function () {
         return this.contextMenuMove;
     },
 
-    clickOnMove:function (e) {
-        if ($(e.target).hasClass('notation-chess-move')) {
-            this.fireEvent('setCurrentMove', { uid:$(e.target).attr('moveId')});
-            this.highlightMove(e.target);
+    clickOnMove: function (e) {
+        var el = e.target;
+        if (el.tagName.toLowerCase() == 'img')el = el.parentNode;
+        if ($(el).hasClass('notation-chess-move')) {
+            this.fireEvent('setCurrentMove', {uid: $(el).attr('moveId')});
+            this.highlightMove(el);
         }
     },
-    goToStartOfBranch:function () {
+    goToStartOfBranch: function () {
         this.clearHighlightedMove();
     },
 
-    setCurrentMove:function (model) {
+    setCurrentMove: function (model) {
         var move = model.getCurrentMove();
         if (move) {
             this.highlightMove($("#" + this.moveMapNotation[move.uid]));
@@ -29994,22 +30099,22 @@ chess.view.notation.Panel = new Class({
             this.clearHighlightedMove();
         }
     },
-    highlightMove:function (move) {
+    highlightMove: function (move) {
         this.clearHighlightedMove();
-        if(move == undefined)return;
+        if (move == undefined)return;
         $(move).addClass('notation-chess-move-highlighted');
         this.highlightedMove = $(move).attr("id");
         this.scrollMoveIntoView(move);
     },
 
-    clearHighlightedMove:function () {
+    clearHighlightedMove: function () {
         var el;
         if (el = $("#" + this.highlightedMove)) {
             el.removeClass('notation-chess-move-highlighted');
         }
     },
 
-    scrollMoveIntoView:function (move) {
+    scrollMoveIntoView: function (move) {
         var scrollTop = this.getBody().scrollTop;
         var bottomOfScroll = scrollTop + this.getBody().clientHeight;
 
@@ -30020,22 +30125,29 @@ chess.view.notation.Panel = new Class({
         }
     },
 
-    showMoves:function (model) {
+    showMoves: function (model) {
         var move = model.getCurrentMove();
-        if(move != undefined){
+        if (move != undefined) {
             this.currentModelMoveId = move.uid;
         }
-        this.getBody().html( '');
+        this.getBody().html('');
         var moves = this.getMovesInBranch(model.getMoves(), 0, 0, 0, 0);
-        this.getBody().html( moves.join(' '))
+        
+        if(this.showResult){
+            var res = model.getResult();
+            moves.push('<span class="notation-result">');
+            moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
+            moves.push('</span>');
+        }
+        this.getBody().html(moves.join(''));
     },
 
-    getMovesInBranch:function (branch, moveCounter, depth, branchIndex, countBranches) {
+    getMovesInBranch: function (branch, moveCounter, depth, branchIndex, countBranches) {
         var moves = [];
 
-        if(this.tactics && !this.currentModelMoveId)return moves;
+        if (this.tactics && !this.currentModelMoveId)return moves;
 
-        if(this.tactics)depth = 0;
+        if (this.tactics)depth = 0;
 
         moves.push('<span class="notation-branch-depth-' + depth + '">');
         if (depth) {
@@ -30050,14 +30162,30 @@ chess.view.notation.Panel = new Class({
             }
         }
         moves.push('<span class="notation-branch">');
+
+        var s;
+        var e = '</span>';
+        var gs = false;
+
         for (var i = 0; i < branch.length; i++) {
+            s = i== 0 ? '<span class="chess-move-group chess-move-group-first">' :  '<span class="chess-move-group">';
             var notation = branch[i][this.notationKey];
             if (i == 0 && moveCounter % 2 != 0 && notation) {
-                moves.push('..' + Math.ceil(moveCounter / 2));
+                if(gs){
+                    moves.push(e);
+                }
+                moves.push('<span class="chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
+                m.push(s);
+                gs = true;
             }
             if (moveCounter % 2 === 0 && notation) {
+                if(gs){
+                    moves.push(e);
+                }
                 var moveNumber = (moveCounter / 2) + 1;
-                moves.push(moveNumber + '. ');
+                moves.push(s);
+                gs = true;
+                moves.push('<span class="chess-move-number">' + moveNumber + '.</span>');
             }
             if (notation) {
                 moveCounter++;
@@ -30067,13 +30195,21 @@ chess.view.notation.Panel = new Class({
             moves.push(this.getDomTextForAMove(branch[i]));
             moves.push('</span>');
 
-            if(this.tactics && branch[i].uid === this.currentModelMoveId){
+            if (this.tactics && branch[i].uid === this.currentModelMoveId) {
                 i = branch.length;
-            }else{
-                if(!this.tactics || this.isCurrentMoveInVariation(branch[i])){
+            } else {
+                if (!this.tactics || this.isCurrentMoveInVariation(branch[i])) {
+
+                    if(gs && this.hasVars(branch[i])){
+                        gs = false;
+                        moves.push(e);
+                    }
                     this.addVariations(branch[i], moves, moveCounter, depth);
                 }
             }
+        }
+        if(gs){
+            moves.push('</span>');
         }
         moves.push('</span>');
         if (depth) {
@@ -30091,7 +30227,11 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
-    addVariations:function(move, moves, moveCounter, depth){
+    hasVars:function(move){
+        return move.variations && move.variations.length > 0;
+    },
+
+    addVariations: function (move, moves, moveCounter, depth) {
         if (move.variations && move.variations.length > 0) {
             for (var j = 0; j < move.variations.length; j++) {
                 if (move.variations[j].length > 0) {
@@ -30101,25 +30241,43 @@ chess.view.notation.Panel = new Class({
         }
     },
 
-    isCurrentMoveInVariation:function(move){
-        if (move.variations && move.variations.length > 0) {
+    isCurrentMoveInVariation: function (move) {
+        if (this.hasVars(move)) {
             for (var j = 0; j < move.variations.length; j++) {
                 if (move.variations[j].length > 0) {
                     var m = move.variations[j];
-                    if(m.uid == this.currentModelMoveId)return true;
-                    if(m.variations)return this.isCurrentMoveInVariation(m);
+                    if (m.uid == this.currentModelMoveId)return true;
+                    if (m.variations)return this.isCurrentMoveInVariation(m);
                 }
             }
         }
         return false;
     },
 
-    getDomTextForAMove:function (move) {
+    getDomTextForAMove: function (move) {
         var ret = [];
 
         ret.push('<span id="' + move.uid + '" class="notation-chess-move-c ' + move.uid + '" moveId="' + move.uid + '">');
+
+
         if (move[this.notationKey]) {
-            ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">' + move[this.notationKey] + '</span>');
+
+
+            ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
+
+            if (this.figurines && move['m'].indexOf('O') == -1) {
+                var p = move.p;
+                var c = p.color.substr(0, 1);
+                var t = p.type == 'knight' ? 'n' : p.type.substr(0, 1);
+                var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
+                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'pawn' ? 0 : 1)));
+            } else {
+
+                ret.push(move[this.notationKey]);
+            }
+
+            ret.push('</span>');
+
         }
         if (this.comments && move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')
@@ -30129,21 +30287,21 @@ chess.view.notation.Panel = new Class({
         this.moveMap[move.uid] = move.uid;
         this.moveMapNotation[move.uid] = 'move-' + move.uid;
 
-        return ret.join(' ');
+        return ret.join('');
     },
 
 
-    updateMove:function (model, move) {
+    updateMove: function (model, move) {
         var domEl = this.getEl().find('.chess-move-container-' + move.uid);
-        if(domEl){
-            domEl.html( this.getDomTextForAMove(move));
-        }else{
+        if (domEl) {
+            domEl.html(this.getDomTextForAMove(move));
+        } else {
             this.showMoves(model);
         }
         this.setCurrentMove(model);
     },
 
-    appendMove:function (model, move) {
+    appendMove: function (model, move) {
 
         var previousMove = model.getPreviousMoveInBranch(move);
         if (previousMove) {
@@ -30158,7 +30316,7 @@ chess.view.notation.Panel = new Class({
                 moveString = moveNumber + '. ';
             }
             moveString += this.getDomTextForAMove(move, id);
-            branch.html( branch.html() + moveString);
+            branch.html(branch.html() + moveString);
 
         } else {
             this.showMoves(model);
@@ -30166,12 +30324,12 @@ chess.view.notation.Panel = new Class({
         this.setCurrentMove(model);
     },
 
-    getDomBranch:function (move) {
+    getDomBranch: function (move) {
         var domEl = $("#" + this.moveMap[move.uid]);
         return domEl.closest('.notation-branch');
     },
 
-    getFirstBranch:function () {
+    getFirstBranch: function () {
         return this.getBody().getElement('.notation-branch');
     }
 });/* ../dhtml-chess/src/view/notation/tactic-panel.js */
@@ -30585,8 +30743,6 @@ chess.view.board.GUI = new Class({
 
         this.els.boardContainer.css('margin-top', marginTop);
 
-
-
         this.els.board.css({
             width:boardSize,
             height:boardSize
@@ -30633,7 +30789,8 @@ chess.view.board.GUI = new Class({
         var b = this.els.boardContainer;
         var c = this.getBody();
         var widthOffset = ludo.dom.getBW(b) + ludo.dom.getPW(b);
-        var heightOffset = ludo.dom.getPH(b) + ludo.dom.getPH(b);
+        var heightOffset = ludo.dom.getBH(b) + ludo.dom.getPH(b);
+
         var size = { x: c.width(), y: c.height() };
         size = {
             x:size.x - widthOffset,
@@ -30715,6 +30872,10 @@ chess.view.board.GUI = new Class({
             y = 7 - y;
         }
         return x + y * 16;
+    },
+
+    wrappedHeight:function(size){
+        return Math.min(size.width, size.height);
     }
 });/* ../dhtml-chess/src/view/board/board.js */
 /**
@@ -38439,12 +38600,15 @@ chess.parser.Move0x88 = new Class({
         }
         this.parser.setFen(fen);
 
+        var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
+
         this.parser.move(move);
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation(),
             lm: this.parser.getLongNotation(),
             moves:this.parser.getPiecesInvolvedInLastMove(),
+            p: p,
             from:move.from,
             promoteTo : move.promoteTo,
             comment : move.comment,
@@ -38566,7 +38730,7 @@ chess.parser.PositionValidator = new Class({
 chess.controller.Controller = new Class({
     Extends:ludo.controller.Controller,
     models:[],
-    applyTo:['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'],
+    applyTo:undefined,
     currentModel:null,
     modelCacheSize:15,
 
@@ -38577,8 +38741,10 @@ chess.controller.Controller = new Class({
     debug:true,
 
     __construct:function (config) {
+        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.setConfigParams(config, ['debug', 'pgn','databaseId']);
+
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -38602,6 +38768,7 @@ chess.controller.Controller = new Class({
     },
 
     addView:function (view) {
+
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
             ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
@@ -39736,6 +39903,10 @@ chess.model.Game = new Class({
         if (result == '0-1') {
             this.model.result = -1;
             return -1;
+        }
+        if(result == '1/2-1/2'){
+            this.model.result = 0.5;
+            return 0.5;
         }
         var lastMove = this.getLastMoveInGame();
         if (lastMove) {

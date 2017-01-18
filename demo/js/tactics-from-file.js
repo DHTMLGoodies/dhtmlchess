@@ -129,6 +129,7 @@ chess.TacticsFromFile = new Class({
                         {
                             height: 50,
                             comments: false,
+                            figurines:'svg_egg', // Figurines always starts with svg - it is the prefix of images inside the dhtmlchess/images folder
                             type: 'chess.view.notation.TacticPanel'
                         }
                     ]

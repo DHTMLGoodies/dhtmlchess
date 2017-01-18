@@ -341,8 +341,6 @@ chess.view.board.GUI = new Class({
 
         this.els.boardContainer.css('margin-top', marginTop);
 
-
-
         this.els.board.css({
             width:boardSize,
             height:boardSize
@@ -389,7 +387,8 @@ chess.view.board.GUI = new Class({
         var b = this.els.boardContainer;
         var c = this.getBody();
         var widthOffset = ludo.dom.getBW(b) + ludo.dom.getPW(b);
-        var heightOffset = ludo.dom.getPH(b) + ludo.dom.getPH(b);
+        var heightOffset = ludo.dom.getBH(b) + ludo.dom.getPH(b);
+
         var size = { x: c.width(), y: c.height() };
         size = {
             x:size.x - widthOffset,
@@ -471,5 +470,9 @@ chess.view.board.GUI = new Class({
             y = 7 - y;
         }
         return x + y * 16;
+    },
+
+    wrappedHeight:function(size){
+        return Math.min(size.width, size.height);
     }
 });

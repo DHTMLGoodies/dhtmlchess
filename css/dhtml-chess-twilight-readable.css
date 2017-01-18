@@ -2034,6 +2034,12 @@ div.ludo-grid-data-cell {
     font-style: italic;
 }
 
+.chess-move-number, .notation-result{
+    font-size:0.8em;
+    font-weight:bold;
+    color:#000;
+}
+
 .notation-chess-move-highlighted .notation-comment {
     background-color: transparent;
     text-decoration: underline;
@@ -2060,12 +2066,10 @@ div.chess-notation-panel .ludo-body {
 .notation-chess-move{
     display:inline-block;
     padding:2px;
+    margin-right:4px;
 }
 .ludo-twilight .notation-chess-move {
     color: #aeb0b0;
-    display:inline-block;
-    padding:2px;
-
 }
 
 span.notation-chess-move-highlighted{
@@ -2078,6 +2082,10 @@ span.notation-chess-move-highlighted{
     border-radius: 3px;
 }
 
+.chess-move-group {
+    display:inline-block;
+    padding-right:4px;
+}
 /* ../dhtml-chess/css-source/view/board/board.css */
 .ludo-chess-board-container {
     position: relative;
@@ -2524,7 +2532,7 @@ Collapse bar
 }
 
 .ludo-twilight .ludo-calendar-header td{
-    font-size:11px;
+    font-size:12px;
     color:#aeb0b0;
 }
 
@@ -2544,18 +2552,25 @@ Collapse bar
 }
 
 .ludo-twilight .calendar-day-today{
-
+    border:1px solid #444;
 }
 
-.ludo-twilight  td.calendar-day-selected {
-    background-color: #fff;
-    border:1px solid transparent;
-
-}
 
 .ludo-twilight .calendar-day-mouse-over {
     background-color: transparent;
     border:1px solid #fff;
+}
+
+
+.ludo-twilight .calendar-day-td-selected span{
+    color:#535353;
+}
+
+
+.ludo-twilight  div.calendar-day-selected {
+    background-color: #fff;
+    border:1px solid transparent;
+
 }
 
 
@@ -2579,8 +2594,7 @@ Collapse bar
 }
 
 .ludo-twilight .ludo-calendar-body-days td{
-
-    font-size:11px;
+    font-size:12px;
 }
 .ludo-twilight .calendar-sunday{
     color:#D32F2F;

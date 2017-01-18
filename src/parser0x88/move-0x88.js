@@ -102,12 +102,15 @@ chess.parser.Move0x88 = new Class({
         }
         this.parser.setFen(fen);
 
+        var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
+
         this.parser.move(move);
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation(),
             lm: this.parser.getLongNotation(),
             moves:this.parser.getPiecesInvolvedInLastMove(),
+            p: p,
             from:move.from,
             promoteTo : move.promoteTo,
             comment : move.comment,

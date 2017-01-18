@@ -518,6 +518,10 @@ chess.model.Game = new Class({
             this.model.result = -1;
             return -1;
         }
+        if(result == '1/2-1/2'){
+            this.model.result = 0.5;
+            return 0.5;
+        }
         var lastMove = this.getLastMoveInGame();
         if (lastMove) {
             var parser = new chess.parser.FenParser0x88();
