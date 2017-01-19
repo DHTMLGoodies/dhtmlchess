@@ -1,4 +1,4 @@
-/* Generated Thu Jan 19 2:11:24 CET 2017 */
+/* Generated Fri Jan 20 0:33:27 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -30423,6 +30423,9 @@ chess.view.board.GUI = new Class({
     boardCss:undefined,
     lowerCaseLabels:false,
     background:undefined,
+
+    bg:undefined,
+
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -30438,6 +30441,13 @@ chess.view.board.GUI = new Class({
             'labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
 
+    updateBackgroundPattern:function(horizontal, vertical){
+        if(this.bg){
+            this.bg.setPattern(horizontal, vertical)
+        }
+
+    },
+
     ludoDOM:function () {
         this.parent();
 
@@ -30450,7 +30460,7 @@ chess.view.board.GUI = new Class({
         });
 
         if(this.background){
-            new chess.view.board.Background(
+            this.bg = new chess.view.board.Background(
                 Object.merge({
                     view:this
                 }, this.background)
@@ -30570,6 +30580,15 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.pieceContainer);
     },
 
+    squareBg_white:undefined,
+    squareBg_black:undefined,
+
+    setSquareBg:function(color, background){
+        if(color != 'white' && color!='black')return;
+        this['squareBg_' + color] = background;
+        this.updateSquares();
+    },
+
     updateSquares:function () {
         var types = ['white', 'black'];
         var index = 0;
@@ -30578,8 +30597,15 @@ chess.view.board.GUI = new Class({
             if (i % 8 == 0) {
                 index++;
             }
+
+            var t = types[index % 2];
             this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('ludo-chess-square-' + types[index % 2]);
+            this.els.squares[i].addClass('ludo-chess-square-' + t);
+
+            if(this['squareBg_' + t] != undefined){
+                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] +')');
+
+            }
         }
     },
 
@@ -31884,6 +31910,8 @@ chess.view.board.Background = new Class({
 
     borderRadius: 0,
 
+    paint: undefined,
+
     initialize: function (config) {
         this.view = config.view;
         this.svg = this.view.svg();
@@ -31897,8 +31925,15 @@ chess.view.board.Background = new Class({
 
         this.horizontal = config.horizontal;
         this.vertical = config.vertical;
+
+        if(!this.horizontal){
+            this.horizontal = ludo.config.getDocumentRoot() + 'images/transparent-dot.png';
+            this.vertical = this.horizontal;
+        }
+
         this.els = {};
 
+        this.paint = config.paint;
 
         this.render();
     },
@@ -31907,10 +31942,18 @@ chess.view.board.Background = new Class({
         this.createClipPath();
         this.createPattern();
 
+
         this.createPath('t');
         this.createPath('l');
         this.createPath('b');
         this.createPath('r');
+
+        if(!this.horizontal){
+            this.paths.l.css('display','none');
+            this.paths.t.css('display','none');
+            this.paths.r.css('display','none');
+            this.paths.b.css('display','none');
+        }
 
         this.applyPattern();
     },
@@ -31918,10 +31961,11 @@ chess.view.board.Background = new Class({
     createClipPath: function () {
         this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
-        this.els.clip.set('rx', this.borderRadius);
-        this.els.clip.set('ry', this.borderRadius);
+
         this.els.clipPath.append(this.els.clip);
         this.svg.appendDef(this.els.clipPath);
+
+        this.setBorderRadius(this.borderRadius);
     },
 
     createPath: function (key) {
@@ -31931,11 +31975,40 @@ chess.view.board.Background = new Class({
 
     },
 
-    setPattern:function(horizontal, vertical){
-        this.loadImage(horizontal, this.horizontalSize);
-        this.loadImage(vertical, this.verticalSize);
+    setPattern: function (horizontal, vertical) {
+        this.setPatternItem(horizontal, this.els.horizontal);
+        this.setPatternItem(vertical, this.els.vertical);
     },
 
+    setPatternItem: function (path, image) {
+        image.removeAttr('width');
+        image.removeAttr('height');
+        image.set('xlink:href', path);
+    },
+
+    /**
+     * Set border radius in pixels or percent
+     * @param radius
+     */
+    setBorderRadius: function (radius) {
+        this.borderRadius = radius;
+        if (isNaN(radius)) {
+            radius = parseFloat(radius);
+            radius = this.svg.width * (radius / 100);
+        }
+
+        this.onNewBorderRadius(this.els.clip, radius);
+        if(this.els.paintRect){
+            this.onNewBorderRadius(this.els.paintRect, radius);
+        }
+
+    },
+
+    onNewBorderRadius:function(el, radius){
+        el.set('rx', radius);
+        el.set('ry', radius);
+
+    },
 
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
@@ -31945,16 +32018,20 @@ chess.view.board.Background = new Class({
         p.set('x', 0);
         p.set('y', 0);
         var img = this.els[imageKey] = s.$('image');
-        this.loadImage(img, sizeKey);
-        img.set('xlink:href', image);
+        this.loadImage(img, sizeKey, image);
+
         p.append(img);
         s.appendDef(p);
         return p;
     },
 
-    loadImage:function(img, sizeKey){
+    loadImage: function (img, sizeKey, href) {
         var that = this;
         img.set('opacity', 0);
+
+        img.removeAttr('width');
+        img.removeAttr('height');
+
         img.on('load', function () {
             var bbox = this.getBBox();
             that[sizeKey] = {
@@ -31968,24 +32045,41 @@ chess.view.board.Background = new Class({
             that.updatePatternSize();
 
         }.bind(img));
+
+        img.set('xlink:href', href);
         return img;
     },
 
     createPattern: function () {
 
-        this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
-        this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
+
+        if (this.paint != undefined) {
+
+            this.els.paintRect = this.svg.$('rect');
+            this.els.paintRect.css(this.paint);
+
+            this.svg.append(this.els.paintRect);
+        }
+
+        if (this.horizontal) {
+            this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
+            this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
+
+        }
+
 
     },
 
     updatePatternSize: function () {
         if (this.size == undefined)this.size = 1;
-        if (this.horizontalSize != undefined) {
+
+
+        if (this.horizontal && this.horizontalSize != undefined) {
             this.els.horizontalPattern.set('width', Math.min(5, this.horizontalSize.x / this.size));
             this.els.horizontalPattern.set('height', Math.min(5, this.horizontalSize.y / this.size));
         }
 
-        if (this.verticalSize != undefined) {
+        if (this.vertical && this.verticalSize != undefined) {
             this.els.verticalPattern.set('width', Math.min(5, this.verticalSize.x / this.size));
             this.els.verticalPattern.set('height', Math.min(5, this.verticalSize.y / this.size));
         }
@@ -32003,15 +32097,27 @@ chess.view.board.Background = new Class({
         }
     },
 
+    updateRect: function (rect, left, top, width, height, rx, ry) {
+
+        rect.set('x', left);
+        rect.set('y', top);
+        rect.set('width', width);
+        rect.set('height', height);
+
+
+    },
 
     resize: function (size) {
 
         this.size = Math.min(size.width, size.height);
 
-        this.els.clip.set('x', size.left);
-        this.els.clip.set('y', size.top);
-        this.els.clip.set('width', this.size);
-        this.els.clip.set('height', this.size);
+        if (this.els.paintRect) {
+
+            this.updateRect(this.els.paintRect, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+        }
+
+        this.updateRect(this.els.clip, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+
 
         var cx = size.width / 2 + size.left;
         var cy = size.height / 2 + size.top;
@@ -32032,6 +32138,8 @@ chess.view.board.Background = new Class({
             'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
         ].join(' '));
 
+
+        this.setBorderRadius(this.borderRadius);
 
         this.updatePatternSize();
 

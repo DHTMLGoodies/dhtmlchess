@@ -1547,7 +1547,7 @@ div.ludo-menu-horizontal-up div.ludo-menu-item-expand {
     padding-right:0;
 }
 
-fieldset{
+.ludo-view fieldset{
     padding:0;
     margin:2px;
 }/* ../ludojs/css-source/remote/message.css */

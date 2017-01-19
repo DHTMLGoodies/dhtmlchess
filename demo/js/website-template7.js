@@ -42,10 +42,21 @@ chess.GameViewer = new Class({
                         type: 'linear', orientation: 'vertical'
                     },
                     children: [
+                        {
+                            type:'chess.view.metadata.Game',
+                            tpl: '{white} vs {black} - {result}',
+                            css:{
+                                'text-align': 'center'
+                            },
+                            module: this.module, // To make the controller aware of this view
+                            layout:{
+                                height:30
+                            }
+                        },
 
                         {
                             type: 'chess.view.board.Board',
-                            pieceLayout: 'svg_bw',
+                            pieceLayout: 'svg_alpha_bw',
                             labels: !ludo.util.isTabletOrMobile(),
                             layout: {
                                 height:'wrap'
@@ -53,9 +64,18 @@ chess.GameViewer = new Class({
                             module: this.module, // To make the controller aware of this view
                             background: {
                                 borderRadius: 5,
-                                horizontal: '../images/board/wood-strip-horizontal.png',
-                                vertical: '../images/board/wood-strip-vertical.png'
-                            }
+                                horizontal: '../images/board-bg/wood-strip-horizontal.png',
+                                vertical: '../images/board-bg/wood-strip-vertical.png'
+                            },
+                            plugins:[
+                                {
+                                    type: 'chess.view.highlight.Arrow',
+                                    styles:{
+                                        fill:'#0288D1',
+                                        stroke:'#01579B'
+                                    }
+                                }
+                            ]
                         },
                         {
                             type: 'chess.view.buttonbar.Game',
@@ -77,6 +97,9 @@ chess.GameViewer = new Class({
                     module: this.module, // To make the controller aware of this view
                     layout: {
                         weight: 1
+                    },
+                    css:{
+                        'padding-top': 30
                     },
                     figurines: 'svg_egg',
                     figurineHeight: 18,

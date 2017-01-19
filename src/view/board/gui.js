@@ -178,6 +178,15 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.pieceContainer);
     },
 
+    squareBg_white:undefined,
+    squareBg_black:undefined,
+
+    setSquareBg:function(color, background){
+        if(color != 'white' && color!='black')return;
+        this['squareBg_' + color] = background;
+        this.updateSquares();
+    },
+
     updateSquares:function () {
         var types = ['white', 'black'];
         var index = 0;
@@ -186,8 +195,15 @@ chess.view.board.GUI = new Class({
             if (i % 8 == 0) {
                 index++;
             }
+
+            var t = types[index % 2];
             this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('ludo-chess-square-' + types[index % 2]);
+            this.els.squares[i].addClass('ludo-chess-square-' + t);
+
+            if(this['squareBg_' + t] != undefined){
+                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] +')');
+
+            }
         }
     },
 

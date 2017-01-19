@@ -47,7 +47,8 @@ function parseDirectory($dir, $replacements, $prefix, $whiteToBlack = false, $bg
 
                 if (strstr($entry, ".svg")) {
 
-                    $filename = $prefix . substr($entry, 4);
+                    $suffix = preg_replace("/.*?45(.*+)/s", "45$1", $entry);
+                    $filename = $prefix . $suffix;
 
                     $data = file_get_contents($dir . $entry);
 
@@ -76,7 +77,7 @@ function parseDirectory($dir, $replacements, $prefix, $whiteToBlack = false, $bg
 }
 
 $replacementsWhite = array(
-    "#e5e0bf" => "#B0BEC5",
+    "#e5e0bf" => "#FFFFFF",
     "#000000" => "#000000"
 );
 
@@ -91,3 +92,17 @@ clearFiles("output/");
 
 parseDirectory("white/", $replacementsWhite, "svg_bluegrey", false, "../board/lightest-wood.png", "../board/darkest-wood.png");
 parseDirectory("white/", $replacementsBlack, "svg_bluegrey", true, "../board/lightest-wood.png", "../board/darkest-wood.png");
+
+$replacementsWhite = array(
+    "#e5e0bf" => "#c3daf9",
+    "#000000" => "#000000"
+);
+
+$replacementsBlack = array(
+    "#e5e0bf" => "#c3daf9",
+);
+
+
+
+parseDirectory("alpha/white/", $replacementsWhite, "svg_alpha_blue", false, "../board/lightest-wood.png", "../board/darkest-wood.png" );
+parseDirectory("alpha/black/", $replacementsBlack, "svg_alpha_blue", false, "../board/lightest-wood.png", "../board/darkest-wood.png" );

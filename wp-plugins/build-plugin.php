@@ -22,6 +22,7 @@ class Archiver
     private $files = array(
         "../php",
         "../js",
+        "../src",
         "../css",
         "../jquery",
         "../pgn",

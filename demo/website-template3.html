@@ -86,6 +86,7 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <script type="text/javascript" src="../src/view/board/background.js"></script>
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         /* Styling of board */
@@ -95,10 +96,10 @@
         }
 
         .ludo-chess-board-container {
-            background-color: #9c6f4c;
+            background-color: transparent;
             border: 1px solid #b58159;
             border-radius: 5px;
-            padding:8px;
+            padding: 8px;
 
         }
 
@@ -108,35 +109,36 @@
         }
 
         .chess-board-label-inside span {
-            padding-left:2px;
+            padding-left: 2px;
             padding-right: 2px;
         }
 
         /** custom square background */
 
-        .ludo-chess-square-white{
-            background-image:none !important;
+        .ludo-chess-square-white {
+            background-image: none !important;
             background-color: #e7caa3;
 
         }
-        .ludo-chess-square-black{
-            background-image:none !important;
-            background-color:#b48059;
+
+        .ludo-chess-square-black {
+            background-image: none !important;
+            background-color: #b48059;
 
         }
 
         /** Display labels(A-H, 1-8) in smaller font */
         .ludo-chess-board-label-ranks-container,
-        .ludo-chess-board-label-files-container{
-            color:#fffffb;
+        .ludo-chess-board-label-files-container {
+            color: #fffffb;
         }
-
 
         /** Notation styling */
-        div.chess-notation-panel{
-            text-align:center;
+        div.chess-notation-panel {
+            text-align: center;
         }
-        div.chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move  {
+
+        div.chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move {
             color: #b58159;
         }
 
@@ -148,61 +150,59 @@
         }
 
         /** Styling of the highlighted square when clicking the hint button */
-        .ludo-chess-square-highlight{
-            background-color:#598db5;
-            border-width:0;
-        }
-        .ludo-chess-board-label-file{
-            line-height:27px;
+        .ludo-chess-square-highlight {
+            background-color: #598db5;
+            border-width: 0;
         }
 
+        .ludo-chess-board-label-file {
+            line-height: 27px;
+        }
 
         /** Override some default theme styles */
-        .ludo-twilight div.ludo-window{
-            background-color:#535353;
+        .ludo-twilight div.ludo-window {
+            background-color: #535353;
 
         }
 
-        .ludo-twilight .ludo-view{
-            background-color:transparent;
+        .ludo-twilight .ludo-view {
+            background-color: transparent;
         }
 
-        .ludo-chess-view-metadata-game div.ludo-body{
-            color:#333;
+        .ludo-chess-view-metadata-game div.ludo-body {
+            color: #333;
         }
 
-        body.ludo-twilight{
-            background-color:transparent;
+        body.ludo-twilight {
+            background-color: transparent;
         }
 
         /* Button style */
-        .ludo-twilight .ludo-form-button .ludo-body{
-            border:1px solid #9c6f4e;
-            background-color:#b58159;
-            color:#fff;
+        .ludo-twilight .ludo-form-button .ludo-body {
+            border: 1px solid #9c6f4e;
+            background-color: #b58159;
+            color: #fff;
         }
 
-        .ludo-twilight .ludo-form-button div.ludo-form-button-over{
-            border:1px solid #694b34;
+        .ludo-twilight .ludo-form-button div.ludo-form-button-over {
+            border: 1px solid #694b34;
         }
-
-
 
         /* Button click style */
-        .ludo-twilight .ludo-form-button div.ludo-form-button-down{
-            background-color:#9c6f4e;
-            color:#FFF;
-            border:1px solid #9c6f4e;
+        .ludo-twilight .ludo-form-button div.ludo-form-button-down {
+            background-color: #9c6f4e;
+            color: #FFF;
+            border: 1px solid #9c6f4e;
         }
 
-        .ludo-twilight div.ludo-window{
-            background-color:#b58159;
+        .ludo-twilight div.ludo-window {
+            background-color: #b58159;
         }
 
         .ludo-twilight .ludo-window > .ludo-body {
             border: 1px solid #9c6f4e;
-            color:#FFF;
-            padding:3px;
+            color: #FFF;
+            padding: 3px;
         }
 
 
@@ -275,31 +275,37 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
             ludo.config.setDocumentRoot('../');
 
 
-
             $(document).ready(function () {
                 new chess.TacticsFromFile({
                     renderTo: '#dhtml-chess',
                     pgn: 'tactic-checkmates',
 
-                    board:{ // Board configuration
+                    board: { // Board configuration
+                        id:'tactics_board',
                         // Pieces to choose. The SVG(Scalable vector graphics)
                         // has all prefix svg.
                         // Options: svg_egg, svg_bw(black and white), merida, alpha, alphapale, smart, motif, meridapale,
                         // leipzig, kingdom, cases, alphablue
                         //
-                        pieceLayout:'svg_bw',
-                        labelPos:'outside'
-                    },
-                    arrow:{
-                        styles:{
-                            'fill': '#598db5',
-                            'stroke':'#406582'
+                        pieceLayout: 'svg_bw',
+                        labelPos: 'outside',
+                        background: {
+                            borderRadius: '1%',
+                            paint: {
+                                'fill': '#9c6f4c'
+                            }
                         }
                     },
-                    arrowSolution:{
-                        styles:{
+                    arrow: {
+                        styles: {
                             'fill': '#598db5',
-                            'stroke':'#406582'
+                            'stroke': '#406582'
+                        }
+                    },
+                    arrowSolution: {
+                        styles: {
+                            'fill': '#598db5',
+                            'stroke': '#406582'
                         }
                     }
                 });
