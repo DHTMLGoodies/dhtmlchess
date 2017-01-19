@@ -2,7 +2,6 @@
     position: relative;
     margin: 0 auto;
     padding: 2px;
-    border:1px solid #000;
     cursor:default;
 }
 
@@ -23,7 +22,6 @@
 }
 
 .ludo-chess-board {
-    border: 1px solid #000;
 }
 
 .ludo-chess-square-white {

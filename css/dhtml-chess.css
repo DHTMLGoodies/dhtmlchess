@@ -1,4 +1,4 @@
-/* Generated Wed Jan 18 16:16:00 CET 2017 */
+/* Generated Thu Jan 19 2:11:24 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2106,7 +2106,6 @@ span.notation-chess-move-highlighted{
     position: relative;
     margin: 0 auto;
     padding: 2px;
-    border:1px solid #000;
     cursor:default;
 }
 
@@ -2127,7 +2126,6 @@ span.notation-chess-move-highlighted{
 }
 
 .ludo-chess-board {
-    border: 1px solid #000;
 }
 
 .ludo-chess-square-white {

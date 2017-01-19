@@ -52,10 +52,11 @@ chess.view.board.Background = new Class({
     createClipPath: function () {
         this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
-        this.els.clip.set('rx', this.borderRadius);
-        this.els.clip.set('ry', this.borderRadius);
+
         this.els.clipPath.append(this.els.clip);
         this.svg.appendDef(this.els.clipPath);
+
+        this.setBorderRadius(this.borderRadius);
     },
 
     createPath: function (key) {
@@ -65,6 +66,31 @@ chess.view.board.Background = new Class({
 
     },
 
+    setPattern:function(horizontal, vertical){
+        this.setPatternItem(horizontal, this.els.horizontal);
+        this.setPatternItem(vertical, this.els.vertical);
+    },
+
+    setPatternItem:function(path, image){
+        image.removeAttr('width');
+        image.removeAttr('height');
+        image.set('xlink:href', path);
+    },
+
+    /**
+     * Set border radius in pixels or percent
+     * @param radius
+     */
+    setBorderRadius:function(radius){
+        this.borderRadius = radius;
+        if(isNaN(radius)){
+            radius = parseFloat(radius);
+            radius = this.svg.width * (radius / 100);
+        }
+
+        this.els.clip.set('rx', radius);
+        this.els.clip.set('ry', radius);
+    },
 
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
@@ -74,8 +100,20 @@ chess.view.board.Background = new Class({
         p.set('x', 0);
         p.set('y', 0);
         var img = this.els[imageKey] = s.$('image');
+        this.loadImage(img, sizeKey, image);
+
+        p.append(img);
+        s.appendDef(p);
+        return p;
+    },
+
+    loadImage:function(img, sizeKey, href){
         var that = this;
         img.set('opacity', 0);
+
+        img.removeAttr('width');
+        img.removeAttr('height');
+
         img.on('load', function () {
             var bbox = this.getBBox();
             that[sizeKey] = {
@@ -89,10 +127,9 @@ chess.view.board.Background = new Class({
             that.updatePatternSize();
 
         }.bind(img));
-        img.set('xlink:href', image);
-        p.append(img);
-        s.appendDef(p);
-        return p;
+
+        img.set('xlink:href', href);
+        return img;
     },
 
     createPattern: function () {
@@ -104,6 +141,8 @@ chess.view.board.Background = new Class({
 
     updatePatternSize: function () {
         if (this.size == undefined)this.size = 1;
+
+
         if (this.horizontalSize != undefined) {
             this.els.horizontalPattern.set('width', Math.min(5, this.horizontalSize.x / this.size));
             this.els.horizontalPattern.set('height', Math.min(5, this.horizontalSize.y / this.size));
@@ -156,6 +195,7 @@ chess.view.board.Background = new Class({
             'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
         ].join(' '));
 
+        this.setBorderRadius(this.borderRadius);;
 
         this.updatePatternSize();
 

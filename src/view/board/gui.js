@@ -21,6 +21,9 @@ chess.view.board.GUI = new Class({
     boardCss:undefined,
     lowerCaseLabels:false,
     background:undefined,
+
+    bg:undefined,
+
     internal:{
         squareSize:30,
         piezeSize:30,
@@ -36,6 +39,13 @@ chess.view.board.GUI = new Class({
             'labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
     },
 
+    updateBackgroundPattern:function(horizontal, vertical){
+        if(this.bg){
+            this.bg.setPattern(horizontal, vertical)
+        }
+
+    },
+
     ludoDOM:function () {
         this.parent();
 
@@ -48,7 +58,7 @@ chess.view.board.GUI = new Class({
         });
 
         if(this.background){
-            new chess.view.board.Background(
+            this.bg = new chess.view.board.Background(
                 Object.merge({
                     view:this
                 }, this.background)

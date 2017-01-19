@@ -1,4 +1,4 @@
-/* Generated Wed Jan 18 16:16:00 CET 2017 */
+/* Generated Thu Jan 19 2:11:24 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -30973,6 +30973,12 @@ chess.view.board.Board = new Class({
         this.addPieceDragEvents();
     },
 
+    setPieceLayout:function(layout){
+        jQuery.each(this.pieces, function(i, piece){
+            piece.setPieceLayout(layout);
+        });
+    },
+
     addPieceDragEvents: function () {
         // var on = this.getEventEl().addEvent;
         this.getEventEl().on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
@@ -31396,7 +31402,7 @@ chess.view.board.Piece = new Class({
         this.parent(config);
         this.square = config.square;
         this.squareSize = config.squareSize;
-        this.pieceLayout = config.pieceLayout;
+        this.setPieceLayout(config.pieceLayout);
         this.numSquare = config.numSquare;
         this.flipped = config.flipped;
         this.pieceType = config.pieceType;
@@ -31404,11 +31410,21 @@ chess.view.board.Piece = new Class({
         this.board = config.board;
         this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
 
-        this.svg = this.pieceLayout.indexOf('svg') == 0;
-        this.extension = this.svg ? 'svg' : 'png';
+
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
+    },
+
+
+    setPieceLayout:function(layout){
+        this.pieceLayout = layout;
+        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.extension = this.svg ? 'svg' : 'png';
+        this.bgUpdated = false;
+        if(this.el != undefined){
+            this.updateBackgroundImage();
+        }
     },
 
     /**
@@ -31915,6 +31931,11 @@ chess.view.board.Background = new Class({
 
     },
 
+    setPattern:function(horizontal, vertical){
+        this.loadImage(horizontal, this.horizontalSize);
+        this.loadImage(vertical, this.verticalSize);
+    },
+
 
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
@@ -31924,6 +31945,14 @@ chess.view.board.Background = new Class({
         p.set('x', 0);
         p.set('y', 0);
         var img = this.els[imageKey] = s.$('image');
+        this.loadImage(img, sizeKey);
+        img.set('xlink:href', image);
+        p.append(img);
+        s.appendDef(p);
+        return p;
+    },
+
+    loadImage:function(img, sizeKey){
         var that = this;
         img.set('opacity', 0);
         img.on('load', function () {
@@ -31939,10 +31968,7 @@ chess.view.board.Background = new Class({
             that.updatePatternSize();
 
         }.bind(img));
-        img.set('xlink:href', image);
-        p.append(img);
-        s.appendDef(p);
-        return p;
+        return img;
     },
 
     createPattern: function () {

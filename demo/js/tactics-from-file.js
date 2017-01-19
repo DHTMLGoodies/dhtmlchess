@@ -104,6 +104,7 @@ chess.TacticsFromFile = new Class({
                             ]
                         },
                         Object.merge({
+                            id:'tactics_board',
                             type: 'chess.view.board.Board',
                             overflow: 'hidden',
                             pieceLayout: 'svg3',

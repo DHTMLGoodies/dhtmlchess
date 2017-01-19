@@ -60,7 +60,7 @@ chess.view.board.Piece = new Class({
         this.parent(config);
         this.square = config.square;
         this.squareSize = config.squareSize;
-        this.pieceLayout = config.pieceLayout;
+        this.setPieceLayout(config.pieceLayout);
         this.numSquare = config.numSquare;
         this.flipped = config.flipped;
         this.pieceType = config.pieceType;
@@ -68,11 +68,21 @@ chess.view.board.Piece = new Class({
         this.board = config.board;
         this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
 
-        this.svg = this.pieceLayout.indexOf('svg') == 0;
-        this.extension = this.svg ? 'svg' : 'png';
+
         this.createDOM();
         this.resize(this.squareSize);
         this.position();
+    },
+
+
+    setPieceLayout:function(layout){
+        this.pieceLayout = layout;
+        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.extension = this.svg ? 'svg' : 'png';
+        this.bgUpdated = false;
+        if(this.el != undefined){
+            this.updateBackgroundImage();
+        }
     },
 
     /**

@@ -76,6 +76,13 @@
         label {
             font-size: 10px;
         }
+
+        /** Custom styling of game navigation buttons */
+        .ludo-chess-button{
+            width:25px;
+            height:25px;
+        }
+
     </style>
 </head>
 <body class="ludo-blue">
@@ -126,9 +133,10 @@
                     },
                     {
                         type:'chess.view.board.Board',
-
                         labels:true,
-                        weight:1,
+                        layout:{
+                            height:'wrap'
+                        },
                         elCss:{
                             'margin-bottom':5
                         },
@@ -282,7 +290,8 @@
                                 id:'notation-view',
                                 type:'chess.view.notation.Panel',
                                 notations:'long',
-                                showContextMenu:true
+                                showContextMenu:true,
+                                figurines:'svg_bw'
                             },
                             {
                                 title:'PGN archive',

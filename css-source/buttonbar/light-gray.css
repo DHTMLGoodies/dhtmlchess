@@ -20,7 +20,7 @@ div.ludo-chess-button-bar-right-edge{
     width:14px;
     height:25px;
     position:absolute;
-    right:0px;
+    right:0;
     z-index:5;
 
 }

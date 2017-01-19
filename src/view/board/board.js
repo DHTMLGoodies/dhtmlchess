@@ -93,6 +93,12 @@ chess.view.board.Board = new Class({
         this.addPieceDragEvents();
     },
 
+    setPieceLayout:function(layout){
+        jQuery.each(this.pieces, function(i, piece){
+            piece.setPieceLayout(layout);
+        });
+    },
+
     addPieceDragEvents: function () {
         // var on = this.getEventEl().addEvent;
         this.getEventEl().on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
