@@ -33,9 +33,9 @@ chess.view.board.GUI = new Class({
         timestampLastResize: 0
     },
 
-    labelOddStyles:undefined,
-    labelEvenStyles:undefined,
-    labelStyles:undefined,
+    labelOddStyles: undefined,
+    labelEvenStyles: undefined,
+    labelStyles: undefined,
 
     __construct: function (config) {
 
@@ -45,7 +45,8 @@ chess.view.board.GUI = new Class({
         this.setConfigParams(config, [
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
-            'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding']);
+            'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
+            'bgWhite', 'bgBlack']);
 
         if (!jQuery.isPlainObject(this.padding)) {
             this.padding = {
@@ -147,6 +148,13 @@ chess.view.board.GUI = new Class({
 
     __rendered: function () {
         this.parent();
+
+        if(this.bgWhite){
+            this.setSquareBg('white', this.bgWhite);
+        }
+        if(this.bgBlack){
+            this.setSquareBg('black', this.bgBlack);
+        }
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
         this.updateLabels();
@@ -274,17 +282,17 @@ chess.view.board.GUI = new Class({
             var odd = i % 2 == 0;
             var file = this.els.files[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-file"></div>');
 
-            if(this.labelStyles){
+            if (this.labelStyles) {
                 file.css(this.labelStyles);
             }
-            if(odd && this.labelOddStyles){
-                file.css( this.labelOddStyles)
+            if (odd && this.labelOddStyles) {
+                file.css(this.labelOddStyles)
             }
-            if(!odd && this.labelEvenStyles){
-                file.css( this.labelEvenStyles)
+            if (!odd && this.labelEvenStyles) {
+                file.css(this.labelEvenStyles)
 
             }
-            
+
             file.addClass('dhtml-chess-board-label-' + (odd ? 'odd' : 'even'));
             file.css({
                 'width': (100 / 8) + '%',
@@ -317,17 +325,17 @@ chess.view.board.GUI = new Class({
         }
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
-            var odd = (i+1) % 2 == 0;
+            var odd = (i + 1) % 2 == 0;
             var rank = this.els.ranks[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
-            if(this.labelStyles){
+            if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }
-            if(odd && this.labelOddStyles){
-                rank.css( this.labelOddStyles)
+            if (odd && this.labelOddStyles) {
+                rank.css(this.labelOddStyles)
             }
-            if(!odd && this.labelEvenStyles){
-                rank.css( this.labelEvenStyles)
-                
+            if (!odd && this.labelEvenStyles) {
+                rank.css(this.labelEvenStyles)
+
             }
             rank.addClass('dhtml-chess-board-label-' + ((i + 1) % 2 == 0 ? 'odd' : 'even'));
             rank.css({
@@ -432,14 +440,14 @@ chess.view.board.GUI = new Class({
 
         var mt = 0;
 
-        if(this.vAlign == 'middle'){
+        if (this.vAlign == 'middle') {
             mt = Math.max(0, (this.getBody().height() - this.getBody().width()) / 2);
-        }else if(this.vAlign =='bottom'){
+        } else if (this.vAlign == 'bottom') {
             mt = Math.max(0, (this.getBody().height() - this.getBody().width()));
         }
 
         this.els.boardContainer.css({
-            top:mt,
+            top: mt,
             width: boardSize + 'px',
             height: boardSize + 'px'
         });
@@ -447,7 +455,6 @@ chess.view.board.GUI = new Class({
 
         this.internal.squareSize = boardSize / 8;
         this.internal.pieceSize = this.getNewPieceSize();
-
 
 
         this.els.board.css({
@@ -491,25 +498,25 @@ chess.view.board.GUI = new Class({
 
         var h = this.els.ranks[0].height();
         for (var i = 0; i < 8; i++) {
-            if (this.labelPos == 'outside'){
+            if (this.labelPos == 'outside') {
                 this.els.ranks[i].css('line-height', h + 'px');
-            }else{
+            } else {
                 this.els.ranks[i].css({
-                    position:'absolute',
-                    width:'auto',height:'auto',
+                    position: 'absolute',
+                    width: 'auto', height: 'auto',
                     top: this.internal.squareSize * i
                 });
                 this.els.files[i].css({
-                    position:'absolute',
-                    width:'auto',
+                    position: 'absolute',
+                    width: 'auto',
                     left: (this.internal.squareSize * (i + 1)) - this.els.files[i].outerWidth(),
                     bottom: 0,
-                    height:'auto'
+                    height: 'auto'
                 })
             }
 
         }
-        
+
     },
 
     getP: function (pos) {
