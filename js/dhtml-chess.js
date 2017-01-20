@@ -1,18 +1,3 @@
-/* Generated Fri Jan 20 17:56:58 CET 2017 */
-/**
-DHTML Chess - Javascript and PHP chess software
-Copyright (C) 2012-2017 dhtml-chess.com
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 /* ../ludojs/src/../mootools/MooTools-Core-1.6.0.js */
 /* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2016 [Valerio Proietti](http://mad4milk.net/).*/ 
 /*!
@@ -32284,7 +32269,7 @@ chess.view.board.Background = new Class({
             'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
         ].join(' '));
         this.paths.b.set('d', [
-            'M', cx, cy, 'L', cx - radius, this.size, cx + radius, this.size, 'Z'
+            'M', cx, cy, 'L', cx - radius, cy + radius, cx + radius, cy + radius, 'Z'
         ].join(' '));
 
         this.paths.l.set('d', [
@@ -33484,6 +33469,14 @@ chess.view.metadata.FenField = new Class({
         this.controller.addEvent('setPosition', this.showFen.bind(this));
         this.controller.addEvent('newMove', this.showFen.bind(this));
         this.controller.addEvent('nextmove', this.showFen.bind(this));
+    },
+
+    __rendered:function(){
+        this.parent();
+        this.getFormEl().on('click', this.selectEl.bind(this));
+    },
+    selectEl:function(){
+        this.getFormEl().select();
     },
 
     showFen : function(model){

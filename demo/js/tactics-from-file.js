@@ -113,8 +113,10 @@ chess.TacticsFromFile = new Class({
                             },
                             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                             labelPos:'inside', // show labels inside board, default is 'outside'
-
-                            weight: 1,
+                            layout:{
+                                height:ludo.isMobile ? 'wrap' : undefined,
+                                weight:!ludo.isMobile ? 1 : undefined
+                            },
                             plugins: [
                                 Object.merge({
                                     type: 'chess.view.highlight.Arrow'

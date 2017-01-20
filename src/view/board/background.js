@@ -240,7 +240,7 @@ chess.view.board.Background = new Class({
             'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
         ].join(' '));
         this.paths.b.set('d', [
-            'M', cx, cy, 'L', cx - radius, this.size, cx + radius, this.size, 'Z'
+            'M', cx, cy, 'L', cx - radius, cy + radius, cx + radius, cy + radius, 'Z'
         ].join(' '));
 
         this.paths.l.set('d', [
