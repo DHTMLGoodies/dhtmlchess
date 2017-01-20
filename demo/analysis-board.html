@@ -6,22 +6,9 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=4"></script>
-    <script type="text/javascript" src="../src/view/board/gui.js"></script>
-    <script type="text/javascript" src="../src/view/board/board.js"></script>
-    <script type="text/javascript" src="../src/view/board/piece.js"></script>
-    <script type="text/javascript" src="../src/view/eco/variation-tree.js"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow-base.js?rnd=1"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow.js?rnd=1"></script>
-    <script type="text/javascript" src="../src/view/highlight/arrow-svg.js?rnd=1"></script>
-    <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
-    <script type="text/javascript" src="../src/view/notation/panel.js"></script>
-    <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
-    <script type="text/javascript" src="../src/controller/analysis-controller.js?rnd=1"></script>
+    <!-- Javascript for the GarboChess engine -->
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
-    <script type="text/javascript" src="../src/controller/analysis-engine-controller.js?rnd=1"></script>
-    <script type="text/javascript" src="../src/model/game.js?rnd=2"></script>
-    <script type="text/javascript" src="../src/view/score/bar.js?rnd=3"></script>
-
+    <!-- CSS for the move navigation bar -->
     <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
     <style type="text/css">
@@ -36,12 +23,9 @@
         }
 
         .dhtml-chess-board-container {
-            border: 1px solid #9abee8;
-            background-color: #cce4ff;
         }
 
         .dhtml-chess-board {
-            border: 1px solid #000;
         }
 
         .dhtml-chess-square-highlight {
@@ -57,12 +41,17 @@
         }
 
         span.notation-chess-move-highlighted {
-            background-color: #4a5c70;
+            background-color: #377FD2;
             color: #FFF;
         }
 
         label {
             font-size: 10px;
+        }
+
+        .dhtml-chess-move-number{
+            display:inline-block;
+            margin-right:4px;
         }
     </style>
 </head>
@@ -109,11 +98,24 @@
                 children:[
                     {
                         type:'chess.view.board.Board',
-
+                        pieceLayout:'svg_alpha_egg',
                         labels:true,
-                        weight:1,
+                        layout:{
+                            height:'wrap'
+                        },
                         elCss:{
-                            'margin-bottom':5
+                            'margin-bottom':5,
+                            'margin-top':5
+                        },
+                        background:{
+                            borderRadius:'1%',
+                            horizontal: '../images/board-bg/wood-strip-horizontal.png',
+                            vertical: '../images/board-bg/wood-strip-vertical.png'
+
+                        },
+                        labelStyles:{
+                            color:'#FFF',
+                            'font-weight': 'normal'
                         },
                         plugins:[
                             {
@@ -128,11 +130,12 @@
                     },
                     {
                         type:'chess.view.buttonbar.Game',
-                        width:200,
+                        layout:{
+                            width:200,height:30
+                        },
                         elCss:{
                             margin:2
-                        },
-                        height:30
+                        }
                     }
                 ]
             },
@@ -211,7 +214,11 @@
                                 title:'Notations',
                                 type:'chess.view.notation.Panel',
                                 notations:'long',
-                                showContextMenu:true
+                                showContextMenu:true,
+                                css:{
+                                    'background-color': '#fff'
+                                },
+                                figurines:'svg_egg'
                             },
                             {
                                 title:'Eco',
@@ -231,21 +238,20 @@
         }
     });
 
-    var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
+
     var controller = new chess.controller.AnalysisEngineController({
+        examine:true,
         garboChess:'../garbochess/js/garbochess.js',    // Path to garbo chess, relative to html/php file
         listeners:{
             'engineupdate': function(move, color){
-
                 var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
                 if(color == 'black')s*=-1;
-                console.log(s);
                 ludo.$('scoreBar').setScore((s/1000));
             }
         }
     });
 
-    controller.setPosition('2R5/4bppk/1p1p3Q/5R1P/4P3/5P2/r4q1P/7K b - - 1 1');
+
 
     //controller.setPosition('r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4');
 

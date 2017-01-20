@@ -33,6 +33,10 @@ chess.view.board.GUI = new Class({
         timestampLastResize: 0
     },
 
+    labelOddStyles:undefined,
+    labelEvenStyles:undefined,
+    labelStyles:undefined,
+
     __construct: function (config) {
 
         this.parent(config);
@@ -41,7 +45,7 @@ chess.view.board.GUI = new Class({
         this.setConfigParams(config, [
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
-            'labelPos', 'labelStyles', 'padding']);
+            'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding']);
 
         if (!jQuery.isPlainObject(this.padding)) {
             this.padding = {
@@ -267,8 +271,21 @@ chess.view.board.GUI = new Class({
         }
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
+            var odd = i % 2 == 0;
             var file = this.els.files[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-file"></div>');
-            file.addClass('dhtml-chess-board-label-' + (i % 2 == 0 ? 'odd' : 'even'));
+
+            if(this.labelStyles){
+                file.css(this.labelStyles);
+            }
+            if(odd && this.labelOddStyles){
+                file.css( this.labelOddStyles)
+            }
+            if(!odd && this.labelEvenStyles){
+                file.css( this.labelEvenStyles)
+
+            }
+            
+            file.addClass('dhtml-chess-board-label-' + (odd ? 'odd' : 'even'));
             file.css({
                 'width': (100 / 8) + '%',
                 'float': 'left',
@@ -300,7 +317,18 @@ chess.view.board.GUI = new Class({
         }
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
+            var odd = (i+1) % 2 == 0;
             var rank = this.els.ranks[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+            if(this.labelStyles){
+                rank.css(this.labelStyles);
+            }
+            if(odd && this.labelOddStyles){
+                rank.css( this.labelOddStyles)
+            }
+            if(!odd && this.labelEvenStyles){
+                rank.css( this.labelEvenStyles)
+                
+            }
             rank.addClass('dhtml-chess-board-label-' + ((i + 1) % 2 == 0 ? 'odd' : 'even'));
             rank.css({
                 'height': (100 / 8) + '%',

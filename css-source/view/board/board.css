@@ -77,3 +77,7 @@
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
+.dhtml-chess-move-number{
+    display:inline-block;
+    margin-right:4px;
+}

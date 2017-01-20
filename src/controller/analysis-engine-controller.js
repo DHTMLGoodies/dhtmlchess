@@ -1,8 +1,6 @@
 chess.controller.AnalysisEngineController = new Class({
     Extends: chess.controller.AnalysisController,
-    disabledEvents: {
-        overwriteOrVariation: 1
-    },
+
     dialog: {},
 
     engine: undefined,
@@ -42,6 +40,12 @@ chess.controller.AnalysisEngineController = new Class({
     },
 
     modelEventFired: function (event, model, param) {
+
+
+
+
+        this.parent(event,model, param);
+
         this.chessModel = model;
 
         if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {

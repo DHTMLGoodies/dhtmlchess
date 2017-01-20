@@ -1,4 +1,4 @@
-/* Generated Fri Jan 20 16:44:27 CET 2017 */
+/* Generated Fri Jan 20 17:26:32 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -30443,6 +30443,10 @@ chess.view.board.GUI = new Class({
         timestampLastResize: 0
     },
 
+    labelOddStyles:undefined,
+    labelEvenStyles:undefined,
+    labelStyles:undefined,
+
     __construct: function (config) {
 
         this.parent(config);
@@ -30451,7 +30455,7 @@ chess.view.board.GUI = new Class({
         this.setConfigParams(config, [
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
-            'labelPos', 'labelStyles', 'padding']);
+            'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding']);
 
         if (!jQuery.isPlainObject(this.padding)) {
             this.padding = {
@@ -30677,8 +30681,21 @@ chess.view.board.GUI = new Class({
         }
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
+            var odd = i % 2 == 0;
             var file = this.els.files[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-file"></div>');
-            file.addClass('dhtml-chess-board-label-' + (i % 2 == 0 ? 'odd' : 'even'));
+
+            if(this.labelStyles){
+                file.css(this.labelStyles);
+            }
+            if(odd && this.labelOddStyles){
+                file.css( this.labelOddStyles)
+            }
+            if(!odd && this.labelEvenStyles){
+                file.css( this.labelEvenStyles)
+
+            }
+            
+            file.addClass('dhtml-chess-board-label-' + (odd ? 'odd' : 'even'));
             file.css({
                 'width': (100 / 8) + '%',
                 'float': 'left',
@@ -30710,7 +30727,18 @@ chess.view.board.GUI = new Class({
         }
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
+            var odd = (i+1) % 2 == 0;
             var rank = this.els.ranks[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+            if(this.labelStyles){
+                rank.css(this.labelStyles);
+            }
+            if(odd && this.labelOddStyles){
+                rank.css( this.labelOddStyles)
+            }
+            if(!odd && this.labelEvenStyles){
+                rank.css( this.labelEvenStyles)
+                
+            }
             rank.addClass('dhtml-chess-board-label-' + ((i + 1) % 2 == 0 ? 'odd' : 'even'));
             rank.css({
                 'height': (100 / 8) + '%',
@@ -33645,6 +33673,7 @@ chess.view.dialog.OverwriteMove = new Class({
 	autoRemove:false,
 
 	__construct:function (config) {
+
 		config = config || {};
 		config.buttons = [
 			{
@@ -33708,7 +33737,6 @@ chess.view.dialog.OverwriteMove = new Class({
 	showDialog:function (model, moves) {
 
 		this.parent();
-
 		this.move = moves;
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
 		this.html('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
@@ -33915,91 +33943,6 @@ chess.view.dialog.Comment = new Class({
 
     getDialogTitle:function(){
         return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
-    }
-});/* ../dhtml-chess/src/view/dialog/game-import.js */
-/**
- * Game import dialog. Game import is only available to users with game edit privileges.
- * @namespace chess.view.dialog
- * @submodule Dialog
- * @class GameImport
- *
- */
-chess.view.dialog.GameImport = new Class({
-    Extends:ludo.Window,
-    name:'game-import',
-    form:{
-        resource:'GameImport'
-    },
-    layout:{
-        width:400,
-        height:240,
-        left:50,top:50,
-        type:'linear',
-        orientation:'vertical'
-    },
-
-    autoHideOnBtnClick:false,
-    title:'Import PGN',
-    children:[
-        {
-            type:'form.File', resource:'ChessFileUpload', label:chess.getPhrase('Pgn File'), accept:'pgn', name:'pgnFile', required:true, labelButton:'Find Pgn file', buttonWidth:100
-        },
-        {
-            type:'form.Checkbox', label:chess.getPhrase('As new database'), checked:true, name:'importAsNew', value:'yes'
-        },
-        {
-            type:'form.Text', label:chess.getPhrase('Database name'), name:'newDatabase'
-        },
-        {
-            type:'form.ComboTree', emptyText:'Select folder', treeConfig:{ type:'chess.view.tree.SelectFolder', width:500, height:350 }, label:chess.getPhrase('Into folder'), name:'folder'
-        },
-        {
-            hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Into database'), name:'database'
-        },
-        {
-            type:'progress.Bar', name : 'progressbar', listenTo:'GameImport/save'
-        },
-        {
-            type:'progress.Text', css : { 'text-align' : 'center', listenTo:'GameImport/save' }
-        }
-    ],
-    buttonBar:{
-        children:[
-            {
-                type:'form.SubmitButton', value:'Import'},
-            {
-                type:'form.CancelButton', value:'Cancel'
-            }
-        ]
-    },
-
-    ludoEvents:function(){
-        this.parent();
-        this.getForm().addEvent('success', this.importFinished.bind(this));
-    },
-
-    importFinished:function(){
-        this.hide.delay(2000, this);
-        this.getForm().clear();
-        this.fireEvent('pgnImportComplete');
-        this.child['progressbar'].finish();
-    },
-
-    __rendered:function () {
-        this.parent();
-        this.child['importAsNew'].addEvent('change', this.toggleImport.bind(this));
-    },
-
-    toggleImport:function (value) {
-        if (value) {
-            this.child['newDatabase'].show();
-            this.child['folder'].show();
-            this.child['database'].hide();
-        } else {
-            this.child['database'].show();
-            this.child['newDatabase'].hide();
-            this.child['folder'].hide();
-        }
     }
 });/* ../dhtml-chess/src/view/button/save-game.js */
 /**
@@ -36423,6 +36366,8 @@ chess.view.score.BarBackground = new Class({
 
             var h = (ah) - (this.height * index / t);
 
+            w = Math.max(w, 10);
+            h = Math.max(h, 10);
 
             this.scoreRectGroups[i].setTranslate(x, ah - h);
             this.scoreRects[i].set('width', w);
@@ -39664,6 +39609,238 @@ chess.controller.GameplayController = new Class({
             if (!Browser.ie)console.log(event);
             this.fireEvent(event, [model, param]);
         }
+    }
+});/* ../dhtml-chess/src/controller/analysis-engine-controller.js */
+chess.controller.AnalysisEngineController = new Class({
+    Extends: chess.controller.AnalysisController,
+
+    dialog: {},
+
+    engine: undefined,
+
+    analyzing: true,
+
+    backgroundEngineValid: true,
+
+    allMoves: [],
+
+    chessModel: undefined,
+
+    thinkingTime: 40,
+
+    garboChess:'../garbochess-engine/garbochess.js',
+
+    fen:undefined,
+
+    stopped:true,
+
+    debug:false,
+    
+    startFen:undefined,
+
+    examine:true,
+
+
+    __construct: function (config) {
+        if(config.garboChess != undefined)this.garboChess = config.garboChess;
+        this.setConfigParams(config, ['stopped','examine']);
+        this.garboChess = config.garboChess;
+        if (config.thinkingTime != undefined) {
+            this.thinkingTime = config.thinkingTime;
+        }
+
+        this.parent(config);
+    },
+
+    modelEventFired: function (event, model, param) {
+
+
+
+
+        this.parent(event,model, param);
+
+        this.chessModel = model;
+
+        if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
+            if(this.examine)this.views.board.enableDragAndDrop(model);
+        }
+
+        if (event === 'fen') {
+
+            this.fen = param;
+
+
+            if (model.getResult() != 0) {
+                this.fireEvent("gameover", model.getResult());
+                return;
+            }
+
+
+            if(!this.stopped)this.updateEngine();
+        }
+
+
+        if (event == 'newGame') {
+            this.ensureAnalysisStopped();
+
+            this.startFen = this.currentModel.model.startFen;
+            ResetGame();
+
+            if (this.initializeBackgroundEngine()) {
+                this.engine.postMessage("go");
+
+            }
+        }
+    },
+
+    updateEngine:function(){
+        if (this.initializeBackgroundEngine()) {
+            this.engine.postMessage("position " + this.getFen());
+            this.searchAndRedraw.delay(20, this);
+
+        }
+    },
+
+    stopEngine:function(){
+        this.stopped = true;
+        this.ensureAnalysisStopped();
+
+        //console.log('stop engine');
+
+    },
+
+    startEngine:function(){
+     
+        this.stopped = false;
+        this.updateEngine();
+
+       // console.log('start engine');
+
+
+    },
+
+    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+    getXY: function (square) {
+        var move = square
+        move = move.replace(/[^a-z0-9]/g, '');
+        var file = this.files.indexOf(move.substr(move.length - 2, 1));
+        var rank = move.substr(move.length - 1, 1) - 1;
+        return {
+            x: file,
+            y: 7 - rank
+        }
+    },
+
+    shouldAutoPlayNextMove: function (colorToMove) {
+        return colorToMove == 'black'
+    },
+
+    ensureAnalysisStopped: function () {
+        if (this.analyzing && this.engine != undefined) {
+            this.engine.terminate();
+            this.engine = undefined;
+        }
+    },
+
+    initializeBackgroundEngine: function () {
+
+        if (!this.backgroundEngineValid) {
+            return false;
+        }
+
+        if (this.engine == null) {
+
+            this.backgroundEngineValid = true;
+            try {
+                var that = this;
+                this.engine = new Worker(this.garboChess);
+                this.engine.onmessage = function (e) {
+                    if (e.data.match("^pv") == "pv") {
+                        that.updatePVDisplay(e.data.substr(3, e.data.length - 3));
+                    } else if (e.data.match("^message") == "message") {
+                        that.ensureAnalysisStopped();
+                        that.updatePVDisplay(e.data.substr(8, e.data.length - 8));
+                    } else {
+                        that.playMove(GetMoveFromString(e.data), null);
+                    }
+                };
+                this.engine.error = function (e) {
+                    console.log("Error from background worker:" + e.message);
+                };
+
+                this.engine.postMessage("position " + this.getFen());
+            } catch (error) {
+                this.backgroundEngineValid = false;
+                console.log(error);
+            }
+        }
+
+        return this.backgroundEngineValid;
+    },
+
+    getFen: function () {
+
+        return this.fen ? this.fen : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    },
+
+    color:function(){
+        return this.models[0].getColorToMove();  
+    },
+
+    updatePVDisplay: function (move) {
+        this.fireEvent("engineupdate", [move, this.color()] );
+    },
+
+    playMove: function (move, pv) {
+
+        var fromX = this.files[(move & 0xF) - 4];
+        var fromY = 8 - (((move >> 4) & 0xF) - 2);
+        var toX = this.files[((move >> 8) & 0xF) - 4];
+        var toY = 8 - (((move >> 12) & 0xF) - 2);
+
+        this.currentModel.appendMove({
+            from: fromX + fromY, to: toX + toY
+        });
+
+        MakeMove(move);
+
+        this.updateFromMove(move);
+    },
+
+    updateFromMove: function (move) {
+
+    },
+
+    finishMove: function (bestmove, value, timeTaken, ply) {
+        if (bestMove != null) {
+            this.playMove(move, BuildPVMessage(bestMove, value, timeTaken, ply));
+        }
+    },
+
+    searchAndRedraw: function () {
+        if (this.analyzing) {
+            this.ensureAnalysisStopped();
+            this.initializeBackgroundEngine();
+
+            this.engine.postMessage("position " + this.getFen());
+            this.engine.postMessage("analyze");
+            return;
+        }
+
+        if (this.initializeBackgroundEngine()) {
+            this.engine.postMessage("search " + this.thinkingTime);
+        } else {
+            Search(this.finishMove, 99, null);
+        }
+    },
+
+    newGame: function () {
+        this.currentModel.newGame();
+    },
+
+    setThinkingTime:function(thinkingTime){
+        this.thinkingTime = thinkingTime;
     }
 });/* ../dhtml-chess/src/model/game.js */
 /**

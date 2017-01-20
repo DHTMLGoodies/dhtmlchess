@@ -6,30 +6,18 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
-    <script type="text/javascript" src="../src/parser0x88/fen-parser-0x88.js"></script>
-    <script type="text/javascript" src="../src/parser0x88/move-0x88.js"></script>
-    <script type="text/javascript" src="../src/model/game.js"></script>
-    <script type="text/javascript" src="../src/view/board/gui.js"></script>
-    <script type="text/javascript" src="../src/view/board/board.js"></script>
-    <script type="text/javascript" src="../src/view/command/controller.js"></script>
-    <script type="text/javascript" src="../src/view/command/line.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
             height: 100%;
-            font-family: arial !important, sans-serif;
+            font-family: arial, sans-serif;
         }
 
-        .dhtml-chess-board-container {
-            border-radius:5px;
-            border: 1px solid #aeb0b0;
-            background-color: #444;
-        }
 
         .dhtml-chess-board {
-            border: 1px solid #000;
+            border: 1px solid #444;
         }
 
         .dhtml-chess-square-highlight {
@@ -96,10 +84,20 @@
                         type:'chess.view.board.Board',
 
                         labels:true,
-                        weight:1,
+                        layout:{
+                            height:'wrap'
+                        },
                         elCss:{
-                            'margin':'2px',
+                            'margin':'5px',
                             'margin-bottom':'5px'
+                        },
+                        background:{
+                            borderRadius:5,
+                            paint:{
+                                fill:'#444',
+                                stroke:'#aeb0b0',
+                                'stroke-width': 1
+                            }
                         },
                         plugins:[
                             {

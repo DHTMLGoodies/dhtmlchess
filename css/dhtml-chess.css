@@ -1,4 +1,4 @@
-/* Generated Fri Jan 20 16:44:27 CET 2017 */
+/* Generated Fri Jan 20 17:26:32 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2192,7 +2192,10 @@ span.notation-chess-move-highlighted{
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
-/* ../dhtml-chess/css-source/view/gamelist/grid.css */
+.dhtml-chess-move-number{
+    display:inline-block;
+    margin-right:4px;
+}/* ../dhtml-chess/css-source/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
 }

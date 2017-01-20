@@ -200,6 +200,8 @@ chess.view.score.BarBackground = new Class({
 
             var h = (ah) - (this.height * index / t);
 
+            w = Math.max(w, 10);
+            h = Math.max(h, 10);
 
             this.scoreRectGroups[i].setTranslate(x, ah - h);
             this.scoreRects[i].set('width', w);

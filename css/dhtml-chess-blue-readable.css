@@ -2177,7 +2177,10 @@ span.notation-chess-move-highlighted{
     background-image: url(../images/board/dark-blue-wood.png);
 }
 
-/* ../dhtml-chess/css-source/view/gamelist/grid.css */
+.dhtml-chess-move-number{
+    display:inline-block;
+    margin-right:4px;
+}/* ../dhtml-chess/css-source/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
 }
