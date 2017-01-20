@@ -21,7 +21,7 @@ chess.view.message.TacticsMessage = new Class({
 
     ludoDOM:function () {
         this.parent();
-        this.getEl().addClass('chess-tactics-message');
+        this.getEl().addClass('dhtml-chess-tactics-message');
     },
     setController:function (controller) {
         this.parent(controller);

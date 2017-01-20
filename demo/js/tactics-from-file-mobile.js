@@ -148,8 +148,15 @@ chess.TacticsFromFile2016 = new Class({
                                         border: '1px solid',
                                         'overflow': 'visible'
                                     },
+                                    padding:'1%',
+                                    background:{
+                                        borderRadius: '1%',
+                                        paint:{
+                                            fill:'#1976D2'
+                                        }
+                                    },
                                     vAlign: 'top', // can be center
-                                    labels: !ludo.util.isTabletOrMobile(), // show labels for ranks, A-H, 1-8
+                                    labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                                     labelPos:'inside', // show labels inside board, default is 'outside'
                                     elCss: {
                                         'background-color': 'transparent',

@@ -231,7 +231,7 @@ chess.view.board.Piece = new Class({
 
         if (this.dd.active) {
             var coords;
-            if (ludo.util.isTabletOrMobile()) {
+            if (ludo.isMobile) {
                 coords = {
                     x: e.target.offsetLeft,
                     y: e.target.offsetTop

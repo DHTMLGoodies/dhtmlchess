@@ -78,8 +78,6 @@
             font-size: 0.8em;
         }
 
-        .
-
 
     </style>
     <!-- DHTML CHESS Part 1-->
@@ -87,6 +85,8 @@
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="../src/view/board/background.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         /* Styling of board */
@@ -95,11 +95,24 @@
             border: 1px solid #e7caa3;
         }
 
+        .dhtml-chess-board-label-inside {
+            font-size: 10px; !important;
+
+        }
+        .dhtml-chess-board-label-inside .dhtml-chess-board-label-file{
+            text-align: right;
+            padding-right:4px;
+        }
+
+        .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank{
+            padding-left:2px;
+            padding-top:2px
+        }
+
         .dhtml-chess-board-container {
             background-color: transparent;
             border: 1px solid #b58159;
             border-radius: 5px;
-            padding: 8px;
 
         }
 
@@ -134,11 +147,11 @@
         }
 
         /** Notation styling */
-        div.chess-notation-panel {
+        div.dhtml-chess-notation-panel {
             text-align: center;
         }
 
-        div.chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move {
+        div.dhtml-chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move {
             color: #b58159;
         }
 
@@ -149,14 +162,17 @@
             border-radius: 3px;
         }
 
+        .dhtml-chess-board-label-even{
+            color:#b58159;
+        }
+        .dhtml-chess-board-label-odd{
+            color:#e7caa3;
+        }
+
         /** Styling of the highlighted square when clicking the hint button */
         .dhtml-chess-square-highlight {
             background-color: #598db5;
             border-width: 0;
-        }
-
-        .dhtml-chess-board-label-file {
-            line-height: 27px;
         }
 
         /** Override some default theme styles */
@@ -281,16 +297,17 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
                     pgn: 'tactic-checkmates',
 
                     board: { // Board configuration
-                        id:'tactics_board',
+                        id: 'tactics_board',
                         // Pieces to choose. The SVG(Scalable vector graphics)
                         // has all prefix svg.
                         // Options: svg_egg, svg_bw(black and white), merida, alpha, alphapale, smart, motif, meridapale,
                         // leipzig, kingdom, cases, alphablue
                         //
+                        padding:'1%', // 1% padding of total board size for all edges
                         pieceLayout: 'svg_bw',
-                        labelPos: 'outside',
+                        labelPos: 'inside',
                         background: {
-                            borderRadius: '1%',
+                            borderRadius: '0.5%',
                             paint: {
                                 'fill': '#9c6f4c'
                             }

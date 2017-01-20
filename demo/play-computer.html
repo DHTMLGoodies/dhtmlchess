@@ -51,15 +51,12 @@
         }
 
         .ludo-twilight .dhtml-chess-board-container{
-            background-color:#444;
-            border-radius:10px;
-            padding-right:25px;
-            padding-top:25px;
+
         }
 
         @media only screen and (max-device-width: 480px) {
             .ludo-twilight .dhtml-chess-board-container{
-                padding:4px !important;
+
                 border-radius:4px;
 
             }
@@ -113,7 +110,14 @@
                 type:'chess.view.board.Board',
                 pieceLayout:'alphapale',
                 boardLayout:'wood',
-                labels:!ludo.util.isTabletOrMobile(),
+                padding:ludo.isMobile ? '1%' : '2.5%',
+                labels:!ludo.isMobile,
+                background:{
+                    borderRadius: '1%',
+                    paint:{
+                        fill: '#444'
+                    }
+                },
                 layout:{
                     weight:1
                 },
@@ -126,6 +130,9 @@
             },
             {
                 height:50,
+                css:{
+                    'margin-top':5
+                },
                 layout:{
                     type:'linear',orientation:'horizontal'
                 },
@@ -141,7 +148,7 @@
             },
             {
                 type:'chess.view.notation.Panel',
-                hidden:ludo.util.isTabletOrMobile(),
+                hidden:ludo.isMobile,
                 layout:{
                     height:100
                 },

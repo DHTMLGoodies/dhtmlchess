@@ -4,7 +4,16 @@
  * @submodule Board
  * @namespace chess.view.board
  * @class Board
- * @extends chess.view.board.GUI
+ * @augments chess.view.board.GUI
+ * @param {Object} config
+ * @param {Object} config.paddings - Percentage(of board size) or numeric values, example: { l: '3%', t:'1%', 'b' : '3%', r: '1%' } where
+ * l is left, t is top, r is right and b is bottom, default: 3% for all sides. If you have labels, the labels will be resized
+ * according to padding.
+ * @param {String} pieceLayout name of pieces to use. Default: svg_alpha_bw.  Possible values:
+ * svg_alpha_bw, svg_alpha_egg, svg_egg, svg, svg_egg, svg-chess7, svg_chessole, merida, meridapale, traveler, svg_bluegrey, smart,
+ * motif, leipzig. The ones with prefix "svg_" uses svg vector graphics which are small in size and without any quality loss. The other
+ * layouts are pixel based bitmaps.
+ * @param {Number} animationDuration Animation duration in secons, default: 0.35
  *
  */
 chess.view.board.Board = new Class({
@@ -12,6 +21,8 @@ chess.view.board.Board = new Class({
     type: 'chess.view.board.Board',
     pieces: [],
     pieceMap: {},
+    
+    
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     /**
      * Duration of piece animations in seconds.
@@ -24,7 +35,7 @@ chess.view.board.Board = new Class({
      * @config string pieceLayout
      * @default alphapale
      */
-    pieceLayout: 'alphapale',
+    pieceLayout: 'svg_alpha_bw',
     /**
      * Layout of board. The name correspondes to the suffix of the CSS class
      * dhtml-chess-board-container-wood. (In this example wood). If you want to create your own

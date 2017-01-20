@@ -7,7 +7,7 @@
 chess.view.command.Panel = new Class({
 	Extends: ludo.View,
 	useController:true,
-	cssSignature : 'chess-command-panel',
+	cssSignature : 'dhtml-chess-command-panel',
 	controller:{
 		type:'chess.view.command.Controller'
 	},
@@ -43,7 +43,7 @@ chess.view.command.Panel = new Class({
      * @param {String} text
      */
 	renderErrorLine:function(text){
-		this.renderLine(text, 'chess-command-panel-error-message');
+		this.renderLine(text, 'dhtml-chess-command-panel-error-message');
 	},
     /**
      * Render message inside panel assigned to optional CSS class(cls)
@@ -53,9 +53,9 @@ chess.view.command.Panel = new Class({
      * @optional
      */
 	renderLine:function(text, cls){
-		if(this.currentLine)ludo.dom.addClass(this.currentLine, 'chess-command-panel-message-old');
+		if(this.currentLine)ludo.dom.addClass(this.currentLine, 'dhtml-chess-command-panel-message-old');
 		var el = document.createElement('div');
-		el.className = cls || 'chess-command-panel-message';
+		el.className = cls || 'dhtml-chess-command-panel-message';
 		el.innerHTML = text;
 		this.getBody().append(el);
 		this.getBody().scrollTop += 100;

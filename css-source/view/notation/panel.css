@@ -11,16 +11,16 @@ span.notation-chess-move-highlighted {
     color: #FFF;
 }
 
-div.chess-notation-panel {
+div.dhtml-chess-notation-panel {
     cursor: default;
 }
 
-div.chess-notation-panel div{
+div.dhtml-chess-notation-panel div{
     font-size:14px;
     line-height:140%;
 }
 
-div.chess-notation-panel div.ludo-body {
+div.dhtml-chess-notation-panel div.ludo-body {
     padding: 5px;
 }
 
@@ -38,7 +38,7 @@ div.ludo-grid-data-cell {
     font-style: italic;
 }
 
-.chess-move-number, .notation-result{
+.dhtml-chess-move-number, .notation-result{
     font-size:0.8em;
     font-weight:bold;
     color:#000;
@@ -63,7 +63,7 @@ div.ludo-grid-data-cell {
     font-weight: normal;
 }
 
-div.chess-notation-panel .ludo-body {
+div.dhtml-chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
@@ -86,7 +86,7 @@ span.notation-chess-move-highlighted{
     border-radius: 3px;
 }
 
-.chess-move-group {
+.dhtml-chess-move-group {
     display:inline-block;
     padding-right:4px;
 }

@@ -469,6 +469,17 @@ div.ludo-FramedView {
     overflow: hidden;
     position: relative;
 }
+
+
+.ludo-noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari*/
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
 /* ../ludojs/css-source/resize.css */
 .ludo-column-resize-handle {
     opacity: 0.05;
@@ -2007,16 +2018,16 @@ span.notation-chess-move-highlighted {
     color: #FFF;
 }
 
-div.chess-notation-panel {
+div.dhtml-chess-notation-panel {
     cursor: default;
 }
 
-div.chess-notation-panel div{
+div.dhtml-chess-notation-panel div{
     font-size:14px;
     line-height:140%;
 }
 
-div.chess-notation-panel div.ludo-body {
+div.dhtml-chess-notation-panel div.ludo-body {
     padding: 5px;
 }
 
@@ -2034,7 +2045,7 @@ div.ludo-grid-data-cell {
     font-style: italic;
 }
 
-.chess-move-number, .notation-result{
+.dhtml-chess-move-number, .notation-result{
     font-size:0.8em;
     font-weight:bold;
     color:#000;
@@ -2059,7 +2070,7 @@ div.ludo-grid-data-cell {
     font-weight: normal;
 }
 
-div.chess-notation-panel .ludo-body {
+div.dhtml-chess-notation-panel .ludo-body {
     overflow-y: auto;
 }
 
@@ -2082,7 +2093,7 @@ span.notation-chess-move-highlighted{
     border-radius: 3px;
 }
 
-.chess-move-group {
+.dhtml-chess-move-group {
     display:inline-block;
     padding-right:4px;
 }
@@ -2104,10 +2115,25 @@ span.notation-chess-move-highlighted{
     text-align: center;
 }
 
+.dhtml-chess-board-label-inside .dhtml-chess-board-label-file{
+    text-align: right;
+    padding-right:2px;
+
+}
+
+.dhtml-chess-board-label-inside .dhtml-chess-board-label-rank{
+    padding-left:2px;
+    padding-top:2px;
+}
+
+.dhtml-chess-board-label{
+    -moz-user-select: ;
+}
 .dhtml-chess-board-label-ranks-container {
     width: 20px;
     font-size:14px;
     font-weight:bold;
+    text-align:center;
 }
 
 .dhtml-chess-board {
@@ -2158,18 +2184,18 @@ div.ludo-grid-data-cell {
     font-size: 12px !important;
 }
 /* ../dhtml-chess/css-source/view/message/tactics-message.css */
-.chess-tactics-message .ludo-body{
+.dhtml-chess-tactics-message .ludo-body{
     text-align:center;
     font-size:20px;
     font-weight:bold;
 }/* ../dhtml-chess/css-source/view/dialog/promote.css */
-.chess-promote-piece{
+.dhtml-chess-promote-piece{
     cursor:pointer;
     padding:5px;
 
 }
 
-.chess-promote-piece .ludo-body{
+.dhtml-chess-promote-piece .ludo-body{
     border-radius:5px;
     border:1px solid !important;
     background-position:center center;
@@ -2177,45 +2203,45 @@ div.ludo-grid-data-cell {
     background-color:#FFF;
 }
 
-.chess-promote-white-queen .ludo-body{
+.dhtml-chess-promote-white-queen .ludo-body{
     background-image:url('../images/alphapale90wq.png');
 }
-.chess-promote-white-rook .ludo-body{
+.dhtml-chess-promote-white-rook .ludo-body{
     background-image:url('../images/alphapale90wr.png');
 }
-.chess-promote-white-bishop .ludo-body{
+.dhtml-chess-promote-white-bishop .ludo-body{
     background-image:url('../images/alphapale90wb.png');
 }
-.chess-promote-white-knight .ludo-body{
+.dhtml-chess-promote-white-knight .ludo-body{
     background-image:url('../images/alphapale90wn.png');
 }
 
-.chess-promote-black-queen .ludo-body{
+.dhtml-chess-promote-black-queen .ludo-body{
     background-image:url('../images/alphapale90bq.png');
 }
-.chess-promote-black-rook .ludo-body{
+.dhtml-chess-promote-black-rook .ludo-body{
     background-image:url('../images/alphapale90br.png');
 }
-.chess-promote-black-bishop .ludo-body{
+.dhtml-chess-promote-black-bishop .ludo-body{
     background-image:url('../images/alphapale90bb.png');
 }
-.chess-promote-black-knight .ludo-body{
+.dhtml-chess-promote-black-knight .ludo-body{
     background-image:url('../images/alphapale90bn.png');
 }/* ../dhtml-chess/css-source/view/command/command.css */
-.chess-command-panel-message, .chess-command-panel-error-message{
+.dhtml-chess-command-panel-message, .dhtml-chess-command-panel-error-message{
     margin:2px;
 }
-.chess-command-panel-error-message{
+.dhtml-chess-command-panel-error-message{
     color:#F00;
 }
-.chess-command-panel .ludo-body{
+.dhtml-chess-command-panel .ludo-body{
     padding:2px;
     overflow-y:auto;
 }
-.chess-command-help-label{
+.dhtml-chess-command-help-label{
     font-weight:bold;
 }
-.chess-command-panel-message-old{
+.dhtml-chess-command-panel-message-old{
     font-style:italic;
     color:#555;
 }/* ../dhtml-chess/css-source/view/position/dialog.css */

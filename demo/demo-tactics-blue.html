@@ -8,6 +8,7 @@
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/board/background.js"></script>
     <script type="text/javascript" src="../src/view/eco/variation-tree.js"></script>
     <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/arrow.js"></script>
@@ -34,7 +35,7 @@
         }
         .dhtml-chess-view-notation-panel .ludo-body,
         .dhtml-chess-board-container,
-        div.chess-notation-panel{
+        div.dhtml-chess-notation-panel{
             background-color:transparent;
         }
 
@@ -48,14 +49,11 @@
             line-height:30px;text-align:center;margin:0;font-size:18px
         }
 
-        .dhtml-chess-board-container{
-            border:1px solid #90CAF9;
-            border-radius:5px;
+        .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank{
+            padding-left:2px;
+            padding-top:2px;
         }
-        #chess_container{
-            width:600px;
-            height:600px;
-        }
+
         /** Mobile css */
         @media only screen and (max-device-width: 600px) {
             html,body{
@@ -89,20 +87,7 @@
             font-size:0.8em;
         }
 
-        .dhtml-chess-board-label-files-container{
-            height:auto;
-        }
 
-        .dhtml-chess-board-label-ranks-container{
-            width:auto;
-            padding-left:5px;
-            padding-top:5px;
-        }
-
-        .dhtml-chess-board-label-file{
-            text-align:right;
-            padding-right:5px;
-        }
         .dhtml-chess-board-label-file, .dhtml-chess-board-label-rank{
             color:#0A246A;
         }

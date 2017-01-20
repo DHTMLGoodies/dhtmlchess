@@ -30,7 +30,7 @@ chess.TacticsFromFile = new Class({
         this.hint = config.hint || {};
 
 
-        this.showLabels = !ludo.util.isTabletOrMobile();
+        this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
         $(document).ready(this.render.bind(this));
     },
@@ -111,7 +111,7 @@ chess.TacticsFromFile = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.util.isTabletOrMobile(), // show labels for ranks, A-H, 1-8
+                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                             labelPos:'inside', // show labels inside board, default is 'outside'
 
                             weight: 1,

@@ -96,15 +96,15 @@ chess.view.dialog.PromotePiece = new Class({
 
     __rendered : function() {
         this.parent();
-        this.getEl().addClass('chess-promote-piece');
+        this.getEl().addClass('dhtml-chess-promote-piece');
         this.getEl().on('click', this.clickOnPiece.bind(this));
 
     },
 
     setColor : function(color) {
-        this.getEl().removeClass('chess-promote-white-' + this.piece);
-        this.getEl().removeClass('chess-promote-black-' + this.piece);
-        this.getEl().addClass('chess-promote-' + color + '-' + this.piece);
+        this.getEl().removeClass('dhtml-chess-promote-white-' + this.piece);
+        this.getEl().removeClass('dhtml-chess-promote-black-' + this.piece);
+        this.getEl().addClass('dhtml-chess-promote-' + color + '-' + this.piece);
     },
 
     clickOnPiece : function(){

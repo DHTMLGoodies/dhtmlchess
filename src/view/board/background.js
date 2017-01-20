@@ -25,6 +25,8 @@ chess.view.board.Background = new Class({
         this.svg = this.view.svg();
 
         this.svg.css('position', 'absolute');
+        this.svg.css('left', '0');
+        this.svg.css('top', '0');
 
         if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
 

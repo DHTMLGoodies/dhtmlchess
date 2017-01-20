@@ -144,7 +144,7 @@ chess.view.notation.Panel = new Class({
 
     ludoDOM: function () {
         this.parent();
-        this.getEl().addClass('chess-notation-panel');
+        this.getEl().addClass('dhtml-chess-notation-panel');
     },
 
     setContextMenuMove: function (el) {
@@ -244,13 +244,13 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-            s = i== 0 ? '<span class="chess-move-group chess-move-group-first">' :  '<span class="chess-move-group">';
+            s = i== 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' :  '<span class="dhtml-chess-move-group">';
             var notation = branch[i][this.notationKey];
             if (i == 0 && moveCounter % 2 != 0 && notation) {
                 if(gs){
                     moves.push(e);
                 }
-                moves.push('<span class="chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
+                moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
                 m.push(s);
                 gs = true;
             }
@@ -261,13 +261,13 @@ chess.view.notation.Panel = new Class({
                 var moveNumber = (moveCounter / 2) + 1;
                 moves.push(s);
                 gs = true;
-                moves.push('<span class="chess-move-number">' + moveNumber + '.</span>');
+                moves.push('<span class="dhtml-chess-move-number">' + moveNumber + '.</span>');
             }
             if (notation) {
                 moveCounter++;
             }
             this.currentMoveIndex++;
-            moves.push('<span class="chess-move-container-' + branch[i].uid + '">');
+            moves.push('<span class="dhtml-chess-move-container-' + branch[i].uid + '">');
             moves.push(this.getDomTextForAMove(branch[i]));
             moves.push('</span>');
 

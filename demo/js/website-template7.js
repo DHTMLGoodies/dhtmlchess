@@ -30,7 +30,7 @@ chess.GameViewer = new Class({
             layout: {
                 width: 'matchParent', height: 'matchParent',
                 type: 'linear',
-                orientation: ludo.util.isTabletOrMobile() ? 'vertical' : 'horizontal'
+                orientation: ludo.isMobile ? 'vertical' : 'horizontal'
             },
             css: {
                 padding: 5
@@ -38,7 +38,7 @@ chess.GameViewer = new Class({
             children: [
                 {
                     layout: {
-                        weight: 1,
+                        weight: ludo.isMobile ? 2 : 1,
                         type: 'linear', orientation: 'vertical'
                     },
                     children: [
@@ -46,7 +46,9 @@ chess.GameViewer = new Class({
                             type:'chess.view.metadata.Game',
                             tpl: '{white} vs {black} - {result}',
                             css:{
-                                'text-align': 'center'
+                                'text-align': 'center',
+                                color: ludo.$C('border'),
+                                'font-weight' : 'bold'
                             },
                             module: this.module, // To make the controller aware of this view
                             layout:{
@@ -57,7 +59,7 @@ chess.GameViewer = new Class({
                         {
                             type: 'chess.view.board.Board',
                             pieceLayout: 'svg_alpha_bw',
-                            labels: !ludo.util.isTabletOrMobile(),
+                            labels: !ludo.isMobile,
                             layout: {
                                 height:'wrap'
                             },
