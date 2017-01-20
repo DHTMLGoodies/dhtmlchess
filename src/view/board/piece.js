@@ -108,7 +108,7 @@ chess.view.board.Piece = new Class({
 
         this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
-        this.el.addClass('ludo-chess-piece');
+        this.el.addClass('dhtml-chess-piece');
         this.position();
 
     },

@@ -23,6 +23,17 @@ var SVGFont = new Class({
         this.createViews();
     },
 
+
+    shouldReverseColors:function(color){
+        switch(this.font){
+            case 'ChessSansMerida.ttf':
+            case 'ChessSansUsual.ttf':
+                return color == 'b';
+            default:
+                return false;
+        }
+    },
+
     createViews: function () {
 
         this.svgs = [];
@@ -35,8 +46,8 @@ var SVGFont = new Class({
                     color: color,
                     type: piece,
                     font: this.font,
-                    fill: this.fill,
-                    stroke: this.stroke,
+                    fill: this.shouldReverseColors(color) ? '#000' : this.fill,
+                    stroke: this.shouldReverseColors(color) ? '#FFF' : this.stroke,
                     css: {
                         padding: 0,
                         'background-color': '#999'
@@ -114,7 +125,37 @@ var SVGMapping = {
         'K': 'l'
 
     },
-    'Chess Merida.ttf': {
+    'ChessSansMerida.ttf': {
+        'p': 'p',
+        'b': 'L',
+        'n': 'S',
+        'r': 'T',
+        'q': 'Q',
+        'k': 'K',
+        'P': 'p',
+        'B': 'L',
+        'N': 'S',
+        'R': 'T',
+        'Q': 'Q',
+        'K': 'K'
+
+    },
+    'ChessSansUsual.ttf': {
+        'p': 'p',
+        'b': 'L',
+        'n': 'S',
+        'r': 'T',
+        'q': 'Q',
+        'k': 'K',
+        'P': 'P',
+        'B': 'L',
+        'N': 'S',
+        'R': 'T',
+        'Q': 'Q',
+        'K': 'K'
+
+    },
+    'ChessSansAlpha.ttf': {
         'p': 'p',
         'b': 'b',
         'n': 'h',
@@ -122,11 +163,26 @@ var SVGMapping = {
         'q': 'q',
         'k': 'k',
         'P': 'o',
-        'B': 'v',
-        'N': 'm',
+        'B': 'n',
+        'N': 'j',
         'R': 't',
         'Q': 'w',
         'K': 'l'
+
+    },
+    'ChessOleFigurin.ttf':{
+        'p': 'b',
+        'b': 'k',
+        'n': 's',
+        'r': 't',
+        'q': 'd',
+        'k': 'l',
+        'P': 'B',
+        'B': 'K',
+        'N': 'S',
+        'R': 'T',
+        'Q': 'D',
+        'K': 'L'
 
     },
     'default': {
@@ -205,7 +261,7 @@ var SVG = new Class({
 
                 var char = this.getChar();
 
-               
+
 
                 var path = font.getPath(char, 0, this.svg().height, this.svg().height);
 
@@ -298,20 +354,21 @@ var SVG = new Class({
     offset: function (x, y) {
 
         console.log(x,y);
-        x = 0;y=0;
+
         var s = this.svg();
 
 
         var final = [];
         var index = 0;
 
+        this.g.setTranslate(x,y);
 
         jQuery.each(this.points, function (i, val) {
             if (isNaN(val)) {
                 final.push(val);
                 index = 0;
             } else {
-                final.push(val + (index % 2 == 1 ? y : x));
+                final.push(val);
                 index++;
             }
         });
@@ -331,9 +388,9 @@ var SVG = new Class({
                     points = [];
                 }
                 points.push(val);
-                index = 0;
+                index++;
             } else {
-                points.push(val + (index % 2 == 1 ? y : x));
+                points.push(val);
                 index++;
             }
 

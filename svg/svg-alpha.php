@@ -81,8 +81,8 @@ for($i=0;$i<0;$i++){
 <script type="text/javascript">
 
 new SVGFont({
-    name:'svg_mill',
-    'font': 'KINGFONT.TTF',
+    name:'merida',
+    'font': 'ChessSansMerida.ttf',
     renderTo:'#wp',
     fill:'#fff'
 });

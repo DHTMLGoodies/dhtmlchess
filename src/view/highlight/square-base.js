@@ -20,11 +20,11 @@ chess.view.highlight.SquareBase = new Class({
     },
 
     createHighlightElement: function (square, renderTo) {
-        var el = renderTo.find('.ludo-chess-square-highlight').first();
+        var el = renderTo.find('.dhtml-chess-square-highlight').first();
         if (!el.length) {
             el = $('<div>');
             el.attr('id', 'ludo-square-highlight-' + String.uniqueID());
-            el.addClass('ludo-chess-square-highlight');
+            el.addClass('dhtml-chess-square-highlight');
         }
         el.css('display', 'none');
         this.els.square[square] = el.attr('id');

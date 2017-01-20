@@ -8,66 +8,109 @@
  * @extends View
  */
 chess.view.board.GUI = new Class({
-    Extends:ludo.View,
-    type:'chess.view.board.GUI',
-    module:'chess',
-    submodule:'board',
-    labels:true,
-    labelPos:'outside', // outside or inside - inside = in the corner of the left and bottom squares.
-    flipped:false,
-    boardLayout:undefined,
-    vAlign:'center',
-    boardCls:undefined,
-    boardCss:undefined,
-    lowerCaseLabels:false,
-    background:undefined,
+    Extends: ludo.View,
+    type: 'chess.view.board.GUI',
+    module: 'chess',
+    submodule: 'board',
+    labels: true,
+    labelPos: 'outside', // outside or inside - inside = in the corner of the left and bottom squares.
+    flipped: false,
+    boardLayout: undefined,
+    vAlign: 'center',
+    boardCls: undefined,
+    boardCss: undefined,
+    lowerCaseLabels: false,
+    background: undefined,
 
-    bg:undefined,
+    bg: undefined,
 
-    internal:{
-        squareSize:30,
-        piezeSize:30,
-        squareSizes:[30, 45, 60, 75, 90, 105],
-        timestampLastResize:0
+    internal: {
+        squareSize: 30,
+        piezeSize: 30,
+        squareSizes: [15,30, 45, 60, 75, 90, 105],
+        timestampLastResize: 0
     },
 
-    __construct:function (config) {
+    __construct: function (config) {
 
         this.parent(config);
         this.setConfigParams(config, [
             'background',
-            'labels','boardCls','boardCss','boardLayout','lowerCaseLabels','chessSet','vAlign','labelPos']);
+            'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
+            'labelPos', 'labelStyles']);
     },
 
-    updateBackgroundPattern:function(horizontal, vertical){
-        if(this.bg){
+    updateBackgroundPattern: function (horizontal, vertical) {
+        if (this.bg) {
             this.bg.setPattern(horizontal, vertical)
         }
+    },
+
+    /**
+     * Update css styling of labels
+     * @function setLabelStyles
+     * @param {object} stylesFiles
+     * @param {object} stylesRanks
+     * @memberof ludo.chess.view.board.Gui.prototype
+     */
+    setLabelStyles: function (stylesFiles, stylesRanks) {
+        this.getBody().find('.dhtml-chess-board-label-file').css(stylesFiles);
+        this.getBody().find('.dhtml-chess-board-label-rank').css(stylesRanks || stylesFiles);
+    },
+
+    hideLabels: function () {
 
     },
 
-    ludoDOM:function () {
+    setPaddings: function (l, t, r, b) {
+        if (arguments.length == 1) {
+            t = r = b = l;
+        }
+
+        ludo.dom.clearCache();
+
+        this.els.boardContainer.css({
+            'padding-left': this.labelPos == 'outside' ? 0 : l,
+            'padding-top': t,
+            'padding-right': r,
+            'padding-bottom': this.labelPos == 'outside' ? 0 : b
+        });
+
+        if (this.labelPos == 'outside') {
+            this.els.labels.ranks.css('width', l);
+            this.labelWidth = undefined;
+
+            this.els.labels.files.css('height', b);
+            this.els.labels.files.css('line-height', b);
+            this.labelHeight = undefined;
+        }
+
+
+        this.resizeBoard();
+
+        console.log(this.els.board.outerWidth(), this.els.board.outerHeight())
+    },
+
+    ludoDOM: function () {
         this.parent();
 
         this.els.labels = {};
 
         this.getBody().css({
-            'padding':0,
-            'margin':0,
-            'border':0
+            'padding': 0,
+            'margin': 0,
+            'border': 0
         });
 
-        if(this.background){
+        if (this.background) {
             this.bg = new chess.view.board.Background(
                 Object.merge({
-                    view:this
+                    view: this
                 }, this.background)
             )
         }
 
         this.createBoardContainer();
-
-
         if (this.hasLabelsOutside()) {
             this.addLabelsForRanks();
         }
@@ -87,42 +130,41 @@ chess.view.board.GUI = new Class({
         }
 
 
-
         if (this.boardLayout) {
-            this.els.boardContainer.addClass('ludo-chess-board-container-' + this.boardLayout);
+            this.els.boardContainer.addClass('dhtml-chess-board-container-' + this.boardLayout);
         }
     },
-    ludoEvents:function () {
+    ludoEvents: function () {
         this.parent();
         $(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
     },
 
-    receiveKeyboardInput:function (e) {
+    receiveKeyboardInput: function (e) {
         if (e.control && e.key === 'f') {
             this.flip();
         }
     },
 
-    __rendered:function () {
+    __rendered: function () {
         this.parent();
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
         this.updateLabels();
     },
 
-    hasLabelsOutside:function(){
+    hasLabelsOutside: function () {
         return this.labels && this.labelPos == 'outside';
     },
-    hasLabelsInside:function(){
+    hasLabelsInside: function () {
         return this.labels && this.labelPos == 'inside';
     },
-    hasLabels:function () {
+    hasLabels: function () {
         return this.labels;
     },
 
-    createBoardContainer:function () {
+    createBoardContainer: function () {
         var el = this.els.boardContainer = $('<div>');
-        el.addClass('ludo-chess-board-container');
+        el.addClass('dhtml-chess-board-container');
         if (this.boardCss) {
             el.css(this.boardCss);
         }
@@ -132,62 +174,62 @@ chess.view.board.GUI = new Class({
         this.getBody().append(el);
     },
 
-    createContainerForBoardAndFileLabels:function () {
+    createContainerForBoardAndFileLabels: function () {
         var el = this.els.boardContainerInner = $('<div>');
         el.css('float', 'left');
         this.els.boardContainer.append(el);
     },
 
-    createBoard:function () {
-        this.els.board = $('<div class="ludo-chess-board"></div>');
+    createBoard: function () {
+        this.els.board = $('<div class="dhtml-chess-board"></div>');
         this.els.board.css({
-            position:'relative',
-            width:this.internal.squareSize * 8,
-            height:this.internal.squareSize * 8
+            position: 'relative',
+            width: this.internal.squareSize * 8,
+            height: this.internal.squareSize * 8
         });
         this.els.boardContainerInner.append(this.els.board);
     },
 
-    createSquares:function () {
+    createSquares: function () {
         var files = 'abcdefgh';
         this.els.squares = [];
 
         for (var i = 0; i < 64; i++) {
             var square = files.substr((i % 8), 1) + Math.ceil(8 - (i / 8));
-            var el = this.els.squares[i] = $('<div class="ludo-chess-square" style="position:relative"></div>');
+            var el = this.els.squares[i] = $('<div class="dhtml-chess-square" style="position:relative"></div>');
             this.els.board.append(el);
             var backgroundPos = Math.round(Math.random() * 100) * -1;
-            el.css('backgroundPosition',  backgroundPos + 'px ' + backgroundPos + 'px');
+            el.css('backgroundPosition', backgroundPos + 'px ' + backgroundPos + 'px');
         }
         this.updateSquares();
     },
 
-    getSquares:function(){
-      return this.els.squares;
+    getSquares: function () {
+        return this.els.squares;
     },
 
-    createPieceContainer:function () {
+    createPieceContainer: function () {
         this.els.pieceContainer = $('<div>');
         this.els.pieceContainer.css({
-            position:'absolute',
-            left:0,
-            top:0,
-            width:'100%',
-            height:'100%'
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+            height: '100%'
         });
         this.els.board.append(this.els.pieceContainer);
     },
 
-    squareBg_white:undefined,
-    squareBg_black:undefined,
+    squareBg_white: undefined,
+    squareBg_black: undefined,
 
-    setSquareBg:function(color, background){
-        if(color != 'white' && color!='black')return;
+    setSquareBg: function (color, background) {
+        if (color != 'white' && color != 'black')return;
         this['squareBg_' + color] = background;
         this.updateSquares();
     },
 
-    updateSquares:function () {
+    updateSquares: function () {
         var types = ['white', 'black'];
         var index = 0;
         for (var i = 0; i < 64; i++) {
@@ -198,16 +240,16 @@ chess.view.board.GUI = new Class({
 
             var t = types[index % 2];
             this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('ludo-chess-square-' + t);
+            this.els.squares[i].addClass('dhtml-chess-square-' + t);
 
-            if(this['squareBg_' + t] != undefined){
-                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] +')');
+            if (this['squareBg_' + t] != undefined) {
+                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
 
             }
         }
     },
 
-    flipSquares:function () {
+    flipSquares: function () {
         var squares = [];
         for (var i = this.els.squares.length - 1; i >= 0; i--) {
             this.els.board.append(this.els.squares[i]);
@@ -216,23 +258,23 @@ chess.view.board.GUI = new Class({
         this.els.squares = squares;
     },
 
-    addLabelsForFiles:function () {
-        var el = this.els.labels.files = $('<div class="ludo-chess-board-label-files-container"></div>');
+    addLabelsForFiles: function () {
+        var el = this.els.labels.files = $('<div class="dhtml-chess-board-label-files-container"></div>');
         el.css({
-            position:this.labelPos == 'outside' ? 'relative' : 'absolute','z-index' : 100
+            position: this.labelPos == 'outside' ? 'relative' : 'absolute', 'z-index': 100
         });
-        if(this.labelPos == 'inside'){
+        if (this.labelPos == 'inside') {
             el.css('bottom', 0);
             el.addClass('chess-board-label-inside');
         }
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
-            var file = this.els.files[i] = $('<div class="ludo-chess-board-label-file"></div>');
+            var file = this.els.files[i] = $('<div class="chess-board-label dhtml-chess-board-label-file"></div>');
             file.addClass('chess-file-label-' + (i % 2 == 0 ? 'odd' : 'even'));
             file.css({
-                'width':this.internal.squareSize + 'px',
-                'float':'left',
-                'overflow':'hidden'
+                'width': this.internal.squareSize + 'px',
+                'float': 'left',
+                'overflow': 'hidden'
             });
             el.append(file);
         }
@@ -243,27 +285,27 @@ chess.view.board.GUI = new Class({
         parent.append(el);
     },
 
-    addLabelsForRanks:function () {
-        var el = this.els.labels.ranks = $('<div class="ludo-chess-board-label-ranks-container"></div>');
-        if(this.labelPos == 'inside'){
+    addLabelsForRanks: function () {
+        var el = this.els.labels.ranks = $('<div class="dhtml-chess-board-label-ranks-container"></div>');
+        if (this.labelPos == 'inside') {
             el.addClass('chess-board-label-inside');
         }
         el.css({
-            position:this.labelPos == 'outside' ? 'relative' : 'absolute',
-            'float':'left',
-            left:'0px', top:'0px',
-            height:'100%','z-index' : 100
+            position: this.labelPos == 'outside' ? 'relative' : 'absolute',
+            'float': 'left',
+            left: '0px', top: '0px',
+            height: '100%', 'z-index': 100
         });
 
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
-            var rank = this.els.ranks[i] = $('<div class="ludo-chess-board-label-rank"></div>');
+            var rank = this.els.ranks[i] = $('<div class="chess-board-label dhtml-chess-board-label-rank"></div>');
             rank.addClass('chess-rank-label-' + (i % 2 == 0 ? 'odd' : 'even'));
             rank.css({
-                'height':this.internal.squareSize + 'px',
-                'overflow':'hidden'
+                'height': this.internal.squareSize + 'px',
+                'overflow': 'hidden'
             });
-            if(this.labelPos == 'outside'){
+            if (this.labelPos == 'outside') {
                 rank.css('line-height', this.internal.squareSize);
             }
 
@@ -276,7 +318,7 @@ chess.view.board.GUI = new Class({
         parent.append(el);
     },
 
-    updateLabels:function () {
+    updateLabels: function () {
         if (!this.hasLabels()) {
             return;
         }
@@ -293,24 +335,24 @@ chess.view.board.GUI = new Class({
             files = files.toLowerCase();
         }
         for (var i = 0; i < 8; i++) {
-            this.els.ranks[i].html( '<span>' + ranks.substr(i, 1) + '</span>');
-            this.els.files[i].html( '<span>' + files.substr(i, 1) + '</span>');
+            this.els.ranks[i].html('<span>' + ranks.substr(i, 1) + '</span>');
+            this.els.files[i].html('<span>' + files.substr(i, 1) + '</span>');
 
         }
     },
 
-    resizeDOM:function () {
+    resizeDOM: function () {
         this.parent();
         this.internal.timestampLastResize = this.getTimeStamp();
         this.resizeBoard();
     },
 
-    autoResizeBoard:function () {
+    autoResizeBoard: function () {
         this.resizeBoard();
     },
-    lastBoardSize:{ x:0, y:0 },
+    lastBoardSize: {x: 0, y: 0},
 
-    boardCoordinates:function() {
+    boardCoordinates: function () {
         var b = this.els.boardContainer;
         var bodyOff = this.getBody().offset();
         var off = b.offset();
@@ -324,23 +366,24 @@ chess.view.board.GUI = new Class({
         return ret;
     },
 
-    resizeBoard:function () {
+    resizeBoard: function () {
 
         var size = this.getNewSizeOfBoardContainer();
         if (size.x < 50 || (size.x == this.lastBoardSize.x && size.y == this.lastBoardSize.y)) {
             return;
         }
 
+        this.resizeLabels();
+
         this.lastBoardSize = size;
 
-        var wOffset = this.els.board.outerWidth(true) - this.els.board.width();
-        var hOffset = this.els.board.outerHeight(true) - this.els.board.height();
+        var wOffset = this.els.board.outerWidth() - this.els.board.width();
+        var hOffset = this.els.board.outerHeight() - this.els.board.height();
         var boardSize = Math.min(
             size.x - this.getLabelWidth() - wOffset,
             size.y - this.getLabelHeight() - hOffset);
 
         boardSize = Math.max(this.internal.squareSizes[0] * 8, Math.floor(boardSize / 8) * 8);
-
 
 
         if (isNaN(boardSize) || boardSize < 0) {
@@ -352,132 +395,158 @@ chess.view.board.GUI = new Class({
         var boardContainerHeight = (boardSize + this.getLabelHeight() + ludo.dom.getMBPH(this.els.board));
 
         this.els.boardContainer.css({
-            width:(boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
-            height:boardContainerHeight + 'px'
+            width: (boardSize + this.getLabelWidth() + ludo.dom.getMBPW(this.els.board)) + 'px',
+            height: boardContainerHeight + 'px'
         });
 
-
-        var marginTop;
-        if (this.vAlign === 'center') {
-            marginTop = Math.floor(this.getBody().height - this.els.boardContainer.outerHeight(true) / 2);
-            marginTop = Math.max(0, marginTop);
-        } else {
-            marginTop = 0;
-        }
-
-        this.els.boardContainer.css('margin-top', marginTop);
+        this.els.boardContainer.css('margin-top', 0);
 
         this.els.board.css({
-            width:boardSize,
-            height:boardSize
+            width: boardSize,
+            height: boardSize
         });
-        this.resizeLabels();
 
+        this.resizeLabels();
         this.resizePieces();
 
+        if (this.hasLabels() && this.labelPos == 'outside') {
+            var padding = parseInt(this.els.boardContainer.css('padding-left'));
+
+            if (padding > 0) {
+                console.log(padding);
+                var w = this.els.labels.ranks.width();
+                this.els.boardContainer.css('padding-left', 0);
+                this.els.labels.ranks.css('width', w + padding);
+                this.labelWidth = undefined;
+
+            }
+
+            padding = parseInt(this.els.boardContainer.css('padding-bottom'));
+            if (padding > 0) {
+                console.log(padding);
+                var h = this.els.labels.files.height();
+                this.els.boardContainer.css('padding-bottom', 0);
+                this.els.labels.files.css('height', h + padding);
+                this.labelHeight = undefined;
+
+            }
+
+
+            ludo.dom.clearCache();
+            this.resizeBoard();
+        }
+
         this.fireEvent('boardResized', this.boardCoordinates());
+
+        console.log(this.els.board.outerWidth(), this.els.board.outerHeight())
     },
 
-    resizeLabels:function () {
+    resizeLabels: function () {
         if (!this.hasLabels()) {
             return;
         }
-		var spacing = ludo.dom.getMBPH(this.els.ranks[0]);
+        var spacing = ludo.dom.getMBPH(this.els.ranks[0]);
         var spacingFiles = ludo.dom.getMBPW(this.els.files[0]);
         var sizeRanks = this.internal.squareSize - spacing;
         var sizeFiles = this.internal.squareSize - spacingFiles;
         if (isNaN(sizeRanks)) {
             return;
         }
+        this.els.labels.files.css('line-height', this.els.labels.files.height() + 'px');
+
         for (var i = 0; i < 8; i++) {
             this.els.ranks[i].css('height', sizeRanks + 'px');
-            if(this.labelPos == 'outside')this.els.ranks[i].css('line-height', sizeRanks + 'px');
+            if (this.labelPos == 'outside')this.els.ranks[i].css('line-height', sizeRanks + 'px');
             this.els.files[i].css('width', sizeFiles + 'px');
+
         }
     },
 
-    resizeSquares:function () {
+    resizeSquares: function () {
         for (var i = 0; i < 64; i++) {
             this.els.squares[i].css({
-                width:'12.5%',
-                height:'12.5%'
+                width: '12.5%',
+                height: '12.5%'
             });
         }
     },
 
-    getNewPieceSize:function () {
+    getNewPieceSize: function () {
         return this.internal.squareSize - this.internal.squareSize % 15;
     },
 
-    getNewSizeOfBoardContainer:function () {
+    getNewSizeOfBoardContainer: function () {
         var b = this.els.boardContainer;
         var c = this.getBody();
-        var widthOffset = ludo.dom.getBW(b) + ludo.dom.getPW(b);
-        var heightOffset = ludo.dom.getBH(b) + ludo.dom.getPH(b);
 
-        var size = { x: c.width(), y: c.height() };
+        var widthOffset = b.outerWidth() - b.width();
+        var heightOffset = b.outerHeight() - b.height();
+
+        console.log(widthOffset, heightOffset);
+
+        var size = {x: c.width(), y: c.height()};
         size = {
-            x:size.x - widthOffset,
-            y:size.y - heightOffset
+            x: size.x - widthOffset,
+            y: size.y - heightOffset
         };
         return size;
     },
 
-    flip:function () {
+    flip: function () {
         this.flipped = !this.flipped;
         this.updateLabels();
         this.flipSquares();
         this.fireEvent('flip', this);
 
     },
-    isFlipped:function () {
+    isFlipped: function () {
         return this.flipped;
     },
 
-    labelHeight:undefined,
-    getLabelHeight:function () {
-        if (!this.labels ||this.labelPos == 'inside') {
+    labelHeight: undefined,
+    getLabelHeight: function () {
+        if (!this.labels || this.labelPos == 'inside') {
             return 0;
         }
         if (this.labelHeight === undefined) {
-            this.labelHeight = this.els.labels.files.outerHeight(true);
+            this.labelHeight = this.els.labels.files.outerHeight();
         }
         return this.labelHeight;
     },
 
-    labelWidth:undefined,
-    getLabelWidth:function () {
-        if (!this.labels ||this.labelPos == 'inside') {
+    labelWidth: undefined,
+    getLabelWidth: function () {
+        if (!this.labels || this.labelPos == 'inside') {
             return 0;
         }
         if (this.labelWidth === undefined) {
-            this.labelWidth = this.els.labels.ranks.outerWidth(true);
+            this.labelWidth = this.els.labels.ranks.outerWidth();
         }
         return this.labelWidth;
     },
 
-    getBoard:function () {
+    getBoard: function () {
         return this.els.pieceContainer;
     },
 
-    getPieceSize:function () {
+    getPieceSize: function () {
         return this.internal.pieceSize;
     },
 
-    getSquareSize:function () {
+    getSquareSize: function () {
         return this.internal.squareSize;
     },
 
-    getTimeStamp:function () {
+    getTimeStamp: function () {
         return new Date().getTime();
     },
 
-    getHeightOfContainer:function () {
+    getHeightOfContainer: function () {
         return this.getBody().height();
 
     },
 
-    getSquareByCoordinates:function (x, y) {
+    getSquareByCoordinates: function (x, y) {
         var offset = this.internal.squareSize / 2;
         x += offset;
         y += offset;
@@ -498,7 +567,7 @@ chess.view.board.GUI = new Class({
         return x + y * 16;
     },
 
-    wrappedHeight:function(size){
+    wrappedHeight: function (size) {
         return Math.min(size.width, size.height);
     }
 });

@@ -1,24 +1,24 @@
-.ludo-chess-button-bar-gray{
+.dhtml-chess-button-bar-gray{
     width:300px;
     height:25px;
     background-image:url(../../images/buttonbar/gray/bar-left.png);
     background-repeat:no-repeat;
 }
-.ludo-chess-button-container{
+.dhtml-chess-button-container{
     margin: 0 auto;
     position:relative;
 }
 
-.ludo-chess-button-separator{
+.dhtml-chess-button-separator{
     position:absolute;
 }
 
-div.ludo-chess-button{
+div.dhtml-chess-button{
     position:absolute;
     cursor: pointer;
 }
 
-div.ludo-chess-button-bar-right-edge{
+div.dhtml-chess-button-bar-right-edge{
     width:14px;
     height:25px;
     position:absolute;
@@ -27,60 +27,60 @@ div.ludo-chess-button-bar-right-edge{
     background-image:url(../../images/buttonbar/gray/bar-right.png);
     background-repeat:no-repeat;
 }
-.ludo-chess-button-bar-gray .ludo-chess-button{
+.dhtml-chess-button-bar-gray .dhtml-chess-button{
     width:23px;
     height:25px;
 }
 
-.ludo-chess-button-bar-gray .ludo-chess-button-separator{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-separator{
     background-image:url(../../images/buttonbar/gray/separator.png);
     width:1px;
     height:25px;
 }
-.ludo-chess-button-disabled{
+.dhtml-chess-button-disabled{
     opacity:.5;
     filter:alpha(opacity=50);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-previous{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-previous{
     background-image:url(../../images/buttonbar/gray/previous.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-next{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-next{
     background-image:url(../../images/buttonbar/gray/next.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-play{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-play{
     background-image:url(../../images/buttonbar/gray/play.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-start{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-start{
     background-image:url(../../images/buttonbar/gray/start.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-end{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-end{
     background-image:url(../../images/buttonbar/gray/end.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-flip{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-flip{
     background-image:url(../../images/buttonbar/gray/flip.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-pause{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-pause{
     background-image:url(../../images/buttonbar/gray/pause.png);
 }
 
-.ludo-chess-button-bar-gray .ludo-chess-button-previous.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-previous.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/previous-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-next.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-next.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/next-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-play.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-play.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/play-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-start.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-start.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/start-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-end.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-end.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/end-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-flip.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-flip.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/flip-on.png);
 }
-.ludo-chess-button-bar-gray .ludo-chess-button-pause.ludo-chess-button-over{
+.dhtml-chess-button-bar-gray .dhtml-chess-button-pause.dhtml-chess-button-over{
     background-image:url(../../images/buttonbar/gray/pause-on.png);
 }

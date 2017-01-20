@@ -10,7 +10,7 @@ chess.view.buttonbar.Game = new Class({
     module:'chess',
     submodule:'buttonbar.game',
     height:25,
-    buttonTheme:'ludo-chess-button-bar-gray',
+    buttonTheme:'dhtml-chess-button-bar-gray',
     buttons:['start', 'previous', 'play', 'pause', 'next', 'end', 'flip'],
     isAtEndOfBranch:false,
 
@@ -38,7 +38,7 @@ chess.view.buttonbar.Game = new Class({
 
         this.getBody().css('width', '100%');
 
-        var buttonContainer = this.els.buttonContainer = $('<div class="ludo-chess-button-container"></div>');
+        var buttonContainer = this.els.buttonContainer = $('<div class="dhtml-chess-button-container"></div>');
         this.getBody().append(buttonContainer);
 
         var buttons = this.buttons;
@@ -164,7 +164,7 @@ chess.view.buttonbar.Game = new Class({
     },
 
     addRightedgeElement:function () {
-        var rightBar = $('<div class="ludo-chess-button-bar-right-edge"></div>');
+        var rightBar = $('<div class="dhtml-chess-button-bar-right-edge"></div>');
         this.getBody().append(rightBar);
 
         var size = { x: rightBar.outerWidth(),y:rightBar.outerHeight() };
@@ -230,8 +230,8 @@ chess.view.buttonbar.Game = new Class({
      */
     disableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
-            this.els.chessButtons[buttonType].addClass('ludo-chess-button-disabled');
-            this.els.chessButtons[buttonType].removeClass('ludo-chess-button-over');
+            this.els.chessButtons[buttonType].addClass('dhtml-chess-button-disabled');
+            this.els.chessButtons[buttonType].removeClass('dhtml-chess-button-over');
         }
     },
     /**
@@ -242,15 +242,15 @@ chess.view.buttonbar.Game = new Class({
      */
     enableButton:function (buttonType) {
         if (this.els.chessButtons[buttonType] !== undefined) {
-            this.els.chessButtons[buttonType].removeClass('ludo-chess-button-disabled');
+            this.els.chessButtons[buttonType].removeClass('dhtml-chess-button-disabled');
         }
     },
 
     getChessButton:function (buttonType) {
         var el = $('<div></div>');
         el.attr('buttonType', buttonType);
-        el.addClass('ludo-chess-button');
-        el.addClass('ludo-chess-button-' + buttonType);
+        el.addClass('dhtml-chess-button');
+        el.addClass('dhtml-chess-button-' + buttonType);
         el.mouseenter(this.enterChessButton.bind(this));
         el.mouseleave(this.leaveChessButton.bind(this));
         el.on('click', this.clickOnButton.bind(this));
@@ -259,22 +259,22 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getChessButtonSeparator:function () {
-        return $('<div class="ludo-chess-button-separator"></div>');
+        return $('<div class="dhtml-chess-button-separator"></div>');
 
     },
 
     enterChessButton:function (e) {
-        if (!$(e.target).hasClass('ludo-chess-button-disabled')) {
-            $(e.target).addClass('ludo-chess-button-over');
+        if (!$(e.target).hasClass('dhtml-chess-button-disabled')) {
+            $(e.target).addClass('dhtml-chess-button-over');
         }
     },
     leaveChessButton:function (e) {
-        $(e.target).removeClass('ludo-chess-button-over');
+        $(e.target).removeClass('dhtml-chess-button-over');
     },
 
     clickOnButton:function (e) {
         var button = $(e.target);
-        if (!button.hasClass('ludo-chess-button-disabled')) {
+        if (!button.hasClass('dhtml-chess-button-disabled')) {
             var buttonType = button.attr('buttonType');
             if (buttonType === 'play') {
                 this.enableButton('pause');

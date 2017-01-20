@@ -96,11 +96,11 @@
 
 
 
-        .ludo-chess-board {
+        .dhtml-chess-board {
             border: 1px solid #daac78;
         }
 
-        .ludo-chess-board-container {
+        .dhtml-chess-board-container {
             background-color: #039BE5;
             border: 1px solid #daac78;
             border-radius: 5px;
@@ -116,9 +116,9 @@
             border-right: 1px solid #aaa;
         }
 
-        .ludo-chess-board-label-ranks-container {
+        .dhtml-chess-board-label-ranks-container {
         }
-        .ludo-chess-board-label-files-container .ludo-chess-board-label-file {
+        .dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
         }
 
         .chess-board-label-inside span {
@@ -128,25 +128,23 @@
 
         /** custom square background */
 
-        .ludo-chess-board-container-wood .ludo-chess-square-white {
+        .dhtml-chess-board-container-wood .dhtml-chess-square-white {
             background-image: url(../images/board/lighter-wood.png);
         }
 
-        .ludo-chess-board-container-wood .ludo-chess-square-black {
+        .dhtml-chess-board-container-wood .dhtml-chess-square-black {
             background-image: url(../images/board/darker-wood.png);
         }
 
         /** Display labels(A-H, 1-8) in smaller font */
-        .ludo-chess-board-label-ranks-container,
-        .ludo-chess-board-label-files-container{
+        .dhtml-chess-board-label-ranks-container,
+        .dhtml-chess-board-label-files-container{
         }
 
 
         /* Coloring of labels */
 
-        .ludo-chess-board-label-file{
-            line-height:27px;
-        }
+
         .chess-rank-label-odd, .chess-file-label-even {
             color: #daac78;
         }
@@ -171,12 +169,12 @@
         }
 
         /** Styling of the highlighted square when clicking the hint button */
-        .ludo-chess-square-highlight{
+        .dhtml-chess-square-highlight{
             background-color:#0D47A1;
             border-width:0;
         }
 
-        .ludo-chess-board-container{
+        .dhtml-chess-board-container{
             background-color:transparent;!important;
         }
 
@@ -190,7 +188,7 @@
             background-color:transparent;
         }
 
-        .ludo-chess-view-metadata-game div.ludo-body{
+        .dhtml-chess-view-metadata-game div.ludo-body{
             color:#333;
         }
 
@@ -198,10 +196,15 @@
             background-color:transparent;
         }
 
+        .dhtml-chess-board-label-ranks-container {
+
+            text-align:center;
+        }
+
         /** Mobile css */
         @media only screen and (max-device-width: 600px) {
             /* Smaller padding around board on mobile */
-            .ludo-chess-board-container {
+            .dhtml-chess-board-container {
                 border-radius: 0;
                 padding:5px;
 

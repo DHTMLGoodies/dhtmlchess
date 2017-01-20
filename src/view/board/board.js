@@ -27,7 +27,7 @@ chess.view.board.Board = new Class({
     pieceLayout: 'alphapale',
     /**
      * Layout of board. The name correspondes to the suffix of the CSS class
-     * ludo-chess-board-container-wood. (In this example wood). If you want to create your own
+     * dhtml-chess-board-container-wood. (In this example wood). If you want to create your own
      * board layout. You can specify a custom value for boardLayout, create your own graphic and
      * implement your own CSS rules. Take a look at css/board/board.css for more info
      * @config string boardLayout
