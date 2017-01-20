@@ -323,11 +323,33 @@ var app = new ludo.Application({
 
                     children:[
                         {
-                            type:'chess.view.metadata.FenField',
-                            height:27,
-
-                            tpl:'FEN: <input type="text" value="{fen}">'
-                        },
+                            layout:{
+                                height:27,
+                                type:'table',simple:true,
+                                columns:[{
+                                    width:30
+                                }, {weight:1}]
+                            },
+                            children:[
+                                {
+                                    type:'form.Label',
+                                    labelFor:'fendField',
+                                    label:'Fen:',
+                                    css:{
+                                        'line-height' : '27px',
+                                        'padding-left' : 2
+                                    }
+                                } ,
+                                {
+                                    id:'fenField',
+                                    type:'chess.view.metadata.FenField',
+                                    height:27,
+                                    readonly:true,
+                                    tpl:'FEN: <input type="text" value="{fen}">'
+                                }
+                            ]
+                        }
+                        ,
                         {
                             weight:1,
 

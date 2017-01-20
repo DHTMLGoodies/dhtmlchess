@@ -23,6 +23,14 @@ chess.view.metadata.FenField = new Class({
         this.controller.addEvent('nextmove', this.showFen.bind(this));
     },
 
+    __rendered:function(){
+        this.parent();
+        this.getFormEl().on('click', this.selectEl.bind(this));
+    },
+    selectEl:function(){
+        this.getFormEl().select();
+    },
+
     showFen : function(model){
         var fen = model.getCurrentPosition();
         this._set(fen);
