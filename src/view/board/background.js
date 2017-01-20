@@ -109,6 +109,9 @@ chess.view.board.Background = new Class({
 
         this.onNewBorderRadius(this.els.clip, radius);
         if(this.els.paintRect){
+            if(this.paint['stroke-width']){
+                radius -= parseFloat(this.paint['stroke-width']) / 2;
+            }
             this.onNewBorderRadius(this.els.paintRect, radius);
         }
 

@@ -893,20 +893,20 @@ div.ludo-tab-strip-right div.ludo-body {
 }
 
 .ludo-tab-expand-box-top{
-    background-image:url(../images/layout/tabs-expand-top.png?rnd=3);
+    background-image:url(../ludojs/images/layout/tabs-expand-top.png);
 }
 
 .ludo-tab-expand-box-top-over{
-    background-image:url(../images/layout/tabs-expand-top-over.png?rnd=3);
+    background-image:url(../ludojs/images/layout/tabs-expand-top-over.png);
 }
 
 
 .ludo-tab-expand-box-bottom{
-    background-image:url(../images/layout/tabs-expand-bottom.png?rnd=3);
+    background-image:url(../ludojs/images/layout/tabs-expand-bottom.png);
 }
 
 .ludo-tab-expand-box-bottom-over{
-    background-image:url(../images/layout/tabs-expand-bottom-over.png?rnd=3);
+    background-image:url(../ludojs/images/layout/tabs-expand-bottom-over.png);
 }
 
 
@@ -2959,20 +2959,20 @@ tab layout */
 }
 
 .ludo-light-gray .ludo-tab-expand-box-top{
-    background-image:url(../images/blue-skin/tabs-expand-top.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-top.png);
 }
 
 .ludo-light-gray .ludo-tab-expand-box-top-over{
-    background-image:url(../images/blue-skin/tabs-expand-top-over.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-top-over.png);
 }
 
 
 .ludo-light-gray .ludo-tab-expand-box-bottom{
-    background-image:url(../images/blue-skin/tabs-expand-bottom.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-bottom.png);
 }
 
 .ludo-light-gray .ludo-tab-expand-box-bottom-over{
-    background-image:url(../images/blue-skin/tabs-expand-bottom-over.png?rnd=3);
+    background-image:url(../ludojs/images/blue-skin/tabs-expand-bottom-over.png);
 }
 
 .ludo-light-gray .ludo-tab-strip-tab-txt-svg,.ludo-light-gray .ludo-tab-strip-tab-txt-svg-active{

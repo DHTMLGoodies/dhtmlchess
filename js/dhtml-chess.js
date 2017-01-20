@@ -1,4 +1,4 @@
-/* Generated Fri Jan 20 16:06:43 CET 2017 */
+/* Generated Fri Jan 20 16:44:27 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -3399,12 +3399,17 @@ ludo.Core = new Class({
 
     applyplugins:function(){
         if (this.plugins) {
-            for (var i = 0; i < this.plugins.length; i++) {
-                this.plugins[i].parentComponent = this;
-                this.plugins[i] = this.createDependency('plugins' + i, this.plugins[i]);
-            }
+			jQuery.each(this.plugins, function(i, plugin){
+				this.addPlugin(plugin, i);
+			}.bind(this));
         }
     },
+
+	addPlugin:function(plugin, i){
+		i = i != undefined ? i : this.plugins.length;
+		plugin.parentComponent = this;
+		this.plugins[i] = this.createDependency('plugins' + i, plugin);
+	},
 
 	__construct:function(config){
         this.setConfigParams(config, ['url','name','controller','module','submodule','stateful','id','useController','plugins']);
@@ -19340,6 +19345,7 @@ ludo.dialog.Dialog = new Class({
 			}
 		}
 		this.parent(config);
+	
         this.setConfigParams(config, ['modal','autoRemove','autoHideOnBtnClick']);
 	},
 
@@ -30420,7 +30426,7 @@ chess.view.board.GUI = new Class({
     labelPos: 'outside', // outside or inside - inside = in the corner of the left and bottom squares.
     flipped: false,
     boardLayout: undefined,
-    vAlign: 'center',
+    vAlign: 'middle',
     boardCls: undefined,
     boardCss: undefined,
     lowerCaseLabels: false,
@@ -30806,7 +30812,16 @@ chess.view.board.GUI = new Class({
             return;
         }
 
+        var mt = 0;
+
+        if(this.vAlign == 'middle'){
+            mt = Math.max(0, (this.getBody().height() - this.getBody().width()) / 2);
+        }else if(this.vAlign =='bottom'){
+            mt = Math.max(0, (this.getBody().height() - this.getBody().width()));
+        }
+
         this.els.boardContainer.css({
+            top:mt,
             width: boardSize + 'px',
             height: boardSize + 'px'
         });
@@ -30814,6 +30829,7 @@ chess.view.board.GUI = new Class({
 
         this.internal.squareSize = boardSize / 8;
         this.internal.pieceSize = this.getNewPieceSize();
+
 
 
         this.els.board.css({
@@ -32102,6 +32118,9 @@ chess.view.board.Background = new Class({
 
         this.onNewBorderRadius(this.els.clip, radius);
         if(this.els.paintRect){
+            if(this.paint['stroke-width']){
+                radius -= parseFloat(this.paint['stroke-width']) / 2;
+            }
             this.onNewBorderRadius(this.els.paintRect, radius);
         }
 
@@ -33484,6 +33503,24 @@ chess.view.message.TacticsMessage = new Class({
     autoHideMessage:function () {
         this.getBody().html('');
     }
+});/* ../dhtml-chess/src/view/dialog/dialog.js */
+chess.view.dialog.Dialog = new Class({
+    Extends: ludo.dialog.Dialog,
+
+    showDialog:function(){
+        if (this.controller.views.board) {
+            this.layout.centerIn = this.controller.views.board;
+            this.getLayout().getRenderer().clearFn();
+            this.getLayout().getRenderer().resize();
+
+        }
+
+        this.show();
+
+        if (!this.controller.views.board){
+            this.center();
+        }
+    }
 });/* ../dhtml-chess/src/view/dialog/new-game.js */
 /**
  * New game dialog. This dialog listens to the newGameDialog event from the controller.
@@ -33591,7 +33628,7 @@ chess.view.dialog.EditGameMetadata = new Class({
  * @extends ludo.dialog.Dialog
  */
 chess.view.dialog.OverwriteMove = new Class({
-	Extends:ludo.dialog.Dialog,
+	Extends:chess.view.dialog.Dialog,
 	type:'chess.view.dialog.OverwriteMove',
 	module:'chess',
 	submodule:'dialogOverwriteMove',
@@ -33669,7 +33706,9 @@ chess.view.dialog.OverwriteMove = new Class({
 	},
 
 	showDialog:function (model, moves) {
-        this.show();
+
+		this.parent();
+
 		this.move = moves;
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
 		this.html('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');
@@ -33685,77 +33724,80 @@ chess.view.dialog.OverwriteMove = new Class({
  * @extends dialog.Dialog
  */
 chess.view.dialog.Promote = new Class({
-    Extends:ludo.dialog.Dialog,
-    module:'chess',
-    submodule:'dialogPromote',
-    layout:{
-		type:'grid',
-		columns:2,
-        rows:2
-	},
-    width:300,
+    Extends: chess.view.dialog.Dialog,
+    module: 'chess',
+    submodule: 'dialogPromote',
+    layout: {
+        type: 'grid',
+        columns: 2,
+        rows: 2,
+        width: 300,
+        height: 330
+    },
     hidden: true,
-    height:330,
-    title : 'Promote to',
-    pieces : [],
-    move : undefined,
-    autoRemove : false,
+    title: 'Promote to',
+    pieces: [],
+    move: undefined,
+    autoRemove: false,
 
-    children:[
+    children: [
         {
-            type:'chess.view.dialog.PromotePiece',
-            piece:'queen',
-            layout:{x:0,y:0}
+            type: 'chess.view.dialog.PromotePiece',
+            piece: 'queen',
+            layout: {x: 0, y: 0}
         },
         {
-            type:'chess.view.dialog.PromotePiece',
-            piece:'rook',
-            layout:{x:1,y:0}
+            type: 'chess.view.dialog.PromotePiece',
+            piece: 'rook',
+            layout: {x: 1, y: 0}
         },
         {
-            type:'chess.view.dialog.PromotePiece',
-            piece:'bishop',
-            layout:{x:0,y:1}
+            type: 'chess.view.dialog.PromotePiece',
+            piece: 'bishop',
+            layout: {x: 0, y: 1}
         },
         {
-            type:'chess.view.dialog.PromotePiece',
-            piece:'knight',
-            layout:{x:1,y:1}
+            type: 'chess.view.dialog.PromotePiece',
+            piece: 'knight',
+            layout: {x: 1, y: 1}
         }
     ],
 
-    setController:function (controller) {
+    setController: function (controller) {
         this.parent(controller);
-        this.controller.addEvent('verifyPromotion', this.showDialog.bind(this))
+        this.controller.addEvent('verifyPromotion', this.showDialog.bind(this));
+
+
     },
 
-    __rendered:function () {
+    __rendered: function () {
         this.parent();
-        for(var i=0;i<this.children.length;i++){
+        for (var i = 0; i < this.children.length; i++) {
             this.children[i].addEvent('click', this.clickOnPiece.bind(this));
         }
     },
 
-    setColor : function(color){
-        for(var i=0;i<this.children.length;i++){
+    setColor: function (color) {
+        for (var i = 0; i < this.children.length; i++) {
             this.children[i].setColor(color);
         }
 
     },
 
-    clickOnPiece:function (piece) {
+    clickOnPiece: function (piece) {
         this.move.promoteTo = piece;
-		/**
-		 * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
-		 * @event promote
-		 * @param {chess.model.Move} updatedMove
-		 */
+        /**
+         * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
+         * @event promote
+         * @param {chess.model.Move} updatedMove
+         */
         this.fireEvent('promote', this.move);
         this.hide();
     },
 
-    showDialog : function(model, move){
-        this.show();
+    showDialog: function (model, move) {
+        this.parent();
+
         this.move = move;
         this.setColor(model.getColorToMove());
 
@@ -33763,29 +33805,29 @@ chess.view.dialog.Promote = new Class({
 });
 
 chess.view.dialog.PromotePiece = new Class({
-    Extends:ludo.View,
-    type:'chess.view.dialog.PromotePiece',
-    piece:undefined,
-    framed : true,
-    __construct:function (config) {
+    Extends: ludo.View,
+    type: 'chess.view.dialog.PromotePiece',
+    piece: undefined,
+    framed: true,
+    __construct: function (config) {
         this.parent(config);
         this.piece = config.piece
     },
 
-    __rendered : function() {
+    __rendered: function () {
         this.parent();
         this.getEl().addClass('dhtml-chess-promote-piece');
         this.getEl().on('click', this.clickOnPiece.bind(this));
 
     },
 
-    setColor : function(color) {
+    setColor: function (color) {
         this.getEl().removeClass('dhtml-chess-promote-white-' + this.piece);
         this.getEl().removeClass('dhtml-chess-promote-black-' + this.piece);
         this.getEl().addClass('dhtml-chess-promote-' + color + '-' + this.piece);
     },
 
-    clickOnPiece : function(){
+    clickOnPiece: function () {
         this.fireEvent('click', this.piece);
     }
 });/* ../dhtml-chess/src/view/dialog/comment.js */

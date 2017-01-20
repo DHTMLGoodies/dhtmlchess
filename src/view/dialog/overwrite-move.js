@@ -7,7 +7,7 @@
  * @extends ludo.dialog.Dialog
  */
 chess.view.dialog.OverwriteMove = new Class({
-	Extends:ludo.dialog.Dialog,
+	Extends:chess.view.dialog.Dialog,
 	type:'chess.view.dialog.OverwriteMove',
 	module:'chess',
 	submodule:'dialogOverwriteMove',
@@ -85,7 +85,9 @@ chess.view.dialog.OverwriteMove = new Class({
 	},
 
 	showDialog:function (model, moves) {
-        this.show();
+
+		this.parent();
+
 		this.move = moves;
 		this.setTitle('Overwrite move ' + moves.oldMove.lm);
 		this.html('Do you want to overwrite move <b>' + moves.oldMove.lm + '</b> with <b>' + moves.newMove.lm + '</b> ?');

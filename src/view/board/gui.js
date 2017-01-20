@@ -16,7 +16,7 @@ chess.view.board.GUI = new Class({
     labelPos: 'outside', // outside or inside - inside = in the corner of the left and bottom squares.
     flipped: false,
     boardLayout: undefined,
-    vAlign: 'center',
+    vAlign: 'middle',
     boardCls: undefined,
     boardCss: undefined,
     lowerCaseLabels: false,
@@ -402,7 +402,16 @@ chess.view.board.GUI = new Class({
             return;
         }
 
+        var mt = 0;
+
+        if(this.vAlign == 'middle'){
+            mt = Math.max(0, (this.getBody().height() - this.getBody().width()) / 2);
+        }else if(this.vAlign =='bottom'){
+            mt = Math.max(0, (this.getBody().height() - this.getBody().width()));
+        }
+
         this.els.boardContainer.css({
+            top:mt,
             width: boardSize + 'px',
             height: boardSize + 'px'
         });
@@ -410,6 +419,7 @@ chess.view.board.GUI = new Class({
 
         this.internal.squareSize = boardSize / 8;
         this.internal.pieceSize = this.getNewPieceSize();
+
 
 
         this.els.board.css({

@@ -7,6 +7,11 @@
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
+    <script type="text/javascript" src="../src/view/board/background.js"></script>
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+
+    <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <style type="text/css">
         body, html {
             width: 100%;
@@ -14,10 +19,6 @@
             font-family: arial !important;
         }
 
-        .dhtml-chess-board-container {
-            border: 1px solid #C0C0C0;
-            background-color: #f5f5f5;
-        }
 
         .dhtml-chess-board {
             border: 1px solid #000;
@@ -88,9 +89,20 @@
                         type:'chess.view.board.Board',
 
                         labels:true,
-                        weight:1,
+                        layout:{
+                            height:'wrap'
+                        },
                         elCss:{
+                            'margin-top':5,
                             'margin-bottom':5
+                        },
+                        background:{
+                            borderRadius:'2%',
+                            paint:{
+                                fill:'#ddd',
+                                stroke:'#aaa',
+                                'stroke-width' : 1
+                            }
                         },
                         plugins:[
                             {
@@ -105,11 +117,13 @@
                     },
                     {
                         type:'chess.view.buttonbar.Game',
-                        width:200,
+                        layout:{
+                            width:200,
+                            height:30
+                        },
                         elCss:{
                             margin:2
-                        },
-                        height:30
+                        }
                     }
                 ]
             },
@@ -145,14 +159,6 @@
                                 type:'chess.view.notation.Panel',
                                 notations:'long',
                                 showContextMenu:true
-                            },
-                            {
-                                title:'Eco',
-                                type:'chess.view.eco.VariationTree',
-                                css:{
-                                    'background-color':'#FFF',
-                                    'overflow-y':'auto'
-                                }
                             }
                         ]
                     }
