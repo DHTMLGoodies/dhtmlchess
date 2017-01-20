@@ -74,7 +74,18 @@ chess.view.highlight.ArrowBase = new Class({
 	showMove:function (move) {
 
 		this.currentMove = move;
-		var coordinates = this.getCoordinates(move);
+		this.resizeArrow();
+
+	},
+
+	onParentResize:function(){
+		if(this.currentMove){
+			this.resizeArrow();
+		}
+	},
+	
+	resizeArrow:function(){
+		var coordinates = this.getCoordinates(this.currentMove);
 		this.show();
 		this.increaseZIndex();
 		this.el.css({
@@ -85,8 +96,8 @@ chess.view.highlight.ArrowBase = new Class({
 		});
 		this.arrow.fitParent();
 		this.arrow.newPath(coordinates);
-
 	},
+	
 	increaseZIndex:function () {
 		ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
 		this.el.css('zIndex', ludo_CHESS_PIECE_GLOBAL_Z_INDEX);

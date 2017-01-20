@@ -30,12 +30,7 @@ chess.view.board.ArrowSVG = new Class({
 	 * 0 = 90 degrees from line to left and right tip of arrow, positive value = less than 90 degrees
 	 */
 	arrowOffset:0,
-
-	/**
-	 @config arrowPaint
-	 @type {ludo.svg.Paint}
-	 @example
-	 */
+	
 	arrowPaint:undefined,
 
 	__construct:function (config) {
