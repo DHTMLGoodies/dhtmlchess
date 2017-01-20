@@ -1,4 +1,4 @@
-/* Generated Fri Jan 20 15:55:36 CET 2017 */
+/* Generated Fri Jan 20 16:06:43 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -7903,7 +7903,7 @@ ludo.layout.Renderer = new Class({
             case 'centerIn':
                 return function () {
                     var pos = value.offset();
-                    c.top = (pos.top + value.height()) / 2 - (c.height / 2);
+                    c.top = (pos.top + (value.height() / 2)) - (c.height / 2);
                     c.left = (pos.left + value.outerWidth()) / 2 - (c.width / 2);
                 };
             case 'centerHorizontalIn':
@@ -7912,7 +7912,7 @@ ludo.layout.Renderer = new Class({
                 };
             case 'centerVerticalIn':
                 return function () {
-                    c.top = (value.offset().top + value.height()) / 2 - (c.height / 2);
+                    c.top = (value.offset().top + (value.height() / 2)) - (c.height / 2);
                 };
             case 'sameWidthAs':
                 return function () {
@@ -19368,7 +19368,6 @@ ludo.dialog.Dialog = new Class({
 	__rendered:function () {
 		this.parent();
 		if (!this.isHidden()) {
-            this.center();
 			this.showShim();
 		}
 		var buttons = this.getButtons();
@@ -19397,7 +19396,9 @@ ludo.dialog.Dialog = new Class({
 	},
 
 	showShim:function () {
-        this.center();
+        if(!this.layout){
+			this.center();
+		}
 		if (this.isModal()) {
 			this.getShim().css({
 				display:'',
@@ -30660,7 +30661,7 @@ chess.view.board.GUI = new Class({
     },
 
     addLabelsForFiles: function () {
-        var el = this.els.labels.files = $('<div class="dhtml-chess-board-label-files-container"></div>');
+        var el = this.els.labels.files = $('<div class="dhtml-chess-board-label-files-container ludo-noselect"></div>');
         el.css({
             position: 'absolute', 'z-index': 100, 'bottom': 0
         });
@@ -30687,7 +30688,7 @@ chess.view.board.GUI = new Class({
     },
 
     addLabelsForRanks: function () {
-        var el = this.els.labels.ranks = $('<div class="dhtml-chess-board-label-ranks-container"></div>');
+        var el = this.els.labels.ranks = $('<div class="dhtml-chess-board-label-ranks-container  ludo-noselect"></div>');
         if (this.labelPos == 'inside') {
             el.addClass('dhtml-chess-board-label-inside');
         }
@@ -39476,6 +39477,9 @@ chess.controller.TacticController = new Class({
 			hidden:true,
 			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
 			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
+			layout:{
+				centerIn:this.views.board
+			},
 			listeners:{
 				'ok':function () {
 					if(this.gameEndHandler != undefined){

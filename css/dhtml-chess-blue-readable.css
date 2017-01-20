@@ -2126,9 +2126,7 @@ span.notation-chess-move-highlighted{
     padding-top:2px;
 }
 
-.dhtml-chess-board-label{
-    -moz-user-select: ;
-}
+
 .dhtml-chess-board-label-ranks-container {
     width: 20px;
     font-size:14px;

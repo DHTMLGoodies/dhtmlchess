@@ -57,6 +57,9 @@ chess.controller.TacticController = new Class({
 			hidden:true,
 			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
 			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
+			layout:{
+				centerIn:this.views.board
+			},
 			listeners:{
 				'ok':function () {
 					if(this.gameEndHandler != undefined){
