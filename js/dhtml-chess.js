@@ -1,4 +1,4 @@
-/* Generated Sat Jan 21 3:11:39 CET 2017 */
+/* Generated Sat Jan 21 13:59:56 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -29850,7 +29850,194 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/cookie/cookie.js */
     }
 
     return init(function () {});
-}));/* ../dhtml-chess/src/language/default.js */
+}));/* ../dhtml-chess/src/view/chess.js */
+/**
+ * A special top in hierarchy chess view with support for theme attribute.
+ * The properties described in the theme will be applied to child views
+ * (example board, notations etc).
+ * @class chess.view.Chess
+ * @param {Object} config
+ * @param {Object} config.theme
+ * @example
+ * new chess.view.Chess({
+ *      renderTo:$(document.body),
+ *      layout:{
+ *          height:'matchParent',width:'matchParent'
+ *      },
+ *      theme:{
+                'chess.view.board.Board': {
+                    background: {
+                        borderRadius: '1%',
+                        horizontal: ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip-horizontal.png',
+                        vertical: ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip-vertical.png'
+                    },
+                    bgWhite:ludo.config.getDocumentRoot() + 'images/board/lighter-wood.png',
+                    bgBlack:ludo.config.getDocumentRoot() + 'images/board/darker-wood.png',
+                    plugins: [
+                        {
+                            type: 'chess.view.highlight.Arrow'
+                        },
+                        {
+                            type: 'chess.view.highlight.ArrowTactic'
+                        },
+                        {
+                            type: 'chess.view.highlight.SquareTacticHint'
+                        }
+                    ]
+                },
+                'chess.view.dialog.PuzzleSolved ':{
+                    title: 'Nice one.',
+                    html: 'You solved this chess puzzle. Click OK to load next.'
+                }
+
+
+            },
+        children:[
+            { type:'chess.view.board.Board'
+            ...
+            }
+        ]
+ */
+chess.view.Chess = new Class({
+    Extends: ludo.View,
+
+    __construct:function(config){
+
+        if(config.theme == undefined && chess.THEME != undefined){
+            config.theme = chess.THEME;
+        }
+
+        if(config.theme != undefined){
+            this.theme = config.theme;
+
+            if(this.theme.css){
+                this.updateCss();
+            }
+            config.children = this.parseChildren(config);
+
+        }
+
+        this.parent(config);
+    },
+
+    __rendered:function(){
+        this.parent();
+        if(this.theme && this.theme.name){
+            $(document.documentElement).addClass(this.cssClass());
+        }
+    },
+
+    cssClass:function(){
+        return 'chess-theme-' + this.theme.name;
+    },
+
+    updateCss:function(){
+        new chess.util.DynamicStyles('.' + this.cssClass(), this.theme.css);
+    },
+
+
+    parseChildren:function(config){
+        var children =  config.children || this.__children();
+
+        this.parseBranch(children);
+        
+        return children;
+    },
+    
+    parseBranch:function(children){
+        jQuery.each(children, function(i, child){
+            if(child.type && this.theme[child.type] != undefined){
+                child = Object.merge(child, this.theme[child.type]);
+            }
+            if(child.children != undefined) {
+                this.parseBranch(child.children);
+            }
+
+        }.bind(this));
+    }
+});/* ../dhtml-chess/src/util/dynamic-styles.js */
+/**
+ * Created by alfmagne1 on 21/01/2017.
+ */
+chess.util = chess.util || {};
+chess.util.DynamicStyles = new Class({
+
+    parentSelector:undefined,
+
+    initialize:function(parentSelector, styles){
+
+        this.parentSelector = parentSelector;
+        jQuery.each(styles, function(selector, rules){
+
+            this.insertRule(selector, rules);
+
+        }.bind(this));
+
+    },
+
+    insertRule: function (selector, rules, contxt) {
+        var context = contxt || document, stylesheet;
+        if(selector.indexOf(',') > 0){
+            selector = selector.split(/,/g);
+        }
+        if(!jQuery.isArray(selector)){
+            selector = [selector];
+        }
+
+        jQuery.each(selector, function(i, sel){
+            if(sel.indexOf('body.') == -1){
+                selector[i] = this.parentSelector + ' ' + sel.trim();
+            }
+        }.bind(this));
+
+        rules = this.rulesAsString(rules);
+        if (typeof context.styleSheets == 'object') {
+            if (context.styleSheets.length) {
+                stylesheet = context.styleSheets[context.styleSheets.length - 1];
+            }
+            if (context.styleSheets.length) {
+                if (context.createStyleSheet) {
+                    stylesheet = context.createStyleSheet();
+                }
+                else {
+                    context.getElementsByTagName('head')[0].appendChild(context.createElement('style'));
+                    stylesheet = context.styleSheets[context.styleSheets.length - 1];
+                }
+            }
+            if (stylesheet.addRule) {
+                for (var i = 0; i < selector.length; ++i) {
+                    console.log('selector: ' + selector[i], 'rules: '  + rules);
+                    stylesheet.addRule(selector[i], rules);
+                }
+            }
+            else {
+                stylesheet.insertRule(selector.join(',') + '{' + rules + '}', stylesheet.cssRules.length);
+            }
+        }
+    },
+
+    rulesAsString:function(rules){
+
+
+        if(jQuery.isPlainObject(rules)){
+            var ret = "";
+            jQuery.each(rules, function(key, val){
+                if(ret.length> 0){
+                    ret += ';'
+                }
+                ret += key + ':';
+                ret += val;
+
+            });
+
+            return ret;
+        }
+
+        return rules;
+
+    }
+
+});/* ../dhtml-chess/src/language/default.js */
 /**
  * Default language specification
  * @type {Object}
@@ -30017,6 +30204,7 @@ chess.view.notation.Panel = new Class({
         c.addEvent('deleteMove', this.showMoves.bind(this));
         c.addEvent('setPosition', this.setCurrentMove.bind(this));
         c.addEvent('nextmove', this.setCurrentMove.bind(this));
+        c.addEvent('correctGuess', this.setCurrentMove.bind(this));
         c.addEvent('updateMove', this.updateMove.bind(this));
         c.addEvent('newMove', this.appendMove.bind(this));
         c.addEvent('beforeLoad', this.beforeLoad.bind(this));
@@ -30122,6 +30310,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setCurrentMove: function (model) {
+
         var move = model.getCurrentMove();
         if (move) {
             this.highlightMove($("#" + this.moveMapNotation[move.uid]));
@@ -39035,7 +39224,7 @@ chess.controller.Controller = new Class({
         this.parent(config);
         this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
 
-        this.theme = this.theme || {};
+        this.theme = this.theme || chess.THEME || {};
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -40386,8 +40575,9 @@ chess.model.Game = new Class({
                 if (nextMoves[i].promoteTo) {
                     move.promoteTo = nextMoves[i].promoteTo;
                 }
-                this.fire('correctGuess', nextMoves[i]);
+
                 this.goToMove(nextMoves[i]);
+                this.fire('correctGuess', nextMoves[i]);
                 return true;
             }
         }

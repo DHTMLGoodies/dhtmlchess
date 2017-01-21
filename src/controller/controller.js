@@ -27,7 +27,7 @@ chess.controller.Controller = new Class({
         this.parent(config);
         this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
 
-        this.theme = this.theme || {};
+        this.theme = this.theme || chess.THEME || {};
 
         this.createDefaultViews();
         this.createDefaultModel();

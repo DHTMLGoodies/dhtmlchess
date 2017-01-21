@@ -465,8 +465,9 @@ chess.model.Game = new Class({
                 if (nextMoves[i].promoteTo) {
                     move.promoteTo = nextMoves[i].promoteTo;
                 }
-                this.fire('correctGuess', nextMoves[i]);
+
                 this.goToMove(nextMoves[i]);
+                this.fire('correctGuess', nextMoves[i]);
                 return true;
             }
         }

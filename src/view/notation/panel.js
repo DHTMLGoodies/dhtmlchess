@@ -85,6 +85,7 @@ chess.view.notation.Panel = new Class({
         c.addEvent('deleteMove', this.showMoves.bind(this));
         c.addEvent('setPosition', this.setCurrentMove.bind(this));
         c.addEvent('nextmove', this.setCurrentMove.bind(this));
+        c.addEvent('correctGuess', this.setCurrentMove.bind(this));
         c.addEvent('updateMove', this.updateMove.bind(this));
         c.addEvent('newMove', this.appendMove.bind(this));
         c.addEvent('beforeLoad', this.beforeLoad.bind(this));
@@ -190,6 +191,7 @@ chess.view.notation.Panel = new Class({
     },
 
     setCurrentMove: function (model) {
+
         var move = model.getCurrentMove();
         if (move) {
             this.highlightMove($("#" + this.moveMapNotation[move.uid]));

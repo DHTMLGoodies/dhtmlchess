@@ -109,15 +109,14 @@ chess.view.board.Background = new Class({
 
         this.onNewBorderRadius(this.els.clip, radius);
         if(this.els.paintRect){
-            if(this.paint['stroke-width']){
-                radius -= parseFloat(this.paint['stroke-width']) / 2;
-            }
+
             this.onNewBorderRadius(this.els.paintRect, radius);
         }
 
     },
 
     onNewBorderRadius:function(el, radius){
+
         el.set('rx', radius);
         el.set('ry', radius);
 
@@ -170,7 +169,9 @@ chess.view.board.Background = new Class({
 
             this.els.paintRect = this.svg.$('rect');
             this.els.paintRect.css(this.paint);
-
+            if(!this.paint.fill){
+                this.els.paintRect.css('fill-opacity', 0);
+            }
             this.svg.append(this.els.paintRect);
         }
 
@@ -222,11 +223,17 @@ chess.view.board.Background = new Class({
 
     resize: function (size) {
 
+        var sw = 0;
+        if(this.paint != undefined && this.paint['stroke-width']){
+            sw = parseFloat(this.paint['stroke-width']);
+        }
+
+
         this.size = Math.min(size.width, size.height);
 
         if (this.els.paintRect) {
 
-            this.updateRect(this.els.paintRect, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+            this.updateRect(this.els.paintRect, size.left + sw / 2, size.top+ sw / 2, this.size - sw, this.size - sw, this.borderRadius, this.borderRadius);
         }
 
         this.updateRect(this.els.clip, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
@@ -235,6 +242,9 @@ chess.view.board.Background = new Class({
         var cx = size.width / 2 + size.left;
         var cy = size.height / 2 + size.top;
         var radius = this.size / 2;
+
+        radius -= sw / 2;
+
 
         this.paths.t.set('d', [
             'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
@@ -250,6 +260,8 @@ chess.view.board.Background = new Class({
         this.paths.r.set('d', [
             'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
         ].join(' '));
+
+
 
 
         this.setBorderRadius(this.borderRadius);

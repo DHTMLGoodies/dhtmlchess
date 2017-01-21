@@ -25,7 +25,7 @@ chess.GameViewer = new Class({
 
     render: function () {
 
-        this.view = new ludo.View({
+        this.view = new chess.view.Chess({
             renderTo: this.renderTo,
             layout: {
                 width: 'matchParent', height: 'matchParent',

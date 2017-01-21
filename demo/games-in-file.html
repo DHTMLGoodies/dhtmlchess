@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../src/controller/controller.js"></script>
     <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
     <script type="text/javascript" src="../src/view/score/bar.js"></script>
+
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
 
@@ -99,16 +100,18 @@ ludo.config.setUrl('../router.php');
 ludo.config.setDocumentRoot('../');
 
 
-var app = new ludo.Application({
+var app = new chess.view.Chess({
     id:'gamesApp',
     css:{
         border:0,
         'margin':5,
         padding:3
     },
-
+    renderTo:$(document.body),
     layout:{
-        type:'navbar'
+        type:'navbar',
+        width:'matchParent',
+        height:'matchParent'
     },
     overflow:'hidden',
 

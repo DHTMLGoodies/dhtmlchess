@@ -50,15 +50,38 @@ chess.view.Chess = new Class({
 
     __construct:function(config){
 
+        if(config.theme == undefined && chess.THEME != undefined){
+            config.theme = chess.THEME;
+        }
+
         if(config.theme != undefined){
             this.theme = config.theme;
+
+            if(this.theme.css){
+                this.updateCss();
+            }
             config.children = this.parseChildren(config);
 
         }
 
         this.parent(config);
-
     },
+
+    __rendered:function(){
+        this.parent();
+        if(this.theme && this.theme.name){
+            $(document.documentElement).addClass(this.cssClass());
+        }
+    },
+
+    cssClass:function(){
+        return 'chess-theme-' + this.theme.name;
+    },
+
+    updateCss:function(){
+        new chess.util.DynamicStyles('.' + this.cssClass(), this.theme.css);
+    },
+
 
     parseChildren:function(config){
         var children =  config.children || this.__children();

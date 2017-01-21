@@ -82,7 +82,7 @@
     </style>
     <!-- DHTML CHESS Part 1-->
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/background.js"></script>
@@ -90,30 +90,21 @@
     <script type="text/javascript" src="../src/view/dialog/puzzle-solved.js"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
+    <script type="text/javascript" src="../src/model/game.js"></script>
     <script type="text/javascript" src="../src/controller/controller.js"></script>
     <script type="text/javascript" src="../src/controller/tactic-controller.js"></script>
     <script type="text/javascript" src="../src/controller/tactic-controller-gui.js"></script>
     <script type="text/javascript" src="../src/view/chess.js"></script>
+    <script type="text/javascript" src="../src/util/dynamic-styles.js"></script>
+    <script type="text/javascript" src="../src/themes/wood1.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
         /* Styling of board */
 
-        div.ludo-twilight {
-            background-color: transparent;
-        }
-
-        .ludo-twilight .ludo-view{
-            background-color: transparent;
-
-        }
-
-        div.ludo-window{
-            background-color:#535353 !important;
-        }
-
 
     </style>
+
     <!-- End DHTML Chess part 1 -->
 </head>
 
@@ -186,45 +177,12 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
              * Defining properties for the views used in the demo.
              * These rules will be merged with the default values
              * */
-            var theme = {
-                'chess.view.board.Board': {
-                    background: {
-                        borderRadius: '1%',
-                        horizontal: ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip-horizontal.png',
-                        vertical: ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip-vertical.png'
-                    },
-                    bgWhite:ludo.config.getDocumentRoot() + 'images/board/lighter-wood.png',
-                    bgBlack:ludo.config.getDocumentRoot() + 'images/board/darker-wood.png',
-                    plugins: [
-                        {
-                            type: 'chess.view.highlight.Arrow'
-                        },
-                        {
-                            type: 'chess.view.highlight.ArrowTactic'
-                        },
-                        {
-                            type: 'chess.view.highlight.SquareTacticHint'
-                        }
-                    ]
-                },
-                'chess.view.dialog.PuzzleSolved ':{
-                    title: 'Nice one.',
-                    html: 'You solved this chess puzzle. Click OK to load next.'
-                },
-                'chess.view.notation.TacticPanel':{
-                    css:{
-                        'text-align' : 'center',
-                        color:'#444'
-                    }
-                }
 
-
-            };
 
             $(document).ready(function () {
                 new chess.view.Chess({
                     renderTo: '#dhtml-chess',
-                    theme: theme,
+                    theme: chess.THEME,
                     layout: {
                         type: 'fill',
                         height: 'matchParent',

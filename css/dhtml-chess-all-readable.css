@@ -2046,6 +2046,7 @@ div.ludo-grid-data-cell {
 }
 
 .dhtml-chess-move-number, .notation-result{
+    display:inline-block;
     font-size:0.8em;
     font-weight:bold;
     color:#000;
