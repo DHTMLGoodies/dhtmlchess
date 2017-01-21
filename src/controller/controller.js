@@ -21,11 +21,13 @@ chess.controller.Controller = new Class({
     pgn : undefined,
     debug:true,
 
+
     __construct:function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.setConfigParams(config, ['debug', 'pgn','databaseId']);
+        this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
 
+        this.theme = this.theme || {};
 
         this.createDefaultViews();
         this.createDefaultModel();
@@ -33,13 +35,19 @@ chess.controller.Controller = new Class({
 
     createDefaultViews:function () {
         if(chess.view.dialog != undefined){
-            if(chess.view.dialog.OverwriteMove != undefined)new chess.view.dialog.OverwriteMove();
-            if(chess.view.dialog.Promote != undefined)new chess.view.dialog.Promote();
-            if(chess.view.dialog.Comment != undefined)new chess.view.dialog.Comment();
-            if(chess.view.dialog.NewGame != undefined)new chess.view.dialog.NewGame();
-            if(chess.view.dialog.EditGameMetadata != undefined)new chess.view.dialog.EditGameMetadata();
+            this.createView(chess.view.dialog.OverwriteMove);
+            this.createView(chess.view.dialog.Promote);
+            this.createView(chess.view.dialog.Comment);
+            this.createView(chess.view.dialog.NewGame);
+            this.createView(chess.view.dialog.EditGameMetadata);
         }
     },
+
+    createView:function(type){
+        var c = this.theme[type] || {};
+        return Object.create(type, c);
+    },
+
 
     createDefaultModel:function () {
         var model = this.getNewModel();

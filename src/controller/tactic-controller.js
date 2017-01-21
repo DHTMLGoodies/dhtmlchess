@@ -50,16 +50,13 @@ chess.controller.TacticController = new Class({
 	},
 
 	getDialogPuzzleComplete:function () {
-		return new ludo.dialog.Alert({
+
+		var c = {
 			autoRemove:false,
-			height:150,
-			width:250,
-			hidden:true,
-			title:chess.getPhrase('tacticPuzzleSolvedTitle'),
-			html:chess.getPhrase('tacticPuzzleSolvedMessage'),
 			layout:{
 				centerIn:this.views.board
 			},
+			hidden:true,
 			listeners:{
 				'ok':function () {
 					if(this.gameEndHandler != undefined){
@@ -69,7 +66,13 @@ chess.controller.TacticController = new Class({
 					}
 				}.bind(this)
 			}
-		});
+		};
+		
+		if(this.theme['chess.view.dialog.PuzzleSolved'] != undefined){
+			c = Object.merge(c, this.theme['chess.view.dialog.PuzzleSolved']);
+			
+		}
+		return new chess.view.dialog.PuzzleSolved(c);
 	},
 	
 	addViewFeatures:function () {

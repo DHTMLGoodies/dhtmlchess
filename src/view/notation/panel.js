@@ -1,10 +1,38 @@
 /**
- Game notation panel.
+ Chess notation panel
+
+ CSS Classes used by the notation panel:
+
+ div.dhtml-chess-notation-panel - for the entire panel
+ span.notation-chess-move - css for a move, example: e4
+ span.notation-chess-move-highlighted - css for highlighted(current) move
+ span.notation-result - css for the result at the end (1-0, 1/2-1/2, 0-1)
+ div.notation-branch - css for a line of moves(main line or variation)
+ div.notation-branch-depth-0 - css for a lines of moves- main line has 0 at the end. A variation has 1, sub variation 2 and so on
+ span.dhtml-chess-move-group - css for a pair of moves(example: 1. e4 e5)
+ span.dhtml-chess-move-number - css for the move number in front of a move, example: 1.
+ span.notation-comment - css for a comment
+
+ Some css rules have default rules, so you may want to add !important; after your css settings,
+ example:
+ span-notation-chess-move-highlighted{
+    color:#FFF; !important;
+    background-color:#fff; important;
+    border-radius:5px;
+ }
+
  @namespace chess.view.notation
  @class Panel
  @extends View
  @constructor
  @param {Object} config
+ @param {String} config.figurine For use of figurines(images). The chess pieces are located inside the images folder. The first characters in the file name describe their
+ types, example: 'svg_alpha_bw'. It is recommended to use the files starting with 'svg' for this since these are small vector based image files.
+ @param {Number} config.figurineHeight - Optional height of figurines in pixels, default: 18
+ @param {Boolean} config.interactive - Boolean to allow game navigation by clicking on the moves(default: true). For tactics puzzles, the value should be false.
+ @param {String} config.notations - 'short' or 'long'. Short format is 'e4'. Long format is 'e2-e4'. When using figurines, short format will always be used.
+ @param {String} config.showContextMenu - True to support context menu for editing moves(grade, add comments etc). default: false
+ @param {Boolean} config.showResult - Show result after last move, example: 1-0. Default: true
  @example
  children:[
  ...
@@ -28,13 +56,7 @@ chess.view.notation.Panel = new Class({
     moveMapNotation: {},
     notationKey: 'm',
     figurineHeight: 18,
-    /**
-     * Long or short notations. Example of long: "e2-e4". Example of short: "e4".
-     * Valid values : "short" and "long"
-     * @config notations
-     * @type {String}
-     * @default 'short'
-     */
+
     notations: 'short',
     contextMenuMove: undefined,
     currentMoveIndex: 0,
@@ -341,7 +363,8 @@ chess.view.notation.Panel = new Class({
 
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
 
-            if (this.figurines && move['m'].indexOf('O') == -1) {
+
+            if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'pawn') {
                 var p = move.p;
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'knight' ? 'n' : p.type.substr(0, 1);

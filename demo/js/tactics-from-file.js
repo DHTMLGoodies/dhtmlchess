@@ -57,6 +57,7 @@ chess.TacticsFromFile = new Class({
                             height: 35,
                             type: 'chess.view.metadata.Game',
                             tpl: '#{index} - {white}',
+                            cls:'metadata',
                             css: {
                                 'text-align': 'center',
                                 'overflow-y': 'auto',
