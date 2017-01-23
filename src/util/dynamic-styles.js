@@ -48,7 +48,6 @@ chess.util.DynamicStyles = new Class({
             }
             if (stylesheet.addRule) {
                 for (var i = 0; i < selector.length; ++i) {
-                    console.log('selector: ' + selector[i], 'rules: '  + rules);
                     stylesheet.addRule(selector[i], rules);
                 }
             }

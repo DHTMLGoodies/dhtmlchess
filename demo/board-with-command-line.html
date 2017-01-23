@@ -5,7 +5,7 @@
     <title>Analysis Board with command line - DHTML Chess</title>
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/background.js"></script>
@@ -13,6 +13,9 @@
     <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/arrow.js"></script>
     <script type="text/javascript" src="../src/view/metadata/fen-field.js"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/bar.js"></script>
+    <script type="text/javascript" src="../src/controller/controller.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <style type="text/css">
@@ -121,17 +124,24 @@
                         ]
                     },
                     {
-                        type:'chess.view.buttonbar.Game',
-                        width:200,
+                        type:'chess.view.buttonbar.Bar',
                         elCss:{
                             margin:2
                         },
-                        height:40
+                        height:70,
+                        background:{
+                            borderRadius:'50%',
+                            paint:{
+                                fill:'#444',
+                                'stroke-width': 1,
+                                stroke : '#222'
+                            }
+                        }
                     }
                 ]
             },
             {
-                width:350,
+                width:250,
                 collapsed:false,
                 layout:{ type:'rows' },
                 type:'FramedView',

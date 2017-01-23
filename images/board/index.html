@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of background images</title>
+    <script type="text/javascript" src="../../jquery/jquery-3.1.0.min.js"></script>
+    <style type="text/css">
+        html,body{
+            font-family:arial;
+        }
+        .imageBox{
+            background-color:#DDD;
+            padding:5px;
+            margin-right:10px;
+            margin-bottom:10px;
+            float:left;
+            width:150px;
+            height:170px;
+            border-radius:5px;
+            text-align:center;
+        }
+        .imageBox img{
+        }
+        .imageBox h4{
+            font-size:12px;
+            margin:0;padding:2px;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+    $.ajax({
+        url:'files.json',
+        cache:false,
+        complete:function(res){
+            var files = res.responseJSON;
+            files.sort(function(a,b){
+                return a.h > b.h ? -1 : 1
+            });
+
+            jQuery.each(files, function(i, file){
+
+                var el = $('<div class="imageBox"></div>');
+                el.append($('<h4>' + file.file + '</h4>'));
+                el.append($('<img style="width:140px" src="' + file.file + '">'));
+
+                $(document.body).append(el);
+            });
+        }
+    })
+</script>
+
+</body>
+</html>

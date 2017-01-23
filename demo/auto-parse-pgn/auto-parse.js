@@ -124,6 +124,8 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
+        return;
+
 
         if(this.index > 0 && this.index % 20 == 0){
             return;

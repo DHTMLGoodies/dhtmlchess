@@ -6,14 +6,11 @@ chess.THEME = {
     name: 'wood1',
     css: {
         ".dhtml-chess-board": {
-            "border": "1px solid #f4d199"
+            "border": "1px solid #e1b886"
         },
         ".dhtml-chess-board-label-ranks-container,.dhtml-chess-board-label-files-container": {},
-        ".chess-rank-label-odd, .chess-file-label-even": {
-            "color": "#f6cc96"
-        },
         ".chess-rank-label-even,  .chess-file-label-odd": {
-            "color": "#f6cc96"
+            "color": "#e1b886"
         },
         "div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move": {
             "color": "#333"
@@ -44,19 +41,20 @@ chess.THEME = {
     'chess.view.board.Board': {
         pieceLayout:'svg_alpha_egg',
         labelStyles:{
-            'color': '#FFF'
+            'color': '#e1b886'
         },
+        padding:'3.5%',
         background:{
             borderRadius:'1%',
-            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip4-horizontal.png',
-            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip4-vertical.png',
+            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip6-horizontal.png',
+            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip6-vertical.png',
             paint:{
-                'stroke-width': 0.5,
-                'stroke' : '#a45834'
+                'stroke-width': 1,
+                'stroke' : '#e1b886'
             }
         },
-        bgWhite: ludo.config.getDocumentRoot() + 'images/board/lightest-wood.png',
-        bgBlack: ludo.config.getDocumentRoot() + 'images/board/wood-1.png',
+        bgWhite: ludo.config.getDocumentRoot() + 'images/board/lighter-wood.png',
+        bgBlack: ludo.config.getDocumentRoot() + 'images/board/wood8.png',
         plugins: [
             {
                 type: 'chess.view.highlight.Arrow',

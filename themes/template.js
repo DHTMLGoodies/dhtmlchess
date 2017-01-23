@@ -3,10 +3,11 @@
  *
  */
 chess.THEME = {
-    name: 'wood1',
+    name: 'NAME_OF_THEME',
     css: {
+        /* CSS STYLING **/
         ".dhtml-chess-board": {
-            "border": "1px solid #f4d199"
+            "border": "1px solid #a45834"
         },
         ".dhtml-chess-board-label-ranks-container,.dhtml-chess-board-label-files-container": {},
         ".chess-rank-label-odd, .chess-file-label-even": {
@@ -15,9 +16,11 @@ chess.THEME = {
         ".chess-rank-label-even,  .chess-file-label-odd": {
             "color": "#f6cc96"
         },
+        /* Styling of notation moves */
         "div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move": {
             "color": "#333"
         },
+        /* Styling of highlighted notation moves */
         "span.notation-chess-move-highlighted": {
             "background-color": "#0D47A1",
             "color": "#FFF",
@@ -27,6 +30,7 @@ chess.THEME = {
             "background-color": "#0D47A1",
             "border-width": "0"
         },
+        /* Styling of popup windows */
         "div.ludo-window": {
             "background-color": "#535353"
         },
@@ -42,17 +46,22 @@ chess.THEME = {
     },
 
     'chess.view.board.Board': {
-        pieceLayout:'svg_bw',
+        pieceLayout:'svg_alpha_egg',
         labelStyles:{
-            'color': '#f6cc96'
+            'color': '#333'
         },
+        padding:'3.5%',
         background:{
             borderRadius:'1%',
-            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/red-wood-strip-horizontal.png',
-            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/red-wood-strip-vertical.png'
+            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip5-horizontal.png',
+            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip5-vertical.png',
+            paint:{
+                'stroke-width': 1,
+                'stroke' : '#a45834'
+            }
         },
         bgWhite: ludo.config.getDocumentRoot() + 'images/board/lightest-wood.png',
-        bgBlack: ludo.config.getDocumentRoot() + 'images/board/red-wood.png',
+        bgBlack: ludo.config.getDocumentRoot() + 'images/board/wood-1.png',
         plugins: [
             {
                 type: 'chess.view.highlight.Arrow',
@@ -83,6 +92,4 @@ chess.THEME = {
             color: '#444'
         }
     }
-
-
 };

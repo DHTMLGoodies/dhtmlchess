@@ -1,4 +1,4 @@
-/* Generated Sat Jan 21 13:59:56 CET 2017 */
+/* Generated Mon Jan 23 3:29:13 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -4117,7 +4117,7 @@ ludo.svg.Util = {
         var node = $('<div>');
         node.addClass(className);
         node.css('display', 'none');
-        $(document.body).append(node);
+        ludo.Theme.getThemeEl().append(node);
 
         var ret = {
             'fill': ludo.svg.Util.toRGBColor(node.css('background-color')),
@@ -4133,8 +4133,9 @@ ludo.svg.Util = {
         var node = $('<div>');
         node.addClass(className);
         node.css('display', 'none');
-        $(document.body).append(node);
+        ludo.Theme.getThemeEl().append(node);
 
+      
         var lh = node.css('line-height').replace(/[^0-9\.]/g, '');
         if (!lh) {
             lh = node.css('font-size');
@@ -4463,11 +4464,16 @@ ludo.svg.Node = new Class({
         return this.css('display') == 'none';
     },
 
-    setProperties: function (p) {
+    
+    setAttributes:function(p){
         jQuery.each(p, function(key, val){
 
             this.set(key, val);
         }.bind(this));
+    },
+    
+    setProperties: function (p) {
+        this.setProperties(p);
     },
 
     /**
@@ -5629,7 +5635,7 @@ ludo.layout.TextBox = new Class({
         s.visibility = 'hidden';
         s.position = 'absolute';
         span.className = this.className;
-        document.body.append(span);
+        $(document.body).append(span);
 
         s.fontSize = '12px';
         s.fontWeight = 'normal';
@@ -17048,6 +17054,7 @@ ludo.Scroller = new Class({
     },
 
     getHeight:function () {
+
         return this.active ? this.els.el.height() : 0;
     },
 
@@ -18819,7 +18826,7 @@ ludo.grid.Grid = new Class({
 		if (height < 0) {
 			return;
 		}
-		this.els.body.css('height', height);
+		this.els.body.css('height', height - this.gridHeader.getHeight());
 		this.cachedInnerHeight = height;
 
 
@@ -18829,7 +18836,7 @@ ludo.grid.Grid = new Class({
 			this.resizeDOM.delay(100, this);
 			return;
 		}
-		this.els.dataContainerTop.css('height', contentHeight - this.gridHeader.getHeight());
+		this.els.dataContainerTop.css('height', contentHeight);
 
 		this.scrollbar.vertical.resize();
 		this.scrollbar.horizontal.resize();
@@ -18841,7 +18848,7 @@ ludo.grid.Grid = new Class({
 			applyTo:this.getBody(),
 			parent:this.getBody()
 		}));
-		this.scrollbar.horizontal.getEl().insertBefore(this.getBody());
+		this.scrollbar.horizontal.getEl().insertAfter(this.getBody());
 
 		this.scrollbar.vertical = this.createDependency('scrollVertical', new ludo.Scroller({
 			type:'vertical',
@@ -22149,7 +22156,61 @@ ludo.Panel = new Class({
 		this.parent(title);
 		this.els.legend.html( title);
 	}
-});/* ../ludojs/src/svg/paint.js */
+});/* ../ludojs/src/svg/event-manager.js */
+ludo.svg.EventManager = new Class({
+	nodes:{},
+	currentNodeId:undefined,
+    currentNodeFn:undefined,
+
+	currentNode:undefined,
+
+	addMouseEnter:function (node, fn) {
+		node.on('mouseover', this.getMouseOverFn(fn));
+
+	},
+
+	addMouseLeave:function(node, fn){
+		node.on('mouseout', this.getMouseOutFn(fn));
+
+	},
+
+	getMouseOverFn:function (fn) {
+		return function (e, node) {
+			if(!e.event.relatedTarget || !this.contains(node.getEl(), e.event.relatedTarget) ){
+				fn.call(node, e, node);
+			}
+
+		}.bind(this)
+	},
+
+	contains:function(parent, child){
+		if(parent.childNodes && parent.childNodes.length > 0){
+			return this._contains(parent.childNodes, child);
+		}
+		return false;
+	},
+
+	_contains:function(children, child){
+		for(var i=0,len = children.length;i<len;i++){
+			var c = children[i];
+			if(c == child)return true;
+			if(c.childNodes && c.childNodes.length > 0){
+				var found = this._contains(c.childNodes,child );
+				if(found )return true;
+			}
+		}
+		return false;
+	},
+
+	getMouseOutFn:function (fn) {
+		return function (e, node) {
+			if(!e.event.relatedTarget || !this.contains(node.getEl(), e.event.relatedTarget) ){
+				fn.call(node, e, node);
+			}
+		}.bind(this)
+	}
+});
+ludo.canvasEventManager = new ludo.svg.EventManager();/* ../ludojs/src/svg/paint.js */
 /**
  Class for styling of SVG DOM nodes
  @namespace ludo.canvas
@@ -29465,6 +29526,14 @@ ludo.theme.Themes = new Class({
         $(document.body).addClass("ludo-" + theme);
     },
 
+    getThemeEl:function(){
+        var theme = this.getCurrentTheme();
+        if(theme != undefined){
+            return $('.ludo-' + theme);
+        }
+        return $(document.body);
+    },
+
     getCurrentTheme:function(){
         if(this.currentTheme == undefined){
             var b = $(document.documentElement);
@@ -29626,7 +29695,8 @@ chess.UserRoles = {
 
 chess.Views = {
     buttonbar: {
-        game: 'buttonbar.game'
+        game: 'buttonbar.game',
+        bar: 'buttonbar.bar'
     },
     board: {
         board: 'board'
@@ -29901,6 +29971,9 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/cookie/cookie.js */
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
+    layout:{
+        width:'matchParent', height:'matchParent'
+    },
     __construct:function(config){
 
         if(config.theme == undefined && chess.THEME != undefined){
@@ -30006,7 +30079,6 @@ chess.util.DynamicStyles = new Class({
             }
             if (stylesheet.addRule) {
                 for (var i = 0; i < selector.length; ++i) {
-                    console.log('selector: ' + selector[i], 'rules: '  + rules);
                     stylesheet.addRule(selector[i], rules);
                 }
             }
@@ -30677,6 +30749,7 @@ chess.view.board.GUI = new Class({
         }
 
 
+
     },
 
     updateBackgroundPattern: function (horizontal, vertical) {
@@ -31037,6 +31110,7 @@ chess.view.board.GUI = new Class({
         var pb = this.getP('b');
 
 
+
         bc.css({
             'padding-left': pl,
             'padding-top': pt,
@@ -31049,7 +31123,7 @@ chess.view.board.GUI = new Class({
             this.getBody().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
         );
 
-        if (boardSize < 50 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
+        if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
             return;
         }
 
@@ -31107,12 +31181,14 @@ chess.view.board.GUI = new Class({
 
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
+
             f.css('line-height', this.getP('b') + 'px');
+
 
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
 
-            var fs = Math.ceil(this.els.labels.files.height() * (this.labelPos == 'outside' ? 0.6 : 0.5 ));
+            var fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
@@ -31145,7 +31221,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return this.getBody().width() * p / 100;
+            return Math.min(this.getBody().width(),  this.getBody().height()) * p / 100;
         }
         return p;
     },
@@ -32259,6 +32335,7 @@ chess.view.board.Piece = new Class({
  */
 chess.view.board.Background = new Class({
 
+    type: 'chess.view.board.Background',
     view: undefined,
 
     paths: {
@@ -32269,6 +32346,7 @@ chess.view.board.Background = new Class({
 
     verticalSize: undefined,
     horizontalSize: undefined,
+    patternSize:undefined,
 
     size: undefined,
 
@@ -32276,23 +32354,28 @@ chess.view.board.Background = new Class({
 
     paint: undefined,
 
+    square: true,
+
+    pattern:undefined,
+
     initialize: function (config) {
         this.view = config.view;
         this.svg = this.view.svg();
 
+
         this.svg.css('position', 'absolute');
         this.svg.css('left', '0');
         this.svg.css('top', '0');
-
+        if (config.square != undefined)this.square = config.square;
         if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
-
 
         this.view.on('boardResized', this.resize.bind(this));
 
         this.horizontal = config.horizontal;
         this.vertical = config.vertical;
+        this.pattern = config.pattern;
 
-        if(!this.horizontal){
+        if (!this.horizontal && !this.pattern) {
             this.horizontal = ludo.config.getDocumentRoot() + 'images/transparent-dot.png';
             this.vertical = this.horizontal;
         }
@@ -32314,11 +32397,16 @@ chess.view.board.Background = new Class({
         this.createPath('b');
         this.createPath('r');
 
-        if(!this.horizontal){
-            this.paths.l.css('display','none');
-            this.paths.t.css('display','none');
-            this.paths.r.css('display','none');
-            this.paths.b.css('display','none');
+        if (!this.horizontal) {
+            if(!this.pattern)this.paths.t.css('display', 'none');
+            this.paths.l.css('display', 'none');
+            this.paths.r.css('display', 'none');
+            this.paths.b.css('display', 'none');
+        }
+
+
+        if (this.paint && !this.paint.fill) {
+            this.els.paintRect.toFront();
         }
 
         this.applyPattern();
@@ -32360,20 +32448,18 @@ chess.view.board.Background = new Class({
         this.borderRadius = radius;
         if (isNaN(radius)) {
             radius = parseFloat(radius);
-            radius = this.svg.width * (radius / 100);
+            radius = Math.min(this.svg.width, this.svg.height) * (radius / 100);
         }
 
         this.onNewBorderRadius(this.els.clip, radius);
-        if(this.els.paintRect){
-            if(this.paint['stroke-width']){
-                radius -= parseFloat(this.paint['stroke-width']) / 2;
-            }
+        if (this.els.paintRect) {
             this.onNewBorderRadius(this.els.paintRect, radius);
         }
 
     },
 
-    onNewBorderRadius:function(el, radius){
+    onNewBorderRadius: function (el, radius) {
+
         el.set('rx', radius);
         el.set('ry', radius);
 
@@ -32426,11 +32512,18 @@ chess.view.board.Background = new Class({
 
             this.els.paintRect = this.svg.$('rect');
             this.els.paintRect.css(this.paint);
-
             this.svg.append(this.els.paintRect);
+            if (!this.paint.fill) {
+                this.els.paintRect.css('fill-opacity', 0);
+            }
+            this.els.paintRect.toFront();
+
+
         }
 
-        if (this.horizontal) {
+        if(this.pattern){
+            this.els.pattern = this.getPattern(this.pattern, 'patternSize', 'pattern');
+        }else if (this.horizontal) {
             this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
             this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
 
@@ -32440,21 +32533,34 @@ chess.view.board.Background = new Class({
     },
 
     updatePatternSize: function () {
-        if (this.size == undefined)this.size = 1;
+        if (this.size == undefined)this.size = { x:1, y:1 };
 
+
+        var min = 5;
+
+        if(this.pattern && this.patternSize != undefined){
+
+            this.els.pattern.set('width', Math.min(min, this.patternSize.x / this.size.x));
+            this.els.pattern.set('height', Math.min(min, this.patternSize.y / this.size.y));
+        }
 
         if (this.horizontal && this.horizontalSize != undefined) {
-            this.els.horizontalPattern.set('width', Math.min(5, this.horizontalSize.x / this.size));
-            this.els.horizontalPattern.set('height', Math.min(5, this.horizontalSize.y / this.size));
+
+            this.els.horizontalPattern.set('width', Math.min(min, this.horizontalSize.x / this.size.x));
+            this.els.horizontalPattern.set('height', Math.min(min, this.horizontalSize.y / this.size.y));
         }
 
         if (this.vertical && this.verticalSize != undefined) {
-            this.els.verticalPattern.set('width', Math.min(5, this.verticalSize.x / this.size));
-            this.els.verticalPattern.set('height', Math.min(5, this.verticalSize.y / this.size));
+            this.els.verticalPattern.set('width', Math.min(min, this.verticalSize.x / this.size.x));
+            this.els.verticalPattern.set('height', Math.min(min, this.verticalSize.y / this.size.y));
         }
     },
 
     applyPattern: function () {
+
+        if(this.els.pattern){
+            this.paths.t.setPattern(this.els.pattern);
+        }
         if (this.els.horizontal) {
             this.paths.t.setPattern(this.els.horizontalPattern);
             this.paths.b.setPattern(this.els.horizontalPattern);
@@ -32478,34 +32584,68 @@ chess.view.board.Background = new Class({
 
     resize: function (size) {
 
-        this.size = Math.min(size.width, size.height);
-
-        if (this.els.paintRect) {
-
-            this.updateRect(this.els.paintRect, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+        var sw = 0;
+        if (this.paint != undefined && this.paint['stroke-width']) {
+            sw = parseFloat(this.paint['stroke-width']);
         }
 
-        this.updateRect(this.els.clip, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+
+        if (this.square) {
+            var min = Math.min(size.width, size.height);
+            this.size = {x : min, y: min };
+        } else {
+
+            this.size = {x: size.width, y: size.height};
+        }
+
+        if (this.els.paintRect) {
+            this.updateRect(this.els.paintRect, size.left + sw / 2, size.top + sw / 2, this.size.x - sw, this.size.y - sw, this.borderRadius, this.borderRadius);
+        }
+
+        this.updateRect(this.els.clip, size.left, size.top, this.size.x, this.size.y,
+            this.borderRadius, this.borderRadius);
 
 
         var cx = size.width / 2 + size.left;
         var cy = size.height / 2 + size.top;
-        var radius = this.size / 2;
+        var radius = this.size.x / 2;
+        var radiusY = this.size.y / 2;
 
-        this.paths.t.set('d', [
-            'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
-        ].join(' '));
-        this.paths.b.set('d', [
-            'M', cx, cy, 'L', cx - radius, cy + radius, cx + radius, cy + radius, 'Z'
-        ].join(' '));
+        if(size.width != size.height){
+            console.log(cx,cy, radius, radiusY, this.square);
 
-        this.paths.l.set('d', [
-            'M', cx, cy, cx - radius, cy - radius, cx - radius, cy + radius, 'Z'
-        ].join(' '));
+        }
 
-        this.paths.r.set('d', [
-            'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
-        ].join(' '));
+        radius -= sw;
+
+
+        if(this.pattern ){
+
+            this.paths.t.set('d', [
+                'M', cx-radius, cy-radiusY,
+                'L', cx - radius, cy + radiusY,
+                cx + radius, cy + radiusY, cx+radius, cy-radiusY, 'Z'
+            ].join(' '));
+
+
+        }else{
+            this.paths.t.set('d', [
+                'M', cx, cy, 'L', cx - radius, cy - radiusY, cx + radius, cy - radiusY, 'Z'
+            ].join(' '));
+            this.paths.b.set('d', [
+                'M', cx, cy, 'L', cx - radius, cy + radiusY, cx + radius, cy + radiusY, 'Z'
+            ].join(' '));
+
+            this.paths.l.set('d', [
+                'M', cx, cy, cx - radius, cy - radiusY, cx - radius, cy + radiusY, 'Z'
+            ].join(' '));
+
+            this.paths.r.set('d', [
+                'M', cx, cy, 'L', cx + radius, cy - radiusY, cx + radius, cy + radiusY, 'Z'
+            ].join(' '));
+        }
+
+
 
 
         this.setBorderRadius(this.borderRadius);
@@ -33367,6 +33507,524 @@ chess.view.buttonbar.Game = new Class({
             this.fireEvent(window.chess.events.view.buttonbar.game[buttonType]);
         }
     }
+});/* ../dhtml-chess/src/view/buttonbar/bar.js */
+chess.view.buttonbar.Bar = new Class({
+
+    Extends: ludo.View,
+
+    module: 'chess',
+    submodule: 'buttonbar.bar',
+
+    buttons: ['start', 'previous', 'play', 'pause', 'next', 'end', 'flip'],
+
+    align: 'center',
+    vAlign: 'middle',
+
+    styles: undefined,
+
+    orientation: undefined,
+
+    borderRadius: 2,
+    // Percent spacing of button size
+    spacing: 10,
+
+    background: undefined,
+
+
+    activeButton: undefined,
+    buttonDown: undefined,
+
+    disabledButtons: undefined,
+
+    isAtEndOfBranch: false,
+
+    defaultStyles: undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'align', 'vAlign',
+            'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
+
+        this.disabledButtons = [];
+        this.defaultStyles = {
+            button: {
+                'stroke': '#444',
+                'fill': '#444',
+                'stroke-width': 1
+            },
+            buttonOver: {
+                'stroke': '#333',
+                'fill': '#444',
+                'stroke-width': 1
+            },
+            buttonDown: {
+                'stroke': '#333',
+                'fill': '#aeb0b0',
+                'stroke-width': 1
+            },
+            buttonDisabled: {
+                'stroke': '#444',
+                'fill': '#444',
+                'stroke-width': 1,
+                'fill-opacity': 0.7,
+                'stroke-opacity': 0.7
+            },
+            buttonPlay: {
+                'stroke': '#C8E6C9',
+                'fill': '#388E3C',
+                'stroke-width': 1
+            },
+            image: {fill: '#aeb0b0'},
+            imageOver: {fill: '#aeb0b0'},
+            imageDown: {fill: '#444'},
+            imageDisabled: {
+                fill: '#aeb0b0',
+                'fill-opacity': 0.5,
+                'stroke-opacity': 0.5
+            },
+            imagePlay: {fill: '#C8E6C9'}
+        };
+
+        console.log(this.defaultStyles.button);
+
+        this.styles = this.styles || {};
+
+        this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
+        this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
+        this.styles.buttonDown = Object.merge(this.defaultStyles.buttonDown, this.styles.buttonDown || {});
+        this.styles.buttonDisabled = Object.merge(this.defaultStyles.buttonDisabled, this.styles.buttonDisabled || {});
+
+        this.styles.buttonPlay = Object.merge(this.defaultStyles.buttonPlay, this.styles.buttonPlay || {});
+
+
+        this.styles.image = Object.merge(this.defaultStyles.image, this.styles.image || {});
+        this.styles.imageOver = Object.merge(this.defaultStyles.imageOver, this.styles.imageOver || {});
+        this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
+        this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
+        this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
+
+        $(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
+    },
+
+    __rendered: function () {
+        this.parent();
+
+        this.createStylesheets();
+
+        if (this.background) {
+            this.bg = new chess.view.board.Background(
+                Object.merge({
+                    view: this,
+                    square: false
+                }, this.background)
+            )
+        }
+
+        this.els.buttons = {};
+        this.els.buttonRects = {};
+        this.els.buttonPaths = {};
+
+        jQuery.each(this.buttons, function (i, btn) {
+            if (btn != 'pause') {
+                this.createButton(btn);
+                if (btn != 'flip')this.disableButton(btn);
+            }
+        }.bind(this));
+
+
+    },
+
+    createStylesheets: function () {
+        var s = this.svg();
+        jQuery.each(this.styles, function (name, styles) {
+            s.addStyleSheet('dc-' + name, styles);
+        }.bind(this));
+    },
+
+    createButton: function (name) {
+        var s = this.svg();
+        var g = s.$('g');
+        g.attr('data-name', name);
+        g.attr('aria-label', name);
+        g.css('cursor', 'pointer');
+        g.set('x', 0);
+        g.set('y', 0);
+        s.append(g);
+        this.els.buttons[name] = g;
+        var rect = s.$('rect');
+        rect.addClass('dc-button');
+        this.els.buttonRects[name] = rect;
+        g.append(rect);
+        var p = s.$('path');
+        p.set('line-join', 'round');
+        p.set('line-cap', 'round');
+        p.set('fill-rule', 'even-odd');
+        this.els.buttonPaths[name] = p;
+        p.addClass('dc-image');
+        g.append(p);
+
+        g.on('mouseenter', this.fn('enterButton', name));
+        g.on('mouseleave', this.fn('leaveButton', name));
+        g.on('mousedown', this.fn('downButton', name));
+        g.on('click', this.fn('clickButton', name));
+
+    },
+
+
+    fn: function (fnName, btnName) {
+        var that = this;
+        return function () {
+            that[fnName].call(that, btnName);
+        }
+    },
+
+    enterButton: function (btnName) {
+        if (!this.isDisabled(btnName)) {
+            this.cssButton(btnName, 'Over');
+            console.log('enter');
+        }
+    },
+
+    leaveButton: function (btnName) {
+        if (!this.isDisabled(btnName)) {
+            this.cssButton(btnName, '');
+            console.log('leave');
+        }
+    },
+
+    downButton: function (btnName) {
+        if (!this.isDisabled(btnName)) {
+            this.cssButton(btnName, 'Down');
+            this.buttonDown = btnName;
+
+        }
+
+    },
+
+    isDisabled: function (btn) {
+        return this.disabledButtons.indexOf(btn) >= 0;
+    },
+
+    onMouseUp: function () {
+        if (this.buttonDown) {
+            var n = this.buttonDown;
+            this.els.buttonRects[n].removeClass('dc-buttonDown');
+            this.els.buttonPaths[n].removeClass('dc-imageDown');
+            this.buttonDown = undefined;
+        }
+    },
+
+
+    clickButton: function (btnName) {
+        if (!this.isDisabled(btnName)) {
+            this.cssButton(btnName, '');
+            if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
+            this.fireEvent(btnName);
+        }
+        return false;
+    },
+
+    cssButton: function (name, className) {
+
+        if (name == 'play' && this.autoPlayMode)className = 'Play';
+
+        if (this.isDisabled(name)) {
+            className = 'Disabled';
+        }
+
+        var r = this.els.buttonRects[name];
+        var p = this.els.buttonPaths[name];
+
+        r.set('class', '');
+        p.set('class', '');
+
+        r.addClass('dc-button' + className);
+        p.addClass('dc-image' + className);
+
+
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        this.resizeBar();
+
+        this.fireEvent('boardResized', {
+            left: 0, top: 0, width: this.svg().width, height: this.svg().height
+        });
+
+    },
+
+    btnSize: undefined,
+
+    resizeBar: function () {
+        var s = this.svg();
+        this.orientation = s.width > s.height ? 'horizontal' : 'vertical';
+        this.size = Math.min(s.width, s.height);
+
+        if (this.orientation == 'horizontal') {
+            this.resizeHorizontal();
+        } else {
+            this.resizeVertical();
+        }
+
+        var r = this.getButtonRadius();
+
+        jQuery.each(this.els.buttonRects, function (i, rect) {
+
+            rect.css({
+                rx: r, ry: r
+            });
+        });
+
+
+    },
+
+    getButtonRadius: function () {
+        if (isNaN(this.borderRadius)) {
+            var r = parseFloat(this.borderRadius);
+            r = Math.max(50, r);
+
+            return this.btnSize * r / 100;
+
+        }
+        return Math.max(this.btnSize / 2, this.borderRadius);
+
+    },
+
+    resizeHorizontal: function () {
+        var s = this.svg();
+        this.btnSize = this.buttonSize(s.height);
+        var width = this.totalSize();
+        var left = (s.width - width) / 2;
+        var top = (s.height - this.btnSize) / 2;
+        var change = this.btnSize + this.getSpacing();
+        var props = {
+            x: 0, y: 0, width: this.btnSize, height: this.btnSize
+
+        };
+        jQuery.each(this.els.buttons, function (name, g) {
+            g.setTranslate(left, top);
+            this.els.buttonRects[name].setAttributes(props);
+            this.els.buttonPaths[name].set('d', this.getPath(name).join(' '));
+            left += change;
+
+        }.bind(this));
+    },
+
+    toPath: function (points) {
+
+        var innerWidth = this.btnSize * 0.65;
+        var innerHeight = this.btnSize * 0.55;
+        var innerX = (this.btnSize - innerWidth) / 2;
+        var innerY = (this.btnSize - innerHeight) / 2;
+
+        var x = function (x) {
+            return innerX + (innerWidth * x / 10)
+        };
+        var y = function (y) {
+            return innerY + (innerHeight * y / 10);
+        };
+        var ind = 0;
+        jQuery.each(points, function (i, p) {
+            if (!isNaN(p)) {
+                points[i] = ind % 2 == 0 ? x(p) : y(p);
+                ind++;
+            } else {
+                ind = 0;
+            }
+        });
+
+        return points;
+    },
+
+
+    getPath: function (btnName) {
+
+
+        switch (btnName) {
+            case 'start':
+                return this.toPath(['M',
+                    0, 0,
+                    'L', 0, 10,
+                    2, 10,
+                    2, 0, 'Z',
+                    'M', 2.5, 5,
+                    'L', 6, 1.5,
+                    6, 3.5,
+                    10, 3.5,
+                    10, 6.5,
+                    6, 6.5,
+                    6, 8.5,
+                    2.5, 5,
+                    'Z'
+                ]);
+
+            case 'pause':
+                return this.toPath([
+                    'M', 2, 1,
+                    'L', 2, 9,
+                    4, 9,
+                    4, 1, 'Z',
+                    'M', 6, 1,
+                    'L', 6, 9,
+                    8, 9,
+                    8, 1, 'Z'
+                ]);
+
+            case 'previous':
+                return this.toPath(['M', 0, 5,
+                    'L', 4, 1,
+                    4, 3,
+                    9, 3,
+                    9, 7,
+                    4, 7,
+                    4, 9,
+                    'Z'
+                ]);
+            case 'play':
+                return this.toPath(['M',
+                    3, 1, 'L', 8, 5, 3, 9, 'Z'
+                ]);
+            case 'next':
+                return this.toPath(['M', 1, 3, 'L', 5, 3, 5, 1, 9, 5, 5, 9, 5, 7, 1, 7, 'Z']);
+
+            case 'end':
+                return this.toPath(['M', 0, 3.5,
+                    'L', 4, 3.5, 4, 1.5,
+                    7, 5,
+                    4, 8.5,
+                    4, 6.5, 0, 6.5, 'Z',
+
+                    'M', 7.8, 0.5, 'L',
+                    9.8, 0.5,
+                    9.9, 9.5,
+                    7.9, 9.5]);
+
+            case 'flip':
+                return this.toPath([
+                    'M', 3, 0,
+                    'L', 1, 4,
+                    2.5, 4,
+                    2.5, 10,
+                    3.8, 10,
+                    3.8, 4,
+                    5.3, 4, 'Z',
+                    'M', 6, 0,
+                    'L', 6, 6,
+                    4.5, 6,
+                    6.75, 10,
+                    9, 6,
+                    7.5, 6,
+                    7.5, 0
+
+
+                ]);
+
+            default:
+                return this.toPath(['M', 0, 0, 'L', 10, 0, 10, 10, 0, 10, 'Z'])
+
+        }
+    },
+
+    resizeVertical: function () {
+
+    },
+
+    totalSize: function () {
+        return (this.btnSize * this.buttons.length) + (this.getSpacing() * (this.buttons.length - 1));
+    },
+
+    getSpacing: function () {
+        return this.btnSize * this.spacing / 100;
+    },
+
+
+    setController: function (controller) {
+        this.parent(controller);
+
+        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
+        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
+        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
+        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
+        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
+        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
+        this.controller.addEvent('newGame', this.newGame.bind(this));
+    },
+
+    startOfGame: function () {
+        this.disableButton('start');
+        this.disableButton('previous');
+    },
+
+    notStartOfBranch: function () {
+        this.enableButton('start');
+        this.enableButton('previous');
+    },
+    endOfBranch: function () {
+        this.disableButton('end');
+        this.disableButton('next');
+        this.disableButton('play');
+        this.isAtEndOfBranch = true;
+        this.autoPlayMode = false;
+    },
+
+    notEndOfBranch: function (model) {
+        this.isAtEndOfBranch = false;
+        this.enableButton('end');
+        this.enableButton('next');
+        if (!model.isInAutoPlayMode()) {
+            this.stopAutoPlay();
+            this.enableButton('play');
+        }
+
+    },
+
+    autoPlayMode: false,
+    startAutoPlay: function () {
+        this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+
+        this.enableButton('play');
+        this.cssButton('play', 'Play');
+        this.autoPlayMode = true;
+
+    },
+
+    stopAutoPlay: function () {
+        this.autoPlayMode = false;
+        this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
+        this.cssButton('play', '');
+
+        if (this.isAtEndOfBranch) {
+            this.disableButton('play');
+        }
+
+    },
+
+    newGame: function () {
+
+    },
+
+    disableButton: function (name) {
+
+        if (!this.isDisabled(name)) {
+            this.disabledButtons.push(name);
+            this.cssButton(name, 'Disabled');
+        }
+    },
+
+    enableButton: function (name) {
+        if (this.isDisabled(name)) {
+            var ind = this.disabledButtons.indexOf(name);
+            this.disabledButtons.splice(ind, 1);
+            this.cssButton(name, '');
+        }
+    },
+
+    buttonSize: function (availSize) {
+        return availSize - (availSize / 8);
+    }
+
+
 });/* ../dhtml-chess/src/view/gamelist/grid.js */
 /**
  List of games view. List of games is displayed in a grid.
@@ -39262,6 +39920,15 @@ chess.controller.Controller = new Class({
         }
         this.views[view.submodule] = view;
         switch (view.submodule) {
+            case window.chess.Views.buttonbar.bar:
+                view.addEvent('play', this.playMoves.bind(this));
+                view.addEvent('start', this.toStart.bind(this));
+                view.addEvent('end', this.toEnd.bind(this));
+                view.addEvent('previous', this.previousMove.bind(this));
+                view.addEvent('next', this.nextMove.bind(this));
+                view.addEvent('pause', this.pauseGame.bind(this));
+                view.addEvent('flip', this.flipBoard.bind(this));
+                break;
             case window.chess.Views.buttonbar.game:
                 view.addEvent('play', this.playMoves.bind(this));
                 view.addEvent('tostart', this.toStart.bind(this));

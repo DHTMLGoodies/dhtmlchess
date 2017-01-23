@@ -65,6 +65,15 @@ chess.controller.Controller = new Class({
         }
         this.views[view.submodule] = view;
         switch (view.submodule) {
+            case window.chess.Views.buttonbar.bar:
+                view.addEvent('play', this.playMoves.bind(this));
+                view.addEvent('start', this.toStart.bind(this));
+                view.addEvent('end', this.toEnd.bind(this));
+                view.addEvent('previous', this.previousMove.bind(this));
+                view.addEvent('next', this.nextMove.bind(this));
+                view.addEvent('pause', this.pauseGame.bind(this));
+                view.addEvent('flip', this.flipBoard.bind(this));
+                break;
             case window.chess.Views.buttonbar.game:
                 view.addEvent('play', this.playMoves.bind(this));
                 view.addEvent('tostart', this.toStart.bind(this));

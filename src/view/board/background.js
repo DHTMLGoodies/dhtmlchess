@@ -3,6 +3,7 @@
  */
 chess.view.board.Background = new Class({
 
+    type: 'chess.view.board.Background',
     view: undefined,
 
     paths: {
@@ -13,6 +14,7 @@ chess.view.board.Background = new Class({
 
     verticalSize: undefined,
     horizontalSize: undefined,
+    patternSize:undefined,
 
     size: undefined,
 
@@ -20,23 +22,28 @@ chess.view.board.Background = new Class({
 
     paint: undefined,
 
+    square: true,
+
+    pattern:undefined,
+
     initialize: function (config) {
         this.view = config.view;
         this.svg = this.view.svg();
 
+
         this.svg.css('position', 'absolute');
         this.svg.css('left', '0');
         this.svg.css('top', '0');
-
+        if (config.square != undefined)this.square = config.square;
         if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
-
 
         this.view.on('boardResized', this.resize.bind(this));
 
         this.horizontal = config.horizontal;
         this.vertical = config.vertical;
+        this.pattern = config.pattern;
 
-        if(!this.horizontal){
+        if (!this.horizontal && !this.pattern) {
             this.horizontal = ludo.config.getDocumentRoot() + 'images/transparent-dot.png';
             this.vertical = this.horizontal;
         }
@@ -58,11 +65,16 @@ chess.view.board.Background = new Class({
         this.createPath('b');
         this.createPath('r');
 
-        if(!this.horizontal){
-            this.paths.l.css('display','none');
-            this.paths.t.css('display','none');
-            this.paths.r.css('display','none');
-            this.paths.b.css('display','none');
+        if (!this.horizontal) {
+            if(!this.pattern)this.paths.t.css('display', 'none');
+            this.paths.l.css('display', 'none');
+            this.paths.r.css('display', 'none');
+            this.paths.b.css('display', 'none');
+        }
+
+
+        if (this.paint && !this.paint.fill) {
+            this.els.paintRect.toFront();
         }
 
         this.applyPattern();
@@ -104,18 +116,17 @@ chess.view.board.Background = new Class({
         this.borderRadius = radius;
         if (isNaN(radius)) {
             radius = parseFloat(radius);
-            radius = this.svg.width * (radius / 100);
+            radius = Math.min(this.svg.width, this.svg.height) * (radius / 100);
         }
 
         this.onNewBorderRadius(this.els.clip, radius);
-        if(this.els.paintRect){
-
+        if (this.els.paintRect) {
             this.onNewBorderRadius(this.els.paintRect, radius);
         }
 
     },
 
-    onNewBorderRadius:function(el, radius){
+    onNewBorderRadius: function (el, radius) {
 
         el.set('rx', radius);
         el.set('ry', radius);
@@ -169,13 +180,18 @@ chess.view.board.Background = new Class({
 
             this.els.paintRect = this.svg.$('rect');
             this.els.paintRect.css(this.paint);
-            if(!this.paint.fill){
+            this.svg.append(this.els.paintRect);
+            if (!this.paint.fill) {
                 this.els.paintRect.css('fill-opacity', 0);
             }
-            this.svg.append(this.els.paintRect);
+            this.els.paintRect.toFront();
+
+
         }
 
-        if (this.horizontal) {
+        if(this.pattern){
+            this.els.pattern = this.getPattern(this.pattern, 'patternSize', 'pattern');
+        }else if (this.horizontal) {
             this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
             this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
 
@@ -185,21 +201,34 @@ chess.view.board.Background = new Class({
     },
 
     updatePatternSize: function () {
-        if (this.size == undefined)this.size = 1;
+        if (this.size == undefined)this.size = { x:1, y:1 };
 
+
+        var min = 5;
+
+        if(this.pattern && this.patternSize != undefined){
+
+            this.els.pattern.set('width', Math.min(min, this.patternSize.x / this.size.x));
+            this.els.pattern.set('height', Math.min(min, this.patternSize.y / this.size.y));
+        }
 
         if (this.horizontal && this.horizontalSize != undefined) {
-            this.els.horizontalPattern.set('width', Math.min(5, this.horizontalSize.x / this.size));
-            this.els.horizontalPattern.set('height', Math.min(5, this.horizontalSize.y / this.size));
+
+            this.els.horizontalPattern.set('width', Math.min(min, this.horizontalSize.x / this.size.x));
+            this.els.horizontalPattern.set('height', Math.min(min, this.horizontalSize.y / this.size.y));
         }
 
         if (this.vertical && this.verticalSize != undefined) {
-            this.els.verticalPattern.set('width', Math.min(5, this.verticalSize.x / this.size));
-            this.els.verticalPattern.set('height', Math.min(5, this.verticalSize.y / this.size));
+            this.els.verticalPattern.set('width', Math.min(min, this.verticalSize.x / this.size.x));
+            this.els.verticalPattern.set('height', Math.min(min, this.verticalSize.y / this.size.y));
         }
     },
 
     applyPattern: function () {
+
+        if(this.els.pattern){
+            this.paths.t.setPattern(this.els.pattern);
+        }
         if (this.els.horizontal) {
             this.paths.t.setPattern(this.els.horizontalPattern);
             this.paths.b.setPattern(this.els.horizontalPattern);
@@ -224,42 +253,65 @@ chess.view.board.Background = new Class({
     resize: function (size) {
 
         var sw = 0;
-        if(this.paint != undefined && this.paint['stroke-width']){
+        if (this.paint != undefined && this.paint['stroke-width']) {
             sw = parseFloat(this.paint['stroke-width']);
         }
 
 
-        this.size = Math.min(size.width, size.height);
+        if (this.square) {
+            var min = Math.min(size.width, size.height);
+            this.size = {x : min, y: min };
+        } else {
 
-        if (this.els.paintRect) {
-
-            this.updateRect(this.els.paintRect, size.left + sw / 2, size.top+ sw / 2, this.size - sw, this.size - sw, this.borderRadius, this.borderRadius);
+            this.size = {x: size.width, y: size.height};
         }
 
-        this.updateRect(this.els.clip, size.left, size.top, this.size, this.size, this.borderRadius, this.borderRadius);
+        if (this.els.paintRect) {
+            this.updateRect(this.els.paintRect, size.left + sw / 2, size.top + sw / 2, this.size.x - sw, this.size.y - sw, this.borderRadius, this.borderRadius);
+        }
+
+        this.updateRect(this.els.clip, size.left, size.top, this.size.x, this.size.y,
+            this.borderRadius, this.borderRadius);
 
 
         var cx = size.width / 2 + size.left;
         var cy = size.height / 2 + size.top;
-        var radius = this.size / 2;
+        var radius = this.size.x / 2;
+        var radiusY = this.size.y / 2;
 
-        radius -= sw / 2;
+        if(size.width != size.height){
+            console.log(cx,cy, radius, radiusY, this.square);
+
+        }
+
+        radius -= sw;
 
 
-        this.paths.t.set('d', [
-            'M', cx, cy, 'L', cx - radius, cy - radius, cx + radius, cy - radius, 'Z'
-        ].join(' '));
-        this.paths.b.set('d', [
-            'M', cx, cy, 'L', cx - radius, cy + radius, cx + radius, cy + radius, 'Z'
-        ].join(' '));
+        if(this.pattern ){
 
-        this.paths.l.set('d', [
-            'M', cx, cy, cx - radius, cy - radius, cx - radius, cy + radius, 'Z'
-        ].join(' '));
+            this.paths.t.set('d', [
+                'M', cx-radius, cy-radiusY,
+                'L', cx - radius, cy + radiusY,
+                cx + radius, cy + radiusY, cx+radius, cy-radiusY, 'Z'
+            ].join(' '));
 
-        this.paths.r.set('d', [
-            'M', cx, cy, 'L', cx + radius, cy - radius, cx + radius, cy + radius, 'Z'
-        ].join(' '));
+
+        }else{
+            this.paths.t.set('d', [
+                'M', cx, cy, 'L', cx - radius, cy - radiusY, cx + radius, cy - radiusY, 'Z'
+            ].join(' '));
+            this.paths.b.set('d', [
+                'M', cx, cy, 'L', cx - radius, cy + radiusY, cx + radius, cy + radiusY, 'Z'
+            ].join(' '));
+
+            this.paths.l.set('d', [
+                'M', cx, cy, cx - radius, cy - radiusY, cx - radius, cy + radiusY, 'Z'
+            ].join(' '));
+
+            this.paths.r.set('d', [
+                'M', cx, cy, 'L', cx + radius, cy - radiusY, cx + radius, cy + radiusY, 'Z'
+            ].join(' '));
+        }
 
 
 

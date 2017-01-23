@@ -1,0 +1,33 @@
+.ludo-twilight  .ludo-grid-Grid .ludo-body {
+    background-color: transparent;
+}
+
+.ludo-twilight .ludo-grid div.ludo-resize-handle-active{
+    background-color: transparent;
+
+}
+
+
+.ludo-twilight .ludo-grid-header-cell {
+    border-right: 1px solid #424242;
+    border-bottom: 1px solid #424242;
+}
+
+
+.ludo-twilight .ludo-grid-Grid div.ludo-active-record {
+    font-weight: bold;
+    background-color: #424242;
+
+}
+.ludo-twilight .ludo-grid-Grid .ludo-menu-button-active{
+    background-color:#535354;
+    border-left:1px solid transparent;
+}
+
+.ludo-twilight .ludo-grid-data-container{
+    color:#000;
+}
+
+.ludo-twilight .ludo-container-frame{
+    border-color:#424242;
+}

@@ -41,7 +41,8 @@ chess.UserRoles = {
 
 chess.Views = {
     buttonbar: {
-        game: 'buttonbar.game'
+        game: 'buttonbar.game',
+        bar: 'buttonbar.bar'
     },
     board: {
         board: 'board'

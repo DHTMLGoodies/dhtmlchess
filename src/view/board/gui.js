@@ -55,6 +55,7 @@ chess.view.board.GUI = new Class({
         }
 
 
+
     },
 
     updateBackgroundPattern: function (horizontal, vertical) {
@@ -415,6 +416,7 @@ chess.view.board.GUI = new Class({
         var pb = this.getP('b');
 
 
+
         bc.css({
             'padding-left': pl,
             'padding-top': pt,
@@ -427,7 +429,7 @@ chess.view.board.GUI = new Class({
             this.getBody().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
         );
 
-        if (boardSize < 50 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
+        if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
             return;
         }
 
@@ -485,12 +487,14 @@ chess.view.board.GUI = new Class({
 
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
+
             f.css('line-height', this.getP('b') + 'px');
+
 
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
 
-            var fs = Math.ceil(this.els.labels.files.height() * (this.labelPos == 'outside' ? 0.6 : 0.5 ));
+            var fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
@@ -523,7 +527,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return this.getBody().width() * p / 100;
+            return Math.min(this.getBody().width(),  this.getBody().height()) * p / 100;
         }
         return p;
     },
