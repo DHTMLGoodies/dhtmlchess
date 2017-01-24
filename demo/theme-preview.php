@@ -21,7 +21,7 @@
     <script type="text/javascript" src="../../ludojs/src/grid/grid-header.js?rnd=<?php echo $rnd; ?>"></script>
     <script type="text/javascript" src="../src/view/buttonbar/bar.js?rnd=<?php echo $rnd; ?>"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=<?php echo $rnd; ?>" type="text/css">
-    <link rel="stylesheet" href="../css/overrides.css?rnd=<?php echo $rnd; ?>" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css?rnd=<?php echo $rnd; ?>" type="text/css">
 
     <?php
     $theme = isset($_GET["theme"]) ? $_GET["theme"] : "wood1";

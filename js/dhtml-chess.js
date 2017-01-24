@@ -1,4 +1,4 @@
-/* Generated Wed Jan 25 0:09:29 CET 2017 */
+/* Generated Wed Jan 25 0:28:58 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -13832,6 +13832,7 @@ ludo.view.ButtonBar = new Class({
 	buttonBarCss:undefined,
 
     __construct:function (config) {
+
         this.setConfigParams(config, ['align','component','buttonBarCss']);
         config.children = this.getValidChildren(config.children);
         if (this.align == 'right' || config.align == 'center') {

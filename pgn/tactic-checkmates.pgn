@@ -1369,10 +1369,11 @@
 [result "1-0"]
 [fen "rnb1qknr/ppp1b2p/8/5p1Q/2BPP3/7p/PPP3PP/RNB1K2R w KQ - 0 1"]
 [plycount "3"]
+[questionable "1"]
 [index "87"]
 
 
-1. Bh6+  Nxh6 2. Qxh6#
+1. Bh6+ (1. Qh6+ 1. Nxh6 2. Bxh6#)   Nxh6 2. Qxh6#
 
 [setup "1"]
 [eventdate "1998.??.??"]
