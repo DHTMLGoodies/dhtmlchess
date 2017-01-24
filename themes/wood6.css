@@ -1,0 +1,45 @@
+.dhtml-chess-board {
+    border: 1px solid #b0abab
+}
+
+.dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
+}
+
+.dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
+}
+
+.chess-rank-label-odd, .chess-file-label-even, .chess-rank-label-even, .chess-file-label-odd {
+    color: #EEE
+}
+
+div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+    color: #333
+}
+
+span.notation-chess-move-highlighted {
+    background-color: #777;
+    color: #FFF;
+    border-radius: 3px
+}
+
+.dhtml-chess-square-highlight {
+    background-color: #0D47A1;
+    border-width: 0
+}
+
+.dhtml-chess-view-metadata-game div.ludo-body {
+    color: #333
+}
+
+div.ludo-window >.ludo-body{
+    padding:3px;
+    color: #FFF !important;
+}
+
+div.ludo-window{
+    border:1px solid #333;
+}
+
+.dhtml-chess-promote-piece .ludo-body{
+    background-color:#ddd;
+}

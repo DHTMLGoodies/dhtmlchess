@@ -1,0 +1,219 @@
+div.ludo-window {
+    background-color: #ddd;
+    border:1px solid #aaa;
+}
+
+.ludo-view {
+    background-color: transparent
+}
+
+.dhtml-chess-view-metadata-game div.ludo-body {
+    color: #333
+}
+
+.ludo-tab-strip-tab-txt-svg,.ludo-tab-strip-tab-txt-svg-active{
+    font-family:arial,helvetica, sans-serif;
+}
+
+.ludo-layout-tabs {
+    background-color: #eee !important;
+    padding: 0 !important;
+}
+
+body.ludo-twilight {
+    background-color: transparent
+}
+
+.ludo-tab-strip {
+    background-color: #aaa
+}
+
+.ludo-tab-expand-box {
+    background-color: #ddd
+}
+
+.ludo-tab-strip-tab {
+    border-color: #aaa;
+}
+
+div.ludo-tab-strip-tab span {
+    color: #333 ;
+    font-size: 0.7em
+}
+
+div.ludo-tab-strip-tab-active span {
+    color: #000;
+}
+
+div.ludo-tab-strip-tab-bg {
+    border-color: #aaa
+}
+
+.ludo-tab-strip-tab-active div.ludo-tab-strip-tab-bg {
+    border-color: #ddd !important
+}
+
+.ludo-tab-strip .ludo-tab-strip-line {
+    background-color: #ddd ;
+    border-color: #aaa;
+}
+
+.ludo-tab-strip-bottom .ludo-tab-strip-line {
+    border-top-width: 0 ;
+    height: 4px
+}
+
+.ludo-tab-strip-top{
+    border-bottom:1px solid #aaa !important;
+}
+.ludo-tab-strip-top .ludo-tab-strip-line {
+    border-bottom-width: 0 ;
+    height: 4px
+}
+
+.ludo-tab-strip-bottom{
+    border-top:1px solid #aaa;
+}
+
+.ludo-tab-strip-left{
+    border-right:1px solid #aaa;
+}
+.ludo-tab-strip-left .ludo-tab-strip-line {
+    border-left:1px solid #aaa;
+}
+
+.ludo-tab-strip-right{
+    border-left:1px solid #aaa;
+}
+
+.ludo-tab-strip-right .ludo-tab-strip-line {
+    border-right:1px solid #aaa;
+}
+
+div.ludo-tab-strip-tab-active {
+    background-color: #ddd
+}
+
+.ludo-grid-Grid .ludo-body {
+    background-color: transparent
+}
+
+.ludo-grid div.ludo-resize-handle-active {
+    background-color: transparent
+}
+
+.ludo-grid-header-cell {
+    background-color: #ddd ;
+    border-right: 1px solid #aaa ;
+    border-bottom: 1px solid #aaa;
+    color:#000;
+}
+
+.ludo-grid-Grid div.ludo-active-record {
+    font-weight: bold ;
+    background-color: #ccc;
+
+}
+
+.ludo-grid-Grid .ludo-menu-button-active {
+    background-color: #535354 ;
+    border-left: 1px solid transparent
+}
+
+.ludo-grid-data-container {
+    color: #000
+}
+
+.ludo-container-frame {
+    border-color: #424242
+}
+
+.ludo-scroller {
+    background-color: transparent;
+}
+
+.ludo-grid-header-cell{
+    color:#000;
+}
+
+.ludo-grid-data-column{
+    border-right-width:0;
+}
+.ludo-grid-data-even-row{
+    background-color:#ddd;
+}
+.ludo-grid-data-odd-row, .ludo-grid-data-even-row{
+    border-bottom-width:0;
+}
+
+.ludo-grid-record-over{
+    background-color:#eee;
+}
+
+.ludo-window > .ludo-framed-view-titlebar > .ludo-framed-view-titlebar-title{
+    text-align:center !important;
+    width:100%;
+    line-height:24px;
+}
+
+.ludo-framed-view-titlebar{
+    background-color:#424242;
+    font-weight:normal;
+    border-bottom:1px solid #aaa;
+    border-radius:0;
+    color:#FFF;
+}
+
+.ludo-window > .ludo-framed-view-titlebar{
+    border-top-left-radius:7px;
+    border-top-right-radius:7px;
+    background-color:#e3e3e4;
+    color:#000;
+}
+
+.ludo-window{
+    box-shadow:4px 4px 5px #555;
+    -webkit-box-shadow: 4px 4px 5px #555;
+    -moz-box-shadow:    4px 4px 5px #555;
+}
+
+.ludo-form-button-m-bg-left, .ludo-form-button-m-bg-right{
+    background-image:none;
+    display:none;
+}
+
+.ludo-form-button{
+    height:24px;
+}
+.ludo-window > .ludo-body{
+    font-size:14px;
+    padding:3px;
+}
+.ludo-form-button .ludo-body{
+    border-radius:999px;
+}
+
+.ludo-view-buttonbar{
+    height:30px;
+}
+
+.ludo-form-button div.ludo-form-button-over {
+    background-color: #555;
+    border: 1px solid #333
+}
+
+/* Button click style */
+.ludo-form-button div.ludo-form-button-down {
+    background-color: #aaa;
+    color: #444;
+    border: 1px solid #555
+}
+
+.ludo-form-button .ludo-body {
+    border: 1px solid #444;
+    background-color: #666;
+    color: #aaa;
+}
+div.ludo-form-button-disabled{
+    opacity:0.5;
+}

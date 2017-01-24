@@ -1,4 +1,4 @@
-/* Generated Tue Jan 24 13:27:20 CET 2017 */
+/* Generated Tue Jan 24 17:11:58 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -4132,9 +4132,11 @@ ludo.svg.Util = {
     textStyles: function (className) {
         var node = $('<div>');
         node.addClass(className);
+
         node.css('display', 'none');
         ludo.Theme.getThemeEl().append(node);
 
+        console.log(className)
       
         var lh = node.css('line-height').replace(/[^0-9\.]/g, '');
         if (!lh) {

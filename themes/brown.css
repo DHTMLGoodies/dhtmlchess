@@ -91,3 +91,9 @@ div.ludo-window >.ludo-body{
     color: #FFF !important;
 }
 
+.ludo-grid-Grid div.ludo-active-record {
+    background-color: #cfaa91;
+
+}
+
+

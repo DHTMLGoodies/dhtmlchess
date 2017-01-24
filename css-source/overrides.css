@@ -17,6 +17,7 @@ div.ludo-window {
 
 .ludo-layout-tabs {
     background-color: #eee !important;
+    padding: 0 !important;
 }
 
 body.ludo-twilight {
@@ -186,6 +187,7 @@ div.ludo-tab-strip-tab-active {
 }
 .ludo-window > .ludo-body{
     font-size:14px;
+    padding:3px;
 }
 .ludo-form-button .ludo-body{
     border-radius:999px;
