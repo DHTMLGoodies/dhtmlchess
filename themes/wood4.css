@@ -13,18 +13,6 @@
     padding-right: 2px
 }
 
-.dhtml-chess-square-white {
-    background-image: none !important;
-    background-color: #e7caa3
-
-}
-
-.dhtml-chess-square-black {
-    background-image: none !important;
-    background-color: #b48059
-
-}
-
 .dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
     color: #fffffb
 }

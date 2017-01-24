@@ -55,6 +55,42 @@ chess.THEME = {
             'text-align': 'center',
             color: '#444'
         }
+    },
+    'chess.view.buttonbar.Bar':{
+        borderRadius:'10%',
+        styles:{
+            button:{
+                fill:'#695f5d',
+                stroke:'#695f5d'
+            },
+            image:{
+                fill:'#b7b3b2'
+            },
+            buttonOver:{
+                fill:'#5c5352',
+                stroke:'#695f5d'
+            },
+            imageOver:{
+                fill:'#b7b3b2'
+            },
+            buttonDown:{
+                fill:'#b7b3b2',
+                stroke:'#695f5d'
+            },
+            imageDown:{
+                fill:'#695f5d'
+            },
+            buttonDisabled:{
+                fill:'#dad7d7',
+                stroke : '#b38578',
+                'stroke-opacity' : 0.3
+               // , 'fill-opacity' : 0.25
+            },
+            imageDisabled:{
+                fill:'#695f5d',
+                'fill-opacity' : 0.5
+            }
+        }
     }
 
 

@@ -1,6 +1,6 @@
 div.ludo-window {
     background-color: #ddd;
-    border:1px solid #aaa;
+    border:1px solid #aeb0b0;
 }
 
 .ludo-view {
@@ -25,7 +25,7 @@ body.ludo-twilight {
 }
 
 .ludo-tab-strip {
-    background-color: #aaa
+    background-color: #aeb0b0
 }
 
 .ludo-tab-expand-box {
@@ -33,7 +33,7 @@ body.ludo-twilight {
 }
 
 .ludo-tab-strip-tab {
-    border-color: #aaa;
+    border-color: #aeb0b0;
 }
 
 div.ludo-tab-strip-tab span {
@@ -46,7 +46,7 @@ div.ludo-tab-strip-tab-active span {
 }
 
 div.ludo-tab-strip-tab-bg {
-    border-color: #aaa
+    border-color: #aeb0b0
 }
 
 .ludo-tab-strip-tab-active div.ludo-tab-strip-tab-bg {
@@ -55,7 +55,7 @@ div.ludo-tab-strip-tab-bg {
 
 .ludo-tab-strip .ludo-tab-strip-line {
     background-color: #ddd ;
-    border-color: #aaa;
+    border-color: #aeb0b0;
 }
 
 .ludo-tab-strip-bottom .ludo-tab-strip-line {
@@ -64,7 +64,7 @@ div.ludo-tab-strip-tab-bg {
 }
 
 .ludo-tab-strip-top{
-    border-bottom:1px solid #aaa !important;
+    border-bottom:1px solid #aeb0b0 !important;
 }
 .ludo-tab-strip-top .ludo-tab-strip-line {
     border-bottom-width: 0 ;
@@ -72,22 +72,22 @@ div.ludo-tab-strip-tab-bg {
 }
 
 .ludo-tab-strip-bottom{
-    border-top:1px solid #aaa;
+    border-top:1px solid #aeb0b0;
 }
 
 .ludo-tab-strip-left{
-    border-right:1px solid #aaa;
+    border-right:1px solid #aeb0b0;
 }
 .ludo-tab-strip-left .ludo-tab-strip-line {
-    border-left:1px solid #aaa;
+    border-left:1px solid #aeb0b0;
 }
 
 .ludo-tab-strip-right{
-    border-left:1px solid #aaa;
+    border-left:1px solid #aeb0b0;
 }
 
 .ludo-tab-strip-right .ludo-tab-strip-line {
-    border-right:1px solid #aaa;
+    border-right:1px solid #aeb0b0;
 }
 
 div.ludo-tab-strip-tab-active {
@@ -105,8 +105,8 @@ div.ludo-tab-strip-tab-active {
 .ludo-grid-header-cell {
     box-sizing: content-box;
     background-color: #ddd ;
-    border-right: 1px solid #aaa ;
-    border-bottom: 1px solid #aaa;
+    border-right: 1px solid #aeb0b0 ;
+    border-bottom: 1px solid #aeb0b0;
     color:#000;
 }
 
@@ -160,7 +160,7 @@ div.ludo-tab-strip-tab-active {
 .ludo-framed-view-titlebar{
     background-color:#424242;
     font-weight:normal;
-    border-bottom:1px solid #aaa;
+    border-bottom:1px solid #aeb0b0;
     border-radius:0;
     color:#FFF;
 }
@@ -205,7 +205,7 @@ div.ludo-tab-strip-tab-active {
 
 /* Button click style */
 .ludo-form-button div.ludo-form-button-down {
-    background-color: #aaa;
+    background-color: #aeb0b0;
     color: #444;
     border: 1px solid #555
 }
@@ -213,7 +213,7 @@ div.ludo-tab-strip-tab-active {
 .ludo-form-button .ludo-body {
     border: 1px solid #444;
     background-color: #666;
-    color: #aaa;
+    color: #aeb0b0;
 }
 div.ludo-form-button-disabled{
     opacity:0.5;
@@ -228,4 +228,8 @@ div.dhtml-chess-notation-panel {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.ludo-chess-view-metadata-game{
+    color:#222;
 }

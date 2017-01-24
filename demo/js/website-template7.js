@@ -84,58 +84,13 @@ chess.GameViewer = new Class({
                         },
                         {
                             type: 'chess.view.buttonbar.Bar',
+                            anchor:[0.5, 0.5],
                             module: this.module, // To make the controller aware of this view
                             layout: {
                                 height: 40
 
                             },
                             borderRadius:'50%',
-                            background:{
-                                borderRadius:'20%',
-                                paint:{
-                                    'stroke-width': '1',
-                                    'stroke' : '#daac78'
-                                }
-                            },
-
-                            styles:{
-                                button: {
-                                    'stroke': '#444',
-                                    'fill': '#444',
-                                    'stroke-width': 1
-                                },
-                                buttonOver: {
-                                    'stroke': '#333',
-                                    'fill': '#444',
-                                    'stroke-width': 1
-                                },
-                                buttonDown: {
-                                    'stroke': '#333',
-                                    'fill': '#aeb0b0',
-                                    'stroke-width': 1
-                                },
-                                buttonDisabled: {
-                                    'stroke': '#444',
-                                    'fill': '#666',
-                                    'stroke-width': 1,
-                                    'stroke-opacity': 0.7
-                                },
-                                buttonPlay: {
-                                    'stroke': '#C8E6C9',
-                                    'fill': '#388E3C',
-                                    'stroke-width': 1
-                                },
-                                image: {fill: '#aeb0b0'},
-                                imageOver: {fill: '#aeb0b0'},
-                                imageDown: {fill: '#444'},
-                                imageDisabled: {
-                                    fill: '#aeb0b0',
-                                    'fill-opacity': 0.5,
-                                    'stroke-opacity': 0.5
-                                },
-                                imagePlay:{fill: '#C8E6C9'}
-                            },
-
                             buttonSize: function (availSize) {
                                 return availSize - (availSize / 4);
                             }

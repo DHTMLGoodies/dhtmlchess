@@ -78,125 +78,20 @@
             font-size: 0.8em;
         }
 
-
+        .
 
 
     </style>
     <!-- DHTML CHESS Part 1-->
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
-    <script type="text/javascript" src="../src/view/board/gui.js"></script>
-    <script type="text/javascript" src="../src/view/board/board.js"></script>
-    <script type="text/javascript" src="../src/view/board/background.js"></script>
-    <script type="text/javascript" src="../src/view/board/piece.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
+    <script type="text/javascript" src="../themes/wood6.js"></script>
+    <link rel="stylesheet" href="../css/overrides.css">
+    <link rel="stylesheet" href="../themes/wood6.css">
+
     <style type="text/css">
-        /* Styling of board */
-
-
-
-        .dhtml-chess-board {
-            border: 1px solid #b0abab;
-        }
-
-        .dhtml-chess-board-container {
-            background-color: #039BE5;
-            border: 1px solid #b0abab;
-            border-radius: 5px;
-            padding-left:8px;
-            padding-bottom:8px;
-            padding-right:28px;
-            padding-top:28px;
-
-        }
-
-        .ludo-layout-resize-col {
-            border-left: 1px solid #aaa;
-            border-right: 1px solid #aaa;
-        }
-
-        .dhtml-chess-board-label-ranks-container {
-        }
-        .dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
-        }
-
-        .chess-board-label-inside span {
-            padding-left:2px;
-            padding-right: 2px;
-        }
-
-        /** custom square background */
-
-        .dhtml-chess-board-container-wood .dhtml-chess-square-white {
-            background-image: url(../images/board/light-grey-wood.png);
-        }
-
-        .dhtml-chess-board-container-wood .dhtml-chess-square-black {
-            background-image: url(../images/board/grey-wood.png);
-        }
-
-        /** Display labels(A-H, 1-8) in smaller font */
-        .dhtml-chess-board-label-ranks-container,
-        .dhtml-chess-board-label-files-container{
-        }
-
-
-        /* Coloring of labels */
-
-        .dhtml-chess-board-label-file{
-            line-height:27px;
-        }
-        .chess-rank-label-odd, .chess-file-label-even, .chess-rank-label-even,  .chess-file-label-odd {
-            color: #EEE;
-        }
-
-        /** Notation styling */
-        div.dhtml-chess-notation-panel{
-            text-align:center;
-        }
-        div.dhtml-chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move  {
-            color: #0D47A1;
-        }
-
-        /** Highlighted notation styles */
-        .ludo-twilight span.notation-chess-move-highlighted {
-            background-color: #0D47A1;
-            color: #FFF;
-            border-radius: 3px;
-        }
-
-        /** Styling of the highlighted square when clicking the hint button */
-        .dhtml-chess-square-highlight{
-            background-color:#0D47A1;
-            border-width:0;
-        }
-
-        .dhtml-chess-board-container{
-            background-color:transparent;!important;
-        }
-
-        /** Override some default theme styles */
-        .ludo-twilight div.ludo-window{
-            background-color:#535353;
-
-        }
-
-        .ludo-twilight .ludo-view{
-            background-color:transparent;
-        }
-
-        .dhtml-chess-view-metadata-game div.ludo-body{
-            color:#333;
-        }
-
-        body.ludo-twilight{
-            background-color:transparent;
-        }
-
-        .metadata > .ludo-body{
-            color:#444;
-        }
     </style>
     <!-- End DHTML Chess part 1 -->
 </head>
@@ -209,7 +104,7 @@ This is the theme used for DHTML Chess.
 
 Other options are ludo-light-gray, ludo-gray and ludo-blue
 -->
-<body class="ludo-twilight">
+<body>
 
 <div class="content">
 
@@ -269,39 +164,26 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
                 new chess.TacticsFromFile({
                     renderTo: '#dhtml-chess',
                     pgn: 'tactic-checkmates',
+
                     board:{ // Board configuration
-                        labelPos:'outside',
-                        /**
-                         * Board background
-                         * the board background is rendered using SVG with four triangles with the tip
-                         * at the center of the board. This opens the possibility for a realistic wooden
-                         * edge at the four corners of the board.
-                         *
-                         * The top and bottom triangle uses the horizontal background image below
-                         * The left and right triangle uses the vertical background image.
-                         */
-                        background:{
-                            borderRadius:5,
-                            horizontal:'../images/board-bg/grey-wood-strip-horizontal.png',
-                            vertical:'../images/board-bg/grey-wood-strip-vertical.png'
-                        },
                         // Pieces to choose. The SVG(Scalable vector graphics)
                         // has all prefix svg.
                         // Options: svg_egg, svg_bw(black and white), merida, alpha, alphapale, smart, motif, meridapale,
                         // leipzig, kingdom, cases, alphablue
                         //
-                        pieceLayout:'svg_bw'
+                        pieceLayout:'svg_bw',
+                        labelPos:'outside'
                     },
                     arrow:{
                         styles:{
-                            'fill': '#039BE5',
-                            'stroke':'#0D47A1'
+                            'fill': '#7ecf7f',
+                            'stroke':'#486a8c'
                         }
                     },
                     arrowSolution:{
                         styles:{
-                            'fill': '#039BE5',
-                            'stroke':'#0D47A1'
+                            'fill': '#7ecf7f',
+                            'stroke':'#486a8c'
                         }
                     }
                 });

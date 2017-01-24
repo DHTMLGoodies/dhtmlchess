@@ -52,6 +52,44 @@ chess.THEME = {
             'text-align': 'center',
             color: '#444'
         }
+    },
+    'chess.view.notation.Panel': {
+        figurines:'svg_bw'
+    },
+    'chess.view.buttonbar.Bar':{
+        borderRadius:'10%',
+        styles:{
+            button:{
+                fill:'#c67a49',
+                stroke:'#c67a49'
+            },
+            image:{
+                fill:'#fcd5a0'
+            },
+            buttonOver:{
+                fill:'#ad6c40',
+                stroke:'#c67a49'
+            },
+            imageOver:{
+                fill:'#fcd5a0'
+            },
+            buttonDown:{
+                fill:'#fcd5a0',
+                stroke:'#c67a49'
+            },
+            imageDown:{
+                fill:'#c67a49'
+            },
+            buttonDisabled:{
+                fill:'#f0d7c9',
+                stroke : '#b38578',
+                'stroke-opacity' : 0.3
+            },
+            imageDisabled:{
+                fill:'#c67a49',
+                'fill-opacity' : 0.5
+            }
+        }
     }
 
 

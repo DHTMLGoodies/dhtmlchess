@@ -33,7 +33,7 @@ span.notation-chess-move-highlighted {
 
 div.ludo-window >.ludo-body{
     padding:3px;
-    color: #FFF !important;
+    color: #333 !important;
 }
 
 div.ludo-window{

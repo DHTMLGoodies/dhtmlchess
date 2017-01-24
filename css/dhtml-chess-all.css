@@ -482,7 +482,7 @@ div.ludo-FramedView {
 }
 
 
-.ludo-view, .ludo-body{
+.ludo-view, .ludo-body, .ludo-view div, .ludo-view span, .ludo-view *{
     box-sizing: content-box !important;
 }
 /* ../ludojs/css-source/resize.css */
@@ -2026,6 +2026,9 @@ span.notation-chess-move-highlighted {
 
 div.dhtml-chess-notation-panel {
     cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 div.dhtml-chess-notation-panel div{

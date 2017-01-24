@@ -93,122 +93,20 @@
     <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
     <script type="text/javascript" src="../src/controller/tactic-controller.js"></script>
     <script type="text/javascript" src="../src/controller/tactic-controller-gui.js"></script>
+
+    <script type="text/javascript" src="../themes/wood1.js"></script>
+    <link rel="stylesheet" href="../css/overrides.css">
+    <link rel="stylesheet" href="../themes/wood1.css">
     <script type="text/javascript" src="../../ludojs/src/layout/renderer.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
     <style type="text/css">
-        /* Styling of board */
-
-
-
-        .dhtml-chess-board {
-            border: 1px solid #daac78;
-        }
-
-        .dhtml-chess-board-container {
-            background-color: #039BE5;
-            border: 1px solid #daac78;
-            border-radius: 5px;
-            padding-left:8px;
-            padding-bottom:8px;
-            padding-right:28px;
-            padding-top:28px;
-
-        }
-
-        .ludo-layout-resize-col {
-            border-left: 1px solid #aaa;
-            border-right: 1px solid #aaa;
-        }
-
-        .dhtml-chess-board-label-ranks-container {
-        }
-        .dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
-        }
-
-        .chess-board-label-inside span {
-            padding-left:2px;
-            padding-right: 2px;
-        }
-
-        /** custom square background */
-
-        .dhtml-chess-board-container-wood .dhtml-chess-square-white {
-            background-image: url(../images/board/lighter-wood.png);
-        }
-
-        .dhtml-chess-board-container-wood .dhtml-chess-square-black {
-            background-image: url(../images/board/darker-wood.png);
-        }
-
-        .chess-rank-label-odd, .chess-file-label-even {
-            color: #daac78;
-        }
-
-        .chess-rank-label-even,  .chess-file-label-odd {
-            color: #daac78;
-        }
-
-        /** Notation styling */
-        div.dhtml-chess-notation-panel{
-            text-align:center;
-        }
-        div.dhtml-chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move  {
-            color: #0D47A1;
-        }
-
-        /** Highlighted notation styles */
-        .ludo-twilight span.notation-chess-move-highlighted {
-            background-color: #0D47A1;
-            color: #FFF;
-            border-radius: 3px;
-        }
-
-        /** Styling of the highlighted square when clicking the hint button */
-        .dhtml-chess-square-highlight{
-            background-color:#0D47A1;
-            border-width:0;
-        }
-
-        .dhtml-chess-board-container{
-            background-color:transparent;!important;
-        }
-
-        /** Override some default theme styles */
-        .ludo-twilight div.ludo-window{
-            background-color:#535353;
-
-        }
-
-        .ludo-twilight .ludo-view{
-            background-color:transparent;
-        }
-
-        .dhtml-chess-view-metadata-game div.ludo-body{
-            color:#333;
-        }
-
-        body.ludo-twilight{
-            background-color:transparent;
-        }
-
-        .dhtml-chess-board-label-ranks-container {
-            text-align:center;
-        }
 
     </style>
     <!-- End DHTML Chess part 1 -->
 </head>
 
-<!--
-
-NOTICE THAT THE BODY HAS BEEN ASSIGNED TO CSS CLASS ludo-twilight.
-
-This is the theme used for DHTML Chess.
-
-Other options are ludo-light-gray, ludo-gray and ludo-blue
--->
-<body class="ludo-twilight">
+<body>
 
 <div class="content">
 

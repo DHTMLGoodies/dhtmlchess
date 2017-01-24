@@ -87,121 +87,11 @@
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <script type="text/javascript" src="js/tactics-from-file.js"></script>
+    <script type="text/javascript" src="../themes/blue.js"></script>
+    <link rel="stylesheet" href="../css/overrides.css">
+    <link rel="stylesheet" href="../themes/blue.css">
+
     <style type="text/css">
-        /* Styling of board */
-
-        .dhtml-chess-board {
-        }
-
-        .dhtml-chess-board-container {
-            background-color: #5c89b6;
-            border: 1px solid #486a8c;
-            border-radius: 5px;
-            padding:8px;
-
-        }
-
-        .ludo-layout-resize-col {
-            border-left: 1px solid #aaa;
-            border-right: 1px solid #aaa;
-        }
-
-        .chess-board-label-inside span {
-            padding-left:2px;
-            padding-right: 2px;
-        }
-
-        /** custom square background */
-
-        .dhtml-chess-square-white{
-            background-image:none !important;
-            background-color: #FFF8E1;
-
-        }
-        .dhtml-chess-square-black{
-            background-image:none !important;
-            background-color:#7fa6cf;
-
-        }
-
-        /** Display labels(A-H, 1-8) in smaller font */
-        .dhtml-chess-board-label-ranks-container,
-        .dhtml-chess-board-label-files-container{
-            color:#fffffb;
-        }
-
-
-        /** Notation styling */
-        div.dhtml-chess-notation-panel{
-            text-align:center;
-        }
-        div.dhtml-chess-notation-panel, span.notation-branch, .ludo-twilight .notation-chess-move  {
-            color: #486a8c;
-        }
-
-        /** Highlighted notation styles */
-        .ludo-twilight span.notation-chess-move-highlighted {
-            background-color: #486a8c;
-            color: #FFF;
-            border-radius: 3px;
-        }
-
-        /** Styling of the highlighted square when clicking the hint button */
-        .dhtml-chess-square-highlight{
-            background-color:#7ecf7f;
-            border-width:0;
-        }
-
-
-        /** Override some default theme styles */
-        .ludo-twilight div.ludo-window{
-            background-color:#535353;
-
-        }
-
-        .ludo-twilight .ludo-view{
-            background-color:transparent;
-        }
-
-        .dhtml-chess-view-metadata-game div.ludo-body{
-            color:#333;
-        }
-
-        body.ludo-twilight{
-            background-color:transparent;
-        }
-
-        /* Button style */
-        .ludo-twilight .ludo-form-button .ludo-body{
-            border:1px solid #3b5773;
-            background-color:#486a8c;
-            color:#fff;
-        }
-
-        .ludo-twilight .ludo-form-button div.ludo-form-button-over{
-            border:1px solid #2b4054;
-        }
-
-
-
-        /* Button click style */
-        .ludo-twilight .ludo-form-button div.ludo-form-button-down{
-            background-color:#3b5773;
-            color:#FFF;
-            border:1px solid #3b5773;
-        }
-
-        .ludo-twilight div.ludo-window{
-            background-color:#486a8c;
-        }
-
-        .ludo-twilight .ludo-window > .ludo-body {
-            border: 1px solid #3b5773;
-            color:#FFF;
-            padding:3px;
-        }
-
-
     </style>
     <!-- End DHTML Chess part 1 -->
 </head>
@@ -214,7 +104,7 @@ This is the theme used for DHTML Chess.
 
 Other options are ludo-light-gray, ludo-gray and ludo-blue
 -->
-<body class="ludo-twilight">
+<body>
 
 <div class="content">
 

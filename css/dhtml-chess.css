@@ -1,4 +1,4 @@
-/* Generated Tue Jan 24 19:11:44 CET 2017 */
+/* Generated Wed Jan 25 0:09:29 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -497,7 +497,7 @@ div.ludo-FramedView {
 }
 
 
-.ludo-view, .ludo-body{
+.ludo-view, .ludo-body, .ludo-view div, .ludo-view span, .ludo-view *{
     box-sizing: content-box !important;
 }
 /* ../ludojs/css-source/resize.css */
@@ -2041,6 +2041,9 @@ span.notation-chess-move-highlighted {
 
 div.dhtml-chess-notation-panel {
     cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 div.dhtml-chess-notation-panel div{

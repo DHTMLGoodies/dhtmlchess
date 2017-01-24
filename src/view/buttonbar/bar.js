@@ -7,9 +7,6 @@ chess.view.buttonbar.Bar = new Class({
 
     buttons: ['start', 'previous', 'play', 'next', 'end', 'flip'],
 
-    align: 'center',
-    vAlign: 'middle',
-
     styles: undefined,
 
     orientation: undefined,
@@ -32,9 +29,12 @@ chess.view.buttonbar.Bar = new Class({
 
     overlay:undefined,
 
+    anchor:undefined,
+
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'align', 'vAlign',
+        this.anchor = [0.5, 0];
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'anchor',
             'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
 
         this.disabledButtons = [];
@@ -339,8 +339,8 @@ chess.view.buttonbar.Bar = new Class({
         var s = this.svg();
         this.btnSize = this.buttonSize(s.height);
         var width = this.totalSize();
-        var left = (s.width - width) / 2;
-        var top = (s.height - this.btnSize) / 2;
+        var left = (s.width - width) * this.anchor[0];
+        var top = (s.height - this.btnSize) * this.anchor[1];
         var change = this.btnSize + this.getSpacing();
         var props = {
             x: 0, y: 0, width: this.btnSize, height: this.btnSize
