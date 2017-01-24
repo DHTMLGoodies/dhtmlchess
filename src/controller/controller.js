@@ -21,12 +21,18 @@ chess.controller.Controller = new Class({
     pgn : undefined,
     debug:true,
 
+    _module:undefined,
+
+    isBusy:false,
 
     __construct:function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
 
+        if(config.applyTo != undefined){
+            this._module = config.applyTo[0];
+        }
         this.theme = this.theme || chess.THEME || {};
 
         this.createDefaultViews();
@@ -35,17 +41,20 @@ chess.controller.Controller = new Class({
 
     createDefaultViews:function () {
         if(chess.view.dialog != undefined){
-            this.createView(chess.view.dialog.OverwriteMove);
-            this.createView(chess.view.dialog.Promote);
-            this.createView(chess.view.dialog.Comment);
-            this.createView(chess.view.dialog.NewGame);
-            this.createView(chess.view.dialog.EditGameMetadata);
+
+            this.createView('chess.view.dialog.OverwriteMove');
+            this.createView('chess.view.dialog.Promote');
+            this.createView('chess.view.dialog.Comment');
+            this.createView('chess.view.dialog.NewGame');
+            this.createView('chess.view.dialog.EditGameMetadata');
         }
     },
 
     createView:function(type){
         var c = this.theme[type] || {};
-        return Object.create(type, c);
+        c.type = type;
+        if(this._module != undefined)c.module = this._module;
+        return ludo.factory.create(c);
     },
 
 
@@ -121,6 +130,7 @@ chess.controller.Controller = new Class({
 				break;
             case 'board':
                 view.addEvent('move', this.addMove.bind(this));
+                view.addEvent('animationStart', this.setBusy.bind(this));
                 view.addEvent('animationComplete', this.nextAutoPlayMove.bind(this));
                 break;
             case 'notation':
@@ -303,7 +313,8 @@ chess.controller.Controller = new Class({
 	 * @return undefined
 	 */
     toStart:function () {
-        this.currentModel.toStart();
+        this.pauseGame();
+        if(!this.isBusy)this.currentModel.toStart();
     },
 	/**
 	 * Go to end of current game
@@ -311,7 +322,8 @@ chess.controller.Controller = new Class({
 	 * @return undefined
 	 */
     toEnd:function () {
-        this.currentModel.toEnd();
+        this.pauseGame();
+        if(!this.isBusy)this.currentModel.toEnd();
     },
 	/**
 	 * Go to previous move
@@ -319,7 +331,8 @@ chess.controller.Controller = new Class({
 	 * @return undefined
 	 */
     previousMove:function () {
-        this.currentModel.previousMove();
+        this.pauseGame();
+        if(!this.isBusy)this.currentModel.previousMove();
     },
 	/**
 	 * Go to next move
@@ -327,7 +340,8 @@ chess.controller.Controller = new Class({
 	 * @return undefined
 	 */
     nextMove:function () {
-        this.currentModel.nextMove();
+        this.pauseGame();
+        if(!this.isBusy)this.currentModel.nextMove();
     },
 	/**
 	 * Start auto play of moves in current game from current position
@@ -335,7 +349,7 @@ chess.controller.Controller = new Class({
 	 * @return undefined
 	 */
     playMoves:function () {
-        this.currentModel.startAutoPlay();
+        if(!this.isBusy)this.currentModel.startAutoPlay();
     },
 	/**
 	 * Pause auto play of moves
@@ -346,8 +360,18 @@ chess.controller.Controller = new Class({
         this.currentModel.stopAutoPlay();
     },
 
+    getAnimationDuration:function(){
+        return this.views.board.animationDuration;  
+    },
+
+    setBusy:function(){
+        this.isBusy = true;
+    },
+
     nextAutoPlayMove:function () {
+        this.fireModelEvent('animationComplete', this.currentModel, undefined);
         this.currentModel.nextAutoPlayMove();
+        this.isBusy = false;
     },
 
     selectGame:function (game, pgn) {

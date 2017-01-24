@@ -1,0 +1,24 @@
+.dhtml-chess-board {
+    border: 1px solid #daac78
+}
+
+div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+    color: #0D47A1
+}
+
+span.notation-chess-move-highlighted {
+    background-color: #0D47A1 ;
+    color: #FFF ;
+    border-radius: 3px
+}
+
+.dhtml-chess-square-highlight {
+    background-color: #0D47A1 ;
+    border-width: 0
+}
+
+.ludo-grid-Grid div.ludo-active-record {
+    font-weight: bold ;
+    background-color: #D7CCC8;
+
+}

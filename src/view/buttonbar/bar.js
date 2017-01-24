@@ -14,7 +14,7 @@ chess.view.buttonbar.Bar = new Class({
 
     orientation: undefined,
 
-    borderRadius: 2,
+    borderRadius: '5%',
     // Percent spacing of button size
     spacing: 10,
 
@@ -30,20 +30,22 @@ chess.view.buttonbar.Bar = new Class({
 
     defaultStyles: undefined,
 
+    overlay:undefined,
+
     __construct: function (config) {
         this.parent(config);
         this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'align', 'vAlign',
-            'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
+            'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
 
         this.disabledButtons = [];
         this.defaultStyles = {
             button: {
-                'stroke': '#444',
+                'stroke': '#aeb0b0',
                 'fill': '#444',
                 'stroke-width': 1
             },
             buttonOver: {
-                'stroke': '#333',
+                'stroke': '#fff',
                 'fill': '#444',
                 'stroke-width': 1
             },
@@ -55,9 +57,7 @@ chess.view.buttonbar.Bar = new Class({
             buttonDisabled: {
                 'stroke': '#444',
                 'fill': '#444',
-                'stroke-width': 1,
-                'fill-opacity': 0.7,
-                'stroke-opacity': 0.7
+                'stroke-width': 1
             },
             buttonPlay: {
                 'stroke': '#C8E6C9',
@@ -69,13 +69,16 @@ chess.view.buttonbar.Bar = new Class({
             imageDown: {fill: '#444'},
             imageDisabled: {
                 fill: '#aeb0b0',
-                'fill-opacity': 0.5,
-                'stroke-opacity': 0.5
+                'fill-opacity': 0.2,
+                'stroke-opacity': 0.2
             },
-            imagePlay: {fill: '#C8E6C9'}
-        };
+            imagePlay: {fill: '#C8E6C9'},
 
-        console.log(this.defaultStyles.button);
+            overlay : {
+                'fill-opacity' : 0.1,
+                'fill': '#fff'
+            }
+        };
 
         this.styles = this.styles || {};
 
@@ -92,6 +95,7 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
+        this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
 
         $(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -99,6 +103,7 @@ chess.view.buttonbar.Bar = new Class({
     __rendered: function () {
         this.parent();
 
+        this.getBody().css('overflow','hidden');
         this.createStylesheets();
 
         if (this.background) {
@@ -113,6 +118,8 @@ chess.view.buttonbar.Bar = new Class({
         this.els.buttons = {};
         this.els.buttonRects = {};
         this.els.buttonPaths = {};
+        this.els.overlays = {};
+        this.els.clipRects = {};
 
         jQuery.each(this.buttons, function (i, btn) {
             if (btn != 'pause') {
@@ -133,8 +140,16 @@ chess.view.buttonbar.Bar = new Class({
 
     createButton: function (name) {
         var s = this.svg();
+
+        var cp = s.$('clipPath');
+        var cr = s.$('rect');
+        cp.append(cr);
+        s.appendDef(cp);
+        this.els.clipRects[name] = cr;
+
         var g = s.$('g');
         g.attr('data-name', name);
+
         g.attr('aria-label', name);
         g.css('cursor', 'pointer');
         g.set('x', 0);
@@ -145,6 +160,13 @@ chess.view.buttonbar.Bar = new Class({
         rect.addClass('dc-button');
         this.els.buttonRects[name] = rect;
         g.append(rect);
+
+        var o = s.$('path');
+        o.css(this.styles.overlay);
+        o.clip(cp);
+        this.els.overlays[name] = o;
+        g.append(o);
+
         var p = s.$('path');
         p.set('line-join', 'round');
         p.set('line-cap', 'round');
@@ -153,10 +175,14 @@ chess.view.buttonbar.Bar = new Class({
         p.addClass('dc-image');
         g.append(p);
 
+
+
         g.on('mouseenter', this.fn('enterButton', name));
         g.on('mouseleave', this.fn('leaveButton', name));
         g.on('mousedown', this.fn('downButton', name));
         g.on('click', this.fn('clickButton', name));
+
+
 
     },
 
@@ -171,14 +197,12 @@ chess.view.buttonbar.Bar = new Class({
     enterButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, 'Over');
-            console.log('enter');
         }
     },
 
     leaveButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
-            console.log('leave');
         }
     },
 
@@ -209,7 +233,13 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
             if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
+
+
             this.fireEvent(btnName);
+
+
+
+
         }
         return false;
     },
@@ -220,13 +250,15 @@ chess.view.buttonbar.Bar = new Class({
 
         if (this.isDisabled(name)) {
             className = 'Disabled';
+
         }
+
 
         var r = this.els.buttonRects[name];
         var p = this.els.buttonPaths[name];
 
-        r.set('class', '');
-        p.set('class', '');
+        r.removeAllClasses();
+        p.removeAllClasses();
 
         r.addClass('dc-button' + className);
         p.addClass('dc-image' + className);
@@ -259,25 +291,47 @@ chess.view.buttonbar.Bar = new Class({
 
         var r = this.getButtonRadius();
 
-        jQuery.each(this.els.buttonRects, function (i, rect) {
-
+        jQuery.each(this.els.buttonRects, function (name, rect) {
             rect.css({
                 rx: r, ry: r
             });
         });
+    },
+
+    overlayPath:function(c){
+
+
+        var cy = c.y + (c.height * 0.55);
+        var b = c.y + c.height;
+        var r = c.x + c.width;
+        // A rx ry x-axis-rotation large-arc-flag sweep-flag x y
+
+        var ry = c.height * 0.05;
+        return ['M',
+            c.x, cy,
+            'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
+            'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
+            'L', r, b, c.x, b,
+
+
+            'Z'
+
+
+        ].join(' ');
 
 
     },
 
     getButtonRadius: function () {
         if (isNaN(this.borderRadius)) {
+
             var r = parseFloat(this.borderRadius);
-            r = Math.max(50, r);
+            r = Math.min(50, r);
 
             return this.btnSize * r / 100;
 
         }
-        return Math.max(this.btnSize / 2, this.borderRadius);
+        return Math.min(this.btnSize / 2, this.borderRadius);
 
     },
 
@@ -292,9 +346,13 @@ chess.view.buttonbar.Bar = new Class({
             x: 0, y: 0, width: this.btnSize, height: this.btnSize
 
         };
+
+        var overlayPath = this.overlayPath(props);
         jQuery.each(this.els.buttons, function (name, g) {
             g.setTranslate(left, top);
             this.els.buttonRects[name].setAttributes(props);
+            this.els.clipRects[name].setAttributes(props);
+            this.els.overlays[name].set('d', overlayPath);
             this.els.buttonPaths[name].set('d', this.getPath(name).join(' '));
             left += change;
 
@@ -392,21 +450,21 @@ chess.view.buttonbar.Bar = new Class({
 
             case 'flip':
                 return this.toPath([
-                    'M', 3, 0,
-                    'L', 1, 4,
-                    2.5, 4,
-                    2.5, 10,
-                    3.8, 10,
-                    3.8, 4,
-                    5.3, 4, 'Z',
-                    'M', 6, 0,
-                    'L', 6, 6,
+                    'M', 2.75, 0,
+                    'L',
+                    0.5, 3.5, 2, 3.5,
+                    2, 9.5,
+                    3.5, 9.5,
+                    3.5, 3.5,
+                    5, 3.5, 'Z',
+                    'M',
+                    6, 0, 'L',
+                    6, 6,
                     4.5, 6,
-                    6.75, 10,
+                    6.75, 9.5,
                     9, 6,
                     7.5, 6,
-                    7.5, 0
-
+                    7.5, 0, 'Z'
 
                 ]);
 
@@ -441,14 +499,17 @@ chess.view.buttonbar.Bar = new Class({
         this.controller.addEvent('newGame', this.newGame.bind(this));
     },
 
+
     startOfGame: function () {
         this.disableButton('start');
         this.disableButton('previous');
+
     },
 
     notStartOfBranch: function () {
         this.enableButton('start');
         this.enableButton('previous');
+        this.enableButton('play');
     },
     endOfBranch: function () {
         this.disableButton('end');
@@ -480,8 +541,9 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        this.autoPlayMode = false;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
+        if (!this.autoPlayMode)return;
+        this.autoPlayMode = false;
         this.cssButton('play', '');
 
         if (this.isAtEndOfBranch) {
@@ -499,6 +561,7 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
+            this.els.overlays[name].hide();
         }
     },
 
@@ -507,6 +570,7 @@ chess.view.buttonbar.Bar = new Class({
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);
             this.cssButton(name, '');
+            this.els.overlays[name].show();
         }
     },
 

@@ -46,15 +46,15 @@ chess.THEME = {
         padding:'3.5%',
         background:{
             borderRadius:'1%',
-            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip6-horizontal.png',
-            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/wood-strip6-vertical.png',
+            horizontal:'[DOCROOT]images/board-bg/wood-strip6-horizontal.png',
+            vertical:'[DOCROOT]images/board-bg/wood-strip6-vertical.png',
             paint:{
                 'stroke-width': 1,
                 'stroke' : '#e1b886'
             }
         },
-        bgWhite: ludo.config.getDocumentRoot() + 'images/board/lighter-wood.png',
-        bgBlack: ludo.config.getDocumentRoot() + 'images/board/wood8.png',
+        bgWhite: '[DOCROOT]images/board/lighter-wood.png',
+        bgBlack: '[DOCROOT]images/board/wood8.png',
         plugins: [
             {
                 type: 'chess.view.highlight.Arrow',

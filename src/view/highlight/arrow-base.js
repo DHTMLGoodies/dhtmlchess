@@ -10,10 +10,10 @@ chess.view.highlight.ArrowBase = new Class({
 
 	arrowStyles:{
 		'stroke-linejoin':'round',
-		stroke:'none',
+		stroke:'#a7311e',
 		fill:'#a7311e',
 		'stroke-opacity':.8,
-		'fill-opacity':.6
+		'fill-opacity':.5
 	},
 	__construct:function (config) {
 		this.parent(config);

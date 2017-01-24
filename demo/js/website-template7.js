@@ -92,7 +92,6 @@ chess.GameViewer = new Class({
                             borderRadius:'50%',
                             background:{
                                 borderRadius:'20%',
-                                pattern: '../images/board-bg/wood-strip-horizontal.png',
                                 paint:{
                                     'stroke-width': '1',
                                     'stroke' : '#daac78'
@@ -117,9 +116,8 @@ chess.GameViewer = new Class({
                                 },
                                 buttonDisabled: {
                                     'stroke': '#444',
-                                    'fill': '#444',
+                                    'fill': '#666',
                                     'stroke-width': 1,
-                                    'fill-opacity': 0.7,
                                     'stroke-opacity': 0.7
                                 },
                                 buttonPlay: {

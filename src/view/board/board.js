@@ -29,7 +29,7 @@ chess.view.board.Board = new Class({
      * @config float animationDuration
      * @default 0.35
      */
-    animationDuration: .35,
+    animationDuration: .20,
     /**
      * Layout of pieces, examples: "alphapale", "alpha", "merida", "kingdom"
      * @config string pieceLayout
@@ -128,6 +128,7 @@ chess.view.board.Board = new Class({
     },
 
     stopDragPiece: function (e) {
+
         if (this.draggedPiece) {
             this.draggedPiece.stopDragPiece(e);
             this.draggedPiece = undefined;
@@ -227,6 +228,8 @@ chess.view.board.Board = new Class({
             this.showMove(model,move);
             return;
         }
+        
+        this.fireEvent('animationStart');
         if (this.currentAnimation.isBusy) {
             this.playChainOfMoves.delay(200, this, [model, move]);
             return;
@@ -274,6 +277,7 @@ chess.view.board.Board = new Class({
         } else {
             this.fireEvent('highlight', this.currentAnimation.moves[0]);
             this.fireEvent('animationComplete');
+
             this.currentAnimation.isBusy = false;
         }
     },

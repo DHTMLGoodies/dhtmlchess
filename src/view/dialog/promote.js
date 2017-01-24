@@ -46,9 +46,14 @@ chess.view.dialog.Promote = new Class({
         }
     ],
 
+    __construct:function(config){
+        this.parent(config);
+    },
+
     setController: function (controller) {
         this.parent(controller);
-        this.controller.addEvent('verifyPromotion', this.showDialog.bind(this));
+
+        this.controller.on('verifyPromotion', this.showDialog.bind(this));
 
 
     },

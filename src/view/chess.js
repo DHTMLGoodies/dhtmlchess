@@ -60,6 +60,7 @@ chess.view.Chess = new Class({
         if(config.theme != undefined){
             this.theme = config.theme;
 
+            this.parseTheme();
             if(this.theme.css){
                 this.updateCss();
             }
@@ -68,6 +69,27 @@ chess.view.Chess = new Class({
         }
 
         this.parent(config);
+    },
+
+    parseTheme:function(){
+          jQuery.each(this.theme, function(k, entry){
+
+              if(jQuery.isPlainObject(entry)){
+                  this.parseThemeEntry(entry);
+              }
+
+          }.bind(this));
+    },
+
+    parseThemeEntry:function(entry){
+        var r = ludo.config.getDocumentRoot();
+        jQuery.each(entry, function(key, val){
+            if(jQuery.type(val) == 'string'){
+                entry[key] = val.replace('[DOCROOT]', r);
+            }else if(jQuery.isPlainObject(val)){
+                this.parseThemeEntry(val);
+            }
+        }.bind(this))
     },
 
     __rendered:function(){

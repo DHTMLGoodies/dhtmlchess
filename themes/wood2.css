@@ -1,0 +1,26 @@
+.dhtml-chess-board {
+    border: 1px solid #f4d199
+}
+
+.chess-rank-label-odd, .chess-file-label-even {
+    color: #f6cc96
+}
+
+.chess-rank-label-even, .chess-file-label-odd {
+    color: #f6cc96
+}
+
+.notation-chess-move {
+    color: #333
+}
+
+span.notation-chess-move-highlighted {
+    background-color: #0D47A1;
+    color: #FFF;
+    border-radius: 3px
+}
+
+.dhtml-chess-square-highlight {
+    background-color: #0D47A1;
+    border-width: 0
+}

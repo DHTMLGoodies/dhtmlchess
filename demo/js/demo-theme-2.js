@@ -74,13 +74,13 @@ chess.GameViewer = new Class({
                             ]
                         },
                         {
-                            type: 'chess.view.buttonbar.Game',
+                            type: 'chess.view.buttonbar.Bar',
                             module: this.module, // To make the controller aware of this view
                             elCss: {
                                 margin: 2
                             },
                             layout: {
-                                height: 30
+                                height: 40
 
                             }
                         }

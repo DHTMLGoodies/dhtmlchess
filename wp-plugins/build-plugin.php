@@ -25,6 +25,9 @@ class Archiver
         "../src",
         "../css",
         "../jquery",
+        "../demo",
+        "../themes",
+        "../ludojs",
         "../pgn",
         "../images",
         "../router.php",
@@ -51,7 +54,7 @@ class Archiver
             $path = $this->relativePath($file);
 
             $path = str_replace("*", "", $path);
-            $dest = " ../../wordpress/wp-content/plugins/dhtml_chess/";
+            $dest = " ../../wordpress/wp-content/plugins/dhtml_chess/api/";
             echo "cp -rf " . $file . $dest."<br>";
             exec("cp -rf " . $file . $dest);
 

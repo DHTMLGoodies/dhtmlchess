@@ -50,11 +50,11 @@ chess.THEME = {
 
         background:{
             borderRadius:'0.7%',
-            horizontal:ludo.config.getDocumentRoot() + 'images/board-bg/grey-wood-strip-horizontal.png',
-            vertical:ludo.config.getDocumentRoot() + 'images/board-bg/grey-wood-strip-vertical.png'
+            horizontal:'[DOCROOT]images/board-bg/grey-wood-strip-horizontal.png',
+            vertical:'[DOCROOT]images/board-bg/grey-wood-strip-vertical.png'
         },
-        bgWhite: ludo.config.getDocumentRoot() + 'images/board/light-grey-wood.png',
-        bgBlack: ludo.config.getDocumentRoot() + 'images/board/grey-wood.png',
+        bgWhite: '[DOCROOT]images/board/light-grey-wood.png',
+        bgBlack: '[DOCROOT]images/board/grey-wood.png',
         plugins: [
             {
                 type: 'chess.view.highlight.Arrow',

@@ -454,16 +454,16 @@ chess.view.board.GUI = new Class({
             height: boardSize + 'px'
         });
 
-
-        this.internal.squareSize = boardSize / 8;
         this.internal.pieceSize = this.getNewPieceSize();
 
+        var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+        this.internal.squareSize = w / 8;
 
         this.els.board.css({
             position: 'absolute',
             left: pl,
             top: pt,
-            width: this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width()),
+            width: w,
             height: this.els.boardContainer.height() - (this.els.board.outerHeight() - this.els.board.height())
         });
 
