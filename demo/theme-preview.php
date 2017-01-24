@@ -16,9 +16,6 @@
     ?>
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js?rnd=<?php echo $rnd; ?>"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=<?php echo $rnd; ?>"></script>
-    <script type="text/javascript" src="../../ludojs/src/layout/tabs.js?rnd=<?php echo $rnd; ?>"></script>
-    <script type="text/javascript" src="../../ludojs/src/svg/util.js?rnd=<?php echo $rnd; ?>"></script>
-    <script type="text/javascript" src="../../ludojs/src/grid/grid-header.js?rnd=<?php echo $rnd; ?>"></script>
     <script type="text/javascript" src="../src/view/buttonbar/bar.js?rnd=<?php echo $rnd; ?>"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=<?php echo $rnd; ?>" type="text/css">
     <link rel="stylesheet" href="../themes/overrides.css?rnd=<?php echo $rnd; ?>" type="text/css">
