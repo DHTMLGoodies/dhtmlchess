@@ -10,25 +10,25 @@
 
 .ludo-layout-resize-col {
     border-left: 1px solid #aaa;
-    border-right: 1px solid #aaa
+    border-right: 1px solid #aaa;
 }
 
 .chess-board-label-inside span {
     padding-left: 2px;
-    padding-right: 2px
+    padding-right: 2px;
 }
 
 /** custom square background */
 
 .dhtml-chess-square-white {
     background-image: none !important;
-    background-color: #FFF8E1
+    background-color: #FFF8E1;
 
 }
 
 .dhtml-chess-square-black {
     background-image: none !important;
-    background-color: #7fa6cf
+    background-color: #7fa6cf;
 
 }
 
@@ -71,13 +71,14 @@ body {
 }
 
 .ludo-form-button div.ludo-form-button-over {
+    background-color: #3b5773;
     border: 1px solid #694b34
 }
 
 /* Button click style */
 .ludo-form-button div.ludo-form-button-down {
-    background-color: #3b5773;
-    color: #FFF;
+    background-color: #87bbe8;
+    color: #3b5773;
     border: 1px solid #3b5773
 }
 

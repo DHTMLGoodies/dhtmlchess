@@ -13,15 +13,13 @@
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../../ludojs/src/layout/tabs.js"></script>
     <script type="text/javascript" src="../../ludojs/src/svg/util.js"></script>
+    <script type="text/javascript" src="../../ludojs/src/grid/grid-header.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <link rel="stylesheet" href="../css/overrides.css" type="text/css">
 
     <?php
- 
     $theme = isset($_GET["theme"]) ? $_GET["theme"] : "wood1";
-
     $pieces = isset($_GET["pieces"]) ? preg_replace("/[^0-9a-z_\-]/si", "", $_GET["pieces"]) : "svg_bw";
-
 
     ?>
     <script type="text/javascript" src="js/demo-theme-2.js"></script>
@@ -30,7 +28,6 @@
     <script type="text/javascript" src="../themes/<?php echo $theme; ?>.js"></script>
     <script type="text/javascript">
         chess.THEME['chess.view.board.Board'].pieceLayout='<?php echo $pieces; ?>';
-
         function renderView(renderTo, config) {
 
             new chess.view.Chess({
@@ -47,7 +44,7 @@
 </head>
 <body>
 
-<div id="board-bg" style="height:500px"></div>
+<div id="board-bg" style="height:512px;width:512px"></div>
 <script type="text/javascript">
     renderView('#board-bg', {
         type: 'chess.view.board.Board',

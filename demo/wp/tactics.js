@@ -124,6 +124,7 @@ chess.WPTactics = new Class({
                             ]
                         },
                         Object.merge({
+                            boardLayout:undefined,
                             id:'tactics_board',
                             type: 'chess.view.board.Board',
                             module:this.module,

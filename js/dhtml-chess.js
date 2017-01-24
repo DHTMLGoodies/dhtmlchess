@@ -1,4 +1,4 @@
-/* Generated Tue Jan 24 17:11:58 CET 2017 */
+/* Generated Tue Jan 24 19:11:44 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -17148,6 +17148,7 @@ ludo.grid.GridHeader = new Class({
 	renderColumns:function () {
 		var countRows = this.columnManager.getCountRows();
 
+		this.measureCellHeight();
 		for (var i = 0; i < countRows; i++) {
 			var columns = this.columnManager.getColumnsInRow(i);
 			var left = 0;
@@ -17161,6 +17162,7 @@ ludo.grid.GridHeader = new Class({
 					cell.css('top', i * this.cellHeight);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
 					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
+
 					cell.css('width', width - spacing);
 					cell.css('height', height);
 					cell.css('line-height', height + 'px');
@@ -17198,9 +17200,10 @@ ludo.grid.GridHeader = new Class({
 		this.grid.getBody().append(el);
 		this.cellHeight = el.height() + ludo.dom.getMH(el);
 
+		console.log(el);
 		this.spacing = {
-			width:ludo.dom.getMBPW(el),
-			height:ludo.dom.getMBPH(el)
+			width:el.outerWidth() - el.width(),
+			height:el.outerHeight() - el.height()
 		};
 		el.remove();
 	},
@@ -30782,9 +30785,6 @@ chess.view.board.GUI = new Class({
                 l: this.padding, t: this.padding, r: this.padding, b: this.padding
             }
         }
-
-
-
     },
 
     updateBackgroundPattern: function (horizontal, vertical) {
@@ -31162,6 +31162,7 @@ chess.view.board.GUI = new Class({
             return;
         }
 
+        console.log('h', boardSize, 'vs',  (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()))
         this.lastBoardSize = boardSize;
 
         boardSize = Math.max(this.internal.squareSizes[0] * 8, Math.floor(boardSize / 8) * 8);
@@ -31176,6 +31177,7 @@ chess.view.board.GUI = new Class({
         } else if (this.vAlign == 'bottom') {
             mt = Math.max(0, (this.getBody().height() - this.getBody().width()));
         }
+
 
         this.els.boardContainer.css({
             top: mt,
@@ -31414,7 +31416,7 @@ chess.view.board.Board = new Class({
      * @config string boardLayout
      * @default wood
      */
-    boardLayout: 'wood',
+    boardLayout: undefined,
     positionParser: undefined,
     currentValidMoves: undefined,
     ddEnabled: false,
@@ -33550,11 +33552,11 @@ chess.view.buttonbar.Game = new Class({
 chess.view.buttonbar.Bar = new Class({
 
     Extends: ludo.View,
-
+    type:'chess.view.buttonbar.Bar',
     module: 'chess',
     submodule: 'buttonbar.bar',
 
-    buttons: ['start', 'previous', 'play', 'pause', 'next', 'end', 'flip'],
+    buttons: ['start', 'previous', 'play', 'next', 'end', 'flip'],
 
     align: 'center',
     vAlign: 'middle',

@@ -480,6 +480,11 @@ div.ludo-FramedView {
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 }
+
+
+.ludo-view, .ludo-body{
+    box-sizing: content-box !important;
+}
 /* ../ludojs/css-source/resize.css */
 .ludo-column-resize-handle {
     opacity: 0.05;
@@ -987,6 +992,7 @@ div.ludo-tab-strip-right div.ludo-body {
 }
 
 .ludo-grid-header-cell {
+    box-sizing: content-box;
     position: absolute;
     overflow: hidden;
     padding-left: 5px;

@@ -15,13 +15,13 @@
 
 .dhtml-chess-square-white {
     background-image: none !important;
-    background-color: #e7caa3
+    background-color: #e7caa3 !important;;
 
 }
 
 .dhtml-chess-square-black {
     background-image: none !important;
-    background-color: #b48059
+    background-color: #b48059 !important;
 
 }
 
@@ -63,12 +63,13 @@ body.ludo-twilight {
     color: #fff
 }
 
-.ludo-form-button div.ludo-form-button-over {
+div.ludo-form-button div.ludo-form-button-over {
+    background-color: #694b34;
     border: 1px solid #694b34
 }
 
 /* Button click style */
-.ludo-form-button div.ludo-form-button-down {
+div.ludo-form-button div.ludo-form-button-down {
     background-color: #9c6f4e;
     color: #FFF;
     border: 1px solid #9c6f4e

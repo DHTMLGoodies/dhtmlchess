@@ -53,9 +53,6 @@ chess.view.board.GUI = new Class({
                 l: this.padding, t: this.padding, r: this.padding, b: this.padding
             }
         }
-
-
-
     },
 
     updateBackgroundPattern: function (horizontal, vertical) {

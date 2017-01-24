@@ -103,6 +103,7 @@ div.ludo-tab-strip-tab-active {
 }
 
 .ludo-grid-header-cell {
+    box-sizing: content-box;
     background-color: #ddd ;
     border-right: 1px solid #aaa ;
     border-bottom: 1px solid #aaa;
@@ -172,9 +173,9 @@ div.ludo-tab-strip-tab-active {
 }
 
 .ludo-window{
-    box-shadow:4px 4px 5px #555;
-    -webkit-box-shadow: 4px 4px 5px #555;
-    -moz-box-shadow:    4px 4px 5px #555;
+    box-shadow:3px 3px 7px #222;
+    -webkit-box-shadow: 3px 3px 7px #222;
+    -moz-box-shadow:    3px 3px 7px #222;
 }
 
 .ludo-form-button-m-bg-left, .ludo-form-button-m-bg-right{
@@ -216,4 +217,8 @@ div.ludo-tab-strip-tab-active {
 }
 div.ludo-form-button-disabled{
     opacity:0.5;
+}
+
+.ludo-view, .ludo-view div{
+    box-sizing: content-box !important;
 }

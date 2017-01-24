@@ -44,7 +44,7 @@ chess.view.board.Board = new Class({
      * @config string boardLayout
      * @default wood
      */
-    boardLayout: 'wood',
+    boardLayout: undefined,
     positionParser: undefined,
     currentValidMoves: undefined,
     ddEnabled: false,

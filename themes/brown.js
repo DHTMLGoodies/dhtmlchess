@@ -28,8 +28,6 @@ chess.THEME = {
         },
         padding:ludo.isMobile ? '1%' : '3%',
         labelPos: ludo.isMobile ? 'inside' : 'outside',
-        bgWhite: '[DOCROOT]images/board/lighter-wood.png',
-        bgBlack: '[DOCROOT]images/board/darker-wood.png',
         plugins: [
             {
                 type: 'chess.view.highlight.Arrow',

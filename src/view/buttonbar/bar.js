@@ -1,11 +1,11 @@
 chess.view.buttonbar.Bar = new Class({
 
     Extends: ludo.View,
-
+    type:'chess.view.buttonbar.Bar',
     module: 'chess',
     submodule: 'buttonbar.bar',
 
-    buttons: ['start', 'previous', 'play', 'pause', 'next', 'end', 'flip'],
+    buttons: ['start', 'previous', 'play', 'next', 'end', 'flip'],
 
     align: 'center',
     vAlign: 'middle',
