@@ -169,6 +169,9 @@ chess.WPViewer = new Class({
                                 weight:1
                             },
                             type:'chess.view.gamelist.Grid',
+                            elCss:{
+                                border: '1px solid ' + chess.THEME.borderColor
+                            },
                             css:{
                                 'overflow-y':'auto'
                             },
@@ -192,12 +195,7 @@ chess.WPViewer = new Class({
                                     }
                                 },
                                 shim:{
-                                    txt : 'Loading games'
-                                },
-                                paging:{
-                                    size:25,
-                                    pageQuery:false,
-                                    cache:false
+                                    txt : ''
                                 }
                             },
                             cols:['white', 'black', 'result', 'event', 'site']

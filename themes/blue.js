@@ -77,7 +77,8 @@ chess.THEME = {
                 fill:'#87bbe8'
             },
             buttonDisabled:{
-                fill:'#87bbe8'
+                fill:'#c0ddf4',
+                stroke : '#87bbe8'
             },
             imageDisabled:{
                 fill:'#3b5773'

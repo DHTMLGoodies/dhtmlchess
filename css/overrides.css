@@ -222,3 +222,10 @@ div.ludo-form-button-disabled{
 .ludo-view, .ludo-view div{
     box-sizing: content-box !important;
 }
+
+div.dhtml-chess-notation-panel {
+    cursor: default;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
