@@ -1,8 +1,8 @@
-.dhtml-chess-board  {
+.dhtml-chess-board{
     border: 1px solid #f4d199;
 }
 
-.chess-rank-label-odd, .chess-file-label-even  {
+.chess-rank-label-odd,.chess-file-label-even  {
     color: #f6cc96
 }
 

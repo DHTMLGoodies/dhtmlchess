@@ -78,28 +78,29 @@ function parseDirectory($dir, $replacements, $prefix, $whiteToBlack = false, $bg
 
 $replacementsWhite = array(
     "#e5e0bf" => "#FFFFFF",
-    "#000000" => "#000000"
+    "#000000" => "#1a2026"
 );
 
 $replacementsBlack = array(
-    "#e5e0bf" => "#000001",
-    "#000000" => "#FFF",
+    "#000000" => "#1a2026",
+    "#ff0000" => "#FFF",
     'stroke-width:1.5' => 'stroke-width:1'
 );
 
 clearFiles("output/");
 
 
-parseDirectory("white/", $replacementsWhite, "svg_bluegrey", false, "../board/lightest-wood.png", "../board/darkest-wood.png");
-parseDirectory("white/", $replacementsBlack, "svg_bluegrey", true, "../board/lightest-wood.png", "../board/darkest-wood.png");
+parseDirectory("white/", $replacementsWhite, "svg_darkgrey", false, "../board/lightest-wood.png", "../board/darkest-wood.png");
+parseDirectory("black/", $replacementsBlack, "svg_darkgrey", true, "../board/lightest-wood.png", "../board/darkest-wood.png");
 
 $replacementsWhite = array(
     "#e5e0bf" => "#c3daf9",
-    "#000000" => "#000000"
+    "#000000" => "#1a2026"
 );
 
 $replacementsBlack = array(
     "#e5e0bf" => "#c3daf9",
+    "#ff0000" => "#fff",
 );
 
 

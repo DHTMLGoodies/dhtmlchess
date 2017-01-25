@@ -3,17 +3,17 @@
 }
 
 div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
-    color: #0D47A1
+    color: #000
 }
 
 span.notation-chess-move-highlighted {
-    background-color: #0D47A1 ;
+    background-color: #6e3827 ;
     color: #FFF ;
     border-radius: 3px
 }
 
 .dhtml-chess-square-highlight {
-    background-color: #0D47A1 ;
+    background-color: #6e3827 ;
     border-width: 0
 }
 

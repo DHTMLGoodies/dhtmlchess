@@ -7,6 +7,14 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
+                'dhtmlchessdatabase' => '/wpdb/DhtmlChessDatabase.php',
+                'dhtmlchessdatabaseimportpgn' => '/wpdb/DhtmlChessDatabaseImportPgn.php',
+                'dhtmlchessdatabaseinstaller' => '/wpdb/DhtmlChessDatabaseInstaller.php',
+                'dhtmlchessdatabasepgnutil' => '/wpdb/DhtmlChessDatabasePgnUtil.php',
+                'dhtmlchessdatabasepgn' => '/wpdb/DhtmlChessDatabasePgn.php',
+                'dhtmlchesscache' => '/wpdb/DhtmlChessCache.php',
+                'dhtmlchesspgnlist' => '/wpdb/DhtmlChessPgnList.php',
+                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php',
                 'accessortest' => '/chessDB/ludoDB/Tests/AccessorTest.php',
                 'achild' => '/chessDB/ludoDB/Tests/classes/Dependencies/AChild.php',
                 'acity' => '/chessDB/ludoDB/Tests/classes/Dependencies/ACity.php',

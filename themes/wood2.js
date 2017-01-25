@@ -78,12 +78,13 @@ chess.THEME = {
                 fill:'#380a06'
             },
             buttonDisabled:{
-                fill:'#c5b6b5',
+                fill:'#380a06',
                 stroke : '#380a06',
-                'stroke-opacity' : 0.3
+                'stroke-opacity' : 0.3,
+                'fill-opacity' : 0.25
             },
             imageDisabled:{
-                fill:'#380a06'
+                fill:'#390904'
             }
         }
     }

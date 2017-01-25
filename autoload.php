@@ -22,6 +22,8 @@ spl_autoload_register(
                 'author' => '/php/chessDB/ludoDB/examples/mod_rewrite/Author.php',
                 'availableservicestest' => '/php/chessDB/ludoDB/Tests/AvailableServicesTest.php',
                 'board0x88config' => '/php/parser/Board0x88Config.php',
+                'dhtmlchessdatabase' => '/php/wpdb/DhtmlChessDatabase.php',
+
                 'book' => '/php/chessDB/ludoDB/examples/mod_rewrite/Book.php',
                 'bookauthor' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthor.php',
                 'bookauthors' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthors.php',
@@ -207,7 +209,15 @@ spl_autoload_register(
                 'tludojscountry' => '/php/chessDB/ludoDB/Tests/classes/LudoJS/LudoJSCountry.php',
                 'tludojsperson' => '/php/chessDB/ludoDB/Tests/classes/LudoJS/LudoJSPerson.php',
                 'xhpprofiling' => '/php/chessDB/ludoDB/xhprof/XHPProfiling.php',
-                'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php'
+                'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php',
+
+                'dhtmlchessdatabaseimportpgn' => '/php/wpdb/DhtmlChessDatabaseImportPgn.php',
+                'dhtmlchessdatabaseinstaller' => '/php/wpdb/DhtmlChessDatabaseInstaller.php',
+                'dhtmlchessdatabasepgn' => '/php/wpdb/DhtmlChessDatabasePgn.php',
+                'dhtmlchessdatabasepgnutil' => '/php/wpdb/DhtmlChessDatabasePgnUtil.php',
+                'dhtmlchesspgnlist' => '/php/wpdb/DhtmlChessPgnList.php',
+                'dhtmlchesscache' => '/php/wpdb/DhtmlChessCache.php',
+                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php'
             );
         }
         $cn = strtolower($class);

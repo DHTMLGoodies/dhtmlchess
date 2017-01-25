@@ -2,6 +2,10 @@
     text-align: right;
     padding-right: 4px
 }
+.dhtml-chess-board {
+    border: 1px solid #C47E45
+}
+
 
 .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
     padding-left: 2px;
@@ -39,10 +43,6 @@ span.notation-chess-move-highlighted {
 
 .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
-}
-
-body.ludo-twilight {
-    background-color: transparent
 }
 
 .ludo-form-button .ludo-body {

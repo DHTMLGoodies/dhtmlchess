@@ -225,10 +225,21 @@ div.ludo-form-button-disabled{
 div.dhtml-chess-notation-panel {
     cursor: default;
     user-select: none;
+    font-weight:normal;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
 
 .ludo-chess-view-metadata-game{
     color:#222;
+}
+
+
+div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+    font-weight:normal;
+}
+
+/** Highlighted notation styles */
+span.notation-chess-move-highlighted {
+    font-weight:normal;
 }
