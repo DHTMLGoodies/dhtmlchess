@@ -23,10 +23,10 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js"></script>
     <script type="text/javascript" src="../src/view/position/pieces.js"></script>
     <script type="text/javascript" src="../src/view/position/dialog.js"></script>
-    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
     <style type="text/css">
         body, html {
@@ -36,9 +36,13 @@
         }
     </style>
 </head>
-<body>
+<body class="ludo-twilight">
 <script type="text/javascript">
-new chess.view.position.Dialog();
+new chess.view.position.Dialog({
+    layout:{
+        centerIn:$(document.body)
+    }
+});
 
 </script>
 </body>

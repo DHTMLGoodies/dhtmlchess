@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../src/view/highlight/arrow-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/arrow.js"></script>
     <script type="text/javascript" src="../src/view/highlight/arrow-svg.js"></script>
-    <script type="text/javascript" src="../src/view/buttonbar/game.js"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/bar.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js"></script>
     <script type="text/javascript" src="../src/view/notation/tactic-panel.js"></script>
     <script type="text/javascript" src="../src/view/gamelist/grid.js"></script>
@@ -133,7 +133,10 @@
                     },
                     {
                         type:'chess.view.board.Board',
+                        pieceLayout:'svg_bw',
                         labels:true,
+                        bgWhite: ludo.config.getDocumentRoot() + 'images/board/lightest-wood.png',
+                        bgBlack: ludo.config.getDocumentRoot() + 'images/board/darker-wood.png',
                         layout:{
                             height:'wrap'
                         },
@@ -152,12 +155,12 @@
                         ]
                     },
                     {
-                        type:'chess.view.buttonbar.Game',
-                        width:200,
+                        type:'chess.view.buttonbar.Bar',
+                        anchor:[0.5, 0.5],
                         elCss:{
                             margin:2
                         },
-                        height:30
+                        height:40
                     }
                 ]
             },
@@ -289,6 +292,9 @@
                                 title:'Notations',
                                 id:'notation-view',
                                 type:'chess.view.notation.Panel',
+                                css:{
+                                    'background-color' : '#fff'
+                                },
                                 notations:'long',
                                 showContextMenu:true,
                                 figurines:'svg_bw'

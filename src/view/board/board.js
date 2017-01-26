@@ -35,7 +35,7 @@ chess.view.board.Board = new Class({
      * @config string pieceLayout
      * @default alphapale
      */
-    pieceLayout: 'svg_alpha_bw',
+    pieceLayout: 'svg_bw',
     /**
      * Layout of board. The name correspondes to the suffix of the CSS class
      * dhtml-chess-board-container-wood. (In this example wood). If you want to create your own

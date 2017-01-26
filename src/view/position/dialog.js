@@ -107,6 +107,7 @@ chess.view.position.Dialog = new Class({
         this.pieces = {};
         this.pieces.white = this.addChild({
             type: 'chess.view.position.Pieces',
+
             layout: {
                 height: 470,
                 width: 55,
@@ -128,6 +129,9 @@ chess.view.position.Dialog = new Class({
             pieceColor: 'black',
             listeners: {
                 selectpiece: this.selectPiece.bind(this)
+            },
+            elCss:{
+                'padding-right' : 4
             },
             layout: {
                 height: 400,
@@ -297,8 +301,15 @@ chess.view.position.Dialog = new Class({
     },
     showLoadFenDialog: function () {
         new ludo.dialog.Prompt({
-            width: 400,
-            height: 130,
+            layout:{
+                width: 400,
+                height: 140,
+                centerIn:this.getEl()
+            },
+            css:{
+                padding:4
+            },
+            resizable:false,
             html: chess.getPhrase('Paste fen into the text box below'),
             inputConfig: {
                 stretchField: true
@@ -314,6 +325,7 @@ chess.view.position.Dialog = new Class({
 
     loadFen: function (fen) {
         if (this.isValidFen(fen)) {
+
             this.positionValidator.setFen(fen);
 
             this.sideToMove.setColor(this.positionValidator.getColor());
@@ -324,18 +336,34 @@ chess.view.position.Dialog = new Class({
         }
     },
 
-    isValidFen: function () {
+    isValidFen: function (fen) {
+
+        try{
+            parser = new chess.parser.FenParser0x88(fen);
+            var res = parser.getValidMovesAndResult();
+
+
+
+        }catch(e){
+            new ludo.Notification({
+                html : chess.getPhrase('Invalid Fen')
+            });
+            return false;
+        }
         return true;
     },
 
     show: function () {
         this.parent();
+
         if (this.controller) {
             var model = this.controller.getCurrentModel();
             if (model) {
                 this.loadFen(model.getCurrentPosition());
             }
         }
+
+        this.center();
 
     }
 });

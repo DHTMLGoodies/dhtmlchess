@@ -999,6 +999,10 @@ div.ludo-tab-strip-right div.ludo-body {
     padding-right: 5px;
     height: 20px;
     cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .ludo-grid-Grid div.last-header-cell {
@@ -2268,7 +2272,7 @@ div.position-setup-piece-over{
 }
 
 div.position-setup-selected-piece{
-    background-color:#cbf8a2;
+    background-color:#ccc;
     border:2px solid blue;
     padding:0px;
 }
@@ -2906,11 +2910,15 @@ Collapse bar
 .ludo-twilight .ludo-form-text-element
 {
     background-color:#535354;
-    border-color:#7a7a7a;
+
     color:#eee;
     border-top-color: transparent;
     border-left-color: transparent;
     border-right-color: transparent;
+}
+
+.ludo-twilight input[type="text"]{
+    border-bottom:1px solid #7a7a7a;
 }
 
 .ludo-twilight div.ludo-form-textarea .ludo-form-text-element{

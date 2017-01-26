@@ -1,4 +1,4 @@
-/* Generated Thu Jan 26 3:22:33 CET 2017 */
+/* Generated Thu Jan 26 10:04:19 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -7928,7 +7928,7 @@ ludo.layout.Renderer = new Class({
                     value = value.getEl != undefined ? value.getEl() : value;
                     var pos = value.offset();
                     c.top = (pos.top + (value.height() / 2)) - (c.height / 2);
-                    c.left = (pos.left + value.outerWidth()) / 2 - (c.width / 2);
+                    c.left = (pos.left + value.outerWidth()/ 2)  - (c.width / 2);
                 };
             case 'centerHorizontalIn':
                 return function () {
@@ -18603,9 +18603,6 @@ ludo.grid.Grid = new Class({
 			this.els.dataContainer.css('cursor', 'pointer');
 		}
 
-
-
-
 		this.positionVerticalScrollbar.delay(100, this);
 
 		if (this.getParent()) {
@@ -18960,7 +18957,7 @@ ludo.grid.Grid = new Class({
 			this.columnManager.clearStretchedWidths();
 
 			var totalWidth = this.columnManager.getTotalWidth();
-			var viewSize = this.getBody().width() - ludo.dom.getPW(this.getBody()) - ludo.dom.getBW(this.getBody());
+			var viewSize = this.getBody().width();
 			var restSize = viewSize - totalWidth;
 			if (restSize <= 0) {
 				return;
@@ -18980,10 +18977,6 @@ ludo.grid.Grid = new Class({
 			this.emptyTextEl().css('display', this.currentData.length > 0 ? 'none' : '');
 		}
 
-		if (Browser['ie']) {
-			this.populateDataIE();
-			return;
-		}
 		var contentHtml = [];
 		var keys = this.columnManager.getLeafKeys();
 		for (var i = 0; i < keys.length; i++) {
@@ -19030,24 +19023,6 @@ ludo.grid.Grid = new Class({
 		}
 		ret += this.columnManager.getAlignmentOf(col);
 		return ret;
-	},
-
-	populateDataIE:function () {
-		this.els.dataContainer.html( '');
-		this.createDataColumnElements();
-		this.resizeColumns();
-		var keys = this.columnManager.getLeafKeys();
-
-		for (var i = 0; i < keys.length; i++) {
-			if (this.columnManager.isHidden(keys[i])) {
-				this.els.dataColumns[keys[i]].css('display', 'none');
-			} else {
-				this.els.dataColumns[keys[i]].css('display', '');
-				this.els.dataColumns[keys[i]].html(this.getHtmlTextForColumn(keys[i]));
-			}
-		}
-		this.resizeVerticalScrollbar();
-		this.highlightActiveRecord();
 	},
 
 	resizeVerticalScrollbar:function () {
@@ -20457,11 +20432,11 @@ ludo.dialog.Prompt = new Class({
     },
 
     getValue : function(){
-        return this.input.getValue()
+        return this.input.val()
     },
 
     buttonClick : function(value, button){
-        this.fireEvent(button.value.toLowerCase(), [this.getValue(), this]);
+        this.fireEvent(button.value.toLowerCase(), [this.val(), this]);
         if (this.autoHideOnBtnClick) {
             this.hide();
         }
@@ -30419,6 +30394,7 @@ chess.view.notation.Panel = new Class({
     },
     goToStartOfBranch: function () {
         this.clearHighlightedMove();
+        this.getBody().scrollTop(0);
     },
 
     setCurrentMove: function (model) {
@@ -30446,13 +30422,18 @@ chess.view.notation.Panel = new Class({
     },
 
     scrollMoveIntoView: function (move) {
-        var scrollTop = this.getBody().scrollTop;
-        var bottomOfScroll = scrollTop + this.getBody().clientHeight;
 
-        if ((move.offsetTop + 40) > bottomOfScroll) {
-            this.getBody().scrollTop = scrollTop + 40;
-        } else if (move.offsetTop < scrollTop) {
-            this.getBody().scrollTop = move.offsetTop - 5;
+        if(move.position == undefined)move = jQuery(move);
+
+        var scrollTop = this.getBody().scrollTop();
+        var bottomOfScroll = scrollTop + this.getBody().height();
+        var moveTop = move.position().top;
+        var oh = move.outerHeight();
+
+        if ((moveTop + oh) > bottomOfScroll) {
+            this.getBody().scrollTop(moveTop + oh);
+        } else if (moveTop < scrollTop) {
+            this.getBody().scrollTop(Math.max(0, moveTop - 5));
         }
     },
 
@@ -31407,7 +31388,7 @@ chess.view.board.Board = new Class({
      * @config string pieceLayout
      * @default alphapale
      */
-    pieceLayout: 'svg_alpha_bw',
+    pieceLayout: 'svg_bw',
     /**
      * Layout of board. The name correspondes to the suffix of the CSS class
      * dhtml-chess-board-container-wood. (In this example wood). If you want to create your own
@@ -33562,7 +33543,7 @@ chess.view.buttonbar.Bar = new Class({
 
     orientation: undefined,
 
-    borderRadius: '5%',
+    borderRadius: '8%',
     // Percent spacing of button size
     spacing: 10,
 
@@ -36871,8 +36852,15 @@ chess.view.position.Dialog = new Class({
     },
     showLoadFenDialog: function () {
         new ludo.dialog.Prompt({
-            width: 400,
-            height: 130,
+            layout:{
+                width: 400,
+                height: 140,
+                centerIn:this.getEl()
+            },
+            css:{
+                padding:4
+            },
+            resizable:false,
             html: chess.getPhrase('Paste fen into the text box below'),
             inputConfig: {
                 stretchField: true
@@ -36888,6 +36876,7 @@ chess.view.position.Dialog = new Class({
 
     loadFen: function (fen) {
         if (this.isValidFen(fen)) {
+
             this.positionValidator.setFen(fen);
 
             this.sideToMove.setColor(this.positionValidator.getColor());
@@ -36898,18 +36887,34 @@ chess.view.position.Dialog = new Class({
         }
     },
 
-    isValidFen: function () {
+    isValidFen: function (fen) {
+
+        try{
+            parser = new chess.parser.FenParser0x88(fen);
+            var res = parser.getValidMovesAndResult();
+
+
+
+        }catch(e){
+            new ludo.Notification({
+                html : chess.getPhrase('Invalid Fen')
+            });
+            return false;
+        }
         return true;
     },
 
     show: function () {
         this.parent();
+
         if (this.controller) {
             var model = this.controller.getCurrentModel();
             if (model) {
                 this.loadFen(model.getCurrentPosition());
             }
         }
+
+        this.center();
 
     }
 });
@@ -41174,9 +41179,7 @@ chess.model.Game = new Class({
      */
     populate: function (gameData) {
 
-        console.log(gameData);
-
-        // this.fire('loadGame', gameData); 
+        // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;

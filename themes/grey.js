@@ -17,7 +17,7 @@ chess.THEME = {
                 'fill': '#1a2026'
             }
         },
-        pieceLayout:'svg_darkgray',
+        pieceLayout:'svg_darkgrey',
         labelOddStyles:ludo.isMobile ? {
             'color': '#fff'
         }: {
@@ -91,7 +91,8 @@ chess.THEME = {
                 stroke : '#888'
             },
             imageDisabled:{
-                fill:'#777'
+                fill:'#ccc',
+                'fill-opacity' : 0.3
             }
         }
     }

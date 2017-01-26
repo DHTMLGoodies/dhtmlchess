@@ -1,4 +1,4 @@
-/* Generated Thu Jan 26 3:22:33 CET 2017 */
+/* Generated Thu Jan 26 10:04:19 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -1014,6 +1014,10 @@ div.ludo-tab-strip-right div.ludo-body {
     padding-right: 5px;
     height: 20px;
     cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .ludo-grid-Grid div.last-header-cell {
@@ -2283,7 +2287,7 @@ div.position-setup-piece-over{
 }
 
 div.position-setup-selected-piece{
-    background-color:#cbf8a2;
+    background-color:#ccc;
     border:2px solid blue;
     padding:0px;
 }

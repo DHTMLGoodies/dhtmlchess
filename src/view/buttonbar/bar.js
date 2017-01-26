@@ -11,7 +11,7 @@ chess.view.buttonbar.Bar = new Class({
 
     orientation: undefined,
 
-    borderRadius: '5%',
+    borderRadius: '8%',
     // Percent spacing of button size
     spacing: 10,
 
