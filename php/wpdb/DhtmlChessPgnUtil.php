@@ -45,12 +45,11 @@ class DhtmlChessPgnUtil
         
         $pgnFilePath = $this->getUniqueName($pgnFilePath);
 
-        
+
         $wpdb->insert(
             DhtmlChessDatabase::TABLE_PGN,
             array(
-                DhtmlChessDatabase::COL_PGN_NAME => $pgnFilePath,
-                DhtmlChessDatabase::COL_COUNT_GAMES => 0
+                DhtmlChessDatabase::COL_PGN_NAME => $pgnFilePath
             ),
             array(
                 '%s','%d'
@@ -74,5 +73,25 @@ class DhtmlChessPgnUtil
     private function exists($pgnName){
         $id= $this->getId($pgnName);
         return isset($id);
+    }
+
+    public static function lastMoves($moves = array())
+    {
+        $count = count($moves);
+        $start = $count - 3;
+        $start = max(0, $start);
+
+        $ret = array();
+
+        if ($start % 2 === 1) $ret[] = ".. " . (floor($start / 2) + 1) . ".";
+        for ($i = $start; $i < $count; $i++) {
+            if (isset($moves[$i])) {
+                if ($i % 2 === 0) {
+                    $ret[] = (($i / 2) + 1) . ".";
+                }
+                $ret[] = $moves[$i]['m'];
+            }
+        }
+        return implode(" ", $ret);
     }
 }

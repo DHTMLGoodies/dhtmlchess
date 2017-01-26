@@ -14,9 +14,11 @@ spl_autoload_register(
                 'dhtmlchesspgn' => '/wpdb/DhtmlChessPgn.php',
                 'dhtmlchesscache' => '/wpdb/DhtmlChessCache.php',
                 'dhtmlchesspgnlist' => '/wpdb/DhtmlChessPgnList.php',
+                'dhtmlchessdraft' => '/wpdb/DhtmlChessDraft.php',
+                'dhtmlchessexception' => '/wpdb/DhtmlChessException.php',
+                'dhtmlchesspgnnotfoundexception' => '/wpdb/DhtmlChessException.php',
 
-                
-                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php',
+
                 'accessortest' => '/chessDB/ludoDB/Tests/AccessorTest.php',
                 'achild' => '/chessDB/ludoDB/Tests/classes/Dependencies/AChild.php',
                 'acity' => '/chessDB/ludoDB/Tests/classes/Dependencies/ACity.php',

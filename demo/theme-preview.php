@@ -161,7 +161,8 @@
             },
             children: [
                 {
-                    title: 'First tab',        type:'chess.view.gamelist.Grid',
+                    title: 'First tab',
+                    type:'chess.view.gamelist.Grid',
                     css:{
                         'overflow-y':'auto'
                     },

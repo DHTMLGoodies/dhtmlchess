@@ -217,7 +217,9 @@ spl_autoload_register(
                 'dhtmlchesspgnutil' => '/php/wpdb/DhtmlChessPgnUtil.php',
                 'dhtmlchesspgnlist' => '/php/wpdb/DhtmlChessPgnList.php',
                 'dhtmlchesscache' => '/php/wpdb/DhtmlChessCache.php',
-                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php'
+                'dhtmlchessdraft' => '/php/wpdb/DhtmlChessDraft.php',
+                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php',
+                'dhtmlchesspgnnotfoundexception' => '/php/wpdb/DhtmlChessException.php',
             );
         }
         $cn = strtolower($class);

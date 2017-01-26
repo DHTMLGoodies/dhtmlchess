@@ -30,7 +30,7 @@ class DhtmlChessPgn
         $util = new DhtmlChessPgnUtil();
         $id = $util->getId($name);
         if(empty($id)){
-            throw new DhtmlChessException("Unable to locate pgn");
+            throw new DhtmlChessPgnNotFoundException("Unable to locate pgn");
         }
         return isset($id) ? new DhtmlChessPgn($id) : null;
     }
@@ -77,7 +77,7 @@ class DhtmlChessPgn
         $ret = array();
         foreach ($results as $game) {
             $gameObject = json_decode($game->{DhtmlChessDatabase::COL_GAME}, true);
-            $gameObject['last_moves'] = $this->getLastMoves($gameObject['moves']);
+            $gameObject['last_moves'] = DhtmlChessPgnUtil::lastMoves($gameObject['moves']);
 
             unset($gameObject["moves"]);
             unset($gameObject["metadata"]);
@@ -88,25 +88,6 @@ class DhtmlChessPgn
         return $ret;
     }
 
-    private function getLastMoves($moves = array())
-    {
-        $count = count($moves);
-        $start = $count - 3;
-        $start = max(0, $start);
-
-        $ret = array();
-
-        if ($start % 2 === 1) $ret[] = ".. " . (floor($start / 2) + 1) . ".";
-        for ($i = $start; $i < $count; $i++) {
-            if (isset($moves[$i])) {
-                if ($i % 2 === 0) {
-                    $ret[] = (($i / 2) + 1) . ".";
-                }
-                $ret[] = $moves[$i]['m'];
-            }
-        }
-        return implode(" ", $ret);
-    }
 
     public function cachedListOfGames()
     {
@@ -123,7 +104,7 @@ class DhtmlChessPgn
             . " where " . DhtmlChessDatabase::COL_PGN_ID . "= %d", $this->id. " order by rand()");
 
         $game = $this->wpdb->get_col($query, 0);
-        return !empty($game) ? $game : null;
+        return !empty($game) ? $game[0] : null;
     }
     
     /**
@@ -187,6 +168,7 @@ class DhtmlChessPgn
         $id = $this->wpdb->insert_id;
 
         $game["id"] = $id;
+        $game["pgn"] = $this->getName();
 
         $this->wpdb->update(
             DhtmlChessDatabase::TABLE_GAME,

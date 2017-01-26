@@ -13,6 +13,7 @@ class DhtmlChessDatabase
     const TABLE_GAME = 'dhtml_chess_game';
     const TABLE_GAME_LIST = 'dhtml_chess_game_list';
     const TABLE_CACHE = "dhtml_chess_cache";
+    const TABLE_DRAFT = "dhtml_chess_game_draft";
 
     const COL_ID = "id";
     const COL_DHTML_CHESS_ID = "dhtml_chess_id";
@@ -22,11 +23,17 @@ class DhtmlChessDatabase
     const COL_GAME = "game";
     const COL_DATA = "data";
     const COL_COUNT_GAMES = "count_games";
+    const COL_CREATED = "created";
+    const COL_UPDATED = "updated";
+    const COL_TITLE = "title";
 
     const COL_CACHE_KEY = "cache_key";
     const COL_CACHE_VALUE = "cache_val";
 
     const CACHE_PGN = "pgn";
+
+    const KEY_PGN = "pgn";
+    const KEY_DRAFT_ID = "draft_id";
 
     public function __construct(){
 
@@ -68,7 +75,29 @@ class DhtmlChessDatabase
         $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->randomGame();
     }
-    
+
+    /**
+     * @param {String} $gameId
+     * @param $toPgn
+     * @throws DhtmlChessException
+     */
+    public function moveGame($gameId, $toPgn){
+        $pgn = DhtmlChessPgn::instanceByName($toPgn);
+        $game = $pgn->gameByIndex($gameId);
+
+        if(isset($game)){
+            $gameObject = json_decode($game, true);
+            if(empty($gameObject["pgn"])){
+                throw new DhtmlChessException("Unable to move game - parent pgn not found");
+            }
+
+            $fromPgn = DhtmlChessPgn::instanceByName($gameObject["pgn"]);
+
+            $fromPgn->deleteGame($gameId);
+            $pgn->appendGame($game);
+        }
+        
+    }
 
     public function gameByIndex($pgn, $index){
         $pgn = DhtmlChessPgn::instanceByName($pgn);
@@ -119,5 +148,70 @@ class DhtmlChessDatabase
         $query = "select count(" . DhtmlChessDatabase::COL_ID . ") as count from " . DhtmlChessDatabase::TABLE_GAME;
         $result = $wpdb->get_col($query, 0);
         return !empty($result) ? $result[0] : 0;
+    }
+
+
+    /**
+     * @param $game
+     * @return int draftid
+     */
+    public function saveDraft($game){
+        
+        $draft = new DhtmlChessDraft();
+        if(is_string($game)){
+            $game = json_decode($game, true);
+        }
+        if(!empty($game[self::KEY_DRAFT_ID])){
+            $id = $game[self::KEY_DRAFT_ID];
+            return $draft->update($id, $game);
+        }
+        
+        return $draft->save($game);
+
+    }
+    
+    public function countDrafts(){
+        $draft = new DhtmlChessDraft();
+        return $draft->countDrafts();
+    }
+
+    public function getDraft($draftId){
+        $draft = new DhtmlChessDraft();
+        return $draft->getDraft($draftId);
+    }
+    
+    public function deleteDraft($draftId){
+        $draft = new DhtmlChessDraft();
+        return $draft->deleteDraft($draftId);
+        
+    }
+
+    public function allDrafts(){
+        $draft = new DhtmlChessDraft();
+        return $draft->allDrafts();
+    }
+
+    public function publishDraft($draftId, $pgn){
+
+        if(empty($pgn)){
+            throw new DhtmlChessException("Unable to publish draft - pgn is empty");
+        }
+
+        $draft = $this->getDraft($draftId);
+
+        $draft = json_decode($draft, true);
+        unset($draft[self::KEY_DRAFT_ID]);
+
+        try{
+            $pgn = DhtmlChessPgn::instanceByName($pgn);
+            $pgn->appendGame($draft);
+            $this->deleteDraft($draftId);
+
+        }catch(DhtmlChessPgnNotFoundException $e){
+            $util = new DhtmlChessPgnUtil();
+            $pgn = $util->create($pgn);
+            $pgn->appendGame($draft);
+            $this->deleteDraft($draftId);
+        }
     }
 }
