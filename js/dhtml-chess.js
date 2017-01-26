@@ -1,4 +1,4 @@
-/* Generated Thu Jan 26 10:04:19 CET 2017 */
+/* Generated Thu Jan 26 15:17:52 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -36662,6 +36662,7 @@ chess.view.position.Dialog = new Class({
         this.pieces = {};
         this.pieces.white = this.addChild({
             type: 'chess.view.position.Pieces',
+
             layout: {
                 height: 470,
                 width: 55,
@@ -36683,6 +36684,9 @@ chess.view.position.Dialog = new Class({
             pieceColor: 'black',
             listeners: {
                 selectpiece: this.selectPiece.bind(this)
+            },
+            elCss:{
+                'padding-right' : 4
             },
             layout: {
                 height: 400,

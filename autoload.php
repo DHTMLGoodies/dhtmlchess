@@ -22,7 +22,7 @@ spl_autoload_register(
                 'author' => '/php/chessDB/ludoDB/examples/mod_rewrite/Author.php',
                 'availableservicestest' => '/php/chessDB/ludoDB/Tests/AvailableServicesTest.php',
                 'board0x88config' => '/php/parser/Board0x88Config.php',
-                'dhtmlchessdatabase' => '/php/wpdb/DhtmlChessDatabase.php',
+                'dhtmlchessdatabase' => '/php/wordpress/DhtmlChessDatabase.php',
 
                 'book' => '/php/chessDB/ludoDB/examples/mod_rewrite/Book.php',
                 'bookauthor' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthor.php',
@@ -211,15 +211,15 @@ spl_autoload_register(
                 'xhpprofiling' => '/php/chessDB/ludoDB/xhprof/XHPProfiling.php',
                 'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php',
 
-                'dhtmlchessimportpgn' => '/php/wpdb/DhtmlChessImportPgn.php',
-                'dhtmlchessinstaller' => '/php/wpdb/DhtmlChessInstaller.php',
-                'dhtmlchesspgn' => '/php/wpdb/DhtmlChessPgn.php',
-                'dhtmlchesspgnutil' => '/php/wpdb/DhtmlChessPgnUtil.php',
-                'dhtmlchesspgnlist' => '/php/wpdb/DhtmlChessPgnList.php',
-                'dhtmlchesscache' => '/php/wpdb/DhtmlChessCache.php',
-                'dhtmlchessdraft' => '/php/wpdb/DhtmlChessDraft.php',
-                'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php',
-                'dhtmlchesspgnnotfoundexception' => '/php/wpdb/DhtmlChessException.php',
+                'dhtmlchessimportpgn' => '/php/wordpress/DhtmlChessImportPgn.php',
+                'dhtmlchessinstaller' => '/php/wordpress/DhtmlChessInstaller.php',
+                'dhtmlchesspgn' => '/php/wordpress/DhtmlChessPgn.php',
+                'dhtmlchesspgnutil' => '/php/wordpress/DhtmlChessPgnUtil.php',
+                'dhtmlchesspgnlist' => '/php/wordpress/DhtmlChessPgnList.php',
+                'dhtmlchesscache' => '/php/wordpress/DhtmlChessCache.php',
+                'dhtmlchessdraft' => '/php/wordpress/DhtmlChessDraft.php',
+                'dhtmlchessexception' => '/php/wordpress/DhtmlChessException.php',
+                'dhtmlchesspgnnotfoundexception' => '/php/wordpress/DhtmlChessException.php',
             );
         }
         $cn = strtolower($class);

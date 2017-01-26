@@ -7,16 +7,16 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'dhtmlchessdatabase' => '/wpdb/DhtmlChessDatabase.php',
-                'dhtmlchessimportpgn' => '/wpdb/DhtmlChessImportPgn.php',
-                'dhtmlchessinstaller' => '/wpdb/DhtmlChessInstaller.php',
-                'dhtmlchesspgnutil' => '/wpdb/DhtmlChessPgnUtil.php',
-                'dhtmlchesspgn' => '/wpdb/DhtmlChessPgn.php',
-                'dhtmlchesscache' => '/wpdb/DhtmlChessCache.php',
-                'dhtmlchesspgnlist' => '/wpdb/DhtmlChessPgnList.php',
-                'dhtmlchessdraft' => '/wpdb/DhtmlChessDraft.php',
-                'dhtmlchessexception' => '/wpdb/DhtmlChessException.php',
-                'dhtmlchesspgnnotfoundexception' => '/wpdb/DhtmlChessException.php',
+                'dhtmlchessdatabase' => '/wordpress/DhtmlChessDatabase.php',
+                'dhtmlchessimportpgn' => '/wordpress/DhtmlChessImportPgn.php',
+                'dhtmlchessinstaller' => '/wordpress/DhtmlChessInstaller.php',
+                'dhtmlchesspgnutil' => '/wordpress/DhtmlChessPgnUtil.php',
+                'dhtmlchesspgn' => '/wordpress/DhtmlChessPgn.php',
+                'dhtmlchesscache' => '/wordpress/DhtmlChessCache.php',
+                'dhtmlchesspgnlist' => '/wordpress/DhtmlChessPgnList.php',
+                'dhtmlchessdraft' => '/wordpress/DhtmlChessDraft.php',
+                'dhtmlchessexception' => '/wordpress/DhtmlChessException.php',
+                'dhtmlchesspgnnotfoundexception' => '/wordpress/DhtmlChessException.php',
 
 
                 'accessortest' => '/chessDB/ludoDB/Tests/AccessorTest.php',
