@@ -15,4 +15,5 @@ chess.dataSource.PgnList = new Class({
         resource:'ChessFSPgn',
         service:'read'
     }
+    
 });

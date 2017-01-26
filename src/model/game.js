@@ -56,8 +56,13 @@ chess.model.Game = new Class({
         this.gameReader.addEvent('saved', this.gameSaved.bind(this));
         this.setDefaultModel();
 
+
         if (config.id || config.pgn) {
-            if (config.pgn) {
+            if(window.chess.isWordPress && config.pgn){
+                console.log(config.pgn);
+                this.loadGame.delay(20, this, [config.id, config.pgn]);
+            }
+            else if (config.pgn) {
                 this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
             } else {
                 this.loadGame.delay(20, this, config.id);
@@ -95,8 +100,22 @@ chess.model.Game = new Class({
      * @method loadGame
      * @param {Number} gameId
      */
-    loadGame: function (gameId) {
-        this.gameReader.loadGame(gameId);
+    loadGame: function (gameId, pgn) {
+        this.gameReader.loadGame(gameId, pgn);
+    },
+
+    loadWordPressGameById:function(pgn, id){
+        this.gameReader.loadGame()
+    },
+
+    loadWordPressGameByIndex:function(pgn, index){
+        this.gameIndex = index;
+        this.gameReader.loadStaticGame(pgn, index);
+    },
+
+    loadNextWordPressGame:function(pgn){
+        if (this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex++;
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
     },
 
     loadStaticGame: function (pgn, index) {
@@ -206,6 +225,7 @@ chess.model.Game = new Class({
      */
     populate: function (gameData) {
 
+        console.log(gameData);
 
         // this.fire('loadGame', gameData); 
         this.setDefaultModel();

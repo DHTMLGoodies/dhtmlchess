@@ -28,7 +28,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(){
         parent::setUp();
-        DhtmlChessDatabaseInstaller::enableTestMode();
+        DhtmlChessInstaller::enableTestMode();
         
         $this->wpdb = new wpdb("root", "", "wordpress", "localhost");
         global $wpdb;
@@ -62,13 +62,15 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
                 '%s'
             )
         );
-        $dbPgn = new DhtmlChessDatabasePgnUtil($this->wpdb);
+        $dbPgn = new DhtmlChessPgnUtil($this->wpdb);
 
         // when
         $uniqueName = $dbPgn->getUniqueName('../../pgn/greatgames.pgn');
 
         // then
         $this->assertEquals('greatgames_2', $uniqueName);
+
+
     }
 
     /**
@@ -94,7 +96,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
                 '%s'
             )
         );
-        $dbPgn = new DhtmlChessDatabasePgnUtil($this->wpdb);
+        $dbPgn = new DhtmlChessPgnUtil($this->wpdb);
 
         // when
         $id = $dbPgn->getId('test2');
@@ -108,7 +110,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
      */
     public function shouldConvertFileNameToPgnName(){
         // given
-        $dbPgn = new DhtmlChessDatabasePgnUtil($this->wpdb);
+        $dbPgn = new DhtmlChessPgnUtil($this->wpdb);
 
         $this->assertEquals("greatgames", $dbPgn->pathToPgnName('../../pgn/greatgames.pgn'));
         $this->assertEquals("greatgames", $dbPgn->pathToPgnName('greatgames'));
@@ -139,7 +141,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('../../../pgn/greatgames.pgn');
 
         // when
-        $db = DhtmlChessDatabasePgn::instanceByName('../../pgn/greatgames.pgn');
+        $db = DhtmlChessPgn::instanceByName('../../pgn/greatgames.pgn');
 
         // then
         $this->assertEquals(64, $db->countGames());
@@ -164,13 +166,29 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("Immortal game", $game["event"], json_encode($game));
     }
 
+
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetRandomGame(){
+        // given
+        $this->database->import('fivegames.pgn');
+
+        // when
+        $game = $this->database->randomGame("fivegames");
+
+        // then
+        $this->assertNotEmpty($game);
+
+    }
     /**
      * @test
      */
     public function shouldGetListOfGames(){
         // given
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessDatabasePgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
 
         
         // when
@@ -194,7 +212,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
      */
     public function shouldBeAbleToClearGameListCache(){
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessDatabasePgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
         $db->listOfGames();
 
         $this->assertNotNull($db->cachedListOfGames());
@@ -210,7 +228,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     public function testShouldBeAbleToDeleteAGame(){
         // given
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessDatabasePgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
 
         $game = $this->database->gameByIndex("fivegames", 1);
 
@@ -269,7 +287,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
      */
     public function shouldGetName(){
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessDatabasePgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
         $this->assertEquals("fivegames", $db->getName());
     }
 
@@ -291,7 +309,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     public function testShouldBeAbleToUpdateGame(){
 
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessDatabasePgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
 
         $db->listOfGames();
         $game = $this->database->gameByIndex("fivegames", 1);
@@ -369,8 +387,22 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @test
+     */
+    public function shouldCacheListOfPgns(){
+        
+    }
+    
+    private function countPgns(){
+        $list = new DhtmlChessPgnList();
+        $games = $list->getPgns();
+        $games = json_decode($games, true);
+        return count($games);
+    }
+    
     private function countCached($pgn){
-        $db = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $db = DhtmlChessPgn::instanceByName($pgn);
         $cached = $db->cachedListOfGames();
         $cached = json_decode($cached,true );
         return count($cached);
@@ -402,6 +434,23 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
     }
 
+
+    /**
+     * @test
+     */
+    public function nameShouldBeUniqueOnCreate(){
+        $this->database->import('fivegames.pgn');
+        $this->database->import('fivegames.pgn');
+        $this->database->import('fivegames.pgn');
+
+        $this->assertEquals(1, $this->countDuplicatePgns("fivegames"));
+        $this->assertEquals(3, $this->countPgnsDb());
+
+        $count = $this->database->countGames("fivegames_1");
+        $this->assertEquals(5, $count);
+
+    }
+
     /**
      * @test
      */
@@ -412,6 +461,27 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         // then
         $this->assertEquals(6, $this->database->countGamesInDatabase());
+    }
+
+    public function shouldBeAbleToRenamePgn(){
+        $this->fail("TO IMPLEMENT");
+    }
+
+    private function countPgnsDb(){
+        $query = "select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_PGN;
+        $results = $this->wpdb->get_results($query);
+        return count($results);
+    }
+
+    private function countDuplicatePgns($pgn){
+        /**
+         * @var wpdb $wpdb
+         */
+
+        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_PGN . " where "
+        . DhtmlChessDatabase::COL_PGN_NAME . ' = %s', $pgn);
+        $results = $this->wpdb->get_results($query);
+        return count($results);
     }
 
     private function countGamesInDb(){

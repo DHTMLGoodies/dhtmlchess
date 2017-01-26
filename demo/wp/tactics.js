@@ -11,6 +11,8 @@
  * @type {Class}
  */
 
+window.chess.isWordPress = true;
+
 chess.WPTactics = new Class({
     Extends: Events,
 
@@ -26,6 +28,9 @@ chess.WPTactics = new Class({
     boardSize:undefined,
 
     initialize: function (config) {
+
+
+
         this.renderTo = config.renderTo;
 
         var r = $(this.renderTo);

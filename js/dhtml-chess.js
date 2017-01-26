@@ -1,4 +1,4 @@
-/* Generated Wed Jan 25 0:28:58 CET 2017 */
+/* Generated Thu Jan 26 3:22:33 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -7596,7 +7596,7 @@ ludo.dataSource.JSON = new Class({
 
             }.bind(this),
             fail: function (text, error) {
-                console.log('error');
+                console.log('error', error);
                 this.fireEvent('fail', [text, error, this]);
             }.bind(this)
         });
@@ -29725,6 +29725,8 @@ chess.Views = {
 ludo.config.setDocumentRoot('../');
 window.chess.COOKIE_NAME = 'chess_cookie';
 
+chess.isWordPress = false;
+
 window.chess.events = {
     game: {
         loadGame:'loadGame',
@@ -34167,6 +34169,7 @@ chess.view.gamelist.Grid = new Class({
     resizable: false,
     statusBar: false,
     fillview: true,
+    menu:false,
 
     /**
      Columns to show in grid. Columns correspondes to metadata of games, example
@@ -34293,6 +34296,7 @@ chess.view.gamelist.Grid = new Class({
     },
 
     selectGame: function (record) {
+
         /**
          * Event fired on click on game in grid.
          * @event selectGame
@@ -34303,6 +34307,25 @@ chess.view.gamelist.Grid = new Class({
         } else {
             this.fireEvent('selectGame', record);
         }
+    }
+});/* ../dhtml-chess/src/view/gamelist/wp-grid.js */
+chess.view.gamelist.WpGrid = new Class({
+    Extends: chess.view.gamelist.Grid,
+    dataSource: {
+        'type': 'chess.dataSource.WpGameList',
+        shim: {
+            txt: 'Loading games...'
+        }
+    },
+
+    __rendered:function(){
+        this.parent();
+
+    },
+
+    selectGame:function(record){
+        console.log(record, this.getDataSource().postData.pgn);
+        this.fireEvent('selectGame', [record, this.getDataSource().postData.pgn]);
     }
 });/* ../dhtml-chess/src/view/metadata/game.js */
 /**
@@ -40340,6 +40363,7 @@ chess.controller.Controller = new Class({
 
     selectGame:function (game, pgn) {
 
+
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -40429,6 +40453,21 @@ chess.controller.Controller = new Class({
         }
     },
 
+    loadWordPressGameById:function(pgn, id){
+        this.pgn = pgn;
+        this.currentModel.loadWordPressGameById(pgn, id);
+    },    
+    
+    loadWordPressGameByIndex:function(pgn, index){
+        this.pgn = pgn;
+        this.currentModel.loadWordPressGameById(pgn, index);
+    },
+    
+    loadNextWordPressGame:function(pgn){
+        if(arguments.length > 0)this.pgn = pgn;
+        this.currentModel.loadNextStaticGame(pgn);
+    },
+    
     loadGameFromFile:function(index){
 
         if(this.pgn){
@@ -40966,8 +41005,13 @@ chess.model.Game = new Class({
         this.gameReader.addEvent('saved', this.gameSaved.bind(this));
         this.setDefaultModel();
 
+
         if (config.id || config.pgn) {
-            if (config.pgn) {
+            if(window.chess.isWordPress && config.pgn){
+                console.log(config.pgn);
+                this.loadGame.delay(20, this, [config.id, config.pgn]);
+            }
+            else if (config.pgn) {
                 this.loadStaticGame.delay(20, this, [config.pgn, config.gameIndex]);
             } else {
                 this.loadGame.delay(20, this, config.id);
@@ -41005,8 +41049,22 @@ chess.model.Game = new Class({
      * @method loadGame
      * @param {Number} gameId
      */
-    loadGame: function (gameId) {
-        this.gameReader.loadGame(gameId);
+    loadGame: function (gameId, pgn) {
+        this.gameReader.loadGame(gameId, pgn);
+    },
+
+    loadWordPressGameById:function(pgn, id){
+        this.gameReader.loadGame()
+    },
+
+    loadWordPressGameByIndex:function(pgn, index){
+        this.gameIndex = index;
+        this.gameReader.loadStaticGame(pgn, index);
+    },
+
+    loadNextWordPressGame:function(pgn){
+        if (this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex++;
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
     },
 
     loadStaticGame: function (pgn, index) {
@@ -41116,6 +41174,7 @@ chess.model.Game = new Class({
      */
     populate: function (gameData) {
 
+        console.log(gameData);
 
         // this.fire('loadGame', gameData); 
         this.setDefaultModel();
@@ -42605,7 +42664,7 @@ chess.remote.Reader = new Class({
 			dataType: 'json',
 			data: config,
 			success: function (json) {
-				this.fireEvent(this.onLoadEvent, json.response);
+				this.fireEvent(this.onLoadEvent, json.response != undefined ? json.response : json);
 			}.bind(this),
 			fail: function (text, error) {
 				this.fireEvent('fail', [text, error, this]);
@@ -42648,37 +42707,73 @@ chess.remote.Reader = new Class({
 chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
-    loadGame : function(id){
+    loadGame : function(id, pgn){
+        console.log(arguments);
+        
 		this.fireEvent('beforeLoad');
-		this.query({
-			"resource": "Game",
-			"service": "read",
-			"eventOnLoad": "load",
-			"arguments": id
-		});
+
+        var query = {
+            "eventOnLoad": "load"
+        };
+
+        if(window.chess.isWordPress){
+            query.action = 'game_by_id';
+            query.pgn = pgn;
+            query.id = id;
+        }else{
+            query.resource = 'Game';
+            query.service = 'read';
+            query.arguments = id;
+        }
+		this.query(query);
     },
 
 	loadStaticGame:function(pgn, index){
 
 		this.fireEvent('beforeLoad');
-		this.query({
-			"resource": "ChessFs",
-			"service": "getGame",
-			"eventOnLoad": "load",
-			"arguments": pgn,
-			"data" : index
-		});
+        var query = {
+            "eventOnLoad": "load"
+        };
+
+
+        if(window.chess.isWordPress){
+            query.action = "game_by_index";
+            query.pgn = pgn;
+            query.index = index;
+        }else{
+            query.resource = "ChessFs";
+            query.service = "getGame";
+            query.arguments = pgn;
+            query.data = index;
+
+        }
+		this.query(query);
 	},
 
     save:function(game){
         if(this.hasDummyId(game))delete game.id;
-		this.query({
-			"resource": "Game",
-			"service": "save",
-			"eventOnLoad": "saved",
-			"arguments": game.id,
-			"data": game
-		});
+
+        var query = {
+            "resource": "Game",
+            "service": "save",
+            "eventOnLoad": "saved",
+            "arguments": game.id,
+            "data": game
+        };
+
+        if(window.chess.isWordPress){
+            query.action = 'save_game';
+            query.id = game.id;
+            query.game = game;
+        }else{
+            query.resource = 'Game';
+            query.service = 'save';
+            query.arguments = game.id;
+            query.data = game;
+        }
+
+        this.query(query);
+
     },
 
     hasDummyId:function(game){
@@ -42696,11 +42791,20 @@ chess.remote.GameReader = new Class({
 
     loadRandomGameFromFile:function(file){
         this.fireEvent('beforeload');
-        this.query({
-            'resource' : 'ChessFS',
-            'arguments' : file,
-            'service' : 'getRandomGame'
-        });
+
+        if(window.chess.isWordPress){
+            this.query({
+                'action' : 'random_game',
+                'pgn' : file
+            });
+        }else{
+            this.query({
+                'resource' : 'ChessFS',
+                'arguments' : file,
+                'service' : 'getRandomGame'
+            });
+        }
+
     },
 
     getEngineMove : function(fen){
@@ -42855,6 +42959,44 @@ chess.dataSource.PgnList = new Class({
     postData:{
         resource:'ChessFSPgn',
         service:'read'
+    }
+    
+});/* ../dhtml-chess/src/datasource/wp-game-list.js */
+/**
+ * Data source for list of games. An object of this class is automatically created
+ * by chess.view.gamelist.Grid
+ * @module DataSource
+ * @namespace chess.dataSource
+ * @class GameList
+ * @extends dataSource.JSONArray
+ */
+chess.dataSource.WpGameList = new Class({
+    Extends: ludo.dataSource.JSONArray,
+    type : 'chess.dataSource.WpGameList',
+    autoload:false,
+    singleton: true,
+    resource:'Database',
+    postData:{
+        action:'list_of_games'
+    },
+    __construct:function(config){
+        this.url = ludo.config.getUrl();
+        this.parent(config);
+
+    },
+
+    loadPgn:function(pgn){
+        this.postData.pgn = pgn;
+        this.sendRequest(this.service, pgn);
+    }
+});/* ../dhtml-chess/src/datasource/wp-pgn-list.js */
+chess.dataSource.WpPgnList = new Class({
+    Extends: ludo.dataSource.JSONArray,
+    type : 'chess.dataSource.PgnList',
+    autoload:true,
+    singleton: true,
+    postData:{
+        action:'get_games'
     }
 });/* ../dhtml-chess/src/pgn/parser.js */
 /**

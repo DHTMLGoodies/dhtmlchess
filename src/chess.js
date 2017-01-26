@@ -55,6 +55,8 @@ chess.Views = {
 ludo.config.setDocumentRoot('../');
 window.chess.COOKIE_NAME = 'chess_cookie';
 
+chess.isWordPress = false;
+
 window.chess.events = {
     game: {
         loadGame:'loadGame',

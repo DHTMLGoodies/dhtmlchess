@@ -211,10 +211,10 @@ spl_autoload_register(
                 'xhpprofiling' => '/php/chessDB/ludoDB/xhprof/XHPProfiling.php',
                 'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php',
 
-                'dhtmlchessdatabaseimportpgn' => '/php/wpdb/DhtmlChessDatabaseImportPgn.php',
-                'dhtmlchessdatabaseinstaller' => '/php/wpdb/DhtmlChessDatabaseInstaller.php',
-                'dhtmlchessdatabasepgn' => '/php/wpdb/DhtmlChessDatabasePgn.php',
-                'dhtmlchessdatabasepgnutil' => '/php/wpdb/DhtmlChessDatabasePgnUtil.php',
+                'dhtmlchessimportpgn' => '/php/wpdb/DhtmlChessImportPgn.php',
+                'dhtmlchessinstaller' => '/php/wpdb/DhtmlChessInstaller.php',
+                'dhtmlchesspgn' => '/php/wpdb/DhtmlChessPgn.php',
+                'dhtmlchesspgnutil' => '/php/wpdb/DhtmlChessPgnUtil.php',
                 'dhtmlchesspgnlist' => '/php/wpdb/DhtmlChessPgnList.php',
                 'dhtmlchesscache' => '/php/wpdb/DhtmlChessCache.php',
                 'dhtmlchessexception' => '/php/wpdb/DhtmlChessException.php'

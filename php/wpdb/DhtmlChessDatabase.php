@@ -33,29 +33,29 @@ class DhtmlChessDatabase
     }
 
     public function install(){
-        $installer = new DhtmlChessDatabaseInstaller();
+        $installer = new DhtmlChessInstaller();
         $installer->install();
     }
 
     public function upgrade($oldVersion, $newVersion){
-        $installer = new DhtmlChessDatabaseInstaller();
+        $installer = new DhtmlChessInstaller();
         $installer->upgrade($oldVersion, $newVersion);
     }
 
     public function uninstall(){
-        $installer = new DhtmlChessDatabaseInstaller();
+        $installer = new DhtmlChessInstaller();
         $installer->uninstall();
     }
 
     public function import($pgnFileName){
-        $importer = new DhtmlChessDatabaseImportPgn();
+        $importer = new DhtmlChessImportPgn();
         $importer->import($pgnFileName);
 
-        return DhtmlChessDatabasePgn::instanceByName($pgnFileName);
+        return DhtmlChessPgn::instanceByName($pgnFileName);
     }
 
     public function listOfGames($pgnFileName){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgnFileName);
+        $pgn = DhtmlChessPgn::instanceByName($pgnFileName);
         return $pgn->listOfGames();
     }
 
@@ -64,44 +64,50 @@ class DhtmlChessDatabase
         return $util->getPgns();
     }
 
+    public function randomGame($pgn){
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
+        return $pgn->randomGame();
+    }
+    
+
     public function gameByIndex($pgn, $index){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->gameByIndex($index);
     }
 
     public function gameById($pgn, $id){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->gameById($id);
     }
 
     public function updateGame($pgn, $game){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->updateGame($game);
     }
     
     public function deleteGame($pgn, $id){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->deleteGame($id);
     }
 
     public function deletePgn($pgn){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->deletePgn();
     }
 
     public function appendGame($pgn, $game){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->appendGame($game);
     }
 
     public function countGames($pgn){
-        $pgn = DhtmlChessDatabasePgn::instanceByName($pgn);
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->countGames();
     }
 
 
     public function appendPgn($pgnPath){
-        $importer = new DhtmlChessDatabaseImportPgn();
+        $importer = new DhtmlChessImportPgn();
         return $importer->appendPgn($pgnPath);
     }
 

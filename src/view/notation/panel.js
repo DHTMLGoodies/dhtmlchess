@@ -188,6 +188,7 @@ chess.view.notation.Panel = new Class({
     },
     goToStartOfBranch: function () {
         this.clearHighlightedMove();
+        this.getBody().scrollTop(0);
     },
 
     setCurrentMove: function (model) {
@@ -215,13 +216,18 @@ chess.view.notation.Panel = new Class({
     },
 
     scrollMoveIntoView: function (move) {
-        var scrollTop = this.getBody().scrollTop;
-        var bottomOfScroll = scrollTop + this.getBody().clientHeight;
 
-        if ((move.offsetTop + 40) > bottomOfScroll) {
-            this.getBody().scrollTop = scrollTop + 40;
-        } else if (move.offsetTop < scrollTop) {
-            this.getBody().scrollTop = move.offsetTop - 5;
+        if(move.position == undefined)move = jQuery(move);
+
+        var scrollTop = this.getBody().scrollTop();
+        var bottomOfScroll = scrollTop + this.getBody().height();
+        var moveTop = move.position().top;
+        var oh = move.outerHeight();
+
+        if ((moveTop + oh) > bottomOfScroll) {
+            this.getBody().scrollTop(moveTop + oh);
+        } else if (moveTop < scrollTop) {
+            this.getBody().scrollTop(Math.max(0, moveTop - 5));
         }
     },
 

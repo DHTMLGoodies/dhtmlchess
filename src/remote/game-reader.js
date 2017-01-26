@@ -8,37 +8,73 @@
 chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
-    loadGame : function(id){
+    loadGame : function(id, pgn){
+        console.log(arguments);
+        
 		this.fireEvent('beforeLoad');
-		this.query({
-			"resource": "Game",
-			"service": "read",
-			"eventOnLoad": "load",
-			"arguments": id
-		});
+
+        var query = {
+            "eventOnLoad": "load"
+        };
+
+        if(window.chess.isWordPress){
+            query.action = 'game_by_id';
+            query.pgn = pgn;
+            query.id = id;
+        }else{
+            query.resource = 'Game';
+            query.service = 'read';
+            query.arguments = id;
+        }
+		this.query(query);
     },
 
 	loadStaticGame:function(pgn, index){
 
 		this.fireEvent('beforeLoad');
-		this.query({
-			"resource": "ChessFs",
-			"service": "getGame",
-			"eventOnLoad": "load",
-			"arguments": pgn,
-			"data" : index
-		});
+        var query = {
+            "eventOnLoad": "load"
+        };
+
+
+        if(window.chess.isWordPress){
+            query.action = "game_by_index";
+            query.pgn = pgn;
+            query.index = index;
+        }else{
+            query.resource = "ChessFs";
+            query.service = "getGame";
+            query.arguments = pgn;
+            query.data = index;
+
+        }
+		this.query(query);
 	},
 
     save:function(game){
         if(this.hasDummyId(game))delete game.id;
-		this.query({
-			"resource": "Game",
-			"service": "save",
-			"eventOnLoad": "saved",
-			"arguments": game.id,
-			"data": game
-		});
+
+        var query = {
+            "resource": "Game",
+            "service": "save",
+            "eventOnLoad": "saved",
+            "arguments": game.id,
+            "data": game
+        };
+
+        if(window.chess.isWordPress){
+            query.action = 'save_game';
+            query.id = game.id;
+            query.game = game;
+        }else{
+            query.resource = 'Game';
+            query.service = 'save';
+            query.arguments = game.id;
+            query.data = game;
+        }
+
+        this.query(query);
+
     },
 
     hasDummyId:function(game){
@@ -56,11 +92,20 @@ chess.remote.GameReader = new Class({
 
     loadRandomGameFromFile:function(file){
         this.fireEvent('beforeload');
-        this.query({
-            'resource' : 'ChessFS',
-            'arguments' : file,
-            'service' : 'getRandomGame'
-        });
+
+        if(window.chess.isWordPress){
+            this.query({
+                'action' : 'random_game',
+                'pgn' : file
+            });
+        }else{
+            this.query({
+                'resource' : 'ChessFS',
+                'arguments' : file,
+                'service' : 'getRandomGame'
+            });
+        }
+
     },
 
     getEngineMove : function(fen){

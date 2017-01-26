@@ -39,7 +39,7 @@ $wpdb->query($query);
 $database = new DhtmlChessDatabase();
 
 $database->import('../../pgn/greatgames.pgn');
-$database->import('../../pgn/FANT100.pgn');
+$database->import('../../pgn/tactic-checkmates.pgn');
 
 
 // TODO test query here.

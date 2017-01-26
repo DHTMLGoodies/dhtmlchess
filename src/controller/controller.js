@@ -376,6 +376,7 @@ chess.controller.Controller = new Class({
 
     selectGame:function (game, pgn) {
 
+
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -465,6 +466,21 @@ chess.controller.Controller = new Class({
         }
     },
 
+    loadWordPressGameById:function(pgn, id){
+        this.pgn = pgn;
+        this.currentModel.loadWordPressGameById(pgn, id);
+    },    
+    
+    loadWordPressGameByIndex:function(pgn, index){
+        this.pgn = pgn;
+        this.currentModel.loadWordPressGameById(pgn, index);
+    },
+    
+    loadNextWordPressGame:function(pgn){
+        if(arguments.length > 0)this.pgn = pgn;
+        this.currentModel.loadNextStaticGame(pgn);
+    },
+    
     loadGameFromFile:function(index){
 
         if(this.pgn){

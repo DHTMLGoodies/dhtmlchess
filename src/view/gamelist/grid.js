@@ -36,6 +36,7 @@ chess.view.gamelist.Grid = new Class({
     resizable: false,
     statusBar: false,
     fillview: true,
+    menu:false,
 
     /**
      Columns to show in grid. Columns correspondes to metadata of games, example
@@ -162,6 +163,7 @@ chess.view.gamelist.Grid = new Class({
     },
 
     selectGame: function (record) {
+
         /**
          * Event fired on click on game in grid.
          * @event selectGame

@@ -13,7 +13,7 @@ chess.remote.Reader = new Class({
 			dataType: 'json',
 			data: config,
 			success: function (json) {
-				this.fireEvent(this.onLoadEvent, json.response);
+				this.fireEvent(this.onLoadEvent, json.response != undefined ? json.response : json);
 			}.bind(this),
 			fail: function (text, error) {
 				this.fireEvent('fail', [text, error, this]);

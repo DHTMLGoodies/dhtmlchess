@@ -11,6 +11,8 @@
  * @type {Class}
  */
 
+window.chess.isWordPress = true;
+
 chess.WPViewer = new Class({
     Extends: Events,
 
@@ -26,6 +28,7 @@ chess.WPViewer = new Class({
     boardSize:undefined,
 
     initialize: function (config) {
+        console.log('create');
         this.renderTo = config.renderTo;
 
         var r = $(this.renderTo);
@@ -161,14 +164,17 @@ chess.WPViewer = new Class({
                             type: 'chess.view.notation.Panel',
                             height: 200,
                             module:this.module,
-                            comments: false
+                            elCss:{
+                                border: '1px solid ' + chess.THEME.borderColor,
+                                'border-bottom-width': 0
+                            }
                         },
                         {
                             module:this.module,
                             layout:{
                                 weight:1
                             },
-                            type:'chess.view.gamelist.Grid',
+                            type:'chess.view.gamelist.WpGrid',
                             elCss:{
                                 border: '1px solid ' + chess.THEME.borderColor
                             },
@@ -177,9 +183,11 @@ chess.WPViewer = new Class({
                             },
                             dataSource:{
                                 id:'gameList',
-                                "type":'chess.dataSource.PgnGames',
+                                "type":'chess.dataSource.WpGameList',
+                                module:this.module,
+                                autoload:true,
                                 postData:{
-                                    arguments:this.pgn
+                                    pgn:this.pgn
                                 },
                                 // "Morphy" is the name of a pgn file inside the "pgn" folder.
                                 //  You can put games inside that folder and change the argument below.
@@ -208,14 +216,13 @@ chess.WPViewer = new Class({
         this.controller = new chess.controller.Controller({
             applyTo:[this.module],
             pgn: this.pgn,
-            autoMoveDelay: 400,
             listeners: {
 
             }
         });
 
 
-        this.controller.loadGameFromFile(0);
+      //  this.controller.loadWordPressGameByIndex(this.pgn, 0);
 
     }
 
