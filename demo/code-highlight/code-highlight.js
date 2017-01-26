@@ -71,7 +71,7 @@ ludo.CodeHighlight = new Class({
         for (var i = 0, len = blocks.length; i < len; i++) {
             this.highlightBlock(blocks[i], this.previewEl);
         }
-        var c = $('<div>');
+        var c = jQuery('<div>');
         c.className='source-code-preview-container';
         c.insertBefore(this.previewEl);
 

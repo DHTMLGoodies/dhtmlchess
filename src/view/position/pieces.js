@@ -64,7 +64,7 @@ chess.view.position.Piece = new Class({
 
     __rendered:function () {
         this.parent();
-        var piece = this.els.piece = $('<div>');
+        var piece = this.els.piece = jQuery('<div>');
         piece.css({
             'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
             'background-position':'center center',
@@ -133,7 +133,7 @@ chess.view.position.Piece = new Class({
     selectPiece:function (e) {
         var obj = {
             color:this.pieceColor,
-            pieceType:$(e.target).attr('pieceType')
+            pieceType:jQuery(e.target).attr('pieceType')
         };
         this.fireEvent('selectpiece', obj);
     },

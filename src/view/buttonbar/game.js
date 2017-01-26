@@ -38,7 +38,7 @@ chess.view.buttonbar.Game = new Class({
 
         this.getBody().css('width', '100%');
 
-        var buttonContainer = this.els.buttonContainer = $('<div class="dhtml-chess-button-container"></div>');
+        var buttonContainer = this.els.buttonContainer = jQuery('<div class="dhtml-chess-button-container"></div>');
         this.getBody().append(buttonContainer);
 
         var buttons = this.buttons;
@@ -154,7 +154,7 @@ chess.view.buttonbar.Game = new Class({
 
             if (els[i].style.display !== 'none') {
                 els[i].style.left = width + 'px';
-                var el = $(els[i]);
+                var el = jQuery(els[i]);
                 width += el.outerWidth();
                 width += parseInt(el.css('margin-left'));
                 width += parseInt(el.css('margin-right'));
@@ -164,12 +164,12 @@ chess.view.buttonbar.Game = new Class({
     },
 
     addRightedgeElement:function () {
-        var rightBar = $('<div class="dhtml-chess-button-bar-right-edge"></div>');
+        var rightBar = jQuery('<div class="dhtml-chess-button-bar-right-edge"></div>');
         this.getBody().append(rightBar);
 
         var size = { x: rightBar.outerWidth(),y:rightBar.outerHeight() };
 
-        var bgRightBar = $('<div></div>');
+        var bgRightBar = jQuery('<div></div>');
         bgRightBar.css({
             position:'absolute',
             right:'0px',
@@ -247,7 +247,7 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getChessButton:function (buttonType) {
-        var el = $('<div></div>');
+        var el = jQuery('<div></div>');
         el.attr('buttonType', buttonType);
         el.addClass('dhtml-chess-button');
         el.addClass('dhtml-chess-button-' + buttonType);
@@ -259,21 +259,21 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getChessButtonSeparator:function () {
-        return $('<div class="dhtml-chess-button-separator"></div>');
+        return jQuery('<div class="dhtml-chess-button-separator"></div>');
 
     },
 
     enterChessButton:function (e) {
-        if (!$(e.target).hasClass('dhtml-chess-button-disabled')) {
-            $(e.target).addClass('dhtml-chess-button-over');
+        if (!jQuery(e.target).hasClass('dhtml-chess-button-disabled')) {
+            jQuery(e.target).addClass('dhtml-chess-button-over');
         }
     },
     leaveChessButton:function (e) {
-        $(e.target).removeClass('dhtml-chess-button-over');
+        jQuery(e.target).removeClass('dhtml-chess-button-over');
     },
 
     clickOnButton:function (e) {
-        var button = $(e.target);
+        var button = jQuery(e.target);
         if (!button.hasClass('dhtml-chess-button-disabled')) {
             var buttonType = button.attr('buttonType');
             if (buttonType === 'play') {

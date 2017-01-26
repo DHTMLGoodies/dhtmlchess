@@ -37,6 +37,9 @@ chess.view.board.GUI = new Class({
     labelEvenStyles: undefined,
     labelStyles: undefined,
 
+    squareStyles_white:undefined,
+    squareStyles_black:undefined,
+
     __construct: function (config) {
 
         this.parent(config);
@@ -46,7 +49,8 @@ chess.view.board.GUI = new Class({
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
-            'bgWhite', 'bgBlack']);
+            'bgWhite', 'bgBlack','squareStyles_white', 'squareStyles_black']);
+
 
         if (!jQuery.isPlainObject(this.padding)) {
             this.padding = {
@@ -135,7 +139,7 @@ chess.view.board.GUI = new Class({
     },
     ludoEvents: function () {
         this.parent();
-        $(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
+        jQuery(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
     },
 
     receiveKeyboardInput: function (e) {
@@ -169,7 +173,7 @@ chess.view.board.GUI = new Class({
     },
 
     createBoardContainer: function () {
-        var el = this.els.boardContainer = $('<div>');
+        var el = this.els.boardContainer = jQuery('<div>');
         el.addClass('dhtml-chess-board-container');
         if (this.boardCss) {
             el.css(this.boardCss);
@@ -181,13 +185,13 @@ chess.view.board.GUI = new Class({
     },
 
     createContainerForBoardAndFileLabels: function () {
-        var el = this.els.boardContainerInner = $('<div>');
+        var el = this.els.boardContainerInner = jQuery('<div>');
         el.css('float', 'left');
         this.els.boardContainer.append(el);
     },
 
     createBoard: function () {
-        this.els.board = $('<div class="dhtml-chess-board"></div>');
+        this.els.board = jQuery('<div class="dhtml-chess-board"></div>');
         this.els.board.css({
             position: 'relative',
             margin: 0,
@@ -204,7 +208,7 @@ chess.view.board.GUI = new Class({
 
         for (var i = 0; i < 64; i++) {
             var square = files.substr((i % 8), 1) + Math.ceil(8 - (i / 8));
-            var el = this.els.squares[i] = $('<div class="dhtml-chess-square" style="position:relative"></div>');
+            var el = this.els.squares[i] = jQuery('<div class="dhtml-chess-square" style="position:relative"></div>');
             this.els.board.append(el);
             var backgroundPos = Math.round(Math.random() * 100) * -1;
             el.css('backgroundPosition', backgroundPos + 'px ' + backgroundPos + 'px');
@@ -217,7 +221,7 @@ chess.view.board.GUI = new Class({
     },
 
     createPieceContainer: function () {
-        this.els.pieceContainer = $('<div>');
+        this.els.pieceContainer = jQuery('<div>');
         this.els.pieceContainer.css({
             position: 'absolute',
             left: 0,
@@ -250,6 +254,11 @@ chess.view.board.GUI = new Class({
             this.els.squares[i].css('float', 'left');
             this.els.squares[i].addClass('dhtml-chess-square-' + t);
 
+
+            if (this['squareStyles_' + t] != undefined) {
+                this.els.squares[i].css(this['squareStyles_' + t]);
+
+            }
             if (this['squareBg_' + t] != undefined) {
                 this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
 
@@ -267,7 +276,7 @@ chess.view.board.GUI = new Class({
     },
 
     addLabelsForFiles: function () {
-        var el = this.els.labels.files = $('<div class="dhtml-chess-board-label-files-container ludo-noselect"></div>');
+        var el = this.els.labels.files = jQuery('<div class="dhtml-chess-board-label-files-container ludo-noselect"></div>');
         el.css({
             position: 'absolute', 'z-index': 100, 'bottom': 0
         });
@@ -278,7 +287,7 @@ chess.view.board.GUI = new Class({
         this.els.files = [];
         for (var i = 0; i < 8; i++) {
             var odd = i % 2 == 0;
-            var file = this.els.files[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-file"></div>');
+            var file = this.els.files[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-file"></div>');
 
             if (this.labelStyles) {
                 file.css(this.labelStyles);
@@ -307,7 +316,7 @@ chess.view.board.GUI = new Class({
     },
 
     addLabelsForRanks: function () {
-        var el = this.els.labels.ranks = $('<div class="dhtml-chess-board-label-ranks-container  ludo-noselect"></div>');
+        var el = this.els.labels.ranks = jQuery('<div class="dhtml-chess-board-label-ranks-container  ludo-noselect"></div>');
         if (this.labelPos == 'inside') {
             el.addClass('dhtml-chess-board-label-inside');
         }
@@ -324,7 +333,7 @@ chess.view.board.GUI = new Class({
         this.els.ranks = [];
         for (var i = 0; i < 8; i++) {
             var odd = (i + 1) % 2 == 0;
-            var rank = this.els.ranks[i] = $('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+            var rank = this.els.ranks[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
             if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }

@@ -22,7 +22,7 @@ chess.view.highlight.SquareBase = new Class({
     createHighlightElement: function (square, renderTo) {
         var el = renderTo.find('.dhtml-chess-square-highlight').first();
         if (!el.length) {
-            el = $('<div>');
+            el = jQuery('<div>');
             el.attr('id', 'ludo-square-highlight-' + String.uniqueID());
             el.addClass('dhtml-chess-square-highlight');
         }
@@ -40,7 +40,7 @@ chess.view.highlight.SquareBase = new Class({
     },
 
     highlightSquare: function (square) {
-        var el = $("#" + this.els.square[square]);
+        var el = jQuery("#" + this.els.square[square]);
         this.visibleSquares.push(el);
         el.css('display', '');
         this.resizeSquare(el);

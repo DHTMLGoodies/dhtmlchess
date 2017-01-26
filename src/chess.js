@@ -3,6 +3,7 @@ window.chess = {
     language: {},
     plugins: {},
     pgn: {},
+    wordpress:{},
     view: {
         seek: {},
         board: {},

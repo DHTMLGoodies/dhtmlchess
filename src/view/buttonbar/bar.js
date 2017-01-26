@@ -97,7 +97,7 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
 
-        $(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
+        jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
 
     __rendered: function () {

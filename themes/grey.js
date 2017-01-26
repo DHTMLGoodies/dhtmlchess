@@ -91,8 +91,8 @@ chess.THEME = {
                 stroke : '#888'
             },
             imageDisabled:{
-                fill:'#ccc',
-                'fill-opacity' : 0.3
+                fill:'#555',
+                'fill-opacity' : 0.4,
             }
         }
     }

@@ -91,7 +91,7 @@ chess.view.board.Piece = new Class({
      * @private
      */
     createDOM: function () {
-        this.el = $('<div>');
+        this.el = jQuery('<div>');
         this.el.css({
             'position': 'absolute',
             padding: 0,

@@ -83,7 +83,7 @@ class DhtmlChessDatabase
      */
     public function moveGame($gameId, $toPgn){
         $pgn = DhtmlChessPgn::instanceByName($toPgn);
-        $game = $pgn->gameByIndex($gameId);
+        $game = $pgn->gameById($gameId);
 
         if(isset($game)){
             $gameObject = json_decode($game, true);

@@ -35,13 +35,13 @@ chess.TacticsFromFile = new Class({
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
-        $(document).ready(this.render.bind(this));
+        jQuery(document).ready(this.render.bind(this));
     },
 
     render: function () {
 
         new chess.view.Chess({
-            renderTo: $(this.renderTo),
+            renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
                 height: 'matchParent',

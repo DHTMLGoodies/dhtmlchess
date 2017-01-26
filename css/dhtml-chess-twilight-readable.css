@@ -1873,88 +1873,7 @@ div.ludo-tree-movable-shim img{
 }
 
 
-/* ../ludojs/css-source/form/filter-tree.css */
-.ludo-Filter-Tree-Window{
-    border-radius:0;
-    padding:2px;
-    padding-top:0;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-color:#000;
-}
-.ludo-Filter-Tree-Window .ludo-window-component-content{
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-}
-.ludo-Filter-Tree-Window .ludo-view-resize-both{
-    background-image:none;
-}
-.ludo-Filter-Tree-Window .ludo-body{
-    background-color:#FFF;
-    padding-right:0;
-    padding-top:0;
-}
-.ludo-filter-tree input{
-    border-radius:2px;
-    background-color:#FFF;
-}
-
-input.ludo-filter-tree-input-active{
-    background-color:#FFF;
-}
-
-.ludo-input-simple-filter-tree{
-    background-color:#f1f1f1;
-    border-bottom:1px solid #959595;
-}
-
-.ludo-Filter-Tree-Combo-Field{
-    cursor:pointer;
-}
-div.ludo-Filter-Tree-Combo-Field div.ludo-body{
-    padding:0;
-    height:22px;
-}
-
-.ludo-Filter-Tree-Field-Arrow{
-    position:absolute;
-    right:3px;
-    top:0;
-    height:22px;
-    width:15px;
-    background-image: url("../../ludojs/images/dropdown-arrow.gif");
-    background-position: center center;
-    background-repeat:no-repeat;
-    z-index:100;
-}
-.ludo-Filter-Tree-Bg-Left, .ludo-Filter-Tree-Bg-Right{
-    background-image:url('../../ludojs/images/bg-combo-field.png');
-    background-repeat:no-repeat;
-}
-.ludo-Filter-Tree-Bg-Left{
-    width:60%;
-    position:absolute;
-    height:100%;
-    left:0;
-    background-position:top left;
-}
-.ludo-Filter-Tree-Bg-Right{
-    width:60%;
-    position:absolute;
-    height:100%;
-    right:0;
-    background-position:top right;
-}
-.ludo-Filter-Tree-Combo-Value{
-    z-index:120;
-    position:absolute;
-    line-height:22px;
-    left:5px;
-    top:0;
-    font-size:10px;
-    font-weight:bold;
-    width:100%;
-}/* ../ludojs/css-source/progress/bar.css */
+/* ../ludojs/css-source/progress/bar.css */
 .ludo-progress-bg {
     background-color: #444;
     border: 2px solid #333333;
@@ -1981,17 +1900,6 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
 
 .ludo-progress-donut-bar {
     background-color: #1976D2;
-}/* ../ludojs/css-source/form/file.css */
-.ludo-input-file-name-initial{
-    font-weight:bold;
-    font-style:normal;
-}
-.ludo-input-file-name-new-file{
-
-}
-.ludo-input-file-name-not-uploaded{
-    font-style:italic;
-    color:#999;
 }/* ../ludojs/css-source/form/radio.css */
 .ludo-radio-image{
     cursor: pointer;
@@ -2014,6 +1922,29 @@ div.ludo-Filter-Tree-Combo-Field div.ludo-body{
     border:2px solid #555;
     padding:0;
     background-color:#bbd46d;
+}/* ../ludojs/css-source/list-view.css */
+.ludo-list-item{
+    cursor:pointer;
+    position:relative;
+}
+
+.ludo-list-item-front{
+    position:relative;
+    z-index:10;
+}
+
+.ludo-list-item-back-left, .ludo-list-item-back-right, .ludo-list-item-back-undo{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+
+.ludo-list-view-body >.ludo-empty-text{
+    position:absolute;
+    text-align:center;
+    top:30%;
+    width:100%;
 }/* ../dhtml-chess/css-source/view/notation/panel.css */
 .ludo-blue .dhtml-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
@@ -2268,7 +2199,7 @@ div.position-setup-piece{
     margin:2px;
 }
 div.position-setup-piece-over{
-    background-color:#EEE;
+    background-color:#DDD;
 }
 
 div.position-setup-selected-piece{

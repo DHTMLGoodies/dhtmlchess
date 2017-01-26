@@ -7,7 +7,7 @@
  * @param {Object} config.theme
  * @example
  * new chess.view.Chess({
- *      renderTo:$(document.body),
+ *      renderTo:jQuery(document.body),
  *      layout:{
  *          height:'matchParent',width:'matchParent'
  *      },
@@ -95,7 +95,7 @@ chess.view.Chess = new Class({
     __rendered:function(){
         this.parent();
         if(this.theme && this.theme.name){
-            $(document.documentElement).addClass(this.cssClass());
+            jQuery(document.documentElement).addClass(this.cssClass());
         }
     },
 

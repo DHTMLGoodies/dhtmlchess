@@ -57,7 +57,7 @@ chess.view.highlight.ArrowBase = new Class({
 	
 
 	createDOM:function () {
-		var el = this.el = $('<div style="position:absolute;display:none"></div>');
+		var el = this.el = jQuery('<div style="position:absolute;display:none"></div>');
 		this.getParent().getBoard().append(el);
 		this.arrow = new chess.view.board.ArrowSVG({
 			renderTo:this.el,

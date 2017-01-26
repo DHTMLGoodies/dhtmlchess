@@ -159,7 +159,7 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
 
         <script type="text/javascript">
 
-            $(document).ready(function () {
+            jQuery(document).ready(function () {
                 var moduleId = 'chess-' + String.uniqueID();
 
                 new chess.view.Chess({

@@ -59,7 +59,6 @@ chess.model.Game = new Class({
 
         if (config.id || config.pgn) {
             if(window.chess.isWordPress && config.pgn){
-                console.log(config.pgn);
                 this.loadGame.delay(20, this, [config.id, config.pgn]);
             }
             else if (config.pgn) {
@@ -1384,6 +1383,7 @@ chess.model.Game = new Class({
      model.gradeMove(model.getCurrentMove(), '??');
      */
     gradeMove: function (move, grade) {
+
         move = this.findMove(move);
         if (move) {
             move.m = move.m.replace(/[!\?]/g, '');
@@ -1394,6 +1394,8 @@ chess.model.Game = new Class({
                 move.lm = move.lm + grade;
                 this.fire('updateMove', move);
             }
+
+        
         }
     },
 

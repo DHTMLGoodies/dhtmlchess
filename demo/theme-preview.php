@@ -200,7 +200,7 @@
 </script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         var controller = new chess.controller.Controller();
     });
 </script>

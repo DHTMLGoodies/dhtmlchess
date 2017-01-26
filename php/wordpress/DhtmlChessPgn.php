@@ -27,6 +27,9 @@ class DhtmlChessPgn
 
     public static function instanceByName($name)
     {
+        if(empty($name)){
+            throw new DhtmlChessException("PGN name missing");
+        }
         $util = new DhtmlChessPgnUtil();
         $id = $util->getId($name);
         if(empty($id)){
@@ -106,7 +109,7 @@ class DhtmlChessPgn
         $game = $this->wpdb->get_col($query, 0);
         return !empty($game) ? $game[0] : null;
     }
-    
+
     /**
      * @param $index
      * @return string|null
@@ -118,7 +121,8 @@ class DhtmlChessPgn
 
         $index = $index % max(1, $this->countGames(), $this->id);
 
-        $query = "select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME;
+        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
+        . " where ". DhtmlChessDatabase::COL_PGN_ID . "=%d", $this->id);
         $game = $this->wpdb->get_row($query, 'OBJECT', $index);
 
         return !empty($game) ? $game->{DhtmlChessDatabase::COL_GAME} : null;
@@ -133,7 +137,7 @@ class DhtmlChessPgn
             . " where " . DhtmlChessDatabase::COL_ID . "= %d", $id);
         $game = $this->wpdb->get_col($query, 0);
 
-        return !empty($game) ? $game : null;
+        return !empty($game) ? $game[0] : null;
     }
 
     /**

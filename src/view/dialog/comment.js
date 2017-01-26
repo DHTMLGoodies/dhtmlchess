@@ -6,7 +6,7 @@
  * @extends dialog.Dialog
  */
 chess.view.dialog.Comment = new Class({
-    Extends:ludo.dialog.Dialog,
+    Extends:chess.view.dialog.Dialog,
     module:'chess',
     submodule:'dialogComment',
     layout:'rows',
@@ -73,7 +73,7 @@ chess.view.dialog.Comment = new Class({
     },
 
     showDialog:function (model, move) {
-        this.show();
+        this.parent();
         this.move = model.getMove(move);
         var comment = this.commentPos == 'before' ? model.getCommentBefore(this.move) : model.getCommentAfter(this.move);
         this.child['comment'].setValue(comment);

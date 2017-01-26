@@ -7,7 +7,7 @@ chess.GameViewer = new Class({
 
     initialize: function (config) {
 
-        this.renderTo = $(config.renderTo);
+        this.renderTo = jQuery(config.renderTo);
 
         this.pgn = this.renderTo.attr("data-dhtmlchess-pgn");
         // Using 1 based numbering on the view(1 = first game). decrement by 1 since DHTML Chess is 0-based(0 = first game)
@@ -116,9 +116,9 @@ chess.GameViewer = new Class({
 
 });
 
-$(document).ready(function () {
+jQuery(document).ready(function () {
 
-    var els = $(document.body).find('.dhtmlchess');
+    var els = jQuery(document.body).find('.dhtmlchess');
 
     jQuery.each(els, function (i, el) {
 

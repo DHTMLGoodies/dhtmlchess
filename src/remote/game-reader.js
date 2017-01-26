@@ -9,10 +9,7 @@ chess.remote.GameReader = new Class({
     Extends:chess.remote.Reader,
 
     loadGame : function(id, pgn){
-        console.log(arguments);
-        
 		this.fireEvent('beforeLoad');
-
         var query = {
             "eventOnLoad": "load"
         };

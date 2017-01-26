@@ -11,6 +11,7 @@ ini_set("display_errors", "on");
 
 
 $to = "zip/dhtml-chess2.zip";
+die("NOt in use");
 
 class Archiver
 {
@@ -56,11 +57,11 @@ class Archiver
             $path = str_replace("*", "", $path);
             $dest = " ../../wordpress/wp-content/plugins/dhtml_chess/api/";
             echo "cp -rf " . $file . $dest."<br>";
-            exec("cp -rf " . $file . $dest);
+            # exec("cp -rf " . $file . $dest);
 
-            if(!file_exists($dest)){
-                echo "FAILURE<br>";
-            }
+            #if(!file_exists($dest)){
+               # echo "FAILURE<br>";
+            # }
         }
         foreach ($this->files as $file) {
 

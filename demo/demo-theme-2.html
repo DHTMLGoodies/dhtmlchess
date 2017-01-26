@@ -173,7 +173,7 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
         styled based on included theme.</p>
         <script type="text/javascript">
             function selectTheme(){
-                var val = $('#theme').val();
+                var val = jQuery('#theme').val();
                 if(val.length > 0){
                     location.href = 'demo-theme-2.html?theme=' + val;
                 }
@@ -194,8 +194,8 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
             </select></td></tr>
         </table>
         <script type="text/javascript">
-            $(document).ready(function() {
-                $("#theme option[value='" + theme + "']").prop('selected', true);
+            jQuery(document).ready(function() {
+                jQuery("#theme option[value='" + theme + "']").prop('selected', true);
                 // you need to specify id of combo to set right combo, if more than one combo
             });
         </script>
