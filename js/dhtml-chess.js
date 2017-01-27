@@ -1,4 +1,4 @@
-/* Generated Fri Jan 27 2:22:17 CET 2017 */
+/* Generated Fri Jan 27 17:48:17 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -6256,15 +6256,15 @@ ludo.layout.Table = new Class({
     fixedWidth: undefined,
     totalWeight: undefined,
     countCellsInNextRow: undefined,
-    simple:false,
-    rowHeight:undefined,
+    simple: false,
+    rowHeight: undefined,
 
     onCreate: function () {
         this.parent();
 
         this.countChildren = 0;
         this.cols = this.view.layout.columns;
-        if(this.view.layout.rowHeight != undefined)this.rowHeight = this.view.layout.rowHeight;
+        if (this.view.layout.rowHeight != undefined)this.rowHeight = this.view.layout.rowHeight;
         this.fixedWidth = 0;
         this.totalWeight = 0;
         this.simple = this.view.layout.simple || this.simple;
@@ -6274,7 +6274,7 @@ ludo.layout.Table = new Class({
             var numWidth = col.width != undefined ? col.width : 0;
             this.fixedWidth += numWidth;
             this.totalWeight += (col.weight != undefined ? col.weight : 0);
-            var width = numWidth != undefined ? ' width="' + numWidth + '"' : "";
+            var width = numWidth != undefined && numWidth > 0 ? ' width="' + numWidth + '"' : "";
             cols.push('<col' + width + '>');
         }
 
@@ -6319,7 +6319,7 @@ ludo.layout.Table = new Class({
             if (child.layout.row)curCellIndex = 0;
 
             var config = {};
-            if(this.rowHeight != undefined)config.height = this.rowHeight;
+            if (this.rowHeight != undefined)config.height = this.rowHeight;
             if (child.layout.height != undefined)config.height = child.layout.height;
 
             config.width = this.getWidthOfChild(child, curCellIndex);
@@ -6331,13 +6331,13 @@ ludo.layout.Table = new Class({
 
     },
 
-    getWrappedHeight:function(){
+    getWrappedHeight: function () {
         return this.parent() + this.table.outerHeight();
     },
 
     getWidthOfChild: function (child, colIndex) {
         var colspan = child.layout.colspan ? child.layout.colspan : 1;
-        if(child.layout.width)return child.layout.width;
+        if (child.layout.width)return child.layout.width;
         var width = 0;
         var totalWidth = this.view.getBody().width();
         var weightWidth = totalWidth - this.fixedWidth;
@@ -6919,8 +6919,16 @@ ludo.layout.LinearVertical = new Class({
 		if (this.isResizable(child)) {
 			var isLastSibling = this.isLastSibling(child);
 
-			var resizer = this.getResizableFor(child, isLastSibling ? 'above' : 'below');
-			this.addChild(resizer, child, isLastSibling ? 'before' : 'after');
+			var rPos;
+			if(child.layout && child.layout.resizePos){
+				rPos = child.layout.resizePos;
+			}else{
+				rPos = isLastSibling ? 'above' : 'below';
+			}
+
+			console.log(rPos);
+			var resizer = this.getResizableFor(child, rPos);
+			this.addChild(resizer, child, rPos == 'above' ? 'before' : 'after');
 		}
 
 		child.getEl().css('position', 'absolute');
@@ -7430,6 +7438,7 @@ ludo.dataSource.Base = new Class({
 
 	__construct:function (config) {
 		this.parent(config);
+		if(config.data != undefined)this.autoload = false;
 		this.setConfigParams(config, ['method', 'url', 'autoload', 'shim','dataHandler']);
 
 		if(this.postData == undefined){
@@ -7598,7 +7607,6 @@ ludo.dataSource.JSON = new Class({
             data: data,
             complete: function (response, status) {
                 this._loaded = true;
-                console.log(arguments);
                 if(status == 'success'){
                     var json = response.responseJSON;
                     var data = this.dataHandler(json);
@@ -8842,7 +8850,12 @@ ludo.View = new Class({
     JSON: function (json, tpl) {
         tpl = tpl || this.tpl;
         if (tpl) {
-            this.getBody().html(this.getTplParser().asString(json, tpl));
+
+            if(jQuery.isFunction(tpl)){
+                this.getBody().html(tpl.call(this, [json]));
+            }else{
+                this.getBody().html(this.getTplParser().asString(json, tpl));
+            }
         }
     },
     
@@ -11130,6 +11143,10 @@ ludo.layout.Docking = new Class({
     collapse: function () {
         this.fireEvent('collapse', this);
 
+        if(this.visibleChild){
+            this.visibleChild.getEl().css('visibility', 'hidden');
+            this.fireEvent('hideChild', this.visibleChild);
+        }
         this.visibleChild = undefined;
 
         this.collapsed = true;
@@ -11172,7 +11189,9 @@ ludo.layout.Docking = new Class({
 
 
     showTab: function (child) {
+
         if (child == this.visibleChild) {
+            this.visibleChild.getEl().css('visibility', 'hidden');
             this.collapse();
             this.fireEvent('hideChild', child);
         } else {
@@ -15645,6 +15664,7 @@ ludo.dataSource.JSONArray = new Class({
             this.loadOrGetFromCache();
         } else {
             var data = this._getData();
+            if(!data)return this;
             data.sort(this.getSortFnFor(column, order));
             this.fireEvent('change');
         }
@@ -19678,7 +19698,7 @@ ludo.form.Element = new Class({
             this.setLinkWith(config.linkWith);
         }
 
-        if (this.dataSource) {
+        if (this.dataSource && !this.dataSource.data) {
             this.isReady = false;
         }
         this.initialValue = this.constructorValue = this.value;
@@ -19907,11 +19927,6 @@ ludo.form.Element = new Class({
 
     _set:function(value){
 
-        if (!this.isReady) {
-            if(value)this._set.delay(50, this, value);
-            return;
-        }
-
         if (value == this.value) {
             return value;
         }
@@ -19943,30 +19958,7 @@ ludo.form.Element = new Class({
     setValue:function (value) {
         console.warn("Use of deprecated setValue");
         console.trace();
-        if (!this.isReady) {
-            if(value)this.val.delay(50, this, value);
-            return;
-        }
-
-        if (value == this.value) {
-            return;
-        }
-
-        this.setFormElValue(value);
-        this.value = value;
-
-
-
-        this.validate();
-
-        if (this.wasValid) {
-
-            this.fireEvent('valueChange', [this._get(), this]);
-            if (this.stateful)this.fireEvent('state');
-            if (this.linkWith)this.updateLinked();
-        }
-
-        this.fireEvent('value', value);
+        return this._set(value);
     },
 
     setFormElValue:function(value){
@@ -20092,6 +20084,9 @@ ludo.form.Element = new Class({
 
     setReady:function () {
         this.isReady = true;
+        var val = this.value;
+        this.value = undefined;
+        if(val)this._set(val);
     },
 
     updateLinked:function () {
@@ -39759,7 +39754,7 @@ chess.model.Game = new Class({
     },
 
     loadWordPressGameById:function(pgn, id){
-        this.gameReader.loadGame()
+        this.gameReader.loadGame(id, pgn);
     },
 
     loadWordPressGameByIndex:function(pgn, index){
@@ -39904,7 +39899,7 @@ chess.model.Game = new Class({
     },
 
     reservedMetadata: ["event", "site", "date", "round", "white", "black", "result",
-        "annotator", "termination", "fen", "plycount", "database_id", "id"],
+        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "draft_id"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object
@@ -41308,9 +41303,14 @@ chess.model.Game = new Class({
      * @method save
      */
     save: function () {
-        this.gameReader.save(this.toValidServerModel(this.toValidServerModel(this.model)));
+        this.gameReader.save(this.modelForServer());
         this.setClean();
     },
+
+    modelForServer:function(){
+        return this.toValidServerModel(this.toValidServerModel(this.model));
+    },
+
     /**
      * Convert to valid server model, i.e. reserved metadata moved from metadata object
      * @method toValidServerModel
@@ -41756,16 +41756,41 @@ chess.pgn.Parser = new Class({
 /* ../dhtml-chess/src/wordpress/game-list-grid.js */
 chess.wordpress.GameListGrid = new Class({
     Extends: chess.view.gamelist.Grid,
+    headerMenu:false,
+    submodule:'wordpress.gamelist',
     dataSource: {
-        'type': 'chess.dataSource.WpGameList',
+        'type': 'ludo.dataSource.JSONArray',
+        autoload:false,
+        postData:{
+            action:'list_of_games'
+        },
         shim: {
             txt: 'Loading games...'
         }
     },
 
+
+
     __rendered:function(){
         this.parent();
 
+        this.loadGames();
+
+        this.on('show', this.loadGames.bind(this));
+
+    },
+
+    loadGames:function(){
+        console.log('loading games ', this.controller.pgn);
+
+        if(this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn){
+            this.load();
+        }
+    },
+
+    load:function(){
+        this.getDataSource().postData.pgn = this.controller.pgn;
+        this.getDataSource().load();
     },
 
     selectGame:function(record){
@@ -41791,7 +41816,7 @@ chess.wordpress.PgnList = new Class({
  */
 chess.wordpress.GameList = new Class({
     Extends: ludo.dataSource.JSONArray,
-    type : 'chess.dataSource.WpGameList',
+    type : 'chess.wordpress.GameList',
     autoload:false,
     singleton: true,
     resource:'Database',

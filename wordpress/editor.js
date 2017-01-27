@@ -47,6 +47,8 @@ chess.WPEditor = new Class({
 
                     children: [
                         {
+                            module:this.module,
+                            submodule:'wordpress.dockinglayout',
                             layout: {
                                 type: 'docking',
                                 tabs: 'left',
@@ -57,6 +59,7 @@ chess.WPEditor = new Class({
                             children: [
                                 {
                                     title: 'Drafts',
+                                    id:'draftsDockingView',
                                     type: 'FramedView',
                                     elCss:{
                                         'border-left-width' : 0
@@ -145,6 +148,25 @@ chess.WPEditor = new Class({
                                 'border-left': '1px solid ' + ludo.$C('border')
                             },
                             children: [
+                                {
+                                    type:'chess.wordpress.EditorHeading',
+                                    module: this.module,
+                                    layout:{
+                                        height:20
+                                    }
+                                },
+
+                                {
+                                    module:this.module,
+                                    type: 'chess.wordpress.MetadataTitle',
+                                    css:{
+                                        'text-align' : 'center'
+                                    },
+                                    layout:{
+                                        height:45
+                                    }
+                                },
+
                                 {
                                     type: 'chess.view.board.Board',
                                     module: this.module,
@@ -249,7 +271,8 @@ chess.WPEditor = new Class({
                                     layout: {
                                         type: 'tabs', tabs: 'top',
                                         height: 250,
-                                        resizable: true
+                                        resizable: true,
+                                        resizePos:'above'
                                     },
                                     children: [
                                         {
@@ -277,6 +300,19 @@ chess.WPEditor = new Class({
 
                                     ]
 
+                                },
+                                {
+                                    elCss: {
+                                        'border-top': '1px solid ' + ludo.$C('border')
+                                    },
+                                    module: this.module,
+                                    type: 'chess.wordpress.WordPressMessage',
+                                    layout:{
+                                        height:20
+                                    },
+                                    css:{
+                                        'line-height' : '20px'
+                                    }
                                 }
                             ]
                         }
@@ -290,9 +326,7 @@ chess.WPEditor = new Class({
                         orientation: 'horizontal'
 
                     },
-                    elCss: {
-                        'border-top': '1px solid ' + ludo.$C('border')
-                    },
+
                     css: {
                         padding: 4,
                         'background-color': ludo.$C('border')
@@ -313,17 +347,27 @@ chess.WPEditor = new Class({
                             layout: {width: 120}
                         },
                         {
-                            module: this.module,
-                            type: 'chess.wordpress.WordpressError',
                             layout: {
                                 weight: 1, height: 25
                             }
                         },
                         {
+                            type:'chess.wordpress.UpdateGameButton',
                             module: this.module,
-                            submodule: 'wordpress.savedraft',
-                            type: 'form.Button',
-                            value: 'Save Draft',
+                            layout: {
+                                width: 80
+                            }
+                        },
+                        {
+                            type:'chess.wordpress.PublishButton',
+                            module: this.module,
+                            layout: {
+                                width: 80
+                            }
+                        },
+                        {
+                            type:'chess.wordpress.DraftButton',
+                            module: this.module,
                             layout: {
                                 width: 80
                             }
@@ -338,7 +382,7 @@ chess.WPEditor = new Class({
 
         this.controller = new chess.wordpress.WordpressController({
             applyTo: [this.module],
-            garboChess: ludo.config.getDocumentRoot() + '/garbochess/js/garbochess.js',    // Path to garbochess.js, relative to this file
+            garboChess: ludo.config.getDocumentRoot() + '/garbochess/js/garbochess.js'    // Path to garbochess.js, relative to this file
         });
     }
 });

@@ -2,6 +2,29 @@ chess.wordpress.WordpressController = new Class({
     Extends: chess.controller.AnalysisEngineController,
 
     posSetup: undefined,
+
+    debug: true,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.currentModel.setClean();
+
+        this.currentModel.on('dirty', this.fireDirty.bind(this));
+        this.currentModel.on('clean', this.fireClean.bind(this));
+
+        this.updateButtonVisibility();
+    },
+
+    fireDirty: function () {
+        console.log('dirty');
+        this.fireEvent('dirty');
+    },
+
+    fireClean: function () {
+        console.log('clean');
+        this.fireEvent('clean');
+    },
+
     addView: function (view) {
         success = this.parent(view);
 
@@ -16,6 +39,7 @@ chess.wordpress.WordpressController = new Class({
 
                     break;
                 case 'wordpress.savedraft':
+                    this.views.saveDraftButton = view;
                     view.on('click', this.saveDraft.bind(this));
                     break;
                 case 'wordpress.gameMetadata':
@@ -30,26 +54,95 @@ chess.wordpress.WordpressController = new Class({
                     view.on('selectGame', this.selectGame.bind(this));
                     break;
                 case 'wordpress.gamelisttab':
-
                     this.views.gamelisttab = view;
                     break;
+                case 'wordpress.dockinglayout':
+                    this.views.docking = view;
+                    break;
+                case 'wordpress.draftlist':
+                    this.views.draftlist = view;
+                    view.on('selectDraft', this.selectGame.bind(this));
+                    break;
+                case 'wordpress.publish':
+                    this.views.publishButton = view;
+                    view.on('click', this.publishGame.bind(this));
+                    break;
+                case 'wordpress.updategame':
+                    this.views.updateGameButton = view;
+                    view.on('click', this.saveUpdates.bind(this));
+
+
             }
 
 
         }
     },
 
+
+    publishGame: function () {
+
+    },
+
     selectPgn: function (pgn) {
         console.log('selected ' + pgn, this.views.gamelist);
         this.pgn = pgn;
+
+
         if (this.views.gamelisttab) {
             this.views.gamelisttab.show();
             if (this.views.gamelist)this.views.gamelist.loadGames();
         }
     },
 
+    gameToLoad: undefined,
+
+    getConfirmDialog: function () {
+        if (this.confirmDialog == undefined) {
+            this.confirmDialog = new ludo.dialog.Confirm({
+                html: chess.getPhrase('You have unsaved game data. Do you want to discard these and '),
+                autoRemove: false,
+                css: {
+                    padding: 5
+                },
+                buttonConfig: 'YesNo',
+                layout: {
+                    centerIn: this.views.board,
+                    width: 300, height: 200
+                },
+                listeners: {
+                    'yes': function () {
+                        this.loadPgn(this.gameToLoad);
+                        this.gameToLoad = undefined;
+                    }.bind(this),
+                    'no': function () {
+                        this.gameToLoad = undefined;
+                        this.hide();
+                    }
+                }
+            });
+        }
+
+        return this.confirmDialog;
+    },
+
     selectGame: function (game) {
         console.log(game);
+
+        if (this.currentModel.isDirty()) {
+            this.gameToLoad = game;
+
+            this.getConfirmDialog().show();
+
+            this.fireEvent('wperror', 'Current model is dirty');
+            return;
+        }
+
+
+        this.loadPgn(game);
+
+    },
+
+    loadPgn: function (game) {
 
         if (game.pgn && game.id) {
             this.load({
@@ -57,12 +150,17 @@ chess.wordpress.WordpressController = new Class({
                 pgn: game.pgn,
                 id: game.id
             });
-            // this.currentModel.loadWordPressGameById(game.pgn, game.id);
+        } else if (game.draft_id) {
+            this.load({
+                action: 'get_draft',
+                draft_id: game.draft_id
+            });
         }
     },
 
-    load:function(data){
+    load: function (data) {
 
+        this.disableButtons();
         this.currentModel.beforeLoad();
         jQuery.ajax({
 
@@ -73,24 +171,52 @@ chess.wordpress.WordpressController = new Class({
             data: data,
             complete: function (response, status) {
                 this.currentModel.afterLoad();
-
-                this._loaded = true;
+                this.enableButtons();
                 if (status == 'success') {
                     var json = response.responseJSON;
-                    if(json.success){
-                        this.currentModel.populate(json.response);
+                    if (json.success) {
+                        if (this.views.docking) {
+                            this.views.docking.getLayout().collapse();
+                        }
+                        var game = json.response;
+
+
+                        this.currentModel.populate(game);
+                        this.currentModel.setClean();
+
+                        this.updateButtonVisibility();
+                        console.log(this.currentModel.isDirty());
+
+                        this.fireEvent('game', game);
                     }
-                    console.log(json);
 
                 } else {
-
+                    this.fireEvent('wperrror', chess.getPhrase('Could not load game. Try again later'));
                 }
             }.bind(this),
             fail: function (text, error) {
+                this.fireEvent(error);
             }.bind(this)
 
         });
+    },
 
+    updateButtonVisibility: function () {
+        var meta = this.currentModel.getMetadata();
+
+        this.views.updateGameButton.hide();
+        this.views.publishButton.hide();
+        this.views.saveDraftButton.hide();
+
+        console.log('amk', meta);
+
+
+        if (meta.pgn) {
+            this.views.updateGameButton.show();
+        } else {
+            this.views.publishButton.show();
+            this.views.saveDraftButton.show();
+        }
     },
 
     updateMetadata: function (key, val) {
@@ -100,13 +226,46 @@ chess.wordpress.WordpressController = new Class({
 
     },
 
+    deleteDraft: function (game) {
+
+    },
+
+    saveUpdates: function () {
+        var gameModel = this.currentModel.modelForServer();
+
+        if (!gameModel)return;
+        if (!gameModel.white || !gameModel.black) {
+            this.fireEvent('wperror', 'Metadata missing');
+            this.views.metadata.show();
+            return;
+        }
+
+        this.disableButtons();
+        jQuery.post(ludo.config.getUrl(), {
+            action: 'save_game',
+            pgn: gameModel.pgn,
+            game: gameModel
+        }, function (data) {
+            this.enableButtons();
+            if (data.response) {
+                if (data.success) {
+                    this.fireEvent('wpmessage', chess.getPhrase('Game Saved'));
+                    this.fireEvent('pgngameupdated');
+                    this.currentModel.setClean();
+                } else {
+                    this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
+                }
+            }
+
+        }.bind(this));
+
+    },
+
+
     saveDraft: function () {
         var gameModel = this.currentModel.modelForServer();
 
-        console.log(this.currentModel.isDirty());
-
         if (!gameModel)return;
-        console.log(gameModel);
         if (!gameModel.white || !gameModel.black) {
             this.fireEvent('wperror', 'Metadata missing');
             this.views.metadata.show();
@@ -117,15 +276,38 @@ chess.wordpress.WordpressController = new Class({
             gameModel.id = undefined;
         }
 
+
+        this.disableButtons();
         jQuery.post(ludo.config.getUrl(), {
             action: 'save_draft',
             game: gameModel
-        }, function (response) {
-            console.log(response);
-        });
+        }, function (data) {
+            this.enableButtons();
+            if (data.response) {
+                if (data.success) {
+                    this.fireEvent('wpmessage', chess.getPhrase('Draft Saved'));
+                    this.fireEvent('draftsupdated');
+                    this.currentModel.setMetadata({'draft_id': data.response.draft_id});
+                    this.currentModel.setClean();
+                } else {
+                    this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
+                }
+            }
+
+        }.bind(this));
 
 
         console.log('saving draft', this.currentModel);
+    },
+
+    disableButtons: function () {
+        this.views.saveDraftButton.setEnabled(false);
+        this.views.publishButton.setEnabled(false);
+    },
+
+    enableButtons: function () {
+        this.views.saveDraftButton.enable.delay(1000, this.views.saveDraftButton);
+        this.views.publishButton.enable.delay(1000, this.views.publishButton);
     },
 
     showPositionSetup: function () {

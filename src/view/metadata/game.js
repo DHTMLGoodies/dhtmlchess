@@ -36,6 +36,10 @@ chess.view.metadata.Game = new Class({
 
     updateMetadata : function(model){
         var metadata = model.getMetadata();
+        if(jQuery.isFunction(this.tpl)){
+            this.getBody().html(this.tpl.call(this, metadata));
+            return;
+        }
         var keys = this.getTplKeys();
         var html = this.tpl;
         var replacement;
@@ -51,6 +55,7 @@ chess.view.metadata.Game = new Class({
     },
 
     getTplKeys : function(){
+
         var tokens = this.tpl.match(/{([a-z]+?)\}/g);
         for(var i=0;i<tokens.length;i++){
             tokens[i] = tokens[i].replace(/[{}]/g,'')

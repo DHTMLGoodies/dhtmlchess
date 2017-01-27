@@ -28,9 +28,8 @@ class DhtmlChessDraft
      */
     public function update($id, $game)
     {
-
-
-        $title = "Draft " . $game["white"] . " - " . $game["black"];
+        
+        $title = $game["white"] . " - " . $game["black"];
 
         $updated = $this->wpdb->update(
             DhtmlChessDatabase::TABLE_DRAFT,
@@ -46,7 +45,7 @@ class DhtmlChessDraft
         );
 
         if(empty($updated)){
-            throw new Exception("Unable to update draft");
+            throw new DhtmlChessException("Nothing to update");
         }
 
         return $id;
@@ -141,6 +140,7 @@ class DhtmlChessDraft
             unset($gameObject["moves"]);
             unset($gameObject["metadata"]);
             $ret[] = array(
+                "updated" => $game->{DhtmlChessDatabase::COL_UPDATED},
                 "title" => $game->{DhtmlChessDatabase::COL_TITLE},
                 "game" =>  $gameObject);
         }
