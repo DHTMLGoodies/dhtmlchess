@@ -127,7 +127,11 @@ class DhtmlChessDraft
 
     public function allDrafts()
     {
-        $query = "select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_DRAFT . "  order by " . DhtmlChessDatabase::COL_UPDATED . " desc, ". DhtmlChessDatabase::COL_UPDATED . " asc";
+        $query = "select " 
+            . DhtmlChessDatabase::COL_TITLE. ", "
+            . DhtmlChessDatabase::COL_UPDATED. ", "
+            .  DhtmlChessDatabase::COL_GAME 
+            . " from " . DhtmlChessDatabase::TABLE_DRAFT . "  order by " . DhtmlChessDatabase::COL_UPDATED . " desc, ". DhtmlChessDatabase::COL_UPDATED . " asc";
         $results = $this->wpdb->get_results($query);
         $ret = array();
         foreach ($results as $game) {
@@ -136,7 +140,9 @@ class DhtmlChessDraft
 
             unset($gameObject["moves"]);
             unset($gameObject["metadata"]);
-            $ret[] = $gameObject;
+            $ret[] = array(
+                "title" => $game->{DhtmlChessDatabase::COL_TITLE},
+                "game" =>  $gameObject);
         }
         $ret = json_encode($ret);
         return $ret;

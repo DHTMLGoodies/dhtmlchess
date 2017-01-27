@@ -6,107 +6,106 @@ window.chess.isWordPress = true;
 chess.WPEditor = new Class({
 
     Extends: Events,
-    renderTo:undefined,
+    renderTo: undefined,
 
-    initialize:function(config){
+    initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
 
 
-        if(config.docRoot){
+        if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
         var r = jQuery(this.renderTo);
         var w = r.width();
-        r.css('height', Math.round(w + 300));
+        r.css('height', Math.round(w + 400));
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
     },
 
-    render:function(){
+    render: function () {
 
         $(document.body).addClass('ludo-twilight');
         this.renderTo.addClass('ludo-twilight');
 
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            layout:{
-                type:'linear', orientation:'vertical',
+            layout: {
+                type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
                 width: 'matchParent'
             },
 
-            children:[
+            children: [
                 {
                     layout: {
                         type: 'linear',
-                        orientation:'horizontal',
-                        weight:1
+                        orientation: 'horizontal',
+                        weight: 1
                     },
 
-                    children:[
+                    children: [
                         {
-                            layout:{
-                                type:'docking',
-                                tabs:'left',
-                                width:200,
-                                resizable:true
+                            layout: {
+                                type: 'docking',
+                                tabs: 'left',
+                                width: 200,
+                                resizable: true
                             },
-                            css: {
-                                'border-right': '1px solid ' + ludo.$C('border')
-                            },
-                            children:[
+
+                            children: [
                                 {
-                                    title:'Drafts',
-                                    emptyText:'No drafts found',
-                                    type:'ListView',
-                                    itemRenderer:function(record){
-                                        return '<div><strong>' + record.title + '</strong>';
+                                    title: 'Drafts',
+                                    type: 'chess.wordpress.DraftListView',
+                                    module:this.module,
+                                    css:{
+                                        padding:2
                                     },
-                                    dataSource:{
-                                        type:'dataSource.JSONArray',
-                                        postData:{
-                                            'action' : 'list_drafts'
-                                        }
+                                    dataSource: {
+                                        type: 'chess.wordpress.Drafts'
                                     }
                                 },
                                 {
-                                    title:'PGNS',
-                                    type:'ListView',
-                                    swipable:false,
+                                    title: 'PGNS',
+                                    type: 'ListView',
+                                    swipable: false,
+                                    module:this.module,
                                     itemRenderer: function (record) {
                                         return '<div><strong>' + record.pgn_name + '</strong><br>' + record.count + '</div> '
                                     },
-                                    dataSource:{
-                                        type:'chess.wordpress.PgnList'
+                                    dataSource: {
+                                        type: 'chess.wordpress.PgnList'
                                     }
                                 },
                                 {
-                                    title:'Games'
+                                    title: 'Games'
                                 }
                             ]
                         },
                         {
-                            layout:{
-                                weight:1,
-                                type:'linear', orientation:'vertical'
+                            layout: {
+                                weight: 1,
+                                type: 'linear', orientation: 'vertical'
                             },
-                            children:[
+                            css: {
+                                'border-left': '1px solid ' + ludo.$C('border')
+                            },
+                            children: [
                                 {
-                                    type:'chess.view.board.Board',
-                                    module:this.module,
-                                    layout:{
-                                        weight:1
+                                    type: 'chess.view.board.Board',
+                                    module: this.module,
+                                    layout: {
+                                        weight: 1
                                     },
-                                    squareStyles_white:{
+                                    squareStyles_white: {
                                         'background-color': '#a3a3a3'
                                     },
-                                    squareStyles_black:{
+                                    squareStyles_black: {
                                         'background-color': '#888888'
                                     },
                                     elCss: {
-                                        'margin-top' : 5
+                                        'margin-top': 5
 
                                     },
                                     background: {
@@ -115,16 +114,16 @@ chess.WPEditor = new Class({
                                             'fill': '#1a2026'
                                         }
                                     },
-                                    pieceLayout:'svg_darkgrey',
-                                    labelOddStyles:ludo.isMobile ? {
+                                    pieceLayout: 'svg_darkgrey',
+                                    labelOddStyles: ludo.isMobile ? {
                                         'color': '#fff'
-                                    }: {
-                                        'color': '#fff'
-                                    },
-                                    labelEvenStyles:{
+                                    } : {
                                         'color': '#fff'
                                     },
-                                    padding:ludo.isMobile ? '1%' : '3%',
+                                    labelEvenStyles: {
+                                        'color': '#fff'
+                                    },
+                                    padding: ludo.isMobile ? '1%' : '3%',
                                     labelPos: ludo.isMobile ? 'inside' : 'outside',
                                     plugins: [
                                         {
@@ -147,45 +146,45 @@ chess.WPEditor = new Class({
                                     ]
                                 },
                                 {
-                                    type:'chess.view.buttonbar.Bar',
-                                    elCss:{
+                                    type: 'chess.view.buttonbar.Bar',
+                                    elCss: {
                                         'border-bottom': '1px solid ' + ludo.$C('border')
                                     },
-                                    layout:{
-                                        height:40
+                                    layout: {
+                                        height: 40
                                     },
-                                    module:this.module,
-                                    borderRadius:'10%',
-                                    styles:{
-                                        button:{
-                                            fill:'#666',
-                                            stroke:'#bbb'
+                                    module: this.module,
+                                    borderRadius: '10%',
+                                    styles: {
+                                        button: {
+                                            fill: '#666',
+                                            stroke: '#bbb'
                                         },
-                                        image:{
-                                            fill:'#ccc'
+                                        image: {
+                                            fill: '#ccc'
                                         },
-                                        buttonOver:{
-                                            fill:'#777',
-                                            stroke:'#a3a3a3'
+                                        buttonOver: {
+                                            fill: '#777',
+                                            stroke: '#a3a3a3'
                                         },
-                                        imageOver:{
-                                            fill:'#eee'
+                                        imageOver: {
+                                            fill: '#eee'
                                         },
-                                        buttonDown:{
-                                            fill:'#555',
-                                            stroke:'#bbb'
+                                        buttonDown: {
+                                            fill: '#555',
+                                            stroke: '#bbb'
                                         },
-                                        imageDown:{
-                                            fill:'#bbb'
+                                        imageDown: {
+                                            fill: '#bbb'
                                         },
-                                        buttonDisabled:{
-                                            fill:'#888',
-                                            'fill-opacity' : 0.4,
-                                            stroke : '#888'
+                                        buttonDisabled: {
+                                            fill: '#888',
+                                            'fill-opacity': 0.4,
+                                            stroke: '#888'
                                         },
-                                        imageDisabled:{
-                                            fill:'#555',
-                                            'fill-opacity' : 0.4,
+                                        imageDisabled: {
+                                            fill: '#555',
+                                            'fill-opacity': 0.4,
                                         }
                                     }
                                 },
@@ -194,23 +193,33 @@ chess.WPEditor = new Class({
                                     elCss: {
                                         'border-top': '1px solid ' + ludo.$C('border')
                                     },
-                                    layout:{
-                                        type:'tabs', tabs:'top',
-                                        height:150,
-                                        resizable:true
+                                    layout: {
+                                        type: 'tabs', tabs: 'top',
+                                        height: 250,
+                                        resizable: true
                                     },
-                                    children:[
+                                    children: [
                                         {
-                                            title:'Notations',
-                                            type:'chess.view.notation.Panel',
-                                            module:this.module,
-                                            figurines:'svg_bw',
-                                            showContextMenu:true
+                                            title: 'Notations',
+                                            type: 'chess.view.notation.Panel',
+                                            module: this.module,
+                                            figurines: 'svg_bw',
+                                            showContextMenu: true
 
                                         },
                                         {
-                                            title:'Comments',
+                                            type:'chess.wordpress.CommentView',
+                                            title: 'Comments',
+                                            module: this.module
+                                        },
+                                        {
+                                            'title': 'Computer Eval',
                                             module:this.module
+                                        },
+                                        {
+                                            title:'Metadata',
+                                            module:this.module,
+                                            type:'chess.wordpress.GameMetadata'
                                         }
 
                                     ]
@@ -222,26 +231,61 @@ chess.WPEditor = new Class({
                     ]
                 },
                 {
-                    layout:{
-                        height:35,
-                        layout:{
-                            type:'linear', orientation:'vertical'
-                        }
+                    layout: {
+                        height: 35,
+                        type: 'linear',
+                        orientation: 'horizontal'
+
                     },
-                    elCss:{
-                        'border-top' : '1px solid ' + ludo.$C('border')
-                    }
+                    elCss: {
+                        'border-top': '1px solid ' + ludo.$C('border')
+                    },
+                    css:{
+                        padding:4,
+                        'background-color' : ludo.$C('border')
+                    },
+                    children: [
+                        {
+                            module: this.module,
+                            submodule:'wordpress.newgame',
+                            type: 'form.Button',
+                            value: 'New',
+                            layout: {width: 80}
+                        },
+                        {
+                            module: this.module,
+                            submodule:'wordpress.newposition',
+                            type: 'form.Button',
+                            value: 'New Position',
+                            layout: {width: 120}
+                        },
+                        {
+                            module: this.module,
+                            type:'chess.wordpress.WordpressError',
+                            layout:{
+                                weight:1, height:25
+                            }
+                        },
+                        {
+                            module: this.module,
+                            submodule:'wordpress.savedraft',
+                            type: 'form.Button',
+                            value: 'Save Draft',
+                            layout: {
+                                width: 80
+                            }
+                        }
+                    ]
                 }
 
             ]
 
 
-
-
         });
 
-        this.controller = new chess.controller.AnalysisController({
-            applyTo:[this.module]
+        this.controller = new chess.wordpress.WordpressController({
+            applyTo: [this.module],
+            garboChess:ludo.config.getDocumentRoot() + '/garbochess/js/garbochess.js',    // Path to garbochess.js, relative to this file
         });
     }
 });

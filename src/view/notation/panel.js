@@ -125,8 +125,6 @@ chess.view.notation.Panel = new Class({
             listeners: {
                 click: function (el) {
 
-                    console.log('gradeMove', this.getContextMenuMove(), el.icon);
-
                     switch (el.action) {
                         case 'grade':
                             this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
@@ -143,7 +141,7 @@ chess.view.notation.Panel = new Class({
                     this.setContextMenuMove(el);
                 }.bind(this)
             },
-            selector: 'notation-chess-move',
+            selector: '.notation-chess-move',
             children: [
                 {label: chess.getPhrase('Add comment before'), action: 'commentBefore'},
                 {label: chess.getPhrase('Add comment after'), action: 'commentAfter'},
@@ -406,13 +404,9 @@ chess.view.notation.Panel = new Class({
 
 
     updateMove: function (model, move) {
-        console.log(move);
-        var domEl = this.getEl().find('.chess-move-container-' + move.uid);
+        var domEl = this.getEl().find('.dhtml-chess-move-container-' + move.uid);
         if (domEl.length) {
-
             domEl.html(this.getDomTextForAMove(move));
-
-            console.log(domEl);
         } else {
             this.showMoves(model);
         }

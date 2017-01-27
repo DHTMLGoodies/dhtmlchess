@@ -1,4 +1,4 @@
-/* Generated Thu Jan 26 19:46:55 CET 2017 */
+/* Generated Fri Jan 27 2:22:17 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -480,7 +480,6 @@ div.ludo-FramedView {
 
 .ludo-view {
     border-width: 1px;
-    background-color: #FFF;
     overflow: hidden;
     position: relative;
 }
@@ -1281,8 +1280,11 @@ div.ludo-paging-current-page .ludo-body{
     font-family: arial, sans-serif;
 }
 
-.ludo-body input {
+.ludo-body input,.ludo-body select {
     font-size: 12px;
+}
+.ludo-body select{
+    height:auto;
 }
 
 .ludo-form-autocomplete-suggestion-over {
@@ -1366,7 +1368,7 @@ div.ludo-menu-menu label {
 }
 
 .ludo-form-text-element {
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
     background-color: #FFF;
     padding: 1px;
 }
@@ -1999,7 +2001,6 @@ div.ludo-grid-data-cell {
 }
 
 .notation-comment {
-    color: blue;
     font-weight: normal;
     font-style: italic;
 }

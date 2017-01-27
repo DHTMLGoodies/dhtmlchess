@@ -70,7 +70,7 @@ chess.controller.Controller = new Class({
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
             ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
-            return;
+            return false;
         }
         this.views[view.submodule] = view;
         switch (view.submodule) {
@@ -173,6 +173,8 @@ chess.controller.Controller = new Class({
                 view.addEvent('commentAfter', this.addCommentAfter.bind(this));
                 break;
         }
+        
+        return true;
     },
 
 	/**

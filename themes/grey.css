@@ -34,6 +34,11 @@ div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
     font-weight:normal;
 }
 
+.notation-comment{
+    color:#333;
+    font-style:italic;
+}
+
 /** Highlighted notation styles */
 span.notation-chess-move-highlighted {
     background-color: #666;

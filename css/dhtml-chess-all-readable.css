@@ -465,7 +465,6 @@ div.ludo-FramedView {
 
 .ludo-view {
     border-width: 1px;
-    background-color: #FFF;
     overflow: hidden;
     position: relative;
 }
@@ -1266,8 +1265,11 @@ div.ludo-paging-current-page .ludo-body{
     font-family: arial, sans-serif;
 }
 
-.ludo-body input {
+.ludo-body input,.ludo-body select {
     font-size: 12px;
+}
+.ludo-body select{
+    height:auto;
 }
 
 .ludo-form-autocomplete-suggestion-over {
@@ -1351,7 +1353,7 @@ div.ludo-menu-menu label {
 }
 
 .ludo-form-text-element {
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
     background-color: #FFF;
     padding: 1px;
 }
@@ -1984,7 +1986,6 @@ div.ludo-grid-data-cell {
 }
 
 .notation-comment {
-    color: blue;
     font-weight: normal;
     font-style: italic;
 }
@@ -5373,11 +5374,10 @@ body.ludo-twilight{
 .ludo-twilight .ludo-body{
     color:#aeb0b0;
 }
-.ludo-twilight .ludo-view{
+.ludo-twilight .ludo-view-top{
     background-color:#535353;
     color:#aeb0b0;
 }
-
 
 .ludo-twilight .ludo-framed-view-titlebar-title{
     line-height:24px;
@@ -5986,7 +5986,7 @@ Collapse bar
 .ludo-twilight .ludo-form-element,
 .ludo-twilight .ludo-form-text-element
 {
-    background-color:#535354;
+    background-color:transparent;
 
     color:#eee;
     border-top-color: transparent;
@@ -6000,7 +6000,7 @@ Collapse bar
 
 .ludo-twilight div.ludo-form-textarea .ludo-form-text-element{
 
-    border:1px solid #aeb0b0;
+    border:1px solid #444;
 }
 
 .ludo-twilight .form-combo-child{
@@ -6096,3 +6096,32 @@ Progress bar
     color: #FFFFFF;
     font-size: 12px;
 }
+
+/** List View */
+
+
+.ludo-twilight .ludo-list-item-back-left{
+    background-color:#388E3C;
+    color:#FFF;
+}
+
+.ludo-twilight .ludo-list-item-back-right{
+    background-color:#D32F2F;
+    color:#FFF;
+}
+
+.ludo-twilight .ludo-list-item-back-undo{
+    background-color:#455A64;
+    color:#FFF;
+}
+
+.ludo-twilight div.ludo-list-item-highlighted .ludo-list-item-front {
+    background-color: #666;
+}
+
+.ludo-twilight div.ludo-list-item-selected .ludo-list-item-front {
+    background-color: #444;
+    color: #ccc;
+
+}
+

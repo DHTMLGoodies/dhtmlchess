@@ -1653,9 +1653,14 @@ chess.model.Game = new Class({
      * @method save
      */
     save: function () {
-        this.gameReader.save(this.toValidServerModel(this.toValidServerModel(this.model)));
+        this.gameReader.save(this.modelForServer());
         this.setClean();
     },
+
+    modelForServer:function(){
+        return this.toValidServerModel(this.toValidServerModel(this.model));
+    },
+
     /**
      * Convert to valid server model, i.e. reserved metadata moved from metadata object
      * @method toValidServerModel
