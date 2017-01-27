@@ -685,9 +685,31 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $this->database->countDrafts());
         $this->assertEquals(1, $this->database->countGames("newpgn"));
-
     }
 
+    /**
+     * @test
+     */
+    public function shouldSetInternalRoundValue(){
+        // given
+        $this->database->import('lcc2016.pgn');
+
+        // when
+        $game = $this->database->gameByIndexJSONDecoded("lcc2016", 0);
+
+        // then
+        $this->assertEquals('9.1', $game['round']);
+        $this->assertEquals(9, $game['__round_1']);
+        $this->assertEquals(1, $game['__round_2']);
+
+        // when
+        $game = $this->database->gameByIndexJSONDecoded("lcc2016", 2);
+
+        // then
+        $this->assertEquals('9.3', $game['round']);
+        $this->assertEquals(9, $game['__round_1']);
+        $this->assertEquals(3, $game['__round_2']);
+    }
 
 
     public function shouldBeAbleToRenamePgn()

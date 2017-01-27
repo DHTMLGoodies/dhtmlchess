@@ -8,7 +8,7 @@
  */
 chess.wordpress.GameList = new Class({
     Extends: ludo.dataSource.JSONArray,
-    type : 'chess.dataSource.WpGameList',
+    type : 'chess.wordpress.GameList',
     autoload:false,
     singleton: true,
     resource:'Database',

@@ -15,7 +15,6 @@ chess.wordpress.WordpressController = new Class({
                 case 'wordpress.position':
 
                     break;
-
                 case 'wordpress.savedraft':
                     view.on('click', this.saveDraft.bind(this));
                     break;
@@ -23,10 +22,75 @@ chess.wordpress.WordpressController = new Class({
                     view.on('metadata', this.updateMetadata.bind(this));
                     this.views.metadata = view;
                     break;
+                case 'wordpress.pgnlistview':
+                    view.on('selectpgn', this.selectPgn.bind(this));
+                    break;
+                case 'wordpress.gamelist':
+                    this.views.gamelist = view;
+                    view.on('selectGame', this.selectGame.bind(this));
+                    break;
+                case 'wordpress.gamelisttab':
+
+                    this.views.gamelisttab = view;
+                    break;
             }
 
 
         }
+    },
+
+    selectPgn: function (pgn) {
+        console.log('selected ' + pgn, this.views.gamelist);
+        this.pgn = pgn;
+        if (this.views.gamelisttab) {
+            this.views.gamelisttab.show();
+            if (this.views.gamelist)this.views.gamelist.loadGames();
+        }
+    },
+
+    selectGame: function (game) {
+        console.log(game);
+
+        if (game.pgn && game.id) {
+            this.load({
+                action: 'game_by_id',
+                pgn: game.pgn,
+                id: game.id
+            });
+            // this.currentModel.loadWordPressGameById(game.pgn, game.id);
+        }
+    },
+
+    load:function(data){
+
+        this.currentModel.beforeLoad();
+        jQuery.ajax({
+
+            url: ludo.config.getUrl(),
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: data,
+            complete: function (response, status) {
+                this.currentModel.afterLoad();
+
+                this._loaded = true;
+                if (status == 'success') {
+                    var json = response.responseJSON;
+                    if(json.success){
+                        this.currentModel.populate(json.response);
+                    }
+                    console.log(json);
+
+                } else {
+
+                }
+            }.bind(this),
+            fail: function (text, error) {
+            }.bind(this)
+
+        });
+
     },
 
     updateMetadata: function (key, val) {
@@ -41,9 +105,9 @@ chess.wordpress.WordpressController = new Class({
 
         console.log(this.currentModel.isDirty());
 
-        if(!gameModel)return;
+        if (!gameModel)return;
         console.log(gameModel);
-        if(!gameModel.white || !gameModel.black){
+        if (!gameModel.white || !gameModel.black) {
             this.fireEvent('wperror', 'Metadata missing');
             this.views.metadata.show();
             return;

@@ -104,7 +104,7 @@ chess.model.Game = new Class({
     },
 
     loadWordPressGameById:function(pgn, id){
-        this.gameReader.loadGame()
+        this.gameReader.loadGame(id, pgn);
     },
 
     loadWordPressGameByIndex:function(pgn, index){

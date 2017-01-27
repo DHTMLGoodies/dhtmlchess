@@ -103,6 +103,11 @@ class DhtmlChessDatabase
         $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->gameByIndex($index);
     }
+    
+    public function gameByIndexJSONDecoded($pgn, $index){
+        $game = $this->gameByIndex($pgn, $index);
+        return json_decode($game, true);
+    }
 
     public function gameById($pgn, $id){
         $pgn = DhtmlChessPgn::instanceByName($pgn);

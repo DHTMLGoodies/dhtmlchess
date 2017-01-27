@@ -38,6 +38,11 @@ $wpdb->query($query);
 
 $database = new DhtmlChessDatabase();
 
+DhtmlChessInstaller::enableTestMode();
+$installer = new DhtmlChessInstaller();
+$installer->uninstall();
+$installer->install();
+
 $database->import('../../pgn/greatgames.pgn');
 $database->import('../../pgn/tactic-checkmates.pgn');
 

@@ -75,12 +75,14 @@ class DhtmlChessPgn
 
     private function getGames()
     {
-        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_ID . "," . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME . " where " . DhtmlChessDatabase::COL_PGN_ID . " = %s order by " . DhtmlChessDatabase::COL_SORT, $this->id);
+        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_ID . "," . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
+            . " where " . DhtmlChessDatabase::COL_PGN_ID . " = %s order by " . DhtmlChessDatabase::COL_SORT, $this->id);
         $results = $this->wpdb->get_results($query);
         $ret = array();
         foreach ($results as $game) {
             $gameObject = json_decode($game->{DhtmlChessDatabase::COL_GAME}, true);
             $gameObject['last_moves'] = DhtmlChessPgnUtil::lastMoves($gameObject['moves']);
+
 
             unset($gameObject["moves"]);
             unset($gameObject["metadata"]);
@@ -173,6 +175,19 @@ class DhtmlChessPgn
 
         $game["id"] = $id;
         $game["pgn"] = $this->getName();
+
+        if(isset($game['round'])){
+            $r = preg_replace('/[^0-9\.]/si', "", $game['round']);
+            if(!empty($r)){
+                $t = explode(".", $r);
+                $i = 1;
+                foreach($t as $val){
+                    if(!empty($val)){
+                        $game['__round_'. ($i++)] = $val;
+                    }
+                }
+            }
+        }
 
         $this->wpdb->update(
             DhtmlChessDatabase::TABLE_GAME,
