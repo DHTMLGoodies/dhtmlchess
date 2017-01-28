@@ -54,12 +54,14 @@ class DhtmlChessDatabase
         $installer->uninstall();
     } 
 
-    public function import($pgnFileName){
+    public function import($pgnFileName, $title = null){
         $importer = new DhtmlChessImportPgn();
-        $importer->import($pgnFileName);
+        $importer->import($pgnFileName, $title);
 
         return DhtmlChessPgn::instanceByName($pgnFileName);
     }
+    
+    
 
     public function listOfGames($pgnFileName){
         $pgn = DhtmlChessPgn::instanceByName($pgnFileName);
@@ -135,9 +137,9 @@ class DhtmlChessDatabase
     }
 
 
-    public function appendPgn($pgnPath){
+    public function appendPgn($pgnPath, $toPgn){
         $importer = new DhtmlChessImportPgn();
-        return $importer->appendPgn($pgnPath);
+        return $importer->appendPgn($pgnPath, $toPgn);
     }
 
     public function countGamesInDatabase(){

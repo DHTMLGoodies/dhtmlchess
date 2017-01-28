@@ -13,8 +13,10 @@ chess.wordpress.MetadataTitle = new Class({
 
         if(!metadata)return;
 
-        if(metadata && metadata.white){
-            var ret = metadata.white + ' vs ' + metadata.black + ' ' + metadata.result;
+        if(metadata && (metadata.white || metadata.black)){
+            var w = metadata.white ? metadata.white : '?';
+            var b = metadata.black ? metadata.black : '?';
+            var ret =w + ' vs ' + b + ' ' + metadata.result;
             if(this.dirty){
                 ret += '<sup>*</sup>';
             }

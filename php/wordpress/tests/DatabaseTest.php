@@ -198,8 +198,26 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         // then
         $this->assertEquals(64, $db->countGames());
 
+    }
+
+    /**
+     * @test
+     * @throws DhtmlChessException
+     * @throws DhtmlChessPgnNotFoundException
+     */
+    public function shouldBeAbleToImportWithSpecificTitle(){
+
+        // given
+        $this->database->import('fivegames.pgn', 'My games');
+
+        // when
+        $db = DhtmlChessPgn::instanceByName('fivegames');
+
+        // then
+        $this->assertEquals('My games', $db->getTitle());
 
     }
+
 
     /**
      * @test
@@ -454,7 +472,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(5, $this->countCached("fivegames"));
 
-        $this->database->appendPgn('fivegames.pgn');
+        $this->database->appendPgn('fivegames.pgn', 'fivegames');
 
         // then
         $this->assertEquals(10, $this->database->countGames("fivegames"));

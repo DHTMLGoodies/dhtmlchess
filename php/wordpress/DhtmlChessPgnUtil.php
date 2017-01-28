@@ -37,7 +37,7 @@ class DhtmlChessPgnUtil
      * @param $pgnFilePath
      * @return DhtmlChessPgn
      */
-    public function create($pgnFilePath){
+    public function create($pgnFilePath, $title = null){
         /**
          * @var wpdb $wpdb
          */
@@ -45,14 +45,17 @@ class DhtmlChessPgnUtil
         
         $pgnFilePath = $this->getUniqueName($pgnFilePath);
 
+        if(!isset($title))$title = $pgnFilePath;
+
 
         $wpdb->insert(
             DhtmlChessDatabase::TABLE_PGN,
             array(
+                DhtmlChessDatabase::COL_TITLE => $title,
                 DhtmlChessDatabase::COL_PGN_NAME => $pgnFilePath
             ),
             array(
-                '%s','%d'
+                '%s','%s'
             )
         );
 

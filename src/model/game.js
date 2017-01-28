@@ -368,7 +368,8 @@ chess.model.Game = new Class({
         this.model = {
             "id": 'temp-id-' + String.uniqueID(),
             "metadata": {
-                fen: this.defaultFen
+                fen: this.defaultFen,
+                result:'*'
             },
             "moves": []
         };
@@ -1678,6 +1679,7 @@ chess.model.Game = new Class({
                 delete gameData.metadata[key];
             }
         }
+        if(!gameData.result)gameData.result = '*';
         return gameData;
     },
 

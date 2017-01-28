@@ -12,12 +12,12 @@ class DhtmlChessImportPgn
         
     }
 
-    public function appendPgn($pgnFilePath){
+    public function appendPgn($pgnFilePath, $toPgn){
         if(!file_exists($pgnFilePath)){
             throw new DhtmlChessException("Pgn file not found");
         }
         try{
-            $pgn = DhtmlChessPgn::instanceByName($pgnFilePath);
+            $pgn = DhtmlChessPgn::instanceByName($toPgn);
             
             $parser = new PgnParser($pgnFilePath);
             $games = $parser->getGames();
@@ -33,34 +33,40 @@ class DhtmlChessImportPgn
         
     }
 
-    public function importPgnString($pgnName, $pgnString){
+    public function importPgnString($pgnName, $pgnString, $title = null){
         $parser = new PgnParser();
         $parser->setPgnContent($pgnString);
-        return $this->finishImport($pgnName, $parser);
+        if(empty($title))$title = $pgnName;
+        return $this->finishImport($pgnName, $parser, $title);
     }
 
-    public function import($filePath){
+    public function import($filePath, $title = ""){
+
+        $filePath = esc_sql($filePath);
 
         if(!file_exists($filePath)){
-            throw new DhtmlChessException("Pgn " . esc_sql($filePath). " does not exists");
+            throw new DhtmlChessException("Pgn " . $filePath. " does not exists");
         }
         $parser = new PgnParser($filePath);
 
-        return $this->finishImport($filePath, $parser);
+        return $this->finishImport($filePath, $parser, $title);
     }
+
+
 
     /**
      * @param string $name
      * @param PgnParser $parser
+     * @param string $title
      * @return DhtmlChessPgn
      */
-    private function finishImport($name, $parser){
+    private function finishImport($name, $parser, $title){
 
         $games = $parser->getGames();
 
         $util = new DhtmlChessPgnUtil();
 
-        $pgn = $util->create($name);
+        $pgn = $util->create($name, $title);
 
         foreach($games as $game){
             $pgn->appendGame($game);

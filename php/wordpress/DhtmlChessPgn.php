@@ -16,6 +16,7 @@ class DhtmlChessPgn
     private $wpdb;
 
     private $name;
+    private $title;
 
 
     private function __construct($id)
@@ -208,19 +209,34 @@ class DhtmlChessPgn
 
     }
 
+
+    public function getTitle(){
+        $this->loadTitleAndName();
+        return $this->title;
+    }
+
     public function getName()
     {
+
+        $this->loadTitleAndName();
+        return $this->name;
+    }
+
+    private function loadTitleAndName(){
         if (empty($this->name)) {
-            $query = $this->wpdb->prepare("SELECT " . DhtmlChessDatabase::COL_ID . ", "
-                . DhtmlChessDatabase::COL_PGN_NAME . " FROM " . DhtmlChessDatabase::TABLE_PGN . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $this->id);
+            $query = $this->wpdb->prepare("SELECT "
+                . DhtmlChessDatabase::COL_ID . ", "
+                . DhtmlChessDatabase::COL_PGN_NAME . ","
+                . DhtmlChessDatabase::COL_TITLE
+                . " FROM " . DhtmlChessDatabase::TABLE_PGN . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $this->id);
             $row = $this->wpdb->get_row($query);
             if (!empty($row)) {
                 $this->name = $row->{DhtmlChessDatabase::COL_PGN_NAME};
+                $this->title = $row->{DhtmlChessDatabase::COL_TITLE};
             }
 
         }
 
-        return $this->name;
     }
 
     /**

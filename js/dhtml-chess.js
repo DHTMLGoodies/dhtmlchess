@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 3:43:12 CET 2017 */
+/* Generated Sat Jan 28 13:55:37 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -25808,14 +25808,20 @@ ludo.CollectionView = new Class({
     },
 
     showEmptyText: function () {
-        this.emptyEl().css('display', '');
-        this._emptyEl.html(this.getEmptyText());
+        var el = this.emptyEl();
+        el.css('display', '');
+        el.html(this.getEmptyText());
+
+        el.css({
+            top: this.getEl().height() / 2 - (el.height() / 2)
+        });
     },
 
     emptyEl: function () {
         if (this._emptyEl === undefined) {
-            this._emptyEl = jQuery('<div class="ludo-empty-text" style="position:absolute">' + this.getEmptyText() + '</div>');
-            this.getBody().append(this._emptyEl);
+            this._emptyEl = jQuery('<div class="ludo-empty-text" style="width:100%;position:absolute">' + this.getEmptyText() + '</div>');
+            this._emptyEl.css('z-index', 2000);
+            this.getEl().append(this._emptyEl);
         }
         return this._emptyEl;
     },
@@ -28789,8 +28795,6 @@ ludo.ListView = new Class({
     render: function () {
         this.parent();
 
-        console.log('render list', this.getDataSource().getData());
-
         if (this.availHeight == undefined) {
             this.availHeight = this.getBody().height();
         }
@@ -28801,11 +28805,13 @@ ludo.ListView = new Class({
         this.recordMap = {};
 
         if (!this.dataSourceObj || !this.dataSourceObj.hasData()) {
+            this.showEmptyText();
             return;
         }
 
+        this.hideEmptyText();
+
         var d = this.getDataSource().getData();
-        console.log(d);
         var htmlArray = this.getTplParser().getCompiled(d, this.tpl);
 
         this.indexFirstVisible = undefined;
@@ -28818,6 +28824,7 @@ ludo.ListView = new Class({
             this.renderItem(i, item, html, b);
 
         }.bind(this));
+        
 
         var selected = this.getDataSource().getSelectedRecord();
         if (selected) {
@@ -40051,7 +40058,8 @@ chess.model.Game = new Class({
         this.model = {
             "id": 'temp-id-' + String.uniqueID(),
             "metadata": {
-                fen: this.defaultFen
+                fen: this.defaultFen,
+                result:'*'
             },
             "moves": []
         };
@@ -41361,6 +41369,7 @@ chess.model.Game = new Class({
                 delete gameData.metadata[key];
             }
         }
+        if(!gameData.result)gameData.result = '*';
         return gameData;
     },
 

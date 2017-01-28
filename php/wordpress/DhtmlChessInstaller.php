@@ -24,6 +24,7 @@ class DhtmlChessInstaller
         
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_PGN . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
+            . DhtmlChessDatabase::COL_TITLE . ' varchar(255),'
             . DhtmlChessDatabase::COL_PGN_NAME . ' varchar(255),'
             . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
