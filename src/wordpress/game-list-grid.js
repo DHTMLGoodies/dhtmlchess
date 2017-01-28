@@ -24,6 +24,13 @@ chess.wordpress.GameListGrid = new Class({
 
     },
 
+    setController:function(controller){
+        this.parent(controller);
+        controller.on('publish', function(){
+            this.getDataSource().load();
+        }.bind(this));
+    },
+
     loadGames:function(){
         console.log('loading games ', this.controller.pgn);
 
@@ -38,6 +45,7 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     selectGame:function(record){
+        console.log(record);
         this.fireEvent('selectGame', [record, this.getDataSource().postData.pgn]);
     }
 });

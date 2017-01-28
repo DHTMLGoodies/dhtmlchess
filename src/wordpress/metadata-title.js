@@ -15,12 +15,9 @@ chess.wordpress.MetadataTitle = new Class({
 
         if(metadata && metadata.white){
             var ret = metadata.white + ' vs ' + metadata.black + ' ' + metadata.result;
-
             if(this.dirty){
                 ret += '<sup>*</sup>';
             }
-
-            console.log(metadata);
             if(metadata.pgn){
                 ret += '<br><span style="font-size:0.7em">PGN: ' + metadata.pgn + '</span>'
             }

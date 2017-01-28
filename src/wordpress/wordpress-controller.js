@@ -5,6 +5,8 @@ chess.wordpress.WordpressController = new Class({
 
     debug: true,
 
+    newGameDialog:undefined,
+
     __construct: function (config) {
         this.parent(config);
         this.currentModel.setClean();
@@ -36,7 +38,7 @@ chess.wordpress.WordpressController = new Class({
                     view.on('click', this.showPositionSetup.bind(this));
                     break;
                 case 'wordpress.position':
-
+                    view.on('setPosition', this.onNewPositionClick.bind(this));
                     break;
                 case 'wordpress.savedraft':
                     this.views.saveDraftButton = view;
@@ -70,6 +72,10 @@ chess.wordpress.WordpressController = new Class({
                 case 'wordpress.updategame':
                     this.views.updateGameButton = view;
                     view.on('click', this.saveUpdates.bind(this));
+                    break;
+                case 'wordpress.newgame':
+                    view.on('click', this.onNewGameClick.bind(this));
+                    break;
 
 
             }
@@ -78,16 +84,161 @@ chess.wordpress.WordpressController = new Class({
         }
     },
 
+    newGameFen:undefined,
 
-    publishGame: function () {
+    getNewGameDialog: function () {
+        if (this.newGameDialog == undefined) {
+            this.newGameDialog = new ludo.dialog.Confirm({
+                html: chess.getPhrase('You have unsaved game data. Do you want to discard these?'),
+                autoRemove: false,
+                css: {
+                    padding: 5
+                },
+                buttonConfig: 'YesNo',
+                layout: {
+                    centerIn: this.views.board,
+                    width: 300, height: 200
+                },
+                listeners: {
+                    'yes': function () {
+                        this.currentModel.setDefaultModel();
+                        if(this.newGameFen){
+                            this.currentModel.setPosition(this.newGameFen);
+                        }
+                    }.bind(this),
+                    'no': function () {
+
+                    }
+                }
+            });
+        }
+
+        return this.newGameDialog;
+    },
+
+
+    onNewPositionClick:function(fen){
+        this.newGameFen = fen;
+        if (this.currentModel.isDirty()) {
+            this.getNewGameDialog().show();
+        }else{
+            this.currentModel.setDefaultModel();
+            this.currentModel.setPosition(fen);
+            this.updateButtonVisibility();
+        }
+    },
+
+    onNewGameClick:function(){
+        this.newGameFen = undefined;
+
+        if (this.currentModel.isDirty()) {
+            this.getNewGameDialog().show();
+        }else{
+            this.currentModel.setDefaultModel();
+            this.updateButtonVisibility();
+        }
+    },
+
+    getPublishDialog: function () {
+        if (this.publishDialog == undefined) {
+            this.publishDialog = new chess.wordpress.PublishDialog({
+                autoRemove: false,
+                layout: {
+                    centerIn: this.views.board
+                },
+                listeners: {
+                    'selectpgn': function (pgn) {
+                        this.publish_pgn = pgn;
+                        var d = this.getPublishConfirmDialog();
+                        d.show();
+                        d.html(chess.getPhrase('Publish game in') + ' <strong>' + this.publish_pgn + '</strong>?');
+
+                    }.bind(this)
+                }
+
+            });
+        }
+        return this.publishDialog;
 
     },
 
+    getPublishConfirmDialog: function () {
+        if (this.publishConfirmDialog == undefined) {
+            this.publishConfirmDialog = new ludo.dialog.Confirm({
+                html: '',
+                autoRemove: false,
+                css: {
+                    padding: 5
+                },
+                buttonConfig: 'YesNo',
+                layout: {
+                    centerIn: this.views.board,
+                    width: 300, height: 200
+                },
+                listeners: {
+                    'yes': function () {
+                        this.publishComplete(this.publish_pgn);
+                    }.bind(this),
+                    'no': function () {
+                        this.hide();
+                    }
+                }
+            });
+
+        }
+        return this.publishConfirmDialog;
+    },
+
+
+    publishGame: function () {
+        var m = this.validateAndReturnModel();
+        if(!m)return;
+        this.getPublishDialog().show(this.currentModel.getMetadata());
+    },
+
+    publishComplete: function (pgn) {
+        this.currentModel.setMetadata({
+            pgn: pgn
+        });
+
+        var gameModel = this.validateAndReturnModel();
+
+        if (!gameModel)return;
+
+
+        this.disableButtons();
+        jQuery.post(ludo.config.getUrl(), {
+            action: 'publish_game',
+            game: gameModel,
+            pgn: pgn
+        }, function (data) {
+            this.enableButtons();
+            if (data.response) {
+                if (data.success) {
+                    this.currentModel.draft_id = undefined;
+
+                    this.fireEvent('wpmessage', chess.getPhrase('Game published'));
+                    this.fireEvent('draftsupdated');
+                    this.fireEvent('publish');
+                    this.currentModel.setMetadata({'draft_id': undefined});
+                    this.currentModel.setMetadata({'id': data.response});
+                    this.currentModel.setClean();
+
+                    this.updateButtonVisibility();
+
+                } else {
+                    this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
+                }
+            }
+
+        }.bind(this));
+
+
+        console.log('saving ', this.currentModel.modelForServer());
+    },
+
     selectPgn: function (pgn) {
-        console.log('selected ' + pgn, this.views.gamelist);
         this.pgn = pgn;
-
-
         if (this.views.gamelisttab) {
             this.views.gamelisttab.show();
             if (this.views.gamelist)this.views.gamelist.loadGames();
@@ -99,7 +250,7 @@ chess.wordpress.WordpressController = new Class({
     getConfirmDialog: function () {
         if (this.confirmDialog == undefined) {
             this.confirmDialog = new ludo.dialog.Confirm({
-                html: chess.getPhrase('You have unsaved game data. Do you want to discard these and '),
+                html: chess.getPhrase('You have unsaved game data. Do you want to discard these?'),
                 autoRemove: false,
                 css: {
                     padding: 5
@@ -126,14 +277,11 @@ chess.wordpress.WordpressController = new Class({
     },
 
     selectGame: function (game) {
-        console.log(game);
-
         if (this.currentModel.isDirty()) {
             this.gameToLoad = game;
 
             this.getConfirmDialog().show();
 
-            this.fireEvent('wperror', 'Current model is dirty');
             return;
         }
 
@@ -208,8 +356,6 @@ chess.wordpress.WordpressController = new Class({
         this.views.publishButton.hide();
         this.views.saveDraftButton.hide();
 
-        console.log('amk', meta);
-
 
         if (meta.pgn) {
             this.views.updateGameButton.show();
@@ -250,7 +396,7 @@ chess.wordpress.WordpressController = new Class({
             if (data.response) {
                 if (data.success) {
                     this.fireEvent('wpmessage', chess.getPhrase('Game Saved'));
-                    this.fireEvent('pgngameupdated');
+                    this.fireEvent('publish');
                     this.currentModel.setClean();
                 } else {
                     this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
@@ -261,20 +407,27 @@ chess.wordpress.WordpressController = new Class({
 
     },
 
-
-    saveDraft: function () {
+    validateAndReturnModel: function () {
         var gameModel = this.currentModel.modelForServer();
-
-        if (!gameModel)return;
+        if (!gameModel)return false;
         if (!gameModel.white || !gameModel.black) {
             this.fireEvent('wperror', 'Metadata missing');
             this.views.metadata.show();
-            return;
+            return false;
         }
 
         if (gameModel.id && isNaN(gameModel.id)) {
             gameModel.id = undefined;
         }
+
+        return gameModel;
+
+    },
+
+    saveDraft: function () {
+        var gameModel = this.validateAndReturnModel();
+
+        if (!gameModel)return;
 
 
         this.disableButtons();
@@ -315,7 +468,6 @@ chess.wordpress.WordpressController = new Class({
         if (this.posSetup == undefined) {
             this.posSetup = new chess.view.position.Dialog({
                 submodule: 'wordpress.position',
-                module: this.applyTo[0],
                 layout: {
                     centerIn: this.views.board
                 },
@@ -323,6 +475,8 @@ chess.wordpress.WordpressController = new Class({
                     'setPosition': this.receiveNewPosition.bind(this)
                 }
             });
+
+            this.posSetup.on('setPosition', this.onNewPositionClick.bind(this));
         }
 
 

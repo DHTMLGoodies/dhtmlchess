@@ -1,4 +1,4 @@
-/* Generated Fri Jan 27 17:48:17 CET 2017 */
+/* Generated Sat Jan 28 1:34:37 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -8852,7 +8852,7 @@ ludo.View = new Class({
         if (tpl) {
 
             if(jQuery.isFunction(tpl)){
-                this.getBody().html(tpl.call(this, [json]));
+                this.getBody().html(tpl.call(this, json));
             }else{
                 this.getBody().html(this.getTplParser().asString(json, tpl));
             }
@@ -9534,6 +9534,10 @@ ludo.layout.Tabs = new Class({
     activeTab: undefined,
     currentZIndex: 3,
     activeTabId: undefined,
+
+    css:{
+        overflow:'hidden'
+    },
 
     tabParent: undefined,
 
@@ -33534,6 +33538,10 @@ chess.view.metadata.Game = new Class({
 
     updateMetadata : function(model){
         var metadata = model.getMetadata();
+        if(jQuery.isFunction(this.tpl)){
+            this.getBody().html(this.tpl.call(this, metadata));
+            return;
+        }
         var keys = this.getTplKeys();
         var html = this.tpl;
         var replacement;
@@ -33549,6 +33557,7 @@ chess.view.metadata.Game = new Class({
     },
 
     getTplKeys : function(){
+
         var tokens = this.tpl.match(/{([a-z]+?)\}/g);
         for(var i=0;i<tokens.length;i++){
             tokens[i] = tokens[i].replace(/[{}]/g,'')
@@ -39089,7 +39098,7 @@ chess.controller.Controller = new Class({
 
     getNewModel:function (game, pgn) {
 
-
+        console.log('creating new model');
 
         game = game || {};
 		if(pgn)game.pgn = pgn;

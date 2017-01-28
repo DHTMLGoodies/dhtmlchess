@@ -16,6 +16,13 @@ chess.wordpress.PgnListView = new Class({
         this.parent(config);
     },
 
+    setController:function(controller){
+        this.parent(controller);
+        controller.on('publish', function(){
+            this.getDataSource().load();
+        }.bind(this));
+    },
+
     selectPgn:function(pgn){
         this.fireEvent('selectpgn', pgn.pgn_name);
     }

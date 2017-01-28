@@ -52,7 +52,7 @@ class DhtmlChessDatabase
     public function uninstall(){
         $installer = new DhtmlChessInstaller();
         $installer->uninstall();
-    }
+    } 
 
     public function import($pgnFileName){
         $importer = new DhtmlChessImportPgn();
@@ -102,11 +102,6 @@ class DhtmlChessDatabase
     public function gameByIndex($pgn, $index){
         $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->gameByIndex($index);
-    }
-    
-    public function gameByIndexJSONDecoded($pgn, $index){
-        $game = $this->gameByIndex($pgn, $index);
-        return json_decode($game, true);
     }
 
     public function gameById($pgn, $id){
@@ -196,21 +191,27 @@ class DhtmlChessDatabase
         return $draft->allDrafts();
     }
 
-    public function publishDraft($draftId, $pgn){
+    public function publishDraft($draft, $pgn){
 
         if(empty($pgn)){
             throw new DhtmlChessException("Unable to publish draft - pgn is empty");
         }
 
-        $draft = $this->getDraft($draftId);
 
         $draft = json_decode($draft, true);
+        $draftId = isset($draft[self::KEY_DRAFT_ID])? $draft[self::KEY_DRAFT_ID] : null;
         unset($draft[self::KEY_DRAFT_ID]);
 
         try{
             $pgn = DhtmlChessPgn::instanceByName($pgn);
-            $pgn->appendGame($draft);
-            $this->deleteDraft($draftId);
+            $id = $pgn->appendGame($draft);
+            if(empty($id)){
+                throw new DhtmlChessException("Could not publish game");
+            }
+            if(!empty($draftId))$this->deleteDraft($draftId);
+            
+            return $id;
+            
 
         }catch(DhtmlChessPgnNotFoundException $e){
             $util = new DhtmlChessPgnUtil();

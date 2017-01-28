@@ -26,6 +26,7 @@ chess.view.position.SideToMove = new Class({
             },
             {
                 type:'form.Label',
+                labelFor:'color_w',
                 label:chess.getPhrase('White')
             },
             {
@@ -36,6 +37,7 @@ chess.view.position.SideToMove = new Class({
             },
             {
                 type:'form.Label',
+                labelFor:'color_b',
                 label:chess.getPhrase('Black')
             }
         ];
@@ -52,6 +54,7 @@ chess.view.position.SideToMove = new Class({
     },
 
     receiveInput : function(value){
+        console.log(arguments);
         this.fireEvent('change', value);
     },
 

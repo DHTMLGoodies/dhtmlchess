@@ -48,6 +48,9 @@ chess.WPEditor = new Class({
                     children: [
                         {
                             module:this.module,
+                            css:{
+                                'overflow':'hidden'
+                            },
                             submodule:'wordpress.dockinglayout',
                             layout: {
                                 type: 'docking',

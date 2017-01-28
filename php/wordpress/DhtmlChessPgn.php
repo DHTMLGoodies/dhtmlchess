@@ -201,6 +201,9 @@ class DhtmlChessPgn
             array()
         );
 
+        $cache = new DhtmlChessCache();
+        $cache->clear(DhtmlChessDatabase::CACHE_PGN);
+        
         return $this->wpdb->insert_id;
 
     }
@@ -261,8 +264,11 @@ class DhtmlChessPgn
             array(DhtmlChessDatabase::COL_ID => $id),
             array('%d')
         );
+        echo "COUNT DELETED ". $res . " from ". $this->getName() . "\n";
 
         if($res){
+            $cache = new DhtmlChessCache();
+            $cache->clear(DhtmlChessDatabase::CACHE_PGN);
             $this->clearPgnList();
             return true;
         }else{

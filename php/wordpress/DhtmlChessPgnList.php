@@ -15,7 +15,7 @@ class DhtmlChessPgnList
         $val = $cache->getFromCache(DhtmlChessDatabase::CACHE_PGN);
 
         if(!empty($val))return $val;
-
+ 
         /**
          * @var wpdb $wpdb
          */
@@ -23,12 +23,13 @@ class DhtmlChessPgnList
 
         //  select p.pgn_name, count(g.ID) from dhtml_chess_game g left join dhtml_chess_pgn p on g.pgn_id = p.ID group by p.ID order by p.pgn_name
 
-        $query = "select p.". DhtmlChessDatabase::COL_PGN_NAME. ",
-         count(g.ID) as count from ". DhtmlChessDatabase::TABLE_GAME . " g left join ".
-            DhtmlChessDatabase::TABLE_PGN. " p on g.". DhtmlChessDatabase::COL_PGN_ID. "=p."
+        $query = "select p.". DhtmlChessDatabase::COL_PGN_NAME. ","
+         . " count(g.ID) as count from ". DhtmlChessDatabase::TABLE_PGN . " p left join ".
+            DhtmlChessDatabase::TABLE_GAME. " g on g.". DhtmlChessDatabase::COL_PGN_ID. "=p."
             . DhtmlChessDatabase::COL_ID . " group by p.". DhtmlChessDatabase::COL_ID
             . " order by p." . DhtmlChessDatabase::COL_PGN_NAME;
 
+        #echo $query;
         $results = $wpdb->get_results($query);
         $ret = array();
         foreach($results as $pgn){

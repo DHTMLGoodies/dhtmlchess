@@ -402,9 +402,6 @@ chess.controller.Controller = new Class({
     },
 
     getNewModel:function (game, pgn) {
-
-        console.log('creating new model');
-
         game = game || {};
 		if(pgn)game.pgn = pgn;
         var model = new chess.model.Game(game);

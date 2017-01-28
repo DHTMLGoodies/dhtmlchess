@@ -173,7 +173,7 @@ chess.view.position.Dialog = new Class({
                 {
 
                     type: 'form.Label', labelFor: 'moveNumber',
-                    label: chess.getPhrase('Move number'),
+                    label: chess.getPhrase('Ply')
                 },
                 {
                     id:'positionMoveNumber',
@@ -233,6 +233,7 @@ chess.view.position.Dialog = new Class({
         this.updatePosition('castling', castling);
     },
     receiveColor: function (color) {
+        
         this.updatePosition('color', color);
     },
     receiveEnPassant: function (enPassant) {
@@ -338,6 +339,7 @@ chess.view.position.Dialog = new Class({
 
     isValidFen: function (fen) {
 
+        console.log(fen);
         try{
             parser = new chess.parser.FenParser0x88(fen);
             var res = parser.getValidMovesAndResult();
@@ -362,8 +364,6 @@ chess.view.position.Dialog = new Class({
                 this.loadFen(model.getCurrentPosition());
             }
         }
-
-        this.center();
 
     }
 });
