@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 1:34:37 CET 2017 */
+/* Generated Sat Jan 28 3:07:28 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -6814,6 +6814,12 @@ ludo.layout.LinearHorizontal = new Class({
  * This class arranges child views in a column layout (side by side).
  * @namespace ludo.layout
  * @class ludo.layout.LinearVertical
+ * @param {Object} config
+ * @param {Boolean} config.resizable - child property
+ * @param {String} config.resizePos - child property - Optional position of resize handle - "above" to resize this and previous child,
+ * or "below" to resize this and next sibling
+ * @param {Number|String} config.height - child property - Numeric height or "wrap"
+ * @param {Boolean} config.weight - Dynamic height
  *
  */
 ludo.layout.LinearVertical = new Class({
@@ -6822,11 +6828,7 @@ ludo.layout.LinearVertical = new Class({
 		this.parent();
 	},
 	resize:function () {
-
-
 		var availHeight = this.viewport.height;
-
-
 		var s = {
 			width:this.viewport.width,
 			height: availHeight
@@ -6925,8 +6927,6 @@ ludo.layout.LinearVertical = new Class({
 			}else{
 				rPos = isLastSibling ? 'above' : 'below';
 			}
-
-			console.log(rPos);
 			var resizer = this.getResizableFor(child, rPos);
 			this.addChild(resizer, child, rPos == 'above' ? 'before' : 'after');
 		}
@@ -20629,7 +20629,7 @@ ludo.form.Checkbox = new Class({
             this.els.formEl.on('click', this.valueChange.bind(this));
         }
         if (this.checked) {
-            this.getFormEl().checked = true;
+            this.getFormEl().prop('checked', true);
             this.toggleImage();
         }
     },
@@ -20673,7 +20673,7 @@ ludo.form.Checkbox = new Class({
      * @memberof ludo.form.Checkbox.prototype
      */
     isChecked:function () {
-        return this.getFormEl().attr('checked') ? true : false;
+        return this.getFormEl().prop('checked') ? true : false;
     },
     /**
      * Set checkbox to checked
@@ -20731,9 +20731,9 @@ ludo.form.Checkbox = new Class({
 
     setCheckedProperty:function(checked){
         if(checked){
-            this.getFormEl().attr('checked', '1');
+            this.getFormEl().prop('checked', true);
         }else{
-            this.getFormEl().removeAttr('checked');
+            this.getFormEl().prop('checked', false);
         }
     },
 
@@ -28269,7 +28269,11 @@ ludo.progress.Donut = new Class({
 ludo.form.Radio = new Class({
     Extends:ludo.form.Checkbox,
     type:'form.Radio',
-    inputType:'radio'
+    inputType:'radio',
+
+    getFormElId:function(){
+        return this.elementId + '_' + this.value.replace(/[^0-9a-z]/g, '');
+    }
 });/* ../ludojs/src/theme/themes.js */
 ludo.theme.Themes = new Class({
     currentTheme:undefined,
@@ -35427,7 +35431,7 @@ chess.view.position.Dialog = new Class({
                 {
 
                     type: 'form.Label', labelFor: 'moveNumber',
-                    label: chess.getPhrase('Move number'),
+                    label: chess.getPhrase('Ply')
                 },
                 {
                     id:'positionMoveNumber',
@@ -35487,6 +35491,7 @@ chess.view.position.Dialog = new Class({
         this.updatePosition('castling', castling);
     },
     receiveColor: function (color) {
+        
         this.updatePosition('color', color);
     },
     receiveEnPassant: function (enPassant) {
@@ -35592,6 +35597,7 @@ chess.view.position.Dialog = new Class({
 
     isValidFen: function (fen) {
 
+        console.log(fen);
         try{
             parser = new chess.parser.FenParser0x88(fen);
             var res = parser.getValidMovesAndResult();
@@ -35616,8 +35622,6 @@ chess.view.position.Dialog = new Class({
                 this.loadFen(model.getCurrentPosition());
             }
         }
-
-        this.center();
 
     }
 });
@@ -35721,7 +35725,10 @@ chess.view.position.Castling = new Class({
         this.parent();
         this.checkboxes = [];
         jQuery.each(this.children, function (i, c) {
-            if (c.type == 'form.Checkbox')this.checkboxes.push(c);
+            if (c.type == 'form.Checkbox'){
+                this.checkboxes.push(c);
+                thi
+            }
         }.bind(this))
 
     },
@@ -35787,6 +35794,7 @@ chess.view.position.SideToMove = new Class({
             },
             {
                 type:'form.Label',
+                labelFor:'color_w',
                 label:chess.getPhrase('White')
             },
             {
@@ -35797,6 +35805,7 @@ chess.view.position.SideToMove = new Class({
             },
             {
                 type:'form.Label',
+                labelFor:'color_b',
                 label:chess.getPhrase('Black')
             }
         ];
@@ -35813,6 +35822,7 @@ chess.view.position.SideToMove = new Class({
     },
 
     receiveInput : function(value){
+        console.log(arguments);
         this.fireEvent('change', value);
     },
 
@@ -39097,9 +39107,6 @@ chess.controller.Controller = new Class({
     },
 
     getNewModel:function (game, pgn) {
-
-        console.log('creating new model');
-
         game = game || {};
 		if(pgn)game.pgn = pgn;
         var model = new chess.model.Game(game);
@@ -41789,6 +41796,13 @@ chess.wordpress.GameListGrid = new Class({
 
     },
 
+    setController:function(controller){
+        this.parent(controller);
+        controller.on('publish', function(){
+            this.getDataSource().load();
+        }.bind(this));
+    },
+
     loadGames:function(){
         console.log('loading games ', this.controller.pgn);
 
@@ -41803,6 +41817,7 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     selectGame:function(record){
+        console.log(record);
         this.fireEvent('selectGame', [record, this.getDataSource().postData.pgn]);
     }
 });/* ../dhtml-chess/src/wordpress/pgn-list.js */
