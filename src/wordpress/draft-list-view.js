@@ -3,8 +3,10 @@ chess.wordpress.DraftListView = new Class({
     dataSource:{
         type:'chess.wordpress.Drafts'
     },
-    emptyText:'No Drafts Found',
+    emptyText:chess.getPhrase('No Drafts Found'),
     submodule:'wordpress.draftlist',
+
+    loadMessage:chess.getPhrase('Loading drafts...'),
 
     __rendered:function(){
         this.parent();

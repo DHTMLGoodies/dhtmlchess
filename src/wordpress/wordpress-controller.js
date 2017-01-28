@@ -69,6 +69,10 @@ chess.wordpress.WordpressController = new Class({
                     this.views.publishButton = view;
                     view.on('click', this.publishGame.bind(this));
                     break;
+                case 'wordpress.discarddraft':
+                    this.views.discardDraftButton = view;
+                    view.on('click', this.discardDraft.bind(this));
+                    break;
                 case 'wordpress.updategame':
                     this.views.updateGameButton = view;
                     view.on('click', this.saveUpdates.bind(this));
@@ -82,6 +86,10 @@ chess.wordpress.WordpressController = new Class({
 
 
         }
+    },
+
+    discardDraft:function(){
+
     },
 
     newGameFen:undefined,
@@ -356,12 +364,14 @@ chess.wordpress.WordpressController = new Class({
         this.views.publishButton.hide();
         this.views.saveDraftButton.hide();
 
+        this.views.discardDraftButton.toggle();
 
         if (meta.pgn) {
             this.views.updateGameButton.show();
         } else {
             this.views.publishButton.show();
             this.views.saveDraftButton.show();
+
         }
     },
 

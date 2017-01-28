@@ -362,6 +362,14 @@ chess.WPEditor = new Class({
                             }
                         },
                         {
+                            module:this.module,
+                            hidden:true,
+                            type:'chess.wordpress.DiscardDraftButton',
+                            layout:{
+                                width:80
+                            }
+                        },
+                        {
                             type:'chess.wordpress.PublishButton',
                             module: this.module,
                             layout: {

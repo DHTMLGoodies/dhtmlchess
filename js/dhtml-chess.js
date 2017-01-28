@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 3:07:28 CET 2017 */
+/* Generated Sat Jan 28 3:43:12 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -7435,12 +7435,18 @@ ludo.dataSource.Base = new Class({
 	dataHandler:undefined,
 	
 	shim:undefined,
+	
+	__waiting:false,
 
 	__construct:function (config) {
 		this.parent(config);
 		if(config.data != undefined)this.autoload = false;
 		this.setConfigParams(config, ['method', 'url', 'autoload', 'shim','dataHandler']);
 
+		
+		this.on('init', this.setWaiting.bind(this));
+		this.on('complete', this.setDone.bind(this));
+		
 		if(this.postData == undefined){
 			this.postData = {};
 		}
@@ -7457,9 +7463,19 @@ ludo.dataSource.Base = new Class({
 		if(config.data != undefined){
 			this.setData(config.data);
 		}
+		
+	},
+	
+	setWaiting:function(){
+		this.__waiting = true;
+	},
+	
+	setDone:function(){
+		this.__waiting = false;	
+	},
 
-
-
+	isWaitingData:function(){
+		return this.__waiting;
 	},
 
 	setPostData:function(key, value){
@@ -7573,9 +7589,7 @@ ludo.dataSource.JSON = new Class({
 
     _loaded:false,
 
-    isWaitingData:function(){
-        return !this._loaded && this._url() != undefined;  
-    },
+
 
 
     /**
@@ -7622,11 +7636,13 @@ ludo.dataSource.JSON = new Class({
                 }
                 
                 this.fireEvent('complete');
+                
 
             }.bind(this),
             fail: function (text, error) {
                 console.log('error', error);
                 this.fireEvent('fail', [text, error, this]);
+                this.fireEvent('complete');
             }.bind(this)
         });
     },
@@ -9406,7 +9422,7 @@ ludo.View = new Class({
                 obj.on('complete', function(){
                     this.shim().hide();
                 }.bind(this));
-                if(obj.isWaitingData()){
+                if(obj.isWaitingData() ){
                     this.shim().show(this.loadMessage);
                 }
             }
@@ -38768,6 +38784,7 @@ chess.controller.Controller = new Class({
         this.models[0] = model;
         this.currentModel = model;
         model.newGame();
+        model.setClean();
     },
 
     addView:function (view) {
@@ -41772,52 +41789,48 @@ chess.pgn.Parser = new Class({
 /* ../dhtml-chess/src/wordpress/game-list-grid.js */
 chess.wordpress.GameListGrid = new Class({
     Extends: chess.view.gamelist.Grid,
-    headerMenu:false,
-    submodule:'wordpress.gamelist',
+    headerMenu: false,
+    submodule: 'wordpress.gamelist',
     dataSource: {
         'type': 'ludo.dataSource.JSONArray',
-        autoload:false,
-        postData:{
-            action:'list_of_games'
-        },
-        shim: {
-            txt: 'Loading games...'
+        autoload: false,
+        postData: {
+            action: 'list_of_games'
         }
     },
 
+    loadMessage: chess.getPhrase('Loading games...'),
 
-
-    __rendered:function(){
+    __rendered: function () {
         this.parent();
-
         this.loadGames();
-
         this.on('show', this.loadGames.bind(this));
 
     },
 
-    setController:function(controller){
+    setController: function (controller) {
         this.parent(controller);
-        controller.on('publish', function(){
+        controller.on('publish', function () {
             this.getDataSource().load();
         }.bind(this));
     },
 
-    loadGames:function(){
-        console.log('loading games ', this.controller.pgn);
+    loadGames: function () {
 
-        if(this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn){
+        if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
             this.load();
         }
     },
 
-    load:function(){
-        this.getDataSource().postData.pgn = this.controller.pgn;
-        this.getDataSource().load();
+    load: function () {
+        if (this.controller.pgn) {
+            this.getDataSource().postData.pgn = this.controller.pgn;
+            this.getDataSource().load();
+
+        }
     },
 
-    selectGame:function(record){
-        console.log(record);
+    selectGame: function (record) {
         this.fireEvent('selectGame', [record, this.getDataSource().postData.pgn]);
     }
 });/* ../dhtml-chess/src/wordpress/pgn-list.js */

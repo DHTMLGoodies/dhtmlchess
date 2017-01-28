@@ -63,6 +63,7 @@ chess.controller.Controller = new Class({
         this.models[0] = model;
         this.currentModel = model;
         model.newGame();
+        model.setClean();
     },
 
     addView:function (view) {
