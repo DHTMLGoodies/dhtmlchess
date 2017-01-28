@@ -1988,6 +1988,9 @@ div.ludo-grid-data-cell {
 .notation-comment {
     font-weight: normal;
     font-style: italic;
+    display:inline-block;
+    padding-left:4px;
+    padding-right:4px;
 }
 
 .dhtml-chess-move-number, .notation-result{

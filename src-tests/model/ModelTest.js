@@ -1291,6 +1291,36 @@ TestCase("ModelTest", {
         assertNull(model.getPreviousMoveInBranch(move));
     },
 
+    "test should be able to add game comment when model has no moves": function(){
+        // given
+        var model = this.getModel();
+        model.setGameComment('My comment5');
+        model.setGameComment('My comment4');
+        model.setGameComment('My comment3');
+        model.setGameComment('My comment2');
+        model.setGameComment('My comment');
+
+        // when
+        
+        model.appendMove({
+            from:'e2',
+            to:'e4'
+        });
+        model.appendMove({
+            from:'e7',
+            to:'e5'
+        });
+
+        var move = model.model.moves[0];
+        
+        // then
+        assertEquals(3, model.model.moves.length);
+
+        assertEquals('My comment', move.comment);
+
+
+    },
+
     "test should be able to set comment before first move":function () {
         // given
         var model = this.getModelWithMoves();
@@ -1302,6 +1332,23 @@ TestCase("ModelTest", {
 
         // then
         assertEquals(expectedComment, model.getCommentBefore(move));
+
+
+    },
+
+    "test should be able to set comment before first move by calling setGameComment": function(){
+
+        // given
+        var model = this.getModelWithMoves();
+        var move = { uid:model.model.moves[0].uid };
+
+        // when
+        model.setGameComment('My comment');
+        var expectedComment = 'My comment';
+
+        // then
+        assertEquals(expectedComment, model.getCommentBefore(move));
+
     },
 
     "test should be able to create new model with metadata":function () {

@@ -30,8 +30,6 @@ chess.wordpress.GameMetadata = new Class({
     },
 
     populateForm:function(){
-        console.log('populate ');
-
         this.getForm().populate(this.controller.currentModel.getMetadata());
     },
 

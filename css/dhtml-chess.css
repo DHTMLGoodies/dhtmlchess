@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 17:06:37 CET 2017 */
+/* Generated Sat Jan 28 19:14:43 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2003,6 +2003,9 @@ div.ludo-grid-data-cell {
 .notation-comment {
     font-weight: normal;
     font-style: italic;
+    display:inline-block;
+    padding-left:4px;
+    padding-right:4px;
 }
 
 .dhtml-chess-move-number, .notation-result{

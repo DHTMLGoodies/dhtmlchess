@@ -16,7 +16,6 @@ chess.wordpress.DraftListView = new Class({
     setController:function(controller){
         this.parent(controller);
         controller.on('draftsupdated', function(){
-            console.log('reload');
             this.getDataSource().load();
         }.bind(this));
 
@@ -29,7 +28,6 @@ chess.wordpress.DraftListView = new Class({
     },
 
     selectGame:function(record){
-        console.log('selected draft ', record);
         this.fireEvent('selectDraft', record.game);
     }
 

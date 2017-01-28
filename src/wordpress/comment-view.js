@@ -17,7 +17,8 @@ chess.wordpress.CommentView = new Class({
             {
                 name:"move",
                 css:{
-                    "font-weight":"bold"
+                    "font-weight":"bold",
+                    'padding-left' : '4px'
                 },
                 layout:{
                     height:30
@@ -49,6 +50,8 @@ chess.wordpress.CommentView = new Class({
 
         controller.on('fen', this.update.bind(this));
         controller.on('newGame', this.update.bind(this));
+        controller.on('startOfGame', this.update.bind(this));
+        controller.on('dirty', this.update.bind(this));
     },
 
     onNewGame:function(){
@@ -58,19 +61,24 @@ chess.wordpress.CommentView = new Class({
     saveComment:function(){
         if(this.currentMove){
             this.controller.addCommentAfter(this.child['comment'].val(), this.currentMove);
+        }else{
+            this.controller.currentModel.setGameComment(this.child['comment'].val());
         }
     },
 
 
-    update:function(model, fen){
+    update:function(model){
+        if(!model)model = this.controller.currentModel;
         var m = model.getCurrentMove();
+        if(!m && model.model.moves.length > 0 && model.model.moves[0].comment){
+            m = model.model.moves[0];
+        }
         this.currentMove = m;
         if(!m){
-            this.currentLabel = 'Game Comment'
+            this.currentLabel = chess.getPhrase('Game Comment')
         }else{
-            this.currentLabel = 'Comment for ' + m.lm;
+            this.currentLabel = chess.getPhrase('Annotate')  + ' ' + m.lm;
             this.currentComment = m.comment;
-
         }
 
         if(this.children.length){
@@ -85,6 +93,8 @@ chess.wordpress.CommentView = new Class({
     updateViews:function(){
         if(this.children.length){
             this.child['move'].html(this.currentLabel);
+
+            console.log('CMT', this.currentComment);
 
             if(this.currentComment)this.child['comment'].val(this.currentComment);
         }

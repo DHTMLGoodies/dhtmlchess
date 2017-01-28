@@ -541,7 +541,7 @@ chess.model.Game = new Class({
             return 0.5;
         }
         var lastMove = this.getLastMoveInGame();
-        if (lastMove) {
+        if (lastMove && lastMove.fen) {
             var parser = new chess.parser.FenParser0x88();
             parser.setFen(lastMove.fen);
             var moveObj = parser.getValidMovesAndResult();
@@ -1472,6 +1472,26 @@ chess.model.Game = new Class({
             return move.comment ? move.comment : '';
         }
         return '';
+    },
+
+    setGameComment:function(comment){
+        if(this.model.moves.length > 0){
+            var move = this.model.moves[0];
+            if(move.m == undefined){
+                this.setCommentAfter(comment, move);
+            }else{
+                this.setCommentBefore(comment, move);
+            }
+        }else{
+            var m = {
+                comment: comment,
+                index: 0,
+                uid: 'move-' + String.uniqueID()
+            };
+
+            this.registerMove(m);
+            this.fire('updateMove', this.model.moves[0]);
+        }
     },
 
     /**

@@ -297,15 +297,16 @@ chess.WPEditor = new Class({
                                         },
                                         {
                                             type: 'chess.wordpress.CommentView',
-                                            title: 'Comments',
+                                            title: chess.getPhrase('Annotate'),
                                             module: this.module
                                         },
                                         {
-                                            'title': 'Computer Eval',
+                                            'title': chess.getPhrase('Computer Eval'),
+                                            type:'wordpress.ComputerEval',
                                             module: this.module
                                         },
                                         {
-                                            title: 'Metadata',
+                                            title: chess.getPhrase('Metadata'),
                                             module: this.module,
                                             type: 'chess.wordpress.GameMetadata'
                                         }
