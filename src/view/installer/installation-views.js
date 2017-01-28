@@ -74,7 +74,7 @@ chess.view.installer.InstallationViews = new Class({
     install: function () {
         this.child['connectionTestResult'].html('');
 
-        $.ajax({
+        jQuery.ajax({
             dataType: 'json',
             url: ludo.config.getUrl(),
             data: {
@@ -100,7 +100,7 @@ chess.view.installer.InstallationViews = new Class({
         this.isBusyTestingConnection = true;
         this.child['connectionTestResult'].html('');
 
-        $.ajax({
+        jQuery.ajax({
             dataType: 'json',
             url: ludo.config.getUrl(),
             data: {

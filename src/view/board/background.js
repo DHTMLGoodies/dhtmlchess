@@ -279,13 +279,7 @@ chess.view.board.Background = new Class({
         var radius = this.size.x / 2;
         var radiusY = this.size.y / 2;
 
-        if(size.width != size.height){
-            console.log(cx,cy, radius, radiusY, this.square);
-
-        }
-
         radius -= sw;
-
 
         if(this.pattern ){
 

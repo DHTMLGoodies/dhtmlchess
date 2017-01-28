@@ -16,18 +16,24 @@ chess.WPEditor = new Class({
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-        
-        var r = jQuery(this.renderTo);
-        var w = r.width();
-        r.css('height', Math.round(w + 400));
+
+        var r = this.renderTo;
+        r.css('height', (jQuery(document.body).height()));
+
+        console.log(r.parent().outerHeight(true))
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
+        jQuery(window).on('resize', this.onWinResize.bind(this));
+    },
+
+    onWinResize:function(){
+        this.renderTo.css('height', (jQuery(document.body).height()));
     },
 
     render: function () {
 
-        $(document.body).addClass('ludo-twilight');
+        jQuery(document.body).addClass('ludo-twilight');
         this.renderTo.addClass('ludo-twilight');
 
         new chess.view.Chess({
@@ -57,7 +63,8 @@ chess.WPEditor = new Class({
                                 type: 'docking',
                                 tabs: 'left',
                                 width: 300,
-                                resizable: true
+                                resizable: true,
+                                minWidth:50
                             },
 
                             children: [
@@ -88,7 +95,8 @@ chess.WPEditor = new Class({
                                 {
                                     type: 'FramedView',
                                     layout: {
-                                        type: 'fill'
+                                        type: 'fill',
+                                        visible:true
                                     },
                                     elCss:{
                                         'border-left-width' : 0

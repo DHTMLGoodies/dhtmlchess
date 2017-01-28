@@ -15,6 +15,8 @@ chess.wordpress.WordpressController = new Class({
         this.currentModel.on('clean', this.fireClean.bind(this));
 
         this.updateButtonVisibility();
+
+        this.currentModel.setClean();
     },
 
     fireDirty: function () {
@@ -126,6 +128,7 @@ chess.wordpress.WordpressController = new Class({
                     if(data.success){
                         this.fireEvent('wpmessage', chess.getPhrase('Draft discarded'));
                         this.fireEvent('draftsupdated');
+                        this.currentModel.newGame();
                     }else{
                         this.fireEvent('wperror', data.response);
                     }
@@ -184,10 +187,11 @@ chess.wordpress.WordpressController = new Class({
     onNewGameClick: function () {
         this.newGameFen = undefined;
 
+
         if (this.currentModel.isDirty()) {
             this.getNewGameDialog().show();
         } else {
-            this.currentModel.setDefaultModel();
+            this.currentModel.newGame();
             this.updateButtonVisibility();
         }
     },

@@ -219,7 +219,9 @@ chess.view.notation.Panel = new Class({
 
     scrollMoveIntoView: function (move) {
 
+        if(!move)return;
         if(move.position == undefined)move = jQuery(move);
+        if(!move || !move.length)return;
 
         var scrollTop = this.getBody().scrollTop();
         var bottomOfScroll = scrollTop + this.getBody().height();

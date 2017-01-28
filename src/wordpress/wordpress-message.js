@@ -16,7 +16,7 @@ chess.wordpress.WordPressMessage= new Class({
 
     __rendered:function(){
         this.parent();
-        this.els.message = $('<div style="position:absolute;right:5px"></div>');
+        this.els.message = jQuery('<div style="position:absolute;right:5px"></div>');
         this.getBody().append(this.els.message);
     },
 

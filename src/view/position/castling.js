@@ -93,7 +93,6 @@ chess.view.position.Castling = new Class({
         jQuery.each(this.children, function (i, c) {
             if (c.type == 'form.Checkbox'){
                 this.checkboxes.push(c);
-                thi
             }
         }.bind(this))
 

@@ -50,6 +50,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         $database = new DhtmlChessDatabase();
         $database->import("greatgames.pgn");
+        $database->import("../../../pgn/tactic-checkmates.pgn");
     }
 
     /**

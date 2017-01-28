@@ -6,7 +6,7 @@ chess.remote.Reader = new Class({
 
         this.onLoadEvent = config.eventOnLoad || 'load';
 
-		$.ajax({
+		jQuery.ajax({
 			url: ludo.config.getUrl(),
 			method: 'post',
 			cache: false,

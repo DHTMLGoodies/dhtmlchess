@@ -39,7 +39,7 @@ chess.view.installer.DbConnection = new Class({
         this.isBusyTestingConnection = true;
         this.child['connectionTestResult'].html('');
 
-        $.ajax({
+        jQuery.ajax({
             dataType: 'json',
             url: ludo.config.getUrl(),
             data: {
