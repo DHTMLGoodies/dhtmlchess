@@ -59,4 +59,8 @@ class DhtmlChessCache
         }
         return null;
     }
+    
+    public function clearPgnListCache(){
+        $this->clear(DhtmlChessDatabase::CACHE_PGN);
+    }
 }

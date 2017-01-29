@@ -8,29 +8,38 @@
  */
 class DhtmlChessPgnList
 {
+    public function getArchived(){
+        return $this->read('1');
+    }
 
     public function getPgns()
     {
+        return $this->read('0');
+    }
+
+    private function read($archiveVal){
+
+        $cacheKey = $archiveVal == '0' ? DhtmlChessDatabase::CACHE_PGN : DhtmlChessDatabase::CACHE_PGN_ARCHIVED;
 
         $cache = new DhtmlChessCache();
-        $cacheVal = $cache->getFromCache(DhtmlChessDatabase::CACHE_PGN);
+        $cacheVal = $cache->getFromCache($cacheKey);
 
-         if (!empty($cacheVal)) return $cacheVal->{DhtmlChessDatabase::COL_CACHE_VALUE};
+        if (!empty($cacheVal)) return $cacheVal->{DhtmlChessDatabase::COL_CACHE_VALUE};
 
         /**
          * @var wpdb $wpdb
          */
         global $wpdb;
 
-        //  select p.pgn_name, count(g.ID) from dhtml_chess_game g left join dhtml_chess_pgn p on g.pgn_id = p.ID group by p.ID order by p.pgn_name
-
-        $query = "select "
+        $query = $wpdb->prepare("select "
             . " p." . DhtmlChessDatabase::COL_PGN_NAME . ","
             . " p." . DhtmlChessDatabase::COL_UPDATED . ","
             . " count(g.ID) as count from " . DhtmlChessDatabase::TABLE_PGN . " p left join " .
             DhtmlChessDatabase::TABLE_GAME . " g on g." . DhtmlChessDatabase::COL_PGN_ID . "=p."
-            . DhtmlChessDatabase::COL_ID . " group by p." . DhtmlChessDatabase::COL_ID
-            . " order by p." . DhtmlChessDatabase::COL_PGN_NAME;
+            . DhtmlChessDatabase::COL_ID
+            . " where p." . DhtmlChessDatabase::COL_ARCHIVED . "=%s"
+            . " group by p." . DhtmlChessDatabase::COL_ID
+            . " order by p." . DhtmlChessDatabase::COL_PGN_NAME, $archiveVal);
 
         #echo $query;
         $results = $wpdb->get_results($query);
@@ -44,7 +53,7 @@ class DhtmlChessPgnList
         }
         $ret = json_encode($ret);
 
-        $cache->putInCache(DhtmlChessDatabase::CACHE_PGN, $ret);
+        $cache->putInCache($cacheKey, $ret);
 
         return $ret;
 

@@ -170,7 +170,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->moveGame($secondGame['id'], 'onegame');
 
 
-
         $this->assertArrayLength($this->database->listOfGames('onegame'), 2);
         $this->assertArrayLength($this->database->listOfGames('fivegames'), 4);
 
@@ -247,7 +246,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
 
         // when
-        $this->assertNull($db->cachedListOfGames());
 
         $games = $db->listOfGames();
         $games = json_decode($games, true);
@@ -261,22 +259,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(5, count($cached));
     }
 
-
-    /**
-     * @test
-     */
-    public function shouldBeAbleToClearGameListCache()
-    {
-        $this->database->import('fivegames.pgn');
-        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
-        $db->listOfGames();
-
-        $this->assertNotNull($db->cachedListOfGames());
-
-        $db->clearPgnList();
-
-        $this->assertNull($db->cachedListOfGames());
-    }
 
     /**
      * @test
@@ -478,7 +460,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     private function countCached($pgn)
     {
         $db = DhtmlChessPgn::instanceByName($pgn);
-        $cached = $db->cachedListOfGames();
+        $key = "list_of_games_". $db->getId();
+
+        $cache = new DhtmlChessCache();
+
+        $cached = $cache->getFromCache($key);
+        $cached = $cached->{DhtmlChessDatabase::COL_CACHE_VALUE};
         $cached = json_decode($cached, true);
         return count($cached);
     }
@@ -775,6 +762,21 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
         $this->database->import('onegame.pgn');
 
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+
+        $this->assertEquals(3, count($list));
+
+        $this->database->archivePgn('fivegames');
+
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+
+        $this->assertEquals(2, count($list));
+
+        $archived = $this->database->listOfArchivedPgns();
+        $archived = json_decode($archived, true);
+        $this->assertEquals(1, count($archived));
     }
 
     /**

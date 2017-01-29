@@ -27,6 +27,7 @@ class DhtmlChessDatabase
     const COL_UPDATED = "updated";
     const COL_TITLE = "title";
     const COL_ARCHIVED = "archived";
+    const COL_TMP = "tmp";
 
 
 
@@ -34,6 +35,7 @@ class DhtmlChessDatabase
     const COL_CACHE_VALUE = "cache_val";
 
     const CACHE_PGN = "pgn";
+    const CACHE_PGN_ARCHIVED = "pgn_archived";
 
 
     const KEY_PGN = "pgn";
@@ -75,6 +77,11 @@ class DhtmlChessDatabase
     public function listOfPgns(){
         $util = new DhtmlChessPgnList();
         return $util->getPgns();
+    }
+
+    public function listOfArchivedPgns(){
+        $util = new DhtmlChessPgnList();
+        return $util->getArchived();
     }
 
     public function randomGame($pgn){
@@ -146,6 +153,13 @@ class DhtmlChessDatabase
     }
 
 
+    public function archivePgn($pgn){
+        $pgn = DhtmlChessPgn::instanceByName($pgn);
+        return $pgn->archive();
+    }
+
+
+    
     public function appendPgn($pgnPath, $toPgn){
         $importer = new DhtmlChessImportPgn();
         return $importer->appendPgn($pgnPath, $toPgn);

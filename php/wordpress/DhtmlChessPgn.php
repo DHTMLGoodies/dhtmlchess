@@ -25,38 +25,45 @@ class DhtmlChessPgn
         $this->wpdb = $wpdb;
     }
 
-    public static function newPgn($name){
+    private function cacheKey()
+    {
+        return "list_of_games_" . $this->id;
+    }
+
+    public static function newPgn($name)
+    {
         $name = trim($name);
         $name = esc_sql($name);
 
         $pgnName = preg_replace('/[^0-9a-z\-_]/si', '', $name);
         $pgnName = trim($pgnName);
         $pgnName = esc_sql($pgnName);
-        
+
         $util = new DhtmlChessPgnUtil();
         $id = $util->getId($pgnName);
-        
-        if(!empty($id)){
+
+        if (!empty($id)) {
             throw new DhtmlChessException("A Database with this name already exists");
         }
 
         return $util->create($pgnName, $name);
-        
+
     }
 
-    public static function instanceById($id){
+    public static function instanceById($id)
+    {
 
         global $wpdb;
         $query = $wpdb->prepare(
             "SELECT "
             . DhtmlChessDatabase::COL_ID . " FROM "
-            . DhtmlChessDatabase::TABLE_PGN. " WHERE "
+            . DhtmlChessDatabase::TABLE_PGN . " WHERE "
             . DhtmlChessDatabase::COL_ID . "= %d"
-        , $id);
+            , $id);
 
-        $row = $wpdb->get_row( $query);
+        $row = $wpdb->get_row($query);
         $id = isset($row) && $row->{DhtmlChessDatabase::COL_ID} > 0 ? $row->{DhtmlChessDatabase::COL_ID} : null;
-        if(empty($id)){
+        if (empty($id)) {
             throw new DhtmlChessPgnNotFoundException("Unable to locate pgn");
         }
         return new DhtmlChessPgn($id);
@@ -64,54 +71,54 @@ class DhtmlChessPgn
 
     public static function instanceByName($name)
     {
-        if(empty($name)){
+        if (empty($name)) {
             throw new DhtmlChessException("PGN name missing");
         }
         $util = new DhtmlChessPgnUtil();
         $id = $util->getId($name);
-        if(empty($id)){
+        if (empty($id)) {
             throw new DhtmlChessPgnNotFoundException("Unable to locate pgn");
         }
         return new DhtmlChessPgn($id);
     }
 
-    public function clearPgnList()
-    {
-        $this->wpdb->delete(DhtmlChessDatabase::TABLE_GAME_LIST, array(DhtmlChessDatabase::COL_PGN_ID => $this->id));
-    }
 
-    /**
-     * @param string $gameList
-     */
-    private function putGameListInCache($gameList)
+    public function getId()
     {
-        $this->wpdb->insert(
-            DhtmlChessDatabase::TABLE_GAME_LIST,
-            array(
-                DhtmlChessDatabase::COL_PGN_ID => $this->id,
-                DhtmlChessDatabase::COL_DATA => $gameList
-            ),
-            array(
-                '%s'
-            )
-        );
-    }
-    
-    public function getId(){
         return $this->id;
     }
+
+    public function cachedListOfGames()
+    {
+        $cacheKey = $this->cacheKey();
+        $cache = new DhtmlChessCache();
+        $cached = $cache->getFromCache($cacheKey);
+        if (empty($cached)) return null;
+        return $cached->{DhtmlChessDatabase::COL_CACHE_VALUE};
+    }
+
 
     /**
      * @return string JSON
      */
     public function listOfGames()
     {
-        $cached = $this->cachedListOfGames();
-        if (isset($cached)) {
-            return $cached;
+        $this->loadPgnData();
+        $cacheKey = $this->cacheKey();;
+
+        $cache = new DhtmlChessCache();
+
+        $cached = $cache->getFromCache($cacheKey);
+        if (!empty($cached) && $cached->{DhtmlChessDatabase::COL_UPDATED} > $this->updated) {
+            echo "Cached " . $cached->{DhtmlChessDatabase::COL_UPDATED} . " vs " . $this->updated;
+            return $cached->{DhtmlChessDatabase::COL_CACHE_VALUE};
         }
 
-        return $this->getGames();
+        $games = $this->getGames();
+        $cache->putInCache($cacheKey, $games);
+
+        return $games;
+
     }
 
     private function getGames()
@@ -130,24 +137,16 @@ class DhtmlChessPgn
             $ret[] = $gameObject;
         }
         $ret = json_encode($ret);
-        $this->putGameListInCache($ret);
+
         return $ret;
     }
 
 
-    public function cachedListOfGames()
+    public function randomGame()
     {
-        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_DATA . " from " . DhtmlChessDatabase::TABLE_GAME_LIST . " where " . DhtmlChessDatabase::COL_PGN_ID . "=%s", $this->id);
-        $row = $this->wpdb->get_row($query);
-
-        return isset($row) && isset($row->{DhtmlChessDatabase::COL_DATA}) ? $row->{DhtmlChessDatabase::COL_DATA} : null;
-    }
-
-
-    public function randomGame(){
 
         $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
-            . " where " . DhtmlChessDatabase::COL_PGN_ID . "= %d", $this->id. " order by rand()");
+            . " where " . DhtmlChessDatabase::COL_PGN_ID . "= %d", $this->id . " order by rand()");
 
         $game = $this->wpdb->get_col($query, 0);
         return !empty($game) ? $game[0] : null;
@@ -165,7 +164,7 @@ class DhtmlChessPgn
         $index = $index % max(1, $this->countGames(), $this->id);
 
         $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
-        . " where ". DhtmlChessDatabase::COL_PGN_ID . "=%d", $this->id);
+            . " where " . DhtmlChessDatabase::COL_PGN_ID . "=%d", $this->id);
         $game = $this->wpdb->get_row($query, 'OBJECT', $index);
 
         return !empty($game) ? $game->{DhtmlChessDatabase::COL_GAME} : null;
@@ -191,10 +190,9 @@ class DhtmlChessPgn
      */
     public function appendGame($game, $sort = null)
     {
-        if(is_string($game)){
+        if (is_string($game)) {
             $game = json_decode($game, true);
         }
-        $this->clearPgnList();
 
         $sort = (isset($sort) ? $sort : $this->countGames());
 
@@ -209,7 +207,7 @@ class DhtmlChessPgn
             )
         );
 
-        if($count== 0){
+        if ($count == 0) {
             throw new DhtmlChessException("Unable to add game");
         }
         $id = $this->wpdb->insert_id;
@@ -218,14 +216,14 @@ class DhtmlChessPgn
         $game["pgn"] = $this->getName();
         $game["pgn_id"] = $this->getId();
 
-        if(isset($game['round'])){
+        if (isset($game['round'])) {
             $r = preg_replace('/[^0-9\.]/si', "", $game['round']);
-            if(!empty($r)){
+            if (!empty($r)) {
                 $t = explode(".", $r);
                 $i = 1;
-                foreach($t as $val){
-                    if(!empty($val)){
-                        $game['__round_'. ($i++)] = $val;
+                foreach ($t as $val) {
+                    if (!empty($val)) {
+                        $game['__round_' . ($i++)] = $val;
                     }
                 }
             }
@@ -244,8 +242,9 @@ class DhtmlChessPgn
         );
 
         $cache = new DhtmlChessCache();
-        $cache->clear(DhtmlChessDatabase::CACHE_PGN);
-        
+        $cache->clearPgnListCache();
+
+        $this->updateTimestamp();
         return $this->wpdb->insert_id;
 
     }
@@ -257,7 +256,8 @@ class DhtmlChessPgn
         return $this->name;
     }
 
-    private function loadPgnData(){
+    private function loadPgnData()
+    {
         if (empty($this->name)) {
             $query = $this->wpdb->prepare("SELECT "
                 . DhtmlChessDatabase::COL_ID . ", "
@@ -274,13 +274,39 @@ class DhtmlChessPgn
 
     }
 
+    public function archive()
+    {
+        $countUpdated = $this->wpdb->update(
+            DhtmlChessDatabase::TABLE_PGN,
+            array(
+                DhtmlChessDatabase::COL_ARCHIVED => '1'
+            ),
+            array(DhtmlChessDatabase::COL_ID => $this->id),
+            array(
+                '%s'
+            ),
+            array()
+        );
+
+        if (empty($countUpdated)) {
+            throw new Exception("Not able to archive. Already archived?");
+        }
+
+        $cache = new DhtmlChessCache();
+        $cache->clearPgnListCache();
+        $cache->clear($this->cacheKey());
+        
+        return $countUpdated;
+    }
+
     /**
      * @return bool
      * @throws Exception
      */
-    public function deletePgn(){
+    public function deletePgn()
+    {
         $name = $this->getName();
-        if(empty($name)){
+        if (empty($name)) {
             throw new DhtmlChessException("Unable to delete pgn - name not found");
         }
         $name = esc_sql($name);
@@ -300,9 +326,10 @@ class DhtmlChessPgn
             array('%d')
         );
 
-        if($res > 0){
+        if ($res > 0) {
             $cache = new DhtmlChessCache();
-            $cache->clear(DhtmlChessDatabase::CACHE_PGN);
+            $cache->clearPgnListCache();
+            $cache->clear($this->cacheKey());
         }
 
         return $res != false && $res > 0;
@@ -317,14 +344,13 @@ class DhtmlChessPgn
             array(DhtmlChessDatabase::COL_ID => $id),
             array('%d')
         );
-        echo "COUNT DELETED ". $res . " from ". $this->getName() . "\n";
 
-        if($res){
+        if ($res) {
+            $this->updateTimestamp();
             $cache = new DhtmlChessCache();
-            $cache->clear(DhtmlChessDatabase::CACHE_PGN);
-            $this->clearPgnList();
+            $cache->clearPgnListCache();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -356,7 +382,7 @@ class DhtmlChessPgn
         );
 
         if ($res != false) {
-            $this->clearPgnList();
+            $this->updateTimestamp();
         }
 
         return $res == 1;
@@ -372,9 +398,29 @@ class DhtmlChessPgn
     }
 
 
-    public function updatedDate(){
+    public function updatedDate()
+    {
         $this->loadPgnData();
         return $this->updated;
+
+    }
+
+    public function updateTimestamp()
+    {
+
+        $id = uniqid();
+
+        $this->wpdb->update(
+            DhtmlChessDatabase::TABLE_PGN,
+            array(
+                DhtmlChessDatabase::COL_TMP => $id
+            ),
+            array(DhtmlChessDatabase::COL_ID => $this->id),
+            array(
+                '%s'
+            ),
+            array()
+        );
 
     }
 
