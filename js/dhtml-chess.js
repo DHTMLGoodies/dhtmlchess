@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 20:54:01 CET 2017 */
+/* Generated Sun Jan 29 3:47:17 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2803,10 +2803,14 @@ ludo.util = {
 	},
 	
 	pageXY:function(e){
-		return e.touches && e.touches.length > 0 ? {
-			x: e.touches[0].pageX, y: e.touches[0].pageY
-		}: {
-			x: e.pageX, y: e.pageY
+
+		var eventEl = e.touches && e.touches.length > 0 ? e.touches[0] :
+			e.originalEvent != undefined && e.originalEvent.touches != undefined && e.originalEvent.touches.length > 0 ? e.originalEvent.touches[0]:
+				e;
+		return {
+			x: eventEl.pageX, y: eventEl.pageY,
+			clientX : eventEl.clientX, clientY: eventEl.clientY,
+			pageX: eventEl.pageX, pageY: eventEl.pageY
 		};
 	}
 };
@@ -4405,6 +4409,7 @@ ludo.svg.Node = new Class({
 
             var mouseX, mouseY;
             var touches = e.touches;
+            if(!touches && e.originalEvent)touches = e.originalEvent.touches;
             var pX = e.pageX;
             var py = e.pageY;
             if (touches && touches.length > 0) {
@@ -12914,7 +12919,7 @@ ludo.effect.Drag = new Class({
         var x = pos.left;
         var y = pos.top;
 
-        var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+        var p = ludo.util.pageXY(e);
 
         this.dragProcess = {
             active: true,
@@ -13090,7 +13095,7 @@ ludo.effect.Drag = new Class({
     getXDrag: function (e) {
         var posX;
 
-        var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+        var p = ludo.util.pageXY(e);
 
         if (this.mouseXOffset) {
             posX = p.pageX + this.mouseXOffset;
@@ -13109,7 +13114,7 @@ ludo.effect.Drag = new Class({
 
     getYDrag: function (e) {
         var posY;
-        var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+        var p = ludo.util.pageXY(e);
 
         if (this.mouseYOffset) {
             posY = p.pageY + this.mouseYOffset;
@@ -13520,7 +13525,7 @@ ludo.effect.Resize = new Class({
 
 		ludo.EffectObject.start();
 
-        var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+        var p = ludo.util.pageXY(e);
 
         this.dragProperties = {
             a:1,
@@ -13664,7 +13669,7 @@ ludo.effect.Resize = new Class({
     },
 
     getCurrentCoordinates:function (e) {
-        var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+        var p = ludo.util.pageXY(e);
         var ret = {x:p.pageX, y:p.pageY };
         var d = this.dragProperties;
         if(d.preserveAspectRatio && d.region.length === 2)return ret;
@@ -15742,6 +15747,26 @@ ludo.dataSource.JSONArray = new Class({
 
     shouldSortOnServer: function () {
         return this.paging && this.paging.remotePaging;
+    },
+
+    /**
+     * Set sort function for a column
+     * @param {string} key
+     * @param {object} sortFns
+     * @example
+     * setSortFn('score', {
+     *  'asc' : function(recA, recB){
+     *      return recA.score < recB.score ? -1 : 1;
+     *  },
+     *  'desc': function(recA, recB){
+     *      return recA.score < recB.score ? 1 : -1;
+     *  }
+     *
+     * });
+     */
+    setSortFn:function(column, sortFns){
+
+        this.sortFn[column] = sortFns;
     },
 
     getSortFnFor: function (column, order) {
@@ -18706,6 +18731,10 @@ ludo.grid.Grid = new Class({
 			ludo.dom.clearCache();
 			this.getParent().resize.delay(100, this.getParent());
 		}
+
+		if(this.emptyText){
+			this.emptyTextEl().css('display', '');
+		}
 	},
 
 	currentOverRecord:undefined,
@@ -19066,6 +19095,7 @@ ludo.grid.Grid = new Class({
 		this.fireEvent('state');
 		this.currentOverRecord = undefined;
 		this.currentData = this.getDataSource().getData();
+
 
 		if(this.emptyText){
 			this.emptyTextEl().css('display', this.currentData.length > 0 ? 'none' : '');
@@ -31280,7 +31310,7 @@ chess.view.board.Piece = new Class({
             this.el.css('left', pos.left + 'px');
             this.el.css('top', pos.top + 'px');
 
-            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+            var p = ludo.util.pageXY(e);
 
             this.dd = {
                 active: true,
@@ -31293,6 +31323,11 @@ chess.view.board.Piece = new Class({
         }
         return undefined;
     },
+
+    pageXY:function(e){
+
+    },
+
     /**
      * Method executed when dragging has started and mouse moves
      * @method dragPiece
@@ -31303,7 +31338,8 @@ chess.view.board.Piece = new Class({
     dragPiece: function (e) {
 
         if (this.dd.active === true) {
-            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+
+            var p = ludo.util.pageXY(e);
             this.el.css(
                 {
                     left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
@@ -31421,11 +31457,7 @@ chess.view.board.Piece = new Class({
             this.el.css('-moz-background-size', 'cover');
             this.el.css('-o-background-size', 'cover');
             this.el.css('-webkit-background-size', 'cover');
-
-
         }
-
-
         this.bgUpdated = this.getColorCode() + this.getTypeCode();
 
     },
@@ -32305,7 +32337,7 @@ chess.view.highlight.ArrowBase = new Class({
 		if (this.getParent().ddEnabled) {
 			var pos = this.getParent().getBoard().offset();
 
-			var p = e.touches != undefined && e.touches.length> 0 ? e.touches[0] : e;
+			var p = ludo.util.pageXY(e);
 			var coords = {
 				x:p.pageX - pos.left,
 				y:p.pageY - pos.top
@@ -33408,7 +33440,7 @@ chess.view.gamelist.Grid = new Class({
     resizable: false,
     statusBar: false,
     fillview: true,
-    menu:false,
+    headerMenu:false,
 
     /**
      Columns to show in grid. Columns correspondes to metadata of games, example
@@ -33424,33 +33456,39 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: 'White',
+            heading: chess.getPhrase('White'),
             key: 'white',
             width: 120,
             sortable: true
         },
         black: {
-            heading: 'Black',
+            heading: chess.getPhrase('Black'),
             key: 'black',
             width: 120,
             sortable: true
         },
+        round: {
+            heading: chess.getPhrase('Round'),
+            key: 'round',
+            width: 50,
+            sortable: true
+        },
         result: {
-            heading: 'Result',
+            heading: chess.getPhrase('Result'),
             key: 'result',
             width: 50,
             sortable: true,
             removable: true
         },
         event: {
-            heading: 'Event',
+            heading: chess.getPhrase('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
             removable: true
         },
         last_moves: {
-            heading: 'Last moves',
+            heading: chess.getPhrase('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,
@@ -41729,59 +41767,65 @@ chess.dataSource.PgnList = new Class({
  @constructor
  @param {chess.model.Game} model
  @example
-	 var game = new chess.model.Game();
-	 game.setMetadataValue('white','Magnus Carlsen');
-	 game.setMetadataValue('black','Levon Aronian');
-	 game.appendMove('e4');
-	 game.appendMove('e5');
+ var game = new chess.model.Game();
+ game.setMetadataValue('white','Magnus Carlsen');
+ game.setMetadataValue('black','Levon Aronian');
+ game.appendMove('e4');
+ game.appendMove('e5');
 
-	 var parser = new chess.pgn.Parser(game);
- 	 console.log(parser.getPgn());
+ var parser = new chess.pgn.Parser(game);
+ console.log(parser.getPgn());
  */
 chess.pgn.Parser = new Class({
-	/**
-	 * @property {chess.model.Game} model
+    /**
+     * @property {chess.model.Game} model
      * @private
-	 */
-	model:undefined,
+     */
+    model: undefined,
 
 
-	initialize:function(model){
-		this.model = model;
-	},
+    initialize: function (model) {
+        this.model = model;
+    },
 
-	/**
-	 * Return pgn in string format
-	 * @method getPgn
-	 * @return {String}
-	 */
-	getPgn:function(){
-		return [this.getMetadata(),this.getMoves()].join("\n\n");
-	},
+    /**
+     * Return pgn in string format
+     * @method getPgn
+     * @return {String}
+     */
+    getPgn: function (model) {
+        if (model != undefined)this.model = model;
+        return [this.getMetadata(), this.getMoves()].join("\n\n");
+    },
 
     /**
      * @method getMetadata
      * @return {String}
      * @private
      */
-	getMetadata:function(){
-		var ret = [];
-		var metadata = this.model.getMetadata();
-		for(var key in metadata){
-			if(metadata.hasOwnProperty(key)){
-				ret.push('[' + key + ' "' + metadata[key] + '"]');
-			}
-		}
-		return ret.join('\n');
-	},
+    getMetadata: function () {
+        var ret = [];
+        var metadata = this.model.getMetadata();
+        jQuery.each(metadata, function(key, val){
+            if(key != 'id' && key != 'pgn' && key != 'draft_id' && key != 'index'){
+                ret.push('[' + this.ucFirst(key) + ' "' +val + '"]');
+            }
+        }.bind(this));
+        return ret.join('\n');
+    },
+
+    ucFirst: function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
     /**
      * @method getMoves
      * @return {String}
      * @private
      */
-	getMoves:function(){
+    getMoves: function () {
         return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
-	},
+    },
 
     /**
      * Return comment before first move
@@ -41789,9 +41833,9 @@ chess.pgn.Parser = new Class({
      * @return {String}
      * @private
      */
-    getFirstComment:function(){
+    getFirstComment: function () {
         var m = this.model.getMetadata();
-        if(m['comment']!==undefined && m['comment'].length > 0){
+        if (m['comment'] !== undefined && m['comment'].length > 0) {
             return '{' + m['comment'] + '} ';
         }
         return '';
@@ -41805,28 +41849,28 @@ chess.pgn.Parser = new Class({
      * @return {String}
      * @private
      */
-    getMovesInBranch:function(moves, moveIndex){
+    getMovesInBranch: function (moves, moveIndex) {
         moveIndex = moveIndex || 0;
         var ret = [];
         var insertNumber = true;
-        for(var i=0;i<moves.length;i++){
-            if(moves[i]['m'] !== undefined){
-                if(moveIndex % 2 === 0 || insertNumber){
+        for (var i = 0; i < moves.length; i++) {
+            if (moves[i]['m'] !== undefined) {
+                if (moveIndex % 2 === 0 || insertNumber) {
                     var isWhite = moveIndex % 2 === 0;
-                    ret.push([Math.floor(moveIndex/2) + 1, (isWhite ? '.' : '..')].join(''));
+                    ret.push([Math.floor(moveIndex / 2) + 1, (isWhite ? '.' : '..')].join(''));
                 }
                 ret.push(moves[i]['m']);
                 moveIndex++;
 
                 insertNumber = false;
             }
-            if(moves[i]['comment'] !== undefined){
+            if (moves[i]['comment'] !== undefined) {
                 ret.push("{" + moves[i]['comment'] + "}");
             }
 
-            if(moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0){
+            if (moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0) {
                 var variations = moves[i]['variations'];
-                for(var j=0;j<variations.length;j++){
+                for (var j = 0; j < variations.length; j++) {
                     ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
 
                 }
@@ -41848,8 +41892,9 @@ chess.wordpress.GameListGrid = new Class({
             action: 'list_of_games'
         }
     },
-
+    emptyText:chess.getPhrase('No games'),
     loadMessage: chess.getPhrase('Loading games...'),
+    cols: ['white','black', 'round', 'result', 'last_moves'],
 
     __rendered: function () {
         this.parent();
@@ -41862,6 +41907,7 @@ chess.wordpress.GameListGrid = new Class({
         this.parent(controller);
         controller.on('publish', function () {
             if(this.controller.pgn){
+
                 this.getDataSource().load();
             }
         }.bind(this));
@@ -41876,6 +41922,8 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
+            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn);
+
             this.getDataSource().postData.pgn = this.controller.pgn;
             this.getDataSource().load();
 
@@ -41890,7 +41938,6 @@ chess.wordpress.PgnList = new Class({
     Extends: ludo.dataSource.JSONArray,
     type : 'chess.dataSource.PgnList',
     autoload:true,
-    singleton: true,
     postData:{
         action:'list_pgns'
     }
