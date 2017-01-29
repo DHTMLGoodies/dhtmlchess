@@ -311,10 +311,16 @@ chess.WPEditor = new Class({
                                             module: this.module,
                                             type: 'chess.wordpress.GameMetadata'
                                         },
+                                        /*
                                         {
                                             title:'PGN',
                                             module:this.module,
                                             type:'chess.wordpress.PgnParserView'
+                                        }, */
+                                        {
+                                            title:'Standings',
+                                            module:this.module,
+                                            type:'chess.wordpress.PgnStandings'
                                         }
 
                                     ]

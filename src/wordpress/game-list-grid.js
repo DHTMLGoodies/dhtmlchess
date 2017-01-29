@@ -11,6 +11,7 @@ chess.wordpress.GameListGrid = new Class({
     },
     emptyText:chess.getPhrase('No games'),
     loadMessage: chess.getPhrase('Loading games...'),
+    cols: ['white','black', 'round', 'result', 'last_moves'],
 
     __rendered: function () {
         this.parent();

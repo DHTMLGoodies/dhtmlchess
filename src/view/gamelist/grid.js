@@ -36,7 +36,7 @@ chess.view.gamelist.Grid = new Class({
     resizable: false,
     statusBar: false,
     fillview: true,
-    menu:false,
+    headerMenu:false,
 
     /**
      Columns to show in grid. Columns correspondes to metadata of games, example
@@ -52,33 +52,39 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: 'White',
+            heading: chess.getPhrase('White'),
             key: 'white',
             width: 120,
             sortable: true
         },
         black: {
-            heading: 'Black',
+            heading: chess.getPhrase('Black'),
             key: 'black',
             width: 120,
             sortable: true
         },
+        round: {
+            heading: chess.getPhrase('Round'),
+            key: 'round',
+            width: 50,
+            sortable: true
+        },
         result: {
-            heading: 'Result',
+            heading: chess.getPhrase('Result'),
             key: 'result',
             width: 50,
             sortable: true,
             removable: true
         },
         event: {
-            heading: 'Event',
+            heading: chess.getPhrase('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
             removable: true
         },
         last_moves: {
-            heading: 'Last moves',
+            heading: chess.getPhrase('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,

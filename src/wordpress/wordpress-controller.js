@@ -312,6 +312,7 @@ chess.wordpress.WordpressController = new Class({
 
     selectPgn: function (pgn) {
         this.pgn = pgn;
+        this.fireEvent('pgn', pgn);
         if (this.views.gamelisttab) {
             this.views.gamelisttab.show();
             if (this.views.gamelist)this.views.gamelist.loadGames();

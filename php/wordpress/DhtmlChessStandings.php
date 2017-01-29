@@ -42,6 +42,7 @@ class DhtmlChessStandings
     /**
      * @param DhtmlChessPgn $pgn
      * @return array
+     * @throws DhtmlChessException
      */
     private function arrayToStandings($pgn)
     {
@@ -52,6 +53,9 @@ class DhtmlChessStandings
         $players = array();
         $st = array();
 
+        if(count($games) > 10000){
+            throw new DhtmlChessException("Not generating standings. Too many games > 10000");
+        }
         foreach ($games as $game) {
             if (!empty($game["white"]) && !empty($game["black"])) {
 
