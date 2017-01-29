@@ -60,6 +60,10 @@ class DhtmlChessPgn
             )
         );
     }
+    
+    public function getId(){
+        return $this->id;
+    }
 
     /**
      * @return string JSON
@@ -252,6 +256,9 @@ class DhtmlChessPgn
         }
         $name = esc_sql($name);
 
+        $standings = new DhtmlChessStandings();
+        $standings->deleteStandings($name);
+
         $res = $this->wpdb->delete(
             DhtmlChessDatabase::TABLE_PGN,
             array(DhtmlChessDatabase::COL_PGN_NAME => $name),
@@ -270,7 +277,6 @@ class DhtmlChessPgn
         }
 
         return $res != false && $res > 0;
-
     }
 
     public function deleteGame($id)

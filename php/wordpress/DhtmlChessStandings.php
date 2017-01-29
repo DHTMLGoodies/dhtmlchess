@@ -17,12 +17,18 @@ class DhtmlChessStandings
 
     }
 
+    public function deleteStandings($pgnName){
+        $cache = new DhtmlChessCache();
+        $pgn = DhtmlChessPgn::instanceByName($pgnName);
+        $cache->clear($this->cacheKey($pgn));
+    }
+
     public function getStandings($pgnName)
     {
         $pgn = DhtmlChessPgn::instanceByName($pgnName);
 
         $cache = new DhtmlChessCache();
-        $data = $cache->getFromCache($this->cacheKey($pgnName));
+        $data = $cache->getFromCache($this->cacheKey($pgn));
 
         if (!empty($data) && $data->{DhtmlChessDatabase::COL_UPDATED} >= $pgn->updatedDate()) {
             return $data->{DhtmlChessDatabase::COL_CACHE_VALUE};
@@ -32,7 +38,7 @@ class DhtmlChessStandings
 
         $standings = json_encode($standings);
 
-        $cache->putInCache($this->cacheKey($pgnName), $standings);
+        $cache->putInCache($this->cacheKey($pgn), $standings);
 
         return $standings;
 
@@ -111,9 +117,13 @@ class DhtmlChessStandings
         return $ret;
     }
 
+    /**
+     * @param DhtmlChessPgn $pgn
+     * @return string
+     */
     private function cacheKey($pgn)
     {
-        return "d_standings" . $pgn;
+        return "d_standings" . $pgn->getId();
     }
 
 
