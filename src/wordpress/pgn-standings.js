@@ -10,35 +10,47 @@ chess.wordpress.PgnStandings = new Class({
         }
     },
     headerMenu:false,
-    columns: {
-        'player': {
-            heading: 'Player',
-            sortable: true,
-            width:200,
-            key: 'player'
-        },
-        'w': {
-            heading: 'Wins',
-            sortable: true,
-            width:50
-        },
-        'd': {
-            heading: 'Draws',
-            sortable: true,
-            width:50
-        },
-        'l': {
-            heading: 'Losses',
-            sortable: true,
-            width:50
-        },
-        'score': {
-            heading: 'Score',
-            sortable:true,
-            renderer: function (val, record) {
-                return record.w + (record.d / 2)
+    sofiaRules:false,
+
+    __columns:function(){
+        return {
+            'player': {
+                heading: 'Player',
+                sortable: true,
+                width:200,
+                key: 'player'
+            },
+            'w': {
+                heading: 'Wins',
+                sortable: true,
+                width:50
+            },
+            'd': {
+                heading: 'Draws',
+                sortable: true,
+                width:50
+            },
+            'l': {
+                heading: 'Losses',
+                sortable: true,
+                width:50
+            },
+            'score': {
+                heading: 'Score',
+                sortable:true,
+                renderer: function (val, record) {
+                    if(this.sofiaRules){
+                        return (record.w * 3) + record.d;
+                    }
+                    return record.w + (record.d / 2)
+                }.bind(this)
             }
-        }
+        };
+    },
+    
+    __construct:function(config){
+        this.parent(config);
+        this.setConfigParams(config, ['sofiaRules']);
     },
 
     __rendered: function () {
