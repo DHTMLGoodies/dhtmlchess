@@ -10,8 +10,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", "on");
 
 
-$to = "zip/dhtml-chess2.zip";
-die("NOt in use");
+$to = "zip/wp-dhtml-chess.zip";
 
 class Archiver
 {
@@ -21,105 +20,44 @@ class Archiver
     private $dir;
 
     private $files = array(
-        "../php",
-        "../js",
-        "../src",
-        "../css",
-        "../jquery",
-        "../demo",
-        "../themes",
-        "../ludojs",
-        "../pgn",
-        "../images",
-        "../router.php",
-        "../autoload.php"
+       /* "../js" => "dhtml_chess/api/",
+        "../demo" => "dhtml_chess/api/",
+        "../php" => "dhtml_chess/api/",
+        "../images" => "dhtml_chess/api/",
+        "../css" => "dhtml_chess/api/",
+        "../pgn" => "dhtml_chess/api/",
+        "../autoload.php" => "dhtml_chess/api/",
+        "../router.php" => "dhtml_chess/api/",
+        "../garbochess" => "dhtml_chess/api/",
+        "../garbochess-engine" => "dhtml_chess/api/", */
+        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess"
     );
 
     public function __construct()
     {
-
-        if(file_exists("zip/dhtml-chess.zip")){
-            unlink("zip/dhtml-chess.zip");
-        }
         $this->build();
-
     }
-
-
-
+    
     private function build()
     {
 
-        foreach ($this->files as $file) {
+        echo getcwd()."<br>";
+        if(file_exists("dhtml_chess.zip"))unlink("dhtml_chess.zip");
+        exec("rm -rf dhtml_chess");
+        exec("mkdir dhtml_chess");
+       # exec("mkdir dhtml_chess/api");
 
-            $path = $this->relativePath($file);
 
-            $path = str_replace("*", "", $path);
-            $dest = " ../../wordpress/wp-content/plugins/dhtml_chess/api/";
-            echo "cp -rf " . $file . $dest."<br>";
-            # exec("cp -rf " . $file . $dest);
+        foreach($this->files as $source=>$destination){
+            $cmd = "cp -r ". $source . " ". $destination;
 
-            #if(!file_exists($dest)){
-               # echo "FAILURE<br>";
-            # }
+            echo $cmd."<br>";
+            echo exec($cmd);
+
         }
-        foreach ($this->files as $file) {
-
-            $path = $this->relativePath($file);
-
-            $this->setWorkingDirectory($file);
-
-
-            $cmd = $this->getTarCommand($path);
-
-            exec($cmd);
-            echo $cmd . "<br>";
-
-            $this->restoreWorkingDirectory();
-        }
+        exec("tar -rf dhtml_chess.zip dhtml_chess");
+        exec("rm -rf dhtml_chess");
     }
-
-    private function relativeZipPath()
-    {
-        echo $this->dir."<br>";
-        if ($this->dir == "../"){
-            return "wp-plugins/";
-        }
-        else return "../";
-    }
-
-    private function relativePath($file)
-    {
-        $tokens = explode("/", $file);
-        array_shift($tokens);
-
-        return implode("/", $tokens);
-    }
-
-    private function getTarCommand($fileToAdd)
-    {
-        return "tar -rf " . $this->relativeZipPath() . $this->destination . " dhtml_chess/" . $fileToAdd;
-    }
-
-    private function setWorkingDirectory($file)
-    {
-        if (strstr($file, "../")) {
-            $this->dir = "../";
-        } else {
-            $this->dir = "dhtml-chess";
-        }
-        $this->pwd = getcwd();
-        chdir($this->dir);
-    }
-
-    private function restoreWorkingDirectory()
-    {
-        chdir($this->pwd);
-    }
-
-
-
-
 }
 
 new Archiver();

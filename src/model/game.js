@@ -227,6 +227,7 @@ chess.model.Game = new Class({
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
+        console.log(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
@@ -257,6 +258,9 @@ chess.model.Game = new Class({
      *
      */
     getValidGameData: function (gameData) {
+        if(gameData.metadata && jQuery.isArray(gameData.metadata)){
+            gameData.metadata = {};
+        }
         gameData.metadata = gameData.metadata || {};
         for (var i = 0; i < this.reservedMetadata.length; i++) {
             var key = this.reservedMetadata[i];

@@ -275,7 +275,7 @@ chess.wordpress.WordpressController = new Class({
             cache: false,
             data: {
                 action: 'publish_game',
-                game: gameModel,
+                game: JSON.stringify(gameModel),
                 pgn: pgn
             },
             complete: function (response, success) {
@@ -407,8 +407,6 @@ chess.wordpress.WordpressController = new Class({
                         this.currentModel.setClean();
 
                         this.updateButtonVisibility();
-                        console.log(this.currentModel.isDirty());
-
                         this.fireEvent('game', game);
                     }
 
@@ -471,7 +469,7 @@ chess.wordpress.WordpressController = new Class({
             data: {
                 action: 'save_game',
                 pgn: gameModel.pgn,
-                game: gameModel
+                game: JSON.stringify(gameModel)
             },
             complete: function (response, success) {
                 this.enableButtons();
@@ -506,13 +504,14 @@ chess.wordpress.WordpressController = new Class({
             gameModel.id = undefined;
         }
 
+        delete gameModel.metadata;
+
         return gameModel;
 
     },
 
     saveDraft: function () {
         var gameModel = this.validateAndReturnModel();
-
         if (!gameModel)return;
 
 
@@ -524,10 +523,9 @@ chess.wordpress.WordpressController = new Class({
             method: 'post',
             data: {
                 action: 'save_draft',
-                game: gameModel
+                game: JSON.stringify(gameModel)
             },
             complete: function (response, success) {
-                console.log(arguments);
                 this.enableButtons();
                 if (success) {
                     var data = response.responseJSON;
@@ -584,8 +582,6 @@ chess.wordpress.WordpressController = new Class({
     },
 
     receiveNewPosition: function (fen) {
-        console.log('received ', fen);
-
         this.currentModel.setPosition(fen);
 
     }
