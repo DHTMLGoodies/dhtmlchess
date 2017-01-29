@@ -16,7 +16,6 @@ class DhtmlChessPgn
     private $wpdb;
 
     private $name;
-    private $title;
     private $updated;
 
     private function __construct($id)
@@ -24,6 +23,43 @@ class DhtmlChessPgn
         $this->id = $id;
         global $wpdb;
         $this->wpdb = $wpdb;
+    }
+
+    public static function newPgn($name){
+        $name = trim($name);
+        $name = esc_sql($name);
+
+        $pgnName = preg_replace('/[^0-9a-z\-_]/si', '', $name);
+        $pgnName = trim($pgnName);
+        $pgnName = esc_sql($pgnName);
+        
+        $util = new DhtmlChessPgnUtil();
+        $id = $util->getId($pgnName);
+        
+        if(!empty($id)){
+            throw new DhtmlChessException("A Database with this name already exists");
+        }
+
+        return $util->create($pgnName, $name);
+        
+    }
+
+    public static function instanceById($id){
+
+        global $wpdb;
+        $query = $wpdb->prepare(
+            "SELECT "
+            . DhtmlChessDatabase::COL_ID . " FROM "
+            . DhtmlChessDatabase::TABLE_PGN. " WHERE "
+            . DhtmlChessDatabase::COL_ID . "= %d"
+        , $id);
+
+        $row = $wpdb->get_row( $query);
+        $id = isset($row) && $row->{DhtmlChessDatabase::COL_ID} > 0 ? $row->{DhtmlChessDatabase::COL_ID} : null;
+        if(empty($id)){
+            throw new DhtmlChessPgnNotFoundException("Unable to locate pgn");
+        }
+        return new DhtmlChessPgn($id);
     }
 
     public static function instanceByName($name)
@@ -36,7 +72,7 @@ class DhtmlChessPgn
         if(empty($id)){
             throw new DhtmlChessPgnNotFoundException("Unable to locate pgn");
         }
-        return isset($id) ? new DhtmlChessPgn($id) : null;
+        return new DhtmlChessPgn($id);
     }
 
     public function clearPgnList()
@@ -180,6 +216,7 @@ class DhtmlChessPgn
 
         $game["id"] = $id;
         $game["pgn"] = $this->getName();
+        $game["pgn_id"] = $this->getId();
 
         if(isset($game['round'])){
             $r = preg_replace('/[^0-9\.]/si', "", $game['round']);
@@ -214,14 +251,8 @@ class DhtmlChessPgn
     }
 
 
-    public function getTitle(){
-        $this->loadPgnData();
-        return $this->title;
-    }
-
     public function getName()
     {
-
         $this->loadPgnData();
         return $this->name;
     }
@@ -231,13 +262,11 @@ class DhtmlChessPgn
             $query = $this->wpdb->prepare("SELECT "
                 . DhtmlChessDatabase::COL_ID . ", "
                 . DhtmlChessDatabase::COL_PGN_NAME . ","
-                . DhtmlChessDatabase::COL_UPDATED . ","
-                . DhtmlChessDatabase::COL_TITLE
+                . DhtmlChessDatabase::COL_UPDATED
                 . " FROM " . DhtmlChessDatabase::TABLE_PGN . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $this->id);
             $row = $this->wpdb->get_row($query);
             if (!empty($row)) {
                 $this->name = $row->{DhtmlChessDatabase::COL_PGN_NAME};
-                $this->title = $row->{DhtmlChessDatabase::COL_TITLE};
                 $this->updated = $row->{DhtmlChessDatabase::COL_UPDATED};
             }
 
@@ -332,15 +361,6 @@ class DhtmlChessPgn
 
         return $res == 1;
 
-    }
-
-    /**
-     * @param $id
-     * @return DhtmlChessDatabase
-     */
-    public static function instanceById($id)
-    {
-        return new DhtmlChessPgn($id);
     }
 
     public function countGames()

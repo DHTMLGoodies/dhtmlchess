@@ -76,10 +76,11 @@ chess.wordpress.PgnStandings = new Class({
 
     setController: function (controller) {
         this.parent(controller);
-        controller.on('pgn', this.receivePgn.bind(this));
+        controller.on('pgn', this.setPgn.bind(this));
     },
 
-    receivePgn:function(pgn){
+
+    setPgn:function(pgn){
         if(pgn != this.currentPgn){
             this.currentPgn = pgn;
         }
@@ -92,7 +93,7 @@ chess.wordpress.PgnStandings = new Class({
 
     updateStandings: function () {
         if(!this.currentPgn)return;
-        if(this.controller.pgn != this.currentPgn)return;
+        if(this.controller && this.controller.pgn != this.currentPgn)return;
         this.getDataSource().setPostParam('pgn', this.currentPgn);
         this.getDataSource().load();
     }

@@ -15,7 +15,7 @@ class DhtmlChessPgnUtil
 
     public function getUniqueName($pgnFilePath){
         $name = $this->pathToPgnName($pgnFilePath);
-
+        $name = preg_replace('/\s/', '_', $name);
         $testName = $name;
         $num = 1;
         while($this->exists($testName) && $num < 2000){
@@ -37,7 +37,7 @@ class DhtmlChessPgnUtil
      * @param $pgnFilePath
      * @return DhtmlChessPgn
      */
-    public function create($pgnFilePath, $title = null){
+    public function create($pgnFilePath){
         /**
          * @var wpdb $wpdb
          */
@@ -45,13 +45,9 @@ class DhtmlChessPgnUtil
         
         $pgnFilePath = $this->getUniqueName($pgnFilePath);
 
-        if(!isset($title))$title = $pgnFilePath;
-
-
         $wpdb->insert(
             DhtmlChessDatabase::TABLE_PGN,
             array(
-                DhtmlChessDatabase::COL_TITLE => $title,
                 DhtmlChessDatabase::COL_PGN_NAME => $pgnFilePath
             ),
             array(
@@ -61,6 +57,8 @@ class DhtmlChessPgnUtil
 
         return DhtmlChessPgn::instanceById($wpdb->insert_id);
     }
+
+
 
     public function getId($pgnPathOrName){
         /**

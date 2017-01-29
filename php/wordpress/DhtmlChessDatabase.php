@@ -26,6 +26,7 @@ class DhtmlChessDatabase
     const COL_CREATED = "created";
     const COL_UPDATED = "updated";
     const COL_TITLE = "title";
+    const COL_ARCHIVED = "archived";
 
 
 
@@ -137,6 +138,11 @@ class DhtmlChessDatabase
     public function countGames($pgn){
         $pgn = DhtmlChessPgn::instanceByName($pgn);
         return $pgn->countGames();
+    }
+    
+    public function createDatabase($name){
+        $pgn = DhtmlChessPgn::newPgn($name);
+        return $pgn;
     }
 
 

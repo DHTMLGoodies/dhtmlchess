@@ -36,6 +36,10 @@ chess.wordpress.WordpressController = new Class({
             console.log(view.submodule);
 
             switch (view.submodule) {
+                case 'wordpress.standingsbutton':
+                    this.views.standingsButton = view;
+                    view.on('click', this.showStandings.bind(this));
+                    break;
                 case 'wordpress.newposition':
                     view.on('click', this.showPositionSetup.bind(this));
                     break;
@@ -172,6 +176,28 @@ chess.wordpress.WordpressController = new Class({
         return this.newGameDialog;
     },
 
+
+    showStandings:function(){
+        if(this.standingsWindow == undefined) {
+            this.standingsWindow = new ludo.dialog.Dialog({
+                title:chess.getPhrase('Standings'),
+                autoRemove:false,
+                layout:{
+                    type:'fill',
+                    left:100,top:100,
+                    width:500,height:400
+                },
+                buttonConfig:'Ok',
+                children:[{
+                    type:'chess.wordpress.PgnStandings',
+                    module:this.module
+                }]
+            });
+        }
+        this.standingsWindow.setTitle(chess.getPhrase('Standings') + ' - ' + this.pgn);
+        this.standingsWindow.children[0].setPgn(this.pgn);
+        this.standingsWindow.show();
+    },
 
     onNewPositionClick: function (fen) {
         this.newGameFen = fen;
@@ -311,6 +337,9 @@ chess.wordpress.WordpressController = new Class({
     },
 
     selectPgn: function (pgn) {
+        if(this.views.standingsButton){
+            this.views.standingsButton.show();
+        }
         this.pgn = pgn;
         this.fireEvent('pgn', pgn);
         if (this.views.gamelisttab) {

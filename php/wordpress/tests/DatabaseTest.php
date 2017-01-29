@@ -200,26 +200,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(64, $db->countGames());
 
     }
-
-    /**
-     * @test
-     * @throws DhtmlChessException
-     * @throws DhtmlChessPgnNotFoundException
-     */
-    public function shouldBeAbleToImportWithSpecificTitle(){
-
-        // given
-        $this->database->import('fivegames.pgn', 'My games');
-
-        // when
-        $db = DhtmlChessPgn::instanceByName('fivegames');
-
-        // then
-        $this->assertEquals('My games', $db->getTitle());
-
-    }
-
-
+    
     /**
      * @test
      */
@@ -778,6 +759,42 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldBeAbleToCreateNewDatabase(){
+        
+        // given
+        $id = $this->database->createDatabase("my database");
+        $this->assertNotEmpty($id);
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToArchiveDatabase(){
+        $this->database->import('lcc2016.pgn');
+        $this->database->import('fivegames.pgn');
+        $this->database->import('onegame.pgn');
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPgnInstanceById(){
+        $this->database->import('lcc2016.pgn');
+
+        // when
+        $pgn = DhtmlChessPgn::instanceById(1);
+
+        // then
+        $this->assertNotEmpty($pgn);
+        $this->assertEquals("lcc2016", $pgn->getName());
+
+    }
+    
+    /**
+     * @test
+     */
     public function shouldGetStandingsFromCache(){
         $this->database->import('lcc2016.pgn');
 
@@ -786,13 +803,13 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         // when
         $standings = $this->database->getStandings("lcc2016.pgn");
-        $standings = json_decode($standings, true);
+        json_decode($standings, true);
 
         $elapsed1 = microtime(true) - $s;
 
         $s = microtime(true);
         $standings = $this->database->getStandings("lcc2016.pgn");
-        $standings = json_decode($standings, true);
+        json_decode($standings, true);
         $elapsed2 = microtime(true) - $s;
 
         echo $elapsed1 . " vs ". $elapsed2."\n";

@@ -10,17 +10,11 @@ chess.WPEditor = new Class({
 
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
-
-
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
-
-
         var r = this.renderTo;
         r.css('height', (jQuery(document.body).height()));
-
-        console.log(r.parent().outerHeight(true))
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
@@ -69,7 +63,7 @@ chess.WPEditor = new Class({
 
                             children: [
                                 {
-                                    title: 'Drafts',
+                                    title: chess.getPhrase('Game Drafts'),
                                     id:'draftsDockingView',
                                     type: 'FramedView',
                                     elCss:{
@@ -95,17 +89,26 @@ chess.WPEditor = new Class({
                                 {
                                     type: 'FramedView',
                                     layout: {
-                                        type: 'fill',
+                                        type: 'linear', orientation:'vertical',
                                         visible:true
                                     },
                                     elCss:{
                                         'border-left-width' : 0
                                     },
-                                    title: 'PGN Databases',
+                                    title: chess.getPhrase('PGN Databases'),
                                     children: [
                                         {
                                             type: 'chess.wordpress.PgnListView',
-                                            module: this.module
+                                            module: this.module,
+                                            layout:{
+                                                weight:1
+                                            }
+                                        },
+                                        {
+                                            type:'form.Button',
+                                            value:chess.getPhrase('New Database'),
+                                            submodule:'chess.newDatabaseButton',
+                                            module:this.module
                                         }
                                     ]
 
@@ -114,7 +117,7 @@ chess.WPEditor = new Class({
                                     type:'FramedView',
                                     module:this.module,
                                     submodule:'wordpress.gamelisttab',
-                                    title: 'Games',
+                                    title: chess.getPhrase('Games'),
                                     elCss:{
                                         'border-left-width' : 0
                                     },
@@ -145,6 +148,23 @@ chess.WPEditor = new Class({
                                             module:this.module,
                                             layout:{
                                                 weight:1
+                                            },
+                                            elCss:{
+                                                'border-bottom' : '1px solid ' + ludo.$C('border')
+                                            }
+                                        },
+                                        {
+                                            type:'form.Button',
+                                            module:this.module,
+                                            value:chess.getPhrase('Standings'),
+                                            submodule:'wordpress.standingsbutton',
+                                            listeners:{
+                                                rendered:function(){
+
+                                                    if(!this.controller.pgn){
+                                                        this.hide();
+                                                    }
+                                                }
                                             }
                                         }
                                     ]
@@ -272,7 +292,7 @@ chess.WPEditor = new Class({
                                         },
                                         imageDisabled: {
                                             fill: '#555',
-                                            'fill-opacity': 0.4,
+                                            'fill-opacity': 0.4
                                         }
                                     }
                                 },
@@ -310,18 +330,19 @@ chess.WPEditor = new Class({
                                             title: chess.getPhrase('Metadata'),
                                             module: this.module,
                                             type: 'chess.wordpress.GameMetadata'
-                                        },
+                                        }
                                         /*
                                         {
                                             title:'PGN',
                                             module:this.module,
                                             type:'chess.wordpress.PgnParserView'
-                                        }, */
+                                        },
                                         {
                                             title:'Standings',
                                             module:this.module,
                                             type:'chess.wordpress.PgnStandings'
                                         }
+                                         */
 
                                     ]
 
