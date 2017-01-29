@@ -17,7 +17,7 @@ class DhtmlChessPgn
 
     private $name;
     private $title;
-
+    private $updated;
 
     private function __construct($id)
     {
@@ -211,28 +211,30 @@ class DhtmlChessPgn
 
 
     public function getTitle(){
-        $this->loadTitleAndName();
+        $this->loadPgnData();
         return $this->title;
     }
 
     public function getName()
     {
 
-        $this->loadTitleAndName();
+        $this->loadPgnData();
         return $this->name;
     }
 
-    private function loadTitleAndName(){
+    private function loadPgnData(){
         if (empty($this->name)) {
             $query = $this->wpdb->prepare("SELECT "
                 . DhtmlChessDatabase::COL_ID . ", "
                 . DhtmlChessDatabase::COL_PGN_NAME . ","
+                . DhtmlChessDatabase::COL_UPDATED . ","
                 . DhtmlChessDatabase::COL_TITLE
                 . " FROM " . DhtmlChessDatabase::TABLE_PGN . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $this->id);
             $row = $this->wpdb->get_row($query);
             if (!empty($row)) {
                 $this->name = $row->{DhtmlChessDatabase::COL_PGN_NAME};
                 $this->title = $row->{DhtmlChessDatabase::COL_TITLE};
+                $this->updated = $row->{DhtmlChessDatabase::COL_UPDATED};
             }
 
         }
@@ -341,6 +343,13 @@ class DhtmlChessPgn
         $query = $this->wpdb->prepare("SELECT COUNT(" . DhtmlChessDatabase::COL_ID . ") as count FROM " . DhtmlChessDatabase::TABLE_GAME . " WHERE " . DhtmlChessDatabase::COL_PGN_ID . " = '%d'", $this->id);
         $row = $this->wpdb->get_row($query);
         return isset($row) && $row->count > 0 ? $row->count : 0;
+    }
+
+
+    public function updatedDate(){
+        $this->loadPgnData();
+        return $this->updated;
+
     }
 
 

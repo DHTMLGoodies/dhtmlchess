@@ -343,14 +343,16 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $cache->putInCache("alf", "magne");
 
         // then
-        $this->assertEquals("magne", $cache->getFromCache("alf"));
+        $row = $cache->getFromCache("alf");
+        $this->assertEquals("magne", $row->{DhtmlChessDatabase::COL_CACHE_VALUE});
 
         // when
         $cache->putInCache("alf", "kalleland");
 
 
         // then
-        $this->assertEquals("kalleland", $cache->getFromCache("alf"));
+        $row = $cache->getFromCache("alf");
+        $this->assertEquals("kalleland", $row->{DhtmlChessDatabase::COL_CACHE_VALUE});
 
         // when
         $cache->clear("alf");
@@ -711,7 +713,100 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @test
+     */
+    public function shouldFindStandings(){
+        /*
+         * 1	GM	Adams, Michael	ENG	2748	 	0	½	½	1	½	½	½	½	0	 	4	2746
+2	GM	So, Wesley	USA	2794	1	 	½	½	1	½	½	½	1	½	 	6	2909
+3	GM	Giri, Anish	NED	2771	½	½	 	½	½	½	½	½	½	½	 	4½	2787
+4	GM	Anand, Viswanathan	IND	2779	½	½	½	 	1	½	½	1	0	½	 	5	2829
+5	GM	Topalov, Veselin	BUL	2760	0	0	½	0	 	0	0	½	0	1	 	2	2568
+6	GM	Kramnik, Vladimir	RUS	2809	½	½	½	½	1	 	½	½	½	½	 	5	2826
+7	GM	Caruana, Fabiano	USA	2823	½	½	½	½	1	½	 	½	1	½	 	5½	2861
+8	GM	Vachier-Lagrave, Maxime	FRA	2804	½	½	½	0	½	½	½	 	0	1	 	4	2740
+9	GM	Nakamura, Hikaru	USA	2779	½	0	½	1	1	½	0	1	 	½	 	5	2829
+10	GM	Aronian, Levon	ARM	2785	1	½	½	½	0	½	½	0	½	 	 	4	2742
 
+
+
+         */
+        $this->database->import('lcc2016.pgn');
+
+        // when
+        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = json_decode($standings, true);
+
+        // then
+        $this->assertTrue(is_array($standings));
+        $this->assertEquals(10, count($standings));
+
+        $player = $this->findInStandings('So, Wesley', $standings);
+        $this->assertNotNull($player);
+        $this->assertEquals(3, $player['w'], json_encode($player));
+        $this->assertEquals(6, $player['d']);
+        $this->assertEquals(0, $player['l']);
+
+        $player = $this->findInStandings('Topalov, Veselin', $standings);
+        $this->assertNotNull($player);
+        $this->assertEquals(1, $player['w'], json_encode($player));
+        $this->assertEquals(2, $player['d']);
+        $this->assertEquals(6, $player['l']);
+
+        // when
+        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = json_decode($standings, true);
+        // then
+        $this->assertTrue(is_array($standings));
+        $this->assertEquals(10, count($standings));
+
+        $player = $this->findInStandings('So, Wesley', $standings);
+        $this->assertNotNull($player);
+        $this->assertEquals(3, $player['w'], json_encode($player));
+        $this->assertEquals(6, $player['d']);
+        $this->assertEquals(0, $player['l']);
+
+        $player = $this->findInStandings('Topalov, Veselin', $standings);
+        $this->assertNotNull($player);
+        $this->assertEquals(1, $player['w'], json_encode($player));
+        $this->assertEquals(2, $player['d']);
+        $this->assertEquals(6, $player['l']);
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetStandingsFromCache(){
+        $this->database->import('lcc2016.pgn');
+
+
+        $s = microtime(true);
+
+        // when
+        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = json_decode($standings, true);
+
+        $elapsed1 = microtime(true) - $s;
+
+        $s = microtime(true);
+        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = json_decode($standings, true);
+        $elapsed2 = microtime(true) - $s;
+
+        echo $elapsed1 . " vs ". $elapsed2."\n";
+        $this->assertTrue($elapsed2/2 < $elapsed1, $elapsed1 . " vs ". $elapsed2 );
+
+
+    }
+
+    private function findInStandings($player, $standings){
+        foreach($standings as $entry){
+            if($entry['player'] == $player)return $entry;
+        }
+        return null;
+    }
 
     public function shouldBeAbleToRenamePgn()
     {
@@ -747,6 +842,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $results = $this->wpdb->get_results($query);
         return count($results);
     }
+
 
 
     private $gameData = '{"metadata":{"castle":1},"event":"?","site":"Amsterdam","date":"1889.??.??","round":"?","white":"Lasker,Em","black":"Bauer,I","result":"1-0","fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1","moves":[{"m":"f4","from":"f2","to":"f4","fen":"rnbqkbnr\/pppppppp\/8\/8\/5P2\/8\/PPPPP1PP\/RNBQKBNR b KQkq f3 0 1"},{"m":"d5","from":"d7","to":"d5","fen":"rnbqkbnr\/ppp1pppp\/8\/3p4\/5P2\/8\/PPPPP1PP\/RNBQKBNR w KQkq d6 0 2"},{"m":"e3","from":"e2","to":"e3","fen":"rnbqkbnr\/ppp1pppp\/8\/3p4\/5P2\/4P3\/PPPP2PP\/RNBQKBNR b KQkq - 0 2"},{"m":"Nf6","from":"g8","to":"f6","fen":"rnbqkb1r\/ppp1pppp\/5n2\/3p4\/5P2\/4P3\/PPPP2PP\/RNBQKBNR w KQkq - 1 3"},{"m":"b3","from":"b2","to":"b3","fen":"rnbqkb1r\/ppp1pppp\/5n2\/3p4\/5P2\/1P2P3\/P1PP2PP\/RNBQKBNR b KQkq - 0 3"},{"m":"e6","from":"e7","to":"e6","fen":"rnbqkb1r\/ppp2ppp\/4pn2\/3p4\/5P2\/1P2P3\/P1PP2PP\/RNBQKBNR w KQkq - 0 4"},{"m":"Bb2","from":"c1","to":"b2","fen":"rnbqkb1r\/ppp2ppp\/4pn2\/3p4\/5P2\/1P2P3\/PBPP2PP\/RN1QKBNR b KQkq - 1 4"},{"m":"Be7","from":"f8","to":"e7","fen":"rnbqk2r\/ppp1bppp\/4pn2\/3p4\/5P2\/1P2P3\/PBPP2PP\/RN1QKBNR w KQkq - 2 5"},{"m":"Bd3","from":"f1","to":"d3","fen":"rnbqk2r\/ppp1bppp\/4pn2\/3p4\/5P2\/1P1BP3\/PBPP2PP\/RN1QK1NR b KQkq - 3 5"},{"m":"b6","from":"b7","to":"b6","fen":"rnbqk2r\/p1p1bppp\/1p2pn2\/3p4\/5P2\/1P1BP3\/PBPP2PP\/RN1QK1NR w KQkq - 0 6"},{"m":"Nf3","from":"g1","to":"f3","fen":"rnbqk2r\/p1p1bppp\/1p2pn2\/3p4\/5P2\/1P1BPN2\/PBPP2PP\/RN1QK2R b KQkq - 1 6"},{"m":"Bb7","from":"c8","to":"b7","fen":"rn1qk2r\/pbp1bppp\/1p2pn2\/3p4\/5P2\/1P1BPN2\/PBPP2PP\/RN1QK2R w KQkq - 2 7"},{"m":"Nc3","from":"b1","to":"c3","fen":"rn1qk2r\/pbp1bppp\/1p2pn2\/3p4\/5P2\/1PNBPN2\/PBPP2PP\/R2QK2R b KQkq - 3 7"},{"m":"Nbd7","from":"b8","to":"d7","fen":"r2qk2r\/pbpnbppp\/1p2pn2\/3p4\/5P2\/1PNBPN2\/PBPP2PP\/R2QK2R w KQkq - 4 8"},{"m":"O-O","from":"e1","to":"g1","fen":"r2qk2r\/pbpnbppp\/1p2pn2\/3p4\/5P2\/1PNBPN2\/PBPP2PP\/R2Q1RK1 b kq - 5 8"},{"m":"O-O","from":"e8","to":"g8","fen":"r2q1rk1\/pbpnbppp\/1p2pn2\/3p4\/5P2\/1PNBPN2\/PBPP2PP\/R2Q1RK1 w - - 6 9"},{"m":"Ne2","from":"c3","to":"e2","fen":"r2q1rk1\/pbpnbppp\/1p2pn2\/3p4\/5P2\/1P1BPN2\/PBPPN1PP\/R2Q1RK1 b - - 7 9"},{"m":"c5","from":"c7","to":"c5","fen":"r2q1rk1\/pb1nbppp\/1p2pn2\/2pp4\/5P2\/1P1BPN2\/PBPPN1PP\/R2Q1RK1 w - c6 0 10"},{"m":"Ng3","from":"e2","to":"g3","fen":"r2q1rk1\/pb1nbppp\/1p2pn2\/2pp4\/5P2\/1P1BPNN1\/PBPP2PP\/R2Q1RK1 b - - 1 10"},{"m":"Qc7","from":"d8","to":"c7","fen":"r4rk1\/pbqnbppp\/1p2pn2\/2pp4\/5P2\/1P1BPNN1\/PBPP2PP\/R2Q1RK1 w - - 2 11"},{"m":"Ne5","from":"f3","to":"e5","fen":"r4rk1\/pbqnbppp\/1p2pn2\/2ppN3\/5P2\/1P1BP1N1\/PBPP2PP\/R2Q1RK1 b - - 3 11"},{"m":"Nxe5","from":"d7","to":"e5","fen":"r4rk1\/pbq1bppp\/1p2pn2\/2ppn3\/5P2\/1P1BP1N1\/PBPP2PP\/R2Q1RK1 w - - 0 12"},{"m":"Bxe5","from":"b2","to":"e5","fen":"r4rk1\/pbq1bppp\/1p2pn2\/2ppB3\/5P2\/1P1BP1N1\/P1PP2PP\/R2Q1RK1 b - - 0 12"},{"m":"Qc6","from":"c7","to":"c6","fen":"r4rk1\/pb2bppp\/1pq1pn2\/2ppB3\/5P2\/1P1BP1N1\/P1PP2PP\/R2Q1RK1 w - - 1 13"},{"m":"Qe2","from":"d1","to":"e2","fen":"r4rk1\/pb2bppp\/1pq1pn2\/2ppB3\/5P2\/1P1BP1N1\/P1PPQ1PP\/R4RK1 b - - 2 13"},{"m":"a6","from":"a7","to":"a6","fen":"r4rk1\/1b2bppp\/ppq1pn2\/2ppB3\/5P2\/1P1BP1N1\/P1PPQ1PP\/R4RK1 w - - 0 14"},{"m":"Nh5","from":"g3","to":"h5","fen":"r4rk1\/1b2bppp\/ppq1pn2\/2ppB2N\/5P2\/1P1BP3\/P1PPQ1PP\/R4RK1 b - - 1 14"},{"m":"Nxh5","from":"f6","to":"h5","fen":"r4rk1\/1b2bppp\/ppq1p3\/2ppB2n\/5P2\/1P1BP3\/P1PPQ1PP\/R4RK1 w - - 0 15"},{"m":"Bxh7+","from":"d3","to":"h7","fen":"r4rk1\/1b2bppB\/ppq1p3\/2ppB2n\/5P2\/1P2P3\/P1PPQ1PP\/R4RK1 b - - 0 15"},{"m":"Kxh7","from":"g8","to":"h7","fen":"r4r2\/1b2bppk\/ppq1p3\/2ppB2n\/5P2\/1P2P3\/P1PPQ1PP\/R4RK1 w - - 0 16"},{"m":"Qxh5+","from":"e2","to":"h5","fen":"r4r2\/1b2bppk\/ppq1p3\/2ppB2Q\/5P2\/1P2P3\/P1PP2PP\/R4RK1 b - - 0 16"},{"m":"Kg8","from":"h7","to":"g8","fen":"r4rk1\/1b2bpp1\/ppq1p3\/2ppB2Q\/5P2\/1P2P3\/P1PP2PP\/R4RK1 w - - 1 17"},{"m":"Bxg7","from":"e5","to":"g7","fen":"r4rk1\/1b2bpB1\/ppq1p3\/2pp3Q\/5P2\/1P2P3\/P1PP2PP\/R4RK1 b - - 0 17"},{"m":"Kxg7","from":"g8","to":"g7","fen":"r4r2\/1b2bpk1\/ppq1p3\/2pp3Q\/5P2\/1P2P3\/P1PP2PP\/R4RK1 w - - 0 18"},{"m":"Qg4+","from":"h5","to":"g4","fen":"r4r2\/1b2bpk1\/ppq1p3\/2pp4\/5PQ1\/1P2P3\/P1PP2PP\/R4RK1 b - - 1 18"},{"m":"Kh7","from":"g7","to":"h7","fen":"r4r2\/1b2bp1k\/ppq1p3\/2pp4\/5PQ1\/1P2P3\/P1PP2PP\/R4RK1 w - - 2 19"},{"m":"Rf3","from":"f1","to":"f3","fen":"r4r2\/1b2bp1k\/ppq1p3\/2pp4\/5PQ1\/1P2PR2\/P1PP2PP\/R5K1 b - - 3 19"},{"m":"e5","from":"e6","to":"e5","fen":"r4r2\/1b2bp1k\/ppq5\/2ppp3\/5PQ1\/1P2PR2\/P1PP2PP\/R5K1 w - - 0 20"},{"m":"Rh3+","from":"f3","to":"h3","fen":"r4r2\/1b2bp1k\/ppq5\/2ppp3\/5PQ1\/1P2P2R\/P1PP2PP\/R5K1 b - - 1 20"},{"m":"Qh6","from":"c6","to":"h6","fen":"r4r2\/1b2bp1k\/pp5q\/2ppp3\/5PQ1\/1P2P2R\/P1PP2PP\/R5K1 w - - 2 21"},{"m":"Rxh6+","from":"h3","to":"h6","fen":"r4r2\/1b2bp1k\/pp5R\/2ppp3\/5PQ1\/1P2P3\/P1PP2PP\/R5K1 b - - 0 21"},{"m":"Kxh6","from":"h7","to":"h6","fen":"r4r2\/1b2bp2\/pp5k\/2ppp3\/5PQ1\/1P2P3\/P1PP2PP\/R5K1 w - - 0 22"},{"m":"Qd7","from":"g4","to":"d7","fen":"r4r2\/1b1Qbp2\/pp5k\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/R5K1 b - - 1 22"},{"m":"Bf6","from":"e7","to":"f6","fen":"r4r2\/1b1Q1p2\/pp3b1k\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/R5K1 w - - 2 23"},{"m":"Qxb7","from":"d7","to":"b7","fen":"r4r2\/1Q3p2\/pp3b1k\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/R5K1 b - - 0 23"},{"m":"Kg7","from":"h6","to":"g7","fen":"r4r2\/1Q3pk1\/pp3b2\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/R5K1 w - - 1 24"},{"m":"Rf1","from":"a1","to":"f1","fen":"r4r2\/1Q3pk1\/pp3b2\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/5RK1 b - - 2 24"},{"m":"Rab8","from":"a8","to":"b8","fen":"1r3r2\/1Q3pk1\/pp3b2\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/5RK1 w - - 3 25"},{"m":"Qd7","from":"b7","to":"d7","fen":"1r3r2\/3Q1pk1\/pp3b2\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/5RK1 b - - 4 25"},{"m":"Rfd8","from":"f8","to":"d8","fen":"1r1r4\/3Q1pk1\/pp3b2\/2ppp3\/5P2\/1P2P3\/P1PP2PP\/5RK1 w - - 5 26"},{"m":"Qg4+","from":"d7","to":"g4","fen":"1r1r4\/5pk1\/pp3b2\/2ppp3\/5PQ1\/1P2P3\/P1PP2PP\/5RK1 b - - 6 26"},{"m":"Kf8","from":"g7","to":"f8","fen":"1r1r1k2\/5p2\/pp3b2\/2ppp3\/5PQ1\/1P2P3\/P1PP2PP\/5RK1 w - - 7 27"},{"m":"fxe5","from":"f4","to":"e5","fen":"1r1r1k2\/5p2\/pp3b2\/2ppP3\/6Q1\/1P2P3\/P1PP2PP\/5RK1 b - - 0 27"},{"m":"Bg7","from":"f6","to":"g7","fen":"1r1r1k2\/5pb1\/pp6\/2ppP3\/6Q1\/1P2P3\/P1PP2PP\/5RK1 w - - 1 28"},{"m":"e6","from":"e5","to":"e6","fen":"1r1r1k2\/5pb1\/pp2P3\/2pp4\/6Q1\/1P2P3\/P1PP2PP\/5RK1 b - - 0 28"},{"m":"Rb7","from":"b8","to":"b7","fen":"3r1k2\/1r3pb1\/pp2P3\/2pp4\/6Q1\/1P2P3\/P1PP2PP\/5RK1 w - - 1 29"},{"m":"Qg6","from":"g4","to":"g6","fen":"3r1k2\/1r3pb1\/pp2P1Q1\/2pp4\/8\/1P2P3\/P1PP2PP\/5RK1 b - - 2 29"},{"m":"f6","from":"f7","to":"f6","fen":"3r1k2\/1r4b1\/pp2PpQ1\/2pp4\/8\/1P2P3\/P1PP2PP\/5RK1 w - - 0 30"},{"m":"Rxf6+","from":"f1","to":"f6","fen":"3r1k2\/1r4b1\/pp2PRQ1\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 b - - 0 30"},{"m":"Bxf6","from":"g7","to":"f6","fen":"3r1k2\/1r6\/pp2PbQ1\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 w - - 0 31"},{"m":"Qxf6+","from":"g6","to":"f6","fen":"3r1k2\/1r6\/pp2PQ2\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 b - - 0 31"},{"m":"Ke8","from":"f8","to":"e8","fen":"3rk3\/1r6\/pp2PQ2\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 w - - 1 32"},{"m":"Qh8+","from":"f6","to":"h8","fen":"3rk2Q\/1r6\/pp2P3\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 b - - 2 32"},{"m":"Ke7","from":"e8","to":"e7","fen":"3r3Q\/1r2k3\/pp2P3\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 w - - 3 33"},{"m":"Qg7+","from":"h8","to":"g7","fen":"3r4\/1r2k1Q1\/pp2P3\/2pp4\/8\/1P2P3\/P1PP2PP\/6K1 b - - 4 33"}]}';

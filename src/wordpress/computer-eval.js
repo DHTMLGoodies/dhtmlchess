@@ -58,6 +58,8 @@ chess.wordpress.ComputerEval = new Class({
     setController:function(controller){
         this.parent(controller);
         controller.on('engineupdate', this.receiveEngineUpdate.bind(this));
+        controller.on('fen', this.onPositionUpdate.bind(this));
+       // controller.on('nextmove', this.onNextMove.bind(this));
     },
 
     receiveEngineUpdate:function(move){
@@ -84,7 +86,10 @@ chess.wordpress.ComputerEval = new Class({
         this.child['eval'].html('Depth: ' + ply + '<br>Nodes/s: ' + nps + '<br><strong>' + s2 + '</strong>' + m);
         this.child['scoreBar'].setScore((s/1000));
 
-        if((Math.abs(s) / 1000) > 1900 )this.stopEngine();
+        if((Math.abs(s) / 1000) > 1900 ){
+            this.controller.sendMessage(chess.getPhrase('Engine stopped'));
+            this.stopEngine();
+        }
         
     },
 
@@ -93,6 +98,63 @@ chess.wordpress.ComputerEval = new Class({
         this.on('hide', this.stopEngine.bind(this));
 
         this.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
+    },
+
+    onNextMove:function(model, m){
+        console.log(arguments);
+
+        if(this.started &&  m.from){
+            var c = this.controller;
+
+            console.log(m);
+
+            var from = this.getXY(m.from);
+            var to = this.getXY(m.to);
+
+            var moves = GenerateValidMoves();
+
+            var move = null;
+            for (var i = 0; i < moves.length; i++) {
+                if ((moves[i] & 0xFF) == MakeSquare(from.y, from.x) &&
+                    ((moves[i] >> 8) & 0xFF) == MakeSquare(to.y, to.x)) {
+                    move = moves[i];
+                }
+            }
+
+            console.log(move);
+
+            if (move != null) {
+                c.engine.postMessage(FormatMove(move));
+                MakeMove(move);
+                c.searchAndRedraw.delay(20, c);
+            }
+
+
+        }
+    },
+    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+    getXY: function (square) {
+        var move = square
+        move = move.replace(/[^a-z0-9]/g, '');
+        var file = this.files.indexOf(move.substr(move.length - 2, 1));
+        var rank = move.substr(move.length - 1, 1) - 1;
+        return {
+            x: file,
+            y: 7 - rank
+        }
+    },
+
+    onPositionUpdate:function(model, fen){
+        if(this.started){
+            var c = this.controller;
+            c.ensureAnalysisStopped();
+            c.initializeBackgroundEngine();
+
+            c.engine.postMessage("position " + fen);
+            c.engine.postMessage("analyze");
+
+
+        }
     },
 
     toggleEngine:function(){
@@ -104,9 +166,12 @@ chess.wordpress.ComputerEval = new Class({
     },
 
     stopEngine:function(){
+        if(!this.started)return;
+
         this.controller.stopEngine();
         this.started = false;
         this.child['startStopEngine'].val('Start');
+        this.controller.sendMessage(chess.getPhrase('Engine stopped'))
     },
 
     startEngine:function(){

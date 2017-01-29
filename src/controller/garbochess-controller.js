@@ -75,6 +75,7 @@ chess.controller.GarboChessController = new Class({
                         if (move != null) {
                             this.engine.postMessage(FormatMove(move));
 
+
                             MakeMove(move);
 
                             this.searchAndRedraw.delay(20, this);

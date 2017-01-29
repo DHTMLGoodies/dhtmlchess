@@ -210,6 +210,7 @@ chess.WPEditor = new Class({
                                     labelEvenStyles: {
                                         'color': '#fff'
                                     },
+                                    labels:!ludo.isMobile,
                                     padding: ludo.isMobile ? '1%' : '3%',
                                     labelPos: ludo.isMobile ? 'inside' : 'outside',
                                     plugins: [
@@ -309,6 +310,11 @@ chess.WPEditor = new Class({
                                             title: chess.getPhrase('Metadata'),
                                             module: this.module,
                                             type: 'chess.wordpress.GameMetadata'
+                                        },
+                                        {
+                                            title:'PGN',
+                                            module:this.module,
+                                            type:'chess.wordpress.PgnParserView'
                                         }
 
                                     ]

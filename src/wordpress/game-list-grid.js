@@ -9,7 +9,7 @@ chess.wordpress.GameListGrid = new Class({
             action: 'list_of_games'
         }
     },
-
+    emptyText:chess.getPhrase('No games'),
     loadMessage: chess.getPhrase('Loading games...'),
 
     __rendered: function () {
@@ -22,7 +22,10 @@ chess.wordpress.GameListGrid = new Class({
     setController: function (controller) {
         this.parent(controller);
         controller.on('publish', function () {
-            this.getDataSource().load();
+            if(this.controller.pgn){
+
+                this.getDataSource().load();
+            }
         }.bind(this));
     },
 
@@ -35,6 +38,8 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
+            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn);
+
             this.getDataSource().postData.pgn = this.controller.pgn;
             this.getDataSource().load();
 

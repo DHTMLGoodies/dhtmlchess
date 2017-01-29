@@ -27,10 +27,13 @@ class DhtmlChessDatabase
     const COL_UPDATED = "updated";
     const COL_TITLE = "title";
 
+
+
     const COL_CACHE_KEY = "cache_key";
     const COL_CACHE_VALUE = "cache_val";
 
     const CACHE_PGN = "pgn";
+
 
     const KEY_PGN = "pgn";
     const KEY_DRAFT_ID = "draft_id";
@@ -142,6 +145,11 @@ class DhtmlChessDatabase
         return $importer->appendPgn($pgnPath, $toPgn);
     }
 
+    public function getStandings($pgn){
+        $standings = new DhtmlChessStandings();
+        return $standings->getStandings($pgn);
+    }
+
     public function countGamesInDatabase(){
         /**
          * @var wpdb $wpdb
@@ -151,6 +159,7 @@ class DhtmlChessDatabase
         $result = $wpdb->get_col($query, 0);
         return !empty($result) ? $result[0] : 0;
     }
+
 
 
     /**

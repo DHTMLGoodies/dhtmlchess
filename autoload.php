@@ -22,7 +22,7 @@ spl_autoload_register(
                 'author' => '/php/chessDB/ludoDB/examples/mod_rewrite/Author.php',
                 'availableservicestest' => '/php/chessDB/ludoDB/Tests/AvailableServicesTest.php',
                 'board0x88config' => '/php/parser/Board0x88Config.php',
-                'dhtmlchessdatabase' => '/php/wordpress/DhtmlChessDatabase.php',
+
 
                 'book' => '/php/chessDB/ludoDB/examples/mod_rewrite/Book.php',
                 'bookauthor' => '/php/chessDB/ludoDB/examples/mod_rewrite/BookAuthor.php',
@@ -211,6 +211,8 @@ spl_autoload_register(
                 'xhpprofiling' => '/php/chessDB/ludoDB/xhprof/XHPProfiling.php',
                 'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php',
 
+                'dhtmlchessdatabase' => '/php/wordpress/DhtmlChessDatabase.php',
+                'dhtmlchessstandings' => '/php/wordpress/DhtmlChessStandings.php',
                 'dhtmlchessimportpgn' => '/php/wordpress/DhtmlChessImportPgn.php',
                 'dhtmlchessinstaller' => '/php/wordpress/DhtmlChessInstaller.php',
                 'dhtmlchesspgn' => '/php/wordpress/DhtmlChessPgn.php',

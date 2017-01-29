@@ -1,4 +1,4 @@
-/* Generated Sat Jan 28 19:14:43 CET 2017 */
+/* Generated Sat Jan 28 20:54:01 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -39659,6 +39659,7 @@ chess.controller.AnalysisEngineController = new Class({
 
     playMove: function (move, pv) {
 
+        console.log(move);
         var fromX = this.files[(move & 0xF) - 4];
         var fromY = 8 - (((move >> 4) & 0xF) - 2);
         var toX = this.files[((move >> 8) & 0xF) - 4];
@@ -41860,7 +41861,9 @@ chess.wordpress.GameListGrid = new Class({
     setController: function (controller) {
         this.parent(controller);
         controller.on('publish', function () {
-            this.getDataSource().load();
+            if(this.controller.pgn){
+                this.getDataSource().load();
+            }
         }.bind(this));
     },
 

@@ -46,6 +46,7 @@ class DhtmlChessInstaller
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_CACHE . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_CACHE_KEY . ' varchar(255),'
+            . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,'
             . DhtmlChessDatabase::COL_CACHE_VALUE . ' mediumtext)');
 
 
@@ -55,7 +56,6 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_GAME . ' mediumtext, '
             . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
-
 
         $wpdb->query('create index wp_index_dhtml_chess_game_did on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ')');
         $wpdb->query('create index wp_index_dhtml_chess_game_pgn on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');

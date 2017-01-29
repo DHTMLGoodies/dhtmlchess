@@ -34,7 +34,7 @@ chess.view.highlight.ArrowBase = new Class({
 		if (this.getParent().ddEnabled) {
 			var pos = this.getParent().getBoard().offset();
 
-			var p = e.touches != undefined && e.touches.length> 0 ? e.touches[0] : e;
+			var p = ludo.util.pageXY(e);
 			var coords = {
 				x:p.pageX - pos.left,
 				y:p.pageY - pos.top

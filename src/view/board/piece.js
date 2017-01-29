@@ -186,7 +186,7 @@ chess.view.board.Piece = new Class({
             this.el.css('left', pos.left + 'px');
             this.el.css('top', pos.top + 'px');
 
-            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+            var p = ludo.util.pageXY(e);
 
             this.dd = {
                 active: true,
@@ -199,6 +199,11 @@ chess.view.board.Piece = new Class({
         }
         return undefined;
     },
+
+    pageXY:function(e){
+
+    },
+
     /**
      * Method executed when dragging has started and mouse moves
      * @method dragPiece
@@ -209,7 +214,8 @@ chess.view.board.Piece = new Class({
     dragPiece: function (e) {
 
         if (this.dd.active === true) {
-            var p = e.touches != undefined && e.touches.length > 0 ? e.touches[0] : e;
+
+            var p = ludo.util.pageXY(e);
             this.el.css(
                 {
                     left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
@@ -327,11 +333,7 @@ chess.view.board.Piece = new Class({
             this.el.css('-moz-background-size', 'cover');
             this.el.css('-o-background-size', 'cover');
             this.el.css('-webkit-background-size', 'cover');
-
-
         }
-
-
         this.bgUpdated = this.getColorCode() + this.getTypeCode();
 
     },

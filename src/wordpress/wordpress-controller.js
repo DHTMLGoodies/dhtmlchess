@@ -181,6 +181,8 @@ chess.wordpress.WordpressController = new Class({
             this.currentModel.setDefaultModel();
             this.currentModel.setPosition(fen);
             this.updateButtonVisibility();
+            this.views.metadata.show();
+
         }
     },
 
@@ -193,6 +195,7 @@ chess.wordpress.WordpressController = new Class({
         } else {
             this.currentModel.newGame();
             this.updateButtonVisibility();
+            this.views.metadata.show();
         }
     },
 
@@ -486,25 +489,6 @@ chess.wordpress.WordpressController = new Class({
             }.bind(this)
         });
 
-        /*
-         jQuery.post(ludo.config.getUrl(), {
-         action: 'save_game',
-         pgn: gameModel.pgn,
-         game: gameModel
-         }, function (data) {
-         this.enableButtons();
-         if (data.response) {
-         if (data.success) {
-         this.fireEvent('wpmessage', chess.getPhrase('Game Saved'));
-         this.fireEvent('publish');
-         this.currentModel.setClean();
-         } else {
-         this.fireEvent('wpmessage', chess.getPhrase(data.response));
-         }
-         }
-
-         }.bind(this));
-         */
 
     },
 
@@ -561,6 +545,10 @@ chess.wordpress.WordpressController = new Class({
             }.bind(this)
 
         });
+    },
+
+    sendMessage:function(message){
+        this.fireEvent('wpmessage', message);
     },
 
     disableButtons: function () {

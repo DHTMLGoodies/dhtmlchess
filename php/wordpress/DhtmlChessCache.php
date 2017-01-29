@@ -43,16 +43,20 @@ class DhtmlChessCache
                 '%s','%s'
             )
         );
-
     }
 
     public function getFromCache($key){
         $key = esc_sql($key);
         
-        $query = $this->wpdb->prepare("select ". DhtmlChessDatabase::COL_CACHE_VALUE. " from ". DhtmlChessDatabase::TABLE_CACHE
+        $query = $this->wpdb->prepare("select "
+            . DhtmlChessDatabase::COL_CACHE_VALUE .','
+            . DhtmlChessDatabase::COL_UPDATED
+            . " from ". DhtmlChessDatabase::TABLE_CACHE
             . " where ". DhtmlChessDatabase::COL_CACHE_KEY . "=%s ", $key);
-        $val = $this->wpdb->get_col($query, 0);
-
-        return !empty($val) ? $val[0] : null;
+        $row = $this->wpdb->get_row($query);
+        if(!empty($row)){
+            return $row;
+        }
+        return null;
     }
 }
