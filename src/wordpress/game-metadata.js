@@ -19,17 +19,14 @@ chess.wordpress.GameMetadata = new Class({
 
     setController:function(controller){
         this.parent(controller);
+        controller.on('newGame', this.populateForm.bind(this));
         controller.on('loadGame', this.populateForm.bind(this));
-        controller.on('newGame', this.populateDefault.bind(this));
 
     },
-
-    populateDefault:function(){
+    
+    populateForm:function(){
         this.getForm().clear();
         this.getForm().populate({'result' : '*'});
-    },
-
-    populateForm:function(){
         this.getForm().populate(this.controller.currentModel.getMetadata());
     },
 

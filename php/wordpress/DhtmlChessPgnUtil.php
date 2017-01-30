@@ -19,7 +19,7 @@ class DhtmlChessPgnUtil
         $testName = $name;
         $num = 1;
         while($this->exists($testName) && $num < 2000){
-            $testName = $name . "_". ($num++);
+            $testName = $name . "(". ($num++) . ')';
         }
         return $testName;
 

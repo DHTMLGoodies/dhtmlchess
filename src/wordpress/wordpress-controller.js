@@ -167,10 +167,14 @@ chess.wordpress.WordpressController = new Class({
                 },
                 listeners: {
                     'yes': function () {
-                        this.currentModel.setDefaultModel();
+
+                        this.currentModel.newGame();
                         if (this.newGameFen) {
                             this.currentModel.setPosition(this.newGameFen);
                         }
+
+                        this.updateButtonVisibility();
+                        
                     }.bind(this),
                     'no': function () {
 

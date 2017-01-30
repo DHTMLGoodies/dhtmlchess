@@ -47,9 +47,11 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         global $wpdb;
         $wpdb = new wpdb("root", "", "wordpress", "localhost");
-
         $database = new DhtmlChessDatabase();
+        $database->uninstall();
+        $database->install();
         $database->import("greatgames.pgn");
+        $database->import("lcc2016.pgn");
         $database->import("../../../pgn/tactic-checkmates.pgn");
     }
 
@@ -71,7 +73,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->wpdb->insert(
             DhtmlChessDatabase::TABLE_PGN,
             array(
-                DhtmlChessDatabase::COL_PGN_NAME => 'greatgames_1'
+                DhtmlChessDatabase::COL_PGN_NAME => 'greatgames(1)'
             ),
             array(
                 '%s'
@@ -83,7 +85,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $uniqueName = $dbPgn->getUniqueName('../../pgn/greatgames.pgn');
 
         // then
-        $this->assertEquals('greatgames_2', $uniqueName);
+        $this->assertEquals('greatgames(2)', $uniqueName);
 
 
     }

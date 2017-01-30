@@ -1,27 +1,28 @@
 chess.wordpress.PgnListView = new Class({
     Extends: ludo.ListView,
-    swipable:true,
+    swipable: true,
     submodule: 'wordpress.pgnlistview',
 
-    emptyText:chess.getPhrase('No Databases found'),
+    emptyText: chess.getPhrase('No Databases found'),
 
     itemRenderer: function (record) {
-        return '<div>'
-            + '<div style="clear:both"><strong>' + record.pgn_name + ' (ID: ' + record.id + ')</strong></div>'
-            + '<div style="text-align:left;font-size:0.8em;width:50%;">Updated: ' + record.updated + '</div>'
-            + '<div style="text-align:right;font-size:0.8em;width:50%">Games: ' + record.count + '</div>'
+        return '<div class="pgn_list_item">'
+            + '<div class="pgn_list_name"><strong>' + record.pgn_name + '</strong></div>'
+            + '<div class="pgn_list_pgn_id">ID: ' + record.id + '</div>'
+            + '<div class="pgn_list_count_games">Games: ' + record.count + '</div>'
+            + '<div class="pgn_list_updated">Updated: ' + record.updated + '</div>'
             + '</div>';
 
     },
 
     /** Function returning back side when swiping to the left */
-    backSideLeft:function(record){
+    backSideLeft: function (record) {
         return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Archive Database') + '</div>';
     },
 
     /** Function returning UNDO html after swipe. If not set, the swipe event will be triggered immediately */
-    backSideUndo:function(record){
-        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">'+ chess.getPhrase('Undo') + '</div>';
+    backSideUndo: function (record) {
+        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Undo') + '</div>';
     },
 
     __construct: function (config) {
@@ -32,27 +33,27 @@ chess.wordpress.PgnListView = new Class({
             }
         };
         this.parent(config);
-        this.on('swipe', function(record){
+        this.on('swipe', function (record) {
             jQuery.ajax({
                 url: ludo.config.getUrl(),
                 method: 'post',
                 dataType: 'json',
                 cache: false,
-                data:{
-                    action:'archive_pgn',
-                    pgn:record.id
+                data: {
+                    action: 'archive_pgn',
+                    pgn: record.id
                 },
-                complete:function(response, success){
-                    if(success){
+                complete: function (response, success) {
+                    if (success) {
                         var json = response.responseJSON;
-                        if(json.success){
+                        if (json.success) {
                             this.getDataSource().remove(record);
                             this.controller.sendMessage(chess.getPhrase('PGN archived'));
-                        }else{
+                        } else {
                             this.controller.sendError('Unable to Archive: ' + json.response);
                             this.undoSwipe(record);
                         }
-                    }else{
+                    } else {
                         this.controller.sendError(response.responseText);
                         this.undoSwipe(record);
                     }

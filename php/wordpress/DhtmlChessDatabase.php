@@ -11,7 +11,6 @@ class DhtmlChessDatabase
 
     const TABLE_PGN = 'dhtml_chess_pgn';
     const TABLE_GAME = 'dhtml_chess_game';
-    const TABLE_GAME_LIST = 'dhtml_chess_game_list';
     const TABLE_CACHE = "dhtml_chess_cache";
     const TABLE_DRAFT = "dhtml_chess_game_draft";
 

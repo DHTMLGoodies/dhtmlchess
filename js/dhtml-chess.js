@@ -1,4 +1,4 @@
-/* Generated Sun Jan 29 3:47:17 CET 2017 */
+/* Generated Mon Jan 30 3:33:54 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -18621,6 +18621,9 @@ ludo.grid.Grid = new Class({
 
         this.setConfigParams(config, ['columns','fill','headerMenu','columnManager','rowManager','mouseOverEffect','emptyText','highlightRecord']);
 
+		if(this.columns == undefined){
+			this.columns = this.__columns();
+		}
 		if(this.columnManager){
 			ludo.util.warn('Deprecated columnManager used, use columns instead');
 		}
@@ -18655,6 +18658,10 @@ ludo.grid.Grid = new Class({
 
 		this.uniqueId = String.uniqueID();
 
+	},
+
+	__columns:function(){
+		return undefined;
 	},
 
 	ludoDOM:function () {
@@ -28618,6 +28625,8 @@ ludo.ListView = new Class({
 
     renderedMap: undefined,
 
+    swipeEnded:0,
+
     __construct: function (config) {
         this.parent(config);
         this.setConfigParams(config, ['swipable', 'itemRenderer', 'backSideLeft', 'backSideRight', 'backSideUndo', 'undoTimeout']);
@@ -28716,6 +28725,11 @@ ludo.ListView = new Class({
         var pos = el.position();
         var width = el.outerWidth(true);
 
+        this.swipeEnded = 0;
+
+        var minX = this.backSideRight != undefined ? -width + pos.left : pos.left;
+        var maxX = this.backSideLeft != undefined ? width - pos.left : pos.left;
+
         this.dragAttr = {
             backLeft: el.parent().find('.ludo-list-item-back-left'),
             backRight: el.parent().find('.ludo-list-item-back-right'),
@@ -28725,8 +28739,8 @@ ludo.ListView = new Class({
             mouse: p,
             el: el,
             parent: this.getRecordDOM(e.target),
-            minX: -width + pos.left,
-            maxX: width - pos.left,
+            minX: minX,
+            maxX: maxX,
             lastX: pos.left,
             dragged:false
         };
@@ -28746,6 +28760,8 @@ ludo.ListView = new Class({
             return undefined;
         }
 
+
+
         x = ludo.util.clamp(x, this.dragAttr.minX, this.dragAttr.maxX);
         var zl, zr;
         if (x > 0 && this.dragAttr.lastX <= 0) {
@@ -28761,6 +28777,9 @@ ludo.ListView = new Class({
         this.dragAttr.el.css('left', x);
         this.dragAttr.dragged = true;
 
+        if(this.swipeEnded > 0 || Math.abs(p.x - this.dragAttr.mouse.x) > 5 ){
+            this.swipeEnded = new Date().getTime();
+        }
 
         return false;
     },
@@ -28774,6 +28793,8 @@ ludo.ListView = new Class({
 
     dragEnd: function () {
         if (this.dragAttr == undefined)return;
+
+        if(this.swipeEnded)this.swipeEnded = new Date().getTime();
 
         var center = this.dragAttr.el.outerWidth(true) / 2;
         var pos = this.dragAttr.el.position();
@@ -28835,6 +28856,10 @@ ludo.ListView = new Class({
         });
 
         this.recordMap[uid] = undefined;
+
+        if (!this.dataSourceObj || !this.dataSourceObj.hasData()) {
+            this.showEmptyText();
+        }
     },
 
     resize: function (size) {
@@ -28879,7 +28904,7 @@ ludo.ListView = new Class({
             this.renderItem(i, item, html, b);
 
         }.bind(this));
-        
+
 
         var selected = this.getDataSource().getSelectedRecord();
         if (selected) {
@@ -29072,6 +29097,8 @@ ludo.ListView = new Class({
     },
 
     onClick: function (e) {
+        var n = new Date().getTime();
+        if(n - this.swipeEnded < 50)return;
         var recId = this.getRecordId(jQuery(e.target));
         if (recId)this.getDataSource().getRecord(recId).select();
     }
@@ -33459,40 +33486,58 @@ chess.view.gamelist.Grid = new Class({
             heading: chess.getPhrase('White'),
             key: 'white',
             width: 120,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         black: {
             heading: chess.getPhrase('Black'),
             key: 'black',
             width: 120,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         round: {
             heading: chess.getPhrase('Round'),
             key: 'round',
             width: 50,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         result: {
             heading: chess.getPhrase('Result'),
             key: 'result',
             width: 50,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         event: {
             heading: chess.getPhrase('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         last_moves: {
             heading: chess.getPhrase('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         }
 
     },
@@ -33543,16 +33588,11 @@ chess.view.gamelist.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
-        if (config.cols) {
+        var cols = config.cols || this.cols;
+        if (cols) {
             this.getColumnManager().hideAllColumns();
-            for (var i = 0; i < config.cols.length; i++) {
-                this.getColumnManager().showColumn(config.cols[i]);
-            }
-        }
-
-        for (var key in this.columns) {
-            if (this.columns.hasOwnProperty(key)) {
-                this.columns[key].heading = chess.getPhrase(this.columns[key].heading);
+            for (var i = 0; i < cols.length; i++) {
+                this.getColumnManager().showColumn(cols[i]);
             }
         }
     },
@@ -39976,6 +40016,7 @@ chess.model.Game = new Class({
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
+        console.log(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
@@ -39998,7 +40039,7 @@ chess.model.Game = new Class({
     },
 
     reservedMetadata: ["event", "site", "date", "round", "white", "black", "result",
-        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "draft_id"],
+        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object
@@ -40006,6 +40047,9 @@ chess.model.Game = new Class({
      *
      */
     getValidGameData: function (gameData) {
+        if(gameData.metadata && jQuery.isArray(gameData.metadata)){
+            gameData.metadata = {};
+        }
         gameData.metadata = gameData.metadata || {};
         for (var i = 0; i < this.reservedMetadata.length; i++) {
             var key = this.reservedMetadata[i];
@@ -41922,9 +41966,9 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
-            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn);
+            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
-            this.getDataSource().postData.pgn = this.controller.pgn;
+            this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
         }

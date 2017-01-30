@@ -39,11 +39,6 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
-        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_GAME_LIST . '('
-            . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
-            . DhtmlChessDatabase::COL_PGN_ID . ' int REFERENCES ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ID . ') on delete cascade,'
-            . DhtmlChessDatabase::COL_DATA . ' mediumtext)');
-
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_CACHE . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_CACHE_KEY . ' varchar(255),'
@@ -61,7 +56,6 @@ class DhtmlChessInstaller
         $wpdb->query('create index wp_index_dhtml_chess_pgn_arc on ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ARCHIVED . ')');
         $wpdb->query('create index wp_index_dhtml_chess_game_did on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ')');
         $wpdb->query('create index wp_index_dhtml_chess_game_pgn on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');
-        $wpdb->query('create index wp_index_dhtml_chess_gamelist_pgn on ' . DhtmlChessDatabase::TABLE_GAME_LIST . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');
         $wpdb->query('create index wp_index_dhtml_chess_cache_key on ' . DhtmlChessDatabase::TABLE_CACHE . '(' . DhtmlChessDatabase::COL_CACHE_KEY . ')');
 
         if(!self::$testMode){
@@ -85,7 +79,6 @@ class DhtmlChessInstaller
         
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_GAME);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_PGN);
-        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_GAME_LIST);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_CACHE);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
     }
