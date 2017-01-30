@@ -157,24 +157,31 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
         $this->database->import('onegame.pgn');
 
-        $this->database->listOfGames("fivegames");
-        $this->database->listOfGames("onegame");
+        $this->database->listOfGames(1);
+        $this->database->listOfGames(2);
 
-        $secondGame = $this->database->gameByIndex('fivegames', 1);
+        $secondGame = $this->database->gameByIndex(1, 1);
         $secondGame = json_decode($secondGame, true);
+        $this->assertEquals(1, $secondGame['pgn_id']);
 
         $this->assertNotEmpty($secondGame['id']);
 
         $this->assertEquals('fivegames', $secondGame['pgn']);
 
-        $this->database->moveGame($secondGame['id'], 'onegame');
+        $this->database->moveGame($secondGame['id'], 2);
 
 
-        $this->assertArrayLength($this->database->listOfGames('onegame'), 2);
-        $this->assertArrayLength($this->database->listOfGames('fivegames'), 4);
+        $this->assertArrayLength($this->database->listOfGames(1), 4);
+        $this->assertArrayLength($this->database->listOfGames(2), 2);
 
         $this->assertEquals(4, $this->countCached('fivegames'));
         $this->assertEquals(2, $this->countCached('onegame'));
+
+
+        $secondGame = $this->database->gameByIndex(2, 1);
+        $secondGame = json_decode($secondGame, true);
+        $this->assertEquals(2, $secondGame['pgn_id']);
+
     }
 
     private function assertArrayLength($json, $length)
@@ -210,7 +217,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
 
         // when
-        $game = $this->database->gameByIndex("fivegames", 1);
+        $game = $this->database->gameByIndex(1, 1);
         $game = json_decode($game, true);
 
         // then
@@ -228,10 +235,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
 
         // when
-        $game = $this->database->randomGame("fivegames");
+        $game = $this->database->randomGame(1);
 
         // then
         $this->assertNotEmpty($game);
+        $game = json_decode($game, true);
+        $this->assertEquals(1, $game['pgn_id']);
 
     }
 
@@ -269,7 +278,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
         $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
 
-        $game = $this->database->gameByIndex("fivegames", 1);
+        $game = $this->database->gameByIndex(1, 1);
 
         $game = json_decode($game, true);
 
@@ -277,12 +286,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($game[DhtmlChessDatabase::COL_ID]);
         $id = $game[DhtmlChessDatabase::COL_ID];
 
-        $this->assertNotNull($this->database->gameById("fivegames", $id));
+        $this->assertNotNull($this->database->gameById(1, $id));
 
-        $this->database->deleteGame("fivegames", $id);
+        $this->database->deleteGame(1, $id);
 
 
-        $games = $this->database->listOfGames("fivegames");
+        $games = $this->database->listOfGames(1);
         $games = json_decode($games, true);
 
         $this->assertEquals(4, count($games));
@@ -354,15 +363,15 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     {
 
         $this->database->import('fivegames.pgn');
-        $db = DhtmlChessPgn::instanceByName('fivegames.pgn');
+        $db = DhtmlChessPgn::instanceById(1);
 
         $db->listOfGames();
-        $game = $this->database->gameByIndex("fivegames", 1);
+        $game = $this->database->gameByIndex(1, 1);
         $game = json_decode($game, true);
 
         $game["event"] = "alfmagne";
 
-        $this->assertTrue($db->updateGame(json_encode($game)));
+        $this->assertTrue($this->database->updateGame(1, json_encode($game)));
 
         $game = $db->gameByIndex(1);
         $game = json_decode($game, true);
@@ -405,13 +414,13 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('fivegames.pgn');
         $this->database->import('onegame.pgn');
 
-        $game = $this->database->gameByIndex("onegame", 0);
+        $game = $this->database->gameByIndex(2, 0);
 
         $this->assertNotNull($game);
-        $this->database->appendGame("fivegames", $game);
+        $this->database->appendGame(1, $game);
 
         // then
-        $this->assertEquals(6, $this->database->countGames("fivegames"));
+        $this->assertEquals(6, $this->database->countGames(1));
     }
 
     /**
@@ -421,9 +430,10 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     {
         $this->database->import('onegame.pgn');
 
-        $game = $this->database->gameByIndex("onegame", 0);
+        $game = $this->database->gameByIndex(1, 0);
         $game = json_decode($game, true);
 
+        $this->assertEquals(1, $game['pgn_id']);
         $this->assertEquals('onegame', $game['pgn']);
 
     }
@@ -434,27 +444,19 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     public function shouldBeAbleToAppendPgnToPgn()
     {
         $this->database->import('fivegames.pgn');
-        $this->database->listOfGames("fivegames");
+        $this->database->listOfGames(1);
 
         $this->assertEquals(5, $this->countCached("fivegames"));
 
-        $this->database->appendPgn('fivegames.pgn', 'fivegames');
+        $this->database->appendPgn('fivegames.pgn', 1);
 
         // then
-        $this->assertEquals(10, $this->database->countGames("fivegames"));
-        $games = $this->database->listOfGames("fivegames");
+        $this->assertEquals(10, $this->database->countGames(1));
+        $games = $this->database->listOfGames(1);
         $games = json_decode($games, true);
         $this->assertEquals(10, count($games));
         $this->assertEquals(10, $this->countCached("fivegames"));
 
-    }
-    
-    private function countPgns()
-    {
-        $list = new DhtmlChessPgnList();
-        $games = $list->getPgns();
-        $games = json_decode($games, true);
-        return count($games);
     }
 
     private function countCached($pgn)
@@ -481,7 +483,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->listOfPgns();
 
 
-        $countDeleted = $this->database->deletePgn("onegame.pgn");
+        $countDeleted = $this->database->deletePgn(2);
 
         $this->assertEquals(1, $countDeleted);
 
@@ -510,7 +512,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->countDuplicatePgns("fivegames"));
         $this->assertEquals(3, $this->countPgnsDb());
 
-        $count = $this->database->countGames("fivegames_1");
+        $count = $this->database->countGames(1);
         $this->assertEquals(5, $count);
 
     }
@@ -645,12 +647,12 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $draft = $this->database->getDraft($draftId);
 
         // when
-        $this->database->publishDraft($draft, "fivegames");
+        $this->database->publishDraft($draft, 1);
 
         $this->assertEquals(1, $this->database->countDrafts());
-        $this->assertEquals(6, $this->database->countGames("fivegames"));
+        $this->assertEquals(6, $this->database->countGames(1));
 
-        $game = $this->database->gameByIndex("fivegames", 5);
+        $game = $this->database->gameByIndex(1, 5);
         $game = json_decode($game, true);
 
         $this->assertEquals("game2", $game["white"]);
@@ -674,13 +676,24 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $draft = $this->database->getDraft($draftId);
 
         // when
-        $this->database->publishDraft($draft, "newpgn");
+        $this->database->publishDraftInNewDatabase($draft, "newpgn");
 
         $this->assertEquals(1, $this->database->countDrafts());
-        $this->assertEquals(1, $this->database->countGames("newpgn"));
+        $this->assertEquals(1, $this->database->countGames(2));
 
     }
 
+    /**
+     * @test
+     */
+    public function importShouldReturnPgnInstance(){
+        // given
+        $pgn = $this->database->import('onegame.pgn');
+        
+        // then
+        $this->assertInstanceOf(DhtmlChessPgn::class, $pgn);
+    }
+    
     /**
      * @test
      */
@@ -703,7 +716,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('lcc2016.pgn');
 
         // when
-        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = $this->database->getStandings(1);
         $standings = json_decode($standings, true);
 
         // then
@@ -723,7 +736,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(6, $player['l']);
 
         // when
-        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = $this->database->getStandings(1);
         $standings = json_decode($standings, true);
         // then
         $this->assertTrue(is_array($standings));
@@ -767,7 +780,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(3, count($list));
 
-        $this->database->archivePgn('fivegames');
+        $this->database->archivePgn(2);
 
         $list = $this->database->listOfPgns();
         $list = json_decode($list, true);
@@ -779,6 +792,33 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1, count($archived));
     }
 
+    public function shouldBeAbleToRestoreArchivedPgn(){
+        $this->database->import('lcc2016.pgn');
+        $this->database->import('fivegames.pgn');
+        $this->database->import('onegame.pgn');
+
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+
+        $this->assertEquals(3, count($list));
+
+        $this->database->archivePgn(2);
+
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+
+        $this->assertEquals(2, count($list));
+        
+        // when
+        $this->database->restoreArchived(2);
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+
+        $this->assertEquals(3, count($list));
+        
+        
+    }
+    
     /**
      * @test
      */
@@ -804,13 +844,13 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $s = microtime(true);
 
         // when
-        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = $this->database->getStandings(1);
         json_decode($standings, true);
 
         $elapsed1 = microtime(true) - $s;
 
         $s = microtime(true);
-        $standings = $this->database->getStandings("lcc2016.pgn");
+        $standings = $this->database->getStandings(1);
         json_decode($standings, true);
         $elapsed2 = microtime(true) - $s;
 

@@ -86,7 +86,13 @@ chess.wordpress.WordpressController = new Class({
                 case 'wordpress.newgame':
                     view.on('click', this.onNewGameClick.bind(this));
                     break;
-
+                case 'chess.newDatabaseButton':
+                    view.on('click', this.showNewDatabaseDialog.bind(this));
+                    this.views.newDatabaseButton = view;
+                    break;
+                case 'wordpress.newdatabasedialog':
+                    view.on('newdatabase', this.createDatabase.bind(this));
+                    break;
 
             }
 
@@ -194,11 +200,12 @@ chess.wordpress.WordpressController = new Class({
                 }]
             });
         }
-        this.standingsWindow.setTitle(chess.getPhrase('Standings') + ' - ' + this.pgn);
-        this.standingsWindow.children[0].setPgn(this.pgn);
+        this.standingsWindow.setTitle(chess.getPhrase('Standings') + ' - ' + this.pgn.pgn_name);
+        this.standingsWindow.children[0].setPgn(this.pgn.id);
         this.standingsWindow.show();
     },
-
+    
+    
     onNewPositionClick: function (fen) {
         this.newGameFen = fen;
         if (this.currentModel.isDirty()) {
@@ -212,6 +219,61 @@ chess.wordpress.WordpressController = new Class({
         }
     },
 
+    showNewDatabaseDialog:function(){
+        if(this.newDbDialog == undefined){
+            this.newDbDialog = new chess.wordpress.NewDatabaseDialog({
+                module:this.module,
+                autoRemove:false
+            });
+
+            this.addView(this.newDbDialog);
+
+        }
+
+        this.newDbDialog.show();
+
+        var pos = this.views.newDatabaseButton.getEl().offset();
+        var size = this.newDbDialog.getEl().outerHeight();
+        this.newDbDialog.showAt(pos.left, pos.top - size);
+    },
+
+    createDatabase:function(dbName){
+        // TODO perhaps confirm database
+        console.log(dbName);
+        jQuery.ajax({
+            url: ludo.config.getUrl(),
+            method: 'post',
+            dataType: 'json',
+            cache: false,
+            data: {
+                action: 'new_pgn',
+                pgn_name: dbName
+            },
+            complete: function (response, success) {
+                if (success) {
+                    var data = response.responseJSON;
+
+                    this.enableButtons();
+                    if (data.response) {
+                        if (data.success) {
+                            this.fireEvent('new_pgn');
+                            this.fireEvent('wpmessage', chess.getPhrase('New Database created'));
+                        } else {
+                            this.fireEvent('wpmessage', chess.getPhrase(e.response));
+                        }
+                    }
+
+                } else {
+                    this.fireEvent('wperror', response.responseText);
+                }
+
+            }.bind(this)
+
+        });
+        
+        
+    },
+    
     onNewGameClick: function () {
         this.newGameFen = undefined;
 
@@ -395,10 +457,10 @@ chess.wordpress.WordpressController = new Class({
 
     loadPgn: function (game) {
 
-        if (game.pgn && game.id) {
+        if (game.pgn_id && game.id) {
             this.load({
                 action: 'game_by_id',
-                pgn: game.pgn,
+                pgn: game.pgn_id,
                 id: game.id
             });
         } else if (game.draft_id) {
@@ -497,7 +559,7 @@ chess.wordpress.WordpressController = new Class({
             cache: false,
             data: {
                 action: 'save_game',
-                pgn: gameModel.pgn,
+                pgn: gameModel.pgn_id,
                 game: JSON.stringify(gameModel)
             },
             complete: function (response, success) {
@@ -577,6 +639,10 @@ chess.wordpress.WordpressController = new Class({
 
     sendMessage:function(message){
         this.fireEvent('wpmessage', message);
+    },
+    
+    sendError:function(error){
+        this.fireEvent('wperror', error);
     },
 
     disableButtons: function () {

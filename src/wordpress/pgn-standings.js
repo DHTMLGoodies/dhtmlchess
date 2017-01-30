@@ -93,7 +93,7 @@ chess.wordpress.PgnStandings = new Class({
 
     updateStandings: function () {
         if(!this.currentPgn)return;
-        if(this.controller && this.controller.pgn != this.currentPgn)return;
+        if(this.controller && this.controller.pgn && this.controller.pgn.id != this.currentPgn)return;
         this.getDataSource().setPostParam('pgn', this.currentPgn);
         this.getDataSource().load();
     }

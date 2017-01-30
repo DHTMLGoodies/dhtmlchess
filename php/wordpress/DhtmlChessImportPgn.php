@@ -12,12 +12,18 @@ class DhtmlChessImportPgn
         
     }
 
-    public function appendPgn($pgnFilePath, $toPgn){
+    /**
+     * @param $pgnFilePath
+     * @param $toPgnId
+     * @return DhtmlChessPgn
+     * @throws DhtmlChessException
+     */
+    public function appendPgn($pgnFilePath, $toPgnId){
         if(!file_exists($pgnFilePath)){
             throw new DhtmlChessException("Pgn file not found");
         }
         try{
-            $pgn = DhtmlChessPgn::instanceByName($toPgn);
+            $pgn = DhtmlChessPgn::instanceById($toPgnId);
             
             $parser = new PgnParser($pgnFilePath);
             $games = $parser->getGames();
@@ -33,14 +39,20 @@ class DhtmlChessImportPgn
         
     }
 
-    public function importPgnString($pgnName, $pgnString, $title = null){
+    /**
+     * @param $pgnId
+     * @param $pgnString
+     * @param null $title
+     * @return DhtmlChessPgn
+     */
+    public function importPgnString($pgnId, $pgnString, $title = null){
         $parser = new PgnParser();
         $parser->setPgnContent($pgnString);
-        if(empty($title))$title = $pgnName;
-        return $this->finishImport($pgnName, $parser, $title);
+        if(empty($title))$title = $pgnId;
+        return $this->finishImport($pgnId, $parser, $title);
     }
 
-    public function import($filePath, $title = ""){
+    public function import($filePath){
 
         $filePath = esc_sql($filePath);
 
@@ -49,24 +61,22 @@ class DhtmlChessImportPgn
         }
         $parser = new PgnParser($filePath);
 
-        return $this->finishImport($filePath, $parser, $title);
+        return $this->finishImport($filePath, $parser);
     }
-
-
-
+    
     /**
      * @param string $name
      * @param PgnParser $parser
      * @param string $title
      * @return DhtmlChessPgn
      */
-    private function finishImport($name, $parser, $title){
+    private function finishImport($name, $parser){
 
         $games = $parser->getGames();
 
         $util = new DhtmlChessPgnUtil();
 
-        $pgn = $util->create($name, $title);
+        $pgn = $util->create($name);
 
         foreach($games as $game){
             $pgn->appendGame($game);
@@ -74,8 +84,4 @@ class DhtmlChessImportPgn
         
         return $pgn;
     }
-
-
-
-    
 }

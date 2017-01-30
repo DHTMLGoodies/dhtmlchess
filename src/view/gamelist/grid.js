@@ -55,40 +55,58 @@ chess.view.gamelist.Grid = new Class({
             heading: chess.getPhrase('White'),
             key: 'white',
             width: 120,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         black: {
             heading: chess.getPhrase('Black'),
             key: 'black',
             width: 120,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         round: {
             heading: chess.getPhrase('Round'),
             key: 'round',
             width: 50,
-            sortable: true
+            sortable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         result: {
             heading: chess.getPhrase('Result'),
             key: 'result',
             width: 50,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         event: {
             heading: chess.getPhrase('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         },
         last_moves: {
             heading: chess.getPhrase('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,
-            removable: true
+            removable: true,
+            renderer:function(val){
+                return val != undefined ? val : '';
+            }
         }
 
     },
@@ -139,16 +157,11 @@ chess.view.gamelist.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
-        if (config.cols) {
+        var cols = config.cols || this.cols;
+        if (cols) {
             this.getColumnManager().hideAllColumns();
-            for (var i = 0; i < config.cols.length; i++) {
-                this.getColumnManager().showColumn(config.cols[i]);
-            }
-        }
-
-        for (var key in this.columns) {
-            if (this.columns.hasOwnProperty(key)) {
-                this.columns[key].heading = chess.getPhrase(this.columns[key].heading);
+            for (var i = 0; i < cols.length; i++) {
+                this.getColumnManager().showColumn(cols[i]);
             }
         }
     },

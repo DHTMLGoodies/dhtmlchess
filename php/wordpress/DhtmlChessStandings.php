@@ -23,9 +23,9 @@ class DhtmlChessStandings
         $cache->clear($this->cacheKey($pgn));
     }
 
-    public function getStandings($pgnName)
+    public function getStandings($pgnId)
     {
-        $pgn = DhtmlChessPgn::instanceByName($pgnName);
+        $pgn = DhtmlChessPgn::instanceById($pgnId);
 
         $cache = new DhtmlChessCache();
         $data = $cache->getFromCache($this->cacheKey($pgn));

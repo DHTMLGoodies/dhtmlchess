@@ -39,9 +39,9 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
-            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn);
+            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
-            this.getDataSource().postData.pgn = this.controller.pgn;
+            this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
         }

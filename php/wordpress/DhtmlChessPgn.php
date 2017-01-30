@@ -35,18 +35,19 @@ class DhtmlChessPgn
         $name = trim($name);
         $name = esc_sql($name);
 
-        $pgnName = preg_replace('/[^0-9a-z\-_]/si', '', $name);
-        $pgnName = trim($pgnName);
-        $pgnName = esc_sql($pgnName);
-
         $util = new DhtmlChessPgnUtil();
-        $id = $util->getId($pgnName);
+        $id = $util->getId($name);
 
         if (!empty($id)) {
             throw new DhtmlChessException("A Database with this name already exists");
         }
 
-        return $util->create($pgnName, $name);
+
+
+        $cache = new DhtmlChessCache();
+        $cache->clearPgnListCache();
+        
+        return $util->create($name);
 
     }
 
@@ -110,7 +111,6 @@ class DhtmlChessPgn
 
         $cached = $cache->getFromCache($cacheKey);
         if (!empty($cached) && $cached->{DhtmlChessDatabase::COL_UPDATED} > $this->updated) {
-            echo "Cached " . $cached->{DhtmlChessDatabase::COL_UPDATED} . " vs " . $this->updated;
             return $cached->{DhtmlChessDatabase::COL_CACHE_VALUE};
         }
 
@@ -274,12 +274,15 @@ class DhtmlChessPgn
 
     }
 
-    public function archive()
+    public function setArchived($archived)
     {
+        if (!isset($archived) || ($archived != '1' && $archived != '0')) {
+            throw new DhtmlChessException("Invalid archive property");
+        }
         $countUpdated = $this->wpdb->update(
             DhtmlChessDatabase::TABLE_PGN,
             array(
-                DhtmlChessDatabase::COL_ARCHIVED => '1'
+                DhtmlChessDatabase::COL_ARCHIVED => $archived
             ),
             array(DhtmlChessDatabase::COL_ID => $this->id),
             array(
@@ -295,7 +298,7 @@ class DhtmlChessPgn
         $cache = new DhtmlChessCache();
         $cache->clearPgnListCache();
         $cache->clear($this->cacheKey());
-        
+
         return $countUpdated;
     }
 

@@ -32,6 +32,7 @@ class DhtmlChessPgnList
         global $wpdb;
 
         $query = $wpdb->prepare("select "
+            . " p." . DhtmlChessDatabase::COL_ID . ","
             . " p." . DhtmlChessDatabase::COL_PGN_NAME . ","
             . " p." . DhtmlChessDatabase::COL_UPDATED . ","
             . " count(g.ID) as count from " . DhtmlChessDatabase::TABLE_PGN . " p left join " .
@@ -46,6 +47,7 @@ class DhtmlChessPgnList
         $ret = array();
         foreach ($results as $pgn) {
             $ret[] = array(
+                DhtmlChessDatabase::COL_ID => $pgn->{DhtmlChessDatabase::COL_ID},
                 DhtmlChessDatabase::COL_PGN_NAME => $pgn->{DhtmlChessDatabase::COL_PGN_NAME},
                 DhtmlChessDatabase::COL_UPDATED => $pgn->{DhtmlChessDatabase::COL_UPDATED},
                 "count" => $pgn->count
