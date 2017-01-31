@@ -1,4 +1,4 @@
-/* Generated Tue Jan 31 2:43:37 CET 2017 */
+/* Generated Tue Jan 31 14:07:54 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -29753,7 +29753,6 @@ chess.view.notation.Panel = new Class({
         }
         this.getBody().html('');
 
-
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
         
         if(this.showResult){
@@ -34141,6 +34140,7 @@ chess.view.dialog.Promote = new Class({
     ],
 
     __construct:function(config){
+
         this.parent(config);
     },
 
@@ -34179,6 +34179,8 @@ chess.view.dialog.Promote = new Class({
 
     showDialog: function (model, move) {
         this.parent();
+
+        console.trace();
 
         this.move = move;
         this.setColor(model.getColorToMove());
@@ -36348,10 +36350,8 @@ chess.view.score.BarBackground = new Class({
             'A', r, r, 0, 0, 1, left, 0
 
         ];
-
-
+        
         this.strokeRect.set('d', p.join(' '));
-
 
         r = h / 2;
         p = [
@@ -36370,7 +36370,7 @@ chess.view.score.BarBackground = new Class({
     },
 
     setScore: function (score) {
-        if (score.indexOf('#') != -1) {
+        if (jQuery.type(score) == 'string' && score.indexOf('#') != -1) {
             score = score.replace(/[^0-9\-]/g, '');
             score = parseInt(score) * 100;
         }
@@ -40434,6 +40434,9 @@ chess.model.Game = new Class({
         return ret;
     },
 
+    move:function(move){
+        return this.appendMove(move);
+    },
     /**
      Append move to the model
      @method appendMove
@@ -40918,30 +40921,29 @@ chess.model.Game = new Class({
         }
         return false;
     },
-
     /**
      * Return color to move, "white" or "black"
-     * @method getColorToMove
+     * @method turn
      * @return {String}
-     */
-    getColorToMove: function () {
+     */   
+    turn:function(){
         var fens = this.getCurrentPosition().split(' ');
         var colors = {'w': 'white', 'b': 'black'};
-        return colors[fens[1]];
+        return colors[fens[1]];   
+        
+    },
+
+
+    getColorToMove: function () {
+        return this.turn();
     },
 
     getStartPly:function(){
-        // this.model.metadata.fen
-        return this._ply(this.getCurrentPosition(this.model.metadata.fen))
+        return this._ply(this.model.metadata.fen)
     },
 
     getCurrentPly:function(){
-
-        console.log(this.model.moves);
-
-        console.log(this.getCurrentPosition(), ' -- vs --' , this.model.metadata.fen);
         return this._ply(this.getCurrentPosition());
-
     },
 
     _ply:function(fen){

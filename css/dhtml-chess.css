@@ -1,4 +1,4 @@
-/* Generated Tue Jan 31 2:43:37 CET 2017 */
+/* Generated Tue Jan 31 14:07:54 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2168,29 +2168,29 @@ div.ludo-grid-data-cell {
     background-color:#FFF;
 }
 
-.dhtml-chess-promote-white-queen .ludo-body{
+.dhtml-chess-promote-white-q .ludo-body{
     background-image:url('../images/alphapale90wq.png');
 }
-.dhtml-chess-promote-white-rook .ludo-body{
+.dhtml-chess-promote-white-r .ludo-body{
     background-image:url('../images/alphapale90wr.png');
 }
-.dhtml-chess-promote-white-bishop .ludo-body{
+.dhtml-chess-promote-white-b .ludo-body{
     background-image:url('../images/alphapale90wb.png');
 }
-.dhtml-chess-promote-white-knight .ludo-body{
+.dhtml-chess-promote-white-n .ludo-body{
     background-image:url('../images/alphapale90wn.png');
 }
 
-.dhtml-chess-promote-black-queen .ludo-body{
+.dhtml-chess-promote-black-q .ludo-body{
     background-image:url('../images/alphapale90bq.png');
 }
-.dhtml-chess-promote-black-rook .ludo-body{
+.dhtml-chess-promote-black-r .ludo-body{
     background-image:url('../images/alphapale90br.png');
 }
-.dhtml-chess-promote-black-bishop .ludo-body{
+.dhtml-chess-promote-black-b .ludo-body{
     background-image:url('../images/alphapale90bb.png');
 }
-.dhtml-chess-promote-black-knight .ludo-body{
+.dhtml-chess-promote-black-n .ludo-body{
     background-image:url('../images/alphapale90bn.png');
 }/* ../dhtml-chess/css-source/view/command/command.css */
 .dhtml-chess-command-panel-message, .dhtml-chess-command-panel-error-message{

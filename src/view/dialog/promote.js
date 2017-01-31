@@ -47,6 +47,7 @@ chess.view.dialog.Promote = new Class({
     ],
 
     __construct:function(config){
+
         this.parent(config);
     },
 
@@ -85,6 +86,8 @@ chess.view.dialog.Promote = new Class({
 
     showDialog: function (model, move) {
         this.parent();
+
+        console.trace();
 
         this.move = move;
         this.setColor(model.getColorToMove());

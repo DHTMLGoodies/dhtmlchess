@@ -295,7 +295,6 @@ chess.AutoParse = new Class({
         } else {
 
             var cmFound = false;
-            var map = {q: 'queen', n: 'knight', 'b': 'bishop', 'rook': 'rook'};
 
             this.secondParser.setFen(this.parser.getFen());
 
@@ -304,7 +303,7 @@ chess.AutoParse = new Class({
                 var move = moves[i];
                 var promoteTo = undefined;
                 if (move.length == 5) {
-                    promoteTo = map[move.substr(4, 1)];
+                    promoteTo = move.substr(4, 1);
                 }
                 var obj = {
                     from: move.substr(0, 2),
@@ -312,10 +311,15 @@ chess.AutoParse = new Class({
                     promoteTo: promoteTo
                 };
 
+                console.log(move, obj);
+
                 this.secondParser.move(obj);
+
 
                 var notation = this.secondParser.getNotation();
                 cmFound = notation.indexOf('#') > 0;
+
+
                 model.appendRemoteMove(notation);
                 this.currentMoves.push(notation);
                 this.currentFens.push(model.getCurrentPosition());
