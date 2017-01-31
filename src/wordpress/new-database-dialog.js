@@ -46,9 +46,13 @@ chess.wordpress.NewDatabaseDialog = new Class({
         }.bind(this));
 
         this.on('ok', function(){
-            console.log('creating ' + this.child['dbname'].val())
             this.fireEvent('newdatabase', this.child['dbname'].val());
         });
+    },
+
+    show:function(){
+        this.parent();
+        this.child['dbname'].select();
     }
 
 });

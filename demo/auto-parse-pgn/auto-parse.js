@@ -310,15 +310,9 @@ chess.AutoParse = new Class({
                     to: move.substr(2, 2),
                     promoteTo: promoteTo
                 };
-
-                console.log(move, obj);
-
                 this.secondParser.move(obj);
-
-
                 var notation = this.secondParser.getNotation();
                 cmFound = notation.indexOf('#') > 0;
-
 
                 model.appendRemoteMove(notation);
                 this.currentMoves.push(notation);

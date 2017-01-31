@@ -139,6 +139,7 @@ chess.controller.Controller = new Class({
                 view.addEvent('gradeMove', this.gradeMove.bind(this));
                 view.addEvent('commentBefore', this.dialogCommentBefore.bind(this));
                 view.addEvent('commentAfter', this.dialogCommentAfter.bind(this));
+                view.addEvent('deleteMove', this.deleteMoves.bind(this));
                 break;
             case 'dialogOverwriteMove':
                 view.addEvent('overwriteMove', this.overwriteMove.bind(this));
@@ -176,6 +177,11 @@ chess.controller.Controller = new Class({
         }
         
         return true;
+    },
+
+    deleteMoves:function(move){
+        console.log('deleting ', move);
+        this.currentModel.deleteMove(move);
     },
 
 	/**

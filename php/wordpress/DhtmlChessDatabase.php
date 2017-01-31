@@ -11,6 +11,7 @@ class DhtmlChessDatabase
 
     const TABLE_PGN = 'dhtml_chess_pgn';
     const TABLE_GAME = 'dhtml_chess_game';
+    const TABLE_GAME_LIST = 'dhtml_chess_game_list';
     const TABLE_CACHE = "dhtml_chess_cache";
     const TABLE_DRAFT = "dhtml_chess_game_draft";
 
@@ -240,20 +241,11 @@ class DhtmlChessDatabase
         return $pgnId->setArchived('1');
     }
 
-    /**
-     * @param int $pgnId
-     * @return false|int
-     * @throws DhtmlChessException
-     * @throws DhtmlChessPgnNotFoundException
-     * @throws Exception
-     */
     public function restoreArchived($pgnId){
         $pgnId = DhtmlChessPgn::instanceById($pgnId);
         return $pgnId->setArchived('0');
-
     }
-
-
+    
     /**
      * @param $pgnPath
      * @param int $toPgnId
@@ -351,7 +343,7 @@ class DhtmlChessDatabase
         $draftId = isset($draft[self::KEY_DRAFT_ID]) ? $draft[self::KEY_DRAFT_ID] : null;
         unset($draft[self::KEY_DRAFT_ID]);
 
-        $pgnId = DhtmlChessPgn::instanceById(1);
+        $pgnId = DhtmlChessPgn::instanceById($pgnId);
         $id = $pgnId->appendGame($draft);
         if (empty($id)) {
             throw new DhtmlChessException("Could not publish game");

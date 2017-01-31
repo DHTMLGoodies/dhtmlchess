@@ -98,18 +98,22 @@ chess.WPEditor = new Class({
                                     title: chess.getPhrase('PGN Databases'),
                                     children: [
                                         {
+                                            type:'form.Button',
+                                            value:chess.getPhrase('New Database'),
+                                            submodule:'chess.newDatabaseButton',
+                                            module:this.module,
+                                            layout:{
+                                                width:'matchParent'
+                                            }
+                                        },
+                                        {
                                             type: 'chess.wordpress.PgnListView',
                                             module: this.module,
                                             layout:{
                                                 weight:1
                                             }
-                                        },
-                                        {
-                                            type:'form.Button',
-                                            value:chess.getPhrase('New Database'),
-                                            submodule:'chess.newDatabaseButton',
-                                            module:this.module
                                         }
+
                                     ]
 
                                 },
@@ -385,14 +389,14 @@ chess.WPEditor = new Class({
                             module: this.module,
                             submodule: 'wordpress.newgame',
                             type: 'form.Button',
-                            value: 'New',
+                            value: chess.getPhrase('New Game'),
                             layout: {width: 80}
                         },
                         {
                             module: this.module,
                             submodule: 'wordpress.newposition',
                             type: 'form.Button',
-                            value: 'New Position',
+                            value: chess.getPhrase('New Position'),
                             layout: {width: 120}
                         },
                         {

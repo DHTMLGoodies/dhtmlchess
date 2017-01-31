@@ -5,6 +5,8 @@ chess.wordpress.PgnListView = new Class({
 
     emptyText: chess.getPhrase('No Databases found'),
 
+    idToSelect:undefined,
+
     itemRenderer: function (record) {
         return '<div class="pgn_list_item">'
             + '<div class="pgn_list_name"><strong>' + record.pgn_name + '</strong></div>'
@@ -13,6 +15,15 @@ chess.wordpress.PgnListView = new Class({
             + '<div class="pgn_list_updated">Updated: ' + record.updated + '</div>'
             + '</div>';
 
+    },
+
+    __rendered:function(){
+        this.parent();
+        this.getDataSource().on('load', function(){
+            if(this.idToSelect){
+                this.getDataSource().selectRecord({ id : this.idToSelect });
+            }
+        }.bind(this));
     },
 
     /** Function returning back side when swiping to the left */
@@ -65,12 +76,15 @@ chess.wordpress.PgnListView = new Class({
 
     },
 
+    
+
     setController: function (controller) {
         this.parent(controller);
         controller.on('publish', function () {
             this.getDataSource().load();
         }.bind(this));
-        controller.on('new_pgn', function () {
+        controller.on('new_pgn', function (id) {
+            this.idToSelect = id;
             this.getDataSource().load();
         }.bind(this));
     },

@@ -64,6 +64,7 @@ window.chess.events = {
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
         newMove: 'newMove',
+        newMoves: 'newMoves',
         noMoves: 'noMoves',
         deleteMove: 'deleteMove',
         newaction: 'newaction',

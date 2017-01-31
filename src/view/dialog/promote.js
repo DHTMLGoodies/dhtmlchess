@@ -86,9 +86,6 @@ chess.view.dialog.Promote = new Class({
 
     showDialog: function (model, move) {
         this.parent();
-
-        console.trace();
-
         this.move = move;
         this.setColor(model.getColorToMove());
 

@@ -7,7 +7,7 @@ chess.wordpress.PublishDialog = new Class({
     title: chess.getPhrase('Publish Game'),
 
     layout: {
-        width: 300, height: 300,
+        width: 300, height: 400,
         type: 'linear', orientation: 'vertical'
     },
 
@@ -28,7 +28,8 @@ chess.wordpress.PublishDialog = new Class({
     },
 
     selectPgn:function(rec){
-        this.pgn = rec.pgn_name;
+        this.pgn = rec;
+        this.child['selected'].html(chess.getPhrase('Selected') +': '+ rec.pgn_name);
         this.getButton('ok').setEnabled(true);
     },
 
@@ -39,6 +40,10 @@ chess.wordpress.PublishDialog = new Class({
                 html: chess.getPhrase('Select PGN'),
                 layout: {
                     height: 25
+                },
+                css:{
+                    'line-height' : '25px',
+                    'padding-left': '2px'
                 }
             },
             {
@@ -62,6 +67,7 @@ chess.wordpress.PublishDialog = new Class({
                         heading: 'PGN'
                     }
                 },
+                headerMenu:false,
                 dataSource: {
                     type: 'chess.wordpress.PgnList',
                     autoload: true,
@@ -71,17 +77,35 @@ chess.wordpress.PublishDialog = new Class({
                 },
                 layout: {
                     weight: 1
+                },
+                elCss:{
+                    'border-bottom' : '1px solid ' + ludo.$C('border')
+                }
+            },
+            {
+                name:'selected',
+                layout:{
+                    height:25
+                },
+                css:{
+                    'font-weight' : 'bold',
+                    'line-height' : '25px',
+                    'padding-left': '2px'
                 }
             }
 
         ]
     },
 
-    show: function (metadata) {
+    show: function (metadata, controllerPgn) {
         this.parent();
 
-        if (metadata && metadata.pgn) {
-            this.child['list'].getDataSource().select({ pgn_name : metadata.pgn } );
+
+        
+        if (metadata && metadata.pgn_id) {
+            this.child['list'].getDataSource().selectRecord({ id : metadata.pgn_id } );
+        }else if(controllerPgn){
+            this.child['list'].getDataSource().selectRecord({ id :controllerPgn.id } );
         }
     }
 

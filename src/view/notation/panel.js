@@ -75,21 +75,22 @@ chess.view.notation.Panel = new Class({
      */
     showContextMenu: false,
 
-    showResult:false,
+    showResult: false,
 
     setController: function (controller) {
         this.parent(controller);
         var c = this.controller = controller;
-        c.addEvent('startOfGame', this.goToStartOfBranch.bind(this));
-        c.addEvent('newGame', this.showMoves.bind(this));
-        c.addEvent('deleteMove', this.showMoves.bind(this));
-        c.addEvent('setPosition', this.setCurrentMove.bind(this));
-        c.addEvent('nextmove', this.setCurrentMove.bind(this));
-        c.addEvent('correctGuess', this.setCurrentMove.bind(this));
-        c.addEvent('updateMove', this.updateMove.bind(this));
-        c.addEvent('newMove', this.appendMove.bind(this));
-        c.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        c.addEvent('afterLoad', this.afterLoad.bind(this));
+        c.on('startOfGame', this.goToStartOfBranch.bind(this));
+        c.on('newGame', this.showMoves.bind(this));
+        c.on('newMoves', this.showMoves.bind(this));
+        c.on('deleteMove', this.showMoves.bind(this));
+        c.on('setPosition', this.setCurrentMove.bind(this));
+        c.on('nextmove', this.setCurrentMove.bind(this));
+        c.on('correctGuess', this.setCurrentMove.bind(this));
+        c.on('updateMove', this.updateMove.bind(this));
+        c.on('newMove', this.appendMove.bind(this));
+        c.on('beforeLoad', this.beforeLoad.bind(this));
+        c.on('afterLoad', this.afterLoad.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -104,10 +105,10 @@ chess.view.notation.Panel = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        if(!this.tactics){
+        if (!this.tactics) {
             this.showResult = true;
         }
-        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight','showResult']);
+        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
 
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
@@ -124,7 +125,6 @@ chess.view.notation.Panel = new Class({
         return {
             listeners: {
                 click: function (el) {
-
                     switch (el.action) {
                         case 'grade':
                             this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
@@ -134,6 +134,9 @@ chess.view.notation.Panel = new Class({
                             break;
                         case 'commentAfter':
                             this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
+                            break;
+                        case 'deleteMove':
+                            this.fireEvent('deleteMove',this.getContextMenuMove());
                             break;
                     }
                 }.bind(this),
@@ -156,7 +159,7 @@ chess.view.notation.Panel = new Class({
                     {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
                 ]
                 },
-                {label: 'Delete remaining moves'}
+                {label: chess.getPhrase('Delete Move'), action: 'deleteMove'}
             ]
         };
     },
@@ -219,9 +222,9 @@ chess.view.notation.Panel = new Class({
 
     scrollMoveIntoView: function (move) {
 
-        if(!move)return;
-        if(move.position == undefined)move = jQuery(move);
-        if(!move || !move.length)return;
+        if (!move)return;
+        if (move.position == undefined)move = jQuery(move);
+        if (!move || !move.length)return;
 
         var scrollTop = this.getBody().scrollTop();
         var bottomOfScroll = scrollTop + this.getBody().height();
@@ -236,6 +239,7 @@ chess.view.notation.Panel = new Class({
     },
 
     showMoves: function (model) {
+        console.log('new moves');
         var move = model.getCurrentMove();
         if (move != undefined) {
             this.currentModelMoveId = move.uid;
@@ -243,8 +247,8 @@ chess.view.notation.Panel = new Class({
         this.getBody().html('');
 
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
-        
-        if(this.showResult){
+
+        if (this.showResult) {
             var res = model.getResult();
             moves.push('<span class="notation-result">');
             moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
@@ -279,10 +283,10 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-            s = i== 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' :  '<span class="dhtml-chess-move-group">';
+            s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';
             var notation = branch[i][this.notationKey];
             if (i == 0 && moveCounter % 2 != 0 && notation) {
-                if(gs){
+                if (gs) {
                     moves.push(e);
                 }
                 moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
@@ -290,7 +294,7 @@ chess.view.notation.Panel = new Class({
                 gs = true;
             }
             if (moveCounter % 2 === 0 && notation) {
-                if(gs){
+                if (gs) {
                     moves.push(e);
                 }
                 var moveNumber = (moveCounter / 2) + 1;
@@ -311,7 +315,7 @@ chess.view.notation.Panel = new Class({
             } else {
                 if (!this.tactics || this.isCurrentMoveInVariation(branch[i])) {
 
-                    if(gs && this.hasVars(branch[i])){
+                    if (gs && this.hasVars(branch[i])) {
                         gs = false;
                         moves.push(e);
                     }
@@ -319,7 +323,7 @@ chess.view.notation.Panel = new Class({
                 }
             }
         }
-        if(gs){
+        if (gs) {
             moves.push('</span>');
         }
         moves.push('</span>');
@@ -338,7 +342,7 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
-    hasVars:function(move){
+    hasVars: function (move) {
         return move.variations && move.variations.length > 0;
     },
 

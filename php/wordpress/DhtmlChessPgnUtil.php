@@ -15,7 +15,7 @@ class DhtmlChessPgnUtil
 
     public function getUniqueName($pgnFilePath){
         $name = $this->pathToPgnName($pgnFilePath);
-        $name = preg_replace('/\s/', '_', $name);
+        # $name = preg_replace('/\s/', '_', $name);
         $testName = $name;
         $num = 1;
         while($this->exists($testName) && $num < 2000){

@@ -1637,6 +1637,12 @@ chess.parser.FenParser0x88 = new Class({
         }
     },
 
+	isValid:function(move){
+		var moves = this.getValidMovesAndResult().moves;
+		return moves[Board0x88Config.mapping[move.from]] != undefined &&
+			moves[Board0x88Config.mapping[move.from]].indexOf(Board0x88Config.mapping[move.to]) >= 0;
+	},
+
     updatePiece:function(from, to){
         var color = Board0x88Config.numberToColorMapping[this.cache['board'][from]];
         for(var i=0;i<this.cache[color].length;i++){

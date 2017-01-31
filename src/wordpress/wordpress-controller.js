@@ -19,6 +19,7 @@ chess.wordpress.WordpressController = new Class({
 
         this.updateButtonVisibility();
 
+        this.setDefaultMetadata();
         this.currentModel.setClean();
     },
 
@@ -96,11 +97,28 @@ chess.wordpress.WordpressController = new Class({
                 case 'wordpress.newdatabasedialog':
                     view.on('newdatabase', this.createDatabase.bind(this));
                     break;
+                case 'wordpress.computereval':
+                    console.log('found comp eval');
+                    view.on('appendLine', this.appendLine.bind(this));
+                    break;
+                case 'notation':
+                    this.views.notations = view;
+                    break;
 
             }
 
 
         }
+    },
+
+    appendLine:function(moveString){
+        console.log('received event', moveString);
+        var appended = this.currentModel.appendLine(moveString);
+        if(appended){
+            this.views.notations.show();
+        }
+
+
     },
 
     getDiscardDraftDialog: function () {
@@ -155,6 +173,15 @@ chess.wordpress.WordpressController = new Class({
 
     newGameFen: undefined,
 
+    setDefaultMetadata:function(){
+        this.currentModel.setMetadata({
+            'white': chess.getPhrase('Player White'),
+            'black': chess.getPhrase('Player Black'),
+            'date': new Date().format('%x'),
+            'result': '*'
+        });
+    },
+
     getNewGameDialog: function () {
         if (this.newGameDialog == undefined) {
             this.newGameDialog = new ludo.dialog.Confirm({
@@ -172,6 +199,9 @@ chess.wordpress.WordpressController = new Class({
                     'yes': function () {
 
                         this.currentModel.newGame();
+                        
+                        this.setDefaultMetadata();
+
                         if (this.newGameFen) {
                             this.currentModel.setPosition(this.newGameFen);
                         }
@@ -241,12 +271,12 @@ chess.wordpress.WordpressController = new Class({
 
         var pos = this.views.newDatabaseButton.getEl().offset();
         var size = this.newDbDialog.getEl().outerHeight();
-        this.newDbDialog.showAt(pos.left, pos.top - size);
+        var size2 = this.views.newDatabaseButton.getEl().outerHeight();
+        this.newDbDialog.showAt(pos.left, pos.top +size2);
     },
 
     createDatabase:function(dbName){
         // TODO perhaps confirm database
-        console.log(dbName);
         jQuery.ajax({
             url: ludo.config.getUrl(),
             method: 'post',
@@ -263,7 +293,7 @@ chess.wordpress.WordpressController = new Class({
                     this.enableButtons();
                     if (data.response) {
                         if (data.success) {
-                            this.fireEvent('new_pgn');
+                            this.fireEvent('new_pgn', data.response);
                             this.fireEvent('wpmessage', chess.getPhrase('New Database created'));
                         } else {
                             this.fireEvent('wpmessage', chess.getPhrase(e.response));
@@ -289,6 +319,7 @@ chess.wordpress.WordpressController = new Class({
             this.getNewGameDialog().show();
         } else {
             this.currentModel.newGame();
+            this.setDefaultMetadata();
             this.updateButtonVisibility();
             this.views.metadata.show();
         }
@@ -306,12 +337,14 @@ chess.wordpress.WordpressController = new Class({
                         this.publish_pgn = pgn;
                         var d = this.getPublishConfirmDialog();
                         d.show();
-                        d.html(chess.getPhrase('Publish game in') + ' <strong>' + this.publish_pgn + '</strong>?');
+                        d.html(chess.getPhrase('Publish game in') + ' <strong>' + this.publish_pgn.pgn_name + '</strong>?');
 
                     }.bind(this)
                 }
 
             });
+
+            this.addView(this.publishDialog);
         }
         return this.publishDialog;
 
@@ -348,12 +381,12 @@ chess.wordpress.WordpressController = new Class({
     publishGame: function () {
         var m = this.validateAndReturnModel();
         if (!m)return;
-        this.getPublishDialog().show(this.currentModel.getMetadata());
+        this.getPublishDialog().show(this.currentModel.getMetadata(), this.pgn);
     },
 
     publishComplete: function (pgn) {
         this.currentModel.setMetadata({
-            pgn: pgn
+            pgn_id: pgn.id
         });
 
         var gameModel = this.validateAndReturnModel();
@@ -371,7 +404,7 @@ chess.wordpress.WordpressController = new Class({
             data: {
                 action: 'publish_game',
                 game: JSON.stringify(gameModel),
-                pgn: pgn
+                pgn: pgn.id
             },
             complete: function (response, success) {
                 if (success) {
@@ -387,6 +420,7 @@ chess.wordpress.WordpressController = new Class({
                             this.fireEvent('publish');
                             this.currentModel.setMetadata({'draft_id': undefined});
                             this.currentModel.setMetadata({'id': data.response});
+                            this.currentModel.setMetadata({'pgn_id': pgn.id});
                             this.currentModel.setClean();
 
                             this.updateButtonVisibility();
@@ -528,7 +562,7 @@ chess.wordpress.WordpressController = new Class({
 
         this.views.discardDraftButton.toggle();
 
-        if (meta.pgn) {
+        if (meta.pgn_id) {
             this.views.updateGameButton.show();
         } else {
             this.views.publishButton.show();

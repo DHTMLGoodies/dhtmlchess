@@ -1,7 +1,7 @@
 chess.wordpress.ComputerEval = new Class({
 
     Extends: ludo.View,
-    sumodule: 'wordpress.computereval',
+    submodule: 'wordpress.computereval',
     started: false,
     fen: undefined,
 
@@ -38,18 +38,29 @@ chess.wordpress.ComputerEval = new Class({
                 layout: {
                     weight: 1
                 },
-                css:{
-                    padding:4
+                css: {
+                    padding: 4
                 }
             },
             {
-                name: 'startStopEngine',
-                value: 'Start',
-                type: 'form.Button',
+                name: 'buttons',
                 layout: {
-                    height: 30
-                }
+                    height: 30, type: 'linear', orientation: 'horizontal'
+                },
+                children: [
+                    {
+                        name: 'startStopEngine',
+                        value: 'Start',
+                        type: 'form.Button'
+                    },
+                    {
+                        name: 'appendLine',
+                        value: 'Append Line',
+                        type: 'form.Button'
+                    }
+                ]
             },
+
             {
                 layout: {
                     height: 20
@@ -89,6 +100,8 @@ chess.wordpress.ComputerEval = new Class({
             this.child['scoreBar'].setScore(update.score);
         }
 
+        this.bestLineString = update.bestMoves;
+
         // Ply:9 Score:3142 Nodes:341415 NPS:418914  Nxe5 Bf1 d5 d4 Nc6 e5 Bb4+ c3 Bg4 Be2
         var ply = update.depth;
         var nps = update.nps;
@@ -104,9 +117,9 @@ chess.wordpress.ComputerEval = new Class({
         }
         this.bestLineString = '';
         this.bestLine = [];
-    },
 
-    map: {q: 'q', n: 'n', 'b': 'b', 'r': 'r'},
+        this.child['buttons'].child['appendLine'].hide();
+    },
 
     getMoveLine: function (update) {
 
@@ -117,23 +130,22 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLine = [];
 
         var ply = update.currentPly;
-        ply+=2;
+        ply += 2;
 
         var spanMN = '<span class="dhtml-chess-comp-eval-mn">';
         var spanNotation = '<span class="dhtml-chess-comp-eval-notation">';
         var urlPrefix = ludo.config.getDocumentRoot() + '/images/svg_bw45';
 
-        var prefix = ply %2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '</span>') : '';
+        var prefix = ply % 2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '</span>') : '';
         this.bestLine.push(prefix);
 
         var a = ply;
         for (var i = 0; i < ml.length; i++) {
 
 
-            if(a % 2 == 0){
-                if(i>0)this.bestLine.push('</span>');
+            if (a % 2 == 0) {
+                if (i > 0)this.bestLine.push('</span>');
                 this.bestLine.push('<span class="dhtml-chess-comp-eval-group">');
-
                 this.bestLine.push(spanMN + (a / 2) + '. </span>');
             }
 
@@ -145,18 +157,18 @@ chess.wordpress.ComputerEval = new Class({
                 from: f, to: t
             };
             if (m.length == 5) {
-                obj.promoteTo = this.map[m.substr(4,1)];
+                obj.promoteTo = m.substr(4, 1);
             }
             this.parser.move(obj);
 
             var notation = this.parser.getNotation();
 
-            if(/[QRBN]/.test(notation.substr(0,1))){
+            if (/[QRBN]/.test(notation.substr(0, 1))) {
                 var c = a % 2 == 0 ? 'w' : 'b';
-                this.bestLine.push('<img style="vertical-align:text-bottom;height:18px" src="' + urlPrefix + c + notation.substr(0,1).toLocaleLowerCase() + '.svg">');
+                this.bestLine.push('<img style="vertical-align:text-bottom;height:18px" src="' + urlPrefix + c + notation.substr(0, 1).toLocaleLowerCase() + '.svg">');
 
                 notation = spanNotation + notation.substr(1) + '</span>';
-            }else{
+            } else {
                 notation = spanNotation + notation + '</span>';
             }
 
@@ -174,8 +186,19 @@ chess.wordpress.ComputerEval = new Class({
         this.parent();
         this.on('hide', this.stopEngine.bind(this));
 
-        this.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
+        var p = this.child['buttons'];
+        p.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
+        p.child['appendLine'].on('click', this.appendLine.bind(this));
+        p.child['appendLine'].hide();
     },
+
+    appendLine: function () {
+        if (this.bestLineString) {
+            if(this.started)this.stopEngine();
+            this.fireEvent('appendLine', this.bestLineString);
+        }
+    },
+
 
     onNextMove: function (model, m) {
         console.log(arguments);
@@ -215,14 +238,16 @@ chess.wordpress.ComputerEval = new Class({
 
         this.controller.stopEngine();
         this.started = false;
-        this.child['startStopEngine'].val('Start');
+        this.child['buttons'].child['startStopEngine'].val('Start');
         this.controller.sendMessage(chess.getPhrase('Engine stopped'))
     },
 
     startEngine: function () {
         this.controller.startEngine();
         this.started = true;
-        this.child['startStopEngine'].val('Stop');
+        this.child['buttons'].child['startStopEngine'].val('Stop');
+        this.child['buttons'].child['appendLine'].show();
+
     }
 
 });
