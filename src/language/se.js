@@ -1,11 +1,11 @@
 chess.language = Object.merge(chess.language, {
     pieces:{
-        'pawn':'',
-        'bishop':'L',
-        'rook':'T',
-        'knight':'S',
-        'queen':'D',
-        'king':'K'
+        'p':'',
+        'b':'L',
+        'r':'T',
+        'n':'S',
+        'q':'D',
+        'k':'K'
     },
     'goodMove':'Good move',
     'poorMove':'Poor move',

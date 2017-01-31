@@ -58,7 +58,7 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
-        if (this.selectedPiece.pieceType == 'king') {
+        if (this.selectedPiece.pieceType == 'k') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
@@ -72,7 +72,7 @@ chess.view.position.Board = new Class({
         }
         if (!p) {
             p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.pieceType == 'king') {
+            if (p && p.pieceType == 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -94,7 +94,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.pieceType == 'pawn') {
+        if (p.pieceType == 'p') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -143,7 +143,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType == 'king' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType == 'k' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }

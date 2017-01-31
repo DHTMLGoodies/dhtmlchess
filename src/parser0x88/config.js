@@ -34,20 +34,20 @@ Board0x88Config = {
 
     fenNotations:{
         white:{
-            'pawn':'P',
-            'knight':'N',
-            'bishop':'B',
-            'rook':'R',
-            'queen':'Q',
-            'king':'K'
+            'p':'P',
+            'n':'N',
+            'b':'B',
+            'r':'R',
+            'q':'Q',
+            'k':'K'
         },
         black:{
-            'pawn':'p',
-            'knight':'n',
-            'bishop':'b',
-            'rook':'r',
-            'queen':'q',
-            'king':'k'
+            'p':'p',
+            'n':'n',
+            'b':'b',
+            'r':'r',
+            'q':'q',
+            'k':'k'
         }
     },
 
@@ -137,24 +137,24 @@ Board0x88Config = {
     },
 
     pieceAbbr:{
-        'Q':'queen',
-        'R':'rook',
-        'N':'knight',
-        'B':'bishop'
+        'Q':'q',
+        'R':'r',
+        'N':'n',
+        'B':'b'
     },
     typeMapping:{
-        0x01:'pawn',
-        0x02:'knight',
-        0x03:'king',
-        0x05:'bishop',
-        0x06:'rook',
-        0x07:'queen',
-        0x09:'pawn',
-        0x0A:'knight',
-        0x0B:'king',
-        0x0D:'bishop',
-        0x0E:'rook',
-        0x0F:'queen'
+        0x01:'p',
+        0x02:'n',
+        0x03:'k',
+        0x05:'b',
+        0x06:'r',
+        0x07:'q',
+        0x09:'p',
+        0x0A:'n',
+        0x0B:'k',
+        0x0D:'b',
+        0x0E:'r',
+        0x0F:'q'
     },
 
     notationMapping:{
@@ -187,15 +187,15 @@ Board0x88Config = {
     },
 
     typeToNumberMapping:{
-        'pawn':0x01,
-        'knight':0x02,
+        'p':0x01,
+        'n':0x02,
         'N':0x02,
-        'king':0x03,
-        'bishop':0x05,
+        'k':0x03,
+        'b':0x05,
         'B':0x05,
-        'rook':0x06,
+        'r':0x06,
         'R':0x06,
-        'queen':0x07,
+        'q':0x07,
         'Q':0x07
     },
 

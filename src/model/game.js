@@ -468,7 +468,7 @@ chess.model.Game = new Class({
      var correctMove = model.tryNextMove({
 	 		from:'e7',
 	 		to:'e8',
-	 		promoteTo:'queen'
+	 		promoteTo:'q'
 	 	});
      */
     tryNextMove: function (move) {
@@ -1131,17 +1131,11 @@ chess.model.Game = new Class({
     },
 
     getStartPly:function(){
-        // this.model.metadata.fen
         return this._ply(this.getCurrentPosition(this.model.metadata.fen))
     },
 
     getCurrentPly:function(){
-
-        console.log(this.model.moves);
-
-        console.log(this.getCurrentPosition(), ' -- vs --' , this.model.metadata.fen);
         return this._ply(this.getCurrentPosition());
-
     },
 
     _ply:function(fen){

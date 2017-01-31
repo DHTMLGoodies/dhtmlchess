@@ -26,22 +26,22 @@ chess.view.dialog.Promote = new Class({
     children: [
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'queen',
+            piece: 'q',
             layout: {x: 0, y: 0}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'rook',
+            piece: 'r',
             layout: {x: 1, y: 0}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'bishop',
+            piece: 'b',
             layout: {x: 0, y: 1}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'knight',
+            piece: 'n',
             layout: {x: 1, y: 1}
         }
     ],

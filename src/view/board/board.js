@@ -86,7 +86,7 @@ chess.view.board.Board = new Class({
             var config = {
                 square: 0,
                 color: 'white',
-                pieceType: 'pawn',
+                pieceType: 'p',
                 pieceLayout: this.pieceLayout,
                 squareSize: 30,
                 flipped: flipped,

@@ -37,9 +37,9 @@ chess.view.board.Piece = new Class({
      Type of piece
      @config {String} pieceType
      @example
-     pieceType:'knight'
+     pieceType:'n'
      */
-    pieceType: 'pawn',
+    pieceType: 'p',
     dd: {
         active: false,
         el: {x: 0, y: 0},
@@ -306,7 +306,7 @@ chess.view.board.Piece = new Class({
      @method promote
      @param {String} toType
      @example
-     piece.promote('queen');
+     piece.promote('q');
      */
     promote: function (toType) {
         this.pieceType = toType;
@@ -495,13 +495,13 @@ chess.view.board.Piece = new Class({
      */
     getTypeCode: function () {
         switch (this.pieceType) {
-            case 'pawn':
-            case 'rook':
-            case 'bishop':
-            case 'queen':
-            case 'king':
+            case 'p':
+            case 'r':
+            case 'b':
+            case 'q':
+            case 'k':
                 return this.pieceType.substr(0, 1).toLowerCase();
-            case 'knight':
+            case 'n':
                 return 'n';
             default:
                 return undefined;

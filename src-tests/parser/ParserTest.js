@@ -916,7 +916,7 @@ TestCase("ParserTest", {
         var parser = new chess.parser.FenParser0x88(fen);
 
         // when
-        parser.move({ from:'c7', to:'c8', promoteTo:'queen' });
+        parser.move({ from:'c7', to:'c8', promoteTo:'q' });
         var newFen = parser.getFen();
         var expectedFen = '2Q4k/6p1/7p/8/8/4p3/8/7K b - - 0 1';
         // then
@@ -926,8 +926,8 @@ TestCase("ParserTest", {
 
         parser = new chess.parser.FenParser0x88(fen);
         // when
-        parser.move({ from:'c2', to:'c1', promoteTo:'queen'});
-        newFen = parser.getFen({ from:'c2', to:'c1', promoteTo:'queen'});
+        parser.move({ from:'c2', to:'c1', promoteTo:'q'});
+        newFen = parser.getFen({ from:'c2', to:'c1', promoteTo:'q'});
         expectedFen = '7k/8/8/8/8/8/8/2q4K w - - 0 2';
         // then
         assertEquals(expectedFen, newFen);
@@ -1128,7 +1128,7 @@ TestCase("ParserTest", {
         fen = '8/P6k/8/8/8/8/8/5K2 w - - 0 1';
         parser = new chess.parser.FenParser0x88(fen);
         // when
-        moves = parser.getPiecesInvolvedInMove({ from:'a7', to:'a8', 'promoteTo':'queen'});
+        moves = parser.getPiecesInvolvedInMove({ from:'a7', to:'a8', 'promoteTo':'q'});
         assertEquals(2, moves.length);
 
     },
@@ -1163,7 +1163,7 @@ TestCase("ParserTest", {
             '3k4/4p3/5p2/6p1/7p/8/8/R3K3 w Q - 0 1'
 
         ];
-        var moves = ['e2e4', 'e5d6' , { from:'c7', to:'c8', promoteTo:'queen'}, 'e1e8', 'f2f7', 'b7f7', 'b6d5', 'e1g1', 'e1c1'];
+        var moves = ['e2e4', 'e5d6' , { from:'c7', to:'c8', promoteTo:'q'}, 'e1e8', 'f2f7', 'b7f7', 'b6d5', 'e1g1', 'e1c1'];
         var expected = ['e4', 'exd6', 'c8=Q#', 'Rxe8+', 'Rfxf7', 'Rbxf7', 'N6xd5', 'O-O', 'O-O-O+'];
 
         for (var i = 0; i < fens.length; i++) {
@@ -1192,7 +1192,7 @@ TestCase("ParserTest", {
             '3k4/4p3/5p2/6p1/7p/8/8/R3K3 w Q - 0 1'
 
         ];
-        var moves = ['e2e4', 'e5d6' , { from:'c7', to:'c8', promoteTo:'queen'}, 'e1e8', 'f2f7', 'b7f7', 'b6d5', 'e1g1', 'e1c1'];
+        var moves = ['e2e4', 'e5d6' , { from:'c7', to:'c8', promoteTo:'q'}, 'e1e8', 'f2f7', 'b7f7', 'b6d5', 'e1g1', 'e1c1'];
         var expected = ['e2-e4', 'e5xd6', 'c7-c8=Q#', 'Re1xe8+', 'Rf2xf7', 'Rb7xf7', 'Nb6xd5', 'O-O', 'O-O-O+'];
 
         for (var i = 0; i < fens.length; i++) {
@@ -1244,7 +1244,7 @@ TestCase("ParserTest", {
 
         // given
         parser = this.getParser('3r2k1/pp1r4/1b3Q1P/5B2/8/8/P2p1PK1/8 b - - 3 41');
-        parser.move({ from:'d2', to:'d1', promoteTo:'queen'});
+        parser.move({ from:'d2', to:'d1', promoteTo:'q'});
 
         expectedFen = '3r2k1/pp1r4/1b3Q1P/5B2/8/8/P4PK1/3q4 w - - 0 42';
         fen = parser.getFen();
@@ -1259,7 +1259,7 @@ TestCase("ParserTest", {
 
         // when
         var expectedFen = '6k1/8/8/8/8/8/7P/1q5K w - - 0 2';
-        parser.move({ from:'b2', to:'b1', promoteTo:'queen'});
+        parser.move({ from:'b2', to:'b1', promoteTo:'q'});
 
         // then
         assertEquals(expectedFen, parser.getFen());
@@ -1330,7 +1330,7 @@ TestCase("ParserTest", {
         // then
         assertEquals('d2', move.from);
         assertEquals('d1', move.to);
-        assertEquals('queen', move.promoteTo);
+        assertEquals('q', move.promoteTo);
         // Given
         parser = this.getParser('r1bqk1nr/ppp2ppp/1b1p2n1/3PP1N1/2B5/8/P4PPP/RNBQ1RK1 b kq - 2 11');
         // when
@@ -1424,7 +1424,7 @@ TestCase("ParserTest", {
         var parser = this.getParser();
 
         var notations = ['a8=R+', 'g8Q', 'axb1=R', 'b8'];
-        var expectedResults = ['rook', 'queen', 'rook', ''];
+        var expectedResults = ['r', 'q', 'r', ''];
 
         // when
         for (var i = 0; i < notations.length; i++) {

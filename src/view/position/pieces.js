@@ -8,7 +8,7 @@ chess.view.position.Pieces = new Class({
     Extends:ludo.View,
     pieceColor:'white',
     pieceLayout:'alphapale',
-    pieceTypes:['king', 'queen', 'rook', 'bishop', 'knight', 'pawn'],
+    pieceTypes:['k', 'q', 'r', 'b', 'n', 'p'],
     pieces : {},
 
     __construct:function (config) {
@@ -51,8 +51,8 @@ chess.view.position.Pieces = new Class({
 chess.view.position.Piece = new Class({
     Extends:ludo.View,
     pieceColor:'white',
-    pieceType:'pawn',
-    pieceLayout:'pawn',
+    pieceType:'p',
+    pieceLayout:'p',
     size:45,
     height:55,
 
@@ -128,7 +128,7 @@ chess.view.position.Piece = new Class({
     },
 
     getTypeCode:function () {
-        return this.pieceType === 'knight' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
+        return this.pieceType === 'n' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
     },
     selectPiece:function (e) {
         var obj = {

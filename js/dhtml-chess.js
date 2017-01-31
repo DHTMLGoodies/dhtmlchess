@@ -1,4 +1,4 @@
-/* Generated Mon Jan 30 3:33:54 CET 2017 */
+/* Generated Tue Jan 31 2:43:37 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -29436,12 +29436,12 @@ chess.util.DynamicStyles = new Class({
  */
 chess.language = {
     pieces:{
-        'pawn':'',
-        'bishop':'B',
-        'rook':'R',
-        'knight':'N',
-        'queen':'Q',
-        'king':'K'
+        'p':'',
+        'b':'B',
+        'r':'R',
+        'n':'N',
+        'q':'Q',
+        'k':'K'
     },
     'clear':'Clear',
     'Good move':'Good move',
@@ -29752,7 +29752,9 @@ chess.view.notation.Panel = new Class({
             this.currentModelMoveId = move.uid;
         }
         this.getBody().html('');
-        var moves = this.getMovesInBranch(model.getMoves(), 0, 0, 0, 0);
+
+
+        var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
         
         if(this.showResult){
             var res = model.getResult();
@@ -29796,7 +29798,7 @@ chess.view.notation.Panel = new Class({
                     moves.push(e);
                 }
                 moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
-                m.push(s);
+                moves.push(s);
                 gs = true;
             }
             if (moveCounter % 2 === 0 && notation) {
@@ -29888,12 +29890,12 @@ chess.view.notation.Panel = new Class({
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
 
 
-            if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'pawn') {
+            if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
                 var p = move.p;
                 var c = p.color.substr(0, 1);
-                var t = p.type == 'knight' ? 'n' : p.type.substr(0, 1);
+                var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'pawn' ? 0 : 1)));
+                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
 
                 ret.push(move[this.notationKey]);
@@ -30760,7 +30762,7 @@ chess.view.board.Board = new Class({
             var config = {
                 square: 0,
                 color: 'white',
-                pieceType: 'pawn',
+                pieceType: 'p',
                 pieceLayout: this.pieceLayout,
                 squareSize: 30,
                 flipped: flipped,
@@ -30994,6 +30996,10 @@ chess.view.board.Board = new Class({
      * @return void
      */
     showStartBoard: function (model) {
+        if(!model.getCurrentPosition()){
+            console.error('no position');
+            console.trace();
+        }
         this.showFen(model.getCurrentPosition());
     },
     /**
@@ -31003,6 +31009,7 @@ chess.view.board.Board = new Class({
      * @return undefined
      */
     showFen: function (fen) {
+
         this.positionParser.setFen(fen);
         var pieces = this.positionParser.getPieces();
         this.pieceMap = {};
@@ -31188,9 +31195,9 @@ chess.view.board.Piece = new Class({
      Type of piece
      @config {String} pieceType
      @example
-     pieceType:'knight'
+     pieceType:'n'
      */
-    pieceType: 'pawn',
+    pieceType: 'p',
     dd: {
         active: false,
         el: {x: 0, y: 0},
@@ -31457,7 +31464,7 @@ chess.view.board.Piece = new Class({
      @method promote
      @param {String} toType
      @example
-     piece.promote('queen');
+     piece.promote('q');
      */
     promote: function (toType) {
         this.pieceType = toType;
@@ -31646,13 +31653,13 @@ chess.view.board.Piece = new Class({
      */
     getTypeCode: function () {
         switch (this.pieceType) {
-            case 'pawn':
-            case 'rook':
-            case 'bishop':
-            case 'queen':
-            case 'king':
+            case 'p':
+            case 'r':
+            case 'b':
+            case 'q':
+            case 'k':
                 return this.pieceType.substr(0, 1).toLowerCase();
-            case 'knight':
+            case 'n':
                 return 'n';
             default:
                 return undefined;
@@ -34113,22 +34120,22 @@ chess.view.dialog.Promote = new Class({
     children: [
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'queen',
+            piece: 'q',
             layout: {x: 0, y: 0}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'rook',
+            piece: 'r',
             layout: {x: 1, y: 0}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'bishop',
+            piece: 'b',
             layout: {x: 0, y: 1}
         },
         {
             type: 'chess.view.dialog.PromotePiece',
-            piece: 'knight',
+            piece: 'n',
             layout: {x: 1, y: 1}
         }
     ],
@@ -35082,7 +35089,7 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
-        if (this.selectedPiece.pieceType == 'king') {
+        if (this.selectedPiece.pieceType == 'k') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
@@ -35096,7 +35103,7 @@ chess.view.position.Board = new Class({
         }
         if (!p) {
             p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.pieceType == 'king') {
+            if (p && p.pieceType == 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -35118,7 +35125,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.pieceType == 'pawn') {
+        if (p.pieceType == 'p') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -35167,7 +35174,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType == 'king' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType == 'k' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }
@@ -35239,7 +35246,7 @@ chess.view.position.Pieces = new Class({
     Extends:ludo.View,
     pieceColor:'white',
     pieceLayout:'alphapale',
-    pieceTypes:['king', 'queen', 'rook', 'bishop', 'knight', 'pawn'],
+    pieceTypes:['k', 'q', 'r', 'b', 'n', 'p'],
     pieces : {},
 
     __construct:function (config) {
@@ -35282,8 +35289,8 @@ chess.view.position.Pieces = new Class({
 chess.view.position.Piece = new Class({
     Extends:ludo.View,
     pieceColor:'white',
-    pieceType:'pawn',
-    pieceLayout:'pawn',
+    pieceType:'p',
+    pieceLayout:'p',
     size:45,
     height:55,
 
@@ -35359,7 +35366,7 @@ chess.view.position.Piece = new Class({
     },
 
     getTypeCode:function () {
-        return this.pieceType === 'knight' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
+        return this.pieceType === 'n' ? 'n' : this.pieceType ? this.pieceType.substr(0,1).toLowerCase() : undefined;
     },
     selectPiece:function (e) {
         var obj = {
@@ -36058,7 +36065,7 @@ chess.view.score.Bar = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
+        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
         this.layout.type = 'Canvas';
     },
 
@@ -36072,12 +36079,12 @@ chess.view.score.Bar = new Class({
                     width: 'matchParent'
                 },
                 borderRadius: this.borderRadius,
-                whiteColor:this.whiteColor,
-                blackColor:this.blackColor,
-                markerColor:this.markerColor,
-                markerTextColor:this.markerTextColor,
-                stroke:this.stroke,
-                range:this.range
+                whiteColor: this.whiteColor,
+                blackColor: this.blackColor,
+                markerColor: this.markerColor,
+                markerTextColor: this.markerTextColor,
+                stroke: this.stroke,
+                range: this.range
             }
 
         ]
@@ -36111,16 +36118,16 @@ chess.view.score.BarBackground = new Class({
 
     debugCircle: undefined,
 
-    whiteColor:'#d2d2d2',
-    blackColor:'#333333',
+    whiteColor: '#d2d2d2',
+    blackColor: '#333333',
 
-    markerColor:'#B71C1C',
-    markerTextColor:'#FFFFFF',
-    stroke:'#ddd',
+    markerColor: '#B71C1C',
+    markerTextColor: '#FFFFFF',
+    stroke: '#ddd',
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
+        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
     },
 
     __rendered: function () {
@@ -36147,7 +36154,6 @@ chess.view.score.BarBackground = new Class({
         this.textNode.text("0,0");
         this.textNode.css('fill', this.markerTextColor);
         this.markerGroup.append(this.textNode);
-
 
 
         this.textNode.attr('alignment-baseline', 'central');
@@ -36358,12 +36364,16 @@ chess.view.score.BarBackground = new Class({
         this.textNode.setTranslate(0, (r / 2) + this.height / 2);
         this.textNode.css('font-size', r / 1.5);
         this.textNode.css('line-height', r / 1.5);
-        
+
         this.resizeRects();
 
     },
 
     setScore: function (score) {
+        if (score.indexOf('#') != -1) {
+            score = score.replace(/[^0-9\-]/g, '');
+            score = parseInt(score) * 100;
+        }
         score = ludo.util.clamp(score, -100, 100);
         this.score = Math.round(score * 10) / 10;
     }
@@ -36407,20 +36417,20 @@ Board0x88Config = {
 
     fenNotations:{
         white:{
-            'pawn':'P',
-            'knight':'N',
-            'bishop':'B',
-            'rook':'R',
-            'queen':'Q',
-            'king':'K'
+            'p':'P',
+            'n':'N',
+            'b':'B',
+            'r':'R',
+            'q':'Q',
+            'k':'K'
         },
         black:{
-            'pawn':'p',
-            'knight':'n',
-            'bishop':'b',
-            'rook':'r',
-            'queen':'q',
-            'king':'k'
+            'p':'p',
+            'n':'n',
+            'b':'b',
+            'r':'r',
+            'q':'q',
+            'k':'k'
         }
     },
 
@@ -36510,24 +36520,24 @@ Board0x88Config = {
     },
 
     pieceAbbr:{
-        'Q':'queen',
-        'R':'rook',
-        'N':'knight',
-        'B':'bishop'
+        'Q':'q',
+        'R':'r',
+        'N':'n',
+        'B':'b'
     },
     typeMapping:{
-        0x01:'pawn',
-        0x02:'knight',
-        0x03:'king',
-        0x05:'bishop',
-        0x06:'rook',
-        0x07:'queen',
-        0x09:'pawn',
-        0x0A:'knight',
-        0x0B:'king',
-        0x0D:'bishop',
-        0x0E:'rook',
-        0x0F:'queen'
+        0x01:'p',
+        0x02:'n',
+        0x03:'k',
+        0x05:'b',
+        0x06:'r',
+        0x07:'q',
+        0x09:'p',
+        0x0A:'n',
+        0x0B:'k',
+        0x0D:'b',
+        0x0E:'r',
+        0x0F:'q'
     },
 
     notationMapping:{
@@ -36560,15 +36570,15 @@ Board0x88Config = {
     },
 
     typeToNumberMapping:{
-        'pawn':0x01,
-        'knight':0x02,
+        'p':0x01,
+        'n':0x02,
         'N':0x02,
-        'king':0x03,
-        'bishop':0x05,
+        'k':0x03,
+        'b':0x05,
         'B':0x05,
-        'rook':0x06,
+        'r':0x06,
         'R':0x06,
-        'queen':0x07,
+        'q':0x07,
         'Q':0x07
     },
 
@@ -36708,7 +36718,7 @@ chess.parser.FenParser0x88 = new Class({
 			'black':[],
 			'whiteSliding':[],
 			'blackSliding':[],
-			'king':{ 'white':undefined, 'black':'undefined'}
+			'k':{ 'white':undefined, 'black':'undefined'}
 		};
 		this.fen = fen;
 		this.updateFenArray(fen);
@@ -36755,8 +36765,8 @@ chess.parser.FenParser0x88 = new Class({
 				this.cache[Board0x88Config.colorMapping[token]].push(piece);
 
 				// King array
-				if (Board0x88Config.typeMapping[type] == 'king') {
-					this.cache['king' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
+				if (Board0x88Config.typeMapping[type] == 'k') {
+					this.cache['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
 				}
 				pos++;
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
@@ -36792,7 +36802,7 @@ chess.parser.FenParser0x88 = new Class({
 	 both are numeric according to the 0x88 board.
 	 */
 	getKing:function (color) {
-		return this.cache['king' + color];
+		return this.cache['k' + color];
 	},
 
 	/**
@@ -36898,7 +36908,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @example
 	 	{
 	 		"square": "e2",
-	 		"type": "pawn",
+	 		"type": 'p',
 	 		"color": "white",
 	 		"sliding": 0
 	 	}
@@ -36992,7 +37002,7 @@ chess.parser.FenParser0x88 = new Class({
 				var rank = this.rank(toSquare);
 				if(rank == 0 || rank == 7){
 					var p = this.getPieceOnSquare(from);
-					if(p.type == 'pawn')addPromotion = true;
+					if(p.type == 'p')addPromotion = true;
 				}
 				var ts = Board0x88Config.numberToSquareMapping[toSquare];
 				if(addPromotion){
@@ -37048,7 +37058,7 @@ chess.parser.FenParser0x88 = new Class({
 				var rank = this.rank(toSquare);
 				if(rank == 0 || rank == 7){
 					var p = this.getPieceOnSquare(from);
-					if(p.type == 'pawn')addPromotion = true;
+					if(p.type == 'p')addPromotion = true;
 				}
 
 				var m = {
@@ -37523,7 +37533,7 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
-		var king = this.cache['king' + (color === 'white' ? 'black' : 'white')];
+		var king = this.cache['k' + (color === 'white' ? 'black' : 'white')];
 		var pieces = this.cache[color];
 		for (var i = 0; i < pieces.length; i++) {
 			var piece = pieces[i];
@@ -37595,7 +37605,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {};
 		var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
 		var WHITE = color === 'white';
-		var king = this.cache['king' + color];
+		var king = this.cache['k' + color];
 		var i = 0;
 		while (i < pieces.length) {
 			var piece = pieces[i];
@@ -37627,7 +37637,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	getValidSquaresOnCheck:function (color) {
 		var ret = [], checks;
-		var king = this.cache['king' + color];
+		var king = this.cache['k' + color];
 		var pieces = this.cache[color === 'white' ? 'black' : 'white'];
 
 
@@ -37737,7 +37747,7 @@ chess.parser.FenParser0x88 = new Class({
 
 
 	getCountChecks:function (kingColor, moves) {
-		var king = this.cache['king' + kingColor];
+		var king = this.cache['k' + kingColor];
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
@@ -38105,7 +38115,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		return notation;
 	},
-
+	
 	move:function (move) {
 		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);
@@ -38113,6 +38123,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
 			move.promoteTo = this.getPromoteByNotation(move.m);
 		}
+
 		this.fen = undefined;
 		this.piecesInvolved = this.getPiecesInvolvedInMove(move);
 		this.notation = this.getNotationForAMove(move);
@@ -38192,7 +38203,7 @@ chess.parser.FenParser0x88 = new Class({
                 var rook,offset;
                 this.disableCastle(from);
 
-                this.cache['king' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
+                this.cache['k' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
                 if(this.getDistance(from,to) > 1){
                     if (this.cache['board'][from] === 0x03) {
                         rook = 0x06;
@@ -38393,7 +38404,7 @@ chess.parser.FenParser0x88 = new Class({
 	getLongNotationForAMove:function (move, shortNotation) {
 		if(!shortNotation){
 			console.trace();
-			console.log(move);
+			console.log(this.getFen(), move);
 		}
 		if (shortNotation.indexOf('O-') >= 0) {
 			return shortNotation;
@@ -38771,7 +38782,7 @@ chess.parser.Move0x88 = new Class({
      */
     isPawnOnSquare : function(square) {
         var piece = this.parser.getPieceOnSquare(square);
-        return piece.type === 'pawn';
+        return piece.type === 'p';
     },
 
     getMobility:function(fen){
@@ -40016,7 +40027,6 @@ chess.model.Game = new Class({
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
-        console.log(gameData);
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
@@ -40038,7 +40048,7 @@ chess.model.Game = new Class({
         this.toStart();
     },
 
-    reservedMetadata: ["event", "site", "date", "round", "white", "black", "result",
+    reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
         "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id"],
     // TODO refactor this to match server
     /**
@@ -40258,7 +40268,7 @@ chess.model.Game = new Class({
      var correctMove = model.tryNextMove({
 	 		from:'e7',
 	 		to:'e8',
-	 		promoteTo:'queen'
+	 		promoteTo:'q'
 	 	});
      */
     tryNextMove: function (move) {
@@ -40918,6 +40928,28 @@ chess.model.Game = new Class({
         var fens = this.getCurrentPosition().split(' ');
         var colors = {'w': 'white', 'b': 'black'};
         return colors[fens[1]];
+    },
+
+    getStartPly:function(){
+        // this.model.metadata.fen
+        return this._ply(this.getCurrentPosition(this.model.metadata.fen))
+    },
+
+    getCurrentPly:function(){
+
+        console.log(this.model.moves);
+
+        console.log(this.getCurrentPosition(), ' -- vs --' , this.model.metadata.fen);
+        return this._ply(this.getCurrentPosition());
+
+    },
+
+    _ply:function(fen){
+        var fens = fen.split(/\s/g);
+        var l = fens.pop();
+        var m = (l - 1) * 2;
+        if(fens[1] == 'b')m++;
+        return m;
     },
 
     /**

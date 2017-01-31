@@ -33,7 +33,7 @@ chess.parser.FenParser0x88 = new Class({
 			'black':[],
 			'whiteSliding':[],
 			'blackSliding':[],
-			'king':{ 'white':undefined, 'black':'undefined'}
+			'k':{ 'white':undefined, 'black':'undefined'}
 		};
 		this.fen = fen;
 		this.updateFenArray(fen);
@@ -80,8 +80,8 @@ chess.parser.FenParser0x88 = new Class({
 				this.cache[Board0x88Config.colorMapping[token]].push(piece);
 
 				// King array
-				if (Board0x88Config.typeMapping[type] == 'king') {
-					this.cache['king' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
+				if (Board0x88Config.typeMapping[type] == 'k') {
+					this.cache['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
 				}
 				pos++;
 			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
@@ -117,7 +117,7 @@ chess.parser.FenParser0x88 = new Class({
 	 both are numeric according to the 0x88 board.
 	 */
 	getKing:function (color) {
-		return this.cache['king' + color];
+		return this.cache['k' + color];
 	},
 
 	/**
@@ -223,7 +223,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @example
 	 	{
 	 		"square": "e2",
-	 		"type": "pawn",
+	 		"type": 'p',
 	 		"color": "white",
 	 		"sliding": 0
 	 	}
@@ -317,7 +317,7 @@ chess.parser.FenParser0x88 = new Class({
 				var rank = this.rank(toSquare);
 				if(rank == 0 || rank == 7){
 					var p = this.getPieceOnSquare(from);
-					if(p.type == 'pawn')addPromotion = true;
+					if(p.type == 'p')addPromotion = true;
 				}
 				var ts = Board0x88Config.numberToSquareMapping[toSquare];
 				if(addPromotion){
@@ -373,7 +373,7 @@ chess.parser.FenParser0x88 = new Class({
 				var rank = this.rank(toSquare);
 				if(rank == 0 || rank == 7){
 					var p = this.getPieceOnSquare(from);
-					if(p.type == 'pawn')addPromotion = true;
+					if(p.type == 'p')addPromotion = true;
 				}
 
 				var m = {
@@ -848,7 +848,7 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
-		var king = this.cache['king' + (color === 'white' ? 'black' : 'white')];
+		var king = this.cache['k' + (color === 'white' ? 'black' : 'white')];
 		var pieces = this.cache[color];
 		for (var i = 0; i < pieces.length; i++) {
 			var piece = pieces[i];
@@ -920,7 +920,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {};
 		var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
 		var WHITE = color === 'white';
-		var king = this.cache['king' + color];
+		var king = this.cache['k' + color];
 		var i = 0;
 		while (i < pieces.length) {
 			var piece = pieces[i];
@@ -952,7 +952,7 @@ chess.parser.FenParser0x88 = new Class({
 
 	getValidSquaresOnCheck:function (color) {
 		var ret = [], checks;
-		var king = this.cache['king' + color];
+		var king = this.cache['k' + color];
 		var pieces = this.cache[color === 'white' ? 'black' : 'white'];
 
 
@@ -1062,7 +1062,7 @@ chess.parser.FenParser0x88 = new Class({
 
 
 	getCountChecks:function (kingColor, moves) {
-		var king = this.cache['king' + kingColor];
+		var king = this.cache['k' + kingColor];
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
@@ -1430,11 +1430,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		return notation;
 	},
-
-	promoteMap:{
-		'queen' : 'q', 'rook' : 'r', 'knight' : 'n', 'bishop' : 'b'
-	},
-
+	
 	move:function (move) {
 		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);
@@ -1442,7 +1438,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
 			move.promoteTo = this.getPromoteByNotation(move.m);
 		}
-		
+
 		this.fen = undefined;
 		this.piecesInvolved = this.getPiecesInvolvedInMove(move);
 		this.notation = this.getNotationForAMove(move);
@@ -1522,7 +1518,7 @@ chess.parser.FenParser0x88 = new Class({
                 var rook,offset;
                 this.disableCastle(from);
 
-                this.cache['king' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
+                this.cache['k' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
                 if(this.getDistance(from,to) > 1){
                     if (this.cache['board'][from] === 0x03) {
                         rook = 0x06;

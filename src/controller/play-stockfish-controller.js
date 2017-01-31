@@ -70,10 +70,6 @@ chess.controller.PlayStockFishController = new Class({
         }
     },
     
-    map:{
-        'queen' : 'q', 'knight' : ''    
-    },
-    
     uciCmd:function(cmd){
         
     },
@@ -103,7 +99,7 @@ chess.controller.PlayStockFishController = new Class({
 
                         var m = lastMove.from + lastMove.to;
                         if(lastMove.promoteTo){
-                            m+= (lastMove.promoteTo == 'knight' ? 'n' : lastMove.substr(4));
+                            m+= (lastMove.promoteTo == 'n' ? 'n' : lastMove.substr(4));
                         }
                         
 

@@ -13,7 +13,7 @@ chess.model.Move = new Class({
 		 {
 			 from:'e7',
 			 to:'e8',
-			 promoteTo:'queen',
+			 promoteTo:'q',
 			 comment:'My comment',
 			 m:'e8=Q',
 			 lm:'e7-e8=Q'
@@ -36,7 +36,7 @@ chess.model.Move = new Class({
 	 @type String
 	 @optional
 	 @example
-	 	"promoteTo": "queen"
+	 	"promoteTo": 'q'
 	 */
 	promoteTo:undefined,
 

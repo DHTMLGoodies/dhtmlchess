@@ -292,10 +292,8 @@ chess.view.score.BarBackground = new Class({
             'A', r, r, 0, 0, 1, left, 0
 
         ];
-
-
+        
         this.strokeRect.set('d', p.join(' '));
-
 
         r = h / 2;
         p = [
@@ -314,7 +312,7 @@ chess.view.score.BarBackground = new Class({
     },
 
     setScore: function (score) {
-        if (score.indexOf('#') != -1) {
+        if (jQuery.type(score) == 'string' && score.indexOf('#') != -1) {
             score = score.replace(/[^0-9\-]/g, '');
             score = parseInt(score) * 100;
         }

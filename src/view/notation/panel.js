@@ -379,12 +379,12 @@ chess.view.notation.Panel = new Class({
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
 
 
-            if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'pawn') {
+            if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
                 var p = move.p;
                 var c = p.color.substr(0, 1);
-                var t = p.type == 'knight' ? 'n' : p.type.substr(0, 1);
+                var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'pawn' ? 0 : 1)));
+                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
 
                 ret.push(move[this.notationKey]);

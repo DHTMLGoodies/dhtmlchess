@@ -106,7 +106,7 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLine = [];
     },
 
-    map: {q: 'queen', n: 'knight', 'b': 'bishop', 'rook': 'rook'},
+    map: {q: 'q', n: 'n', 'b': 'b', 'r': 'r'},
 
     getMoveLine: function (update) {
 

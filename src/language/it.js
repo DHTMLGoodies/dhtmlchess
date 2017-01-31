@@ -1,10 +1,10 @@
 chess.language = Object.merge(chess.language, {
     pieces:{
-        'pawn':'',
-        'knight':'C',
-        'bishop':'A',
-        'rook':'T',
-        'queen':'D',
-        'king':'R'
+        'p':'',
+        'n':'C',
+        'b':'A',
+        'r':'T',
+        'q':'D',
+        'k':'R'
     }
 });
