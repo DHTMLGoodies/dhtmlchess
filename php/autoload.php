@@ -45,7 +45,7 @@ spl_autoload_register(
                 'chat' => '/chessDB/chat/Chat.php',
                 'chatmessage' => '/chessDB/chat/ChatMessage.php',
                 'chatmessages' => '/chessDB/chat/ChatMessages.php',
-                'chess_json' => '/CHESS_JSON.php',
+                'chess_json' => '/parser/CHESS_JSON.php',
                 'chessdbinstaller' => '/chessDB/ChessDBInstaller.php',
                 'chessengine' => '/engine/ChessEngine.php',
                 'chessfileupload' => '/chessDB/ChessFileUpload.php',

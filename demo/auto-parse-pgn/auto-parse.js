@@ -14,6 +14,7 @@ chess.AutoParse = new Class({
 
     startTime: new Date().getTime(),
     timeout: 120000,
+    minimiumTimeout: 5000,
     timeoutVariations: 1500,
     countGames: undefined,
 
@@ -25,6 +26,7 @@ chess.AutoParse = new Class({
     lastEngineMove: undefined,
 
     parser: undefined,
+    secondParser: undefined,
 
     parsingMode: 0,
 
@@ -37,6 +39,9 @@ chess.AutoParse = new Class({
 
     append: false,
 
+    strict:true,
+
+    timeMateFound:0,
 
     initialize: function (config) {
         this.in = config.in;
@@ -51,6 +56,7 @@ chess.AutoParse = new Class({
         if (config.append != undefined)this.append = config.append;
 
         this.parser = new chess.parser.FenParser0x88();
+        this.secondParser = new chess.parser.FenParser0x88();
 
         if (config.listeners) {
             this.addEvents(config.listeners);
@@ -102,13 +108,25 @@ chess.AutoParse = new Class({
         var elapsed = new Date().getTime() - this.startTime;
 
 
+        var elapsedMinimum = new Date().getTime() - this.timeMateFound > this.minimiumTimeout;
+        if(this.checkmatesOnly && this.parsingMode == 0 && this.foundMate  && elapsedMinimum ){
+            this.foundMate = false;
+
+            this.onNewMove();
+            console.log('timeout new moves');
+            return;
+        }
+
         if (this.parsingMode == 0 && elapsed > this.timeout) {
 
             if (!this.checkmatesOnly && this.hasReachedAcceptedScore()) {
+                console.log('stopping 4');
                 this.controller.stopEngine();
                 this.startTime = new Date().getTime();
+                console.log('timeout');
                 this.onNewMove();
             } else {
+                console.log('stopping 4');
                 this.controller.stopEngine();
                 this.loadNext.delay(1000, this);
                 this.startTime = new Date().getTime();
@@ -124,10 +142,10 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
+        location.href='index.php?index=' + (this.index + 1);
         return;
 
-
-        if(this.index > 0 && this.index % 20 == 0){
+        if (this.index > 0 && this.index % 50 == 0) {
             return;
         }
 
@@ -139,9 +157,10 @@ chess.AutoParse = new Class({
 
     createController: function () {
         var that = this;
-        this.controller = new chess.controller.AnalysisEngineController({
+        this.controller = new chess.controller.StockfishEngineController({
+            stockfish: '../../stockfish-js/stockfish.js',
             pgn: this.in,
-            garboChess: this.garbochess,
+            autoStopEngineOnNewGame: false,
             stopped: true,
             debug: false,
             listeners: {
@@ -154,6 +173,9 @@ chess.AutoParse = new Class({
 
 
     gameLoaded: function (model, gameData) {
+
+        this.foundMate = false;
+        this.timeMateFound = 0;
 
         this.parsingMode = 0;
         this.currentMoves = [];
@@ -174,43 +196,46 @@ chess.AutoParse = new Class({
         startTime = new Date().getTime();
 
         if (this.controller.stopped && this.parsingMode == 0) {
-            this.controller.startEngine();
+            this.controller.startEngine.delay(100, this.controller);
         }
     },
 
     bestMoves: undefined,
 
+    currentBest: undefined,
+
     updateMove: function (move) {
 
 
-        this.bestMoves = move.replace(/^.*?NPS:[0-9]+?[^0-9](.*)$/g, '$1').trim();
+        this.bestMoves = move.bestMoves;
 
-        var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
-        var c = this.controller.currentModel.getColorToMove();
-        var score = (s / 1000);
-
-
-        if (!isNaN(score) && c == 'black')score *= -1;
-
-        if (this.parsingMode !=0) {
-            return;
-        }
-        if (isNaN(score)) {
-            this.controller.stopEngine();
-            this.loadNext.delay(2, this);
+        if (this.parsingMode != 0) {
             return;
         }
 
+        this.bestScore = move.score;
 
-        this.bestScore = score;
-        this.fireEvent('score', score);
+
+        this.fireEvent('score', move.mote ? move.mate * 100 : move.score);
 
 
         this.fireEvent('message', this.elapsed());
 
-        if (Math.abs(score) >= 1000) {
+
+        var elapsed = new Date().getTime() - this.startTime > this.minimiumTimeout;
+
+        if(move.mate && !this.timeMateFound){
+            this.timeMateFound = new Date().getTime();
+            this.foundMate = true;
+        }
+
+        if (move.mate && this.bestMoves != this.currentBest && elapsed) {
+            this.timeMateFound = new Date().getTime();
             this.onNewMove();
         }
+
+        this.currentBest = this.bestMoves;
+
     },
 
     elapsed: function () {
@@ -219,6 +244,10 @@ chess.AutoParse = new Class({
 
     onNewMove: function () {
 
+        this.foundMate = false;
+        this.timeMateFound = 0;
+
+
         var elapsed = new Date().getTime() - startTime;
 
         this.startTime = new Date().getTime();
@@ -226,13 +255,16 @@ chess.AutoParse = new Class({
         var m = this.bestMoves.replace(/[\s]+/, ' ');
 
         var moves = m.split(/\s/g);
+
         if (this.lastEngineMove == undefined) {
             this.lastEngineMove = moves[moves.length - 1];
         }
 
         var model = this.controller.currentModel;
 
+        console.log('stopping 1');
         this.controller.stopEngine();
+
 
         var pos = model.getCurrentPosition();
         this.parser.setFen(pos);
@@ -242,13 +274,15 @@ chess.AutoParse = new Class({
 
         this.currentFens.push(model.getCurrentPosition());
 
+        var i;
+
         if (checkmateMoves.length > 1) {
             var lastMove = {
                 move: checkmateMoves[0],
                 variations: []
             };
 
-            for (var i = 1; i < checkmateMoves.length; i++) {
+            for (i = 1; i < checkmateMoves.length; i++) {
                 lastMove.variations.push([checkmateMoves[i]]);
             }
 
@@ -256,12 +290,57 @@ chess.AutoParse = new Class({
             model.appendRemoteMove(checkmateMoves[0]);
             this.currentMoves.push(lastMove);
 
+
             this.onGameEnd();
         } else {
 
-            this.currentMoves.push(moves[0]);
+            var cmFound = false;
+            var map = {q: 'queen', n: 'knight', 'b': 'bishop', 'rook': 'rook'};
 
-            model.appendRemoteMove(moves[0]);
+            this.secondParser.setFen(this.parser.getFen());
+
+
+            for (i = 0; i < moves.length; i++) {
+                var move = moves[i];
+                var promoteTo = undefined;
+                if (move.length == 5) {
+                    promoteTo = map[move.substr(4, 1)];
+                }
+                var obj = {
+                    from: move.substr(0, 2),
+                    to: move.substr(2, 2),
+                    promoteTo: promoteTo
+                };
+
+                this.secondParser.move(obj);
+
+                var notation = this.secondParser.getNotation();
+                cmFound = notation.indexOf('#') > 0;
+                model.appendRemoteMove(notation);
+                this.currentMoves.push(notation);
+                this.currentFens.push(model.getCurrentPosition());
+            }
+
+            if (!cmFound) {
+                var checkmates = this.secondParser.getAllCheckmateMoves();
+                var lm;
+
+                jQuery.each(checkmates, function (i, checkmate) {
+                    if (!lm) {
+                        model.appendRemoteMove(checkmate);
+                        lm = checkmates.length == 1 ? checkmate : {
+                            move: checkmate,
+                            variations: []
+                        };
+                    } else {
+                        lm.variations.push(checkmate);
+                    }
+                }.bind(this));
+
+                if (lm) {
+                    this.currentMoves.push(lm);
+                }
+            }
 
             var cm = model.getLastMoveInGame().m.indexOf('#') >= 0;
 
@@ -277,6 +356,7 @@ chess.AutoParse = new Class({
             } else {
                 this.bestScore = 0;
                 this.controller.startEngine.delay(10, this.controller);
+                console.log('bestmoves', 'restarting engine');
             }
         }
     },
@@ -303,10 +383,12 @@ chess.AutoParse = new Class({
 
         var equal = variation[0] == this.bestLines[this.variationIndex];
 
-        console.log('received', equal, variation[0], this.bestLines[this.variationIndex]);
 
         if (!equal && variation.length + this.variationIndex == this.bestLines.length) {
-
+            if(this.strict){
+                this.loadNext();
+                return;
+            }
             this.arrayOfVariations.push(variation);
             if (this.checkmatesOnly) {
                 this.currentPgn.questionable = '1';
@@ -332,6 +414,7 @@ chess.AutoParse = new Class({
 
     parseNextMove: function () {
 
+        console.log('stopping 2');
         this.controller.stopEngine();
 
         this.startTime = new Date().getTime();
@@ -344,6 +427,7 @@ chess.AutoParse = new Class({
             }
 
             this.parsingMode = 3;
+            console.log('stopping 3');
             this.controller.stopEngine();
             this.moveToNextInVariation();
             return;
@@ -355,6 +439,7 @@ chess.AutoParse = new Class({
 
         if (this.lineFinder == undefined) {
             this.lineFinder = new chess.FindLine({
+                parentCmp: this,
                 controller: this.controller,
                 listeners: {
                     'finished': this.receivedVariationLine.bind(this),
@@ -362,7 +447,7 @@ chess.AutoParse = new Class({
                 }
             });
         }
-        this.lineFinder.findLine(this.bestLineFens[this.variationIndex], move, undefined, this.colorToMove);
+        this.lineFinder.findLine(this.bestLineFens[this.variationIndex], move, this.bestLines.length * 100, this.colorToMove);
 
 
         this.parser.move(move);
@@ -380,7 +465,6 @@ chess.AutoParse = new Class({
             this.controller.setPosition(this.bestLineFens[this.variationIndex]);
             this.parser.setFen(this.bestLineFens[this.variationIndex]);
 
-            this.currentBestMove = this.currentMoves[this.variationIndex];
             this.variationMoveIndex = 0;
             this.parsingMode = this.variationIndex % 2 == 0 ? 1 : 2;
             this.parseBranch();
@@ -404,7 +488,6 @@ chess.AutoParse = new Class({
             this.bestLineFens.push(this.currentFens[i]);
         }.bind(this));
 
-        this.currentBestMove = this.currentMoves[this.variationIndex];
         this.parser.setFen(this.bestLineFens[this.variationIndex]);
         this.parseBranch();
 
@@ -412,7 +495,6 @@ chess.AutoParse = new Class({
 
 
     onGameEnd: function () {
-
         if (this.currentMoves.length > 1 && this.checkmatesOnly) {
             this.parsingMode = 1;
             this.parseVariations();
@@ -450,7 +532,17 @@ chess.AutoParse = new Class({
                             }
                         }
                         if (pr.length)pr += ' ';
-                        notation += pr + variationMove + ' ';
+
+                        if(jQuery.type(variationMove) == 'object'){
+                            notation += pr + variationMove.move + ' ';
+
+                            jQuery.each(variationMove.variations, function(a, subvar){
+                                notation += '(' + subvar + ') ';
+                            });
+                        }else{
+                            notation += pr + variationMove + ' ';
+
+                        }
 
                     }.bind(this));
 
@@ -474,6 +566,8 @@ chess.AutoParse = new Class({
         this.currentPgn.moves = this.currentMoves.join(' ');
         this.currentPgn.result = this.colorToMove == 'white' ? '1-0' : '0-1';
         this.currentPgn.plycount = this.currentMoves.length;
+        this.currentPgn.ts = new Date().getTime();
+
 
         $.ajax({
             url: "auto-parse-pgn-controller.php",
@@ -491,7 +585,7 @@ chess.AutoParse = new Class({
                     html: 'Game #' + (this.index + 1) + ' saved'
                 });
                 this.lastEngineMove = undefined;
-                this.loadNext.delay(30000, this);
+                this.loadNext.delay(2000, this);
             }.bind(this)
         });
 

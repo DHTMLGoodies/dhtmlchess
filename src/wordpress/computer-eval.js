@@ -2,150 +2,195 @@ chess.wordpress.ComputerEval = new Class({
 
     Extends: ludo.View,
     sumodule: 'wordpress.computereval',
-    started:false,
-    layout:{
-        type:'linear', orientation: 'vertical'
+    started: false,
+    fen: undefined,
+
+    layout: {
+        type: 'linear', orientation: 'vertical'
     },
 
-    __children:function(){
+    parser: undefined,
+
+    bestLine: undefined,
+    bestLineString: undefined,
+
+    __children: function () {
         return [
             {
-                name:'scoreBar',
-                css:{
+                name: 'scoreBar',
+                css: {
                     'margin': 5
                 },
-                type:'chess.view.score.Bar',
-                layout:{
-                    height:60
+                type: 'chess.view.score.Bar',
+                layout: {
+                    height: 60
                 },
-                borderRadius:5,
-                blackColor:'#444444',
-                whiteColor:'#EEEEEE',
-                markerColor:'#B71C1C',
-                markerTextColor:'#FFF',
-                stroke:'#222222',
-                range:3
+                borderRadius: 5,
+                blackColor: '#444444',
+                whiteColor: '#EEEEEE',
+                markerColor: '#B71C1C',
+                markerTextColor: '#FFF',
+                stroke: '#222222',
+                range: 3
             },
             {
-                name:'eval',
-                layout:{
-                    weight:1
-                }
-            },
-            {
-                name:'startStopEngine',
-                value:'Start',
-                type:'form.Button',
-                layout:{
-                    height:30
-                }
-            },
-            {
-                layout:{
-                    height:20
+                name: 'eval',
+                layout: {
+                    weight: 1
                 },
                 css:{
-                    'text-align' : 'right',
-                    'font-style' : 'italic',
-                    'font-size' : '0.9em',
-                    'padding-right' : '4px'
+                    padding:4
+                }
+            },
+            {
+                name: 'startStopEngine',
+                value: 'Start',
+                type: 'form.Button',
+                layout: {
+                    height: 30
+                }
+            },
+            {
+                layout: {
+                    height: 20
                 },
-                html: '<a href="https://github.com/glinscott/Garbochess-JS" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('GarboChess Javascript Engine') + '</a>'
+                css: {
+                    'text-align': 'right',
+                    'font-style': 'italic',
+                    'font-size': '0.9em',
+                    'padding-right': '4px'
+                },
+                html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('StockFish.JS Engine') + '</a>'
             }
         ]
     },
 
-    setController:function(controller){
+    __construct: function (config) {
+        this.parent(config);
+        this.parser = new chess.parser.FenParser0x88();
+        this.bestLine = [];
+    },
+
+    setController: function (controller) {
         this.parent(controller);
         controller.on('engineupdate', this.receiveEngineUpdate.bind(this));
         controller.on('fen', this.onPositionUpdate.bind(this));
-       // controller.on('nextmove', this.onNextMove.bind(this));
+        controller.on('newGame', this.clearView.bind(this));
+        // controller.on('nextmove', this.onNextMove.bind(this));
     },
 
-    receiveEngineUpdate:function(move){
+    receiveEngineUpdate: function (update) {
 
-        if(move == 'Checkmate'){
-            this.child['eval'].html('Checkmate');
-            this.stopEngine();
-            return;
+        if (update.mate) {
+            var s = update.mate < 0 ? -100 : 100;
+            this.child['scoreBar'].setScore(s);
+            update.score = 'Mate in ' + update.mate;
+        } else {
+            this.child['scoreBar'].setScore(update.score);
         }
-
-        var s = move.replace(/.*?Score:([\-0-9]+?)[^0-9].*/g, '$1');
-        var c = this.controller.getCurrentModel().getColorToMove();
-        if(c  == 'black') s*=-1;
-
-        var s2 = (s/1000);
-        if(s2 > 100)s2 = 100;
-        if(s2 < -100)s2 = -100;
-        s2 = s2.toFixed(2);
 
         // Ply:9 Score:3142 Nodes:341415 NPS:418914  Nxe5 Bf1 d5 d4 Nc6 e5 Bb4+ c3 Bg4 Be2
-        var ply = move.replace(/Ply:([0-9]{1,2})[^0-9].*/g, '$1');
-        var nps = move.replace(/.*NPS\:([0-9]+?)[^0-9].+/g, '$1');
-        var m = move.replace(/.*NPS\:[0-9]+?[^0-9](.+)/g, '$1');
-        this.child['eval'].html('Depth: ' + ply + '<br>Nodes/s: ' + nps + '<br><strong>' + s2 + '</strong>' + m);
-        this.child['scoreBar'].setScore((s/1000));
+        var ply = update.depth;
+        var nps = update.nps;
+        var pr = update.score > 0 ? '+' : '';
+        this.child['eval'].html('Depth: ' + ply + '<br>Nodes/s: ' + nps + '<br><div class="dhtml-chess-comp-eval"><span class="dhtml-chess-comp-eval-score">' + pr + update.score + '</span> ' + this.getMoveLine(update) + '</div>');
 
-        if((Math.abs(s) / 1000) > 1900 ){
-            this.controller.sendMessage(chess.getPhrase('Engine stopped'));
-            this.stopEngine();
-        }
-        
     },
 
-    __rendered:function(){
+    clearView: function () {
+        if (this.child['eval']) {
+            this.child['eval'].html('');
+            this.child['scoreBar'].setScore(0);
+        }
+        this.bestLineString = '';
+        this.bestLine = [];
+    },
+
+    map: {q: 'queen', n: 'knight', 'b': 'bishop', 'rook': 'rook'},
+
+    getMoveLine: function (update) {
+
+
+        this.parser.setFen(this.fen);
+        var ml = update.bestMoves.split(/\s/g);
+
+        this.bestLine = [];
+
+        var ply = update.currentPly;
+        ply+=2;
+
+        var spanMN = '<span class="dhtml-chess-comp-eval-mn">';
+        var spanNotation = '<span class="dhtml-chess-comp-eval-notation">';
+        var urlPrefix = ludo.config.getDocumentRoot() + '/images/svg_bw45';
+
+        var prefix = ply %2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '</span>') : '';
+        this.bestLine.push(prefix);
+
+        var a = ply;
+        for (var i = 0; i < ml.length; i++) {
+
+
+            if(a % 2 == 0){
+                if(i>0)this.bestLine.push('</span>');
+                this.bestLine.push('<span class="dhtml-chess-comp-eval-group">');
+
+                this.bestLine.push(spanMN + (a / 2) + '. </span>');
+            }
+
+            var m = ml[i];
+            var f = m.substr(0, 2);
+            var t = m.substr(2, 2);
+
+            var obj = {
+                from: f, to: t
+            };
+            if (m.length == 5) {
+                obj.promoteTo = this.map[m.substr(4,1)];
+            }
+            this.parser.move(obj);
+
+            var notation = this.parser.getNotation();
+
+            if(/[QRBN]/.test(notation.substr(0,1))){
+                var c = a % 2 == 0 ? 'w' : 'b';
+                this.bestLine.push('<img style="vertical-align:text-bottom;height:18px" src="' + urlPrefix + c + notation.substr(0,1).toLocaleLowerCase() + '.svg">');
+
+                notation = spanNotation + notation.substr(1) + '</span>';
+            }else{
+                notation = spanNotation + notation + '</span>';
+            }
+
+            this.bestLine.push(notation);
+
+            a++;
+        }
+        this.bestLine.push('</span>');
+
+        return this.bestLine.join(' ');
+    },
+
+
+    __rendered: function () {
         this.parent();
         this.on('hide', this.stopEngine.bind(this));
 
         this.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
     },
 
-    onNextMove:function(model, m){
+    onNextMove: function (model, m) {
         console.log(arguments);
 
-        if(this.started &&  m.from){
-            var c = this.controller;
-
-            console.log(m);
-
-            var from = this.getXY(m.from);
-            var to = this.getXY(m.to);
-
-            var moves = GenerateValidMoves();
-
-            var move = null;
-            for (var i = 0; i < moves.length; i++) {
-                if ((moves[i] & 0xFF) == MakeSquare(from.y, from.x) &&
-                    ((moves[i] >> 8) & 0xFF) == MakeSquare(to.y, to.x)) {
-                    move = moves[i];
-                }
-            }
-
-            console.log(move);
-
-            if (move != null) {
-                c.engine.postMessage(FormatMove(move));
-                MakeMove(move);
-                c.searchAndRedraw.delay(20, c);
-            }
-
+        if (this.started && m.from) {
 
         }
     },
-    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-    getXY: function (square) {
-        var move = square
-        move = move.replace(/[^a-z0-9]/g, '');
-        var file = this.files.indexOf(move.substr(move.length - 2, 1));
-        var rank = move.substr(move.length - 1, 1) - 1;
-        return {
-            x: file,
-            y: 7 - rank
-        }
-    },
 
-    onPositionUpdate:function(model, fen){
-        if(this.started){
+    onPositionUpdate: function (model, fen) {
+        this.fen = fen;
+        this.parser.setFen(fen);
+        this.bestLine = [];
+
+        if (this.started) {
             var c = this.controller;
             c.ensureAnalysisStopped();
             c.initializeBackgroundEngine();
@@ -157,16 +202,16 @@ chess.wordpress.ComputerEval = new Class({
         }
     },
 
-    toggleEngine:function(){
-        if(this.started){
+    toggleEngine: function () {
+        if (this.started) {
             this.stopEngine();
-        }else{
+        } else {
             this.startEngine();
         }
     },
 
-    stopEngine:function(){
-        if(!this.started)return;
+    stopEngine: function () {
+        if (!this.started)return;
 
         this.controller.stopEngine();
         this.started = false;
@@ -174,7 +219,7 @@ chess.wordpress.ComputerEval = new Class({
         this.controller.sendMessage(chess.getPhrase('Engine stopped'))
     },
 
-    startEngine:function(){
+    startEngine: function () {
         this.controller.startEngine();
         this.started = true;
         this.child['startStopEngine'].val('Stop');

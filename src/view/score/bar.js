@@ -9,7 +9,7 @@ chess.view.score.Bar = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
+        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
         this.layout.type = 'Canvas';
     },
 
@@ -23,12 +23,12 @@ chess.view.score.Bar = new Class({
                     width: 'matchParent'
                 },
                 borderRadius: this.borderRadius,
-                whiteColor:this.whiteColor,
-                blackColor:this.blackColor,
-                markerColor:this.markerColor,
-                markerTextColor:this.markerTextColor,
-                stroke:this.stroke,
-                range:this.range
+                whiteColor: this.whiteColor,
+                blackColor: this.blackColor,
+                markerColor: this.markerColor,
+                markerTextColor: this.markerTextColor,
+                stroke: this.stroke,
+                range: this.range
             }
 
         ]
@@ -62,16 +62,16 @@ chess.view.score.BarBackground = new Class({
 
     debugCircle: undefined,
 
-    whiteColor:'#d2d2d2',
-    blackColor:'#333333',
+    whiteColor: '#d2d2d2',
+    blackColor: '#333333',
 
-    markerColor:'#B71C1C',
-    markerTextColor:'#FFFFFF',
-    stroke:'#ddd',
+    markerColor: '#B71C1C',
+    markerTextColor: '#FFFFFF',
+    stroke: '#ddd',
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius','whiteColor','blackColor','markerColor','markerTextColor','stroke','range']);
+        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
     },
 
     __rendered: function () {
@@ -98,7 +98,6 @@ chess.view.score.BarBackground = new Class({
         this.textNode.text("0,0");
         this.textNode.css('fill', this.markerTextColor);
         this.markerGroup.append(this.textNode);
-
 
 
         this.textNode.attr('alignment-baseline', 'central');
@@ -309,12 +308,16 @@ chess.view.score.BarBackground = new Class({
         this.textNode.setTranslate(0, (r / 2) + this.height / 2);
         this.textNode.css('font-size', r / 1.5);
         this.textNode.css('line-height', r / 1.5);
-        
+
         this.resizeRects();
 
     },
 
     setScore: function (score) {
+        if (score.indexOf('#') != -1) {
+            score = score.replace(/[^0-9\-]/g, '');
+            score = parseInt(score) * 100;
+        }
         score = ludo.util.clamp(score, -100, 100);
         this.score = Math.round(score * 10) / 10;
     }

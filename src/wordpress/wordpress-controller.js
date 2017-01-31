@@ -1,5 +1,5 @@
 chess.wordpress.WordpressController = new Class({
-    Extends: chess.controller.AnalysisEngineController,
+    Extends: chess.controller.StockfishEngineController,
 
     posSetup: undefined,
 
@@ -7,7 +7,10 @@ chess.wordpress.WordpressController = new Class({
 
     newGameDialog: undefined,
 
+
+
     __construct: function (config) {
+        config.stockfish = ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js';
         this.parent(config);
         this.currentModel.setClean();
 

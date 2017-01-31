@@ -324,7 +324,10 @@ chess.WPEditor = new Class({
                                         {
                                             'title': chess.getPhrase('Computer Eval'),
                                             type:'wordpress.ComputerEval',
-                                            module: this.module
+                                            module: this.module,
+                                            layout:{
+                                                visible:true
+                                            }
                                         },
                                         {
                                             title: chess.getPhrase('Metadata'),

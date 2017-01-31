@@ -320,6 +320,10 @@ chess.view.board.Board = new Class({
      * @return void
      */
     showStartBoard: function (model) {
+        if(!model.getCurrentPosition()){
+            console.error('no position');
+            console.trace();
+        }
         this.showFen(model.getCurrentPosition());
     },
     /**
@@ -329,6 +333,7 @@ chess.view.board.Board = new Class({
      * @return undefined
      */
     showFen: function (fen) {
+
         this.positionParser.setFen(fen);
         var pieces = this.positionParser.getPieces();
         this.pieceMap = {};

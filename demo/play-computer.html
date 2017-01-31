@@ -11,7 +11,7 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
-    <script type="text/javascript" src="../src/controller/garbochess-controller.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/controller/play-stockfish-controller.js?rnd=3"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <script type="text/javascript" src="../src/view/score/bar.js?rnd=4"></script>
     <script type="text/javascript" src="../src/view/board/gui.js?rnd=4"></script>
@@ -164,8 +164,8 @@
 
     var myColor = 'white';
 
-    var controller = new chess.controller.GarboChessController({
-        garboChess:'../garbochess/js/garbochess.js',    // Path to garbochess.js, relative to this file
+    var controller = new chess.controller.PlayStockFishController({
+        stockfish:'../garbochess/js/garbochess.js',    // Path to garbochess.js, relative to this file
         myColor:myColor,    // Human color
         listeners:{
             'start': onNewGame,

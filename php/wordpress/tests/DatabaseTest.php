@@ -53,6 +53,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $database->import("greatgames.pgn");
         $database->import("lcc2016.pgn");
         $database->import("../../../pgn/tactic-checkmates.pgn");
+        $database->import("../../../pgn/tata-2017.pgn");
     }
 
     /**

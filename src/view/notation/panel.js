@@ -241,7 +241,9 @@ chess.view.notation.Panel = new Class({
             this.currentModelMoveId = move.uid;
         }
         this.getBody().html('');
-        var moves = this.getMovesInBranch(model.getMoves(), 0, 0, 0, 0);
+
+
+        var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
         
         if(this.showResult){
             var res = model.getResult();
@@ -285,7 +287,7 @@ chess.view.notation.Panel = new Class({
                     moves.push(e);
                 }
                 moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
-                m.push(s);
+                moves.push(s);
                 gs = true;
             }
             if (moveCounter % 2 === 0 && notation) {

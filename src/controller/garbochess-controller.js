@@ -9,8 +9,6 @@ chess.controller.GarboChessController = new Class({
 
     analyzing: false,
 
-    garboChess: undefined,
-
     backgroundEngineValid: true,
 
     allMoves: [],

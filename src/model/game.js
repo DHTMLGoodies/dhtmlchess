@@ -248,7 +248,7 @@ chess.model.Game = new Class({
         this.toStart();
     },
 
-    reservedMetadata: ["event", "site", "date", "round", "white", "black", "result",
+    reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
         "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id"],
     // TODO refactor this to match server
     /**
@@ -1128,6 +1128,28 @@ chess.model.Game = new Class({
         var fens = this.getCurrentPosition().split(' ');
         var colors = {'w': 'white', 'b': 'black'};
         return colors[fens[1]];
+    },
+
+    getStartPly:function(){
+        // this.model.metadata.fen
+        return this._ply(this.getCurrentPosition(this.model.metadata.fen))
+    },
+
+    getCurrentPly:function(){
+
+        console.log(this.model.moves);
+
+        console.log(this.getCurrentPosition(), ' -- vs --' , this.model.metadata.fen);
+        return this._ply(this.getCurrentPosition());
+
+    },
+
+    _ply:function(fen){
+        var fens = fen.split(/\s/g);
+        var l = fens.pop();
+        var m = (l - 1) * 2;
+        if(fens[1] == 'b')m++;
+        return m;
     },
 
     /**

@@ -1431,6 +1431,10 @@ chess.parser.FenParser0x88 = new Class({
 		return notation;
 	},
 
+	promoteMap:{
+		'queen' : 'q', 'rook' : 'r', 'knight' : 'n', 'bishop' : 'b'
+	},
+
 	move:function (move) {
 		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);
@@ -1438,6 +1442,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
 			move.promoteTo = this.getPromoteByNotation(move.m);
 		}
+		
 		this.fen = undefined;
 		this.piecesInvolved = this.getPiecesInvolvedInMove(move);
 		this.notation = this.getNotationForAMove(move);
@@ -1718,7 +1723,7 @@ chess.parser.FenParser0x88 = new Class({
 	getLongNotationForAMove:function (move, shortNotation) {
 		if(!shortNotation){
 			console.trace();
-			console.log(move);
+			console.log(this.getFen(), move);
 		}
 		if (shortNotation.indexOf('O-') >= 0) {
 			return shortNotation;
