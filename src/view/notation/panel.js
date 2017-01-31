@@ -242,7 +242,6 @@ chess.view.notation.Panel = new Class({
         }
         this.getBody().html('');
 
-
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
         
         if(this.showResult){

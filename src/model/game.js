@@ -634,6 +634,9 @@ chess.model.Game = new Class({
         return ret;
     },
 
+    move:function(move){
+        return this.appendMove(move);
+    },
     /**
      Append move to the model
      @method appendMove
@@ -1118,20 +1121,25 @@ chess.model.Game = new Class({
         }
         return false;
     },
-
     /**
      * Return color to move, "white" or "black"
-     * @method getColorToMove
+     * @method turn
      * @return {String}
-     */
-    getColorToMove: function () {
+     */   
+    turn:function(){
         var fens = this.getCurrentPosition().split(' ');
         var colors = {'w': 'white', 'b': 'black'};
-        return colors[fens[1]];
+        return colors[fens[1]];   
+        
+    },
+
+
+    getColorToMove: function () {
+        return this.turn();
     },
 
     getStartPly:function(){
-        return this._ply(this.getCurrentPosition(this.model.metadata.fen))
+        return this._ply(this.model.metadata.fen)
     },
 
     getCurrentPly:function(){
