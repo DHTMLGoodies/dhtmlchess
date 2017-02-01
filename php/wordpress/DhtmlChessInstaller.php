@@ -19,7 +19,6 @@ class DhtmlChessInstaller
     }
     
     public function install(){
-        
         global $wpdb;
         
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_PGN . '('
@@ -58,6 +57,8 @@ class DhtmlChessInstaller
         $wpdb->query('create index wp_index_dhtml_chess_game_pgn on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');
         $wpdb->query('create index wp_index_dhtml_chess_cache_key on ' . DhtmlChessDatabase::TABLE_CACHE . '(' . DhtmlChessDatabase::COL_CACHE_KEY . ')');
 
+
+
         if(!self::$testMode){
             $this->importDefaultPgn();
         }
@@ -65,12 +66,16 @@ class DhtmlChessInstaller
     
     private function importDefaultPgn(){
         $import = new DhtmlChessImportPgn();
-        $import->importPgnString("greatgames", $this->pgn);
+        $import->createFromPgnString("Great Games", $this->pgn);
         
     }
     
     public function upgrade($oldVersion, $newVersion){
-        
+        global $wpdb;
+
+        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_DUMMY . '('
+            . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
+            . DhtmlChessDatabase::COL_PGN_NAME . ' varchar(255))');
         
     }
     
@@ -81,6 +86,7 @@ class DhtmlChessInstaller
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_PGN);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_CACHE);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DUMMY);
     }
     
     private $pgn = '[Event "4th match"]

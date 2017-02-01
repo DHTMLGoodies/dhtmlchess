@@ -870,7 +870,7 @@ TestCase("ModelTest", {
         assertEquals(this.modelToMovesOnly(model.model.moves), 3, variation[0].length);
     },
 
-    "test should append part of a line as variation": function(){
+    "test should append part of a line as variation": function () {
         // given
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6');
@@ -890,7 +890,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test should append line when in middle of game": function(){
+    "test should append line when in middle of game": function () {
         // given
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6');
@@ -899,7 +899,7 @@ TestCase("ModelTest", {
 
         var move = model.nextOf(model.getCurrentMove());
 
-        assertEquals('Nf3',move.m);
+        assertEquals('Nf3', move.m);
         // when
         model.appendLine('b1c3 b8c6');
         // then
@@ -911,7 +911,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test should find previous move when appending line": function(){
+    "test should find previous move when appending line": function () {
         // given
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6 d2d4');
@@ -929,7 +929,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test should be able to append multiple variations": function(){
+    "test should be able to append multiple variations": function () {
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6 d2d4');
         model.appendLine('e2e4 d7d5');
@@ -943,7 +943,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test should be able to append sub variations": function(){
+    "test should be able to append sub variations": function () {
 
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6 d2d4');
@@ -954,7 +954,51 @@ TestCase("ModelTest", {
         assertEquals('d5', model.getCurrentMove().m);
     },
 
-    "test should skip equal moves": function(){
+    "test should be able to force variation": function () {
+        var model = this.getModel();
+        model.appendLine('e2e4');
+
+        assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', model.getCurrentPosition());
+
+        assertUndefined(model.currentMove);
+
+        model.appendLine('e2e4 b8c6 d2d4', true);
+
+        var m = model.model.moves[0];
+
+        // then
+        assertEquals(1, model.model.moves.length);
+        assertEquals(1, m.variations.length);
+        assertEquals(3, m.variations[0].length);
+
+    },
+
+    "test should be able to force variation 2": function () {
+        var model = this.getModel();
+        model.appendLine('e2e4 d7d5 d2d4');
+        model.to(model.model.moves[2]);
+
+
+        model.appendLine('b8c6 f2f4', true);
+
+        var m = model.model.moves[2];
+
+        // then
+        assertEquals(3, model.model.moves.length);
+        assertEquals(this.modelToMovesOnly(model.model.moves), 1, m.variations.length);
+        assertEquals(3, m.variations[0].length);
+
+        var firstMove = m.variations[0][0];
+
+        assertEquals('d4', firstMove.m);
+        var expectedPrevious = model.model.moves[1];
+
+        assertEquals(expectedPrevious, model.getPreviousMove(firstMove));
+
+    },
+
+
+    "test should skip equal moves": function () {
         // given
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6');
@@ -971,7 +1015,7 @@ TestCase("ModelTest", {
 
     },
 
-    "test should append moves at end of line": function(){
+    "test should append moves at end of line": function () {
         // given
         var model = this.getModel();
         model.appendLine('e2e4 e7e5 g1f3 b8c6');
@@ -985,7 +1029,7 @@ TestCase("ModelTest", {
         assertEquals('d5', model.model.moves[5].m);
     },
 
-    "test should return last move when appending line string": function(){
+    "test should return last move when appending line string": function () {
         // given
         var model = this.getModel();
         // when
@@ -996,18 +1040,18 @@ TestCase("ModelTest", {
 
     },
 
-    modelToMovesOnly:function(moves, isChild){
+    modelToMovesOnly: function (moves, isChild) {
         var ret = [];
 
-        jQuery.each(moves, function(i, m){
+        jQuery.each(moves, function (i, m) {
             var obj = {
-                m : m.from + m.to + (m.promoteTo ? m.promoteTo : '')
+                m: m.from + m.to + (m.promoteTo ? m.promoteTo : '')
             };
             ret.push(obj);
-            if(m.variations && m.variations.length > 0){
+            if (m.variations && m.variations.length > 0) {
                 obj.variations = [];
-                jQuery.each(m.variations, function(i, variation){
-                   obj.variations.push(this.modelToMovesOnly(variation, true));
+                jQuery.each(m.variations, function (i, variation) {
+                    obj.variations.push(this.modelToMovesOnly(variation, true));
                 }.bind(this));
             }
 
@@ -1016,7 +1060,7 @@ TestCase("ModelTest", {
 
         return isChild ? ret : JSON.stringify(ret);
     },
-    
+
 
     "test should fire new game event on new position": function () {
         // given
@@ -1477,7 +1521,7 @@ TestCase("ModelTest", {
 
         // then
         assertEquals(model.model.moves, model.currentBranch);
-        assertNull(model.getCurrentMove());
+        assertUndefined(model.getCurrentMove());
     },
 
     "test should fire correct events when going to start of game": function () {

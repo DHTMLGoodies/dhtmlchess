@@ -49,6 +49,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $wpdb = new wpdb("root", "", "wordpress", "localhost");
         $database = new DhtmlChessDatabase();
         $database->uninstall();
+
+        return;
         $database->install();
         $database->import("greatgames.pgn");
         $database->import("lcc2016.pgn");
@@ -834,6 +836,22 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         // then
         $this->assertNotEmpty($pgn);
         $this->assertEquals("lcc2016", $pgn->getName());
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToImportPgnString(){
+        $content = file_get_contents("lcc2016.pgn");
+
+        $import = new DhtmlChessImportPgn();
+        $pgn = $import->createFromPgnString("lcc2016", $content);
+        
+        $this->assertNotNull($pgn);
+        $this->assertEquals(45, $pgn->countGames());
+        
+        
 
     }
     

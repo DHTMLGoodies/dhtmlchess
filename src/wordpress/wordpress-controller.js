@@ -112,8 +112,7 @@ chess.wordpress.WordpressController = new Class({
     },
 
     appendLine:function(moveString){
-        console.log('received event', moveString);
-        var appended = this.currentModel.appendLine(moveString);
+        var appended = this.currentModel.appendLine(moveString, true);
         if(appended){
             this.views.notations.show();
         }

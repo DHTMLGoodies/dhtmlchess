@@ -105,17 +105,11 @@ chess.controller.StockfishEngineController = new Class({
         if (this.analyzing) {
             this.colorToMove = this.getCurrentModel().getColorToMove();
             this.currentPly = this.getCurrentModel().getCurrentPly();
-
-
+            
             this.uciCmd("ucinewgame");
             this.uciCmd("position fen " + this.getFen()+ "");
             this.uciCmd("go infinite");
         }
-    },
-
-
-    shouldAutoPlayNextMove: function (colorToMove) {
-        return colorToMove == 'black'
     },
 
     uciCmd: function(cmd){
@@ -155,7 +149,7 @@ chess.controller.StockfishEngineController = new Class({
                         var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
                         if(match){
 
-                            // UCICmd Out info depth 120 seldepth 8 score mate 4 nodes 7372428 nps 1571611 time 4691 multipv 1 pv d5f7 f8f7 e2e8 f7f8 e8f8 g8f8
+                        // UCICmd Out info depth 120 seldepth 8 score mate 4 nodes 7372428 nps 1571611 time 4691 multipv 1 pv d5f7 f8f7 e2e8 f7f8 e8f8 g8f8
 
                         }else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
                             that.engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
@@ -186,16 +180,8 @@ chess.controller.StockfishEngineController = new Class({
                                 ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
                                 score = '#' + match[2];
                             }
-
                             ret.score = score;
-
                             that.fireEvent('engineupdate', ret);
-
-                            /*
-                            if(match = line.match(/\b(upper|lower)bound\b/)) {
-                                that.engineStatus.score = ((match[1] == 'upper') == (game.turn() == 'w') ? '<= ' : '>= ') + engineStatus.score
-                            }
-                            */
                         }
                     }
                 };
@@ -236,10 +222,7 @@ chess.controller.StockfishEngineController = new Class({
             return true;
 
         }
-
-
         console.log('invalid' , line, this.fen);
-
         return false;
 
     },
@@ -253,36 +236,6 @@ chess.controller.StockfishEngineController = new Class({
         return this.models[0].getColorToMove();
     },
 
-    updatePVDisplay: function (move) {
-        this.fireEvent("engineupdate", [move, this.color()] );
-    },
-
-    playMove: function (move, pv) {
-
-        console.log(move);
-        var fromX = this.files[(move & 0xF) - 4];
-        var fromY = 8 - (((move >> 4) & 0xF) - 2);
-        var toX = this.files[((move >> 8) & 0xF) - 4];
-        var toY = 8 - (((move >> 12) & 0xF) - 2);
-
-        this.currentModel.appendMove({
-            from: fromX + fromY, to: toX + toY
-        });
-
-        MakeMove(move);
-
-        this.updateFromMove(move);
-    },
-
-    updateFromMove: function (move) {
-
-    },
-
-    finishMove: function (bestmove, value, timeTaken, ply) {
-        if (bestMove != null) {
-            this.playMove(move, BuildPVMessage(bestMove, value, timeTaken, ply));
-        }
-    },
 
     newGame: function () {
         this.currentModel.newGame();

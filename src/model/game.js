@@ -237,7 +237,7 @@ chess.model.Game = new Class({
         this.model.metadata = gameData.metadata || {};
         this.databaseId = gameData.databaseId;
         this.currentBranch = this.model.moves;
-        this.currentMove = null;
+        this.currentMove = undefined;
         this.registerMoves(this.model.moves, this.model.metadata.fen);
         if (gameData.games != undefined) {
             this.countGames = gameData.games['c'];
@@ -377,7 +377,7 @@ chess.model.Game = new Class({
             "moves": []
         };
         this.currentBranch = this.model.moves;
-        this.currentMove = null;
+        this.currentMove = undefined;
 
     },
 
@@ -643,7 +643,7 @@ chess.model.Game = new Class({
      * @example
      * model.appendLine('e2e4 d7d5 g1f3');
      */
-    appendLine: function (lineString) {
+    appendLine: function (lineString, forceVariation) {
         lineString = lineString.trim();
         if (lineString.length == 0)return undefined;
         var moves = lineString.split(/\s/g);
@@ -656,7 +656,6 @@ chess.model.Game = new Class({
                 p.move(moves[i]);
             } else {
                 valid = false;
-                console.log('not valid', m);
                 return undefined;
             }
         }.bind(this));
@@ -670,9 +669,22 @@ chess.model.Game = new Class({
         var inVariation = false;
         var branch = this.currentBranch;
 
+        if(this.currentMove && forceVariation){
+
+            branch = this.newVariationBranch(this.currentMove);
+            var copy = Object.clone(this.currentMove);
+            copy.uid = undefined;
+            this.registerMove(copy, undefined, branch);
+            this.registerPreviousMap(copy, previousMove);
+            previousMove = copy;
+            inVariation = true;
+        }
+
+
         jQuery.each(moves, function (i, m) {
+
             if (nextMove && !inVariation) {
-                if (nextMove.from == m.from && nextMove.to == m.to) {
+                if (nextMove.from == m.from && nextMove.to == m.to && !forceVariation) {
                     nextMove = this.getNextMove(nextMove);
                 } else {
                     branch = this.newVariationBranch(nextMove);
@@ -686,10 +698,7 @@ chess.model.Game = new Class({
             if (inVariation) {
                 this.registerVariationMove(m, nextMove, previousMove);
             }
-
-
             previousMove = m;
-            // nextMove = nextMove ? this.getNextMove(nextMove) : undefined;
 
         }.bind(this));
 
@@ -1105,20 +1114,23 @@ chess.model.Game = new Class({
      * @private
      */
     clearCurrentMove: function () {
-        this.currentMove = null;
+        this.currentMove = undefined;
         this.currentBranch = this.model.moves;
         this.fire('clearCurrentMove');
     },
 
+    to:function(move){
+        if (this.setCurrentMove(move)) {
+            this.fire('setPosition', move);
+        }
+    },
     /**
      * Go to a specific move.
      * @method goToMove
      * @param {chess.model.Move} move
      */
     goToMove: function (move) {
-        if (this.setCurrentMove(move)) {
-            this.fire('setPosition', move);
-        }
+        return this.to(move);
     },
 
     /**
@@ -1530,9 +1542,8 @@ chess.model.Game = new Class({
 
         if (atIndex) {
             move.index = atIndex;
-            this.insertSpacerInBranch(inBranch, atIndex);
+            this.insertSpacerInBranch(inBranch, atIndex, move);
             // this.createSpaceForAction();
-            inBranch[atIndex] = move;
         } else {
             move.index = inBranch.length;
             inBranch.push(move);
@@ -1546,14 +1557,13 @@ chess.model.Game = new Class({
      * @param {Array} branch
      * @param {Number} atIndex
      */
-    insertSpacerInBranch: function (branch, atIndex) {
+    insertSpacerInBranch: function (branch, atIndex, item) {
+
         atIndex = atIndex || 0;
-
-        for (var i = atIndex; i < branch.length; i++) {
-            branch[i].index++;
+        branch.splice(atIndex, 0, item);
+        for (var i = 0; i < branch.length; i++) {
+            branch[i].index = i;
         }
-        branch.splice(atIndex, 0, "");
-
     },
 
 
@@ -1623,12 +1633,11 @@ chess.model.Game = new Class({
             } else {
                 move = this.findMove(move);
                 var branch = this.getBranch(move);
-                this.insertSpacerInBranch(branch, 0);
-                branch[0] = {
+                this.insertSpacerInBranch(branch, 0, {
                     comment: comment,
                     index: 0,
                     uid: 'move-' + String.uniqueID()
-                };
+                });
                 this.moveCache[move.uid] = move;
                 this.registerPreviousMap(move, branch[0]);
                 this.fire('updateMove', branch[0]);

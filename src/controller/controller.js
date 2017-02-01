@@ -180,7 +180,6 @@ chess.controller.Controller = new Class({
     },
 
     deleteMoves:function(move){
-        console.log('deleting ', move);
         this.currentModel.deleteMove(move);
     },
 

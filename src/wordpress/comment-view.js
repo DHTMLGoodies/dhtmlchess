@@ -55,7 +55,6 @@ chess.wordpress.CommentView = new Class({
     },
 
     onNewGame:function(){
-        console.log('New game');
     },
 
     saveComment:function(){
@@ -93,9 +92,6 @@ chess.wordpress.CommentView = new Class({
     updateViews:function(){
         if(this.children.length){
             this.child['move'].html(this.currentLabel);
-
-            console.log('CMT', this.currentComment);
-
             if(this.currentComment)this.child['comment'].val(this.currentComment);
         }
     }

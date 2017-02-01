@@ -330,7 +330,6 @@ chess.WPEditor = new Class({
                                             type:'wordpress.ComputerEval',
                                             module: this.module,
                                             layout:{
-                                                visible:true
                                             }
                                         },
                                         {

@@ -118,7 +118,9 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLineString = '';
         this.bestLine = [];
 
-        this.child['buttons'].child['appendLine'].hide();
+        if(this.child['buttons']){
+            this.child['buttons'].child['appendLine'].hide();
+        }
     },
 
     getMoveLine: function (update) {

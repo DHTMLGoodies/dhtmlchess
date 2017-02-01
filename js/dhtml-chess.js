@@ -1,4 +1,4 @@
-/* Generated Tue Jan 31 18:57:30 CET 2017 */
+/* Generated Wed Feb 1 0:14:33 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -21110,11 +21110,13 @@ ludo.menu.Item = new Class({
     fire:undefined,
 
     __construct:function (config) {
+
         this.parent(config);
         this.setConfigParams(config, ['orientation', 'icon', 'record', 'value', 'label', 'action', 'disabled', 'fire']);
 
         this._html = this._html || this.label;
 
+        console.log(this.label, this.action);
         if(this._html == '|')this.spacer = true;
 
         if (this.spacer) {
@@ -29591,7 +29593,7 @@ chess.view.notation.Panel = new Class({
      */
     showContextMenu: false,
 
-    showResult:false,
+    showResult: false,
 
     setController: function (controller) {
         this.parent(controller);
@@ -29621,10 +29623,10 @@ chess.view.notation.Panel = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        if(!this.tactics){
+        if (!this.tactics) {
             this.showResult = true;
         }
-        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight','showResult']);
+        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
 
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
@@ -29641,7 +29643,6 @@ chess.view.notation.Panel = new Class({
         return {
             listeners: {
                 click: function (el) {
-
                     switch (el.action) {
                         case 'grade':
                             this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
@@ -29651,6 +29652,9 @@ chess.view.notation.Panel = new Class({
                             break;
                         case 'commentAfter':
                             this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
+                            break;
+                        case 'deleteMove':
+                            this.fireEvent('deleteMove',this.getContextMenuMove());
                             break;
                     }
                 }.bind(this),
@@ -29673,7 +29677,7 @@ chess.view.notation.Panel = new Class({
                     {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
                 ]
                 },
-                {label: 'Delete remaining moves'}
+                {label: chess.getPhrase('Delete Move'), action: 'deleteMove'}
             ]
         };
     },
@@ -29736,9 +29740,9 @@ chess.view.notation.Panel = new Class({
 
     scrollMoveIntoView: function (move) {
 
-        if(!move)return;
-        if(move.position == undefined)move = jQuery(move);
-        if(!move || !move.length)return;
+        if (!move)return;
+        if (move.position == undefined)move = jQuery(move);
+        if (!move || !move.length)return;
 
         var scrollTop = this.getBody().scrollTop();
         var bottomOfScroll = scrollTop + this.getBody().height();
@@ -29761,8 +29765,8 @@ chess.view.notation.Panel = new Class({
         this.getBody().html('');
 
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
-        
-        if(this.showResult){
+
+        if (this.showResult) {
             var res = model.getResult();
             moves.push('<span class="notation-result">');
             moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
@@ -29797,10 +29801,10 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-            s = i== 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' :  '<span class="dhtml-chess-move-group">';
+            s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';
             var notation = branch[i][this.notationKey];
             if (i == 0 && moveCounter % 2 != 0 && notation) {
-                if(gs){
+                if (gs) {
                     moves.push(e);
                 }
                 moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
@@ -29808,7 +29812,7 @@ chess.view.notation.Panel = new Class({
                 gs = true;
             }
             if (moveCounter % 2 === 0 && notation) {
-                if(gs){
+                if (gs) {
                     moves.push(e);
                 }
                 var moveNumber = (moveCounter / 2) + 1;
@@ -29829,7 +29833,7 @@ chess.view.notation.Panel = new Class({
             } else {
                 if (!this.tactics || this.isCurrentMoveInVariation(branch[i])) {
 
-                    if(gs && this.hasVars(branch[i])){
+                    if (gs && this.hasVars(branch[i])) {
                         gs = false;
                         moves.push(e);
                     }
@@ -29837,7 +29841,7 @@ chess.view.notation.Panel = new Class({
                 }
             }
         }
-        if(gs){
+        if (gs) {
             moves.push('</span>');
         }
         moves.push('</span>');
@@ -29856,7 +29860,7 @@ chess.view.notation.Panel = new Class({
         return moves;
     },
 
-    hasVars:function(move){
+    hasVars: function (move) {
         return move.variations && move.variations.length > 0;
     },
 
@@ -38986,6 +38990,7 @@ chess.controller.Controller = new Class({
                 view.addEvent('gradeMove', this.gradeMove.bind(this));
                 view.addEvent('commentBefore', this.dialogCommentBefore.bind(this));
                 view.addEvent('commentAfter', this.dialogCommentAfter.bind(this));
+                view.addEvent('deleteMove', this.deleteMoves.bind(this));
                 break;
             case 'dialogOverwriteMove':
                 view.addEvent('overwriteMove', this.overwriteMove.bind(this));
@@ -39023,6 +39028,10 @@ chess.controller.Controller = new Class({
         }
         
         return true;
+    },
+
+    deleteMoves:function(move){
+        this.currentModel.deleteMove(move);
     },
 
 	/**
@@ -40047,7 +40056,7 @@ chess.model.Game = new Class({
         this.model.metadata = gameData.metadata || {};
         this.databaseId = gameData.databaseId;
         this.currentBranch = this.model.moves;
-        this.currentMove = null;
+        this.currentMove = undefined;
         this.registerMoves(this.model.moves, this.model.metadata.fen);
         if (gameData.games != undefined) {
             this.countGames = gameData.games['c'];
@@ -40187,7 +40196,7 @@ chess.model.Game = new Class({
             "moves": []
         };
         this.currentBranch = this.model.moves;
-        this.currentMove = null;
+        this.currentMove = undefined;
 
     },
 
@@ -40453,7 +40462,7 @@ chess.model.Game = new Class({
      * @example
      * model.appendLine('e2e4 d7d5 g1f3');
      */
-    appendLine: function (lineString) {
+    appendLine: function (lineString, forceVariation) {
         lineString = lineString.trim();
         if (lineString.length == 0)return undefined;
         var moves = lineString.split(/\s/g);
@@ -40466,7 +40475,6 @@ chess.model.Game = new Class({
                 p.move(moves[i]);
             } else {
                 valid = false;
-                console.log('not valid', m);
                 return undefined;
             }
         }.bind(this));
@@ -40480,9 +40488,22 @@ chess.model.Game = new Class({
         var inVariation = false;
         var branch = this.currentBranch;
 
+        if(this.currentMove && forceVariation){
+
+            branch = this.newVariationBranch(this.currentMove);
+            var copy = Object.clone(this.currentMove);
+            copy.uid = undefined;
+            this.registerMove(copy, undefined, branch);
+            this.registerPreviousMap(copy, previousMove);
+            previousMove = copy;
+            inVariation = true;
+        }
+
+
         jQuery.each(moves, function (i, m) {
+
             if (nextMove && !inVariation) {
-                if (nextMove.from == m.from && nextMove.to == m.to) {
+                if (nextMove.from == m.from && nextMove.to == m.to && !forceVariation) {
                     nextMove = this.getNextMove(nextMove);
                 } else {
                     branch = this.newVariationBranch(nextMove);
@@ -40496,14 +40517,11 @@ chess.model.Game = new Class({
             if (inVariation) {
                 this.registerVariationMove(m, nextMove, previousMove);
             }
-
-
             previousMove = m;
-            // nextMove = nextMove ? this.getNextMove(nextMove) : undefined;
 
         }.bind(this));
 
-
+        this.setDirty();
         this.fire('newMoves');
 
         return previousMove;
@@ -40915,20 +40933,23 @@ chess.model.Game = new Class({
      * @private
      */
     clearCurrentMove: function () {
-        this.currentMove = null;
+        this.currentMove = undefined;
         this.currentBranch = this.model.moves;
         this.fire('clearCurrentMove');
     },
 
+    to:function(move){
+        if (this.setCurrentMove(move)) {
+            this.fire('setPosition', move);
+        }
+    },
     /**
      * Go to a specific move.
      * @method goToMove
      * @param {chess.model.Move} move
      */
     goToMove: function (move) {
-        if (this.setCurrentMove(move)) {
-            this.fire('setPosition', move);
-        }
+        return this.to(move);
     },
 
     /**
@@ -41340,9 +41361,8 @@ chess.model.Game = new Class({
 
         if (atIndex) {
             move.index = atIndex;
-            this.insertSpacerInBranch(inBranch, atIndex);
+            this.insertSpacerInBranch(inBranch, atIndex, move);
             // this.createSpaceForAction();
-            inBranch[atIndex] = move;
         } else {
             move.index = inBranch.length;
             inBranch.push(move);
@@ -41356,14 +41376,13 @@ chess.model.Game = new Class({
      * @param {Array} branch
      * @param {Number} atIndex
      */
-    insertSpacerInBranch: function (branch, atIndex) {
+    insertSpacerInBranch: function (branch, atIndex, item) {
+
         atIndex = atIndex || 0;
-
-        for (var i = atIndex; i < branch.length; i++) {
-            branch[i].index++;
+        branch.splice(atIndex, 0, item);
+        for (var i = 0; i < branch.length; i++) {
+            branch[i].index = i;
         }
-        branch.splice(atIndex, 0, "");
-
     },
 
 
@@ -41433,12 +41452,11 @@ chess.model.Game = new Class({
             } else {
                 move = this.findMove(move);
                 var branch = this.getBranch(move);
-                this.insertSpacerInBranch(branch, 0);
-                branch[0] = {
+                this.insertSpacerInBranch(branch, 0, {
                     comment: comment,
                     index: 0,
                     uid: 'move-' + String.uniqueID()
-                };
+                });
                 this.moveCache[move.uid] = move;
                 this.registerPreviousMap(move, branch[0]);
                 this.fire('updateMove', branch[0]);

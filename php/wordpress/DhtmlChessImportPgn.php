@@ -45,14 +45,35 @@ class DhtmlChessImportPgn
      * @param null $title
      * @return DhtmlChessPgn
      */
-    public function importPgnString($pgnId, $pgnString, $title = null){
+    public function importPgnStringToDatabase($pgnId, $pgnString, $title = null){
         $parser = new PgnParser();
         $parser->setPgnContent($pgnString);
         if(empty($title))$title = $pgnId;
         return $this->finishImport($pgnId, $parser, $title);
     }
+ 
+    public function createFromPgnString($databaseName, $pgnString){
+        $util = new DhtmlChessPgnUtil();
 
-    public function import($filePath){
+        $pgn = $util->create($databaseName);
+        $parser = new PgnParser();
+        $parser->setPgnContent($pgnString);
+
+        $games = $parser->getGames();
+        try{
+            foreach($games as $game){
+                $pgn->appendGame($game);
+            }
+
+        }catch(Exception $e){
+            throw new DhtmlChessException("Failed importing " . $e->getMessage());
+        }
+
+        return $pgn;
+    }
+    
+    
+    public function import($filePath, $name = null){
 
         $filePath = esc_sql($filePath);
 
@@ -61,7 +82,8 @@ class DhtmlChessImportPgn
         }
         $parser = new PgnParser($filePath);
 
-        return $this->finishImport($filePath, $parser);
+        if(!isset($name))$name = $filePath;
+        return $this->finishImport($name, $parser);
     }
     
     /**
@@ -72,12 +94,12 @@ class DhtmlChessImportPgn
      */
     private function finishImport($name, $parser){
 
-        $games = $parser->getGames();
-
         $util = new DhtmlChessPgnUtil();
 
         $pgn = $util->create($name);
 
+
+        $games = $parser->getGames();
         foreach($games as $game){
             $pgn->appendGame($game);
         }
