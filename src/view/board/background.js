@@ -136,6 +136,7 @@ chess.view.board.Background = new Class({
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
         var p = s.$('pattern');
+        p.set('patternUnits', 'userSpaceOnUse');
         p.set('width', 1);
         p.set('height', 1);
         p.set('x', 0);
@@ -226,6 +227,20 @@ chess.view.board.Background = new Class({
 
     applyPattern: function () {
 
+        if(Browser.name == 'ie'){
+            if(this.els.pattern){
+                this.paths.t.set('fill', '#111');
+            }
+            if (this.els.horizontal) {
+                this.paths.t.set('fill', '#111');
+                this.paths.b.set('fill', '#111');
+            }
+
+            if (this.els.vertical) {
+                this.paths.l.set('fill', '#111');
+                this.paths.r.set('fill', '#111');
+            }
+        }
         if(this.els.pattern){
             this.paths.t.setPattern(this.els.pattern);
         }

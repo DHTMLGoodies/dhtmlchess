@@ -165,7 +165,7 @@ chess.view.notation.Panel = new Class({
     },
     ludoEvents: function () {
         if (this.interactive) {
-            this.getBody().on('click', this.clickOnMove.bind(this));
+            this.$b().on('click', this.clickOnMove.bind(this));
         }
     },
 
@@ -193,7 +193,7 @@ chess.view.notation.Panel = new Class({
     },
     goToStartOfBranch: function () {
         this.clearHighlightedMove();
-        this.getBody().scrollTop(0);
+        this.$b().scrollTop(0);
     },
 
     setCurrentMove: function (model) {
@@ -226,15 +226,15 @@ chess.view.notation.Panel = new Class({
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
 
-        var scrollTop = this.getBody().scrollTop();
-        var bottomOfScroll = scrollTop + this.getBody().height();
+        var scrollTop = this.$b().scrollTop();
+        var bottomOfScroll = scrollTop + this.$b().height();
         var moveTop = move.position().top;
         var oh = move.outerHeight();
 
         if ((moveTop + oh) > bottomOfScroll) {
-            this.getBody().scrollTop(moveTop + oh);
+            this.$b().scrollTop(moveTop + oh);
         } else if (moveTop < scrollTop) {
-            this.getBody().scrollTop(Math.max(0, moveTop - 5));
+            this.$b().scrollTop(Math.max(0, moveTop - 5));
         }
     },
 
@@ -244,7 +244,7 @@ chess.view.notation.Panel = new Class({
         if (move != undefined) {
             this.currentModelMoveId = move.uid;
         }
-        this.getBody().html('');
+        this.$b().html('');
 
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
 
@@ -254,7 +254,7 @@ chess.view.notation.Panel = new Class({
             moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
             moves.push('</span>');
         }
-        this.getBody().html(moves.join(''));
+        this.$b().html(moves.join(''));
     },
 
     getMovesInBranch: function (branch, moveCounter, depth, branchIndex, countBranches) {
@@ -449,6 +449,6 @@ chess.view.notation.Panel = new Class({
     },
 
     getFirstBranch: function () {
-        return this.getBody().getElement('.notation-branch');
+        return this.$b().getElement('.notation-branch');
     }
 });

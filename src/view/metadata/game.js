@@ -37,7 +37,7 @@ chess.view.metadata.Game = new Class({
     updateMetadata : function(model){
         var metadata = model.getMetadata();
         if(jQuery.isFunction(this.tpl)){
-            this.getBody().html(this.tpl.call(this, metadata));
+            this.$b().html(this.tpl.call(this, metadata));
             return;
         }
         var keys = this.getTplKeys();
@@ -51,7 +51,7 @@ chess.view.metadata.Game = new Class({
             }
             html = html.replace('{' + keys[i] + '}', replacement);
         }
-        this.getBody().html( html);
+        this.$b().html( html);
     },
 
     getTplKeys : function(){

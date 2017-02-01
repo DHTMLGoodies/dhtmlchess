@@ -56,7 +56,7 @@ chess.view.metadata.Move = new Class({
             }
             html = html.replace('{' + keys[i] + '}', replacement);
         }
-        this.getBody().html( html);
+        this.$b().html( html);
     },
 
     getTplKeys : function(){

@@ -12,7 +12,7 @@ chess.controller.PlayStockFishController = new Class({
 
     debug:false,
 
-    playerColor: 'black',
+    playerColor: 'white',
 
     __construct: function (config) {
         if (config.myColor != undefined)this.myColor = config.myColor;

@@ -98,7 +98,6 @@ chess.wordpress.WordpressController = new Class({
                     view.on('newdatabase', this.createDatabase.bind(this));
                     break;
                 case 'wordpress.computereval':
-                    console.log('found comp eval');
                     view.on('appendLine', this.appendLine.bind(this));
                     break;
                 case 'notation':

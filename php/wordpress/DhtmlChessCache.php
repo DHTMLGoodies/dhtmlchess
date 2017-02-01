@@ -62,5 +62,6 @@ class DhtmlChessCache
     
     public function clearPgnListCache(){
         $this->clear(DhtmlChessDatabase::CACHE_PGN);
+        $this->clear(DhtmlChessDatabase::CACHE_PGN_ARCHIVED);
     }
 }

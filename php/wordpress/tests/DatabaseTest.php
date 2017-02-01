@@ -34,7 +34,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         parent::setUp();
         DhtmlChessInstaller::enableTestMode();
 
-        $this->wpdb = new wpdb("root", "", "wordpress", "localhost");
+        $this->wpdb = new wpdb("root", "", "wordpress3", "localhost");
         global $wpdb;
         $wpdb = $this->wpdb;
         $this->database = new DhtmlChessDatabase();

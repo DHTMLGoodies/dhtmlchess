@@ -109,6 +109,18 @@
                 range:3
             },
             {
+                layout: {
+                    height: 20
+                },
+                css: {
+                    'text-align': 'right',
+                    'font-style': 'italic',
+                    'font-size': '0.9em',
+                    'padding-right': '4px'
+                },
+                html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('StockFish.JS Engine') + '</a>'
+            },
+            {
                 id:'board',
                 type:'chess.view.board.Board',
                 pieceLayout:'alphapale',
@@ -166,11 +178,11 @@
         ]
     });
 
-    var myColor = 'white';
+    var playerColor = 'white';
 
     var controller = new chess.controller.PlayStockFishController({
         stockfish:'../stockfish-js/stockfish.js',    // Path to garbochess.js, relative to this file
-        myColor:myColor,    // Human color
+        playerColor:playerColor,    // Human color
         listeners:{
             'start': onNewGame,
             'engineupdate' :updateMove, //

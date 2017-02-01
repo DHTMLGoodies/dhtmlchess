@@ -73,8 +73,8 @@ chess.view.board.GUI = new Class({
      * @memberof ludo.chess.view.board.Gui.prototype
      */
     setLabelStyles: function (stylesFiles, stylesRanks) {
-        this.getBody().find('.dhtml-chess-board-label-file').css(stylesFiles);
-        this.getBody().find('.dhtml-chess-board-label-rank').css(stylesRanks || stylesFiles);
+        this.$b().find('.dhtml-chess-board-label-file').css(stylesFiles);
+        this.$b().find('.dhtml-chess-board-label-rank').css(stylesRanks || stylesFiles);
     },
 
     hideLabels: function () {
@@ -99,7 +99,7 @@ chess.view.board.GUI = new Class({
 
         this.els.labels = {};
 
-        this.getBody().css({
+        this.$b().css({
             'padding': 0,
             'margin': 0,
             'border': 0
@@ -181,7 +181,7 @@ chess.view.board.GUI = new Class({
         if (this.boardCls) {
             el.addClass(this.boardCls);
         }
-        this.getBody().append(el);
+        this.$b().append(el);
     },
 
     createContainerForBoardAndFileLabels: function () {
@@ -399,7 +399,7 @@ chess.view.board.GUI = new Class({
 
     boardCoordinates: function () {
         var b = this.els.boardContainer;
-        var bodyOff = this.getBody().offset();
+        var bodyOff = this.$b().offset();
         var off = b.offset();
 
         var ret = {
@@ -431,8 +431,8 @@ chess.view.board.GUI = new Class({
         });
 
         var boardSize = Math.min(
-            this.getBody().width() - (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()),
-            this.getBody().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
+            this.$b().width() - (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()),
+            this.$b().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
         );
 
         if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
@@ -449,9 +449,9 @@ chess.view.board.GUI = new Class({
         var mt = 0;
 
         if (this.vAlign == 'middle') {
-            mt = Math.max(0, (this.getBody().height() - this.getBody().width()) / 2);
+            mt = Math.max(0, (this.$b().height() - this.$b().width()) / 2);
         } else if (this.vAlign == 'bottom') {
-            mt = Math.max(0, (this.getBody().height() - this.getBody().width()));
+            mt = Math.max(0, (this.$b().height() - this.$b().width()));
         }
 
         this.els.boardContainer.css({
@@ -533,7 +533,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.getBody().width(),  this.getBody().height()) * p / 100;
+            return Math.min(this.$b().width(),  this.$b().height()) * p / 100;
         }
         return p;
     },
@@ -553,7 +553,7 @@ chess.view.board.GUI = new Class({
 
     getNewSizeOfBoardContainer: function () {
         var b = this.els.boardContainer;
-        var c = this.getBody();
+        var c = this.$b();
 
         var widthOffset = b.outerWidth() - b.width();
         var heightOffset = b.outerHeight() - b.height();
@@ -616,7 +616,7 @@ chess.view.board.GUI = new Class({
     },
 
     getHeightOfContainer: function () {
-        return this.getBody().height();
+        return this.$b().height();
 
     },
 

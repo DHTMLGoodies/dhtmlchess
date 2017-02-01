@@ -74,7 +74,7 @@ chess.view.position.Piece = new Class({
 
         piece.attr('pieceType', this.pieceType);
         piece.on('click', this.selectPiece.bind(this));
-        this.getBody().append(piece);
+        this.$b().append(piece);
         piece.addClass('position-setup-piece');
         piece.on('mouseenter', this.mouseEnterPiece.bind(this));
         piece.on('mouseleave', this.mouseLeavePiece.bind(this));
@@ -92,7 +92,7 @@ chess.view.position.Piece = new Class({
     },
 
     resizePiece : function() {
-        var b = this.getBody();
+        var b = this.$b();
         var size = { x : b.width(), y: b.height() };
 
         size.x -= this.getPadding('x');
@@ -109,7 +109,7 @@ chess.view.position.Piece = new Class({
     getPadding:function(type){
 
         if(this.piecePadding[type] === undefined){
-            var c = this.getBody();
+            var c = this.$b();
             switch(type){
                 case "x":
                     this.piecePadding[type] = (ludo.dom.getBW(c) + ludo.dom.getPW(c) + ludo.dom.getMBPW(this.els.piece));

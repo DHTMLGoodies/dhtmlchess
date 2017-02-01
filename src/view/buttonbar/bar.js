@@ -103,7 +103,7 @@ chess.view.buttonbar.Bar = new Class({
     __rendered: function () {
         this.parent();
 
-        this.getBody().css('overflow','hidden');
+        this.$b().css('overflow','hidden');
         this.createStylesheets();
 
         if (this.background) {

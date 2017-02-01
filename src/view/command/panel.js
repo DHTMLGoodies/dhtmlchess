@@ -33,7 +33,7 @@ chess.view.command.Panel = new Class({
      * @method clear
      */
 	clear:function(){
-		this.getBody().html('');
+		this.$b().html('');
 		this.currentLine = undefined;
 	},
 
@@ -57,8 +57,8 @@ chess.view.command.Panel = new Class({
 		var el = document.createElement('div');
 		el.className = cls || 'dhtml-chess-command-panel-message';
 		el.innerHTML = text;
-		this.getBody().append(el);
-		this.getBody().scrollTop += 100;
+		this.$b().append(el);
+		this.$b().scrollTop += 100;
 		this.currentLine = el;
 	}
 });

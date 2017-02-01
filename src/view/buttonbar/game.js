@@ -36,10 +36,10 @@ chess.view.buttonbar.Game = new Class({
     __rendered:function () {
         this.parent();
 
-        this.getBody().css('width', '100%');
+        this.$b().css('width', '100%');
 
         var buttonContainer = this.els.buttonContainer = jQuery('<div class="dhtml-chess-button-container"></div>');
-        this.getBody().append(buttonContainer);
+        this.$b().append(buttonContainer);
 
         var buttons = this.buttons;
 
@@ -57,7 +57,7 @@ chess.view.buttonbar.Game = new Class({
 
         this.addRightedgeElement();
 
-        this.getBody().addClass(this.buttonTheme);
+        this.$b().addClass(this.buttonTheme);
 
         this.hideButton('pause');
 
@@ -165,7 +165,7 @@ chess.view.buttonbar.Game = new Class({
 
     addRightedgeElement:function () {
         var rightBar = jQuery('<div class="dhtml-chess-button-bar-right-edge"></div>');
-        this.getBody().append(rightBar);
+        this.$b().append(rightBar);
 
         var size = { x: rightBar.outerWidth(),y:rightBar.outerHeight() };
 
@@ -178,7 +178,7 @@ chess.view.buttonbar.Game = new Class({
             height:size.y,
             'background-color':this.getBackgroundColorForRightedge()
         });
-        this.getBody().append(bgRightBar);
+        this.$b().append(bgRightBar);
     },
 
     getBackgroundColorForRightedge:function () {

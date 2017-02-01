@@ -17,7 +17,7 @@ chess.wordpress.WordPressMessage= new Class({
     __rendered:function(){
         this.parent();
         this.els.message = jQuery('<div style="position:absolute;right:5px"></div>');
-        this.getBody().append(this.els.message);
+        this.$b().append(this.els.message);
     },
 
     setController:function(controller){
@@ -27,14 +27,14 @@ chess.wordpress.WordPressMessage= new Class({
     },
 
     showError:function(error){
-        this.getBody().css('color', '#EF9A9A');
+        this.$b().css('color', '#EF9A9A');
         this.els.message.html(error);
         this.animateIn();
         this.autoHide();
     },
 
     showMessage:function(message){
-        this.getBody().css('color', '#AED581');
+        this.$b().css('color', '#AED581');
         this.els.message.html(message);
         this.animateIn();
         this.autoHide();
@@ -46,7 +46,7 @@ chess.wordpress.WordPressMessage= new Class({
     },
     animateIn:function(){
         var el = this.els.message;
-        el.css('top', this.getBody().height());
+        el.css('top', this.$b().height());
 
         el.animate({
             top:0
@@ -57,7 +57,7 @@ chess.wordpress.WordPressMessage= new Class({
 
     animateOut:function(){
         this.els.message.animate({
-            top : this.getBody().height()
+            top : this.$b().height()
         }, {
             duration:200
         });
