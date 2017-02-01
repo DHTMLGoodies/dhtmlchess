@@ -8,13 +8,21 @@ chess.WPEditor = new Class({
     Extends: Events,
     renderTo: undefined,
 
+    offset:undefined,
+
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
+
+        var b = jQuery(document.body);
+        this.offset = jQuery('#wpwrap').offset().top - b.outerHeight() + b.height();
+        console.log(this.offset);
         var r = this.renderTo;
-        r.css('height', (jQuery(document.body).height()));
+
+        this.onWinResize();
+       // r.css('height', (jQuery(document.body).height() - this.offset));
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
@@ -22,7 +30,7 @@ chess.WPEditor = new Class({
     },
 
     onWinResize:function(){
-        this.renderTo.css('height', (jQuery(document.body).height()));
+        this.renderTo.css('height', (jQuery(document.body).height() - this.offset));
     },
 
     render: function () {
@@ -216,7 +224,8 @@ chess.WPEditor = new Class({
                                         'background-color': '#888888'
                                     },
                                     elCss: {
-                                        'margin-top': 5
+                                        'margin-top': 5,
+                                        'margin-bottom': 2
 
                                     },
                                     background: {
@@ -307,7 +316,7 @@ chess.WPEditor = new Class({
                                     },
                                     layout: {
                                         type: 'tabs', tabs: 'top',
-                                        height: 250,
+                                        height: jQuery(document.body).height() / 4,
                                         resizable: true,
                                         resizePos:'above'
                                     },
