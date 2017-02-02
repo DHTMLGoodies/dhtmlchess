@@ -271,7 +271,25 @@ class DhtmlChessPgn
             }
 
         }
+    }
 
+    public function setHidden(){
+        $countUpdated = $this->wpdb->update(
+            DhtmlChessDatabase::TABLE_PGN,
+            array(
+                DhtmlChessDatabase::COL_HIDDEN => '1'
+            ),
+            array(DhtmlChessDatabase::COL_ID => $this->id),
+            array(
+                '%s'
+            ),
+            array()
+        );
+
+        if(!empty($countUpdated)){
+            $this->clearCache();
+        }
+        return $countUpdated;
     }
 
     public function setArchived($archived)
@@ -295,11 +313,15 @@ class DhtmlChessPgn
             throw new Exception("Not able to archive. Already archived?");
         }
 
+        $this->clearCache();
+
+        return $countUpdated;
+    }
+
+    private function clearCache(){
         $cache = new DhtmlChessCache();
         $cache->clearPgnListCache();
         $cache->clear($this->cacheKey());
-
-        return $countUpdated;
     }
 
     /**

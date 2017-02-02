@@ -39,8 +39,9 @@ class DhtmlChessPgnList
             DhtmlChessDatabase::TABLE_GAME . " g on g." . DhtmlChessDatabase::COL_PGN_ID . "=p."
             . DhtmlChessDatabase::COL_ID
             . " where p." . DhtmlChessDatabase::COL_ARCHIVED . "=%s"
+            . " and p." . DhtmlChessDatabase::COL_HIDDEN . "=%s"
             . " group by p." . DhtmlChessDatabase::COL_ID
-            . " order by p." . DhtmlChessDatabase::COL_PGN_NAME, $archiveVal);
+            . " order by p." . DhtmlChessDatabase::COL_PGN_NAME, $archiveVal , '0');
 
         #echo $query;
         $results = $wpdb->get_results($query);

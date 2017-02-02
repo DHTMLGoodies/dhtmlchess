@@ -29,6 +29,7 @@ class DhtmlChessDatabase
     const COL_TITLE = "title";
     const COL_ARCHIVED = "archived";
     const COL_TMP = "tmp";
+    const COL_HIDDEN = "hidden";
 
 
     const COL_CACHE_KEY = "cache_key";

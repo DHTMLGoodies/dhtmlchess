@@ -850,9 +850,28 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         
         $this->assertNotNull($pgn);
         $this->assertEquals(45, $pgn->countGames());
-        
-        
+    }
 
+    /**
+     * @test
+     */
+    public function shouldBeAbleToSetDatabaseHidden(){
+        // when
+        $pgn = $this->database->import("lcc2016.pgn");
+        
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+        $this->assertEquals(1, count($list), json_encode($list));
+
+
+        // when
+        $pgn->setHidden();
+
+        $list = $this->database->listOfPgns();
+        $list = json_decode($list, true);
+        $this->assertEquals(0, count($list));
+        
+        
     }
     
     /**

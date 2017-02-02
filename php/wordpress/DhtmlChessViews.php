@@ -9,4 +9,30 @@
 class DhtmlChessViews
 {
 
+    private static $views = array(
+
+        array(
+            "id" => "tactics",
+            "name" => "Tactics Viewer",
+            "preview_link" => "",
+            "description" => "",
+            "options" => array(
+                array("label" => "pgn", "name" => "pgn"),
+                array("label" => "theme", "name" => "theme")
+            )
+        ),
+        array(
+            "id" => "viewer",
+            "name" => "Game Viewer",
+            "preview_link" => "",
+            "description" => "",
+            "options" => array(
+                array("label" => "pgn", "name" => "pgn"),
+                array("label" => "theme", "name" => "theme")
+            )
+        ),
+
+
+    );
+
 }

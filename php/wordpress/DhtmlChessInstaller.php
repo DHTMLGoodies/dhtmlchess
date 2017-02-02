@@ -26,6 +26,7 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_PGN_NAME . ' varchar(255),'
             . DhtmlChessDatabase::COL_TMP . ' varchar(255),'
             . DhtmlChessDatabase::COL_ARCHIVED . ' char(1) default "0" ,'
+            . DhtmlChessDatabase::COL_HIDDEN . ' char(1) default "0" ,'
             . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
@@ -67,6 +68,11 @@ class DhtmlChessInstaller
     private function importDefaultPgn(){
         $import = new DhtmlChessImportPgn();
         $import->createFromPgnString("Great Games", $this->pgn);
+
+        $pgn = $import->createFromPgnString("tactic-template", $this->pgnTactic);
+        $pgn->setHidden();
+        $pgn = $import->createFromPgnString("viewer-template", $this->pgnViewer);
+        $pgn->setHidden();
         
     }
     
@@ -88,7 +94,35 @@ class DhtmlChessInstaller
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DUMMY);
     }
-    
+
+    private $pgnTactic = '[setup "1"]
+[castle "1"]
+[event " White to move."]
+[site "?"]
+[date "1998.??.??"]
+[round "?"]
+[white "White mates in 5"]
+[black "1001 Brilliant Ways to Checkmate"]
+[result "1-0"]
+[fen "6rk/R6p/2pp4/1pP2n2/1P2B1Q1/n6P/7K/r3q3 w - - 0 1"]
+[plycount "9"]
+[index "4"]
+[ts "1485818748064"]
+
+
+1. Rxh7+  Kxh7 2. Qxf5+  Kg7 3. Qg6+  Kf8 4. Qf6+  Ke8 5. Bxc6#';
+
+    private $pgnViewer = '[Event "Immortal game"]
+[Site "London"]
+[Date "1851.??.??"]
+[Round "?"]
+[White "Anderssen,A"]
+[Black "Kieseritzky,L"]
+[Result "1-0"] 
+
+1.e4 e5 2.f4 exf4 3.Bc4 Qh4+ 4.Kf1 b5 5.Bxb5 Nf6 6.Nf3 Qh6 7.d3 Nh5 8.Nh4 Qg5 9.Nf5 c6 10.g4 Nf6 11.Rg1 cxb5 12.h4 Qg6 13.h5 Qg5 14.Qf3 Ng8 15.Bxf4 Qf6 16.Nc3 Bc5 17.Nd5 Qxb2 18.Bd6 Qxa1+ 19.Ke2 Bxg1 20.e5 Na6 21.Nxg7+ Kd8 22.Qf6+ Nxf6 23.Be7+ 1-0 
+';
+
     private $pgn = '[Event "4th match"]
 [Site "London"]
 [Date "1834.??.??"]
