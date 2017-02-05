@@ -108,12 +108,13 @@ chess.AutoParse = new Class({
         var elapsed = new Date().getTime() - this.startTime;
 
 
-        var elapsedMinimum = new Date().getTime() - this.timeMateFound > this.minimiumTimeout;
+        var t = this.currentMoves && this.currentMoves.length <= 1 ? 0 : this.minimiumTimeout;
+        var elapsedMinimum = new Date().getTime() - this.timeMateFound > t;
         if(this.checkmatesOnly && this.parsingMode == 0 && this.foundMate  && elapsedMinimum ){
             this.foundMate = false;
 
+
             this.onNewMove();
-            console.log('timeout new moves');
             return;
         }
 
@@ -198,6 +199,8 @@ chess.AutoParse = new Class({
         if (this.controller.stopped && this.parsingMode == 0) {
             this.controller.startEngine.delay(100, this.controller);
         }
+
+        console.log(this.controller.currentModel.fen());
     },
 
     bestMoves: undefined,
@@ -205,6 +208,8 @@ chess.AutoParse = new Class({
     currentBest: undefined,
 
     updateMove: function (move) {
+
+
 
 
         this.bestMoves = move.bestMoves;
@@ -247,6 +252,8 @@ chess.AutoParse = new Class({
         this.foundMate = false;
         this.timeMateFound = 0;
 
+        var model = this.controller.currentModel;
+
 
         var elapsed = new Date().getTime() - startTime;
 
@@ -260,7 +267,6 @@ chess.AutoParse = new Class({
             this.lastEngineMove = moves[moves.length - 1];
         }
 
-        var model = this.controller.currentModel;
 
         console.log('stopping 1');
         this.controller.stopEngine();
@@ -287,7 +293,11 @@ chess.AutoParse = new Class({
             }
 
 
+            console.log(checkmateMoves);
+
+
             model.appendRemoteMove(checkmateMoves[0]);
+            console.log(model.currentBranch);
             this.currentMoves.push(lastMove);
 
 
@@ -297,6 +307,7 @@ chess.AutoParse = new Class({
             var cmFound = false;
 
             this.secondParser.setFen(this.parser.getFen());
+
 
 
             for (i = 0; i < moves.length; i++) {
@@ -331,7 +342,7 @@ chess.AutoParse = new Class({
                             variations: []
                         };
                     } else {
-                        lm.variations.push(checkmate);
+                        lm.variations.push([checkmate]);
                     }
                 }.bind(this));
 
@@ -481,6 +492,7 @@ chess.AutoParse = new Class({
         this.variationMoveIndex = 0;
         this.parsingMode = 1;
 
+
         jQuery.each(this.currentMoves, function (i, move) {
             this.bestLines.push(move);
             this.bestLineFens.push(this.currentFens[i]);
@@ -519,6 +531,8 @@ chess.AutoParse = new Class({
 
                 jQuery.each(move.variations, function (j, variation) {
                     notation += " (";
+
+                    if(variation.substr != undefined)variation = [variation];
 
                     jQuery.each(variation, function (a, variationMove) {
                         var pr = a == 0 || ((moveIndex + a) % 2 == 0) ? moveIndex + a : '';

@@ -23,7 +23,7 @@ chess.view.command.Controller = new Class({
 		if (command) {
 			this.execute(command, this.getCommandArguments(command, message));
 		} else {
-			this.errorMessage('Invalid command: "' + message + '"');
+			this.errorMessage(chess.getPhrase('Invalid command') + ': "' + message + '"');
 		}
 	},
 

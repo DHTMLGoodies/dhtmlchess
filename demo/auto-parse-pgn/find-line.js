@@ -38,15 +38,11 @@ chess.FindLine = new Class({
 
                 this.active = false;
                 this.controller.stopEngine();
-                console.log('timed out ', this.moves.length);
                 if(this.moves.length > 1){
                     this.onFinished.delay(300, this);
                 }else{
-
                    this.fireEvent('abort');
-
                 }
-
                 // this.controller.removeEvent('engineupdate', this.finishedFn);
             }
         }
@@ -54,6 +50,7 @@ chess.FindLine = new Class({
     },
 
     findLine: function (fen, firstMove, timeout, color, countMoves) {
+        
 
         this.timeout = timeout || this.timeout;
         this.color = color;
@@ -95,10 +92,6 @@ chess.FindLine = new Class({
 
 
         if (!this.active)return;
-
-        console.log('received move update');
-
-        if(move.mate)console.log('Found line', this.firstMoveNotation, move.mate, move.bestMoves, this.color, this.fen);
 
         var cm = (this.color == 'white' && move.mate != 0 && move.mate >0) || (this.color == 'black' && move.mate != 0 && move.mate < 0);
         if (cm) {

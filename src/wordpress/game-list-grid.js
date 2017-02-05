@@ -31,10 +31,14 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     loadGames: function () {
-
-        if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+        if(this.controller){
+            if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+                this.load();
+            }
+        }else if(this.getDataSource().postData.pgn){
             this.load();
         }
+
     },
 
     load: function () {

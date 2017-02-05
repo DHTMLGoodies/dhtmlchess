@@ -249,7 +249,7 @@ chess.model.Game = new Class({
     },
 
     reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
-        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id"],
+        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id", "eval"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object
@@ -379,6 +379,10 @@ chess.model.Game = new Class({
         this.currentBranch = this.model.moves;
         this.currentMove = undefined;
 
+    },
+
+    fen: function () {
+        return this.getCurrentPosition();
     },
 
     /**
@@ -669,7 +673,7 @@ chess.model.Game = new Class({
         var inVariation = false;
         var branch = this.currentBranch;
 
-        if(this.currentMove && forceVariation){
+        if (this.currentMove && forceVariation) {
 
             branch = this.newVariationBranch(this.currentMove);
             var copy = Object.clone(this.currentMove);
@@ -731,10 +735,14 @@ chess.model.Game = new Class({
      alert(model.getCurrentPosition());
      */
     appendMove: function (move) {
+
+
         var pos = this.getCurrentPosition();
         if (ludo.util.isString(move)) {
             move = this.moveParser.getMoveByNotation(move, pos);
         }
+
+
         if (!move.promoteTo && this.moveParser.isPromotionMove(move, pos)) {
             /**
              * verify promotion event. This event is fired when you try to append a promotion move
@@ -1119,7 +1127,7 @@ chess.model.Game = new Class({
         this.fire('clearCurrentMove');
     },
 
-    to:function(move){
+    to: function (move) {
         if (this.setCurrentMove(move)) {
             this.fire('setPosition', move);
         }
@@ -1654,6 +1662,15 @@ chess.model.Game = new Class({
         move = this.findMove(move);
         if (move) {
             this.setComment(move, comment);
+        }
+    },
+
+    setEval: function (eval, move) {
+        move = move || this.currentMove;
+        move = this.findMove(move);
+        if (move) {
+            move.eval = eval;
+            this.fire('updateMove', move);
         }
     },
 

@@ -110,6 +110,64 @@ chess.wordpress.WordpressController = new Class({
         }
     },
 
+    renameDatabase:function(){
+        if(!this.pgn){
+            this.showError(chess.getPhrase('No database selected'))
+        }else{
+            this.getDatabaseRenameDialog().show(this.pgn);
+        }
+    },
+
+    getDatabaseRenameDialog:function(){
+        if(this.renameDbDialog == undefined){
+            this.renameDbDialog = new chess.wordpress.RenameDatabaseDialog({
+                layout: {
+                    centerIn: this.views.board
+                },
+                listeners:{
+                    'renameDatabase': this.finishRename.bind(this)
+                }
+            });
+        }
+
+        return this.renameDbDialog;
+    },
+
+    finishRename:function(pgn, newName){
+        console.log(arguments);
+        if(newName.trim().length == 0){
+            this.showError('Invalid name');
+            return;
+        }
+
+        jQuery.ajax({
+            url: ludo.config.getUrl(),
+            method:'post',
+            cache:false,
+            dataType:'json',
+            data:{
+                action:'rename_pgn',
+                pgn: pgn.id,
+                name : newName
+            },
+            complete:function(response, success){
+                if(success){
+                    var data = response.responseJSON;
+                    if(data.success){
+                        this.fireEvent('wpmessage', chess.getPhrase('Database Renamed'));
+                        this.fireEvent('rename_pgn');
+                        this.views.gamelisttab.setTitle(data.response.name);
+                    }else{
+                        this.fireEvent('wperror', data.response);
+                    }
+                }else{
+                    this.fireEvent('wperror', response.responseText);
+                }
+
+            }.bind(this)
+        });
+    },
+
     appendLine:function(moveString){
         var appended = this.currentModel.appendLine(moveString, true);
         if(appended){

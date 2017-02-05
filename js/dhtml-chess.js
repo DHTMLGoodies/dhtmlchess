@@ -1,4 +1,4 @@
-/* Generated Wed Feb 1 22:22:56 CET 2017 */
+/* Generated Sun Feb 5 23:23:06 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -4511,7 +4511,7 @@ ludo.svg.Node = new Class({
     },
     
     setProperties: function (p) {
-        this.setProperties(p);
+        this.setAttributes(p);
     },
 
     /**
@@ -9628,6 +9628,7 @@ ludo.layout.Tabs = new Class({
     __rendered: function () {
         this.parent();
         this.resizeTabs();
+        this.$b().css('overflow','hidden');
     },
 
     registerChild: function (layout, parent, child) {
@@ -14043,8 +14044,8 @@ ludo.view.TitleBar = new Class({
 
         if (!this.buttons)this.buttons = this.getDefaultButtons();
 
-        this.view.addEvent('setTitle', this.setTitle.bind(this));
-        this.view.addEvent('resize', this.resizeDOM.bind(this));
+        this.view.on('setTitle', this.setTitle.bind(this));
+        this.view.on('resize', this.resizeDOM.bind(this));
         this.createDOM();
         this.setSizeOfButtonContainer();
     },
@@ -14097,16 +14098,14 @@ ludo.view.TitleBar = new Class({
     },
 
     getButtonContainer:function () {
-
-
         var el = this.els.controls = jQuery('<div class="ludo-title-bar-button-container"></div>');
-        el.css('cursor.default');
+        el.css('cursor', 'pointer');
 
         this.createEdge('left', el);
         this.createEdge('right', el);
 
         for (var i = 0; i < this.buttons.length; i++) {
-            el.append(this.getButton(this.buttons[i]));
+            el.append(this.getButtonDOM(this.buttons[i]));
         }
 
         this.addBorderToButtons();
@@ -14122,16 +14121,15 @@ ludo.view.TitleBar = new Class({
 
     },
 
-    shouldShowCollapseButton:function () {
-        var parent = this.view.getParent();
-        return parent.layout && parent.layout.type ? parent.layout.type === 'linear' || parent.layout.type == 'relative' : false;
-    },
-
     resizeButtonContainer:function () {
         this.els.controls.css('width', this.getWidthOfButtons());
     },
 
-    getButton:function (buttonConfig) {
+    button:function(name){
+        return this.els.buttons[name];
+    },
+
+    getButtonDOM:function (buttonConfig) {
         buttonConfig = ludo.util.isString(buttonConfig) ? { type:buttonConfig } : buttonConfig;
 
         var b = this.els.buttons[buttonConfig.type] = jQuery('<div>');
@@ -14139,11 +14137,18 @@ ludo.view.TitleBar = new Class({
         b.attr("class", 'ludo-title-bar-button ludo-title-bar-button-' + buttonConfig.type);
 
         b.on("click", this.getButtonClickFn(buttonConfig.type));
+        if(buttonConfig.listener){
+            b.on('click', buttonConfig.listener.bind(this));
+        }
         b.mouseenter(this.enterButton.bind(this));
         b.mouseleave(this.leaveButton.bind(this));
 
         b.attr('title', buttonConfig.title ? buttonConfig.title : buttonConfig.type.capitalize());
         b.attr('buttonType', buttonConfig.type);
+
+        if(buttonConfig.icon){
+            b.css('background-image', 'url('+ buttonConfig.icon + ')');
+        }
 
         this.els.buttonArray.push(b);
         return b;
@@ -14156,6 +14161,7 @@ ludo.view.TitleBar = new Class({
 
         return function (e) {
             this.leaveButton(e);
+            var el = jQuery(e.target);
             var event = type;
 
             if (toggle) {
@@ -14165,9 +14171,9 @@ ludo.view.TitleBar = new Class({
                     event = this.getNextToggle(toggle, event);
 
                 }
-                ludo.dom.removeClass(e.target, 'ludo-title-bar-button-' + event);
+                el.removeClass('ludo-title-bar-button-' + event);
                 this.toggleStatus[type] = event;
-                ludo.dom.addClass(e.target, 'ludo-title-bar-button-' + this.getNextToggle(toggle, event));
+                el.addClass('ludo-title-bar-button-' + this.getNextToggle(toggle, event));
             }
             this.fireEvent(event);
         }.bind(this);
@@ -14471,6 +14477,10 @@ ludo.FramedView = new Class({
 
 	hasTitleBar:function(){
 		return !this.titleBarHidden;
+	},
+
+	titleBarButton:function(name){
+		return this.getTitleBar().button(name);
 	},
 
 	getTitleBar:function(){
@@ -18744,9 +18754,7 @@ ludo.grid.Grid = new Class({
 			this.getParent().resize.delay(100, this.getParent());
 		}
 
-		if(this.emptyText){
-			this.emptyTextEl().css('display', '');
-		}
+		this.toggleEmptyText();
 	},
 
 	currentOverRecord:undefined,
@@ -18974,7 +18982,7 @@ ludo.grid.Grid = new Class({
 		if (height < 0) {
 			return;
 		}
-		this.els.body.css('height', height - this.gridHeader.getHeight());
+		this.$b().css('height', height - this.gridHeader.getHeight());
 		this.cachedInnerHeight = height;
 
 
@@ -19102,6 +19110,13 @@ ludo.grid.Grid = new Class({
 		}
 	},
 
+	toggleEmptyText:function(){
+
+		if(this.emptyText){
+			this.emptyTextEl().css('display', (!this.currentData || this.currentData.length) > 0 ? 'none' : '');
+		}
+	},
+
 	populateData:function () {
 
 		this.fireEvent('state');
@@ -19109,9 +19124,7 @@ ludo.grid.Grid = new Class({
 		this.currentData = this.getDataSource().getData();
 
 
-		if(this.emptyText){
-			this.emptyTextEl().css('display', this.currentData.length > 0 ? 'none' : '');
-		}
+		this.toggleEmptyText();
 
 		var contentHtml = [];
 		var keys = this.columnManager.getLeafKeys();
@@ -21121,7 +21134,6 @@ ludo.menu.Item = new Class({
 
         this._html = this._html || this.label;
 
-        console.log(this.label, this.action);
         if(this._html == '|')this.spacer = true;
 
         if (this.spacer) {
@@ -29631,7 +29643,7 @@ chess.view.notation.Panel = new Class({
         if (!this.tactics) {
             this.showResult = true;
         }
-        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
+        this.setConfigParams(config, ['showEval', 'notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
 
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
@@ -29659,7 +29671,7 @@ chess.view.notation.Panel = new Class({
                             this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
                             break;
                         case 'deleteMove':
-                            this.fireEvent('deleteMove',this.getContextMenuMove());
+                            this.fireEvent('deleteMove', this.getContextMenuMove());
                             break;
                     }
                 }.bind(this),
@@ -29698,7 +29710,6 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove: function (el) {
-
         this.contextMenuMove = {uid: jQuery(el).attr('moveId')}
     },
 
@@ -29749,20 +29760,21 @@ chess.view.notation.Panel = new Class({
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
 
-        var scrollTop = this.$b().scrollTop();
-        var bottomOfScroll = scrollTop + this.$b().height();
+        var b = this.$b();
+
+        var scrollTop = b.scrollTop();
+        var bottomOfScroll = scrollTop + b.height();
         var moveTop = move.position().top;
         var oh = move.outerHeight();
 
         if ((moveTop + oh) > bottomOfScroll) {
-            this.$b().scrollTop(moveTop + oh);
+            b.scrollTop(moveTop + oh);
         } else if (moveTop < scrollTop) {
-            this.$b().scrollTop(Math.max(0, moveTop - 5));
+            b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
 
     showMoves: function (model) {
-        console.log('new moves');
         var move = model.getCurrentMove();
         if (move != undefined) {
             this.currentModelMoveId = move.uid;
@@ -29772,12 +29784,19 @@ chess.view.notation.Panel = new Class({
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
 
         if (this.showResult) {
-            var res = model.getResult();
-            moves.push('<span class="notation-result">');
-            moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
-            moves.push('</span>');
+            moves.push(this.getResultDOM(model));
         }
         this.$b().html(moves.join(''));
+    },
+
+    getResultDOM: function (model) {
+        var res = model.getResult();
+        var r = [];
+        r.push('<span class="notation-result">');
+        r.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
+        r.push('</span>');
+        return r.join('');
+
     },
 
     getMovesInBranch: function (branch, moveCounter, depth, branchIndex, countBranches) {
@@ -29892,6 +29911,8 @@ chess.view.notation.Panel = new Class({
         return false;
     },
 
+    showEval:false,
+
     getDomTextForAMove: function (move) {
         var ret = [];
 
@@ -29900,26 +29921,27 @@ chess.view.notation.Panel = new Class({
 
 
         if (move[this.notationKey]) {
-
-
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
-
-
             if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
                 var p = move.p;
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
+                ret.push('<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
-
                 ret.push(move[this.notationKey]);
             }
-
             ret.push('</span>');
-
         }
-
+        if(this.showEval && move.eval){
+            ret.push('<span class="notation-chess-move-eval notation-chess-move-eval-');
+            if(move.eval < 0){
+                ret.push('negative');
+            }else{
+                ret.push('positive');
+            }
+            ret.push('">' + move.eval + '</span>');
+        }
 
         if (this.comments && move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')
@@ -29988,6 +30010,56 @@ chess.view.notation.TacticPanel = new Class({
     },
     clickOnMove:function(e){
 
+    }
+});/* ../dhtml-chess/src/view/notation/table.js */
+chess.view.notation.Table = new Class({
+    Extends: chess.view.notation.Panel,
+    type: 'chess.view.notation.Table',
+
+    showContextMenu:false,
+
+    
+    ludoDOM:function(){
+        this.parent();
+        this.getEl().addClass('dhtml-chess-notation-table');
+    },
+    
+    showEval:false,
+    
+    getMovesInBranch: function (branch, startPly, depth, branchIndex, countBranches) {
+        this.comments = false;
+        var ret = [];
+        ret.push('<ol>');
+
+        jQuery.each(branch, function(i, move){
+            var ply = i + startPly;
+            if(i == 0 && ply % 2 == 1){
+                ret.push('<li><dt>' + ( Math.ceil(ply / 2)) + '</dt><dd>&nbsp;</dd>');
+            }
+            if((ply % 2) == 0){
+                if(i> 0){
+                    ret.push('</li>');
+                }
+                ret.push('<li>');
+
+                ret.push('<dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
+            }
+
+            move.eval = ((Math.random() * 4) - (Math.random() * 4));
+            ret.push('<dd>' + this.getDomTextForAMove(move) + "</dd>");
+
+        }.bind(this));
+        ret.push('</li>');
+        ret.push('</ol>');
+        return ret;
+    },
+
+    addVariations:function(){
+        // silent
+    },
+
+    getResultDOM:function(model){
+        return '<p class="game-result">' + this.parent(model) + '</p>';
     }
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
@@ -31835,7 +31907,6 @@ chess.view.board.Background = new Class({
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
         var p = s.$('pattern');
-        p.set('patternUnits', 'userSpaceOnUse');
         p.set('width', 1);
         p.set('height', 1);
         p.set('x', 0);
@@ -33507,7 +33578,7 @@ chess.view.gamelist.Grid = new Class({
     headerMenu:false,
 
     /**
-     Columns to show in grid. Columns correspondes to metadata of games, example
+     Columns to show in grid. Columns corresponds to metadata of games, example
      white,black,result, event, eco
      @config cols
      @type Array
@@ -33589,11 +33660,11 @@ chess.view.gamelist.Grid = new Class({
     setController: function (controller) {
         this.parent(controller);
         var ds = this.getDataSource();
-        controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
-        controller.addEvent('nextGame', ds.next.bind(ds));
-        controller.addEvent('previousGame', ds.previous.bind(ds));
-        controller.addEvent('selectPgn', this.selectPgn.bind(this));
-        controller.addEvent('gameSaved', this.onGameSave.bind(this));
+        controller.on('selectDatabase', this.selectDatabase.bind(this));
+        controller.on('nextGame', ds.next.bind(ds));
+        controller.on('previousGame', ds.previous.bind(ds));
+        controller.on('selectPgn', this.selectPgn.bind(this));
+        controller.on('gameSaved', this.onGameSave.bind(this));
     },
 
 
@@ -34115,11 +34186,10 @@ chess.view.dialog.PuzzleSolved = new Class({
     },
 
     __construct:function(config){
-        config.title = config.title || chess.getPhrase('tacticPuzzleSolvedTitle');
-        config.html = config.html || chess.getPhrase('tacticPuzzleSolvedMessage');
+        config.title = config.title || chess.getPhrase('Well done - Puzzle complete');
+        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game');
         this.parent(config);
     }
-    
     
 });/* ../dhtml-chess/src/view/dialog/promote.js */
 /**
@@ -34700,7 +34770,7 @@ chess.view.command.Controller = new Class({
 		if (command) {
 			this.execute(command, this.getCommandArguments(command, message));
 		} else {
-			this.errorMessage('Invalid command: "' + message + '"');
+			this.errorMessage(chess.getPhrase('Invalid command') + ': "' + message + '"');
 		}
 	},
 
@@ -36036,7 +36106,7 @@ chess.view.pgn.Grid = new Class({
 
 	columns:{
 		file:{
-			heading:'Pgn files',
+			heading:chess.getPhrase('Pgn files'),
 			key:'file',
 			width:120,
 			sortable:true
@@ -37987,19 +38057,19 @@ chess.parser.FenParser0x88 = new Class({
 			notation = notation.replace(/[\+#!\?]/g, '');
 			notation = notation.replace(/^(.*?)[QRBN]$/g, '$1');
 			var pieceType = this.getPieceTypeByNotation(notation, color);
-
+			var capture = notation.indexOf('x') > 0;
 			ret.to = this.getToSquareByNotation(notation);
 
 			switch (pieceType) {
 				case 0x01:
 				case 0x09:
 					if (color === 'black') {
-						offsets = [15, 17, 16];
+						offsets = capture ? [15, 17]  : [16];
 						if (ret.to > 48) {
 							offsets.push(32);
 						}
 					} else {
-						offsets = [-15, -17, -16];
+						offsets = capture ? [-15, -17] : [-16];
 						if (ret.to < 64) {
 							offsets.push(-32);
 						}
@@ -38764,6 +38834,8 @@ chess.parser.Move0x88 = new Class({
             from:move.from,
             promoteTo : move.promoteTo,
             comment : move.comment,
+            clk : move.clk,
+            eval : move.eval,
             to:move.to,
             variations:move.variations || []
         };
@@ -40088,7 +40160,7 @@ chess.model.Game = new Class({
     },
 
     reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
-        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id"],
+        "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id", "eval"],
     // TODO refactor this to match server
     /**
      * Move metadata into metadata object
@@ -40218,6 +40290,10 @@ chess.model.Game = new Class({
         this.currentBranch = this.model.moves;
         this.currentMove = undefined;
 
+    },
+
+    fen: function () {
+        return this.getCurrentPosition();
     },
 
     /**
@@ -40508,7 +40584,7 @@ chess.model.Game = new Class({
         var inVariation = false;
         var branch = this.currentBranch;
 
-        if(this.currentMove && forceVariation){
+        if (this.currentMove && forceVariation) {
 
             branch = this.newVariationBranch(this.currentMove);
             var copy = Object.clone(this.currentMove);
@@ -40570,10 +40646,14 @@ chess.model.Game = new Class({
      alert(model.getCurrentPosition());
      */
     appendMove: function (move) {
+
+
         var pos = this.getCurrentPosition();
         if (ludo.util.isString(move)) {
             move = this.moveParser.getMoveByNotation(move, pos);
         }
+
+
         if (!move.promoteTo && this.moveParser.isPromotionMove(move, pos)) {
             /**
              * verify promotion event. This event is fired when you try to append a promotion move
@@ -40958,7 +41038,7 @@ chess.model.Game = new Class({
         this.fire('clearCurrentMove');
     },
 
-    to:function(move){
+    to: function (move) {
         if (this.setCurrentMove(move)) {
             this.fire('setPosition', move);
         }
@@ -41493,6 +41573,15 @@ chess.model.Game = new Class({
         move = this.findMove(move);
         if (move) {
             this.setComment(move, comment);
+        }
+    },
+
+    setEval: function (eval, move) {
+        move = move || this.currentMove;
+        move = this.findMove(move);
+        if (move) {
+            move.eval = eval;
+            this.fire('updateMove', move);
         }
     },
 
@@ -42126,10 +42215,14 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     loadGames: function () {
-
-        if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+        if(this.controller){
+            if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+                this.load();
+            }
+        }else if(this.getDataSource().postData.pgn){
             this.load();
         }
+
     },
 
     load: function () {

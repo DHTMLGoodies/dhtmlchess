@@ -8,7 +8,7 @@ chess.WPEditor = new Class({
     Extends: Events,
     renderTo: undefined,
 
-    offset:undefined,
+    offset: undefined,
 
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
@@ -22,14 +22,14 @@ chess.WPEditor = new Class({
         var r = this.renderTo;
 
         this.onWinResize();
-       // r.css('height', (jQuery(document.body).height() - this.offset));
+        // r.css('height', (jQuery(document.body).height() - this.offset));
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
         jQuery(window).on('resize', this.onWinResize.bind(this));
     },
 
-    onWinResize:function(){
+    onWinResize: function () {
         this.renderTo.css('height', (jQuery(document.body).height() - this.offset));
     },
 
@@ -56,26 +56,26 @@ chess.WPEditor = new Class({
 
                     children: [
                         {
-                            module:this.module,
-                            css:{
-                                'overflow':'hidden'
+                            module: this.module,
+                            css: {
+                                'overflow': 'hidden'
                             },
-                            submodule:'wordpress.dockinglayout',
+                            submodule: 'wordpress.dockinglayout',
                             layout: {
                                 type: 'docking',
                                 tabs: 'left',
                                 width: 300,
                                 resizable: true,
-                                minWidth:50
+                                minWidth: 50
                             },
 
                             children: [
                                 {
                                     title: chess.getPhrase('Game Drafts'),
-                                    id:'draftsDockingView',
+                                    id: 'draftsDockingView',
                                     type: 'FramedView',
-                                    elCss:{
-                                        'border-left-width' : 0
+                                    elCss: {
+                                        'border-left-width': 0
                                     },
                                     layout: {
                                         type: 'fill'
@@ -97,28 +97,28 @@ chess.WPEditor = new Class({
                                 {
                                     type: 'FramedView',
                                     layout: {
-                                        type: 'linear', orientation:'vertical',
-                                        visible:true
+                                        type: 'linear', orientation: 'vertical',
+                                        visible: true
                                     },
-                                    elCss:{
-                                        'border-left-width' : 0
+                                    elCss: {
+                                        'border-left-width': 0
                                     },
                                     title: chess.getPhrase('PGN Databases'),
                                     children: [
                                         {
-                                            type:'form.Button',
-                                            value:chess.getPhrase('New Database'),
-                                            submodule:'chess.newDatabaseButton',
-                                            module:this.module,
-                                            layout:{
-                                                width:'matchParent'
+                                            type: 'form.Button',
+                                            value: chess.getPhrase('New Database'),
+                                            submodule: 'chess.newDatabaseButton',
+                                            module: this.module,
+                                            layout: {
+                                                width: 'matchParent'
                                             }
                                         },
                                         {
                                             type: 'chess.wordpress.PgnListView',
                                             module: this.module,
-                                            layout:{
-                                                weight:1
+                                            layout: {
+                                                weight: 1
                                             }
                                         }
 
@@ -126,54 +126,68 @@ chess.WPEditor = new Class({
 
                                 },
                                 {
-                                    type:'FramedView',
-                                    module:this.module,
-                                    submodule:'wordpress.gamelisttab',
+                                    type: 'FramedView',
+                                    titleBar: {
+                                        title: chess.getPhrase('Games'),
+                                        module:this.module,
+                                        buttons: [
+                                            {
+                                                type:'rename',
+                                                title:chess.getPhrase('Rename Database'),
+                                                icon: ludo.config.getDocumentRoot() + '/images/settings.png?rnd=' + Math.random(),
+                                                listener:function(){
+                                                    this.controller.renameDatabase();
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    module: this.module,
+                                    submodule: 'wordpress.gamelisttab',
                                     title: chess.getPhrase('Games'),
-                                    elCss:{
-                                        'border-left-width' : 0
+                                    elCss: {
+                                        'border-left-width': 0
                                     },
                                     layout: {
-                                        type: 'linear', orientation:'vertical'
+                                        type: 'linear', orientation: 'vertical'
                                     },
-                                    children:[
+                                    children: [
                                         {
-                                            type:'form.Text',
-                                            placeholder:'Search',
-                                            id:'searchField',
-                                            layout:{
-                                                height:30
+                                            type: 'form.Text',
+                                            placeholder: 'Search',
+                                            id: 'searchField',
+                                            layout: {
+                                                height: 30
                                             },
 
-                                            listeners:{
-                                                key:function (value) {
+                                            listeners: {
+                                                key: function (value) {
                                                     ludo.$('gamelistgrid').getDataSource().search(value);
                                                 }
                                             },
-                                            elCss:{
-                                                'border-bottom' : '1px solid ' + ludo.$C('border')
+                                            elCss: {
+                                                'border-bottom': '1px solid ' + ludo.$C('border')
                                             }
                                         },
                                         {
-                                            id:'gamelistgrid',
-                                            type:'chess.wordpress.GameListGrid',
-                                            module:this.module,
-                                            layout:{
-                                                weight:1
+                                            id: 'gamelistgrid',
+                                            type: 'chess.wordpress.GameListGrid',
+                                            module: this.module,
+                                            layout: {
+                                                weight: 1
                                             },
-                                            elCss:{
-                                                'border-bottom' : '1px solid ' + ludo.$C('border')
+                                            elCss: {
+                                                'border-bottom': '1px solid ' + ludo.$C('border')
                                             }
                                         },
                                         {
-                                            type:'form.Button',
-                                            module:this.module,
-                                            value:chess.getPhrase('Standings'),
-                                            submodule:'wordpress.standingsbutton',
-                                            listeners:{
-                                                rendered:function(){
+                                            type: 'form.Button',
+                                            module: this.module,
+                                            value: chess.getPhrase('Standings'),
+                                            submodule: 'wordpress.standingsbutton',
+                                            listeners: {
+                                                rendered: function () {
 
-                                                    if(!this.controller.pgn){
+                                                    if (!this.controller.pgn) {
                                                         this.hide();
                                                     }
                                                 }
@@ -193,21 +207,21 @@ chess.WPEditor = new Class({
                             },
                             children: [
                                 {
-                                    type:'chess.wordpress.EditorHeading',
+                                    type: 'chess.wordpress.EditorHeading',
                                     module: this.module,
-                                    layout:{
-                                        height:20
+                                    layout: {
+                                        height: 20
                                     }
                                 },
 
                                 {
-                                    module:this.module,
+                                    module: this.module,
                                     type: 'chess.wordpress.MetadataTitle',
-                                    css:{
-                                        'text-align' : 'center'
+                                    css: {
+                                        'text-align': 'center'
                                     },
-                                    layout:{
-                                        height:45
+                                    layout: {
+                                        height: 45
                                     }
                                 },
 
@@ -243,7 +257,7 @@ chess.WPEditor = new Class({
                                     labelEvenStyles: {
                                         'color': '#fff'
                                     },
-                                    labels:!ludo.isMobile,
+                                    labels: !ludo.isMobile,
                                     padding: ludo.isMobile ? '1%' : '3%',
                                     labelPos: ludo.isMobile ? 'inside' : 'outside',
                                     plugins: [
@@ -318,12 +332,13 @@ chess.WPEditor = new Class({
                                         type: 'tabs', tabs: 'top',
                                         height: jQuery(document.body).height() / 4,
                                         resizable: true,
-                                        resizePos:'above'
+                                        resizePos: 'above'
                                     },
                                     children: [
                                         {
                                             title: 'Notations',
                                             type: 'chess.view.notation.Panel',
+                                            showEval: true,
                                             module: this.module,
                                             figurines: 'svg_bw',
                                             showContextMenu: true
@@ -336,10 +351,9 @@ chess.WPEditor = new Class({
                                         },
                                         {
                                             'title': chess.getPhrase('Computer Eval'),
-                                            type:'wordpress.ComputerEval',
+                                            type: 'wordpress.ComputerEval',
                                             module: this.module,
-                                            layout:{
-                                            }
+                                            layout: {}
                                         },
                                         {
                                             title: chess.getPhrase('Metadata'),
@@ -347,16 +361,16 @@ chess.WPEditor = new Class({
                                             type: 'chess.wordpress.GameMetadata'
                                         }
                                         /*
-                                        {
-                                            title:'PGN',
-                                            module:this.module,
-                                            type:'chess.wordpress.PgnParserView'
-                                        },
-                                        {
-                                            title:'Standings',
-                                            module:this.module,
-                                            type:'chess.wordpress.PgnStandings'
-                                        }
+                                         {
+                                         title:'PGN',
+                                         module:this.module,
+                                         type:'chess.wordpress.PgnParserView'
+                                         },
+                                         {
+                                         title:'Standings',
+                                         module:this.module,
+                                         type:'chess.wordpress.PgnStandings'
+                                         }
                                          */
 
                                     ]
@@ -368,11 +382,11 @@ chess.WPEditor = new Class({
                                     },
                                     module: this.module,
                                     type: 'chess.wordpress.WordPressMessage',
-                                    layout:{
-                                        height:20
+                                    layout: {
+                                        height: 20
                                     },
-                                    css:{
-                                        'line-height' : '20px'
+                                    css: {
+                                        'line-height': '20px'
                                     }
                                 }
                             ]
@@ -413,29 +427,29 @@ chess.WPEditor = new Class({
                             }
                         },
                         {
-                            type:'chess.wordpress.UpdateGameButton',
+                            type: 'chess.wordpress.UpdateGameButton',
                             module: this.module,
                             layout: {
                                 width: 80
                             }
                         },
                         {
-                            module:this.module,
-                            hidden:true,
-                            type:'chess.wordpress.DiscardDraftButton',
-                            layout:{
-                                width:80
+                            module: this.module,
+                            hidden: true,
+                            type: 'chess.wordpress.DiscardDraftButton',
+                            layout: {
+                                width: 80
                             }
                         },
                         {
-                            type:'chess.wordpress.PublishButton',
+                            type: 'chess.wordpress.PublishButton',
                             module: this.module,
                             layout: {
                                 width: 80
                             }
                         },
                         {
-                            type:'chess.wordpress.DraftButton',
+                            type: 'chess.wordpress.DraftButton',
                             module: this.module,
                             layout: {
                                 width: 80

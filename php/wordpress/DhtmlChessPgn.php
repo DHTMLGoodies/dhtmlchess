@@ -406,7 +406,7 @@ class DhtmlChessPgn
             array()
         );
 
-        if ($res != false) {
+        if (!empty($res)) {
             $this->updateTimestamp();
         }
 
@@ -430,6 +430,29 @@ class DhtmlChessPgn
 
     }
 
+    public function rename($newName){
+        $countUpdated = $this->wpdb->update(
+            DhtmlChessDatabase::TABLE_PGN,
+            array(
+                DhtmlChessDatabase::COL_PGN_NAME => $newName
+            ),
+            array(DhtmlChessDatabase::COL_ID => $this->id),
+            array(
+                '%s'
+            ),
+            array()
+        );
+
+        if(empty($countUpdated)){
+            throw new DhtmlChessException("No database rows updated (". $this->id . " - ". $newName . ")");
+        }
+
+        $this->clearCache();
+        $this->updateTimestamp();
+
+        return $this;
+    }
+
     public function updateTimestamp()
     {
 
@@ -447,6 +470,16 @@ class DhtmlChessPgn
             array()
         );
 
+    }
+
+    public function asJSON()
+    {
+        $array = array(
+            'id' => $this->getId(),
+            'name' => $this->getName()
+        );
+
+        return json_encode($array);
     }
 
 

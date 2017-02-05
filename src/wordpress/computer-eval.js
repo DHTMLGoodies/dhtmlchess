@@ -13,6 +13,7 @@ chess.wordpress.ComputerEval = new Class({
 
     bestLine: undefined,
     bestLineString: undefined,
+    currentEval: undefined,
 
     __children: function () {
         return [
@@ -50,12 +51,17 @@ chess.wordpress.ComputerEval = new Class({
                 children: [
                     {
                         name: 'startStopEngine',
-                        value: 'Start',
+                        value: chess.getPhrase('Start'),
                         type: 'form.Button'
                     },
                     {
                         name: 'appendLine',
-                        value: 'Append Line',
+                        value: chess.getPhrase('Append Line'),
+                        type: 'form.Button'
+                    },
+                    {
+                        name: 'appendEval',
+                        value: chess.getPhrase('Save Eval'),
                         type: 'form.Button'
                     }
                 ]
@@ -95,11 +101,12 @@ chess.wordpress.ComputerEval = new Class({
         if (update.mate) {
             var s = update.mate < 0 ? -100 : 100;
             this.child['scoreBar'].setScore(s);
-            update.score = 'Mate in ' + update.mate;
+            update.score = 'Mate in ' + Math.abs(update.mate);
         } else {
             this.child['scoreBar'].setScore(update.score);
         }
 
+        this.currentEval = update.score;
         this.bestLineString = update.bestMoves;
 
         // Ply:9 Score:3142 Nodes:341415 NPS:418914  Nxe5 Bf1 d5 d4 Nc6 e5 Bb4+ c3 Bg4 Be2
@@ -118,8 +125,9 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLineString = '';
         this.bestLine = [];
 
-        if(this.child['buttons']){
+        if (this.child['buttons']) {
             this.child['buttons'].child['appendLine'].hide();
+            this.child['buttons'].child['appendEval'].hide();
         }
     },
 
@@ -138,7 +146,7 @@ chess.wordpress.ComputerEval = new Class({
         var spanNotation = '<span class="dhtml-chess-comp-eval-notation">';
         var urlPrefix = ludo.config.getDocumentRoot() + '/images/svg_bw45';
 
-        var prefix = ply % 2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '</span>') : '';
+        var prefix = ply % 2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '. </span>') : '';
         this.bestLine.push(prefix);
 
         var a = ply;
@@ -191,22 +199,19 @@ chess.wordpress.ComputerEval = new Class({
         var p = this.child['buttons'];
         p.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
         p.child['appendLine'].on('click', this.appendLine.bind(this));
+        p.child['appendEval'].on('click', this.appendEval.bind(this));
         p.child['appendLine'].hide();
+        p.child['appendEval'].hide();
+    },
+
+    appendEval: function () {
+        this.controller.getCurrentModel().setEval(this.currentEval)
     },
 
     appendLine: function () {
         if (this.bestLineString) {
-            if(this.started)this.stopEngine();
+            if (this.started)this.stopEngine();
             this.fireEvent('appendLine', this.bestLineString);
-        }
-    },
-
-
-    onNextMove: function (model, m) {
-        console.log(arguments);
-
-        if (this.started && m.from) {
-
         }
     },
 
@@ -216,14 +221,8 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLine = [];
 
         if (this.started) {
-            var c = this.controller;
-            c.ensureAnalysisStopped();
-            c.initializeBackgroundEngine();
-
-            c.engine.postMessage("position " + fen);
-            c.engine.postMessage("analyze");
-
-
+            this.stopEngine(true);
+            this.startEngine.delay(200, this);
         }
     },
 
@@ -235,13 +234,13 @@ chess.wordpress.ComputerEval = new Class({
         }
     },
 
-    stopEngine: function () {
+    stopEngine: function (silent) {
         if (!this.started)return;
 
         this.controller.stopEngine();
         this.started = false;
         this.child['buttons'].child['startStopEngine'].val('Start');
-        this.controller.sendMessage(chess.getPhrase('Engine stopped'))
+        if (!silent)this.controller.sendMessage(chess.getPhrase('Engine stopped'))
     },
 
     startEngine: function () {
@@ -249,6 +248,7 @@ chess.wordpress.ComputerEval = new Class({
         this.started = true;
         this.child['buttons'].child['startStopEngine'].val('Stop');
         this.child['buttons'].child['appendLine'].show();
+        this.child['buttons'].child['appendEval'].show();
 
     }
 

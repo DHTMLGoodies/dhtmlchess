@@ -26,11 +26,13 @@ class DhtmlChessImportPgn
             $pgn = DhtmlChessPgn::instanceById($toPgnId);
             
             $parser = new PgnParser($pgnFilePath);
-            $games = $parser->getGames();
-            foreach($games as $game){
-                $pgn->appendGame($game);
-            }
+            $count = $parser->countGames();
 
+            for($i=0;$i<$count;$i++){
+                $game = $parser->getGameByIndex($i);
+                $pgn->appendGame($game);
+
+            }
             return $pgn;
             
         }catch(DhtmlChessException $e){
@@ -45,11 +47,10 @@ class DhtmlChessImportPgn
      * @param null $title
      * @return DhtmlChessPgn
      */
-    public function importPgnStringToDatabase($pgnId, $pgnString, $title = null){
+    public function importPgnStringToDatabase($pgnId, $pgnString){
         $parser = new PgnParser();
         $parser->setPgnContent($pgnString);
-        if(empty($title))$title = $pgnId;
-        return $this->finishImport($pgnId, $parser, $title);
+        return $this->finishImport($pgnId, $parser);
     }
  
     public function createFromPgnString($databaseName, $pgnString){
@@ -59,12 +60,13 @@ class DhtmlChessImportPgn
         $parser = new PgnParser();
         $parser->setPgnContent($pgnString);
 
-        $games = $parser->getGames();
         try{
-            foreach($games as $game){
+            $count = $parser->countGames();
+            for($i=0;$i<$count;$i++){
+                $game = $parser->getGameByIndex($i);
                 $pgn->appendGame($game);
-            }
 
+            }
         }catch(Exception $e){
             throw new DhtmlChessException("Failed importing " . $e->getMessage());
         }
@@ -89,7 +91,6 @@ class DhtmlChessImportPgn
     /**
      * @param string $name
      * @param PgnParser $parser
-     * @param string $title
      * @return DhtmlChessPgn
      */
     private function finishImport($name, $parser){

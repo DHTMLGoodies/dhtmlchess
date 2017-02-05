@@ -260,6 +260,12 @@ class DhtmlChessDatabase
         return $importer->appendPgn($pgnPath, $toPgnId);
     }
 
+    public function rename($id, $newName){
+        $pgn = DhtmlChessPgn::instanceById($id);
+        return $pgn->rename($newName);
+
+    }
+
     /**
      * @param int $pgnId
      * @return array|mixed|string

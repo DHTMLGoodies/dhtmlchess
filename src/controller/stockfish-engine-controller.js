@@ -107,7 +107,7 @@ chess.controller.StockfishEngineController = new Class({
             this.currentPly = this.getCurrentModel().getCurrentPly();
             
             this.uciCmd("ucinewgame");
-            this.uciCmd("position fen " + this.getFen()+ "");
+            this.uciCmd("position fen " + this.getCurrentModel().fen());
             this.uciCmd("go infinite");
         }
     },
@@ -121,7 +121,7 @@ chess.controller.StockfishEngineController = new Class({
 
     initializeBackgroundEngine: function () {
 
-        console.log("UCICmd", "Initialize engine");
+
 
         if (!this.backgroundEngineValid) {
             console.log('UCICmd', 'not valid');

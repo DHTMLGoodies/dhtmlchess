@@ -6,10 +6,9 @@ chess.view.dialog.PuzzleSolved = new Class({
     },
 
     __construct:function(config){
-        config.title = config.title || chess.getPhrase('tacticPuzzleSolvedTitle');
-        config.html = config.html || chess.getPhrase('tacticPuzzleSolvedMessage');
+        config.title = config.title || chess.getPhrase('Well done - Puzzle complete');
+        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game');
         this.parent(config);
     }
-    
     
 });

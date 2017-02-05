@@ -108,7 +108,7 @@ chess.view.notation.Panel = new Class({
         if (!this.tactics) {
             this.showResult = true;
         }
-        this.setConfigParams(config, ['notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
+        this.setConfigParams(config, ['showEval', 'notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
 
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
@@ -136,7 +136,7 @@ chess.view.notation.Panel = new Class({
                             this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
                             break;
                         case 'deleteMove':
-                            this.fireEvent('deleteMove',this.getContextMenuMove());
+                            this.fireEvent('deleteMove', this.getContextMenuMove());
                             break;
                     }
                 }.bind(this),
@@ -175,7 +175,6 @@ chess.view.notation.Panel = new Class({
     },
 
     setContextMenuMove: function (el) {
-
         this.contextMenuMove = {uid: jQuery(el).attr('moveId')}
     },
 
@@ -226,20 +225,21 @@ chess.view.notation.Panel = new Class({
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
 
-        var scrollTop = this.$b().scrollTop();
-        var bottomOfScroll = scrollTop + this.$b().height();
+        var b = this.$b();
+
+        var scrollTop = b.scrollTop();
+        var bottomOfScroll = scrollTop + b.height();
         var moveTop = move.position().top;
         var oh = move.outerHeight();
 
         if ((moveTop + oh) > bottomOfScroll) {
-            this.$b().scrollTop(moveTop + oh);
+            b.scrollTop(moveTop + oh);
         } else if (moveTop < scrollTop) {
-            this.$b().scrollTop(Math.max(0, moveTop - 5));
+            b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
 
     showMoves: function (model) {
-        console.log('new moves');
         var move = model.getCurrentMove();
         if (move != undefined) {
             this.currentModelMoveId = move.uid;
@@ -249,12 +249,19 @@ chess.view.notation.Panel = new Class({
         var moves = this.getMovesInBranch(model.getMoves(), model.getStartPly(), 0, 0, 0);
 
         if (this.showResult) {
-            var res = model.getResult();
-            moves.push('<span class="notation-result">');
-            moves.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
-            moves.push('</span>');
+            moves.push(this.getResultDOM(model));
         }
         this.$b().html(moves.join(''));
+    },
+
+    getResultDOM: function (model) {
+        var res = model.getResult();
+        var r = [];
+        r.push('<span class="notation-result">');
+        r.push(res == -1 ? '0-1' : res == 1 ? '1-0' : res == 0.5 ? '1/2-1/2' : '*');
+        r.push('</span>');
+        return r.join('');
+
     },
 
     getMovesInBranch: function (branch, moveCounter, depth, branchIndex, countBranches) {
@@ -369,6 +376,8 @@ chess.view.notation.Panel = new Class({
         return false;
     },
 
+    showEval:false,
+
     getDomTextForAMove: function (move) {
         var ret = [];
 
@@ -377,11 +386,7 @@ chess.view.notation.Panel = new Class({
 
 
         if (move[this.notationKey]) {
-
-
             ret.push('<span id="move-' + move.uid + '" class="notation-chess-move chess-move-' + move.uid + '" moveId="' + move.uid + '">');
-
-
             if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
                 var p = move.p;
                 var c = p.color.substr(0, 1);
@@ -389,14 +394,19 @@ chess.view.notation.Panel = new Class({
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
                 ret.push('<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
-
                 ret.push(move[this.notationKey]);
             }
-
             ret.push('</span>');
-
         }
-
+        if(this.showEval && move.eval){
+            ret.push('<span class="notation-chess-move-eval notation-chess-move-eval-');
+            if(move.eval < 0){
+                ret.push('negative');
+            }else{
+                ret.push('positive');
+            }
+            ret.push('">' + move.eval + '</span>');
+        }
 
         if (this.comments && move.comment) {
             ret.push('<span class="notation-comment">' + move.comment + '</span>')

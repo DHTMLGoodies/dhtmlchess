@@ -136,7 +136,6 @@ chess.view.board.Background = new Class({
     getPattern: function (image, sizeKey, imageKey) {
         var s = this.svg;
         var p = s.$('pattern');
-        p.set('patternUnits', 'userSpaceOnUse');
         p.set('width', 1);
         p.set('height', 1);
         p.set('x', 0);

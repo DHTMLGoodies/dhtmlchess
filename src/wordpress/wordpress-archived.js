@@ -19,9 +19,7 @@ chess.wordpress.WordPressArchived = new Class({
                 name:'list',
                 type:'ListView',
                 swipable:true,
-                emptyText:function(){
-                    return 'No data'
-                },
+                emptyText: chess.getPhrase('No archived databases'),
                 dataSource: {
                     'type': 'ludo.dataSource.JSONArray',
                     autoload: true,
@@ -36,7 +34,6 @@ chess.wordpress.WordPressArchived = new Class({
                         + '<div class="pgn_list_count_games">Games: ' + record.count + '</div>'
                         + '<div class="pgn_list_updated">Updated: ' + record.updated + '</div>'
                         + '</div>';
-
                 },
 
                 backSideLeft: function (record) {

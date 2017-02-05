@@ -28,11 +28,7 @@ chess.WPTactics = new Class({
     boardSize:undefined,
 
     initialize: function (config) {
-
-
-
         this.renderTo = config.renderTo;
-
         var r = jQuery(this.renderTo);
         var w = r.width();
         r.css('height', Math.round(w + 130));
@@ -47,8 +43,7 @@ chess.WPTactics = new Class({
         if(config.docRoot){
             ludo.config.setDocumentRoot(config.docRoot);
         }
-
-
+        
         this.module = String.uniqueID();
 
         this.showLabels = !ludo.isMobile;

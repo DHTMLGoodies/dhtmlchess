@@ -56,7 +56,7 @@ div.ludo-accordion-title
     line-height: 30px;
     border: 1px solid #999;
     border-radius: 5px;
-    webkit-border-radius: 5px;
+    -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     z-index: 40000;
     background-color: #FFF;
@@ -1969,16 +1969,11 @@ div.dhtml-chess-notation-panel {
 }
 
 div.dhtml-chess-notation-panel div{
-    font-size:14px;
     line-height:140%;
 }
 
 div.dhtml-chess-notation-panel div.ludo-body {
     padding: 5px;
-}
-
-div.ludo-grid-data-cell {
-    font-size: 12px !important;
 }
 
 .notation-branch-depth-0 {
@@ -2046,7 +2041,51 @@ span.notation-chess-move-highlighted{
     display:inline-block;
     padding-right:4px;
 }
-/* ../dhtml-chess/css-source/view/board/board.css */
+
+/* Notation table */
+
+.dhtml-chess-notation-table ol>li{
+    width:100%;
+    line-height:180%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+}
+
+.dhtml-chess-notation-table ol{
+    margin:0;padding:0;
+}
+
+.dhtml-chess-notation-table dt{
+    float:left;
+    width:10%;
+    padding-top:2px;
+    padding-bottom:2px;
+    text-align:center;
+    font-size:0.9em;
+}
+.dhtml-chess-notation-table dd{
+    float:left;
+    width:45%;
+    display: block;
+    margin: 0;
+    list-style: none;
+    text-align:center;
+}
+.dhtml-chess-notation-table .game-result{
+    text-align:center;
+}
+
+.notation-chess-move-eval{
+    padding-left:4px;padding-right:4px;
+    display:inline-block;
+    font-size:0.9em;
+}
+
+.dhtml-chess-notation-table .notation-chess-move-eval{
+    float:right;
+}/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
     position: relative;
     margin: 0 auto;
@@ -6080,7 +6119,9 @@ Shim **/
     color:#FFF;
     background-image:url(../ludojs/images/twilight-skin/ajax-loader-shim.gif);
 }
-
+.ludo-twilight .ludo-loader-shim{
+    background-color:#000;
+}
 /**
 Progress bar
 */

@@ -11,8 +11,7 @@ class DhtmlChessViews
 
     private static $views = array(
 
-        array(
-            "id" => "tactics",
+        "tactics" => array(
             "name" => "Tactics Viewer",
             "preview_link" => "",
             "description" => "",
@@ -21,8 +20,7 @@ class DhtmlChessViews
                 array("label" => "theme", "name" => "theme")
             )
         ),
-        array(
-            "id" => "viewer",
+        "viewer" => array(
             "name" => "Game Viewer",
             "preview_link" => "",
             "description" => "",

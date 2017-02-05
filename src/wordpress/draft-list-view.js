@@ -23,7 +23,7 @@ chess.wordpress.DraftListView = new Class({
 
     itemRenderer:function(game){
         return '<div style="border-radius:5px;padding:4px;border:1px solid ' + ludo.$C('border') + '"><strong>' + game.title + '</strong></div>'
-            +'<div style="text-align:right;font-size:0.8em">Last updated '+ game.updated + '</div>';
+            +'<div style="text-align:right;font-size:0.8em">' + chess.getPhrase('Last updated') + ' '+ game.updated + '</div>';
 
     },
 

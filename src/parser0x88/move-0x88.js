@@ -114,6 +114,8 @@ chess.parser.Move0x88 = new Class({
             from:move.from,
             promoteTo : move.promoteTo,
             comment : move.comment,
+            clk : move.clk,
+            eval : move.eval,
             to:move.to,
             variations:move.variations || []
         };

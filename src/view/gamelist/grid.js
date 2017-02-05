@@ -39,7 +39,7 @@ chess.view.gamelist.Grid = new Class({
     headerMenu:false,
 
     /**
-     Columns to show in grid. Columns correspondes to metadata of games, example
+     Columns to show in grid. Columns corresponds to metadata of games, example
      white,black,result, event, eco
      @config cols
      @type Array
@@ -121,11 +121,11 @@ chess.view.gamelist.Grid = new Class({
     setController: function (controller) {
         this.parent(controller);
         var ds = this.getDataSource();
-        controller.addEvent('selectDatabase', this.selectDatabase.bind(this));
-        controller.addEvent('nextGame', ds.next.bind(ds));
-        controller.addEvent('previousGame', ds.previous.bind(ds));
-        controller.addEvent('selectPgn', this.selectPgn.bind(this));
-        controller.addEvent('gameSaved', this.onGameSave.bind(this));
+        controller.on('selectDatabase', this.selectDatabase.bind(this));
+        controller.on('nextGame', ds.next.bind(ds));
+        controller.on('previousGame', ds.previous.bind(ds));
+        controller.on('selectPgn', this.selectPgn.bind(this));
+        controller.on('gameSaved', this.onGameSave.bind(this));
     },
 
 

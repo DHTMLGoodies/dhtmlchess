@@ -1274,19 +1274,19 @@ chess.parser.FenParser0x88 = new Class({
 			notation = notation.replace(/[\+#!\?]/g, '');
 			notation = notation.replace(/^(.*?)[QRBN]$/g, '$1');
 			var pieceType = this.getPieceTypeByNotation(notation, color);
-
+			var capture = notation.indexOf('x') > 0;
 			ret.to = this.getToSquareByNotation(notation);
 
 			switch (pieceType) {
 				case 0x01:
 				case 0x09:
 					if (color === 'black') {
-						offsets = [15, 17, 16];
+						offsets = capture ? [15, 17]  : [16];
 						if (ret.to > 48) {
 							offsets.push(32);
 						}
 					} else {
-						offsets = [-15, -17, -16];
+						offsets = capture ? [-15, -17] : [-16];
 						if (ret.to < 64) {
 							offsets.push(-32);
 						}

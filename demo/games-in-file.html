@@ -7,6 +7,8 @@
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../src/view/score/bar.js"></script>
+    <script type="text/javascript" src="../src/view/notation/panel.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/view/notation/table.js?rnd=1"></script>
     <script type="text/javascript" src="../themes/grey.js"></script>
     <link rel="stylesheet" href="../themes/grey.css" type="text/css">
 
@@ -66,6 +68,56 @@
         }
         label {
             font-size: 10px;
+        }
+
+
+        .dhtml-chess-notation-table ol>li{
+            width:100%;
+            line-height:180%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+
+        .dhtml-chess-notation-table ol{
+            margin:0;padding:0;
+        }
+
+
+        span.notation-chess-move-highlighted {
+            background-color: #4a5c70;
+            color: #FFF;
+        }
+        .dhtml-chess-notation-table dt{
+            float:left;
+            width:10%;
+            padding-top:2px;
+            padding-bottom:2px;
+            text-align:center;
+            font-size:0.9em;
+        }
+        .dhtml-chess-notation-table dd{
+            float:left;
+            width:45%;
+            display: block;
+            margin: 0;
+            list-style: none;
+            text-align:center;
+        }
+        .dhtml-chess-notation-table .game-result{
+            text-align:center;
+        }
+
+        .dhtml-chess-notation-table dd span.notation-chess-move{
+            font-weight:bold;
+        }
+
+        .dhtml-chess-notation-table .notation-chess-move-eval{
+            display:inline-block;
+            float:right;
+            padding-left:4px;padding-right:4px;
+            font-size:0.9em;
         }
     </style>
 </head>
@@ -147,7 +199,7 @@ var app = new chess.view.Chess({
                         // to change pgn file after page load. Example
                         // <a href="#" onclick="ludo.get('gameList').loadFile('Lasker');return false">Load games of E. Lasker</a>
                         postData:{
-                            "arguments" : "Morphy"
+                            "arguments" : "tactic-checkmates"
                         },
                         "listeners":{
                             "init":function () {
@@ -345,7 +397,7 @@ var app = new chess.view.Chess({
                             },
                             title:'Notations',
                             id:'notation-view',
-                            type:'chess.view.notation.Panel',
+                            type:'chess.view.notation.Table',
                             notations:'long',
                             showContextMenu:true,
                             figurines: 'svg_bw',

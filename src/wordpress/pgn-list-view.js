@@ -87,6 +87,10 @@ chess.wordpress.PgnListView = new Class({
             this.idToSelect = id;
             this.getDataSource().load();
         }.bind(this));
+
+        controller.on('rename_pgn', function () {
+            this.getDataSource().load();
+        }.bind(this));
     },
 
     selectPgn: function (pgn) {

@@ -17,6 +17,7 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js?rnd=<?php echo $rnd; ?>"></script>
     <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=<?php echo $rnd; ?>"></script>
     <script type="text/javascript" src="../src/view/buttonbar/bar.js?rnd=<?php echo $rnd; ?>"></script>
+    <script type="text/javascript" src="../src/view/board/background.js?rnd=<?php echo $rnd; ?>"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=<?php echo $rnd; ?>" type="text/css">
     <link rel="stylesheet" href="../themes/overrides.css?rnd=<?php echo $rnd; ?>" type="text/css">
 
@@ -44,8 +45,23 @@
 
         }
     </script>
+    <style type="text/css">
+        body{
+            background-color:#FFF;
+        }
+        .container{
+            margin: 0 auto;
+            text-align:left;
+            max-width:800px;
+            padding:5px;
+            background-color:#EEE;
+            border:1px solid #aaa;
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
 
 <div id="board-bg" style="height:512px;width:512px"></div>
 <script type="text/javascript">
@@ -204,6 +220,6 @@
         var controller = new chess.controller.Controller();
     });
 </script>
-
+</div>
 </body>
 </html>
