@@ -41,7 +41,7 @@ chess.TacticsFromFile2016 = new Class({
 
     render: function () {
         // Render the views
-        new ludo.View({
+        new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
             elCss: {
                 'background-color': 'transparent' // default background color is white, set transparent for this demo.
@@ -148,7 +148,7 @@ chess.TacticsFromFile2016 = new Class({
                                         border: '1px solid',
                                         'overflow': 'visible'
                                     },
-                                    padding:'1%',
+                                    padding: ludo.isMobile ? '1%' : '3%',
                                     background:{
                                         borderRadius: '1%',
                                         paint:{
@@ -156,8 +156,7 @@ chess.TacticsFromFile2016 = new Class({
                                         }
                                     },
                                     vAlign: 'top', // can be center
-                                    labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                                    labelPos:'inside', // show labels inside board, default is 'outside'
+                                    labelPos:ludo.isMobile ? 'inside' : 'outside', // show labgiels inside board, default is 'outside'
                                     elCss: {
                                         'background-color': 'transparent',
                                         'overflow': 'visible'
@@ -196,6 +195,7 @@ chess.TacticsFromFile2016 = new Class({
                 {
                     /** View to show when a puzzle is solved. This view is initially hidden, but will be shown automatically when a puzzle is solved. It is referred to by chess.controller.DemoController at the top of this page.*/
                     id: 'puzzleCompleteView',
+                    cls:'puzzleCompleteView',
                     layout: {
                         centerInParent: true,
                         type: 'relative',

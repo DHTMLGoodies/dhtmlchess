@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess - Tactics Puzzles</title>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js?rnd=<?php echo $rnd; ?>"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=<?php echo $rnd; ?>"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/bar.js?rnd=<?php echo $rnd; ?>"></script>
+    <script type="text/javascript" src="../src/view/board/background.js?rnd=<?php echo $rnd; ?>"></script>
+    <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=<?php echo $rnd; ?>" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css?rnd=<?php echo $rnd; ?>" type="text/css">
+    <script type="text/javascript" src="js/tactics-from-file-mobile.js"></script>
+    <link rel="stylesheet" href="../themes/wood7.css"/>
+    <script type="text/javascript" src="../themes/wood7.js"></script>
+    <style type="text/css">
+        html, body{
+            width:100%;height:100%;margin:0;padding:0;
+        }
+        body{
+            width:100%;
+            text-align:center;
+            background-color:#555 !important;
+            color:#FFF;
+        }
+        .puzzleCompleteView{
+            background-color:#444 !important;
+            border:1px solid #333 !important;
+        }
+    </style>
+</head>
+<body class="ludo-twilight">
+
+<script type="text/javascript">
+
+    /**
+     * The config values below shows the default values for path
+     * - the path to dhtml-chess/router.php
+     * - path to the root folder of dhtml chess.
+     * These should be the path FROM this html file.
+     */
+    // Path to DHTML Chess router.php
+    ludo.config.setUrl('../router.php');
+
+    // Path to DHTML Chess root folder
+    ludo.config.setDocumentRoot('../');
+
+    var c = new chess.TacticsFromFile2016({
+        renderTo:jQuery(document.body),
+        pgn:'polgar-parsed'
+    });
+</script>
+
+<script type="text/javascript" class="google-analytics">
+    var hostname = location.hostname.toLowerCase();
+    if (hostname.indexOf('dhtml-chess.com') >= 0) {
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34147162-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    }
+</script>
+</body>
+</html>
