@@ -273,6 +273,21 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(5, count($cached));
     }
 
+    /**
+     * @test
+     */
+    public function shouldBeAbleToGetGameByIdDirectlyWithoutPgn(){
+        // given
+        $this->database->import('fivegames.pgn');
+
+        // when
+        $game = $this->database->gameById(1);
+
+        // then
+        $this->assertNotEmpty($game);
+        
+    }
+
 
     /**
      * @test
@@ -291,7 +306,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($game[DhtmlChessDatabase::COL_ID]);
         $id = $game[DhtmlChessDatabase::COL_ID];
 
-        $this->assertNotNull($this->database->gameById(1, $id));
+        $this->assertNotNull($this->database->gameById($id));
 
         $this->database->deleteGame(1, $id);
 

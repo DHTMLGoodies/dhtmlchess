@@ -15,6 +15,8 @@ chess.wordpress.ComputerEval = new Class({
     bestLineString: undefined,
     currentEval: undefined,
 
+    buttons: true,
+
     __children: function () {
         return [
             {
@@ -85,6 +87,7 @@ chess.wordpress.ComputerEval = new Class({
     __construct: function (config) {
         this.parent(config);
         this.parser = new chess.parser.FenParser0x88();
+        if(config.buttons != undefined)this.buttons = config.buttons;
         this.bestLine = [];
     },
 
@@ -93,7 +96,6 @@ chess.wordpress.ComputerEval = new Class({
         controller.on('engineupdate', this.receiveEngineUpdate.bind(this));
         controller.on('fen', this.onPositionUpdate.bind(this));
         controller.on('newGame', this.clearView.bind(this));
-        // controller.on('nextmove', this.onNextMove.bind(this));
     },
 
     receiveEngineUpdate: function (update) {
@@ -125,7 +127,7 @@ chess.wordpress.ComputerEval = new Class({
         this.bestLineString = '';
         this.bestLine = [];
 
-        if (this.child['buttons']) {
+        if (this.child['buttons'] && this.buttons) {
             this.child['buttons'].child['appendLine'].hide();
             this.child['buttons'].child['appendEval'].hide();
         }
@@ -247,8 +249,11 @@ chess.wordpress.ComputerEval = new Class({
         this.controller.startEngine();
         this.started = true;
         this.child['buttons'].child['startStopEngine'].val('Stop');
-        this.child['buttons'].child['appendLine'].show();
-        this.child['buttons'].child['appendEval'].show();
+        if (this.buttons) {
+            this.child['buttons'].child['appendLine'].show();
+            this.child['buttons'].child['appendEval'].show();
+
+        }
 
     }
 

@@ -14,7 +14,7 @@
 window.chess.isWordPress = true;
 
 chess.WPViewer = new Class({
-    Extends: Events,
+    Extends: chess.WPTemplate,
 
     renderTo: undefined,
     pgn: undefined,
@@ -29,8 +29,6 @@ chess.WPViewer = new Class({
 
     initialize: function (config) {
 
-        console.log(config);
-
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
@@ -42,12 +40,6 @@ chess.WPViewer = new Class({
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
-
-        if (config.docRoot) {
-            ludo.config.setDocumentRoot(config.docRoot);
-        }
-
-        this.module = String.uniqueID();
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
@@ -68,7 +60,7 @@ chess.WPViewer = new Class({
                     layout: {
                         type: 'linear', orientation: 'vertical'
                     },
-                    
+
                     children: [
                         {
                             layout:{

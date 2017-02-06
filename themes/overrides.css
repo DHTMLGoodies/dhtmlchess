@@ -253,3 +253,14 @@ span.notation-chess-move-highlighted {
     border-width:1px;
     font-size:12px;
 }
+
+.dhtml-chess-comp-eval-notation{
+    color:#000 !important;
+}
+
+.dhtml-chess-comp-eval-score{
+    color:#000 !important;
+}
+.dhtml-chess-comp-eval{
+    font-size:0.9em;
+}

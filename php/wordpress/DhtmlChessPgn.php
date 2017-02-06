@@ -48,6 +48,10 @@ class DhtmlChessPgn
         $cache->clearPgnListCache();
         
         return $util->create($name);
+    }
+
+    public static function emptyInstance(){
+        return new DhtmlChessPgn(null);
 
     }
 

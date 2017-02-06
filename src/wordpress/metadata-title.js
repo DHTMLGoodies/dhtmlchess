@@ -13,10 +13,17 @@ chess.wordpress.MetadataTitle = new Class({
 
         if(!metadata)return;
 
+
         if(metadata && (metadata.white || metadata.black)){
             var w = metadata.white ? metadata.white : '?';
             var b = metadata.black ? metadata.black : '?';
-            var ret =w + ' vs ' + b + ' ' + metadata.result;
+            var ret = '';
+
+            if(metadata.id){
+                ret += '<div class="game_id">Game ID: ' + metadata.id + '</div>';
+            }
+
+            ret +=w + ' vs ' + b + ' ' + metadata.result;
             if(this.dirty){
                 ret += '<sup>*</sup>';
             }
@@ -44,7 +51,6 @@ chess.wordpress.MetadataTitle = new Class({
     },
 
     setDirty:function(){
-        console.log('set dirty');
         this.dirty = true;
         this.updateMetadata(this.controller.currentModel);
     }

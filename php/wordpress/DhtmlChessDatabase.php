@@ -154,9 +154,9 @@ class DhtmlChessDatabase
      * @throws DhtmlChessException
      * @throws DhtmlChessPgnNotFoundException
      */
-    public function gameById($pgnId, $id)
+    public function gameById($id)
     {
-        $pgnId = DhtmlChessPgn::instanceById($pgnId);
+        $pgnId = DhtmlChessPgn::emptyInstance();
         return $pgnId->gameById($id);
     }
 
