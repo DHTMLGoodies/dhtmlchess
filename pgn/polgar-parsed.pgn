@@ -25502,3 +25502,3507 @@
 
 1. Na4  Kxc4 2. Rb6#
 
+[castle "1"]
+[event "#1655 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "n3b3/4Q3/2kP4/8/3K4/1R6/8/8 w - - 0 1"]
+[index "1654"]
+[plycount "3"]
+[ts "1486417620586"]
+
+
+1. d7  Bxd7 2. Qc5#
+
+[castle "1"]
+[event "#1656 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/2Q5/3p1B2/2p5/Kp6/8/k7 w - - 0 1"]
+[index "1655"]
+[plycount "3"]
+[ts "1486417739539"]
+
+
+1. Qa8  c3 2. Kxb3#
+
+[castle "1"]
+[event "#1657 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2Q5/8/K1B5/2k5/2p1PB2/8/8/8 w - - 0 1"]
+[index "1656"]
+[plycount "3"]
+[ts "1486417877547"]
+
+
+1. Qh3  Kxc6 2. Qc8#
+
+[castle "1"]
+[event "#1660 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4Q3/8/8/7K/5p2/5r1k/5R1b w - - 0 1"]
+[index "1659"]
+[plycount "3"]
+[ts "1486418012665"]
+
+
+1. Qe1  Rxf1 2. Qg3#
+
+[castle "1"]
+[event "#1661 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/6n1/4kN2/7B/5Q2/3P4/8/8 w - - 0 1"]
+[index "1660"]
+[plycount "3"]
+[ts "1486418154637"]
+
+
+1. Ne8  Nxh5 2. Nc7#
+
+[castle "1"]
+[event "#1662 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3B4/8/1K6/4kpN1/8/8/8/3Q4 w - - 0 1"]
+[index "1661"]
+[plycount "3"]
+[ts "1486418291558"]
+
+
+1. Qg1  f4 2. Qc5#
+
+[castle "1"]
+[event "#1663 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4p3/4Q3/4K3/6rp/7k w - - 0 1"]
+[index "1662"]
+[plycount "3"]
+[ts "1486418357585"]
+
+
+1. Kd3  Kg1 2. Qe1#
+
+[castle "1"]
+[event "#1664 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7r/6Qp/5p2/5K1k/8/8/8/8 w - - 0 1"]
+[index "1663"]
+[plycount "3"]
+[ts "1486418428499"]
+
+
+1. Kf4  Rg8 2. Qxh7#
+
+[castle "1"]
+[event "#1665 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "Bk2N3/8/1P6/1K3Q2/5b2/8/8/8 w - - 0 1"]
+[index "1664"]
+[plycount "3"]
+[ts "1486418572551"]
+
+
+1. Qf8  Kxa8 2. Nd6#
+
+[castle "1"]
+[event "#1666 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5n1Q/7b/8/8/3P4/6K1/4N3/7k w - - 0 1"]
+[index "1665"]
+[plycount "3"]
+[ts "1486418609908"]
+
+
+1. d5  Ng6 2. Qa1#
+
+[castle "1"]
+[event "#1667 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4p3/2K1k3/4N1Q1/1N6/6n1 w - - 0 1"]
+[index "1666"]
+[plycount "3"]
+[ts "1486418637458"]
+
+
+1. Nbd1  Nh3 2. Nc3#
+
+[castle "1"]
+[event "#1668 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/Bk6/8/8/Q6p/7B/6p1/6K1 w - - 0 1"]
+[index "1667"]
+[plycount "3"]
+[ts "1486418746586"]
+
+
+1. Qd4  Kc7 2. Qb6#
+
+[castle "1"]
+[event "#1669 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5QB1/3k1P2/8/1K6/8/8/8/8 w - - 0 1"]
+[index "1668"]
+[plycount "3"]
+[ts "1486418823545"]
+
+
+1. Qg7  Kc7 2. f8=Q#
+
+[castle "1"]
+[event "#1670 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "R1n5/n5K1/8/8/8/8/7k/4BQ2 w - - 0 1"]
+[index "1669"]
+[plycount "3"]
+[ts "1486418948552"]
+
+
+1. Kf6  Nb5 2. Ra2#
+
+[castle "1"]
+[event "#1671 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3Q3n/6R1/3Pk1n1/8/4K3 w - - 0 1"]
+[index "1670"]
+[plycount "3"]
+[ts "1486419078538"]
+
+
+1. d4  Nf4 2. Rxg3#
+
+[castle "1"]
+[event "#1672 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2K5/1R3N2/8/3k4/8/1N3R2/8/8 w - - 0 1"]
+[index "1671"]
+[plycount "3"]
+[ts "1486419211581"]
+
+
+1. Rb5+  Kc4 2. Nd6#
+
+[castle "1"]
+[event "#1673 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1R3N2/K7/3k4/8/1N3R2/8/8 w - - 0 1"]
+[index "1672"]
+[plycount "3"]
+[ts "1486419295553"]
+
+
+1. Rd7+  Kc4 2. Rd4#
+
+[castle "1"]
+[event "#1674 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1R3N2/8/3k4/8/1N3R2/4K3/8 w - - 0 1"]
+[index "1673"]
+[plycount "3"]
+[ts "1486419352407"]
+
+
+1. Rf5+  Kc4 2. Rc5#
+
+[castle "1"]
+[event "#1675 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1R3N2/8/3k4/6K1/1N3R2/8/8 w - - 0 1"]
+[index "1674"]
+[plycount "3"]
+[ts "1486419459573"]
+
+
+1. Rd3+  Kc4 2. Ne5#
+
+[castle "1"]
+[event "#1678 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4B3/8/4Q3/3NpN2/4k3/8/8/4K3 w - - 0 1"]
+[index "1677"]
+[plycount "3"]
+[ts "1486420469546"]
+
+
+1. Qa6  Kxd5 2. Qc6#
+
+[castle "1"]
+[event "#1679 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4r3/4p3/3kN2Q/4N3/4K3 w - - 0 1"]
+[index "1678"]
+[plycount "3"]
+[ts "1486420499498"]
+
+
+1. Qh8  Kxe3 2. Qh3#
+
+[castle "1"]
+[event "#1680 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/3K4/8/3k4/5Q2/2R5/8 w - - 0 1"]
+[index "1679"]
+[plycount "3"]
+[ts "1486420536413"]
+
+
+1. Qh3  Ke4 2. Rc4#
+
+[castle "1"]
+[event "#1682 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/Q2P3K/8/8/4k3/6BP/8/5B2 w - - 0 1"]
+[index "1681"]
+[plycount "3"]
+[ts "1486420576644"]
+
+
+1. Qc7  Kf3 2. Qf4#
+
+[castle "1"]
+[event "#1685 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "k2r4/3N4/K1P5/8/7b/8/8/8 w - - 0 1"]
+[index "1684"]
+[plycount "3"]
+[ts "1486420606697"]
+
+
+1. c7  Rxd7 2. c8=Q#
+
+[castle "1"]
+[event "#1686 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4Q3/8/8/8/1k1N4/1P6/8/R3K1B1 w KQkq - 0 1"]
+[index "1685"]
+[plycount "3"]
+[ts "1486420646034"]
+
+
+1. O-O-O  Kc5 2. Nc2#
+
+[castle "1"]
+[event "#1687 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "R7/8/8/1N6/8/1p6/1BR1K3/1k6 w - - 0 1"]
+[index "1686"]
+[plycount "3"]
+[ts "1486420688300"]
+
+
+1. Ra2  bxa2 2. Na3#
+
+[castle "1"]
+[event "#1688 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "R7/8/8/1N6/8/8/1BR1K3/1k6 w - - 0 1"]
+[index "1687"]
+[plycount "3"]
+[ts "1486420728728"]
+
+
+1. Rb8  Kxc2 2. Na3#
+
+[castle "1"]
+[event "#1689 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2N5/5p2/2P1k2K/7B/3Q4/8/8/8 w - - 0 1"]
+[index "1688"]
+[plycount "3"]
+[ts "1486421056896"]
+
+
+1. Bf3  f6 2. Qd5#
+
+[castle "1"]
+[event "#1693 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1K6/2NQ4/8/2k5/1N6/8/8 w - - 0 1"]
+[index "1692"]
+[plycount "3"]
+[ts "1486421212995"]
+
+
+1. Na1  Kc3 2. Qd4#
+
+[castle "1"]
+[event "#1694 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1k6/2NQ4/8/2K5/1N6/8/8 w - - 0 1"]
+[index "1693"]
+[plycount "3"]
+[ts "1486421252416"]
+
+
+1. Qd8  Kxc6 2. Na5#
+
+[castle "1"]
+[event "#1695 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/6R1/3n1k2/3K2R1/1B6 w - - 0 1"]
+[index "1694"]
+[plycount "3"]
+[ts "1486421314156"]
+
+
+1. Bc2  Nb4 2. Bd1#
+
+[castle "1"]
+[event "#1696 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3NknK1/4p3/8/8/8/8/8/3Q4 w - - 0 1"]
+[index "1695"]
+[plycount "3"]
+[ts "1486421382377"]
+
+
+1. Nb7  e6 2. Qd8#
+
+[castle "1"]
+[event "#1697 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/5R1p/6p1/6k1/8/6K1/4B2R w - - 0 1"]
+[index "1696"]
+[plycount "3"]
+[ts "1486421490153"]
+
+
+1. Kh2  h5 2. Rg1#
+
+[castle "1"]
+[event "#1698 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1p6/k7/1N1B4/K2p4/3Q4/8/8 w - - 0 1"]
+[index "1697"]
+[plycount "3"]
+[ts "1486421651476"]
+
+
+1. Kb4  b6 2. Qa3#
+
+[castle "1"]
+[event "#1699 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2Q5/2K5/8/8/8/5np1/4R1R1/5k2 w - - 0 1"]
+[index "1698"]
+[plycount "3"]
+[ts "1486421791475"]
+
+
+1. Qh8  Ne1 2. Qh1#
+
+[castle "1"]
+[event "#1700 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/7p/1B6/8/4k2K/1B6/Q3N3/8 w - - 0 1"]
+[index "1699"]
+[plycount "3"]
+[ts "1486421949474"]
+
+
+1. Bg8  Kd3 2. Bxh7#
+
+[castle "1"]
+[event "#1701 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/8/3n1N2/8/3Q1K1k w - - 0 1"]
+[index "1700"]
+[plycount "3"]
+[ts "1486421998651"]
+
+
+1. Qb1  Nf2 2. Kxf2#
+
+[castle "1"]
+[event "#1702 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5b1k/7p/8/7K/8/1B6/Q7 w - - 0 1"]
+[index "1701"]
+[plycount "3"]
+[ts "1486422022868"]
+
+
+1. Bh8  Kg8 2. Qg7#
+
+[castle "1"]
+[event "#1703 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1N1Q4/6N1/3b4/3k4/P7/3K4/8 w - - 0 1"]
+[index "1702"]
+[plycount "3"]
+[ts "1486422075468"]
+
+
+1. Qd6  Kc4 2. Qb4#
+
+[castle "1"]
+[event "#1705 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1K6/8/p3p3/k3N3/2Q5/8/8 w - - 0 1"]
+[index "1704"]
+[plycount "3"]
+[ts "1486422115029"]
+
+
+1. Nd2  e4 2. Qb3#
+
+[castle "1"]
+[event "#1708 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "r3k3/3N3K/3Q4/n7/8/8/8/5B2 w - - 0 1"]
+[index "1707"]
+[plycount "3"]
+[ts "1486422175718"]
+
+
+1. Bh3  Ra7 2. Qf8#
+
+[castle "1"]
+[event "#1709 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4K1k1/8/6P1/6n1/3B2R1/8/8/8 w - - 0 1"]
+[index "1708"]
+[plycount "3"]
+[ts "1486422196324"]
+
+
+1. Rh4  Ne6 2. Rh8#
+
+[castle "1"]
+[event "#1711 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4B1Q1/2K3B1/p7/8/1k6/5N2/8/8 w - - 0 1"]
+[index "1710"]
+[plycount "3"]
+[ts "1486422240341"]
+
+
+1. Nd2  a5 2. Qf8#
+
+[castle "1"]
+[event "#1713 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/2N5/3B4/8/kpN1K3/6Q1 w - - 0 1"]
+[index "1712"]
+[plycount "3"]
+[ts "1486422286412"]
+
+
+1. Qh1  b1=Q 2. Qa8#
+
+[castle "1"]
+[event "#1714 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/2NK4/3B4/8/kpN5/6Q1 w - - 0 1"]
+[index "1713"]
+[plycount "3"]
+[ts "1486422326845"]
+
+
+1. Qf1  b1=Q 2. Qa6#
+
+[castle "1"]
+[event "#1715 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5p2/8/5QN1/7k/B7/8/7K w - - 0 1"]
+[index "1714"]
+[plycount "3"]
+[ts "1486422362799"]
+
+
+1. Bc1  f6 2. Qh3#
+
+[castle "1"]
+[event "#1716 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3NP3/1N1kp1Q1/1K6/8/8 w - - 0 1"]
+[index "1715"]
+[plycount "3"]
+[ts "1486422397192"]
+
+
+1. Nd3  Kxd3 2. Qd1#
+
+[castle "1"]
+[event "#1717 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/K7/2N5/3B4/8/kpN5/6Q1 w - - 0 1"]
+[index "1716"]
+[plycount "3"]
+[ts "1486422434638"]
+
+
+1. Qe1  b1=Q 2. Qa5#
+
+[castle "1"]
+[event "#1718 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/1N6/NpK5/8/kB6 w - - 0 1"]
+[index "1717"]
+[plycount "3"]
+[ts "1486422452241"]
+
+
+1. Ba2  bxa2 2. Nbc2#
+
+[castle "1"]
+[event "#1719 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/K7/8/p4R2/kp3Q2/2R5/8 w - - 0 1"]
+[index "1718"]
+[plycount "3"]
+[ts "1486422490780"]
+
+
+1. Rb4  Kxb4 2. Qf8#
+
+[castle "1"]
+[event "#1720 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/5KPk/8/B5P1/8/R3p3/8 w - - 0 1"]
+[index "1719"]
+[plycount "3"]
+[ts "1486422505598"]
+
+
+1. Bd1  exd1=Q 2. Rh2#
+
+[castle "1"]
+[event "#1721 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3p2N1/6Q1/4k3/8/3P4/3B3K/8 w - - 0 1"]
+[index "1720"]
+[plycount "3"]
+[ts "1486422540104"]
+
+
+1. Ne8  Kd5 2. Qd6#
+
+[castle "1"]
+[event "#1722 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/6P1/8/8/8/8/2K5/k7 w - - 0 1"]
+[index "1721"]
+[plycount "3"]
+[ts "1486422549021"]
+
+
+1. g8=R  Ka2 2. Ra8#
+
+[castle "1"]
+[event "#1723 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3Q4/8/8/2B5/6K1/8/4k3 w - - 0 1"]
+[index "1722"]
+[plycount "3"]
+[ts "1486422583745"]
+
+
+1. Bf1  Kxf1 2. Qd1#
+
+[castle "1"]
+[event "#1724 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7k/1R4N1/8/8/7K/6R1/8/7Q w - - 0 1"]
+[index "1723"]
+[plycount "3"]
+[ts "1486422624126"]
+
+
+1. Qa1  Kh7 2. Nf5#
+
+[castle "1"]
+[event "#1726 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/k1K4Q/8/8/8/8/8 w - - 0 1"]
+[index "1725"]
+[plycount "3"]
+[ts "1486422686564"]
+
+
+1. Qe3  Ka5 2. Qa3#
+
+[castle "1"]
+[event "#1727 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1PBP4/2kN4/5P2/3K4/8/8/8 w - - 0 1"]
+[index "1726"]
+[plycount "3"]
+[ts "1486422708130"]
+
+
+1. d8=B  Kd7 2. b8=N#
+
+[castle "1"]
+[event "#1728 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3K4/8/5nP1/5Q1b/5N1k w - - 0 1"]
+[index "1727"]
+[plycount "3"]
+[ts "1486422728428"]
+
+
+1. Kd6  Nd4 2. Qxh2#
+
+[castle "1"]
+[event "#1729 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/pp6/k7/8/1K6/2R5/3R4/8 w - - 0 1"]
+[index "1728"]
+[plycount "3"]
+[ts "1486422759658"]
+
+
+1. Rd7  b6 2. Ra3#
+
+[castle "1"]
+[event "#1730 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 3"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5k1K/4NP1P/5Q2/8/5n2/8/8/8 w - - 0 1"]
+[index "1729"]
+[plycount "5"]
+[ts "1486422813044"]
+
+
+1. Qxf4  Kxe7 2. f8=Q+  Kd7 3. Q4d6#
+
+[castle "1"]
+[event "#1731 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/2K5/kpN5/8/N1P5/8/8 w - - 0 1"]
+[index "1730"]
+[plycount "3"]
+[ts "1486422826102"]
+
+
+1. Nc2  b4 2. cxb4#
+
+[castle "1"]
+[event "#1732 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "n1N5/1R6/k1nN4/8/K7/8/8/8 w - - 0 1"]
+[index "1731"]
+[plycount "3"]
+[ts "1486422844313"]
+
+
+1. Rb5  Nd4 2. Ra5#
+
+[castle "1"]
+[event "#1733 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "k7/pq1N4/3R3K/8/8/8/6B1/8 w - - 0 1"]
+[index "1732"]
+[plycount "3"]
+[ts "1486422864291"]
+
+
+1. Rc6  Qxd7 2. Rc8#
+
+[castle "1"]
+[event "#1734 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5p2/5Q2/1B6/4k3/7p/8/1K4B1 w - - 0 1"]
+[index "1733"]
+[plycount "3"]
+[ts "1486422906431"]
+
+
+1. Bh2  Ke3 2. Qf4#
+
+[castle "1"]
+[event "#1735 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/2K5/8/k1Nb4/B2N4/2P5/8/8 w - - 0 1"]
+[index "1734"]
+[plycount "3"]
+[ts "1486422927260"]
+
+
+1. Bb5  Bh1 2. Ncb3#
+
+[castle "1"]
+[event "#1736 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "K3Nk2/PP2p3/4Q3/8/8/8/8/8 w - - 0 1"]
+[index "1735"]
+[plycount "3"]
+[ts "1486422954406"]
+
+
+1. b8=N  Kxe8 2. Qg8#
+
+[castle "1"]
+[event "#1737 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1B6/8/pp1N4/k7/8/1PK5/8/8 w - - 0 1"]
+[index "1736"]
+[plycount "3"]
+[ts "1486422967223"]
+
+
+1. Ba7  b5 2. Nb7#
+
+[castle "1"]
+[event "#1738 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1N6/2Q5/8/3k4/1n6/1p3K2/1B6/8 w - - 0 1"]
+[index "1737"]
+[plycount "3"]
+[ts "1486423005479"]
+
+
+1. Ke2  Ke6 2. Qd7#
+
+[castle "1"]
+[event "#1739 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2N5/Nk6/4K3/8/3Q4/8/8/8 w - - 0 1"]
+[index "1738"]
+[plycount "3"]
+[ts "1486423041447"]
+
+
+1. Nc6  Kxc6 2. Qb6#
+
+[castle "1"]
+[event "#1740 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "k7/1R6/nK6/8/8/8/8/8 w - - 0 1"]
+[index "1739"]
+[plycount "3"]
+[ts "1486423053611"]
+
+
+1. Rd7  Nc7 2. Rd8#
+
+[castle "1"]
+[event "#1741 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/k3P3/8/K7/4Q3/8/8/8 w - - 0 1"]
+[index "1740"]
+[plycount "3"]
+[ts "1486423082388"]
+
+
+1. Qh7  Kb8 2. e8=Q#
+
+[castle "1"]
+[event "#1742 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1k6/8/K3Q3/8/8/8/6B1 w - - 0 1"]
+[index "1741"]
+[plycount "3"]
+[ts "1486423115749"]
+
+
+1. Bh2  Kc6 2. Qb5#
+
+[castle "1"]
+[event "#1743 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3K2B1/4pN2/8/3k2P1/1Q6 w - - 0 1"]
+[index "1742"]
+[plycount "3"]
+[ts "1486423150706"]
+
+
+1. Bh4  e3 2. Be1#
+
+[castle "1"]
+[event "#1745 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 3"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/3p1R2/4k3/8/6n1/3Q4/5P2/8 w - - 0 1"]
+[index "1744"]
+[plycount "5"]
+[ts "1486423236149"]
+
+
+1. Qxd7+  Ke5 2. Rf5+  Ke4 3. Qd5#
+
+[castle "1"]
+[event "#1746 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1B2pK2/1B2Q3/8/8/6kp/8/8 w - - 0 1"]
+[index "1745"]
+[plycount "3"]
+[ts "1486423276319"]
+
+
+1. Bc8  h2 2. Qg4#
+
+[castle "1"]
+[event "#1747 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/8/8/kPP5/1nQ1K2R w - - 0 1"]
+[index "1746"]
+[plycount "3"]
+[ts "1486423301124"]
+
+
+1. Kf2  Nc3 2. Qa1#
+
+[castle "1"]
+[event "#1748 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4K3/8/5p2/5QNk/8/8/7P/8 w - - 0 1"]
+[index "1747"]
+[plycount "3"]
+[ts "1486423331622"]
+
+
+1. Kf7  fxg5 2. Qh3#
+
+[castle "1"]
+[event "#1749 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1K3Q2/3k4/8/8/1PP1P1P1/8/8/8 w - - 0 1"]
+[index "1748"]
+[plycount "3"]
+[ts "1486423356077"]
+
+
+1. e5  Ke6 2. Qe8#
+
+[castle "1"]
+[event "#1750 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1K3Q2/3k4/6P1/8/1PP1P3/8/8/8 w - - 0 1"]
+[index "1749"]
+[plycount "3"]
+[ts "1486423443448"]
+
+
+1. c5  Kc6 2. Qe8#
+
+[castle "1"]
+[event "#1751 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/5R2/8/2KPkB1b/8/5R2 w - - 0 1"]
+[index "1750"]
+[plycount "3"]
+[ts "1486423535440"]
+
+
+1. Bd1  Bxf5 2. Rf3#
+
+[castle "1"]
+[event "#1752 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "kq6/p7/2K5/7R/8/8/8/Q7 w - - 0 1"]
+[index "1751"]
+[plycount "3"]
+[ts "1486423619404"]
+
+
+1. Rh8  a6 2. Qxa6#
+
+[castle "1"]
+[event "#1754 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3KN3/8/4k3/5p2/5Q1R/8/8 w - - 0 1"]
+[index "1753"]
+[plycount "3"]
+[ts "1486423781645"]
+
+
+1. Rg3  fxg3 2. Nc6#
+
+[castle "1"]
+[event "#1755 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/Q7/6kp/3P4/5P2/6NK/8/8 w - - 0 1"]
+[index "1754"]
+[plycount "3"]
+[ts "1486423812441"]
+
+
+1. Nh5  Kxh5 2. Qf7#
+
+[castle "1"]
+[event "#1756 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1pBN4/8/R7/1k6/3K4/2P5/8 w - - 0 1"]
+[index "1755"]
+[plycount "3"]
+[ts "1486423870442"]
+
+
+1. Nb8  b5 2. Na6#
+
+[castle "1"]
+[event "#1757 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/2K5/B7/8/2Pkb3/6Q1/4R3 w - - 0 1"]
+[index "1756"]
+[plycount "3"]
+[ts "1486423968522"]
+
+
+1. c4  Kxc4 2. Qd5#
+
+[castle "1"]
+[event "#1758 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/6B1/2Q5/1K6/2p5/1k2n3 w - - 0 1"]
+[index "1757"]
+[plycount "3"]
+[ts "1486424038367"]
+
+
+1. Ka3  Nd3 2. Qa2#
+
+[castle "1"]
+[event "#1759 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/KNkp4/2p5/8/2Q5/8/4B3/8 w - - 0 1"]
+[index "1758"]
+[plycount "3"]
+[ts "1486424162354"]
+
+
+1. Bg4  Kc8 2. Qxc6#
+
+[castle "1"]
+[event "#1760 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4p3/5p2/5k1K/2Q1Nb2/8/8/8 w - - 0 1"]
+[index "1759"]
+[plycount "3"]
+[ts "1486424234324"]
+
+
+1. Nc3  Ke5 2. Qd5#
+
+[castle "1"]
+[event "#1761 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4Q3/2k1P3/P4K2/8/8/8/8/8 w - - 0 1"]
+[index "1760"]
+[plycount "3"]
+[ts "1486424306426"]
+
+
+1. Qb5  Kd6 2. e8=N#
+
+[castle "1"]
+[event "#1762 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/2KR4/2ppk3/2r5/5Q2/8/8 w - - 0 1"]
+[index "1761"]
+[plycount "3"]
+[ts "1486424410427"]
+
+
+1. Kd7  Rc3 2. Rxd5#
+
+[castle "1"]
+[event "#1763 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5Bkp/7N/8/3K4/6B1/8/7R w - - 0 1"]
+[index "1762"]
+[plycount "3"]
+[ts "1486424567153"]
+
+
+1. Rg1  Kxh6 2. Bf4#
+
+[castle "1"]
+[event "#1764 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/6K1/6p1/6r1/5QPk/8/6P1/8 w - - 0 1"]
+[index "1763"]
+[plycount "3"]
+[ts "1486424628331"]
+
+
+1. Kh6  Rxg4 2. Qh2#
+
+[castle "1"]
+[event "#1765 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/7p/5Kpk/8/8/1B4N1 w - - 0 1"]
+[index "1764"]
+[plycount "3"]
+[ts "1486424672367"]
+
+
+1. Bf5  g3 2. Nf3#
+
+[castle "1"]
+[event "#1766 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/7p/5Kpk/8/8/1N4N1 w - - 0 1"]
+[index "1765"]
+[plycount "3"]
+[ts "1486424702430"]
+
+
+1. Nd2  g3 2. Ndf3#
+
+[castle "1"]
+[event "#1767 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/7p/5Kpk/8/8/1R4N1 w - - 0 1"]
+[index "1766"]
+[plycount "3"]
+[ts "1486424771445"]
+
+
+1. Rb4  g3 2. Kf5#
+
+[castle "1"]
+[event "#1768 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/8/3kp3/3P4/3Q4/4P3/8/8 w - - 0 1"]
+[index "1767"]
+[plycount "3"]
+[ts "1486424848403"]
+
+
+1. e4  exd5 2. Qxd5#
+
+[castle "1"]
+[event "#1769 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/8/3kp3/3P4/3Q4/5P2/8/8 w - - 0 1"]
+[index "1768"]
+[plycount "3"]
+[ts "1486424907021"]
+
+
+1. f4  exd5 2. Qb6#
+
+[castle "1"]
+[event "#1770 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/8/3kp3/3P4/3Q4/1P6/8/8 w - - 0 1"]
+[index "1769"]
+[plycount "3"]
+[ts "1486424929548"]
+
+
+1. b4  exd5 2. Qf6#
+
+[castle "1"]
+[event "#1772 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4Q3/3N2pk/7P/8/7K w - - 0 1"]
+[index "1771"]
+[plycount "3"]
+[ts "1486424969320"]
+
+
+1. Ne6  gxh3 2. Qg5#
+
+[castle "1"]
+[event "#1773 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "6K1/3pp3/4kP2/2Q5/B7/8/8/8 w - - 0 1"]
+[index "1772"]
+[plycount "3"]
+[ts "1486424998998"]
+
+
+1. Bc2  exf6 2. Bf5#
+
+[castle "1"]
+[event "#1774 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3P1PBk/5P2/8/6K1/8/8/8 w - - 0 1"]
+[index "1773"]
+[plycount "3"]
+[ts "1486425015528"]
+
+
+1. d8=N  Kg6 2. f8=N#
+
+[castle "1"]
+[event "#1776 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/P1p2K2/3k4/8/2Q5/4P3/8/8 w - - 0 1"]
+[index "1775"]
+[plycount "3"]
+[ts "1486425050769"]
+
+
+1. a8=N  c6 2. Qd4#
+
+[castle "1"]
+[event "#1777 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1k1nn3/R2Q4/6K1/8/8/8/8/8 w - - 0 1"]
+[index "1776"]
+[plycount "3"]
+[ts "1486425078699"]
+
+
+1. Qe7  Nd6 2. Qc7#
+
+[castle "1"]
+[event "#1778 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4kP1R/4P3/3KB3/3P4/8/8/8 w - - 0 1"]
+[index "1777"]
+[plycount "3"]
+[ts "1486425102541"]
+
+
+1. Ke4  Kxe6 2. f8=N#
+
+[castle "1"]
+[event "#1779 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/6pk/7p/3B4/4K3/2BQ4/8/8 w - - 0 1"]
+[index "1778"]
+[plycount "3"]
+[ts "1486425139400"]
+
+
+1. Qh3  Kh8 2. Qxh6#
+
+[castle "1"]
+[event "#1781 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/7Q/8/8/8/8/R4Np1/4K1k1 w - - 0 1"]
+[index "1780"]
+[plycount "3"]
+[ts "1486425175962"]
+
+
+1. Nh1  gxh1=Q 2. Qa7#
+
+[castle "1"]
+[event "#1782 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "K7/8/8/n7/8/4N3/R3P2R/4k3 w - - 0 1"]
+[index "1781"]
+[plycount "3"]
+[ts "1486425199872"]
+
+
+1. Ng4  Nb3 2. Rh1#
+
+[castle "1"]
+[event "#1784 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/8/8/8/8/5Q1b/2R1B2r/4k3 w - - 0 1"]
+[index "1783"]
+[plycount "3"]
+[ts "1486426158999"]
+
+
+1. Ke7  Rf2 2. Qc3#
+
+[castle "1"]
+[event "#1785 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/3pp3/1p1k4/8/2R1K3/8/2Q5 w - - 0 1"]
+[index "1784"]
+[plycount "3"]
+[ts "1486426215336"]
+
+
+1. Qa1  Ke5 2. Rc5#
+
+[castle "1"]
+[event "#1786 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3K4/2N5/2pkp3/8/8/8/3B2Q1 w - - 0 1"]
+[index "1785"]
+[plycount "3"]
+[ts "1486426247570"]
+
+
+1. Qg3  e4 2. Qg8#
+
+[castle "1"]
+[event "#1787 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/3B4/Q7/8/2P1N3/3k4/5BK1 w - - 0 1"]
+[index "1786"]
+[plycount "3"]
+[ts "1486426291236"]
+
+
+1. Qa4  Kxe3 2. Qf4#
+
+[castle "1"]
+[event "#1788 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4kr2/2K2n2/6Q1/3b4/8/B7/8/8 w - - 0 1"]
+[index "1787"]
+[plycount "3"]
+[ts "1486426315192"]
+
+
+1. Qf5  Rh8 2. Qd7#
+
+[castle "1"]
+[event "#1789 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3qk3/3N3Q/4N3/5P2/8/8/8/5K2 w - - 0 1"]
+[index "1788"]
+[plycount "3"]
+[ts "1486426337033"]
+
+
+1. f6  Qxd7 2. Qg8#
+
+[castle "1"]
+[event "#1790 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4b2K/6p1/3R1p1k/5Q2/8/8/8/8 w - - 0 1"]
+[index "1789"]
+[plycount "3"]
+[ts "1486426397350"]
+
+
+1. Rd5  g6 2. Qh3#
+
+[castle "1"]
+[event "#1791 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/5Q2/5p1k/5p1P/5K1n w - - 0 1"]
+[index "1790"]
+[plycount "3"]
+[ts "1486426470442"]
+
+
+1. Qg5  Kxh2 2. Qh4#
+
+[castle "1"]
+[event "#1792 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/4N3/N7/8/8/1Pk2P2/Q3K3 w - - 0 1"]
+[index "1791"]
+[plycount "3"]
+[ts "1486426526984"]
+
+
+1. Ng5  Kd3 2. Qd1#
+
+[castle "1"]
+[event "#1793 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3P1k1B/3K3P/8/4N3/8/8/8 w - - 0 1"]
+[index "1792"]
+[plycount "3"]
+[ts "1486426541948"]
+
+
+1. Ng5+  Kf6 2. d8=Q#
+
+[castle "1"]
+[event "#1794 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/p2R4/K1k5/3R4/3p4/8/5B2 w - - 0 1"]
+[index "1793"]
+[plycount "3"]
+[ts "1486426577907"]
+
+
+1. Rxd3  Kc4 2. Rc6#
+
+[castle "1"]
+[event "#1795 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/8/3p4/3R3p/2k1K2R w - - 0 1"]
+[index "1794"]
+[plycount "3"]
+[ts "1486426591989"]
+
+
+1. Rhxh2  Kb1 2. Rd1#
+
+[castle "1"]
+[event "#1796 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1N6/8/2K5/2P5/k7/1R6/2B5 w - - 0 1"]
+[index "1795"]
+[plycount "3"]
+[ts "1486426625273"]
+
+
+1. Na5  Ka4 2. Ra2#
+
+[castle "1"]
+[event "#1797 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/6B1/3KN1k1/2Q3P1/6R1/8 w - - 0 1"]
+[index "1796"]
+[plycount "3"]
+[ts "1486426717266"]
+
+
+1. Qc6  Kh5 2. g4#
+
+[castle "1"]
+[event "#1798 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/3KN1k1/2Q3P1/B5R1/8 w - - 0 1"]
+[index "1797"]
+[plycount "3"]
+[ts "1486450254029"]
+
+
+1. Qd2  Kf5 2. Qg5#
+
+[castle "1"]
+[event "#1799 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4n3/8/1BPk4/1P3Q2/K7/8/8/8 w - - 0 1"]
+[index "1798"]
+[plycount "3"]
+[ts "1486450338770"]
+
+
+1. c7  Nxc7 2. Bc5#
+
+[castle "1"]
+[event "#1800 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/4Q3/K1k5/2N1b3/2n1P3/8/8 w - - 0 1"]
+[index "1799"]
+[plycount "3"]
+[ts "1486450401938"]
+
+
+1. Ne5  Bc2 2. Nd7#
+
+[castle "1"]
+[event "#1802 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/2QK4/8/4R3/2pk2N1/3N4 w - - 0 1"]
+[index "1801"]
+[plycount "3"]
+[ts "1486472147561"]
+
+
+1. Ne1  cxd1=Q 2. Qc3#
+
+[castle "1"]
+[event "#1804 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4p3/1K6/1N1k4/3p4/6N1/8/5Q2 w - - 0 1"]
+[index "1803"]
+[plycount "3"]
+[ts "1486479476028"]
+
+
+1. Qd3  e6 2. Qxd4#
+
+[castle "1"]
+[event "#1805 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/7B/2p5/5N2/4k3/7N/Q7/4K3 w - - 0 1"]
+[index "1804"]
+[plycount "3"]
+[ts "1486479628022"]
+
+
+1. Bg8  Kxf5 2. Qe6#
+
+[castle "1"]
+[event "#1807 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "6R1/2pk4/8/8/4QK2/8/8/8 w - - 0 1"]
+[index "1806"]
+[plycount "3"]
+[ts "1486479840057"]
+
+
+1. Ke5  c6 2. Qh7#
+
+[castle "1"]
+[event "#1808 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/2Qn4/k1N5/2b5/P7/8/6K1 w - - 0 1"]
+[index "1807"]
+[plycount "3"]
+[ts "1486479916037"]
+
+
+1. Kh2  Bf1 2. Nb3#
+
+[castle "1"]
+[event "#1809 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/kN5K/2Q5/8/3q4/4BB2 w - - 0 1"]
+[index "1808"]
+[plycount "3"]
+[ts "1486480051954"]
+
+
+1. Qc5  Qxe1 2. Nc3#
+
+[castle "1"]
+[event "#1810 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3B4/K7/6Q1/5BPr/7k w - - 0 1"]
+[index "1809"]
+[plycount "3"]
+[ts "1486480213020"]
+
+
+1. Qe5  Rh5 2. Qxh5#
+
+[castle "1"]
+[event "#1811 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3B3K/7p/8/4p1Pk/4Q3 w - - 0 1"]
+[index "1810"]
+[plycount "3"]
+[ts "1486480326953"]
+
+
+1. g4  hxg3 2. Qh1#
+
+[castle "1"]
+[event "#1813 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3b3K/5k2/6R1/4R1P1/8/2Q5/8 w - - 0 1"]
+[index "1812"]
+[plycount "3"]
+[ts "1486487381638"]
+
+
+1. Qc7  Kf7 2. Rf5#
+
+[castle "1"]
+[event "#1815 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4p3/3R4/7k/8/4N2N/8/2QK4 w - - 0 1"]
+[index "1814"]
+[plycount "3"]
+[ts "1486487424729"]
+
+
+1. Qc7  exd6 2. Qh7#
+
+[castle "1"]
+[event "#1816 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/Q1p5/8/5k2/1R6/2N2N1K/8/8 w - - 0 1"]
+[index "1815"]
+[plycount "3"]
+[ts "1486487471052"]
+
+
+1. Rb6  cxb6 2. Qf7#
+
+[castle "1"]
+[event "#1817 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4Q3/1R6/4K3/B7/8/rp6/k7 w - - 0 1"]
+[index "1816"]
+[plycount "3"]
+[ts "1486487506806"]
+
+
+1. Qb4  b1=R 2. Qxb1#
+
+[castle "1"]
+[event "#1818 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/1R1P1R2/3k4/B7/3K4 w - - 0 1"]
+[index "1817"]
+[plycount "3"]
+[ts "1486487534714"]
+
+
+1. Bd5  Kc3 2. Rb3#
+
+[castle "1"]
+[event "#1819 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1B6/8/8/8/1R1P1R2/3k4/8/3K4 w - - 0 1"]
+[index "1818"]
+[plycount "3"]
+[ts "1486487559131"]
+
+
+1. Bd6  Kc3 2. Rf3#
+
+[castle "1"]
+[event "#1821 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/6N1/6QR/8/4Pp2/2K1k3 w - - 0 1"]
+[index "1820"]
+[plycount "3"]
+[ts "1486487601732"]
+
+
+1. Rh2  f1=Q 2. Qb4#
+
+[castle "1"]
+[event "#1822 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/3p4/1QNkP3/B7/3K4/8 w - - 0 1"]
+[index "1821"]
+[plycount "3"]
+[ts "1486487629789"]
+
+
+1. Qe7  dxc4 2. Bc5#
+
+[castle "1"]
+[event "#1824 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3b4/8/3N4/8/1QNkP3/8/4K3 w - - 0 1"]
+[index "1823"]
+[plycount "3"]
+[ts "1486487660699"]
+
+
+1. Nf6  Kxe3 2. Ne2#
+
+[castle "1"]
+[event "#1825 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "k7/P2p4/K3p3/8/8/b7/8/4Q3 w - - 0 1"]
+[index "1824"]
+[plycount "3"]
+[ts "1486487681043"]
+
+
+1. Qe5  Be7 2. Qb8#
+
+[castle "1"]
+[event "#1828 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/8/8/1nKBkpQ1/8 w - - 0 1"]
+[index "1827"]
+[plycount "3"]
+[ts "1486487713914"]
+
+
+1. Qh3  f1=Q 2. Qe3#
+
+[castle "1"]
+[event "#1829 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4Q3/4n3/1K2k3/4P3/3P4/6R1/8 w - - 0 1"]
+[index "1828"]
+[plycount "3"]
+[ts "1486487749786"]
+
+
+1. Rg3  Kf4 2. Qd6#
+
+[castle "1"]
+[event "#1830 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4Q3/8/4P3/1K2k3/4N3/3P2R1/8/8 w - - 0 1"]
+[index "1829"]
+[plycount "3"]
+[ts "1486487787036"]
+
+
+1. Qe7  Kf4 2. Qg5#
+
+[castle "1"]
+[event "#1832 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3B4/8/4pQ2/3k4/1K6/3B4/6N1/8 w - - 0 1"]
+[index "1831"]
+[plycount "3"]
+[ts "1486487836592"]
+
+
+1. Qe7  e5 2. Qd7#
+
+[castle "1"]
+[event "#1833 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3B4/8/4pQ2/1B1k4/1K6/8/6N1/8 w - - 0 1"]
+[index "1832"]
+[plycount "3"]
+[ts "1486487874334"]
+
+
+1. Kc3  Ke4 2. Bc6#
+
+[castle "1"]
+[event "#1834 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7B/6N1/6pk/3Q3N/8/6K1/8/8 w - - 0 1"]
+[index "1833"]
+[plycount "3"]
+[ts "1486487910633"]
+
+
+1. Qh1  g5 2. Nf4#
+
+[castle "1"]
+[event "#1836 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/3R4/5PN1/4N1k1/4K2R w - - 0 1"]
+[index "1835"]
+[plycount "3"]
+[ts "1486487971575"]
+
+
+1. Ng1  Kxg3 2. Rg4#
+
+[castle "1"]
+[event "#1837 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4p3/6B1/4k3/5N1P/8/3Q2K1/8 w - - 0 1"]
+[index "1836"]
+[plycount "3"]
+[ts "1486488012127"]
+
+
+1. Qd8  Kxf4 2. Qd4#
+
+[castle "1"]
+[event "#1838 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "Q7/3B4/8/1R6/4P3/5k2/3B4/6K1 w - - 0 1"]
+[index "1837"]
+[plycount "3"]
+[ts "1486488058501"]
+
+
+1. Qd8  Kxe4 2. Bc6#
+
+[castle "1"]
+[event "#1839 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/b2KQB1p/8/1p6/3k4 w - - 0 1"]
+[index "1838"]
+[plycount "3"]
+[ts "1486488086529"]
+
+
+1. Ke3  Ke1 2. Qh1#
+
+[castle "1"]
+[event "#1840 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/Q7/8/1K6/4p3/2pk4/5R2/8 w - - 0 1"]
+[index "1839"]
+[plycount "3"]
+[ts "1486488123684"]
+
+
+1. Kc5  c2 2. Qa3#
+
+[castle "1"]
+[event "#1841 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/p7/5Nk1/r7/5Q2/8/8/2B5 w - - 0 1"]
+[index "1840"]
+[plycount "3"]
+[ts "1486488151209"]
+
+
+1. Nd5  Rxd5 2. Qf7#
+
+[castle "1"]
+[event "#1842 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/2K1k1P1/2p5/2p3P1/2Q5/8/8/8 w - - 0 1"]
+[index "1841"]
+[plycount "3"]
+[ts "1486488178733"]
+
+
+1. g8=B  Ke8 2. Qf7#
+
+[castle "1"]
+[event "#1843 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/4N3/4N3/4pp2/2K1k3 w - - 0 1"]
+[index "1842"]
+[plycount "3"]
+[ts "1486488192219"]
+
+
+1. Nc5  f1=Q 2. Nd3#
+
+[castle "1"]
+[event "#1844 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7Q/7n/6Pk/6nP/6K1/8/8/8 w - - 0 1"]
+[index "1843"]
+[plycount "3"]
+[ts "1486488210628"]
+
+
+1. g7  Nf3 2. g8=N#
+
+[castle "1"]
+[event "#1845 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4K1N1/8/3pk3/4n3/3BQ3 w - - 0 1"]
+[index "1844"]
+[plycount "3"]
+[ts "1486488235058"]
+
+
+1. Ne4  Kf3 2. Qg3#
+
+[castle "1"]
+[event "#1846 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2K5/1N1N4/2k5/1p1p4/8/8/2B5/8 w - - 0 1"]
+[index "1845"]
+[plycount "3"]
+[ts "1486488251593"]
+
+
+1. Bd1  b4 2. Ba4#
+
+[castle "1"]
+[event "#1847 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5NPK/4pk2/8/4B3/1Q6/8/8 w - - 0 1"]
+[index "1846"]
+[plycount "3"]
+[ts "1486488293388"]
+
+
+1. Bf5  exf5 2. g8=N#
+
+[castle "1"]
+[event "#1848 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/7Q/1K6/8/8/4N3/2R3BP/6k1 w - - 0 1"]
+[index "1847"]
+[plycount "3"]
+[ts "1486488332333"]
+
+
+1. Bh1  Kxh1 2. Rc1#
+
+[castle "1"]
+[event "#1849 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/7Q/8/8/8/4N3/2R3BP/3K2k1 w - - 0 1"]
+[index "1848"]
+[plycount "3"]
+[ts "1486488368905"]
+
+
+1. Qa7  Kxh2 2. Nf1#
+
+[castle "1"]
+[event "#1851 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4Q3/4pK2/8/5k2/8/6B1/4r1B1/8 w - - 0 1"]
+[index "1850"]
+[plycount "3"]
+[ts "1486488403546"]
+
+
+1. Kg7  Rxg2 2. Qg6#
+
+[castle "1"]
+[event "#1854 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/2PN4/P7/1N1k1B2/K7/8/8/8 w - - 0 1"]
+[index "1853"]
+[plycount "3"]
+[ts "1486488438537"]
+
+
+1. c8=N  Kc4 2. Ncb6#
+
+[castle "1"]
+[event "#1855 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/2PN4/8/1N1k1B2/K7/8/4P3/8 w - - 0 1"]
+[index "1854"]
+[plycount "3"]
+[ts "1486488463008"]
+
+
+1. c8=B  Kc4 2. Be6#
+
+[castle "1"]
+[event "#1856 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1PPN4/8/1N1k1B2/K7/8/8/8 w - - 0 1"]
+[index "1855"]
+[plycount "3"]
+[ts "1486488489385"]
+
+
+1. b8=Q  Kc4 2. Qg8#
+
+[castle "1"]
+[event "#1858 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/4b3/6pN/7k/8/7K/3Q4 w - - 0 1"]
+[index "1857"]
+[plycount "3"]
+[ts "1486488555536"]
+
+
+1. Ng7  g4 2. Qd8#
+
+[castle "1"]
+[event "#1859 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/4NQ1b/7r/7p/5K1k w - - 0 1"]
+[index "1858"]
+[plycount "3"]
+[ts "1486488578668"]
+
+
+1. Qg4  Rg3 2. Nf2#
+
+[castle "1"]
+[event "#1860 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5B2/8/8/4k3/7K/8/B1Q5/8 w - - 0 1"]
+[index "1859"]
+[plycount "3"]
+[ts "1486488616356"]
+
+
+1. Bb1  Kd4 2. Qc5#
+
+[castle "1"]
+[event "#1861 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K3Q/8/8/5Bk1/6P1/8/5P2/8 w - - 0 1"]
+[index "1860"]
+[plycount "3"]
+[ts "1486488648255"]
+
+
+1. Qe8  Kf4 2. Qe3#
+
+[castle "1"]
+[event "#1862 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "K7/bP6/k1P5/8/P1N5/8/8/8 w - - 0 1"]
+[index "1861"]
+[plycount "3"]
+[ts "1486488659283"]
+
+
+1. c7  Bg1 2. b8=N#
+
+[castle "1"]
+[event "#1863 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K1k/7p/7R/8/4R3/8/6b1/8 w - - 0 1"]
+[index "1862"]
+[plycount "3"]
+[ts "1486488684724"]
+
+
+1. Rg6  hxg6 2. Rh4#
+
+[castle "1"]
+[event "#1864 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7Q/1b5P/8/8/6R1/8/8/K6k w - - 0 1"]
+[index "1863"]
+[plycount "3"]
+[ts "1486488712978"]
+
+
+1. Qa8  Bxa8 2. h8=Q#
+
+[castle "1"]
+[event "#1865 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7Q/8/8/8/8/5K2/2p5/3kB3 w - - 0 1"]
+[index "1864"]
+[plycount "3"]
+[ts "1486488737500"]
+
+
+1. Qb2  c1=Q 2. Qe2#
+
+[castle "1"]
+[event "#1867 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/2p1B3/8/pk6/N7/K4Q2 w - - 0 1"]
+[index "1866"]
+[plycount "3"]
+[ts "1486488918321"]
+
+
+1. Bc3  Kc2 2. Qb1#
+
+[castle "1"]
+[event "#1868 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/3p1p2/4k3/2R5/8/8/8/3Q4 w - - 0 1"]
+[index "1867"]
+[plycount "3"]
+[ts "1486488952959"]
+
+
+1. Qh5  d5 2. Rc6#
+
+[castle "1"]
+[event "#1870 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1K3Q2/1P1kN3/8/5P2/3P4/8/8/8 w - - 0 1"]
+[index "1869"]
+[plycount "3"]
+[ts "1486489001300"]
+
+
+1. Qf7  Kd6 2. Qe6#
+
+[castle "1"]
+[event "#1871 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/1B3p2/8/8/n6K/8/Qb5k w - - 0 1"]
+[index "1870"]
+[plycount "3"]
+[ts "1486489020420"]
+
+
+1. Kg3  f5 2. Qh8#
+
+[castle "1"]
+[event "#1872 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/4p3/8/nK1kP3/6Q1/5N2 w - - 0 1"]
+[index "1871"]
+[plycount "3"]
+[ts "1486489043288"]
+
+
+1. Qg4  Nb5 2. Qc4#
+
+[castle "1"]
+[event "#1873 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2K5/2N5/Q1BkN3/8/8/8/5B2/8 w - - 0 1"]
+[index "1872"]
+[plycount "3"]
+[ts "1486489087105"]
+
+
+1. Qf1  Kxc6 2. Qa6#
+
+[castle "1"]
+[event "#1874 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5B1p/8/5Qp1/7k/8/8/4Kb2 w - - 0 1"]
+[index "1873"]
+[plycount "3"]
+[ts "1486489112673"]
+
+
+1. Be6  g4 2. Qxg4#
+
+[castle "1"]
+[event "#1876 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2Q2N2/3K2k1/5N2/3B3p/8/8/8/8 w - - 0 1"]
+[index "1875"]
+[plycount "3"]
+[ts "1486489155423"]
+
+
+1. Ne8+  Kxf8 2. Qc5#
+
+[castle "1"]
+[event "#1877 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/pp6/kB5Q/8/K2b4/8 w - - 0 1"]
+[index "1876"]
+[plycount "3"]
+[ts "1486489180471"]
+
+
+1. Qd8  axb4 2. Qa8#
+
+[castle "1"]
+[event "#1878 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "K7/8/4p3/kBR5/7B/7R/8/8 w - - 0 1"]
+[index "1877"]
+[plycount "3"]
+[ts "1486489218910"]
+
+
+1. Re5  Kb6 2. Bd8#
+
+[castle "1"]
+[event "#1879 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4Q3/8/pkN2B2/8/8/K7/8 w - - 0 1"]
+[index "1878"]
+[plycount "3"]
+[ts "1486489262356"]
+
+
+1. Na4  Kxa4 2. Bd7#
+
+[castle "1"]
+[event "#1880 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1k6/nB6/8/N6b/8/8/2Q2K2/8 w - - 0 1"]
+[index "1879"]
+[plycount "3"]
+[ts "1486489291873"]
+
+
+1. Qh7  Nb5 2. Nc6#
+
+[castle "1"]
+[event "#1881 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "2Q5/3pk3/6P1/2PKP3/8/8/8/8 w - - 0 1"]
+[index "1880"]
+[plycount "3"]
+[ts "1486489310079"]
+
+
+1. Ke4  Ke6 2. Qe8#
+
+[castle "1"]
+[event "#1882 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/1B1R4/8/Pk6/1P6/P7/8/3K4 w - - 0 1"]
+[index "1881"]
+[plycount "3"]
+[ts "1486489334612"]
+
+
+1. Rd3  Kc4 2. Ba6#
+
+[castle "1"]
+[event "#1883 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/3P1P1N/6k1/5N2/8/3K3Q/8/8 w - - 0 1"]
+[index "1882"]
+[plycount "3"]
+[ts "1486489367332"]
+
+
+1. Qe3  Kxf5 2. Qe4#
+
+[castle "1"]
+[event "#1885 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/2B5/1p6/1K6/2Q2p2/4k3 w - - 0 1"]
+[index "1884"]
+[plycount "3"]
+[ts "1486489400325"]
+
+
+1. Be3  f1=Q 2. Qd2#
+
+[castle "1"]
+[event "#1887 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/8/K7/p1p1N3/8/1k1N1Q2 w - - 0 1"]
+[index "1886"]
+[plycount "3"]
+[ts "1486489436009"]
+
+
+1. Nc4  Kc1 2. Nde3#
+
+[castle "1"]
+[event "#1888 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "1BB5/2n5/8/5R2/4k3/5N2/4K3/8 w - - 0 1"]
+[index "1887"]
+[plycount "3"]
+[ts "1486489463386"]
+
+
+1. Rg5  Na6 2. Bb7#
+
+[castle "1"]
+[event "#1889 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4N1k1/3K4/6P1/5N1P/8/8/8/8 w - - 0 1"]
+[index "1888"]
+[plycount "3"]
+[ts "1486489484950"]
+
+
+1. g7  Kf7 2. Nh6#
+
+[castle "1"]
+[event "#1891 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/2P2R2/2Bk4/8/3B4/8/8/8 w - - 0 1"]
+[index "1890"]
+[plycount "3"]
+[ts "1486489539988"]
+
+
+1. c8=R  Ke6 2. Rf6#
+
+[castle "1"]
+[event "#1892 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/3P1R2/2Bk4/8/3B4/8/8/8 w - - 0 1"]
+[index "1891"]
+[plycount "3"]
+[ts "1486489574019"]
+
+
+1. d8=Q+  Kxc6 2. Qd7#
+
+[castle "1"]
+[event "#1893 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/4PR2/2Bk4/8/3B4/8/8/8 w - - 0 1"]
+[index "1892"]
+[plycount "3"]
+[ts "1486489607672"]
+
+
+1. e8=B  Ke6 2. Rf6#
+
+[castle "1"]
+[event "#1894 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5K2/1P3R2/2Bk4/8/3B4/8/8/8 w - - 0 1"]
+[index "1893"]
+[plycount "3"]
+[ts "1486489638340"]
+
+
+1. b8=N  Ke6 2. Rf6#
+
+[castle "1"]
+[event "#1895 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/1p6/2P5/2kN4/8/1Q6/4K2B w - - 0 1"]
+[index "1894"]
+[plycount "3"]
+[ts "1486489673945"]
+
+
+1. Nc6  bxc5 2. Ne5#
+
+[castle "1"]
+[event "#1896 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5p2/5K2/7k/7p/7Q/8/8 w - - 0 1"]
+[index "1895"]
+[plycount "3"]
+[ts "1486489691622"]
+
+
+1. Qc8  Kh6 2. Qh8#
+
+[castle "1"]
+[event "#1897 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "R7/8/8/1N2Q3/pkp5/8/8/2K5 w - - 0 1"]
+[index "1896"]
+[plycount "3"]
+[ts "1486489735952"]
+
+
+1. Rb8  c3 2. Qxc3#
+
+[castle "1"]
+[event "#1898 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "N6R/k2P4/7P/6K1/8/8/8/8 w - - 0 1"]
+[index "1897"]
+[plycount "3"]
+[ts "1486489752429"]
+
+
+1. d8=Q  Ka6 2. Qb6#
+
+[castle "1"]
+[event "#1899 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7R/k1KP4/7P/2N5/8/8/8/8 w - - 0 1"]
+[index "1898"]
+[plycount "3"]
+[ts "1486489772506"]
+
+
+1. d8=N  Ka8 2. Nc6#
+
+[castle "1"]
+[event "#1900 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7R/3P1k2/7P/2N3K1/8/8/8/8 w - - 0 1"]
+[index "1899"]
+[plycount "3"]
+[ts "1486489794744"]
+
+
+1. d8=R  Ke7 2. Rd7#
+
+[castle "1"]
+[event "#1901 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7R/k2P4/7P/2N3K1/8/8/8/8 w - - 0 1"]
+[index "1900"]
+[plycount "3"]
+[ts "1486489819635"]
+
+
+1. d8=B  Ka8 2. Bb6#
+
+[castle "1"]
+[event "#1905 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/1K2k3/1Q1N4/6R1/7B/8/8 w - - 0 1"]
+[index "1904"]
+[plycount "3"]
+[ts "1486489934117"]
+
+
+1. Qb4  Kxd5 2. Rg5#
+
+[castle "1"]
+[event "#1906 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4k3/3pPp2/8/8/8/4R3/4K3/4Q3 w - - 0 1"]
+[index "1905"]
+[plycount "3"]
+[ts "1486489963213"]
+
+
+1. Qh4  f5 2. Qh5#
+
+[castle "1"]
+[event "#1907 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "5k2/4pPp1/8/8/8/5R2/5K2/5Q2 w - - 0 1"]
+[index "1906"]
+[plycount "3"]
+[ts "1486489991864"]
+
+
+1. Qa1  e6 2. Qa3#
+
+[castle "1"]
+[event "#1908 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7r/6pk/7N/3Q4/6K1/8/8/8 w - - 0 1"]
+[index "1907"]
+[plycount "3"]
+[ts "1486490017529"]
+
+
+1. Ng8  Rxg8 2. Qh5#
+
+[castle "1"]
+[event "#1910 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "3K4/Q4B2/8/pk6/8/8/3N4/8 w - - 0 1"]
+[index "1909"]
+[plycount "3"]
+[ts "1486490058813"]
+
+
+1. Nb3  a4 2. Qb7#
+
+[castle "1"]
+[event "#1914 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "7b/3Q4/5k2/7K/3P4/4Bn2/8/8 w - - 0 1"]
+[index "1913"]
+[plycount "3"]
+[ts "1486490120794"]
+
+
+1. d5  Bg7 2. Qe6#
+
+[castle "1"]
+[event "#1916 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5p2/6pQ/3K1k2/6N1/7P/8/8 w - - 0 1"]
+[index "1915"]
+[plycount "3"]
+[ts "1486490150621"]
+
+
+1. Qe3  g5 2. Qe4#
+
+[castle "1"]
+[event "#1919 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "4r2k/QR2p1p1/6K1/8/8/8/8/8 w - - 0 1"]
+[index "1918"]
+[plycount "3"]
+[ts "1486490190123"]
+
+
+1. Qb8  Rxb8 2. Rxb8#
+
+[castle "1"]
+[event "#1921 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/5p2/5npp/7k/8/4Q2K w - - 0 1"]
+[index "1920"]
+[plycount "3"]
+[ts "1486494045423"]
+
+
+1. Qe5  g3 2. Qxf5#
+
+[castle "1"]
+[event "#1922 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "R7/1p6/8/8/P1K5/k7/2R5/8 w - - 0 1"]
+[index "1921"]
+[plycount "3"]
+[ts "1486494071312"]
+
+
+1. a5  b6 2. axb6#
+
+[castle "1"]
+[event "#1923 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4p3/5R2/2pkp3/6Q1/8/3K4/8 w - - 0 1"]
+[index "1922"]
+[plycount "3"]
+[ts "1486494104072"]
+
+
+1. Kd3  exf6 2. Qd7#
+
+[castle "1"]
+[event "#1925 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/5K2/7p/3B4/5Pk1/3P4/7Q/8 w - - 0 1"]
+[index "1924"]
+[plycount "3"]
+[ts "1486494146276"]
+
+
+1. Qf2  h5 2. Be6#
+
+[castle "1"]
+[event "#1926 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/P1P5/8/k7/2K5/8/8/8 w - - 0 1"]
+[index "1925"]
+[plycount "3"]
+[ts "1486494158677"]
+
+
+1. c8=N  Ka6 2. a8=Q#
+
+[castle "1"]
+[event "#1927 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/4k3/1P5K/7Q/1R6/7B/1B6/8 w - - 0 1"]
+[index "1926"]
+[plycount "3"]
+[ts "1486494199801"]
+
+
+1. Ba3  Kf8 2. Rg4#
+
+[castle "1"]
+[event "#1929 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[result "1-0"]
+[fen "8/8/8/1K1Q4/2B2k2/R7/5P2/2n5 w - - 0 1"]
+[index "1928"]
+[plycount "3"]
+[ts "1486494251118"]
+
+
+1. Ra4  Kg4 2. Bf1#
+

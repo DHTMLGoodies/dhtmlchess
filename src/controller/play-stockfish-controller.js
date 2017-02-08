@@ -33,6 +33,9 @@ chess.controller.PlayStockFishController = new Class({
     createEngine: function () {
         try {
             var that = this;
+
+            this.fireEvent('message', chess.getPhrase('Loading StockfishJS'));
+
             this.engine = new Worker(this.stockfish);
 
 
@@ -42,9 +45,11 @@ chess.controller.PlayStockFishController = new Class({
             this.engine.onmessage = function (event) {
                 var line = event.data;
                 if (line == 'uciok') {
+                    that.fireEvent('message', chess.getPhrase('StockfishJS loaded'));
                     that.engineStatus.engineLoaded = true;
                 } else if (line == 'readyok') {
                     that.engineStatus.engineReady = true;
+                    that.fireEvent('message', chess.getPhrase('StockfishJS ready'));
                 } else {
 
                     var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
@@ -85,16 +90,16 @@ chess.controller.PlayStockFishController = new Class({
                 }
             };
             this.engine.error = function (e) {
-                console.log("Error from background worker:" + e.message);
-            };
+                this.fireEvent('message', "Error from background worker:" + e.message);
+            }.bind(this);
 
+            
             jQuery.ajax({
                 url:ludo.config.getUrl() + '/stockfish-js/book.bin',
                 complete:function(response){
                     this.engine.postMessage({book: response.responseText });
                 }.bind(this)
             });
-
 
         } catch (error) {
             this.backgroundEngineValid = false;

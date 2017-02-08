@@ -1,4 +1,4 @@
-/* Generated Sun Feb 5 23:23:06 CET 2017 */
+/* Generated Tue Feb 7 21:38:44 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2909,7 +2909,7 @@ ludo.registry = new ludo.RegistryClass();/* ../ludojs/src/storage/storage.js */
  * Class for saving data to local storage(browser cache).
  *
  * ludo.getLocalStorage() returns a singleton for ludo.storage.LocalStorage
- * 
+ *
  * @class ludo.storage.LocalStorage
  * @type {Type}
  * @example
@@ -2919,66 +2919,67 @@ ludo.registry = new ludo.RegistryClass();/* ../ludojs/src/storage/storage.js */
  *
  */
 ludo.storage.LocalStorage = new Class({
-	supported:false,
-	initialize:function(){
-		this.supported = typeof(Storage)!=="undefined";
-	},
+    supported: false,
+    initialize: function () {
+        this.supported = typeof(Storage) !== "undefined";
+    },
 
-	/**
-	 * @function save
-	 * @param {String} key
-	 * @param {String|Number|Array|Object} value
-	 * @memberof ludo.storage.LocalStorage.prototype
+    /**
+     * @function save
+     * @param {String} key
+     * @param {String|Number|Array|Object} value
+     * @memberof ludo.storage.LocalStorage.prototype
      */
-	save:function(key,value){
-		if(!this.supported)return;
-		var type = 'simple';
-		if(ludo.util.isObject(value) || ludo.util.isArray(value)){
-			value = JSON.stringify(value);
-			type = 'object';
-		}
-		localStorage[key] = value;
-		localStorage[this.getTypeKey(key)] = type;
-	},
+    save: function (key, value) {
+        if (!this.supported)return;
+        var type = 'simple';
+        if (ludo.util.isObject(value) || ludo.util.isArray(value)) {
+            value = JSON.stringify(value);
+            type = 'object';
+        }
+        localStorage[key] = value;
+        localStorage[this.getTypeKey(key)] = type;
+    },
 
-	/**
-	 * Get value from local storage
-	 * @function get
-	 * @param {string} key
-	 * @param {mixed} defaultValue
-	 * @memberof ludo.storage.LocalStorage.prototype
-	 * @returns {*}
+    /**
+     * Get value from local storage
+     * @function get
+     * @param {string} key
+     * @param {string|object|array} defaultValue
+     * @memberof ludo.storage.LocalStorage.prototype
+     * @returns {*}
      */
-	get:function(key, defaultValue){
-		if(!this.supported)return defaultValue;
-		var type = this.getType(key);
-		if(type==='object'){
-			return JSON.parse(localStorage[key]);
-		}
-		return localStorage[key] ? localStorage[key] : defaultValue;
-	},
+    get: function (key, defaultValue) {
+        if (!this.supported)return defaultValue;
+        var type = this.getType(key);
+        if (type === 'object') {
+            var ret = JSON.parse(localStorage[key]);
+            return ret ? ret : defaultValue;
+        }
+        return localStorage[key] ? localStorage[key] : defaultValue;
+    },
 
-	getTypeKey:function(key){
-		return key + '___type';
-	},
+    getTypeKey: function (key) {
+        return key + '___type';
+    },
 
-	getType:function(key){
-		key = this.getTypeKey(key);
-		if(localStorage[key]!==undefined){
-			return localStorage[key];
-		}
-		return 'simple';
-	},
+    getType: function (key) {
+        key = this.getTypeKey(key);
+        if (localStorage[key] !== undefined) {
+            return localStorage[key];
+        }
+        return 'simple';
+    },
 
-	clearLocalStore:function(){
-		localStorage.clear();
-	}
+    clearLocalStore: function () {
+        localStorage.clear();
+    }
 });
 
 ludo.localStorage = undefined;
-ludo.getLocalStorage = function(){
-	if(!ludo.localStorage)ludo.localStorage = new ludo.storage.LocalStorage();
-	return ludo.localStorage;
+ludo.getLocalStorage = function () {
+    if (!ludo.localStorage)ludo.localStorage = new ludo.storage.LocalStorage();
+    return ludo.localStorage;
 };
 
 /* ../ludojs/src/object-factory.js */
@@ -29132,6 +29133,7 @@ window.chess = {
     plugins: {},
     pgn: {},
     wordpress:{},
+    computer:{},
     view: {
         seek: {},
         board: {},

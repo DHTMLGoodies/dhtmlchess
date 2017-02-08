@@ -4,6 +4,7 @@ window.chess = {
     plugins: {},
     pgn: {},
     wordpress:{},
+    computer:{},
     view: {
         seek: {},
         board: {},

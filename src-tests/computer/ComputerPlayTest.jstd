@@ -1,0 +1,15 @@
+load:
+  - ../../jquery/jquery-3.1.0.min.js
+  - ../../js/dhtml-chess.js
+  - ../../../ludojs/src/storage/storage.js
+  - ../../src/computer/computer-play.js
+  - clock.js
+
+test:
+  - ComputerTest.js
+  - ClockTest.js
+
+plugin:
+ - name: "coverage"
+   jar: "../jstestdrive/coverage-1.3.4.b.jar"
+   module: "com.google.jstestdriver.coverage.CoverageModule"
