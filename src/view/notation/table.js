@@ -40,6 +40,10 @@ chess.view.notation.Table = new Class({
         return ret;
     },
 
+    appendMove:function(){
+        this.showMoves(this.controller.currentModel);
+    },
+
     addVariations:function(){
         // silent
     },

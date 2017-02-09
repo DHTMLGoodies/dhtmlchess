@@ -1,4 +1,4 @@
-/* Generated Tue Feb 7 21:38:44 CET 2017 */
+/* Generated Wed Feb 8 22:29:02 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -2933,12 +2933,16 @@ ludo.storage.LocalStorage = new Class({
     save: function (key, value) {
         if (!this.supported)return;
         var type = 'simple';
-        if (ludo.util.isObject(value) || ludo.util.isArray(value)) {
+        if (jQuery.isPlainObject(value) || jQuery.isArray(value)) {
             value = JSON.stringify(value);
             type = 'object';
         }
         localStorage[key] = value;
         localStorage[this.getTypeKey(key)] = type;
+    },
+
+    getNumeric:function(key, defaultValue){
+        return this.get(key, defaultValue) / 1;
     },
 
     /**
@@ -2956,7 +2960,9 @@ ludo.storage.LocalStorage = new Class({
             var ret = JSON.parse(localStorage[key]);
             return ret ? ret : defaultValue;
         }
-        return localStorage[key] ? localStorage[key] : defaultValue;
+
+        var val = localStorage.getItem(key);
+        return  val ? val : defaultValue;
     },
 
     getTypeKey: function (key) {
@@ -2971,7 +2977,7 @@ ludo.storage.LocalStorage = new Class({
         return 'simple';
     },
 
-    clearLocalStore: function () {
+    empty: function () {
         localStorage.clear();
     }
 });
@@ -6336,7 +6342,7 @@ ludo.layout.Table = new Class({
 
         var cell = jQuery('<td style="vertical-align:' + vAlign + ';margin:0;padding:0" colspan="' + colspan + '" rowspan="' + rowspan + '"></td>');
         this.currentRow.append(cell);
-        this.countChildren++;
+        this.countChildren+= colspan;
         return cell;
     },
 
@@ -10183,7 +10189,8 @@ ludo.layout.Relative = new Class({
 		'sameWidthAs', 'sameHeightAs',
 		'centerInParent', 'centerHorizontal', 'centerVertical',
 		'fillLeft', 'fillRight', 'fillUp', 'fillDown',
-		'absBottom','absWidth','absHeight','absLeft','absTop','absRight','offsetX','offsetY'
+		'absBottom','absWidth','absHeight','absLeft','absTop','absRight','offsetX','offsetY',
+		'widthOffset','heightOffset'
 	],
 
 	newChildCoordinates:{},
@@ -10425,7 +10432,8 @@ ludo.layout.Relative = new Class({
 			switch (child.layout[property]) {
 				case 'matchParent':
 					return function (lm) {
-						c[property] = lm.viewport[property];
+						var off = child.layout[property + 'Offset'] || 0;
+						c[property] = lm.viewport[property] + off;
 					};
 				case 'wrap':
 					var ws = ludo.dom.getWrappedSizeOfView(child);

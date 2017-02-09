@@ -9,13 +9,21 @@ chess.computer.Elo = new Class({
         this.db = ludo.getLocalStorage();
     },
 
+    hasPlayedBefore: function () {
+        return this.db.get('played', '0') == '1';
+    },
+
     getGameType: function (gameTime, inc) {
         var t = gameTime + (inc * 30);
         if (t < 60 * 3)return "bullet";
         if (t <= 60 * 8) return "blitz";
         return "classical";
     },
-    
+
+    getEloByTime:function(time, inc){
+        return this.getElo(this.getGameType(time, inc));
+    },
+
     getElo: function (gameType) {
         return this.db.getNumeric('elo' + gameType, 1200);
     },
@@ -28,6 +36,8 @@ chess.computer.Elo = new Class({
      * @param myColor
      */
     saveResult: function (result, againstElo, gameType, myColor) {
+
+        this.db.save('played', '1');
         var c = this.incrementGames(gameType);
         var newElo;
         if (c <= this.PROVISIONAL) {
@@ -90,17 +100,17 @@ chess.computer.Clock = new Class({
 
     savedTime: undefined,
 
-    started:false,
+    started: false,
 
-    initialize:function(){
+    initialize: function () {
         this.tick();
     },
 
-    tick:function(){
+    tick: function () {
 
-        if(this.started){
+
+        if (this.started) {
             this.validateTime();
-
             this.onChange();
         }
 
@@ -108,12 +118,31 @@ chess.computer.Clock = new Class({
 
     },
 
-    validateTime:function(){
+    stop:function(){
+        this.time[this.turn] = this.getTime(this.turn);
+        this.started = false;
+        this.savedTime =new Date().getTime();
+        this.onChange();
+    },
+
+    validateTime: function () {
         var t = this.getTime(this.turn);
-        if(t == 0){
+        if (t == 0) {
             this.fireEvent('end', [this.timeAsObject('white'), this.timeAsObject('black')]);
             this.started = false;
         }
+    },
+
+    wTime:function(){
+        return this.getTime('white');
+    },
+
+    bTime:function(){
+        return this.getTime('black');
+    },
+    
+    inc:function(){
+        return this.increment;
     },
 
     setTime: function (time, increment) {
@@ -124,6 +153,8 @@ chess.computer.Clock = new Class({
         this.time.white = time * 1000;
         this.time.black = time * 1000;
         this.increment = increment * 1000;
+
+        this.onChange();
     },
 
     start: function (time, increment) {
@@ -146,30 +177,35 @@ chess.computer.Clock = new Class({
 
     getTime: function (color) {
         var t = this.time[color];
-        if (this.turn == color) {
+        if (this.turn == color && this.started) {
             t -= new Date().getTime() - this.savedTime;
         }
         return Math.max(0, t);
     },
 
-    onChange:function(){
-        this.fireEvent('change', [this.timeAsObject('white'), this.timeAsObject('black')]);
+    onChange: function () {
+        this.fireEvent('change', [this.turn, this.timeAsObject('white'), this.timeAsObject('black')]);
     },
 
-    timeAsObject: function(color){
+    timeAsObject: function (color) {
         var t = this.getTime(color);
 
-        var decimals = t < 10000 ? parseInt((t/100)%10) : undefined
-            , seconds = parseInt((t/1000)%60)
-            , minutes = parseInt((t/(1000*60))%60)
-            , hours = parseInt((t/(1000*60*60))%24);
-        return {
-            h :  hours,
-            m : this.pad(minutes, 2),
-            s : this.pad(seconds, 2),
-            d : decimals,
+        var decimals = t < 10000 ? parseInt((t / 100) % 10) : undefined
+            , seconds = parseInt((t / 1000) % 60)
+            , minutes = parseInt((t / (1000 * 60)) % 60)
+            , hours = parseInt((t / (1000 * 60 * 60)) % 24);
+        var ret = {
+            h: hours,
+            m: this.pad(minutes, 2),
+            s: this.pad(seconds, 2),
+            d: decimals,
             totalSeconds: t / 1000
-        }
+        };
+
+        ret.string = (ret.h> 0 ? ret.h + ':' : '') + ret.m + ':' + ret.s + (ret.totalSeconds < 10 ? ':' + ret.d : '');
+
+        return ret;
+
     },
 
     pad: function (num, size) {
@@ -178,4 +214,259 @@ chess.computer.Clock = new Class({
         return s;
     }
 
+});
+
+
+chess.computer.ClockView = new Class({
+    Extends: ludo.View,
+    color: undefined,
+    module: 'chess',
+    submodule:'computer.clockview',
+    elo: undefined,
+    pos:undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.color = config.color;
+        this.pos = config.pos;
+    },
+
+    setColor:function(color){
+        this.color = color;
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.getEl().addClass('dhtml-chess-clock');
+        this.showTime();
+    },
+
+
+    setController: function (controller) {
+        this.parent(controller);
+        controller.clock.on('change', this.update.bind(this));
+        this.elo = controller.elo;
+    },
+
+    update: function (color, timeWhite, timeBlack) {
+        var val = this.color == 'white' ? timeWhite : timeBlack;
+
+        this.getBody().html(val.string);
+    },
+
+    resize: function (size) {
+        this.parent(size);
+
+        this.getBody().css({
+            'line-height': size.height + 'px',
+            'font-size': (size.height * 0.6) + 'px'
+        })
+    },
+
+    showTime: function (time) {
+        if (time == undefined) {
+            this.getBody().html('05:00');
+        } else {
+
+        }
+
+    }
+});
+
+chess.computer.GameDialog = new Class({
+    Extends: ludo.dialog.Dialog,
+    module: 'chess',
+    submodule: 'chess.computer.gamedialog',
+    autoRemove: false,
+    layout: {
+        width: 300,
+        height: 300,
+        type: 'table', simple: true,
+        columns: [{
+            weight: 1
+        }, {width: 50}, {
+            weight: 1
+        }, {width: 50}]
+    },
+    css: {
+        padding: 10
+    },
+    buttonConfig: 'Ok',
+
+    title: chess.getPhrase('New Game'),
+    elo:undefined,
+    color:undefined,
+    
+    __construct: function (config) {
+        this.parent(config);
+        this.elo = new chess.computer.Elo();
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.$b().addClass('dhtml-chess-comp-dialog');
+        this.on('ok', this.onNewGame.bind(this));
+        this.selectColor('white');
+
+        this.child['color-white'].$b().on('click', function () {
+            this.selectColor('white');
+        }.bind(this));
+        this.child['color-black'].$b().on('click', function () {
+            this.selectColor('black');
+        }.bind(this));
+    },
+
+    selectColor: function (color) {
+        this.color = color;
+        var cls = 'dhtml-chess-comp-dialog-selected-color';
+        this.child['color-black'].$b().removeClass(cls);
+        this.child['color-white'].$b().removeClass(cls);
+        this.child['color-' + color].$b().addClass(cls);
+    },
+
+    __children: function () {
+        return [
+            {
+                type: 'form.Label',
+                label: chess.getPhrase('Your color:'),
+                layout: {
+                    colspan: 4
+                }
+            },
+            {
+                name: 'color-white',
+                layout: {
+                    colspan: 2,
+                    height: 50
+                },
+                elCss: {
+                    'margin': 2
+                },
+                css: {
+                    'border-radius': '5px',
+                    'background-color': '#CCC',
+                    'color': '#444',
+                    'cursor': 'pointer',
+                    'line-height': '45px',
+                    'border': '2px solid transparent',
+                    'text-align': 'center'
+                },
+                html: chess.getPhrase('White')
+            }, {
+                name: 'color-black',
+                layout: {
+                    colspan: 2,
+                    height: 50
+                },
+                elCss: {
+                    'margin': '2px'
+                },
+                css: {
+                    'border-radius': '5px',
+                    'cursor': 'pointer',
+                    'background-color': '#777',
+                    'color': '#fff',
+                    'line-height': '45px',
+                    'border': '2px solid transparent',
+                    'text-align': 'center'
+                },
+                html: chess.getPhrase('Black')
+            },
+
+            {
+                layout: {colspan: 4, height: 20}
+            },
+            {
+                type: 'form.Label', label: chess.getPhrase('Time'), css: {'font-size': '1.3em'},
+                layout: {
+                    colspan: 2
+                }
+
+            },
+            {
+                type: 'form.Label', label: chess.getPhrase('Increment'),
+                layout: {
+                    colspan: 2
+                }
+            },
+            {
+                type: 'form.Select', name: 'game-time',
+                value: 3,
+                dataSource: {
+                    data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 30, 45, 60, 90, 120]
+                },
+                listeners:{
+                    'change': this.onTimeChange.bind(this)
+                }
+            },
+            {
+                html: chess.getPhrase('min'),
+                css: {
+                    padding: 5
+                }
+            },
+            {
+                type: 'form.Select', name: 'game-inc',
+                value: 0,
+                dataSource: {
+                    data: [0, 1, 2, 3, 5, 10, 12, 15, 30]
+                },
+                listeners:{
+                    'change': this.onTimeChange.bind(this)
+                }
+            },
+            {
+                html: chess.getPhrase('sec'),
+                css: {
+                    padding: 5
+                }
+            },
+            {
+                elCss:{
+                    'margin-top' : 10
+                },
+                css:{
+                    'text-align': 'center'
+                },
+                name: 'your-elo',
+                layout: {colspan: 4},
+                html: 'Your ratings'
+
+            }
+
+        ]
+    },
+
+    onTimeChange:function(){
+        var min = this.child['game-time'].val() / 1;
+        var inc = this.child['game-inc'].val() / 1;
+
+        var gameType = this.elo.getGameType(min * 60, inc);
+        this.child['your-elo'].html('Your rating: ' + this.elo.getElo(gameType) + ' (' + gameType + ')');
+
+
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        this.onTimeChange();
+    },
+
+    onNewGame: function () {
+        this.fireEvent('newGame', {
+            time: this.child['game-time'].val() / 1,
+            inc: this.child['game-inc'].val() / 1,
+            color:this.color
+        });
+    }
+
+});
+
+chess.computer.DialogTimeButton = new Class({
+    Extends: ludo.View,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.time = config.time;
+    }
 });
