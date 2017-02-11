@@ -1,4 +1,4 @@
-/* Generated Wed Feb 8 22:29:02 CET 2017 */
+/* Generated Sat Feb 11 4:03:33 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -1234,7 +1234,7 @@ String.implement({
 
 			jQuery.each(events, function(i, fn){
 				if (delay) fn.delay(delay, this, args);
-				else fn.apply(this, args);
+				else if(fn)fn.apply(this, args);
 			}.bind(this));
 
 			/*
@@ -7845,7 +7845,7 @@ ludo.layout.Renderer = new Class({
         //var node = this.getParentNode();
         // node.resize(this.resizeFn);
 
-        jQuery(window).resize(this.resizeFn);
+        jQuery(window).on('resize', this.resizeFn);
     },
 
     getParentNode: function () {
@@ -7861,7 +7861,7 @@ ludo.layout.Renderer = new Class({
 
     removeEvents: function () {
         // this.getParentNode().off('resize', this.resizeFn);
-        jQuery(window).off('resize', this.resizeFn);
+        if(this.resizeFn) jQuery(window).off('resize', this.resizeFn);
     },
 
     buildResizeFn: function () {
@@ -8056,6 +8056,8 @@ ludo.layout.Renderer = new Class({
     },
 
     resize: function () {
+        
+
         if (this.view.isHidden())return;
         if (this.fn === undefined)this.buildResizeFn();
         this.setViewport();
@@ -30064,6 +30066,11 @@ chess.view.notation.Table = new Class({
         return ret;
     },
 
+    appendMove:function(){
+        this.showMoves(this.controller.currentModel);
+        this.setCurrentMove(this.controller.currentModel);
+    },
+
     addVariations:function(){
         // silent
     },
@@ -30769,6 +30776,10 @@ chess.view.board.GUI = new Class({
 
     wrappedHeight: function (size) {
         return Math.min(size.width, size.height);
+    },
+
+    wrappedWidth:function(size){
+        return Math.max(size.width, size.height);
     }
 });/* ../dhtml-chess/src/view/board/board.js */
 /**
@@ -33980,7 +33991,6 @@ chess.view.dialog.Dialog = new Class({
     Extends: ludo.dialog.Dialog,
 
     showDialog:function(){
-        console.log('show dialog');
         if (this.controller.views.board) {
             this.layout.centerIn = this.controller.views.board.getEl();
             this.getLayout().getRenderer().clearFn();
@@ -39023,7 +39033,7 @@ chess.controller.Controller = new Class({
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if(this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             return false;
         }
         this.views[view.submodule] = view;

@@ -65,21 +65,20 @@ chess.wordpress.ComputerEval = new Class({
                         name: 'appendEval',
                         value: chess.getPhrase('Save Eval'),
                         type: 'form.Button'
+                    },
+                    {
+                        layout: {
+                            weight:1
+                        },
+                        css: {
+                            'text-align': 'right',
+                            'font-style': 'italic',
+                            'font-size': '0.9em',
+                            'padding-right': '4px'
+                        },
+                        html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('StockFish.JS Engine') + '</a>'
                     }
                 ]
-            },
-
-            {
-                layout: {
-                    height: 20
-                },
-                css: {
-                    'text-align': 'right',
-                    'font-style': 'italic',
-                    'font-size': '0.9em',
-                    'padding-right': '4px'
-                },
-                html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('StockFish.JS Engine') + '</a>'
             }
         ]
     },

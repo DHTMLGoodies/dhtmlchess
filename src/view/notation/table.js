@@ -42,6 +42,7 @@ chess.view.notation.Table = new Class({
 
     appendMove:function(){
         this.showMoves(this.controller.currentModel);
+        this.setCurrentMove(this.controller.currentModel);
     },
 
     addVariations:function(){

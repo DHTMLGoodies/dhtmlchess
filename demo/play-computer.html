@@ -11,8 +11,6 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
-    <script type="text/javascript" src="../../ludojs/src/layout/relative.js"></script>
-    <script type="text/javascript" src="../../ludojs/src/layout/table.js"></script>
     <script type="text/javascript" src="../src/controller/play-stockfish-controller.js?rnd=45"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <script type="text/javascript" src="../src/model/game.js?rnd=5"></script>
@@ -22,7 +20,7 @@
     <script type="text/javascript" src="../src/view/board/piece.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/table.js?rnd=3"></script>
-    <script type="text/javascript" src="../src/computer/computer-play.js?rnd=45"></script>
+    <script type="text/javascript" src="../src/computer/computer-play.js?rnd=445"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=2" type="text/css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Orbitron">
@@ -36,7 +34,9 @@
     <style type="text/css">
         body, html {
             width: 100%;
-            height: 100%;margin:0;padding:0;
+            height: 100%;
+            margin: 0;
+            padding: 0;
             font-family: arial !important;
         }
 
@@ -54,7 +54,7 @@
 
         }
 
-        .dhtml-chess-clock >.ludo-body {
+        .dhtml-chess-clock > .ludo-body {
             font-family: Orbitron, Sans-Serif !important;
         }
 
@@ -78,16 +78,39 @@
         .dhtml-chess-comp-dialog,
         .dhtml-chess-comp-dialog label,
         .dhtml-chess-comp-dialog div,
-        .dhtml-chess-comp-dialog option
-
-        {
-            font-size:16px;
-            line-height:20px;
+        .dhtml-chess-comp-dialog option {
+            font-size: 16px;
+            line-height: 20px;
         }
 
-        .dhtml-chess-comp-dialog .dhtml-chess-comp-dialog-selected-color{
-            border-color:#669900 !important;
+        .dhtml-chess-comp-dialog .dhtml-chess-comp-dialog-selected-color {
+            border-color: #669900 !important;
+            font-weight: bold;
+        }
+
+        .rating-change-win, .title-win{
+            color:#66BB6A !important;
+        }
+
+        .rating-change-loss, .title-loss{
+            color:#EF5350 !important;;
+        }
+        .rating-change-draw, .title-draw{
+            color:#FFEE58 !important;;
+        }
+
+        .new-rating{
             font-weight:bold;
+            color:#eee;
+        }
+
+        .clock-turn{
+            color:#66BB6A !important;
+        }
+
+        .dhtml-chess-board-container{
+            margin-right:0;
+            margin-left:auto;
         }
         @media only screen and (max-device-width: 480px) {
             .ludo-twilight .dhtml-chess-board-container {
@@ -116,17 +139,18 @@
 
 
     var app = new chess.view.Chess({
-        renderTo:jQuery(document.body),
+        renderTo: jQuery(document.body),
         title: 'Analysis board, DHTML Chess 3.0',
         layout: {
-            width:'matchParent',height:'matchParent',
+            width: 'matchParent',
+            height: 'matchParent',
             type: 'linear',
             orientation: 'vertical'
         },
         children: [
             {
                 id: 'scoreBar',
-                hidden:true,
+                hidden: true,
                 css: {
                     'margin': 5
                 },
@@ -146,7 +170,7 @@
                 layout: {
                     weight: 1,
                     type: 'linear',
-                    orientation:'horizontal'
+                    orientation: 'horizontal'
                 },
                 children: [
                     {
@@ -163,8 +187,8 @@
                             }
                         },
                         layout: {
-                            height:'matchParent',
-                            weight:1
+                            height: 'matchParent',
+                            weight: 1
                         },
                         plugins: [
                             {
@@ -174,44 +198,60 @@
 
                     },
                     {
-                        width:200,
-                        layout:{
-                            type:'linear',orientation:'vertical'
+                        width: 205,
+                        css:{
+                            'margin-left' : 5
                         },
-                        children:[
+                        layout: {
+                            type: 'linear', orientation: 'vertical'
+                        },
+                        children: [
                             {
-                                id:'clockTop',
-                                type:'chess.computer.ClockView',
-                                color:'white',
-                                pos:'top',
-                                layout:{
-                                    height:50,
-                                    alignTop:'board',
-                                    rightOf:'board'
+                                weight:1
+                            },
+                            {
+                                id: 'clockTop',
+                                type: 'chess.computer.ClockView',
+                                color: 'white',
+                                pos: 'top',
+                                layout: {
+                                    height: 50,
+                                    alignTop: 'board',
+                                    rightOf: 'board'
                                 }
                             },
                             {
                                 type: 'chess.view.notation.Table',
                                 figurines: 'svg_bw',
+                                css:{
+                                    border:'1px solid #333',
+                                    'background-color': '#444',
+                                    'border-radius':'5px',
+                                    'margin-right' : '5px'
+                                },
                                 hidden: ludo.isMobile,
                                 layout: {
-                                    weight:1
+                                    height:200,
+                                    weight: 1
                                 },
                                 framed: true,
                                 resizable: false,
-                                interactive:false
+                                interactive: false
 
                             },
                             {
-                                id:'clockBottom',
-                                type:'chess.computer.ClockView',
-                                color:'black',
-                                pos:'bottom',
-                                layout:{
-                                    height:50,
-                                    alignBottom:'board',
-                                    rightOf:'board'
+                                id: 'clockBottom',
+                                type: 'chess.computer.ClockView',
+                                color: 'black',
+                                pos: 'bottom',
+                                layout: {
+                                    height: 50,
+                                    alignBottom: 'board',
+                                    rightOf: 'board'
                                 }
+                            },
+                            {
+                                weight:1
                             }
                         ]
                     }
@@ -230,20 +270,30 @@
                 children: [
                     {weight: 1},
                     {
-                        type: 'form.Button', value: 'Resign', listeners: {
-                        'click': function () {
-                            controller.newGame();
+                        type: 'form.Button',
+                        value: 'Draw',
+                        listeners: {
+                            click: function () {
+                                controller.claimDraw();
+                            }
                         }
-                    }
+                    },
+                    {
+                        type: 'form.Button', value: 'Resign',
+                        listeners: {
+                            'click': function () {
+                                controller.resign();
+                            }
+                        }
                     },
                     {weight: 1}
                 ]
             },
             {
-                module:'chess',
-                submodule:'message',
-                layout:{
-                    height:30
+                module: 'chess',
+                submodule: 'message',
+                layout: {
+                    height: 30
                 }
             }
 
@@ -253,7 +303,24 @@
     var playerColor = 'white';
 
     var d = new chess.computer.GameDialog({
+        hidden: true,
+        layout:{
+            centerIn:ludo.$('board')
+        } ,
+        movable:false,
+        resizable:false
     });
+
+    var sd = new chess.computer.ComputerStatusDialog({
+        layout:{
+            centerIn:ludo.$('board')
+        },
+        movable:false,
+        resizable:false
+
+    });
+
+    sd.show();
 
 
     var controller = new chess.controller.PlayStockFishController({
@@ -261,12 +328,14 @@
         playerColor: playerColor,    // Human color
         listeners: {
             'start': onNewGame,
-            'engineupdate': updateMove, //
-            'gameover': onGameOver  // Function to call when game is over
+            'engineupdate': updateMove
 
         },
         'thinkingTime': 3000 // Computers pondering time in 1/1000 seconds
     });
+
+
+
 
     function onNewGame(myColor) {
         // Auto flip board, players color at the bottom
@@ -278,20 +347,8 @@
     }
 
 
-    function onGameOver(result) {
-        // result is either 1(White win), 0.5(draw) or -1(black wins)
-
-        var message = result == 0.5 ? "The game is a draw" : result == 1 && controller.playerColor == 'white' ? "You won" : "You lost";
-
-        new ludo.Notification({
-            html: message,
-            duration: 5
-        });
-
-    }
-
     function updateMove(move) {
-       // ludo.$('scoreBar').setScore(move.score);
+        // ludo.$('scoreBar').setScore(move.score);
     }
 
     // Update engines thinking time if required
@@ -300,8 +357,13 @@
     }
 
 
+    var gd = new chess.computer.GameOverDialog({
+        layout:{
+            centerIn:ludo.$('board')
+        },
+        movable:false, resizable:false
+    });
 
-    d.showCentered();
 </script>
 
 

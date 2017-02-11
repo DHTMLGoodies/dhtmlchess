@@ -143,6 +143,7 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
+
         location.href='index.php?index=' + (this.index + 1);
         return;
 

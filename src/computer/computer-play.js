@@ -5,6 +5,12 @@ chess.computer.Elo = new Class({
 
     db: undefined,
 
+    MIN_ELO: 800,
+    clearAll: function () {
+        this.db.empty();
+    },
+
+
     initialize: function () {
         this.db = ludo.getLocalStorage();
     },
@@ -20,12 +26,12 @@ chess.computer.Elo = new Class({
         return "classical";
     },
 
-    getEloByTime:function(time, inc){
+    getEloByTime: function (time, inc) {
         return this.getElo(this.getGameType(time, inc));
     },
 
     getElo: function (gameType) {
-        return this.db.getNumeric('elo' + gameType, 1200);
+        return Math.max(this.MIN_ELO, this.db.getNumeric('elo' + gameType, 1200));
     },
 
     /**
@@ -43,6 +49,7 @@ chess.computer.Elo = new Class({
         if (c <= this.PROVISIONAL) {
             var prov = this.db.get('provisional' + gameType, []);
             var e = result == -1 ? againstElo - 400 : result == 0 ? againstElo : againstElo + 400;
+            e = Math.max(this.MIN_ELO, e);
             prov.push(e);
 
             this.db.save('provisional' + gameType, prov);
@@ -50,7 +57,7 @@ chess.computer.Elo = new Class({
             jQuery.each(prov, function (i, val) {
                 sum += val;
             });
-            newElo = sum / prov.length;
+            newElo = Math.max(this.MIN_ELO, sum / prov.length);
         } else {
             var elo = this.getElo(gameType);
             if (myColor == 'black') {
@@ -118,30 +125,32 @@ chess.computer.Clock = new Class({
 
     },
 
-    stop:function(){
+    stop: function () {
         this.time[this.turn] = this.getTime(this.turn);
         this.started = false;
-        this.savedTime =new Date().getTime();
+        this.savedTime = new Date().getTime();
         this.onChange();
     },
 
     validateTime: function () {
         var t = this.getTime(this.turn);
         if (t == 0) {
-            this.fireEvent('end', [this.timeAsObject('white'), this.timeAsObject('black')]);
+            this.time[this.turn] = this.getTime(this.turn);
+            this.onChange();
+            this.fireEvent('end', this.turn);
             this.started = false;
         }
     },
 
-    wTime:function(){
+    wTime: function () {
         return this.getTime('white');
     },
 
-    bTime:function(){
+    bTime: function () {
         return this.getTime('black');
     },
-    
-    inc:function(){
+
+    inc: function () {
         return this.increment;
     },
 
@@ -202,7 +211,7 @@ chess.computer.Clock = new Class({
             totalSeconds: t / 1000
         };
 
-        ret.string = (ret.h> 0 ? ret.h + ':' : '') + ret.m + ':' + ret.s + (ret.totalSeconds < 10 ? ':' + ret.d : '');
+        ret.string = (ret.h > 0 ? ret.h + ':' : '') + ret.m + ':' + ret.s + (ret.totalSeconds < 10 ? ':' + ret.d : '');
 
         return ret;
 
@@ -221,9 +230,11 @@ chess.computer.ClockView = new Class({
     Extends: ludo.View,
     color: undefined,
     module: 'chess',
-    submodule:'computer.clockview',
+    submodule: 'computer.clockview',
     elo: undefined,
-    pos:undefined,
+    pos: undefined,
+
+    lastColor: undefined,
 
     __construct: function (config) {
         this.parent(config);
@@ -231,8 +242,10 @@ chess.computer.ClockView = new Class({
         this.pos = config.pos;
     },
 
-    setColor:function(color){
+    setColor: function (color) {
         this.color = color;
+        this.$b().removeClass('clock-turn');
+        this.lastColor = undefined;
     },
 
     __rendered: function () {
@@ -249,9 +262,18 @@ chess.computer.ClockView = new Class({
     },
 
     update: function (color, timeWhite, timeBlack) {
+
         var val = this.color == 'white' ? timeWhite : timeBlack;
 
+        if (color != this.lastColor) {
+            this.$b().removeClass('clock-turn');
+            if (color == this.color) {
+                this.$b().addClass('clock-turn');
+            }
+        }
+
         this.getBody().html(val.string);
+        this.lastColor = color;
     },
 
     resize: function (size) {
@@ -265,7 +287,7 @@ chess.computer.ClockView = new Class({
 
     showTime: function (time) {
         if (time == undefined) {
-            this.getBody().html('05:00');
+            this.getBody().html('00:00');
         } else {
 
         }
@@ -294,14 +316,13 @@ chess.computer.GameDialog = new Class({
     buttonConfig: 'Ok',
 
     title: chess.getPhrase('New Game'),
-    elo:undefined,
-    color:undefined,
-    
+    elo: undefined,
+    color: undefined,
+
     __construct: function (config) {
         this.parent(config);
         this.elo = new chess.computer.Elo();
     },
-
     __rendered: function () {
         this.parent();
         this.$b().addClass('dhtml-chess-comp-dialog');
@@ -391,11 +412,11 @@ chess.computer.GameDialog = new Class({
             },
             {
                 type: 'form.Select', name: 'game-time',
-                value: 3,
+                value: 5,
                 dataSource: {
                     data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 20, 30, 45, 60, 90, 120]
                 },
-                listeners:{
+                listeners: {
                     'change': this.onTimeChange.bind(this)
                 }
             },
@@ -407,11 +428,11 @@ chess.computer.GameDialog = new Class({
             },
             {
                 type: 'form.Select', name: 'game-inc',
-                value: 0,
+                value: 3,
                 dataSource: {
                     data: [0, 1, 2, 3, 5, 10, 12, 15, 30]
                 },
-                listeners:{
+                listeners: {
                     'change': this.onTimeChange.bind(this)
                 }
             },
@@ -422,10 +443,10 @@ chess.computer.GameDialog = new Class({
                 }
             },
             {
-                elCss:{
-                    'margin-top' : 10
+                elCss: {
+                    'margin-top': 10
                 },
-                css:{
+                css: {
                     'text-align': 'center'
                 },
                 name: 'your-elo',
@@ -437,18 +458,23 @@ chess.computer.GameDialog = new Class({
         ]
     },
 
-    onTimeChange:function(){
+    onTimeChange: function () {
         var min = this.child['game-time'].val() / 1;
         var inc = this.child['game-inc'].val() / 1;
 
         var gameType = this.elo.getGameType(min * 60, inc);
-        this.child['your-elo'].html('Your rating: ' + this.elo.getElo(gameType) + ' (' + gameType + ')');
+        this.child['your-elo'].html('Your rating: ' + Math.round(this.elo.getElo(gameType)) + ' (' + gameType + ')');
 
 
     },
 
     setController: function (controller) {
         this.parent(controller);
+        this.controller.on('newgamedialog', this.show.bind(this));
+    },
+
+    show: function () {
+        this.parent();
         this.onTimeChange();
     },
 
@@ -456,7 +482,7 @@ chess.computer.GameDialog = new Class({
         this.fireEvent('newGame', {
             time: this.child['game-time'].val() / 1,
             inc: this.child['game-inc'].val() / 1,
-            color:this.color
+            color: this.color
         });
     }
 
@@ -469,4 +495,153 @@ chess.computer.DialogTimeButton = new Class({
         this.parent(config);
         this.time = config.time;
     }
+});
+
+chess.computer.ComputerStatusDialog = new Class({
+    Extends: ludo.dialog.Dialog,
+    module: 'chess',
+    modal: true,
+    submodule: 'chess.computer.computerstatusdialog',
+    title: 'Loading Stockfish JS',
+    updateFn: undefined,
+    layout: {
+        type: 'relative',
+        width: 300, height: 100
+    },
+    __children: function () {
+        return [
+            {
+                name: 'status',
+                layout: {
+                    width: 'matchParent',
+                    centerVertical: true
+                },
+                css: {
+                    'text-align': 'center'
+                }
+            }
+        ]
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        this.updateFn = function (status, done) {
+            this.child['status'].html(status);
+            if (done) {
+                this.hide.delay(100, this);
+            }
+        }.bind(this);
+        controller.on('enginestatus', this.updateFn);
+    },
+
+    remove: function () {
+        if (this.updateFn) {
+            this.controller.off('enginestatus', this.updateFn);
+            this.updateFn = undefined;
+        }
+        this.parent();
+    }
+});
+
+
+chess.computer.GameOverDialog = new Class({
+    Extends: ludo.dialog.Dialog,
+    module: 'chess',
+    submodule: 'chess.computer.gameoverdialog',
+    autoRemove: false,
+    hidden: true,
+    layout: {
+        width: 300, height: 200,
+        type: 'linear', orientation: 'vertical'
+    },
+
+    buttonBar: {
+        children: [
+            {
+                name: 'rematch',
+                value: chess.getPhrase('Rematch')
+            },
+            {
+                value: chess.getPhrase('Exit')
+            }
+        ]
+    },
+
+    __children: function () {
+        return [
+            {
+                name: 'title',
+                css: {
+                    'margin-top': 15,
+                    'text-align': 'center',
+                    'font-weight': 'bold',
+                    'font-size': '1.5em',
+                    'line-height': '25px'
+                },
+                layout: {
+                    height: 50
+                }
+            },
+            {
+                css: {
+                    'text-align': 'center'
+                },
+                name: 'rating'
+            }
+        ]
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.getButton('rematch').on('click', this.onNewGameClick.bind(this));
+    },
+
+    onNewGameClick: function () {
+        this.fireEvent('newgame');
+
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        controller.on('gameover', this.onGameOver.bind(this));
+    },
+
+    onGameOver: function (myResult, oldElo, newElo) {
+        this.show();
+
+        var title = myResult == 1 ? chess.getPhrase('You Won') : myResult == 0 ? chess.getPhrase('Game Drawn')
+            : chess.getPhrase('You lost');
+
+        this.setTitle(title);
+
+        this.child['title'].$b().removeClass('title-win');
+        this.child['title'].$b().removeClass('title-draw');
+        this.child['title'].$b().removeClass('title-loss');
+
+
+        this.child['title'].html(title);
+        var ratingChange = newElo - oldElo;
+        if (myResult == 0) {
+
+            this.child['title'].$b().addClass('title-draw');
+        }
+        else if (myResult == 1) {
+            this.child['title'].$b().addClass('title-win');
+        } else {
+            this.child['title'].$b().addClass('title-loss');
+
+        }
+        if (ratingChange > 1) {
+            ratingChange = '<span class="rating-change-win">+' + ratingChange + '</span>';
+        } else if (ratingChange == 0) {
+            ratingChange = '<span class="rating-change-draw">' + ratingChange + '</span>';
+        }
+        else {
+            ratingChange = '<span class="rating-change-loss">' + ratingChange + '</span>';
+        }
+        this.child['rating'].html(chess.getPhrase('New rating') + ': <span class="new-rating">' + newElo + '</span> (' + ratingChange + ')');
+
+
+    }
+
 });

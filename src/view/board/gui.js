@@ -643,5 +643,9 @@ chess.view.board.GUI = new Class({
 
     wrappedHeight: function (size) {
         return Math.min(size.width, size.height);
+    },
+
+    wrappedWidth:function(size){
+        return Math.max(size.width, size.height);
     }
 });

@@ -68,6 +68,31 @@ TestCase("ComputerTest", {
         assertEquals(1612, Math.round(elo.getElo('blitz')));
     },
 
+
+    "test should set real rating for black": function(){
+        // given
+        var elo = new chess.computer.Elo();
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+        elo.saveResult(1, 1200, "blitz", "white");
+
+        // then
+        assertEquals(1600, elo.getElo('blitz'));
+
+        // when
+        elo.saveResult(0, 1600, 'blitz', 'white');
+
+        // then
+        assertEquals(1582, Math.round(elo.getElo('blitz')));
+    },
+
+
+
     "test should get game type by time": function(){
         var expected = [
             [60,0, "bullet"],
@@ -196,6 +221,56 @@ TestCase("ComputerTest", {
     "test should fire end event when time is up": function(){
         
         
+    },
+
+    "test should be able to call stop": function(){
+
+        var clock = new chess.computer.Clock();
+        clock.setTime(60, 2);
+        clock.start();
+
+        this.clock.tick(3000); // w-1s
+        clock.tap();
+        this.clock.tick(5000); // b-3s
+        clock.tap();
+        this.clock.tick(7000); // w-5
+        clock.tap();
+        this.clock.tick(10000); // b-8
+        clock.tap();
+
+        assertEquals(54 * 1000, clock.getTime('white'));
+        assertEquals(49 * 1000, clock.getTime('black'));
+
+        clock.stop();
+
+        this.clock.tick(10000);
+
+        assertEquals(54 * 1000, clock.getTime('white'));
+        assertEquals(49 * 1000, clock.getTime('black'));
+
+    },
+
+    "test should stop automatically": function(){
+        var clock = new chess.computer.Clock();
+        clock.setTime(60, 0);
+        clock.start();
+
+        this.clock.tick(13000); // w-13s
+        clock.tap();
+        this.clock.tick(5000); // b-3s
+        clock.tap();
+        this.clock.tick(7000); // w-7
+        clock.tap();
+        this.clock.tick(10000); // b-8
+        clock.tap();
+        this.clock.tick(53000); // w-53
+
+        clock.validateTime();
+
+
+        assertEquals(0, clock.getTime('white'));
+
+
     }
 
 

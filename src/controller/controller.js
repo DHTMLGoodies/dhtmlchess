@@ -70,7 +70,7 @@ chess.controller.Controller = new Class({
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if(this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             return false;
         }
         this.views[view.submodule] = view;
