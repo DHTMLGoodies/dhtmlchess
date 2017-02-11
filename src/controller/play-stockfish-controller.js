@@ -11,7 +11,7 @@ chess.controller.PlayStockFishController = new Class({
     whiteIncrement: 1,
     blackIncrement: 1,
 
-    debug: false,
+    debug: true,
 
     playerColor: 'white',
 
@@ -19,9 +19,10 @@ chess.controller.PlayStockFishController = new Class({
     clock: undefined,
 
     playingStrength: undefined,
+    stockfishElo:undefined,
     gameType: undefined,
 
-    turn:undefined,
+    turn: undefined,
 
     __construct: function (config) {
         if (config.playerColor != undefined)this.playerColor = config.playerColor;
@@ -61,7 +62,7 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     getSkillLevel: function () {
-        if (this.playingStrength < 1400)return 0;
+        if (this.stockfishElo < 1400)return 0;
 
         /*
          20 0 0 2894 [2859, 2929]
@@ -81,20 +82,21 @@ chess.controller.PlayStockFishController = new Class({
          6 -14 -928 1966 [1849, 2071]
 
          */
-        if (this.playingStrength > 2800)return 20;
-        if (this.playingStrength > 2700)return 19;
-        if (this.playingStrength > 2600)return 17;
-        if (this.playingStrength > 2500)return 15;
-        if (this.playingStrength > 2400)return 13;
-        if (this.playingStrength > 2300)return 11;
-        if (this.playingStrength > 2200)return 10;
-        if (this.playingStrength > 2100)return 9;
-        if (this.playingStrength > 2000)return 8;
-        if (this.playingStrength > 1900)return 6;
-        if (this.playingStrength > 1800)return 5;
-        if (this.playingStrength > 1700)return 4;
-        if (this.playingStrength > 1600)return 3;
-        if (this.playingStrength > 1500)return 2;
+        var elo = this.stockfishElo;
+        if (elo > 2800)return 20;
+        if (elo > 2700)return 19;
+        if (elo > 2600)return 17;
+        if (elo > 2500)return 15;
+        if (elo > 2400)return 13;
+        if (elo > 2300)return 11;
+        if (elo > 2200)return 10;
+        if (elo > 2100)return 9;
+        if (elo > 2000)return 8;
+        if (elo > 1900)return 6;
+        if (elo > 1800)return 5;
+        if (elo > 1700)return 4;
+        if (elo > 1600)return 3;
+        if (elo > 1500)return 2;
         return 1;
 
     },
@@ -103,7 +105,7 @@ chess.controller.PlayStockFishController = new Class({
 
         this.turn = 'white';
         this.playerColor = timeControl.color;
-
+        this.stockfishElo = timeControl.elo;
 
         this.history = [];
 
@@ -118,6 +120,8 @@ chess.controller.PlayStockFishController = new Class({
         this.playingStrength = this.elo.getEloByTime(timeControl.time * 60, timeControl.inc);
 
 
+        console.log('stockfish', this.getSkillLevel());
+        
         this.uciCmd('setoption name Mobility (Middle Game) value 150');
         this.uciCmd('setoption name Mobility (Endgame) value 150');
         this.uciCmd('setoption name Contempt Factor value 0');
@@ -251,11 +255,11 @@ chess.controller.PlayStockFishController = new Class({
         if (c != this.playerColor) {
             if (this.history == undefined)this.history = [];
             this.uciCmd('position startpos moves ' + this.history.join(' '));
-            if (this.playingStrength <= 2400) {
+            if (this.playingStrength <= 0) {
                 this.uciCmd('go depth ' + this.strengthToDepth());
             } else {
 
-                this.uciCmd('go wtime ' + this.getWTime() + ' winc ' + this.clock.inc() + ' btime ' + this.getBTime() + ' binc ' + this.clock.inc());
+                this.uciCmd('go wtime ' + this.getWTime() + ' winc ' + this.getInc('white') + ' btime ' + this.getBTime() + ' binc ' + this.getInc('black'));
 
             }
         }
@@ -272,18 +276,24 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     strengthToTime: function () {
-        if (this.playingStrength <= 800)return 1000;
-        if (this.playingStrength <= 1000)return 2000;
-        if (this.playingStrength <= 1200)return 3000;
-        if (this.playingStrength <= 1400)return 4000;
-        if (this.playingStrength <= 1500)return 5000;
-        if (this.playingStrength <= 1600)return 7000;
+        var s = this.stockfishElo;
+        if (s <= 800)return 1000;
+        if (s <= 1000)return 2000;
+        if (s <= 1200)return 3000;
+        if (s <= 1400)return 4000;
+        if (s <= 1500)return 5000;
+        if (s <= 1600)return 7000;
 
         return 10000;
     },
 
+    getInc:function(color){
+        if(this.playerColor == color)return this.clock.inc();
+        return 0;
+    },
+
     strengthToDepth: function () {
-        var eloPlayer = this.playingStrength;
+        var eloPlayer = this.stockfishElo;
 
         var d;
 
@@ -305,11 +315,12 @@ chess.controller.PlayStockFishController = new Class({
         900: 2,
         1000: 3,
         1200: 4,
-        1400: 5,
-        1600: 7,
-        1700: 9,
-        1800: 11,
-        1900: 12,
+        1300: 5,
+        1400: 6,
+        1600: 8,
+        1700: 10,
+        1800: 12,
+        1900: 13,
         2000: 14,
         2100: 16,
         2200: 18,
@@ -326,10 +337,7 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     modelEventFired: function (event, model, move) {
-        this.chessModel = model;
         if (event === 'newMove' || event == 'newGame') {
-
-
             if (event == 'newGame') {
                 if (this.playerColor == 'white') {
                     this.views.board.flipToWhite();
@@ -373,16 +381,13 @@ chess.controller.PlayStockFishController = new Class({
                 if (event == 'newGame') {
                     this.prepareMove();
                 }
-
             }
         }
-
-
     },
 
     onGameOver: function (result) {
 
-        this.elo.saveResult(result, this.playingStrength, this.gameType, this.playerColor);
+        this.elo.saveResult(result, this.stockfishElo, this.gameType, this.playerColor);
 
         var newElo = Math.round(this.elo.getElo(this.gameType));
         var myResult = this.playerColor == 'black' ? result * -1 : result;

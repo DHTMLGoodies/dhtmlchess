@@ -91,6 +91,15 @@ TestCase("ComputerTest", {
         assertEquals(1582, Math.round(elo.getElo('blitz')));
     },
 
+    "test should get expected score": function(){
+        // given
+        var elo = new chess.computer.Elo();
+
+        assertEquals(0, elo.getRatingAdjustment(1400,1400,0.5));
+        assertEquals(15, elo.getRatingAdjustment(1400,1400, 1));
+        assertEquals(-15, elo.getRatingAdjustment(1400,1400, 0));
+
+    },
 
 
     "test should get game type by time": function(){

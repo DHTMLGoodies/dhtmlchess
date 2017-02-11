@@ -45,6 +45,7 @@ chess.computer.Elo = new Class({
 
         this.db.save('played', '1');
         var c = this.incrementGames(gameType);
+        console.log(result, againstElo, gameType, myColor, c, this.getElo(gameType));
         var newElo;
         if (c <= this.PROVISIONAL) {
             var prov = this.db.get('provisional' + gameType, []);
@@ -73,7 +74,14 @@ chess.computer.Elo = new Class({
     },
 
     getRatingAdjustment: function (eloW, eloB, result) {
+
+        result += 1;
+        result /= 2;
+
         var expected = this.getExpectedScore(eloW, eloB);
+
+        console.log(expected);
+
         return this.K * (result - expected);
 
     },
@@ -388,12 +396,23 @@ chess.computer.GameDialog = new Class({
                     'background-color': '#777',
                     'color': '#fff',
                     'line-height': '45px',
-                    'border': '2px solid transparent',
+                    'border': '3px solid transparent',
                     'text-align': 'center'
                 },
                 html: chess.getPhrase('Black')
             },
-
+            {
+                type: 'form.Label', label: chess.getPhrase('Opponent rating:'), labelFor: 'name',
+                layout: {
+                    colspan: 2
+                }
+            },
+            {
+                type: 'form.Number', name: 'stockfishElo', placeholder: chess.getPhrase('ex: 1400')
+            },
+            {
+                layout: {colspan: 1}
+            },
             {
                 layout: {colspan: 4, height: 20}
             },
@@ -463,9 +482,11 @@ chess.computer.GameDialog = new Class({
         var inc = this.child['game-inc'].val() / 1;
 
         var gameType = this.elo.getGameType(min * 60, inc);
-        this.child['your-elo'].html('Your rating: ' + Math.round(this.elo.getElo(gameType)) + ' (' + gameType + ')');
+        var elo = Math.round(this.elo.getElo(gameType));
+        this.child['your-elo'].html('Your rating: ' + elo + ' (' + gameType + ')');
 
 
+        this.child['stockfishElo'].val(elo);
     },
 
     setController: function (controller) {
@@ -482,6 +503,7 @@ chess.computer.GameDialog = new Class({
         this.fireEvent('newGame', {
             time: this.child['game-time'].val() / 1,
             inc: this.child['game-inc'].val() / 1,
+            elo: this.child['stockfishElo'].val() / 1,
             color: this.color
         });
     }
@@ -609,7 +631,8 @@ chess.computer.GameOverDialog = new Class({
     onGameOver: function (myResult, oldElo, newElo) {
         this.show();
 
-        var title = myResult == 1 ? chess.getPhrase('You Won') : myResult == 0 ? chess.getPhrase('Game Drawn')
+        var title = myResult == 1 ? chess.getPhrase('You Won')
+            : myResult == 0.5 ? chess.getPhrase('Game Drawn')
             : chess.getPhrase('You lost');
 
         this.setTitle(title);
@@ -621,8 +644,7 @@ chess.computer.GameOverDialog = new Class({
 
         this.child['title'].html(title);
         var ratingChange = newElo - oldElo;
-        if (myResult == 0) {
-
+        if (myResult == 0.5) {
             this.child['title'].$b().addClass('title-draw');
         }
         else if (myResult == 1) {

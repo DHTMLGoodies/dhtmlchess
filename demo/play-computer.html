@@ -10,7 +10,7 @@
     ?>
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
-    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=4"></script>
     <script type="text/javascript" src="../src/controller/play-stockfish-controller.js?rnd=45"></script>
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <script type="text/javascript" src="../src/model/game.js?rnd=5"></script>
@@ -20,6 +20,7 @@
     <script type="text/javascript" src="../src/view/board/piece.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/table.js?rnd=3"></script>
+    <script type="text/javascript" src="../src/view/notation/last-move.js?rnd=3"></script>
     <script type="text/javascript" src="../src/computer/computer-play.js?rnd=445"></script>
     <link rel="stylesheet" href="../css-source/buttonbar/gray.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-all.css?rnd=2" type="text/css">
@@ -120,6 +121,10 @@
             }
 
         }
+
+        .dhtml-chess-notation-last-move{
+            text-align:center;
+        }
     </style>
 
 </head>
@@ -167,6 +172,22 @@
                 range: 3
             },
             {
+                hidden:!ludo.isMobile,
+                type: 'chess.computer.ClockView',
+                color: 'white',
+                pos: 'top',
+                css:{
+                    'text-align' : 'center'
+                },
+                layout: {
+                    height: 50,
+                    width:150,
+                    anchor:0.5,
+                    alignTop: 'board',
+                    rightOf: 'board'
+                }
+            },
+            {
                 layout: {
                     weight: 1,
                     type: 'linear',
@@ -199,6 +220,7 @@
                     },
                     {
                         width: 205,
+                        hidden:ludo.isMobile,
                         css:{
                             'margin-left' : 5
                         },
@@ -206,9 +228,7 @@
                             type: 'linear', orientation: 'vertical'
                         },
                         children: [
-                            {
-                                weight:1
-                            },
+
                             {
                                 id: 'clockTop',
                                 type: 'chess.computer.ClockView',
@@ -221,23 +241,7 @@
                                 }
                             },
                             {
-                                type: 'chess.view.notation.Table',
-                                figurines: 'svg_bw',
-                                css:{
-                                    border:'1px solid #333',
-                                    'background-color': '#444',
-                                    'border-radius':'5px',
-                                    'margin-right' : '5px'
-                                },
-                                hidden: ludo.isMobile,
-                                layout: {
-                                    height:200,
-                                    weight: 1
-                                },
-                                framed: true,
-                                resizable: false,
-                                interactive: false
-
+                                weight:1
                             },
                             {
                                 id: 'clockBottom',
@@ -249,14 +253,27 @@
                                     alignBottom: 'board',
                                     rightOf: 'board'
                                 }
-                            },
-                            {
-                                weight:1
                             }
                         ]
                     }
 
                 ]
+            },
+            {
+                hidden:!ludo.isMobile,
+                type: 'chess.computer.ClockView',
+                color: 'white',
+                pos: 'bottom',
+                css:{
+                    'text-align' : 'center'
+                },
+                layout: {
+                    anchor:0.5,
+                    height: 50,
+                    width:150,
+                    alignTop: 'board',
+                    rightOf: 'board'
+                }
             },
             {
 
@@ -276,6 +293,20 @@
                             click: function () {
                                 controller.claimDraw();
                             }
+                        }
+                    },
+                    {
+                        type:'chess.view.notation.LastMove',
+                        module: 'chess',
+                        css:{
+                            'border-radius' : '999px',
+                            'background-color': '#ddd',
+                            color : '#444',
+                            'border-color' : '1px solid ' + ludo.$C('border')
+                        },
+                        layout:{
+                            width:100,
+                            height:30
                         }
                     },
                     {

@@ -225,12 +225,18 @@ chess.view.notation.Panel = new Class({
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
 
-        var b = this.$b();
 
-        var scrollTop = b.scrollTop();
-        var bottomOfScroll = scrollTop + b.height();
         var moveTop = move.position().top;
         var oh = move.outerHeight();
+
+        this._scrollIntoView(moveTop, oh);
+    },
+
+    _scrollIntoView:function(moveTop, oh){
+
+        var b = this.$b();
+        var scrollTop = b.scrollTop();
+        var bottomOfScroll = scrollTop + b.height();
 
         if ((moveTop + oh) > bottomOfScroll) {
             b.scrollTop(moveTop + oh);
@@ -238,6 +244,7 @@ chess.view.notation.Panel = new Class({
             b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
+
 
     showMoves: function (model) {
         var move = model.getCurrentMove();

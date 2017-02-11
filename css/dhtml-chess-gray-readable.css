@@ -2085,6 +2085,10 @@ span.notation-chess-move-highlighted{
 
 .dhtml-chess-notation-table .notation-chess-move-eval{
     float:right;
+}
+
+.dhtml-chess-notation-last-move{
+    text-align:center;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
     position: relative;

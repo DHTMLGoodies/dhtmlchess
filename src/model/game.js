@@ -1711,7 +1711,7 @@ chess.model.Game = new Class({
         this.fireEvent(event, [event, this, param]);
 
 
-        if (event == 'newGame' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
+        if (event == 'newGame' || event == 'newMove' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
             this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
         }
     },

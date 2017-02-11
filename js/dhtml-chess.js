@@ -1,4 +1,4 @@
-/* Generated Sat Feb 11 4:03:33 CET 2017 */
+/* Generated Sat Feb 11 16:32:46 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -6902,6 +6902,11 @@ ludo.layout.LinearVertical = new Class({
 				var config = {
 					width:c.type == 'layout.Resizer' ? width: cW
 				};
+
+				if(config.width < this.viewport.width && c.layout.anchor != undefined){
+					var off = this.viewport.width;
+					config.left = off * c.layout.anchor - (config.width * c.layout.anchor);
+				}
 
 				if(w && c.layout.align){
 					switch(c.layout.align){
@@ -29772,12 +29777,18 @@ chess.view.notation.Panel = new Class({
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
 
-        var b = this.$b();
 
-        var scrollTop = b.scrollTop();
-        var bottomOfScroll = scrollTop + b.height();
         var moveTop = move.position().top;
         var oh = move.outerHeight();
+
+        this._scrollIntoView(moveTop, oh);
+    },
+
+    _scrollIntoView:function(moveTop, oh){
+
+        var b = this.$b();
+        var scrollTop = b.scrollTop();
+        var bottomOfScroll = scrollTop + b.height();
 
         if ((moveTop + oh) > bottomOfScroll) {
             b.scrollTop(moveTop + oh);
@@ -29785,6 +29796,7 @@ chess.view.notation.Panel = new Class({
             b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
+
 
     showMoves: function (model) {
         var move = model.getCurrentMove();
@@ -30071,12 +30083,166 @@ chess.view.notation.Table = new Class({
         this.setCurrentMove(this.controller.currentModel);
     },
 
+    scrollMoveIntoView: function(move){
+        if(!move)return;
+        if (move.position == undefined)move = jQuery(move);
+
+        var moveTop = move.offset().top - this.$b().offset().top
+        var oh = move.outerHeight();
+        this._scrollIntoView(moveTop, oh);
+    },
+    
     addVariations:function(){
-        // silent
+        // silent is golden
     },
 
     getResultDOM:function(model){
         return '<p class="game-result">' + this.parent(model) + '</p>';
+    }
+});/* ../dhtml-chess/src/view/notation/last-move.js */
+chess.view.notation.LastMove = new Class({
+    Extends: ludo.View,
+    type: 'chess.view.notation.LastMove',
+    lastIndex: 1,
+    figurines: 'svg_bw',
+    boxWidth: undefined,
+    curPos: undefined,
+
+    setController: function (controller) {
+        this.parent(controller);
+        this.controller.on('fen', this.update.bind(this));
+        this.controller.on('newmove', this.update.bind(this));
+    },
+
+    update: function (model, fen) {
+
+
+        var fen = model.getCurrentPosition();
+
+        var tokens = fen.split(/\s/g);
+        var fm = tokens[tokens.length - 1];
+        var m = fm * 2;
+        var c = tokens[tokens.length - 5];
+        if (c == 'b') {
+            m++;
+
+        } else {
+            fm--;
+        }
+
+        if (m != this.lastIndex) {
+
+            var cm = model.getCurrentMove();
+
+            var pos = -1;
+            var dom = this.getDOMForMove(cm, fm, c);
+            var el;
+
+            if (m > this.lastIndex) {
+                pos = -2;
+                this.els.right.html(dom);
+                el = this.els.right;
+            } else {
+                pos = 0;
+                this.els.left.html(dom);
+                el = this.els.left;
+            }
+
+            this.animate(pos, el);
+            this.lastIndex = m;
+        }
+    },
+
+    animate: function (pos, el) {
+        this.els.mc.animate({
+            left: pos * this.boxWidth
+        }, {
+            duration: 100,
+            complete: function () {
+                this.els.center.html(el.html());
+                this.els.mc.css('left', -this.boxWidth);
+                this.curPos = pos;
+
+            }.bind(this)
+        });
+    },
+
+    getDOMForMove: function (move, num, color) {
+
+        if (!move)return '';
+
+        var ret = '';
+        if (color == 'w')ret += '..';
+        ret += '<span class="dhtml-chess-notation-last-move-num">' + num + '</span>. ';
+
+        if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
+
+
+            var p = move.p;
+            var c = p.color.substr(0, 1);
+            var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
+            var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
+
+            ret += '<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">';
+
+
+            ret += (move['m'].substr(p.type == 'p' ? 0 : 1));
+        } else {
+            ret += move['m'];
+        }
+
+        return ret;
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        var w = this.$b().width();
+        this.els.mc.css({
+            'line-height': size.height + 'px',
+            left: -w
+        });
+        this.els.left.css({
+            width: w
+        });
+        this.els.center.css({
+            width: w
+        });
+        this.els.right.css({
+            width: w
+        });
+        this.boxWidth = w;
+        this.figurineHeight = size.height * 0.7;
+    },
+
+    __rendered: function () {
+        this.parent();
+
+        this.$b().addClass('dhtml-chess-notation-last-move');
+        this.els.mc = jQuery('<div></div>');
+        this.els.mc.css({
+            position: 'absolute',
+            height: '100%',
+            width: '300%'
+        });
+        this.$b().append(this.els.mc);
+
+        this.els.left = jQuery('<div></div>');
+        this.els.left.css({
+            height: '100%', 'float': 'left'
+        });
+        this.els.mc.append(this.els.left);
+        this.els.center = jQuery('<div></div>');
+        this.els.center.css({
+            height: '100%', 'float': 'left'
+        });
+        this.els.mc.append(this.els.center);
+        this.els.right = jQuery('<div></div>');
+        this.els.right.css({
+            height: '100%', 'float': 'left'
+        });
+        this.els.mc.append(this.els.right);
+
+
     }
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
@@ -41642,7 +41808,7 @@ chess.model.Game = new Class({
         this.fireEvent(event, [event, this, param]);
 
 
-        if (event == 'newGame' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
+        if (event == 'newGame' || event == 'newMove' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
             this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
         }
     },

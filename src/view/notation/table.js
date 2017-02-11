@@ -45,8 +45,17 @@ chess.view.notation.Table = new Class({
         this.setCurrentMove(this.controller.currentModel);
     },
 
+    scrollMoveIntoView: function(move){
+        if(!move)return;
+        if (move.position == undefined)move = jQuery(move);
+
+        var moveTop = move.offset().top - this.$b().offset().top
+        var oh = move.outerHeight();
+        this._scrollIntoView(moveTop, oh);
+    },
+    
     addVariations:function(){
-        // silent
+        // silent is golden
     },
 
     getResultDOM:function(model){
