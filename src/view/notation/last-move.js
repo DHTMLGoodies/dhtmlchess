@@ -12,7 +12,7 @@ chess.view.notation.LastMove = new Class({
         this.controller.on('newmove', this.update.bind(this));
     },
 
-    update: function (model, fen) {
+    update: function (model) {
 
 
         var fen = model.getCurrentPosition();

@@ -121,7 +121,7 @@ chess.controller.PlayStockFishController = new Class({
 
 
         console.log('stockfish', this.getSkillLevel());
-        
+
         this.uciCmd('setoption name Mobility (Middle Game) value 150');
         this.uciCmd('setoption name Mobility (Endgame) value 150');
         this.uciCmd('setoption name Contempt Factor value 0');
@@ -255,7 +255,7 @@ chess.controller.PlayStockFishController = new Class({
         if (c != this.playerColor) {
             if (this.history == undefined)this.history = [];
             this.uciCmd('position startpos moves ' + this.history.join(' '));
-            if (this.playingStrength <= 0) {
+            if (this.playingStrength <= 1200) {
                 this.uciCmd('go depth ' + this.strengthToDepth());
             } else {
 
@@ -277,14 +277,17 @@ chess.controller.PlayStockFishController = new Class({
 
     strengthToTime: function () {
         var s = this.stockfishElo;
-        if (s <= 800)return 1000;
-        if (s <= 1000)return 2000;
-        if (s <= 1200)return 3000;
-        if (s <= 1400)return 4000;
-        if (s <= 1500)return 5000;
-        if (s <= 1600)return 7000;
+        if (s <= 800)return 500;
+        if (s <= 1000)return 1000;
+        if (s <= 1200)return 2000;
+        if (s <= 1400)return 3000;
+        if (s <= 1500)return 4000;
+        if (s <= 1600)return 5000;
+        if (s <= 1700)return 7000;
+        if (s <= 1800)return 9000;
+        if (s <= 1900)return 12000;
 
-        return 10000;
+        return 20000;
     },
 
     getInc:function(color){
@@ -305,7 +308,6 @@ chess.controller.PlayStockFishController = new Class({
         }
         if (d == undefined)d = 20;
 
-        console.log('depth', d);
 
         return d;
     },
