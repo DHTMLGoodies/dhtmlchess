@@ -1,4 +1,4 @@
-/* Generated Sat Feb 11 16:32:46 CET 2017 */
+/* Generated Sun Feb 12 0:48:56 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -8453,27 +8453,7 @@ ludo.dom = {
 		}
 	},
 
-	getInnerWidthOf:function (el) {
-		console.warn("Use of deprecated getInnerWidthOf");
-		console.trace();
-		return el.width();
-
-	},
-
-	getInnerHeightOf:function (el) {
-		if (el.style.height && el.style.height.indexOf('%') == -1) {
-			return ludo.dom.getNumericStyle(el, 'height');
-		}
-		return el.offsetHeight - ludo.dom.getPH(el) - ludo.dom.getBH(el);
-	},
-
-	getTotalWidthOf:function (el) {
-		return el.offsetWidth + ludo.dom.getMW(el);
-	},
-
 	getWrappedSizeOfView:function (view) {
-
-		view.cachedInnerHeight = undefined;
 		view.getEl().css('height', 'auto');
 		view.$b().css('height', 'auto');
 
@@ -8484,8 +8464,7 @@ ludo.dom = {
 		var width = b.outerWidth();
 		b.css('position', 'relative');
 		var height = b.outerHeight();
-
-
+		
 		return {
 			x:width + ludo.dom.getMBPW(el),
 			y:height + ludo.dom.getMBPH(el) + (view.getHeightOfTitleBar ? view.getHeightOfTitleBar() : 0)
@@ -8684,7 +8663,6 @@ ludo.View = new Class({
     children: [],
     child: {},
     dataSource: undefined,
-    socket: undefined,
     parentComponent: null,
     objMovable: null,
     width: undefined,
@@ -8795,7 +8773,7 @@ ludo.View = new Class({
         this.parent(config);
         config.els = config.els || {};
         if (this.parentComponent)config.renderTo = undefined;
-        var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'socket', 'form', 'title', 'hidden',
+        var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'form', 'title', 'hidden',
             'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
             'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
             'overflow','loadMessage'];
@@ -9241,54 +9219,54 @@ ludo.View = new Class({
      Resize View and it's children.
      @function resize
      @memberof ludo.View.prototype
-     @param {Object} size Object with optional width and height properties. Example: { width: 200, height: 100 }
+     @param {Object} p Object with optional width and height properties. Example: { width: 200, height: 100 }
      @example
      view.resize(
         { width: 200, height:200 }
      );
      */
-    resize: function (size) {
+    resize: function (p) {
 
         if (this.isHidden()) {
             return;
         }
 
         var l = this.layout;
-        size = size || {};
+        p = p || {};
 
-        if (size.width) {
-            if (l.aspectRatio && l.preserveAspectRatio && size.width && !this.isMinimized()) {
-                size.height = size.width / l.aspectRatio;
+        if (p.width) {
+            if (l.aspectRatio && l.preserveAspectRatio && p.width && !this.isMinimized()) {
+                p.height = p.width / l.aspectRatio;
             }
             // TODO layout properties should not be set here.
-            l.pixelWidth = size.width;
-            if (!isNaN(l.width))l.width = size.width;
-            var width = size.width - ludo.dom.getMBPW(this.els.container);
-            if (width > 0) {
-                this.els.container.css('width', width);
+            l.pixelWidth = p.width;
+            if (!isNaN(l.width))l.width = p.width;
+            var w = p.width - ludo.dom.getMBPW(this.els.container);
+            if (w > 0) {
+                this.els.container.css('width', w);
             }
         }
 
-        if (size.height && !this.state.isMinimized) {
+        if (p.height && !this.state.isMinimized) {
             // TODO refactor this part.
             if (!this.state.isMinimized) {
-                l.pixelHeight = size.height;
-                if (!isNaN(l.height))l.height = size.height;
+                l.pixelHeight = p.height;
+                if (!isNaN(l.height))l.height = p.height;
             }
-            var height = size.height - ludo.dom.getMBPH(this.els.container);
-            if (height > 0) {
-                this.els.container.css('height', height);
+            var h = p.height - ludo.dom.getMBPH(this.els.container);
+            if (h > 0) {
+                this.els.container.css('height', h);
             }
         }
 
-        if (size.left !== undefined || size.top !== undefined) {
-            this.setPosition(size);
+        if (p.left !== undefined || p.top !== undefined) {
+            this.setPosition(p);
         }
 
         this.resizeDOM();
 
-        if (size.height || size.width) {
-            this.fireEvent('resize', size);
+        if (p.height || p.width) {
+            this.fireEvent('resize', p);
         }
 
         if(this._fr == false){
@@ -9332,7 +9310,6 @@ ludo.View = new Class({
         return false;
     },
 
-    cachedInnerHeight: undefined,
     resizeDOM: function () {
         if (this.layout.pixelHeight > 0) {
             var height = this.layout.pixelHeight ? this.layout.pixelHeight - ludo.dom.getMBPH(this.els.container) : this.els.container.css('height').replace('px', '');
@@ -9341,14 +9318,8 @@ ludo.View = new Class({
                 return;
             }
             this.els.body.css('height', height);
-            this.cachedInnerHeight = height;
         }
     },
-
-    getInnerHeightOfBody: function () {
-        return this.cachedInnerHeight ? this.cachedInnerHeight : this.els.body.height();
-    },
-
 
     /**
      * Add child components
@@ -9452,8 +9423,6 @@ ludo.View = new Class({
     getDataSource: function () {
 
         if (!this.dataSourceObj && this.dataSource) {
-
-
             var obj;
             if (ludo.util.isString(this.dataSource)) {
                 obj = this.dataSourceObj = ludo.get(this.dataSource);
@@ -14464,8 +14433,6 @@ ludo.FramedView = new Class({
 
         if(height >= 0){
             this.els.body.css('height', height);
-            this.cachedInnerHeight = height;
-
             if (this.buttonBarComponent) {
                 this.buttonBarComponent.resize();
             }
@@ -18999,9 +18966,6 @@ ludo.grid.Grid = new Class({
 			return;
 		}
 		this.$b().css('height', height - this.gridHeader.getHeight());
-		this.cachedInnerHeight = height;
-
-
 		var contentHeight = this.$b().height();
 
 		if (contentHeight == 0) {
@@ -21171,7 +21135,7 @@ ludo.menu.Item = new Class({
 
     resizeDOM:function(){
         this.parent();
-        this.$b().css('lineHeight', this.cachedInnerHeight + 'px');
+        this.$b().css('lineHeight', this.$b().height + 'px');
     },
 	resizeParent:function(){
 
@@ -21810,11 +21774,7 @@ ludo.Panel = new Class({
 		this.layout.height += sizeLegend.y;
 
 	},
-
-	getInnerHeightOfBody:function () {
-		return this.parent() - this.getHeightOfLegend() - 5;
-	},
-
+	
 	heightOfLegend:undefined,
 	getHeightOfLegend:function () {
 		if (this.layout.heightOfLegend === undefined) {
@@ -30102,19 +30062,25 @@ chess.view.notation.Table = new Class({
 });/* ../dhtml-chess/src/view/notation/last-move.js */
 chess.view.notation.LastMove = new Class({
     Extends: ludo.View,
+    module:'chess',
     type: 'chess.view.notation.LastMove',
     lastIndex: 1,
     figurines: 'svg_bw',
     boxWidth: undefined,
     curPos: undefined,
+    figurineHeight:20,
 
+    __construct:function(config){
+        this.parent(config);
+        this.setConfigParams(config, ['figurineHeight', 'figurines']);
+    },
     setController: function (controller) {
         this.parent(controller);
-        this.controller.on('fen', this.update.bind(this));
-        this.controller.on('newmove', this.update.bind(this));
+        controller.on('fen', this.update.bind(this));
+        controller.on('newmove', this.update.bind(this));
     },
 
-    update: function (model, fen) {
+    update: function (model) {
 
 
         var fen = model.getCurrentPosition();
@@ -30172,25 +30138,19 @@ chess.view.notation.LastMove = new Class({
         if (!move)return '';
 
         var ret = '';
-        if (color == 'w')ret += '..';
         ret += '<span class="dhtml-chess-notation-last-move-num">' + num + '</span>. ';
+        if (color == 'w')ret += ' ..';
 
         if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
-
-
             var p = move.p;
             var c = p.color.substr(0, 1);
             var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
             var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-
             ret += '<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">';
-
-
             ret += (move['m'].substr(p.type == 'p' ? 0 : 1));
         } else {
             ret += move['m'];
         }
-
         return ret;
     },
 
@@ -30211,7 +30171,6 @@ chess.view.notation.LastMove = new Class({
             width: w
         });
         this.boxWidth = w;
-        this.figurineHeight = size.height * 0.7;
     },
 
     __rendered: function () {
@@ -30241,8 +30200,6 @@ chess.view.notation.LastMove = new Class({
             height: '100%', 'float': 'left'
         });
         this.els.mc.append(this.els.right);
-
-
     }
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
@@ -33178,8 +33135,8 @@ chess.view.buttonbar.Bar = new Class({
     __construct: function (config) {
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'anchor',
-            'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled',
+            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
 
         this.disabledButtons = [];
         this.defaultStyles = {
@@ -33326,8 +33283,6 @@ chess.view.buttonbar.Bar = new Class({
         g.on('mousedown', this.fn('downButton', name));
         g.on('click', this.fn('clickButton', name));
 
-
-
     },
 
 
@@ -33377,18 +33332,14 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
             if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
-
-
             this.fireEvent(btnName);
-
-
-
-
         }
         return false;
     },
 
     cssButton: function (name, className) {
+
+        if(this.buttons.indexOf(name) == -1)return;
 
         if (name == 'play' && this.autoPlayMode)className = 'Play';
 
@@ -33456,14 +33407,8 @@ chess.view.buttonbar.Bar = new Class({
             'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
             'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
             'L', r, b, c.x, b,
-
-
             'Z'
-
-
         ].join(' ');
-
-
     },
 
     getButtonRadius: function () {
@@ -33685,6 +33630,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
+        if(!this.hasButton('play'))return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
         if (!this.autoPlayMode)return;
         this.autoPlayMode = false;
@@ -33696,12 +33642,16 @@ chess.view.buttonbar.Bar = new Class({
 
     },
 
+    hasButton:function(name){
+        return this.buttons.indexOf(name) != -1;
+    },
+
     newGame: function () {
 
     },
 
     disableButton: function (name) {
-
+        if(!this.hasButton(name))return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -33710,6 +33660,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
+        if(!this.hasButton(name))return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);
@@ -39200,7 +39151,7 @@ chess.controller.Controller = new Class({
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
             if(this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
-            return false;
+            //return false;
         }
         this.views[view.submodule] = view;
         switch (view.submodule) {

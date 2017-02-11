@@ -1,15 +1,21 @@
 chess.view.notation.LastMove = new Class({
     Extends: ludo.View,
+    module:'chess',
     type: 'chess.view.notation.LastMove',
     lastIndex: 1,
     figurines: 'svg_bw',
     boxWidth: undefined,
     curPos: undefined,
+    figurineHeight:20,
 
+    __construct:function(config){
+        this.parent(config);
+        this.setConfigParams(config, ['figurineHeight', 'figurines']);
+    },
     setController: function (controller) {
         this.parent(controller);
-        this.controller.on('fen', this.update.bind(this));
-        this.controller.on('newmove', this.update.bind(this));
+        controller.on('fen', this.update.bind(this));
+        controller.on('newmove', this.update.bind(this));
     },
 
     update: function (model) {
@@ -70,25 +76,19 @@ chess.view.notation.LastMove = new Class({
         if (!move)return '';
 
         var ret = '';
-        if (color == 'w')ret += '..';
         ret += '<span class="dhtml-chess-notation-last-move-num">' + num + '</span>. ';
+        if (color == 'w')ret += ' ..';
 
         if (this.figurines && move['m'].indexOf('O') == -1 && move.p.type != 'p') {
-
-
             var p = move.p;
             var c = p.color.substr(0, 1);
             var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
             var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-
             ret += '<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">';
-
-
             ret += (move['m'].substr(p.type == 'p' ? 0 : 1));
         } else {
             ret += move['m'];
         }
-
         return ret;
     },
 
@@ -109,7 +109,6 @@ chess.view.notation.LastMove = new Class({
             width: w
         });
         this.boxWidth = w;
-        this.figurineHeight = size.height * 0.7;
     },
 
     __rendered: function () {
@@ -139,7 +138,5 @@ chess.view.notation.LastMove = new Class({
             height: '100%', 'float': 'left'
         });
         this.els.mc.append(this.els.right);
-
-
     }
 });

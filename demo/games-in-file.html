@@ -7,8 +7,12 @@
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
     <script type="text/javascript" src="../src/view/score/bar.js"></script>
+    <script type="text/javascript" src="../src/controller/controller.js"></script>
+    <script type="text/javascript" src="../src/controller/analysis-controller.js"></script>
     <script type="text/javascript" src="../src/view/notation/panel.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/notation/table.js?rnd=1"></script>
+    <script type="text/javascript" src="../src/view/notation/last-move.js?rnd=1"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/bar.js"></script>
     <script type="text/javascript" src="../themes/grey.js"></script>
     <link rel="stylesheet" href="../themes/grey.css" type="text/css">
 
@@ -119,6 +123,16 @@
             padding-left:4px;padding-right:4px;
             font-size:0.9em;
         }
+
+        .dhtml-chess-notation-last-move{
+            text-align:center;
+            font-size:0.9em;
+        }
+
+        .dhtml-chess-notation-last-move-num{
+            font-size:0.9em;
+            font-weight:bold;
+        }
     </style>
 </head>
 <body class="ludo-twilight">
@@ -199,7 +213,7 @@ var app = new chess.view.Chess({
                         // to change pgn file after page load. Example
                         // <a href="#" onclick="ludo.get('gameList').loadFile('Lasker');return false">Load games of E. Lasker</a>
                         postData:{
-                            "arguments" : "tactic-checkmates"
+                            "arguments" : "Morphy"
                         },
                         "listeners":{
                             "init":function () {
@@ -334,13 +348,56 @@ var app = new chess.view.Chess({
                             ]
                         },
                         {
-                            type:'chess.view.buttonbar.Bar',
-                            borderRadius:'5%',
-                            elCss:{
-                                margin:2
+                            layout:{
+                                type:'linear', orientation:'horizontal',
+                                height:50
                             },
-                            height:50
+                            children:[
+                                {
+                                    weight:1
+                                },
+                                {
+                                    type:'chess.view.buttonbar.Bar',
+                                    borderRadius:'5%',
+                                    elCss:{
+                                        margin:2
+                                    },
+                                    layout:{
+                                        width:110
+                                    },
+                                    buttons:['start','previous']
+                                },
+                                {
+                                    type:'chess.view.notation.LastMove',
+                                    layout:{
+                                        width:100,
+                                        height:40
+                                    },
+                                    css:{
+                                        'border-radius' : '999px',
+                                        border : '1px solid ' + ludo.$C('border'),
+                                        'background-color' : '#444'
+                                    }
+                                },
+                                {
+                                    type:'chess.view.buttonbar.Bar',
+                                    borderRadius:'5%',
+                                    elCss:{
+                                        margin:2
+                                    },
+                                    buttons:['next','end'],
+                                    layout:{
+                                        width:110
+                                    }
+                                },
+                                {
+                                    weight:1
+                                }
+
+                            ]
                         }
+
+
                     ]
                 },
                 {
@@ -398,7 +455,7 @@ var app = new chess.view.Chess({
                             title:'Notations',
                             id:'notation-view',
                             type:'chess.view.notation.Table',
-                            notations:'long',
+                            notations:'short',
                             showContextMenu:true,
                             figurines: 'svg_bw',
                             figurineHeight:18
@@ -416,7 +473,6 @@ var app = new chess.view.Chess({
 
 });
 
-var fen = '6bk/7p/8/8/8/8/5B2/6K1 w - - 0 1';
 var controller = new chess.controller.AnalysisController();
 controller.addEvent('newGame', function () {
     ludo.get('notation-view').show();

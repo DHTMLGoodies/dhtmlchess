@@ -34,8 +34,8 @@ chess.view.buttonbar.Bar = new Class({
     __construct: function (config) {
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled', 'spacing', 'anchor',
-            'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled',
+            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
 
         this.disabledButtons = [];
         this.defaultStyles = {
@@ -182,8 +182,6 @@ chess.view.buttonbar.Bar = new Class({
         g.on('mousedown', this.fn('downButton', name));
         g.on('click', this.fn('clickButton', name));
 
-
-
     },
 
 
@@ -233,18 +231,14 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
             if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
-
-
             this.fireEvent(btnName);
-
-
-
-
         }
         return false;
     },
 
     cssButton: function (name, className) {
+
+        if(this.buttons.indexOf(name) == -1)return;
 
         if (name == 'play' && this.autoPlayMode)className = 'Play';
 
@@ -312,14 +306,8 @@ chess.view.buttonbar.Bar = new Class({
             'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
             'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
             'L', r, b, c.x, b,
-
-
             'Z'
-
-
         ].join(' ');
-
-
     },
 
     getButtonRadius: function () {
@@ -541,6 +529,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
+        if(!this.hasButton('play'))return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
         if (!this.autoPlayMode)return;
         this.autoPlayMode = false;
@@ -552,12 +541,16 @@ chess.view.buttonbar.Bar = new Class({
 
     },
 
+    hasButton:function(name){
+        return this.buttons.indexOf(name) != -1;
+    },
+
     newGame: function () {
 
     },
 
     disableButton: function (name) {
-
+        if(!this.hasButton(name))return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -566,6 +559,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
+        if(!this.hasButton(name))return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);

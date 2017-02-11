@@ -2089,6 +2089,12 @@ span.notation-chess-move-highlighted{
 
 .dhtml-chess-notation-last-move{
     text-align:center;
+    font-size:0.9em;
+}
+
+.dhtml-chess-notation-last-move-num{
+    font-size:0.9em;
+    font-weight:bold;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
     position: relative;
