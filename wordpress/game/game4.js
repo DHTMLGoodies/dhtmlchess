@@ -1,13 +1,13 @@
 window.chess.isWordPress = true;
-chess.WPGame1 = new Class({
+chess.WPGame4 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize:undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w - 150 + 40 + 35);
-        this.boardSize = w - 150;
+        this.renderTo.css('height', w + 40 + 35);
+        this.boardSize = w;
         jQuery(document).ready(this.render.bind(this));
     },
 
@@ -65,31 +65,58 @@ chess.WPGame1 = new Class({
                                     type: 'chess.view.highlight.Arrow'
                                 }, this.arrow)
                             ]
-                        }, this.board),
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Table',
-                            layout: {
-                                width: 150
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
+                        }, this.board)
                     ]
                 },
                 {
+                    layout:{
+                        type:'linear',orientation:'horizontal',
+                        height:40,
+                        width:this.boardSize
+                    },
                     css:{
                         'margin-top' : 5
                     },
-                    type: 'chess.view.buttonbar.Bar',
-                    layout: {
-                        height: 45,
-                        width: this.boardSize
-                    },
-                    module: this.module
+                    children:[
+                        {
+                            weight:1
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['start','previous'],
+                            width:85,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        },
+                        {
+                            type:'chess.view.notation.LastMove',
+                            width:80,
+                            module:this.module
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['next','end'],
+                            width:85,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        },
+                        {
+                            weight:1
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['flip'],
+                            width:42,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        }
+                    ]
                 }
             ]
         });
@@ -97,9 +124,7 @@ chess.WPGame1 = new Class({
         this.controller = new chess.controller.Controller({
             applyTo: [this.module]
         });
-
         this.loadGame();
-
     }
 
 });

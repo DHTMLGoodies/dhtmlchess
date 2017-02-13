@@ -96,7 +96,8 @@ chess.view.notation.LastMove = new Class({
         this.parent(size);
         var w = this.$b().width();
         this.els.mc.css({
-            'line-height': size.height + 'px',
+            'line-height': (size.height) + 'px',
+            'font-size': (size.height * 0.4) + 'px',
             left: -w
         });
         this.els.left.css({

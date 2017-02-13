@@ -65,4 +65,13 @@ function parseDirectory($dirs, $filename, $subDir = false)
 }
 
 parseDirectory(array('../src/wordpress/'), "../src/wordpress/wordpress-editor-minified.js");
-parseDirectory(array('wp-template.js', 'game/game-template.js', './'), "wordpress-templates-minified.js");
+parseDirectory(array(
+    'wp-template.js', 
+    'game/game-template.js', 
+    'game/game1.js', 
+    'game/game2.js', 
+    'game/game3.js', 
+    'pgn/viewer1.js', 
+    'game-grid.js', 
+    'tactics/tactics1.js',
+    ), "wordpress-templates-minified.js");

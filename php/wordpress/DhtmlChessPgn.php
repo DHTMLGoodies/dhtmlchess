@@ -43,14 +43,14 @@ class DhtmlChessPgn
         }
 
 
-
         $cache = new DhtmlChessCache();
         $cache->clearPgnListCache();
-        
+
         return $util->create($name);
     }
 
-    public static function emptyInstance(){
+    public static function emptyInstance()
+    {
         return new DhtmlChessPgn(null);
 
     }
@@ -165,7 +165,10 @@ class DhtmlChessPgn
 
         $index = preg_replace("/[^0-9]/si", "", $index);
 
-        $index = $index % max(1, $this->countGames(), $this->id);
+        $count = $this->countGames();
+        $index = $index % max(1, $count);
+ 
+
 
         $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
             . " where " . DhtmlChessDatabase::COL_PGN_ID . "=%d", $this->id);
@@ -277,7 +280,8 @@ class DhtmlChessPgn
         }
     }
 
-    public function setHidden(){
+    public function setHidden()
+    {
         $countUpdated = $this->wpdb->update(
             DhtmlChessDatabase::TABLE_PGN,
             array(
@@ -290,7 +294,7 @@ class DhtmlChessPgn
             array()
         );
 
-        if(!empty($countUpdated)){
+        if (!empty($countUpdated)) {
             $this->clearCache();
         }
         return $countUpdated;
@@ -322,7 +326,8 @@ class DhtmlChessPgn
         return $countUpdated;
     }
 
-    private function clearCache(){
+    private function clearCache()
+    {
         $cache = new DhtmlChessCache();
         $cache->clearPgnListCache();
         $cache->clear($this->cacheKey());
@@ -434,7 +439,8 @@ class DhtmlChessPgn
 
     }
 
-    public function rename($newName){
+    public function rename($newName)
+    {
         $countUpdated = $this->wpdb->update(
             DhtmlChessDatabase::TABLE_PGN,
             array(
@@ -447,8 +453,8 @@ class DhtmlChessPgn
             array()
         );
 
-        if(empty($countUpdated)){
-            throw new DhtmlChessException("No database rows updated (". $this->id . " - ". $newName . ")");
+        if (empty($countUpdated)) {
+            throw new DhtmlChessException("No database rows updated (" . $this->id . " - " . $newName . ")");
         }
 
         $this->clearCache();

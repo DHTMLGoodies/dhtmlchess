@@ -55,6 +55,12 @@ chess.THEME = {
     'chess.view.notation.Panel': {
         figurines:'svg_egg'
     },
+    'chess.view.notation.Table': {
+        figurines:'svg_egg'
+    },
+    'chess.view.notation.LastMove': {
+        figurines:'svg_egg'
+    },
     'chess.view.buttonbar.Bar':{
         borderRadius:'10%',
         styles:{

@@ -139,6 +139,8 @@ spl_autoload_register(
                 'xhpprofiling' => '/php/chessDB/ludoDB/xhprof/XHPProfiling.php',
                 'xhprofruns_default' => '/php/chessDB/ludoDB/xhprof/xhprof_lib/utils/xhprof_runs.php',
 
+                'dhtmlchessview' => '/php/wordpress/DhtmlChessViews.php',
+                'dhtmlchessviews' => '/php/wordpress/DhtmlChessViews.php',
                 'dhtmlchessdatabase' => '/php/wordpress/DhtmlChessDatabase.php',
                 'dhtmlchessstandings' => '/php/wordpress/DhtmlChessStandings.php',
                 'dhtmlchessimportpgn' => '/php/wordpress/DhtmlChessImportPgn.php',

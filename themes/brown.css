@@ -35,7 +35,7 @@ div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
 
 /** Highlighted notation styles */
 span.notation-chess-move-highlighted {
-    background-color: #b48059;
+    background-color: #b48059 !important;
     color: #FFF;
     border-radius: 3px
 }
@@ -97,4 +97,9 @@ div.ludo-window >.ludo-body{
 
 }
 
+.dhtml-chess-notation-last-move{
+    border:1px solid #9c6f4e;
+    border-radius:999px;
+    color:#9c6f4e;
+}
 

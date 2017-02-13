@@ -6,7 +6,7 @@ chess.WPGame3 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w - 150 + 40 + 35+ 270);
+        this.renderTo.css('height', w - 150 + 40 + 35);
         this.boardSize = w - 150;
         jQuery(document).ready(this.render.bind(this));
     },
@@ -81,20 +81,54 @@ chess.WPGame3 = new Class({
                     ]
                 },
                 {
-                    type: 'chess.view.buttonbar.Bar',
-                    layout: {
-                        height: 40,
-                        width: this.boardSize
-                    },
-                    module: this.module
-                },
-                {
-                    type:'chess.wordpress.ComputerEval',
-                    buttons:false,
                     layout:{
-                        height:270
+                        type:'linear',orientation:'horizontal',
+                        height:40,
+                        width:this.boardSize
                     },
-                    module: this.module
+                    css:{
+                        'margin-top' : 5
+                    },
+                    children:[
+                        {
+                            weight:1
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['start','previous'],
+                            width:85,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        },
+                        {
+                            type:'chess.view.notation.LastMove',
+                            width:80,
+                            module:this.module
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['next','end'],
+                            width:85,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        },
+                        {
+                            weight:1
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            module: this.module,
+                            buttons:['flip'],
+                            width:42,
+                            buttonSize:function(availSize){
+                                return availSize;
+                            }
+                        }
+                    ]
                 }
             ]
         });

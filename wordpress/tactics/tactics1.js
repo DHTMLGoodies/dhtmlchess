@@ -13,8 +13,8 @@
 
 window.chess.isWordPress = true;
 
-chess.WPTactics = new Class({
-    Extends: Events,
+chess.WPTactics1 = new Class({
+    Extends: chess.WPTemplate,
 
     renderTo: undefined,
     pgn: undefined,
@@ -28,6 +28,9 @@ chess.WPTactics = new Class({
     boardSize:undefined,
 
     initialize: function (config) {
+
+        this.parent(config);
+
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
@@ -39,11 +42,6 @@ chess.WPTactics = new Class({
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
-
-        if(config.docRoot){
-            ludo.config.setDocumentRoot(config.docRoot);
-        }
-        
         this.module = String.uniqueID();
 
         this.showLabels = !ludo.isMobile;
@@ -162,11 +160,11 @@ chess.WPTactics = new Class({
             ]
         });
 
-        var storageKey = 'wp_' + this.pgn + '_tactics';
+        var storageKey = 'wp_' + this.pgn.id + '_tactics';
 
         this.controller = new chess.controller.TacticControllerGui({
             applyTo:[this.module],
-            pgn: this.pgn,
+            pgn: this.pgn.id,
             alwaysPlayStartingColor: true,
             autoMoveDelay: 400,
             gameEndHandler: function (controller) {
@@ -180,12 +178,14 @@ chess.WPTactics = new Class({
         });
 
         var index = ludo.getLocalStorage().get(storageKey);
+        index = Math.max(0,index);
         if (index != undefined) {
             this.controller.getCurrentModel().setGameIndex(index);
         } else {
             index = 0;
         }
 
+        console.log(index, 'index');
 
         this.controller.loadGameFromFile(index);
 

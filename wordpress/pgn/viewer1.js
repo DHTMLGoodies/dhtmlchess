@@ -13,7 +13,7 @@
 
 window.chess.isWordPress = true;
 
-chess.WPViewer = new Class({
+chess.WPViewer1 = new Class({
     Extends: chess.WPTemplate,
 
     renderTo: undefined,
@@ -28,7 +28,7 @@ chess.WPViewer = new Class({
     boardSize: undefined,
 
     initialize: function (config) {
-
+        this.parent(config);
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
@@ -131,54 +131,38 @@ chess.WPViewer = new Class({
                             module: this.module
                         },
                         {
-
-                            name: "tablayout",
+                            title: this.pgn.name,
+                            module: this.module,
                             layout: {
-                                height: 300,
-                                type: 'tabs',
-                                tabs: 'top'
+                                height: 300
                             },
-                            elCss: {
-                                border: '1px solid ' + chess.THEME.borderColor
+                            type: 'chess.WPGameGrid',
+                            css: {
+                                'overflow-y': 'auto'
                             },
-                            children: [
-                                {
-                                    title: this.pgn.name,
-                                    module: this.module,
-                                    layout: {
-                                        weight: 1
-                                    },
-                                    type: 'chess.WPGameGrid',
-                                    css: {
-                                        'overflow-y': 'auto'
-                                    },
-                                    cols: ['white', 'black', 'result'],
-                                    dataSource: {
-                                        id: 'gameList',
-                                        "type": 'chess.wordpress.GameList',
-                                        module: this.module,
-                                        autoload: true,
-                                        postData: {
-                                            pgn: this.pgn.id
-                                        },
-                                        "listeners": {
-                                            "select": function () {
-                                                ludo.$(this.module + '-panel').show();
-                                            }.bind(this),
-                                            "load": function (data) {
-                                                if (data.length) {
-                                                    ludo.get('gameList').selectRecord(data[0]);
-                                                }
-                                            }
-                                        },
-                                        shim: {
-                                            txt: ''
+                            cols: ['white', 'black', 'result'],
+                            dataSource: {
+                                id: 'gameList',
+                                "type": 'chess.wordpress.GameList',
+                                module: this.module,
+                                autoload: true,
+                                postData: {
+                                    pgn: this.pgn.id
+                                },
+                                "listeners": {
+                                    "select": function () {
+                                        ludo.$(this.module + '-panel').show();
+                                    }.bind(this),
+                                    "load": function (data) {
+                                        if (data.length) {
+                                            ludo.get('gameList').selectRecord(data[0]);
                                         }
                                     }
+                                },
+                                shim: {
+                                    txt: ''
                                 }
-
-                            ]
-
+                            }
                         }
 
                     ]

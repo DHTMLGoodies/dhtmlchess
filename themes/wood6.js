@@ -49,6 +49,9 @@ chess.THEME = {
     'chess.view.notation.Panel': {
         figurines:'svg_bw'
     },
+    'chess.view.notation.Table': {
+        figurines:'svg_bw'
+    },
     'chess.view.notation.TacticPanel': {
         figurines:'svg_bw',
         css: {

@@ -48,8 +48,7 @@ chess.view.notation.Table = new Class({
     scrollMoveIntoView: function(move){
         if(!move)return;
         if (move.position == undefined)move = jQuery(move);
-
-        var moveTop = move.offset().top - this.$b().offset().top
+        var moveTop = move.offset().top - this.$b().offset().top + this.$b().scrollTop();
         var oh = move.outerHeight();
         this._scrollIntoView(moveTop, oh);
     },

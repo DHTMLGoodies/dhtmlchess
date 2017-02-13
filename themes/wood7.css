@@ -20,7 +20,13 @@ span.notation-chess-move-highlighted {
 
 .ludo-grid-Grid div.ludo-active-record {
     font-weight: bold ;
-    background-color: #555;
-    color:#FFF;
+    background-color: #DDD;
+    color:#000;
 
+}
+.dhtml-chess-notation-last-move{
+    background-color:#444;
+    border:1px solid #333;
+    border-radius:999px;
+    color:#fff;
 }
