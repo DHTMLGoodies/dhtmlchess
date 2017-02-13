@@ -32,9 +32,9 @@ chess.WPViewer1 = new Class({
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
-        r.css('height', Math.round(w + 480));
         this.boardSize = w - 150;
 
+        r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
@@ -42,8 +42,7 @@ chess.WPViewer1 = new Class({
         this.hint = config.hint || {};
 
         this.showLabels = !ludo.isMobile;
-        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
-        jQuery(document).ready(this.render.bind(this));
+        this.render();
     },
 
     render: function () {

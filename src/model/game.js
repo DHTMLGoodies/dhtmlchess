@@ -227,6 +227,8 @@ chess.model.Game = new Class({
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
+
+
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
@@ -298,6 +300,7 @@ chess.model.Game = new Class({
             move = moves[i];
             if (this.isChessMove(move)) {
                 move = this.getValidMove(move, pos);
+                
                 if (move.variations && move.variations.length > 0) {
                     for (var j = 0; j < move.variations.length; j++) {
                         this.registerMoves(move.variations[j], pos, move);

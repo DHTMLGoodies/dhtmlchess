@@ -226,10 +226,11 @@ chess.view.notation.Panel = new Class({
         if (!move || !move.length)return;
 
 
-        var moveTop = move.position().top;
+        var moveTop = move.position().top + this.$b().scrollTop();
         var oh = move.outerHeight();
 
-        this._scrollIntoView(moveTop, oh);
+        console.log(moveTop, oh);
+        this._scrollIntoView(moveTop, 0);
     },
 
     _scrollIntoView:function(moveTop, oh){

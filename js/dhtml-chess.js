@@ -1,4 +1,4 @@
-/* Generated Sun Feb 12 0:48:56 CET 2017 */
+/* Generated Mon Feb 13 23:29:01 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -29279,6 +29279,10 @@ chess.view.Chess = new Class({
             config.theme = chess.THEME;
         }
 
+        if(chess.THEME_OVERRIDES != undefined){
+            config.theme = Object.merge(config.theme, chess.THEME_OVERRIDES);
+        }
+
         if(config.theme != undefined){
             this.theme = config.theme;
 
@@ -30046,8 +30050,7 @@ chess.view.notation.Table = new Class({
     scrollMoveIntoView: function(move){
         if(!move)return;
         if (move.position == undefined)move = jQuery(move);
-
-        var moveTop = move.offset().top - this.$b().offset().top
+        var moveTop = move.offset().top - this.$b().offset().top + this.$b().scrollTop();
         var oh = move.outerHeight();
         this._scrollIntoView(moveTop, oh);
     },
@@ -30158,7 +30161,8 @@ chess.view.notation.LastMove = new Class({
         this.parent(size);
         var w = this.$b().width();
         this.els.mc.css({
-            'line-height': size.height + 'px',
+            'line-height': (size.height) + 'px',
+            'font-size': (size.height * 0.4) + 'px',
             left: -w
         });
         this.els.left.css({
@@ -30760,6 +30764,10 @@ chess.view.board.GUI = new Class({
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
+        }else{
+            var fs2 = Math.round(this.getSquareSize() * 0.2);
+            r.css('font-size', fs2 + 'px');
+            f.css('font-size', fs2 + 'px');
         }
 
         var h = this.els.ranks[0].height();
@@ -31952,6 +31960,8 @@ chess.view.board.Background = new Class({
         if (config.square != undefined)this.square = config.square;
         if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
 
+        console.log(this.borderRadius);
+        
         this.view.on('boardResized', this.resize.bind(this));
 
         this.horizontal = config.horizontal;
@@ -33670,7 +33680,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     buttonSize: function (availSize) {
-        return availSize - (availSize / 8);
+        return availSize;
     }
 
 
@@ -38962,10 +38972,17 @@ chess.parser.Move0x88 = new Class({
         var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
 
         this.parser.move(move);
+        
+        var n = move.m;
+        var grade = "";
+        if(/[\!\?]/.test(n)){
+            grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
+        }
+
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
-            m: this.parser.getNotation(),
-            lm: this.parser.getLongNotation(),
+            m: this.parser.getNotation() + grade,
+            lm: this.parser.getLongNotation() + grade,
             moves:this.parser.getPiecesInvolvedInLastMove(),
             p: p,
             from:move.from,
@@ -40275,6 +40292,8 @@ chess.model.Game = new Class({
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
         gameData = this.getValidGameData(gameData);
+
+
         this.model.id = gameData.id || gameData.metadata.id || this.model.id;
         this.model.gameIndex = gameData.gameIndex || undefined;
         this.model.metadata.fen = gameData.fen || gameData.metadata.fen;
@@ -40346,6 +40365,7 @@ chess.model.Game = new Class({
             move = moves[i];
             if (this.isChessMove(move)) {
                 move = this.getValidMove(move, pos);
+                
                 if (move.variations && move.variations.length > 0) {
                     for (var j = 0; j < move.variations.length; j++) {
                         this.registerMoves(move.variations[j], pos, move);

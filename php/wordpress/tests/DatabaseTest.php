@@ -996,8 +996,8 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     public function shouldGetCustomParams(){
         // given
         $this->database->import('lcc2016.pgn');
-        
-        $tag = '[DC;D1;theme=grey;1]';
+
+        $tag = '[DC;D1;1;theme=grey]';
         $views = new DhtmlChessViews();
 
         // when

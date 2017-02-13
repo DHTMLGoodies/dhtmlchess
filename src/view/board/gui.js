@@ -504,6 +504,10 @@ chess.view.board.GUI = new Class({
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
+        }else{
+            var fs2 = Math.round(this.getSquareSize() * 0.2);
+            r.css('font-size', fs2 + 'px');
+            f.css('font-size', fs2 + 'px');
         }
 
         var h = this.els.ranks[0].height();

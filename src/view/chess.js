@@ -57,6 +57,10 @@ chess.view.Chess = new Class({
             config.theme = chess.THEME;
         }
 
+        if(chess.THEME_OVERRIDES != undefined){
+            config.theme = Object.merge(config.theme, chess.THEME_OVERRIDES);
+        }
+
         if(config.theme != undefined){
             this.theme = config.theme;
 

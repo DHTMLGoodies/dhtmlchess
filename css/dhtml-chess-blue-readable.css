@@ -2064,6 +2064,7 @@ span.notation-chess-move-highlighted{
     padding-bottom:2px;
     text-align:center;
     font-size:0.9em;
+    white-space: nowrap;
 }
 .dhtml-chess-notation-table dd{
     float:left;

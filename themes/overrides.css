@@ -140,9 +140,11 @@ div.ludo-tab-strip-tab-active {
 .ludo-grid-data-column{
     border-right-width:0;
 }
+
 .ludo-grid-data-even-row{
-    background-color:#ddd;
 }
+
+
 .ludo-grid-data-odd-row, .ludo-grid-data-even-row{
     border-bottom-width:0;
 }
@@ -236,9 +238,14 @@ div.dhtml-chess-notation-panel {
 
 
 div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
-    font-weight:normal;
+    font-weight:bold;
 }
 
+span.notation-comment{
+    display:inline;
+    font-style:normal;
+    font-family:inherit !important;
+}
 /** Highlighted notation styles */
 span.notation-chess-move-highlighted {
     font-weight:normal;

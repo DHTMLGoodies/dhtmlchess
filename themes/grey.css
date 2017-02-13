@@ -31,7 +31,7 @@
 
 div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
     color: #444;
-    font-weight:normal;
+    font-weight:bold;
 }
 
 .notation-comment{

@@ -569,7 +569,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     buttonSize: function (availSize) {
-        return availSize - (availSize / 8);
+        return availSize;
     }
 
 

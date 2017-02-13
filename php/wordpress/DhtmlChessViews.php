@@ -41,6 +41,13 @@ class DhtmlChessViews
             "tag" => "G4"
         ),
         array(
+            "script" => "WPGame5",
+            "title" => "Single Game Viewer 5",
+            "type" => "g",
+            "desc" => "Notations panel to the right, nav buttons below the board",
+            "tag" => "G5"
+        ),
+        array(
             "script" => "WPViewer1",
             "title" => "Database Viewer",
             "type" => "p",
@@ -99,7 +106,8 @@ class DhtmlChessViews
             throw new DhtmlChessException("Invalid Tag");
         }
 
-        $id = array_pop($tokens);
+        $id = $tokens[2];
+
         $id = preg_replace("/[^0-9]/s", "", $id);
 
         if (empty($id)) {
@@ -124,7 +132,7 @@ class DhtmlChessViews
                 break;
         }
 
-        for ($i = 2, $len = count($tokens); $i < $len; $i++) {
+        for ($i = 3, $len = count($tokens); $i < $len; $i++) {
             $t = $tokens[$i];
             if (strstr($t, "=")) {
                 $parts = explode("=", $t);

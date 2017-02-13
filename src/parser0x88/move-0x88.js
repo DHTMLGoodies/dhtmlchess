@@ -105,10 +105,17 @@ chess.parser.Move0x88 = new Class({
         var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
 
         this.parser.move(move);
+        
+        var n = move.m;
+        var grade = "";
+        if(/[\!\?]/.test(n)){
+            grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
+        }
+
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
-            m: this.parser.getNotation(),
-            lm: this.parser.getLongNotation(),
+            m: this.parser.getNotation() + grade,
+            lm: this.parser.getLongNotation() + grade,
             moves:this.parser.getPiecesInvolvedInLastMove(),
             p: p,
             from:move.from,
