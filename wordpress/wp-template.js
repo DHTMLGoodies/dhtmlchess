@@ -10,6 +10,19 @@ chess.WPTemplate = new Class({
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
+
+        if(config.theme){
+            jQuery('<link/>', {
+                rel: 'stylesheet',
+                type: 'text/css',
+                href: ludo.config.getDocumentRoot() + '/themes/' + theme + '.css'
+            });
+
+            jQuery.ajax({
+                url: ludo.config.getDocumentRoot() + '/themes/' + theme + '.js',
+                dataType: "script"
+            });
+        }
     }
 
 
