@@ -3,7 +3,7 @@ chess.wordpress.WordpressController = new Class({
 
     posSetup: undefined,
 
-    debug: true,
+    debug: false,
 
     newGameDialog: undefined,
 
@@ -24,12 +24,12 @@ chess.wordpress.WordpressController = new Class({
     },
 
     fireDirty: function () {
-        console.log('dirty');
+        // console.log('dirty');
         this.fireEvent('dirty');
     },
 
     fireClean: function () {
-        console.log('clean');
+        //console.log('clean');
         this.fireEvent('clean');
     },
 
@@ -37,7 +37,7 @@ chess.wordpress.WordpressController = new Class({
         success = this.parent(view);
 
         if (success) {
-            console.log(view.submodule);
+            // console.log(view.submodule);
 
             switch (view.submodule) {
                 case 'wordpress.standingsbutton':
@@ -134,7 +134,6 @@ chess.wordpress.WordpressController = new Class({
     },
 
     finishRename:function(pgn, newName){
-        console.log(arguments);
         if(newName.trim().length == 0){
             this.showError('Invalid name');
             return;
