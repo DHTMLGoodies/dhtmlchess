@@ -71,7 +71,9 @@ parseDirectory(array(
     'game/game1.js', 
     'game/game2.js', 
     'game/game3.js', 
-    'pgn/viewer1.js', 
+    'game/game4.js',
+    'game/game5.js',
+    'pgn/viewer1.js',
     'game-grid.js', 
     'tactics/tactics1.js',
     ), "wordpress-templates-minified.js");

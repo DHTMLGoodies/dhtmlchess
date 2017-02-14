@@ -149,10 +149,10 @@ class DhtmlChessInstaller
     public function uninstall(){
         global $wpdb;
         
-       # $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_GAME);
-       # $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_PGN);
-       # $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_CACHE);
-       # $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_GAME);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_PGN);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_CACHE);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
     }
 
     private $pgnTactic = '[setup "1"]
