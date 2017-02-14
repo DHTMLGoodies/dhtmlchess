@@ -23,24 +23,25 @@ class DhtmlChessInstaller
     }
 
     public function install(){
+        /**
+         * @var wpdb $wpdb
+         */
         global $wpdb;
         
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_PGN . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_PGN_NAME . ' varchar(255),'
             . DhtmlChessDatabase::COL_TMP . ' varchar(255),'
-            . DhtmlChessDatabase::COL_ARCHIVED . ' char(1) default "0" ,'
-            . DhtmlChessDatabase::COL_HIDDEN . ' char(1) default "0" ,'
-            . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
+            . DhtmlChessDatabase::COL_ARCHIVED . " char(1) default '0'"
+            . DhtmlChessDatabase::COL_HIDDEN . " char(1) default '0' ,"
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_GAME . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
-            . DhtmlChessDatabase::COL_PGN_ID . ' int REFERENCES ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ID . ') on delete cascade,'
+            . DhtmlChessDatabase::COL_PGN_ID . ' int,'
             . DhtmlChessDatabase::COL_SORT . ' int,'
             . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ' int,'
             . DhtmlChessDatabase::COL_GAME . ' mediumtext, '
-            . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_CACHE . '('
@@ -54,7 +55,6 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_TITLE . ' varchar(1024), '
             . DhtmlChessDatabase::COL_GAME . ' mediumtext, '
-            . DhtmlChessDatabase::COL_CREATED . ' timestamp DEFAULT CURRENT_TIMESTAMP, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
         $wpdb->query('create index wp_index_dhtml_chess_pgn_arc on ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ARCHIVED . ')');
