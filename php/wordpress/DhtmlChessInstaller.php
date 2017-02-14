@@ -91,11 +91,15 @@ class DhtmlChessInstaller
             throw new DhtmlChessException("Unable to create database, try to do it manually with " . join(";\n", $queries));
         }
 
+        throw new DhtmlChessException(join(";\n", $queries));
+
         if(!self::$testMode){
             $this->importDefaultPgn();
         }
 
-        
+        join(";\n", $queries);
+
+
         /*
 
         $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_GAME . '('

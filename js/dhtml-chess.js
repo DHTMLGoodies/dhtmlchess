@@ -1,4 +1,4 @@
-/* Generated Tue Feb 14 0:52:33 CET 2017 */
+/* Generated Tue Feb 14 19:02:19 CET 2017 */
 /**
 DHTML Chess - Javascript and PHP chess software
 Copyright (C) 2012-2017 dhtml-chess.com
@@ -29745,7 +29745,7 @@ chess.view.notation.Panel = new Class({
         var moveTop = move.position().top + this.$b().scrollTop();
         var oh = move.outerHeight();
 
-        this._scrollIntoView(moveTop, 0);
+        this._scrollIntoView(moveTop, oh);
     },
 
     _scrollIntoView:function(moveTop, oh){
@@ -29755,7 +29755,7 @@ chess.view.notation.Panel = new Class({
         var bottomOfScroll = scrollTop + b.height();
 
         if ((moveTop + oh) > bottomOfScroll) {
-            b.scrollTop(moveTop + oh);
+            b.scrollTop(moveTop);
         } else if (moveTop < scrollTop) {
             b.scrollTop(Math.max(0, moveTop - 5));
         }
