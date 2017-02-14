@@ -32,13 +32,9 @@ class DhtmlChessInstaller
         $charset_collate = "";
 
 
-
-
         $useDbDelta = false;
         if(file_exists(ABSPATH . 'wp-admin/includes/upgrade.php')){
-
             $charset_collate = $wpdb->get_charset_collate().";";
-
             require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
             $useDbDelta = true;
         }
