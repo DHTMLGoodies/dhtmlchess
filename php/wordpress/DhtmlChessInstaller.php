@@ -83,16 +83,12 @@ class DhtmlChessInstaller
             }
 
         }catch(DhtmlChessException $e){
-
-            throw new DhtmlChessException("Unable to create database, try to do it manually with " . join(";\n", $queries));
+            throw new Exception("Unable to create database, try to do it manually with " . join(";\n", $queries));
         }
         
         if(!self::$testMode){
             $this->importDefaultPgn();
         }
-
-        join(";\n", $queries);
-
 
         /*
 
