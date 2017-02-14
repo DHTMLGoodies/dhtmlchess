@@ -46,11 +46,14 @@ chess.controller.PlayStockFishController = new Class({
                 view.on('newGame', this.prepareNewGame.bind(this));
                 break;
             case 'computer.clockview':
-                if (view.pos == 'top') {
-                    this.views.clockTop = view;
-                } else {
-                    this.views.clockBottom = view;
+                if(!view.isHidden()){
+                    if (view.pos == 'top') {
+                        this.views.clockTop = view;
+                    } else {
+                        this.views.clockBottom = view;
+                    }
                 }
+
                 break;
             case 'chess.computer.gameoverdialog':
                 view.on('newgame', function () {
@@ -144,6 +147,8 @@ chess.controller.PlayStockFishController = new Class({
             this.views.clockBottom.setColor('black');
         }
 
+        console.log(this.views.clockTop.id, this.views.clockTop.color);
+        console.log(this.views.clockBottom.id, this.views.clockBottom.color);
         this.prepareMove();
     },
 

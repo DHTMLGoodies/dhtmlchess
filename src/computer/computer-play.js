@@ -45,7 +45,6 @@ chess.computer.Elo = new Class({
 
         this.db.save('played', '1');
         var c = this.incrementGames(gameType);
-        console.log(result, againstElo, gameType, myColor, c, this.getElo(gameType));
         var newElo;
         if (c <= this.PROVISIONAL) {
             var prov = this.db.get('provisional' + gameType, []);
@@ -79,8 +78,6 @@ chess.computer.Elo = new Class({
         result /= 2;
 
         var expected = this.getExpectedScore(eloW, eloB);
-
-        console.log(expected);
 
         return this.K * (result - expected);
 
@@ -122,13 +119,10 @@ chess.computer.Clock = new Class({
     },
 
     tick: function () {
-
-
         if (this.started) {
             this.validateTime();
             this.onChange();
         }
-
         this.tick.delay(100, this);
 
     },
@@ -273,6 +267,8 @@ chess.computer.ClockView = new Class({
 
         var val = this.color == 'white' ? timeWhite : timeBlack;
 
+
+
         if (color != this.lastColor) {
             this.$b().removeClass('clock-turn');
             if (color == this.color) {
@@ -280,7 +276,7 @@ chess.computer.ClockView = new Class({
             }
         }
 
-        this.getBody().html(val.string);
+        this.$b().html(val.string);
         this.lastColor = color;
     },
 

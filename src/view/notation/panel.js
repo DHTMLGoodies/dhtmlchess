@@ -229,8 +229,7 @@ chess.view.notation.Panel = new Class({
         var moveTop = move.position().top + this.$b().scrollTop();
         var oh = move.outerHeight();
 
-        console.log(moveTop, oh);
-        this._scrollIntoView(moveTop, 0);
+        this._scrollIntoView(moveTop, oh);
     },
 
     _scrollIntoView:function(moveTop, oh){
@@ -240,7 +239,7 @@ chess.view.notation.Panel = new Class({
         var bottomOfScroll = scrollTop + b.height();
 
         if ((moveTop + oh) > bottomOfScroll) {
-            b.scrollTop(moveTop + oh);
+            b.scrollTop(moveTop);
         } else if (moveTop < scrollTop) {
             b.scrollTop(Math.max(0, moveTop - 5));
         }
@@ -298,6 +297,9 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
+
+            var pr = i > 0 ? branch[i-1] : undefined;
+
             s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';
             var notation = branch[i][this.notationKey];
             if (i == 0 && moveCounter % 2 != 0 && notation) {
@@ -308,20 +310,22 @@ chess.view.notation.Panel = new Class({
                 moves.push(s);
                 gs = true;
             }
-            if (moveCounter % 2 === 0 && notation) {
+            if ((moveCounter % 2 === 0 || (pr && pr.comment && pr.comment.length > 0))&& notation) {
                 if (gs) {
                     moves.push(e);
                 }
-                var moveNumber = (moveCounter / 2) + 1;
+                var moveNumber = Math.floor(moveCounter / 2) + 1;
                 moves.push(s);
                 gs = true;
-                moves.push('<span class="dhtml-chess-move-number">' + moveNumber + '.</span>');
+                var prefix = (moveCounter % 2) == 1 ? ".." : "";
+                moves.push('<span class="dhtml-chess-move-number">' + moveNumber + '.' + prefix + '</span>');
             }
             if (notation) {
                 moveCounter++;
             }
             this.currentMoveIndex++;
             moves.push('<span class="dhtml-chess-move-container-' + branch[i].uid + '">');
+
             moves.push(this.getDomTextForAMove(branch[i]));
             moves.push('</span>');
 

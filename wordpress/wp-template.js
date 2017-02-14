@@ -7,6 +7,8 @@ chess.WPTemplate = new Class({
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
 
+        chess.THEME_OVERRIDES = undefined;
+        
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
