@@ -27,8 +27,10 @@ class DhtmlChessInstaller
          * @var wpdb $wpdb
          */
         global $wpdb;
-        
-        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_PGN . '('
+
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+        dbDelta('create table ' . DhtmlChessDatabase::TABLE_PGN . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_PGN_NAME . ' varchar(255),'
             . DhtmlChessDatabase::COL_TMP . ' varchar(255),'
@@ -36,7 +38,7 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_HIDDEN . " char(1) default '0' ,"
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
-        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_GAME . '('
+        dbDelta('create table ' . DhtmlChessDatabase::TABLE_GAME . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_PGN_ID . ' int,'
             . DhtmlChessDatabase::COL_SORT . ' int,'
@@ -44,23 +46,23 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_GAME . ' mediumtext, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
-        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_CACHE . '('
+        dbDelta('create table ' . DhtmlChessDatabase::TABLE_CACHE . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_CACHE_KEY . ' varchar(255),'
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,'
             . DhtmlChessDatabase::COL_CACHE_VALUE . ' mediumtext)');
 
 
-        $wpdb->query('create table ' . DhtmlChessDatabase::TABLE_DRAFT . '('
+        dbDelta('create table ' . DhtmlChessDatabase::TABLE_DRAFT . '('
             . DhtmlChessDatabase::COL_ID . ' int auto_increment not null primary key,'
             . DhtmlChessDatabase::COL_TITLE . ' varchar(1024), '
             . DhtmlChessDatabase::COL_GAME . ' mediumtext, '
             . DhtmlChessDatabase::COL_UPDATED . ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)');
 
-        $wpdb->query('create index wp_index_dhtml_chess_pgn_arc on ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ARCHIVED . ')');
-        $wpdb->query('create index wp_index_dhtml_chess_game_did on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ')');
-        $wpdb->query('create index wp_index_dhtml_chess_game_pgn on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');
-        $wpdb->query('create index wp_index_dhtml_chess_cache_key on ' . DhtmlChessDatabase::TABLE_CACHE . '(' . DhtmlChessDatabase::COL_CACHE_KEY . ')');
+        dbDelta('create index wp_index_dhtml_chess_pgn_arc on ' . DhtmlChessDatabase::TABLE_PGN . '(' . DhtmlChessDatabase::COL_ARCHIVED . ')');
+        dbDelta('create index wp_index_dhtml_chess_game_did on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ')');
+        dbDelta('create index wp_index_dhtml_chess_game_pgn on ' . DhtmlChessDatabase::TABLE_GAME . '(' . DhtmlChessDatabase::COL_PGN_ID . ')');
+        dbDelta('create index wp_index_dhtml_chess_cache_key on ' . DhtmlChessDatabase::TABLE_CACHE . '(' . DhtmlChessDatabase::COL_CACHE_KEY . ')');
 
 
 
