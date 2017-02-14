@@ -31,6 +31,18 @@ class DhtmlChessInstaller
 
         $charset_collate = "";
 
+
+
+
+        $useDbDelta = false;
+        if(file_exists(ABSPATH . 'wp-admin/includes/upgrade.php')){
+
+            $charset_collate = $wpdb->get_charset_collate().";";
+
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            $useDbDelta = true;
+        }
+
         $queries = array(
 
             "create table ". DhtmlChessDatabase::TABLE_PGN . "("
@@ -39,7 +51,7 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_TMP . " varchar(255),"
             . DhtmlChessDatabase::COL_ARCHIVED . " char(1) default '0', "
             . DhtmlChessDatabase::COL_HIDDEN . " char(1) default '0' ,"
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)",
+            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)$charset_collate",
 
             "create table " . DhtmlChessDatabase::TABLE_GAME . "("
             . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
@@ -47,7 +59,7 @@ class DhtmlChessInstaller
             . DhtmlChessDatabase::COL_SORT . " int,"
             . DhtmlChessDatabase::COL_DHTML_CHESS_ID . " int,"
             . DhtmlChessDatabase::COL_GAME . " mediumtext, "
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)"
+            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)$charset_collate"
 
             , "create table " . DhtmlChessDatabase::TABLE_CACHE . "("
             . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
@@ -67,11 +79,7 @@ class DhtmlChessInstaller
             "create index wp_index_dhtml_chess_cache_key on " . DhtmlChessDatabase::TABLE_CACHE . "(" . DhtmlChessDatabase::COL_CACHE_KEY . ")"
         );
 
-        $useDbDelta = false;
-        if(file_exists(ABSPATH . 'wp-admin/includes/upgrade.php')){
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-            $useDbDelta = true;
-        }
+
 
         try{
             foreach($queries as $query){
