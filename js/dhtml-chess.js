@@ -1,17 +1,19 @@
-/* Generated Tue Feb 14 22:53:33 CET 2017 */
-/**
-DHTML Chess - Javascript and PHP chess software
-Copyright (C) 2012-2017 dhtml-chess.com
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+/* Generated Wed Feb 15 23:02:29 CET 2017 */
+/*
+* Copyright ©2017. dhtmlchess.com. All Rights Reserved.
+* This is a commercial software. See dhtmlchess.com for licensing options.
+*
+* You are free to use/try this software for 30 days without paying any fees.
+*
+* IN NO EVENT SHALL DHTML CHESS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+* OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND
+* ITS DOCUMENTATION, EVEN IF DHTML CHESS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+* DHTML CHESS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+* THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS".
+* DHTML CHESS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+*
 */
 /* ../ludojs/src/../mootools/MooTools-Core-1.6.0.js */
 /* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2016 [Valerio Proietti](http://mad4milk.net/).*/
@@ -20385,7 +20387,6 @@ ludo.form.Text = new Class({
     },
 
     sendKeyEvent: function () {
-
         this.fireEvent('key', this.els.formEl.val());
     },
 

@@ -63,6 +63,7 @@ chess.wordpress.CommentView = new Class({
         }else{
             this.controller.currentModel.setGameComment(this.child['comment'].val());
         }
+
     },
 
 
@@ -72,6 +73,8 @@ chess.wordpress.CommentView = new Class({
         if(!m && model.model.moves.length > 0 && model.model.moves[0].comment){
             m = model.model.moves[0];
         }
+        if(m == this.currentMove)return;
+
         this.currentMove = m;
         if(!m){
             this.currentLabel = chess.getPhrase('Game Comment')

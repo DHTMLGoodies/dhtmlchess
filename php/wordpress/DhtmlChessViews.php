@@ -143,6 +143,24 @@ class DhtmlChessViews
         return $ret;
     }
 
+
+    public static function getThemes(){
+
+        return array(
+            array('brown', 'Brown'),
+            array('grey', 'Grey'),
+            array('blue', 'Blue'),
+            array('wood1', 'Brown Wood 1'),
+            array('wood2', 'Dark Red Wood'),
+            array('wood3', 'Wood 3'),
+            array('wood4', 'Light Brown Wood'),
+            array('wood5', 'Wood 5'),
+            array('wood6', 'Grey Wood'),
+            array('wood7', 'Wood 7'),
+
+        );
+    }
+
 }
 
 
@@ -230,4 +248,7 @@ class DHTMLChessView
         return $board;
 
     }
+ 
+
+
 }

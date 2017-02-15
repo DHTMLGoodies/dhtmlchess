@@ -6,7 +6,9 @@ chess.WPGame3 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w - 150 + 40 + 35);
+        this.renderTo.css('height', w - 150 + 42 + 35);
+
+
         this.boardSize = w - 150;
         jQuery(document).ready(this.render.bind(this));
     },
@@ -125,7 +127,7 @@ chess.WPGame3 = new Class({
                             buttons:['flip'],
                             width:42,
                             buttonSize:function(availSize){
-                                return availSize;
+                                return availSize * 0.9;
                             }
                         }
                     ]
