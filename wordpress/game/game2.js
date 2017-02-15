@@ -1,4 +1,3 @@
-console.log('game2');
 chess.WPGame2 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize: undefined,
@@ -8,7 +7,7 @@ chess.WPGame2 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 275);
         this.boardSize = w;
-        jQuery(document).ready(this.render.bind(this));
+        this.render();
     },
 
     render: function () {

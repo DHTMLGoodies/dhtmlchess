@@ -10,7 +10,7 @@ chess.WPGame3 = new Class({
 
 
         this.boardSize = w - 150;
-        jQuery(document).ready(this.render.bind(this));
+        this.render();
     },
 
     render: function () {
@@ -135,7 +135,7 @@ chess.WPGame3 = new Class({
             ]
         });
 
-        this.controller = new chess.controller.StockfishEngineController({
+        this.controller = new chess.controller.Controller({
             applyTo: [this.module],
 
             examine:false,

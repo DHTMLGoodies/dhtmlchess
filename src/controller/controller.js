@@ -19,7 +19,7 @@ chess.controller.Controller = new Class({
     views:{},
     disabledEvents:{},
     pgn : undefined,
-    debug:true,
+    debug:false,
 
     _module:undefined,
 

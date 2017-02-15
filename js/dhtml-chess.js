@@ -1,4 +1,4 @@
-/* Generated Wed Feb 15 23:02:29 CET 2017 */
+/* Generated Thu Feb 16 0:19:10 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -31966,8 +31966,6 @@ chess.view.board.Background = new Class({
         if (config.square != undefined)this.square = config.square;
         if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
 
-        console.log(this.borderRadius);
-        
         this.view.on('boardResized', this.resize.bind(this));
 
         this.horizontal = config.horizontal;
@@ -39122,7 +39120,7 @@ chess.controller.Controller = new Class({
     views:{},
     disabledEvents:{},
     pgn : undefined,
-    debug:true,
+    debug:false,
 
     _module:undefined,
 

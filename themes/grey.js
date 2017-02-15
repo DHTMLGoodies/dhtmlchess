@@ -68,34 +68,34 @@ chess.THEME = {
         borderRadius:'10%',
         styles:{
             button:{
-                fill:'#666',
-                stroke:'#bbb'
+                'fill-opacity' : 0,
+                'stroke-opacity' : 0
             },
             image:{
-                fill:'#ccc'
+                fill:'#777'
             },
             buttonOver:{
-                fill:'#777',
-                stroke:'#a3a3a3'
+                'fill-opacity' : 0,
+                'stroke-opacity' : 0
             },
             imageOver:{
-                fill:'#eee'
+                fill:'#555'
             },
             buttonDown:{
-                fill:'#555',
-                stroke:'#bbb'
+                'fill-opacity' : 0,
+                'stroke-opacity' : 0
             },
             imageDown:{
-                fill:'#bbb'
+                fill:'#444'
             },
             buttonDisabled:{
-                fill:'#888',
-                'fill-opacity' : 0.4,
-                stroke : '#888'
+                'fill-opacity' : 0,
+                'stroke-opacity' : 0
+                // , 'fill-opacity': 0.3
             },
             imageDisabled:{
                 fill:'#555',
-                'fill-opacity' : 0.4,
+                'fill-opacity' : 0.3
             }
         }
     }

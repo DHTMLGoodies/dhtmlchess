@@ -52,7 +52,6 @@ chess.controller.StockfishEngineController = new Class({
         this.chessModel = model;
 
         if (event == 'newGame' && this.autoStopEngineOnNewGame) {
-            console.log('stopping because of event');
             this.stopEngine();
             this.startFen = this.currentModel.model.startFen;
         }
@@ -85,20 +84,15 @@ chess.controller.StockfishEngineController = new Class({
         this.awaitingStop = true;
 
         this.uciCmd("stop");
-        //console.log('stop engine');
 
     },
 
     startEngine:function(){
-
         this.stopped = false;
-
         if(!this.engine){
             this.initializeBackgroundEngine();
         }
-
         this.searchAndRedraw();
-        // console.log('start engine');
     },
 
     searchAndRedraw: function () {
@@ -114,7 +108,6 @@ chess.controller.StockfishEngineController = new Class({
 
     uciCmd: function(cmd){
         if(this.engine){
-            if(cmd == 'stop')console.log('UCICmd', cmd);
             this.engine.postMessage(cmd);
         }
     },
@@ -124,7 +117,6 @@ chess.controller.StockfishEngineController = new Class({
 
 
         if (!this.backgroundEngineValid) {
-            console.log('UCICmd', 'not valid');
             return false;
         }
 
@@ -140,7 +132,6 @@ chess.controller.StockfishEngineController = new Class({
 
                 this.engine.onmessage = function (event) {
                     var line = event.data;
-                    // console.log(line);
                     if(line == 'uciok') {
                         that.engineStatus.engineLoaded = true;
                     } else if(line == 'readyok') {
@@ -222,7 +213,6 @@ chess.controller.StockfishEngineController = new Class({
             return true;
 
         }
-        console.log('invalid' , line, this.fen);
         return false;
 
     },
