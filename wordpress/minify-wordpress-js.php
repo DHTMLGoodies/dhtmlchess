@@ -98,4 +98,5 @@ parseDirectory(array(
     'pgn/viewer1.js',
     'game-grid.js', 
     'tactics/tactics1.js',
+    'fen/board.js',
     ), "wordpress-templates-minified.js");

@@ -1,4 +1,4 @@
-/* Generated Thu Feb 16 17:46:42 CET 2017 */
+/* Generated Thu Feb 16 21:35:18 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28592,7 +28592,9 @@ ludo.ListView = new Class({
     }
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
-window.chess = {
+var _w = (function(){ return this || (0,eval)('this'); }());
+
+_w.chess = {
     language: {},
     plugins: {},
     pgn: {},
@@ -28648,11 +28650,11 @@ chess.Views = {
 };
 
 ludo.config.setDocumentRoot('../');
-window.chess.COOKIE_NAME = 'chess_cookie';
+_w.chess.COOKIE_NAME = 'chess_cookie';
 
-chess.isWordPress = false;
+_w.chess.isWordPress = false;
 
-window.chess.events = {
+_w.chess.events = {
     game: {
         loadGame:'loadGame',
         setPosition: 'setPosition',
@@ -30432,8 +30434,8 @@ chess.view.board.Board = new Class({
     type: 'chess.view.board.Board',
     pieces: [],
     pieceMap: {},
-    
-    
+
+
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     /**
      * Duration of piece animations in seconds.
@@ -30470,7 +30472,7 @@ chess.view.board.Board = new Class({
     __construct: function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['pieceLayout', 'animationDuration', 'plugins']);
+        this.setConfigParams(config, ['fen', 'pieceLayout', 'animationDuration', 'plugins']);
 
         if (this.plugins && Browser.ie && Browser.version < 9) {
             for (var i = 0; i < this.plugins.length; i++) {
@@ -30480,7 +30482,7 @@ chess.view.board.Board = new Class({
             }
         }
 
-        
+
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
@@ -30515,8 +30517,8 @@ chess.view.board.Board = new Class({
         this.addPieceDragEvents();
     },
 
-    setPieceLayout:function(layout){
-        jQuery.each(this.pieces, function(i, piece){
+    setPieceLayout: function (layout) {
+        jQuery.each(this.pieces, function (i, piece) {
             piece.setPieceLayout(layout);
         });
     },
@@ -30635,11 +30637,11 @@ chess.view.board.Board = new Class({
      { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves: function (model, move) {
-        if(this.animationDuration == 0){
-            this.showMove(model,move);
+        if (this.animationDuration == 0) {
+            this.showMove(model, move);
             return;
         }
-        
+
         this.fireEvent('animationStart');
         if (this.currentAnimation.isBusy) {
             this.playChainOfMoves.delay(200, this, [model, move]);
@@ -30671,7 +30673,7 @@ chess.view.board.Board = new Class({
             this.currentAnimation.isBusy = false;
         } else if (move.from) {
             var piece = this.getPieceOnSquare(move.from);
-            if(piece)piece.playMove(move.to, this.currentAnimation.duration);
+            if (piece)piece.playMove(move.to, this.currentAnimation.duration);
         }
     },
 
@@ -30731,7 +30733,7 @@ chess.view.board.Board = new Class({
      * @return void
      */
     showStartBoard: function (model) {
-        if(!model.getCurrentPosition()){
+        if (!model.getCurrentPosition()) {
             console.error('no position');
             console.trace();
         }

@@ -60,6 +60,15 @@ class DhtmlChessViews
             "type" => "t",
             "desc" => "Tactics Trainer board",
             "tag" => "T1"
+        ),
+        array(
+            "script" => "WPFen",
+            "title" => "Position View",
+            "type" => "f",
+            "desc" => "Display a FEN position",
+            "tag" => "",
+            "fixed_tag" => "[fen:&lt;fen>]",
+            "fixed_tag_example" => "Replace &lt;fen> with your fen position.",
         )
     );
 
@@ -67,14 +76,38 @@ class DhtmlChessViews
     {
         return self::$views;
     }
+    
+    public function hasTags($content){
+
+        if(strstr($content, '[DC'))return true;
+
+
+        $patterns = array('/\[fen:([0-9prnbqkw\/\s\-]+?)\]/si');
+
+        foreach($patterns as $pattern){
+            if(preg_match($pattern,$content ))return true;
+        }
+
+        return false;
+        
+    }
 
     public function getTags($content)
     {
         $ret = array();
 
+        if(strstr($content, "[fen")){
+            $tokens = preg_split('/(\[fen:[^\]]+?\])/si', $content, -1
+                , PREG_SPLIT_DELIM_CAPTURE);
+
+            foreach($tokens as $token){
+                if(strstr($token, "[fen")){
+                    $ret[] = $this->getFenTag($token);
+                }
+            }
+        }
+
         $tokens = preg_split('/(\[DC.+?\])/si', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
-
-
         foreach ($tokens as $token) {
 
             if (strstr($token, "[DC")) {
@@ -90,6 +123,19 @@ class DhtmlChessViews
 
         }
 
+        return $ret;
+
+    }
+
+    public function getFenTag($tag){
+        $start = strpos($tag, ":")+1;
+        $len = strrpos($tag, "]") - $start;
+
+        $fen = substr($tag, $start, $len);
+        $ret = new DHTMLChessView();
+        $ret->setTag($tag);
+        $ret->setScript("WPFen");
+        $ret->setParam("fen", $fen);
         return $ret;
 
     }
@@ -210,6 +256,10 @@ class DHTMLChessView
     public function getParams()
     {
         return empty($this->params) ? array() : $this->params;
+    }
+    
+    public function getParam($key){
+        return $this->params[$key];
     }
 
     public function setDatabaseId($id)

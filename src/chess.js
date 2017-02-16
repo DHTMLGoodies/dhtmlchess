@@ -1,5 +1,7 @@
 ludo.factory.createNamespace('chess');
-window.chess = {
+var _w = (function(){ return this || (0,eval)('this'); }());
+
+_w.chess = {
     language: {},
     plugins: {},
     pgn: {},
@@ -55,11 +57,11 @@ chess.Views = {
 };
 
 ludo.config.setDocumentRoot('../');
-window.chess.COOKIE_NAME = 'chess_cookie';
+_w.chess.COOKIE_NAME = 'chess_cookie';
 
-chess.isWordPress = false;
+_w.chess.isWordPress = false;
 
-window.chess.events = {
+_w.chess.events = {
     game: {
         loadGame:'loadGame',
         setPosition: 'setPosition',

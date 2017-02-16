@@ -1034,6 +1034,71 @@ More text here
         $this->assertInstanceOf(DHTMLChessView::class,$tags[1] );
     }
 
+    /**
+     * @test
+     */
+    public function shouldDetermineExistenceOfTags(){
+        $views = new DhtmlChessViews();
+        $content = '<strong>Heading here</strong>
+
+[DC;D1;1]
+
+More text here
+
+[DC;G1;1]
+
+&nbsp;';
+
+        $this->assertTrue($views->hasTags($content));
+
+        $this->assertFalse($views->hasTags("Hello there DC 100"));
+        $this->assertTrue($views->hasTags("hello[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1] tester"));
+        $this->assertTrue($views->hasTags("hello[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR] tester"));
+
+
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetFenTags(){
+
+        $this->database->import('lcc2016.pgn');
+
+        $views = new DhtmlChessViews();
+
+        $content = '<strong>Heading here</strong>
+
+[DC;D1;1]
+[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR]
+More text here
+
+[DC;G1;1]
+
+[fen:rnbqkbnr/4pppp/8/8/8/8/PPP3PP/RNBQKBNR w KQkq - 0 1]
+
+&nbsp;';
+
+        $tags = $views->getTags($content);
+
+        $this->assertEquals(4, count($tags));
+
+        /**
+         * @var DHTMLChessView $fenTag
+         */
+        $fenTag = $tags[0];
+
+        $this->assertEquals("WPFen", $fenTag->getScript());
+        $this->assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", $fenTag->getParam("fen"));
+        $fenTag = $tags[1];
+
+        $this->assertEquals("WPFen", $fenTag->getScript());
+        $this->assertEquals("rnbqkbnr/4pppp/8/8/8/8/PPP3PP/RNBQKBNR w KQkq - 0 1", $fenTag->getParam("fen"));
+
+
+    }
+
     private function countPgnsDb()
     {
         $query = "select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_PGN;
