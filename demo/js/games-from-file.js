@@ -209,7 +209,7 @@ chess.GamesFromFile = new Class({
                                     ]
                                 },
                                 {
-                                    type:'chess.view.buttonbar.Game',
+                                    type:'chess.view.buttonbar.Bar',
                                     width:200,
                                     elCss:{
                                         margin:2

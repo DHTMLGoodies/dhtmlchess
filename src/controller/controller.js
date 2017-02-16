@@ -15,7 +15,6 @@ chess.controller.Controller = new Class({
     currentModel:null,
     modelCacheSize:15,
 
-    databaseId:undefined,
     views:{},
     disabledEvents:{},
     pgn : undefined,
@@ -28,7 +27,7 @@ chess.controller.Controller = new Class({
     __construct:function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
+        this.setConfigParams(config, ['debug', 'pgn', 'theme']);
 
         if(config.applyTo != undefined){
             this._module = config.applyTo[0];
@@ -161,9 +160,6 @@ chess.controller.Controller = new Class({
             case 'buttonPreviousGame':
                 view.addEvent('previousGame', this.loadPreviousGame.bind(this));
                 break;
-            case 'folder.tree':
-                view.addEvent('selectDatabase', this.selectDatabase.bind(this));
-                break;
             case 'eco.VariationTree':
                 view.addEvent('selectMove', this.addMove.bind(this));
                 break;
@@ -183,20 +179,6 @@ chess.controller.Controller = new Class({
         this.currentModel.deleteMove(move);
     },
 
-	/**
-	 * Select a database
-	 * @method selectDatabase
-	 * @param {Number} database
-	 */
-    selectDatabase:function (database) {
-        this.databaseId = database.id;
-		/**
-		 * Select database event
-		 * @event selectDatabase
-		 * @param {Number} database
-		 */
-        this.fireEvent('selectDatabase', database);
-    },
 	/**
 	 * Load next game in selected database. This method will only work if you have
 	 * a grid with list of games. The only thing this method does is to fire the "nextGame"
@@ -464,11 +446,7 @@ chess.controller.Controller = new Class({
      * @return void
      */
     loadRandomGame:function () {
-        if(this.databaseId){
-            this.currentModel.loadRandomGame(this.databaseId);
-        }else if(this.pgn){
-            this.currentModel.loadRandomGameFromFile(this.pgn);
-        }
+        this.currentModel.loadRandomGameFromFile(this.pgn);
     },
 
     loadWordPressGameById:function(pgn, id){

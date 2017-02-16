@@ -34,53 +34,64 @@ chess.view.buttonbar.Bar = new Class({
     __construct: function (config) {
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled',
-            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles',
+            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
 
         this.disabledButtons = [];
         this.defaultStyles = {
             button: {
-                'stroke': '#aeb0b0',
-                'fill': '#444',
-                'stroke-width': 1
-            },
-            buttonOver: {
-                'stroke': '#fff',
-                'fill': '#444',
-                'stroke-width': 1
-            },
-            buttonDown: {
-                'stroke': '#333',
+                'stroke': '#888',
                 'fill': '#aeb0b0',
                 'stroke-width': 1
             },
-            buttonDisabled: {
-                'stroke': '#444',
-                'fill': '#444',
+            image: {fill: '#444'},
+
+
+            buttonOver: {
+                'stroke': '#777',
+                'fill': '#aeb0b0',
                 'stroke-width': 1
             },
+            imageOver: {fill: '#222'},
+
+            buttonDown: {
+                'stroke': '#555',
+                'fill': '#999',
+                'stroke-width': 1
+            },
+            imageDown: {fill: '#222'},
+
+
+            buttonDisabled: {
+                'stroke': '#888',
+                'fill': '#aeb0b0',
+                'stroke-width': 1
+            },
+            imageDisabled: {
+                fill: '#444',
+                'fill-opacity': 0.4,
+                'stroke-opacity': 0.2
+            },
+
+
             buttonPlay: {
                 'stroke': '#C8E6C9',
                 'fill': '#388E3C',
                 'stroke-width': 1
             },
-            image: {fill: '#aeb0b0'},
-            imageOver: {fill: '#aeb0b0'},
-            imageDown: {fill: '#444'},
-            imageDisabled: {
-                fill: '#aeb0b0',
-                'fill-opacity': 0.2,
-                'stroke-opacity': 0.2
-            },
+
+
             imagePlay: {fill: '#C8E6C9'},
 
             overlay : {
                 'fill-opacity' : 0.1,
-                'fill': '#fff'
+                'fill': '#000'
             }
         };
 
         this.styles = this.styles || {};
+
+
 
         this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
         this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
@@ -96,6 +107,8 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
+
+
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },

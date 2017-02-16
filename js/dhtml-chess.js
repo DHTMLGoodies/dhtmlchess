@@ -1,4 +1,4 @@
-/* Generated Thu Feb 16 0:19:10 CET 2017 */
+/* Generated Thu Feb 16 17:46:42 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25783,596 +25783,6 @@ ludo.form.ResetButton = new Class({
             this.applyTo.getForm().reset();
         }
     }
-});/* ../ludojs/src/data-source/json-tree.js */
-/**
- * Special collection class for tree structures.
- * @namespace ludo.dataSource
- * @class ludo.dataSource.JSONTree
- * @augments ludo.dataSource.JSONArray
- */
-ludo.dataSource.JSONTree = new Class({
-	Extends:ludo.dataSource.JSONArray,
-	type : 'dataSource.JSONTree',
-	searcherType:'dataSource.JSONTreeSearch',
-	/**
-	 * Return children of parent with this id
-	 * @function getChildren
-	 * @param {String} parent id
-	 * @return {Array|undefined} children
-	 * @memberof ludo.dataSource.JSONTree.prototype
-	 */
-	getChildren:function (parent) {
-		var p = this.findRecord(parent);
-		if (p) {
-			if (!p.children)p.children = [];
-			return p.children;
-		}
-		return undefined;
-	},
-
-    fireSelect:function(record){
-        this.fireEvent('select', this.getRecord(record));
-    },
-
-	addRecordEvents:function(record){
-		this.parent(record);
-		record.addEvent('addChild', this.indexRecord.bind(this));
-		record.addEvent('insertBefore', this.indexRecord.bind(this));
-		record.addEvent('insertAfter', this.indexRecord.bind(this));
-
-		var events = ['insertBefore','insertAfter','addChild','removeChild'];
-		for(var i=0;i<events.length;i++){
-			record.addEvent(events[i], this.fireRecordEvent.bind(this));
-		}
-	},
-
-	fireRecordEvent:function(record, otherRecord, eventName){
-		this.fireEvent(eventName, [record, otherRecord]);
-	},
-
-	addSearcherEvents:function(){
-        this.searcher.addEvent('match', function(record){
-            this.fireEvent('show', this.getRecord(record));
-        }.bind(this));
-        this.searcher.addEvent('mismatch', function(record){
-            this.fireEvent('hide', this.getRecord(record));
-        }.bind(this));
-	}
-});/* ../ludojs/src/collection-view.js */
-/**
- * Base class for List and tree.Tree
- * @class ludo.CollectionView
- * @param {Object} config
- * @param {String} config.emptyText Text to show on no data
- */
-ludo.CollectionView = new Class({
-    Extends: ludo.View,
-
-    emptyText: undefined,
-
-    __construct: function (config) {
-        this.parent(config);
-        this.setConfigParams(config, ['emptyText']);
-    },
-
-    ludoEvents: function () {
-        this.parent();
-        if (this.emptyText && !this.getDataSource().hasRemoteSearch()) {
-            this.getDataSource().getSearcher().addEvents({
-                'matches': this.hideEmptyText.bind(this),
-                'noMatches': this.showEmptyText.bind(this)
-            });
-        }
-    },
-
-    hideEmptyText: function () {
-        this.emptyEl().css('display', 'none');
-    },
-
-    showEmptyText: function () {
-        var el = this.emptyEl();
-        el.css('display', '');
-        el.html(this.getEmptyText());
-
-        el.css({
-            top: this.getEl().height() / 2 - (el.height() / 2)
-        });
-    },
-
-    emptyEl: function () {
-        if (this._emptyEl === undefined) {
-            this._emptyEl = jQuery('<div class="ludo-empty-text" style="width:100%;position:absolute">' + this.getEmptyText() + '</div>');
-            this._emptyEl.css('z-index', 2000);
-            this.getEl().append(this._emptyEl);
-        }
-        return this._emptyEl;
-    },
-
-    getEmptyText: function () {
-        return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
-    },
-
-    _nodeContainer: undefined,
-
-    nodeContainer: function () {
-        if (this._nodeContainer === undefined) {
-            this._nodeContainer = jQuery('<div style="position:relative">');
-            this.$b().append(this._nodeContainer);
-
-        }
-        return this._nodeContainer;
-    },
-
-    render: function () {
-        if (this.emptyText) {
-            var ds = this.getDataSource();
-
-            var hasData = ds.isWaitingData() || ds.getCount() > 0;
-            
-            this[hasData ? 'hideEmptyText' : 'showEmptyText']();
-        }
-    },
-
-    JSON: function () {
-
-    }
-});/* ../ludojs/src/tree/tree.js */
-/**
- * @namespace ludo.tree
- */
-/**
- * Tree widget
- * @class ludo.tree.Tree
- * @param {Object} config
- * @param {Object} config.defaults: Default values for properties not present in data, example:
- * <code>
- *     defaults: {
- *     		"icon": "images/icon.gif"
- *     }
- * </code>
- * @param {Object} config.tpl Template strings for how to render nodes in the tree.
- * Example:
- * <code>
- * tpl: '{title}
- * </code>
- * which renders JSON like : [{"title": "First node" },{"title": "Second node"}]
- * as "First node".
- * You can also have more than one template.
- * Example:
- * <code>
- tpl:{
-	tplKey : 'type',
-	city : 'City : {city}',
-	country : 'Country : {country}
-  }
- * </code>
- * for JSON like:
- * <code>
- *     [ { type:"country", "country" : "United States" }, { "type": "city", "city": "Washington" }]
- * </code>
- * tplKey refers to the "type" attribute. When type is "country", it should use the "country" tpl. When type is "city",
- * it should use the "city" template.
- *
- */
-ludo.tree.Tree = new Class({
-	Extends:ludo.CollectionView,
-    type:'tree.Tree',
-	nodeCache:{},
-    renderedRecords: {},
-	/*
-	 String template for nodes in the tree
-	 @config {String|Object}
-	 @memberof ludo.tree.Tree.prototype
-	 @example
-	 	tpl : '{title}
-	 or as an object:
-	 @example
-	 	tpl:{
-	 		tplKey : 'type',
-	 		city : 'City : {city}',
-	 		country : 'Country : {country}
-	 	}
-	 When using an object, "tplKey" is a reference to a common property of all objects, example "type". When type
-	 for a node is "city", it will use the city : 'City : {city}' tpl. When it's "country", it will use the "country" tpl.
-	 @example
-	 	[
-			{ id:1, "country":"Japan", "type":"country", "capital":"Tokyo", "population":"13,185,502",
-				children:[
-					{ id:11, city:'Kobe', "type":"city" },
-					{ id:12, city:'Kyoto', "type":"city" },
-					{ id:13, city:'Sapporo', "type":"city"},
-					{ id:14, city:'Sendai', "type":"city"},
-					{ id:15, city:'Kawasaki', "type":"city"}
-				]},
-			{id:2, "country":"South Korea", "capital":"Seoul", "population":"10,464,051", "type":"country",
-				children:[
-					{ id:21, city:'Seoul', "type":"city" }
-
-				]},
-			{id:3, "country":"Russia", "capital":"Moscow", "population":"10,126,424", "type":"country"},
-		]
-	 is an example of a data structure for this tpl.
-	 */
-	tpl : '<span class="ludo-tree-node-spacer"></span> {title}',
-	tplKey:undefined,
-	dataSource:{
-	},
-    defaultDS: 'dataSource.JSONTree',
-
-	/*
-	 Default values when not present in node.
-	 @config {Object} defaults
-	 @memberof ludo.tree.Tree.prototype
-	 @default undefined
-	 @example
-	 	defaults:{
-	 		"database" : {
-	 			"icon" : "image.gif"
-	 		}
-	 	}
-	 where "database" refers to the record attribute with name defined in categoryKey property of tree(default "type" ).
-	 */
-	defaults:undefined,
-
-	/*
-	 * Key used to defined nodes inside categories. This key is used for default values and node config
-	 * @config {String} categoryKey
-	 * @memberof ludo.tree.Tree.prototype
-	 * @default "type"
-	 */
-	categoryKey : 'type',
-
-	/*
-	 Config of tree node categories
-	 @config {Object} categoryConfig
-	 @memberof ludo.tree.Tree.prototype
-	 @example
-	 	categoryConfig:{
-	 		"database":{
-	 			"selectable" : false
-	 		}
-	 	}
-	 */
-	categoryConfig:undefined,
-
-	__construct:function(config){
-		this.parent(config);
-		this.setConfigParams(config, ['defaults','categoryConfig','categoryKey']);
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		if (this.dataSource) {
-            this.getDataSource().addEvents({
-                'select' : this.selectRecord.bind(this),
-                'deselect' : this.deSelectRecord.bind(this),
-                'add' : this.addRecord.bind(this),
-                'addChild' : this.addChild.bind(this),
-                'remove' : this.removeChild.bind(this),
-                'removeChild' : this.removeChild.bind(this),
-                'show' : this.showRecord.bind(this),
-                'hide' : this.hideRecord.bind(this)
-            });
-
-
-		}
-	},
-
-	ludoDOM:function () {
-		this.parent();
-		this.$b().css('overflowY', 'auto');
-		this.$b().on("click", this.onClick.bind(this));
-		this.$b().on("dblclick", this.onDblClick.bind(this));
-
-
-	},
-
-	onClick:function (e) {
-		var record = this.getRecordByDOM(e.target);
-		if (record) {
-			if(e.target.tagName.toLowerCase() === 'span' && this.isSelectable(record)) {
-				this.getDataSource().selectRecord(record);
-            }
-            if(jQuery(e.target).hasClass('ludo-tree-node-expand')){
-                this.expandOrCollapse(record, e.target);
-            }else{
-                this.expand(record, e.target);
-            }
-		}
-	},
-
-	onDblClick:function(e){
-		var record = this.getRecordByDOM(e.target);
-		if(record){
-			this.fireEvent('dblClick', record);
-		}
-	},
-
-	selectRecord:function (record) {
-        if(!record.getPlainRecord)record = this.getDataSource().getRecord(record);
-		if(!record)return;
-        if(!this.isRecordRendered(record))this.showRecord(record);
-		var el = this.getDomElement(record, '.ludo-tree-node-plain');
-		if (el)el.addClass('ludo-tree-selected-node');
-	},
-
-	deSelectRecord:function (record) {
-		var el = this.getDomElement(record, '.ludo-tree-node-plain');
-		if (el)el.removeClass('ludo-tree-selected-node');
-	},
-
-	getDomElement:function (record, cls) {
-		var el = this.getDomByRecord(record);
-		if (el)return jQuery(el).find(cls).first();
-		return undefined;
-	},
-
-	expandOrCollapse:function (record, el) {
-        el = this.getExpandEl(record);
-        var method = el.hasClass('ludo-tree-node-collapse') ? 'collapse' : 'expand';
-        this[method](record,el);
-	},
-
-	expand:function (record, el) {
-		el = this.getExpandEl(record);
-
-        if(!this.areChildrenRendered(record)){
-
-            this.renderChildrenOf(record);
-        }
-		el.addClass('ludo-tree-node-collapse');
-		this.getCachedNode(record, 'children', 'child-container-').css('display', '');
-	},
-
-	collapse:function (record, el) {
-		el = this.getExpandEl(record);
-		el.removeClass('ludo-tree-node-collapse');
-		this.getCachedNode(record, 'children', 'child-container-').css('display', 'none');
-	},
-
-	getExpandEl:function (record) {
-		return this.getCachedNode(record, 'expand', 'expand-');
-	},
-
-	getChildContainer:function (record) {
-		return this.getCachedNode(record, 'children', 'child-container-');
-	},
-
-	hideRecord:function (record) {
-        if(this.isRecordRendered(record)){
-            this.getCachedNode(record, 'node', '').css('display', 'none');
-        }
-	},
-
-	showRecord:function (record) {
-        if(!this.isRecordRendered(record)){
-            this.showRecord(record.getParent());
-            this.expand(record.getParent());
-            this.showRecord(record.getParent());
-        }
-		this.getCachedNode(record, 'node', '').css('display', '');
-	},
-
-	getDomByRecord:function (record) {
-		return record ? this.getCachedNode(record, 'node', '') : undefined;
-	},
-
-    isRecordRendered:function(record){
-        return this.renderedRecords[record.getUID ? record.getUID() : record.uid] ? true : false;
-    },
-
-    areChildrenRendered:function(record){
-		record =  record.getUID ? record.record : record;
-        return record.children && record.children.length ? this.isRecordRendered(record.children[0]) : false;
-    },
-
-	getCachedNode:function (record, cacheKey, idPrefix) {
-		if (this.nodeCache[cacheKey] === undefined)this.nodeCache[cacheKey] = {};
-		var uid = record.getUID ? record.getUID() : record.uid;
-		if (!this.nodeCache[cacheKey][uid]) {
-			this.nodeCache[cacheKey][uid] = this.$b().find("#" + idPrefix + uid);
-		}
-		return this.nodeCache[cacheKey][uid];
-	},
-
-	getRecordByDOM:function (el) {
-		var b = this.$b();
-		while (el !== b && (!el.className || el.className.indexOf('ludo-tree-a-node') === -1)) {
-			el = el.parentNode;
-		}
-
-		if (el)return this.getDataSource().getRecord(el.id);
-		return undefined;
-	},
-
-	JSON:function () {
-
-		this.nodeCache = {};
-		this.renderedRecords = {};
-		this.nodeContainer().html('');
-		this.render();
-	},
-
-	render:function () {
-		this.parent();
-		var data = this.getDataSource().getData();
-
-		this.nodeContainer().html(this.getHtmlForBranch(data));
-	},
-
-	getHtmlForBranch:function (branch) {
-		var html = [];
-		for (var i = 0; i < branch.length; i++) {
-			html.push(this.getHtmlFor(branch[i], (i === branch.length - 1), true));
-		}
-		return html.join('');
-	},
-
-    renderChildrenOf:function(record){
-        var p = this.getChildContainer(record);
-        if(p){
-			var c = record.getChildren();
-            if(c)p.html(this.getHtmlForBranch(c));
-        }
-    },
-
-	getHtmlFor:function (record, isLast, includeContainer) {
-		var ret = [];
-
-        this.renderedRecords[record.uid] = true;
-		if (includeContainer) {
-			ret.push('<div class="ludo-tree-a-node ludo-tree-node');
-			if (isLast)ret.push(' ludo-tree-node-last-sibling');
-			ret.push('" id="' + record.uid + '">');
-		}
-		ret.push('<div class="ludo-tree-node-plain">');
-
-        ret.push(this.isSelectable(record) ? '<span class="ludo-tree-node-selectable">' : '<span>');
-		ret.push(this.getNodeTextFor(record));
-		ret.push('</span>');
-
-		ret.push('<div class="ludo-tree-node-expand" id="expand-' + record.uid + '" style="position:absolute;display:' + (record.children && record.children.length ? '' : 'none') + '"></div>');
-		ret.push('</div>');
-
-		ret.push('<div class="ludo-tree-node-container" style="display:none" id="child-container-');
-		ret.push(record.uid);
-		ret.push('">');
-		ret.push('</div>');
-
-		if (includeContainer)ret.push('</div>');
-
-        /*
-         * Event fired when a node is created
-         * @event createNode
-         * @param {String} id of DOM node
-         * @param {Object} record
-         * @param {tree.Tree} tree
-         */
-        this.fireEvent('createNode', [record.uid, record, this]);
-		return ret.join('');
-	},
-
-	isSelectable:function (record) {
-		if(this.categoryConfig){
-			record = record.getUID ? record.getData() : record;
-			var config = this.categoryConfig[record[this.categoryKey]];
-			return config && config.selectable !== undefined ? config.selectable : true
-		}
-		return true;
-	},
-
-	getNodeTextFor:function (record) {
-		var tplFields = this.getTplFields(record);
-
-		var ret = this.getTpl(record);
-
-		for (var i = 0, count = tplFields.length; i < count; i++) {
-			var field = tplFields[i];
-			ret = ret.replace('{' + field + '}', record[field] ? record[field] : this.getDefaultValue(record, field));
-		}
-
-		ret = '<span class="ludo-tree-node-spacer"></span>' + ret;
-
-		return ret;
-	},
-
-	getDefaultValue:function(record, field){
-		if(this.defaults){
-			var key = this.categoryKey;
-			return record[key] && this.defaults && this.defaults[record[key]] ? this.defaults[record[key]][field] : '';
-		}
-		return "";
-
-	},
-
-	tpls:undefined,
-
-	getTpl:function(record){
-		return this.tpl['tplKey'] ? this.tpl[record[this.tplKey]] : this.tpl;
-	},
-
-	getTplFields:function (record) {
-		if (!this.tplFields) {
-			if(ludo.util.isString(this.tpl)){
-				this.tplFields = this.getTplMatches(this.tpl);
-			}else{
-				this.tplFields = {};
-				var tpl = Object.clone(this.tpl);
-				this.tplKey = tpl.tplKey;
-				for(var key in tpl){
-					if(tpl.hasOwnProperty(key)){
-						if(key != 'tplKey')this.tplFields[key] = this.getTplMatches(tpl[key]);
-					}
-				}
-			}
-
-		}
-		return this.tplKey ? this.tplFields[record[this.tplKey]] : this.tplFields;
-	},
-
-	getTplMatches:function(tpl){
-		var matches = tpl.match(/{([^}]+)}/g);
-		for (var i = 0; i < matches.length; i++) {
-			matches[i] = matches[i].replace(/[{}]/g, '');
-		}
-		return matches;
-	},
-
-	addRecord:function(record){
-		this.addChild(record);
-	},
-
-	addChild:function (record, parentRecord) {
-		var childContainer = parentRecord ? this.getChildContainer(parentRecord) : this.$b();
-		if (childContainer) {
-			var node = this.getDomByRecord(record) || this.getNewNodeFor(record);
-			childContainer.appendChild(node);
-			this.cssBranch(parentRecord ? parentRecord.children : this.getDataSource().data);
-			if(parentRecord)this.getExpandEl(parentRecord).style.display='';
-		}
-	},
-
-	getNewNodeFor:function (record) {
-		record = record.getUID ? record.record : record;
-		if (!record.uid)this.getDataSource().indexRecord(record);
-		return ludo.dom.create({
-            cls : 'ludo-tree-a-node ludo-tree-node',
-            html : this.getHtmlFor(record, false, false),
-            id : record.uid
-        });
-	},
-
-	cssBranch:function (nodes) {
-		var count = nodes.length;
-		for (var i = Math.max(0,count-2); i < count; i++) {
-			var node = this.getDomByRecord(nodes[i]);
-			if (node) {
-				if (i < count - 1) {
-					node.removeClass('ludo-tree-node-last-sibling');
-				} else {
-					node.addClass('ludo-tree-node-last-sibling');
-				}
-			}
-		}
-	},
-
-	removeChild:function(record){
-		var el = this.getDomByRecord(record);
-		if(el){
-			el.parentNode.removeChild(el);
-
-            delete this.renderedRecords[this.getUID(record)];
-
-			if(record.parentUid){
-				var p = this.dataSource.findRecord(record.parentUid);
-				if(p)this.cssBranch(p.children);
-			}
-		}
-	},
-
-    getUID:function(record){
-        return record.getUID ? record.getUID() : record.uid;
-    }
 });/* ../ludojs/src/card/button.js */
 
 ludo.card.Button = new Class({
@@ -28563,6 +27973,84 @@ ludo.form.Label = new Class({
         this.$b().removeClass('ludo-form-el-invalid');
         this.$b().addClass('ludo-form-el-invalid');
     }
+});/* ../ludojs/src/collection-view.js */
+/**
+ * Base class for List and tree.Tree
+ * @class ludo.CollectionView
+ * @param {Object} config
+ * @param {String} config.emptyText Text to show on no data
+ */
+ludo.CollectionView = new Class({
+    Extends: ludo.View,
+
+    emptyText: undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.setConfigParams(config, ['emptyText']);
+    },
+
+    ludoEvents: function () {
+        this.parent();
+        if (this.emptyText && !this.getDataSource().hasRemoteSearch()) {
+            this.getDataSource().getSearcher().addEvents({
+                'matches': this.hideEmptyText.bind(this),
+                'noMatches': this.showEmptyText.bind(this)
+            });
+        }
+    },
+
+    hideEmptyText: function () {
+        this.emptyEl().css('display', 'none');
+    },
+
+    showEmptyText: function () {
+        var el = this.emptyEl();
+        el.css('display', '');
+        el.html(this.getEmptyText());
+
+        el.css({
+            top: this.getEl().height() / 2 - (el.height() / 2)
+        });
+    },
+
+    emptyEl: function () {
+        if (this._emptyEl === undefined) {
+            this._emptyEl = jQuery('<div class="ludo-empty-text" style="width:100%;position:absolute">' + this.getEmptyText() + '</div>');
+            this._emptyEl.css('z-index', 2000);
+            this.getEl().append(this._emptyEl);
+        }
+        return this._emptyEl;
+    },
+
+    getEmptyText: function () {
+        return ludo.util.isFunction(this.emptyText) ? this.emptyText.call() : this.emptyText;
+    },
+
+    _nodeContainer: undefined,
+
+    nodeContainer: function () {
+        if (this._nodeContainer === undefined) {
+            this._nodeContainer = jQuery('<div style="position:relative">');
+            this.$b().append(this._nodeContainer);
+
+        }
+        return this._nodeContainer;
+    },
+
+    render: function () {
+        if (this.emptyText) {
+            var ds = this.getDataSource();
+
+            var hasData = ds.isWaitingData() || ds.getCount() > 0;
+            
+            this[hasData ? 'hideEmptyText' : 'showEmptyText']();
+        }
+    },
+
+    JSON: function () {
+
+    }
 });/* ../ludojs/src/list-view.js */
 /**
  * ListView
@@ -30166,9 +29654,11 @@ chess.view.notation.LastMove = new Class({
     resize: function (size) {
         this.parent(size);
         var w = this.$b().width();
+        
+        var h= this.$b().height();
         this.els.mc.css({
-            'line-height': (size.height) + 'px',
-            'font-size': (size.height * 0.4) + 'px',
+            'line-height': (h) + 'px',
+            'font-size': (h * 0.4) + 'px',
             left: -w
         });
         this.els.left.css({
@@ -33149,53 +32639,64 @@ chess.view.buttonbar.Bar = new Class({
     __construct: function (config) {
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles', 'stylesOver', 'stylesDown', 'stylesDisabled',
-            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius','overlay']);
+        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles',
+            'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
 
         this.disabledButtons = [];
         this.defaultStyles = {
             button: {
-                'stroke': '#aeb0b0',
-                'fill': '#444',
-                'stroke-width': 1
-            },
-            buttonOver: {
-                'stroke': '#fff',
-                'fill': '#444',
-                'stroke-width': 1
-            },
-            buttonDown: {
-                'stroke': '#333',
+                'stroke': '#888',
                 'fill': '#aeb0b0',
                 'stroke-width': 1
             },
-            buttonDisabled: {
-                'stroke': '#444',
-                'fill': '#444',
+            image: {fill: '#444'},
+
+
+            buttonOver: {
+                'stroke': '#777',
+                'fill': '#aeb0b0',
                 'stroke-width': 1
             },
+            imageOver: {fill: '#222'},
+
+            buttonDown: {
+                'stroke': '#555',
+                'fill': '#999',
+                'stroke-width': 1
+            },
+            imageDown: {fill: '#222'},
+
+
+            buttonDisabled: {
+                'stroke': '#888',
+                'fill': '#aeb0b0',
+                'stroke-width': 1
+            },
+            imageDisabled: {
+                fill: '#444',
+                'fill-opacity': 0.4,
+                'stroke-opacity': 0.2
+            },
+
+
             buttonPlay: {
                 'stroke': '#C8E6C9',
                 'fill': '#388E3C',
                 'stroke-width': 1
             },
-            image: {fill: '#aeb0b0'},
-            imageOver: {fill: '#aeb0b0'},
-            imageDown: {fill: '#444'},
-            imageDisabled: {
-                fill: '#aeb0b0',
-                'fill-opacity': 0.2,
-                'stroke-opacity': 0.2
-            },
+
+
             imagePlay: {fill: '#C8E6C9'},
 
             overlay : {
                 'fill-opacity' : 0.1,
-                'fill': '#fff'
+                'fill': '#000'
             }
         };
 
         this.styles = this.styles || {};
+
+
 
         this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
         this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
@@ -33211,6 +32712,8 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
+
+
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -34677,177 +34180,6 @@ chess.view.button.PreviousGame = new Class({
 
     previousGame : function() {
         this.fireEvent('previousGame');
-    }
-});/* ../dhtml-chess/src/view/folder/tree.js */
-/**
- * This view displays a list of folders and databases as a tree.
- * @submodule Tree
- * @namespace chess.view.folder
- * @class Tree
- */
-chess.view.folder.Tree = new Class({
-	Extends:ludo.tree.Tree,
-	module:'chess',
-	submodule:'folder.tree',
-
-	tpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
-	expandDepth:3,
-	defaults:{
-		'folder':{
-			icon:'folder.png'
-
-		},
-		'database':{
-			icon:'database.png'
-		}
-	},
-	categoryConfig:{
-		'folder':{
-			selectable:false
-		},
-		'database':{
-			selectable:true
-		}
-
-	},
-
-	/**
-	 Reference to seleted record
-	 @config {Object} selected
-	 @example
-	 selected : { "id" . 1, "type": "database" }
-	 */
-	selected:undefined,
-	defaultDS:'chess.dataSource.FolderTree',
-
-	__construct:function (config) {
-		this.parent(config);
-		this.setConfigParams(config, ['selected']);
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		this.getDataSource().addEvent('select', this.selectDatabase.bind(this));
-		if (this.selected) {
-
-		}
-	},
-
-	selectDatabase:function (record) {
-		/**
-		 Fired on click on database in the tree.
-		 @event selectDatabase
-		 @param {Object} record
-		 @example
-		 { id:4, type:'database' }
-		 is example of record sent with the event.
-		 */
-		this.fireEvent('selectDatabase', record.getData());
-	}
-});/* ../dhtml-chess/src/view/eco/variation-tree.js */
-/**
- Eco variation tree view. This view displays available next moves according to ECO.
- @namespace chess.view.eco
- @class VariationTree
- @extends tree.Tree
- @example
- 	children:[
- 	 ...
- 	 {
-		 title:'Eco',
-		 type:'chess.view.eco.VariationTree'
-	 }
- 	...
- 	]
- */
-chess.view.eco.VariationTree = new Class({
-	Extends:ludo.tree.Tree,
-	type:'chess.view.eco.VariationTree',
-	module:'chess',
-	submodule:'eco.VariationTree',
-	dataSource:{
-        resource : 'Eco',
-		autoload:false
-	},
-	openingCache:{},
-	currentFen:'',
-	showLines:false,
-
-	tpl:'<span><b>{notation} </b>: {eco_code} {opening}</span>',
-	treeConfig:{
-		defaultValues:{
-
-		}
-	},
-	overflow:'auto',
-	ludoEvents:function () {
-		this.parent();
-		this.addEvent('load', this.cacheVariations.bind(this));
-		this.addEvent('selectrecord', this.selectMove.bind(this));
-	},
-
-	selectMove:function (move) {
-		this.fireEvent('selectMove', { from:move.from, to:move.to });
-	},
-
-	setController:function (controller) {
-		this.parent(controller);
-		controller.addEvent('setPosition', this.loadVariations.bind(this));
-		controller.addEvent('newMove', this.loadVariations.bind(this));
-		controller.addEvent('nextmove', this.loadVariations.bind(this));
-	},
-
-	loadVariations:function (model) {
-		var pos = model.getCurrentPosition();
-		if (this.openingCache[pos]) {
-			this.JSON(this.openingCache[pos]);
-			return;
-		}
-		this.currentFen = pos;
-        this.getDataSource().sendRequest("moves", pos.replace(/\//g,"_"));
-	},
-
-	cacheVariations:function (json) {
-		this.openingCache[this.currentFen] = json.data;
-	}
-});/* ../dhtml-chess/src/view/tree/select-folder.js */
-chess.view.tree.SelectFolder = new Class({
-    Extends:ludo.tree.Tree,
-    module:'chess',
-    submodule:'folder.tree',
-    dataSource:{
-        type : 'chess.dataSource.FolderTree'
-    },
-    nodeTpl:'<img src="' + ludo.config.getDocumentRoot() + 'images/{icon}"><span>{title}</span>',
-    expandDepth:3,
-    recordConfig:{
-        'folder':{
-            selectable:true,
-            defaults:{
-                icon:'folder.png'
-            }
-        },
-        'database':{
-            selectable:false,
-            defaults:{
-                icon:'database.png'
-            }
-        }
-    },
-
-    treeConfig:{
-        defaultValues:{
-            icon:'folder.png'
-        }
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        this.addEvent('selectrecord', this.selectDatabase.bind(this));
-    },
-
-    selectDatabase:function (record) {
-        this.fireEvent('selectDatabase', record);
     }
 });/* ../dhtml-chess/src/view/command/line.js */
 /**
@@ -39116,7 +38448,6 @@ chess.controller.Controller = new Class({
     currentModel:null,
     modelCacheSize:15,
 
-    databaseId:undefined,
     views:{},
     disabledEvents:{},
     pgn : undefined,
@@ -39129,7 +38460,7 @@ chess.controller.Controller = new Class({
     __construct:function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.setConfigParams(config, ['debug', 'pgn','databaseId', 'theme']);
+        this.setConfigParams(config, ['debug', 'pgn', 'theme']);
 
         if(config.applyTo != undefined){
             this._module = config.applyTo[0];
@@ -39262,9 +38593,6 @@ chess.controller.Controller = new Class({
             case 'buttonPreviousGame':
                 view.addEvent('previousGame', this.loadPreviousGame.bind(this));
                 break;
-            case 'folder.tree':
-                view.addEvent('selectDatabase', this.selectDatabase.bind(this));
-                break;
             case 'eco.VariationTree':
                 view.addEvent('selectMove', this.addMove.bind(this));
                 break;
@@ -39284,20 +38612,6 @@ chess.controller.Controller = new Class({
         this.currentModel.deleteMove(move);
     },
 
-	/**
-	 * Select a database
-	 * @method selectDatabase
-	 * @param {Number} database
-	 */
-    selectDatabase:function (database) {
-        this.databaseId = database.id;
-		/**
-		 * Select database event
-		 * @event selectDatabase
-		 * @param {Number} database
-		 */
-        this.fireEvent('selectDatabase', database);
-    },
 	/**
 	 * Load next game in selected database. This method will only work if you have
 	 * a grid with list of games. The only thing this method does is to fire the "nextGame"
@@ -39565,11 +38879,7 @@ chess.controller.Controller = new Class({
      * @return void
      */
     loadRandomGame:function () {
-        if(this.databaseId){
-            this.currentModel.loadRandomGame(this.databaseId);
-        }else if(this.pgn){
-            this.currentModel.loadRandomGameFromFile(this.pgn);
-        }
+        this.currentModel.loadRandomGameFromFile(this.pgn);
     },
 
     loadWordPressGameById:function(pgn, id){

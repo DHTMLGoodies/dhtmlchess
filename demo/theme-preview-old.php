@@ -249,7 +249,7 @@ Other options are ludo-light-gray, ludo-gray and ludo-blue
                                 },
                                 {
                                     /** Game Navigation buttons */
-                                    type: 'chess.view.buttonbar.Game',
+                                    type: 'chess.view.buttonbar.Bar',
                                     module: moduleId,
                                     elCss: {
                                         margin: 2

@@ -6,6 +6,7 @@
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
     <script type="text/javascript" src="../js/dhtml-chess-minified.js"></script>
+    <script type="text/javascript" src="../src/view/buttonbar/bar.js"></script>
     <link rel="stylesheet" href="../css/dhtml-chess-all.css" type="text/css">
     <link rel="stylesheet" href="../css-source/buttonbar/light-gray.css" type="text/css">
     <style type="text/css">
@@ -112,9 +113,9 @@
                         ]
                     },
                     {
-                        type:'chess.view.buttonbar.Game',
+                        type:'chess.view.buttonbar.Bar',
+                        anchor:[0.5,0],
                         layout:{
-                            width:200,
                             height:30
                         },
                         elCss:{

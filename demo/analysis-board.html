@@ -11,11 +11,13 @@
     <!-- CSS for the move navigation bar -->
     <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
     <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css">
+    <link rel="stylesheet" href="../themes/blue.css">
+    <script type="text/javascript" src="../themes/blue.js"></script>
     <style type="text/css">
         body, html {
             width: 100%;
             height: 100%;
-            font-family: arial,helvetica, sans-serif !important;
         }
 
         div.dhtml-chess-button{
@@ -43,10 +45,6 @@
         span.notation-chess-move-highlighted {
             background-color: #377FD2;
             color: #FFF;
-        }
-
-        label {
-            font-size: 10px;
         }
 
         .dhtml-chess-move-number{
@@ -91,9 +89,10 @@
         minHeight:100,
         children:[
             {
-                width:400,
+                type:'chess.view.Chess',
+
                 resizable:true,
-                layout:{ type:'linear', orientation:'vertical' },
+                layout:{ width:400, type:'linear', orientation:'vertical' },
                 frame:true,
                 children:[
                     {
@@ -106,35 +105,52 @@
                         elCss:{
                             'margin-bottom':5,
                             'margin-top':5
-                        },
-                        background:{
-                            borderRadius:'1%',
-                            horizontal: '../images/board-bg/wood-strip-horizontal.png',
-                            vertical: '../images/board-bg/wood-strip-vertical.png'
-
-                        },
-                        labelStyles:{
-                            color:'#FFF',
-                            'font-weight': 'normal'
-                        },
-                        plugins:[
-                            {
-                                type:'chess.view.highlight.Arrow',
-                                styles:{
-                                    'stroke':'#444',
-                                    'stroke-opacity':.8,
-                                    'stroke-width':1
-                                }
-                            }
-                        ]
+                        }
                     },
                     {
-                        type:'chess.view.buttonbar.Game',
+                        type:'chess.view.buttonbar.Bar',
+                        anchor:[0.5,0],
                         layout:{
-                            width:200,height:30
+                            height:30
                         },
                         elCss:{
                             margin:2
+                        },
+                        styles:{
+                            button: {
+                                'stroke': '#888',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            image: {fill: '#444'},
+
+
+                            buttonOver: {
+                                'stroke': '#777',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            imageOver: {fill: '#222'},
+
+                            buttonDown: {
+                                'stroke': '#555',
+                                'fill': '#999',
+                                'stroke-width': 1
+                            },
+                            imageDown: {fill: '#222'},
+
+
+                            buttonDisabled: {
+                                'stroke': '#888',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            imageDisabled: {
+                                fill: '#444',
+                                'fill-opacity': 0.4,
+                                'stroke-opacity': 0.2
+                            }
+
                         }
                     }
                 ]
@@ -172,6 +188,7 @@
                     },
                     {
                         id:'scoreBar',
+
                         type:'chess.view.score.Bar',
                         layout:{
                             height:40
@@ -219,14 +236,6 @@
                                     'background-color': '#fff'
                                 },
                                 figurines:'svg_egg'
-                            },
-                            {
-                                title:'Eco',
-                                type:'chess.view.eco.VariationTree',
-                                css:{
-                                    'background-color':'#FFF',
-                                    'overflow-y':'auto'
-                                }
                             }
                         ]
                     }
