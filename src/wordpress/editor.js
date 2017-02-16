@@ -288,6 +288,9 @@ chess.WPEditor = new Class({
                                     layout: {
                                         height: 40
                                     },
+                                    buttonSize:function(availSize){
+                                        return availSize * 0.8;
+                                    },
                                     module: this.module,
                                     borderRadius: '10%',
                                     styles: {
