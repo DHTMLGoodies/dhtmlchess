@@ -1,4 +1,4 @@
-/* Generated Thu Feb 16 22:22:13 CET 2017 */
+/* Generated Thu Feb 16 23:01:30 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -31877,17 +31877,17 @@ chess.view.highlight.ArrowBase = new Class({
 			var pos = this.getParent().getBoard().offset();
 
 			var p = ludo.util.pageXY(e);
-			var coords = {
+			var c = {
 				x:p.pageX - pos.left,
 				y:p.pageY - pos.top
 			};
 
 			var ss = this.getParent().getSquareSize();
 
-            coords.x -= (coords.x % ss);
-            coords.y -= (coords.y % ss);
+            c.x -= (c.x % ss);
+            c.y -= (c.y % ss);
 
-			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(coords.x, coords.y)];
+			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(c.x, c.y)];
 			var piece = this.getParent().getPieceOnSquare(square);
 
 			if (piece) {
@@ -31895,8 +31895,6 @@ chess.view.highlight.ArrowBase = new Class({
 			}
 		}
 	},
-	
-	
 
 	createDOM:function () {
 		var el = this.el = jQuery('<div style="position:absolute;display:none"></div>');
@@ -31958,11 +31956,12 @@ chess.view.highlight.ArrowBase = new Class({
 	},
 
 	getCoordinates:function (move) {
-		var fromRank = (Board0x88Config.mapping[move.from] & 240) / 16;
-		var toRank = (Board0x88Config.mapping[move.to] & 240) / 16;
+		var m = Board0x88Config.mapping;
+		var fromRank = (m[move.from] & 240) / 16;
+		var toRank = (m[move.to] & 240) / 16;
 
-		var fromFile = (Board0x88Config.mapping[move.from] & 15);
-		var toFile = (Board0x88Config.mapping[move.to] & 15);
+		var fromFile = (m[move.from] & 15);
+		var toFile = (m[move.to] & 15);
 
 		if (this.getParent().isFlipped()) {
 			fromRank = 7 - fromRank;
