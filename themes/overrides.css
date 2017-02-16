@@ -270,3 +270,7 @@ span.notation-chess-move-highlighted {
 .dhtml-chess-comp-eval{
     font-size:0.8em;
 }
+
+.ludo-view{
+    font-family:inherit;
+}
