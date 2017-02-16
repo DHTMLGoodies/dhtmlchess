@@ -485,7 +485,6 @@ chess.view.board.GUI = new Class({
         }
 
         this.els.labels.ranks.css('height', this.els.board.css('height'));
-
         this.els.labels.files.css('width', this.els.board.css('width'));
 
         var r = this.els.labels.ranks;
@@ -528,9 +527,7 @@ chess.view.board.GUI = new Class({
                     height: 'auto'
                 })
             }
-
         }
-
     },
 
     getP: function (pos) {
