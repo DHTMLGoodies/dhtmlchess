@@ -63,7 +63,7 @@ class DhtmlChessViews
         ),
         array(
             "script" => "WPFen",
-            "title" => "Position View",
+            "title" => "FEN View",
             "type" => "f",
             "desc" => "Display a FEN position",
             "tag" => "",
