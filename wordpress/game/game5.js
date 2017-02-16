@@ -127,12 +127,10 @@ chess.WPGame5 = new Class({
                                 height:'matchParent'
                             },
                             elCss: {
-                                'margin-left': '2px',
-                                'font-size' : '0.8em'
+                                'margin-left': '2px'
                             },
                             module: this.module
                         }
-
                     ]
                 },
 
