@@ -96,6 +96,9 @@ chess.THEME = {
             imageDisabled:{
                 fill:'#555',
                 'fill-opacity' : 0.3
+            },
+            overlay:{
+                'fill-opacity' : 0
             }
         }
     }
