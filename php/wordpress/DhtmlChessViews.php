@@ -393,7 +393,7 @@ class DHTMLChessView
         $params = json_encode($this->params);
         $script = $this->getScript();
 
-        $board .= '<script type="text/javascript"> $(document).ready(function(){new chess.'
+        $board .= '<script type="text/javascript"> jQuery(document).ready(function(){new chess.'
             . $script
             . '('
             . $params . ')})</script>';
