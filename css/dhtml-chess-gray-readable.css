@@ -363,8 +363,7 @@ div.ludo-accordion-title
 }
 
 .ludo-body {
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow:hidden;
 }
 
 .ludo-menu .ludo-body {

@@ -1,4 +1,4 @@
-/* Generated Sat Feb 18 1:46:29 CET 2017 */
+/* Generated Sat Feb 18 2:07:45 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -8990,8 +8990,8 @@ ludo.View = new Class({
 
         b.css('height', '100%');
 
-        if (this.overflow == 'hidden') {
-            b.css('overflow', 'hidden');
+        if (this.overflow != undefined) {
+            b.css('overflow-Y', this.overflow);
         }
 
         if (ludo.util.isTabletOrMobile()) {
