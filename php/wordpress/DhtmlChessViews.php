@@ -11,64 +11,88 @@ class DhtmlChessViews
 
     private static $views = array(
         array(
-            "title" => "Select a tag below to get preview and tag"
+            "title" => "Select a shortcode"
         ),
 
         array(
             "script" => "WPGame1",
-            "title" => "One Game View - notations to the right",
+            "title" => "Game Template 1",
             "type" => "g",
-            "tag" => "G1"
+            "shortcode" => "chess",
+            "attributes" => array("tpl" => 1, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
         ),
         array(
             "script" => "WPGame2",
-            "title" => "One Game view - notations below",
+            "title" => "Game Template 2",
             "type" => "g",
-            "tag" => "G2"
+            "shortcode" => "chess",
+            "attributes" => array("tpl" => 2, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
         ),
         array(
             "script" => "WPGame3",
-            "title" => "One Game View - notations for current move below board.",
+            "title" => "Game Template 3",
             "type" => "g",
+            "shortcode" => "chess",
             "desc" => "No notations, but with current move displayed below the board.",
-            "tag" => "G3"
+            "attributes" => array("tpl" => 3, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
         ),
         array(
             "script" => "WPGame4",
-            "title" => "Single Game Viewer 4",
+            "title" => "Game Template 4",
             "type" => "g",
+            "shortcode" => "chess",
             "desc" => "No notations, but with current move displayed below the board.",
-            "tag" => "G4"
+            "attributes" => array("tpl" => 4, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
         ),
         array(
             "script" => "WPGame5",
-            "title" => "Single Game Viewer 5",
+            "title" => "Game Template 5",
             "type" => "g",
+            "shortcode" => "chess",
             "desc" => "Notations panel to the right, nav buttons below the board",
-            "tag" => "G5"
+            "attributes" => array("tpl" => 5, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
         ),
         array(
             "script" => "WPViewer1",
-            "title" => "Database Viewer",
+            "title" => "Database Template 1",
             "type" => "p",
+            "shortcode" => "chess",
             "desc" => "PGN/Database View with notations below the board",
-            "tag" => "D1"
+            "attributes" => array("tpl" => 1, "db" => '&lt;databaseId>'),
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]'
         ),
         array(
             "script" => "WPTactics1",
-            "title" => "Tactic Trainer",
+            "title" => "Tactic Template",
             "type" => "t",
             "desc" => "Tactics Trainer board",
-            "tag" => "T1"
+            "shortcode" => "chess",
+            "attributes" => array("tpl" => 1, "tactics" => true , "db" => '&lt;databaseId>'),
+            "help" => 'Example: [chess tactics=true db="2" tpl="1"] to show games from database id 2.'
         ),
         array(
             "script" => "WPFen",
-            "title" => "FEN View",
-            "type" => "f",
-            "desc" => "Display a FEN position",
-            "tag" => "",
-            "fixed_tag" => "[fen:&lt;fen>]",
-            "fixed_tag_example" => "Replace &lt;fen> with your fen position.",
+            "title" => "FEN position",
+            "type" => "fen",
+            "desc" => "Display a FEN position using on of the game templates",
+            "shortcode" => "fen",
+            "help" => "Insert fen string between the tags.",
+            'enclosing' => '&lt;fen string>'
+        ),
+        array(
+            "script" => "WPFen",
+            "title" => "PGN View",
+            "type" => "pgn",
+            "desc" => "PGN text template",
+            "shortcode" => "pgn",
+            "attributes" => array("tpl" => '&lt;game template>'),
+            "help" => "Insert pgn of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
+            'enclosing' => '&lt;pgn string>'
         )
     );
 
@@ -140,6 +164,81 @@ class DhtmlChessViews
 
     }
 
+    private function sanitizePgn($pgn){
+        $pgn = html_entity_decode($pgn);
+        $pgn = str_replace("<br />", "", $pgn);
+        $pgn = preg_replace('/<\/?p>/si', "\n", $pgn);
+        $pgn = strip_tags($pgn);
+        $pgn = str_replace('”', '"', $pgn);
+        $pgn = str_replace('“', '"', $pgn);
+        return $pgn;
+    }
+
+    public function getParsedTagFromAttributes($tag, $attributes = array(), $content = null){
+        $view = new DHTMLChessView();
+
+        $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
+
+        if($tag == "pgn"){
+            $content = $this->sanitizePgn($content);
+
+            $gameParser = new PgnParser();
+            $gameParser->setPgnContent(html_entity_decode($content));
+            $json = $gameParser->getGameByIndex(0);
+            $view->setParam("model", $json);
+            $view->setScript("WPGame" . $tpl);
+        }
+        else if($tag == "fen"){
+            $view->setScript("WPFen");
+            $view->setParam("fen", $content);
+        }else{
+            if(isset($attributes["game"])){
+                $view->setScript("WPGame" . $tpl);
+            }
+            else if(isset($attributes["tactics"])){
+                $view->setScript("WPTactics" . $tpl);
+            }
+            else if(isset($attributes["pgn"]) || isset($attributes["db"])){
+                $view->setScript("WPViewer" . $tpl);
+            }
+        }
+
+        foreach($attributes as $key=>$val){
+            $attr = $this->getValidParam($key, $val);
+
+            if(!empty($attr)){
+                $view->setParam($attr["key"], $attr["val"]);
+            }
+        }
+
+        return $view;
+    }
+
+    private function getValidParam($key, $val){
+
+        switch($key){
+
+            case "tpl": return null;
+            case "game": return array("key" => "gameId", "val" => $val);
+            case "db":
+            case "pgn":
+
+                $pgn = DhtmlChessPgn::instanceById($val);
+
+                $val = array(
+                    "id" => $pgn->getId(),
+                    "name" => $pgn->getName()
+                );
+                return array("key" => "pgn", "val" => $val);
+
+                break;
+            default:
+                return array("key" => $key, "val" =>$val);
+        }
+
+    }
+
+    /*
     public function getParsedTag($tag)
     {
 
@@ -189,6 +288,7 @@ class DhtmlChessViews
         return $ret;
     }
 
+    */
 
     public static function getThemes(){
 
@@ -284,8 +384,10 @@ class DHTMLChessView
     }
 
 
-    public function getJS($docRoot)
+    public function getJS($docRoot, $url = "null")
     {
+        if(!$this->isValid())return "";
+
         $this->setParam('docRoot', $docRoot);
         $board = '<div id="' . $this->id . '" style=""></div>';
         $params = json_encode($this->params);

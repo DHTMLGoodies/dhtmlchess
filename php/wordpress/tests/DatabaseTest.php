@@ -1099,6 +1099,100 @@ More text here
 
     }
 
+
+    /**
+     * @test
+     */
+    public function shouldGetFenTags2(){
+        $views = new DhtmlChessViews();
+
+        $v = $views->getParsedTagFromAttributes("fen", null,"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+
+        $this->assertEquals("WPFen", $v->getScript());
+        $this->assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", $v->getParam("fen"));
+    }
+    /**
+     * @test
+     */
+    public function shouldGetPgnTag(){
+        $views = new DhtmlChessViews();
+
+        $v = $views->getParsedTagFromAttributes("pgn", array("tpl" => 5),'[Event " White to move."]
+[Site "?"]
+[Date "1998.??.??"]
+[Round "?"]
+[White "1001 Brilliant Ways"]
+[Black "to Checkmate"]
+[Result "1-0"]
+[Annotator "Magne,Alf"]
+[SetUp "1"]
+[FEN "2r1nr1k/pp1q1p1p/3bpp2/5P2/1P1Q4/P3P3/1B3P1P/R3K1R1 w Q - 0 1"]
+[PlyCount "3"]
+[EventDate "1998.??.??"]
+
+1. Qxf6+  Nxf6  2. Bxf6#  1-0');
+        
+        
+
+        $this->assertEquals("WPGame5", $v->getScript());
+        $this->assertNotNull($v->getParam("model"));
+        $model = json_decode($v->getParam("model"), true);
+        $this->assertEquals("1998.??.??", $model["metadata"]["eventdate"], $v->getParam("model"));
+
+    }
+
+    /**
+     * @test
+     */
+
+    public function shouldHandleGameTags(){
+        $views = new DhtmlChessViews();
+        $v = $views->getParsedTagFromAttributes("chess",
+                array("game" => 1, "tpl" => 4),null);
+
+        $this->assertEquals("WPGame4", $v->getScript());
+        $this->assertEquals(1, $v->getParam("gameId"));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldHandlePgnTags(){
+        $this->database->import('lcc2016.pgn');
+        $views = new DhtmlChessViews();
+        $v = $views->getParsedTagFromAttributes("chess",
+            array("pgn" => 1, "tpl" => 3),null);
+
+        $this->assertEquals("WPViewer3", $v->getScript());
+        $this->assertNotEmpty($v->getParam("pgn"));
+
+        $pgn = json_decode($v->getParam("pgn"), true);
+
+        $this->assertEquals("1", $pgn["id"]);
+        $this->assertEquals("lcc2016", $pgn["name"]);
+        
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldHandleTacticsTags(){
+        $this->database->import('lcc2016.pgn');
+        $views = new DhtmlChessViews();
+        $v = $views->getParsedTagFromAttributes("chess",
+            array("tactics" => 1, "tpl" => 2),null);
+
+        $this->assertEquals("WPTactics2", $v->getScript());
+        $this->assertNotEmpty($v->getParam("pgn"));
+
+        $pgn = json_decode($v->getParam("pgn"), true);
+
+        $this->assertEquals("1", $pgn["id"]);
+        $this->assertEquals("lcc2016", $pgn["name"]);
+
+    }
+
     private function countPgnsDb()
     {
         $query = "select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_PGN;

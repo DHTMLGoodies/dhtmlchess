@@ -185,10 +185,7 @@ chess.WPTactics1 = new Class({
             index = 0;
         }
 
-        console.log(index, 'index');
-
         this.controller.loadGameFromFile(index);
-
     }
 
 });
