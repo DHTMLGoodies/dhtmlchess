@@ -7,7 +7,7 @@ chess.view.notation.Table = new Class({
     
     ludoDOM:function(){
         this.parent();
-        this.getEl().addClass('dhtml-chess-notation-table');
+        this.$e.addClass('dhtml-chess-notation-table');
     },
     
     showEval:false,

@@ -16,12 +16,12 @@ chess.view.message.TacticsMessage = new Class({
 
     __construct:function(config){
         this.parent(config);
-        this.setConfigParams(config, ['autoHideAfterMs']);
+        this.__params(config, ['autoHideAfterMs']);
     },
 
     ludoDOM:function () {
         this.parent();
-        this.getEl().addClass('dhtml-chess-tactics-message');
+        this.$e.addClass('dhtml-chess-tactics-message');
     },
     setController:function (controller) {
         this.parent(controller);

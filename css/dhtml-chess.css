@@ -1,4 +1,4 @@
-/* Generated Sat Feb 18 2:07:45 CET 2017 */
+/* Generated Sat Feb 18 15:24:19 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -406,7 +406,6 @@ div.ludo-content-child-of-fullscreen {
 
 .ludo-view {
     overflow: hidden;
-    font-family:arial;
 }
 
 .ludo-richcomponent .ludo-view-resize {
@@ -975,7 +974,6 @@ div.ludo-tab-strip-right div.ludo-body {
 }
 
 .ludo-grid-Grid .ludo-body div {
-    font-family: arial, helvetica;
     -moz-user-select: none;
 }
 .ludo-header{

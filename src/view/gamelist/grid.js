@@ -72,7 +72,7 @@ chess.view.gamelist.Grid = new Class({
         round: {
             heading: chess.getPhrase('Round'),
             key: 'round',
-            width: 50,
+            width: 70,
             sortable: true,
             renderer:function(val){
                 return val != undefined ? val : '';
@@ -81,7 +81,7 @@ chess.view.gamelist.Grid = new Class({
         result: {
             heading: chess.getPhrase('Result'),
             key: 'result',
-            width: 50,
+            width: 70,
             sortable: true,
             removable: true,
             renderer:function(val){

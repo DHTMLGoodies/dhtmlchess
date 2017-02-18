@@ -30,7 +30,7 @@ chess.controller.AnalysisEngineController = new Class({
 
     __construct: function (config) {
         if(config.garboChess != undefined)this.garboChess = config.garboChess;
-        this.setConfigParams(config, ['stopped','examine']);
+        this.__params(config, ['stopped','examine']);
         this.garboChess = config.garboChess;
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;

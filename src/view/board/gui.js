@@ -45,7 +45,7 @@ chess.view.board.GUI = new Class({
         this.parent(config);
         this.padding = '3.5%';
 
-        this.setConfigParams(config, [
+        this.__params(config, [
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',

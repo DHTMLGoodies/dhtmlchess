@@ -27,7 +27,7 @@ chess.controller.Controller = new Class({
     __construct:function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.setConfigParams(config, ['debug', 'pgn', 'theme']);
+        this.__params(config, ['debug', 'pgn', 'theme']);
 
         if(config.applyTo != undefined){
             this._module = config.applyTo[0];
@@ -40,12 +40,9 @@ chess.controller.Controller = new Class({
 
     createDefaultViews:function () {
         if(chess.view.dialog != undefined){
-
             this.createView('chess.view.dialog.OverwriteMove');
             this.createView('chess.view.dialog.Promote');
             this.createView('chess.view.dialog.Comment');
-            this.createView('chess.view.dialog.NewGame');
-            this.createView('chess.view.dialog.EditGameMetadata');
         }
     },
 

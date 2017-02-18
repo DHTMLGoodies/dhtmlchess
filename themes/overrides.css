@@ -274,3 +274,7 @@ span.notation-chess-move-highlighted {
 .ludo-view{
     font-family:inherit;
 }
+
+.ludo-tab-strip span{
+    font-size:13px;
+}

@@ -13,7 +13,7 @@ chess.view.position.Pieces = new Class({
 
     __construct:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['pieceColor','pieceLayout']);
+        this.__params(config, ['pieceColor','pieceLayout']);
     },
 
     __rendered:function () {
@@ -58,7 +58,7 @@ chess.view.position.Piece = new Class({
 
     __construct:function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['pieceColor','pieceType','pieceLayout']);
+        this.__params(config, ['pieceColor','pieceType','pieceLayout']);
         this.parent(config);
     },
 

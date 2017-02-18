@@ -9,7 +9,7 @@ chess.view.score.Bar = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
+        this.__params(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
         this.layout.type = 'Canvas';
     },
 
@@ -71,7 +71,7 @@ chess.view.score.BarBackground = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.setConfigParams(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
+        this.__params(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
     },
 
     __rendered: function () {

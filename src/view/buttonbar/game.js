@@ -182,7 +182,7 @@ chess.view.buttonbar.Game = new Class({
     },
 
     getBackgroundColorForRightedge:function () {
-        var el = this.getEl();
+        var el = this.$e;
         var ret = el.css('background-color');
         while ((!ret || ret == 'transparent') && el.tagName.toLowerCase() !== 'body') {
             el = el.getParent();

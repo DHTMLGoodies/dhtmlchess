@@ -41,7 +41,7 @@ chess.view.folder.Tree = new Class({
 
 	__construct:function (config) {
 		this.parent(config);
-		this.setConfigParams(config, ['selected']);
+		this.__params(config, ['selected']);
 	},
 
 	ludoEvents:function () {

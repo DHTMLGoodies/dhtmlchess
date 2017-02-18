@@ -153,7 +153,7 @@ chess.WPEditor = new Class({
                                     children: [
                                         {
                                             type: 'form.Text',
-                                            placeholder: 'Search',
+                                            placeholder: chess.getPhrase('Search'),
                                             id: 'searchField',
                                             layout: {
                                                 height: 30

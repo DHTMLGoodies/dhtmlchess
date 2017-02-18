@@ -16,7 +16,7 @@ chess.controller.AnalysisController = new Class({
 
 	__construct:function(config){
 		this.parent(config);
-		this.setConfigParams(config, ['useEngine']);
+		this.__params(config, ['useEngine']);
 	},
 
 	modelEventFired:function (event, model, param) {

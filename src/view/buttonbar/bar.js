@@ -34,7 +34,7 @@ chess.view.buttonbar.Bar = new Class({
     __construct: function (config) {
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.setConfigParams(config, ['buttonSize', 'background', 'buttons', 'styles',
+        this.__params(config, ['buttonSize', 'background', 'buttons', 'styles',
             'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
 
         this.disabledButtons = [];

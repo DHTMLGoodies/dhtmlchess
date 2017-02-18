@@ -305,7 +305,7 @@ chess.view.position.Dialog = new Class({
             layout:{
                 width: 400,
                 height: 140,
-                centerIn:this.getEl()
+                centerIn:this.$e
             },
             css:{
                 padding:4

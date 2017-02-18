@@ -67,6 +67,15 @@ class DhtmlChessViews
             "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]'
         ),
         array(
+            "script" => "WPViewer2",
+            "title" => "Database Template 2",
+            "type" => "tournament",
+            "shortcode" => "chess",
+            "desc" => "Tournament template",
+            "attributes" => array("tpl" => 1, "db" => '&lt;databaseId>'),
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]'
+        ),
+        array(
             "script" => "WPTactics1",
             "title" => "Tactic Template",
             "type" => "t",

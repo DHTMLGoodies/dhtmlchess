@@ -108,7 +108,7 @@ chess.view.notation.Panel = new Class({
         if (!this.tactics) {
             this.showResult = true;
         }
-        this.setConfigParams(config, ['showEval', 'notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
+        this.__params(config, ['showEval', 'notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
 
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
@@ -171,7 +171,7 @@ chess.view.notation.Panel = new Class({
 
     ludoDOM: function () {
         this.parent();
-        this.getEl().addClass('dhtml-chess-notation-panel');
+        this.$e.addClass('dhtml-chess-notation-panel');
     },
 
     setContextMenuMove: function (el) {
@@ -433,7 +433,7 @@ chess.view.notation.Panel = new Class({
 
 
     updateMove: function (model, move) {
-        var domEl = this.getEl().find('.dhtml-chess-move-container-' + move.uid);
+        var domEl = this.$e.find('.dhtml-chess-move-container-' + move.uid);
         if (domEl.length) {
             domEl.html(this.getDomTextForAMove(move));
         } else {

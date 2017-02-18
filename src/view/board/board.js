@@ -59,7 +59,7 @@ chess.view.board.Board = new Class({
     __construct: function (config) {
         this.parent(config);
         this.pieces = [];
-        this.setConfigParams(config, ['fen', 'pieceLayout', 'animationDuration', 'plugins']);
+        this.__params(config, ['fen', 'pieceLayout', 'animationDuration', 'plugins']);
 
         if (this.plugins && Browser.ie && Browser.version < 9) {
             for (var i = 0; i < this.plugins.length; i++) {

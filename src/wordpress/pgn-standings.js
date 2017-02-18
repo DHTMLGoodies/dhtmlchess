@@ -11,6 +11,8 @@ chess.wordpress.PgnStandings = new Class({
     },
     headerMenu:false,
     sofiaRules:false,
+    pgnId:undefined,
+    highlightRecord:false,
 
     __columns:function(){
         return {
@@ -23,17 +25,17 @@ chess.wordpress.PgnStandings = new Class({
             'w': {
                 heading: 'Wins',
                 sortable: true,
-                width:50
+                width:65
             },
             'd': {
                 heading: 'Draws',
                 sortable: true,
-                width:50
+                width:65
             },
             'l': {
                 heading: 'Losses',
                 sortable: true,
-                width:50
+                width:65
             },
             'score': {
                 heading: 'Score',
@@ -50,7 +52,7 @@ chess.wordpress.PgnStandings = new Class({
     
     __construct:function(config){
         this.parent(config);
-        this.setConfigParams(config, ['sofiaRules']);
+        this.__params(config, ['sofiaRules','pgnId']);
     },
 
     __rendered: function () {
@@ -72,6 +74,11 @@ chess.wordpress.PgnStandings = new Class({
         this.getDataSource().on('load', this.autoSort.bind(this));
 
         this.on('show', this.updateStandings.bind(this));
+
+        if(this.pgnId){
+            this.getDataSource().setPostParam('pgn', this.pgnId);
+            this.getDataSource().load();
+        }
     },
 
     setController: function (controller) {

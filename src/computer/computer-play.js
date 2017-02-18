@@ -252,7 +252,7 @@ chess.computer.ClockView = new Class({
 
     __rendered: function () {
         this.parent();
-        this.getEl().addClass('dhtml-chess-clock');
+        this.$e.addClass('dhtml-chess-clock');
         this.showTime();
     },
 
@@ -264,11 +264,7 @@ chess.computer.ClockView = new Class({
     },
 
     update: function (color, timeWhite, timeBlack) {
-
         var val = this.color == 'white' ? timeWhite : timeBlack;
-
-
-
         if (color != this.lastColor) {
             this.$b().removeClass('clock-turn');
             if (color == this.color) {

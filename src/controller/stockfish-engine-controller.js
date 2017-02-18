@@ -37,7 +37,7 @@ chess.controller.StockfishEngineController = new Class({
         if(config.stockfish != undefined)this.stockfish = config.stockfish;
         if(config.autoStopEngineOnNewGame != undefined)this.autoStopEngineOnNewGame = config.autoStopEngineOnNewGame;
         this.engineStatus = {};
-        this.setConfigParams(config, ['stopped','examine']);
+        this.__params(config, ['stopped','examine']);
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
         }
