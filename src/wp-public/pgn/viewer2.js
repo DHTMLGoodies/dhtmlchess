@@ -32,8 +32,12 @@ chess.WPViewer2 = new Class({
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
+        var h = 375;
         this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
+        if(ludo.isMobile){
+            h-=35;
+        }
         r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -244,23 +248,6 @@ chess.WPViewer2 = new Class({
 
     mobileChildren:function(){
         return [
-            {
-                layout: {
-                    height: 35,
-                    width: this.boardSize
-                },
-                module: this.module,
-                type: 'chess.view.metadata.Game',
-                tpl: '{white} - {black}',
-                cls: 'metadata',
-                css: {
-                    'text-align': 'center',
-                    'overflow-y': 'auto',
-                    'font-size': '1.2em',
-                    'font-weight': 'bold'
-                }
-            },
-
             Object.merge({
                 boardLayout: undefined,
                 id: 'tactics_board',

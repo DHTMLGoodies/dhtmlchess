@@ -1,20 +1,3 @@
-/* Generated Sun Feb 19 14:31:55 CET 2017 */
-/*
-* Copyright ©2017. dhtmlchess.com. All Rights Reserved.
-* This is a commercial software. See dhtmlchess.com for licensing options.
-*
-* You are free to use/try this software for 30 days without paying any fees.
-*
-* IN NO EVENT SHALL DHTML CHESS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
-* OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND
-* ITS DOCUMENTATION, EVEN IF DHTML CHESS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*
-* DHTML CHESS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-* THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS".
-* DHTML CHESS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
-*
-*/
 /* ../ludojs/src/../mootools/MooTools-Core-1.6.0.js */
 /* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2016 [Valerio Proietti](http://mad4milk.net/).*/
 /*!
@@ -18619,8 +18602,9 @@ ludo.grid.Grid = new Class({
 
         if(this.keys != undefined){
             var cols = {};
-            jQuery.each(cols, function(i, key){
+            jQuery.each(this.keys, function(i, key){
                  if(this.columns[key] != undefined){
+                     console.log(key);
                      cols[key] = this.columns[key];
                  }
             }.bind(this));
@@ -19074,7 +19058,7 @@ ludo.grid.Grid = new Class({
         }
 
         var totalWidth = this.cm.getTotalWidth();
-        this.els.dataContainerTop.css('width', totalWidth);
+        this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
         this.sb.h.setContentSize(totalWidth);
 
     },
