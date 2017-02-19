@@ -1940,6 +1940,10 @@ span.notation-chess-move-highlighted{
 .dhtml-chess-notation-last-move-num{
     font-size:0.9em;
     font-weight:bold;
+}
+
+.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+    background-color:transparent !important;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
     position: relative;

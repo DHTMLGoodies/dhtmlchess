@@ -1,4 +1,4 @@
-/* Generated Sun Feb 19 2:35:14 CET 2017 */
+/* Generated Sun Feb 19 3:14:15 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -1957,6 +1957,10 @@ span.notation-chess-move-highlighted{
 .dhtml-chess-notation-last-move-num{
     font-size:0.9em;
     font-weight:bold;
+}
+
+.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+    background-color:transparent !important;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
     position: relative;

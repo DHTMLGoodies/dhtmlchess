@@ -147,3 +147,7 @@ span.notation-chess-move-highlighted{
     font-size:0.9em;
     font-weight:bold;
 }
+
+.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+    background-color:transparent !important;
+}

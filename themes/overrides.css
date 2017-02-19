@@ -278,3 +278,7 @@ span.notation-chess-move-highlighted {
 .ludo-tab-strip span{
     font-size:13px;
 }
+
+.ludo-view img{
+    background-color:transparent !important;
+}
