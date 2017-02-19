@@ -74,8 +74,22 @@ findWords("../js/dhtml-chess.js", $words);
 findWords("../src/wordpress", $words);
 findWords("../wordpress", $words);
 
-$data = json_encode($words->getWords());
-file_put_contents("../wordpress/dhtml_chess-words.json", $data);
+$data = $words->getWords();
+
+/**
+ * msgid "white"
+msgstr ""
+
+ *
+ */
+$txt = "";
+
+foreach($data as $word){
+    $txt .= 'msgid "'. $word . '"' . "\n";
+    $txt .= 'msgstr ""' . "\n";
+}
+
+file_put_contents("../wordpress/dhtml_chess-words.txt", $txt);
 
 
 echo json_encode($words->getWords());

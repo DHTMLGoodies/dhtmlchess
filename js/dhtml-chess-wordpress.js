@@ -1,4 +1,4 @@
-/* Generated Sun Feb 19 2:34:19 CET 2017 */
+/* Generated Sun Feb 19 15:04:17 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -15072,10 +15072,21 @@ ludo.grid.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
 
-        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord']);
+        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord','keys']);
 
         if (this.columns == undefined) {
             this.columns = this.__columns();
+        }
+
+        if(this.keys != undefined){
+            var cols = {};
+            jQuery.each(this.keys, function(i, key){
+                 if(this.columns[key] != undefined){
+                     console.log(key);
+                     cols[key] = this.columns[key];
+                 }
+            }.bind(this));
+            this.columns = cols;
         }
 
         if (!this.cm) {
@@ -15525,7 +15536,7 @@ ludo.grid.Grid = new Class({
         }
 
         var totalWidth = this.cm.getTotalWidth();
-        this.els.dataContainerTop.css('width', totalWidth);
+        this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
         this.sb.h.setContentSize(totalWidth);
 
     },
@@ -33688,11 +33699,11 @@ chess.WPGame4 = new Class({
 window.chess.isWordPress = true;
 chess.WPGame5 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
-    buttonSize:45,
+    boardSize: undefined,
+    buttonSize: 45,
 
-    boardWeight:2,
-    notationWeight: 1.2,
+    boardWeight: 1,
+    notationWeight: 0.6,
 
     initialize: function (config) {
         this.parent(config);
@@ -33700,7 +33711,11 @@ chess.WPGame5 = new Class({
 
         var w = this.renderTo.width();
 
-        this.boardSize = (w / this.boardWeight) + this.buttonSize;
+        if (ludo.isMobile) {
+            this.notationWeight = 0;
+        }
+
+        this.boardSize = (w / (this.boardWeight + this.notationWeight));
 
         this.renderTo.css('height', this.boardSize + this.buttonSize);
         this.renderTo.css('position', 'relative');
@@ -33709,19 +33724,19 @@ chess.WPGame5 = new Class({
         this.render();
     },
 
-    configure:function(){
+    configure: function () {
 
-        
+
         this.board = Object.merge({
             boardLayout: undefined,
-            vAlign:top,
+            vAlign: top,
             id: 'tactics_board',
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',
             pieceLayout: 'svg_bw',
-            background:{
-                borderRadius:0
+            background: {
+                borderRadius: 0
             },
             boardCss: {
                 border: 0
@@ -33729,8 +33744,8 @@ chess.WPGame5 = new Class({
             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
             labelPos: 'outside', // show labels inside board, default is 'outside'
             layout: {
-                weight:this.boardWeight,
-                height:'wrap'
+                weight: this.boardWeight,
+                height: 'wrap'
             },
             plugins: [
                 Object.merge({
@@ -33741,43 +33756,43 @@ chess.WPGame5 = new Class({
 
         chess.THEME_OVERRIDES = {
 
-            'chess.view.board.Board' : {
-                background:{
-                    borderRadius:'1%'
+            'chess.view.board.Board': {
+                background: {
+                    borderRadius: '1%'
                 }
             },
-            'chess.view.buttonbar.Bar':{
-                borderRadius:'10%',
-                styles:{
-                    button:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+            'chess.view.buttonbar.Bar': {
+                borderRadius: '10%',
+                styles: {
+                    button: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    image:{
-                        fill:'#777'
+                    image: {
+                        fill: '#777'
                     },
-                    buttonOver:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonOver: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    imageOver:{
-                        fill:'#555'
+                    imageOver: {
+                        fill: '#555'
                     },
-                    buttonDown:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonDown: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    imageDown:{
-                        fill:'#444'
+                    imageDown: {
+                        fill: '#444'
                     },
-                    buttonDisabled:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonDisabled: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                         // , 'fill-opacity': 0.3
                     },
-                    imageDisabled:{
-                        fill:'#555',
-                        'fill-opacity' : 0.3
+                    imageDisabled: {
+                        fill: '#555',
+                        'fill-opacity': 0.3
                     }
                 }
             }
@@ -33789,29 +33804,30 @@ chess.WPGame5 = new Class({
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
 
-            layout:{
-                type:'linear', orientation:'vertical',
-                height:'matchParent',
-                width:'matchParent'
+            layout: {
+                type: 'linear', orientation: 'vertical',
+                height: 'matchParent',
+                width: 'matchParent'
             },
 
-            children:[
+            children: [
                 {
-                    layout:{
-                        height:this.boardSize,
-                        type:'linear',
-                        orientation:'horizontal'
+                    layout: {
+                        height: this.boardSize,
+                        type: 'linear',
+                        orientation: 'horizontal'
                     },
 
-                    children:[
+                    children: ludo.isMobile ? [this.board] : [
+
                         this.board,
                         {
                             id: this.module + '-panel',
                             name: "notation-panel",
                             type: 'chess.view.notation.Panel',
                             layout: {
-                                weight:this.notationWeight,
-                                height:'matchParent'
+                                weight: this.notationWeight,
+                                height: 'matchParent'
                             },
                             elCss: {
                                 'margin-left': '2px'
@@ -33822,31 +33838,74 @@ chess.WPGame5 = new Class({
                 },
 
                 {
-                    layout:{
-                        type:'linear', orientation:'horizontal',
-                        height:this.buttonSize
+                    layout: {
+                        type: 'linear', orientation: 'horizontal',
+                        height: this.buttonSize
                     },
-                    elCss:{
-                        'margin-top' : 10
+                    elCss: {
+                        'margin-top': 10
                     },
-                    children:[
+                    children: ludo.isMobile ? [
+                        {weight: 1},
                         {
-                            weight:1
-                        },
-                        {
-                            anchor:[1,0.5],
+                            anchor: [0.5, 0.5],
                             type: 'chess.view.buttonbar.Bar',
-                            buttons:['flip','start','previous','next', 'end'],
+                            buttons: ['flip', 'start', 'previous'],
                             module: this.module,
-                            layout:{
-                                width:(this.buttonSize - 10) * 5
+                            layout: {
+                                width: (this.buttonSize) * 3
                             },
-                            buttonSize:function(ofSize){
+                            buttonSize: function (ofSize) {
                                 return ofSize * 0.9;
                             }
-                        }
+                        },
+                        {
+                            type: 'chess.view.notation.LastMove',
+                            module: this.module,
+                            layout: {
+
+                                width: this.buttonSize * 2
+
+                            },
+                            css: {
+                                border: 'none'
+                            }
+                        },
+                        {
+                            anchor: [0.5, 0.5],
+                            type: 'chess.view.buttonbar.Bar',
+                            buttons: ['next', 'end'],
+                            module: this.module,
+                            layout: {
+                                width: (this.buttonSize) * 2
+                            },
+                            buttonSize: function (ofSize) {
+                                return ofSize * 0.9;
+                            }
+                        },
+                        {weight: 1}
 
                     ]
+
+                        :
+                        [
+                            {
+                                weight: 1
+                            },
+                            {
+                                anchor: [1, 0.5],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: ['flip', 'start', 'previous', 'next', 'end'],
+                                module: this.module,
+                                layout: {
+                                    width: (this.buttonSize - 10) * 5
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            }
+
+                        ]
                 }
 
             ]
@@ -34075,7 +34134,7 @@ chess.WPViewer2 = new Class({
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
-        this.boardSize = w - 150;
+        this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
         r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
@@ -34106,175 +34165,358 @@ chess.WPViewer2 = new Class({
                         type: 'linear', orientation: 'vertical'
                     },
 
-                    children: [
-                        {
-                            layout: {
-                                height: 35,
-                                width: this.boardSize
-                            },
-                            module: this.module,
-                            type: 'chess.view.metadata.Game',
-                            tpl: '{white} - {black}',
-                            cls: 'metadata',
-                            css: {
-                                'text-align': 'center',
-                                'overflow-y': 'auto',
-                                'font-size': '1.2em',
-                                'font-weight': 'bold'
-                            }
-                        },
-
-                        {
-                            layout: {
-                                type: 'linear', orientation: 'horizontal',
-                                height: this.boardSize
-                            },
-
-                            children: [
-                                Object.merge({
-                                    boardLayout: undefined,
-                                    id: 'tactics_board',
-                                    type: 'chess.view.board.Board',
-                                    module: this.module,
-                                    overflow: 'hidden',
-                                    pieceLayout: 'svg3',
-                                    boardCss: {
-                                        border: 0
-                                    },
-                                    labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                                    labelPos: 'outside', // show labels inside board, default is 'outside'
-                                    layout: {
-                                        weight: 1,
-                                        height: 'wrap'
-                                    },
-                                    plugins: [
-                                        Object.merge({
-                                            type: 'chess.view.highlight.Arrow'
-                                        }, this.arrow)
-                                    ]
-                                }, this.board),
-                                {
-                                    id: this.module + '-panel',
-                                    name: "notation-panel",
-                                    type: 'chess.view.notation.Table',
-                                    layout: {
-                                        width: 150
-                                    },
-                                    elCss: {
-                                        'margin-left': '2px'
-                                    },
-                                    module: this.module
-                                }
-                            ]
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            layout: {
-                                height: 40,
-                                width: this.boardSize
-                            },
-                            module: this.module,
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        },
-                        {
-                            height: 300,
-                            layout: {
-                                type: 'tabs'
-                            },
-                            cls: 'ludo-light-gray',
-                            css: {
-                                border: '1px solid #aeb0b0'
-                            },
-                            children: [
-
-                                {
-                                    layout: {
-                                        type: 'linear', orientation: 'vertical'
-                                    },
-                                    title: chess.getPhrase('Games'),
-                                    children: [
-
-                                        {
-                                            module: this.module,
-                                            layout: {
-                                                weight: 1
-                                            },
-                                            type: 'chess.WPGameGrid',
-                                            css: {
-                                                'overflow-y': 'auto'
-                                            },
-                                            cols: ['round', 'white', 'black', 'result'],
-                                            dataSource: {
-                                                id: this.gameListDsId,
-                                                "type": 'chess.wordpress.GameList',
-                                                module: this.module,
-                                                autoload: true,
-                                                postData: {
-                                                    pgn: this.pgn.id
-                                                },
-                                                "listeners": {
-                                                    "select": function () {
-                                                        ludo.$(this.module + '-panel').show();
-                                                    }.bind(this),
-                                                    "load": function (data) {
-                                                        if (data.length) {
-                                                            ludo.$(this.gameListDsId).selectRecord(data[0]);
-                                                        }
-                                                    }.bind(this)
-                                                },
-                                                shim: {
-                                                    txt: ''
-                                                }
-                                            }
-                                        },
-                                        {
-                                            type: 'form.Text',
-                                            placeholder: chess.getPhrase('Search'),
-                                            css:{
-                                                'border-top' : '1px solid #aeb0b0'
-                                            },
-                                            layout: {
-                                                height: 30
-                                            },
-                                            listeners: {
-                                                key: function (value) {
-                                                    this.search(value);
-                                                }.bind(this)
-                                            }
-                                        }
-                                    ]
-                                },
-
-                                {
-
-                                    id: this.standingsId,
-                                    type: 'chess.wordpress.PgnStandings',
-                                    module: this.module,
-                                    pgnId: this.pgn.id,
-                                    layout: {
-                                        weight: 1
-                                    },
-                                    title: chess.getPhrase('Standings')
-                                }
-
-
-                            ]
-
-                        }
-
-
-                    ]
+                    children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
                 }
             ]
         });
+
+
+
+
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
             pgn: this.pgn.id,
             listeners: {}
         });
+    },
+
+    desktopChildren:function(){
+        return [
+            {
+                layout: {
+                    height: 35,
+                    width: this.boardSize
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-size': '1.2em',
+                    'font-weight': 'bold'
+                }
+            },
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: this.boardSize
+                },
+
+                children: [
+                    Object.merge({
+                        boardLayout: undefined,
+                        id: 'tactics_board',
+                        type: 'chess.view.board.Board',
+                        module: this.module,
+                        overflow: 'hidden',
+                        pieceLayout: 'svg3',
+                        boardCss: {
+                            border: 0
+                        },
+                        labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                        labelPos: 'outside', // show labels inside board, default is 'outside'
+                        layout: {
+                            weight: 1,
+                            height: 'wrap'
+                        },
+                        plugins: [
+                            Object.merge({
+                                type: 'chess.view.highlight.Arrow'
+                            }, this.arrow)
+                        ]
+                    }, this.board),
+                    {
+                        id: this.module + '-panel',
+                        name: "notation-panel",
+                        type: 'chess.view.notation.Table',
+                        layout: {
+                            width: 150
+                        },
+                        elCss: {
+                            'margin-left': '2px'
+                        },
+                        module: this.module
+                    }
+                ]
+            },
+            {
+                type: 'chess.view.buttonbar.Bar',
+                layout: {
+                    height: 40,
+                    width: this.boardSize
+                },
+                module: this.module,
+                buttonSize: function (ofSize) {
+                    return ofSize * 0.9;
+                }
+            },
+            {
+                height: 300,
+                layout: {
+                    type: 'tabs'
+                },
+                cls: 'ludo-light-gray',
+                css: {
+                    border: '1px solid #aeb0b0'
+                },
+                children: [
+
+                    {
+                        layout: {
+                            type: 'linear', orientation: 'vertical'
+                        },
+                        title: chess.getPhrase('Games'),
+                        children: [
+
+                            {
+                                module: this.module,
+                                layout: {
+                                    weight: 1
+                                },
+                                type: 'chess.WPGameGrid',
+                                css: {
+                                    'overflow-y': 'auto'
+                                },
+                                cols: ['round', 'white', 'black', 'result'],
+                                dataSource: {
+                                    id: this.gameListDsId,
+                                    "type": 'chess.wordpress.GameList',
+                                    module: this.module,
+                                    autoload: true,
+                                    postData: {
+                                        pgn: this.pgn.id
+                                    },
+                                    "listeners": {
+                                        "select": function () {
+                                            ludo.$(this.module + '-panel').show();
+                                        }.bind(this),
+                                        "load": function (data) {
+                                            if (data.length) {
+                                                ludo.$(this.gameListDsId).selectRecord(data[0]);
+                                            }
+                                        }.bind(this)
+                                    },
+                                    shim: {
+                                        txt: ''
+                                    }
+                                }
+                            },
+                            {
+                                type: 'form.Text',
+                                placeholder: chess.getPhrase('Search'),
+                                css:{
+                                    'border-top' : '1px solid #aeb0b0'
+                                },
+                                layout: {
+                                    height: 30
+                                },
+                                listeners: {
+                                    key: function (value) {
+                                        this.search(value);
+                                    }.bind(this)
+                                }
+                            }
+                        ]
+                    },
+
+                    {
+
+                        id: this.standingsId,
+                        type: 'chess.wordpress.PgnStandings',
+                        module: this.module,
+                        pgnId: this.pgn.id,
+                        layout: {
+                            weight: 1
+                        },
+                        title: chess.getPhrase('Standings')
+                    }
+
+
+                ]
+
+            }
+
+
+        ];
+    },
+
+    mobileChildren:function(){
+        return [
+            {
+                layout: {
+                    height: 35,
+                    width: this.boardSize
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-size': '1.2em',
+                    'font-weight': 'bold'
+                }
+            },
+
+            Object.merge({
+                boardLayout: undefined,
+                id: 'tactics_board',
+                type: 'chess.view.board.Board',
+                module: this.module,
+                overflow: 'hidden',
+                pieceLayout: 'svg3',
+                boardCss: {
+                    border: 0
+                },
+                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                labelPos: 'outside', // show labels inside board, default is 'outside'
+                layout: {
+                    weight: 1,
+                    height: 'wrap'
+                },
+                plugins: [
+                    Object.merge({
+                        type: 'chess.view.highlight.Arrow'
+                    }, this.arrow)
+                ]
+            }, this.board),
+            {
+                layout:{
+                    height:40,type:'linear',orientation:'horizontal'
+                },
+                children:[
+                    { weight:1 },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        layout: {
+                            height: 40,
+                            width: 90
+                        },
+                        module: this.module,
+                        buttons:['start','previous'],
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        type:'chess.view.notation.LastMove',
+                        module: this.module,
+                        layout:{
+                            width:70
+                        },
+                        css:{
+                            'padding-top' : 4, 'padding-bottom' : 4, border:'none'
+                        }
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        layout: {
+                            height: 40,
+                            width: 90
+                        },
+                        module: this.module,
+                        buttons:['next','end'],
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        weight:1
+                    }
+
+                ]
+            },
+            {
+                height: 300,
+                layout: {
+                    type: 'tabs'
+                },
+                cls: 'ludo-light-gray',
+                css: {
+                    border: '1px solid #aeb0b0'
+                },
+                children: [
+
+                    {
+                        layout: {
+                            type: 'linear', orientation: 'vertical'
+                        },
+                        title: chess.getPhrase('Games'),
+                        children: [
+
+                            {
+                                module: this.module,
+                                layout: {
+                                    weight: 1
+                                },
+                                type: 'chess.WPGameGrid',
+                                css: {
+                                    'overflow-y': 'auto'
+                                },
+                                keys:['white','black', 'result'],
+                                dataSource: {
+                                    id: this.gameListDsId,
+                                    "type": 'chess.wordpress.GameList',
+                                    module: this.module,
+                                    autoload: true,
+                                    postData: {
+                                        pgn: this.pgn.id
+                                    },
+                                    "listeners": {
+                                        "load": function (data) {
+                                            if (data.length) {
+                                                ludo.$(this.gameListDsId).selectRecord(data[0]);
+                                            }
+                                        }.bind(this)
+                                    },
+                                    shim: {
+                                        txt: ''
+                                    }
+                                }
+                            },
+                            {
+                                type: 'form.Text',
+                                placeholder: chess.getPhrase('Search'),
+                                css:{
+                                    'border-top' : '1px solid #aeb0b0'
+                                },
+                                layout: {
+                                    height: 30
+                                },
+                                listeners: {
+                                    key: function (value) {
+                                        this.search(value);
+                                    }.bind(this)
+                                }
+                            }
+                        ]
+                    },
+
+                    {
+
+                        id: this.standingsId,
+                        type: 'chess.wordpress.PgnStandings',
+                        module: this.module,
+                        pgnId: this.pgn.id,
+                        keys:['player', 'score'],
+                        layout: {
+                            weight: 1
+                        },
+                        title: chess.getPhrase('Standings')
+                    }
+
+
+                ]
+
+            }
+
+
+        ];
     },
 
     search: function (val) {

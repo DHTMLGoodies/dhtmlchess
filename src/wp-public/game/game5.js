@@ -1,11 +1,11 @@
 window.chess.isWordPress = true;
 chess.WPGame5 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
-    buttonSize:45,
+    boardSize: undefined,
+    buttonSize: 45,
 
-    boardWeight:2,
-    notationWeight: 1.2,
+    boardWeight: 1,
+    notationWeight: 0.6,
 
     initialize: function (config) {
         this.parent(config);
@@ -13,7 +13,11 @@ chess.WPGame5 = new Class({
 
         var w = this.renderTo.width();
 
-        this.boardSize = (w / this.boardWeight) + this.buttonSize;
+        if (ludo.isMobile) {
+            this.notationWeight = 0;
+        }
+
+        this.boardSize = (w / (this.boardWeight + this.notationWeight));
 
         this.renderTo.css('height', this.boardSize + this.buttonSize);
         this.renderTo.css('position', 'relative');
@@ -22,19 +26,19 @@ chess.WPGame5 = new Class({
         this.render();
     },
 
-    configure:function(){
+    configure: function () {
 
-        
+
         this.board = Object.merge({
             boardLayout: undefined,
-            vAlign:top,
+            vAlign: top,
             id: 'tactics_board',
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',
             pieceLayout: 'svg_bw',
-            background:{
-                borderRadius:0
+            background: {
+                borderRadius: 0
             },
             boardCss: {
                 border: 0
@@ -42,8 +46,8 @@ chess.WPGame5 = new Class({
             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
             labelPos: 'outside', // show labels inside board, default is 'outside'
             layout: {
-                weight:this.boardWeight,
-                height:'wrap'
+                weight: this.boardWeight,
+                height: 'wrap'
             },
             plugins: [
                 Object.merge({
@@ -54,43 +58,43 @@ chess.WPGame5 = new Class({
 
         chess.THEME_OVERRIDES = {
 
-            'chess.view.board.Board' : {
-                background:{
-                    borderRadius:'1%'
+            'chess.view.board.Board': {
+                background: {
+                    borderRadius: '1%'
                 }
             },
-            'chess.view.buttonbar.Bar':{
-                borderRadius:'10%',
-                styles:{
-                    button:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+            'chess.view.buttonbar.Bar': {
+                borderRadius: '10%',
+                styles: {
+                    button: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    image:{
-                        fill:'#777'
+                    image: {
+                        fill: '#777'
                     },
-                    buttonOver:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonOver: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    imageOver:{
-                        fill:'#555'
+                    imageOver: {
+                        fill: '#555'
                     },
-                    buttonDown:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonDown: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                     },
-                    imageDown:{
-                        fill:'#444'
+                    imageDown: {
+                        fill: '#444'
                     },
-                    buttonDisabled:{
-                        'fill-opacity' : 0,
-                        'stroke-opacity' : 0
+                    buttonDisabled: {
+                        'fill-opacity': 0,
+                        'stroke-opacity': 0
                         // , 'fill-opacity': 0.3
                     },
-                    imageDisabled:{
-                        fill:'#555',
-                        'fill-opacity' : 0.3
+                    imageDisabled: {
+                        fill: '#555',
+                        'fill-opacity': 0.3
                     }
                 }
             }
@@ -102,29 +106,30 @@ chess.WPGame5 = new Class({
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
 
-            layout:{
-                type:'linear', orientation:'vertical',
-                height:'matchParent',
-                width:'matchParent'
+            layout: {
+                type: 'linear', orientation: 'vertical',
+                height: 'matchParent',
+                width: 'matchParent'
             },
 
-            children:[
+            children: [
                 {
-                    layout:{
-                        height:this.boardSize,
-                        type:'linear',
-                        orientation:'horizontal'
+                    layout: {
+                        height: this.boardSize,
+                        type: 'linear',
+                        orientation: 'horizontal'
                     },
 
-                    children:[
+                    children: ludo.isMobile ? [this.board] : [
+
                         this.board,
                         {
                             id: this.module + '-panel',
                             name: "notation-panel",
                             type: 'chess.view.notation.Panel',
                             layout: {
-                                weight:this.notationWeight,
-                                height:'matchParent'
+                                weight: this.notationWeight,
+                                height: 'matchParent'
                             },
                             elCss: {
                                 'margin-left': '2px'
@@ -135,31 +140,74 @@ chess.WPGame5 = new Class({
                 },
 
                 {
-                    layout:{
-                        type:'linear', orientation:'horizontal',
-                        height:this.buttonSize
+                    layout: {
+                        type: 'linear', orientation: 'horizontal',
+                        height: this.buttonSize
                     },
-                    elCss:{
-                        'margin-top' : 10
+                    elCss: {
+                        'margin-top': 10
                     },
-                    children:[
+                    children: ludo.isMobile ? [
+                        {weight: 1},
                         {
-                            weight:1
-                        },
-                        {
-                            anchor:[1,0.5],
+                            anchor: [0.5, 0.5],
                             type: 'chess.view.buttonbar.Bar',
-                            buttons:['flip','start','previous','next', 'end'],
+                            buttons: ['flip', 'start', 'previous'],
                             module: this.module,
-                            layout:{
-                                width:(this.buttonSize - 10) * 5
+                            layout: {
+                                width: (this.buttonSize) * 3
                             },
-                            buttonSize:function(ofSize){
+                            buttonSize: function (ofSize) {
                                 return ofSize * 0.9;
                             }
-                        }
+                        },
+                        {
+                            type: 'chess.view.notation.LastMove',
+                            module: this.module,
+                            layout: {
+
+                                width: this.buttonSize * 2
+
+                            },
+                            css: {
+                                border: 'none'
+                            }
+                        },
+                        {
+                            anchor: [0.5, 0.5],
+                            type: 'chess.view.buttonbar.Bar',
+                            buttons: ['next', 'end'],
+                            module: this.module,
+                            layout: {
+                                width: (this.buttonSize) * 2
+                            },
+                            buttonSize: function (ofSize) {
+                                return ofSize * 0.9;
+                            }
+                        },
+                        {weight: 1}
 
                     ]
+
+                        :
+                        [
+                            {
+                                weight: 1
+                            },
+                            {
+                                anchor: [1, 0.5],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: ['flip', 'start', 'previous', 'next', 'end'],
+                                module: this.module,
+                                layout: {
+                                    width: (this.buttonSize - 10) * 5
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            }
+
+                        ]
                 }
 
             ]

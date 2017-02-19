@@ -1,4 +1,4 @@
-/* Generated Sun Feb 19 3:14:15 CET 2017 */
+/* Generated Sun Feb 19 14:31:55 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -18611,10 +18611,20 @@ ludo.grid.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
 
-        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord']);
+        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord','keys']);
 
         if (this.columns == undefined) {
             this.columns = this.__columns();
+        }
+
+        if(this.keys != undefined){
+            var cols = {};
+            jQuery.each(cols, function(i, key){
+                 if(this.columns[key] != undefined){
+                     cols[key] = this.columns[key];
+                 }
+            }.bind(this));
+            this.columns = cols;
         }
 
         if (!this.cm) {
