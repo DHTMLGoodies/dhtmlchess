@@ -22,6 +22,7 @@ chess.WPGame5 = new Class({
         this.renderTo.css('height', this.boardSize + this.buttonSize);
         this.renderTo.css('position', 'relative');
 
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
         this.render();
     },
@@ -152,7 +153,7 @@ chess.WPGame5 = new Class({
                         {
                             anchor: [0.5, 0.5],
                             type: 'chess.view.buttonbar.Bar',
-                            buttons: ['flip', 'start', 'previous'],
+                            buttons: ['start', 'previous'],
                             module: this.module,
                             layout: {
                                 width: (this.buttonSize) * 3
@@ -197,7 +198,7 @@ chess.WPGame5 = new Class({
                             {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
-                                buttons: ['flip', 'start', 'previous', 'next', 'end'],
+                                buttons: this.buttons,
                                 module: this.module,
                                 layout: {
                                     width: (this.buttonSize - 10) * 5

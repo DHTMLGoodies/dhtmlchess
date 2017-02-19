@@ -1,4 +1,4 @@
-/* Generated Sun Feb 19 15:04:17 CET 2017 */
+/* Generated Mon Feb 20 0:28:00 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33720,6 +33720,7 @@ chess.WPGame5 = new Class({
         this.renderTo.css('height', this.boardSize + this.buttonSize);
         this.renderTo.css('position', 'relative');
 
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
         this.render();
     },
@@ -33850,7 +33851,7 @@ chess.WPGame5 = new Class({
                         {
                             anchor: [0.5, 0.5],
                             type: 'chess.view.buttonbar.Bar',
-                            buttons: ['flip', 'start', 'previous'],
+                            buttons: ['start', 'previous'],
                             module: this.module,
                             layout: {
                                 width: (this.buttonSize) * 3
@@ -33895,7 +33896,7 @@ chess.WPGame5 = new Class({
                             {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
-                                buttons: ['flip', 'start', 'previous', 'next', 'end'],
+                                buttons: this.buttons,
                                 module: this.module,
                                 layout: {
                                     width: (this.buttonSize - 10) * 5
@@ -34134,8 +34135,12 @@ chess.WPViewer2 = new Class({
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
+        var h = 375;
         this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
+        if(ludo.isMobile){
+            h-=35;
+        }
         r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -34346,23 +34351,6 @@ chess.WPViewer2 = new Class({
 
     mobileChildren:function(){
         return [
-            {
-                layout: {
-                    height: 35,
-                    width: this.boardSize
-                },
-                module: this.module,
-                type: 'chess.view.metadata.Game',
-                tpl: '{white} - {black}',
-                cls: 'metadata',
-                css: {
-                    'text-align': 'center',
-                    'overflow-y': 'auto',
-                    'font-size': '1.2em',
-                    'font-weight': 'bold'
-                }
-            },
-
             Object.merge({
                 boardLayout: undefined,
                 id: 'tactics_board',
