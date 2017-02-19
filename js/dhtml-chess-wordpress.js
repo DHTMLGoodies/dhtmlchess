@@ -1,4 +1,4 @@
-/* Generated Sat Feb 18 15:30:42 CET 2017 */
+/* Generated Sun Feb 19 2:24:20 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34281,6 +34281,34 @@ chess.WPViewer2 = new Class({
 
         ludo.$(this.gameListDsId).search(val);
     }
+});/* ../dhtml-chess/src/wp-public/fen/board.js */
+chess.WPFen = new Class({
+    Extends: chess.WPTemplate,
+    fen: undefined,
+    initialize: function (config) {
+        this.parent(config);
+        var w = this.renderTo.width();
+        this.renderTo.css('height', w);
+        this.fen = config.fen;
+        this.render();
+    },
+
+    render: function () {
+        new chess.view.Chess({
+            renderTo: jQuery(this.renderTo),
+            layout: {
+                type: 'fill'
+            },
+            children: [
+                {
+                    type: 'chess.view.board.Board',
+                    fen: this.fen,
+                    layout: {width: 'matchParent', 'height': 'matchParent'}
+                }
+            ]
+        });
+    }
+
 });/* ../dhtml-chess/src/wp-public/tactics/tactics1.js */
 /**
  * Usage:
