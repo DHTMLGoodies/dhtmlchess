@@ -1,4 +1,4 @@
-/* Generated Mon Feb 20 0:28:00 CET 2017 */
+/* Generated Mon Feb 20 1:28:32 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33110,6 +33110,8 @@ chess.WPTemplate = new Class({
     Extends: Events,
     renderTo:undefined,
     module:undefined,
+    _ready : true,
+    _loadCounter : 0,
 
     initialize:function(config){
         this.renderTo = jQuery(config.renderTo);
@@ -33121,18 +33123,38 @@ chess.WPTemplate = new Class({
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
+
         if(config.theme){
+            this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + '/themes/' + theme + '.css'
+                href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
+                success:function(){
+                    this.onload();
+                }.bind(this)
             });
 
+
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + '/themes/' + theme + '.js',
-                dataType: "script"
+                url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
+                dataType: "script",
+                success:function(){
+                    this.onload();
+                }.bind(this)
             });
         }
+    },
+
+    onload:function(){
+        this._loadCounter++;
+        if(!this._ready && this._loadCounter==2)this.render();
+        this._ready = this._loadCounter == 2;
+
+    },
+
+    canRender:function(){
+        return this._ready;
     }
 
 
@@ -33229,7 +33251,9 @@ chess.WPGame1 = new Class({
         this.renderTo.css('height', Math.ceil(w - 150 + 45 + 35));
         this.renderTo.css('position', 'relative');
         this.boardSize = w - 150;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -33333,7 +33357,9 @@ chess.WPGame2 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 275);
         this.boardSize = w;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -33429,7 +33455,9 @@ chess.WPGame3 = new Class({
 
 
         this.boardSize = w - 150;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -33576,7 +33604,9 @@ chess.WPGame4 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35);
         this.boardSize = w;
-        jQuery(document).ready(this.render.bind(this));
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -33722,7 +33752,9 @@ chess.WPGame5 = new Class({
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     configure: function () {
@@ -33967,7 +33999,9 @@ chess.WPViewer1 = new Class({
         this.hint = config.hint || {};
 
         this.showLabels = !ludo.isMobile;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -34152,7 +34186,9 @@ chess.WPViewer2 = new Class({
 
         this.gameListDsId = 'gamelist' + String.uniqueID();
         this.standingsId = 'standingsId' + String.uniqueID();
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
@@ -34588,11 +34624,13 @@ chess.WPTactics1 = new Class({
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
-        jQuery(document).ready(this.render.bind(this));
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
-
+        
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
             layout: {

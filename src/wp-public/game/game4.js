@@ -8,7 +8,9 @@ chess.WPGame4 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35);
         this.boardSize = w;
-        jQuery(document).ready(this.render.bind(this));
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {

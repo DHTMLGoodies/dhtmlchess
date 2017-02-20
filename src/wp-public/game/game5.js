@@ -24,7 +24,9 @@ chess.WPGame5 = new Class({
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     configure: function () {

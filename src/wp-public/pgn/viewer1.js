@@ -42,7 +42,9 @@ chess.WPViewer1 = new Class({
         this.hint = config.hint || {};
 
         this.showLabels = !ludo.isMobile;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {

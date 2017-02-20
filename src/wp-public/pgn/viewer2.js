@@ -49,7 +49,9 @@ chess.WPViewer2 = new Class({
 
         this.gameListDsId = 'gamelist' + String.uniqueID();
         this.standingsId = 'standingsId' + String.uniqueID();
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {

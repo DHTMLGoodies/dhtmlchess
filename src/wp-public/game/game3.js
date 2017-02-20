@@ -10,7 +10,9 @@ chess.WPGame3 = new Class({
 
 
         this.boardSize = w - 150;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {

@@ -9,7 +9,9 @@ chess.WPGame1 = new Class({
         this.renderTo.css('height', Math.ceil(w - 150 + 45 + 35));
         this.renderTo.css('position', 'relative');
         this.boardSize = w - 150;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {

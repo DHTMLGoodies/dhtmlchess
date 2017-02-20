@@ -46,11 +46,13 @@ chess.WPTactics1 = new Class({
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
-        jQuery(document).ready(this.render.bind(this));
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
-
+        
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
             layout: {
