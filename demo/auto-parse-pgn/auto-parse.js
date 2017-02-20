@@ -143,7 +143,6 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
-
         location.href='index.php?index=' + (this.index + 1);
         return;
 
@@ -506,6 +505,38 @@ chess.AutoParse = new Class({
 
 
     onGameEnd: function () {
+
+        if(this.checkmatesOnly && this.currentMoves.length > 0){
+
+
+            var lm = this.currentMoves[this.currentMoves.length-1];
+            if(jQuery.type(lm) == 'string') {
+
+
+                var fen = this.currentFens[this.currentFens.length - 2];
+
+                this.secondParser.setFen(fen);
+                var checkmates = this.secondParser.getAllCheckmateMoves();
+                var i = checkmates.indexOf(lm);
+                if (i >= 0) {
+                    checkmates.splice(i, 1);
+                }
+
+                if (checkmates.length > 0) {
+                    lm = {
+                        move: lm,
+                        variations: []
+                    };
+                }
+                jQuery.each(checkmates, function (i, checkmate) {
+                    lm.variations.push([checkmate]);
+                }.bind(this));
+
+                this.currentMoves[this.currentMoves.length - 1] = lm;
+            }
+
+        }
+
         if (this.currentMoves.length > 1 && this.checkmatesOnly) {
             this.parsingMode = 1;
             this.parseVariations();

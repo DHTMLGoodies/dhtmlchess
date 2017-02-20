@@ -53,6 +53,7 @@ chess.FindLine = new Class({
         
 
         this.timeout = timeout || this.timeout;
+        
         this.color = color;
 
 
