@@ -1,4 +1,4 @@
-/* Generated Mon Feb 20 1:28:32 CET 2017 */
+/* Generated Mon Feb 20 1:38:38 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34757,7 +34757,8 @@ chess.WPTactics1 = new Class({
             }
         });
 
-        var index = ludo.getLocalStorage().get(storageKey);
+        var index = ludo.getLocalStorage().get(storageKey,0);
+        if(isNaN(index)) index = 0;
         index = Math.max(0,index);
         if (index != undefined) {
             this.controller.getCurrentModel().setGameIndex(index);

@@ -179,7 +179,8 @@ chess.WPTactics1 = new Class({
             }
         });
 
-        var index = ludo.getLocalStorage().get(storageKey);
+        var index = ludo.getLocalStorage().get(storageKey,0);
+        if(isNaN(index)) index = 0;
         index = Math.max(0,index);
         if (index != undefined) {
             this.controller.getCurrentModel().setGameIndex(index);
