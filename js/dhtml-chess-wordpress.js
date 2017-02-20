@@ -1,4 +1,4 @@
-/* Generated Mon Feb 20 23:14:23 CET 2017 */
+/* Generated Tue Feb 21 0:29:58 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33130,16 +33130,16 @@ chess.WPTemplate = new Class({
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
-                success:function(){
+                complete:function(){
                     this.onload();
                 }.bind(this)
-            });
+            }).appendTo('head');
 
 
             jQuery.ajax({
                 url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
                 dataType: "script",
-                success:function(){
+                complete:function(){
                     this.onload();
                 }.bind(this)
             });

@@ -22,16 +22,16 @@ chess.WPTemplate = new Class({
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
-                success:function(){
+                complete:function(){
                     this.onload();
                 }.bind(this)
-            });
+            }).appendTo('head');
 
 
             jQuery.ajax({
                 url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
                 dataType: "script",
-                success:function(){
+                complete:function(){
                     this.onload();
                 }.bind(this)
             });
