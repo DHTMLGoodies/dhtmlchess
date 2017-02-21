@@ -13,6 +13,7 @@ chess.WPGame5 = new Class({
 
         var w = this.renderTo.width();
 
+
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
@@ -108,7 +109,7 @@ chess.WPGame5 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',

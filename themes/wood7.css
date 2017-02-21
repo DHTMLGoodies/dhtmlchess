@@ -1,30 +1,32 @@
-.dhtml-chess-board {
+
+.dc-wood7 .dhtml-chess-board {
     border: 1px solid #daac78
 }
 
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+.dc-wood7 div.dhtml-chess-notation-panel, .dc-wood7 span.notation-branch, .dc-wood7 .notation-chess-move {
     color: #000;
-    line-height:150%;
+    line-height: 150%;
 }
 
-span.notation-chess-move-highlighted {
-    background-color: #555 ;
-    color: #FFF ;
+.dc-wood7 span.notation-chess-move-highlighted {
+    background-color: #555;
+    color: #FFF;
     border-radius: 3px
 }
 
-.dhtml-chess-square-highlight {
-    background-color: #555 ;
+.dc-wood7 .dhtml-chess-square-highlight {
+    background-color: #555;
     border-width: 0
 }
 
-.ludo-grid-Grid div.ludo-active-record {
-    font-weight: bold ;
+.dc-wood7 .ludo-grid-Grid div.ludo-active-record {
+    font-weight: bold;
     background-color: #DDD;
-    color:#000;
+    color: #000;
 
 }
-.dhtml-chess-notation-last-move{
-    border:1px solid #333;
-    border-radius:999px;
+
+.dc-wood7 .dhtml-chess-notation-last-move {
+    border: 1px solid #333;
+    border-radius: 999px;
 }

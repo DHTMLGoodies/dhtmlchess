@@ -9,6 +9,8 @@ chess.WPGame1 = new Class({
         this.renderTo.css('height', Math.ceil(w - 150 + 45 + 35));
         this.renderTo.css('position', 'relative');
         this.boardSize = w - 150;
+
+        this.bs = this.boardSize > 400 ? this.boardSize : w;
         if(this.canRender()){
             this.render();
         }
@@ -17,6 +19,7 @@ chess.WPGame1 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -35,7 +38,6 @@ chess.WPGame1 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
                         'font-weight': 'bold'
                     }
                 },
@@ -90,7 +92,7 @@ chess.WPGame1 = new Class({
                     type: 'chess.view.buttonbar.Bar',
                     layout: {
                         height: 45,
-                        width: this.boardSize
+                        width: this.bs
                     },
                     module: this.module
                 }

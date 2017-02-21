@@ -57,6 +57,7 @@ chess.WPViewer2 = new Class({
     render: function () {
 
         new chess.view.Chess({
+            cls:this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',

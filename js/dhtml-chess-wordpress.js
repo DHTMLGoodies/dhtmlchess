@@ -1,4 +1,4 @@
-/* Generated Tue Feb 21 1:16:05 CET 2017 */
+/* Generated Tue Feb 21 20:09:02 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -24114,7 +24114,7 @@ chess.view.board.Background = new Class({
 
     verticalSize: undefined,
     horizontalSize: undefined,
-    patternSize:undefined,
+    patternSize: undefined,
 
     size: undefined,
 
@@ -24124,18 +24124,26 @@ chess.view.board.Background = new Class({
 
     square: true,
 
-    pattern:undefined,
+    pattern: undefined,
 
     initialize: function (config) {
         this.view = config.view;
         this.svg = this.view.svg();
 
 
+        if (Browser.name == 'ie' || Browser.name == 'edge') {
+            config.horizontal = undefined;
+            config.vertical = undefined;
+            config.paint = config.iePaint ? config.iePaint : {
+                    fill: '#444'
+                }
+
+        }
         this.svg.css('position', 'absolute');
         this.svg.css('left', '0');
         this.svg.css('top', '0');
-        if (config.square != undefined)this.square = config.square;
-        if (config.borderRadius != undefined)this.borderRadius = config.borderRadius;
+        if (config.square != undefined) this.square = config.square;
+        if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
         this.view.on('boardResized', this.resize.bind(this));
 
@@ -24166,7 +24174,7 @@ chess.view.board.Background = new Class({
         this.createPath('r');
 
         if (!this.horizontal) {
-            if(!this.pattern)this.paths.t.css('display', 'none');
+            if (!this.pattern) this.paths.t.css('display', 'none');
             this.paths.l.css('display', 'none');
             this.paths.r.css('display', 'none');
             this.paths.b.css('display', 'none');
@@ -24179,6 +24187,7 @@ chess.view.board.Background = new Class({
 
         this.applyPattern();
     },
+
 
     createClipPath: function () {
         this.els.clipPath = this.svg.$('clipPath');
@@ -24275,9 +24284,7 @@ chess.view.board.Background = new Class({
 
     createPattern: function () {
 
-
         if (this.paint != undefined) {
-
             this.els.paintRect = this.svg.$('rect');
             this.els.paintRect.css(this.paint);
             this.svg.append(this.els.paintRect);
@@ -24285,28 +24292,24 @@ chess.view.board.Background = new Class({
                 this.els.paintRect.css('fill-opacity', 0);
             }
             this.els.paintRect.toFront();
-
-
         }
 
-        if(this.pattern){
+        if (this.pattern) {
             this.els.pattern = this.getPattern(this.pattern, 'patternSize', 'pattern');
-        }else if (this.horizontal) {
+        } else if (this.horizontal) {
             this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
             this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
-
         }
-
 
     },
 
     updatePatternSize: function () {
-        if (this.size == undefined)this.size = { x:1, y:1 };
+        if (this.size == undefined) this.size = {x: 1, y: 1};
 
 
         var min = 5;
 
-        if(this.pattern && this.patternSize != undefined){
+        if (this.pattern && this.patternSize != undefined) {
 
             this.els.pattern.set('width', Math.min(min, this.patternSize.x / this.size.x));
             this.els.pattern.set('height', Math.min(min, this.patternSize.y / this.size.y));
@@ -24326,21 +24329,7 @@ chess.view.board.Background = new Class({
 
     applyPattern: function () {
 
-        if(Browser.name == 'ie'){
-            if(this.els.pattern){
-                this.paths.t.set('fill', '#111');
-            }
-            if (this.els.horizontal) {
-                this.paths.t.set('fill', '#111');
-                this.paths.b.set('fill', '#111');
-            }
-
-            if (this.els.vertical) {
-                this.paths.l.set('fill', '#111');
-                this.paths.r.set('fill', '#111');
-            }
-        }
-        if(this.els.pattern){
+        if (this.els.pattern) {
             this.paths.t.setPattern(this.els.pattern);
         }
         if (this.els.horizontal) {
@@ -24374,7 +24363,7 @@ chess.view.board.Background = new Class({
 
         if (this.square) {
             var min = Math.min(size.width, size.height);
-            this.size = {x : min, y: min };
+            this.size = {x: min, y: min};
         } else {
 
             this.size = {x: size.width, y: size.height};
@@ -24395,16 +24384,16 @@ chess.view.board.Background = new Class({
 
         radius -= sw;
 
-        if(this.pattern ){
+        if (this.pattern) {
 
             this.paths.t.set('d', [
-                'M', cx-radius, cy-radiusY,
+                'M', cx - radius, cy - radiusY,
                 'L', cx - radius, cy + radiusY,
-                cx + radius, cy + radiusY, cx+radius, cy-radiusY, 'Z'
+                cx + radius, cy + radiusY, cx + radius, cy - radiusY, 'Z'
             ].join(' '));
 
 
-        }else{
+        } else {
             this.paths.t.set('d', [
                 'M', cx, cy, 'L', cx - radius, cy - radiusY, cx + radius, cy - radiusY, 'Z'
             ].join(' '));
@@ -24420,8 +24409,6 @@ chess.view.board.Background = new Class({
                 'M', cx, cy, 'L', cx + radius, cy - radiusY, cx + radius, cy + radiusY, 'Z'
             ].join(' '));
         }
-
-
 
 
         this.setBorderRadius(this.borderRadius);
@@ -25028,7 +25015,13 @@ chess.view.buttonbar.Bar = new Class({
 
     anchor:undefined,
 
+    pr:undefined,
+
     __construct: function (config) {
+
+        this.pr = String.uniqueID();
+
+
         this.parent(config);
         this.anchor = [0.5, 0];
         this.__params(config, ['buttonSize', 'background', 'buttons', 'styles',
@@ -25081,7 +25074,7 @@ chess.view.buttonbar.Bar = new Class({
             imagePlay: {fill: '#C8E6C9'},
 
             overlay : {
-                'fill-opacity' : 0.1,
+                'fill-opacity' : 0,
                 'fill': '#000'
             }
         };
@@ -25144,7 +25137,7 @@ chess.view.buttonbar.Bar = new Class({
     createStylesheets: function () {
         var s = this.svg();
         jQuery.each(this.styles, function (name, styles) {
-            s.addStyleSheet('dc-' + name, styles);
+            s.addStyleSheet(this.pr + 'dc-' + name, styles);
         }.bind(this));
     },
 
@@ -25167,7 +25160,7 @@ chess.view.buttonbar.Bar = new Class({
         s.append(g);
         this.els.buttons[name] = g;
         var rect = s.$('rect');
-        rect.addClass('dc-button');
+        rect.addClass(this.pr + 'dc-button');
         this.els.buttonRects[name] = rect;
         g.append(rect);
 
@@ -25182,7 +25175,7 @@ chess.view.buttonbar.Bar = new Class({
         p.set('line-cap', 'round');
         p.set('fill-rule', 'even-odd');
         this.els.buttonPaths[name] = p;
-        p.addClass('dc-image');
+        p.addClass(this.pr + 'dc-image');
         g.append(p);
 
 
@@ -25230,8 +25223,8 @@ chess.view.buttonbar.Bar = new Class({
     onMouseUp: function () {
         if (this.buttonDown) {
             var n = this.buttonDown;
-            this.els.buttonRects[n].removeClass('dc-buttonDown');
-            this.els.buttonPaths[n].removeClass('dc-imageDown');
+            this.els.buttonRects[n].removeClass(this.pr + 'dc-buttonDown');
+            this.els.buttonPaths[n].removeClass(this.pr + 'dc-imageDown');
             this.buttonDown = undefined;
         }
     },
@@ -25264,8 +25257,8 @@ chess.view.buttonbar.Bar = new Class({
         r.removeAllClasses();
         p.removeAllClasses();
 
-        r.addClass('dc-button' + className);
-        p.addClass('dc-image' + className);
+        r.addClass(this.pr + 'dc-button' + className);
+        p.addClass(this.pr + 'dc-image' + className);
 
 
     },
@@ -33108,29 +33101,38 @@ chess.wordpress.PgnStandings = new Class({
 });/* ../dhtml-chess/src/wp-public/wp-template.js */
 chess.WPTemplate = new Class({
     Extends: Events,
-    renderTo:undefined,
-    module:undefined,
-    _ready : true,
-    _loadCounter : 0,
+    renderTo: undefined,
+    module: undefined,
+    _ready: true,
+    _loadCounter: 0,
+    th:undefined,
+    themeObject:undefined,
 
-    initialize:function(config){
+    initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
 
+        this.themeObject = chess.THEME;
+        this.th = config.theme || config.defaultTheme;
+        this.th = 'dc-' + this.th;
+
+        if(config.width){
+            this.renderTo.css('width', config.width);
+        }
         chess.THEME_OVERRIDES = undefined;
-        
+
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
 
-        if(config.theme){
+        if (config.theme) {
             this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
                 href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
-                complete:function(){
+                complete: function () {
                     this.onload();
                 }.bind(this)
             }).appendTo('head');
@@ -33139,21 +33141,21 @@ chess.WPTemplate = new Class({
             jQuery.ajax({
                 url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
                 dataType: "script",
-                complete:function(){
+                complete: function () {
                     this.onload();
                 }.bind(this)
             });
         }
     },
 
-    onload:function(){
+    onload: function () {
         this._loadCounter++;
-        if(!this._ready && this._loadCounter==2)this.render();
+        if (!this._ready && this._loadCounter == 2)this.render();
         this._ready = this._loadCounter == 2;
 
     },
 
-    canRender:function(){
+    canRender: function () {
         return this._ready;
     }
 
@@ -33251,6 +33253,8 @@ chess.WPGame1 = new Class({
         this.renderTo.css('height', Math.ceil(w - 150 + 45 + 35));
         this.renderTo.css('position', 'relative');
         this.boardSize = w - 150;
+
+        this.bs = this.boardSize > 400 ? this.boardSize : w;
         if(this.canRender()){
             this.render();
         }
@@ -33259,6 +33263,7 @@ chess.WPGame1 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -33277,7 +33282,6 @@ chess.WPGame1 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
                         'font-weight': 'bold'
                     }
                 },
@@ -33332,7 +33336,7 @@ chess.WPGame1 = new Class({
                     type: 'chess.view.buttonbar.Bar',
                     layout: {
                         height: 45,
-                        width: this.boardSize
+                        width: this.bs
                     },
                     module: this.module
                 }
@@ -33365,6 +33369,7 @@ chess.WPGame2 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -33463,6 +33468,7 @@ chess.WPGame3 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -33612,6 +33618,7 @@ chess.WPGame4 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -33741,6 +33748,7 @@ chess.WPGame5 = new Class({
 
         var w = this.renderTo.width();
 
+
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
@@ -33836,7 +33844,7 @@ chess.WPGame5 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -34014,6 +34022,7 @@ chess.WPViewer1 = new Class({
     render: function () {
 
         new chess.view.Chess({
+            cls:this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -34318,6 +34327,7 @@ chess.WPViewer2 = new Class({
     render: function () {
 
         new chess.view.Chess({
+            cls:this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -34729,6 +34739,8 @@ chess.WPTactics1 = new Class({
 
     boardSize:undefined,
 
+    
+
     initialize: function (config) {
 
         this.parent(config);
@@ -34756,6 +34768,7 @@ chess.WPTactics1 = new Class({
     render: function () {
         
         new chess.view.Chess({
+            cls:this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',

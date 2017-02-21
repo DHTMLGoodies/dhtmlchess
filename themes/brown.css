@@ -1,103 +1,87 @@
-.dhtml-chess-board-label-inside .dhtml-chess-board-label-file {
+.dc-brown .dhtml-chess-board-label-inside .dhtml-chess-board-label-file {
     text-align: right;
     padding-right: 4px
 }
-
-.dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
+.dc-brown .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
     padding-left: 2px;
     padding-top: 2px
 }
-
-.chess-board-label-inside span {
+.dc-brown .chess-board-label-inside span {
     padding-left: 2px;
     padding-right: 2px
 }
-
-.dhtml-chess-square-white {
+.dc-brown .dhtml-chess-square-white {
     background-image: none !important;
     background-color: #e7caa3 !important;;
 
 }
-
-.dhtml-chess-square-black {
+.dc-brown .dhtml-chess-square-black {
     background-image: none !important;
     background-color: #b48059 !important;
 
 }
-
-.dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
+.dc-brown .dhtml-chess-board-label-ranks-container,.dc-brown .dhtml-chess-board-label-files-container {
     color: #fffffb
 }
-
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+.dc-brown div.dhtml-chess-notation-panel,.dc-brown span.notation-branch,.dc-brown .notation-chess-move {
     color: #4E342E
 }
 
 /** Highlighted notation styles */
-span.notation-chess-move-highlighted {
+.dc-brown span.notation-chess-move-highlighted {
     background-color: #b48059 !important;
     color: #FFF;
     border-radius: 3px
 }
-
-.dhtml-chess-square-highlight {
+.dc-brown .dhtml-chess-square-highlight {
     background-color: #598db5;
     border-width: 0
 }
-
-.ludo-view {
+.dc-brown .ludo-view {
     background-color: transparent
 }
-
-.dhtml-chess-view-metadata-game div.ludo-body {
+.dc-brown .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
 }
 
 body.ludo-twilight {
     background-color: transparent
 }
-
-.ludo-form-button .ludo-body {
+.dc-brown .ludo-form-button .ludo-body {
     border: 1px solid #9c6f4e;
     background-color: #b58159;
     color: #fff
 }
-
-div.ludo-form-button div.ludo-form-button-over {
+.dc-brown div.ludo-form-button div.ludo-form-button-over {
     background-color: #694b34;
     border: 1px solid #694b34
 }
 
 /* Button click style */
-div.ludo-form-button div.ludo-form-button-down {
+.dc-brown div.ludo-form-button div.ludo-form-button-down {
     background-color: #9c6f4e;
     color: #FFF;
     border: 1px solid #9c6f4e
 }
-
-div.ludo-window {
+.dc-brown div.ludo-window {
     background-color: #b58159
 }
 
-
-div.ludo-body {
+.dc-brown div.ludo-body {
     color: #444
 }
-
-div.ludo-window {
+.dc-brown div.ludo-window {
     border:1px solid #9c6f4e;
 }
-div.ludo-window >.ludo-body{
+.dc-brown div.ludo-window >.ludo-body{
     padding:3px;
     color: #FFF !important;
 }
-
-.ludo-grid-Grid div.ludo-active-record {
+.dc-brown .ludo-grid-Grid div.ludo-active-record {
     background-color: #cfaa91;
 
 }
-
-.dhtml-chess-notation-last-move{
+.dc-brown .dhtml-chess-notation-last-move{
     border:1px solid #9c6f4e;
     border-radius:999px;
     color:#9c6f4e;

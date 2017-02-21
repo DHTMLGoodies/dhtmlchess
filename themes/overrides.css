@@ -254,10 +254,13 @@ span.notation-chess-move-highlighted {
 
 }
 
+.ludo-chess-view-notation-table{
+    font-size:12px;
+}
 .ludo-chess-view-notation-table >.ludo-body{
     border-radius:5px;
     border-width:1px;
-    font-size:12px;
+
 }
 
 .dhtml-chess-comp-eval-notation{

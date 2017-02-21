@@ -1,32 +1,33 @@
-.dhtml-chess-board{
+.dc-wood3 .dhtml-chess-board {
     border: 1px solid #f4d199;
 }
 
-.chess-rank-label-odd,.chess-file-label-even  {
+.dc-wood3 .chess-rank-label-odd, .dc-wood3 .chess-file-label-even  {
     color: #f6cc96
 }
 
-.chess-rank-label-even, .chess-file-label-odd  {
+.dc-wood3 .chess-rank-label-even, .dc-wood3 .chess-file-label-odd  {
     color: #f6cc96
 }
 
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move  {
+.dc-wood3 div.dhtml-chess-notation-panel, .dc-wood3 span.notation-branch, .dc-wood3 .notation-chess-move  {
     color: #333
 }
-.notation-chess-move {
+
+.dc-wood3 .notation-chess-move {
     color: #333;
-    padding-left:2px;padding-right:2px;
-    display:inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+    display: inline-block;
 }
 
-span.notation-chess-move-highlighted{
+.dc-wood3 span.notation-chess-move-highlighted {
     background-color: #a0512f !important;
     color: #FFF;
     border-radius: 3px
 }
 
-
-.dhtml-chess-square-highlight  {
+.dc-wood3 .dhtml-chess-square-highlight  {
     background-color: #0D47A1;
     border-width: 0
 }

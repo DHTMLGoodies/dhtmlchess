@@ -18,6 +18,7 @@ chess.WPGame3 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
+            cls:this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',

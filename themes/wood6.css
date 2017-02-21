@@ -1,45 +1,46 @@
-.dhtml-chess-board {
+
+.dc-wood6 .dhtml-chess-board {
     border: 1px solid #b0abab
 }
 
-.dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
+.dc-wood6 .dhtml-chess-board-label-files-container .dhtml-chess-board-label-file {
 }
 
-.dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
+.dc-wood6 .dhtml-chess-board-label-ranks-container, .dc-wood6 .dhtml-chess-board-label-files-container {
 }
 
-.chess-rank-label-odd, .chess-file-label-even, .chess-rank-label-even, .chess-file-label-odd {
+.dc-wood6 .chess-rank-label-odd, .dc-wood6 .chess-file-label-even, .dc-wood6 .chess-rank-label-even, .dc-wood6 .chess-file-label-odd {
     color: #EEE
 }
 
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+.dc-wood6 div.dhtml-chess-notation-panel, .dc-wood6 span.notation-branch, .dc-wood6 .notation-chess-move {
     color: #333
 }
 
-span.notation-chess-move-highlighted {
+.dc-wood6 span.notation-chess-move-highlighted {
     background-color: #777;
     color: #FFF;
     border-radius: 3px
 }
 
-.dhtml-chess-square-highlight {
+.dc-wood6 .dhtml-chess-square-highlight {
     background-color: #0D47A1;
     border-width: 0
 }
 
-.dhtml-chess-view-metadata-game div.ludo-body {
+.dc-wood6 .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
 }
 
-div.ludo-window >.ludo-body{
-    padding:3px;
+.dc-wood6 div.ludo-window > .ludo-body {
+    padding: 3px;
     color: #333 !important;
 }
 
-div.ludo-window{
-    border:1px solid #333;
+.dc-wood6 div.ludo-window {
+    border: 1px solid #333;
 }
 
-.dhtml-chess-promote-piece .ludo-body{
-    background-color:#ddd;
+.dc-wood6 .dhtml-chess-promote-piece .ludo-body {
+    background-color: #ddd;
 }

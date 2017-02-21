@@ -31,7 +31,13 @@ chess.view.buttonbar.Bar = new Class({
 
     anchor:undefined,
 
+    pr:undefined,
+
     __construct: function (config) {
+
+        this.pr = String.uniqueID();
+
+
         this.parent(config);
         this.anchor = [0.5, 0];
         this.__params(config, ['buttonSize', 'background', 'buttons', 'styles',
@@ -84,7 +90,7 @@ chess.view.buttonbar.Bar = new Class({
             imagePlay: {fill: '#C8E6C9'},
 
             overlay : {
-                'fill-opacity' : 0.1,
+                'fill-opacity' : 0,
                 'fill': '#000'
             }
         };
@@ -147,7 +153,7 @@ chess.view.buttonbar.Bar = new Class({
     createStylesheets: function () {
         var s = this.svg();
         jQuery.each(this.styles, function (name, styles) {
-            s.addStyleSheet('dc-' + name, styles);
+            s.addStyleSheet(this.pr + 'dc-' + name, styles);
         }.bind(this));
     },
 
@@ -170,7 +176,7 @@ chess.view.buttonbar.Bar = new Class({
         s.append(g);
         this.els.buttons[name] = g;
         var rect = s.$('rect');
-        rect.addClass('dc-button');
+        rect.addClass(this.pr + 'dc-button');
         this.els.buttonRects[name] = rect;
         g.append(rect);
 
@@ -185,7 +191,7 @@ chess.view.buttonbar.Bar = new Class({
         p.set('line-cap', 'round');
         p.set('fill-rule', 'even-odd');
         this.els.buttonPaths[name] = p;
-        p.addClass('dc-image');
+        p.addClass(this.pr + 'dc-image');
         g.append(p);
 
 
@@ -233,8 +239,8 @@ chess.view.buttonbar.Bar = new Class({
     onMouseUp: function () {
         if (this.buttonDown) {
             var n = this.buttonDown;
-            this.els.buttonRects[n].removeClass('dc-buttonDown');
-            this.els.buttonPaths[n].removeClass('dc-imageDown');
+            this.els.buttonRects[n].removeClass(this.pr + 'dc-buttonDown');
+            this.els.buttonPaths[n].removeClass(this.pr + 'dc-imageDown');
             this.buttonDown = undefined;
         }
     },
@@ -267,8 +273,8 @@ chess.view.buttonbar.Bar = new Class({
         r.removeAllClasses();
         p.removeAllClasses();
 
-        r.addClass('dc-button' + className);
-        p.addClass('dc-image' + className);
+        r.addClass(this.pr + 'dc-button' + className);
+        p.addClass(this.pr + 'dc-image' + className);
 
 
     },

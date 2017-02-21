@@ -1,62 +1,62 @@
-.dhtml-chess-board-label-inside .dhtml-chess-board-label-file {
+.dc-grey .dhtml-chess-board-label-inside .dhtml-chess-board-label-file {
     text-align: right;
     padding-right: 4px
 }
 
-.dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
+.dc-grey .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
     padding-left: 2px;
     padding-top: 2px
 }
 
-.chess-board-label-inside span {
+.dc-grey .chess-board-label-inside span {
     padding-left: 2px;
     padding-right: 2px
 }
 
-.dhtml-chess-square-white {
+.dc-grey .dhtml-chess-square-white {
     background-image: none !important;
     background-color: #a3a3a3 !important;;
 
 }
 
-.dhtml-chess-square-black {
+.dc-grey .dhtml-chess-square-black {
     background-image: none !important;
     background-color: #888888 !important;
 
 }
 
-.dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
+.dc-grey .dhtml-chess-board-label-ranks-container, .dc-grey .dhtml-chess-board-label-files-container {
     color: #fffffb
 }
 
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+.dc-grey div.dhtml-chess-notation-panel, .dc-grey span.notation-branch, .dc-grey .notation-chess-move {
     color: #444;
-    font-weight:bold;
+    font-weight: bold;
 }
 
-.notation-comment{
-    color:#333;
-    font-style:italic;
+.dc-grey .notation-comment {
+    color: #333;
+    font-style: italic;
 }
 
 /** Highlighted notation styles */
-span.notation-chess-move-highlighted {
+.dc-grey span.notation-chess-move-highlighted {
     background-color: #666;
     color: #FFF;
     border-radius: 3px;
-    font-weight:normal;
+    font-weight: normal;
 }
 
-.dhtml-chess-square-highlight {
+.dc-grey .dhtml-chess-square-highlight {
     background-color: #598db5;
     border-width: 0;
 }
 
-.ludo-view {
+.dc-grey .ludo-view {
     background-color: transparent
 }
 
-.dhtml-chess-view-metadata-game div.ludo-body {
+.dc-grey .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
 }
 
@@ -64,50 +64,49 @@ body.ludo-twilight {
     background-color: transparent
 }
 
-.ludo-form-button .ludo-body {
+.dc-grey .ludo-form-button .ludo-body {
     border: 1px solid #888;
     background-color: #555;
     color: #fff
 }
 
-div.ludo-form-button div.ludo-form-button-over {
+.dc-grey div.ludo-form-button div.ludo-form-button-over {
     background-color: #666;
     border: 1px solid #333
 }
 
 /* Button click style */
-div.ludo-form-button div.ludo-form-button-down {
+.dc-grey div.ludo-form-button div.ludo-form-button-down {
     background-color: #444;
     color: #FFF;
     border: 1px solid #333
 }
 
-div.ludo-window {
+.dc-grey div.ludo-window {
     background-color: #888
 }
 
-
-div.ludo-body {
+.dc-grey div.ludo-body {
     color: #444
 }
 
-div.ludo-window {
-    border:1px solid #555;
+.dc-grey div.ludo-window {
+    border: 1px solid #555;
 }
-div.ludo-window >.ludo-body{
-    padding:3px;
+
+.dc-grey div.ludo-window > .ludo-body {
+    padding: 3px;
     color: #FFF !important;
 }
 
-.ludo-grid-Grid div.ludo-active-record {
+.dc-grey .ludo-grid-Grid div.ludo-active-record {
     background-color: #ccc;
 
 }
 
-
-.dhtml-chess-notation-last-move{
-    border:1px solid #555;
-    border-radius:999px;
+.dc-grey .dhtml-chess-notation-last-move {
+    border: 1px solid #555;
+    border-radius: 999px;
 }
 
 

@@ -1,48 +1,47 @@
-.dhtml-chess-board {
+
+.dc-wood5.dhtml-chess-board {
     border: 1px solid #e1b886
 }
 
-.dhtml-chess-board-label-ranks-container, .dhtml-chess-board-label-files-container {
+.dc-wood5 .dhtml-chess-board-label-ranks-container, .dc-wood5 .dhtml-chess-board-label-files-container {
 }
 
-.chess-rank-label-even, .chess-file-label-odd {
+.dc-wood5 .chess-rank-label-even, .dc-wood5 .chess-file-label-odd {
     color: #e1b886
 }
 
-div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
+.dc-wood5 div.dhtml-chess-notation-panel, .dc-wood5 span.notation-branch, .dc-wood5 .notation-chess-move {
     color: #333
 }
 
-span.notation-chess-move-highlighted {
+.dc-wood5 span.notation-chess-move-highlighted {
     background-color: #0D47A1;
     color: #FFF;
     border-radius: 3px
 }
 
-.dhtml-chess-square-highlight {
+.dc-wood5 .dhtml-chess-square-highlight {
     background-color: #0D47A1;
     border-width: 0
 }
 
-div.ludo-window {
+.dc-wood5 div.ludo-window {
     background-color: #535353
 }
 
-.ludo-view {
+.dc-wood5 .ludo-view {
     background-color: transparent
 }
 
-.dhtml-chess-view-metadata-game div.ludo-body {
+.dc-wood5 .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
 }
 
-
-
-.ludo-view {
+.dc-wood5 .ludo-view {
     background-color: transparent
 }
 
-.dhtml-chess-view-metadata-game div.ludo-body {
+.dc-wood5 .dhtml-chess-view-metadata-game div.ludo-body {
     color: #333
 }
 
@@ -50,41 +49,41 @@ body.ludo-twilight {
     background-color: transparent
 }
 
-.ludo-form-button .ludo-body {
+.dc-wood5 .ludo-form-button .ludo-body {
     border: 1px solid #967033;
     background-color: #b0833c;
     color: #fff
 }
 
-.ludo-form-button div.ludo-form-button-over {
+.dc-wood5 .ludo-form-button div.ludo-form-button-over {
     border: 1px solid #694b34
 }
 
 /* Button click style */
-.ludo-form-button div.ludo-form-button-down {
+.dc-wood5 .ludo-form-button div.ludo-form-button-down {
     background-color: #967033;
     color: #FFF;
     border: 1px solid #967033
 }
 
-div.ludo-window {
+.dc-wood5 div.ludo-window {
     background-color: #b0833c
 }
 
-
-div.ludo-body {
+.dc-wood5 div.ludo-body {
     color: #444
 }
 
-div.ludo-window {
-    border:1px solid #967033;
+.dc-wood5 div.ludo-window {
+    border: 1px solid #967033;
 }
-div.ludo-window >.ludo-body{
-    padding:3px;
+
+.dc-wood5 div.ludo-window > .ludo-body {
+    padding: 3px;
     color: #FFF !important;
 }
 
-.ludo-grid-Grid div.ludo-active-record {
+.dc-wood5 .ludo-grid-Grid div.ludo-active-record {
     background-color: #cfaa91;
 
 }

@@ -1,26 +1,26 @@
-.dhtml-chess-board {
+.dc-wood2 .dhtml-chess-board {
     border: 1px solid #f4d199
 }
 
-.chess-rank-label-odd, .chess-file-label-even {
+.dc-wood2 .chess-rank-label-odd, .dc-wood2 .chess-file-label-even {
     color: #f6cc96
 }
 
-.chess-rank-label-even, .chess-file-label-odd {
+.dc-wood2 .chess-rank-label-even, .dc-wood2 .chess-file-label-odd {
     color: #f6cc96
 }
 
-.notation-chess-move {
+.dc-wood2 .notation-chess-move {
     color: #333
 }
 
-span.notation-chess-move-highlighted {
+.dc-wood2 span.notation-chess-move-highlighted {
     background-color: #380a06;
     color: #FFF;
     border-radius: 3px
 }
 
-.dhtml-chess-square-highlight {
+.dc-wood2 .dhtml-chess-square-highlight {
     background-color: #380a06;
     border-width: 0
 }

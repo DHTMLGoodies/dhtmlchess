@@ -7,7 +7,7 @@ chess.THEME = {
     borderColor:'#aaa',
     css: {
 
-      
+
 
     },
 
