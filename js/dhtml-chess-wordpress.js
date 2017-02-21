@@ -1,4 +1,4 @@
-/* Generated Tue Feb 21 20:09:02 CET 2017 */
+/* Generated Tue Feb 21 20:26:59 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33119,6 +33119,11 @@ chess.WPTemplate = new Class({
         if(config.width){
             this.renderTo.css('width', config.width);
         }
+
+        if(config['float']){
+            this.renderTo.css('float', config['float']);
+        }
+
         chess.THEME_OVERRIDES = undefined;
 
         if (config.docRoot) {

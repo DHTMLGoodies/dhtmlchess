@@ -18,6 +18,11 @@ chess.WPTemplate = new Class({
         if(config.width){
             this.renderTo.css('width', config.width);
         }
+
+        if(config['float']){
+            this.renderTo.css('float', config['float']);
+        }
+
         chess.THEME_OVERRIDES = undefined;
 
         if (config.docRoot) {
