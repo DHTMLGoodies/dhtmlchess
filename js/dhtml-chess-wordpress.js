@@ -1,4 +1,4 @@
-/* Generated Tue Feb 21 20:26:59 CET 2017 */
+/* Generated Tue Feb 21 20:32:21 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33116,13 +33116,17 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if(config.width){
-            this.renderTo.css('width', config.width);
+        if(!ludo.isMobile){
+
+            if(config.width){
+                this.renderTo.css('width', config.width);
+            }
+
+            if(config['float']){
+                this.renderTo.css('float', config['float']);
+            }
         }
 
-        if(config['float']){
-            this.renderTo.css('float', config['float']);
-        }
 
         chess.THEME_OVERRIDES = undefined;
 

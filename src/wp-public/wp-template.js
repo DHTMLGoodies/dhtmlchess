@@ -15,13 +15,17 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if(config.width){
-            this.renderTo.css('width', config.width);
+        if(!ludo.isMobile){
+
+            if(config.width){
+                this.renderTo.css('width', config.width);
+            }
+
+            if(config['float']){
+                this.renderTo.css('float', config['float']);
+            }
         }
 
-        if(config['float']){
-            this.renderTo.css('float', config['float']);
-        }
 
         chess.THEME_OVERRIDES = undefined;
 
