@@ -31,6 +31,14 @@ chess.view.board.Background = new Class({
         this.svg = this.view.svg();
 
 
+        if(Browser.name == 'ie' || Browser.name == 'edge'){
+            config.horizontal = undefined;
+            config.vertical = undefined;
+            config.paint = {
+                fill : config.iePaint ? config.iePaint : '#444'
+            }
+
+        }
         this.svg.css('position', 'absolute');
         this.svg.css('left', '0');
         this.svg.css('top', '0');
@@ -79,6 +87,8 @@ chess.view.board.Background = new Class({
 
         this.applyPattern();
     },
+
+
 
     createClipPath: function () {
         this.els.clipPath = this.svg.$('clipPath');
@@ -175,9 +185,7 @@ chess.view.board.Background = new Class({
 
     createPattern: function () {
 
-
         if (this.paint != undefined) {
-
             this.els.paintRect = this.svg.$('rect');
             this.els.paintRect.css(this.paint);
             this.svg.append(this.els.paintRect);
@@ -185,8 +193,6 @@ chess.view.board.Background = new Class({
                 this.els.paintRect.css('fill-opacity', 0);
             }
             this.els.paintRect.toFront();
-
-
         }
 
         if(this.pattern){
@@ -194,9 +200,7 @@ chess.view.board.Background = new Class({
         }else if (this.horizontal) {
             this.els.horizontalPattern = this.getPattern(this.horizontal, 'horizontalSize', 'horizontal');
             this.els.verticalPattern = this.getPattern(this.vertical, 'verticalSize', 'vertical');
-
         }
-
 
     },
 
@@ -226,20 +230,6 @@ chess.view.board.Background = new Class({
 
     applyPattern: function () {
 
-        if(Browser.name == 'ie'){
-            if(this.els.pattern){
-                this.paths.t.set('fill', '#111');
-            }
-            if (this.els.horizontal) {
-                this.paths.t.set('fill', '#111');
-                this.paths.b.set('fill', '#111');
-            }
-
-            if (this.els.vertical) {
-                this.paths.l.set('fill', '#111');
-                this.paths.r.set('fill', '#111');
-            }
-        }
         if(this.els.pattern){
             this.paths.t.setPattern(this.els.pattern);
         }
