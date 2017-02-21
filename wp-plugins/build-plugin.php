@@ -94,7 +94,7 @@ class Archiver
     {
 
         echo getcwd()."<br>";
-        if(file_exists("dhtml_chess-wordpress.zip"))unlink("dhtml_chess-wordpress.zip");
+        if(file_exists("dhtml_chess.zip"))unlink("dhtml_chess.zip");
         exec("rm -rf dhtml_chess");
         exec("mkdir dhtml_chess");
        # exec("mkdir dhtml_chess/api");
@@ -110,7 +110,7 @@ class Archiver
 
 
         chdir("dhtml_chess");
-        $zipDestination = "../../zip/dhtml-chess-wordpress.zip";
+        $zipDestination = "../../zip/dhtml_chess.zip";
 
         HZip::zipDir(".", $zipDestination);
         exec("cp -f ".$zipDestination." ../../../wp-testing/dhtml_chess.zip");
