@@ -43,12 +43,16 @@ chess.AutoParse = new Class({
 
     timeMateFound:0,
 
+    findLastMove:false,
+
     initialize: function (config) {
         this.in = config.in;
         this.out = config.out;
         this.garbochess = config.garbochess || this.garbochess;
         this.timeout = config.timeout || this.timeout;
         this.index = config.startIndex || this.index;
+
+        if(config.findLastMove != undefined)this.findLastMove = config.findLastMove;
 
         if (config.checkmatesOnly != undefined)this.checkmatesOnly = config.checkmatesOnly;
         if (config.maxMoves != undefined)this.maxMoves = config.maxMoves;
@@ -92,7 +96,6 @@ chess.AutoParse = new Class({
                 "load": function (data) {
                     this.startTime = new Date().getTime();
                     this.countGames = data.length;
-
                     this.controller.loadGameFromFile(this.index);
                 }.bind(this)
             }
@@ -143,12 +146,16 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
-        location.href='index.php?index=' + (this.index + 1);
-        return;
 
-        if (this.index > 0 && this.index % 50 == 0) {
+        if(!this.findLastMove){
+            location.href='index.php?index=' + (this.index + 1);
             return;
+
+            if (this.index > 0 && this.index % 50 == 0) {
+                return;
+            }
         }
+
 
         if (this.index < this.countGames - 1) {
             this.lastEngineMove = undefined;
@@ -196,11 +203,27 @@ chess.AutoParse = new Class({
         currentPgn.result = '*'; // to ensure engine is running
         startTime = new Date().getTime();
 
-        if (this.controller.stopped && this.parsingMode == 0) {
-            this.controller.startEngine.delay(100, this.controller);
+        if(this.findLastMove){
+
+            this.currentFens.push(gameData.metadata.fen);
+
+            jQuery.each(gameData.moves, function(i,m){
+                this.currentMoves.push(m.m);
+                this.currentFens.push(m.fen);
+            }.bind(this));
+
+
+
+            this.onGameEnd();
+        }else{
+            if (this.controller.stopped && this.parsingMode == 0) {
+                this.controller.startEngine.delay(100, this.controller);
+            }
+
         }
 
-        console.log(this.controller.currentModel.fen());
+
+
     },
 
     bestMoves: undefined,
@@ -537,7 +560,7 @@ chess.AutoParse = new Class({
 
         }
 
-        if (this.currentMoves.length > 1 && this.checkmatesOnly) {
+        if (this.currentMoves.length > 1 && this.checkmatesOnly && !this.findLastMove) {
             this.parsingMode = 1;
             this.parseVariations();
         } else {
@@ -605,7 +628,7 @@ chess.AutoParse = new Class({
 
 
         this.currentPgn.black = this.currentPgn.white + ' ' + this.currentPgn.black;
-        this.currentPgn.index = this.index;
+        this.currentPgn.index = this.index+1;
         this.currentPgn.white = this.checkmatesOnly ? ((this.colorToMove == 'white' ? 'White' : 'Black') + ' mates in ' + (Math.ceil(this.currentMoves.length / 2))) : 'Find the best move';
         this.currentPgn.moves = this.currentMoves.join(' ');
         this.currentPgn.result = this.colorToMove == 'white' ? '1-0' : '0-1';

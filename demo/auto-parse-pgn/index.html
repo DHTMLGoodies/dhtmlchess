@@ -172,14 +172,15 @@
 
 
     var parser = new chess.AutoParse({
-        in: "1001bwtc",
+        in: "tactic-checkmates",
         "out": "tactic-checkmates.pgn",
+        findLastMove:true,
         timeout:240000,
         ///acceptedScore:3,
         checkmatesOnly:true,
        // maxMoves:3,
         append:true,
-        startIndex:401,
+        startIndex:798,
         listeners:{
             score:function(score){
                 ludo.$('scoreBar').setScore(score);

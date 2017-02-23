@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Game Editor/Analysis board</title>
+
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+
+    <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=4"></script>
+    <!-- Javascript for the GarboChess engine -->
+    <!-- CSS for the move navigation bar -->
+    <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css">
+    <link rel="stylesheet" href="../themes/blue.css">
+    <script type="text/javascript" src="../themes/blue.js"></script>
+    <script type="text/javascript" src="../src/model/game.js"></script>
+    <script type="text/javascript" src="../src/wordpress/undo-redo.js"></script>
+    <style type="text/css">
+        body, html {
+            font-family:arial, sans-serif;
+            width: 100%;
+            height: 100%;
+        }
+
+        div.dhtml-chess-button{
+            margin-left:2px;
+        }
+
+        .dhtml-chess-board-container {
+        }
+
+        .dhtml-chess-board {
+        }
+
+        .dhtml-chess-square-highlight {
+            border: 2px solid #377FD2;
+            opacity: 1;
+            filter: alpha(opacity = 100);
+            -moz-opacity: 1;
+        }
+
+        .notation-chess-move {
+            color: #4a5c70;
+            font-weight: normal;
+        }
+
+        span.notation-chess-move-highlighted {
+            background-color: #377FD2;
+            color: #FFF;
+        }
+
+        .dhtml-chess-move-number{
+            display:inline-block;
+            margin-right:4px;
+        }
+    </style>
+</head>
+<body class="ludo-blue">
+<script type="text/javascript">
+    /**
+     * The config values below shows the default values for path
+     * - the path to dhtml-chess/router.php
+     * - path to the root folder of dhtml chess.
+     * These should be the path FROM this html file.
+     */
+    // Path to DHTML Chess router.php
+    ludo.config.setUrl('../router.php');
+
+    // Path to DHTML Chess root folder
+    ludo.config.setDocumentRoot('../');
+
+
+    var app = new ludo.Window({
+        stateful:true,
+        width:700,
+        height:500,
+        left:20,
+        top:20,
+        title:'Analysis board, DHTML Chess 3.0',
+        resizable:true,
+        closable:true,
+        fullScreen:false,
+        minimizable:true,
+        css:{
+            border:0
+        },
+        layout:{
+            type:'linear',
+            orientation:'horizontal'
+        },
+        minHeight:100,
+        children:[
+            {
+                type:'chess.view.Chess',
+
+                resizable:true,
+                layout:{ width:400, type:'linear', orientation:'vertical' },
+                frame:true,
+                children:[
+                    {
+                        type:'chess.view.board.Board',
+                        pieceLayout:'svg_alpha_egg',
+                        labels:true,
+                        layout:{
+                            height:'wrap'
+                        },
+                        elCss:{
+                            'margin-bottom':5,
+                            'margin-top':5
+                        }
+                    },
+                    {
+                        type:'chess.view.buttonbar.Bar',
+                        anchor:[0.5,0],
+                        layout:{
+                            height:30
+                        },
+                        elCss:{
+                            margin:2
+                        },
+                        styles:{
+                            button: {
+                                'stroke': '#888',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            image: {fill: '#444'},
+
+
+                            buttonOver: {
+                                'stroke': '#777',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            imageOver: {fill: '#222'},
+
+                            buttonDown: {
+                                'stroke': '#555',
+                                'fill': '#999',
+                                'stroke-width': 1
+                            },
+                            imageDown: {fill: '#222'},
+
+
+                            buttonDisabled: {
+                                'stroke': '#888',
+                                'fill': '#aeb0b0',
+                                'stroke-width': 1
+                            },
+                            imageDisabled: {
+                                fill: '#444',
+                                'fill-opacity': 0.4,
+                                'stroke-opacity': 0.2
+                            }
+
+                        }
+                    }
+                ]
+            },
+            {
+
+                collapsed:false,
+                layout:{ type:'rows' },
+                type:'FramedView',
+                title:'Details',
+                weight:1,
+                collapsible:true,
+                minimizable:false,
+                elCss:{
+
+                },
+
+                children:[
+                    {
+                        layout:{
+                            type:'table',
+                            columns:[{width:30},{weight:1}],
+                            vAlign:'middle',
+                            height:27
+                        },
+                        children:[
+                            { type:'form.Label',height:27, label:'Fen:',css:{ 'padding-left': 2} },
+                            {
+                                type:'chess.view.metadata.FenField',
+                                height:27,
+                                tpl:'FEN: <input type="text" value="{fen}" style="font-size:10px">'
+                            }
+                        ]
+
+                    },
+                    {
+                        id:'scoreBar',
+
+                        type:'chess.view.score.Bar',
+                        layout:{
+                            height:40
+                        },
+                        css:{
+                            margin:2
+                        }
+                    },
+
+                    {
+                        id:'toggleEngine',
+                        type:'form.Button',
+                        value:'Analyze',
+                        layout:{
+                            height:35,
+                            width:'matchParent'
+                        },
+                        listeners:{
+                            'click': function(){
+                                if(controller.stopped){
+                                    controller.startEngine();
+                                }else{
+                                    controller.stopEngine();
+                                }
+                                this.val(controller.stopped ? 'Analyze' : 'Stop');
+
+                            }
+                        }
+                    },
+
+                    {
+                        weight:1,
+                        layout:'tabs',
+                        elCss:{
+                            'border-top':'1px solid #444',
+                            'padding-top' : 3
+                        },
+                        children:[
+                            {
+                                title:'Notations',
+                                type:'chess.view.notation.Panel',
+                                notations:'long',
+                                showContextMenu:true,
+                                css:{
+                                    'background-color': '#fff'
+                                },
+                                figurines:'svg_egg'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        statusBar:{
+            visible:true
+        }
+    });
+
+
+    var controller = new chess.controller.AnalysisController({
+        examine:true
+    });
+
+    var undoRedo = new chess.wordpress.UndoRedo(controller.currentModel);
+
+
+
+
+
+
+    //controller.setPosition('r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4');
+
+</script>
+
+
+
+<script type="text/javascript" class="google-analytics">
+    var hostname = location.hostname.toLowerCase();
+    if (hostname.indexOf('dhtml-chess.com') >= 0) {
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-34147162-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    }
+</script>
+</body>
+</html>
