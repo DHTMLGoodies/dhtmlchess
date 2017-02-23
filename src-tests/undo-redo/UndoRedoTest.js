@@ -38,7 +38,7 @@ TestCase("UndoRedo", {
 
         var m = ur.undo();
         assertNotUndefined(m);
-        model.populate(m);
+        model.populate(m.model);
 
         // then
         assertEquals(this.defaultFen, model.fen());
@@ -53,6 +53,7 @@ TestCase("UndoRedo", {
         ur.add("e");
         ur.add("f");
 
+        assertEquals(6, ur.len());
         assertEquals('e', ur.undo());
         assertEquals('d', ur.undo());
         assertEquals('c', ur.undo());

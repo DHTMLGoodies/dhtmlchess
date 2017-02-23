@@ -1,4 +1,4 @@
-/* Generated Tue Feb 21 21:31:52 CET 2017 */
+/* Generated Fri Feb 24 0:51:55 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -39343,6 +39343,12 @@ chess.model.Game = new Class({
         this.fire('setPosition');
     },
 
+    undoRedo: function (data) {
+        if (!data)return;
+        this.populate(data.model);
+        this.goToMove(data.currentMove);
+    },
+
     /**
      * Populate game model by JSON game object. This method will create a new game.
      * @method populate
@@ -39427,7 +39433,7 @@ chess.model.Game = new Class({
             move = moves[i];
             if (this.isChessMove(move)) {
                 move = this.getValidMove(move, pos);
-                
+
                 if (move.variations && move.variations.length > 0) {
                     for (var j = 0; j < move.variations.length; j++) {
                         this.registerMoves(move.variations[j], pos, move);
@@ -39435,7 +39441,9 @@ chess.model.Game = new Class({
                 }
                 pos = move.fen;
             }
-            move.uid = 'move-' + String.uniqueID();
+            if (move.uid == undefined) {
+                move.uid = 'move-' + String.uniqueID();
+            }
             this.moveCache[move.uid] = move;
             move.index = i;
             if (parent) {
@@ -40242,7 +40250,27 @@ chess.model.Game = new Class({
      * @return {chess.model.Move}
      */
     findMove: function (moveToFind) {
-        return moveToFind != undefined && this.moveCache[moveToFind.uid] ? this.moveCache[moveToFind.uid] : null;
+        return moveToFind != undefined && this.moveCache[moveToFind.uid] ? this.moveCache[moveToFind.uid] : this.findMoveByFenAndPosition(moveToFind);
+    },
+
+    findMoveByFenAndPosition:function(moveToFind){
+        if(!moveToFind || !moveToFind.fen || !moveToFind.lm)return null;
+        if(!this.model.moves)return null;
+        return this.findInBranchByFenAndPoisiton(moveToFind, this.model.moves);
+
+    },
+
+    findInBranchByFenAndPoisiton:function(moveToFind, branch){
+          for(var i=0;i<branch.length;i++){
+              var m = branch[i];
+              if(m.fen == moveToFind.fen && m.lm == moveToFind.lm)return m;
+
+              if(m.variations && m.variations.length > 0){
+                  for(var j=0;j<m.variations.length;j++){
+                      return this.findInBranchByFenAndPoisiton(moveToFind, m.variations[j]);
+                  }
+              }
+          }
     },
 
     /**
@@ -40674,14 +40702,13 @@ chess.model.Game = new Class({
      */
     registerMove: function (move, atIndex, inBranch) {
         inBranch = inBranch || this.currentBranch;
-        move.uid = 'move-' + String.uniqueID();
+        move.uid = move.uid != undefined ? move.uid : 'move-' + String.uniqueID();
         this.moveCache[move.uid] = move;
         this.registerBranchMap(move, inBranch);
 
         if (atIndex) {
             move.index = atIndex;
             this.insertSpacerInBranch(inBranch, atIndex, move);
-            // this.createSpaceForAction();
         } else {
             move.index = inBranch.length;
             inBranch.push(move);

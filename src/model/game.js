@@ -216,7 +216,7 @@ chess.model.Game = new Class({
         this.fire('setPosition');
     },
 
-    undo: function (data) {
+    undoRedo: function (data) {
         if (!data)return;
         this.populate(data.model);
         this.goToMove(data.currentMove);
@@ -314,11 +314,9 @@ chess.model.Game = new Class({
                 }
                 pos = move.fen;
             }
-            console.log('uid one : ' + move.uid);
             if (move.uid == undefined) {
                 move.uid = 'move-' + String.uniqueID();
             }
-            console.log('uid two : ' + move.uid);
             this.moveCache[move.uid] = move;
             move.index = i;
             if (parent) {
@@ -1129,7 +1127,7 @@ chess.model.Game = new Class({
     },
 
     findMoveByFenAndPosition:function(moveToFind){
-        if(!moveToFind.fen || !moveToFind.lm)return null;
+        if(!moveToFind || !moveToFind.fen || !moveToFind.lm)return null;
         if(!this.model.moves)return null;
         return this.findInBranchByFenAndPoisiton(moveToFind, this.model.moves);
 
@@ -1584,7 +1582,6 @@ chess.model.Game = new Class({
         if (atIndex) {
             move.index = atIndex;
             this.insertSpacerInBranch(inBranch, atIndex, move);
-            // this.createSpaceForAction();
         } else {
             move.index = inBranch.length;
             inBranch.push(move);

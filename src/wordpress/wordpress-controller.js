@@ -3,7 +3,7 @@ chess.wordpress.WordpressController = new Class({
 
     posSetup: undefined,
 
-    debug: false,
+    debug: true,
 
     newGameDialog: undefined,
 
@@ -21,6 +21,9 @@ chess.wordpress.WordpressController = new Class({
 
         this.setDefaultMetadata();
         this.currentModel.setClean();
+
+        var undoRedo = new chess.wordpress.UndoRedo(this.currentModel);
+        undoRedo.listen();
     },
 
     fireDirty: function () {

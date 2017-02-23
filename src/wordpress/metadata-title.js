@@ -19,7 +19,7 @@ chess.wordpress.MetadataTitle = new Class({
             var b = metadata.black ? metadata.black : '?';
             var ret = '';
 
-            if(metadata.id){
+            if(metadata.id && !isNaN(metadata.id)){
                 ret += '<div class="game_id">Game ID: ' + metadata.id + '</div>';
             }
 

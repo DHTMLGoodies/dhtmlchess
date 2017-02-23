@@ -168,7 +168,7 @@ class Archiver
 
 
         chdir("../");
-        #exec("rm -rf dhtml_chess");
+        exec("rm -rf dhtml_chess");
     }
 }
 
