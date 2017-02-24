@@ -1,0 +1,11 @@
+{
+  "name" : "DHTML Chess",
+  "slug" : "dhtml_chess",
+  "homepage" : "http://www.wordpresschess.com",
+  "download_url" : "http://dhtmlchess.com/zip/dhtml_chess.zip",
+  "version" : "1.0",
+  "author" : "Alf Magne Kalleland",
+  "sections" : {
+    "description" : "Superior chess for your WordPress site."
+  }
+}
