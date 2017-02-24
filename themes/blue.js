@@ -18,6 +18,14 @@ chess.THEME = {
                 'fill': '#5c89b6'
             }
         },
+        labelOddStyles:ludo.isMobile ? {
+            'color': '#fff'
+        }: {
+            'color': '#fff'
+        },
+        labelEvenStyles:{
+            'color': '#fff'
+        },
         labelPos: 'outside',
         pieceLayout:'svg_alpha_bw',
         plugins: [
