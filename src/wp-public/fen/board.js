@@ -6,7 +6,9 @@ chess.WPFen = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w);
         this.fen = config.fen;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
