@@ -96,24 +96,13 @@ class Archiver
         echo "CWD " . getcwd()."<br>";
         if(file_exists("dhtml_chess.zip"))unlink("dhtml_chess.zip");
 
-        exec("./../wordpress/wp-content/plugins/dhtml_chess/api");
-
         exec("rm -rf dhtml_chess");
         exec("mkdir dhtml_chess");
-        exec("mkdir dhtml_chess/api");
        # exec("mkdir dhtml_chess/api");
 
 
         foreach($this->files as $source=>$destination){
 
-            $s = strstr($source, "*") ? substr($source, 0, strlen($source)-2) : $source;
-
-            if(!file_exists($s))die($s . " does not exists");
-            if(is_dir($s) && !file_exists($destination)){
-                echo $destination."<br>";
-
-                exec("mkdir ". $destination);
-            }
             $cmd = "cp -r ". $source . " ". $destination;
 
             echo $cmd."<br>";
