@@ -82,7 +82,18 @@ class Archiver
         "../router.php" => "dhtml_chess/api/",
         "../garbochess" => "dhtml_chess/api/",
         "../garbochess-engine" => "dhtml_chess/api/", */
-        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess"
+        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess",
+        "../../dhtml-chess/php/*" => "dhtml_chess/api/php",
+        "../../dhtml-chess/js/*" => "dhtml_chess/api/js",
+        "../../dhtml-chess/css/*" => "dhtml_chess/api/css",
+        "../../dhtml-chess/css-source/*" => "dhtml_chess/api/css-source",
+        "../../dhtml-chess/ludojs/*" => "dhtml_chess/api/ludojs",
+        "../../dhtml-chess/images/*" => "dhtml_chess/api/images",
+        "../../dhtml-chess/wordpress/*" => "dhtml_chess/api/wordpress",
+        "../../dhtml-chess/src/*" => "dhtml_chess/api/src",
+        "../../dhtml-chess/themes/*" => "dhtml_chess/api/themes",
+        "../../dhtml-chess/stockfish-js/*" => "dhtml_chess/api/stockfish-js",
+        "../../dhtml-chess/autoload.php" => "dhtml_chess/api/autoload.php",
     );
 
     public function __construct()
@@ -95,12 +106,25 @@ class Archiver
 
         echo "CWD " . getcwd()."<br>";
         if(file_exists("dhtml_chess.zip"))unlink("dhtml_chess.zip");
+
+        exec("./../wordpress/wp-content/plugins/dhtml_chess/api");
+
         exec("rm -rf dhtml_chess");
         exec("mkdir dhtml_chess");
+        exec("mkdir dhtml_chess/api");
        # exec("mkdir dhtml_chess/api");
 
 
         foreach($this->files as $source=>$destination){
+
+            $s = strstr($source, "*") ? substr($source, 0, strlen($source)-2) : $source;
+
+            if(!file_exists($s))die($s . " does not exists");
+            if(is_dir($s) && !file_exists($destination)){
+                echo $destination."<br>";
+
+                exec("mkdir ". $destination);
+            }
             $cmd = "cp -r ". $source . " ". $destination;
 
             echo $cmd."<br>";
@@ -108,6 +132,8 @@ class Archiver
 
 
         }
+
+
 
 
 
@@ -167,8 +193,9 @@ class Archiver
         exec("cp -f ".$zipDestination." ../../../wp-testing/dhtml_chess.zip");
 
 
+
         chdir("../");
-        exec("rm -rf dhtml_chess");
+       # exec("rm -rf dhtml_chess");
     }
 }
 
