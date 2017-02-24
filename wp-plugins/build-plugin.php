@@ -94,6 +94,7 @@ class Archiver
         "../../dhtml-chess/themes/*" => "dhtml_chess/api/themes",
         "../../dhtml-chess/stockfish-js/*" => "dhtml_chess/api/stockfish-js",
         "../../dhtml-chess/autoload.php" => "dhtml_chess/api/autoload.php",
+        "../../dhtml-chess/.htaccess" => "dhtml_chess/api/.htaccess",
     );
 
     public function __construct()
