@@ -1,4 +1,4 @@
-/* Generated Fri Feb 24 18:49:13 CET 2017 */
+/* Generated Fri Feb 24 22:54:44 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33162,12 +33162,14 @@ chess.WPTemplate = new Class({
         }
 
 
-        if (config.theme) {
+        var t = config.theme;
+
+        if (t) {
             this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
+                href: ludo.config.getDocumentRoot() + 'themes/' + t + '.css',
                 complete: function () {
                     this.onload();
                 }.bind(this)
@@ -33175,7 +33177,7 @@ chess.WPTemplate = new Class({
 
 
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
+                url: ludo.config.getDocumentRoot() + 'themes/' + t + '.js',
                 dataType: "script",
                 complete: function () {
                     this.onload();
@@ -34726,11 +34728,14 @@ chess.WPFen = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w);
         this.fen = config.fen;
-        this.render();
+        if(this.canRender()){
+            this.render();
+        }
     },
 
     render: function () {
         new chess.view.Chess({
+            cls:this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill'

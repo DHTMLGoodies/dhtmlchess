@@ -25,6 +25,28 @@ chess.wordpress.WordpressController = new Class({
         undoRedo.listen();
 
         this.autoSaveDraft.delay(15000, this);
+
+        this.listenForSave();
+    },
+
+    listenForSave: function () {
+        jQuery(document).keydown(function (e) {
+            if(!this.currentModel)return;
+            var ctrlOrCommand = e.ctrlKey || (e.key && e.key == 'Meta') || e.metaKey;
+            if (e.keyCode == 83 && ctrlOrCommand) {
+                var gameId = this.currentModel.getMetadataValue('id');
+
+                if(gameId && !isNaN(gameId)){
+                    this.saveUpdates();
+                }else{
+                    this.saveDraft();
+                }
+                return false;
+            }
+
+
+        }.bind(this));
+
     },
 
     fireDirty: function () {
@@ -711,11 +733,13 @@ chess.wordpress.WordpressController = new Class({
     },
 
     autoSaveDraft: function () {
-        var draft_id = this.currentModel.getMetadataValue('draft_id');
-        if(draft_id){
+
+        var gameId = this.currentModel.getMetadataValue('id');
+        var isDraft = !gameId || isNaN(gameId);
+        if (isDraft && this.currentModel.model.moves.length > 0) {
             var m = this.validateAndReturnModel(true);
-            if(m){
-               this.saveDraft();
+            if (m) {
+                this.saveDraft();
             }
         }
 
