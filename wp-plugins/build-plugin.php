@@ -82,19 +82,7 @@ class Archiver
         "../router.php" => "dhtml_chess/api/",
         "../garbochess" => "dhtml_chess/api/",
         "../garbochess-engine" => "dhtml_chess/api/", */
-        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess",
-        "../../dhtml-chess/php/*" => "dhtml_chess/api/php",
-        "../../dhtml-chess/js/*" => "dhtml_chess/api/js",
-        "../../dhtml-chess/css/*" => "dhtml_chess/api/css",
-        "../../dhtml-chess/css-source/*" => "dhtml_chess/api/css-source",
-        "../../dhtml-chess/ludojs/*" => "dhtml_chess/api/ludojs",
-        "../../dhtml-chess/images/*" => "dhtml_chess/api/images",
-        "../../dhtml-chess/wordpress/*" => "dhtml_chess/api/wordpress",
-        "../../dhtml-chess/src/*" => "dhtml_chess/api/src",
-        "../../dhtml-chess/themes/*" => "dhtml_chess/api/themes",
-        "../../dhtml-chess/stockfish-js/*" => "dhtml_chess/api/stockfish-js",
-        "../../dhtml-chess/autoload.php" => "dhtml_chess/api/autoload.php",
-        "../../dhtml-chess/.htaccess" => "dhtml_chess/api/.htaccess",
+        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess"
     );
 
     public function __construct()
