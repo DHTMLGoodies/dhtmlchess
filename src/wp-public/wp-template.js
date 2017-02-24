@@ -34,12 +34,14 @@ chess.WPTemplate = new Class({
         }
 
 
-        if (config.theme) {
+        var t = config.theme;
+
+        if (t) {
             this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.css',
+                href: ludo.config.getDocumentRoot() + 'themes/' + t + '.css',
                 complete: function () {
                     this.onload();
                 }.bind(this)
@@ -47,7 +49,7 @@ chess.WPTemplate = new Class({
 
 
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + 'themes/' + config.theme + '.js',
+                url: ludo.config.getDocumentRoot() + 'themes/' + t + '.js',
                 dataType: "script",
                 complete: function () {
                     this.onload();

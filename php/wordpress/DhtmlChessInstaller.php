@@ -39,6 +39,8 @@ class DhtmlChessInstaller
             $useDbDelta = true;
         }
 
+
+
         $queries = array(
 
             "create table ". DhtmlChessDatabase::TABLE_PGN . "("
