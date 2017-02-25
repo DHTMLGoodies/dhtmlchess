@@ -201,7 +201,10 @@ class DhtmlChessViews
             $view->setScript("WPFen");
             $view->setParam("fen", $content);
         }else{
-            if(isset($attributes["game"])){
+            if(isset($attributes["comp"])){
+                $view->setScript("WPComp1");
+            }
+            else if(isset($attributes["game"])){
                 $view->setScript("WPGame" . $tpl);
             }
             else if(isset($attributes["tactics"])){
@@ -228,6 +231,7 @@ class DhtmlChessViews
         switch($key){
 
             case "tpl": return null;
+            case "comp": return null;
             case "game": return array("key" => "gameId", "val" => $val);
             case "db":
             case "pgn":

@@ -3,9 +3,10 @@
   "slug" : "dhtml_chess",
   "homepage" : "http://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
-  "version" : "1.0.1",
+  "version" : "1.0.2",
   "author" : "Alf Magne Kalleland",
   "sections" : {
-    "description" : "Superior chess for your WordPress site."
+    "description" : "Chess for your WordPress site.",
+    "screenshots": "1. Online Game Editor.\n2. Many board templates"
   }
 }

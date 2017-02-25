@@ -624,7 +624,7 @@ chess.computer.GameOverDialog = new Class({
         this.show();
 
         var title = myResult == 1 ? chess.getPhrase('You Won')
-            : myResult == 0.5 ? chess.getPhrase('Game Drawn')
+            : myResult == 0 ? chess.getPhrase('Game Drawn')
             : chess.getPhrase('You lost');
 
         this.setTitle(title);
@@ -636,7 +636,7 @@ chess.computer.GameOverDialog = new Class({
 
         this.child['title'].html(title);
         var ratingChange = newElo - oldElo;
-        if (myResult == 0.5) {
+        if (myResult == 0) {
             this.child['title'].$b().addClass('title-draw');
         }
         else if (myResult == 1) {

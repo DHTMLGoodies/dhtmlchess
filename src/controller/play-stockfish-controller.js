@@ -19,10 +19,12 @@ chess.controller.PlayStockFishController = new Class({
     clock: undefined,
 
     playingStrength: undefined,
-    stockfishElo:undefined,
+    stockfishElo: undefined,
     gameType: undefined,
 
     turn: undefined,
+
+    isPlaying:false,
 
     __construct: function (config) {
         if (config.playerColor != undefined)this.playerColor = config.playerColor;
@@ -46,7 +48,7 @@ chess.controller.PlayStockFishController = new Class({
                 view.on('newGame', this.prepareNewGame.bind(this));
                 break;
             case 'computer.clockview':
-                if(!view.isHidden()){
+                if (!view.isHidden()) {
                     if (view.pos == 'top') {
                         this.views.clockTop = view;
                     } else {
@@ -123,6 +125,7 @@ chess.controller.PlayStockFishController = new Class({
         this.playingStrength = this.elo.getEloByTime(timeControl.time * 60, timeControl.inc);
 
 
+        this.isPlaying = true;
         console.log('stockfish', this.getSkillLevel());
 
         this.uciCmd('setoption name Mobility (Middle Game) value 150');
@@ -295,8 +298,8 @@ chess.controller.PlayStockFishController = new Class({
         return 20000;
     },
 
-    getInc:function(color){
-        if(this.playerColor == color)return this.clock.inc();
+    getInc: function (color) {
+        if (this.playerColor == color)return this.clock.inc();
         return 0;
     },
 
@@ -394,6 +397,8 @@ chess.controller.PlayStockFishController = new Class({
 
     onGameOver: function (result) {
 
+        if(!this.isPlaying)return;
+
         this.elo.saveResult(result, this.stockfishElo, this.gameType, this.playerColor);
 
         var newElo = Math.round(this.elo.getElo(this.gameType));
@@ -401,6 +406,8 @@ chess.controller.PlayStockFishController = new Class({
 
         this.fireGameOverEvent.delay(300, this, [myResult, Math.round(this.playingStrength), newElo]);
         this.clock.stop();
+
+        this.isPlaying = false;
     },
 
     fireGameOverEvent: function (myResult, strength, newElo) {

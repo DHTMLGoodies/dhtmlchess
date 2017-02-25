@@ -100,4 +100,7 @@ parseDirectory(array(
     'game-grid.js',
     'tactics/tactics1.js',
     'fen/board.js',
-    ), "../../wordpress/wordpress-templates-minified.js");
+    '../computer/computer-play.js',
+    '../controller/play-stockfish-controller.js',
+    'computer/comp1.js',
+    ), "wordpress-templates-minified.js");

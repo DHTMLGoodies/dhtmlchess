@@ -285,3 +285,20 @@ span.notation-chess-move-highlighted {
 .ludo-view img{
     background-color:transparent !important;
 }
+
+/* Computer play */
+.dhtml-chess-comp-dialog .dhtml-chess-comp-dialog-selected-color {
+    border-color: #1B5E20;
+    font-weight: bold;
+}
+
+.rating-change-win, .title-win{
+    color:#1B5E20;
+}
+
+.rating-change-loss, .title-loss{
+    color:#EF5350;
+}
+.rating-change-draw, .title-draw{
+    color:#555;
+}
