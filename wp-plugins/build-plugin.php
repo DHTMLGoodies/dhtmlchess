@@ -112,9 +112,6 @@ class Archiver
         }
 
 
-
-
-
         chdir("dhtml_chess");
 
         $pwd = getcwd();
@@ -160,20 +157,22 @@ class Archiver
             die("Not found");
         }
 
-
         unlink("../../zip/dhtml_chess.zip");
 
-        $zipDestination = "../../zip/dhtml_chess.zip";
+        chdir("..");
 
-        HZip::zipDir(".", $zipDestination);
+
+        $zipDestination = "../zip/dhtml_chess.zip";
+
+        HZip::zipDir("./dhtml_chess", $zipDestination);
 
         echo "<br>Size: " . filesize($zipDestination);
         exec("cp -f ".$zipDestination." ../../../wp-testing/dhtml_chess.zip");
 
 
 
-        chdir("../");
-       # exec("rm -rf dhtml_chess");
+
+        exec("rm -rf dhtml_chess");
     }
 }
 
