@@ -1,0 +1,11 @@
+/** custom square background */
+.dc-light-grey .dhtml-chess-square-white {
+    background-image: none !important;
+    background-color: #EEE;
+
+}
+
+.dc-light-grey .dhtml-chess-square-black {
+    background-image: none !important;
+    background-color: #AAA;
+}

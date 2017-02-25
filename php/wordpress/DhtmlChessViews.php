@@ -344,12 +344,13 @@ class DhtmlChessViews
             array('brown', 'Brown'),
             array('grey', 'Grey'),
             array('blue', 'Blue'),
-            array('wood1', 'Brown Wood 1'),
-            array('wood2', 'Dark Red Wood'),
+            array('light-grey', 'Light Grey'),
+            array('wood1', 'Wood 1'),
+            array('wood2', 'Wood 2'),
             array('wood3', 'Wood 3'),
-            array('wood4', 'Light Brown Wood'),
+            array('wood4', 'Wood 4'),
             array('wood5', 'Wood 5'),
-            array('wood6', 'Grey Wood'),
+            array('wood6', 'Wood 6'),
             array('wood7', 'Wood 7'),
 
         );

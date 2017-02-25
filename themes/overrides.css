@@ -288,7 +288,7 @@ span.notation-chess-move-highlighted {
 
 /* Computer play */
 .dhtml-chess-comp-dialog .dhtml-chess-comp-dialog-selected-color {
-    border-color: #1B5E20;
+    border-color: #1B5E20 !important;
     font-weight: bold;
 }
 

@@ -3,7 +3,7 @@
  *
  */
 chess.THEME = {
-    name: 'brown',
+    name: 'grey',
     borderColor:'#aaa',
     css: {
 
@@ -49,8 +49,6 @@ chess.THEME = {
         ]
     },
     'chess.view.dialog.PuzzleSolved ': {
-        title: 'Nice one.',
-        html: 'You solved this chess puzzle. Click OK to load next.'
     },
     'chess.view.notation.TacticPanel': {
         css: {
