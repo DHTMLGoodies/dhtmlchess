@@ -2,7 +2,7 @@
   "name" : "DHTML Chess",
   "slug" : "dhtml_chess",
   "homepage" : "http://www.wordpresschess.com",
-  "download_url" : "http://dhtmlchess.com/zip/dhtml_chess.zip",
+  "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
   "version" : "1.0.1",
   "author" : "Alf Magne Kalleland",
   "sections" : {
