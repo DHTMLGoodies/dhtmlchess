@@ -37,7 +37,7 @@ chess.WPGame3 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
+                        'font-size': '1em',
                         'font-weight': 'bold'
                     }
                 },

@@ -9,6 +9,28 @@
 class DhtmlChessViews
 {
 
+    private static $attributes = array(
+
+        "theme" => array(
+            "example" => 'theme="brown"',
+            "desc" => "Override default theme. Possible values: brown, grey, blue, wood1, wood2, wood3, wood4, wood5, wood6, wood7"
+        ),
+        "width" => array(
+            "example" => 'width="60%"',
+            "desc"=>"Width of view. This attribute is NOT applied on mobile devices. Specify width in css to apply custom width on all devices."
+        ),
+        "float" => array(
+            "example" => 'float="right"',
+            "desc" => "Float left or right. This attribute is useful if you want text to float around the chess board. This attribute is NOT set for mobile devices. Use css if you want to apply float to all devices."
+        ),
+
+
+        "css" => array(
+            "example" => 'css="border:1px solid #900;border-radius:5px"',
+            "desc" => "Custom CSS string"
+        ),
+    );
+
     private static $views = array(
         array(
             "title" => "Select a shortcode"
@@ -113,6 +135,10 @@ class DhtmlChessViews
             'enclosing' => '&lt;pgn string>'
         )
     );
+
+    public static function getAllAttributes(){
+        return self::$attributes;
+    }
 
     public static function getAvailableTags()
     {

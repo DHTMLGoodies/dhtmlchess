@@ -1,4 +1,4 @@
-/* Generated Sat Feb 25 13:41:22 CET 2017 */
+/* Generated Sat Feb 25 17:06:33 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33294,8 +33294,8 @@ chess.WPTemplate = new Class({
     module: undefined,
     _ready: true,
     _loadCounter: 0,
-    th:undefined,
-    themeObject:undefined,
+    th: undefined,
+    themeObject: undefined,
 
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
@@ -33305,13 +33305,26 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if(!ludo.isMobile){
+        if (config.css) {
+            var rules = config.css.split(/;/g);
 
-            if(config.width){
+            jQuery.each(rules, function (i, rule) {
+                if (rule) {
+                    var keyVal = rule.split(/:/);
+                    this.renderTo.css(keyVal[0], keyVal[1]);
+                }
+            }.bind(this));
+        }
+
+
+        if (!ludo.isMobile) {
+
+
+            if (config.width) {
                 this.renderTo.css('width', config.width);
             }
 
-            if(config['float']){
+            if (config['float']) {
                 this.renderTo.css('float', config['float']);
             }
         }
@@ -33588,7 +33601,7 @@ chess.WPGame2 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
+                        'font-size': '1em',
                         'font-weight': 'bold'
                     }
                 },
@@ -33687,7 +33700,7 @@ chess.WPGame3 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
+                        'font-size': '1em',
                         'font-weight': 'bold'
                     }
                 },
@@ -33837,7 +33850,7 @@ chess.WPGame4 = new Class({
                     css: {
                         'text-align': 'center',
                         'overflow-y': 'auto',
-                        'font-size': '1.2em',
+                        'font-size': '1em',
                         'font-weight': 'bold'
                     }
                 },
@@ -34259,7 +34272,7 @@ chess.WPViewer1 = new Class({
                         css: {
                             'text-align': 'center',
                             'overflow-y': 'auto',
-                            'font-size': '1.2em',
+                            'font-size': '1em',
                             'font-weight': 'bold'
                         }
                     },
@@ -34570,7 +34583,6 @@ chess.WPViewer2 = new Class({
                 css: {
                     'text-align': 'center',
                     'overflow-y': 'auto',
-                    'font-size': '1.2em',
                     'font-weight': 'bold'
                 }
             },

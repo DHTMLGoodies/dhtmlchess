@@ -100,7 +100,6 @@ chess.WPViewer2 = new Class({
                 css: {
                     'text-align': 'center',
                     'overflow-y': 'auto',
-                    'font-size': '1.2em',
                     'font-weight': 'bold'
                 }
             },
