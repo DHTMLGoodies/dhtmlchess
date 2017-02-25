@@ -318,6 +318,7 @@ chess.computer.GameDialog = new Class({
     title: chess.getPhrase('New Game'),
     elo: undefined,
     color: undefined,
+    modal:false,
 
     __construct: function (config) {
         this.parent(config);

@@ -1,4 +1,4 @@
-/* Generated Sat Feb 25 12:44:11 CET 2017 */
+/* Generated Sat Feb 25 13:21:58 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -32838,6 +32838,7 @@ chess.computer.GameDialog = new Class({
     title: chess.getPhrase('New Game'),
     elo: undefined,
     color: undefined,
+    modal:false,
 
     __construct: function (config) {
         this.parent(config);
