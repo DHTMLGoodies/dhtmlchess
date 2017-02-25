@@ -10,6 +10,8 @@ chess.WPComp1 = new Class({
     boardId : undefined,
     boardSize:undefined,
 
+    isPreview:false,
+
     initialize:function(config){
         this.parent(config);
 
@@ -22,6 +24,7 @@ chess.WPComp1 = new Class({
         r.css('height', Math.round(h));
 
 
+        if(config.isPreview)this.isPreview = config.isPreview;
         this.boardSize = ludo.isMobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
@@ -224,39 +227,40 @@ chess.WPComp1 = new Class({
             'thinkingTime': 3000 // Computers pondering time in 1/1000 seconds
         });
 
+        if(!this.isPreview){
+            new chess.computer.GameOverDialog({
+                module:this.module,
+                layout:{
+                    centerIn:ludo.$(this.boardId)
+                },
+                movable:false, resizable:false
+            });
 
-        new chess.computer.GameOverDialog({
-            module:this.module,
-            layout:{
-                centerIn:ludo.$(this.boardId)
-            },
-            movable:false, resizable:false
-        });
-
-        var d = new chess.computer.GameDialog({
-            module:this.module,
-            hidden: true,
-            layout:{
-                centerIn:ludo.$(this.boardId)
-            } ,
-            movable:false,
-            resizable:false
-        });
-        
+            var d = new chess.computer.GameDialog({
+                module:this.module,
+                hidden: true,
+                layout:{
+                    centerIn:ludo.$(this.boardId)
+                } ,
+                movable:false,
+                resizable:false
+            });
 
 
-        var sd = new chess.computer.ComputerStatusDialog({
-            module:this.module,
-            layout:{
-                centerIn:ludo.$(this.boardId)
-            },
-            movable:false,
-            resizable:false
 
-        });
+            var sd = new chess.computer.ComputerStatusDialog({
+                module:this.module,
+                layout:{
+                    centerIn:ludo.$(this.boardId)
+                },
+                movable:false,
+                resizable:false
 
-        sd.show();
-        
+            });
+
+            sd.show();
+        }
+
 
     },
 

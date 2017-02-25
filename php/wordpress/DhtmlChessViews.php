@@ -85,6 +85,15 @@ class DhtmlChessViews
             "help" => 'Example: [chess tactics=true db="2" tpl="1"] to show games from database id 2.'
         ),
         array(
+            "script" => "WPComp1",
+            "title" => "Computer Play",
+            "type" => "comp",
+            "desc" => "For playing games against StockfishJS",
+            "shortcode" => "chess",
+            "attributes" => array("tpl" => 1, "comp" => true),
+            "help" => 'Example: [chess comp=1 theme="wood7"] for computer play using one of the wooden themes.'
+        ),
+        array(
             "script" => "WPFen",
             "title" => "FEN position",
             "type" => "fen",
