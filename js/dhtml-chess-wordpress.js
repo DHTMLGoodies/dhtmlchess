@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 15:14:47 CET 2017 */
+/* Generated Sun Feb 26 15:42:34 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -35085,8 +35085,6 @@ chess.WPTactics1 = new Class({
         this.module = String.uniqueID();
 
         this.boardId = 'dc-' + String.uniqueID();
-
-        console.log(this.heading_tpl);
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
