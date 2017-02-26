@@ -13,10 +13,11 @@ chess.view.message.TacticsMessage = new Class({
 
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs:3000,
+    autoHideWelcomeAfterMs:0,
 
     __construct:function(config){
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs']);
+        this.__params(config, ['autoHideAfterMs','autoHideWelcomeAfterMs']);
     },
 
     ludoDOM:function () {
@@ -32,7 +33,7 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'));
+        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
 
     },
 
@@ -47,6 +48,10 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showMessage:function (message, delayBeforeHide) {
+        this.$b().animate(
+            { opacity : 1 },
+            { duration : 300 }
+        );
         this.$b().html( message);
         if(delayBeforeHide){
             this.autoHideMessage.delay(delayBeforeHide, this);
@@ -54,6 +59,10 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     autoHideMessage:function () {
-        this.$b().html('');
+        this.$b().animate({
+            opacity:0
+        }, {
+            duration: 500
+        });
     }
 });

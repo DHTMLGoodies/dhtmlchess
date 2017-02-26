@@ -27,6 +27,17 @@ chess.wordpress.WordpressController = new Class({
         this.autoSaveDraft.delay(15000, this);
 
         this.listenForSave();
+
+        jQuery(window).on('beforeunload', this.confirmLeave.bind(this));
+
+
+    },
+
+    confirmLeave:function(){
+
+        if(this.currentModel.isDirty()){
+            return chess.getPhrase("You have unsaved changed. ")
+        }
     },
 
     listenForSave: function () {
@@ -35,7 +46,6 @@ chess.wordpress.WordpressController = new Class({
             var ctrlOrCommand = e.ctrlKey || (e.key && e.key == 'Meta') || e.metaKey;
             if (e.keyCode == 83 && ctrlOrCommand) {
                 var gameId = this.currentModel.getMetadataValue('id');
-
                 if(gameId && !isNaN(gameId)){
                     this.saveUpdates();
                 }else{
@@ -43,10 +53,7 @@ chess.wordpress.WordpressController = new Class({
                 }
                 return false;
             }
-
-
         }.bind(this));
-
     },
 
     fireDirty: function () {

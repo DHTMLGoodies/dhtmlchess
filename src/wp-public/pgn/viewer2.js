@@ -95,7 +95,7 @@ chess.WPViewer2 = new Class({
                 },
                 module: this.module,
                 type: 'chess.view.metadata.Game',
-                tpl: '{white} - {black}',
+                tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
                     'text-align': 'center',

@@ -7,6 +7,8 @@ chess.WPTemplate = new Class({
     th: undefined,
     themeObject: undefined,
 
+    heading_tpl: undefined,
+
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
@@ -14,6 +16,8 @@ chess.WPTemplate = new Class({
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
+
+        if(config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);

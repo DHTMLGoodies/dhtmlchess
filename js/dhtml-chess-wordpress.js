@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 0:44:25 CET 2017 */
+/* Generated Sun Feb 26 15:14:47 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -10351,6 +10351,102 @@ ludo.layout.Table = new Class({
         return width;
     }
 
+});/* ../ludojs/src/layout/grid.js */
+/**
+ * This layout arranges child views in a grid layout. It is similar to the Table Layout, but a bit simpler.
+ * It creates a coordinate system based on given number of columns and rows. All the columns has the
+ * same width, and all rows has the same height. You position child views inside the coordinate system
+ * by specifying a value for x and y. Child views can also span multiple columns and/or rows using
+ * the colspan and rowspan attribute.
+ *
+ * Spacing between columns and rows are controlled by the padX and padY attribute.
+ *
+ * For demo, see <a href="../demo/layout/grid.php">Grid layout demo</a>.
+ * @class ludo.layout.Grid
+ * @param {object} config
+ * @param {Number} config.columns Number of columns
+ * @param {Number} config.rows Number of rows
+ * @param {Number} config.padX Optional horizontal spacing between columns
+ * @param {Number} config.padY Optional vertical spacing between columns
+ * @param {Number} config.x Parameter for child view, x coordinate, 0 = first column.
+ * @param {Number} config.y Parameter for child view, y coordinate, y = first row.
+ * @param {Number} config.colspan Parameter for child view. Span these many columns, default = 1
+ * @param {Number} config.rowspan Parameter for child view. Span these many rows, default = 1
+ */
+ludo.layout.Grid = new Class({
+    Extends: ludo.layout.Base,
+    columns: undefined,
+    rows: undefined,
+    colWidth: undefined,
+    rowHeight: undefined,
+
+    padX: undefined,
+    padY: undefined,
+
+    onCreate: function () {
+        var l = this.view.layout;
+        this.columns = l.columns || 5;
+        this.rows = l.rows || 5;
+
+        this.padX = l.padX || 0;
+        this.padY = l.padY || 0;
+
+        this.view.$b().css('position', 'relative');
+    },
+
+    addChild: function (child, insertAt, pos) {
+        child.layout = child.layout || {};
+        
+        if(child.layout.x == undefined && child.layout.y == undefined){
+            child.layout.x = this.view.children.length % this.columns;
+            child.layout.y = Math.floor(this.view.children.length / this.columns);
+        }
+        child.layout.colspan = child.layout.colspan ||1;
+        child.layout.rowspan = child.layout.rowspan ||1;
+        child.layout.x = child.layout.x || 0;
+        child.layout.y = child.layout.y || 0;
+        return this.parent(child, insertAt, pos);
+    },
+
+    resize: function () {
+        this.storeSize();
+
+        for (var i = 0; i < this.view.children.length; i++) {
+            var c = this.view.children[i];
+            var r = this.pos(c);
+            r.width = this.widthOfView(c);
+            r.height = this.heightOfView(c);
+
+            c.resize(r);
+        }
+    },
+
+    pos:function(child){
+        return {
+            left: child.layout.x * this.colWidth,
+            top: child.layout.y * this.rowHeight
+        }
+    },
+
+    widthOfView:function(child){
+        var colspan = child.layout.colspan || 1;
+        var width = colspan * this.colWidth;
+        return width - this.padX;
+    },
+
+    heightOfView:function(child){
+        var rowspan = child.layout.rowspan || 1;
+        return (rowspan * this.rowHeight) - this.padY;
+    },
+
+    storeSize: function () {
+        this.colWidth = this.viewport.width / this.columns;
+        this.rowHeight = this.viewport.height / this.rows;
+    },
+
+    onNewChild: function (child) {
+        child.getEl().css('position', 'absolute');
+    }
 });/* ../ludojs/src/data-source/record.js */
 /**
  * Class representing a record in a <a href="ludo.dataSource.JSONArray.html">Collection</a>
@@ -26123,10 +26219,11 @@ chess.view.message.TacticsMessage = new Class({
 
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs:3000,
+    autoHideWelcomeAfterMs:0,
 
     __construct:function(config){
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs']);
+        this.__params(config, ['autoHideAfterMs','autoHideWelcomeAfterMs']);
     },
 
     ludoDOM:function () {
@@ -26142,7 +26239,7 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'));
+        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
 
     },
 
@@ -26157,6 +26254,10 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showMessage:function (message, delayBeforeHide) {
+        this.$b().animate(
+            { opacity : 1 },
+            { duration : 300 }
+        );
         this.$b().html( message);
         if(delayBeforeHide){
             this.autoHideMessage.delay(delayBeforeHide, this);
@@ -26164,7 +26265,11 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     autoHideMessage:function () {
-        this.$b().html('');
+        this.$b().animate({
+            opacity:0
+        }, {
+            duration: 500
+        });
     }
 });/* ../dhtml-chess/src/view/dialog/dialog.js */
 chess.view.dialog.Dialog = new Class({
@@ -33297,6 +33402,8 @@ chess.WPTemplate = new Class({
     th: undefined,
     themeObject: undefined,
 
+    heading_tpl: undefined,
+
     initialize: function (config) {
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
@@ -33304,6 +33411,8 @@ chess.WPTemplate = new Class({
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
+
+        if(config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
@@ -33490,7 +33599,7 @@ chess.WPGame1 = new Class({
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',
-                    tpl: '{white} - {black}',
+                    tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
                         'text-align': 'center',
@@ -33596,7 +33705,7 @@ chess.WPGame2 = new Class({
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',
-                    tpl: '{white} - {black}',
+                    tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
                         'text-align': 'center',
@@ -33695,7 +33804,7 @@ chess.WPGame3 = new Class({
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',
-                    tpl: '{white} - {black}',
+                    tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
                         'text-align': 'center',
@@ -33845,7 +33954,7 @@ chess.WPGame4 = new Class({
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',
-                    tpl: '{white} - {black}',
+                    tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
                         'text-align': 'center',
@@ -34267,7 +34376,7 @@ chess.WPViewer1 = new Class({
                         },
                         module: this.module,
                         type: 'chess.view.metadata.Game',
-                        tpl: '{white} - {black}',
+                        tpl: this.heading_tpl || '{white} - {black}',
                         cls: 'metadata',
                         css: {
                             'text-align': 'center',
@@ -34578,7 +34687,7 @@ chess.WPViewer2 = new Class({
                 },
                 module: this.module,
                 type: 'chess.view.metadata.Game',
-                tpl: '{white} - {black}',
+                tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
                     'text-align': 'center',
@@ -34948,13 +35057,14 @@ chess.WPTactics1 = new Class({
 
     controller: undefined,
 
-    showLabels:undefined,
+    showLabels: undefined,
 
-    module:undefined,
+    module: undefined,
 
-    boardSize:undefined,
+    boardSize: undefined,
+    boardId: undefined,
+    random: false,
 
-    
 
     initialize: function (config) {
 
@@ -34965,6 +35075,7 @@ chess.WPTactics1 = new Class({
         var w = r.width();
         r.css('height', Math.round(w + 130));
         this.boardSize = w;
+        if (config.random != undefined)this.random = config.random;
 
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -34973,17 +35084,21 @@ chess.WPTactics1 = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
+        this.boardId = 'dc-' + String.uniqueID();
+
+        console.log(this.heading_tpl);
+
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
 
     render: function () {
-        
+
         new chess.view.Chess({
-            cls:this.th,
+            cls: this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -35000,10 +35115,10 @@ chess.WPTactics1 = new Class({
                     children: [
                         {
                             height: 35,
-                            module:this.module,
+                            module: this.module,
                             type: 'chess.view.metadata.Game',
-                            tpl: '#{index} - {white}',
-                            cls:'metadata',
+                            tpl: this.heading_tpl || '#{index} - {white}',
+                            cls: 'metadata',
                             css: {
                                 'text-align': 'center',
                                 'overflow-y': 'auto',
@@ -35027,18 +35142,18 @@ chess.WPTactics1 = new Class({
                                     weight: 1
                                 },
                                 {
-                                    module:this.module,
+                                    module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticHint',
                                     value: chess.getPhrase('Hint')
                                 },
                                 {
-                                    module:this.module,
+                                    module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
                                     value: chess.getPhrase('Solution')
                                 }, {
-                                    module:this.module,
+                                    module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
                                     value: chess.getPhrase('Next Game'),
@@ -35054,19 +35169,19 @@ chess.WPTactics1 = new Class({
                             ]
                         },
                         Object.merge({
-                            boardLayout:undefined,
-                            id:'tactics_board',
+                            boardLayout: undefined,
+                            id: this.boardId,
                             type: 'chess.view.board.Board',
-                            module:this.module,
+                            module: this.module,
                             overflow: 'hidden',
                             pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
                             },
                             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos:'outside', // show labels inside board, default is 'outside'
-                            layout:{
-                                height:this.boardSize,
+                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            layout: {
+                                height: this.boardSize,
                             },
                             plugins: [
                                 Object.merge({
@@ -35077,14 +35192,14 @@ chess.WPTactics1 = new Class({
                                 }, this.arrowSolution),
                                 Object.merge({
                                     type: 'chess.view.highlight.SquareTacticHint'
-                                },this.hint)
+                                }, this.hint)
                             ]
                         }, this.board),
                         {
                             height: 50,
-                            module:this.module,
+                            module: this.module,
                             comments: false,
-                            figurines:'svg_egg', // Figurines always starts with svg - it is the prefix of images inside the dhtmlchess/images folder
+                            figurines: 'svg_egg', // Figurines always starts with svg - it is the prefix of images inside the dhtmlchess/images folder
                             type: 'chess.view.notation.TacticPanel'
                         }
                     ]
@@ -35094,8 +35209,24 @@ chess.WPTactics1 = new Class({
 
         var storageKey = 'wp_' + this.pgn.id + '_tactics';
 
+        new chess.view.message.TacticsMessage({
+            renderTo: jQuery(document.body),
+            module: this.module,
+            autoHideAfterMs: 1000,
+            autoHideWelcomeAfterMs: 1000,
+            css: {
+                'background-color': '#fff',
+                'border-radius': '5px',
+                'line-height': '50px'
+            },
+            layout: {
+                centerIn: this.boardId,
+                width: 300, height: 50
+            }
+        });
+
         this.controller = new chess.controller.TacticControllerGui({
-            applyTo:[this.module],
+            applyTo: [this.module],
             pgn: this.pgn.id,
             alwaysPlayStartingColor: true,
             autoMoveDelay: 400,
@@ -35109,16 +35240,21 @@ chess.WPTactics1 = new Class({
             }
         });
 
-        var index = ludo.getLocalStorage().get(storageKey,0);
-        if(isNaN(index)) index = 0;
-        index = Math.max(0,index);
+        var index = ludo.getLocalStorage().get(storageKey, 0);
+        if (isNaN(index)) index = 0;
+        index = Math.max(0, index);
         if (index != undefined) {
             this.controller.getCurrentModel().setGameIndex(index);
         } else {
             index = 0;
         }
 
-        this.controller.loadGameFromFile(index);
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.controller.loadGameFromFile(index);
+
+        }
     }
 
 });
