@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 20:30:42 CET 2017 */
+/* Generated Sun Feb 26 20:45:17 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25366,6 +25366,10 @@ chess.view.buttonbar.Bar = new Class({
         this.$b().css('overflow','hidden');
         this.createStylesheets();
 
+        this.$b().on('mousedown', function(){
+            return false;
+        });
+
         if (this.background) {
             this.bg = new chess.view.board.Background(
                 Object.merge({
@@ -25447,7 +25451,7 @@ chess.view.buttonbar.Bar = new Class({
 
     fn: function (fnName, btnName) {
         var that = this;
-        return function () {
+        return function (e) {
             that[fnName].call(that, btnName);
         }
     },
@@ -25468,9 +25472,7 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, 'Down');
             this.buttonDown = btnName;
-
         }
-
     },
 
     isDisabled: function (btn) {
@@ -25492,6 +25494,7 @@ chess.view.buttonbar.Bar = new Class({
             this.cssButton(btnName, '');
             if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
             this.fireEvent(btnName);
+            return false;
         }
         return false;
     },
