@@ -9,28 +9,6 @@
 class DhtmlChessViews
 {
 
-    private static $attributes = array(
-
-        "theme" => array(
-            "example" => 'theme="brown"',
-            "desc" => "Override default theme. Possible values: brown, grey, blue, wood1, wood2, wood3, wood4, wood5, wood6, wood7"
-        ),
-        "width" => array(
-            "example" => 'width="60%"',
-            "desc"=>"Width of view. This attribute is NOT applied on mobile devices. Specify width in css to apply custom width on all devices."
-        ),
-        "float" => array(
-            "example" => 'float="right"',
-            "desc" => "Float left or right. This attribute is useful if you want text to float around the chess board. This attribute is NOT set for mobile devices. Use css if you want to apply float to all devices."
-        ),
-
-
-        "css" => array(
-            "example" => 'css="border:1px solid #900;border-radius:5px"',
-            "desc" => "Custom CSS string"
-        ),
-    );
-
     private static $views = array(
         array(
             "title" => "Select a shortcode"
@@ -103,7 +81,7 @@ class DhtmlChessViews
             "type" => "t",
             "desc" => "Tactics Trainer board",
             "shortcode" => "chess",
-            "attributes" => array("tpl" => 1, "tactics" => true , "db" => '&lt;databaseId>'),
+            "attributes" => array("tpl" => 1, "tactics" => true, "db" => '&lt;databaseId>'),
             "help" => 'Example: [chess tactics=true db="2" tpl="1"] to show games from database id 2.'
         ),
         array(
@@ -136,40 +114,62 @@ class DhtmlChessViews
         )
     );
 
-    public static function getAllAttributes(){
-        return self::$attributes;
+    public static function getAllAttributes()
+    {
+        $themes = self::getThemeNames();
+        $attributes = array(
+            "theme" => array(
+                "example" => 'theme="brown"',
+                "desc" => "Override default theme. Possible values: ".implode(", ", $themes)
+            ),
+            "width" => array(
+                "example" => 'width="60%"',
+                "desc" => "Width of view. This attribute is NOT applied on mobile devices. Specify width in css to apply custom width on all devices."
+            ),
+            "float" => array(
+                "example" => 'float="right"',
+                "desc" => "Float left or right. This attribute is useful if you want text to float around the chess board. This attribute is NOT set for mobile devices. Use css if you want to apply float to all devices."
+            ),
+
+
+            "css" => array(
+                "example" => 'css="border:1px solid #900;border-radius:5px"',
+                "desc" => "Custom CSS string"
+            ));
+        return $attributes;
     }
 
     public static function getAvailableTags()
     {
         return self::$views;
     }
-    
-    public function hasTags($content){
 
-        if(strstr($content, '[DC'))return true;
+    public function hasTags($content)
+    {
+
+        if (strstr($content, '[DC')) return true;
 
 
         $patterns = array('/\[fen:([0-9prnbqkw\/\s\-]+?)\]/si');
 
-        foreach($patterns as $pattern){
-            if(preg_match($pattern,$content ))return true;
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $content)) return true;
         }
 
         return false;
-        
+
     }
 
     public function getTags($content)
     {
         $ret = array();
 
-        if(strstr($content, "[fen")){
+        if (strstr($content, "[fen")) {
             $tokens = preg_split('/(\[fen:[^\]]+?\])/si', $content, -1
                 , PREG_SPLIT_DELIM_CAPTURE);
 
-            foreach($tokens as $token){
-                if(strstr($token, "[fen")){
+            foreach ($tokens as $token) {
+                if (strstr($token, "[fen")) {
                     $ret[] = $this->getFenTag($token);
                 }
             }
@@ -195,8 +195,9 @@ class DhtmlChessViews
 
     }
 
-    public function getFenTag($tag){
-        $start = strpos($tag, ":")+1;
+    public function getFenTag($tag)
+    {
+        $start = strpos($tag, ":") + 1;
         $len = strrpos($tag, "]") - $start;
 
         $fen = substr($tag, $start, $len);
@@ -208,7 +209,8 @@ class DhtmlChessViews
 
     }
 
-    private function sanitizePgn($pgn){
+    private function sanitizePgn($pgn)
+    {
         $pgn = html_entity_decode($pgn);
         $pgn = str_replace("<br />", "", $pgn);
         $pgn = preg_replace('/<\/?p>/si', "\n", $pgn);
@@ -218,12 +220,13 @@ class DhtmlChessViews
         return $pgn;
     }
 
-    public function getParsedTagFromAttributes($tag, $attributes = array(), $content = null){
+    public function getParsedTagFromAttributes($tag, $attributes = array(), $content = null)
+    {
         $view = new DHTMLChessView();
 
         $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
 
-        if($tag == "pgn"){
+        if ($tag == "pgn") {
             $content = $this->sanitizePgn($content);
 
             $gameParser = new PgnParser();
@@ -231,29 +234,25 @@ class DhtmlChessViews
             $json = $gameParser->getGameByIndex(0);
             $view->setParam("model", $json);
             $view->setScript("WPGame" . $tpl);
-        }
-        else if($tag == "fen"){
+        } else if ($tag == "fen") {
             $view->setScript("WPFen");
             $view->setParam("fen", $content);
-        }else{
-            if(isset($attributes["comp"])){
+        } else {
+            if (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
-            }
-            else if(isset($attributes["game"])){
+            } else if (isset($attributes["game"])) {
                 $view->setScript("WPGame" . $tpl);
-            }
-            else if(isset($attributes["tactics"])){
+            } else if (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics" . $tpl);
-            }
-            else if(isset($attributes["pgn"]) || isset($attributes["db"])){
+            } else if (isset($attributes["pgn"]) || isset($attributes["db"])) {
                 $view->setScript("WPViewer" . $tpl);
             }
         }
 
-        foreach($attributes as $key=>$val){
+        foreach ($attributes as $key => $val) {
             $attr = $this->getValidParam($key, $val);
 
-            if(!empty($attr)){
+            if (!empty($attr)) {
                 $view->setParam($attr["key"], $attr["val"]);
             }
         }
@@ -261,13 +260,17 @@ class DhtmlChessViews
         return $view;
     }
 
-    private function getValidParam($key, $val){
+    private function getValidParam($key, $val)
+    {
 
-        switch($key){
+        switch ($key) {
 
-            case "tpl": return null;
-            case "comp": return null;
-            case "game": return array("key" => "gameId", "val" => $val);
+            case "tpl":
+                return null;
+            case "comp":
+                return null;
+            case "game":
+                return array("key" => "gameId", "val" => $val);
             case "db":
             case "pgn":
 
@@ -281,7 +284,7 @@ class DhtmlChessViews
 
                 break;
             default:
-                return array("key" => $key, "val" =>$val);
+                return array("key" => $key, "val" => $val);
         }
 
     }
@@ -338,7 +341,8 @@ class DhtmlChessViews
 
     */
 
-    public static function getThemes(){
+    public static function getThemes()
+    {
 
         return array(
             array('brown', 'Brown'),
@@ -352,8 +356,17 @@ class DhtmlChessViews
             array('wood5', 'Wood 5'),
             array('wood6', 'Wood 6'),
             array('wood7', 'Wood 7'),
-
         );
+    }
+
+    public static function getThemeNames()
+    {
+        $themes = self::getThemes();
+        $ret = array();
+        foreach($themes as $i=>$theme){
+            $ret[] = $theme[0];
+        }
+        return $ret;
     }
 
 }
@@ -406,8 +419,9 @@ class DHTMLChessView
     {
         return empty($this->params) ? array() : $this->params;
     }
-    
-    public function getParam($key){
+
+    public function getParam($key)
+    {
         return $this->params[$key];
     }
 
@@ -435,7 +449,7 @@ class DHTMLChessView
 
     public function getJS($docRoot, $url = "null")
     {
-        if(!$this->isValid())return "";
+        if (!$this->isValid()) return "";
 
         $this->setParam('docRoot', $docRoot);
         $board = '<div id="' . $this->id . '" style=""></div>';
@@ -449,7 +463,6 @@ class DHTMLChessView
         return $board;
 
     }
- 
 
 
 }
