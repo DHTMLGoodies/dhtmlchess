@@ -229,6 +229,7 @@ div.dhtml-chess-notation-panel {
     -webkit-user-select: none;
 }
 
-.ludo-chess-view-metadata-game{
-    color:#222;
+
+.notation-chess-move{
+    color:inherit;
 }

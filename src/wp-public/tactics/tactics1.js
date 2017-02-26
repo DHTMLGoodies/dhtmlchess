@@ -29,7 +29,6 @@ chess.WPTactics1 = new Class({
     boardId: undefined,
     random: false,
 
-
     initialize: function (config) {
 
         this.parent(config);
@@ -143,7 +142,7 @@ chess.WPTactics1 = new Class({
                             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                             labelPos: 'outside', // show labels inside board, default is 'outside'
                             layout: {
-                                height: this.boardSize,
+                                height: this.boardSize
                             },
                             plugins: [
                                 Object.merge({
@@ -210,7 +209,7 @@ chess.WPTactics1 = new Class({
         } else {
             index = 0;
         }
-        
+
 
         if (this.random) {
             this.controller.loadRandomGame();

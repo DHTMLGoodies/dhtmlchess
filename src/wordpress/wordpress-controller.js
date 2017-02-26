@@ -57,12 +57,10 @@ chess.wordpress.WordpressController = new Class({
     },
 
     fireDirty: function () {
-        // console.log('dirty');
         this.fireEvent('dirty');
     },
 
     fireClean: function () {
-        //console.log('clean');
         this.fireEvent('clean');
     },
 
@@ -358,7 +356,6 @@ chess.wordpress.WordpressController = new Class({
         this.newDbDialog.show();
 
         var pos = this.views.newDatabaseButton.getEl().offset();
-        var size = this.newDbDialog.getEl().outerHeight();
         var size2 = this.views.newDatabaseButton.getEl().outerHeight();
         this.newDbDialog.showAt(pos.left, pos.top + size2);
     },
@@ -712,11 +709,7 @@ chess.wordpress.WordpressController = new Class({
     isModelValidForSave: function () {
         var gameModel = this.currentModel.modelForServer();
         if (!gameModel)return false;
-        if (!gameModel.white || !gameModel.black) {
-            return false;
-        }
-        return true;
-
+        return (gameModel.white && gameModel.black);
     },
 
     validateAndReturnModel: function (silent) {
@@ -830,8 +823,5 @@ chess.wordpress.WordpressController = new Class({
 
     receiveNewPosition: function (fen) {
         this.currentModel.setPosition(fen);
-
     }
-
-
 });

@@ -27,6 +27,8 @@ chess.WPViewer2 = new Class({
 
     boardSize: undefined,
 
+    sofia:false,
+
     initialize: function (config) {
         this.parent(config);
         this.renderTo = config.renderTo;
@@ -45,6 +47,7 @@ chess.WPViewer2 = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
+        if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
 
         this.gameListDsId = 'gamelist' + String.uniqueID();
@@ -389,6 +392,7 @@ chess.WPViewer2 = new Class({
                         id: this.standingsId,
                         type: 'chess.wordpress.PgnStandings',
                         module: this.module,
+                        sofiaRules:this.sofia,
                         pgnId: this.pgn.id,
                         keys:['player', 'score'],
                         layout: {

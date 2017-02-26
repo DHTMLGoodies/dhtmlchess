@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 20:45:17 CET 2017 */
+/* Generated Mon Feb 27 0:49:46 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33598,7 +33598,7 @@ chess.WPGame1 = new Class({
                 {
                     layout: {
                         height: 35,
-                        width: this.boardSize
+                        width: ludo.isMobile ? 'matchParent' : this.boardSize
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',
@@ -34622,6 +34622,8 @@ chess.WPViewer2 = new Class({
 
     boardSize: undefined,
 
+    sofia:false,
+
     initialize: function (config) {
         this.parent(config);
         this.renderTo = config.renderTo;
@@ -34640,6 +34642,7 @@ chess.WPViewer2 = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
+        if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
 
         this.gameListDsId = 'gamelist' + String.uniqueID();
@@ -34984,6 +34987,7 @@ chess.WPViewer2 = new Class({
                         id: this.standingsId,
                         type: 'chess.wordpress.PgnStandings',
                         module: this.module,
+                        sofiaRules:this.sofia,
                         pgnId: this.pgn.id,
                         keys:['player', 'score'],
                         layout: {
@@ -35067,7 +35071,6 @@ chess.WPTactics1 = new Class({
     boardSize: undefined,
     boardId: undefined,
     random: false,
-
 
     initialize: function (config) {
 
@@ -35182,7 +35185,7 @@ chess.WPTactics1 = new Class({
                             labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                             labelPos: 'outside', // show labels inside board, default is 'outside'
                             layout: {
-                                height: this.boardSize,
+                                height: this.boardSize
                             },
                             plugins: [
                                 Object.merge({
@@ -35249,7 +35252,7 @@ chess.WPTactics1 = new Class({
         } else {
             index = 0;
         }
-        
+
 
         if (this.random) {
             this.controller.loadRandomGame();

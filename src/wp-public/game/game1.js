@@ -29,7 +29,7 @@ chess.WPGame1 = new Class({
                 {
                     layout: {
                         height: 35,
-                        width: this.boardSize
+                        width: ludo.isMobile ? 'matchParent' : this.boardSize
                     },
                     module: this.module,
                     type: 'chess.view.metadata.Game',

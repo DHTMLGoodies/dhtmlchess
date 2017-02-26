@@ -79,7 +79,7 @@ chess.wordpress.CommentView = new Class({
         if(!m){
             this.currentLabel = chess.getPhrase('Game Comment')
         }else{
-            this.currentLabel = chess.getPhrase('Annotate')  + ' ' + m.lm;
+            this.currentLabel = chess.getPhrase('Annotate')  + ' ' + m.m;
             this.currentComment = m.comment;
         }
 

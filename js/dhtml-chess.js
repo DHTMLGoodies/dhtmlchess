@@ -1,4 +1,4 @@
-/* Generated Fri Feb 24 22:54:52 CET 2017 */
+/* Generated Sun Feb 26 22:49:56 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -32475,6 +32475,10 @@ chess.view.buttonbar.Bar = new Class({
         this.$b().css('overflow','hidden');
         this.createStylesheets();
 
+        this.$b().on('mousedown', function(){
+            return false;
+        });
+
         if (this.background) {
             this.bg = new chess.view.board.Background(
                 Object.merge({
@@ -32556,7 +32560,7 @@ chess.view.buttonbar.Bar = new Class({
 
     fn: function (fnName, btnName) {
         var that = this;
-        return function () {
+        return function (e) {
             that[fnName].call(that, btnName);
         }
     },
@@ -32577,9 +32581,7 @@ chess.view.buttonbar.Bar = new Class({
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, 'Down');
             this.buttonDown = btnName;
-
         }
-
     },
 
     isDisabled: function (btn) {
@@ -32601,6 +32603,7 @@ chess.view.buttonbar.Bar = new Class({
             this.cssButton(btnName, '');
             if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
             this.fireEvent(btnName);
+            return false;
         }
         return false;
     },
@@ -33328,10 +33331,11 @@ chess.view.message.TacticsMessage = new Class({
 
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs:3000,
+    autoHideWelcomeAfterMs:0,
 
     __construct:function(config){
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs']);
+        this.__params(config, ['autoHideAfterMs','autoHideWelcomeAfterMs']);
     },
 
     ludoDOM:function () {
@@ -33347,7 +33351,7 @@ chess.view.message.TacticsMessage = new Class({
 
     newGame:function (model) {
         var colorToMove = model.getColorToMove();
-        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'));
+        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
 
     },
 
@@ -33362,6 +33366,10 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showMessage:function (message, delayBeforeHide) {
+        this.$b().animate(
+            { opacity : 1 },
+            { duration : 300 }
+        );
         this.$b().html( message);
         if(delayBeforeHide){
             this.autoHideMessage.delay(delayBeforeHide, this);
@@ -33369,7 +33377,11 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     autoHideMessage:function () {
-        this.$b().html('');
+        this.$b().animate({
+            opacity:0
+        }, {
+            duration: 500
+        });
     }
 });/* ../dhtml-chess/src/view/dialog/dialog.js */
 chess.view.dialog.Dialog = new Class({
