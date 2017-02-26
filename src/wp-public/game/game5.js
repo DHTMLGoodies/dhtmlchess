@@ -5,7 +5,7 @@ chess.WPGame5 = new Class({
     buttonSize: 45,
 
     boardWeight: 1,
-    notationWeight: 0.6,
+    notationWeight: 1,
 
     initialize: function (config) {
         this.parent(config);

@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 15:53:25 CET 2017 */
+/* Generated Sun Feb 26 20:30:42 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34062,7 +34062,7 @@ chess.WPGame5 = new Class({
     buttonSize: 45,
 
     boardWeight: 1,
-    notationWeight: 0.6,
+    notationWeight: 1,
 
     initialize: function (config) {
         this.parent(config);

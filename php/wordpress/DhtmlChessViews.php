@@ -228,7 +228,6 @@ class DhtmlChessViews
 
         if ($tag == "pgn") {
             $content = $this->sanitizePgn($content);
-
             $gameParser = new PgnParser();
             $gameParser->setPgnContent(html_entity_decode($content));
             $json = $gameParser->getGameByIndex(0);
