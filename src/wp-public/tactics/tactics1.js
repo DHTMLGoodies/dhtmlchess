@@ -210,6 +210,7 @@ chess.WPTactics1 = new Class({
         } else {
             index = 0;
         }
+        
 
         if (this.random) {
             this.controller.loadRandomGame();

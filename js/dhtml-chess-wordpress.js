@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 15:42:34 CET 2017 */
+/* Generated Sun Feb 26 15:53:25 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -35246,6 +35246,7 @@ chess.WPTactics1 = new Class({
         } else {
             index = 0;
         }
+        
 
         if (this.random) {
             this.controller.loadRandomGame();

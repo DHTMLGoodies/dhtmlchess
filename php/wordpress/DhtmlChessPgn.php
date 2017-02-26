@@ -150,7 +150,8 @@ class DhtmlChessPgn
     {
 
         $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
-            . " where " . DhtmlChessDatabase::COL_PGN_ID . "= %d", $this->id . " order by rand()");
+            . " where " . DhtmlChessDatabase::COL_PGN_ID . "= %d  order by rand() limit 1", $this->id );
+
 
         $game = $this->wpdb->get_col($query, 0);
         return !empty($game) ? $game[0] : null;
