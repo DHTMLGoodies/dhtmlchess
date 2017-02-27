@@ -275,17 +275,17 @@ chess.view.board.Piece = new Class({
      * @private
      */
     getSquareByCoordinates: function (x, y) {
-        x += this.squareSize / 2;
-        y += this.squareSize / 2;
+        x += this.board.squareSize / 2;
+        y += this.board.squareSize / 2;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.squareSize * 8, x);
-        y = Math.min(this.squareSize * 8, y);
+        x = Math.min(this.board.squareSize * 8, x);
+        y = Math.min(this.board.squareSize * 8, y);
 
-        x = Math.floor(x / this.squareSize);
-        y = Math.floor(8 - (y / this.squareSize));
+        x = Math.floor(x / this.board.squareSize);
+        y = Math.floor(8 - (y / this.board.squareSize));
         if (this.isFlipped()) {
             x = 7 - x;
             y = 7 - y;

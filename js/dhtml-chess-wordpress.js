@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 1:19:35 CET 2017 */
+/* Generated Mon Feb 27 1:31:46 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -23785,9 +23785,11 @@ chess.view.board.Board = new Class({
 
     currentPieceSize: undefined,
 
+    squareSize:undefined,
+
     resizePieces: function () {
+        this.squareSize = this.getSquareSize();
         if (!this.pieces[0].svg) {
-            var squareSize = this.getSquareSize();
             for (var i = 0; i < this.pieces.length; i++) {
                 this.pieces[i].resize(squareSize)
             }
@@ -24108,17 +24110,17 @@ chess.view.board.Piece = new Class({
      * @private
      */
     getSquareByCoordinates: function (x, y) {
-        x += this.squareSize / 2;
-        y += this.squareSize / 2;
+        x += this.board.squareSize / 2;
+        y += this.board.squareSize / 2;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.squareSize * 8, x);
-        y = Math.min(this.squareSize * 8, y);
+        x = Math.min(this.board.squareSize * 8, x);
+        y = Math.min(this.board.squareSize * 8, y);
 
-        x = Math.floor(x / this.squareSize);
-        y = Math.floor(8 - (y / this.squareSize));
+        x = Math.floor(x / this.board.squareSize);
+        y = Math.floor(8 - (y / this.board.squareSize));
         if (this.isFlipped()) {
             x = 7 - x;
             y = 7 - y;

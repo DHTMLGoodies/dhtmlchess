@@ -436,9 +436,11 @@ chess.view.board.Board = new Class({
 
     currentPieceSize: undefined,
 
+    squareSize:undefined,
+
     resizePieces: function () {
+        this.squareSize = this.getSquareSize();
         if (!this.pieces[0].svg) {
-            var squareSize = this.getSquareSize();
             for (var i = 0; i < this.pieces.length; i++) {
                 this.pieces[i].resize(squareSize)
             }
