@@ -3,10 +3,14 @@ chess.wordpress.GameListGrid = new Class({
     headerMenu: false,
     submodule: 'wordpress.gamelist',
     dataSource: {
+        id:'editor_game_list_ds',
         'type': 'ludo.dataSource.JSONArray',
         autoload: false,
         postData: {
             action: 'list_of_games'
+        },
+        paging:{
+            size:25
         }
     },
     emptyText:chess.getPhrase('No games'),

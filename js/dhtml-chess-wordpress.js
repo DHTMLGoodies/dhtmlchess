@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 1:31:46 CET 2017 */
+/* Generated Mon Feb 27 18:26:13 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -26225,63 +26225,72 @@ chess.view.metadata.FenField = new Class({
  * @extends View
  */
 chess.view.message.TacticsMessage = new Class({
-    Extends:ludo.View,
-    type:'chess.view.message.TacticsMessage',
-    module:'chess',
-    submodule:'TacticsMessage',
+    Extends: ludo.View,
+    type: 'chess.view.message.TacticsMessage',
+    module: 'chess',
+    submodule: 'TacticsMessage',
 
     // Auto hide messages after milliseconds, pass false or undefined to disable this
-    autoHideAfterMs:3000,
-    autoHideWelcomeAfterMs:0,
+    autoHideAfterMs: 3000,
+    autoHideWelcomeAfterMs: 0,
 
-    __construct:function(config){
+    __construct: function (config) {
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs','autoHideWelcomeAfterMs']);
+        this.__params(config, ['autoHideAfterMs', 'autoHideWelcomeAfterMs']);
     },
 
-    ludoDOM:function () {
+    ludoDOM: function () {
         this.parent();
         this.$e.addClass('dhtml-chess-tactics-message');
     },
-    setController:function (controller) {
+    setController: function (controller) {
         this.parent(controller);
         this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
         this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
         this.controller.addEvent('newGame', this.newGame.bind(this));
     },
 
-    newGame:function (model) {
+    newGame: function (model) {
         var colorToMove = model.getColorToMove();
         this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
 
     },
 
-    showWrongGuess:function () {
+    showWrongGuess: function () {
         this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
-    showCorrectGuess:function () {
+    showCorrectGuess: function () {
         this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
 
     },
 
-    showMessage:function (message, delayBeforeHide) {
+    showMessage: function (message, delayBeforeHide) {
+        this.show();
         this.$b().animate(
-            { opacity : 1 },
-            { duration : 300 }
+            {opacity: 1},
+            {
+                duration: 300,
+                complete: function () {
+                    this.hide();
+                }.bind(this)
+            }
         );
-        this.$b().html( message);
-        if(delayBeforeHide){
+        this.$b().html(message);
+        if (delayBeforeHide) {
             this.autoHideMessage.delay(delayBeforeHide, this);
         }
     },
 
-    autoHideMessage:function () {
+    autoHideMessage: function () {
         this.$b().animate({
-            opacity:0
+            opacity: 0
         }, {
-            duration: 500
+            duration: 500,
+            complete:function(){
+                this.hide();
+            }.bind(this)
         });
     }
 });/* ../dhtml-chess/src/view/dialog/dialog.js */
@@ -32510,10 +32519,14 @@ chess.wordpress.GameListGrid = new Class({
     headerMenu: false,
     submodule: 'wordpress.gamelist',
     dataSource: {
+        id:'editor_game_list_ds',
         'type': 'ludo.dataSource.JSONArray',
         autoload: false,
         postData: {
             action: 'list_of_games'
+        },
+        paging:{
+            size:25
         }
     },
     emptyText:chess.getPhrase('No games'),
