@@ -102,7 +102,6 @@ chess.wordpress.WordPressArchived = new Class({
     },
 
     restore:function(record){
-        console.log('restore');
         jQuery.ajax({
             url: ludo.config.getUrl(),
             method: 'post',

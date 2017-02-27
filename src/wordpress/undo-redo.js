@@ -86,19 +86,16 @@ chess.wordpress.UndoRedo = new Class({
 
     add: function (model) {
 
-        console.log('add');
         var now = new Date().getTime();
         if (now - this.t < 400) {
             return;
         }
 
         if (this.isEqualToNext(model)) {
-            console.log('equal to next');
             this.current++;
             return;
         }
         if (this.stack.length > 0 && this.isEqualTo(model, this.stack[this.current])) {
-            console.log('equal to current');
             this.stack[this.current] = this.getModelForHistory(model);
             return;
         }
@@ -118,8 +115,6 @@ chess.wordpress.UndoRedo = new Class({
 
         this.current = this.stack.length - 1;
         this.t = new Date().getTime();
-
-        console.log(this.stack.length);
     },
 
     undo: function () {

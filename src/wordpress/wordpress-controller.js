@@ -1,12 +1,7 @@
 chess.wordpress.WordpressController = new Class({
     Extends: chess.controller.StockfishEngineController,
-
     posSetup: undefined,
-
-    debug: true,
-
     newGameDialog: undefined,
-
 
     __construct: function (config) {
         config.stockfish = ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js';
@@ -29,8 +24,6 @@ chess.wordpress.WordpressController = new Class({
         this.listenForSave();
 
         jQuery(window).on('beforeunload', this.confirmLeave.bind(this));
-
-
     },
 
     confirmLeave:function(){

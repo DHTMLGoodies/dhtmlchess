@@ -160,41 +160,6 @@ class DhtmlChessViews
 
     }
 
-    public function getTags($content)
-    {
-        $ret = array();
-
-        if (strstr($content, "[fen")) {
-            $tokens = preg_split('/(\[fen:[^\]]+?\])/si', $content, -1
-                , PREG_SPLIT_DELIM_CAPTURE);
-
-            foreach ($tokens as $token) {
-                if (strstr($token, "[fen")) {
-                    $ret[] = $this->getFenTag($token);
-                }
-            }
-        }
-
-        $tokens = preg_split('/(\[DC.+?\])/si', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
-        foreach ($tokens as $token) {
-
-            if (strstr($token, "[DC")) {
-                try {
-                    $tag = $this->getParsedTag($token);
-                    $ret[] = $tag;
-                } catch (DhtmlChessException $e) {
-                    $obj = new DHTMLChessView();
-                    $obj->setTag($token);
-                    $obj->setInvalid();
-                }
-            }
-
-        }
-
-        return $ret;
-
-    }
-
     public function getFenTag($tag)
     {
         $start = strpos($tag, ":") + 1;
@@ -232,6 +197,7 @@ class DhtmlChessViews
             $gameParser->setPgnContent(html_entity_decode($content));
             $json = $gameParser->getGameByIndex(0);
             $view->setParam("model", $json);
+            $tpl = max($tpl,5);
             $view->setScript("WPGame" . $tpl);
         } else if ($tag == "fen") {
             $view->setScript("WPFen");
@@ -240,10 +206,12 @@ class DhtmlChessViews
             if (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
             } else if (isset($attributes["game"])) {
+                $tpl = max($tpl,5);
                 $view->setScript("WPGame" . $tpl);
             } else if (isset($attributes["tactics"])) {
-                $view->setScript("WPTactics" . $tpl);
+                $view->setScript("WPTactics1");
             } else if (isset($attributes["pgn"]) || isset($attributes["db"])) {
+                $tpl = max($tpl,2);
                 $view->setScript("WPViewer" . $tpl);
             }
         }

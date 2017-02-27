@@ -1,51 +1,100 @@
 chess.wordpress.CommentView = new Class({
     Extends: ludo.View,
-    submodule:'wordpress.CommentView',
-    layout:{
-        type:'linear',orientation:'vertical',
-        width:'matchParent',height:'matchParent'
+    submodule: 'wordpress.CommentView',
+    layout: {
+        type: 'linear', orientation: 'vertical',
+        width: 'matchParent', height: 'matchParent'
     },
 
-    currentLabel:'',
-    currentComment:'',
-    currentMove:undefined,
+    currentLabel: '',
+    currentComment: '',
+    currentMove: undefined,
 
-    notification:undefined,
-    
-    __children:function(){
+    notification: undefined,
+
+    __children: function () {
         return [
             {
-                name:"move",
-                css:{
-                    "font-weight":"bold",
-                    'padding-left' : '4px'
+                name: 'top',
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: 30
                 },
-                layout:{
-                    height:30
+                css: {
+                    'padding-top': 2
                 },
-                html:this.currentLabel
+                children: [
+                    {
+                        name: "move",
+                        css: {
+                            "font-weight": "bold",
+                            'padding-left': '4px',
+                            'line-height': '30px'
+                        },
+                        layout: {
+                            weight: 1
+                        },
+                        html: this.currentLabel
+
+                    },
+                    {
+                        type: 'form.Button', value: '!', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', value: '?', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', value: '!!', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', value: '??', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', value: '?!', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', value: '!?', layout: {width: 30}
+                    },
+                    {
+                        type: 'form.Button', name: 'clear', value: chess.getPhrase('Clear')
+                    }
+                ]
 
             },
+
             {
-                type:'form.Textarea',
-                placeholder:'Enter Comment',
-                name:'comment',
-                layout:{
-                    weight:1
+                type: 'form.Textarea',
+                placeholder: 'Enter Comment',
+                name: 'comment',
+                layout: {
+                    weight: 1
                 },
-                listeners:{
-                    'key_up' : this.saveComment.bind(this)
+                listeners: {
+                    'key_up': this.saveComment.bind(this)
                 }
             }
         ];
     },
 
-    __rendered:function(){
+    __rendered: function () {
         this.parent();
         this.on('show', this.updateViews.bind(this));
+
+        this.getForm().on('btnClick', this.onBtnClick.bind(this));
     },
 
-    setController:function(controller){
+    onBtnClick: function (name, val) {
+        if (this.currentMove) {
+            if (name == 'clear') {
+                this.controller.currentModel.gradeMove(this.currentMove, '');
+            } else {
+                this.controller.currentModel.gradeMove(this.currentMove, val);
+            }
+            this.updateHeading();
+        }
+    },
+
+    setController: function (controller) {
         this.parent(controller);
 
         controller.on('fen', this.update.bind(this));
@@ -54,49 +103,54 @@ chess.wordpress.CommentView = new Class({
         controller.on('dirty', this.update.bind(this));
     },
 
-    onNewGame:function(){
+    onNewGame: function () {
     },
 
-    saveComment:function(){
-        if(this.currentMove){
+    saveComment: function () {
+        if (this.currentMove) {
             this.controller.addCommentAfter(this.child['comment'].val(), this.currentMove);
-        }else{
+        } else {
             this.controller.currentModel.setGameComment(this.child['comment'].val());
         }
-
     },
 
 
-    update:function(model){
-        if(!model)model = this.controller.currentModel;
+    update: function (model) {
+        if (!model)model = this.controller.currentModel;
         var m = model.getCurrentMove();
-        if(!m && model.model.moves.length > 0 && model.model.moves[0].comment){
+        if (!m && model.model.moves.length > 0 && model.model.moves[0].comment) {
             m = model.model.moves[0];
         }
-        if(m == this.currentMove)return;
+        if (m == this.currentMove)return;
 
         this.currentMove = m;
-        if(!m){
-            this.currentLabel = chess.getPhrase('Game Comment')
-        }else{
-            this.currentLabel = chess.getPhrase('Annotate')  + ' ' + m.m;
-            this.currentComment = m.comment;
-        }
+        this.updateHeading();
 
-        if(this.children.length){
-            this.child['move'].html(this.currentLabel);
-
+        if (this.children.length) {
             this.child['comment'].val('');
             this.child['comment'].val(this.currentComment);
         }
 
     },
 
-    updateViews:function(){
+    updateHeading:function(){
+        if (!this.currentMove) {
+            this.currentLabel = chess.getPhrase('Game Comment')
+        } else {
+            this.currentLabel = chess.getPhrase('Annotate') + ' ' + this.currentMove.m;
+            this.currentComment = this.currentMove.comment;
+        }
+
         if(this.children.length){
-            this.child['move'].html(this.currentLabel);
-            if(this.currentComment)this.child['comment'].val(this.currentComment);
+            this.child['top'].child['move'].html(this.currentLabel);
+        }
+    },
+
+    updateViews: function () {
+        if (this.children.length) {
+            this.child['top'].child['move'].html(this.currentLabel);
+            if (this.currentComment)this.child['comment'].val(this.currentComment);
         }
     }
-    
+
 });

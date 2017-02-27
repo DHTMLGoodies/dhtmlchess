@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 19:02:18 CET 2017 */
+/* Generated Mon Feb 27 23:24:52 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -24688,7 +24688,6 @@ ludo.form.Manager = new Class({
         this.view = config.view;
         config.form = config.form || {};
 
-
         this.__params(config.form, ['method', 'url', 'hiddenFields']);
         this.hiddenValues = {};
 
@@ -24734,13 +24733,13 @@ ludo.form.Manager = new Class({
         children.push(this.view);
 
         var c;
+
         for (var i = 0, len = children.length; i < len; i++) {
             c = children[i];
-            if (c['getProgressBarId'] !== undefined) {
-                this.registerProgressBar(c);
-            }
-            else if (c.isFormElement() && c.submittable) {
+            if (c.isFormElement() && c.submittable) {
                 this.registerFormElement(c);
+            }else if(c._btn){
+                c.on('click', this.btnClick.bind(this));
             }
         }
 
@@ -24805,6 +24804,10 @@ ludo.form.Manager = new Class({
         jQuery.each(json, this.set.bind(this));
     },
 
+    btnClick:function(el, btn){
+        console.log('click');
+        this.fireEvent('btnClick', [btn.name, btn.val()]);
+    },
 
     /**
      * Set value of a form element
@@ -25118,7 +25121,7 @@ ludo.form.Manager = new Class({
      * @memberof ludo.form.Manager.prototype
      */
     rollback:function(){
-        this.reset();  
+        this.reset();
     },
     /**
      * Reset value of all form Views back to it's commited value.
@@ -25275,7 +25278,7 @@ ludo.form.Button = new Class({
     selected:false,
 
     overflow:'hidden',
-
+    _btn:true,
     /*
      * Path to button icon
      * @attribute {String} icon
@@ -30688,7 +30691,6 @@ chess.view.board.Piece = new Class({
     color: 'white',
     pieceLayout: 'alpha',
     size: null,
-    squareSize: null,
     validSizes: [30, 45, 60, 75, 90, 105],
     /**
      * 0x88 board position of piece
@@ -30698,7 +30700,6 @@ chess.view.board.Piece = new Class({
     el: null,
     flipped: false,
     toSquare: null,
-    Fx: null,
     board: undefined,
     ddEnabled: false,
     aniDuration: .25,
@@ -30728,7 +30729,6 @@ chess.view.board.Piece = new Class({
     __construct: function (config) {
         this.parent(config);
         this.square = config.square;
-        this.squareSize = config.squareSize;
         this.setPieceLayout(config.pieceLayout);
         this.numSquare = config.numSquare;
         this.flipped = config.flipped;
@@ -30739,7 +30739,7 @@ chess.view.board.Piece = new Class({
 
 
         this.createDOM();
-        this.resize(this.squareSize);
+        this.resize(30);
         this.position();
     },
 
@@ -30944,17 +30944,18 @@ chess.view.board.Piece = new Class({
      * @private
      */
     getSquareByCoordinates: function (x, y) {
-        x += this.board.squareSize / 2;
-        y += this.board.squareSize / 2;
+        var s = this.board.squareSize;
+        x += s / 2;
+        y += s / 2;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.board.squareSize * 8, x);
-        y = Math.min(this.board.squareSize * 8, y);
+        x = Math.min(s * 8, x);
+        y = Math.min(s * 8, y);
 
-        x = Math.floor(x / this.board.squareSize);
-        y = Math.floor(8 - (y / this.board.squareSize));
+        x = Math.floor(x / s);
+        y = Math.floor(8 - (y / s));
         if (this.isFlipped()) {
             x = 7 - x;
             y = 7 - y;
@@ -31013,8 +31014,6 @@ chess.view.board.Piece = new Class({
      * @param {Number} squareSize
      */
     resize: function (squareSize) {
-        this.squareSize = squareSize;
-
         if(this.svg){
             this.size = squareSize;
             this.updateBackgroundImage();
@@ -33392,10 +33391,7 @@ chess.view.message.TacticsMessage = new Class({
         this.$b().animate(
             {opacity: 1},
             {
-                duration: 300,
-                complete: function () {
-                    this.hide();
-                }.bind(this)
+                duration: 300
             }
         );
         this.$b().html(message);

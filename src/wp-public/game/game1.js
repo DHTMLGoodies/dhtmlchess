@@ -6,7 +6,7 @@ chess.WPGame1 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', Math.ceil(w - 150 + 45 + 35));
+        this.renderTo.css('height', Math.ceil(w - 200 + 45 + 35));
         this.renderTo.css('position', 'relative');
         this.boardSize = w - 150;
 
@@ -76,7 +76,7 @@ chess.WPGame1 = new Class({
                             name: "notation-panel",
                             type: 'chess.view.notation.Table',
                             layout: {
-                                width: 150
+                                width: 200
                             },
                             elCss: {
                                 'margin-left': '2px'

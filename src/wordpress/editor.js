@@ -18,11 +18,8 @@ chess.WPEditor = new Class({
 
         var b = jQuery(document.body);
         this.offset = jQuery('#wpwrap').offset().top - b.outerHeight() + b.height();
-        console.log(this.offset);
-        var r = this.renderTo;
 
         this.onWinResize();
-        // r.css('height', (jQuery(document.body).height() - this.offset));
         this.module = String.uniqueID();
 
         jQuery(document).ready(this.render.bind(this));
