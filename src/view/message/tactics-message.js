@@ -52,10 +52,7 @@ chess.view.message.TacticsMessage = new Class({
         this.$b().animate(
             {opacity: 1},
             {
-                duration: 300,
-                complete: function () {
-                    this.hide();
-                }.bind(this)
+                duration: 300
             }
         );
         this.$b().html(message);

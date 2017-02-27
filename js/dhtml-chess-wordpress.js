@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 19:03:32 CET 2017 */
+/* Generated Mon Feb 27 19:06:00 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -26283,10 +26283,7 @@ chess.view.message.TacticsMessage = new Class({
         this.$b().animate(
             {opacity: 1},
             {
-                duration: 300,
-                complete: function () {
-                    this.hide();
-                }.bind(this)
+                duration: 300
             }
         );
         this.$b().html(message);
