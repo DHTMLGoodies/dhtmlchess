@@ -30,8 +30,7 @@ chess.view.board.Background = new Class({
         this.view = config.view;
         this.svg = this.view.svg();
 
-
-        if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'Safari') {
+        if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
             config.vertical = undefined;
             config.paint = config.iePaint ? config.iePaint : {

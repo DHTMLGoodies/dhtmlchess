@@ -1797,7 +1797,6 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 }
 .notation-chess-move {
     cursor: pointer;
-    color: #354150;
 }
 
 span.notation-chess-move-highlighted {
@@ -1942,7 +1941,7 @@ span.notation-chess-move-highlighted{
     font-weight:bold;
 }
 
-.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+.dhtml-chess-notation-table img, div.dhtml-chess-notation-panel img{
     background-color:transparent !important;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {

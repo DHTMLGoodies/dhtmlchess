@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 22:49:56 CET 2017 */
+/* Generated Mon Feb 27 19:02:18 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -29981,14 +29981,27 @@ chess.view.board.GUI = new Class({
         this.internal.pieceSize = this.getNewPieceSize();
 
         var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+
+        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+            var o = w % 8;
+            if(o > 4){
+                o = o - 8;
+            }
+            w-=o;
+            pl += (o/2);
+            pt += (o/2);
+        }
+
         this.internal.squareSize = w / 8;
+
+
 
         this.els.board.css({
             position: 'absolute',
             left: pl,
             top: pt,
             width: w,
-            height: this.els.boardContainer.height() - (this.els.board.outerHeight() - this.els.board.height())
+            height: w
         });
 
         this.resizeLabels();
@@ -30606,10 +30619,14 @@ chess.view.board.Board = new Class({
 
     currentPieceSize: undefined,
 
+    squareSize:undefined,
+
     resizePieces: function () {
-        var squareSize = this.getSquareSize();
-        for (var i = 0; i < this.pieces.length; i++) {
-            this.pieces[i].resize(squareSize)
+        this.squareSize = this.getSquareSize();
+        if (!this.pieces[0].svg) {
+            for (var i = 0; i < this.pieces.length; i++) {
+                this.pieces[i].resize(squareSize)
+            }
         }
     },
     /**
@@ -30927,17 +30944,17 @@ chess.view.board.Piece = new Class({
      * @private
      */
     getSquareByCoordinates: function (x, y) {
-        x += this.squareSize / 2;
-        y += this.squareSize / 2;
+        x += this.board.squareSize / 2;
+        y += this.board.squareSize / 2;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        x = Math.min(this.squareSize * 8, x);
-        y = Math.min(this.squareSize * 8, y);
+        x = Math.min(this.board.squareSize * 8, x);
+        y = Math.min(this.board.squareSize * 8, y);
 
-        x = Math.floor(x / this.squareSize);
-        y = Math.floor(8 - (y / this.squareSize));
+        x = Math.floor(x / this.board.squareSize);
+        y = Math.floor(8 - (y / this.board.squareSize));
         if (this.isFlipped()) {
             x = 7 - x;
             y = 7 - y;
@@ -30997,6 +31014,12 @@ chess.view.board.Piece = new Class({
      */
     resize: function (squareSize) {
         this.squareSize = squareSize;
+
+        if(this.svg){
+            this.size = squareSize;
+            this.updateBackgroundImage();
+            return;
+        }
         if (squareSize < this.validSizes[0]) {
             squareSize = this.validSizes[0];
         }
@@ -31208,8 +31231,7 @@ chess.view.board.Background = new Class({
         this.view = config.view;
         this.svg = this.view.svg();
 
-
-        if (Browser.name == 'ie' || Browser.name == 'edge') {
+        if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
             config.vertical = undefined;
             config.paint = config.iePaint ? config.iePaint : {
@@ -33324,63 +33346,72 @@ chess.view.metadata.FenField = new Class({
  * @extends View
  */
 chess.view.message.TacticsMessage = new Class({
-    Extends:ludo.View,
-    type:'chess.view.message.TacticsMessage',
-    module:'chess',
-    submodule:'TacticsMessage',
+    Extends: ludo.View,
+    type: 'chess.view.message.TacticsMessage',
+    module: 'chess',
+    submodule: 'TacticsMessage',
 
     // Auto hide messages after milliseconds, pass false or undefined to disable this
-    autoHideAfterMs:3000,
-    autoHideWelcomeAfterMs:0,
+    autoHideAfterMs: 3000,
+    autoHideWelcomeAfterMs: 0,
 
-    __construct:function(config){
+    __construct: function (config) {
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs','autoHideWelcomeAfterMs']);
+        this.__params(config, ['autoHideAfterMs', 'autoHideWelcomeAfterMs']);
     },
 
-    ludoDOM:function () {
+    ludoDOM: function () {
         this.parent();
         this.$e.addClass('dhtml-chess-tactics-message');
     },
-    setController:function (controller) {
+    setController: function (controller) {
         this.parent(controller);
         this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
         this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
         this.controller.addEvent('newGame', this.newGame.bind(this));
     },
 
-    newGame:function (model) {
+    newGame: function (model) {
         var colorToMove = model.getColorToMove();
         this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
 
     },
 
-    showWrongGuess:function () {
+    showWrongGuess: function () {
         this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
-    showCorrectGuess:function () {
+    showCorrectGuess: function () {
         this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
 
     },
 
-    showMessage:function (message, delayBeforeHide) {
+    showMessage: function (message, delayBeforeHide) {
+        this.show();
         this.$b().animate(
-            { opacity : 1 },
-            { duration : 300 }
+            {opacity: 1},
+            {
+                duration: 300,
+                complete: function () {
+                    this.hide();
+                }.bind(this)
+            }
         );
-        this.$b().html( message);
-        if(delayBeforeHide){
+        this.$b().html(message);
+        if (delayBeforeHide) {
             this.autoHideMessage.delay(delayBeforeHide, this);
         }
     },
 
-    autoHideMessage:function () {
+    autoHideMessage: function () {
         this.$b().animate({
-            opacity:0
+            opacity: 0
         }, {
-            duration: 500
+            duration: 500,
+            complete:function(){
+                this.hide();
+            }.bind(this)
         });
     }
 });/* ../dhtml-chess/src/view/dialog/dialog.js */
@@ -41445,10 +41476,14 @@ chess.wordpress.GameListGrid = new Class({
     headerMenu: false,
     submodule: 'wordpress.gamelist',
     dataSource: {
+        id:'editor_game_list_ds',
         'type': 'ludo.dataSource.JSONArray',
         autoload: false,
         postData: {
             action: 'list_of_games'
+        },
+        paging:{
+            size:25
         }
     },
     emptyText:chess.getPhrase('No games'),

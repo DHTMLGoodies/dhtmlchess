@@ -463,14 +463,27 @@ chess.view.board.GUI = new Class({
         this.internal.pieceSize = this.getNewPieceSize();
 
         var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+
+        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+            var o = w % 8;
+            if(o > 4){
+                o = o - 8;
+            }
+            w-=o;
+            pl += (o/2);
+            pt += (o/2);
+        }
+
         this.internal.squareSize = w / 8;
+
+
 
         this.els.board.css({
             position: 'absolute',
             left: pl,
             top: pt,
             width: w,
-            height: this.els.boardContainer.height() - (this.els.board.outerHeight() - this.els.board.height())
+            height: w
         });
 
         this.resizeLabels();

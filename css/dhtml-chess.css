@@ -1,4 +1,4 @@
-/* Generated Sun Feb 26 22:49:56 CET 2017 */
+/* Generated Mon Feb 27 19:02:18 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -1814,7 +1814,6 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 }
 .notation-chess-move {
     cursor: pointer;
-    color: #354150;
 }
 
 span.notation-chess-move-highlighted {
@@ -1959,7 +1958,7 @@ span.notation-chess-move-highlighted{
     font-weight:bold;
 }
 
-.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+.dhtml-chess-notation-table img, div.dhtml-chess-notation-panel img{
     background-color:transparent !important;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {

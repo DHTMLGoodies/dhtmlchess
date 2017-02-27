@@ -1797,7 +1797,6 @@ div.ludo-form-button-disabled .ludo-form-button-m-bg-right {
 }
 .notation-chess-move {
     cursor: pointer;
-    color: #354150;
 }
 
 span.notation-chess-move-highlighted {
@@ -1942,7 +1941,7 @@ span.notation-chess-move-highlighted{
     font-weight:bold;
 }
 
-.dhtml-chess-notation-tabl img, div.dhtml-chess-notation-panel img{
+.dhtml-chess-notation-table img, div.dhtml-chess-notation-panel img{
     background-color:transparent !important;
 }/* ../dhtml-chess/css-source/view/board/board.css */
 .dhtml-chess-board-container {
@@ -3900,7 +3899,7 @@ tab layout */
 
 
 .ludo-light-gray div.ludo-form-button-disabled {
-    color: #555555
+    color: #555555;
     cursor: default;
 }
 
@@ -4009,7 +4008,7 @@ tab layout */
 
 .ludo-light-gray .ludo-menu-horizontal .ludo-menu-item-over {
     background-color: transparent;
-    color: #000000
+    color: #000000;
     border-color: #000000
 }
 
@@ -4021,14 +4020,14 @@ tab layout */
 .ludo-light-gray .ludo-menu-vertical {
     border: 1px solid #c6c6c6;
     background: url(../ludojs/images/light-gray-skin/menu-bg-vertical.png) repeat-y;
-    -moz-box-shadow: 1px 1px 4px #555555
-    -webkit-box-shadow: 1px 1px 4px #555555
-    box-shadow: 1px 1px 3px #555555
+    -moz-box-shadow: 1px 1px 4px #555555;
+    -webkit-box-shadow: 1px 1px 4px #555555;
+    box-shadow: 1px 1px 3px #555555;
 }
 
 
 .ludo-light-gray .ludo-menu-vertical .ludo-menu-item-over, .ludo-light-gray .ludo-menu-vertical .ludo-menu-item-active {
-    background-color: #FFFFFF
+    background-color: #FFFFFF;
     border: 1px solid #c6c6c6;
     padding-left: 34px;
     padding-right: 19px;
@@ -4081,7 +4080,7 @@ tab layout */
 }
 
 .ludo-light-gray .ludo-calendar-year, .ludo-light-gray .ludo-calendar-month-year {
-    color: #555555
+    color: #555555;
     float: left;
     font-size: 10px;
     padding-left: 10px;
@@ -4091,8 +4090,7 @@ tab layout */
 
 .ludo-light-gray .ludo-calendar-year-selected {
     background-color: #f5f5f5;
-
-    color: #000000
+    color: #000000;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -4102,7 +4100,7 @@ tab layout */
 
 .ludo-light-gray .ludo-calendar-month-year-selected {
     background-color: #f5f5f5;
-    color: #000000
+    color: #000000;
     font-size: 11px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -4131,7 +4129,7 @@ tab layout */
 
 .ludo-light-gray .ludo-calendar-month-selected {
     background-color: #f5f5f5;
-    color: #000000
+    color: #000000;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     font-weight: bold;
@@ -4216,7 +4214,7 @@ td.calendar-day {
 
 .ludo-light-gray .ludo-calendar-month-info {
     text-align: center !important;
-    color: #000000
+    color: #000000;
     font-size: 10px;
     font-weight: bold;
     border-top: 0;
@@ -4445,7 +4443,7 @@ tab layout */
 }
 
 .ludo-light-gray .ludo-notification{
-    background-color:#AAAAAA
+    background-color:#AAAAAA;
     padding:3px;
     padding-left:5px;
     padding-right:5px;
@@ -4454,7 +4452,7 @@ tab layout */
 }
 
 .ludo-light-gray .ludo-notification .ludo-body{
-    color:#FFFFFF
+    color:#FFFFFF;
     font-size:0.9em;
 }
 
