@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 1:17:14 CET 2017 */
+/* Generated Mon Feb 27 1:18:40 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -24396,7 +24396,7 @@ chess.view.board.Background = new Class({
         this.svg = this.view.svg();
 
 
-        if (Browser.name == 'ie' || Browser.name == 'edge') {
+        if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'Safari') {
             config.horizontal = undefined;
             config.vertical = undefined;
             config.paint = config.iePaint ? config.iePaint : {
