@@ -1,4 +1,4 @@
-/* Generated Mon Feb 27 0:49:46 CET 2017 */
+/* Generated Mon Feb 27 1:15:53 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -23786,9 +23786,11 @@ chess.view.board.Board = new Class({
     currentPieceSize: undefined,
 
     resizePieces: function () {
-        var squareSize = this.getSquareSize();
-        for (var i = 0; i < this.pieces.length; i++) {
-            this.pieces[i].resize(squareSize)
+        if (!this.pieces[0].svg) {
+            var squareSize = this.getSquareSize();
+            for (var i = 0; i < this.pieces.length; i++) {
+                this.pieces[i].resize(squareSize)
+            }
         }
     },
     /**
@@ -24176,6 +24178,12 @@ chess.view.board.Piece = new Class({
      */
     resize: function (squareSize) {
         this.squareSize = squareSize;
+
+        if(this.svg){
+            this.size = squareSize;
+            this.updateBackgroundImage();
+            return;
+        }
         if (squareSize < this.validSizes[0]) {
             squareSize = this.validSizes[0];
         }

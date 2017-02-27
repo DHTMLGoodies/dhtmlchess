@@ -345,6 +345,12 @@ chess.view.board.Piece = new Class({
      */
     resize: function (squareSize) {
         this.squareSize = squareSize;
+
+        if(this.svg){
+            this.size = squareSize;
+            this.updateBackgroundImage();
+            return;
+        }
         if (squareSize < this.validSizes[0]) {
             squareSize = this.validSizes[0];
         }
