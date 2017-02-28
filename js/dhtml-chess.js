@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Generated Tue Feb 28 21:12:10 CET 2017 */
-=======
-/* Generated Tue Feb 28 0:48:10 CET 2017 */
->>>>>>> 8750159513a116929ebce7907fb1c071890ec61e
+/* Generated Tue Feb 28 21:30:11 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33627,18 +33623,20 @@ chess.view.dialog.OverwriteMove = new Class({
 	}
 });/* ../dhtml-chess/src/view/dialog/puzzle-solved.js */
 chess.view.dialog.PuzzleSolved = new Class({
-    type:'chess.view.dialog.PuzzleSolved',
+    type: 'chess.view.dialog.PuzzleSolved',
     Extends: ludo.dialog.Confirm,
-    layout:{
-        width:250,height:150
+    layout: {
+        width: 250, height: 150
     },
+    css: {'text-align': 'center'},
+    buttonConfig:'OkClose',
 
-    __construct:function(config){
+    __construct: function (config) {
         config.title = config.title || chess.getPhrase('Well done - Puzzle complete');
-        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game');
+        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game.');
         this.parent(config);
     }
-    
+
 });/* ../dhtml-chess/src/view/dialog/promote.js */
 /**
  * Promotion dialog which will be displayed when controller fires the verifyPromotion event. Which piece to promote to
@@ -38699,6 +38697,12 @@ chess.controller.Controller = new Class({
         if(this.pgn){
             this.currentModel.loadNextStaticGame(this.pgn);
         }
+    },
+
+    loadPreviousGameFromFile:function(){
+        if(this.pgn){
+            this.currentModel.loadPreviousStaticGame(this.pgn);
+        }
     }
 });/* ../dhtml-chess/src/controller/engine-play-controller.js */
 chess.controller.EnginePlayController = new Class({
@@ -39294,6 +39298,12 @@ chess.model.Game = new Class({
 
     loadNextStaticGame: function (pgn) {
         if (this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex++;
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
+    },
+
+    loadPreviousStaticGame: function (pgn) {
+        if (this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex--;
+        this.gameIndex = Math.max(0, this.gameIndex);
         this.gameReader.loadStaticGame(pgn, this.gameIndex);
     },
 

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* Generated Tue Feb 28 21:25:49 CET 2017 */
-=======
-/* Generated Tue Feb 28 0:48:00 CET 2017 */
->>>>>>> 8750159513a116929ebce7907fb1c071890ec61e
+/* Generated Tue Feb 28 21:30:00 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
