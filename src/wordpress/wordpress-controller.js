@@ -24,6 +24,21 @@ chess.wordpress.WordpressController = new Class({
         this.listenForSave();
 
         jQuery(window).on('beforeunload', this.confirmLeave.bind(this));
+
+        this.addKeyEvents();
+    },
+
+    addKeyEvents:function(){
+        jQuery(document).keydown(function (e) {
+            if(e.key=='ArrowRight'){
+                this.currentModel.nextMove();
+                return false;
+            }else if(e.key=='ArrowLeft'){
+                this.currentModel.previousMove();
+                return false;
+            }
+
+        }.bind(this));
     },
 
     confirmLeave:function(){
