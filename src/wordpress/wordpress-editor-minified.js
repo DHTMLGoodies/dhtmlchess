@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // (C) dhtmlchess.com, Alf Kalleland 2017-02-28 21:25:43
+=======
+// (C) dhtmlchess.com, Alf Kalleland 2017-02-28 00:48:12
+>>>>>>> 8750159513a116929ebce7907fb1c071890ec61e
 /*
  * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
  * This is a commercial software. See dhtmlchess.com for licensing options.
