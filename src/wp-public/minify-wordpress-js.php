@@ -97,6 +97,7 @@ parseDirectory(array(
     'game/game4.js',
     'game/game5.js',
     'pgn/viewer1.js',
+    'pgn/viewer2.js',
     'game-grid.js',
     'tactics/tactics1.js',
     'fen/wp-fen.js',

@@ -1,4 +1,4 @@
-/* Generated Tue Feb 28 22:15:12 CET 2017 */
+/* Generated Tue Feb 28 23:21:39 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34668,15 +34668,12 @@ chess.WPViewer2 = new Class({
 
     initialize: function (config) {
         this.parent(config);
+        console.log(config);
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
-        var h = 375;
         this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
-        if(ludo.isMobile){
-            h-=35;
-        }
         r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
         this.board = config.board || {};

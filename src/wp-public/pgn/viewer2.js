@@ -31,15 +31,12 @@ chess.WPViewer2 = new Class({
 
     initialize: function (config) {
         this.parent(config);
+        console.log(config);
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
-        var h = 375;
         this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
-        if(ludo.isMobile){
-            h-=35;
-        }
         r.css('height', Math.round(this.boardSize + 375));
         this.pgn = config.pgn;
         this.board = config.board || {};

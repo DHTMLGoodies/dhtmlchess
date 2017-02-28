@@ -68,7 +68,7 @@ class DhtmlChessViews
         ),
         array(
             "script" => "WPViewer2",
-            "title" => "Database Template 2",
+            "title" => "Database Template 2 (With standings)",
             "type" => "tournament",
             "shortcode" => "chess",
             "desc" => "Tournament template",
@@ -113,6 +113,14 @@ class DhtmlChessViews
             'enclosing' => '&lt;pgn string>'
         )
     );
+ 
+    public static function countGameTemplates(){
+        return 5;
+    }
+
+    public static function countDbTemplates(){
+        return 2;
+    }
 
     public static function getAllAttributes()
     {
