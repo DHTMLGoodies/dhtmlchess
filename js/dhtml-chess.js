@@ -1,4 +1,4 @@
-/* Generated Tue Feb 28 0:48:10 CET 2017 */
+/* Generated Tue Feb 28 21:12:10 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33624,7 +33624,7 @@ chess.view.dialog.OverwriteMove = new Class({
 });/* ../dhtml-chess/src/view/dialog/puzzle-solved.js */
 chess.view.dialog.PuzzleSolved = new Class({
     type:'chess.view.dialog.PuzzleSolved',
-    Extends: ludo.dialog.Alert,
+    Extends: ludo.dialog.Confirm,
     layout:{
         width:250,height:150
     },

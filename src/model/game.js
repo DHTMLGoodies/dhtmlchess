@@ -127,6 +127,12 @@ chess.model.Game = new Class({
         this.gameReader.loadStaticGame(pgn, this.gameIndex);
     },
 
+    loadPreviousStaticGame: function (pgn) {
+        if (this.gameIndex == -1)this.gameIndex = 0; else this.gameIndex--;
+        this.gameIndex = Math.max(0, this.gameIndex);
+        this.gameReader.loadStaticGame(pgn, this.gameIndex);
+    },
+
     getGameIndex: function () {
         return this.gameIndex;
     },

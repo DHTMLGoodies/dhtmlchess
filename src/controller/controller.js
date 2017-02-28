@@ -472,5 +472,11 @@ chess.controller.Controller = new Class({
         if(this.pgn){
             this.currentModel.loadNextStaticGame(this.pgn);
         }
+    },
+
+    loadPreviousGameFromFile:function(){
+        if(this.pgn){
+            this.currentModel.loadPreviousStaticGame(this.pgn);
+        }
     }
 });

@@ -117,10 +117,20 @@ chess.WPTactics1 = new Class({
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Next Game'),
+                                    value: chess.getPhrase('Next'),
                                     listeners: {
                                         click: function () {
                                             this.controller.loadNextGameFromFile();
+                                        }.bind(this)
+                                    }
+                                }, {
+                                    module: this.module,
+                                    layout: {width: 80},
+                                    type: 'form.Button',
+                                    value: chess.getPhrase('Previous'),
+                                    listeners: {
+                                        click: function () {
+                                            this.controller.loadPreviousGameFromFile(this.pgn);
                                         }.bind(this)
                                     }
                                 },
