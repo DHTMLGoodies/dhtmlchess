@@ -197,7 +197,7 @@ class DhtmlChessViews
             $gameParser->setPgnContent(html_entity_decode($content));
             $json = $gameParser->getGameByIndex(0);
             $view->setParam("model", $json);
-            $tpl = max($tpl,5);
+            $tpl = min($tpl,5);
             $view->setScript("WPGame" . $tpl);
         } else if ($tag == "fen") {
             $view->setScript("WPFen");
@@ -206,12 +206,12 @@ class DhtmlChessViews
             if (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
             } else if (isset($attributes["game"])) {
-                $tpl = max($tpl,5);
+                $tpl = min($tpl,5);
                 $view->setScript("WPGame" . $tpl);
             } else if (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics1");
             } else if (isset($attributes["pgn"]) || isset($attributes["db"])) {
-                $tpl = max($tpl,2);
+                $tpl = min($tpl,2);
                 $view->setScript("WPViewer" . $tpl);
             }
         }
