@@ -1,6 +1,5 @@
-
-.dc-wood5.dhtml-chess-board {
-    border: 1px solid #e1b886
+.dc-wood5 .dhtml-chess-board {
+    border: 1px solid #e1b886;
 }
 
 .dc-wood5 .dhtml-chess-board-label-ranks-container, .dc-wood5 .dhtml-chess-board-label-files-container {

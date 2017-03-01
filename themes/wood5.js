@@ -22,6 +22,9 @@ chess.THEME = {
             paint:{
                 'stroke-width': 1,
                 'stroke' : '#e1b886'
+            },
+            iePaint:{
+                fill:'#77511e'
             }
         },
         bgWhite: '[DOCROOT]images/board/lighter-wood.png',
@@ -47,8 +50,6 @@ chess.THEME = {
         ]
     },
     'chess.view.dialog.PuzzleSolved ': {
-        title: 'Nice one.',
-        html: 'You solved this chess puzzle. Click OK to load next.'
     },
     'chess.view.notation.TacticPanel': {
         css: {

@@ -331,6 +331,7 @@ class DhtmlChessViews
             array('wood5', 'Wood 5'),
             array('wood6', 'Wood 6'),
             array('wood7', 'Wood 7'),
+            array('wood8', 'Wood 8'),
         );
     }
 
