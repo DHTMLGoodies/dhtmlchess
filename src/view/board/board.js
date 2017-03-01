@@ -442,7 +442,7 @@ chess.view.board.Board = new Class({
         this.squareSize = this.getSquareSize();
         if (!this.pieces[0].svg) {
             for (var i = 0; i < this.pieces.length; i++) {
-                this.pieces[i].resize(squareSize)
+                this.pieces[i].resize(this.squareSize)
             }
         }
     },

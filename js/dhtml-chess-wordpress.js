@@ -1,4 +1,4 @@
-/* Generated Wed Mar 1 19:53:57 CET 2017 */
+/* Generated Wed Mar 1 20:23:32 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -15793,7 +15793,9 @@ ludo.grid.Grid = new Class({
         }
 
         var totalWidth = this.cm.getTotalWidth();
-        this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
+        this.els.dataContainerTop.css('width', totalWidth);
+        // this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
+
         this.sb.h.setContentSize(totalWidth);
 
     },
@@ -23804,7 +23806,7 @@ chess.view.board.Board = new Class({
         this.squareSize = this.getSquareSize();
         if (!this.pieces[0].svg) {
             for (var i = 0; i < this.pieces.length; i++) {
-                this.pieces[i].resize(squareSize)
+                this.pieces[i].resize(this.squareSize)
             }
         }
     },
