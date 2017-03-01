@@ -8,7 +8,7 @@ chess.view.position.Board = new Class({
     Extends:chess.view.board.Board,
     type : 'chess.view.position.Board',
     vAlign:'top',
-    pieceLayout:'alphapale',
+    pieceLayout:'svg_egg',
     boardLayout:'wood',
     module:'positionsetup',
     submodule:'chesspositionboard',

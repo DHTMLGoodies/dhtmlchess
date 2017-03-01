@@ -1,4 +1,4 @@
-/* Generated Wed Mar 1 20:23:22 CET 2017 */
+/* Generated Wed Mar 1 20:25:14 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34416,7 +34416,7 @@ chess.view.position.Board = new Class({
     Extends:chess.view.board.Board,
     type : 'chess.view.position.Board',
     vAlign:'top',
-    pieceLayout:'alphapale',
+    pieceLayout:'svg_egg',
     boardLayout:'wood',
     module:'positionsetup',
     submodule:'chesspositionboard',

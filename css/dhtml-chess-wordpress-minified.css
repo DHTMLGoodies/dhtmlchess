@@ -1,4 +1,4 @@
-/* Generated Wed Mar 1 20:23:32 CET 2017 */
+/* Generated Wed Mar 1 20:25:03 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
