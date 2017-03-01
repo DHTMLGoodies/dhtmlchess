@@ -99,10 +99,15 @@ class DhtmlChessImportPgn
 
         $pgn = $util->create($name);
 
+        $count = $parser->countGames();
 
-        $games = $parser->getGames();
-        foreach($games as $game){
-            $pgn->appendGame($game);
+        for($i=0;$i<$count;$i++){
+            try{
+                $game = $parser->getGameByIndex($i);
+                $pgn->appendGame($game);
+            }catch(Exception $e){
+
+            }
         }
         
         return $pgn;
