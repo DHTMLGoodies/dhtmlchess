@@ -184,6 +184,7 @@ chess.WPTactics1 = new Class({
             renderTo: jQuery(document.body),
             module: this.module,
             autoHideAfterMs: 1000,
+            hidden:true,
             autoHideWelcomeAfterMs: 1000,
             css: {
                 'background-color': '#fff',
@@ -199,11 +200,14 @@ chess.WPTactics1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             pgn: this.pgn.id,
-            alwaysPlayStartingColor: true,
             autoMoveDelay: 400,
             gameEndHandler: function (controller) {
-                controller.loadNextGameFromFile();
-            },
+                if (this.random) {
+                    controller.loadRandomGame();
+                } else {
+                    controller.loadNextGameFromFile();
+                }
+            }.bind(this),
             listeners: {
                 'startOfGame': function () {
                     ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex());

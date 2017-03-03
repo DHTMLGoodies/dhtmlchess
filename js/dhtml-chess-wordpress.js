@@ -1,4 +1,4 @@
-/* Generated Wed Mar 1 23:52:24 CET 2017 */
+/* Generated Fri Mar 3 23:08:39 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -26257,13 +26257,22 @@ chess.view.message.TacticsMessage = new Class({
         this.parent(controller);
         this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
         this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        this.controller.addEvent('loadGame', this.newGame.bind(this));
     },
 
     newGame: function (model) {
-        var colorToMove = model.getColorToMove();
-        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
-
+        var d = this.autoHideWelcomeAfterMs;
+        var res = model.getResult();
+        if(res != 0){
+            if(res == -1){
+                this.showMessage(chess.getPhrase("You play black"), d);
+            }else{
+                this.showMessage(chess.getPhrase("You play white"), d);
+            }
+        }else{
+            var colorToMove = model.getColorToMove();
+            this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), d);
+        }
     },
 
     showWrongGuess: function () {
@@ -29803,131 +29812,124 @@ chess.controller.EnginePlayController = new Class({
  @constructor
  @param {Object} config
  @example
-	 var controller = new chess.controller.TacticController({
+ var controller = new chess.controller.TacticController({
 		 databaseId:4,
 		 alwaysPlayStartingColor:true
 	 });
-	 controller.loadRandomGame();
+ controller.loadRandomGame();
  */
 chess.controller.TacticController = new Class({
-	Extends:chess.controller.Controller,
+    Extends: chess.controller.Controller,
     /**
      * Delay before playing opponents piece in milliseconds
      * @config autoMoveDelay
      * @type {Number}
      * @default 200
      */
-    autoMoveDelay : 200,
-	disabledEvents:{
-		overwriteOrVariation:1
-	},
-	dialog:{
+    autoMoveDelay: 200,
+    disabledEvents: {
+        overwriteOrVariation: 1
+    },
+    dialog: {},
+    /**
+     * True to always play starting color in game. Otherwise, you will play black
+     * if black is the winning color and white if white is the winning color. If
+     * no winner is registered in the game(result or by calculating final position),
+     * you will play white
+     * @config alwaysPlayStartingColor
+     * @type {Boolean}
+     * @default false
+     */
+    alwaysPlayStartingColor: false,
+    startingColor: undefined,
+    myColor: 'white',
 
-	},
-	/**
-	 * True to always play starting color in game. Otherwise, you will play black
-	 * if black is the winning color and white if white is the winning color. If
-	 * no winner is registered in the game(result or by calculating final position),
-	 * you will play white
-	 * @config alwaysPlayStartingColor
-	 * @type {Boolean}
-	 * @default false
-	 */
-	alwaysPlayStartingColor:false,
-	startingColor:undefined,
+    __construct: function (config) {
+        this.parent(config);
+        this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
+        if (config.alwaysPlayStartingColor !== undefined) {
+            this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
+        }
+        if (config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
+    },
 
-	__construct:function (config) {
-		this.parent(config);
-		this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
-		if (config.alwaysPlayStartingColor !== undefined) {
-			this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
-		}
-        if(config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
-	},
+    getDialogPuzzleComplete: function () {
 
-	getDialogPuzzleComplete:function () {
+        var c = {
+            autoRemove: false,
+            layout: {
+                centerIn: this.views.board
+            },
+            hidden: true,
+            listeners: {
+                'ok': function () {
+                    if (this.gameEndHandler != undefined) {
+                        this.gameEndHandler.apply(this, [this]);
+                    } else {
+                        this.loadRandomGame();
+                    }
+                }.bind(this)
+            }
+        };
 
-		var c = {
-			autoRemove:false,
-			layout:{
-				centerIn:this.views.board
-			},
-			hidden:true,
-			listeners:{
-				'ok':function () {
-					if(this.gameEndHandler != undefined){
-						this.gameEndHandler.apply(this, [this]);
-					}else{
-						this.loadRandomGame();
-					}
-				}.bind(this)
-			}
-		};
-		
-		if(this.theme['chess.view.dialog.PuzzleSolved'] != undefined){
-			c = Object.merge(c, this.theme['chess.view.dialog.PuzzleSolved']);
-			
-		}
-		return new chess.view.dialog.PuzzleSolved(c);
-	},
-	
-	addViewFeatures:function () {
+        if (this.theme['chess.view.dialog.PuzzleSolved'] != undefined) {
+            c = Object.merge(c, this.theme['chess.view.dialog.PuzzleSolved']);
 
-	},
+        }
+        return new chess.view.dialog.PuzzleSolved(c);
+    },
 
-	addMove:function (move) {
-		this.currentModel.tryNextMove(move);
-	},
-	modelEventFired:function (event, model) {
-		var colorToMove, result;
-		if (event === 'newGame') {
-			if (this.alwaysPlayStartingColor) {
-				colorToMove = this.startingColor = model.getColorToMove();
-				if (colorToMove === 'black') {
-					this.views.board.flipToBlack();
-				} else {
-					this.views.board.flipToWhite();
-				}
-			} else {
-				result = model.getResult();
-				if (result === -1) {
-					this.views.board.flipToBlack();
-				} else {
-					this.views.board.flipToWhite();
-				}
-			}
+    addViewFeatures: function () {
 
-		}
-		if (event === 'setPosition' || event === 'nextmove') {
-			colorToMove = model.getColorToMove();
-			if (this.alwaysPlayStartingColor) {
-				if (colorToMove == this.startingColor) {
-					this.views.board.enableDragAndDrop(model);
-				} else {
-					model.nextMove.delay(this.autoMoveDelay, model);
-				}
+    },
 
-			} else {
-				result = model.getResult();
-				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
-					model.nextMove.delay(this.autoMoveDelay, model);
-				}
-				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
-					this.views.board.enableDragAndDrop(model);
-				}
-			}
-		}
-		if (event === 'wrongGuess') {
-			model.resetPosition.delay(200, model);
-		}
-	},
+    addMove: function (move) {
+        this.currentModel.tryNextMove(move);
+    },
+    modelEventFired: function (event, model) {
+        var colorToMove, result;
+        if (event === 'newGame') {
+            var c;
+            result = model.getResult();
+            if(this.alwaysPlayStartingColor){
+                c = model.getColorToMove();
+            }else if(result != 0){
+                c = result == -1 ? 'black' : 'white';
+            }else{
+                var m = this.currentModel.getMoves();
+                var r = m.length == 1 ? 0 : Math.random();
+                if (r > 0.5) {
+                    c = 'black';
+                } else {
+                    c = 'white';
+                }
+            }
 
-	shouldAutoPlayNextMove:function (colorToMove, result) {
-		if (result >= 0 && colorToMove === 'black') {
-			return true;
-		}
-		return (result == -1 && colorToMove == 'white');
-	}
+            if(c == 'white'){
+                this.views.board.flipToWhite();
+            }else{
+                this.views.board.flipToBlack();
+            }
+            this.myColor = c;
+
+        }
+        if (event === 'setPosition' || event === 'nextmove') {
+            colorToMove = model.getColorToMove();
+
+            if (colorToMove == this.myColor) {
+                this.views.board.enableDragAndDrop(model);
+            } else {
+                model.nextMove.delay(this.autoMoveDelay, model);
+            }
+        }
+        if (event === 'wrongGuess') {
+            model.resetPosition.delay(200, model);
+        }
+    },
+
+    shouldAutoPlayNextMove: function (colorToMove, result) {
+        return colorToMove != this.myColor;
+    }
 });/* ../dhtml-chess/src/controller/tactic-controller-gui.js */
 chess.controller.TacticControllerGui = new Class({
     Extends: chess.controller.TacticController,
@@ -35268,6 +35270,7 @@ chess.WPTactics1 = new Class({
             renderTo: jQuery(document.body),
             module: this.module,
             autoHideAfterMs: 1000,
+            hidden:true,
             autoHideWelcomeAfterMs: 1000,
             css: {
                 'background-color': '#fff',
@@ -35283,11 +35286,14 @@ chess.WPTactics1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             pgn: this.pgn.id,
-            alwaysPlayStartingColor: true,
             autoMoveDelay: 400,
             gameEndHandler: function (controller) {
-                controller.loadNextGameFromFile();
-            },
+                if (this.random) {
+                    controller.loadRandomGame();
+                } else {
+                    controller.loadNextGameFromFile();
+                }
+            }.bind(this),
             listeners: {
                 'startOfGame': function () {
                     ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex());

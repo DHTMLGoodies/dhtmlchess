@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<iframe id="myiframe" width="100%" height="800 src="http://www.dhtmlgoodies.com"></iframe>
+
+<script type="text/javascript">
+    function reload(){
+        document.getElementById('myiframe').src = 'http://www.dhtmlgoodies.com?rnd=' + Math.random();
+
+        setTimeout(reload, 30000);
+    }
+
+    setTimeout(reload, 1000);
+</script>
+</body>
+</html>

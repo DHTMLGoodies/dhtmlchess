@@ -7,129 +7,122 @@
  @constructor
  @param {Object} config
  @example
-	 var controller = new chess.controller.TacticController({
+ var controller = new chess.controller.TacticController({
 		 databaseId:4,
 		 alwaysPlayStartingColor:true
 	 });
-	 controller.loadRandomGame();
+ controller.loadRandomGame();
  */
 chess.controller.TacticController = new Class({
-	Extends:chess.controller.Controller,
+    Extends: chess.controller.Controller,
     /**
      * Delay before playing opponents piece in milliseconds
      * @config autoMoveDelay
      * @type {Number}
      * @default 200
      */
-    autoMoveDelay : 200,
-	disabledEvents:{
-		overwriteOrVariation:1
-	},
-	dialog:{
+    autoMoveDelay: 200,
+    disabledEvents: {
+        overwriteOrVariation: 1
+    },
+    dialog: {},
+    /**
+     * True to always play starting color in game. Otherwise, you will play black
+     * if black is the winning color and white if white is the winning color. If
+     * no winner is registered in the game(result or by calculating final position),
+     * you will play white
+     * @config alwaysPlayStartingColor
+     * @type {Boolean}
+     * @default false
+     */
+    alwaysPlayStartingColor: false,
+    startingColor: undefined,
+    myColor: 'white',
 
-	},
-	/**
-	 * True to always play starting color in game. Otherwise, you will play black
-	 * if black is the winning color and white if white is the winning color. If
-	 * no winner is registered in the game(result or by calculating final position),
-	 * you will play white
-	 * @config alwaysPlayStartingColor
-	 * @type {Boolean}
-	 * @default false
-	 */
-	alwaysPlayStartingColor:false,
-	startingColor:undefined,
+    __construct: function (config) {
+        this.parent(config);
+        this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
+        if (config.alwaysPlayStartingColor !== undefined) {
+            this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
+        }
+        if (config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
+    },
 
-	__construct:function (config) {
-		this.parent(config);
-		this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
-		if (config.alwaysPlayStartingColor !== undefined) {
-			this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
-		}
-        if(config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
-	},
+    getDialogPuzzleComplete: function () {
 
-	getDialogPuzzleComplete:function () {
+        var c = {
+            autoRemove: false,
+            layout: {
+                centerIn: this.views.board
+            },
+            hidden: true,
+            listeners: {
+                'ok': function () {
+                    if (this.gameEndHandler != undefined) {
+                        this.gameEndHandler.apply(this, [this]);
+                    } else {
+                        this.loadRandomGame();
+                    }
+                }.bind(this)
+            }
+        };
 
-		var c = {
-			autoRemove:false,
-			layout:{
-				centerIn:this.views.board
-			},
-			hidden:true,
-			listeners:{
-				'ok':function () {
-					if(this.gameEndHandler != undefined){
-						this.gameEndHandler.apply(this, [this]);
-					}else{
-						this.loadRandomGame();
-					}
-				}.bind(this)
-			}
-		};
-		
-		if(this.theme['chess.view.dialog.PuzzleSolved'] != undefined){
-			c = Object.merge(c, this.theme['chess.view.dialog.PuzzleSolved']);
-			
-		}
-		return new chess.view.dialog.PuzzleSolved(c);
-	},
-	
-	addViewFeatures:function () {
+        if (this.theme['chess.view.dialog.PuzzleSolved'] != undefined) {
+            c = Object.merge(c, this.theme['chess.view.dialog.PuzzleSolved']);
 
-	},
+        }
+        return new chess.view.dialog.PuzzleSolved(c);
+    },
 
-	addMove:function (move) {
-		this.currentModel.tryNextMove(move);
-	},
-	modelEventFired:function (event, model) {
-		var colorToMove, result;
-		if (event === 'newGame') {
-			if (this.alwaysPlayStartingColor) {
-				colorToMove = this.startingColor = model.getColorToMove();
-				if (colorToMove === 'black') {
-					this.views.board.flipToBlack();
-				} else {
-					this.views.board.flipToWhite();
-				}
-			} else {
-				result = model.getResult();
-				if (result === -1) {
-					this.views.board.flipToBlack();
-				} else {
-					this.views.board.flipToWhite();
-				}
-			}
+    addViewFeatures: function () {
 
-		}
-		if (event === 'setPosition' || event === 'nextmove') {
-			colorToMove = model.getColorToMove();
-			if (this.alwaysPlayStartingColor) {
-				if (colorToMove == this.startingColor) {
-					this.views.board.enableDragAndDrop(model);
-				} else {
-					model.nextMove.delay(this.autoMoveDelay, model);
-				}
+    },
 
-			} else {
-				result = model.getResult();
-				if (this.shouldAutoPlayNextMove(colorToMove, result)) {
-					model.nextMove.delay(this.autoMoveDelay, model);
-				}
-				if ((result >= 0 && colorToMove === 'white') || (result === -1 && colorToMove == 'black')) {
-					this.views.board.enableDragAndDrop(model);
-				}
-			}
-		}
-		if (event === 'wrongGuess') {
-			model.resetPosition.delay(200, model);
-		}
-	},
+    addMove: function (move) {
+        this.currentModel.tryNextMove(move);
+    },
+    modelEventFired: function (event, model) {
+        var colorToMove, result;
+        if (event === 'newGame') {
+            var c;
+            result = model.getResult();
+            if(this.alwaysPlayStartingColor){
+                c = model.getColorToMove();
+            }else if(result != 0){
+                c = result == -1 ? 'black' : 'white';
+            }else{
+                var m = this.currentModel.getMoves();
+                var r = m.length == 1 ? 0 : Math.random();
+                if (r > 0.5) {
+                    c = 'black';
+                } else {
+                    c = 'white';
+                }
+            }
 
-	shouldAutoPlayNextMove:function (colorToMove, result) {
-		if (result >= 0 && colorToMove === 'black') {
-			return true;
-		}
-		return (result == -1 && colorToMove == 'white');
-	}
+            if(c == 'white'){
+                this.views.board.flipToWhite();
+            }else{
+                this.views.board.flipToBlack();
+            }
+            this.myColor = c;
+
+        }
+        if (event === 'setPosition' || event === 'nextmove') {
+            colorToMove = model.getColorToMove();
+
+            if (colorToMove == this.myColor) {
+                this.views.board.enableDragAndDrop(model);
+            } else {
+                model.nextMove.delay(this.autoMoveDelay, model);
+            }
+        }
+        if (event === 'wrongGuess') {
+            model.resetPosition.delay(200, model);
+        }
+    },
+
+    shouldAutoPlayNextMove: function (colorToMove, result) {
+        return colorToMove != this.myColor;
+    }
 });

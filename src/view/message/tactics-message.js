@@ -28,13 +28,22 @@ chess.view.message.TacticsMessage = new Class({
         this.parent(controller);
         this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
         this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        this.controller.addEvent('loadGame', this.newGame.bind(this));
     },
 
     newGame: function (model) {
-        var colorToMove = model.getColorToMove();
-        this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), this.autoHideWelcomeAfterMs);
-
+        var d = this.autoHideWelcomeAfterMs;
+        var res = model.getResult();
+        if(res != 0){
+            if(res == -1){
+                this.showMessage(chess.getPhrase("You play black"), d);
+            }else{
+                this.showMessage(chess.getPhrase("You play white"), d);
+            }
+        }else{
+            var colorToMove = model.getColorToMove();
+            this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), d);
+        }
     },
 
     showWrongGuess: function () {

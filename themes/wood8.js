@@ -32,8 +32,8 @@ chess.THEME = {
             {
                 type: 'chess.view.highlight.Arrow',
                 styles:{
-                    'fill':'#669479',
-                    'stroke':'#333',
+                    'fill':'#81C784',
+                    'stroke':'#1B5E20',
                     'stroke-opacity':1,
                     'stroke-width':1
                 }
