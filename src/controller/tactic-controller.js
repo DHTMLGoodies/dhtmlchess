@@ -83,6 +83,10 @@ chess.controller.TacticController = new Class({
     },
     modelEventFired: function (event, model) {
         var colorToMove, result;
+        var m = this.currentModel.getMoves();
+
+        if(m.length == 0)return;
+
         if (event === 'newGame') {
             var c;
             result = model.getResult();
@@ -91,7 +95,6 @@ chess.controller.TacticController = new Class({
             }else if(result != 0){
                 c = result == -1 ? 'black' : 'white';
             }else{
-                var m = this.currentModel.getMoves();
                 var r = m.length == 1 ? 0 : Math.random();
                 if (r > 0.5) {
                     c = 'black';

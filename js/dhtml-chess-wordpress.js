@@ -1,4 +1,4 @@
-/* Generated Fri Mar 3 23:08:39 CET 2017 */
+/* Generated Fri Mar 3 23:17:47 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -29888,6 +29888,10 @@ chess.controller.TacticController = new Class({
     },
     modelEventFired: function (event, model) {
         var colorToMove, result;
+        var m = this.currentModel.getMoves();
+
+        if(m.length == 0)return;
+
         if (event === 'newGame') {
             var c;
             result = model.getResult();
@@ -29896,7 +29900,6 @@ chess.controller.TacticController = new Class({
             }else if(result != 0){
                 c = result == -1 ? 'black' : 'white';
             }else{
-                var m = this.currentModel.getMoves();
                 var r = m.length == 1 ? 0 : Math.random();
                 if (r > 0.5) {
                     c = 'black';
