@@ -18,8 +18,9 @@ chess.WPPinned = new Class({
 
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
+        r.addClass('ludo-twilight');
         var w = r.width();
-        r.css('height', Math.round(w + 130));
+        r.css('height', Math.round(w + 65));
         this.boardSize = w;
         if (config.random != undefined)this.random = config.random;
 
@@ -77,32 +78,35 @@ chess.WPPinned = new Class({
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',
+                            labels:this.showLabels,
                             pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
                             labelPos: 'outside', // show labels inside board, default is 'outside'
                             layout: {
                                 height: this.boardSize
                             }
                         }, this.board),
                         {
-                            layout: {height: 30, type: 'linear', orientation: 'horizontal'},
+                            css:{
+                                'padding-top' : 5
+                            },
+                            layout: {height: 35, type: 'linear', orientation: 'horizontal'},
                             children: [
                                 {weight: 1},
                                 {
                                     type: 'form.Button',
                                     value: 'Submit Solution',
                                     listeners: {
-                                        'click': sendSolution
+                                        'click': this.sendSolution.bind(this)
                                     }
                                 },
                                 {
                                     type: 'form.Button',
                                     value: chess.getPhrase('Show Hint'),
                                     listeners: {
-                                        'click': showHint
+                                        'click': this.showHint.bind(this)
                                     }
                                 },
                                 {weight: 1}
@@ -142,9 +146,7 @@ chess.WPPinned = new Class({
                 }
             }.bind(this),
             listeners: {
-                'loadGame': function () {
-                    this.findPinned.bind(this)
-                },
+                'loadGame': this.findPinned.bind(this),
                 'startOfGame': function () {
                     ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex());
                 }.bind(this)
@@ -186,11 +188,11 @@ chess.WPPinned = new Class({
             this.parser = new chess.parser.FenParser0x88();
         }
 
-        this.parser.setFen(controller.currentModel.fen());
+        this.parser.setFen(this.controller.currentModel.fen());
         var c = this.parser.getColor();
         this.color = c == 'white' ? 'black' : 'white';
         this.hPool.hideAll();
-        var pinned = parser.getPinnedSquares(color);
+        var pinned = this.parser.getPinnedSquares(this.color);
         if (pinned.length == 0) {
             controller.loadGameFromFile();
         } else {
@@ -200,8 +202,8 @@ chess.WPPinned = new Class({
     },
 
     sendSolution:function(){
-        var solution = this.parser.getPinnedSquares(color);
-        var user = hPool.getSquares();
+        var solution = this.parser.getPinnedSquares(this.color);
+        var user = this.hPool.getSquares();
 
         var correct = true;
 
@@ -222,14 +224,14 @@ chess.WPPinned = new Class({
         if (!correct) {
             controller.fireEvent('wrongGuess');
         } else {
-            showSolvedDialog();
+            this.showSolvedDialog();
         }
 
     },
 
     showIntroDialog:function(){
-        if (introDialog == undefined) {
-            introDialog = new ludo.dialog.Alert({
+        if (this.introDialog == undefined) {
+            this.introDialog = new ludo.dialog.Alert({
                 autoRemove: false,
                 css: {
                     'font-size': '1.1em',
@@ -238,16 +240,16 @@ chess.WPPinned = new Class({
                 },
                 layout: {
                     width: 300, height: 200,
-                    centerIn: ludo.$('chess-board-pinned-pieces')
+                    centerIn: this.boardId
                 },
                 title: chess.getPhrase('Find pinned pieces')
             });
         }
 
-        introDialog.html('Click on all ' + color + '\'s pinned pieces');
-        introDialog.show();
+        this.introDialog.html('Click on all ' + this.color + '\'s pinned pieces');
+        this.introDialog.show();
 
-        ludo.$(this.pinnedMsgId).html('Click on all ' + color + '\'s pinned pieces');
+        ludo.$(this.pinnedMsgId).html('Click on all ' + this.color + '\'s pinned pieces');
     },
 
     showHint:function(){
@@ -255,17 +257,47 @@ chess.WPPinned = new Class({
             this.toast = new ludo.Notification({
                 autoRemove: false,
                 renderTo: document.body,
+                css:{
+                    'text-align' : 'center'
+                },
                 layout: {
                     width: 300,
                     height: 30,
-                    centerIn: ludo.$('chess-board-pinned-pieces')
+                    centerIn: this.boardId
                 }
             });
         }
-        var pinned = this.parser.getPinnedSquares(color);
+        var pinned = this.parser.getPinnedSquares(this.color);
         this.toast.html(chess.getPhrase('There are {0} pinned pieces'.replace('{0}', pinned.length)));
         this.toast.show();
 
+    },
+
+    showSolvedDialog:function(){
+        if (this.solvedDialog == undefined) {
+            this.solvedDialog = new ludo.dialog.Alert({
+                autoRemove: false,
+                css: {
+                    'font-size': '1.1em',
+                    'text-align': 'center',
+                    'padding': 10
+                },
+                layout: {
+                    width: 300, height: 200,
+                    centerIn: this.boardId
+                },
+                title: chess.getPhrase('Puzzle solved'),
+                listeners: {
+                    'ok': this.controller.loadNextGameFromFile.bind(this.controller)
+                }
+            });
+
+        }
+        var solution = this.parser.getPinnedSquares(this.color);
+
+        var html = 'Good Job! The solution was <br>' + solution.join(', ');
+        this.solvedDialog.html(html);
+        this.solvedDialog.show();
     }
 
 

@@ -302,3 +302,12 @@ span.notation-chess-move-highlighted {
 .rating-change-draw, .title-draw{
     color:#555;
 }
+
+.ludo-notification{
+    background-color:#0D47A1;
+    color:#FFF;
+    padding-left:10px;
+    padding-right:10px;
+    padding-top:2px;
+    border-radius:999px;
+}

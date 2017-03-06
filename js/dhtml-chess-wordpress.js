@@ -1,4 +1,4 @@
-/* Generated Sun Mar 5 2:49:40 CET 2017 */
+/* Generated Mon Mar 6 23:51:50 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -23827,6 +23827,10 @@ chess.view.board.Board = new Class({
             this.pieces[i].flip();
         }
     },
+
+    flipTo:function(color){
+        if(color == 'white')this.flipToWhite(); else this.flipToBlack();
+    },
     /**
      * Show whites pieces at the bottom. If white is allready on the bottom, this method will do nothing.
      * @method flipToWhite
@@ -24700,6 +24704,207 @@ chess.view.board.Background = new Class({
 
     }
 
+});/* ../dhtml-chess/src/view/board/board-interaction.js */
+chess.view.board.BoardInteraction = new Class({
+
+    Extends: Events,
+    flipped:false,
+    board:undefined,
+    surface:undefined,
+
+    size:undefined,
+
+    initialize:function(config){
+        this.board = config.board;
+        this.surface = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.board.els.board.append(this.surface);
+
+        this.enable();
+
+        this.resize();
+        this.board.on('resize', this.resize.bind(this));
+        this.surface.on('click', this.onClick.bind(this));
+    },
+
+    resize:function(){
+        this.size = this.board.els.board.width();
+    },
+
+    enable:function(){
+        this.surface.css('z-index', 200);
+    },
+
+    disable:function(){
+        this.surface.css('z-index', 1);
+    },
+
+    onClick:function(e){
+
+        var square = this.getSquare(e);
+        this.fireEvent('click', square);
+    },
+
+
+    getSquare:function(e){
+
+        var offset = this.surface.offset();
+
+        var mouseX = e.pageX - offset.left;
+        var mouseY = e.pageY - offset.top;
+
+        var x = Math.floor(mouseX / this.size * 8);
+        var y = 8 - Math.floor(mouseY / this.size * 8);
+
+        if(this.board.isFlipped()){
+            x = 7-x;y=9-y;
+        }
+
+        return 'abcdefgh'.substr(x,1) + (y);
+    }
+
+});/* ../dhtml-chess/src/view/board/highlight-pool.js */
+chess.view.board.HighlightPool = new Class({
+
+    type: 'chess.view.board.HighlightPool',
+    Extends: Events,
+    bg: undefined,
+
+    squares: undefined,
+    hiddenSquares: undefined,
+    visibleSquares: undefined,
+    opacity: 0.4,
+    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+    map: undefined,
+
+    onlySingles:false,
+
+    initialize: function (config) {
+        this.bg = config.board.getDivForInteraction();
+        this.board = config.board;
+        if (config.opacity != undefined)this.opacity = config.opacity;
+        if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;
+
+        this.board.on('flip', this.flip.bind(this));
+        this.squares = [];
+        this.hiddenSquares = [];
+        this.visibleSquares = [];
+
+        this.map = {};
+    },
+
+    hideAll: function () {
+        while (this.visibleSquares.length > 0) {
+            var s = this.visibleSquares.pop();
+            this._hide(s);
+        }
+    },
+
+    toggle:function(square, color){
+        if(this.isShown(square)){
+            this.hide(square);
+            console.log('show');
+        }else{
+            this.show(square, color);
+            console.log('hide');
+        }
+    },
+
+    show: function (square, color) {
+        if(this.onlySingles && this.isShown(square)){
+            this.map[square][0].el.css('background-color', color);
+            return;
+        }
+        var s = this.getSquare();
+        this.visibleSquares.push(s);
+        if (this.map[square] == undefined) {
+            this.map[square] = [];
+        }
+        this.map[square].push(s);
+
+        var pos = this.posBySquare(square);
+
+        s.el.css({
+            left: pos.x, top: pos.y,
+            'background-color': color
+        });
+        s.el.show();
+        s.square = square;
+    },
+
+    isShown: function (square) {
+        return (this.map[square] && this.map[square].length > 0) ? true: false;
+    },
+
+    hide: function (square) {
+        if (this.map[square]) {
+            while (this.map[square].length > 0) {
+                var s = this.map[square].pop();
+                var i = this.visibleSquares.indexOf(s);
+                if (i >= 0) {
+                    this.visibleSquares.splice(i, 1);
+                }
+                this._hide(s);
+            }
+        }
+    },
+
+    _hide: function (s) {
+        s.el.hide();
+        this.hiddenSquares.push(s);
+        var p = this.map[s.square].indexOf(s);
+        if (p >= 0) {
+            this.map[s.square].splice(p, 1);
+        }
+    },
+
+    posBySquare: function (square) {
+        var f = square.substr(0, 1);
+        var r = 8 - square.substr(1, 1);
+        var x = this.files.indexOf(f);
+        var y = r;
+
+        if (this.board.isFlipped()) {
+            x = 7 - x;
+            y = 7 - y;
+        }
+        return {
+            x: (x * 12.5) + '%', y: (y * 12.5) + '%'
+        }
+    },
+
+    getSquare: function () {
+        if (this.hiddenSquares.length > 0) {
+            return this.hiddenSquares.pop();
+        }
+        var square = jQuery('<div style="position:absolute;width:12.5%;height:12.5%"></div>');
+        square.css('opacity', this.opacity);
+        this.bg.append(square);
+        var obj = {
+            square: undefined,
+            el: square
+        };
+        this.squares.push(obj);
+        return obj;
+    },
+
+    flip: function () {
+        jQuery.each(this.visibleSquares, function (i, square) {
+            var pos = this.posBySquare(square.square);
+            square.el.css({
+                left: pos.x, top: pos.y
+            });
+
+        }.bind(this));
+    },
+
+    getSquares:function(){
+        var ret =[];
+        jQuery.each(this.visibleSquares, function(i, square){
+            ret.push(square.square);
+        });
+        return ret;
+    }
 });/* ../dhtml-chess/src/view/highlight/base.js */
 chess.view.highlight.Base = new Class({
     Extends: ludo.Core,
@@ -26249,10 +26454,11 @@ chess.view.message.TacticsMessage = new Class({
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs: 3000,
     autoHideWelcomeAfterMs: 0,
+    showIntro:true,
 
     __construct: function (config) {
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs', 'autoHideWelcomeAfterMs']);
+        this.__params(config, ['showIntro','autoHideAfterMs', 'autoHideWelcomeAfterMs']);
     },
 
     ludoDOM: function () {
@@ -26267,6 +26473,7 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     newGame: function (model) {
+        if(!this.showIntro)return;
         var d = this.autoHideWelcomeAfterMs;
         var res = model.getResult();
         if(res != 0){
@@ -28076,7 +28283,7 @@ chess.parser.FenParser0x88 = new Class({
 				}
 				square += piece.direction;
 			}
-			if (countPieces === 1) {
+			if (countPieces === 1 && pinning) {
 				ret[pinning] = { 'by':piece.s, 'direction':piece.direction };
 			}
 			i++;
@@ -28085,6 +28292,30 @@ chess.parser.FenParser0x88 = new Class({
 			return null;
 		}
 		return ret;
+	},
+
+	getPinnedReadable:function(color){
+		var pinned = this.getPinned(color);
+		var ret = [];
+		jQuery.each(pinned, function(square, by){
+			var obj = {
+				pinned : Board0x88Config.numberToSquareMapping[square],
+				by: Board0x88Config.numberToSquareMapping[by.by]
+			};
+			ret.push(obj);
+		}.bind(this));
+
+		return ret;
+	},
+
+	getPinnedSquares:function(color){
+		var pinned = this.getPinnedReadable(color);
+		var ret = [];
+		jQuery.each(pinned, function(i, pinned){
+			ret.push(pinned.pinned);
+		});
+		return ret;
+
 	},
 
 	getValidSquaresOnCheck:function (color) {
@@ -35096,6 +35327,310 @@ chess.WPFen = new Class({
             ]
         });
     }
+
+});/* ../dhtml-chess/src/wp-public/special/pinned.js */
+chess.WPPinned = new Class({
+   Extends: chess.WPTemplate,
+
+    renderTo:undefined,
+    pgn:undefined,
+    controller:undefined,
+
+    module:undefined,
+    random:false,
+
+    color:undefined,
+    parser:undefined,
+
+    pinnedMsgId:undefined,
+
+    initialize: function (config) {
+        this.parent(config);
+
+        this.renderTo = config.renderTo;
+        var r = jQuery(this.renderTo);
+        r.addClass('ludo-twilight');
+        var w = r.width();
+        r.css('height', Math.round(w + 65));
+        this.boardSize = w;
+        if (config.random != undefined)this.random = config.random;
+
+        this.pgn = config.pgn;
+        this.board = config.board || {};
+        this.arrow = config.arrow || {};
+        this.arrowSolution = config.arrowSolution || {};
+        this.hint = config.hint || {};
+        this.module = String.uniqueID();
+
+        this.boardId = 'dc-' + String.uniqueID();
+        this.pinnedMsgId = 'dc-' + String.uniqueID();
+
+        this.showLabels = !ludo.isMobile;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
+        if (this.canRender()) {
+            this.render();
+        }
+
+
+    },
+
+    render: function () {
+
+        new chess.view.Chess({
+            cls: this.th,
+            renderTo: jQuery(this.renderTo),
+            layout: {
+                type: 'fill',
+                height: 'matchParent',
+                width: 'matchParent'
+            },
+            children: [
+                {
+                    layout: {
+                        type: 'linear', orientation: 'vertical'
+                    },
+
+
+                    children: [
+                        {
+                            id: this.pinnedMsgId,
+                            module:this.module,
+                            css: {
+                                'text-align': 'center',
+                                'line-height': '30px'
+                            },
+                            layout: {
+                                height: 30
+                            }
+                        },
+                        Object.merge({
+                            boardLayout: undefined,
+                            id: this.boardId,
+                            type: 'chess.view.board.Board',
+                            module: this.module,
+                            overflow: 'hidden',
+                            labels:this.showLabels,
+                            pieceLayout: 'svg3',
+                            boardCss: {
+                                border: 0
+                            },
+                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            layout: {
+                                height: this.boardSize
+                            }
+                        }, this.board),
+                        {
+                            css:{
+                                'padding-top' : 5
+                            },
+                            layout: {height: 35, type: 'linear', orientation: 'horizontal'},
+                            children: [
+                                {weight: 1},
+                                {
+                                    type: 'form.Button',
+                                    value: 'Submit Solution',
+                                    listeners: {
+                                        'click': this.sendSolution.bind(this)
+                                    }
+                                },
+                                {
+                                    type: 'form.Button',
+                                    value: chess.getPhrase('Show Hint'),
+                                    listeners: {
+                                        'click': this.showHint.bind(this)
+                                    }
+                                },
+                                {weight: 1}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        var storageKey = 'wp_' + this.pgn.id + '_pinned';
+
+        new chess.view.message.TacticsMessage({
+            renderTo: document.body,
+            module:this.module,
+            showIntro:false,
+            hidden: true,
+            autoHideWelcomeAfterMs: 20,
+            css: {
+                'background-color': '#eee',
+                'border-radius': 5
+            },
+            layout: {
+                width: 200, height: 50,
+                centerIn: ludo.$('chess-board-pinned-pieces')
+            }
+        });
+
+        this.controller = new chess.controller.Controller({
+            applyTo: [this.module],
+            pgn: this.pgn.id,
+            gameEndHandler: function (controller) {
+                if (this.random) {
+                    controller.loadRandomGame();
+                } else {
+                    controller.loadNextGameFromFile();
+                }
+            }.bind(this),
+            listeners: {
+                'loadGame': this.findPinned.bind(this),
+                'startOfGame': function () {
+                    ludo.getLocalStorage().save(storageKey, this.controller.getCurrentModel().getGameIndex());
+                }.bind(this)
+            }
+        });
+
+        var index = ludo.getLocalStorage().get(storageKey, 0);
+        if (isNaN(index)) index = 0;
+        index = Math.max(0, index);
+        if (index != undefined) {
+            this.controller.getCurrentModel().setGameIndex(index);
+        } else {
+            index = 0;
+        }
+
+
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.controller.loadGameFromFile(index);
+        }
+
+        this.hPool = new chess.view.board.HighlightPool({
+            board: ludo.$(this.boardId)
+        });
+
+        this.interaction = new chess.view.board.BoardInteraction({
+            board: ludo.$(this.boardId)
+        });
+        this.interaction.on('click', function (square) {
+            this.hPool.toggle(square, '#D32F2F');
+        }.bind(this));
+
+
+    },
+
+    findPinned:function(){
+        if (this.parser == undefined) {
+            this.parser = new chess.parser.FenParser0x88();
+        }
+
+        this.parser.setFen(this.controller.currentModel.fen());
+        var c = this.parser.getColor();
+        this.color = c == 'white' ? 'black' : 'white';
+        this.hPool.hideAll();
+        var pinned = this.parser.getPinnedSquares(this.color);
+        if (pinned.length == 0) {
+            controller.loadGameFromFile();
+        } else {
+            ludo.$(this.boardId).flipTo(c);
+            this.showIntroDialog();
+        }
+    },
+
+    sendSolution:function(){
+        var solution = this.parser.getPinnedSquares(this.color);
+        var user = this.hPool.getSquares();
+
+        var correct = true;
+
+        if (solution.length != user.length) {
+            correct = false;
+        }
+
+        if (!correct) {
+            solution.sort(sort);
+            user.sort(sort);
+            for (var i = 0; i < solution.length; i++) {
+                if (correct && solution[i] != user[i]) {
+                    correct = false;
+                }
+            }
+        }
+
+        if (!correct) {
+            controller.fireEvent('wrongGuess');
+        } else {
+            this.showSolvedDialog();
+        }
+
+    },
+
+    showIntroDialog:function(){
+        if (this.introDialog == undefined) {
+            this.introDialog = new ludo.dialog.Alert({
+                autoRemove: false,
+                css: {
+                    'font-size': '1.1em',
+                    'text-align': 'center',
+                    'padding': 10
+                },
+                layout: {
+                    width: 300, height: 200,
+                    centerIn: this.boardId
+                },
+                title: chess.getPhrase('Find pinned pieces')
+            });
+        }
+
+        this.introDialog.html('Click on all ' + this.color + '\'s pinned pieces');
+        this.introDialog.show();
+
+        ludo.$(this.pinnedMsgId).html('Click on all ' + this.color + '\'s pinned pieces');
+    },
+
+    showHint:function(){
+        if (this.toast == undefined) {
+            this.toast = new ludo.Notification({
+                autoRemove: false,
+                renderTo: document.body,
+                css:{
+                    'text-align' : 'center'
+                },
+                layout: {
+                    width: 300,
+                    height: 30,
+                    centerIn: this.boardId
+                }
+            });
+        }
+        var pinned = this.parser.getPinnedSquares(this.color);
+        this.toast.html(chess.getPhrase('There are {0} pinned pieces'.replace('{0}', pinned.length)));
+        this.toast.show();
+
+    },
+
+    showSolvedDialog:function(){
+        if (this.solvedDialog == undefined) {
+            this.solvedDialog = new ludo.dialog.Alert({
+                autoRemove: false,
+                css: {
+                    'font-size': '1.1em',
+                    'text-align': 'center',
+                    'padding': 10
+                },
+                layout: {
+                    width: 300, height: 200,
+                    centerIn: this.boardId
+                },
+                title: chess.getPhrase('Puzzle solved'),
+                listeners: {
+                    'ok': this.controller.loadNextGameFromFile.bind(this.controller)
+                }
+            });
+
+        }
+        var solution = this.parser.getPinnedSquares(this.color);
+
+        var html = 'Good Job! The solution was <br>' + solution.join(', ');
+        this.solvedDialog.html(html);
+        this.solvedDialog.show();
+    }
+
 
 });/* ../dhtml-chess/src/wp-public/tactics/tactics1.js */
 /**
