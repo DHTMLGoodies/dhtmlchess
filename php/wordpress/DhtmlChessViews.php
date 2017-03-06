@@ -211,14 +211,17 @@ class DhtmlChessViews
             $view->setScript("WPFen");
             $view->setParam("fen", $content);
         } else {
-            if (isset($attributes["comp"])) {
+            if(isset($attributes['pinned'])){
+                $view->setScript("WPPinned");
+            }
+            elseif (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
-            } else if (isset($attributes["game"])) {
+            } elseif (isset($attributes["game"])) {
                 $tpl = min($tpl,5);
                 $view->setScript("WPGame" . $tpl);
-            } else if (isset($attributes["tactics"])) {
+            } elseif (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics1");
-            } else if (isset($attributes["pgn"]) || isset($attributes["db"])) {
+            } elseif (isset($attributes["pgn"]) || isset($attributes["db"])) {
                 $tpl = min($tpl,2);
                 $view->setScript("WPViewer" . $tpl);
             }

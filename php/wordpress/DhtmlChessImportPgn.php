@@ -41,16 +41,36 @@ class DhtmlChessImportPgn
         
     }
 
+
+    public function importPgnStringToNewDatabase($name, $pgnString){
+        $parser = new PgnParser();
+        $parser->setPgnContent($pgnString);
+        return $this->finishImport($name, $parser);
+    }
+
+
     /**
      * @param $pgnId
      * @param $pgnString
-     * @param null $title
-     * @return DhtmlChessPgn
+     * @return array
      */
     public function importPgnStringToDatabase($pgnId, $pgnString){
         $parser = new PgnParser();
+        $pgnString = stripslashes($pgnString);
         $parser->setPgnContent($pgnString);
-        return $this->finishImport($pgnId, $parser);
+        $pgn = DhtmlChessPgn::instanceById($pgnId);
+        $count = $parser->countGames();
+        $countImported = 0;
+        for($i=0;$i<$count;$i++){
+            try{
+                $game = $parser->getGameByIndex($i);
+                $pgn->appendGame($game);
+                $countImported++;
+            }catch(Exception $e){
+
+            }
+        }
+        return array($countImported,$count);
     }
  
     public function createFromPgnString($databaseName, $pgnString){

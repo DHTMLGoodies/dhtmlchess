@@ -28,7 +28,12 @@ chess.wordpress.GameListGrid = new Class({
         this.parent(controller);
         controller.on('publish', function () {
             if(this.controller.pgn){
+                this.getDataSource().load();
+            }
+        }.bind(this));
 
+        controller.on('imported', function(){
+            if(this.controller.pgn){
                 this.getDataSource().load();
             }
         }.bind(this));

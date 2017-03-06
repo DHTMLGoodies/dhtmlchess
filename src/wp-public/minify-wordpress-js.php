@@ -58,6 +58,10 @@ function parseDirectory($dirs, $filename, $subDir = false)
 
     $minifiedJs = Minify_YUICompressor::minifyJs(trim($js));
 
+    if(empty($minifiedJs)){
+        throw new Exception("Minified js is empty");
+    }
+
     $copyright= '/*
  * Copyright ©[DATE]. dhtmlchess.com. All Rights Reserved.
  * This is a commercial software. See dhtmlchess.com for licensing options.

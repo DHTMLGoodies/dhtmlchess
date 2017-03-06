@@ -126,13 +126,13 @@ chess.WPEditor = new Class({
                                     type: 'FramedView',
                                     titleBar: {
                                         title: chess.getPhrase('Games'),
-                                        module:this.module,
+                                        module: this.module,
                                         buttons: [
                                             {
-                                                type:'rename',
-                                                title:chess.getPhrase('Rename Database'),
+                                                type: 'rename',
+                                                title: chess.getPhrase('Rename Database'),
                                                 icon: ludo.config.getDocumentRoot() + '/images/settings.png?rnd=' + Math.random(),
-                                                listener:function(){
+                                                listener: function () {
                                                     this.controller.renameDatabase();
                                                 }
                                             }
@@ -174,79 +174,104 @@ chess.WPEditor = new Class({
                                             }
                                         },
                                         {
-                                            layout:{
-                                                height:30,
-                                                type:'linear', orientation:'horizontal'
+                                            layout: {
+                                                height: 30,
+                                                type: 'linear', orientation: 'horizontal'
                                             },
-                                            css:{
-                                                'padding-top' : 2
+                                            css: {
+                                                'padding-top': 2
                                             },
                                             elCss: {
                                                 'border-bottom': '1px solid ' + ludo.$C('border')
                                             },
-                                            children:[
+                                            children: [
                                                 {
-                                                    weight:1
+                                                    weight: 1
                                                 },
                                                 {
-                                                    type:'paging.First',
-                                                    dataSource:'editor_game_list_ds',
-                                                    layout:{
-                                                        width:35
+                                                    type: 'paging.First',
+                                                    dataSource: 'editor_game_list_ds',
+                                                    layout: {
+                                                        width: 35
                                                     }
                                                 },
                                                 {
-                                                    type:'paging.Previous',
-                                                    dataSource:'editor_game_list_ds',
-                                                    layout:{
-                                                        width:35
+                                                    type: 'paging.Previous',
+                                                    dataSource: 'editor_game_list_ds',
+                                                    layout: {
+                                                        width: 35
                                                     }
                                                 },
                                                 {
-                                                    type:'paging.CurrentPage',
-                                                    dataSource:'editor_game_list_ds'
+                                                    type: 'paging.CurrentPage',
+                                                    dataSource: 'editor_game_list_ds'
                                                 },
                                                 {
-                                                    type:'paging.TotalPages',
-                                                    dataSource:'editor_game_list_ds'
+                                                    type: 'paging.TotalPages',
+                                                    dataSource: 'editor_game_list_ds'
                                                 },
                                                 {
-                                                    type:'paging.Next',
-                                                    dataSource:'editor_game_list_ds',
-                                                    layout:{
-                                                        width:35
+                                                    type: 'paging.Next',
+                                                    dataSource: 'editor_game_list_ds',
+                                                    layout: {
+                                                        width: 35
                                                     }
                                                 },
                                                 {
-                                                    type:'paging.Last',
-                                                    dataSource:'editor_game_list_ds',
-                                                    layout:{
-                                                        width:35
+                                                    type: 'paging.Last',
+                                                    dataSource: 'editor_game_list_ds',
+                                                    layout: {
+                                                        width: 35
                                                     }
                                                 },
                                                 {
-                                                    weight:1
+                                                    weight: 1
                                                 }
 
                                             ]
                                         },
                                         {
-                                            type: 'form.Button',
-                                            module: this.module,
-                                            value: chess.getPhrase('Standings'),
-                                            submodule: 'wordpress.standingsbutton',
-                                            listeners: {
-                                                rendered: function () {
+                                            elCss: {
+                                                'padding-top': 2
+                                            },
+                                            layout: {
+                                                type: 'linear', orientation: 'horizontal',
+                                                height:30
 
-                                                    if (!this.controller.pgn) {
-                                                        this.hide();
+                                            },
+                                            children: [
+                                                {
+                                                    type: 'form.Button',
+                                                    module: this.module,
+                                                    value: chess.getPhrase('Standings'),
+                                                    submodule: 'wordpress.standingsbutton',
+                                                    listeners: {
+                                                        rendered: function () {
+
+                                                            if (!this.controller.pgn) {
+                                                                this.hide();
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    type: 'form.Button',
+                                                    module: this.module,
+                                                    value: chess.getPhrase('Import PGN'),
+                                                    submodule: 'wordpress.importpgn',
+                                                    listeners: {
+                                                        rendered: function () {
+                                                            if (!this.controller.pgn) {
+                                                                this.hide();
+                                                            }
+                                                        }
                                                     }
                                                 }
-                                            },
-                                            elCss:{
-                                                'padding-top' : 2
-                                            }
+
+                                            ]
+
                                         }
+
                                     ]
                                 }
                             ]
@@ -342,7 +367,7 @@ chess.WPEditor = new Class({
                                     layout: {
                                         height: 40
                                     },
-                                    buttonSize:function(availSize){
+                                    buttonSize: function (availSize) {
                                         return availSize * 0.8;
                                     },
                                     module: this.module,

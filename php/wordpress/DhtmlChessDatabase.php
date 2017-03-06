@@ -73,6 +73,16 @@ class DhtmlChessDatabase
         return $pgn;
     }
 
+    /**
+     * Returns array(0 = count imported, 1 = count games in pgn)
+     * @param $pgnId
+     * @param $pgn
+     * @return array
+     */
+    public function appendPgnString($pgnId, $pgn){
+        $importer = new DhtmlChessImportPgn();
+        return $importer->importPgnStringToDatabase($pgnId, $pgn );
+    }
 
     /**
      * @param $pgnId

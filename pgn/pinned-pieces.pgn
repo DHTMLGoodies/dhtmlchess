@@ -1,0 +1,104 @@
+[white "Morphy, Paul "]
+[black "Morphy, Ernest"]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "black"]
+[index "18"]
+[fen "2kr3r/pppb1ppp/B4q1n/n3p3/8/B1Q2N2/P4PPP/1R2R1K1 w - - 6 16"]
+[count "2"]
+[pinned "b7,c7"]
+
+
+*
+
+[white "Morphy, Paul "]
+[black "Ayers"]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "white"]
+[index "23"]
+[fen "r1b1k1nr/pp2qppp/2Pp4/bB6/3pP3/1QP5/P4PPP/RNB1K2R b KQkq - 0 11"]
+[count "2"]
+[pinned "c3,e4"]
+
+
+*
+
+[white "Meek, Alexander Beaufort"]
+[black "Morphy, Paul "]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "white"]
+[index "25"]
+[fen "r1b1r3/ppp2k1p/6p1/n7/3pP2q/3Q2P1/PPP4P/RNB1K2R b KQ - 0 15"]
+[count "2"]
+[pinned "g3,e4"]
+
+
+*
+
+[white "Meek, Alexander Beaufort"]
+[black "Morphy, Paul "]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "white"]
+[index "26"]
+[fen "Q5k1/p1p1q1p1/3p2rp/4n3/3bP3/7b/PP3PP1/R1B2RK1 b - - 0 20"]
+[count "2"]
+[pinned "f2,g2"]
+
+
+*
+
+[white "Morphy, Paul "]
+[black "Morphy, Ernest"]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "white"]
+[index "29"]
+[fen "2Qn1k1r/pp3pq1/1b3p1p/1p2p3/1P2P3/2P5/P4PPP/RN1R2K1 b - - 0 19"]
+[count "2"]
+[pinned "f2,g2"]
+
+
+*
+
+[white "Paulsen, Louis"]
+[black "Morphy, Paul "]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "white"]
+[index "42"]
+[fen "5rk1/2p3p1/p1pb2qp/3b1pN1/2P5/3Q1P1P/PP1B2K1/R3R3 b - - 0 25"]
+[count "2"]
+[pinned "f3,g5"]
+
+
+*
+
+[white "Morphy, Paul "]
+[black "Paulsen, Louis"]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "black"]
+[index "51"]
+[fen "2n2rk1/6pp/1pn1pp2/8/r1B1PP2/8/2P4P/3QK1R1 w - - 0 21"]
+[count "2"]
+[pinned "e6,g7"]
+
+
+*
+
+[white "Morphy, Paul "]
+[black "Freeman, J."]
+[site "Find 2 pinned pieces"]
+[pgn "Morphy"]
+[color "black"]
+[index "56"]
+[fen "r4rk1/pp3p2/2p3p1/3B4/1P1B4/8/P1P4P/6RK w - - 0 25"]
+[count "2"]
+[pinned "g6,f7"]
+
+
+*
+

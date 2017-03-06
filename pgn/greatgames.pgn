@@ -44,9 +44,9 @@
 [Round "?"]
 [White "Anderssen,A"]
 [Black "Zukertort,J"]
-[Result "1-0"] 
+[Result "1-0"]
 
-1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O Bb6 8.cxd4 d6 9.d5 Na5 10.Bb2 Ne7 11.Bd3 O-O 12.Nc3 Ng6 13.Ne2 c5 14.Qd2 f6 15.Kh1 Bc7 16.Rac1 Rb8 17.Ng3 b5 18.Nf5 b4 19.Rg1 Bb6 20.g4 Ne5 21.Bxe5 dxe5 22.Rg3 Rf7 23.g5 Bxf5 24.exf5 Qxd5 25.gxf6 Rd8 26.Rcg1 Kh8 27.fxg7+ Kg8 28.Qh6 Qd6 29.Qxh7+ Kxh7 30.f6+ Kg8 31.Bh7+ Kxh7 32.Rh3+ Kg8 33.Rh8+ 1-0 
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O Bb6 8.cxd4 d6 9.d5 Na5 10.Bb2 Ne7 11.Bd3 O-O 12.Nc3 Ng6 13.Ne2 c5 14.Qd2 f6 15.Kh1 Bc7 16.Rac1 Rb8 17.Ng3 b5 18.Nf5 b4 19.Rg1 Bb6 20.g4 Ne5 21.Bxe5 dxe5 22.Rg3 Rf7 23.g5 Bxf5 24.exf5 Qxd5 25.gxf6 Rd8 26.Rcg1 Kh8 27.fxg7+ Kg8 28.Qh6 Qd6 29.Qxh7+ Kxh7 30.f6+ Kg8 31.Bh7+ Kxh7 32.Rh3+ Kg8 33.Rh8+ 1-0
 
 [Event "?"]
 [Site "London"]
@@ -54,9 +54,9 @@
 [Round "?"]
 [White "Zukertort,J"]
 [Black "Blackburne,J"]
-[Result "1-0"] 
+[Result "1-0"]
 
-1.c4 e6 2.e3 Nf6 3.Nf3 b6 4.Be2 Bb7 5.O-O d5 6.d4 Bd6 7.Nc3 O-O 8.b3 Nbd7 9.Bb2 Qe7 10.Nb5 Ne4 11.Nxd6 cxd6 12.Nd2 Ndf6 13.f3 Nxd2 14.Qxd2 dxc4 15.Bxc4 d5 16.Bd3 Rfc8 17.Rae1 Rc7 18.e4 Rac8 19.e5 Ne8 20.f4 g6 21.Re3 f6 22.exf6 Nxf6 23.f5 Ne4 24.Bxe4 dxe4 25.fxg6 Rc2 26.gxh7+ Kh8 27.d5+ e5 28.Qb4 R8c5 29.Rf8+ Kxh7 30.Qxe4+ Kg7 31.Bxe5+ Kxf8 32.Bg7+ 1-0 
+1.c4 e6 2.e3 Nf6 3.Nf3 b6 4.Be2 Bb7 5.O-O d5 6.d4 Bd6 7.Nc3 O-O 8.b3 Nbd7 9.Bb2 Qe7 10.Nb5 Ne4 11.Nxd6 cxd6 12.Nd2 Ndf6 13.f3 Nxd2 14.Qxd2 dxc4 15.Bxc4 d5 16.Bd3 Rfc8 17.Rae1 Rc7 18.e4 Rac8 19.e5 Ne8 20.f4 g6 21.Re3 f6 22.exf6 Nxf6 23.f5 Ne4 24.Bxe4 dxe4 25.fxg6 Rc2 26.gxh7+ Kh8 27.d5+ e5 28.Qb4 R8c5 29.Rf8+ Kxh7 30.Qxe4+ Kg7 31.Bxe5+ Kxf8 32.Bg7+ 1-0
 
 [Event "WCh"]
 [Site "USA"]

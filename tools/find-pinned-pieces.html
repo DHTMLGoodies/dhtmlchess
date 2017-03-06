@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DHTMLChess Tool - Find pinned pieces</title>
+
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
+    <!-- Javascript for the GarboChess engine -->
+    <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
+    <!-- CSS for the move navigation bar -->
+    <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css">
+    <link rel="stylesheet" href="../themes/blue.css">
+    <script type="text/javascript" src="../themes/blue.js"></script>
+
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/board/highlight-pool.js"></script>
+    <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-tactic-hint.js"></script>
+    <script type="text/javascript" src="js/find-pinned.js"></script>
+    <script type="text/javascript" src="../src/parser0x88/fen-parser-0x88.js"></script>
+
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="ludo-twilight">
+<script type="text/javascript">
+
+    ludo.config.setUrl('../router.php');
+    ludo.config.setDocumentRoot('../');
+    ludo.config.setFileUploadUrl('../router.php');
+
+    new chess.FindPinned({
+        pgns:[
+        'Morphy','tata-2017','Nimzowitsch',
+       'greatgames', 'CURIO', 'fischer', 'Lasker', 'tactic-checkmates', 'WorldChamp1927'],
+        out:'pinned.pgn',
+        renderTo: document.body,
+        layout: {
+            width: 'matchParent',
+            height: 'matchParent',
+            type: 'fill'
+        }
+    });
+
+
+</script>
+</body>
+</html>

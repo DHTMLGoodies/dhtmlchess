@@ -27,12 +27,12 @@ chess.wordpress.PgnListView = new Class({
     },
 
     /** Function returning back side when swiping to the left */
-    backSideLeft: function (record) {
+    backSideLeft: function () {
         return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Archive Database') + '</div>';
     },
 
     /** Function returning UNDO html after swipe. If not set, the swipe event will be triggered immediately */
-    backSideUndo: function (record) {
+    backSideUndo: function () {
         return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Undo') + '</div>';
     },
 
@@ -89,6 +89,10 @@ chess.wordpress.PgnListView = new Class({
         }.bind(this));
 
         controller.on('rename_pgn', function () {
+            this.getDataSource().load();
+        }.bind(this));
+
+        controller.on('imported', function () {
             this.getDataSource().load();
         }.bind(this));
     },

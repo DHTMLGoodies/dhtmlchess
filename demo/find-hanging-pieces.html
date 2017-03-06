@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Hanging Pieces</title>
+    <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
+
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
+    <!-- Javascript for the GarboChess engine -->
+    <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
+    <!-- CSS for the move navigation bar -->
+    <link rel="stylesheet" href="../css-source/buttonbar/blue.css" type="text/css">
+    <link rel="stylesheet" href="../css/dhtml-chess-blue.css" type="text/css">
+    <link rel="stylesheet" href="../themes/overrides.css">
+    <script type="text/javascript" src="../themes/wood8.js"></script>
+    <link rel="stylesheet" href="../themes/wood8.css">
+
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/board/highlight-pool.js"></script>
+    <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-tactic-hint.js"></script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+    ludo.config.setUrl('../router.php');
+
+    // Path to DHTML Chess root folder
+    ludo.config.setDocumentRoot('../');
+
+
+    new chess.view.Chess({
+        renderTo: document.body,
+        layout: {
+            type: 'linear', orientation: 'vertical',
+            height: 'matchParent', width: 'matchParent'
+        },
+        children: [
+            {
+                id: 'hanging-message',
+                css: {
+                    'text-align': 'center',
+                    'line-height': '30px'
+                },
+                layout: {
+                    height: 30
+                }
+            },
+            {
+                id: 'chess-board-hanging-pieces',
+                type: 'chess.view.board.Board',
+                layout: {
+                    weight: 1
+                }
+            },
+            {
+                layout: {height: 30, type: 'linear', orientation: 'horizontal'},
+                children: [
+                    {weight: 1},
+                    {
+                        type: 'form.Button',
+                        value: 'Submit Solution',
+                        listeners: {
+                            'click': sendSolution
+                        }
+                    },
+                    {
+                        type: 'form.Button',
+                        value: chess.getPhrase('Show Hint'),
+                        listeners: {
+                            'click': showHint
+                        }
+                    },
+                    {weight: 1}
+                ]
+            }
+        ]
+    });
+
+    var pgn = 'tactic-checkmates';
+    var controller = new chess.controller.Controller({
+        pgn: pgn,
+        debug: true,
+        listeners: {
+            'loadGame': function () {
+                findHanging();
+            }
+        }
+    });
+
+    var parser;
+    var color = 'black';
+
+    function sort(a, b) {
+        return a < b ? -1 : 1;
+    }
+
+    function sendSolution() {
+        var solution = parser.getHangingSquaresTranslated(color);
+        var user = hPool.getSquares();
+
+        var correct = true;
+
+        if (solution.length != user.length) {
+            correct = false;
+        }
+
+        if (!correct) {
+            solution.sort(sort);
+            user.sort(sort);
+            for (var i = 0; i < solution.length; i++) {
+                if (correct && solution[i] != user[i]) {
+                    correct = false;
+                }
+            }
+        }
+
+        if (!correct) {
+            controller.fireEvent('wrongGuess');
+        } else {
+            showSolvedDialog();
+        }
+
+
+    }
+
+    var introDialog, solvedDialog;
+
+    function showSolvedDialog() {
+        if (solvedDialog == undefined) {
+            solvedDialog = new ludo.dialog.Alert({
+                autoRemove: false,
+                css: {
+                    'font-size': '1.1em',
+                    'text-align': 'center',
+                    'padding': 10
+                },
+                layout: {
+                    width: 300, height: 200,
+                    centerIn: ludo.$('chess-board-hanging-pieces')
+                },
+                title: chess.getPhrase('Puzzle solved'),
+                listeners: {
+                    'ok': controller.loadNextGameFromFile.bind(controller)
+                }
+            });
+
+        }
+        var solution = parser.getHangingSquaresTranslated(color);
+
+        var html = 'Good Job! The solution was <br>' + solution.join(', ');
+        solvedDialog.html(html);
+        solvedDialog.show();
+
+
+    }
+
+    function showIntroDialog() {
+        color = Math.random() > 0.5 ? 'black' : 'white';
+        if (introDialog == undefined) {
+            introDialog = new ludo.dialog.Alert({
+                autoRemove: false,
+                css: {
+                    'font-size': '1.1em',
+                    'text-align': 'center',
+                    'padding': 10
+                },
+                layout: {
+                    width: 300, height: 200,
+                    centerIn: ludo.$('chess-board-hanging-pieces')
+                },
+                title: chess.getPhrase('Find Hanging pieces')
+            });
+        }
+
+        introDialog.html('Click on all ' + color + '\'s hanging pieces');
+        introDialog.show();
+
+        ludo.$('hanging-message').html('Click on all ' + color + '\'s hanging pieces');
+    }
+
+    function findHanging() {
+        if (parser == undefined) {
+            parser = new chess.parser.FenParser0x88();
+        }
+        parser.setFen(controller.currentModel.fen());
+        hPool.hideAll();
+        var hanging = parser.getHangingSquaresTranslated(color);
+        if (hanging.length == 0) {
+            controller.loadGameFromFile();
+        } else {
+            showIntroDialog();
+
+        }
+    }
+
+    var toast;
+    function showHint(){
+        if(toast == undefined){
+            toast = new ludo.Notification({
+                autoRemove:false,
+                renderTo:document.body,
+                layout:{
+                    width:300,
+                    height:30,
+                    centerIn: ludo.$('chess-board-hanging-pieces')
+                }
+            });
+        }
+        var hanging = parser.getHangingSquaresTranslated(color);
+        toast.html(chess.getPhrase('There are {0} hanging pieces'.replace('{0}', hanging.length)));
+        toast.show();
+    }
+
+    var hPool = new chess.view.board.HighlightPool({
+        board: ludo.$('chess-board-hanging-pieces')
+    });
+
+    var interaction = new chess.view.board.BoardInteraction({
+        board: ludo.$('chess-board-hanging-pieces')
+    });
+    interaction.on('click', function (square) {
+        hPool.toggle(square, '#D32F2F');
+        console.log(hPool.getSquares());
+    });
+
+    var msg = new chess.view.message.TacticsMessage({
+        renderTo: document.body,
+        hidden: true,
+        autoHideWelcomeAfterMs: 20,
+        css: {
+            'background-color': '#eee',
+            'border-radius': 5
+        },
+        layout: {
+            width: 200, height: 50,
+            centerIn: ludo.$('chess-board-hanging-pieces')
+        }
+    });
+    msg.hide();
+
+    var storageKey = 'hanging-' + pgn;
+    var index = ludo.getLocalStorage().get(storageKey, 0);
+    if (isNaN(index)) index = 0;
+    index = Math.max(0, index);
+
+
+    controller.loadGameFromFile(index);
+
+
+</script>
+</body>
+</html>

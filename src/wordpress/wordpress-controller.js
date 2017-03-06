@@ -79,6 +79,10 @@ chess.wordpress.WordpressController = new Class({
             // console.log(view.submodule);
 
             switch (view.submodule) {
+                case 'wordpress.importpgn':
+                    this.views.importPgnButton = view;
+                    view.on('click', this.importPgnString.bind(this));
+                    break;
                 case 'wordpress.standingsbutton':
                     this.views.standingsButton = view;
                     view.on('click', this.showStandings.bind(this));
@@ -313,6 +317,26 @@ chess.wordpress.WordpressController = new Class({
         return this.newGameDialog;
     },
 
+    importPgnString:function(){
+        if(this.importPgnWindow == undefined){
+            this.importPgnWindow = new chess.wordpress.ImportPgnDialog({
+                title:chess.getPhrase('Import PGN'),
+                layout:{
+                    left:100,top:100,
+                    width:400,height:500
+                },
+                listeners:{
+                    'imported':function(){
+                        this.fireEvent('imported');
+                    }.bind(this)
+                }
+
+            });
+            
+        }
+
+        this.importPgnWindow.show(this.pgn);
+    },
 
     showStandings: function () {
         if (this.standingsWindow == undefined) {
@@ -535,6 +559,9 @@ chess.wordpress.WordpressController = new Class({
     selectPgn: function (pgn) {
         if (this.views.standingsButton) {
             this.views.standingsButton.show();
+        }
+        if(this.views.importPgnButton){
+            this.views.importPgnButton.show();
         }
         this.pgn = pgn;
         this.fireEvent('pgn', pgn);

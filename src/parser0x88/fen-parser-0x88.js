@@ -939,7 +939,7 @@ chess.parser.FenParser0x88 = new Class({
 				}
 				square += piece.direction;
 			}
-			if (countPieces === 1) {
+			if (countPieces === 1 && pinning) {
 				ret[pinning] = { 'by':piece.s, 'direction':piece.direction };
 			}
 			i++;
@@ -948,6 +948,30 @@ chess.parser.FenParser0x88 = new Class({
 			return null;
 		}
 		return ret;
+	},
+
+	getPinnedReadable:function(color){
+		var pinned = this.getPinned(color);
+		var ret = [];
+		jQuery.each(pinned, function(square, by){
+			var obj = {
+				pinned : Board0x88Config.numberToSquareMapping[square],
+				by: Board0x88Config.numberToSquareMapping[by.by]
+			};
+			ret.push(obj);
+		}.bind(this));
+
+		return ret;
+	},
+
+	getPinnedSquares:function(color){
+		var pinned = this.getPinnedReadable(color);
+		var ret = [];
+		jQuery.each(pinned, function(i, pinned){
+			ret.push(pinned.pinned);
+		});
+		return ret;
+
 	},
 
 	getValidSquaresOnCheck:function (color) {

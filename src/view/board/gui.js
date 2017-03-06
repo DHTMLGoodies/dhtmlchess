@@ -85,13 +85,10 @@ chess.view.board.GUI = new Class({
         if (arguments.length == 1) {
             t = r = b = l;
         }
-
         this.padding = {
             l: l, t: t, r: r, b: b
         };
-
         this.resizeBoard();
-
     },
 
     ludoDOM: function () {
@@ -200,6 +197,8 @@ chess.view.board.GUI = new Class({
             height: this.internal.squareSize * 8
         });
         this.els.boardContainerInner.append(this.els.board);
+
+
     },
 
     createSquares: function () {
@@ -214,6 +213,13 @@ chess.view.board.GUI = new Class({
             el.css('backgroundPosition', backgroundPos + 'px ' + backgroundPos + 'px');
         }
         this.updateSquares();
+
+        this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.els.board.append(this.els.hParent);
+    },
+
+    getDivForInteraction:function(){
+        return this.els.hParent;
     },
 
     getSquares: function () {

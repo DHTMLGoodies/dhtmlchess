@@ -457,6 +457,10 @@ chess.view.board.Board = new Class({
             this.pieces[i].flip();
         }
     },
+
+    flipTo:function(color){
+        if(color == 'white')this.flipToWhite(); else this.flipToBlack();
+    },
     /**
      * Show whites pieces at the bottom. If white is allready on the bottom, this method will do nothing.
      * @method flipToWhite

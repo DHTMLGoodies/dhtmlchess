@@ -5,7 +5,7 @@
 
     <script type="text/javascript" src="../jquery/jquery-3.1.0.min.js"></script>
 
-    <script type="text/javascript" src="../js/dhtml-chess-minified.js?rnd=4"></script>
+    <script type="text/javascript" src="../js/dhtml-chess.js?rnd=4"></script>
     <!-- Javascript for the GarboChess engine -->
     <script type="text/javascript" src="../garbochess-engine/garbochess.js"></script>
     <!-- CSS for the move navigation bar -->
@@ -14,10 +14,22 @@
     <link rel="stylesheet" href="../themes/overrides.css">
     <link rel="stylesheet" href="../themes/blue.css">
     <script type="text/javascript" src="../themes/blue.js"></script>
+
+    <script type="text/javascript" src="../src/view/board/gui.js"></script>
+    <script type="text/javascript" src="../src/view/board/board.js"></script>
+    <script type="text/javascript" src="../src/view/board/piece.js"></script>
+    <script type="text/javascript" src="../src/view/board/highlight-pool.js"></script>
+    <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-tactic-hint.js"></script>
+
+
     <style type="text/css">
         body, html {
             width: 100%;
             height: 100%;
+            font-family:arial;
         }
 
         div.dhtml-chess-button{
@@ -96,6 +108,7 @@
                 frame:true,
                 children:[
                     {
+                        id:'chess-board',
                         type:'chess.view.board.Board',
                         pieceLayout:'svg_alpha_egg',
                         labels:true,
@@ -259,6 +272,19 @@
             }
         }
     });
+
+
+    var hPool = new chess.view.board.HighlightPool({
+        board:ludo.$('chess-board')
+    });
+
+    hPool.show('a1', '#388E3C');
+    hPool.show('e4', '#388E3C');
+
+    var interaction = new chess.view.board.BoardInteraction({
+        board:ludo.$('chess-board')
+    });
+
 
 
 

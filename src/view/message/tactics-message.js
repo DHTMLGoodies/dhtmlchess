@@ -14,10 +14,11 @@ chess.view.message.TacticsMessage = new Class({
     // Auto hide messages after milliseconds, pass false or undefined to disable this
     autoHideAfterMs: 3000,
     autoHideWelcomeAfterMs: 0,
+    showIntro:true,
 
     __construct: function (config) {
         this.parent(config);
-        this.__params(config, ['autoHideAfterMs', 'autoHideWelcomeAfterMs']);
+        this.__params(config, ['showIntro','autoHideAfterMs', 'autoHideWelcomeAfterMs']);
     },
 
     ludoDOM: function () {
@@ -32,6 +33,7 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     newGame: function (model) {
+        if(!this.showIntro)return;
         var d = this.autoHideWelcomeAfterMs;
         var res = model.getResult();
         if(res != 0){
