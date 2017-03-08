@@ -1,4 +1,4 @@
-/* Generated Mon Mar 6 23:51:59 CET 2017 */
+/* Generated Wed Mar 8 22:58:30 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -31884,6 +31884,15 @@ chess.view.highlight.ArrowBase = new Class({
 		this.parent(config);
 		if (config.styles !== undefined) {
 			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
+		}
+
+		// TODO refactor
+		if(chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined){
+			var s = chess.OVERRIDES.arrow_styles.split(/;/g);
+			jQuery.each(s, function(i, style){
+				var tokens = style.split(/:/);
+				this.arrowStyles[tokens[0]] = tokens[1];
+			}.bind(this))
 		}
 
 		this.arrowPaint = new ludo.svg.Paint(Object.clone(this.arrowStyles));
