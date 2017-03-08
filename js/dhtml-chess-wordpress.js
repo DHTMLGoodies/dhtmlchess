@@ -1,4 +1,4 @@
-/* Generated Mon Mar 6 23:51:50 CET 2017 */
+/* Generated Wed Mar 8 22:54:14 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25263,6 +25263,15 @@ chess.view.highlight.ArrowBase = new Class({
 			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
 		}
 
+		// TODO refactor
+		if(chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined){
+			var s = chess.OVERRIDES.arrow_styles.split(/;/g);
+			jQuery.each(s, function(i, style){
+				var tokens = style.split(/:/);
+				this.arrowStyles[tokens[0]] = tokens[1];
+			}.bind(this))
+		}
+
 		this.arrowPaint = new ludo.svg.Paint(Object.clone(this.arrowStyles));
 		this.createDOM();
 
@@ -33706,11 +33715,11 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
+
         if(config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
-
             jQuery.each(rules, function (i, rule) {
                 if (rule) {
                     var keyVal = rule.split(/:/);
@@ -33718,7 +33727,6 @@ chess.WPTemplate = new Class({
                 }
             }.bind(this));
         }
-
 
         if (!ludo.isMobile) {
 

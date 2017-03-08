@@ -21,6 +21,15 @@ chess.view.highlight.ArrowBase = new Class({
 			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
 		}
 
+		// TODO refactor
+		if(chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined){
+			var s = chess.OVERRIDES.arrow_styles.split(/;/g);
+			jQuery.each(s, function(i, style){
+				var tokens = style.split(/:/);
+				this.arrowStyles[tokens[0]] = tokens[1];
+			}.bind(this))
+		}
+
 		this.arrowPaint = new ludo.svg.Paint(Object.clone(this.arrowStyles));
 		this.createDOM();
 

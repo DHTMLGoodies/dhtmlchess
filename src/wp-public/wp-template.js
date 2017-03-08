@@ -17,11 +17,11 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
+
         if(config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
-
             jQuery.each(rules, function (i, rule) {
                 if (rule) {
                     var keyVal = rule.split(/:/);
@@ -29,7 +29,6 @@ chess.WPTemplate = new Class({
                 }
             }.bind(this));
         }
-
 
         if (!ludo.isMobile) {
 
