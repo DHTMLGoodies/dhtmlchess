@@ -2,28 +2,19 @@ chess.controller.PlayStockFishController = new Class({
     Extends: chess.controller.Controller,
     stockfish: undefined,
 
-
     history: undefined,
     engineStatus: {},
-
     whiteTime: 1000 * 60,
     blackTime: 1000 * 60,
     whiteIncrement: 1,
     blackIncrement: 1,
-
-    debug: true,
-
     playerColor: 'white',
-
     elo: undefined,
     clock: undefined,
-
     playingStrength: undefined,
     stockfishElo: undefined,
     gameType: undefined,
-
     turn: undefined,
-
     isPlaying:false,
 
     __construct: function (config) {

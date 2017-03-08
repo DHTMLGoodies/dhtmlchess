@@ -106,7 +106,7 @@ parseDirectory(array(
     'tactics/tactics1.js',
     'fen/wp-fen.js',
     'special/pinned.js',
-    '../computer/comp1.js',
+    '../computer/computer-play.js',
     '../controller/play-stockfish-controller.js',
     'computer/comp1.js',
     ), "wordpress-templates-minified.js");

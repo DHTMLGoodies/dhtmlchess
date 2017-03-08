@@ -1,6 +1,3 @@
-/**
- * Created by alfmagne1 on 25/02/2017.
- */
 window.chess.isWordPress = true;
 
 chess.WPComp1 = new Class({
