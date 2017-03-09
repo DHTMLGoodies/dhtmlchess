@@ -94,7 +94,7 @@ class DhtmlChessInstaller
             $this->importDefaultPgn();
         }
 
-        $this->upgrade(0);
+        $this->upgrade();
 
     }
 
@@ -112,8 +112,8 @@ class DhtmlChessInstaller
                 $wpdb->query($query);
             }
 
-        } catch (DhtmlChessException $e) {
-            throw new Exception("Unable to create database, try to do it manually with " . join(";\n", $queries));
+        } catch (Exception $e) {
+            throw new Exception("Unable to create database, try to do it manually with " . join(";\n", $query));
         }
 
     }
@@ -153,15 +153,17 @@ class DhtmlChessInstaller
 
     private function onUpgrade1()
     {
-        $query = "create table " . DhtmlChessDatabase::TABLE_DATABASE_VERSION . "("
-            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
-            . DhtmlChessDatabase::COL_DB_VERSION . " int)" . $this->charset_collate;
-
-        $this->doQuery($query);
         /**
          * @var wpdb $wpdb
          */
         global $wpdb;
+
+        $query = "create table " . DhtmlChessDatabase::TABLE_DATABASE_VERSION . "("
+            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+            . DhtmlChessDatabase::COL_DB_VERSION . " int)" . $this->charset_collate;
+
+        $wpdb->query($query);
+
 
         $wpdb->insert(
             DhtmlChessDatabase::TABLE_DATABASE_VERSION,
