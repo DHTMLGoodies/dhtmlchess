@@ -47,12 +47,16 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         parent::tearDownAfterClass();
 
         global $wpdb;
-        $wpdb = new wpdb("root", "", "wordpress", "localhost");
+        $wpdb = new wpdb("root", "", "wordpress3", "localhost");
         $database = new DhtmlChessDatabase();
         $database->uninstall();
 
         DhtmlChessInstaller::disableTestMode();
         $database->install();
+
+        $wpdb = new wpdb("root", "", "wordpress", "localhost");
+        $database = new DhtmlChessDatabase();
+        $database->upgrade();
 
         /*
         $database->import("greatgames.pgn");
@@ -62,6 +66,42 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         */
     }
 
+    /**
+     * @test
+     */
+    public function shouldSetDatabaseVersionToZeroInitially(){
+        // given
+
+        $this->database->uninstall();
+
+
+        $installer = new DhtmlChessInstaller();
+
+        // then
+        $this->assertEquals(0, $installer->getCurrentDatabaseVersion());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSetIncrementDatabaseVersion(){
+        // given
+
+        $this->database->uninstall();
+
+        $installer = new DhtmlChessInstaller();
+
+        // then
+        $this->assertEquals(0, $installer->getCurrentDatabaseVersion());
+
+        $this->database->install();
+        $this->assertEquals(1, $installer->getCurrentDatabaseVersion());
+
+        $installer->updateDatabaseVersion(2);
+        $this->assertEquals(2, $installer->getCurrentDatabaseVersion());
+
+    }
+    
     /**
      * @test
      */
@@ -987,24 +1027,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("1", $params["pgn"]["id"]);
         $this->assertEquals("lcc2016", $params["pgn"]["name"]);
     }
-
-    /**
-     * @test
-     */
-    public function shouldGetCustomParams(){
-        // given
-        $this->database->import('lcc2016.pgn');
-
-        $tag = '[DC;D1;1;theme=grey]';
-        $views = new DhtmlChessViews();
-
-        // when
-        $parsed = $views->getParsedTag($tag);
-        $params = $parsed->getParams();
-
-        $this->assertEquals("grey", $params["theme"]);
-    }
-
+    
     /**
      * @test
      */

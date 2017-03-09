@@ -15,6 +15,7 @@ class DhtmlChessDatabase
     const TABLE_CACHE = "dhtml_chess_cache";
     const TABLE_DRAFT = "dhtml_chess_game_draft";
     const TABLE_DUMMY = "dhtml_chess_dummy";
+    const TABLE_DATABASE_VERSION = "dhtml_chess_version";
 
     const COL_ID = "id";
     const COL_DHTML_CHESS_ID = "dhtml_chess_id";
@@ -30,6 +31,7 @@ class DhtmlChessDatabase
     const COL_ARCHIVED = "archived";
     const COL_TMP = "tmp";
     const COL_HIDDEN = "hidden";
+    const COL_DB_VERSION = "db_version";
 
 
     const COL_CACHE_KEY = "cache_key";
@@ -53,10 +55,10 @@ class DhtmlChessDatabase
         $installer->install();
     }
 
-    public function upgrade($oldVersion, $newVersion)
+    public function upgrade()
     {
         $installer = new DhtmlChessInstaller();
-        $installer->upgrade($oldVersion, $newVersion);
+        $installer->upgrade();
     }
 
     public function uninstall()
@@ -79,9 +81,10 @@ class DhtmlChessDatabase
      * @param $pgn
      * @return array
      */
-    public function appendPgnString($pgnId, $pgn){
+    public function appendPgnString($pgnId, $pgn)
+    {
         $importer = new DhtmlChessImportPgn();
-        return $importer->importPgnStringToDatabase($pgnId, $pgn );
+        return $importer->importPgnStringToDatabase($pgnId, $pgn);
     }
 
     /**
@@ -253,11 +256,12 @@ class DhtmlChessDatabase
         return $pgnId->setArchived('1');
     }
 
-    public function restoreArchived($pgnId){
+    public function restoreArchived($pgnId)
+    {
         $pgnId = DhtmlChessPgn::instanceById($pgnId);
         return $pgnId->setArchived('0');
     }
-    
+
     /**
      * @param $pgnPath
      * @param int $toPgnId
@@ -270,7 +274,8 @@ class DhtmlChessDatabase
         return $importer->appendPgn($pgnPath, $toPgnId);
     }
 
-    public function rename($id, $newName){
+    public function rename($id, $newName)
+    {
         $pgn = DhtmlChessPgn::instanceById($id);
         return $pgn->rename($newName);
 
@@ -383,4 +388,8 @@ class DhtmlChessDatabase
         $pgnId->appendGame($draft);
         $this->deleteDraft($draftId);
     }
+
+
+ 
+
 }

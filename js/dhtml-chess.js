@@ -1,4 +1,4 @@
-/* Generated Wed Mar 8 22:58:30 CET 2017 */
+/* Generated Thu Mar 9 20:52:24 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -17258,7 +17258,7 @@ ludo.grid.GridHeader = new Class({
 
 	createDOM:function () {
 		this.el = jQuery('<div class="ludo-header">');
-		this.el.insertBefore(this.grid.$b().first());
+		this.grid.$b().prepend(this.el);
 		var countRows = this.columnManager.getCountRows();
 		this.el.css('height', this.cellHeight * countRows + ludo.dom.getMBPH(this.el));
 		this.renderColumns();
@@ -18971,14 +18971,14 @@ ludo.grid.Grid = new Class({
         if (height < 0) {
             return;
         }
-        this.$b().css('height', height - this.gridHeader.getHeight());
+        this.$b().css('height', height);
         var contentHeight = this.$b().height();
 
         if (contentHeight == 0) {
             this.resizeDOM.delay(100, this);
             return;
         }
-        this.els.dataContainerTop.css('height', contentHeight);
+        this.els.dataContainerTop.css('height', contentHeight - this.gridHeader.getHeight());
 
         this.sb.v.resize();
         this.sb.h.resize();
