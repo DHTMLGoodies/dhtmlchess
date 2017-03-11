@@ -1,17 +1,18 @@
 window.chess.isWordPress = true;
 chess.WPGame1 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
+    boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', Math.ceil(w - 200 + 45 + 35 + this.wpm_h));
-        this.renderTo.css('position', 'relative');
+        this.renderTo.css({
+            'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
+            position: 'relative'
+        });
         this.boardSize = w - 200;
-
         this.bs = this.boardSize > 400 ? this.boardSize : w;
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -19,7 +20,7 @@ chess.WPGame1 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -86,8 +87,8 @@ chess.WPGame1 = new Class({
                     ]
                 },
                 {
-                    css:{
-                        'margin-top' : 5
+                    css: {
+                        'margin-top': 5
                     },
                     type: 'chess.view.buttonbar.Bar',
                     layout: {
@@ -97,7 +98,7 @@ chess.WPGame1 = new Class({
                     module: this.module
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type: 'chess.WPComMessage'
                 }
             ]
         });

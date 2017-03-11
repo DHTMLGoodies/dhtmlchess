@@ -9,17 +9,11 @@ chess.WPGame6 = new Class({
 
     initialize: function (config) {
         this.parent(config);
-
-
         var w = this.renderTo.width();
-
-
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
-
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
-
         this.renderTo.css('height', this.boardSize + this.buttonSize + 100 + this.wpm_h);
         this.renderTo.css('position', 'relative');
 
@@ -31,8 +25,6 @@ chess.WPGame6 = new Class({
     },
 
     configure: function () {
-
-
         this.board = Object.merge({
             boardLayout: undefined,
             vAlign: top,

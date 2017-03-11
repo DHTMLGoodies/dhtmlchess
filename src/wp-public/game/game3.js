@@ -7,8 +7,6 @@ chess.WPGame3 = new Class({
         this.parent(config);
         var w = this.renderTo.width();
         this.renderTo.css('height', w - 150 + 42 + 35 +  this.wpm_h);
-
-
         this.boardSize = w - 150;
         if(this.canRender()){
             this.render();

@@ -1,4 +1,4 @@
-/* Generated Sat Mar 11 18:59:44 CET 2017 */
+/* Generated Sat Mar 11 22:55:50 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -15728,11 +15728,7 @@ ludo.grid.Grid = new Class({
         }
         this.sb.v.getEl().css('top', top);
     },
-
-    sortBy: function (key) {
-        this.getDataSource().sortBy(key);
-    },
-
+    
     createColResizeHandles: function () {
         this.colResizeHandler = new ludo.ColResize({
             component: this,
@@ -15775,9 +15771,11 @@ ludo.grid.Grid = new Class({
                 this.colResizeHandler.hideHandle(columns[i]);
             } else {
                 var width = this.cm.getWidthOf(columns[i]);
-                var bw = ludo.dom.getBW(this.els.dataColumns[columns[i]]) - (i === columns.length - 1) ? 1 : 0;
-                this.els.dataColumns[columns[i]].css('left', leftPos);
-                this.els.dataColumns[columns[i]].css('width', (width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - bw));
+                var col = this.els.dataColumns[columns[i]];
+                
+                var bw = ludo.dom.getBW(col) - (i === columns.length - 1) ? 1 : 0;
+                col.css('left', leftPos);
+                col.css('width', (width - ludo.dom.getPW(col) - bw));
 
                 this.cm.setLeft(columns[i], leftPos);
 
@@ -25343,7 +25341,7 @@ chess.view.highlight.ArrowPool = new Class({
             var piece = this.board.getPieceOnSquare(square);
 
             if (piece) {
-                piece.initDragPiece(e);
+                return piece.initDragPiece(e);
             }
         }
     }
@@ -34507,17 +34505,18 @@ chess.WPGameTemplate = new Class({
 window.chess.isWordPress = true;
 chess.WPGame1 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
+    boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', Math.ceil(w - 200 + 45 + 35 + this.wpm_h));
-        this.renderTo.css('position', 'relative');
+        this.renderTo.css({
+            'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
+            position: 'relative'
+        });
         this.boardSize = w - 200;
-
         this.bs = this.boardSize > 400 ? this.boardSize : w;
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -34525,7 +34524,7 @@ chess.WPGame1 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -34592,8 +34591,8 @@ chess.WPGame1 = new Class({
                     ]
                 },
                 {
-                    css:{
-                        'margin-top' : 5
+                    css: {
+                        'margin-top': 5
                     },
                     type: 'chess.view.buttonbar.Bar',
                     layout: {
@@ -34603,7 +34602,7 @@ chess.WPGame1 = new Class({
                     module: this.module
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type: 'chess.WPComMessage'
                 }
             ]
         });
@@ -34725,8 +34724,6 @@ chess.WPGame3 = new Class({
         this.parent(config);
         var w = this.renderTo.width();
         this.renderTo.css('height', w - 150 + 42 + 35 +  this.wpm_h);
-
-
         this.boardSize = w - 150;
         if(this.canRender()){
             this.render();
@@ -35018,19 +35015,15 @@ chess.WPGame5 = new Class({
 
     initialize: function (config) {
         this.parent(config);
-
-
-        var w = this.renderTo.width();
-
-
+        var r = this.renderTo;
+        var w = r.width();
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
-
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
 
-        this.renderTo.css('height', this.boardSize + this.buttonSize + this.wpm_h);
-        this.renderTo.css('position', 'relative');
+        r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
+        r.css('position', 'relative');
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();

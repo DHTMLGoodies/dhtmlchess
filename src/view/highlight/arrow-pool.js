@@ -119,7 +119,7 @@ chess.view.highlight.ArrowPool = new Class({
             var piece = this.board.getPieceOnSquare(square);
 
             if (piece) {
-                piece.initDragPiece(e);
+                return piece.initDragPiece(e);
             }
         }
     }

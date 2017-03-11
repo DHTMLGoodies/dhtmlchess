@@ -9,19 +9,15 @@ chess.WPGame5 = new Class({
 
     initialize: function (config) {
         this.parent(config);
-
-
-        var w = this.renderTo.width();
-
-
+        var r = this.renderTo;
+        var w = r.width();
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
-
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
 
-        this.renderTo.css('height', this.boardSize + this.buttonSize + this.wpm_h);
-        this.renderTo.css('position', 'relative');
+        r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
+        r.css('position', 'relative');
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
