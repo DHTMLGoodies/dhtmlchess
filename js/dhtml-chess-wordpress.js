@@ -1,4 +1,4 @@
-/* Generated Sat Mar 11 15:50:32 CET 2017 */
+/* Generated Sat Mar 11 18:59:44 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34512,9 +34512,9 @@ chess.WPGame1 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', Math.ceil(w - 200 + 45 + 35 + 20));
+        this.renderTo.css('height', Math.ceil(w - 200 + 45 + 35 + this.wpm_h));
         this.renderTo.css('position', 'relative');
-        this.boardSize = w - 150;
+        this.boardSize = w - 200;
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
         if(this.canRender()){
