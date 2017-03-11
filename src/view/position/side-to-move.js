@@ -54,7 +54,6 @@ chess.view.position.SideToMove = new Class({
     },
 
     receiveInput : function(value){
-        console.log(arguments);
         this.fireEvent('change', value);
     },
 

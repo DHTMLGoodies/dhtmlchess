@@ -20,7 +20,7 @@ chess.WPGame5 = new Class({
 
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
 
-        this.renderTo.css('height', this.boardSize + this.buttonSize);
+        this.renderTo.css('height', this.boardSize + this.buttonSize + this.wpm_h);
         this.renderTo.css('position', 'relative');
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
@@ -212,6 +212,9 @@ chess.WPGame5 = new Class({
                             }
 
                         ]
+                },
+                {
+                    type:'chess.WPComMessage'
                 }
 
             ]

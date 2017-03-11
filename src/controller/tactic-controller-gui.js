@@ -19,7 +19,7 @@ chess.controller.TacticControllerGui = new Class({
 
     __construct:function(config){
         this.parent(config);
-        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
+
     },
 
 
@@ -27,8 +27,12 @@ chess.controller.TacticControllerGui = new Class({
     modelEventFired:function(event, model){
         this.parent(event, model);
 
-        if (event === 'endOfGame' || event === 'endOfBranch') {
-            this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
+        if (event === 'endOfGame' || event === 'endOfBranch' ) {
+            if(this.dialog.puzzleComplete){
+                this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
+            }else if(this.gameEndHandler){
+                this.gameEndHandler.apply(this, [this]);
+            }
         }
     }
 

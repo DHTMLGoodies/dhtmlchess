@@ -217,13 +217,17 @@ chess.view.board.GUI = new Class({
         this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.els.board.append(this.els.hParent);
     },
-
+    
     getDivForInteraction:function(){
         return this.els.hParent;
     },
 
     getSquares: function () {
         return this.els.squares;
+    },
+
+    boardEl:function(){
+        return this.els.board;
     },
 
     createPieceContainer: function () {

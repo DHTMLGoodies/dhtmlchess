@@ -49,7 +49,7 @@ TestCase("BoardTest", {
         pool.show('a1', '#00ff00');
         // then
         assertEquals(2, pool.squares.length);
-        assertEquals(2, pool.visibleSquares.length);
+        assertEquals(2, pool.visibleItems.length);
     },
 
     "test should be able to hide all": function(){
@@ -70,7 +70,7 @@ TestCase("BoardTest", {
 
         // then
         assertEquals(2, pool.squares.length);
-        assertEquals(0, pool.visibleSquares.length);
+        assertEquals(0, pool.visibleItems.length);
         assertEquals(2, pool.hiddenSquares.length);
     },
 
@@ -93,7 +93,7 @@ TestCase("BoardTest", {
 
         // then
         assertEquals(3, pool.squares.length);
-        assertEquals(2, pool.visibleSquares.length);
+        assertEquals(2, pool.visibleItems.length);
         assertEquals(1, pool.hiddenSquares.length);
 
         assertTrue(pool.isShown('e2'));

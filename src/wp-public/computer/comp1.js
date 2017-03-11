@@ -4,24 +4,24 @@ chess.WPComp1 = new Class({
 
     Extends: chess.WPTemplate,
 
-    boardId : undefined,
-    boardSize:undefined,
+    boardId: undefined,
+    boardSize: undefined,
 
-    isPreview:false,
+    isPreview: false,
 
-    initialize:function(config){
+    initialize: function (config) {
         this.parent(config);
 
         var r = jQuery(this.renderTo);
         var w = r.width();
 
-        var ratio = (w + 50) / (w + 200) ;
+        var ratio = (w + 50) / (w + 200 + this.wpm_h);
 
-        var h = ludo.isMobile ? w+ 150 : w * ratio;
+        var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 
 
-        if(config.isPreview)this.isPreview = config.isPreview;
+        if (config.isPreview)this.isPreview = config.isPreview;
         this.boardSize = ludo.isMobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
@@ -32,7 +32,7 @@ chess.WPComp1 = new Class({
 
     },
 
-    render:function(){
+    render: function () {
 
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
@@ -44,18 +44,18 @@ chess.WPComp1 = new Class({
             },
             children: [
                 {
-                    hidden:!ludo.isMobile,
+                    hidden: !ludo.isMobile,
                     type: 'chess.computer.ClockView',
-                    module:this.module,
+                    module: this.module,
                     color: 'white',
                     pos: 'top',
-                    css:{
-                        'text-align' : 'center'
+                    css: {
+                        'text-align': 'center'
                     },
                     layout: {
                         height: 50,
-                        width:150,
-                        anchor:0.5,
+                        width: 150,
+                        anchor: 0.5,
                         alignTop: 'board',
                         rightOf: 'board'
                     }
@@ -72,7 +72,7 @@ chess.WPComp1 = new Class({
                             type: 'chess.view.board.Board',
                             pieceLayout: 'svg_egg',
                             boardLayout: 'wood',
-                            module:this.module,
+                            module: this.module,
                             padding: ludo.isMobile ? '1%' : '2.5%',
                             labels: !ludo.isMobile,
                             background: {
@@ -94,9 +94,9 @@ chess.WPComp1 = new Class({
                         },
                         {
                             width: 205,
-                            hidden:ludo.isMobile,
-                            css:{
-                                'margin-left' : 5
+                            hidden: ludo.isMobile,
+                            css: {
+                                'margin-left': 5
                             },
                             layout: {
                                 type: 'linear', orientation: 'vertical'
@@ -105,7 +105,7 @@ chess.WPComp1 = new Class({
 
                                 {
                                     id: 'clockTop',
-                                    module:this.module,
+                                    module: this.module,
                                     type: 'chess.computer.ClockView',
                                     color: 'white',
                                     pos: 'top',
@@ -116,11 +116,11 @@ chess.WPComp1 = new Class({
                                     }
                                 },
                                 {
-                                    weight:1
+                                    weight: 1
                                 },
                                 {
                                     id: 'clockBottom',
-                                    module:this.module,
+                                    module: this.module,
                                     type: 'chess.computer.ClockView',
                                     color: 'black',
                                     pos: 'bottom',
@@ -136,18 +136,18 @@ chess.WPComp1 = new Class({
                     ]
                 },
                 {
-                    hidden:!ludo.isMobile,
+                    hidden: !ludo.isMobile,
                     type: 'chess.computer.ClockView',
-                    module:this.module,
+                    module: this.module,
                     color: 'white',
                     pos: 'bottom',
-                    css:{
-                        'text-align' : 'center'
+                    css: {
+                        'text-align': 'center'
                     },
                     layout: {
-                        anchor:0.5,
+                        anchor: 0.5,
                         height: 50,
-                        width:150,
+                        width: 150,
                         alignTop: 'board',
                         rightOf: 'board'
                     }
@@ -159,14 +159,14 @@ chess.WPComp1 = new Class({
                     },
                     layout: {
                         height: 35,
-                        width:this.boardSize,
+                        width: this.boardSize,
                         type: 'linear', orientation: 'horizontal'
                     },
                     children: [
                         {weight: 1},
                         {
                             type: 'form.Button',
-                            module:this.module,
+                            module: this.module,
                             value: 'Draw',
                             listeners: {
                                 click: function () {
@@ -175,22 +175,22 @@ chess.WPComp1 = new Class({
                             }
                         },
                         {
-                            type:'chess.view.notation.LastMove',
-                            module:this.module,
-                            css:{
-                                'border-radius' : '999px',
+                            type: 'chess.view.notation.LastMove',
+                            module: this.module,
+                            css: {
+                                'border-radius': '999px',
                                 'background-color': '#ddd',
-                                color : '#444',
-                                'border-color' : '1px solid ' + ludo.$C('border')
+                                color: '#444',
+                                'border-color': '1px solid ' + ludo.$C('border')
                             },
-                            layout:{
-                                width:100,
-                                height:40
+                            layout: {
+                                width: 100,
+                                height: 40
                             }
                         },
                         {
                             type: 'form.Button', value: 'Resign',
-                            module:this.module,
+                            module: this.module,
                             listeners: {
                                 'click': function () {
                                     this.controller.resign();
@@ -201,11 +201,14 @@ chess.WPComp1 = new Class({
                     ]
                 },
                 {
-                    module:this.module,
+                    module: this.module,
                     submodule: 'message',
                     layout: {
                         height: 30
                     }
+                },
+                {
+                    type:'chess.WPComMessage'
                 }
 
             ]
@@ -224,34 +227,33 @@ chess.WPComp1 = new Class({
             'thinkingTime': 3000 // Computers pondering time in 1/1000 seconds
         });
 
-        if(!this.isPreview){
+        if (!this.isPreview) {
             new chess.computer.GameOverDialog({
-                module:this.module,
-                layout:{
-                    centerIn:ludo.$(this.boardId)
+                module: this.module,
+                layout: {
+                    centerIn: ludo.$(this.boardId)
                 },
-                movable:false, resizable:false
+                movable: false, resizable: false
             });
 
             var d = new chess.computer.GameDialog({
-                module:this.module,
+                module: this.module,
                 hidden: true,
-                layout:{
-                    centerIn:ludo.$(this.boardId)
-                } ,
-                movable:false,
-                resizable:false
+                layout: {
+                    centerIn: ludo.$(this.boardId)
+                },
+                movable: false,
+                resizable: false
             });
 
 
-
             var sd = new chess.computer.ComputerStatusDialog({
-                module:this.module,
-                layout:{
-                    centerIn:ludo.$(this.boardId)
+                module: this.module,
+                layout: {
+                    centerIn: ludo.$(this.boardId)
                 },
-                movable:false,
-                resizable:false
+                movable: false,
+                resizable: false
 
             });
 
@@ -261,15 +263,15 @@ chess.WPComp1 = new Class({
 
     },
 
-    setThinkingTime:function(thinkingTime){
+    setThinkingTime: function (thinkingTime) {
         this.controller.setThinkingTime(thinkingTime);
     },
 
-    updateMove:function(move){
+    updateMove: function (move) {
         // silent
     },
 
-    onNewGame:function(myColor){
+    onNewGame: function (myColor) {
 
         if (myColor == 'black') {
             ludo.get(this.boardId).flipToBlack();
@@ -277,5 +279,5 @@ chess.WPComp1 = new Class({
             ludo.get(this.boardId).flipToWhite();
         }
     }
-    
+
 });

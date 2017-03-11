@@ -13,6 +13,8 @@ chess.WPPinned = new Class({
 
     pinnedMsgId:undefined,
 
+    arrowPool:undefined,
+
     initialize: function (config) {
         this.parent(config);
 
@@ -20,7 +22,7 @@ chess.WPPinned = new Class({
         var r = jQuery(this.renderTo);
         r.addClass('ludo-twilight');
         var w = r.width();
-        r.css('height', Math.round(w + 65));
+        r.css('height', Math.round(w + 65 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined)this.random = config.random;
 
@@ -109,8 +111,20 @@ chess.WPPinned = new Class({
                                         'click': this.showHint.bind(this)
                                     }
                                 },
+                                {
+                                    type: 'form.Button',
+                                    value: chess.getPhrase('Next'),
+                                    listeners: {
+                                        'click': function(){
+                                            this.controller.loadNextGameFromFile();
+                                        }.bind(this)
+                                    }
+                                },
                                 {weight: 1}
                             ]
+                        },
+                        {
+                            type:'chess.WPComMessage'
                         }
                     ]
                 }
@@ -169,7 +183,7 @@ chess.WPPinned = new Class({
             this.controller.loadGameFromFile(index);
         }
 
-        this.hPool = new chess.view.board.HighlightPool({
+        this.hPool = new chess.view.highlight.SquarePool({
             board: ludo.$(this.boardId)
         });
 
@@ -180,7 +194,9 @@ chess.WPPinned = new Class({
             this.hPool.toggle(square, '#D32F2F');
         }.bind(this));
 
-
+        this.arrowPool = new chess.view.highlight.ArrowPool({
+            board: ludo.$(this.boardId)
+        });
     },
 
     findPinned:function(){
@@ -203,7 +219,7 @@ chess.WPPinned = new Class({
 
     sendSolution:function(){
         var solution = this.parser.getPinnedSquares(this.color);
-        var user = this.hPool.getSquares();
+        var user = this.hPool.getSquares() || [];
 
         var correct = true;
 
@@ -246,6 +262,8 @@ chess.WPPinned = new Class({
             });
         }
 
+        this.arrowPool.hideAll();
+
         this.introDialog.html('Click on all ' + this.color + '\'s pinned pieces');
         this.introDialog.show();
 
@@ -286,14 +304,16 @@ chess.WPPinned = new Class({
                     width: 300, height: 200,
                     centerIn: this.boardId
                 },
-                title: chess.getPhrase('Puzzle solved'),
-                listeners: {
-                    'ok': this.controller.loadNextGameFromFile.bind(this.controller)
-                }
+                title: chess.getPhrase('Puzzle solved')
             });
 
         }
         var solution = this.parser.getPinnedSquares(this.color);
+        var fromAndTo = this.parser.getPinnedReadable(this.color);
+
+        jQuery.each(fromAndTo, function(i, squares){
+            this.arrowPool.show(squares.by, squares.king);
+        }.bind(this));
 
         var html = 'Good Job! The solution was <br>' + solution.join(', ');
         this.solvedDialog.html(html);

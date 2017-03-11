@@ -15,16 +15,19 @@
     <script type="text/javascript" src="../themes/wood8.js"></script>
     <link rel="stylesheet" href="../themes/wood8.css">
 
+    <script type="text/javascript" src="../src/util/coordinate-util.js"></script>
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
-    <script type="text/javascript" src="../src/view/board/highlight-pool.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-pool.js"></script>
     <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square-tactic-hint.js"></script>
     <script type="text/javascript" src="../src/view/message/tactics-message.js"></script>
     <script type="text/javascript" src="../src/parser0x88/fen-parser-0x88.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-pool.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/arrow-node.js"></script>
     <style type="text/css">
         body, html {
             width: 100%;
@@ -85,6 +88,14 @@
                         listeners: {
                             'click': showHint
                         }
+                    },                    {
+                        type: 'form.Button',
+                        value: chess.getPhrase('Next Puzzle'),
+                        listeners: {
+                            'click': function(){
+                                controller.loadNextGameFromFile();
+                            }
+                        }
                     },
                     {weight: 1}
                 ]
@@ -138,8 +149,6 @@
         } else {
             showSolvedDialog();
         }
-
-
     }
 
     var introDialog, solvedDialog;
@@ -157,19 +166,21 @@
                     width: 300, height: 200,
                     centerIn: ludo.$('chess-board-pinned-pieces')
                 },
-                title: chess.getPhrase('Puzzle solved'),
-                listeners: {
-                    'ok': controller.loadNextGameFromFile.bind(controller)
-                }
+                title: chess.getPhrase('Puzzle solved')
             });
 
         }
         var solution = parser.getPinnedSquares(color);
 
+
         var html = 'Good Job! The solution was <br>' + solution.join(', ');
         solvedDialog.html(html);
         solvedDialog.show();
 
+        var fromAndTo = parser.getPinnedReadable(color);
+        jQuery.each(fromAndTo, function(i, squares){
+            arrowUtil.show(squares.by, squares.king);
+        });
 
     }
 
@@ -190,6 +201,8 @@
                 title: chess.getPhrase('Find pinned pieces')
             });
         }
+
+        arrowUtil.hideAll();
 
         introDialog.html('Click on all ' + color + '\'s pinned pieces');
         introDialog.show();
@@ -234,7 +247,7 @@
         toast.show();
     }
 
-    var hPool = new chess.view.board.HighlightPool({
+    var hPool = new chess.view.highlight.SquarePool({
         board: ludo.$('chess-board-pinned-pieces')
     });
 
@@ -243,6 +256,11 @@
     });
     interaction.on('click', function (square) {
         hPool.toggle(square, '#D32F2F');
+    });
+
+    var arrowUtil = new chess.view.highlight.ArrowPool({
+        board: ludo.$('chess-board-pinned-pieces')
+
     });
 
     var msg = new chess.view.message.TacticsMessage({

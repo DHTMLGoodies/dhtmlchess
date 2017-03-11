@@ -125,8 +125,6 @@ chess.view.board.ArrowSVG = new Class({
 				x:c.end.x - this.arrowHeight * c.cos + (this.arrowWidth / 2 * cos2),
 				y:c.end.y + this.arrowHeight * c.sin - (this.arrowWidth / 2 * sin2)
 			});
-
-
 		ret.push(
 			{
 				x:c.end.x - (this.arrowHeight - this.arrowOffset) * c.cos + (this.lineWidth / 2 * cos2),
@@ -165,8 +163,6 @@ chess.view.board.ArrowSVG = new Class({
 				x:c.start.x - (this.lineWidth / 2 * cos2),
 				y:c.start.y + (this.lineWidth / 2 * sin2)
 			});
-
-
 		ret.push(
 			{
 				tag:'L',

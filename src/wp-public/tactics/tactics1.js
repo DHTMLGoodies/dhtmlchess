@@ -1,16 +1,3 @@
-/**
- * Usage:
- *
- * new chess.FileTactics({
-            renderTo:'chessContainer',
-            pgn:'sample'
-    })
- *
- * where "chessContainer" is id of an html element and "sample" is the name
- * of a pgn file inside the pgn folder(sample.pgn)
- * @type {Class}
- */
-
 window.chess.isWordPress = true;
 
 chess.WPTactics1 = new Class({
@@ -30,13 +17,10 @@ chess.WPTactics1 = new Class({
     random: false,
 
     initialize: function (config) {
-
         this.parent(config);
-
-        this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
-        r.css('height', Math.round(w + 130));
+        r.css('height', Math.round(w + 130 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined)this.random = config.random;
 
@@ -71,8 +55,6 @@ chess.WPTactics1 = new Class({
                     layout: {
                         type: 'linear', orientation: 'vertical'
                     },
-
-
                     children: [
                         {
                             height: 35,
@@ -172,6 +154,9 @@ chess.WPTactics1 = new Class({
                             comments: false,
                             figurines: 'svg_egg', // Figurines always starts with svg - it is the prefix of images inside the dhtmlchess/images folder
                             type: 'chess.view.notation.TacticPanel'
+                        },
+                        {
+                            type:'chess.WPComMessage'
                         }
                     ]
                 }

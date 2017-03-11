@@ -18,7 +18,7 @@
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
-    <script type="text/javascript" src="../src/view/board/highlight-pool.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-pool"></script>
     <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square.js"></script>
@@ -225,7 +225,7 @@
         toast.show();
     }
 
-    var hPool = new chess.view.board.HighlightPool({
+    var hPool = new chess.view.highlight.SquarePool({
         board: ludo.$('chess-board-hanging-pieces')
     });
 

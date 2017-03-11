@@ -111,7 +111,6 @@ chess.view.board.Board = new Class({
     },
 
     addPieceDragEvents: function () {
-        // var on = this.getEventEl().addEvent;
         this.getEventEl().on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
         this.getEventEl().on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },

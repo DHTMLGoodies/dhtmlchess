@@ -5,7 +5,7 @@ chess.WPGame2 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + 275);
+        this.renderTo.css('height', w + 275 + this.wpm_h);
         this.boardSize = w;
         if(this.canRender()){
             this.render();
@@ -81,6 +81,9 @@ chess.WPGame2 = new Class({
                     },
                     module: this.module
 
+                },
+                {
+                    type:'chess.WPComMessage'
                 }
             ]
         });

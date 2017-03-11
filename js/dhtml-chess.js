@@ -1,4 +1,4 @@
-/* Generated Thu Mar 9 20:52:24 CET 2017 */
+/* Generated Sat Mar 11 15:50:43 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28622,11 +28622,8 @@ chess.util.DynamicStyles = new Class({
 
         this.parentSelector = parentSelector;
         jQuery.each(styles, function(selector, rules){
-
             this.insertRule(selector, rules);
-
         }.bind(this));
-
     },
 
     insertRule: function (selector, rules, contxt) {
@@ -29740,13 +29737,17 @@ chess.view.board.GUI = new Class({
         this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.els.board.append(this.els.hParent);
     },
-
+    
     getDivForInteraction:function(){
         return this.els.hParent;
     },
 
     getSquares: function () {
         return this.els.squares;
+    },
+
+    boardEl:function(){
+        return this.els.board;
     },
 
     createPieceContainer: function () {
@@ -30305,7 +30306,6 @@ chess.view.board.Board = new Class({
     },
 
     addPieceDragEvents: function () {
-        // var on = this.getEventEl().addEvent;
         this.getEventEl().on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
         this.getEventEl().on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
     },
@@ -31774,8 +31774,6 @@ chess.view.board.ArrowSVG = new Class({
 				x:c.end.x - this.arrowHeight * c.cos + (this.arrowWidth / 2 * cos2),
 				y:c.end.y + this.arrowHeight * c.sin - (this.arrowWidth / 2 * sin2)
 			});
-
-
 		ret.push(
 			{
 				x:c.end.x - (this.arrowHeight - this.arrowOffset) * c.cos + (this.lineWidth / 2 * cos2),
@@ -31814,8 +31812,6 @@ chess.view.board.ArrowSVG = new Class({
 				x:c.start.x - (this.lineWidth / 2 * cos2),
 				y:c.start.y + (this.lineWidth / 2 * sin2)
 			});
-
-
 		ret.push(
 			{
 				tag:'L',
@@ -31864,169 +31860,61 @@ chess.view.board.ArrowSVG = new Class({
 	}
 });/* ../dhtml-chess/src/view/highlight/arrow-base.js */
 chess.view.highlight.ArrowBase = new Class({
-	Extends:chess.view.highlight.Base,
-	module:'chess',
-	submodule:'arrowHiglight',
-	canvas:undefined,
-	files:['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-	arrowPaint:undefined,
+    Extends: chess.view.highlight.Base,
+    module: 'chess',
+    submodule: 'arrowHiglight',
+    canvas: undefined,
+    files: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+    arrowPaint: undefined,
 
-	currentMove:undefined,
+    currentMove: undefined,
 
-	arrowStyles:{
-		'stroke-linejoin':'round',
-		stroke:'#a7311e',
-		fill:'#a7311e',
-		'stroke-opacity':.8,
-		'fill-opacity':.5
-	},
-	__construct:function (config) {
-		this.parent(config);
-		if (config.styles !== undefined) {
-			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
-		}
+    arrowPool: undefined,
 
-		// TODO refactor
-		if(chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined){
-			var s = chess.OVERRIDES.arrow_styles.split(/;/g);
-			jQuery.each(s, function(i, style){
-				var tokens = style.split(/:/);
-				this.arrowStyles[tokens[0]] = tokens[1];
-			}.bind(this))
-		}
+    arrowStyles: {
+        'stroke-linejoin': 'round',
+        stroke: '#a7311e',
+        fill: '#a7311e',
+        'stroke-opacity': .8,
+        'fill-opacity': .5
+    },
+    __construct: function (config) {
+        this.parent(config);
+        if (config.styles !== undefined) {
+            this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
+        }
 
-		this.arrowPaint = new ludo.svg.Paint(Object.clone(this.arrowStyles));
-		this.createDOM();
+        // TODO refactor
+        if (chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined) {
+            var s = chess.OVERRIDES.arrow_styles.split(/;/g);
+            jQuery.each(s, function (i, style) {
+                var tokens = style.split(/:/);
+                this.arrowStyles[tokens[0]] = tokens[1];
+            }.bind(this))
+        }
 
-		this.getParent().addEvent('flip', this.flip.bind(this));
 
-        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
-	},
+        this.arrowPool = new chess.view.highlight.ArrowPool({
+            single:true,
+            board: this.getParent(),
+            arrowStyles: this.arrowStyles
+        });
 
-	initDragPiece:function (e) {
+    },
 
-		if (this.getParent().ddEnabled) {
-			var pos = this.getParent().getBoard().offset();
+    showMove: function (move) {
+        this.arrowPool.show(move.from, move.to);
+    },
 
-			var p = ludo.util.pageXY(e);
-			var c = {
-				x:p.pageX - pos.left,
-				y:p.pageY - pos.top
-			};
+    getEl: function () {
+        return this.el;
+    },
 
-			var ss = this.getParent().getSquareSize();
+    hide: function () {
+        this.arrowPool.hideAll();
+    }
 
-            c.x -= (c.x % ss);
-            c.y -= (c.y % ss);
 
-			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(c.x, c.y)];
-			var piece = this.getParent().getPieceOnSquare(square);
-
-			if (piece) {
-				piece.initDragPiece(e);
-			}
-		}
-	},
-
-	createDOM:function () {
-		var el = this.el = jQuery('<div style="position:absolute;display:none"></div>');
-		this.getParent().getBoard().append(el);
-		this.arrow = new chess.view.board.ArrowSVG({
-			renderTo:this.el,
-			arrowPaint:this.arrowPaint
-		});
-	},
-
-	flip:function () {
-		if (this.currentMove) {
-			this.showMove(this.currentMove);
-		}
-	},
-
-	showMove:function (move) {
-
-		this.currentMove = move;
-		this.resizeArrow();
-
-	},
-
-	onParentResize:function(){
-		if(this.currentMove){
-			this.resizeArrow();
-		}
-	},
-	
-	resizeArrow:function(){
-		var coordinates = this.getCoordinates(this.currentMove);
-		this.show();
-		this.increaseZIndex();
-		this.el.css({
-			left:coordinates.x + '%',
-			top:coordinates.y + '%',
-			width:coordinates.width + '%',
-			height:coordinates.height + '%'
-		});
-		this.arrow.fitParent();
-		this.arrow.newPath(coordinates);
-	},
-	
-	increaseZIndex:function () {
-		ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
-		this.el.css('zIndex', ludo_CHESS_PIECE_GLOBAL_Z_INDEX);
-	},
-
-	getEl:function () {
-		return this.el;
-	},
-
-	hide:function () {
-		this.currentMove = undefined;
-		this.el.css('display', 'none');
-	},
-	show:function () {
-		this.el.css('display', '');
-	},
-
-	getCoordinates:function (move) {
-		var m = Board0x88Config.mapping;
-		var fromRank = (m[move.from] & 240) / 16;
-		var toRank = (m[move.to] & 240) / 16;
-
-		var fromFile = (m[move.from] & 15);
-		var toFile = (m[move.to] & 15);
-
-		if (this.getParent().isFlipped()) {
-			fromRank = 7 - fromRank;
-			toRank = 7 - toRank;
-			fromFile = 7 - fromFile;
-			toFile = 7 - toFile;
-		}
-
-		var squares = {
-			width:Math.abs(fromFile - toFile) + 1,
-			height:Math.abs(fromRank - toRank) + 1
-		};
-
-		return {
-			x:Math.min(fromFile, toFile) * 12.5,
-			y:87.5 - (Math.max(fromRank, toRank) * 12.5),
-			height:12.5 + Math.abs(fromRank - toRank) * 12.5,
-			width:12.5 + Math.abs(fromFile - toFile) * 12.5,
-			arrow:{
-				start:{
-					x:fromFile < toFile ? .5 : squares.width - .5,
-					y:fromRank > toRank ? .5 : squares.height - .5
-				}, end:{
-					x:fromFile > toFile ? .5 : squares.width - .5,
-					y:fromRank < toRank ? .5 : squares.height - .5
-				}
-			},
-			squares:{
-				width:Math.abs(fromFile - toFile) + 1,
-				height:Math.abs(fromRank - toRank) + 1
-			}
-		};
-	}
 });
 
 /* ../dhtml-chess/src/view/highlight/arrow.js */
@@ -32100,6 +31988,319 @@ chess.view.highlight.SquareTacticHint = new Class({
     showHint:function(move){
         this.highlightSquare(move.from);
         this.clear.delay(this.delay * 1000, this);
+    }
+});/* ../dhtml-chess/src/view/highlight/arrow-pool.js */
+/**
+ * Created by alfmagne1 on 10/03/2017.
+ */
+chess.view.highlight.ArrowPool = new Class({
+    type:'chess.view.highlight.ArrowPool',
+    bg: undefined,
+    pool: undefined,
+    hiddenPool: undefined,
+    board: undefined,
+    svgNode: undefined,
+    single: false,
+
+    arrowStyles: {
+        'stroke-linejoin': 'round',
+        stroke: '#a7311e',
+        fill: '#a7311e',
+        'stroke-opacity': .8,
+        'fill-opacity': .5
+    },
+
+    initialize: function (config) {
+        this.board = config.board;
+        this.bg = jQuery('<div style="z-index:10000;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.board.boardEl().append(this.bg);
+        this.pool = [];
+        this.hiddenPool = [];
+        if (config.arrowStyles != undefined)this.arrowStyles = config.arrowStyles;
+        if (config.single != undefined)this.single = config.single;
+
+        this.board.on('resize', this.resize.bind(this));
+        this.board.on('flip', this.resize.bind(this));
+
+        this.svgNode = new ludo.svg.Canvas({
+            renderTo: this.bg
+        });
+        this.svgNode.fitParent();
+
+        var w = jQuery(window);
+
+        w.on(ludo.util.getDragMoveEvent(), this.dragPiece.bind(this));
+        w.on(ludo.util.getDragEndEvent(), this.stopDragPiece.bind(this));
+
+        this.bg.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
+
+        this.bg.hide();
+    },
+
+    dragPiece: function (e) {
+        this.board.dragPiece(e);
+    },
+    stopDragPiece: function (e) {
+        this.board.stopDragPiece(e);
+    },
+
+    resize: function () {
+        var s = this.bg.width();
+        this.svgNode.fitParent();
+        jQuery.each(this.pool, function (i, arrow) {
+            arrow.el.showArrow(arrow.from, arrow.to, s, this.board.flipped);
+        }.bind(this))
+    },
+
+    show: function (from, to, styling) {
+
+        styling = styling || this.arrowStyles;
+        this.bg.show();
+        var arrow = this.getArrow();
+
+        arrow.from = from;
+        arrow.to = to;
+        this.pool.push(arrow);
+
+        arrow.el.show();
+        arrow.el.showArrow(from, to, this.bg.width(), this.board.flipped);
+        arrow.el.css(styling);
+    },
+
+
+    hideAll: function () {
+        jQuery.each(this.pool, function (i, arrow) {
+            this.hiddenPool.push(arrow);
+            arrow.el.hide();
+        }.bind(this));
+
+        this.bg.hide();
+
+    },
+
+    getArrow: function () {
+
+        if (this.hiddenPool.length > 0) {
+            return this.hiddenPool.pop();
+        } else if (this.single && this.pool.length > 0) {
+            return this.pool[0];
+        }
+        var arrow = new chess.view.board.ArrowNode();
+        this.svgNode.append(arrow);
+        return {
+            el: arrow
+        };
+    },
+
+    initDragPiece: function (e) {
+        if (this.board.ddEnabled) {
+            var pos = this.board.getBoard().offset();
+
+            var p = ludo.util.pageXY(e);
+            var c = {
+                x: p.pageX - pos.left,
+                y: p.pageY - pos.top
+            };
+
+            var ss = this.board.getSquareSize();
+
+            c.x -= (c.x % ss);
+            c.y -= (c.y % ss);
+
+            var square = Board0x88Config.numberToSquareMapping[this.board.getSquareByCoordinates(c.x, c.y)];
+            var piece = this.board.getPieceOnSquare(square);
+
+            if (piece) {
+                piece.initDragPiece(e);
+            }
+        }
+    }
+});/* ../dhtml-chess/src/view/highlight/arrow-node.js */
+chess.view.board.ArrowNode = new Class({
+    Extends: ludo.svg.Node,
+
+    squareSize:60,
+    /*
+     * Width of arrow head
+     */
+    arrowWidth:24,
+    /*
+     * Height of arrow head
+     */
+    arrowHeight:35,
+    /*
+     * Width of arrow line
+     */
+    lineWidth:10,
+    /*
+     * Offset at arrow end(+ value = smaller arrow, measured from center of square)
+     */
+    offsetEnd:15,
+    /*
+     * Offset at start of arrow (positive value = smaller arrow - measured from center of square)
+     */
+    offsetStart:0,
+    /*
+     * Size of rounded edge
+     */
+    roundEdgeSize:8,
+    /*
+     * 0 = 90 degrees from line to left and right tip of arrow, positive value = less than 90 degrees
+     */
+    arrowOffset:0,
+    
+    arrowPaint:undefined,
+
+
+    initialize: function (properties) {
+        this.parent('path', properties);
+    },
+
+    showArrow:function(fromSquare, toSquare, boardSize, flip){
+        this.set('d', chess.util.CoordinateUtil.arrowPath(fromSquare, toSquare, {}, boardSize, flip));
+    }
+    
+    
+});/* ../dhtml-chess/src/view/highlight/square-pool.js */
+chess.view.highlight.SquarePool = new Class({
+
+    type: 'chess.view.board.HighlightPool',
+    Extends: Events,
+    bg: undefined,
+
+    items: undefined,
+    hiddenItems: undefined,
+    visibleItems: undefined,
+    opacity: 0.4,
+    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+    map: undefined,
+
+    onlySingles:false,
+
+    initialize: function (config) {
+        this.bg = config.board.getDivForInteraction();
+        this.board = config.board;
+        if (config.opacity != undefined)this.opacity = config.opacity;
+        if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;
+
+        this.board.on('flip', this.flip.bind(this));
+        this.items = [];
+        this.hiddenItems = [];
+        this.visibleItems = [];
+
+        this.map = {};
+    },
+
+    hideAll: function () {
+        while (this.visibleItems.length > 0) {
+            var s = this.visibleItems.pop();
+            this._hide(s);
+        }
+    },
+
+    toggle:function(square, color){
+        if(this.isShown(square)){
+            this.hide(square);
+        }else{
+            this.show(square, color);
+        }
+    },
+
+    show: function (square, color) {
+        if(this.onlySingles && this.isShown(square)){
+            this.map[square][0].el.css('background-color', color);
+            return;
+        }
+        var s = this.getSquare();
+        this.visibleItems.push(s);
+        if (this.map[square] == undefined) {
+            this.map[square] = [];
+        }
+        this.map[square].push(s);
+
+        var pos = this.posBySquare(square);
+
+        s.el.css({
+            left: pos.x, top: pos.y,
+            'background-color': color
+        });
+        s.el.show();
+        s.square = square;
+    },
+
+    isShown: function (square) {
+        return (this.map[square] && this.map[square].length > 0) ? true: false;
+    },
+
+    hide: function (square) {
+        if (this.map[square]) {
+            while (this.map[square].length > 0) {
+                var s = this.map[square].pop();
+                var i = this.visibleItems.indexOf(s);
+                if (i >= 0) {
+                    this.visibleItems.splice(i, 1);
+                }
+                this._hide(s);
+            }
+        }
+    },
+
+    _hide: function (s) {
+        s.el.hide();
+        this.hiddenItems.push(s);
+        var p = this.map[s.square].indexOf(s);
+        if (p >= 0) {
+            this.map[s.square].splice(p, 1);
+        }
+    },
+
+    posBySquare: function (square) {
+        var f = square.substr(0, 1);
+        var r = 8 - square.substr(1, 1);
+        var x = this.files.indexOf(f);
+        var y = r;
+
+        if (this.board.isFlipped()) {
+            x = 7 - x;
+            y = 7 - y;
+        }
+        return {
+            x: (x * 12.5) + '%', y: (y * 12.5) + '%'
+        }
+    },
+
+    getSquare: function () {
+        if (this.hiddenItems.length > 0) {
+            return this.hiddenItems.pop();
+        }
+        var square = jQuery('<div style="position:absolute;width:12.5%;height:12.5%"></div>');
+        square.css('opacity', this.opacity);
+        this.bg.append(square);
+        var obj = {
+            square: undefined,
+            el: square
+        };
+        this.items.push(obj);
+        return obj;
+    },
+
+    flip: function () {
+        jQuery.each(this.visibleItems, function (i, square) {
+            var pos = this.posBySquare(square.square);
+            square.el.css({
+                left: pos.x, top: pos.y
+            });
+
+        }.bind(this));
+    },
+
+    getSquares:function(){
+        var ret =[];
+        jQuery.each(this.visibleItems, function(i, square){
+            ret.push(square.square);
+        });
+        return ret;
     }
 });/* ../dhtml-chess/src/view/buttonbar/game.js */
 /**
@@ -35357,7 +35558,6 @@ chess.view.position.SideToMove = new Class({
     },
 
     receiveInput : function(value){
-        console.log(arguments);
         this.fireEvent('change', value);
     },
 
@@ -35785,7 +35985,144 @@ chess.view.score.BarBackground = new Class({
 });
 
 
-/* ../dhtml-chess/src/parser0x88/config.js */
+/* ../dhtml-chess/src/util/coordinate-util.js */
+/**
+ * Utility for mapping squares to board coordinates(pixels)
+ * Created by alfmagne1 on 10/03/2017.
+ */
+chess.util.CoordinateUtil = {
+
+    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+
+    centerOfSquare: function (square, boardSize, flip) {
+        var ret = this.bottomLeftOfSquare(square, boardSize, flip);
+        var h = boardSize / 16;
+        ret.x += h;
+        ret.y += h;
+        return ret;
+    },
+
+    bottomLeftOfSquare: function (square, boardSize, flip) {
+        var ret = {
+            x: this.files.indexOf(square.substr(0, 1)),
+            y: 8 - square.substr(1, 1)
+        };
+        if (flip) {
+            ret.x = 7 - ret.x;
+            ret.y = 7 - ret.y;
+        }
+        var s = (boardSize / 8);
+        ret.x *= s;
+        ret.y *= s;
+        return ret;
+    },
+
+    /**
+     * Properties can be arrowWidth, arrowHeight, lineWidth, offsetEnd, offsetStart, roundEdgeSize, arrowOffset
+     * @param fromSquare
+     * @param toSquare
+     * @param {object} properties
+     * @param {number} boardSize
+     * @param {bool} flip
+     */
+    arrowPath: function (fromSquare, toSquare, properties, boardSize, flip) {
+        var c = {
+            start: this.centerOfSquare(fromSquare, boardSize, flip),
+            end: this.centerOfSquare(toSquare, boardSize, flip)
+        };
+        c.oposite = c.start.y - c.end.y;
+        c.adjacent = c.end.x - c.start.x;
+        c.hyp = Math.sqrt(c.oposite * c.oposite + c.adjacent * c.adjacent);
+        c.cos = this.getCos(c);
+        c.sin = this.getSin(c);
+
+        if (c.cos < 0 && c.sin >= 0) {
+            c.angle = Math.acos(c.cos);
+        } else {
+            if (c.cos < 0) {
+                c.angle = Math.acos(c.cos) * -1
+            } else {
+                c.angle = Math.asin(c.sin);
+            }
+        }
+
+        var sz = boardSize / 8;
+        var lw = properties.lineWidth || sz * 0.2;
+        var ah = properties.arrowHeight || sz* .65;
+        var aw = properties.arrowWidth || sz * .45;
+        var res = properties.roundEdgeSize || lw / 1.5;
+        var ao = properties.arrowOffset || 0;
+        var oe = properties.offsetEnd || sz * .2;
+        var os = properties.offsetStart || 0;
+
+        var ret = [];
+
+        var cos2 = Math.cos(c.angle + Math.PI / 2);
+        var sin2 = Math.sin(c.angle + Math.PI / 2);
+
+        if (oe != 0) {
+            c.end.x -= oe * Math.cos(c.angle);
+            c.end.y += oe * Math.sin(c.angle);
+        }
+        if (os != 0) {
+            c.start.x += os * Math.cos(c.angle);
+            c.start.y -= os * Math.sin(c.angle);
+        }
+
+        ret.push('M');
+        ret.push(c.end.x);
+        ret.push(c.end.y);
+
+        ret.push('L');
+        ret.push(c.end.x - ah * c.cos + (aw / 2 * cos2));
+        ret.push(c.end.y + ah * c.sin - (aw / 2 * sin2));
+
+        ret.push(c.end.x - (ah - ao) * c.cos + (lw / 2 * cos2));
+        ret.push(c.end.y + (ah - ao) * c.sin - (lw / 2 * sin2));
+
+
+        ret.push(c.start.x + (lw / 2 * cos2));
+        ret.push(c.start.y - (lw / 2 * sin2));
+
+        var nextTag = 'L';
+        if (res > 0) {
+            ret.push('C');
+            ret.push(c.start.x - (res * c.cos) + (lw / 2 * cos2));
+            ret.push(c.start.y + (res * c.sin) - (lw / 2 * sin2));
+            ret.push(c.start.x - (res * c.cos) - (lw / 2 * cos2));
+            ret.push(c.start.y + (res * c.sin) + (lw / 2 * sin2));
+            ret.push(c.start.x - (lw / 2 * cos2));
+            ret.push(c.start.y + (lw / 2 * sin2));
+            nextTag = 'M';
+        }
+
+
+        ret.push(nextTag);
+        ret.push(c.start.x - (lw / 2 * cos2));
+        ret.push(c.start.y + (lw / 2 * sin2));
+
+        ret.push('L');
+        ret.push(c.end.x - (ah - ao) * c.cos - (lw / 2 * cos2));
+        ret.push(c.end.y + (ah - ao) * c.sin + (lw / 2 * sin2));
+
+        ret.push(c.end.x - ah * c.cos - (aw / 2 * cos2));
+        ret.push(c.end.y + ah * c.sin + (aw / 2 * sin2));
+        ret.push(c.end.x);
+        ret.push(c.end.y);
+
+        return ret.join(' ');
+    },
+
+    getSin: function (c) {
+        return (c.start.y - c.end.y) / c.hyp;
+    },
+
+    getCos: function (c) {
+        return (c.end.x - c.start.x) / c.hyp;
+    }
+
+
+};/* ../dhtml-chess/src/parser0x88/config.js */
 Board0x88Config = {
     squares:[
         'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1',
@@ -37045,6 +37382,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		jQuery.each(pinned, function(square, by){
 			var obj = {
+				king : Board0x88Config.numberToSquareMapping[this.getKing(color).s],
 				pinned : Board0x88Config.numberToSquareMapping[square],
 				by: Board0x88Config.numberToSquareMapping[by.by]
 			};
@@ -38829,11 +39167,12 @@ chess.controller.TacticController = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
+        if (!config.noDialogs)this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
         if (config.alwaysPlayStartingColor !== undefined) {
             this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
         }
         if (config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
+        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
     },
 
     getDialogPuzzleComplete: function () {
@@ -38873,16 +39212,16 @@ chess.controller.TacticController = new Class({
         var colorToMove, result;
         var m = this.currentModel.getMoves();
 
-        if(m.length == 0)return;
+        if (m.length == 0)return;
 
         if (event === 'newGame') {
             var c;
             result = model.getResult();
-            if(this.alwaysPlayStartingColor){
+            if (this.alwaysPlayStartingColor) {
                 c = model.getColorToMove();
-            }else if(result != 0){
+            } else if (result != 0) {
                 c = result == -1 ? 'black' : 'white';
-            }else{
+            } else {
                 var r = m.length == 1 ? 0 : Math.random();
                 if (r > 0.5) {
                     c = 'black';
@@ -38891,9 +39230,9 @@ chess.controller.TacticController = new Class({
                 }
             }
 
-            if(c == 'white'){
+            if (c == 'white') {
                 this.views.board.flipToWhite();
-            }else{
+            } else {
                 this.views.board.flipToBlack();
             }
             this.myColor = c;
@@ -38938,7 +39277,7 @@ chess.controller.TacticControllerGui = new Class({
 
     __construct:function(config){
         this.parent(config);
-        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
+
     },
 
 
@@ -38946,8 +39285,12 @@ chess.controller.TacticControllerGui = new Class({
     modelEventFired:function(event, model){
         this.parent(event, model);
 
-        if (event === 'endOfGame' || event === 'endOfBranch') {
-            this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
+        if (event === 'endOfGame' || event === 'endOfBranch' ) {
+            if(this.dialog.puzzleComplete){
+                this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
+            }else if(this.gameEndHandler){
+                this.gameEndHandler.apply(this, [this]);
+            }
         }
     }
 

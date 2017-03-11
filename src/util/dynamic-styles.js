@@ -10,11 +10,8 @@ chess.util.DynamicStyles = new Class({
 
         this.parentSelector = parentSelector;
         jQuery.each(styles, function(selector, rules){
-
             this.insertRule(selector, rules);
-
         }.bind(this));
-
     },
 
     insertRule: function (selector, rules, contxt) {

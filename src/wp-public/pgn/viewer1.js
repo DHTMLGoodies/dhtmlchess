@@ -35,10 +35,10 @@ chess.WPViewer1 = new Class({
 
         if (ludo.isMobile) {
             this.boardSize = w;
-            r.css('height', Math.round(this.boardSize + 340));
+            r.css('height', Math.round(this.boardSize + 340 + this.wpm_h));
         } else {
             this.boardSize = w - 150;
-            r.css('height', Math.round(this.boardSize + 375));
+            r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
         }
 
 
@@ -183,6 +183,9 @@ chess.WPViewer1 = new Class({
                                 txt: ''
                             }
                         }
+                    },
+                    {
+                        type:'chess.WPComMessage'
                     }
 
                 ]

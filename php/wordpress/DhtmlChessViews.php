@@ -95,7 +95,7 @@ class DhtmlChessViews
         ),
         array(
             "script" => "WPFen",
-            "title" => "FEN position",
+            "title" => "[fen] shortcode",
             "type" => "fen",
             "desc" => "Display a FEN position using on of the game templates",
             "shortcode" => "fen",
@@ -104,21 +104,33 @@ class DhtmlChessViews
         ),
         array(
             "script" => "WPFen",
-            "title" => "PGN View",
+            "title" => "[pgn] short code",
             "type" => "pgn",
             "desc" => "PGN text template",
             "shortcode" => "pgn",
             "attributes" => array("tpl" => '&lt;game template>'),
             "help" => "Insert pgn of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
             'enclosing' => '&lt;pgn string>'
+        ),
+        array(
+            "script" => "WPFen",
+            "title" => "[pgn] short code with tactics",
+            "type" => "pgn",
+            "desc" => "One game tactics board from [pgn] shortcode",
+            "shortcode" => "pgn",
+            "attributes" => array("tactics" => '1', "theme" => "&lt;optional theme>"),
+            "help" => "Insert pgn of one game between the tags. <br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
+            'enclosing' => '&lt;pgn string>'
         )
     );
- 
-    public static function countGameTemplates(){
+
+    public static function countGameTemplates()
+    {
         return 5;
     }
 
-    public static function countDbTemplates(){
+    public static function countDbTemplates()
+    {
         return 2;
     }
 
@@ -128,7 +140,7 @@ class DhtmlChessViews
         $attributes = array(
             "theme" => array(
                 "example" => 'theme="brown"',
-                "desc" => "Override default theme. Possible values: ".implode(", ", $themes)
+                "desc" => "Override default theme. Possible values: " . implode(", ", $themes)
             ),
             "width" => array(
                 "example" => 'width="60%"',
@@ -205,24 +217,28 @@ class DhtmlChessViews
             $gameParser->setPgnContent(html_entity_decode($content));
             $json = $gameParser->getGameByIndex(0);
             $view->setParam("model", $json);
-            $tpl = min($tpl,5);
-            $view->setScript("WPGame" . $tpl);
+            if (isset($attributes["tactics"])) {
+                $view->setScript("WPTacticsGame1");
+            } else {
+                $tpl = min($tpl, 5);
+                $view->setScript("WPGame" . $tpl);
+
+            }
         } else if ($tag == "fen") {
             $view->setScript("WPFen");
             $view->setParam("fen", $content);
         } else {
-            if(isset($attributes['pinned'])){
+            if (isset($attributes['pinned'])) {
                 $view->setScript("WPPinned");
-            }
-            elseif (isset($attributes["comp"])) {
+            } elseif (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
             } elseif (isset($attributes["game"])) {
-                $tpl = min($tpl,5);
+                $tpl = min($tpl, 5);
                 $view->setScript("WPGame" . $tpl);
             } elseif (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics1");
             } elseif (isset($attributes["pgn"]) || isset($attributes["db"])) {
-                $tpl = min($tpl,2);
+                $tpl = min($tpl, 2);
                 $view->setScript("WPViewer" . $tpl);
             }
         }
@@ -342,7 +358,7 @@ class DhtmlChessViews
     {
         $themes = self::getThemes();
         $ret = array();
-        foreach($themes as $i=>$theme){
+        foreach ($themes as $i => $theme) {
             $ret[] = $theme[0];
         }
         return $ret;

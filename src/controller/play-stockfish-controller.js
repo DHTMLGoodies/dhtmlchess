@@ -140,12 +140,8 @@ chess.controller.PlayStockFishController = new Class({
             this.views.clockTop.setColor('white');
             this.views.clockBottom.setColor('black');
         }
-
-        console.log(this.views.clockTop.id, this.views.clockTop.color);
-        console.log(this.views.clockBottom.id, this.views.clockBottom.color);
         this.prepareMove();
     },
-
 
     promotion: function (promoteTo) {
 

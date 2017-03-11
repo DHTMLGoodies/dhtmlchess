@@ -1,166 +1,58 @@
 chess.view.highlight.ArrowBase = new Class({
-	Extends:chess.view.highlight.Base,
-	module:'chess',
-	submodule:'arrowHiglight',
-	canvas:undefined,
-	files:['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
-	arrowPaint:undefined,
+    Extends: chess.view.highlight.Base,
+    module: 'chess',
+    submodule: 'arrowHiglight',
+    canvas: undefined,
+    files: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+    arrowPaint: undefined,
 
-	currentMove:undefined,
+    currentMove: undefined,
 
-	arrowStyles:{
-		'stroke-linejoin':'round',
-		stroke:'#a7311e',
-		fill:'#a7311e',
-		'stroke-opacity':.8,
-		'fill-opacity':.5
-	},
-	__construct:function (config) {
-		this.parent(config);
-		if (config.styles !== undefined) {
-			this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
-		}
+    arrowPool: undefined,
 
-		// TODO refactor
-		if(chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined){
-			var s = chess.OVERRIDES.arrow_styles.split(/;/g);
-			jQuery.each(s, function(i, style){
-				var tokens = style.split(/:/);
-				this.arrowStyles[tokens[0]] = tokens[1];
-			}.bind(this))
-		}
+    arrowStyles: {
+        'stroke-linejoin': 'round',
+        stroke: '#a7311e',
+        fill: '#a7311e',
+        'stroke-opacity': .8,
+        'fill-opacity': .5
+    },
+    __construct: function (config) {
+        this.parent(config);
+        if (config.styles !== undefined) {
+            this.arrowStyles = Object.merge(this.arrowStyles, config.styles);
+        }
 
-		this.arrowPaint = new ludo.svg.Paint(Object.clone(this.arrowStyles));
-		this.createDOM();
+        // TODO refactor
+        if (chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined) {
+            var s = chess.OVERRIDES.arrow_styles.split(/;/g);
+            jQuery.each(s, function (i, style) {
+                var tokens = style.split(/:/);
+                this.arrowStyles[tokens[0]] = tokens[1];
+            }.bind(this))
+        }
 
-		this.getParent().addEvent('flip', this.flip.bind(this));
 
-        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
-	},
+        this.arrowPool = new chess.view.highlight.ArrowPool({
+            single:true,
+            board: this.getParent(),
+            arrowStyles: this.arrowStyles
+        });
 
-	initDragPiece:function (e) {
+    },
 
-		if (this.getParent().ddEnabled) {
-			var pos = this.getParent().getBoard().offset();
+    showMove: function (move) {
+        this.arrowPool.show(move.from, move.to);
+    },
 
-			var p = ludo.util.pageXY(e);
-			var c = {
-				x:p.pageX - pos.left,
-				y:p.pageY - pos.top
-			};
+    getEl: function () {
+        return this.el;
+    },
 
-			var ss = this.getParent().getSquareSize();
+    hide: function () {
+        this.arrowPool.hideAll();
+    }
 
-            c.x -= (c.x % ss);
-            c.y -= (c.y % ss);
 
-			var square = Board0x88Config.numberToSquareMapping[this.getParent().getSquareByCoordinates(c.x, c.y)];
-			var piece = this.getParent().getPieceOnSquare(square);
-
-			if (piece) {
-				piece.initDragPiece(e);
-			}
-		}
-	},
-
-	createDOM:function () {
-		var el = this.el = jQuery('<div style="position:absolute;display:none"></div>');
-		this.getParent().getBoard().append(el);
-		this.arrow = new chess.view.board.ArrowSVG({
-			renderTo:this.el,
-			arrowPaint:this.arrowPaint
-		});
-	},
-
-	flip:function () {
-		if (this.currentMove) {
-			this.showMove(this.currentMove);
-		}
-	},
-
-	showMove:function (move) {
-
-		this.currentMove = move;
-		this.resizeArrow();
-
-	},
-
-	onParentResize:function(){
-		if(this.currentMove){
-			this.resizeArrow();
-		}
-	},
-	
-	resizeArrow:function(){
-		var coordinates = this.getCoordinates(this.currentMove);
-		this.show();
-		this.increaseZIndex();
-		this.el.css({
-			left:coordinates.x + '%',
-			top:coordinates.y + '%',
-			width:coordinates.width + '%',
-			height:coordinates.height + '%'
-		});
-		this.arrow.fitParent();
-		this.arrow.newPath(coordinates);
-	},
-	
-	increaseZIndex:function () {
-		ludo_CHESS_PIECE_GLOBAL_Z_INDEX++;
-		this.el.css('zIndex', ludo_CHESS_PIECE_GLOBAL_Z_INDEX);
-	},
-
-	getEl:function () {
-		return this.el;
-	},
-
-	hide:function () {
-		this.currentMove = undefined;
-		this.el.css('display', 'none');
-	},
-	show:function () {
-		this.el.css('display', '');
-	},
-
-	getCoordinates:function (move) {
-		var m = Board0x88Config.mapping;
-		var fromRank = (m[move.from] & 240) / 16;
-		var toRank = (m[move.to] & 240) / 16;
-
-		var fromFile = (m[move.from] & 15);
-		var toFile = (m[move.to] & 15);
-
-		if (this.getParent().isFlipped()) {
-			fromRank = 7 - fromRank;
-			toRank = 7 - toRank;
-			fromFile = 7 - fromFile;
-			toFile = 7 - toFile;
-		}
-
-		var squares = {
-			width:Math.abs(fromFile - toFile) + 1,
-			height:Math.abs(fromRank - toRank) + 1
-		};
-
-		return {
-			x:Math.min(fromFile, toFile) * 12.5,
-			y:87.5 - (Math.max(fromRank, toRank) * 12.5),
-			height:12.5 + Math.abs(fromRank - toRank) * 12.5,
-			width:12.5 + Math.abs(fromFile - toFile) * 12.5,
-			arrow:{
-				start:{
-					x:fromFile < toFile ? .5 : squares.width - .5,
-					y:fromRank > toRank ? .5 : squares.height - .5
-				}, end:{
-					x:fromFile > toFile ? .5 : squares.width - .5,
-					y:fromRank < toRank ? .5 : squares.height - .5
-				}
-			},
-			squares:{
-				width:Math.abs(fromFile - toFile) + 1,
-				height:Math.abs(fromRank - toRank) + 1
-			}
-		};
-	}
 });
 

@@ -8,8 +8,10 @@ chess.WPTemplate = new Class({
     themeObject: undefined,
 
     heading_tpl: undefined,
+    wpm_h : 20,
 
     initialize: function (config) {
+
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
 

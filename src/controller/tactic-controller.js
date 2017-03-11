@@ -41,11 +41,12 @@ chess.controller.TacticController = new Class({
 
     __construct: function (config) {
         this.parent(config);
-        this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
+        if (!config.noDialogs)this.dialog.puzzleComplete = this.getDialogPuzzleComplete();
         if (config.alwaysPlayStartingColor !== undefined) {
             this.alwaysPlayStartingColor = config.alwaysPlayStartingColor;
         }
         if (config.autoMoveDelay != undefined)this.autoMoveDelay = config.autoMoveDelay;
+        if(config.gameEndHandler != undefined)this.gameEndHandler = config.gameEndHandler;
     },
 
     getDialogPuzzleComplete: function () {
@@ -85,16 +86,16 @@ chess.controller.TacticController = new Class({
         var colorToMove, result;
         var m = this.currentModel.getMoves();
 
-        if(m.length == 0)return;
+        if (m.length == 0)return;
 
         if (event === 'newGame') {
             var c;
             result = model.getResult();
-            if(this.alwaysPlayStartingColor){
+            if (this.alwaysPlayStartingColor) {
                 c = model.getColorToMove();
-            }else if(result != 0){
+            } else if (result != 0) {
                 c = result == -1 ? 'black' : 'white';
-            }else{
+            } else {
                 var r = m.length == 1 ? 0 : Math.random();
                 if (r > 0.5) {
                     c = 'black';
@@ -103,9 +104,9 @@ chess.controller.TacticController = new Class({
                 }
             }
 
-            if(c == 'white'){
+            if (c == 'white') {
                 this.views.board.flipToWhite();
-            }else{
+            } else {
                 this.views.board.flipToBlack();
             }
             this.myColor = c;

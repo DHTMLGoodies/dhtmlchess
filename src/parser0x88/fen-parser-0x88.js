@@ -955,6 +955,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		jQuery.each(pinned, function(square, by){
 			var obj = {
+				king : Board0x88Config.numberToSquareMapping[this.getKing(color).s],
 				pinned : Board0x88Config.numberToSquareMapping[square],
 				by: Board0x88Config.numberToSquareMapping[by.by]
 			};

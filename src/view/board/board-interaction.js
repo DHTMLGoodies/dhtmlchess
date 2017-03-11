@@ -9,7 +9,7 @@ chess.view.board.BoardInteraction = new Class({
 
     initialize:function(config){
         this.board = config.board;
-        this.surface = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.surface = jQuery('<div style="z-index:12002;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.board.els.board.append(this.surface);
 
         this.enable();
@@ -32,11 +32,9 @@ chess.view.board.BoardInteraction = new Class({
     },
 
     onClick:function(e){
-
         var square = this.getSquare(e);
         this.fireEvent('click', square);
     },
-
 
     getSquare:function(e){
 

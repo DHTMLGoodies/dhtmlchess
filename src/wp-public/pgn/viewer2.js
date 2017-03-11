@@ -31,13 +31,12 @@ chess.WPViewer2 = new Class({
 
     initialize: function (config) {
         this.parent(config);
-        console.log(config);
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         var w = r.width();
         this.boardSize = w - (ludo.isMobile ? 0 : 150);
 
-        r.css('height', Math.round(this.boardSize + 375));
+        r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
         this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
@@ -242,6 +241,9 @@ chess.WPViewer2 = new Class({
 
                 ]
 
+            },
+            {
+                type:'chess.WPComMessage'
             }
 
 
@@ -397,10 +399,11 @@ chess.WPViewer2 = new Class({
                         },
                         title: chess.getPhrase('Standings')
                     }
-
-
                 ]
 
+            },
+            {
+                type:'chess.WPComMessage'
             }
 
 
