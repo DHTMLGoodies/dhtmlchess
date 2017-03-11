@@ -1,4 +1,4 @@
-/* Generated Sat Mar 11 18:58:01 CET 2017 */
+/* Generated Sat Mar 11 23:14:01 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -19010,11 +19010,7 @@ ludo.grid.Grid = new Class({
         }
         this.sb.v.getEl().css('top', top);
     },
-
-    sortBy: function (key) {
-        this.getDataSource().sortBy(key);
-    },
-
+    
     createColResizeHandles: function () {
         this.colResizeHandler = new ludo.ColResize({
             component: this,
@@ -19057,9 +19053,11 @@ ludo.grid.Grid = new Class({
                 this.colResizeHandler.hideHandle(columns[i]);
             } else {
                 var width = this.cm.getWidthOf(columns[i]);
-                var bw = ludo.dom.getBW(this.els.dataColumns[columns[i]]) - (i === columns.length - 1) ? 1 : 0;
-                this.els.dataColumns[columns[i]].css('left', leftPos);
-                this.els.dataColumns[columns[i]].css('width', (width - ludo.dom.getPW(this.els.dataColumns[columns[i]]) - bw));
+                var col = this.els.dataColumns[columns[i]];
+                
+                var bw = ludo.dom.getBW(col) - (i === columns.length - 1) ? 1 : 0;
+                col.css('left', leftPos);
+                col.css('width', (width - ludo.dom.getPW(col) - bw));
 
                 this.cm.setLeft(columns[i], leftPos);
 
@@ -30872,7 +30870,8 @@ chess.view.board.Piece = new Class({
             this.dd = {
                 active: true,
                 mouse: {x: p.pageX, y: p.pageY},
-                el: {x: pos.left, y: pos.top}
+                el: {x: pos.left, y: pos.top},
+                current: ludo.util.pageXY(e)
             };
 
 
@@ -30897,6 +30896,8 @@ chess.view.board.Piece = new Class({
         if (this.dd.active === true) {
 
             var p = ludo.util.pageXY(e);
+            this.dd.current = p;
+
             this.el.css(
                 {
                     left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
@@ -30917,18 +30918,10 @@ chess.view.board.Piece = new Class({
     stopDragPiece: function (e) {
 
         if (this.dd.active) {
-            var coords;
-            if (ludo.isMobile) {
-                coords = {
-                    x: e.target.offsetLeft,
-                    y: e.target.offsetTop
-                }
-            } else {
-                coords = {
-                    x: e.pageX + this.dd.el.x - this.dd.mouse.x,
-                    y: e.pageY + this.dd.el.y - this.dd.mouse.y
-                }
-            }
+            var coords = {
+                x: this.dd.current.pageX + this.dd.el.x - this.dd.mouse.x,
+                y: this.dd.current.pageY + this.dd.el.y - this.dd.mouse.y
+            };
 
             var square = this.getSquareByCoordinates(
                 coords.x,
@@ -32111,7 +32104,7 @@ chess.view.highlight.ArrowPool = new Class({
             var piece = this.board.getPieceOnSquare(square);
 
             if (piece) {
-                piece.initDragPiece(e);
+                return piece.initDragPiece(e);
             }
         }
     }

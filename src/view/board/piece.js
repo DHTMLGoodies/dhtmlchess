@@ -188,7 +188,8 @@ chess.view.board.Piece = new Class({
             this.dd = {
                 active: true,
                 mouse: {x: p.pageX, y: p.pageY},
-                el: {x: pos.left, y: pos.top}
+                el: {x: pos.left, y: pos.top},
+                current: ludo.util.pageXY(e)
             };
 
 
@@ -213,6 +214,8 @@ chess.view.board.Piece = new Class({
         if (this.dd.active === true) {
 
             var p = ludo.util.pageXY(e);
+            this.dd.current = p;
+
             this.el.css(
                 {
                     left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
@@ -233,18 +236,10 @@ chess.view.board.Piece = new Class({
     stopDragPiece: function (e) {
 
         if (this.dd.active) {
-            var coords;
-            if (ludo.isMobile) {
-                coords = {
-                    x: e.target.offsetLeft,
-                    y: e.target.offsetTop
-                }
-            } else {
-                coords = {
-                    x: e.pageX + this.dd.el.x - this.dd.mouse.x,
-                    y: e.pageY + this.dd.el.y - this.dd.mouse.y
-                }
-            }
+            var coords = {
+                x: this.dd.current.pageX + this.dd.el.x - this.dd.mouse.x,
+                y: this.dd.current.pageY + this.dd.el.y - this.dd.mouse.y
+            };
 
             var square = this.getSquareByCoordinates(
                 coords.x,
