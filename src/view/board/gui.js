@@ -217,7 +217,7 @@ chess.view.board.GUI = new Class({
         this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.els.board.append(this.els.hParent);
     },
-    
+
     getDivForInteraction:function(){
         return this.els.hParent;
     },
@@ -363,10 +363,8 @@ chess.view.board.GUI = new Class({
                 rank.css('line-height', this.internal.squareSize);
 
             }
-
             el.append(rank);
         }
-
 
         var parent = this.labelPos == 'outside' ? this.els.boardContainer : this.els.board;
 
@@ -416,8 +414,8 @@ chess.view.board.GUI = new Class({
             left: off.left - bodyOff.left,
             top: off.top - bodyOff.top
         };
-        ret.width = this.els.boardContainer.outerWidth();
-        ret.height = this.els.boardContainer.outerHeight();
+        ret.width = b.outerWidth();
+        ret.height = b.outerHeight();
         return ret;
     },
 
@@ -441,8 +439,8 @@ chess.view.board.GUI = new Class({
         });
 
         var boardSize = Math.min(
-            this.$b().width() - (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()),
-            this.$b().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
+            this.$b().width() - (bc.outerWidth() - bc.width()),
+            this.$b().height() - (bc.outerHeight() - bc.height())
         );
 
         if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
@@ -472,7 +470,7 @@ chess.view.board.GUI = new Class({
 
         this.internal.pieceSize = this.getNewPieceSize();
 
-        var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+        var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
         if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
             var o = w % 8;
@@ -485,8 +483,6 @@ chess.view.board.GUI = new Class({
         }
 
         this.internal.squareSize = w / 8;
-
-
 
         this.els.board.css({
             position: 'absolute',

@@ -10,7 +10,7 @@
 chess.view.menuItems.GameImport = new Class({
     Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.GameImport',
-    label : chess.getPhrase('Import games(PGN)'),
+    label : chess.__('Import games(PGN)'),
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,

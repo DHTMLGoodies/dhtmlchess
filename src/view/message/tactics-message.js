@@ -38,23 +38,23 @@ chess.view.message.TacticsMessage = new Class({
         var res = model.getResult();
         if(res != 0){
             if(res == -1){
-                this.showMessage(chess.getPhrase("You play black"), d);
+                this.showMessage(chess.__("You play black"), d);
             }else{
-                this.showMessage(chess.getPhrase("You play white"), d);
+                this.showMessage(chess.__("You play white"), d);
             }
         }else{
             var colorToMove = model.getColorToMove();
-            this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), d);
+            this.showMessage(chess.__(colorToMove) + ' ' + chess.__('to move'), d);
         }
     },
 
     showWrongGuess: function () {
-        this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
     showCorrectGuess: function () {
-        this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
 
     },
 

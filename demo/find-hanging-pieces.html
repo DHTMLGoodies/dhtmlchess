@@ -79,7 +79,7 @@
                     },
                     {
                         type: 'form.Button',
-                        value: chess.getPhrase('Show Hint'),
+                        value: chess.__('Show Hint'),
                         listeners: {
                             'click': showHint
                         }
@@ -152,7 +152,7 @@
                     width: 300, height: 200,
                     centerIn: ludo.$('chess-board-hanging-pieces')
                 },
-                title: chess.getPhrase('Puzzle solved'),
+                title: chess.__('Puzzle solved'),
                 listeners: {
                     'ok': controller.loadNextGameFromFile.bind(controller)
                 }
@@ -182,7 +182,7 @@
                     width: 300, height: 200,
                     centerIn: ludo.$('chess-board-hanging-pieces')
                 },
-                title: chess.getPhrase('Find Hanging pieces')
+                title: chess.__('Find Hanging pieces')
             });
         }
 
@@ -221,7 +221,7 @@
             });
         }
         var hanging = parser.getHangingSquaresTranslated(color);
-        toast.html(chess.getPhrase('There are {0} hanging pieces'.replace('{0}', hanging.length)));
+        toast.html(chess.__('There are {0} hanging pieces'.replace('{0}', hanging.length)));
         toast.show();
     }
 

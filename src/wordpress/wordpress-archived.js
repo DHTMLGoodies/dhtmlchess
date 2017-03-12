@@ -8,7 +8,7 @@ chess.wordpress.WordPressArchived = new Class({
         
         return [
             {
-                type:'form.Text', placeholder:chess.getPhrase('Search'),
+                type:'form.Text', placeholder:chess.__('Search'),
                 listeners:{
                     'key': function(val){
                         this.child['list'].getDataSource().search(val);
@@ -19,7 +19,7 @@ chess.wordpress.WordPressArchived = new Class({
                 name:'list',
                 type:'ListView',
                 swipable:true,
-                emptyText: chess.getPhrase('No archived databases'),
+                emptyText: chess.__('No archived databases'),
                 dataSource: {
                     'type': 'ludo.dataSource.JSONArray',
                     autoload: true,
@@ -37,15 +37,15 @@ chess.wordpress.WordPressArchived = new Class({
                 },
 
                 backSideLeft: function (record) {
-                    return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Restore') + '</div>';
+                    return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.__('Restore') + '</div>';
                 },
                 backSideRight: function (record) {
-                    return '<div style="text-align:right;position:absolute;top:50%;margin-top:-10px;right:10px">' + chess.getPhrase('Delete') + '</div>';
+                    return '<div style="text-align:right;position:absolute;top:50%;margin-top:-10px;right:10px">' + chess.__('Delete') + '</div>';
                 },
 
                 /** Function returning UNDO html after swipe. If not set, the swipe event will be triggered immediately */
                 backSideUndo: function (record) {
-                    return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Undo') + '</div>';
+                    return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.__('Undo') + '</div>';
                 },
 
                 layout:{
@@ -88,7 +88,7 @@ chess.wordpress.WordPressArchived = new Class({
                     var json = response.responseJSON;
                     if (json.success) {
                         this.child["list"].remove(record);
-                        this.showMessage(chess.getPhrase('PGN deleted'));
+                        this.showMessage(chess.__('PGN deleted'));
                     } else {
                         this.showError('Not able to delete');
                         this.child["list"].undoSwipe(record);
@@ -116,7 +116,7 @@ chess.wordpress.WordPressArchived = new Class({
                     var json = response.responseJSON;
                     if (json.success) {
                         this.child["list"].getDataSource().remove(record);
-                        this.showMessage(chess.getPhrase('PGN restored'));
+                        this.showMessage(chess.__('PGN restored'));
                     } else {
                         this.showError('Not able to restore');
                         this.child["list"].undoSwipe(record);

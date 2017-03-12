@@ -1,7 +1,7 @@
 chess.wordpress.DiscardDraftButton = new Class({
     Extends: ludo.form.Button,
     submodule:'wordpress.discarddraft',
-    value:chess.getPhrase('Discard'),
+    value:chess.__('Discard'),
 
     
     setController:function(controller){

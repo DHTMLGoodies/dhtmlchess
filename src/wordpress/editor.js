@@ -68,7 +68,7 @@ chess.WPEditor = new Class({
 
                             children: [
                                 {
-                                    title: chess.getPhrase('Game Drafts'),
+                                    title: chess.__('Game Drafts'),
                                     id: 'draftsDockingView',
                                     type: 'FramedView',
                                     elCss: {
@@ -100,11 +100,11 @@ chess.WPEditor = new Class({
                                     elCss: {
                                         'border-left-width': 0
                                     },
-                                    title: chess.getPhrase('PGN Databases'),
+                                    title: chess.__('PGN Databases'),
                                     children: [
                                         {
                                             type: 'form.Button',
-                                            value: chess.getPhrase('New Database'),
+                                            value: chess.__('New Database'),
                                             submodule: 'chess.newDatabaseButton',
                                             module: this.module,
                                             layout: {
@@ -125,12 +125,12 @@ chess.WPEditor = new Class({
                                 {
                                     type: 'FramedView',
                                     titleBar: {
-                                        title: chess.getPhrase('Games'),
+                                        title: chess.__('Games'),
                                         module: this.module,
                                         buttons: [
                                             {
                                                 type: 'rename',
-                                                title: chess.getPhrase('Rename Database'),
+                                                title: chess.__('Rename Database'),
                                                 icon: ludo.config.getDocumentRoot() + '/images/settings.png?rnd=' + Math.random(),
                                                 listener: function () {
                                                     this.controller.renameDatabase();
@@ -140,7 +140,7 @@ chess.WPEditor = new Class({
                                     },
                                     module: this.module,
                                     submodule: 'wordpress.gamelisttab',
-                                    title: chess.getPhrase('Games'),
+                                    title: chess.__('Games'),
                                     elCss: {
                                         'border-left-width': 0
                                     },
@@ -150,7 +150,7 @@ chess.WPEditor = new Class({
                                     children: [
                                         {
                                             type: 'form.Text',
-                                            placeholder: chess.getPhrase('Search'),
+                                            placeholder: chess.__('Search'),
                                             id: 'searchField',
                                             layout: {
                                                 height: 30
@@ -243,7 +243,7 @@ chess.WPEditor = new Class({
                                                 {
                                                     type: 'form.Button',
                                                     module: this.module,
-                                                    value: chess.getPhrase('Standings'),
+                                                    value: chess.__('Standings'),
                                                     submodule: 'wordpress.standingsbutton',
                                                     listeners: {
                                                         rendered: function () {
@@ -257,7 +257,7 @@ chess.WPEditor = new Class({
                                                 {
                                                     type: 'form.Button',
                                                     module: this.module,
-                                                    value: chess.getPhrase('Import PGN'),
+                                                    value: chess.__('Import PGN'),
                                                     submodule: 'wordpress.importpgn',
                                                     listeners: {
                                                         rendered: function () {
@@ -428,17 +428,17 @@ chess.WPEditor = new Class({
                                         },
                                         {
                                             type: 'chess.wordpress.CommentView',
-                                            title: chess.getPhrase('Annotate'),
+                                            title: chess.__('Annotate'),
                                             module: this.module
                                         },
                                         {
-                                            'title': chess.getPhrase('Computer Eval'),
+                                            'title': chess.__('Computer Eval'),
                                             type: 'wordpress.ComputerEval',
                                             module: this.module,
                                             layout: {}
                                         },
                                         {
-                                            title: chess.getPhrase('Metadata'),
+                                            title: chess.__('Metadata'),
                                             module: this.module,
                                             type: 'chess.wordpress.GameMetadata'
                                         }
@@ -493,14 +493,14 @@ chess.WPEditor = new Class({
                             module: this.module,
                             submodule: 'wordpress.newgame',
                             type: 'form.Button',
-                            value: chess.getPhrase('New Game'),
+                            value: chess.__('New Game'),
                             layout: {width: 80}
                         },
                         {
                             module: this.module,
                             submodule: 'wordpress.newposition',
                             type: 'form.Button',
-                            value: chess.getPhrase('New Position'),
+                            value: chess.__('New Position'),
                             layout: {width: 120}
                         },
                         {

@@ -23,19 +23,19 @@ chess.view.dialog.GameImport = new Class({
     title:'Import PGN',
     children:[
         {
-            type:'form.File', resource:'ChessFileUpload', label:chess.getPhrase('Pgn File'), accept:'pgn', name:'pgnFile', required:true, labelButton:'Find Pgn file', buttonWidth:100
+            type:'form.File', resource:'ChessFileUpload', label:chess.__('Pgn File'), accept:'pgn', name:'pgnFile', required:true, labelButton:'Find Pgn file', buttonWidth:100
         },
         {
-            type:'form.Checkbox', label:chess.getPhrase('As new database'), checked:true, name:'importAsNew', value:'yes'
+            type:'form.Checkbox', label:chess.__('As new database'), checked:true, name:'importAsNew', value:'yes'
         },
         {
-            type:'form.Text', label:chess.getPhrase('Database name'), name:'newDatabase'
+            type:'form.Text', label:chess.__('Database name'), name:'newDatabase'
         },
         {
-            type:'form.ComboTree', emptyText:'Select folder', treeConfig:{ type:'chess.view.tree.SelectFolder', width:500, height:350 }, label:chess.getPhrase('Into folder'), name:'folder'
+            type:'form.ComboTree', emptyText:'Select folder', treeConfig:{ type:'chess.view.tree.SelectFolder', width:500, height:350 }, label:chess.__('Into folder'), name:'folder'
         },
         {
-            hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Into database'), name:'database'
+            hidden:true, type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.__('Into database'), name:'database'
         },
         {
             type:'progress.Bar', name : 'progressbar', listenTo:'GameImport/save'

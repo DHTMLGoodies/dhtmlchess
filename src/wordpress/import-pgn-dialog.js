@@ -17,7 +17,7 @@ chess.wordpress.ImportPgnDialog = new Class({
                     weight:1
                 },
                 name:'pgn_string',
-                placeholder: chess.getPhrase('Paste your PGN here')
+                placeholder: chess.__('Paste your PGN here')
             },
             {
                 name:'message',
@@ -42,14 +42,14 @@ chess.wordpress.ImportPgnDialog = new Class({
                     {
                         name:'importButton',
                         type:'form.Button',
-                        value:chess.getPhrase('Import'),
+                        value:chess.__('Import'),
                         listeners:{
                             'click': this.importPgn.bind(this)
                         }
                     },
                     {
                         type:'form.Button',
-                        value:chess.getPhrase('Cancel'),
+                        value:chess.__('Cancel'),
                         listeners:{
                             'click': this.hide.bind(this)
                         }
@@ -65,7 +65,7 @@ chess.wordpress.ImportPgnDialog = new Class({
         this.child['message'].html('');
         this.child['pgn_string'].val('');
         this.pgn = pgn;
-        this.setTitle(chess.getPhrase('Import into ' + this.pgn.pgn_name)) ;
+        this.setTitle(chess.__('Import into ' + this.pgn.pgn_name)) ;
         this.child['buttonPanel'].child['importButton'].setEnabled(true);
         this.shim().hide();
     },
@@ -100,22 +100,22 @@ chess.wordpress.ImportPgnDialog = new Class({
 
                             this.fireEvent('imported');
                             this.child['pgn_string'].val('');
-                            var phrase = chess.getPhrase('{0} of {1} games imported');
+                            var phrase = chess.__('{0} of {1} games imported');
                             phrase = phrase.replace('{0}', data.imported);
                             phrase = phrase.replace('{1}', data.total);
-                            this.showMessage(chess.getPhrase(phrase));
+                            this.showMessage(chess.__(phrase));
                         }else{
-                            this.showError(chess.getPhrase('Could not import pgn string'));
+                            this.showError(chess.__('Could not import pgn string'));
                         }
 
                     }else{
-                        this.showError(chess.getPhrase('Could not import pgn string'));
+                        this.showError(chess.__('Could not import pgn string'));
                     }
                 }.bind(this)
             });
 
         }else{
-            this.showError(chess.getPhrase('A PGN String is required'));
+            this.showError(chess.__('A PGN String is required'));
         }
     },
 

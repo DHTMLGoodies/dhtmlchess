@@ -1,4 +1,4 @@
-/* Generated Sat Mar 11 23:14:01 CET 2017 */
+/* Generated Sun Mar 12 14:06:16 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28762,9 +28762,10 @@ chess.language = {
     "Pgn File" : "Pgn File"
 };
 
-chess.getPhrase = function (phrase) {
+chess.__ = function (phrase) {
     return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
-};/* ../dhtml-chess/src/view/notation/panel.js */
+};
+/* ../dhtml-chess/src/view/notation/panel.js */
 /**
  Chess notation panel
 
@@ -28863,7 +28864,7 @@ chess.view.notation.Panel = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {
@@ -28892,18 +28893,19 @@ chess.view.notation.Panel = new Class({
         return {
             listeners: {
                 click: function (el) {
+                    var m = this.getContextMenuMove();
                     switch (el.action) {
                         case 'grade':
-                            this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('gradeMove', [m, el.icon]);
                             break;
                         case 'commentBefore':
-                            this.fireEvent('commentBefore', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentBefore', [m, el.icon]);
                             break;
                         case 'commentAfter':
-                            this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentAfter', [m, el.icon]);
                             break;
                         case 'deleteMove':
-                            this.fireEvent('deleteMove', this.getContextMenuMove());
+                            this.fireEvent('deleteMove', m);
                             break;
                     }
                 }.bind(this),
@@ -28913,20 +28915,20 @@ chess.view.notation.Panel = new Class({
             },
             selector: '.notation-chess-move',
             children: [
-                {label: chess.getPhrase('Add comment before'), action: 'commentBefore'},
-                {label: chess.getPhrase('Add comment after'), action: 'commentAfter'},
+                {label: chess.__('Add comment before'), action: 'commentBefore'},
+                {label: chess.__('Add comment after'), action: 'commentAfter'},
                 {
                     label: 'Grade', children: [
-                    {icon: '', label: chess.getPhrase('Clear'), action: 'grade'},
-                    {icon: '!', label: chess.getPhrase('Good move'), action: 'grade'},
-                    {icon: '?', label: chess.getPhrase('Poor move'), action: 'grade'},
-                    {icon: '!!', label: chess.getPhrase('Very good move'), action: 'grade'},
-                    {icon: '??', label: chess.getPhrase('Very poor move'), action: 'grade'},
-                    {icon: '?!', label: chess.getPhrase('Questionable move'), action: 'grade'},
-                    {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
+                    {icon: '', label: chess.__('Clear'), action: 'grade'},
+                    {icon: '!', label: chess.__('Good move'), action: 'grade'},
+                    {icon: '?', label: chess.__('Poor move'), action: 'grade'},
+                    {icon: '!!', label: chess.__('Very good move'), action: 'grade'},
+                    {icon: '??', label: chess.__('Very poor move'), action: 'grade'},
+                    {icon: '?!', label: chess.__('Questionable move'), action: 'grade'},
+                    {icon: '!?', label: chess.__('Speculative move'), action: 'grade'}
                 ]
                 },
-                {label: chess.getPhrase('Delete Move'), action: 'deleteMove'}
+                {label: chess.__('Delete Move'), action: 'deleteMove'}
             ]
         };
     },
@@ -29000,7 +29002,6 @@ chess.view.notation.Panel = new Class({
     },
 
     _scrollIntoView:function(moveTop, oh){
-
         var b = this.$b();
         var scrollTop = b.scrollTop();
         var bottomOfScroll = scrollTop + b.height();
@@ -29011,7 +29012,6 @@ chess.view.notation.Panel = new Class({
             b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
-
 
     showMoves: function (model) {
         var move = model.getCurrentMove();
@@ -29064,7 +29064,6 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-
             var pr = i > 0 ? branch[i-1] : undefined;
 
             s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';
@@ -29485,7 +29484,7 @@ chess.view.seek.View = new Class({
     children:[
         {
             type:'form.Select',
-            label:chess.getPhrase('Time'),
+            label:chess.__('Time'),
             suffix:'days',
             value:'1',
             dataSource:{
@@ -29497,19 +29496,19 @@ chess.view.seek.View = new Class({
         },
         {
             type:'form.Number',
-            label:chess.getPhrase('From elo'),
+            label:chess.__('From elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Number',
-            label:chess.getPhrase('To elo'),
+            label:chess.__('To elo'),
             minValue:500,
             maxValue:4000
         },
         {
             type:'form.Checkbox',
-            label:chess.getPhrase('Rated'),
+            label:chess.__('Rated'),
             value:'1',
             checked:true
         }
@@ -29735,7 +29734,7 @@ chess.view.board.GUI = new Class({
         this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.els.board.append(this.els.hParent);
     },
-    
+
     getDivForInteraction:function(){
         return this.els.hParent;
     },
@@ -29881,10 +29880,8 @@ chess.view.board.GUI = new Class({
                 rank.css('line-height', this.internal.squareSize);
 
             }
-
             el.append(rank);
         }
-
 
         var parent = this.labelPos == 'outside' ? this.els.boardContainer : this.els.board;
 
@@ -29934,8 +29931,8 @@ chess.view.board.GUI = new Class({
             left: off.left - bodyOff.left,
             top: off.top - bodyOff.top
         };
-        ret.width = this.els.boardContainer.outerWidth();
-        ret.height = this.els.boardContainer.outerHeight();
+        ret.width = b.outerWidth();
+        ret.height = b.outerHeight();
         return ret;
     },
 
@@ -29959,8 +29956,8 @@ chess.view.board.GUI = new Class({
         });
 
         var boardSize = Math.min(
-            this.$b().width() - (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()),
-            this.$b().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
+            this.$b().width() - (bc.outerWidth() - bc.width()),
+            this.$b().height() - (bc.outerHeight() - bc.height())
         );
 
         if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
@@ -29990,7 +29987,7 @@ chess.view.board.GUI = new Class({
 
         this.internal.pieceSize = this.getNewPieceSize();
 
-        var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+        var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
         if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
             var o = w % 8;
@@ -30003,8 +30000,6 @@ chess.view.board.GUI = new Class({
         }
 
         this.internal.squareSize = w / 8;
-
-
 
         this.els.board.css({
             position: 'absolute',
@@ -30355,7 +30350,7 @@ chess.view.board.Board = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {
@@ -33086,39 +33081,46 @@ chess.view.buttonbar.Bar = new Class({
     setController: function (controller) {
         this.parent(controller);
 
-        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
-        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
-        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
-        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
-        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
-        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        this.controller.addEvents({
+            startOfGame : this.startOfGame.bind(this),
+            notStartOfGame : this.notStartOfBranch.bind(this),
+            endOfBranch : this.endOfBranch.bind(this),
+            notEndOfBranch : this.notEndOfBranch.bind(this),
+            startAutoplay : this.startAutoPlay.bind(this),
+            stopAutoplay : this.stopAutoPlay.bind(this),
+            newGame : this.newGame.bind(this)
+        });
     },
 
 
     startOfGame: function () {
-        this.disableButton('start');
-        this.disableButton('previous');
+        this.disButtons(['start','previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enableButton('start');
-        this.enableButton('previous');
-        this.enableButton('play');
+        this.enButtons(['start','previous','play']);
     },
     endOfBranch: function () {
-        this.disableButton('end');
-        this.disableButton('next');
-        this.disableButton('play');
+        this.disButtons(['end','next','play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
+    disButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.disableButton(btn);
+        }.bind(this))
+    },
+    enButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.enableButton(btn);
+        }.bind(this))
+    },
+
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enableButton('end');
-        this.enableButton('next');
+        this.enButtons(['end','next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -33128,7 +33130,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');
@@ -33236,7 +33238,7 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: chess.getPhrase('White'),
+            heading: chess.__('White'),
             key: 'white',
             width: 120,
             sortable: true,
@@ -33245,7 +33247,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         black: {
-            heading: chess.getPhrase('Black'),
+            heading: chess.__('Black'),
             key: 'black',
             width: 120,
             sortable: true,
@@ -33254,7 +33256,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         round: {
-            heading: chess.getPhrase('Round'),
+            heading: chess.__('Round'),
             key: 'round',
             width: 70,
             sortable: true,
@@ -33263,7 +33265,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         result: {
-            heading: chess.getPhrase('Result'),
+            heading: chess.__('Result'),
             key: 'result',
             width: 70,
             sortable: true,
@@ -33273,7 +33275,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         event: {
-            heading: chess.getPhrase('Event'),
+            heading: chess.__('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
@@ -33283,7 +33285,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         last_moves: {
-            heading: chess.getPhrase('Last moves'),
+            heading: chess.__('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,
@@ -33526,7 +33528,7 @@ chess.view.metadata.FenField = new Class({
     module:'chess',
     submodule : 'metadata.FenField',
     stretchField : true,
-    label : chess.getPhrase('FEN'),
+    label : chess.__('FEN'),
     formCss : { 'font-size' : '10px'},
     labelWidth : 30,
     selectOnFocus : true,
@@ -33592,23 +33594,23 @@ chess.view.message.TacticsMessage = new Class({
         var res = model.getResult();
         if(res != 0){
             if(res == -1){
-                this.showMessage(chess.getPhrase("You play black"), d);
+                this.showMessage(chess.__("You play black"), d);
             }else{
-                this.showMessage(chess.getPhrase("You play white"), d);
+                this.showMessage(chess.__("You play white"), d);
             }
         }else{
             var colorToMove = model.getColorToMove();
-            this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), d);
+            this.showMessage(chess.__(colorToMove) + ' ' + chess.__('to move'), d);
         }
     },
 
     showWrongGuess: function () {
-        this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
     showCorrectGuess: function () {
-        this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
 
     },
 
@@ -33680,23 +33682,23 @@ chess.view.dialog.NewGame = new Class({
         labelWidth:100
     },
     children:[
-        { type:'form.Text', label:chess.getPhrase('White'), name:'white', required:true },
-        { type:'form.Text', label:chess.getPhrase('Black'), name:'black', required:true },
-        { type:'form.Text', label:chess.getPhrase('Event'), name:'event' },
-        { type:'form.Text', label:chess.getPhrase('Site'), name:'site' },
-        { type:'form.Text', label:chess.getPhrase('Round'), name:'round' },
-        { type:'form.Text', label:chess.getPhrase('Result'), name:'result' },
+        { type:'form.Text', label:chess.__('White'), name:'white', required:true },
+        { type:'form.Text', label:chess.__('Black'), name:'black', required:true },
+        { type:'form.Text', label:chess.__('Event'), name:'event' },
+        { type:'form.Text', label:chess.__('Site'), name:'site' },
+        { type:'form.Text', label:chess.__('Round'), name:'round' },
+        { type:'form.Text', label:chess.__('Result'), name:'result' },
         {
-            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.getPhrase('Database'), name:'databaseId'
+            type:'form.ComboTree', emptyText:'Select database', treeConfig:{ type:'chess.view.folder.Tree', width:500, height:350 }, label:chess.__('Database'), name:'databaseId'
         }
     ],
     buttonBar:{
         children:[
             {
-                type:'form.Button', name:'okButton', id:'newGameOkButton', value:chess.getPhrase('OK'), disableOnInvalid:true
+                type:'form.Button', name:'okButton', id:'newGameOkButton', value:chess.__('OK'), disableOnInvalid:true
             },
             {
-                type:'form.CancelButton', value:chess.getPhrase('Cancel')
+                type:'form.CancelButton', value:chess.__('Cancel')
             }
         ]
     },
@@ -33731,7 +33733,7 @@ chess.view.dialog.EditGameMetadata = new Class({
     Extends:chess.view.dialog.NewGame,
     type:'chess.view.dialog.EditGameMetadata',
     submodule:'dialogEditGameMetadata',
-    title:chess.getPhrase('Edit metadata'),
+    title:chess.__('Edit metadata'),
     model:['white','black','result','event','site','databaseId'],
     addControllerEvents:function () {
         this.controller.addEvent('editMetadata', this.show.bind(this));
@@ -33782,7 +33784,7 @@ chess.view.dialog.OverwriteMove = new Class({
 		config = config || {};
 		config.buttons = [
 			{
-				value:chess.getPhrase('Overwrite'),
+				value:chess.__('Overwrite'),
 				listeners:{
 					'click':function () {
 						/**
@@ -33796,7 +33798,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Variation'),
+				value:chess.__('Variation'),
 				listeners:{
 					'click':function () {
 						/**
@@ -33810,7 +33812,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Cancel'),
+				value:chess.__('Cancel'),
 				listeners:{
 					'click':function () {
 						/**
@@ -33858,8 +33860,8 @@ chess.view.dialog.PuzzleSolved = new Class({
     buttonConfig:'OkClose',
 
     __construct: function (config) {
-        config.title = config.title || chess.getPhrase('Well done - Puzzle complete');
-        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game.');
+        config.title = config.title || chess.__('Well done - Puzzle complete');
+        config.html = config.html || chess.__('Good job! You have solved this puzzle. Click OK to load next game.');
         this.parent(config);
     }
 
@@ -34000,7 +34002,7 @@ chess.view.dialog.Comment = new Class({
     width:300,
     height:330,
     hidden:true,
-    title:chess.getPhrase('Add comment'),
+    title:chess.__('Add comment'),
     move:undefined,
     autoRemove:false,
     buttonConfig:'OkCancel',
@@ -34068,7 +34070,7 @@ chess.view.dialog.Comment = new Class({
     },
 
     getDialogTitle:function(){
-        return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
+        return chess.__( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
     }
 });/* ../dhtml-chess/src/view/button/save-game.js */
 /**
@@ -34083,7 +34085,7 @@ chess.view.button.SaveGame = new Class({
     type:'chess.view.button.SaveGame',
     module:'user',
     submodule:'saveGame',
-    value:chess.getPhrase('Save'),
+    value:chess.__('Save'),
     width:80,
     disabled:true,
     copyEvents:{
@@ -34119,7 +34121,7 @@ chess.view.button.TacticHint = new Class({
     type : 'chess.view.button.TacticHint',
     module:'chess',
     submodule : 'buttonTacticHint',
-    value : chess.getPhrase('Hint'),
+    value : chess.__('Hint'),
     width : 80,
 
     ludoEvents : function(){
@@ -34142,7 +34144,7 @@ chess.view.button.TacticSolution = new Class({
     type : 'chess.view.button.TacticSolution',
     module:'chess',
     submodule : 'buttonTacticSolution',
-    value : chess.getPhrase('Solution'),
+    value : chess.__('Solution'),
     width : 80,
 
     ludoEvents : function(){
@@ -34271,7 +34273,7 @@ chess.view.command.Controller = new Class({
 		if (command) {
 			this.execute(command, this.getCommandArguments(command, message));
 		} else {
-			this.errorMessage(chess.getPhrase('Invalid command') + ': "' + message + '"');
+			this.errorMessage(chess.__('Invalid command') + ': "' + message + '"');
 		}
 	},
 
@@ -34343,7 +34345,7 @@ chess.view.command.Controller = new Class({
 				if(!isNaN(arg)){
 					this.fireEvent(command,{ id : arg });
 				}else{
-					this.errorMessage(chess.getPhrase('Invalid game') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid game') + ': ' + arg);
 				}
 				break;
 			case 'grade':
@@ -34351,14 +34353,14 @@ chess.view.command.Controller = new Class({
 				if(this.isValidGrade(arg)){
 					this.fireEvent(command, arg);
 				}else{
-					this.errorMessage(chess.getPhrase('Invalid grade') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid grade') + ': ' + arg);
 				}
 				break;
 			case 'fen':
 				try {
 					this.fireEvent('setPosition', arg);
 				} catch (e) {
-					this.errorMessage(chess.getPhrase('Invalid position') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid position') + ': ' + arg);
 				}
 				break;
 			default:
@@ -34377,7 +34379,7 @@ chess.view.command.Controller = new Class({
 			var msg = [];
 			for (var i = 0; i < this.validCommands.length; i++) {
 				var c = this.validCommands[i];
-				msg.push(['<span class="chess-command-help-label">', c, '</span>: ', chess.getPhrase('command_' + c)].join(''));
+				msg.push(['<span class="chess-command-help-label">', c, '</span>: ', chess.__('command_' + c)].join(''));
 			}
 			this.helpMessage = msg.join('<br>');
 		}
@@ -34389,7 +34391,7 @@ chess.view.command.Controller = new Class({
      * @method onInvalidMove
      */
 	onInvalidMove:function () {
-		this.errorMessage(chess.getPhrase('Invalid move'));
+		this.errorMessage(chess.__('Invalid move'));
 	},
     /**
      * Using RegEx to validate a chess move.
@@ -34408,7 +34410,7 @@ chess.view.command.Controller = new Class({
      * @private
      */
 	receiveMove:function (controller, move) {
-		this.message(chess.getPhrase('Moving') + ' ' + move.lm);
+		this.message(chess.__('Moving') + ' ' + move.lm);
 	},
 
     /**
@@ -34448,7 +34450,7 @@ chess.view.command.Controller = new Class({
      * @param {chess.model.Move} move
      */
 	receiveMoveUpdate:function(model, move){
-		this.message(chess.getPhrase('Move updated to') + ': ' + move.lm);
+		this.message(chess.__('Move updated to') + ': ' + move.lm);
 	}
 });/* ../dhtml-chess/src/view/command/panel.js */
 /**
@@ -34468,7 +34470,7 @@ chess.view.command.Panel = new Class({
 
 	__rendered:function(){
 		this.parent();
-		this.renderLine(chess.getPhrase('commandWelcome'));
+		this.renderLine(chess.__('commandWelcome'));
 	},
 
     /**
@@ -34527,7 +34529,7 @@ chess.view.command.Panel = new Class({
 chess.view.menuItems.GameImport = new Class({
     Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.GameImport',
-    label : chess.getPhrase('Import games(PGN)'),
+    label : chess.__('Import games(PGN)'),
     module : 'user',
     submodule : 'menuItemGameImport',
     disabled:true,
@@ -34564,7 +34566,7 @@ chess.view.menuItems.GameImport = new Class({
 chess.view.menuItems.SaveGame = new Class({
     Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.saveGame',
-    label : chess.getPhrase('Save game'),
+    label : chess.__('Save game'),
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,
@@ -34604,7 +34606,7 @@ chess.view.menuItems.SaveGame = new Class({
 chess.view.menuItems.NewGame = new Class({
     Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.newGame',
-    label : chess.getPhrase('Game'),
+    label : chess.__('Game'),
     module : 'user',
     submodule : 'menuItemNewGame',
     disabled:true,
@@ -35000,7 +35002,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick: false,
     width: 640,
     height: 450,
-    title: chess.getPhrase('Position setup'),
+    title: chess.__('Position setup'),
     layout: {
         type: 'relative'
     },
@@ -35161,7 +35163,7 @@ chess.view.position.Dialog = new Class({
                 {
 
                     type: 'form.Label', labelFor: 'moveNumber',
-                    label: chess.getPhrase('Ply')
+                    label: chess.__('Ply')
                 },
                 {
                     id:'positionMoveNumber',
@@ -35189,7 +35191,7 @@ chess.view.position.Dialog = new Class({
             children:[
                 {
                     type: 'form.Label', labelFor: 'enPassant',
-                    label: chess.getPhrase('En passant'),
+                    label: chess.__('En passant'),
                 },
                 {
                     id:'positionEnPassant',
@@ -35299,13 +35301,13 @@ chess.view.position.Dialog = new Class({
                 padding:4
             },
             resizable:false,
-            html: chess.getPhrase('Paste fen into the text box below'),
+            html: chess.__('Paste fen into the text box below'),
             inputConfig: {
                 stretchField: true
             },
             modal: true,
-            label: chess.getPhrase('FEN'),
-            title: chess.getPhrase('Load fen'),
+            label: chess.__('FEN'),
+            title: chess.__('Load fen'),
             listeners: {
                 'ok': this.loadFen.bind(this)
             }
@@ -35336,7 +35338,7 @@ chess.view.position.Dialog = new Class({
 
         }catch(e){
             new ludo.Notification({
-                html : chess.getPhrase('Invalid Fen')
+                html : chess.__('Invalid Fen')
             });
             return false;
         }
@@ -35371,7 +35373,7 @@ chess.view.position.Dialog.getDialog = function (config) {
 chess.view.position.Castling = new Class({
     Extends: ludo.FramedView,
     height: 125,
-    title: chess.getPhrase('Castling'),
+    title: chess.__('Castling'),
     values: {
         'K': 'K',
         'Q': 'Q',
@@ -35504,7 +35506,7 @@ chess.view.position.Castling = new Class({
 chess.view.position.SideToMove = new Class({
     Extends:ludo.FramedView,
     height:80,
-    title:chess.getPhrase('Side to move'),
+    title:chess.__('Side to move'),
     layout:{
         type:'table',
         columns:[{width:30},{weight:1}],
@@ -35518,24 +35520,24 @@ chess.view.position.SideToMove = new Class({
                 name:'color',
                 checked:true,
                 type:'form.Radio',
-                placeholder:chess.getPhrase('White'),
+                placeholder:chess.__('White'),
                 value : 'w'
             },
             {
                 type:'form.Label',
                 labelFor:'color_w',
-                label:chess.getPhrase('White')
+                label:chess.__('White')
             },
             {
                 name:'color',
                 value : 'b',
                 type:'form.Radio',
-                placeholder:chess.getPhrase('Black')
+                placeholder:chess.__('Black')
             },
             {
                 type:'form.Label',
                 labelFor:'color_b',
-                label:chess.getPhrase('Black')
+                label:chess.__('Black')
             }
         ];
 
@@ -35606,7 +35608,7 @@ chess.view.pgn.Grid = new Class({
 
 	columns:{
 		file:{
-			heading:chess.getPhrase('Pgn files'),
+			heading:chess.__('Pgn files'),
 			key:'file',
 			width:120,
 			sortable:true
@@ -41448,7 +41450,7 @@ chess.model.Game = new Class({
      */
     gameSaved: function (data) {
         new ludo.Notification({
-            html: chess.getPhrase('Game saved successfully'),
+            html: chess.__('Game saved successfully'),
             duration: 1,
             effectDuration: .5
         });
@@ -41884,8 +41886,8 @@ chess.wordpress.GameListGrid = new Class({
             size:25
         }
     },
-    emptyText:chess.getPhrase('No games'),
-    loadMessage: chess.getPhrase('Loading games...'),
+    emptyText:chess.__('No games'),
+    loadMessage: chess.__('Loading games...'),
     cols: ['white','black', 'round', 'result', 'last_moves'],
 
     __rendered: function () {
@@ -41923,7 +41925,7 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
-            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn.pgn_name);
+            this.getParent().setTitle(chess.__('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();

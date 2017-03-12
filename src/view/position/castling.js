@@ -7,7 +7,7 @@
 chess.view.position.Castling = new Class({
     Extends: ludo.FramedView,
     height: 125,
-    title: chess.getPhrase('Castling'),
+    title: chess.__('Castling'),
     values: {
         'K': 'K',
         'Q': 'Q',

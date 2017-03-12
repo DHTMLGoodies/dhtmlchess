@@ -9,7 +9,7 @@
 chess.view.menuItems.SaveGame = new Class({
     Extends: ludo.menu.Item,
     type : 'chess.view.menuItems.saveGame',
-    label : chess.getPhrase('Save game'),
+    label : chess.__('Save game'),
     module : 'user',
     submodule : 'menuItemSaveGame',
     disabled:true,

@@ -31,7 +31,7 @@ chess.WPGameTemplate = new Class({
                         }
 
                     } else {
-                        this.fireEvent('wperrror', chess.getPhrase('Could not load game. Try again later'));
+                        this.fireEvent('wperrror', chess.__('Could not load game. Try again later'));
                     }
                 }.bind(this),
                 fail: function (text, error) {

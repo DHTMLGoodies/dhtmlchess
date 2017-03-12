@@ -88,7 +88,7 @@ chess.GamesFromFile = new Class({
                                     }
                                 },
                                 shim:{
-                                    txt : chess.getPhrase('Loading games')
+                                    txt : chess.__('Loading games')
                                 },
                                 paging:{
                                     size:18,

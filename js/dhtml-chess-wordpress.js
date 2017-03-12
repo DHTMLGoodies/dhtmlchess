@@ -1,4 +1,4 @@
-/* Generated Sat Mar 11 23:13:52 CET 2017 */
+/* Generated Sun Mar 12 14:06:37 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -21990,9 +21990,10 @@ chess.language = {
     "Pgn File" : "Pgn File"
 };
 
-chess.getPhrase = function (phrase) {
+chess.__ = function (phrase) {
     return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
-};/* ../dhtml-chess/src/view/notation/panel.js */
+};
+/* ../dhtml-chess/src/view/notation/panel.js */
 /**
  Chess notation panel
 
@@ -22091,7 +22092,7 @@ chess.view.notation.Panel = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {
@@ -22120,18 +22121,19 @@ chess.view.notation.Panel = new Class({
         return {
             listeners: {
                 click: function (el) {
+                    var m = this.getContextMenuMove();
                     switch (el.action) {
                         case 'grade':
-                            this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('gradeMove', [m, el.icon]);
                             break;
                         case 'commentBefore':
-                            this.fireEvent('commentBefore', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentBefore', [m, el.icon]);
                             break;
                         case 'commentAfter':
-                            this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentAfter', [m, el.icon]);
                             break;
                         case 'deleteMove':
-                            this.fireEvent('deleteMove', this.getContextMenuMove());
+                            this.fireEvent('deleteMove', m);
                             break;
                     }
                 }.bind(this),
@@ -22141,20 +22143,20 @@ chess.view.notation.Panel = new Class({
             },
             selector: '.notation-chess-move',
             children: [
-                {label: chess.getPhrase('Add comment before'), action: 'commentBefore'},
-                {label: chess.getPhrase('Add comment after'), action: 'commentAfter'},
+                {label: chess.__('Add comment before'), action: 'commentBefore'},
+                {label: chess.__('Add comment after'), action: 'commentAfter'},
                 {
                     label: 'Grade', children: [
-                    {icon: '', label: chess.getPhrase('Clear'), action: 'grade'},
-                    {icon: '!', label: chess.getPhrase('Good move'), action: 'grade'},
-                    {icon: '?', label: chess.getPhrase('Poor move'), action: 'grade'},
-                    {icon: '!!', label: chess.getPhrase('Very good move'), action: 'grade'},
-                    {icon: '??', label: chess.getPhrase('Very poor move'), action: 'grade'},
-                    {icon: '?!', label: chess.getPhrase('Questionable move'), action: 'grade'},
-                    {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
+                    {icon: '', label: chess.__('Clear'), action: 'grade'},
+                    {icon: '!', label: chess.__('Good move'), action: 'grade'},
+                    {icon: '?', label: chess.__('Poor move'), action: 'grade'},
+                    {icon: '!!', label: chess.__('Very good move'), action: 'grade'},
+                    {icon: '??', label: chess.__('Very poor move'), action: 'grade'},
+                    {icon: '?!', label: chess.__('Questionable move'), action: 'grade'},
+                    {icon: '!?', label: chess.__('Speculative move'), action: 'grade'}
                 ]
                 },
-                {label: chess.getPhrase('Delete Move'), action: 'deleteMove'}
+                {label: chess.__('Delete Move'), action: 'deleteMove'}
             ]
         };
     },
@@ -22228,7 +22230,6 @@ chess.view.notation.Panel = new Class({
     },
 
     _scrollIntoView:function(moveTop, oh){
-
         var b = this.$b();
         var scrollTop = b.scrollTop();
         var bottomOfScroll = scrollTop + b.height();
@@ -22239,7 +22240,6 @@ chess.view.notation.Panel = new Class({
             b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
-
 
     showMoves: function (model) {
         var move = model.getCurrentMove();
@@ -22292,7 +22292,6 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-
             var pr = i > 0 ? branch[i-1] : undefined;
 
             s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';
@@ -22691,6 +22690,34 @@ chess.view.notation.LastMove = new Class({
         });
         this.els.mc.append(this.els.right);
     }
+});/* ../dhtml-chess/src/view/notation/last-comment.js */
+chess.view.notation.LastComment = new Class({
+    Extends: ludo.View,
+
+    __rendered:function(){
+        this.parent();
+        this.$b().css('overflow-y', 'auto');
+        this.$b().addClass('dhtml_chess_current_annotation');
+    },
+    setController: function (controller) {
+        this.parent(controller);
+        controller.on('fen', this.update.bind(this));
+        controller.on('newmove', this.update.bind(this));
+    },
+
+    update:function(model){
+
+        var m = model.getCurrentMove();
+        if (!m && model.model.moves.length > 0 && model.model.moves[0].comment) {
+            m = model.model.moves[0];
+        }
+        if(!m){
+            this.$b().html('');return;
+        }
+        var c = m.comment ? m.comment : '';
+        this.$b().html(c);
+    }
+
 });/* ../dhtml-chess/src/view/board/gui.js */
 /**
  * Javascript Class for Chess Board and Pieces on the board
@@ -22911,7 +22938,7 @@ chess.view.board.GUI = new Class({
         this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
         this.els.board.append(this.els.hParent);
     },
-    
+
     getDivForInteraction:function(){
         return this.els.hParent;
     },
@@ -23057,10 +23084,8 @@ chess.view.board.GUI = new Class({
                 rank.css('line-height', this.internal.squareSize);
 
             }
-
             el.append(rank);
         }
-
 
         var parent = this.labelPos == 'outside' ? this.els.boardContainer : this.els.board;
 
@@ -23110,8 +23135,8 @@ chess.view.board.GUI = new Class({
             left: off.left - bodyOff.left,
             top: off.top - bodyOff.top
         };
-        ret.width = this.els.boardContainer.outerWidth();
-        ret.height = this.els.boardContainer.outerHeight();
+        ret.width = b.outerWidth();
+        ret.height = b.outerHeight();
         return ret;
     },
 
@@ -23135,8 +23160,8 @@ chess.view.board.GUI = new Class({
         });
 
         var boardSize = Math.min(
-            this.$b().width() - (this.els.boardContainer.outerWidth() - this.els.boardContainer.width()),
-            this.$b().height() - (this.els.boardContainer.outerHeight() - this.els.boardContainer.height())
+            this.$b().width() - (bc.outerWidth() - bc.width()),
+            this.$b().height() - (bc.outerHeight() - bc.height())
         );
 
         if (boardSize < 10 || (boardSize == this.lastBoardSize.x && boardSize == this.lastBoardSize.y)) {
@@ -23166,7 +23191,7 @@ chess.view.board.GUI = new Class({
 
         this.internal.pieceSize = this.getNewPieceSize();
 
-        var w = this.els.boardContainer.width() - (this.els.board.outerWidth() - this.els.board.width());
+        var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
         if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
             var o = w % 8;
@@ -23179,8 +23204,6 @@ chess.view.board.GUI = new Class({
         }
 
         this.internal.squareSize = w / 8;
-
-
 
         this.els.board.css({
             position: 'absolute',
@@ -23531,7 +23554,7 @@ chess.view.board.Board = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {
@@ -24871,218 +24894,6 @@ chess.view.highlight.Square = new Class({
 		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
 		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));
 	}
-});/* ../dhtml-chess/src/view/highlight/arrow-svg.js */
-chess.view.board.ArrowSVG = new Class({
-	Extends:ludo.svg.Canvas,
-
-	squareSize:60,
-	/*
-	 * Width of arrow head
-	 */
-	arrowWidth:24,
-	/*
-	 * Height of arrow head
-	 */
-	arrowHeight:35,
-	/*
-	 * Width of arrow line
-	 */
-	lineWidth:10,
-	/*
-	 * Offset at arrow end(+ value = smaller arrow, measured from center of square)
-	 */
-	offsetEnd:15,
-	/*
-	 * Offset at start of arrow (positive value = smaller arrow - measured from center of square)
-	 */
-	offsetStart:0,
-	/*
-	 * Size of rounded edge
-	 */
-	roundEdgeSize:8,
-	/*
-	 * 0 = 90 degrees from line to left and right tip of arrow, positive value = less than 90 degrees
-	 */
-	arrowOffset:0,
-	
-	arrowPaint:undefined,
-
-	__construct:function (config) {
-		this.parent(config);
-		if (config.arrowPaint !== undefined){
-			this.arrowPaint = config.arrowPaint;
-			this.appendDef(this.arrowPaint);
-		}
-		this.createArrow();
-	},
-
-	createArrow:function () {
-		var pathConfig = {};
-		if(this.arrowPaint)pathConfig['class'] = this.arrowPaint;
-		this.pathEl = new ludo.svg.Node('path', pathConfig);
-		this.append(this.pathEl);
-		this.set('width', '100%');
-		this.set('height', '100%');
-	},
-
-	getCoordinates:function (coordinates) {
-		var ret = {
-			width:coordinates.squares.width * this.squareSize,
-			height:coordinates.squares.height * this.squareSize,
-			start:{
-				x:coordinates.arrow.start.x * this.squareSize,
-				y:coordinates.arrow.start.y * this.squareSize
-			},
-			end:{
-				x:coordinates.arrow.end.x * this.squareSize,
-				y:coordinates.arrow.end.y * this.squareSize
-			},
-			squares:coordinates.squares
-		};
-
-		ret.oposite = (ret.start.y - ret.end.y);
-		ret.adjacent = (ret.end.x - ret.start.x);
-		ret.hyp = Math.sqrt(ret.oposite * ret.oposite + ret.adjacent * ret.adjacent);
-		ret.cos = this.getCos(ret);
-		ret.sin = this.getSin(ret);
-
-
-		if (ret.cos < 0 && ret.sin >= 0) {
-			ret.angle = Math.acos(ret.cos);
-		} else {
-			if (ret.cos < 0) {
-				ret.angle = Math.acos(ret.cos) * -1
-			} else {
-				ret.angle = Math.asin(ret.sin);
-			}
-		}
-
-		if (this.offsetEnd != 0) {
-			ret.end.x -= this.offsetEnd * Math.cos(ret.angle);
-			ret.end.y += this.offsetEnd * Math.sin(ret.angle);
-		}
-		if (this.offsetStart != 0) {
-			ret.start.x += this.offsetStart * Math.cos(ret.angle);
-			ret.start.y -= this.offsetStart * Math.sin(ret.angle);
-		}
-
-
-		return ret;
-	},
-
-	newPath:function (coordinates) {
-		coordinates = this.getCoordinates(coordinates);
-		this.setViewBox(coordinates.width, coordinates.height);
-		this.pathEl.set('d', this.getPath(coordinates));
-	},
-
-	getPath:function (coordinates) {
-
-		var points = this.getPoints(coordinates);
-		var path = '';
-		for (var i = 0; i < points.length; i++) {
-			path += points[i].tag ? points[i].tag + ' ' : '';
-			path += Math.round(points[i].x) + ',' + Math.round(points[i].y) + ' ';
-		}
-		return path;
-	},
-
-	getPoints:function (c) {
-		var ret = [];
-		ret.push({x:c.end.x, y:c.end.y, tag:'M'});
-		var cos2 = Math.cos(c.angle + Math.PI / 2);
-		var sin2 = Math.sin(c.angle + Math.PI / 2);
-
-		ret.push(
-			{
-				tag:'L',
-				x:c.end.x - this.arrowHeight * c.cos + (this.arrowWidth / 2 * cos2),
-				y:c.end.y + this.arrowHeight * c.sin - (this.arrowWidth / 2 * sin2)
-			});
-		ret.push(
-			{
-				x:c.end.x - (this.arrowHeight - this.arrowOffset) * c.cos + (this.lineWidth / 2 * cos2),
-				y:c.end.y + (this.arrowHeight - this.arrowOffset) * c.sin - (this.lineWidth / 2 * sin2)
-			});
-
-
-		ret.push(
-			{
-				x:c.start.x + (this.lineWidth / 2 * cos2),
-				y:c.start.y - (this.lineWidth / 2 * sin2)
-			});
-
-		var nextTag = 'L';
-		if (this.roundEdgeSize > 0) {
-			ret.push({
-				tag:'C',
-				x:c.start.x - (this.roundEdgeSize * c.cos) + (this.lineWidth / 2 * cos2),
-				y:c.start.y + (this.roundEdgeSize * c.sin) - (this.lineWidth / 2 * sin2)
-			});
-			ret.push({
-				x:c.start.x - (this.roundEdgeSize * c.cos) - (this.lineWidth / 2 * cos2),
-				y:c.start.y + (this.roundEdgeSize * c.sin) + (this.lineWidth / 2 * sin2)
-			});
-			ret.push(
-				{
-					x:c.start.x - (this.lineWidth / 2 * cos2),
-					y:c.start.y + (this.lineWidth / 2 * sin2)
-				});
-			nextTag = 'M';
-		}
-
-		ret.push(
-			{
-				tag:nextTag,
-				x:c.start.x - (this.lineWidth / 2 * cos2),
-				y:c.start.y + (this.lineWidth / 2 * sin2)
-			});
-		ret.push(
-			{
-				tag:'L',
-				x:c.end.x - (this.arrowHeight - this.arrowOffset) * c.cos - (this.lineWidth / 2 * cos2),
-				y:c.end.y + (this.arrowHeight - this.arrowOffset) * c.sin + (this.lineWidth / 2 * sin2)
-			});
-
-		ret.push(
-			{
-				x:c.end.x - this.arrowHeight * c.cos - (this.arrowWidth / 2 * cos2),
-				y:c.end.y + this.arrowHeight * c.sin + (this.arrowWidth / 2 * sin2)
-			});
-		ret.push({x:c.end.x, y:c.end.y});
-
-		return ret;
-	},
-
-	toDegrees:function (radians) {
-		return radians * 180 / Math.PI;
-	},
-
-	toRadians:function (degrees) {
-		return degrees / 180 * Math.PI;
-	},
-
-	getLineSize:function (c) {
-		var w = c.width - this.squareSize;
-		var h = c.height - this.squareSize;
-		return Math.sqrt(w * w + h * h);
-	},
-
-	getAngles:function (c) {
-		return {
-			line:c.angle,
-			arrow1:c.angle + Math.PI / 2,
-			arrow2:c.angle - Math.PI / 2
-		};
-	},
-
-	getSin:function (c) {
-		return (c.start.y - c.end.y) / c.hyp;
-	},
-
-	getCos:function (c) {
-		return (c.end.x - c.start.x) / c.hyp;
-	}
 });/* ../dhtml-chess/src/view/highlight/arrow-base.js */
 chess.view.highlight.ArrowBase = new Class({
     Extends: chess.view.highlight.Base,
@@ -26030,39 +25841,46 @@ chess.view.buttonbar.Bar = new Class({
     setController: function (controller) {
         this.parent(controller);
 
-        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
-        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
-        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
-        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
-        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
-        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        this.controller.addEvents({
+            startOfGame : this.startOfGame.bind(this),
+            notStartOfGame : this.notStartOfBranch.bind(this),
+            endOfBranch : this.endOfBranch.bind(this),
+            notEndOfBranch : this.notEndOfBranch.bind(this),
+            startAutoplay : this.startAutoPlay.bind(this),
+            stopAutoplay : this.stopAutoPlay.bind(this),
+            newGame : this.newGame.bind(this)
+        });
     },
 
 
     startOfGame: function () {
-        this.disableButton('start');
-        this.disableButton('previous');
+        this.disButtons(['start','previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enableButton('start');
-        this.enableButton('previous');
-        this.enableButton('play');
+        this.enButtons(['start','previous','play']);
     },
     endOfBranch: function () {
-        this.disableButton('end');
-        this.disableButton('next');
-        this.disableButton('play');
+        this.disButtons(['end','next','play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
+    disButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.disableButton(btn);
+        }.bind(this))
+    },
+    enButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.enableButton(btn);
+        }.bind(this))
+    },
+
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enableButton('end');
-        this.enableButton('next');
+        this.enButtons(['end','next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -26072,7 +25890,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');
@@ -26180,7 +25998,7 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: chess.getPhrase('White'),
+            heading: chess.__('White'),
             key: 'white',
             width: 120,
             sortable: true,
@@ -26189,7 +26007,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         black: {
-            heading: chess.getPhrase('Black'),
+            heading: chess.__('Black'),
             key: 'black',
             width: 120,
             sortable: true,
@@ -26198,7 +26016,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         round: {
-            heading: chess.getPhrase('Round'),
+            heading: chess.__('Round'),
             key: 'round',
             width: 70,
             sortable: true,
@@ -26207,7 +26025,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         result: {
-            heading: chess.getPhrase('Result'),
+            heading: chess.__('Result'),
             key: 'result',
             width: 70,
             sortable: true,
@@ -26217,7 +26035,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         event: {
-            heading: chess.getPhrase('Event'),
+            heading: chess.__('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
@@ -26227,7 +26045,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         last_moves: {
-            heading: chess.getPhrase('Last moves'),
+            heading: chess.__('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,
@@ -26470,7 +26288,7 @@ chess.view.metadata.FenField = new Class({
     module:'chess',
     submodule : 'metadata.FenField',
     stretchField : true,
-    label : chess.getPhrase('FEN'),
+    label : chess.__('FEN'),
     formCss : { 'font-size' : '10px'},
     labelWidth : 30,
     selectOnFocus : true,
@@ -26536,23 +26354,23 @@ chess.view.message.TacticsMessage = new Class({
         var res = model.getResult();
         if(res != 0){
             if(res == -1){
-                this.showMessage(chess.getPhrase("You play black"), d);
+                this.showMessage(chess.__("You play black"), d);
             }else{
-                this.showMessage(chess.getPhrase("You play white"), d);
+                this.showMessage(chess.__("You play white"), d);
             }
         }else{
             var colorToMove = model.getColorToMove();
-            this.showMessage(chess.getPhrase(colorToMove) + ' ' + chess.getPhrase('to move'), d);
+            this.showMessage(chess.__(colorToMove) + ' ' + chess.__('to move'), d);
         }
     },
 
     showWrongGuess: function () {
-        this.showMessage(chess.getPhrase('Wrong move - please try again'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Wrong move - please try again'), this.autoHideAfterMs);
 
     },
 
     showCorrectGuess: function () {
-        this.showMessage(chess.getPhrase('Good move'), this.autoHideAfterMs);
+        this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
 
     },
 
@@ -26629,7 +26447,7 @@ chess.view.dialog.OverwriteMove = new Class({
 		config = config || {};
 		config.buttons = [
 			{
-				value:chess.getPhrase('Overwrite'),
+				value:chess.__('Overwrite'),
 				listeners:{
 					'click':function () {
 						/**
@@ -26643,7 +26461,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Variation'),
+				value:chess.__('Variation'),
 				listeners:{
 					'click':function () {
 						/**
@@ -26657,7 +26475,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Cancel'),
+				value:chess.__('Cancel'),
 				listeners:{
 					'click':function () {
 						/**
@@ -26705,8 +26523,8 @@ chess.view.dialog.PuzzleSolved = new Class({
     buttonConfig:'OkClose',
 
     __construct: function (config) {
-        config.title = config.title || chess.getPhrase('Well done - Puzzle complete');
-        config.html = config.html || chess.getPhrase('Good job! You have solved this puzzle. Click OK to load next game.');
+        config.title = config.title || chess.__('Well done - Puzzle complete');
+        config.html = config.html || chess.__('Good job! You have solved this puzzle. Click OK to load next game.');
         this.parent(config);
     }
 
@@ -26847,7 +26665,7 @@ chess.view.dialog.Comment = new Class({
     width:300,
     height:330,
     hidden:true,
-    title:chess.getPhrase('Add comment'),
+    title:chess.__('Add comment'),
     move:undefined,
     autoRemove:false,
     buttonConfig:'OkCancel',
@@ -26915,7 +26733,7 @@ chess.view.dialog.Comment = new Class({
     },
 
     getDialogTitle:function(){
-        return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
+        return chess.__( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
     }
 });/* ../dhtml-chess/src/view/button/tactic-hint.js */
 /**
@@ -26929,7 +26747,7 @@ chess.view.button.TacticHint = new Class({
     type : 'chess.view.button.TacticHint',
     module:'chess',
     submodule : 'buttonTacticHint',
-    value : chess.getPhrase('Hint'),
+    value : chess.__('Hint'),
     width : 80,
 
     ludoEvents : function(){
@@ -26952,7 +26770,7 @@ chess.view.button.TacticSolution = new Class({
     type : 'chess.view.button.TacticSolution',
     module:'chess',
     submodule : 'buttonTacticSolution',
-    value : chess.getPhrase('Solution'),
+    value : chess.__('Solution'),
     width : 80,
 
     ludoEvents : function(){
@@ -27050,7 +26868,7 @@ chess.view.pgn.Grid = new Class({
 
 	columns:{
 		file:{
-			heading:chess.getPhrase('Pgn files'),
+			heading:chess.__('Pgn files'),
 			key:'file',
 			width:120,
 			sortable:true
@@ -30824,7 +30642,7 @@ chess.controller.PlayStockFishController = new Class({
 
             this.engine = new Worker(this.stockfish);
 
-            this.fireEvent('enginestatus', chess.getPhrase('loading StockfishJS'));
+            this.fireEvent('enginestatus', chess.__('loading StockfishJS'));
 
             this.uciCmd('uci');
             this.uciCmd('ucinewgame');
@@ -30833,7 +30651,7 @@ chess.controller.PlayStockFishController = new Class({
                 var line = event.data;
 
                 if (line == 'uciok') {
-                    that.fireEvent('enginestatus', chess.getPhrase('StockfishJS loaded. Loading Opening Book'));
+                    that.fireEvent('enginestatus', chess.__('StockfishJS loaded. Loading Opening Book'));
                     if (!that.engineStatus.engineLoaded) {
                         that.engineStatus.engineLoaded = true;
 
@@ -30841,7 +30659,7 @@ chess.controller.PlayStockFishController = new Class({
                             url: ludo.config.getUrl() + '/stockfish-js/book.bin',
                             complete: function (response) {
                                 this.engine.postMessage({book: response.responseText});
-                                this.fireEvent('enginestatus', [chess.getPhrase('Stockfish Ready'), true]);
+                                this.fireEvent('enginestatus', [chess.__('Stockfish Ready'), true]);
                                 this.fireEvent('newgamedialog');
                             }.bind(that)
                         });
@@ -32978,7 +32796,7 @@ chess.model.Game = new Class({
      */
     gameSaved: function (data) {
         new ludo.Notification({
-            html: chess.getPhrase('Game saved successfully'),
+            html: chess.__('Game saved successfully'),
             duration: 1,
             effectDuration: .5
         });
@@ -33275,130 +33093,7 @@ chess.dataSource.PgnList = new Class({
         service:'read'
     }
     
-});/* ../dhtml-chess/src/pgn/parser.js */
-/**
- Model to PGN parser. Takes a
- {{#crossLink "chess.model.Game"}}{{/crossLink}} as only argument
- and returns a PGN string for the game.
- @namespace chess.pgn
- @class Parser
- @constructor
- @param {chess.model.Game} model
- @example
- var game = new chess.model.Game();
- game.setMetadataValue('white','Magnus Carlsen');
- game.setMetadataValue('black','Levon Aronian');
- game.appendMove('e4');
- game.appendMove('e5');
-
- var parser = new chess.pgn.Parser(game);
- console.log(parser.getPgn());
- */
-chess.pgn.Parser = new Class({
-    /**
-     * @property {chess.model.Game} model
-     * @private
-     */
-    model: undefined,
-
-
-    initialize: function (model) {
-        this.model = model;
-    },
-
-    /**
-     * Return pgn in string format
-     * @method getPgn
-     * @return {String}
-     */
-    getPgn: function (model) {
-        if (model != undefined)this.model = model;
-        return [this.getMetadata(), this.getMoves()].join("\n\n");
-    },
-
-    /**
-     * @method getMetadata
-     * @return {String}
-     * @private
-     */
-    getMetadata: function () {
-        var ret = [];
-        var metadata = this.model.getMetadata();
-        jQuery.each(metadata, function(key, val){
-            if(key != 'id' && key != 'pgn' && key != 'draft_id' && key != 'index'){
-                ret.push('[' + this.ucFirst(key) + ' "' +val + '"]');
-            }
-        }.bind(this));
-        return ret.join('\n');
-    },
-
-    ucFirst: function (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    },
-
-    /**
-     * @method getMoves
-     * @return {String}
-     * @private
-     */
-    getMoves: function () {
-        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
-    },
-
-    /**
-     * Return comment before first move
-     * @method getFirstComment
-     * @return {String}
-     * @private
-     */
-    getFirstComment: function () {
-        var m = this.model.getMetadata();
-        if (m['comment'] !== undefined && m['comment'].length > 0) {
-            return '{' + m['comment'] + '} ';
-        }
-        return '';
-    },
-
-    /**
-     * Return main line of moves or a variation
-     * @method getMovesInBranch
-     * @param {Array} moves
-     * @param {Number} moveIndex
-     * @return {String}
-     * @private
-     */
-    getMovesInBranch: function (moves, moveIndex) {
-        moveIndex = moveIndex || 0;
-        var ret = [];
-        var insertNumber = true;
-        for (var i = 0; i < moves.length; i++) {
-            if (moves[i]['m'] !== undefined) {
-                if (moveIndex % 2 === 0 || insertNumber) {
-                    var isWhite = moveIndex % 2 === 0;
-                    ret.push([Math.floor(moveIndex / 2) + 1, (isWhite ? '.' : '..')].join(''));
-                }
-                ret.push(moves[i]['m']);
-                moveIndex++;
-
-                insertNumber = false;
-            }
-            if (moves[i]['comment'] !== undefined) {
-                ret.push("{" + moves[i]['comment'] + "}");
-            }
-
-            if (moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0) {
-                var variations = moves[i]['variations'];
-                for (var j = 0; j < variations.length; j++) {
-                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
-
-                }
-                insertNumber = true;
-            }
-        }
-        return ret.join(' ');
-    }
-});
-/* ../dhtml-chess/src/wordpress/game-list-grid.js */
+});/* ../dhtml-chess/src/wordpress/game-list-grid.js */
 chess.wordpress.GameListGrid = new Class({
     Extends: chess.view.gamelist.Grid,
     headerMenu: false,
@@ -33414,8 +33109,8 @@ chess.wordpress.GameListGrid = new Class({
             size:25
         }
     },
-    emptyText:chess.getPhrase('No games'),
-    loadMessage: chess.getPhrase('Loading games...'),
+    emptyText:chess.__('No games'),
+    loadMessage: chess.__('Loading games...'),
     cols: ['white','black', 'round', 'result', 'last_moves'],
 
     __rendered: function () {
@@ -33453,7 +33148,7 @@ chess.wordpress.GameListGrid = new Class({
 
     load: function () {
         if (this.controller.pgn) {
-            this.getParent().setTitle(chess.getPhrase('PGN:') + ' ' + this.controller.pgn.pgn_name);
+            this.getParent().setTitle(chess.__('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
@@ -33856,7 +33551,7 @@ chess.computer.GameDialog = new Class({
     },
     buttonConfig: 'Ok',
 
-    title: chess.getPhrase('New Game'),
+    title: chess.__('New Game'),
     elo: undefined,
     color: undefined,
     modal:false,
@@ -33891,7 +33586,7 @@ chess.computer.GameDialog = new Class({
         return [
             {
                 type: 'form.Label',
-                label: chess.getPhrase('Your color:'),
+                label: chess.__('Your color:'),
                 layout: {
                     colspan: 4
                 }
@@ -33914,7 +33609,7 @@ chess.computer.GameDialog = new Class({
                     'border': '2px solid transparent',
                     'text-align': 'center'
                 },
-                html: chess.getPhrase('White')
+                html: chess.__('White')
             }, {
                 name: 'color-black',
                 layout: {
@@ -33933,16 +33628,16 @@ chess.computer.GameDialog = new Class({
                     'border': '3px solid transparent',
                     'text-align': 'center'
                 },
-                html: chess.getPhrase('Black')
+                html: chess.__('Black')
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Opponent rating:'), labelFor: 'name',
+                type: 'form.Label', label: chess.__('Opponent rating:'), labelFor: 'name',
                 layout: {
                     colspan: 2
                 }
             },
             {
-                type: 'form.Number', name: 'stockfishElo', placeholder: chess.getPhrase('ex: 1400')
+                type: 'form.Number', name: 'stockfishElo', placeholder: chess.__('ex: 1400')
             },
             {
                 layout: {colspan: 1}
@@ -33951,14 +33646,14 @@ chess.computer.GameDialog = new Class({
                 layout: {colspan: 4, height: 20}
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Time'), css: {'font-size': '1.3em'},
+                type: 'form.Label', label: chess.__('Time'), css: {'font-size': '1.3em'},
                 layout: {
                     colspan: 2
                 }
 
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Increment'),
+                type: 'form.Label', label: chess.__('Increment'),
                 layout: {
                     colspan: 2
                 }
@@ -33974,7 +33669,7 @@ chess.computer.GameDialog = new Class({
                 }
             },
             {
-                html: chess.getPhrase('min'),
+                html: chess.__('min'),
                 css: {
                     padding: 5
                 }
@@ -33990,7 +33685,7 @@ chess.computer.GameDialog = new Class({
                 }
             },
             {
-                html: chess.getPhrase('sec'),
+                html: chess.__('sec'),
                 css: {
                     padding: 5
                 }
@@ -34115,10 +33810,10 @@ chess.computer.GameOverDialog = new Class({
         children: [
             {
                 name: 'rematch',
-                value: chess.getPhrase('Rematch')
+                value: chess.__('Rematch')
             },
             {
-                value: chess.getPhrase('Exit')
+                value: chess.__('Exit')
             }
         ]
     },
@@ -34165,9 +33860,9 @@ chess.computer.GameOverDialog = new Class({
     onGameOver: function (myResult, oldElo, newElo) {
         this.show();
 
-        var title = myResult == 1 ? chess.getPhrase('You Won')
-            : myResult == 0 ? chess.getPhrase('Game Drawn')
-            : chess.getPhrase('You lost');
+        var title = myResult == 1 ? chess.__('You Won')
+            : myResult == 0 ? chess.__('Game Drawn')
+            : chess.__('You lost');
 
         this.setTitle(title);
 
@@ -34195,7 +33890,7 @@ chess.computer.GameOverDialog = new Class({
         else {
             ratingChange = '<span class="rating-change-loss">' + ratingChange + '</span>';
         }
-        this.child['rating'].html(chess.getPhrase('New rating') + ': <span class="new-rating">' + newElo + '</span> (' + ratingChange + ')');
+        this.child['rating'].html(chess.__('New rating') + ': <span class="new-rating">' + newElo + '</span> (' + ratingChange + ')');
 
 
     }
@@ -34410,8 +34105,8 @@ chess.WPGameGrid = new Class({
             action: 'list_of_games'
         }
     },
-    emptyText: chess.getPhrase('No games'),
-    loadMessage: chess.getPhrase('Loading games...'),
+    emptyText: chess.__('No games'),
+    loadMessage: chess.__('Loading games...'),
     cols: ['white', 'black', 'round', 'result', 'last_moves'],
 
     __construct: function (config) {
@@ -34479,7 +34174,7 @@ chess.WPGameTemplate = new Class({
                         }
 
                     } else {
-                        this.fireEvent('wperrror', chess.getPhrase('Could not load game. Try again later'));
+                        this.fireEvent('wperrror', chess.__('Could not load game. Try again later'));
                     }
                 }.bind(this),
                 fail: function (text, error) {
@@ -34501,15 +34196,27 @@ window.chess.isWordPress = true;
 chess.WPGame1 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize: undefined,
-
+    buttonSize: 45,
+    
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css({
-            'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
-            position: 'relative'
-        });
-        this.boardSize = w - 200;
+
+        if(ludo.isMobile){
+            this.renderTo.css({
+                'height': Math.ceil(w + this.wpm_h + 40),
+                position: 'relative'
+            });
+            this.boardSize = w - 200;
+        }else{
+            this.renderTo.css({
+                'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
+                position: 'relative'
+            });
+            this.boardSize = w - 200;
+        }
+
+
         this.bs = this.boardSize > 400 ? this.boardSize : w;
         if (this.canRender()) {
             this.render();
@@ -34517,6 +34224,30 @@ chess.WPGame1 = new Class({
     },
 
     render: function () {
+
+        this.board = Object.merge({
+            boardLayout: undefined,
+            id: 'tactics_board',
+            type: 'chess.view.board.Board',
+            module: this.module,
+            overflow: 'hidden',
+            pieceLayout: 'svg3',
+            boardCss: {
+                border: 0
+            },
+            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+            labelPos: 'outside', // show labels inside board, default is 'outside'
+            layout: {
+                weight: 1,
+                height: 'wrap'
+            },
+            plugins: [
+                Object.merge({
+                    type: 'chess.view.highlight.Arrow'
+                }, this.arrow)
+            ]
+        }, this.board);
+
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
             cls: this.th,
@@ -34525,81 +34256,7 @@ chess.WPGame1 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: [
-                {
-                    layout: {
-                        height: 35,
-                        width: ludo.isMobile ? 'matchParent' : this.boardSize
-                    },
-                    module: this.module,
-                    type: 'chess.view.metadata.Game',
-                    tpl: this.heading_tpl || '{white} - {black}',
-                    cls: 'metadata',
-                    css: {
-                        'text-align': 'center',
-                        'overflow-y': 'auto',
-                        'font-weight': 'bold'
-                    }
-                },
-
-                {
-                    layout: {
-                        type: 'linear', orientation: 'horizontal',
-                        height: this.boardSize
-                    },
-
-                    children: [
-                        Object.merge({
-                            boardLayout: undefined,
-                            id: 'tactics_board',
-                            type: 'chess.view.board.Board',
-                            module: this.module,
-                            overflow: 'hidden',
-                            pieceLayout: 'svg3',
-                            boardCss: {
-                                border: 0
-                            },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
-                            layout: {
-                                weight: 1,
-                                height: 'wrap'
-                            },
-                            plugins: [
-                                Object.merge({
-                                    type: 'chess.view.highlight.Arrow'
-                                }, this.arrow)
-                            ]
-                        }, this.board),
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Table',
-                            layout: {
-                                width: 200
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
-                    ]
-                },
-                {
-                    css: {
-                        'margin-top': 5
-                    },
-                    type: 'chess.view.buttonbar.Bar',
-                    layout: {
-                        height: 45,
-                        width: this.bs
-                    },
-                    module: this.module
-                },
-                {
-                    type: 'chess.WPComMessage'
-                }
-            ]
+            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.controller = new chess.controller.Controller({
@@ -34608,6 +34265,122 @@ chess.WPGame1 = new Class({
 
         this.loadGame();
 
+    },
+
+    desktopChildren: function () {
+        return [
+            {
+                layout: {
+                    height: 35,
+                    width: ludo.isMobile ? 'matchParent' : this.boardSize
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: this.heading_tpl || '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-weight': 'bold'
+                }
+            },
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: this.boardSize
+                },
+
+                children: [
+                    this.board,
+                    {
+                        id: this.module + '-panel',
+                        name: "notation-panel",
+                        type: 'chess.view.notation.Table',
+                        layout: {
+                            width: 200
+                        },
+                        elCss: {
+                            'margin-left': '2px'
+                        },
+                        module: this.module
+                    }
+                ]
+            },
+            {
+                css: {
+                    'margin-top': 5
+                },
+                type: 'chess.view.buttonbar.Bar',
+                layout: {
+                    height: 45,
+                    width: this.bs
+                },
+                module: this.module
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+        ];
+    },
+
+    mobileChildren: function () {
+        return [
+            this.board,
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: this.buttonSize
+                },
+                elCss: {
+                    'margin-top': 10
+                },
+                children: [
+                    {weight: 1},
+                    {
+                        anchor: [0.5, 0.5],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: ['start', 'previous'],
+                        module: this.module,
+                        layout: {
+                            width: (this.buttonSize) * 3
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        type: 'chess.view.notation.LastMove',
+                        module: this.module,
+                        layout: {
+
+                            width: this.buttonSize * 2
+
+                        },
+                        css: {
+                            border: 'none'
+                        }
+                    },
+                    {
+                        anchor: [0.5, 0.5],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: ['next', 'end'],
+                        module: this.module,
+                        layout: {
+                            width: (this.buttonSize) * 2
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {weight: 1}
+
+                ]
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+        ];
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game2.js */
@@ -34713,14 +34486,43 @@ chess.WPGame2 = new Class({
 window.chess.isWordPress = true;
 chess.WPGame3 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
+    boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w - 150 + 42 + 35 +  this.wpm_h);
-        this.boardSize = w - 150;
-        if(this.canRender()){
+        if (ludo.isMobile) {
+            this.renderTo.css('height', w + 275 + this.wpm_h);
+            this.boardSize = w;
+        } else {
+            this.boardSize = w * 2 / 3;
+            this.renderTo.css('height', w - 150 + 42 + 35 + this.wpm_h);
+        }
+
+        this.board = Object.merge({
+            boardLayout: undefined,
+            id: 'tactics_board',
+            type: 'chess.view.board.Board',
+            module: this.module,
+            overflow: 'hidden',
+            pieceLayout: 'svg3',
+            boardCss: {
+                border: 0
+            },
+            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+            labelPos: 'outside', // show labels inside board, default is 'outside'
+            layout: {
+                weight: 2,
+                height: 'wrap'
+            },
+            plugins: [
+                Object.merge({
+                    type: 'chess.view.highlight.Arrow'
+                }, this.arrow)
+            ]
+        }, this.board);
+
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -34728,152 +34530,207 @@ chess.WPGame3 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: [
-                {
-                    layout: {
-                        height: 35,
-                        width: this.boardSize
-                    },
-                    module: this.module,
-                    type: 'chess.view.metadata.Game',
-                    tpl: this.heading_tpl || '{white} - {black}',
-                    cls: 'metadata',
-                    css: {
-                        'text-align': 'center',
-                        'overflow-y': 'auto',
-                        'font-size': '1em',
-                        'font-weight': 'bold'
-                    }
-                },
-
-                {
-                    layout: {
-                        type: 'linear', orientation: 'horizontal',
-                        height: this.boardSize
-                    },
-
-                    children: [
-                        Object.merge({
-                            boardLayout: undefined,
-                            id: 'tactics_board',
-                            type: 'chess.view.board.Board',
-                            module: this.module,
-                            overflow: 'hidden',
-                            pieceLayout: 'svg3',
-                            boardCss: {
-                                border: 0
-                            },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
-                            layout: {
-                                weight: 1,
-                                height: 'wrap'
-                            },
-                            plugins: [
-                                Object.merge({
-                                    type: 'chess.view.highlight.Arrow'
-                                }, this.arrow)
-                            ]
-                        }, this.board),
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Table',
-                            layout: {
-                                width: 150
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
-                    ]
-                },
-                {
-                    layout:{
-                        type:'linear',orientation:'horizontal',
-                        height:40,
-                        width:this.boardSize
-                    },
-                    css:{
-                        'margin-top' : 5
-                    },
-                    children:[
-                        {
-                            weight:1
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['start','previous'],
-                            width:85,
-                            buttonSize:function(availSize){
-                                return availSize;
-                            }
-                        },
-                        {
-                            type:'chess.view.notation.LastMove',
-                            width:80,
-                            module:this.module
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['next','end'],
-                            width:85,
-                            buttonSize:function(availSize){
-                                return availSize;
-                            }
-                        },
-                        {
-                            weight:1
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['flip'],
-                            width:42,
-                            buttonSize:function(availSize){
-                                return availSize * 0.9;
-                            }
-                        }
-                    ]
-                },
-                {
-                    type:'chess.WPComMessage'
-                }
-            ]
+            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
-
-            examine:false,
-            stockfish:ludo.config.getDocumentRoot() + 'stockfish-js/stockfish.js'
+            examine: false
         });
 
         this.loadGame();
 
+    },
+
+    mobileChildren: function () {
+        return [
+            {
+                layout: {
+                    height: 35
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: this.heading_tpl || '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-size': '1em',
+                    'font-weight': 'bold'
+                }
+            },
+            this.board,
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: 40,
+                    width: this.boardSize
+                },
+                css: {
+                    'margin-top': 5
+                },
+                children: [
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        module: this.module,
+                        buttons: ['start','end'],
+                        width: 85,
+                        buttonSize: function (availSize) {
+                            return availSize;
+                        }
+                    },
+                    {
+                        weight: 1
+                    },
+                    {
+                        type: 'chess.view.notation.LastMove',
+                        width: 80,
+                        module: this.module
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        module: this.module,
+                        buttons: ['play'],
+                        width: 45,
+                        buttonSize: function (availSize) {
+                            return availSize;
+                        }
+                    }
+                ]
+            },
+            {
+                css:{
+                    'margin-top' : 4
+                },
+                layout: {
+                    height: 200
+                },
+                type: 'chess.view.notation.LastComment',
+                module: this.module
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+
+        ]
+    },
+
+
+    desktopChildren: function () {
+        return [
+            {
+                layout: {
+                    height: 35,
+                    width: this.boardSize
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: this.heading_tpl || '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-size': '1em',
+                    'font-weight': 'bold'
+                }
+            },
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: this.boardSize
+                },
+
+                children: [
+                    this.board,
+                    {
+                        id: this.module + '-panel',
+                        name: "notation-panel",
+                        type: 'chess.view.notation.LastComment',
+                        layout: {
+                            weight: 1
+                        },
+                        elCss: {
+                            'margin-left': '2px'
+                        },
+                        module: this.module
+                    }
+                ]
+            },
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: 40,
+                    width: this.boardSize
+                },
+                css: {
+                    'margin-top': 5
+                },
+                children: [
+                    {
+                        weight: 1
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        module: this.module,
+                        buttons: ['start', 'previous'],
+                        width: 85,
+                        buttonSize: function (availSize) {
+                            return availSize;
+                        }
+                    },
+                    {
+                        type: 'chess.view.notation.LastMove',
+                        width: 80,
+                        module: this.module
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        module: this.module,
+                        buttons: ['next', 'end'],
+                        width: 85,
+                        buttonSize: function (availSize) {
+                            return availSize;
+                        }
+                    },
+                    {
+                        weight: 1
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        module: this.module,
+                        buttons: ['flip'],
+                        width: 42,
+                        buttonSize: function (availSize) {
+                            return availSize;
+                        }
+                    }
+                ]
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+        ];
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game4.js */
 window.chess.isWordPress = true;
 chess.WPGame4 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
+    boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35 + 20);
         this.boardSize = w;
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -34881,7 +34738,7 @@ chess.WPGame4 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -34937,57 +34794,81 @@ chess.WPGame4 = new Class({
                     ]
                 },
                 {
-                    layout:{
-                        type:'linear',orientation:'horizontal',
-                        height:40,
-                        width:this.boardSize
+                    layout: {
+                        type: 'linear', orientation: 'horizontal',
+                        height: 40,
+                        width: this.boardSize
                     },
-                    css:{
-                        'margin-top' : 5
+                    css: {
+                        'margin-top': 5
                     },
-                    children:[
-                        {
-                            weight:1
-                        },
-                        {
+                    children: ludo.isMobile ?
+                        [{
                             type: 'chess.view.buttonbar.Bar',
                             module: this.module,
-                            buttons:['start','previous'],
-                            width:85,
-                            buttonSize:function(availSize){
+                            buttons: ['play'],
+                            width: 45,
+                            buttonSize: function (availSize) {
                                 return availSize;
                             }
                         },
-                        {
-                            type:'chess.view.notation.LastMove',
-                            width:80,
-                            module:this.module
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['next','end'],
-                            width:85,
-                            buttonSize:function(availSize){
-                                return availSize;
+                            {
+                                type: 'chess.view.notation.LastMove',
+                                weight: 1,
+                                module: this.module
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['start', 'end', 'flip'],
+                                width: 125,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            }] :
+                        [
+                            {
+                                weight: 1
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['start', 'previous'],
+                                width: 85,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            },
+                            {
+                                type: 'chess.view.notation.LastMove',
+                                width: 80,
+                                module: this.module
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['next', 'end'],
+                                width: 85,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            },
+                            {
+                                weight: 1
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['flip'],
+                                width: 42,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
                             }
-                        },
-                        {
-                            weight:1
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['flip'],
-                            width:42,
-                            buttonSize:function(availSize){
-                                return availSize;
-                            }
-                        }
-                    ]
+                        ]
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type: 'chess.WPComMessage'
                 }
             ]
         });
@@ -35016,13 +34897,17 @@ chess.WPGame5 = new Class({
             this.notationWeight = 0;
         }
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
+        if (ludo.isMobile) {
+            r.css('height', w + 275 + this.wpm_h);
+        } else {
+            r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
 
-        r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
+        }
         r.css('position', 'relative');
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
         this.configure();
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -35106,115 +34991,14 @@ chess.WPGame5 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
                 width: 'matchParent'
             },
 
-            children: [
-                {
-                    layout: {
-                        height: this.boardSize,
-                        type: 'linear',
-                        orientation: 'horizontal'
-                    },
-
-                    children: ludo.isMobile ? [this.board] : [
-
-                        this.board,
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Panel',
-                            layout: {
-                                weight: this.notationWeight,
-                                height: 'matchParent'
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
-                    ]
-                },
-
-                {
-                    layout: {
-                        type: 'linear', orientation: 'horizontal',
-                        height: this.buttonSize
-                    },
-                    elCss: {
-                        'margin-top': 10
-                    },
-                    children: ludo.isMobile ? [
-                        {weight: 1},
-                        {
-                            anchor: [0.5, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: ['start', 'previous'],
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize) * 3
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        },
-                        {
-                            type: 'chess.view.notation.LastMove',
-                            module: this.module,
-                            layout: {
-
-                                width: this.buttonSize * 2
-
-                            },
-                            css: {
-                                border: 'none'
-                            }
-                        },
-                        {
-                            anchor: [0.5, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: ['next', 'end'],
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize) * 2
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        },
-                        {weight: 1}
-
-                    ]
-
-                        :
-                        [
-                            {
-                                weight: 1
-                            },
-                            {
-                                anchor: [1, 0.5],
-                                type: 'chess.view.buttonbar.Bar',
-                                buttons: this.buttons,
-                                module: this.module,
-                                layout: {
-                                    width: (this.buttonSize - 10) * 5
-                                },
-                                buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
-                                }
-                            }
-
-                        ]
-                },
-                {
-                    type:'chess.WPComMessage'
-                }
-
-            ]
+            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
 
 
         });
@@ -35224,6 +35008,180 @@ chess.WPGame5 = new Class({
         });
 
         this.loadGame();
+
+    },
+
+
+    desktopChildren: function () {
+        return [
+            {
+                layout: {
+                    height: this.boardSize,
+                    type: 'linear',
+                    orientation: 'horizontal'
+                },
+
+                children: ludo.isMobile ? [this.board] : [
+
+                    this.board,
+                    {
+                        id: this.module + '-panel',
+                        name: "notation-panel",
+                        type: 'chess.view.notation.Panel',
+                        layout: {
+                            weight: this.notationWeight,
+                            height: 'matchParent'
+                        },
+                        elCss: {
+                            'margin-left': '2px'
+                        },
+                        module: this.module
+                    }
+                ]
+            },
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'horizontal',
+                    height: this.buttonSize
+                },
+                elCss: {
+                    'margin-top': 10
+                },
+                children: ludo.isMobile ? [
+                    {weight: 1},
+                    {
+                        anchor: [0.5, 0.5],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: ['start', 'previous'],
+                        module: this.module,
+                        layout: {
+                            width: (this.buttonSize) * 3
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        type: 'chess.view.notation.LastMove',
+                        module: this.module,
+                        layout: {
+
+                            width: this.buttonSize * 2
+
+                        },
+                        css: {
+                            border: 'none'
+                        }
+                    },
+                    {
+                        anchor: [0.5, 0.5],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: ['next', 'end'],
+                        module: this.module,
+                        layout: {
+                            width: (this.buttonSize) * 2
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {weight: 1}
+
+                ] :
+                    [
+                        {
+                            weight: 1
+                        },
+                        {
+                            anchor: [1, 0.5],
+                            type: 'chess.view.buttonbar.Bar',
+                            buttons: this.buttons,
+                            module: this.module,
+                            layout: {
+                                width: (this.buttonSize - 10) * 5
+                            },
+                            buttonSize: function (ofSize) {
+                                return ofSize * 0.9;
+                            }
+                        }
+
+                    ]
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+
+        ];
+
+    },
+
+    mobileChildren: function () {
+        return [
+            {
+                layout: {
+                    height: 35,
+                    width: this.boardSize
+                },
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: this.heading_tpl || '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align': 'center',
+                    'overflow-y': 'auto',
+                    'font-size': '1em',
+                    'font-weight': 'bold'
+                }
+            },
+
+            Object.merge({
+                boardLayout: undefined,
+                id: 'tactics_board',
+                type: 'chess.view.board.Board',
+                module: this.module,
+                overflow: 'hidden',
+                pieceLayout: 'svg3',
+                boardCss: {
+                    border: 0
+                },
+                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                labelPos: 'outside', // show labels inside board, default is 'outside'
+                layout: {
+                    weight: 1,
+                    height: 'wrap'
+                },
+                plugins: [
+                    Object.merge({
+                        type: 'chess.view.highlight.Arrow'
+                    }, this.arrow)
+                ]
+            }, this.board),
+            {
+                type: 'chess.view.buttonbar.Bar',
+                layout: {
+                    height: 40,
+                    width: this.boardSize
+                },
+                module: this.module
+            },
+            {
+                id: this.module + '-panel',
+                name: "notation-panel",
+                type: 'chess.view.notation.Panel',
+                layout: {
+                    height: 200
+                },
+                elCss: {
+                    'margin-left': '2px'
+                },
+                module: this.module
+
+            },
+            {
+                type: 'chess.WPComMessage'
+            }
+        ]
 
     }
 
@@ -35710,7 +35668,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             type: 'linear', orientation: 'vertical'
                         },
-                        title: chess.getPhrase('Games'),
+                        title: chess.__('Games'),
                         children: [
 
                             {
@@ -35748,7 +35706,7 @@ chess.WPViewer2 = new Class({
                             },
                             {
                                 type: 'form.Text',
-                                placeholder: chess.getPhrase('Search'),
+                                placeholder: chess.__('Search'),
                                 css:{
                                     'border-top' : '1px solid #aeb0b0'
                                 },
@@ -35773,7 +35731,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             weight: 1
                         },
-                        title: chess.getPhrase('Standings')
+                        title: chess.__('Standings')
                     }
 
 
@@ -35873,7 +35831,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             type: 'linear', orientation: 'vertical'
                         },
-                        title: chess.getPhrase('Games'),
+                        title: chess.__('Games'),
                         children: [
 
                             {
@@ -35908,7 +35866,7 @@ chess.WPViewer2 = new Class({
                             },
                             {
                                 type: 'form.Text',
-                                placeholder: chess.getPhrase('Search'),
+                                placeholder: chess.__('Search'),
                                 css:{
                                     'border-top' : '1px solid #aeb0b0'
                                 },
@@ -35935,7 +35893,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             weight: 1
                         },
-                        title: chess.getPhrase('Standings')
+                        title: chess.__('Standings')
                     }
                 ]
 
@@ -36375,14 +36333,14 @@ chess.WPPinned = new Class({
                                 },
                                 {
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Show Hint'),
+                                    value: chess.__('Show Hint'),
                                     listeners: {
                                         'click': this.showHint.bind(this)
                                     }
                                 },
                                 {
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Next'),
+                                    value: chess.__('Next'),
                                     listeners: {
                                         'click': function(){
                                             this.controller.loadNextGameFromFile();
@@ -36527,7 +36485,7 @@ chess.WPPinned = new Class({
                     width: 300, height: 200,
                     centerIn: this.boardId
                 },
-                title: chess.getPhrase('Find pinned pieces')
+                title: chess.__('Find pinned pieces')
             });
         }
 
@@ -36555,7 +36513,7 @@ chess.WPPinned = new Class({
             });
         }
         var pinned = this.parser.getPinnedSquares(this.color);
-        this.toast.html(chess.getPhrase('There are {0} pinned pieces'.replace('{0}', pinned.length)));
+        this.toast.html(chess.__('There are {0} pinned pieces'.replace('{0}', pinned.length)));
         this.toast.show();
 
     },
@@ -36573,7 +36531,7 @@ chess.WPPinned = new Class({
                     width: 300, height: 200,
                     centerIn: this.boardId
                 },
-                title: chess.getPhrase('Puzzle solved')
+                title: chess.__('Puzzle solved')
             });
 
         }
@@ -36681,18 +36639,18 @@ chess.WPTactics1 = new Class({
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticHint',
-                                    value: chess.getPhrase('Hint')
+                                    value: chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
-                                    value: chess.getPhrase('Solution')
+                                    value: chess.__('Solution')
                                 }, {
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Next'),
+                                    value: chess.__('Next'),
                                     listeners: {
                                         click: function () {
                                             this.controller.loadNextGameFromFile();
@@ -36702,7 +36660,7 @@ chess.WPTactics1 = new Class({
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Previous'),
+                                    value: chess.__('Previous'),
                                     listeners: {
                                         click: function () {
                                             this.controller.loadPreviousGameFromFile(this.pgn);

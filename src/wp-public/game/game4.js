@@ -1,14 +1,14 @@
 window.chess.isWordPress = true;
 chess.WPGame4 = new Class({
     Extends: chess.WPGameTemplate,
-    boardSize:undefined,
+    boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35 + 20);
         this.boardSize = w;
-        if(this.canRender()){
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -16,7 +16,7 @@ chess.WPGame4 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -72,57 +72,81 @@ chess.WPGame4 = new Class({
                     ]
                 },
                 {
-                    layout:{
-                        type:'linear',orientation:'horizontal',
-                        height:40,
-                        width:this.boardSize
+                    layout: {
+                        type: 'linear', orientation: 'horizontal',
+                        height: 40,
+                        width: this.boardSize
                     },
-                    css:{
-                        'margin-top' : 5
+                    css: {
+                        'margin-top': 5
                     },
-                    children:[
-                        {
-                            weight:1
-                        },
-                        {
+                    children: ludo.isMobile ?
+                        [{
                             type: 'chess.view.buttonbar.Bar',
                             module: this.module,
-                            buttons:['start','previous'],
-                            width:85,
-                            buttonSize:function(availSize){
+                            buttons: ['play'],
+                            width: 45,
+                            buttonSize: function (availSize) {
                                 return availSize;
                             }
                         },
-                        {
-                            type:'chess.view.notation.LastMove',
-                            width:80,
-                            module:this.module
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['next','end'],
-                            width:85,
-                            buttonSize:function(availSize){
-                                return availSize;
+                            {
+                                type: 'chess.view.notation.LastMove',
+                                weight: 1,
+                                module: this.module
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['start', 'end', 'flip'],
+                                width: 125,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            }] :
+                        [
+                            {
+                                weight: 1
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['start', 'previous'],
+                                width: 85,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            },
+                            {
+                                type: 'chess.view.notation.LastMove',
+                                width: 80,
+                                module: this.module
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['next', 'end'],
+                                width: 85,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
+                            },
+                            {
+                                weight: 1
+                            },
+                            {
+                                type: 'chess.view.buttonbar.Bar',
+                                module: this.module,
+                                buttons: ['flip'],
+                                width: 42,
+                                buttonSize: function (availSize) {
+                                    return availSize;
+                                }
                             }
-                        },
-                        {
-                            weight:1
-                        },
-                        {
-                            type: 'chess.view.buttonbar.Bar',
-                            module: this.module,
-                            buttons:['flip'],
-                            width:42,
-                            buttonSize:function(availSize){
-                                return availSize;
-                            }
-                        }
-                    ]
+                        ]
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type: 'chess.WPComMessage'
                 }
             ]
         });

@@ -3,7 +3,7 @@ chess.wordpress.PgnListView = new Class({
     swipable: true,
     submodule: 'wordpress.pgnlistview',
 
-    emptyText: chess.getPhrase('No Databases found'),
+    emptyText: chess.__('No Databases found'),
 
     idToSelect:undefined,
 
@@ -28,12 +28,12 @@ chess.wordpress.PgnListView = new Class({
 
     /** Function returning back side when swiping to the left */
     backSideLeft: function () {
-        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Archive Database') + '</div>';
+        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.__('Archive Database') + '</div>';
     },
 
     /** Function returning UNDO html after swipe. If not set, the swipe event will be triggered immediately */
     backSideUndo: function () {
-        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.getPhrase('Undo') + '</div>';
+        return '<div style="position:absolute;top:50%;margin-top:-10px;left:10px">' + chess.__('Undo') + '</div>';
     },
 
     __construct: function (config) {
@@ -59,7 +59,7 @@ chess.wordpress.PgnListView = new Class({
                         var json = response.responseJSON;
                         if (json.success) {
                             this.getDataSource().remove(record);
-                            this.controller.sendMessage(chess.getPhrase('PGN archived'));
+                            this.controller.sendMessage(chess.__('PGN archived'));
                         } else {
                             this.controller.sendError('Unable to Archive: ' + json.response);
                             this.undoSwipe(record);

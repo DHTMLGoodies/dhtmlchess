@@ -109,7 +109,7 @@ chess.TacticsFromFile = new Class({
                                 {
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticHint',
-                                    value:chess.getPhrase('Hint'),
+                                    value:chess.__('Hint'),
                                     elCss:{
                                         'background-color' : 'transparent'
                                     }
@@ -117,14 +117,14 @@ chess.TacticsFromFile = new Class({
                                 {
                                     layout:{ width: 80 },
                                     type:'chess.view.button.TacticSolution',
-                                    value:chess.getPhrase('Solution'),
+                                    value:chess.__('Solution'),
                                     elCss:{
                                         'background-color' : 'transparent'
                                     }
                                 },{
                                     layout:{ width: 80 },
                                     type:'form.Button',
-                                    value:chess.getPhrase('Next Game'),
+                                    value:chess.__('Next Game'),
                                     elCss:{
                                         'background-color' : 'transparent'
                                     },

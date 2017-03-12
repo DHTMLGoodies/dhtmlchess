@@ -28,7 +28,7 @@ chess.view.dialog.OverwriteMove = new Class({
 		config = config || {};
 		config.buttons = [
 			{
-				value:chess.getPhrase('Overwrite'),
+				value:chess.__('Overwrite'),
 				listeners:{
 					'click':function () {
 						/**
@@ -42,7 +42,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Variation'),
+				value:chess.__('Variation'),
 				listeners:{
 					'click':function () {
 						/**
@@ -56,7 +56,7 @@ chess.view.dialog.OverwriteMove = new Class({
 					}.bind(this)}
 			},
 			{
-				value:chess.getPhrase('Cancel'),
+				value:chess.__('Cancel'),
 				listeners:{
 					'click':function () {
 						/**

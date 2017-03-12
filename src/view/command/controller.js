@@ -23,7 +23,7 @@ chess.view.command.Controller = new Class({
 		if (command) {
 			this.execute(command, this.getCommandArguments(command, message));
 		} else {
-			this.errorMessage(chess.getPhrase('Invalid command') + ': "' + message + '"');
+			this.errorMessage(chess.__('Invalid command') + ': "' + message + '"');
 		}
 	},
 
@@ -95,7 +95,7 @@ chess.view.command.Controller = new Class({
 				if(!isNaN(arg)){
 					this.fireEvent(command,{ id : arg });
 				}else{
-					this.errorMessage(chess.getPhrase('Invalid game') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid game') + ': ' + arg);
 				}
 				break;
 			case 'grade':
@@ -103,14 +103,14 @@ chess.view.command.Controller = new Class({
 				if(this.isValidGrade(arg)){
 					this.fireEvent(command, arg);
 				}else{
-					this.errorMessage(chess.getPhrase('Invalid grade') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid grade') + ': ' + arg);
 				}
 				break;
 			case 'fen':
 				try {
 					this.fireEvent('setPosition', arg);
 				} catch (e) {
-					this.errorMessage(chess.getPhrase('Invalid position') + ': ' + arg);
+					this.errorMessage(chess.__('Invalid position') + ': ' + arg);
 				}
 				break;
 			default:
@@ -129,7 +129,7 @@ chess.view.command.Controller = new Class({
 			var msg = [];
 			for (var i = 0; i < this.validCommands.length; i++) {
 				var c = this.validCommands[i];
-				msg.push(['<span class="chess-command-help-label">', c, '</span>: ', chess.getPhrase('command_' + c)].join(''));
+				msg.push(['<span class="chess-command-help-label">', c, '</span>: ', chess.__('command_' + c)].join(''));
 			}
 			this.helpMessage = msg.join('<br>');
 		}
@@ -141,7 +141,7 @@ chess.view.command.Controller = new Class({
      * @method onInvalidMove
      */
 	onInvalidMove:function () {
-		this.errorMessage(chess.getPhrase('Invalid move'));
+		this.errorMessage(chess.__('Invalid move'));
 	},
     /**
      * Using RegEx to validate a chess move.
@@ -160,7 +160,7 @@ chess.view.command.Controller = new Class({
      * @private
      */
 	receiveMove:function (controller, move) {
-		this.message(chess.getPhrase('Moving') + ' ' + move.lm);
+		this.message(chess.__('Moving') + ' ' + move.lm);
 	},
 
     /**
@@ -200,6 +200,6 @@ chess.view.command.Controller = new Class({
      * @param {chess.model.Move} move
      */
 	receiveMoveUpdate:function(model, move){
-		this.message(chess.getPhrase('Move updated to') + ': ' + move.lm);
+		this.message(chess.__('Move updated to') + ': ' + move.lm);
 	}
 });

@@ -8,7 +8,7 @@ chess.wordpress.RenameDatabaseDialog = new Class({
     submodule: 'wordpress.publishdialog',
     modal: true,
     autoRemove:false,
-    title:chess.getPhrase('Rename Database'),
+    title:chess.__('Rename Database'),
     buttonConfig:'RenameCancel',
 
     layout:{
@@ -29,10 +29,10 @@ chess.wordpress.RenameDatabaseDialog = new Class({
     __children:function(){
         return [
             {
-                type:'form.Label', label:chess.getPhrase('New name'), labelFor:'pgn_name'
+                type:'form.Label', label:chess.__('New name'), labelFor:'pgn_name'
             },
             {
-                name:'pgn_name', type:'form.Text', required:true, placeholder: chess.getPhrase('New name')
+                name:'pgn_name', type:'form.Text', required:true, placeholder: chess.__('New name')
             }
         ]
     },

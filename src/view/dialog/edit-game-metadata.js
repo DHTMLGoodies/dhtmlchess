@@ -8,7 +8,7 @@ chess.view.dialog.EditGameMetadata = new Class({
     Extends:chess.view.dialog.NewGame,
     type:'chess.view.dialog.EditGameMetadata',
     submodule:'dialogEditGameMetadata',
-    title:chess.getPhrase('Edit metadata'),
+    title:chess.__('Edit metadata'),
     model:['white','black','result','event','site','databaseId'],
     addControllerEvents:function () {
         this.controller.addEvent('editMetadata', this.show.bind(this));

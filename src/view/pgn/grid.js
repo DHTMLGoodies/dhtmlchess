@@ -38,7 +38,7 @@ chess.view.pgn.Grid = new Class({
 
 	columns:{
 		file:{
-			heading:chess.getPhrase('Pgn files'),
+			heading:chess.__('Pgn files'),
 			key:'file',
 			width:120,
 			sortable:true

@@ -8,8 +8,8 @@ chess.WPGameGrid = new Class({
             action: 'list_of_games'
         }
     },
-    emptyText: chess.getPhrase('No games'),
-    loadMessage: chess.getPhrase('Loading games...'),
+    emptyText: chess.__('No games'),
+    loadMessage: chess.__('Loading games...'),
     cols: ['white', 'black', 'round', 'result', 'last_moves'],
 
     __construct: function (config) {

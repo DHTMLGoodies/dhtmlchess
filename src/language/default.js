@@ -74,6 +74,6 @@ chess.language = {
     "Pgn File" : "Pgn File"
 };
 
-chess.getPhrase = function (phrase) {
+chess.__ = function (phrase) {
     return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
 };

@@ -9,7 +9,7 @@ chess.view.button.TacticSolution = new Class({
     type : 'chess.view.button.TacticSolution',
     module:'chess',
     submodule : 'buttonTacticSolution',
-    value : chess.getPhrase('Solution'),
+    value : chess.__('Solution'),
     width : 80,
 
     ludoEvents : function(){

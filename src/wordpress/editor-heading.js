@@ -26,7 +26,7 @@ chess.wordpress.EditorHeading = new Class({
             },
             function(response){
                 if(response.success){
-                    this.html(chess.getPhrase('Games in Database: ' + response.response));
+                    this.html(chess.__('Games in Database: ' + response.response));
                 }
             }.bind(this)
 

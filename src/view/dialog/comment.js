@@ -13,7 +13,7 @@ chess.view.dialog.Comment = new Class({
     width:300,
     height:330,
     hidden:true,
-    title:chess.getPhrase('Add comment'),
+    title:chess.__('Add comment'),
     move:undefined,
     autoRemove:false,
     buttonConfig:'OkCancel',
@@ -81,6 +81,6 @@ chess.view.dialog.Comment = new Class({
     },
 
     getDialogTitle:function(){
-        return chess.getPhrase( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
+        return chess.__( this.commentPos == 'before' ? 'addCommentBefore' : 'addCommentAfter') + ' (' + this.move.lm + ')';
     }
 });

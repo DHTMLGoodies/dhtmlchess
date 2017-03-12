@@ -153,7 +153,7 @@ chess.controller.PlayStockFishController = new Class({
 
             this.engine = new Worker(this.stockfish);
 
-            this.fireEvent('enginestatus', chess.getPhrase('loading StockfishJS'));
+            this.fireEvent('enginestatus', chess.__('loading StockfishJS'));
 
             this.uciCmd('uci');
             this.uciCmd('ucinewgame');
@@ -162,7 +162,7 @@ chess.controller.PlayStockFishController = new Class({
                 var line = event.data;
 
                 if (line == 'uciok') {
-                    that.fireEvent('enginestatus', chess.getPhrase('StockfishJS loaded. Loading Opening Book'));
+                    that.fireEvent('enginestatus', chess.__('StockfishJS loaded. Loading Opening Book'));
                     if (!that.engineStatus.engineLoaded) {
                         that.engineStatus.engineLoaded = true;
 
@@ -170,7 +170,7 @@ chess.controller.PlayStockFishController = new Class({
                             url: ludo.config.getUrl() + '/stockfish-js/book.bin',
                             complete: function (response) {
                                 this.engine.postMessage({book: response.responseText});
-                                this.fireEvent('enginestatus', [chess.getPhrase('Stockfish Ready'), true]);
+                                this.fireEvent('enginestatus', [chess.__('Stockfish Ready'), true]);
                                 this.fireEvent('newgamedialog');
                             }.bind(that)
                         });

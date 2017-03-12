@@ -11,7 +11,7 @@ chess.view.metadata.FenField = new Class({
     module:'chess',
     submodule : 'metadata.FenField',
     stretchField : true,
-    label : chess.getPhrase('FEN'),
+    label : chess.__('FEN'),
     formCss : { 'font-size' : '10px'},
     labelWidth : 30,
     selectOnFocus : true,

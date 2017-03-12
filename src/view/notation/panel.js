@@ -96,7 +96,7 @@ chess.view.notation.Panel = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {
@@ -125,18 +125,19 @@ chess.view.notation.Panel = new Class({
         return {
             listeners: {
                 click: function (el) {
+                    var m = this.getContextMenuMove();
                     switch (el.action) {
                         case 'grade':
-                            this.fireEvent('gradeMove', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('gradeMove', [m, el.icon]);
                             break;
                         case 'commentBefore':
-                            this.fireEvent('commentBefore', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentBefore', [m, el.icon]);
                             break;
                         case 'commentAfter':
-                            this.fireEvent('commentAfter', [this.getContextMenuMove(), el.icon]);
+                            this.fireEvent('commentAfter', [m, el.icon]);
                             break;
                         case 'deleteMove':
-                            this.fireEvent('deleteMove', this.getContextMenuMove());
+                            this.fireEvent('deleteMove', m);
                             break;
                     }
                 }.bind(this),
@@ -146,20 +147,20 @@ chess.view.notation.Panel = new Class({
             },
             selector: '.notation-chess-move',
             children: [
-                {label: chess.getPhrase('Add comment before'), action: 'commentBefore'},
-                {label: chess.getPhrase('Add comment after'), action: 'commentAfter'},
+                {label: chess.__('Add comment before'), action: 'commentBefore'},
+                {label: chess.__('Add comment after'), action: 'commentAfter'},
                 {
                     label: 'Grade', children: [
-                    {icon: '', label: chess.getPhrase('Clear'), action: 'grade'},
-                    {icon: '!', label: chess.getPhrase('Good move'), action: 'grade'},
-                    {icon: '?', label: chess.getPhrase('Poor move'), action: 'grade'},
-                    {icon: '!!', label: chess.getPhrase('Very good move'), action: 'grade'},
-                    {icon: '??', label: chess.getPhrase('Very poor move'), action: 'grade'},
-                    {icon: '?!', label: chess.getPhrase('Questionable move'), action: 'grade'},
-                    {icon: '!?', label: chess.getPhrase('Speculative move'), action: 'grade'}
+                    {icon: '', label: chess.__('Clear'), action: 'grade'},
+                    {icon: '!', label: chess.__('Good move'), action: 'grade'},
+                    {icon: '?', label: chess.__('Poor move'), action: 'grade'},
+                    {icon: '!!', label: chess.__('Very good move'), action: 'grade'},
+                    {icon: '??', label: chess.__('Very poor move'), action: 'grade'},
+                    {icon: '?!', label: chess.__('Questionable move'), action: 'grade'},
+                    {icon: '!?', label: chess.__('Speculative move'), action: 'grade'}
                 ]
                 },
-                {label: chess.getPhrase('Delete Move'), action: 'deleteMove'}
+                {label: chess.__('Delete Move'), action: 'deleteMove'}
             ]
         };
     },
@@ -233,7 +234,6 @@ chess.view.notation.Panel = new Class({
     },
 
     _scrollIntoView:function(moveTop, oh){
-
         var b = this.$b();
         var scrollTop = b.scrollTop();
         var bottomOfScroll = scrollTop + b.height();
@@ -244,7 +244,6 @@ chess.view.notation.Panel = new Class({
             b.scrollTop(Math.max(0, moveTop - 5));
         }
     },
-
 
     showMoves: function (model) {
         var move = model.getCurrentMove();
@@ -297,7 +296,6 @@ chess.view.notation.Panel = new Class({
         var gs = false;
 
         for (var i = 0; i < branch.length; i++) {
-
             var pr = i > 0 ? branch[i-1] : undefined;
 
             s = i == 0 ? '<span class="dhtml-chess-move-group chess-move-group-first">' : '<span class="dhtml-chess-move-group">';

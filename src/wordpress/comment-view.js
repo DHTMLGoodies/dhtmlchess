@@ -56,7 +56,7 @@ chess.wordpress.CommentView = new Class({
                         type: 'form.Button', value: '!?', layout: {width: 30}
                     },
                     {
-                        type: 'form.Button', name: 'clear', value: chess.getPhrase('Clear')
+                        type: 'form.Button', name: 'clear', value: chess.__('Clear')
                     }
                 ]
 
@@ -130,14 +130,13 @@ chess.wordpress.CommentView = new Class({
             this.child['comment'].val('');
             this.child['comment'].val(this.currentComment);
         }
-
     },
 
     updateHeading:function(){
         if (!this.currentMove) {
-            this.currentLabel = chess.getPhrase('Game Comment')
+            this.currentLabel = chess.__('Game Comment')
         } else {
-            this.currentLabel = chess.getPhrase('Annotate') + ' ' + this.currentMove.m;
+            this.currentLabel = chess.__('Annotate') + ' ' + this.currentMove.m;
             this.currentComment = this.currentMove.comment;
         }
 

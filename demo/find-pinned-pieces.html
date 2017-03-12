@@ -84,13 +84,13 @@
                     },
                     {
                         type: 'form.Button',
-                        value: chess.getPhrase('Show Hint'),
+                        value: chess.__('Show Hint'),
                         listeners: {
                             'click': showHint
                         }
                     },                    {
                         type: 'form.Button',
-                        value: chess.getPhrase('Next Puzzle'),
+                        value: chess.__('Next Puzzle'),
                         listeners: {
                             'click': function(){
                                 controller.loadNextGameFromFile();
@@ -166,7 +166,7 @@
                     width: 300, height: 200,
                     centerIn: ludo.$('chess-board-pinned-pieces')
                 },
-                title: chess.getPhrase('Puzzle solved')
+                title: chess.__('Puzzle solved')
             });
 
         }
@@ -198,7 +198,7 @@
                     width: 300, height: 200,
                     centerIn: ludo.$('chess-board-pinned-pieces')
                 },
-                title: chess.getPhrase('Find pinned pieces')
+                title: chess.__('Find pinned pieces')
             });
         }
 
@@ -243,7 +243,7 @@
             });
         }
         var pinned = parser.getPinnedSquares(color);
-        toast.html(chess.getPhrase('There are {0} pinned pieces'.replace('{0}', pinned.length)));
+        toast.html(chess.__('There are {0} pinned pieces'.replace('{0}', pinned.length)));
         toast.show();
     }
 

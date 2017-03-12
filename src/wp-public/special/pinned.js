@@ -106,14 +106,14 @@ chess.WPPinned = new Class({
                                 },
                                 {
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Show Hint'),
+                                    value: chess.__('Show Hint'),
                                     listeners: {
                                         'click': this.showHint.bind(this)
                                     }
                                 },
                                 {
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Next'),
+                                    value: chess.__('Next'),
                                     listeners: {
                                         'click': function(){
                                             this.controller.loadNextGameFromFile();
@@ -258,7 +258,7 @@ chess.WPPinned = new Class({
                     width: 300, height: 200,
                     centerIn: this.boardId
                 },
-                title: chess.getPhrase('Find pinned pieces')
+                title: chess.__('Find pinned pieces')
             });
         }
 
@@ -286,7 +286,7 @@ chess.WPPinned = new Class({
             });
         }
         var pinned = this.parser.getPinnedSquares(this.color);
-        this.toast.html(chess.getPhrase('There are {0} pinned pieces'.replace('{0}', pinned.length)));
+        this.toast.html(chess.__('There are {0} pinned pieces'.replace('{0}', pinned.length)));
         this.toast.show();
 
     },
@@ -304,7 +304,7 @@ chess.WPPinned = new Class({
                     width: 300, height: 200,
                     centerIn: this.boardId
                 },
-                title: chess.getPhrase('Puzzle solved')
+                title: chess.__('Puzzle solved')
             });
 
         }

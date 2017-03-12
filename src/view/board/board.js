@@ -162,7 +162,7 @@ chess.view.board.Board = new Class({
 
 
     beforeLoad: function () {
-        this.shim().show(chess.getPhrase('Loading game'));
+        this.shim().show(chess.__('Loading game'));
     },
 
     afterLoad: function () {

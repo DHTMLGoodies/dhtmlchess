@@ -172,7 +172,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             type: 'linear', orientation: 'vertical'
                         },
-                        title: chess.getPhrase('Games'),
+                        title: chess.__('Games'),
                         children: [
 
                             {
@@ -210,7 +210,7 @@ chess.WPViewer2 = new Class({
                             },
                             {
                                 type: 'form.Text',
-                                placeholder: chess.getPhrase('Search'),
+                                placeholder: chess.__('Search'),
                                 css:{
                                     'border-top' : '1px solid #aeb0b0'
                                 },
@@ -235,7 +235,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             weight: 1
                         },
-                        title: chess.getPhrase('Standings')
+                        title: chess.__('Standings')
                     }
 
 
@@ -335,7 +335,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             type: 'linear', orientation: 'vertical'
                         },
-                        title: chess.getPhrase('Games'),
+                        title: chess.__('Games'),
                         children: [
 
                             {
@@ -370,7 +370,7 @@ chess.WPViewer2 = new Class({
                             },
                             {
                                 type: 'form.Text',
-                                placeholder: chess.getPhrase('Search'),
+                                placeholder: chess.__('Search'),
                                 css:{
                                     'border-top' : '1px solid #aeb0b0'
                                 },
@@ -397,7 +397,7 @@ chess.WPViewer2 = new Class({
                         layout: {
                             weight: 1
                         },
-                        title: chess.getPhrase('Standings')
+                        title: chess.__('Standings')
                     }
                 ]
 

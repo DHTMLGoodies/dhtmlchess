@@ -52,7 +52,7 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: chess.getPhrase('White'),
+            heading: chess.__('White'),
             key: 'white',
             width: 120,
             sortable: true,
@@ -61,7 +61,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         black: {
-            heading: chess.getPhrase('Black'),
+            heading: chess.__('Black'),
             key: 'black',
             width: 120,
             sortable: true,
@@ -70,7 +70,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         round: {
-            heading: chess.getPhrase('Round'),
+            heading: chess.__('Round'),
             key: 'round',
             width: 70,
             sortable: true,
@@ -79,7 +79,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         result: {
-            heading: chess.getPhrase('Result'),
+            heading: chess.__('Result'),
             key: 'result',
             width: 70,
             sortable: true,
@@ -89,7 +89,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         event: {
-            heading: chess.getPhrase('Event'),
+            heading: chess.__('Event'),
             key: 'event',
             weight: 1,
             sortable: true,
@@ -99,7 +99,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         last_moves: {
-            heading: chess.getPhrase('Last moves'),
+            heading: chess.__('Last moves'),
             key: 'last_moves',
             weight: 1,
             sortable: true,

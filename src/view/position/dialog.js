@@ -12,7 +12,7 @@ chess.view.position.Dialog = new Class({
     autoHideOnBtnClick: false,
     width: 640,
     height: 450,
-    title: chess.getPhrase('Position setup'),
+    title: chess.__('Position setup'),
     layout: {
         type: 'relative'
     },
@@ -173,7 +173,7 @@ chess.view.position.Dialog = new Class({
                 {
 
                     type: 'form.Label', labelFor: 'moveNumber',
-                    label: chess.getPhrase('Ply')
+                    label: chess.__('Ply')
                 },
                 {
                     id:'positionMoveNumber',
@@ -201,7 +201,7 @@ chess.view.position.Dialog = new Class({
             children:[
                 {
                     type: 'form.Label', labelFor: 'enPassant',
-                    label: chess.getPhrase('En passant'),
+                    label: chess.__('En passant'),
                 },
                 {
                     id:'positionEnPassant',
@@ -311,13 +311,13 @@ chess.view.position.Dialog = new Class({
                 padding:4
             },
             resizable:false,
-            html: chess.getPhrase('Paste fen into the text box below'),
+            html: chess.__('Paste fen into the text box below'),
             inputConfig: {
                 stretchField: true
             },
             modal: true,
-            label: chess.getPhrase('FEN'),
-            title: chess.getPhrase('Load fen'),
+            label: chess.__('FEN'),
+            title: chess.__('Load fen'),
             listeners: {
                 'ok': this.loadFen.bind(this)
             }
@@ -348,7 +348,7 @@ chess.view.position.Dialog = new Class({
 
         }catch(e){
             new ludo.Notification({
-                html : chess.getPhrase('Invalid Fen')
+                html : chess.__('Invalid Fen')
             });
             return false;
         }

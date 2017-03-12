@@ -500,39 +500,46 @@ chess.view.buttonbar.Bar = new Class({
     setController: function (controller) {
         this.parent(controller);
 
-        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
-        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
-        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
-        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
-        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
-        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        this.controller.addEvents({
+            startOfGame : this.startOfGame.bind(this),
+            notStartOfGame : this.notStartOfBranch.bind(this),
+            endOfBranch : this.endOfBranch.bind(this),
+            notEndOfBranch : this.notEndOfBranch.bind(this),
+            startAutoplay : this.startAutoPlay.bind(this),
+            stopAutoplay : this.stopAutoPlay.bind(this),
+            newGame : this.newGame.bind(this)
+        });
     },
 
 
     startOfGame: function () {
-        this.disableButton('start');
-        this.disableButton('previous');
+        this.disButtons(['start','previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enableButton('start');
-        this.enableButton('previous');
-        this.enableButton('play');
+        this.enButtons(['start','previous','play']);
     },
     endOfBranch: function () {
-        this.disableButton('end');
-        this.disableButton('next');
-        this.disableButton('play');
+        this.disButtons(['end','next','play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
+    disButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.disableButton(btn);
+        }.bind(this))
+    },
+    enButtons:function(buttons){
+        jQuery.each(buttons, function(i, btn){
+            this.enableButton(btn);
+        }.bind(this))
+    },
+
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enableButton('end');
-        this.enableButton('next');
+        this.enButtons(['end','next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -542,7 +549,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');

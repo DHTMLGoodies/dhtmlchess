@@ -88,18 +88,18 @@ chess.WPTactics1 = new Class({
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticHint',
-                                    value: chess.getPhrase('Hint')
+                                    value: chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
-                                    value: chess.getPhrase('Solution')
+                                    value: chess.__('Solution')
                                 }, {
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Next'),
+                                    value: chess.__('Next'),
                                     listeners: {
                                         click: function () {
                                             this.controller.loadNextGameFromFile();
@@ -109,7 +109,7 @@ chess.WPTactics1 = new Class({
                                     module: this.module,
                                     layout: {width: 80},
                                     type: 'form.Button',
-                                    value: chess.getPhrase('Previous'),
+                                    value: chess.__('Previous'),
                                     listeners: {
                                         click: function () {
                                             this.controller.loadPreviousGameFromFile(this.pgn);

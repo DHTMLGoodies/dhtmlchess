@@ -9,7 +9,7 @@ chess.view.button.TacticHint = new Class({
     type : 'chess.view.button.TacticHint',
     module:'chess',
     submodule : 'buttonTacticHint',
-    value : chess.getPhrase('Hint'),
+    value : chess.__('Hint'),
     width : 80,
 
     ludoEvents : function(){

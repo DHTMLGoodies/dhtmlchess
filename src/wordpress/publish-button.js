@@ -1,7 +1,7 @@
 chess.wordpress.PublishButton = new Class({
     Extends: ludo.form.Button,
     submodule:'wordpress.publish',
-    value:chess.getPhrase('Publish'),
+    value:chess.__('Publish'),
 
 
     setController:function(controller){

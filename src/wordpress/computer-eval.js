@@ -53,17 +53,17 @@ chess.wordpress.ComputerEval = new Class({
                 children: [
                     {
                         name: 'startStopEngine',
-                        value: chess.getPhrase('Start'),
+                        value: chess.__('Start'),
                         type: 'form.Button'
                     },
                     {
                         name: 'appendLine',
-                        value: chess.getPhrase('Append Line'),
+                        value: chess.__('Append Line'),
                         type: 'form.Button'
                     },
                     {
                         name: 'appendEval',
-                        value: chess.getPhrase('Save Eval'),
+                        value: chess.__('Save Eval'),
                         type: 'form.Button'
                     },
                     {
@@ -76,7 +76,7 @@ chess.wordpress.ComputerEval = new Class({
                             'font-size': '0.9em',
                             'padding-right': '4px'
                         },
-                        html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.getPhrase('StockFish.JS Engine') + '</a>'
+                        html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.__('StockFish.JS Engine') + '</a>'
                     }
                 ]
             }
@@ -241,7 +241,7 @@ chess.wordpress.ComputerEval = new Class({
         this.controller.stopEngine();
         this.started = false;
         this.child['buttons'].child['startStopEngine'].val('Start');
-        if (!silent)this.controller.sendMessage(chess.getPhrase('Engine stopped'))
+        if (!silent)this.controller.sendMessage(chess.__('Engine stopped'))
     },
 
     startEngine: function () {

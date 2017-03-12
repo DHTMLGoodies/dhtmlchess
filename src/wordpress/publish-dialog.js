@@ -4,7 +4,7 @@ chess.wordpress.PublishDialog = new Class({
     modal: true,
 
     buttonConfig: 'OkCancel',
-    title: chess.getPhrase('Publish Game'),
+    title: chess.__('Publish Game'),
 
     layout: {
         width: 300, height: 400,
@@ -29,7 +29,7 @@ chess.wordpress.PublishDialog = new Class({
 
     selectPgn:function(rec){
         this.pgn = rec;
-        this.child['selected'].html(chess.getPhrase('Selected') +': '+ rec.pgn_name);
+        this.child['selected'].html(chess.__('Selected') +': '+ rec.pgn_name);
         this.getButton('ok').setEnabled(true);
     },
 
@@ -37,7 +37,7 @@ chess.wordpress.PublishDialog = new Class({
         return [
             {
                 name: 'heading',
-                html: chess.getPhrase('Select PGN'),
+                html: chess.__('Select PGN'),
                 layout: {
                     height: 25
                 },

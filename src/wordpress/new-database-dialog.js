@@ -7,7 +7,7 @@ chess.wordpress.NewDatabaseDialog = new Class({
         type:'linear', orientation:'vertical'
     },
     buttonConfig:'OkCancel',
-    title:chess.getPhrase('New Game Database'),
+    title:chess.__('New Game Database'),
     css:{
         padding:5
     },
@@ -16,12 +16,12 @@ chess.wordpress.NewDatabaseDialog = new Class({
             {
                 type:'form.Label',
                 labelFor:'dbName',
-                label:chess.getPhrase('New Game Database')
+                label:chess.__('New Game Database')
             },
             {
                 name:'dbname',
                 type:'form.Text',
-                placeholder: chess.getPhrase('Name of new database'),
+                placeholder: chess.__('Name of new database'),
                 required:true,
                 validateKeyStrokes:true,
                 validator:function(val){

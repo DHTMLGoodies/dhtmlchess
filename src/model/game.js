@@ -1886,7 +1886,7 @@ chess.model.Game = new Class({
      */
     gameSaved: function (data) {
         new ludo.Notification({
-            html: chess.getPhrase('Game saved successfully'),
+            html: chess.__('Game saved successfully'),
             duration: 1,
             effectDuration: .5
         });

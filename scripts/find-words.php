@@ -35,7 +35,7 @@ function parseFile($file, $words){
     $data = file_get_contents($file);
 
     $matches = array();
-    preg_match_all('/chess.getPhrase\([\'"]([^\'"]+?)[\'"]/si', $data, $matches, PREG_SET_ORDER);
+    preg_match_all('/chess.__\([\'"]([^\'"]+?)[\'"]/si', $data, $matches, PREG_SET_ORDER);
 
     foreach($matches as $match){
         $words->addWord($match[1]);

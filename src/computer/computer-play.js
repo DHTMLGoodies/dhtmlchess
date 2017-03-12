@@ -315,7 +315,7 @@ chess.computer.GameDialog = new Class({
     },
     buttonConfig: 'Ok',
 
-    title: chess.getPhrase('New Game'),
+    title: chess.__('New Game'),
     elo: undefined,
     color: undefined,
     modal:false,
@@ -350,7 +350,7 @@ chess.computer.GameDialog = new Class({
         return [
             {
                 type: 'form.Label',
-                label: chess.getPhrase('Your color:'),
+                label: chess.__('Your color:'),
                 layout: {
                     colspan: 4
                 }
@@ -373,7 +373,7 @@ chess.computer.GameDialog = new Class({
                     'border': '2px solid transparent',
                     'text-align': 'center'
                 },
-                html: chess.getPhrase('White')
+                html: chess.__('White')
             }, {
                 name: 'color-black',
                 layout: {
@@ -392,16 +392,16 @@ chess.computer.GameDialog = new Class({
                     'border': '3px solid transparent',
                     'text-align': 'center'
                 },
-                html: chess.getPhrase('Black')
+                html: chess.__('Black')
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Opponent rating:'), labelFor: 'name',
+                type: 'form.Label', label: chess.__('Opponent rating:'), labelFor: 'name',
                 layout: {
                     colspan: 2
                 }
             },
             {
-                type: 'form.Number', name: 'stockfishElo', placeholder: chess.getPhrase('ex: 1400')
+                type: 'form.Number', name: 'stockfishElo', placeholder: chess.__('ex: 1400')
             },
             {
                 layout: {colspan: 1}
@@ -410,14 +410,14 @@ chess.computer.GameDialog = new Class({
                 layout: {colspan: 4, height: 20}
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Time'), css: {'font-size': '1.3em'},
+                type: 'form.Label', label: chess.__('Time'), css: {'font-size': '1.3em'},
                 layout: {
                     colspan: 2
                 }
 
             },
             {
-                type: 'form.Label', label: chess.getPhrase('Increment'),
+                type: 'form.Label', label: chess.__('Increment'),
                 layout: {
                     colspan: 2
                 }
@@ -433,7 +433,7 @@ chess.computer.GameDialog = new Class({
                 }
             },
             {
-                html: chess.getPhrase('min'),
+                html: chess.__('min'),
                 css: {
                     padding: 5
                 }
@@ -449,7 +449,7 @@ chess.computer.GameDialog = new Class({
                 }
             },
             {
-                html: chess.getPhrase('sec'),
+                html: chess.__('sec'),
                 css: {
                     padding: 5
                 }
@@ -574,10 +574,10 @@ chess.computer.GameOverDialog = new Class({
         children: [
             {
                 name: 'rematch',
-                value: chess.getPhrase('Rematch')
+                value: chess.__('Rematch')
             },
             {
-                value: chess.getPhrase('Exit')
+                value: chess.__('Exit')
             }
         ]
     },
@@ -624,9 +624,9 @@ chess.computer.GameOverDialog = new Class({
     onGameOver: function (myResult, oldElo, newElo) {
         this.show();
 
-        var title = myResult == 1 ? chess.getPhrase('You Won')
-            : myResult == 0 ? chess.getPhrase('Game Drawn')
-            : chess.getPhrase('You lost');
+        var title = myResult == 1 ? chess.__('You Won')
+            : myResult == 0 ? chess.__('Game Drawn')
+            : chess.__('You lost');
 
         this.setTitle(title);
 
@@ -654,7 +654,7 @@ chess.computer.GameOverDialog = new Class({
         else {
             ratingChange = '<span class="rating-change-loss">' + ratingChange + '</span>';
         }
-        this.child['rating'].html(chess.getPhrase('New rating') + ': <span class="new-rating">' + newElo + '</span> (' + ratingChange + ')');
+        this.child['rating'].html(chess.__('New rating') + ': <span class="new-rating">' + newElo + '</span> (' + ratingChange + ')');
 
 
     }

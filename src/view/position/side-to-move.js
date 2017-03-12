@@ -7,7 +7,7 @@
 chess.view.position.SideToMove = new Class({
     Extends:ludo.FramedView,
     height:80,
-    title:chess.getPhrase('Side to move'),
+    title:chess.__('Side to move'),
     layout:{
         type:'table',
         columns:[{width:30},{weight:1}],
@@ -21,24 +21,24 @@ chess.view.position.SideToMove = new Class({
                 name:'color',
                 checked:true,
                 type:'form.Radio',
-                placeholder:chess.getPhrase('White'),
+                placeholder:chess.__('White'),
                 value : 'w'
             },
             {
                 type:'form.Label',
                 labelFor:'color_w',
-                label:chess.getPhrase('White')
+                label:chess.__('White')
             },
             {
                 name:'color',
                 value : 'b',
                 type:'form.Radio',
-                placeholder:chess.getPhrase('Black')
+                placeholder:chess.__('Black')
             },
             {
                 type:'form.Label',
                 labelFor:'color_b',
-                label:chess.getPhrase('Black')
+                label:chess.__('Black')
             }
         ];
 

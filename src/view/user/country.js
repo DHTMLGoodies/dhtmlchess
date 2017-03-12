@@ -11,7 +11,7 @@ chess.view.user.Country = new Class({
     filterOnServer:false,
     emptyItem:{
         id:'',
-        name:chess.getPhrase('Your country')
+        name:chess.__('Your country')
     },
     valueKey:'name',
     textKey:'name',

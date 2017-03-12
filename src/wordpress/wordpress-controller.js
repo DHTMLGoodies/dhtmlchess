@@ -44,7 +44,7 @@ chess.wordpress.WordpressController = new Class({
     confirmLeave:function(){
 
         if(this.currentModel.isDirty()){
-            return chess.getPhrase("You have unsaved changed. ")
+            return chess.__("You have unsaved changed. ")
         }
     },
 
@@ -155,7 +155,7 @@ chess.wordpress.WordpressController = new Class({
 
     renameDatabase: function () {
         if (!this.pgn) {
-            this.showError(chess.getPhrase('No database selected'))
+            this.showError(chess.__('No database selected'))
         } else {
             this.getDatabaseRenameDialog().show(this.pgn);
         }
@@ -196,7 +196,7 @@ chess.wordpress.WordpressController = new Class({
                 if (success) {
                     var data = response.responseJSON;
                     if (data.success) {
-                        this.fireEvent('wpmessage', chess.getPhrase('Database Renamed'));
+                        this.fireEvent('wpmessage', chess.__('Database Renamed'));
                         this.fireEvent('rename_pgn');
                         this.views.gamelisttab.setTitle(data.response.name);
                     } else {
@@ -255,7 +255,7 @@ chess.wordpress.WordpressController = new Class({
                 if (success) {
                     var data = response.responseJSON;
                     if (data.success) {
-                        this.fireEvent('wpmessage', chess.getPhrase('Draft discarded'));
+                        this.fireEvent('wpmessage', chess.__('Draft discarded'));
                         this.fireEvent('draftsupdated');
                         this.currentModel.newGame();
                     } else {
@@ -273,8 +273,8 @@ chess.wordpress.WordpressController = new Class({
 
     setDefaultMetadata: function () {
         this.currentModel.setMetadata({
-            'white': chess.getPhrase('Player White'),
-            'black': chess.getPhrase('Player Black'),
+            'white': chess.__('Player White'),
+            'black': chess.__('Player Black'),
             'date': new Date().format('%x'),
             'result': '*'
         });
@@ -283,7 +283,7 @@ chess.wordpress.WordpressController = new Class({
     getNewGameDialog: function () {
         if (this.newGameDialog == undefined) {
             this.newGameDialog = new ludo.dialog.Confirm({
-                html: chess.getPhrase('You have unsaved game data. Do you want to discard these?'),
+                html: chess.__('You have unsaved game data. Do you want to discard these?'),
                 autoRemove: false,
                 css: {
                     padding: 5
@@ -320,7 +320,7 @@ chess.wordpress.WordpressController = new Class({
     importPgnString:function(){
         if(this.importPgnWindow == undefined){
             this.importPgnWindow = new chess.wordpress.ImportPgnDialog({
-                title:chess.getPhrase('Import PGN'),
+                title:chess.__('Import PGN'),
                 layout:{
                     left:100,top:100,
                     width:400,height:500
@@ -341,7 +341,7 @@ chess.wordpress.WordpressController = new Class({
     showStandings: function () {
         if (this.standingsWindow == undefined) {
             this.standingsWindow = new ludo.dialog.Dialog({
-                title: chess.getPhrase('Standings'),
+                title: chess.__('Standings'),
                 autoRemove: false,
                 layout: {
                     type: 'fill',
@@ -355,7 +355,7 @@ chess.wordpress.WordpressController = new Class({
                 }]
             });
         }
-        this.standingsWindow.setTitle(chess.getPhrase('Standings') + ' - ' + this.pgn.pgn_name);
+        this.standingsWindow.setTitle(chess.__('Standings') + ' - ' + this.pgn.pgn_name);
         this.standingsWindow.children[0].setPgn(this.pgn.id);
         this.standingsWindow.show();
     },
@@ -411,9 +411,9 @@ chess.wordpress.WordpressController = new Class({
                     if (data.response) {
                         if (data.success) {
                             this.fireEvent('new_pgn', data.response);
-                            this.fireEvent('wpmessage', chess.getPhrase('New Database created'));
+                            this.fireEvent('wpmessage', chess.__('New Database created'));
                         } else {
-                            this.fireEvent('wpmessage', chess.getPhrase(e.response));
+                            this.fireEvent('wpmessage', chess.__(e.response));
                         }
                     }
 
@@ -454,7 +454,7 @@ chess.wordpress.WordpressController = new Class({
                         this.publish_pgn = pgn;
                         var d = this.getPublishConfirmDialog();
                         d.show();
-                        d.html(chess.getPhrase('Publish game in') + ' <strong>' + this.publish_pgn.pgn_name + '</strong>?');
+                        d.html(chess.__('Publish game in') + ' <strong>' + this.publish_pgn.pgn_name + '</strong>?');
 
                     }.bind(this)
                 }
@@ -532,7 +532,7 @@ chess.wordpress.WordpressController = new Class({
                         if (data.success) {
                             this.currentModel.draft_id = undefined;
 
-                            this.fireEvent('wpmessage', chess.getPhrase('Game published'));
+                            this.fireEvent('wpmessage', chess.__('Game published'));
                             this.fireEvent('draftsupdated');
                             this.fireEvent('publish');
                             this.currentModel.setMetadata({'draft_id': undefined});
@@ -543,7 +543,7 @@ chess.wordpress.WordpressController = new Class({
                             this.updateButtonVisibility();
 
                         } else {
-                            this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
+                            this.fireEvent('wpmessage', chess.__('Everything is up to date'));
                         }
                     }
 
@@ -576,7 +576,7 @@ chess.wordpress.WordpressController = new Class({
     getConfirmDialog: function () {
         if (this.confirmDialog == undefined) {
             this.confirmDialog = new ludo.dialog.Confirm({
-                html: chess.getPhrase('You have unsaved game data. Do you want to discard these?'),
+                html: chess.__('You have unsaved game data. Do you want to discard these?'),
                 autoRemove: false,
                 css: {
                     padding: 5
@@ -663,7 +663,7 @@ chess.wordpress.WordpressController = new Class({
                     }
 
                 } else {
-                    this.fireEvent('wperrror', chess.getPhrase('Could not load game. Try again later'));
+                    this.fireEvent('wperrror', chess.__('Could not load game. Try again later'));
                 }
             }.bind(this),
             fail: function (text, error) {
@@ -728,12 +728,12 @@ chess.wordpress.WordpressController = new Class({
                 if (success) {
                     var json = response.responseJSON;
                     if (json.success) {
-                        this.fireEvent('wpmessage', chess.getPhrase('Game Saved'));
+                        this.fireEvent('wpmessage', chess.__('Game Saved'));
                         this.fireEvent('publish');
                         this.currentModel.setClean();
 
                     } else {
-                        this.fireEvent('wpmessage', chess.getPhrase(json.response));
+                        this.fireEvent('wpmessage', chess.__(json.response));
                     }
 
                 }
@@ -801,12 +801,12 @@ chess.wordpress.WordpressController = new Class({
                 if (success) {
                     var data = response.responseJSON;
                     if (data.success) {
-                        this.fireEvent('wpmessage', chess.getPhrase('Draft Saved'));
+                        this.fireEvent('wpmessage', chess.__('Draft Saved'));
                         this.fireEvent('draftsupdated');
                         this.currentModel.setMetadata({'draft_id': data.response.draft_id});
                         this.currentModel.setClean();
                     } else {
-                        this.fireEvent('wpmessage', chess.getPhrase('Everything is up to date'));
+                        this.fireEvent('wpmessage', chess.__('Everything is up to date'));
                     }
 
                 } else {

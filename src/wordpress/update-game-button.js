@@ -1,7 +1,7 @@
 chess.wordpress.UpdateGameButton = new Class({
     Extends: ludo.form.Button,
     submodule:'wordpress.updategame',
-    value:chess.getPhrase('Update'),
+    value:chess.__('Update'),
 
 
     setController:function(controller){

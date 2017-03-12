@@ -325,3 +325,9 @@ span.notation-chess-move-highlighted {
     position:absolute;z-index:2;
     background: url(../images/puzzle-solved.png) no-repeat center center;
 }
+
+.dhtml_chess_current_annotation{
+    background-color: #eee;
+    border-radius:5px;
+    padding: 8px;
+}

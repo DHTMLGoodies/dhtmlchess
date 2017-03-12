@@ -15,7 +15,7 @@ chess.view.command.Panel = new Class({
 
 	__rendered:function(){
 		this.parent();
-		this.renderLine(chess.getPhrase('commandWelcome'));
+		this.renderLine(chess.__('commandWelcome'));
 	},
 
     /**
