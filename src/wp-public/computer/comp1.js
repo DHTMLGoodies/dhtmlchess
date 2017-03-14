@@ -8,6 +8,7 @@ chess.WPComp1 = new Class({
     boardSize: undefined,
 
     isPreview: false,
+    nav:false,
 
     initialize: function (config) {
         this.parent(config);

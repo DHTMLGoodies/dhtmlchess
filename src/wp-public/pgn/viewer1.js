@@ -14,7 +14,7 @@
 window.chess.isWordPress = true;
 
 chess.WPViewer1 = new Class({
-    Extends: chess.WPTemplate,
+    Extends: chess.WPViewerTemplate,
 
     renderTo: undefined,
     pgn: undefined,
@@ -67,11 +67,7 @@ chess.WPViewer1 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module],
-            pgn: this.pgn.id,
-            listeners: {}
-        });
+        this.createController();
     },
 
     desktopChildren: function () {

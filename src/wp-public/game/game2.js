@@ -88,12 +88,7 @@ chess.WPGame2 = new Class({
             ]
         });
 
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module]
-        });
-
-        this.loadGame();
-
+        this.createGameModel();
     }
 
 });

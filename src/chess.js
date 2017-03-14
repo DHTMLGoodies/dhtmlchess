@@ -1,12 +1,15 @@
 ludo.factory.createNamespace('chess');
-var _w = (function(){ return this || (0,eval)('this'); }());
+var _w = (function () {
+    return this || (0, eval)('this');
+}());
 
 _w.chess = {
     language: {},
     plugins: {},
     pgn: {},
-    wordpress:{},
-    computer:{},
+    wordpress: {},
+    computer: {},
+    sound: {},
     view: {
         seek: {},
         board: {},
@@ -63,7 +66,7 @@ _w.chess.isWordPress = false;
 
 _w.chess.events = {
     game: {
-        loadGame:'loadGame',
+        loadGame: 'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
         newMove: 'newMove',

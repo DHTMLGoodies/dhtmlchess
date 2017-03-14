@@ -54,12 +54,7 @@ chess.WPGame3 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module],
-            examine: false
-        });
-
-        this.loadGame();
+        this.createGameModel();
 
     },
 

@@ -1,6 +1,7 @@
 chess.WPFen = new Class({
     Extends: chess.WPTemplate,
     fen: undefined,
+    nav:false,
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();

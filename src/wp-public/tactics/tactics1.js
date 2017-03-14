@@ -15,6 +15,7 @@ chess.WPTactics1 = new Class({
     boardSize: undefined,
     boardId: undefined,
     random: false,
+    nav:false,
 
     initialize: function (config) {
         this.parent(config);

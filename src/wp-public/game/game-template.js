@@ -8,6 +8,15 @@ chess.WPGameTemplate = new Class({
         if(!this.model && !this.gameId)this.gameId = 2;
     },
 
+
+    createGameModel:function(){
+        this.controller = new chess.controller.Controller({
+            applyTo: [this.module],
+            sound:this.sound
+        });
+        this.loadGame();
+    },
+
     loadGame:function(){
 
 

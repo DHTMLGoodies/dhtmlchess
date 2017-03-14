@@ -95,6 +95,7 @@ parseDirectory(array('../wordpress/'), "../wordpress/wordpress-editor-minified.j
 parseDirectory(array(
     'wp-template.js',
     'game/game-template.js',
+    'pgn/viewer-template.js',
     'game/game1.js',
     'game/game2.js',
     'game/game3.js',
@@ -103,6 +104,7 @@ parseDirectory(array(
     'pgn/viewer1.js',
     'pgn/viewer2.js',
     'game-grid.js',
+    'manager.js',
     'wpcom-message.js',
     'tactics/tactics1.js',
     'tactics/tactics-game1.js',

@@ -1,4 +1,4 @@
-/* Generated Sun Mar 12 14:06:16 CET 2017 */
+/* Generated Tue Mar 14 14:52:24 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -2478,85 +2478,10 @@ ludo.CmpMgrClass = new Class({
     getNewZIndex:function () {
         this.zIndex++;
         return this.zIndex;
-    },
-
-    newComponent:function (cmpConfig, parentComponent) {
-		console.log('old code');
-        cmpConfig = cmpConfig || {};
-        if (!this.isConfigObject(cmpConfig)) {
-            if (parentComponent) {
-                if (cmpConfig.getParent() && cmpConfig.getParent().removeChild) {
-                    cmpConfig.getParent().removeChild(cmpConfig);
-                }
-                cmpConfig.setParentComponent(parentComponent);
-            }
-            return cmpConfig;
-        } else {
-            if (parentComponent) {
-                cmpConfig.els = cmpConfig.els || {};
-                if (!cmpConfig.renderTo && parentComponent.getEl())cmpConfig.renderTo = parentComponent.getEl();
-                cmpConfig.parentComponent = parentComponent;
-            }
-            var ret;
-            var cmpType = this.getViewType(cmpConfig, parentComponent);
-            if (cmpType.countNameSpaces > 1) {
-                var tokens = cmpConfig.type.split(/\./g);
-                var ns = tokens.join('.');
-                ret = eval('new window.ludo.' + ns + '(cmpConfig)');
-                if (!ret.type)ret.type = ns;
-                return ret;
-            }
-            else if (cmpType.nameSpace) {
-                if (!window.ludo[cmpType.nameSpace][cmpType.componentType] && parentComponent) {
-                    parentComponent.log('Class ludo.' + cmpType.nameSpace + '.' + cmpType.componentType + ' does not exists');
-                }
-                ret = new window.ludo[cmpType.nameSpace][cmpType.componentType](cmpConfig);
-                if (!ret.type)ret.type = cmpType.nameSpace;
-                return ret;
-            } else {
-                if (!window.ludo[cmpType.componentType] && parentComponent) {
-                    parentComponent.log('Cannot create object of type ' + cmpType.componentType);
-                }
-                return new window.ludo[cmpType.componentType](cmpConfig);
-            }
-        }
-    },
-
-    getViewType:function (config, parentComponent) {
-        var cmpType = '';
-        var nameSpace = '';
-        if (config.type) {
-            cmpType = config.type;
-        }
-        else if (config.cType) {
-            cmpType = config.cType;
-        } else {
-            cmpType = parentComponent.cType;
-        }
-        var countNS = 0;
-        if (cmpType.indexOf('.') >= 0) {
-            var tokens = cmpType.split(/\./g);
-            nameSpace = tokens[0];
-            cmpType = tokens[1];
-            countNS = tokens.length - 1;
-        }
-        return {
-            nameSpace:nameSpace,
-            componentType:cmpType,
-            countNameSpaces:countNS
-        }
-    },
-
-    isConfigObject:function (obj) {
-        return obj && obj.initialize ? false : true;
     }
 });
 
 ludo.CmpMgr = new ludo.CmpMgrClass();
-
-ludo.getView_250_40 = function (id) {
-    return ludo.CmpMgr.get(id);
-};
 
 ludo.get = function (id) {
     return ludo.CmpMgr.get(id);
@@ -2567,6 +2492,9 @@ ludo.$ = function(id){
 };
 
 ludo._new = function (config) {
+    if(jQuery.type(config) == 'string'){
+        config = { type: config }
+    }
     if (config.type && ludo.SINGLETONS[config.type]) {
         return ludo.SINGLETONS[config.type];
     }
@@ -3134,9 +3062,6 @@ ludo.ObjectFactory = new Class({
 	
 
 	getInNamespace:function(ns, config){
-		if(jQuery.type(config) == "string"){
-			console.trace();
-		}
 		var type = config.type.split(/\./g);
 		if(type[0] === ns)type.shift();
 		var obj = window[ns];
@@ -28355,14 +28280,17 @@ ludo.ListView = new Class({
     }
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
-var _w = (function(){ return this || (0,eval)('this'); }());
+var _w = (function () {
+    return this || (0, eval)('this');
+}());
 
 _w.chess = {
     language: {},
     plugins: {},
     pgn: {},
-    wordpress:{},
-    computer:{},
+    wordpress: {},
+    computer: {},
+    sound: {},
     view: {
         seek: {},
         board: {},
@@ -28419,7 +28347,7 @@ _w.chess.isWordPress = false;
 
 _w.chess.events = {
     game: {
-        loadGame:'loadGame',
+        loadGame: 'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
         newMove: 'newMove',
@@ -29072,8 +29000,8 @@ chess.view.notation.Panel = new Class({
                 if (gs) {
                     moves.push(e);
                 }
-                moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
                 moves.push(s);
+                moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
                 gs = true;
             }
             if ((moveCounter % 2 === 0 || (pr && pr.comment && pr.comment.length > 0))&& notation) {
@@ -36117,7 +36045,61 @@ chess.util.CoordinateUtil = {
     }
 
 
-};/* ../dhtml-chess/src/parser0x88/config.js */
+};/* ../dhtml-chess/src/sound/sound.js */
+chess.sound.Sound = new Class({
+    Extends: ludo.Core,
+    type: 'chess.sound.Sound',
+    singleton: true,
+    sounds: {},
+
+    __construct: function (config) {
+        this.parent(config);
+        this.sounds = {
+            'capture': ['capture1.mp3', 'capture2.mp3'],
+            'move': ['move1.mp3', 'move2.mp3'],
+            'castle': ['castle1.mp3', 'castle2.mp3']
+        };
+
+        this.createAudios();
+    },
+
+    add: function (controller) {
+        controller.on('animationComplete', this.receivedEvent.bind(this));
+    },
+
+    receivedEvent: function (model) {
+        var m = model.currentMove;
+        if(m != undefined && m.m != undefined){
+            this.playSound(m.m);
+        }
+    },
+
+    playSound:function(move){
+        this.getSound(move).play();
+    },
+
+    getSound:function(move){
+        var key;
+        if(move.indexOf('x') > 0)key = 'capture';
+        else if(move.indexOf('O-0') >= 0) key = 'castle';
+        else key = 'move';
+        var obj = this.sounds[key];
+        var len = obj.length;
+        return obj[Math.floor(Math.random() * len)];
+    },
+
+    createAudios:function(){
+
+        jQuery.each(this.sounds, function(key, sounds){
+            jQuery.each(sounds, function(i, sound){
+                var url = ludo.config.getDocumentRoot() + 'sound/' + sound;
+                this.sounds[key][i] = new Audio(url);
+            }.bind(this));
+        }.bind(this));
+    }
+
+});
+ludo.factory.createAlias('chess.sound.Sound', chess.sound.Sound);/* ../dhtml-chess/src/parser0x88/config.js */
 Board0x88Config = {
     squares:[
         'a1', 'b1', 'c1', 'd1', 'e1', 'f1', 'g1', 'h1',
@@ -38613,62 +38595,69 @@ chess.parser.PositionValidator = new Class({
 
 });/* ../dhtml-chess/src/controller/controller.js */
 /**
-  Game controller base class. This class acts as the glue between
-  game models and views. When something happens in current game, it sends a message/event to the
-  controller. The controller delegates this message to the views and all views interested
-  @module Controller
-  @namespace chess.controller
-  @class Controller
-  @constructor
-  @param {Object} config
+ Game controller base class. This class acts as the glue between
+ game models and views. When something happens in current game, it sends a message/event to the
+ controller. The controller delegates this message to the views and all views interested
+ @module Controller
+ @namespace chess.controller
+ @class Controller
+ @constructor
+ @param {Object} config
  */
 chess.controller.Controller = new Class({
-    Extends:ludo.controller.Controller,
-    models:[],
-    applyTo:undefined,
-    currentModel:null,
-    modelCacheSize:15,
+    Extends: ludo.controller.Controller,
+    models: [],
+    applyTo: undefined,
+    currentModel: null,
+    modelCacheSize: 15,
 
-    views:{},
-    disabledEvents:{},
-    pgn : undefined,
-    debug:false,
+    views: {},
+    disabledEvents: {},
+    pgn: undefined,
+    debug: false,
 
-    _module:undefined,
+    _module: undefined,
 
-    isBusy:false,
+    isBusy: false,
 
-    __construct:function (config) {
+    sound: false,
+
+    __construct: function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.__params(config, ['debug', 'pgn', 'theme']);
+        this.__params(config, ['debug', 'pgn', 'theme', 'sound']);
 
-        if(config.applyTo != undefined){
+        if (config.applyTo != undefined) {
             this._module = config.applyTo[0];
         }
         this.theme = this.theme || chess.THEME || {};
 
         this.createDefaultViews();
         this.createDefaultModel();
+
+        if (this.sound) {
+            var m = ludo._new('chess.sound.Sound');
+            m.add(this);
+        }
     },
 
-    createDefaultViews:function () {
-        if(chess.view.dialog != undefined){
+    createDefaultViews: function () {
+        if (chess.view.dialog != undefined) {
             this.createView('chess.view.dialog.OverwriteMove');
             this.createView('chess.view.dialog.Promote');
             this.createView('chess.view.dialog.Comment');
         }
     },
 
-    createView:function(type){
+    createView: function (type) {
         var c = this.theme[type] || {};
         c.type = type;
-        if(this._module != undefined)c.module = this._module;
+        if (this._module != undefined)c.module = this._module;
         return ludo.factory.create(c);
     },
 
 
-    createDefaultModel:function () {
+    createDefaultModel: function () {
         var model = this.getNewModel();
         this.models[0] = model;
         this.currentModel = model;
@@ -38676,11 +38665,11 @@ chess.controller.Controller = new Class({
         model.setClean();
     },
 
-    addView:function (view) {
+    addView: function (view) {
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            if(this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if (this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             //return false;
         }
         this.views[view.submodule] = view;
@@ -38718,27 +38707,27 @@ chess.controller.Controller = new Class({
             case 'dialogNewGame':
                 view.addEvent('newGame', function (metadata) {
                     this.currentModel = this.getNewModel({
-                        metadata:metadata
+                        metadata: metadata
                     });
                     this.currentModel.activate();
                 }.bind(this));
                 break;
             case 'menuItemNewGame':
                 view.addEvent('newGame', function () {
-					/**
-					 * New game dialog event
-					 * @event newGameDialog
-					 */
+                    /**
+                     * New game dialog event
+                     * @event newGameDialog
+                     */
                     this.fireEvent('newGameDialog');
                 }.bind(this));
                 break;
             case 'commandLine':
-				view.addEvent('move', this.addMove.bind(this));
-				view.addEvent('setPosition', this.setPosition.bind(this));
-				view.addEvent('load', this.selectGame.bind(this));
-				view.addEvent('flip', this.flipBoard.bind(this));
-				view.addEvent('grade', this.gradeCurrentMove.bind(this));
-				break;
+                view.addEvent('move', this.addMove.bind(this));
+                view.addEvent('setPosition', this.setPosition.bind(this));
+                view.addEvent('load', this.selectGame.bind(this));
+                view.addEvent('flip', this.flipBoard.bind(this));
+                view.addEvent('grade', this.gradeCurrentMove.bind(this));
+                break;
             case 'board':
                 view.addEvent('move', this.addMove.bind(this));
                 view.addEvent('animationStart', this.setBusy.bind(this));
@@ -38782,200 +38771,200 @@ chess.controller.Controller = new Class({
                 view.addEvent('commentAfter', this.addCommentAfter.bind(this));
                 break;
         }
-        
+
         return true;
     },
 
-    deleteMoves:function(move){
+    deleteMoves: function (move) {
         this.currentModel.deleteMove(move);
     },
 
-	/**
-	 * Load next game in selected database. This method will only work if you have
-	 * a grid with list of games. The only thing this method does is to fire the "nextGame"
-	 * event which the list of games grid listens to. The grid will go to next game and fire it's
-	 * selectGame event
-	 * @method loadNextGame
-	 * @return undefined
-	 */
-    loadNextGame:function () {
-		/**
-		 * next game event
-		 * @event nextGame
-		 */
+    /**
+     * Load next game in selected database. This method will only work if you have
+     * a grid with list of games. The only thing this method does is to fire the "nextGame"
+     * event which the list of games grid listens to. The grid will go to next game and fire it's
+     * selectGame event
+     * @method loadNextGame
+     * @return undefined
+     */
+    loadNextGame: function () {
+        /**
+         * next game event
+         * @event nextGame
+         */
         this.fireEvent('nextGame');
     },
 
-	/**
-	 * Load previous game from selected database. For info, see loadNextGame
-	 * @method loadPreviousGame
-	 * @return undefined
-	 */
-    loadPreviousGame:function () {
+    /**
+     * Load previous game from selected database. For info, see loadNextGame
+     * @method loadPreviousGame
+     * @return undefined
+     */
+    loadPreviousGame: function () {
         this.fireEvent('previousGame');
     },
 
-    showHint:function () {
+    showHint: function () {
         var nextMove = this.currentModel.getNextMove();
         if (nextMove) {
             this.views.board.showHint(nextMove);
         }
     },
 
-    showSolution:function () {
+    showSolution: function () {
         var nextMove = this.currentModel.getNextMove();
         if (nextMove) {
             this.views.board.showSolution(nextMove);
         }
     },
 
-    setPosition:function (fen) {
+    setPosition: function (fen) {
         this.currentModel.setPosition(fen);
     },
 
-    overwriteMove:function (oldMove, newMove) {
+    overwriteMove: function (oldMove, newMove) {
         this.currentModel.overwriteMove(oldMove, newMove);
     },
 
-    newVariation:function (oldMove, newMove) {
+    newVariation: function (oldMove, newMove) {
         this.currentModel.setCurrentMove(oldMove);
         this.currentModel.newVariation(newMove);
     },
 
-    cancelOverwrite:function () {
+    cancelOverwrite: function () {
         this.currentModel.resetPosition();
     },
 
-    setCurrentMove:function (move) {
+    setCurrentMove: function (move) {
         this.currentModel.goToMove(move);
     },
-	/**
-	 * Flip board. The only thing this method does is to fire the flipBoard event.
-	 * @method flipBoard
-	 * @return undefined
-	 */
-    flipBoard:function () {
-		/**
-		 * flip event. A board is example of a view listening to this event. When it's fired, the board
-		 * will be flipped
-		 * @event flip
-		 */
+    /**
+     * Flip board. The only thing this method does is to fire the flipBoard event.
+     * @method flipBoard
+     * @return undefined
+     */
+    flipBoard: function () {
+        /**
+         * flip event. A board is example of a view listening to this event. When it's fired, the board
+         * will be flipped
+         * @event flip
+         */
         this.fireEvent('flip');
     },
 
-	/**
-	 * Add a move to current model
-	 * @method addMove
-	 * @param {Object} move
-	 * @return undefined
-	 */
-    addMove:function (move) {
+    /**
+     * Add a move to current model
+     * @method addMove
+     * @param {Object} move
+     * @return undefined
+     */
+    addMove: function (move) {
         this.currentModel.appendMove(move);
     },
-    gradeMove:function (move, grade) {
+    gradeMove: function (move, grade) {
         this.currentModel.gradeMove(move, grade);
     },
 
-	gradeCurrentMove:function(grade){
-		var move = this.currentModel.getCurrentMove();
-		if(move){
-			this.currentModel.gradeMove(move, grade);
-		}
-	},
+    gradeCurrentMove: function (grade) {
+        var move = this.currentModel.getCurrentMove();
+        if (move) {
+            this.currentModel.gradeMove(move, grade);
+        }
+    },
 
-    dialogCommentBefore:function (move) {
-		/**
-		 * Event fired when the Comment before a move dialog should be shown.
-		 * @event commentBefore
-		 * @param {chess.model.Game} currentModel
-		 * @param {Object} move
- 		 */
+    dialogCommentBefore: function (move) {
+        /**
+         * Event fired when the Comment before a move dialog should be shown.
+         * @event commentBefore
+         * @param {chess.model.Game} currentModel
+         * @param {Object} move
+         */
         this.fireEvent('commentBefore', [this.currentModel, move]);
     },
 
-    dialogCommentAfter:function (move) {
-		/**
-		 * Event fired when the Comment after a move dialog should be shown.
-		 * @event commentAfter
-		 * @param {chess.model.Game} currentModel
-		 * @param {Object} move
- 		 */
+    dialogCommentAfter: function (move) {
+        /**
+         * Event fired when the Comment after a move dialog should be shown.
+         * @event commentAfter
+         * @param {chess.model.Game} currentModel
+         * @param {Object} move
+         */
         this.fireEvent('commentAfter', [this.currentModel, move]);
     },
-    addCommentBefore:function (comment, move) {
+    addCommentBefore: function (comment, move) {
         this.currentModel.setCommentBefore(comment, move);
     },
-    addCommentAfter:function (comment, move) {
+    addCommentAfter: function (comment, move) {
         this.currentModel.setCommentAfter(comment, move);
     },
-	/**
-	 * Go to start of current game
-	 * @method toStart
-	 * @return undefined
-	 */
-    toStart:function () {
+    /**
+     * Go to start of current game
+     * @method toStart
+     * @return undefined
+     */
+    toStart: function () {
         this.pauseGame();
-        if(!this.isBusy)this.currentModel.toStart();
+        if (!this.isBusy)this.currentModel.toStart();
     },
-	/**
-	 * Go to end of current game
-	 * @method toEnd
-	 * @return undefined
-	 */
-    toEnd:function () {
+    /**
+     * Go to end of current game
+     * @method toEnd
+     * @return undefined
+     */
+    toEnd: function () {
         this.pauseGame();
-        if(!this.isBusy)this.currentModel.toEnd();
+        if (!this.isBusy)this.currentModel.toEnd();
     },
-	/**
-	 * Go to previous move
-	 * @method previousMove
-	 * @return undefined
-	 */
-    previousMove:function () {
+    /**
+     * Go to previous move
+     * @method previousMove
+     * @return undefined
+     */
+    previousMove: function () {
         this.pauseGame();
-        if(!this.isBusy)this.currentModel.previousMove();
+        if (!this.isBusy)this.currentModel.previousMove();
     },
-	/**
-	 * Go to next move
-	 * @method nextMove
-	 * @return undefined
-	 */
-    nextMove:function () {
+    /**
+     * Go to next move
+     * @method nextMove
+     * @return undefined
+     */
+    nextMove: function () {
         this.pauseGame();
-        if(!this.isBusy)this.currentModel.nextMove();
+        if (!this.isBusy)this.currentModel.nextMove();
     },
-	/**
-	 * Start auto play of moves in current game from current position
-	 * @method playMoves
-	 * @return undefined
-	 */
-    playMoves:function () {
-        if(!this.isBusy)this.currentModel.startAutoPlay();
+    /**
+     * Start auto play of moves in current game from current position
+     * @method playMoves
+     * @return undefined
+     */
+    playMoves: function () {
+        if (!this.isBusy)this.currentModel.startAutoPlay();
     },
-	/**
-	 * Pause auto play of moves
-	 * @method pauseGame
-	 * @return undefined
-	 */
-    pauseGame:function () {
+    /**
+     * Pause auto play of moves
+     * @method pauseGame
+     * @return undefined
+     */
+    pauseGame: function () {
         this.currentModel.stopAutoPlay();
     },
 
-    getAnimationDuration:function(){
-        return this.views.board.animationDuration;  
+    getAnimationDuration: function () {
+        return this.views.board.animationDuration;
     },
 
-    setBusy:function(){
+    setBusy: function () {
         this.isBusy = true;
     },
 
-    nextAutoPlayMove:function () {
+    nextAutoPlayMove: function () {
         this.fireModelEvent('animationComplete', this.currentModel, undefined);
         this.currentModel.nextAutoPlayMove();
         this.isBusy = false;
     },
 
-    selectGame:function (game, pgn) {
+    selectGame: function (game, pgn) {
 
 
         var model;
@@ -38987,22 +38976,22 @@ chess.controller.Controller = new Class({
         }
     },
 
-    selectPgn:function(pgn){
+    selectPgn: function (pgn) {
         this.fireEvent('selectPgn', pgn);
     },
 
-    getModelFromCache:function (game) {
+    getModelFromCache: function (game) {
         for (var i = 0; i < this.models.length; i++) {
-            if(this.models[i].isModelFor(game)){
+            if (this.models[i].isModelFor(game)) {
                 return this.models[i];
             }
         }
         return null;
     },
 
-    getNewModel:function (game, pgn) {
+    getNewModel: function (game, pgn) {
         game = game || {};
-		if(pgn)game.pgn = pgn;
+        if (pgn)game.pgn = pgn;
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
@@ -39020,9 +39009,9 @@ chess.controller.Controller = new Class({
         return model;
     },
 
-    addEventsToModel:function (model) {
+    addEventsToModel: function (model) {
         for (var eventName in window.chess.events.game) {
-            if(window.chess.events.game.hasOwnProperty(eventName)){
+            if (window.chess.events.game.hasOwnProperty(eventName)) {
                 if (this.disabledEvents[eventName] === undefined) {
                     model.addEvent(window.chess.events.game[eventName], this.fireModelEvent.bind(this));
                 }
@@ -39030,15 +39019,15 @@ chess.controller.Controller = new Class({
         }
     },
 
-    fireModelEvent:function (event, model, param) {
+    fireModelEvent: function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            if(this.debug)ludo.util.log(event);
+            if (this.debug)ludo.util.log(event);
             this.fireEvent(event, [model, param]);
             this.modelEventFired(event, model, param);
         }
     },
 
-    modelEventFired:function(){
+    modelEventFired: function () {
 
     },
 
@@ -39047,7 +39036,7 @@ chess.controller.Controller = new Class({
      * @method getCurrentModel
      * @return object chess.model.Game
      */
-    getCurrentModel:function () {
+    getCurrentModel: function () {
         return this.currentModel;
     },
 
@@ -39056,40 +39045,40 @@ chess.controller.Controller = new Class({
      * @method loadRandomGame
      * @return void
      */
-    loadRandomGame:function () {
+    loadRandomGame: function () {
         this.currentModel.loadRandomGameFromFile(this.pgn);
     },
 
-    loadWordPressGameById:function(pgn, id){
+    loadWordPressGameById: function (pgn, id) {
         this.pgn = pgn;
         this.currentModel.loadWordPressGameById(pgn, id);
-    },    
-    
-    loadWordPressGameByIndex:function(pgn, index){
+    },
+
+    loadWordPressGameByIndex: function (pgn, index) {
         this.pgn = pgn;
         this.currentModel.loadWordPressGameById(pgn, index);
     },
-    
-    loadNextWordPressGame:function(pgn){
-        if(arguments.length > 0)this.pgn = pgn;
+
+    loadNextWordPressGame: function (pgn) {
+        if (arguments.length > 0)this.pgn = pgn;
         this.currentModel.loadNextStaticGame(pgn);
     },
-    
-    loadGameFromFile:function(index){
 
-        if(this.pgn){
+    loadGameFromFile: function (index) {
+
+        if (this.pgn) {
             this.currentModel.loadStaticGame(this.pgn, index);
         }
     },
 
-    loadNextGameFromFile:function(){
-        if(this.pgn){
+    loadNextGameFromFile: function () {
+        if (this.pgn) {
             this.currentModel.loadNextStaticGame(this.pgn);
         }
     },
 
-    loadPreviousGameFromFile:function(){
-        if(this.pgn){
+    loadPreviousGameFromFile: function () {
+        if (this.pgn) {
             this.currentModel.loadPreviousStaticGame(this.pgn);
         }
     }

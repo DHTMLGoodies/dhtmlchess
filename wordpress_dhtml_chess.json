@@ -3,7 +3,7 @@
   "slug" : "dhtml_chess",
   "homepage" : "http://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
-  "version" : "1.0.42",
+  "version" : "1.0.43",
   "author" : "Alf Magne Kalleland",
   "sections" : {
     "description" : "Chess for your WordPress site.",
@@ -13,7 +13,7 @@
     "low" : "http://example.com/banner-772x250.png",
     "high" : "http://example.com/banner-1544x500.png"
   },
-  "last_updated" : "2017-02-25 17:00:00",
+  "last_updated" : "2017-03-14 14:00:00",
   "icons" : {
     "low" : "http://example.com/icon-128x128.png",
     "high" : "http://example.com/icon-256x256.png"

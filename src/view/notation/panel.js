@@ -304,8 +304,8 @@ chess.view.notation.Panel = new Class({
                 if (gs) {
                     moves.push(e);
                 }
-                moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
                 moves.push(s);
+                moves.push('<span class="dhtml-chess-move-number">..' + Math.ceil(moveCounter / 2) + '</span>');
                 gs = true;
             }
             if ((moveCounter % 2 === 0 || (pr && pr.comment && pr.comment.length > 0))&& notation) {

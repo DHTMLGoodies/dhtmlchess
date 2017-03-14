@@ -3,7 +3,8 @@
  */
 chess.WPTacticsGame1 = new Class({
     Extends: chess.WPTemplate,
-
+    nav:false,
+    
     initialize:function(config){
         this.parent(config);
         var r = this.renderTo;

@@ -14,7 +14,7 @@
 window.chess.isWordPress = true;
 
 chess.WPViewer2 = new Class({
-    Extends: chess.WPTemplate,
+    Extends: chess.WPViewerTemplate,
 
     renderTo: undefined,
     pgn: undefined,
@@ -74,15 +74,7 @@ chess.WPViewer2 = new Class({
             ]
         });
 
-
-
-
-
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module],
-            pgn: this.pgn.id,
-            listeners: {}
-        });
+        this.createController();
     },
 
     desktopChildren:function(){

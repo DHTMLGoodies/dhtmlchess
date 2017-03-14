@@ -3,7 +3,7 @@ chess.WPGame1 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize: undefined,
     buttonSize: 45,
-    
+
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
@@ -65,11 +65,7 @@ chess.WPGame1 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module]
-        });
-
-        this.loadGame();
+        this.createGameModel();
 
     },
 

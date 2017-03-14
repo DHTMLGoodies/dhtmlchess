@@ -8,7 +8,9 @@ chess.WPTemplate = new Class({
     themeObject: undefined,
 
     heading_tpl: undefined,
-    wpm_h : 20,
+    wpm_h: 20,
+    nav: true,
+    sound: false,
 
     initialize: function (config) {
 
@@ -19,8 +21,8 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-
-        if(config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
+        if (config.sound != undefined)this.sound = config.sound;
+        if (config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
@@ -33,7 +35,6 @@ chess.WPTemplate = new Class({
         }
 
         if (!ludo.isMobile) {
-
 
             if (config.width) {
                 this.renderTo.css('width', config.width);
@@ -73,6 +74,11 @@ chess.WPTemplate = new Class({
                     this.onload();
                 }.bind(this)
             });
+        }
+
+        if (this.nav) {
+            var manager = ludo._new('chess.WPManager');
+            manager.add(this);
         }
     },
 
