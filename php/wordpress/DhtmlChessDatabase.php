@@ -291,6 +291,32 @@ class DhtmlChessDatabase
         return $standings->getStandings($pgnId);
     }
 
+    public function getStandingsSortedAsArray($pgnId, $sofiaRules = false){
+
+        $standings = $this->getStandings($pgnId);
+        $table = json_decode($standings, true);
+
+        if($sofiaRules){
+            $w = 3; $d = 1;
+        }else{
+            $w = 1; $d = .5;
+        }
+        foreach($table as &$player){
+            $player["s"] = $player["w"] * $w + $player["d"] * $d;
+        }
+
+        usort($table, array($this, "standingsSortFunction"));
+
+        return $table;
+
+    }
+
+    private function standingsSortFunction($a, $b){
+
+        return $a["s"] < $b["s"] ? 1 : -1;
+
+    }
+
     public function countGamesInDatabase()
     {
         /**

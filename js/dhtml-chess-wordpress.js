@@ -1,4 +1,4 @@
-/* Generated Thu Mar 16 1:53:41 CET 2017 */
+/* Generated Thu Mar 16 14:02:50 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -35150,7 +35150,6 @@ chess.WPGame5 = new Class({
                 cls: 'metadata',
                 css: {
                     'text-align': 'center',
-                    'overflow-y': 'auto',
                     'font-size': '1em',
                     'font-weight': 'bold'
                 }
@@ -36574,6 +36573,42 @@ chess.WPPinned = new Class({
 
     }
 
+
+});/* ../dhtml-chess/src/wp-public/special/standings.js */
+chess.WPStandings1 = new Class({
+    Extends: chess.WPTemplate,
+
+    initialize:function(config){
+        this.parent(config);
+
+        jQuery.ajax({
+            url: ludo.config.getUrl(),
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action:'get_standings',
+                pgn:config.pgn.id
+            },
+            complete: function (response, status) {
+                if(status == "success"){
+                    var standings = response.responseJSON.response;
+                    new chess.wordpress.PgnStandings({
+                        renderTo:this.renderTo,
+                        layout:{
+                            height:'auto'
+                        },
+                        dataSource:{
+                            data:standings
+                        }
+                    });
+                }
+            }.bind(this),
+            fail: function (text, error) {
+                this.fireEvent(error);
+            }.bind(this)
+        });
+    }
 
 });/* ../dhtml-chess/src/wp-public/tactics/tactics1.js */
 window.chess.isWordPress = true;

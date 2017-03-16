@@ -110,6 +110,7 @@ parseDirectory(array(
     'tactics/tactics-game1.js',
     'fen/wp-fen.js',
     'special/pinned.js',
+    'special/standings.js',
     '../computer/computer-play.js',
     '../controller/play-stockfish-controller.js',
     'computer/comp1.js',

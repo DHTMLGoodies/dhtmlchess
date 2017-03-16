@@ -69,36 +69,35 @@ chess.THEME = {
     'chess.view.buttonbar.Bar':{
         borderRadius:'10%',
         styles:{
-            button:{
-                fill:'#444444',
-                stroke:'#444444'
+            button: {
+                'fill-opacity': 0,
+                'stroke-opacity': 0
             },
-            image:{
-                fill:'#ddd'
+            image: {
+                fill: '#777'
             },
-            buttonOver:{
-                fill:'#333',
-                stroke:'#444444'
+            buttonOver: {
+                'fill-opacity': 0,
+                'stroke-opacity': 0
             },
-            imageOver:{
-                fill:'#eee'
+            imageOver: {
+                fill: '#555'
             },
-            buttonDown:{
-                fill:'#aaa',
-                stroke:'#444444'
+            buttonDown: {
+                'fill-opacity': 0,
+                'stroke-opacity': 0
             },
-            imageDown:{
-                fill:'#444'
+            imageDown: {
+                fill: '#444'
             },
-            buttonDisabled:{
-                fill:'#d5d5d5',
-                stroke : '#b3b3b3',
-                'stroke-opacity' : 0.3
+            buttonDisabled: {
+                'fill-opacity': 0,
+                'stroke-opacity': 0
                 // , 'fill-opacity': 0.3
             },
-            imageDisabled:{
-                fill:'#555',
-                'fill-opacity' : 0.3
+            imageDisabled: {
+                fill: '#555',
+                'fill-opacity': 0.3
             }
         }
     }

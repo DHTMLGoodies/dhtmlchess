@@ -243,7 +243,6 @@ chess.WPGame5 = new Class({
                 cls: 'metadata',
                 css: {
                     'text-align': 'center',
-                    'overflow-y': 'auto',
                     'font-size': '1em',
                     'font-weight': 'bold'
                 }

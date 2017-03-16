@@ -136,16 +136,11 @@ chess.FindPinned = new Class({
 
 
         if (pinnedArray.length && pinnedArray[0].pinned.length >= this.minPinned) {
-
             this.controller.currentModel.setPosition(pinnedArray[0].fen);
-
             this.saveGame(pinnedArray[0]);
-
         } else {
             this.loadNext.delay(200, this);
         }
-
-
     },
 
     saveGame: function (pinned) {

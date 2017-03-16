@@ -72,8 +72,16 @@ class DhtmlChessViews
             "type" => "tournament",
             "shortcode" => "chess",
             "desc" => "Tournament template",
-            "attributes" => array("tpl" => 1, "db" => '&lt;databaseId>'),
-            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]'
+            "attributes" => array("tpl" => 2, "db" => '&lt;databaseId>'),
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="2"]'
+        ),        array(
+        "script" => "WPViewer3",
+            "title" => "Database Template 3",
+            "type" => "tournament",
+            "shortcode" => "chess",
+            "desc" => "Tournament template",
+            "attributes" => array("tpl" => 3, "db" => '&lt;databaseId>'),
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="3"]'
         ),
         array(
             "script" => "WPTactics1",
@@ -121,7 +129,27 @@ class DhtmlChessViews
             "attributes" => array("tactics" => '1', "theme" => "&lt;optional theme>"),
             "help" => "Insert pgn of one game between the tags. <br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
             'enclosing' => '&lt;pgn string>'
-        )
+        ),
+        array(
+            "script" => "WPStandings1",
+            "title" => "Standings",
+            "type" => "comp",
+            "desc" => "Displays standings grid for a database",
+            "shortcode" => "chess",
+            "attributes" => array("standings" => 1, "tpl" => 1),
+            "help" => 'Example: [chess standings=1 tpl="1"]'
+        ),
+        array(
+            "script" => "WPStandings1",
+            "title" => "Standings",
+            "type" => "comp",
+            "desc" => "Displays standings for a database as a plain HTML table",
+            "shortcode" => "chess",
+            "attributes" => array("standings" => 1, "tpl" => 2),
+            "help" => 'Example: [chess standings=1 tpl="2"]'
+        ),
+
+
     );
 
     public static function countGameTemplates()
@@ -209,9 +237,18 @@ class DhtmlChessViews
     {
         $view = new DHTMLChessView();
 
+
         $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
 
-        if ($tag == "pgn") {
+
+        if($tag == "chess" && isset($attributes["standings"]) && !empty($attributes["db"])){
+
+            if($attributes["tpl"] == 1){
+                $view->setScript("WPStandings1");
+            }
+
+        }
+        elseif ($tag == "pgn") {
             $content = $this->sanitizePgn($content);
             $gameParser = new PgnParser();
             $gameParser->setPgnContent(html_entity_decode($content));
@@ -238,7 +275,7 @@ class DhtmlChessViews
             } elseif (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics1");
             } elseif (isset($attributes["pgn"]) || isset($attributes["db"])) {
-                $tpl = min($tpl, 2);
+                $tpl = min($tpl, 3);
                 $view->setScript("WPViewer" . $tpl);
             }
         }
