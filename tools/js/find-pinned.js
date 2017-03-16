@@ -26,6 +26,8 @@ chess.FindPinned = new Class({
     __construct: function (config) {
         this.parent(config);
 
+        if (config.append != undefined)this.append = config.append;
+
         if(config.pgns != undefined){
             this.pgns = config.pgns;
             this.pgn = this.pgns[0];
@@ -37,6 +39,23 @@ chess.FindPinned = new Class({
 
         this.parser = new chess.parser.FenParser0x88();
 
+        if (!this.append) {
+            this.createPgn();
+        }
+
+    },
+
+    createPgn: function () {
+        $.ajax(
+            {
+                url: 'controller.php',
+                method: 'post',
+                data: {
+                    pgn: this.out,
+                    initialize: true
+                }
+            }
+        )
     },
 
     __rendered: function () {

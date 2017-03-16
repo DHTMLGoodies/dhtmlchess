@@ -331,3 +331,8 @@ span.notation-chess-move-highlighted {
     border-radius:5px;
     padding: 8px;
 }
+
+.dhtml-chess-highlight-square{
+    border:5px solid #B71C1C;
+    border-radius:999px;
+}

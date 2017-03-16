@@ -19,7 +19,7 @@
     <script type="text/javascript" src="../src/view/board/gui.js"></script>
     <script type="text/javascript" src="../src/view/board/board.js"></script>
     <script type="text/javascript" src="../src/view/board/piece.js"></script>
-    <script type="text/javascript" src="../src/view/highlight/square-pool.js"></script>
+    <script type="text/javascript" src="../src/view/highlight/square-pool.js?rnd=3"></script>
     <script type="text/javascript" src="../src/view/board/board-interaction.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square-base.js"></script>
     <script type="text/javascript" src="../src/view/highlight/square.js"></script>
@@ -35,6 +35,12 @@
             margin: 0;
             padding: 0;
             font-family: arial, sans-serif;
+        }
+
+        .dhtml-chess-highlight-square{
+
+            border:5px solid #B71C1C;
+            border-radius:999px;
         }
     </style>
 </head>
@@ -153,35 +159,37 @@
 
     var introDialog, solvedDialog;
 
+    var overlay;
+
     function showSolvedDialog() {
-        if (solvedDialog == undefined) {
-            solvedDialog = new ludo.dialog.Alert({
-                autoRemove: false,
-                css: {
-                    'font-size': '1.1em',
-                    'text-align': 'center',
-                    'padding': 10
-                },
-                layout: {
-                    width: 300, height: 200,
-                    centerIn: ludo.$('chess-board-pinned-pieces')
-                },
-                title: chess.__('Puzzle solved')
-            });
+
+        if(overlay == undefined){
+
+            overlay = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_game_solved_overlay"></div><div class="dhtml_chess_game_solved_image"></div></div>');
+            ludo.$('chess-board-pinned-pieces').boardEl().append(overlay);
 
         }
-        var solution = parser.getPinnedSquares(color);
+        overlay.css('opacity', 1);
+        overlay.show();
+        hideOverlay.delay(2000);
 
-
-        var html = 'Good Job! The solution was <br>' + solution.join(', ');
-        solvedDialog.html(html);
-        solvedDialog.show();
 
         var fromAndTo = parser.getPinnedReadable(color);
         jQuery.each(fromAndTo, function(i, squares){
             arrowUtil.show(squares.by, squares.king);
         });
 
+    }
+
+    function hideOverlay(){
+        overlay.animate({
+            opacity : 0
+        },{
+            duration:700,
+            complete:function(){
+                overlay.hide();
+            }
+        });
     }
 
     function showIntroDialog() {
@@ -255,7 +263,7 @@
         board: ludo.$('chess-board-pinned-pieces')
     });
     interaction.on('click', function (square) {
-        hPool.toggle(square, '#D32F2F');
+        hPool.toggle(square, undefined);
     });
 
     var arrowUtil = new chess.view.highlight.ArrowPool({

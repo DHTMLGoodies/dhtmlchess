@@ -191,7 +191,7 @@ chess.WPPinned = new Class({
             board: ludo.$(this.boardId)
         });
         this.interaction.on('click', function (square) {
-            this.hPool.toggle(square, '#D32F2F');
+            this.hPool.toggle(square, undefined);
         }.bind(this));
 
         this.arrowPool = new chess.view.highlight.ArrowPool({
@@ -291,33 +291,38 @@ chess.WPPinned = new Class({
 
     },
 
-    showSolvedDialog:function(){
-        if (this.solvedDialog == undefined) {
-            this.solvedDialog = new ludo.dialog.Alert({
-                autoRemove: false,
-                css: {
-                    'font-size': '1.1em',
-                    'text-align': 'center',
-                    'padding': 10
-                },
-                layout: {
-                    width: 300, height: 200,
-                    centerIn: this.boardId
-                },
-                title: chess.__('Puzzle solved')
-            });
+    overlay:undefined,
 
+    showSolvedDialog:function(){
+
+        if(this.overlay == undefined){
+            this.overlay = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_game_solved_overlay"></div><div class="dhtml_chess_game_solved_image"></div></div>');
+            ludo.$(this.boardId).boardEl().append(this.overlay);
         }
-        var solution = this.parser.getPinnedSquares(this.color);
+
+        this.overlay.css('opacity', 1);
+        this.overlay.show();
+        this.hideOverlay.delay(2000, this);
+
         var fromAndTo = this.parser.getPinnedReadable(this.color);
 
         jQuery.each(fromAndTo, function(i, squares){
             this.arrowPool.show(squares.by, squares.king);
         }.bind(this));
 
-        var html = 'Good Job! The solution was <br>' + solution.join(', ');
-        this.solvedDialog.html(html);
-        this.solvedDialog.show();
+
+    },
+
+    hideOverlay:function(){
+        this.overlay.animate({
+            opacity : 0
+        },{
+            duration:700,
+            complete:function(){
+                this.overlay.hide();
+            }.bind(this)
+        });
+
     }
 
 
