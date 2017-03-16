@@ -62,7 +62,7 @@ chess.view.highlight.ArrowPool = new Class({
 
     show: function (from, to, styling) {
 
-        styling = styling || this.arrowStyles;
+        styling = Object.merge(this.arrowStyles, styling);
         this.bg.show();
         var arrow = this.getArrow();
 

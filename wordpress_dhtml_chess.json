@@ -3,7 +3,7 @@
   "slug" : "dhtml_chess",
   "homepage" : "http://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
-  "version" : "1.0.45",
+  "version" : "1.0.46",
   "author" : "Alf Magne Kalleland",
   "sections" : {
     "description" : "Chess for your WordPress site.",

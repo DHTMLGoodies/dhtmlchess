@@ -1,4 +1,4 @@
-/* Generated Thu Mar 16 18:13:05 CET 2017 */
+/* Generated Thu Mar 16 18:16:22 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25018,7 +25018,7 @@ chess.view.highlight.ArrowPool = new Class({
 
     show: function (from, to, styling) {
 
-        styling = styling || this.arrowStyles;
+        styling = Object.merge(this.arrowStyles, styling);
         this.bg.show();
         var arrow = this.getArrow();
 
