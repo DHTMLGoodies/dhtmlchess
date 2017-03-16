@@ -53,7 +53,7 @@ chess.WPFen = new Class({
                 if(tokens.length > 0){
                     color = tokens[1];
                 }
-                hPool.show(tokens[0]);
+                hPool.show(tokens[0], color);
             });
         }
 

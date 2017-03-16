@@ -1,4 +1,4 @@
-/* Generated Thu Mar 16 18:16:22 CET 2017 */
+/* Generated Thu Mar 16 18:20:33 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -35985,7 +35985,7 @@ chess.WPFen = new Class({
                 if(tokens.length > 0){
                     color = tokens[1];
                 }
-                hPool.show(tokens[0]);
+                hPool.show(tokens[0], color);
             });
         }
 
