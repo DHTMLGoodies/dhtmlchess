@@ -334,4 +334,5 @@ span.notation-chess-move-highlighted {
 
 .dhtml-chess-highlight-square{
     opacity:0.5;
+    background-color:#D32F2F;
 }
