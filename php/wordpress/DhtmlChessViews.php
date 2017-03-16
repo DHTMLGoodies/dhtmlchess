@@ -132,17 +132,17 @@ class DhtmlChessViews
         ),
         array(
             "script" => "WPStandings1",
-            "title" => "Standings",
-            "type" => "comp",
+            "title" => "Standings Grid",
+            "type" => "standings_grid",
             "desc" => "Displays standings grid for a database",
             "shortcode" => "chess",
             "attributes" => array("standings" => 1, "tpl" => 1),
             "help" => 'Example: [chess standings=1 tpl="1"]'
         ),
         array(
-            "script" => "WPStandings1",
-            "title" => "Standings",
-            "type" => "comp",
+            "script" => "WPStandings2",
+            "title" => "Standings Table",
+            "type" => "standings_table",
             "desc" => "Displays standings for a database as a plain HTML table",
             "shortcode" => "chess",
             "attributes" => array("standings" => 1, "tpl" => 2),
@@ -151,6 +151,8 @@ class DhtmlChessViews
 
 
     );
+
+
 
     public static function countGameTemplates()
     {
@@ -219,6 +221,37 @@ class DhtmlChessViews
         $ret->setScript("WPFen");
         $ret->setParam("fen", $fen);
         return $ret;
+    }
+
+    public function standingsAsHTML($pgnId, $sofiaRules){
+        $db = new DhtmlChessDatabase();
+        $standings = $db->getStandingsSortedAsArray($pgnId, $sofiaRules);
+
+
+        $ret = array('<table class="dhtml-chess-standings-table"');
+
+        $ret[] = '>';
+        $ret[] = "<tr><th>"._("Player"). "</th>";
+        $ret[] = "<th>"._("w")."</th>";
+        $ret[] = "<th>"._("d")."</th>";
+        $ret[] = "<th>"._("l")."</th>";
+        $ret[] = "<th>"._("score")."</th>";
+        $ret[] = "</th>";
+
+        foreach($standings as $entry){
+
+            $ret[] = "<tr>";
+            $ret[] = "<td>". $entry["player"]."</td>";
+            $ret[] = "<td>". $entry["w"]."</td>";
+            $ret[] = "<td>". $entry["d"]."</td>";
+            $ret[] = "<td>". $entry["l"]."</td>";
+            $ret[] = "<td>". $entry["s"]."</td>";
+
+
+            $ret[] = "</tr>";
+        }
+        $ret[] = "</table>";
+        return implode("", $ret);
 
     }
 
