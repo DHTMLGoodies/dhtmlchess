@@ -1,4 +1,4 @@
-/* Generated Thu Mar 16 18:20:33 CET 2017 */
+/* Generated Thu Mar 16 18:28:26 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25135,7 +25135,6 @@ chess.view.highlight.SquarePool = new Class({
     items: undefined,
     hiddenItems: undefined,
     visibleItems: undefined,
-    opacity: 0.4,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
 
     map: undefined,
@@ -25239,7 +25238,6 @@ chess.view.highlight.SquarePool = new Class({
             return this.hiddenItems.pop();
         }
         var square = jQuery('<div class="dhtml-chess-highlight-square" style="box-sizing:border-box !important;position:absolute;width:12.5%;height:12.5%"></div>');
-        square.css('opacity', this.opacity);
         this.bg.append(square);
         var obj = {
             square: undefined,
