@@ -1,0 +1,108 @@
+.dhtml-chess-board-label-inside .dhtml-chess-board-label-file {
+    text-align: right;
+    padding-right: 4px
+}
+
+.dc-green .dhtml-chess-board-label-inside .dhtml-chess-board-label-rank {
+    padding-left: 2px;
+    padding-top: 2px
+}
+
+.dc-green .ludo-layout-resize-col {
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+.dc-green .chess-board-label-inside span {
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/** custom square background */
+.dc-green .dhtml-chess-square-white {
+    background-image: none !important;
+    background-color: #FFF8E1;
+
+}
+
+.dc-green .dhtml-chess-square-black {
+    background-image: none !important;
+    background-color: #689b6c;
+
+}
+
+.dc-green .dhtml-chess-board-label-ranks-container, .dc-green .dhtml-chess-board-label-files-container {
+    color: #fffffb
+}
+
+.dc-green div.dhtml-chess-notation-panel, .dc-green span.notation-branch, .dc-green .notation-chess-move {
+}
+
+/** Highlighted notation styles */
+.dc-green span.notation-chess-move-highlighted {
+    background-color: #357044;
+    color: #FFF;
+    border-radius: 3px
+}
+
+.dc-green .dhtml-chess-square-highlight {
+    background-color: #357044;
+    border-width: 0
+}
+
+.dc-green .ludo-view {
+    background-color: transparent
+}
+
+.dc-green .dhtml-chess-view-metadata-game div.ludo-body {
+    color: #333
+}
+
+body {
+    background-color: transparent
+}
+
+.dc-green .ludo-form-button .ludo-body {
+    border: 1px solid #357044;
+    background-color: #357044;
+    color: #fff
+}
+
+.dc-green .ludo-form-button div.ludo-form-button-over {
+    background-color: #357044;
+    border: 1px solid #2e4359
+}
+
+/* Button click style */
+.dc-green .ludo-form-button div.ludo-form-button-down {
+    background-color: #4ea664;
+    color: #357044;
+    border: 1px solid #357044
+}
+
+.dc-green div.ludo-window {
+    background-color: #357044
+}
+
+.dc-green .ludo-window > .ludo-body {
+    border: 1px solid #357044;
+    color: #FFF;
+    padding: 3px
+}
+
+.dc-green div.ludo-body {
+    color: #444
+}
+
+.dc-green div.ludo-window {
+    border: 1px solid #357044;
+}
+
+.dc-green .ludo-grid-Grid div.ludo-active-record {
+
+    background-color: #a7d9b3;
+
+}
+
+.dc-green .dhtml-chess-board-label-ranks-container span {
+}

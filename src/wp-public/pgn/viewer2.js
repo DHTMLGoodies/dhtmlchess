@@ -68,7 +68,6 @@ chess.WPViewer2 = new Class({
                     layout: {
                         type: 'linear', orientation: 'vertical'
                     },
-
                     children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
                 }
             ]
