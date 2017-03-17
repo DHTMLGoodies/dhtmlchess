@@ -1,4 +1,4 @@
-/* Generated Tue Mar 14 14:52:24 CET 2017 */
+/* Generated Fri Mar 17 18:22:10 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -29172,8 +29172,8 @@ chess.view.notation.TacticPanel = new Class({
     Extends: chess.view.notation.Panel,
     tactics : true,
     setController:function(controller){
-        controller.addEvent('nextmove', this.showMoves.bind(this));
-        controller.addEvent('newGame', this.clearCurrentMove.bind(this));
+        controller.on('nextmove', this.showMoves.bind(this));
+        controller.on('newGame', this.clearCurrentMove.bind(this));
         this.parent(controller);
     },
     clearCurrentMove:function(){
@@ -30264,16 +30264,16 @@ chess.view.board.Board = new Class({
      */
     setController: function (controller) {
         this.parent(controller);
-        controller.addEvent('newGame', this.showStartBoard.bind(this));
-        controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('newMove', this.playChainOfMoves.bind(this));
-        controller.addEvent('setPosition', this.showMove.bind(this));
-        controller.addEvent('nextmove', this.playChainOfMoves.bind(this));
-        controller.addEvent('startOfGame', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('newGame', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('flip', this.flip.bind(this));
-        this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
+        controller.on('newGame', this.showStartBoard.bind(this));
+        controller.on('newMove', this.clearHighlightedSquares.bind(this));
+        controller.on('newMove', this.playChainOfMoves.bind(this));
+        controller.on('setPosition', this.showMove.bind(this));
+        controller.on('nextmove', this.playChainOfMoves.bind(this));
+        controller.on('startOfGame', this.clearHighlightedSquares.bind(this));
+        controller.on('newGame', this.clearHighlightedSquares.bind(this));
+        controller.on('flip', this.flip.bind(this));
+        controller.on('beforeLoad', this.beforeLoad.bind(this));
+        controller.on('afterLoad', this.afterLoad.bind(this));
     },
 
 
@@ -30927,10 +30927,13 @@ chess.view.board.Piece = new Class({
         }
 
         if (this.svg && !this.bgUpdated) {
-            this.el.css('background-size', '100% 100%');
-            this.el.css('-moz-background-size', 'cover');
-            this.el.css('-o-background-size', 'cover');
-            this.el.css('-webkit-background-size', 'cover');
+            this.el.css({
+                'background-size' :'100% 100%',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                '-webkit-background-size' :'cover'
+
+            });
         }
         this.bgUpdated = this.getColorCode() + this.getTypeCode();
 
@@ -31559,8 +31562,8 @@ chess.view.highlight.Square = new Class({
 	Extends:chess.view.highlight.SquareBase,
 	__construct:function (config) {
 		this.parent(config);
-		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
-		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));
+		this.parentComponent.on('highlight', this.highlight.bind(this));
+		this.parentComponent.on('clearHighlight', this.clear.bind(this));
 	}
 });/* ../dhtml-chess/src/view/highlight/arrow-svg.js */
 chess.view.board.ArrowSVG = new Class({
@@ -31867,8 +31870,8 @@ chess.view.highlight.Arrow = new Class({
 	__construct:function (config) {
 		this.parent(config);
         var p = this.getParent();
-		p.addEvent('highlight', this.showMove.bind(this));
-		p.addEvent('clearHighlight', this.hide.bind(this));
+		p.on('highlight', this.showMove.bind(this));
+		p.on('clearHighlight', this.hide.bind(this));
 	}
 });/* ../dhtml-chess/src/view/highlight/arrow-tactic.js */
 chess.view.highlight.ArrowTactic = new Class({
@@ -31970,7 +31973,7 @@ chess.view.highlight.ArrowPool = new Class({
 
     show: function (from, to, styling) {
 
-        styling = styling || this.arrowStyles;
+        styling = Object.merge(this.arrowStyles, styling);
         this.bg.show();
         var arrow = this.getArrow();
 
@@ -32087,7 +32090,6 @@ chess.view.highlight.SquarePool = new Class({
     items: undefined,
     hiddenItems: undefined,
     visibleItems: undefined,
-    opacity: 0.4,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
 
     map: undefined,
@@ -32125,7 +32127,7 @@ chess.view.highlight.SquarePool = new Class({
 
     show: function (square, color) {
         if(this.onlySingles && this.isShown(square)){
-            this.map[square][0].el.css('background-color', color);
+            if(color)this.map[square][0].el.css('background-color', color);
             return;
         }
         var s = this.getSquare();
@@ -32146,7 +32148,7 @@ chess.view.highlight.SquarePool = new Class({
     },
 
     isShown: function (square) {
-        return (this.map[square] && this.map[square].length > 0) ? true: false;
+        return (this.map[square] && this.map[square].length > 0);
     },
 
     hide: function (square) {
@@ -32190,8 +32192,7 @@ chess.view.highlight.SquarePool = new Class({
         if (this.hiddenItems.length > 0) {
             return this.hiddenItems.pop();
         }
-        var square = jQuery('<div style="position:absolute;width:12.5%;height:12.5%"></div>');
-        square.css('opacity', this.opacity);
+        var square = jQuery('<div class="dhtml-chess-highlight-square" style="box-sizing:border-box !important;position:absolute;width:12.5%;height:12.5%"></div>');
         this.bg.append(square);
         var obj = {
             square: undefined,
@@ -32238,13 +32239,13 @@ chess.view.buttonbar.Game = new Class({
     setController:function (controller) {
         this.parent(controller);
 
-        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
-        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
-        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
-        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
-        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
-        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        controller.on('startOfGame', this.startOfGame.bind(this));
+        controller.on('notStartOfGame', this.notStartOfBranch.bind(this));
+        controller.on('endOfBranch', this.endOfBranch.bind(this));
+        controller.on('notEndOfBranch', this.notEndOfBranch.bind(this));
+        controller.on('startAutoplay', this.startAutoPlay.bind(this));
+        controller.on('stopAutoplay', this.stopAutoPlay.bind(this));
+        controller.on('newGame', this.newGame.bind(this));
     },
 
     __construct:function (config) {
@@ -33338,7 +33339,7 @@ chess.view.metadata.Game = new Class({
 
     setController : function(controller){
         this.controller = controller;
-        this.controller.addEvent('newGame', this.updateMetadata.bind(this));
+        controller.on('newGame', this.updateMetadata.bind(this));
     },
 
     __rendered : function(){
@@ -33408,10 +33409,10 @@ chess.view.metadata.Move = new Class({
 
     setController : function(controller){
         this.controller = controller;
-        this.controller.addEvent('setPosition', this.updateMetadata.bind(this));
-        this.controller.addEvent('nextmove', this.updateMetadata.bind(this));
-        this.controller.addEvent('newMove', this.updateMetadata.bind(this));
-        this.controller.addEvent('newGame', this.updateMetadata.bind(this));
+        controller.on('setPosition', this.updateMetadata.bind(this));
+        controller.on('nextmove', this.updateMetadata.bind(this));
+        controller.on('newMove', this.updateMetadata.bind(this));
+        controller.on('newGame', this.updateMetadata.bind(this));
     },
 
     __rendered : function(){
@@ -33462,10 +33463,10 @@ chess.view.metadata.FenField = new Class({
     selectOnFocus : true,
     setController : function(controller){
         this.parent(controller);
-        this.controller.addEvent('newGame', this.showFen.bind(this));
-        this.controller.addEvent('setPosition', this.showFen.bind(this));
-        this.controller.addEvent('newMove', this.showFen.bind(this));
-        this.controller.addEvent('nextmove', this.showFen.bind(this));
+        controller.on('newGame', this.showFen.bind(this));
+        controller.on('setPosition', this.showFen.bind(this));
+        controller.on('newMove', this.showFen.bind(this));
+        controller.on('nextmove', this.showFen.bind(this));
     },
 
     __rendered:function(){
@@ -33511,9 +33512,9 @@ chess.view.message.TacticsMessage = new Class({
     },
     setController: function (controller) {
         this.parent(controller);
-        this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
-        this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
-        this.controller.addEvent('loadGame', this.newGame.bind(this));
+        controller.on('wrongGuess', this.showWrongGuess.bind(this));
+        controller.on('correctGuess', this.showCorrectGuess.bind(this));
+        controller.on('loadGame', this.newGame.bind(this));
     },
 
     newGame: function (model) {
@@ -38675,37 +38676,37 @@ chess.controller.Controller = new Class({
         this.views[view.submodule] = view;
         switch (view.submodule) {
             case window.chess.Views.buttonbar.bar:
-                view.addEvent('play', this.playMoves.bind(this));
-                view.addEvent('start', this.toStart.bind(this));
-                view.addEvent('end', this.toEnd.bind(this));
-                view.addEvent('previous', this.previousMove.bind(this));
-                view.addEvent('next', this.nextMove.bind(this));
-                view.addEvent('pause', this.pauseGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
+                view.on('play', this.playMoves.bind(this));
+                view.on('start', this.toStart.bind(this));
+                view.on('end', this.toEnd.bind(this));
+                view.on('previous', this.previousMove.bind(this));
+                view.on('next', this.nextMove.bind(this));
+                view.on('pause', this.pauseGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
                 break;
             case window.chess.Views.buttonbar.game:
-                view.addEvent('play', this.playMoves.bind(this));
-                view.addEvent('tostart', this.toStart.bind(this));
-                view.addEvent('toend', this.toEnd.bind(this));
-                view.addEvent('previous', this.previousMove.bind(this));
-                view.addEvent('next', this.nextMove.bind(this));
-                view.addEvent('pause', this.pauseGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
+                view.on('play', this.playMoves.bind(this));
+                view.on('tostart', this.toStart.bind(this));
+                view.on('toend', this.toEnd.bind(this));
+                view.on('previous', this.previousMove.bind(this));
+                view.on('next', this.nextMove.bind(this));
+                view.on('pause', this.pauseGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
                 break;
             case 'list-of-pgn-files':
-                view.addEvent('selectPgn', this.selectPgn.bind(this));
+                view.on('selectPgn', this.selectPgn.bind(this));
                 break;
             case 'gameList':
-                view.addEvent('selectGame', this.selectGame.bind(this));
+                view.on('selectGame', this.selectGame.bind(this));
                 break;
             case 'menuItemSaveGame':
             case 'saveGame':
-                view.addEvent('saveGame', function () {
+                view.on('saveGame', function () {
                     this.currentModel.save();
                 }.bind(this));
                 break;
             case 'dialogNewGame':
-                view.addEvent('newGame', function (metadata) {
+                view.on('newGame', function (metadata) {
                     this.currentModel = this.getNewModel({
                         metadata: metadata
                     });
@@ -38713,7 +38714,7 @@ chess.controller.Controller = new Class({
                 }.bind(this));
                 break;
             case 'menuItemNewGame':
-                view.addEvent('newGame', function () {
+                view.on('newGame', function () {
                     /**
                      * New game dialog event
                      * @event newGameDialog
@@ -38722,53 +38723,53 @@ chess.controller.Controller = new Class({
                 }.bind(this));
                 break;
             case 'commandLine':
-                view.addEvent('move', this.addMove.bind(this));
-                view.addEvent('setPosition', this.setPosition.bind(this));
-                view.addEvent('load', this.selectGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
-                view.addEvent('grade', this.gradeCurrentMove.bind(this));
+                view.on('move', this.addMove.bind(this));
+                view.on('setPosition', this.setPosition.bind(this));
+                view.on('load', this.selectGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
+                view.on('grade', this.gradeCurrentMove.bind(this));
                 break;
             case 'board':
-                view.addEvent('move', this.addMove.bind(this));
-                view.addEvent('animationStart', this.setBusy.bind(this));
-                view.addEvent('animationComplete', this.nextAutoPlayMove.bind(this));
+                view.on('move', this.addMove.bind(this));
+                view.on('animationStart', this.setBusy.bind(this));
+                view.on('animationComplete', this.nextAutoPlayMove.bind(this));
                 break;
             case 'notation':
-                view.addEvent('setCurrentMove', this.setCurrentMove.bind(this));
-                view.addEvent('gradeMove', this.gradeMove.bind(this));
-                view.addEvent('commentBefore', this.dialogCommentBefore.bind(this));
-                view.addEvent('commentAfter', this.dialogCommentAfter.bind(this));
-                view.addEvent('deleteMove', this.deleteMoves.bind(this));
+                view.on('setCurrentMove', this.setCurrentMove.bind(this));
+                view.on('gradeMove', this.gradeMove.bind(this));
+                view.on('commentBefore', this.dialogCommentBefore.bind(this));
+                view.on('commentAfter', this.dialogCommentAfter.bind(this));
+                view.on('deleteMove', this.deleteMoves.bind(this));
                 break;
             case 'dialogOverwriteMove':
-                view.addEvent('overwriteMove', this.overwriteMove.bind(this));
-                view.addEvent('newVariation', this.newVariation.bind(this));
-                view.addEvent('cancelOverwrite', this.cancelOverwrite.bind(this));
+                view.on('overwriteMove', this.overwriteMove.bind(this));
+                view.on('newVariation', this.newVariation.bind(this));
+                view.on('cancelOverwrite', this.cancelOverwrite.bind(this));
                 break;
             case 'dialogPromote':
-                view.addEvent('promote', this.addMove.bind(this));
+                view.on('promote', this.addMove.bind(this));
                 break;
             case 'buttonTacticHint':
-                view.addEvent('showHint', this.showHint.bind(this));
+                view.on('showHint', this.showHint.bind(this));
                 break;
             case 'buttonTacticSolution':
-                view.addEvent('showSolution', this.showSolution.bind(this));
+                view.on('showSolution', this.showSolution.bind(this));
                 break;
             case 'buttonNextGame':
-                view.addEvent('nextGame', this.loadNextGame.bind(this));
+                view.on('nextGame', this.loadNextGame.bind(this));
                 break;
             case 'buttonPreviousGame':
-                view.addEvent('previousGame', this.loadPreviousGame.bind(this));
+                view.on('previousGame', this.loadPreviousGame.bind(this));
                 break;
             case 'eco.VariationTree':
-                view.addEvent('selectMove', this.addMove.bind(this));
+                view.on('selectMove', this.addMove.bind(this));
                 break;
             case 'positionSetup':
-                view.addEvent('setPosition', this.setPosition.bind(this));
+                view.on('setPosition', this.setPosition.bind(this));
                 break;
             case 'dialogComment':
-                view.addEvent('commentBefore', this.addCommentBefore.bind(this));
-                view.addEvent('commentAfter', this.addCommentAfter.bind(this));
+                view.on('commentBefore', this.addCommentBefore.bind(this));
+                view.on('commentAfter', this.addCommentAfter.bind(this));
                 break;
         }
 
