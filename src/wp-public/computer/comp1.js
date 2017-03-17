@@ -21,7 +21,6 @@ chess.WPComp1 = new Class({
         var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 
-
         if (config.isPreview)this.isPreview = config.isPreview;
         this.boardSize = ludo.isMobile ? w : w - 200;
 
@@ -29,8 +28,6 @@ chess.WPComp1 = new Class({
         if (this.canRender()) {
             this.render();
         }
-
-
     },
 
     render: function () {
@@ -211,7 +208,6 @@ chess.WPComp1 = new Class({
                 {
                     type:'chess.WPComMessage'
                 }
-
             ]
         });
 
@@ -237,7 +233,7 @@ chess.WPComp1 = new Class({
                 movable: false, resizable: false
             });
 
-            var d = new chess.computer.GameDialog({
+            new chess.computer.GameDialog({
                 module: this.module,
                 hidden: true,
                 layout: {
@@ -273,11 +269,11 @@ chess.WPComp1 = new Class({
     },
 
     onNewGame: function (myColor) {
-
+        var b = ludo.get(this.boardId);
         if (myColor == 'black') {
-            ludo.get(this.boardId).flipToBlack();
+            b.flipToBlack();
         } else {
-            ludo.get(this.boardId).flipToWhite();
+            b.flipToWhite();
         }
     }
 

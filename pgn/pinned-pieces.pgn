@@ -1,3 +1,224 @@
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "449"]
+[fen "r2qr1k1/5pb1/p2p1pQ1/1p3b2/4P3/1B3P2/PPP5/2KR3R w - - 0 2"]
+[count "2"]
+[pinned "f7,g7"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "560"]
+[fen "7k/1r4rR/8/8/8/5QP1/1q3PK1/7R b - - 0 1"]
+[count "2"]
+[pinned "f2,g3"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "644"]
+[fen "5rkr/2q2p2/p5p1/b2B2Q1/1p2P3/2PP4/PP4PP/7K w - - 0 2"]
+[count "2"]
+[pinned "g6,f7"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "710"]
+[fen "1Q1qr3/6N1/5Bb1/7p/3Ppk1K/4R3/5PpN/7r b - - 1 1"]
+[count "2"]
+[pinned "h2,f6"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "816"]
+[fen "1q6/3KB1p1/2P5/1p1kp2p/r2bb3/1r4N1/BP1R4/3N4 w - - 0 2"]
+[count "2"]
+[pinned "b3,d4"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "892"]
+[fen "kn1R1N2/pr2p3/1pQ2p2/8/4PBp1/P1N1PnP1/1P3q2/7K w - - 2 2"]
+[count "2"]
+[pinned "b7,b8"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "915"]
+[fen "2r2r1k/2q3n1/p4B2/3Bb2p/5p2/7R/1PP3PP/3R3K w - - 0 2"]
+[count "2"]
+[pinned "h5,g7"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "949"]
+[fen "r1b1qrk1/pppp1p1p/2n2BQ1/b7/2B1P3/2P5/PP3PP1/RN2K1NR b KQ - 0 1"]
+[count "2"]
+[pinned "c3,e4"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "991"]
+[fen "1N1q4/1b6/R7/k2N4/r1PK4/8/8/8 b - - 1 1"]
+[count "2"]
+[pinned "c4,d5"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "1068"]
+[fen "2R1rknQ/1p3p2/p2p1P1r/3q4/3p4/7P/PP4PK/5R2 w - - 0 2"]
+[count "2"]
+[pinned "e8,g8"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "1130"]
+[fen "r1bRk3/5p2/p1N1pb1p/1pq3rB/5Q2/8/P4PP1/6K1 b q - 1 1"]
+[count "2"]
+[pinned "f2,g2"]
+
+
+*
+
+[white "Black mates in 2"]
+[black "Mate in two Black to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "1277"]
+[fen "3r2k1/5ppp/pb2p3/1p6/1P2bPnq/P2N2P1/1B4QP/2RR3K b - - 1 2"]
+[count "2"]
+[pinned "g2,h2"]
+
+
+*
+
+[white "Black mates in 2"]
+[black "Mate in two Black to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "white"]
+[index "1312"]
+[fen "6k1/P6p/6p1/3p4/R3b3/8/6BP/3rQ2K b - - 0 2"]
+[count "2"]
+[pinned "e1,g2"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "1544"]
+[fen "8/8/8/7K/6N1/3Q2pk/7p/7R w - - 2 2"]
+[count "2"]
+[pinned "h2,g3"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "1674"]
+[fen "kq5R/8/p1K5/8/8/8/8/Q7 w - - 0 2"]
+[count "2"]
+[pinned "a6,b8"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "1680"]
+[fen "2k5/KN1p4/2p5/8/2Q3B1/8/8/8 w - - 2 2"]
+[count "2"]
+[pinned "c6,d7"]
+
+
+*
+
+[white "White mates in 2"]
+[black "Mate in two White to move"]
+[site "Find 2 pinned pieces"]
+[pgn "polgar-parsed"]
+[color "black"]
+[index "1698"]
+[fen "7k/6p1/7p/3B4/4K3/2B4Q/8/8 w - - 2 2"]
+[count "2"]
+[pinned "h6,g7"]
+
+
+*
+
 [white "Morphy, Paul "]
 [black "Morphy, Ernest"]
 [site "Find 2 pinned pieces"]

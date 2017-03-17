@@ -32,10 +32,10 @@ chess.view.metadata.Move = new Class({
 
     setController : function(controller){
         this.controller = controller;
-        this.controller.addEvent('setPosition', this.updateMetadata.bind(this));
-        this.controller.addEvent('nextmove', this.updateMetadata.bind(this));
-        this.controller.addEvent('newMove', this.updateMetadata.bind(this));
-        this.controller.addEvent('newGame', this.updateMetadata.bind(this));
+        controller.on('setPosition', this.updateMetadata.bind(this));
+        controller.on('nextmove', this.updateMetadata.bind(this));
+        controller.on('newMove', this.updateMetadata.bind(this));
+        controller.on('newGame', this.updateMetadata.bind(this));
     },
 
     __rendered : function(){

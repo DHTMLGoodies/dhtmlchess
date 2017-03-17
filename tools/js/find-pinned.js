@@ -109,8 +109,6 @@ chess.FindPinned = new Class({
 
         this.lastLoadedGame = lastFen;
 
-
-
         var pinnedArray = [];
         for (var i = this.movesToParse.length - 1; i >= 0; i--) {
             var m = this.movesToParse[i];

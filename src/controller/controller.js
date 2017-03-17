@@ -79,37 +79,37 @@ chess.controller.Controller = new Class({
         this.views[view.submodule] = view;
         switch (view.submodule) {
             case window.chess.Views.buttonbar.bar:
-                view.addEvent('play', this.playMoves.bind(this));
-                view.addEvent('start', this.toStart.bind(this));
-                view.addEvent('end', this.toEnd.bind(this));
-                view.addEvent('previous', this.previousMove.bind(this));
-                view.addEvent('next', this.nextMove.bind(this));
-                view.addEvent('pause', this.pauseGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
+                view.on('play', this.playMoves.bind(this));
+                view.on('start', this.toStart.bind(this));
+                view.on('end', this.toEnd.bind(this));
+                view.on('previous', this.previousMove.bind(this));
+                view.on('next', this.nextMove.bind(this));
+                view.on('pause', this.pauseGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
                 break;
             case window.chess.Views.buttonbar.game:
-                view.addEvent('play', this.playMoves.bind(this));
-                view.addEvent('tostart', this.toStart.bind(this));
-                view.addEvent('toend', this.toEnd.bind(this));
-                view.addEvent('previous', this.previousMove.bind(this));
-                view.addEvent('next', this.nextMove.bind(this));
-                view.addEvent('pause', this.pauseGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
+                view.on('play', this.playMoves.bind(this));
+                view.on('tostart', this.toStart.bind(this));
+                view.on('toend', this.toEnd.bind(this));
+                view.on('previous', this.previousMove.bind(this));
+                view.on('next', this.nextMove.bind(this));
+                view.on('pause', this.pauseGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
                 break;
             case 'list-of-pgn-files':
-                view.addEvent('selectPgn', this.selectPgn.bind(this));
+                view.on('selectPgn', this.selectPgn.bind(this));
                 break;
             case 'gameList':
-                view.addEvent('selectGame', this.selectGame.bind(this));
+                view.on('selectGame', this.selectGame.bind(this));
                 break;
             case 'menuItemSaveGame':
             case 'saveGame':
-                view.addEvent('saveGame', function () {
+                view.on('saveGame', function () {
                     this.currentModel.save();
                 }.bind(this));
                 break;
             case 'dialogNewGame':
-                view.addEvent('newGame', function (metadata) {
+                view.on('newGame', function (metadata) {
                     this.currentModel = this.getNewModel({
                         metadata: metadata
                     });
@@ -117,7 +117,7 @@ chess.controller.Controller = new Class({
                 }.bind(this));
                 break;
             case 'menuItemNewGame':
-                view.addEvent('newGame', function () {
+                view.on('newGame', function () {
                     /**
                      * New game dialog event
                      * @event newGameDialog
@@ -126,53 +126,53 @@ chess.controller.Controller = new Class({
                 }.bind(this));
                 break;
             case 'commandLine':
-                view.addEvent('move', this.addMove.bind(this));
-                view.addEvent('setPosition', this.setPosition.bind(this));
-                view.addEvent('load', this.selectGame.bind(this));
-                view.addEvent('flip', this.flipBoard.bind(this));
-                view.addEvent('grade', this.gradeCurrentMove.bind(this));
+                view.on('move', this.addMove.bind(this));
+                view.on('setPosition', this.setPosition.bind(this));
+                view.on('load', this.selectGame.bind(this));
+                view.on('flip', this.flipBoard.bind(this));
+                view.on('grade', this.gradeCurrentMove.bind(this));
                 break;
             case 'board':
-                view.addEvent('move', this.addMove.bind(this));
-                view.addEvent('animationStart', this.setBusy.bind(this));
-                view.addEvent('animationComplete', this.nextAutoPlayMove.bind(this));
+                view.on('move', this.addMove.bind(this));
+                view.on('animationStart', this.setBusy.bind(this));
+                view.on('animationComplete', this.nextAutoPlayMove.bind(this));
                 break;
             case 'notation':
-                view.addEvent('setCurrentMove', this.setCurrentMove.bind(this));
-                view.addEvent('gradeMove', this.gradeMove.bind(this));
-                view.addEvent('commentBefore', this.dialogCommentBefore.bind(this));
-                view.addEvent('commentAfter', this.dialogCommentAfter.bind(this));
-                view.addEvent('deleteMove', this.deleteMoves.bind(this));
+                view.on('setCurrentMove', this.setCurrentMove.bind(this));
+                view.on('gradeMove', this.gradeMove.bind(this));
+                view.on('commentBefore', this.dialogCommentBefore.bind(this));
+                view.on('commentAfter', this.dialogCommentAfter.bind(this));
+                view.on('deleteMove', this.deleteMoves.bind(this));
                 break;
             case 'dialogOverwriteMove':
-                view.addEvent('overwriteMove', this.overwriteMove.bind(this));
-                view.addEvent('newVariation', this.newVariation.bind(this));
-                view.addEvent('cancelOverwrite', this.cancelOverwrite.bind(this));
+                view.on('overwriteMove', this.overwriteMove.bind(this));
+                view.on('newVariation', this.newVariation.bind(this));
+                view.on('cancelOverwrite', this.cancelOverwrite.bind(this));
                 break;
             case 'dialogPromote':
-                view.addEvent('promote', this.addMove.bind(this));
+                view.on('promote', this.addMove.bind(this));
                 break;
             case 'buttonTacticHint':
-                view.addEvent('showHint', this.showHint.bind(this));
+                view.on('showHint', this.showHint.bind(this));
                 break;
             case 'buttonTacticSolution':
-                view.addEvent('showSolution', this.showSolution.bind(this));
+                view.on('showSolution', this.showSolution.bind(this));
                 break;
             case 'buttonNextGame':
-                view.addEvent('nextGame', this.loadNextGame.bind(this));
+                view.on('nextGame', this.loadNextGame.bind(this));
                 break;
             case 'buttonPreviousGame':
-                view.addEvent('previousGame', this.loadPreviousGame.bind(this));
+                view.on('previousGame', this.loadPreviousGame.bind(this));
                 break;
             case 'eco.VariationTree':
-                view.addEvent('selectMove', this.addMove.bind(this));
+                view.on('selectMove', this.addMove.bind(this));
                 break;
             case 'positionSetup':
-                view.addEvent('setPosition', this.setPosition.bind(this));
+                view.on('setPosition', this.setPosition.bind(this));
                 break;
             case 'dialogComment':
-                view.addEvent('commentBefore', this.addCommentBefore.bind(this));
-                view.addEvent('commentAfter', this.addCommentAfter.bind(this));
+                view.on('commentBefore', this.addCommentBefore.bind(this));
+                view.on('commentAfter', this.addCommentAfter.bind(this));
                 break;
         }
 

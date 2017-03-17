@@ -27,7 +27,7 @@ chess.view.metadata.Game = new Class({
 
     setController : function(controller){
         this.controller = controller;
-        this.controller.addEvent('newGame', this.updateMetadata.bind(this));
+        controller.on('newGame', this.updateMetadata.bind(this));
     },
 
     __rendered : function(){

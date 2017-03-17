@@ -17,10 +17,10 @@ chess.view.metadata.FenField = new Class({
     selectOnFocus : true,
     setController : function(controller){
         this.parent(controller);
-        this.controller.addEvent('newGame', this.showFen.bind(this));
-        this.controller.addEvent('setPosition', this.showFen.bind(this));
-        this.controller.addEvent('newMove', this.showFen.bind(this));
-        this.controller.addEvent('nextmove', this.showFen.bind(this));
+        controller.on('newGame', this.showFen.bind(this));
+        controller.on('setPosition', this.showFen.bind(this));
+        controller.on('newMove', this.showFen.bind(this));
+        controller.on('nextmove', this.showFen.bind(this));
     },
 
     __rendered:function(){

@@ -31,7 +31,7 @@ chess.view.highlight.Arrow = new Class({
 	__construct:function (config) {
 		this.parent(config);
         var p = this.getParent();
-		p.addEvent('highlight', this.showMove.bind(this));
-		p.addEvent('clearHighlight', this.hide.bind(this));
+		p.on('highlight', this.showMove.bind(this));
+		p.on('clearHighlight', this.hide.bind(this));
 	}
 });

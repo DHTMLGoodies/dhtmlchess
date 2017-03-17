@@ -322,10 +322,13 @@ chess.view.board.Piece = new Class({
         }
 
         if (this.svg && !this.bgUpdated) {
-            this.el.css('background-size', '100% 100%');
-            this.el.css('-moz-background-size', 'cover');
-            this.el.css('-o-background-size', 'cover');
-            this.el.css('-webkit-background-size', 'cover');
+            this.el.css({
+                'background-size' :'100% 100%',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                '-webkit-background-size' :'cover'
+
+            });
         }
         this.bgUpdated = this.getColorCode() + this.getTypeCode();
 

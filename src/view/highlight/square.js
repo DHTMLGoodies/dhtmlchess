@@ -23,7 +23,7 @@ chess.view.highlight.Square = new Class({
 	Extends:chess.view.highlight.SquareBase,
 	__construct:function (config) {
 		this.parent(config);
-		this.parentComponent.addEvent('highlight', this.highlight.bind(this));
-		this.parentComponent.addEvent('clearHighlight', this.clear.bind(this));
+		this.parentComponent.on('highlight', this.highlight.bind(this));
+		this.parentComponent.on('clearHighlight', this.clear.bind(this));
 	}
 });

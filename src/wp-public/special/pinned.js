@@ -1,19 +1,21 @@
 chess.WPPinned = new Class({
-   Extends: chess.WPTemplate,
+    Extends: chess.WPTemplate,
 
-    renderTo:undefined,
-    pgn:undefined,
-    controller:undefined,
+    renderTo: undefined,
+    pgn: undefined,
+    controller: undefined,
 
-    module:undefined,
-    random:false,
+    module: undefined,
+    random: false,
 
-    color:undefined,
-    parser:undefined,
+    color: undefined,
+    parser: undefined,
 
-    pinnedMsgId:undefined,
+    pinnedMsgId: undefined,
 
-    arrowPool:undefined,
+    arrowPool: undefined,
+
+    solved:false,
 
     initialize: function (config) {
         this.parent(config);
@@ -24,7 +26,7 @@ chess.WPPinned = new Class({
         var w = r.width();
         r.css('height', Math.round(w + 65 + this.wpm_h));
         this.boardSize = w;
-        if (config.random != undefined)this.random = config.random;
+        if (config.random != undefined) this.random = config.random;
 
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -37,12 +39,10 @@ chess.WPPinned = new Class({
         this.pinnedMsgId = 'dc-' + String.uniqueID();
 
         this.showLabels = !ludo.isMobile;
-        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#")this.renderTo = "#" + this.renderTo;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
         if (this.canRender()) {
             this.render();
         }
-
-
     },
 
     render: function () {
@@ -65,7 +65,7 @@ chess.WPPinned = new Class({
                     children: [
                         {
                             id: this.pinnedMsgId,
-                            module:this.module,
+                            module: this.module,
                             css: {
                                 'text-align': 'center',
                                 'line-height': '30px'
@@ -80,7 +80,7 @@ chess.WPPinned = new Class({
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',
-                            labels:this.showLabels,
+                            labels: this.showLabels,
                             pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
@@ -91,22 +91,22 @@ chess.WPPinned = new Class({
                             }
                         }, this.board),
                         {
-                            css:{
-                                'padding-top' : 5
+                            css: {
+                                'padding-top': 5
                             },
                             layout: {height: 35, type: 'linear', orientation: 'horizontal'},
                             children: [
                                 {weight: 1},
                                 {
                                     type: 'form.Button',
-                                    value: 'Submit Solution',
+                                    value: 'Solve',
                                     listeners: {
                                         'click': this.sendSolution.bind(this)
                                     }
                                 },
                                 {
                                     type: 'form.Button',
-                                    value: chess.__('Show Hint'),
+                                    value: chess.__('Hint'),
                                     listeners: {
                                         'click': this.showHint.bind(this)
                                     }
@@ -115,7 +115,7 @@ chess.WPPinned = new Class({
                                     type: 'form.Button',
                                     value: chess.__('Next'),
                                     listeners: {
-                                        'click': function(){
+                                        'click': function () {
                                             this.controller.loadNextGameFromFile();
                                         }.bind(this)
                                     }
@@ -124,7 +124,7 @@ chess.WPPinned = new Class({
                             ]
                         },
                         {
-                            type:'chess.WPComMessage'
+                            type: 'chess.WPComMessage'
                         }
                     ]
                 }
@@ -135,8 +135,8 @@ chess.WPPinned = new Class({
 
         new chess.view.message.TacticsMessage({
             renderTo: document.body,
-            module:this.module,
-            showIntro:false,
+            module: this.module,
+            showIntro: false,
             hidden: true,
             autoHideWelcomeAfterMs: 20,
             css: {
@@ -167,11 +167,12 @@ chess.WPPinned = new Class({
             }
         });
 
+        var ctrl = this.controller;
         var index = ludo.getLocalStorage().get(storageKey, 0);
         if (isNaN(index)) index = 0;
         index = Math.max(0, index);
         if (index != undefined) {
-            this.controller.getCurrentModel().setGameIndex(index);
+            ctrl.getCurrentModel().setGameIndex(index);
         } else {
             index = 0;
         }
@@ -199,7 +200,7 @@ chess.WPPinned = new Class({
         });
     },
 
-    findPinned:function(){
+    findPinned: function () {
         if (this.parser == undefined) {
             this.parser = new chess.parser.FenParser0x88();
         }
@@ -217,8 +218,8 @@ chess.WPPinned = new Class({
         }
     },
 
-    sendSolution:function(){
-        var solution = this.parser.getPinnedSquares(this.color);
+    sendSolution: function () {
+        var solution = this.parser.getPinnedSquares(this.color) || [];
         var user = this.hPool.getSquares() || [];
 
         var correct = true;
@@ -227,7 +228,13 @@ chess.WPPinned = new Class({
             correct = false;
         }
 
+        if(user.length == 0){
+            this.showToast();
+        }
         if (!correct) {
+            var sort = function (a, b) {
+                return a < b ? -1 : 1;
+            };
             solution.sort(sort);
             user.sort(sort);
             for (var i = 0; i < solution.length; i++) {
@@ -238,64 +245,56 @@ chess.WPPinned = new Class({
         }
 
         if (!correct) {
-            controller.fireEvent('wrongGuess');
+            this.controller.fireEvent('wrongGuess');
         } else {
             this.showSolvedDialog();
         }
-
     },
 
-    showIntroDialog:function(){
-        if (this.introDialog == undefined) {
-            this.introDialog = new ludo.dialog.Alert({
-                autoRemove: false,
-                css: {
-                    'font-size': '1.1em',
-                    'text-align': 'center',
-                    'padding': 10
-                },
-                layout: {
-                    width: 300, height: 200,
-                    centerIn: this.boardId
-                },
-                title: chess.__('Find pinned pieces')
-            });
-        }
+    toast:undefined,
 
-        this.arrowPool.hideAll();
-
-        this.introDialog.html('Click on all ' + this.color + '\'s pinned pieces');
-        this.introDialog.show();
-
-        ludo.$(this.pinnedMsgId).html('Click on all ' + this.color + '\'s pinned pieces');
-    },
-
-    showHint:function(){
-        if (this.toast == undefined) {
+    getToast:function(){
+        if(this.toast == undefined){
             this.toast = new ludo.Notification({
-                autoRemove: false,
-                renderTo: document.body,
+                autoRemove:false,
+                duration:2,
+                layout:{
+                    centerIn: this.boardId,
+                    height:30
+                },
                 css:{
                     'text-align' : 'center'
                 },
-                layout: {
-                    width: 300,
-                    height: 30,
-                    centerIn: this.boardId
-                }
-            });
+                html : chess.__("Click squares to solve the puzzles")
+            })
         }
+        return this.toast;
+    },
+
+    showToast:function(){
+        this.getToast().show(chess.__("Click squares to solve the puzzles"));
+    },
+
+    showIntroDialog: function () {
+        this.solved = false;
+        this.arrowPool.hideAll();
+        var msg = chess.__('Click on all ' + this.color + '\'s pinned pieces');
+        this.getToast().show(msg);
+        ludo.$(this.pinnedMsgId).html(msg);
+    },
+
+    showHint: function () {
+        if(this.solved)return;
         var pinned = this.parser.getPinnedSquares(this.color);
-        this.toast.html(chess.__('There are {0} pinned pieces'.replace('{0}', pinned.length)));
-        this.toast.show();
+        this.getToast().show(chess.__('There are {0} pinned pieces'.replace('{0}', pinned.length)));
 
     },
 
-    overlay:undefined,
+    overlay: undefined,
 
-    showSolvedDialog:function(){
-
-        if(this.overlay == undefined){
+    showSolvedDialog: function () {
+        this.solved = true;
+        if (this.overlay == undefined) {
             this.overlay = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_game_solved_overlay"></div><div class="dhtml_chess_game_solved_image"></div></div>');
             ludo.$(this.boardId).boardEl().append(this.overlay);
         }
@@ -306,19 +305,19 @@ chess.WPPinned = new Class({
 
         var fromAndTo = this.parser.getPinnedReadable(this.color);
 
-        jQuery.each(fromAndTo, function(i, squares){
+        jQuery.each(fromAndTo, function (i, squares) {
             this.arrowPool.show(squares.by, squares.king);
         }.bind(this));
 
 
     },
 
-    hideOverlay:function(){
+    hideOverlay: function () {
         this.overlay.animate({
-            opacity : 0
-        },{
-            duration:700,
-            complete:function(){
+            opacity: 0
+        }, {
+            duration: 700,
+            complete: function () {
                 this.overlay.hide();
             }.bind(this)
         });

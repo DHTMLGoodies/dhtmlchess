@@ -1,21 +1,22 @@
 {
   "name" : "DHTML Chess",
   "slug" : "dhtml_chess",
-  "homepage" : "http://www.wordpresschess.com",
+  "homepage" : "https://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
-  "version" : "1.0.49",
-  "author" : "Alf Magne Kalleland",
+  "version" : "1.0.50",
+  "author" : "dhtmlchess.com",
   "sections" : {
-    "description" : "Chess for your WordPress site.",
-    "screenshots": "1. Online Game Editor.\r\n2. Many board templates"
+    "description" : "An online chess database with beautiful layout for your WordPress site.\n* Lots of templates to choose from\n* Choose between simple game views, tournament views and tactics.\n* Have your games stored in a database\n* Import your PGN files with the click of a button\n* Analyse your games online using StockfishJS embedded in the browser(No installation required).",
+    "screenshots": "1. Online Game Editor.\r\n2. Many board templates",
+    "changelog" : "=1.0.50=\n\n*Support for standings table/grid\n*Support for finding pinned pieces.\n* fixed problem with previous puzzles in tactics when random is turned on"
   },
   "banners" : {
-    "low" : "http://example.com/banner-772x250.png",
-    "high" : "http://example.com/banner-1544x500.png"
+    "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-772x250.png",
+    "high" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-1544x500.png"
   },
   "last_updated" : "2017-03-14 14:00:00",
   "icons" : {
-    "low" : "http://example.com/icon-128x128.png",
-    "high" : "http://example.com/icon-256x256.png"
+    "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/icon-128x128.png",
+    "high" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/icon-256x256.png"
   }
 }

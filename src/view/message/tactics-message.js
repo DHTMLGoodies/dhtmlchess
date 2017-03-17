@@ -27,9 +27,9 @@ chess.view.message.TacticsMessage = new Class({
     },
     setController: function (controller) {
         this.parent(controller);
-        this.controller.addEvent('wrongGuess', this.showWrongGuess.bind(this));
-        this.controller.addEvent('correctGuess', this.showCorrectGuess.bind(this));
-        this.controller.addEvent('loadGame', this.newGame.bind(this));
+        controller.on('wrongGuess', this.showWrongGuess.bind(this));
+        controller.on('correctGuess', this.showCorrectGuess.bind(this));
+        controller.on('loadGame', this.newGame.bind(this));
     },
 
     newGame: function (model) {

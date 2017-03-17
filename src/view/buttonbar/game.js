@@ -17,13 +17,13 @@ chess.view.buttonbar.Game = new Class({
     setController:function (controller) {
         this.parent(controller);
 
-        this.controller.addEvent('startOfGame', this.startOfGame.bind(this));
-        this.controller.addEvent('notStartOfGame', this.notStartOfBranch.bind(this));
-        this.controller.addEvent('endOfBranch', this.endOfBranch.bind(this));
-        this.controller.addEvent('notEndOfBranch', this.notEndOfBranch.bind(this));
-        this.controller.addEvent('startAutoplay', this.startAutoPlay.bind(this));
-        this.controller.addEvent('stopAutoplay', this.stopAutoPlay.bind(this));
-        this.controller.addEvent('newGame', this.newGame.bind(this));
+        controller.on('startOfGame', this.startOfGame.bind(this));
+        controller.on('notStartOfGame', this.notStartOfBranch.bind(this));
+        controller.on('endOfBranch', this.endOfBranch.bind(this));
+        controller.on('notEndOfBranch', this.notEndOfBranch.bind(this));
+        controller.on('startAutoplay', this.startAutoPlay.bind(this));
+        controller.on('stopAutoplay', this.stopAutoPlay.bind(this));
+        controller.on('newGame', this.newGame.bind(this));
     },
 
     __construct:function (config) {

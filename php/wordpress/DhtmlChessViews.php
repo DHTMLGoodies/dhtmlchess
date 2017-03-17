@@ -180,12 +180,29 @@ class DhtmlChessViews
                 "example" => 'float="right"',
                 "desc" => "Float left or right. This attribute is useful if you want text to float around the chess board. This attribute is NOT set for mobile devices. Use css if you want to apply float to all devices."
             ),
-
-
             "css" => array(
                 "example" => 'css="border:1px solid #900;border-radius:5px"',
                 "desc" => "Custom CSS string"
-            ));
+            ),
+            "arrows" => array(
+                "desc" => "Attribute for the FEN short code. A comma separated list of from and to squares. Custom colored arrows can be set after a semicolon, example: e2e4;#ff0000",
+                "example" => 'arrows="e2e4;d2d4;#ff0000"'
+            ),
+            "highlight" => array(
+                "desc" => "Attribute for the FEN short code. A comma separated list of highlighted squares. Default color is set with the css class dhtml-chess-highlight-square. You
+                 can override this value in your theme's css",
+                "example" =>'arrows="e2,e4;#ff0000;e5"'
+            ),
+            "sound" => array(
+                "desc" => "Set to 1 to enable sound effects (default = 0)",
+                "example" => '[chess game="100" sound=1]'
+            ),
+            "standings" => array(
+                "desc" => "Used to render a standings grid or table for a database",
+                "example" => '[chess standings="1" tpl="1"]'
+            )
+
+        );
         return $attributes;
     }
 

@@ -148,16 +148,16 @@ chess.view.board.Board = new Class({
      */
     setController: function (controller) {
         this.parent(controller);
-        controller.addEvent('newGame', this.showStartBoard.bind(this));
-        controller.addEvent('newMove', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('newMove', this.playChainOfMoves.bind(this));
-        controller.addEvent('setPosition', this.showMove.bind(this));
-        controller.addEvent('nextmove', this.playChainOfMoves.bind(this));
-        controller.addEvent('startOfGame', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('newGame', this.clearHighlightedSquares.bind(this));
-        controller.addEvent('flip', this.flip.bind(this));
-        this.controller.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        this.controller.addEvent('afterLoad', this.afterLoad.bind(this));
+        controller.on('newGame', this.showStartBoard.bind(this));
+        controller.on('newMove', this.clearHighlightedSquares.bind(this));
+        controller.on('newMove', this.playChainOfMoves.bind(this));
+        controller.on('setPosition', this.showMove.bind(this));
+        controller.on('nextmove', this.playChainOfMoves.bind(this));
+        controller.on('startOfGame', this.clearHighlightedSquares.bind(this));
+        controller.on('newGame', this.clearHighlightedSquares.bind(this));
+        controller.on('flip', this.flip.bind(this));
+        controller.on('beforeLoad', this.beforeLoad.bind(this));
+        controller.on('afterLoad', this.afterLoad.bind(this));
     },
 
 
