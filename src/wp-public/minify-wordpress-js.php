@@ -103,6 +103,7 @@ parseDirectory(array(
     'game/game5.js',
     'pgn/viewer1.js',
     'pgn/viewer2.js',
+    'pgn/viewer3.js',
     'game-grid.js',
     'manager.js',
     'wpcom-message.js',
