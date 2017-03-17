@@ -136,8 +136,8 @@ class DhtmlChessViews
             "type" => "standings_grid",
             "desc" => "Displays standings grid for a database",
             "shortcode" => "chess",
-            "attributes" => array("standings" => 1, "tpl" => 1),
-            "help" => 'Example: [chess standings=1 tpl="1"]'
+            "attributes" => array("leaderboard" => 1, "tpl" => 1),
+            "help" => 'Example: [chess leaderboard=1 tpl="1"]'
         ),
         array(
             "script" => "WPStandings2",
@@ -145,8 +145,8 @@ class DhtmlChessViews
             "type" => "standings_table",
             "desc" => "Displays standings for a database as a plain HTML table",
             "shortcode" => "chess",
-            "attributes" => array("standings" => 1, "tpl" => 2),
-            "help" => 'Example: [chess standings=1 tpl="2"]'
+            "attributes" => array("leaderboard" => 1, "tpl" => 2),
+            "help" => 'Example: [chess leaderboard=1 tpl="2"]'
         ),
 
 
@@ -291,7 +291,7 @@ class DhtmlChessViews
         $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
 
 
-        if($tag == "chess" && isset($attributes["standings"]) && !empty($attributes["db"])){
+        if($tag == "chess" && isset($attributes["leaderboard"]) && !empty($attributes["db"])){
 
             if($attributes["tpl"] == 1){
                 $view->setScript("WPStandings1");
