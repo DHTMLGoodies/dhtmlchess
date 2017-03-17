@@ -3,12 +3,12 @@
   "slug" : "dhtml_chess",
   "homepage" : "https://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/dhtml_chess.zip",
-  "version" : "1.0.50",
+  "version" : "1.0.51",
   "author" : "dhtmlchess.com",
   "sections" : {
-    "description" : "An online chess database with beautiful layout for your WordPress site.\n* Lots of templates to choose from\n* Choose between simple game views, tournament views and tactics.\n* Have your games stored in a database\n* Import your PGN files with the click of a button\n* Analyse your games online using StockfishJS embedded in the browser(No installation required).",
-    "screenshots": "1. Online Game Editor.\r\n2. Many board templates",
-    "changelog" : "=1.0.50=\n\n*Support for standings table/grid\n*Support for finding pinned pieces.\n* fixed problem with previous puzzles in tactics when random is turned on"
+    "description" : "An online chess database with beautiful layout for your WordPress site.<br>* Lots of templates to choose from<br>* Choose between simple game views, tournament views and tactics.<br>* Have your games stored in a database<br>* Import your PGN files with the click of a button<br>* Analyse your games online using StockfishJS embedded in the browser(No installation required).",
+    "screenshots": "1. Online Game Editor.\r<br>2. Many board templates",
+    "changelog" : "=1.0.50=<br><br>*Support for standings table/grid<br>*Support for finding pinned pieces.<br>* fixed problem with previous puzzles in tactics when random is turned on"
   },
   "banners" : {
     "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-772x250.png",
