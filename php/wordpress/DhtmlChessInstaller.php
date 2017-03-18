@@ -49,51 +49,56 @@ class DhtmlChessInstaller
          */
         global $wpdb;
 
-        $queries = array(
+        if($this->getCurrentDatabaseVersion() == 0) {
 
-            "create table " . DhtmlChessDatabase::TABLE_PGN . "("
-            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
-            . DhtmlChessDatabase::COL_PGN_NAME . " varchar(255),"
-            . DhtmlChessDatabase::COL_TMP . " varchar(255),"
-            . DhtmlChessDatabase::COL_ARCHIVED . " char(1) default '0', "
-            . DhtmlChessDatabase::COL_HIDDEN . " char(1) default '0' ,"
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate,
+	        $queries = array(
 
-            "create table " . DhtmlChessDatabase::TABLE_GAME . "("
-            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
-            . DhtmlChessDatabase::COL_PGN_ID . " int,"
-            . DhtmlChessDatabase::COL_SORT . " int,"
-            . DhtmlChessDatabase::COL_DHTML_CHESS_ID . " int,"
-            . DhtmlChessDatabase::COL_GAME . " mediumtext, "
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate
+		        "create table " . DhtmlChessDatabase::TABLE_PGN . "("
+		        . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+		        . DhtmlChessDatabase::COL_PGN_NAME . " varchar(255),"
+		        . DhtmlChessDatabase::COL_TMP . " varchar(255),"
+		        . DhtmlChessDatabase::COL_ARCHIVED . " char(1) default '0', "
+		        . DhtmlChessDatabase::COL_HIDDEN . " char(1) default '0' ,"
+		        . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate,
 
-        , "create table " . DhtmlChessDatabase::TABLE_CACHE . "("
-            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
-            . DhtmlChessDatabase::COL_CACHE_KEY . " varchar(255),"
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,"
-            . DhtmlChessDatabase::COL_CACHE_VALUE . " mediumtext)" . $this->charset_collate
+		        "create table " . DhtmlChessDatabase::TABLE_GAME . "("
+		        . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+		        . DhtmlChessDatabase::COL_PGN_ID . " int,"
+		        . DhtmlChessDatabase::COL_SORT . " int,"
+		        . DhtmlChessDatabase::COL_DHTML_CHESS_ID . " int,"
+		        . DhtmlChessDatabase::COL_GAME . " mediumtext, "
+		        . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate
 
-        , "create table " . DhtmlChessDatabase::TABLE_DRAFT . "("
-            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
-            . DhtmlChessDatabase::COL_TITLE . " varchar(1024), "
-            . DhtmlChessDatabase::COL_GAME . " mediumtext, "
-            . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate,
+	        ,
+		        "create table " . DhtmlChessDatabase::TABLE_CACHE . "("
+		        . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+		        . DhtmlChessDatabase::COL_CACHE_KEY . " varchar(255),"
+		        . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,"
+		        . DhtmlChessDatabase::COL_CACHE_VALUE . " mediumtext)" . $this->charset_collate
 
-            "create index wp_index_dhtml_chess_pgn_arc on " . DhtmlChessDatabase::TABLE_PGN . "(" . DhtmlChessDatabase::COL_ARCHIVED . ")",
-            "create index wp_index_dhtml_chess_game_did on " . DhtmlChessDatabase::TABLE_GAME . "(" . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ")",
-            "create index wp_index_dhtml_chess_game_pgn on " . DhtmlChessDatabase::TABLE_GAME . "(" . DhtmlChessDatabase::COL_PGN_ID . ")",
-            "create index wp_index_dhtml_chess_cache_key on " . DhtmlChessDatabase::TABLE_CACHE . "(" . DhtmlChessDatabase::COL_CACHE_KEY . ")"
-        );
+	        ,
+		        "create table " . DhtmlChessDatabase::TABLE_DRAFT . "("
+		        . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+		        . DhtmlChessDatabase::COL_TITLE . " varchar(1024), "
+		        . DhtmlChessDatabase::COL_GAME . " mediumtext, "
+		        . DhtmlChessDatabase::COL_UPDATED . " timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)" . $this->charset_collate,
+
+		        "create index wp_index_dhtml_chess_pgn_arc on " . DhtmlChessDatabase::TABLE_PGN . "(" . DhtmlChessDatabase::COL_ARCHIVED . ")",
+		        "create index wp_index_dhtml_chess_game_did on " . DhtmlChessDatabase::TABLE_GAME . "(" . DhtmlChessDatabase::COL_DHTML_CHESS_ID . ")",
+		        "create index wp_index_dhtml_chess_game_pgn on " . DhtmlChessDatabase::TABLE_GAME . "(" . DhtmlChessDatabase::COL_PGN_ID . ")",
+		        "create index wp_index_dhtml_chess_cache_key on " . DhtmlChessDatabase::TABLE_CACHE . "(" . DhtmlChessDatabase::COL_CACHE_KEY . ")"
+	        );
 
 
-        foreach ($queries as $query) {
-            $this->doQuery($query);
+	        foreach ( $queries as $query ) {
+		        $this->doQuery( $query );
+	        }
+
+	        if ( ! self::$testMode ) {
+		        $this->importDefaultPgn();
+	        }
+
         }
-
-        if (!self::$testMode) {
-            $this->importDefaultPgn();
-        }
-
         $this->upgrade();
 
     }

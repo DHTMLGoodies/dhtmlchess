@@ -67,7 +67,7 @@ class Archiver
 {
 
 
-    private $destination = "zip/dhtml-chess.zip";
+    private $destination = "zip/wordpresschess.zip";
     private $pwd;
     private $dir;
 
@@ -82,7 +82,7 @@ class Archiver
         "../router.php" => "dhtml_chess/api/",
         "../garbochess" => "dhtml_chess/api/",
         "../garbochess-engine" => "dhtml_chess/api/", */
-        "../../wordpress/wp-content/plugins/dhtml_chess/*" => "dhtml_chess"
+        "../../wordpress/wp-content/plugins/wordpresschess/*" => "wordpresschess"
     );
 
     public function __construct()
@@ -94,10 +94,10 @@ class Archiver
     {
 
         echo "CWD " . getcwd()."<br>";
-        if(file_exists("dhtml_chess.zip"))unlink("dhtml_chess.zip");
+        if(file_exists("wordpresschess.zip"))unlink("wordpresschess.zip");
 
-        exec("rm -rf dhtml_chess");
-        exec("mkdir dhtml_chess");
+        exec("rm -rf wordpresschess");
+        exec("mkdir wordpresschess");
        # exec("mkdir dhtml_chess/api");
 
 
@@ -112,7 +112,7 @@ class Archiver
         }
 
 
-        chdir("dhtml_chess");
+        chdir("wordpresschess");
 
         $pwd = getcwd();
         echo $pwd."<br>";
@@ -157,22 +157,22 @@ class Archiver
             die("Not found");
         }
 
-        unlink("../../zip/dhtml_chess.zip");
+        unlink("../../zip/wordpresschess.zip");
 
         chdir("..");
 
 
-        $zipDestination = "../zip/dhtml_chess.zip";
+        $zipDestination = "../zip/wordpresschess.zip";
 
-        HZip::zipDir("./dhtml_chess", $zipDestination);
+        HZip::zipDir("./wordpresschess", $zipDestination);
 
         echo "<br>Size: " . filesize($zipDestination);
-        exec("cp -f ".$zipDestination." ../../../wp-testing/dhtml_chess.zip");
+        exec("cp -f ".$zipDestination." ../../../wp-testing/wordpresschess.zip");
 
 
 
 
-        exec("rm -rf dhtml_chess");
+        exec("rm -rf wordpresschess");
     }
 }
 
