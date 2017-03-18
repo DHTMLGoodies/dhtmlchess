@@ -11,11 +11,13 @@ chess.WPTemplate = new Class({
     wpm_h: 20,
     nav: true,
     sound: false,
+    boardId:undefined,
 
     initialize: function (config) {
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
+        this.boardId = 'dhtml_chess' + String.uniqueID();
 
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;

@@ -35,7 +35,6 @@ chess.WPPinned = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.boardId = 'dc-' + String.uniqueID();
         this.pinnedMsgId = 'dc-' + String.uniqueID();
 
         this.showLabels = !ludo.isMobile;

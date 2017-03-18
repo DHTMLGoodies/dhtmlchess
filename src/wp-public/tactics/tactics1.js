@@ -13,7 +13,6 @@ chess.WPTactics1 = new Class({
     module: undefined,
 
     boardSize: undefined,
-    boardId: undefined,
     random: false,
     nav: false,
 
@@ -40,7 +39,6 @@ chess.WPTactics1 = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.boardId = 'dc-' + String.uniqueID();
         this.previousButtonId = 'dc-' + String.uniqueID();
 
         this.historyKey = 'tactics-history-' + this.pgn.id;

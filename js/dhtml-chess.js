@@ -1,4 +1,4 @@
-/* Generated Fri Mar 17 18:22:10 CET 2017 */
+/* Generated Sat Mar 18 15:23:47 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -3477,10 +3477,6 @@ ludo.Core = new Class({
         return Browser['ie'] ? jQuery(document.documentElement) : jQuery(window);
 	},
 
-	isConfigObject:function (obj) {
-		return obj.initialize === undefined;
-	},
-
 	NS:undefined,
 
 	/**
@@ -3504,7 +3500,7 @@ ludo.Core = new Class({
 	},
 
 	hasController:function () {
-		return this.controller ? true : false;
+		return !!this.controller;
 	},
 
 	getController:function () {
@@ -3562,7 +3558,7 @@ ludo.Core = new Class({
 	},
 
 	hasDependency:function(key){
-		return this.dependency[key] ? true : false;
+		return !!this.dependency[key];
 	},
 
 	getDependency:function(key, config){
@@ -6632,11 +6628,11 @@ ludo.layout.Linear = new Class({
 	onNewChild:function (child) {
 		this.parent(child);
 		this.updateLayoutObject(child);
-		child.addEvent('collapse', this.minimize.bind(this));
-		child.addEvent('expand', this.clearTemporaryValues.bind(this));
-		child.addEvent('minimize', this.minimize.bind(this));
-		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
+		child.on('collapse', this.minimize.bind(this));
+		child.on('expand', this.clearTemporaryValues.bind(this));
+		child.on('minimize', this.minimize.bind(this));
+		child.on('maximize', this.clearTemporaryValues.bind(this));
+		child.on('show', this.clearTemporaryValues.bind(this));
 	},
 
 	updateLayoutObject:function (child) {
@@ -7759,17 +7755,18 @@ ludo.layout.Renderer = new Class({
                                 el = jQuery(val);
                             }
                         }
-                        if (el)this.view.layout[key] = el; else this.view.layout[key] = undefined;
+                        if (el) this.view.layout[key] = el; else this.view.layout[key] = undefined;
                     }
             }
         }
-        if (hasReferences)this.view.getEl().css('position', 'absolute');
+        if (hasReferences) this.view.getEl().css('position', 'absolute');
     },
 
     setDefaultProperties: function () {
         // TODO is this necessary ?
-        this.view.layout.width = this.view.layout.width || 'matchParent';
-        this.view.layout.height = this.view.layout.height || 'matchParent';
+        var l = this.view.layout;
+        l.width = l.width || 'matchParent';
+        l.height = l.height || 'matchParent';
     },
 
     resizeFn: undefined,
@@ -7778,9 +7775,6 @@ ludo.layout.Renderer = new Class({
         // todo no resize should be done for absolute positioned views with a width. refactor the next line
         if (this.view.isWindow)return;
         this.resizeFn = this.resize.bind(this);
-        //var node = this.getParentNode();
-        // node.resize(this.resizeFn);
-
         jQuery(window).on('resize', this.resizeFn);
     },
 
@@ -7797,12 +7791,12 @@ ludo.layout.Renderer = new Class({
 
     removeEvents: function () {
         // this.getParentNode().off('resize', this.resizeFn);
-        if(this.resizeFn) jQuery(window).off('resize', this.resizeFn);
+        if (this.resizeFn) jQuery(window).off('resize', this.resizeFn);
     },
 
     buildResizeFn: function () {
         var parent = this.view.getEl().parent();
-        if (!parent)this.fn = function () {
+        if (!parent) this.fn = function () {
         };
         var fns = [];
         var fnNames = [];
@@ -7946,7 +7940,7 @@ ludo.layout.Renderer = new Class({
                     value = value.getEl != undefined ? value.getEl() : value;
                     var pos = value.offset();
                     c.top = (pos.top + (value.height() / 2)) - (c.height / 2);
-                    c.left = (pos.left + value.outerWidth()/ 2)  - (c.width / 2);
+                    c.left = (pos.left + value.outerWidth() / 2) - (c.width / 2);
                 };
             case 'centerHorizontalIn':
                 return function () {
@@ -7992,10 +7986,10 @@ ludo.layout.Renderer = new Class({
     },
 
     resize: function () {
-        
+
 
         if (this.view.isHidden())return;
-        if (this.fn === undefined)this.buildResizeFn();
+        if (this.fn === undefined) this.buildResizeFn();
         this.setViewport();
 
         this.fn.call(this);
@@ -8004,19 +7998,18 @@ ludo.layout.Renderer = new Class({
 
         this.view.resize(c);
 
-
-        if (c['bottom'])c['top'] = undefined;
-        if (c['right'])c['left'] = undefined;
+        if (c['bottom']) c['top'] = undefined;
+        if (c['right']) c['left'] = undefined;
 
         for (var i = 0; i < this.posKeys.length; i++) {
             var k = this.posKeys[i];
-            if (this.coordinates[k] !== undefined && this.coordinates[k] !== this.lastCoordinates[k])this.view.getEl().css(k, c[k]);
+            if (this.coordinates[k] !== undefined && this.coordinates[k] !== this.lastCoordinates[k]) this.view.getEl().css(k, c[k]);
         }
         this.lastCoordinates = Object.clone(c);
     },
 
     resizeChildren: function () {
-        if (this.view.children.length > 0)this.view.getLayout().resizeChildren();
+        if (this.view.children.length > 0) this.view.getLayout().resizeChildren();
     },
 
     setViewport: function () {
@@ -8061,11 +8054,12 @@ ludo.layout.Renderer = new Class({
     },
 
     setSize: function (config) {
-
-        if (config.left)this.coordinates.left = this.view.layout.left = config.left;
-        if (config.top)this.coordinates.top = this.view.layout.top = config.top;
-        if (config.width)this.view.layout.width = this.coordinates.width = config.width;
-        if (config.height)this.view.layout.height = this.coordinates.height = config.height;
+        var c = this.coordinates;
+        var l = this.view.layout;
+        if (config.left) c.left = l.left = config.left;
+        if (config.top) c.top = l.top = config.top;
+        if (config.width) l.width = c.width = config.width;
+        if (config.height) l.height = c.height = config.height;
         this.resize();
     },
 
@@ -9045,11 +9039,9 @@ ludo.View = new Class({
 
         this.setNewZIndex();
 
-
         if (!this.parentComponent){
             this.getLayout().getRenderer().resize();
         }
-
 
         if (!skipEvents)this.fireEvent('show', this);
     },
@@ -9531,11 +9523,11 @@ ludo.layout.Tabs = new Class({
     },
     ludoEvents: function () {
         this.parent();
-        this.lm.addEvent('addChild', this.registerChild.bind(this));
-        this.lm.addEvent('addChildRuntime', this.resizeTabs.bind(this));
-        this.lm.addEvent('showChild', this.activateTabFor.bind(this));
-        this.lm.addEvent('hideChild', this.hideTabFor.bind(this));
-        this.lm.addEvent('removeChild', this.removeTabFor.bind(this));
+        this.lm.on('addChild', this.registerChild.bind(this));
+        this.lm.on('addChildRuntime', this.resizeTabs.bind(this));
+        this.lm.on('showChild', this.activateTabFor.bind(this));
+        this.lm.on('hideChild', this.hideTabFor.bind(this));
+        this.lm.on('removeChild', this.removeTabFor.bind(this));
         this.addEvent('resize', this.resizeTabs.bind(this));
     },
 
@@ -10789,12 +10781,12 @@ ludo.layout.Relative = new Class({
 
 
 	addChildEvents:function(child){
-		child.addEvent('hide', this.hideChild.bind(this));
-		child.addEvent('show', this.clearTemporaryValues.bind(this));
-		child.addEvent('collapse', this.minimize.bind(this));
-		child.addEvent('minimize', this.minimize.bind(this));
-		child.addEvent('expand', this.clearTemporaryValues.bind(this));
-		child.addEvent('maximize', this.clearTemporaryValues.bind(this));
+		child.on('hide', this.hideChild.bind(this));
+		child.on('show', this.clearTemporaryValues.bind(this));
+		child.on('collapse', this.minimize.bind(this));
+		child.on('minimize', this.minimize.bind(this));
+		child.on('expand', this.clearTemporaryValues.bind(this));
+		child.on('maximize', this.clearTemporaryValues.bind(this));
 	}
 });/* ../ludojs/src/layout/tab.js */
 /**
@@ -10883,8 +10875,8 @@ ludo.layout.Tab = new Class({
 
     addChildEvents: function (child) {
         if (!this.isTabs(child)) {
-            child.addEvent('show', this.showTab.bind(this));
-            child.addEvent('remove', this.onChildDispose.bind(this));
+            child.on('show', this.showTab.bind(this));
+            child.on('remove', this.onChildDispose.bind(this));
         }
     },
 
@@ -14320,8 +14312,6 @@ ludo.FramedView = new Class({
 
 	__rendered:function () {
         // TODO create button bar after view is rendered.
-
-
 		if(!this.buttonBar)this.buttonBar = this.getButtonBarConfig();
 		if (this.buttonBar && !this.buttonBar.children) {
 			this.buttonBar = { children:this.buttonBar };
@@ -14408,8 +14398,7 @@ ludo.FramedView = new Class({
 			this.titleBarObj.addEvents({
 				close:this.close.bind(this),
 				minimize:this.minimize.bind(this),
-				maximize:this.maximize.bind(this),
-				collapse:this.hide.bind(this)
+				maximize:this.maximize.bind(this)
 			});
 
 			if (this.movable && !this.getParent()) {
@@ -14489,10 +14478,6 @@ ludo.FramedView = new Class({
 
             this.fireEvent('minimize', [this, { height: newHeight }]);
         }
-	},
-
-	getHtml:function () {
-		return this.els.body.html();
 	},
 
 	getButtonBar:function () {
@@ -14589,7 +14574,6 @@ ludo.FramedView = new Class({
 	},
 	stopMove:function (el, drag) {
 		this.getLayout().getRenderer().setPosition(drag.getX(), drag.getY());
-
 		this.fireEvent('stopmove', this);
 	}
 });/* ../ludojs/src/application.js */
@@ -17201,15 +17185,17 @@ ludo.grid.GridHeader = new Class({
 				if (i == this.columnManager.getStartRowOf(columns[j])) {
 
 					var cell = this.getCell(columns[j]);
-					cell.css('display', '');
-					cell.css('left', left);
-					cell.css('top', i * this.cellHeight);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
 					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
 
-					cell.css('width', width - spacing);
-					cell.css('height', height);
-					cell.css('line-height', height + 'px');
+					cell.css({
+						'display' : '',
+						left : left,
+						top : i * this.cellHeight,
+						width: width - spacing,
+						height : height,
+						'line-height' : height + 'px'
+                    });
 
 					this.resizeCellBackgrounds(columns[j]);
 
@@ -17401,7 +17387,6 @@ ludo.grid.GridHeader = new Class({
 		var col = this.getColByDOM(e.target);
 
 		if (!this.grid.colResizeHandler.isActive() && !this.grid.isColumnDragActive() && this.columnManager.isSortable(col)) {
-
             this.currentColumn = col;
 			this.cells[col].addClass('ludo-grid-header-cell-over');
 		}
@@ -27824,15 +27809,17 @@ ludo.ListView = new Class({
 
 
         if (this.swipable) {
-            jQuery(document.body).on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
-            jQuery(document.body).on(ludo.util.getDragEndEvent(), this.dragEnd.bind(this));
+            var b = jQuery(document.body);
+            b.on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
+            b.on(ludo.util.getDragEndEvent(), this.dragEnd.bind(this));
 
         }
 
         this.getEl().addClass('ludo-list-view');
-        this.$b().addClass('ludo-list-view-body');
-        this.$b().css('overflow-x', 'hidden');
-        this.$b().on('scroll', this.onScroll.bind(this));
+        var b = this.$b();
+        b.addClass('ludo-list-view-body');
+        b.css('overflow-x', 'hidden');
+        b.on('scroll', this.onScroll.bind(this));
         if (this.dataSource) {
 
             this.getDataSource().addEvents({
@@ -27895,7 +27882,6 @@ ludo.ListView = new Class({
             }
             index--;
         }
-
     },
 
     startDrag: function (e) {
@@ -27939,8 +27925,6 @@ ludo.ListView = new Class({
             return undefined;
         }
 
-
-
         x = ludo.util.clamp(x, this.dragAttr.minX, this.dragAttr.maxX);
         var zl, zr;
         if (x > 0 && this.dragAttr.lastX <= 0) {
@@ -27950,11 +27934,12 @@ ludo.ListView = new Class({
             zl = 1;
             zr = 2;
         }
-        this.dragAttr.backLeft.css('z-index', zl);
-        this.dragAttr.backRight.css('z-index', zr);
-        this.dragAttr.lastX = x;
-        this.dragAttr.el.css('left', x);
-        this.dragAttr.dragged = true;
+        var a = this.dragAttr;
+        a.backLeft.css('z-index', zl);
+        a.backRight.css('z-index', zr);
+        a.lastX = x;
+        a.el.css('left', x);
+        a.dragged = true;
 
         if(this.swipeEnded > 0 || Math.abs(p.x - this.dragAttr.mouse.x) > 5 ){
             this.swipeEnded = new Date().getTime();
@@ -27978,7 +27963,7 @@ ludo.ListView = new Class({
         var center = this.dragAttr.el.outerWidth(true) / 2;
         var pos = this.dragAttr.el.position();
 
-        if (pos.left > center * 1.2 || pos.left < -center * 1.2) {
+        if (pos.left > center || pos.left < -center) {
             var el = this.dragAttr.parent;
             var uid = this.dragAttr.recordUid;
             var mult = pos.left > 0 ? 1 : -1;
@@ -29390,6 +29375,34 @@ chess.view.notation.LastMove = new Class({
         });
         this.els.mc.append(this.els.right);
     }
+});/* ../dhtml-chess/src/view/notation/last-comment.js */
+chess.view.notation.LastComment = new Class({
+    Extends: ludo.View,
+
+    __rendered:function(){
+        this.parent();
+        this.$b().css('overflow-y', 'auto');
+        this.$b().addClass('dhtml_chess_current_annotation');
+    },
+    setController: function (controller) {
+        this.parent(controller);
+        controller.on('fen', this.update.bind(this));
+        controller.on('newmove', this.update.bind(this));
+    },
+
+    update:function(model){
+
+        var m = model.getCurrentMove();
+        if (!m && model.model.moves.length > 0 && model.model.moves[0].comment) {
+            m = model.model.moves[0];
+        }
+        if(!m){
+            this.$b().html('');return;
+        }
+        var c = m.comment ? m.comment : '';
+        this.$b().html(c);
+    }
+
 });/* ../dhtml-chess/src/view/seek/view.js */
 /**
  * Displays seek form.

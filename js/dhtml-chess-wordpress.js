@@ -1,4 +1,4 @@
-/* Generated Fri Mar 17 23:05:02 CET 2017 */
+/* Generated Sat Mar 18 15:40:26 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -26829,7 +26829,130 @@ chess.view.pgn.Grid = new Class({
 
         this.fireEvent('selectPgn', record.file);
     }
-});/* ../dhtml-chess/src/util/coordinate-util.js */
+});/* ../dhtml-chess/src/pgn/parser.js */
+/**
+ Model to PGN parser. Takes a
+ {{#crossLink "chess.model.Game"}}{{/crossLink}} as only argument
+ and returns a PGN string for the game.
+ @namespace chess.pgn
+ @class Parser
+ @constructor
+ @param {chess.model.Game} model
+ @example
+ var game = new chess.model.Game();
+ game.setMetadataValue('white','Magnus Carlsen');
+ game.setMetadataValue('black','Levon Aronian');
+ game.appendMove('e4');
+ game.appendMove('e5');
+
+ var parser = new chess.pgn.Parser(game);
+ console.log(parser.getPgn());
+ */
+chess.pgn.Parser = new Class({
+    /**
+     * @property {chess.model.Game} model
+     * @private
+     */
+    model: undefined,
+
+
+    initialize: function (model) {
+        this.model = model;
+    },
+
+    /**
+     * Return pgn in string format
+     * @method getPgn
+     * @return {String}
+     */
+    getPgn: function (model) {
+        if (model != undefined)this.model = model;
+        return [this.getMetadata(), this.getMoves()].join("\n\n");
+    },
+
+    /**
+     * @method getMetadata
+     * @return {String}
+     * @private
+     */
+    getMetadata: function () {
+        var ret = [];
+        var metadata = this.model.getMetadata();
+        jQuery.each(metadata, function(key, val){
+            if(key != 'id' && key != 'pgn' && key != 'draft_id' && key != 'index'){
+                ret.push('[' + this.ucFirst(key) + ' "' +val + '"]');
+            }
+        }.bind(this));
+        return ret.join('\n');
+    },
+
+    ucFirst: function (string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    /**
+     * @method getMoves
+     * @return {String}
+     * @private
+     */
+    getMoves: function () {
+        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
+    },
+
+    /**
+     * Return comment before first move
+     * @method getFirstComment
+     * @return {String}
+     * @private
+     */
+    getFirstComment: function () {
+        var m = this.model.getMetadata();
+        if (m['comment'] !== undefined && m['comment'].length > 0) {
+            return '{' + m['comment'] + '} ';
+        }
+        return '';
+    },
+
+    /**
+     * Return main line of moves or a variation
+     * @method getMovesInBranch
+     * @param {Array} moves
+     * @param {Number} moveIndex
+     * @return {String}
+     * @private
+     */
+    getMovesInBranch: function (moves, moveIndex) {
+        moveIndex = moveIndex || 0;
+        var ret = [];
+        var insertNumber = true;
+        for (var i = 0; i < moves.length; i++) {
+            if (moves[i]['m'] !== undefined) {
+                if (moveIndex % 2 === 0 || insertNumber) {
+                    var isWhite = moveIndex % 2 === 0;
+                    ret.push([Math.floor(moveIndex / 2) + 1, (isWhite ? '.' : '..')].join(''));
+                }
+                ret.push(moves[i]['m']);
+                moveIndex++;
+
+                insertNumber = false;
+            }
+            if (moves[i]['comment'] !== undefined) {
+                ret.push("{" + moves[i]['comment'] + "}");
+            }
+
+            if (moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0) {
+                var variations = moves[i]['variations'];
+                for (var j = 0; j < variations.length; j++) {
+                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
+
+                }
+                insertNumber = true;
+            }
+        }
+        return ret.join(' ');
+    }
+});
+/* ../dhtml-chess/src/util/coordinate-util.js */
 /**
  * Utility for mapping squares to board coordinates(pixels)
  * Created by alfmagne1 on 10/03/2017.
@@ -33992,11 +34115,13 @@ chess.WPTemplate = new Class({
     wpm_h: 20,
     nav: true,
     sound: false,
+    boardId:undefined,
 
     initialize: function (config) {
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
+        this.boardId = 'dhtml_chess' + String.uniqueID();
 
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
@@ -34164,9 +34289,12 @@ chess.WPComMessage = new Class({
 window.chess.isWordPress = true;
 chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
+
+
     initialize:function(config){
         this.parent(config);
         this.model = config.model || undefined;
+
         this.gameId = config.gameId;
         if(!this.model && !this.gameId)this.gameId = 2;
     },
@@ -34256,7 +34384,7 @@ chess.WPGame1 = new Class({
 
         this.board = Object.merge({
             boardLayout: undefined,
-            id: 'tactics_board',
+            id: this.boardId,
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',
@@ -34452,7 +34580,7 @@ chess.WPGame2 = new Class({
 
                 Object.merge({
                     boardLayout: undefined,
-                    id: 'tactics_board',
+                    id: this.boardId,
                     type: 'chess.view.board.Board',
                     module: this.module,
                     overflow: 'hidden',
@@ -34521,7 +34649,7 @@ chess.WPGame3 = new Class({
 
         this.board = Object.merge({
             boardLayout: undefined,
-            id: 'tactics_board',
+            id: this.boardId,
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',
@@ -34786,7 +34914,7 @@ chess.WPGame4 = new Class({
                     children: [
                         Object.merge({
                             boardLayout: undefined,
-                            id: 'tactics_board',
+                            id: this.boardId,
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',
@@ -34929,7 +35057,7 @@ chess.WPGame5 = new Class({
         this.board = Object.merge({
             boardLayout: undefined,
             vAlign: top,
-            id: 'tactics_board',
+            id: this.boardId,
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',
@@ -35309,7 +35437,7 @@ chess.WPViewer1 = new Class({
                         children: [
                             Object.merge({
                                 boardLayout: undefined,
-                                id: 'tactics_board',
+                                id: this.boardId,
                                 type: 'chess.view.board.Board',
                                 module: this.module,
                                 overflow: 'hidden',
@@ -35612,7 +35740,7 @@ chess.WPViewer2 = new Class({
                 children: [
                     Object.merge({
                         boardLayout: undefined,
-                        id: 'tactics_board',
+                        id: this.boardId,
                         type: 'chess.view.board.Board',
                         module: this.module,
                         overflow: 'hidden',
@@ -36024,7 +36152,7 @@ chess.WPViewer3 = new Class({
                         children: [
                             Object.merge({
                                 boardLayout: undefined,
-                                id: 'tactics_board',
+                                id: this.boardId,
                                 type: 'chess.view.board.Board',
                                 module: this.module,
                                 overflow: 'hidden',
@@ -36625,7 +36753,6 @@ chess.WPPinned = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.boardId = 'dc-' + String.uniqueID();
         this.pinnedMsgId = 'dc-' + String.uniqueID();
 
         this.showLabels = !ludo.isMobile;
@@ -36967,7 +37094,6 @@ chess.WPTactics1 = new Class({
     module: undefined,
 
     boardSize: undefined,
-    boardId: undefined,
     random: false,
     nav: false,
 
@@ -36994,7 +37120,6 @@ chess.WPTactics1 = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.boardId = 'dc-' + String.uniqueID();
         this.previousButtonId = 'dc-' + String.uniqueID();
 
         this.historyKey = 'tactics-history-' + this.pgn.id;

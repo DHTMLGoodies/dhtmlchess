@@ -28,7 +28,7 @@ chess.WPGame6 = new Class({
         this.board = Object.merge({
             boardLayout: undefined,
             vAlign: top,
-            id: 'tactics_board',
+            id: this.boardId,
             type: 'chess.view.board.Board',
             module: this.module,
             overflow: 'hidden',

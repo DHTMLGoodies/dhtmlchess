@@ -13,14 +13,46 @@ class DhtmlChessViews
         array(
             "title" => "Select a shortcode"
         ),
-
+	    array(
+		    "script" => "WPFen",
+		    "title" => "[fen] shortcode",
+		    "type" => "fen",
+		    "desc" => "Display a FEN position using on of the game templates",
+		    "shortcode" => "fen",
+		    "help" => "Insert fen string between the tags.",
+		    'enclosing' => '&lt;fen string>',
+		    'pro' => false
+	    ),
+	    array(
+		    "script" => "WPFen",
+		    "title" => "[pgn] short code",
+		    "type" => "pgn",
+		    "desc" => "PGN text template",
+		    "shortcode" => "pgn",
+		    "attributes" => array("tpl" => '&lt;game template>'),
+		    "help" => "Insert pgn of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
+		    'enclosing' => '&lt;pgn string>',
+		    'pro' => false
+	    ),
+	    array(
+		    "script" => "WPFen",
+		    "title" => "[pgn] short code with tactics",
+		    "type" => "pgn",
+		    "desc" => "One game tactics board from [pgn] shortcode",
+		    "shortcode" => "pgn",
+		    "attributes" => array("tactics" => '1', "theme" => "&lt;optional theme>"),
+		    "help" => "Insert pgn of one game between the tags. <br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
+		    'enclosing' => '&lt;pgn string>',
+		    'pro' => false
+	    ),
         array(
             "script" => "WPGame1",
             "title" => "Game Template 1",
             "type" => "g",
             "shortcode" => "chess",
             "attributes" => array("tpl" => 1, "game" => '&lt;gameId>'),
-            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
         ),
         array(
             "script" => "WPGame2",
@@ -28,7 +60,8 @@ class DhtmlChessViews
             "type" => "g",
             "shortcode" => "chess",
             "attributes" => array("tpl" => 2, "game" => '&lt;gameId>'),
-            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
         ),
         array(
             "script" => "WPGame3",
@@ -37,7 +70,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "No notations, but with current move displayed below the board.",
             "attributes" => array("tpl" => 3, "game" => '&lt;gameId>'),
-            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
         ),
         array(
             "script" => "WPGame4",
@@ -46,7 +80,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "No notations, but with current move displayed below the board.",
             "attributes" => array("tpl" => 4, "game" => '&lt;gameId>'),
-            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
         ),
         array(
             "script" => "WPGame5",
@@ -55,7 +90,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "Notations panel to the right, nav buttons below the board",
             "attributes" => array("tpl" => 5, "game" => '&lt;gameId>'),
-            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.'
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
         ),
         array(
             "script" => "WPViewer1",
@@ -64,7 +100,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "PGN/Database View with notations below the board",
             "attributes" => array("tpl" => 1, "db" => '&lt;databaseId>'),
-            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]'
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="1"]',
+            'pro' => true
         ),
         array(
             "script" => "WPViewer2",
@@ -73,7 +110,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "Tournament template",
             "attributes" => array("tpl" => 2, "db" => '&lt;databaseId>'),
-            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="2"]'
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="2"]',
+            'pro' => true
         ),        array(
         "script" => "WPViewer3",
             "title" => "Database Template 3",
@@ -81,7 +119,8 @@ class DhtmlChessViews
             "shortcode" => "chess",
             "desc" => "Tournament template",
             "attributes" => array("tpl" => 3, "db" => '&lt;databaseId>'),
-            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="3"]'
+            "help" => 'Set db attribute to the id of a database id found in the editor, example [chess db="1" tpl="3"]',
+        'pro' => true
         ),
         array(
             "script" => "WPTactics1",
@@ -90,7 +129,8 @@ class DhtmlChessViews
             "desc" => "Tactics Trainer board",
             "shortcode" => "chess",
             "attributes" => array("tpl" => 1, "tactics" => true, "db" => '&lt;databaseId>'),
-            "help" => 'Example: [chess tactics=true db="2" tpl="1"] to show games from database id 2.'
+            "help" => 'Example: [chess tactics=true db="2" tpl="1"] to show games from database id 2.',
+            'pro' => true
         ),
         array(
             "script" => "WPComp1",
@@ -99,37 +139,10 @@ class DhtmlChessViews
             "desc" => "For playing games against StockfishJS",
             "shortcode" => "chess",
             "attributes" => array("tpl" => 1, "comp" => true),
-            "help" => 'Example: [chess comp=1 theme="wood7"] for computer play using one of the wooden themes.'
+            "help" => 'Example: [chess comp=1 theme="wood7"] for computer play using one of the wooden themes.',
+            'pro' => true
         ),
-        array(
-            "script" => "WPFen",
-            "title" => "[fen] shortcode",
-            "type" => "fen",
-            "desc" => "Display a FEN position using on of the game templates",
-            "shortcode" => "fen",
-            "help" => "Insert fen string between the tags.",
-            'enclosing' => '&lt;fen string>'
-        ),
-        array(
-            "script" => "WPFen",
-            "title" => "[pgn] short code",
-            "type" => "pgn",
-            "desc" => "PGN text template",
-            "shortcode" => "pgn",
-            "attributes" => array("tpl" => '&lt;game template>'),
-            "help" => "Insert pgn of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
-            'enclosing' => '&lt;pgn string>'
-        ),
-        array(
-            "script" => "WPFen",
-            "title" => "[pgn] short code with tactics",
-            "type" => "pgn",
-            "desc" => "One game tactics board from [pgn] shortcode",
-            "shortcode" => "pgn",
-            "attributes" => array("tactics" => '1', "theme" => "&lt;optional theme>"),
-            "help" => "Insert pgn of one game between the tags. <br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
-            'enclosing' => '&lt;pgn string>'
-        ),
+
         array(
             "script" => "WPStandings1",
             "title" => "Standings Grid",
@@ -137,7 +150,8 @@ class DhtmlChessViews
             "desc" => "Displays standings grid for a database",
             "shortcode" => "chess",
             "attributes" => array("leaderboard" => 1, "tpl" => 1),
-            "help" => 'Example: [chess leaderboard=1 tpl="1"]'
+            "help" => 'Example: [chess leaderboard=1 tpl="1"]',
+            'pro' => true
         ),
         array(
             "script" => "WPStandings2",
@@ -146,7 +160,8 @@ class DhtmlChessViews
             "desc" => "Displays standings for a database as a plain HTML table",
             "shortcode" => "chess",
             "attributes" => array("leaderboard" => 1, "tpl" => 2),
-            "help" => 'Example: [chess leaderboard=1 tpl="2"]'
+            "help" => 'Example: [chess leaderboard=1 tpl="2"]',
+            'pro' => true
         ),
 
 

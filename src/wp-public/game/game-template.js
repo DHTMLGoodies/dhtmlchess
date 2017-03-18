@@ -1,9 +1,12 @@
 window.chess.isWordPress = true;
 chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
+
+
     initialize:function(config){
         this.parent(config);
         this.model = config.model || undefined;
+
         this.gameId = config.gameId;
         if(!this.model && !this.gameId)this.gameId = 2;
     },
