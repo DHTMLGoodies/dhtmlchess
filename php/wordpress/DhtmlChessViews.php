@@ -305,13 +305,10 @@ class DhtmlChessViews
 
         $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
 
-
         if($tag == "chess" && isset($attributes["leaderboard"]) && !empty($attributes["db"])){
-
             if($attributes["tpl"] == 1){
                 $view->setScript("WPStandings1");
             }
-
         }
         elseif ($tag == "pgn") {
             $content = $this->sanitizePgn($content);

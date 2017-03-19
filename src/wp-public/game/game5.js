@@ -223,7 +223,8 @@ chess.WPGame5 = new Class({
                     ]
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
 
         ];
@@ -292,7 +293,8 @@ chess.WPGame5 = new Class({
 
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
         ]
 

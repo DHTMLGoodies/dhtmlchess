@@ -1,0 +1,22 @@
+{
+  "name" : "WordPressChess Free",
+  "slug" : "wordpresschess_free",
+  "homepage" : "https://www.wordpresschess.com",
+  "download_url" : "http://dhtmlchess.com/api/zip/wordpresschess_free.zip",
+  "version" : "1.0.55",
+  "author" : "wordpresschess.com",
+  "sections" : {
+    "description" : "An online chess database with beautiful layout for your WordPress site.<br>* Lots of templates to choose from<br>* Choose between simple game views, tournament views and tactics.<br>* Have your games stored in a database<br>* Import your PGN files with the click of a button<br>* Analyse your games online using StockfishJS embedded in the browser(No installation required).",
+    "screenshots": "1. Online Game Editor.\r<br>2. Many board templates",
+    "changelog" : "1.0.55<br>* Renamed to wordpresschess. <br>1.0.53<br/>*New Database template(tpl=3). <br />* Support for green theme.<br />1.0.52<br/><br/>*Support for standings table/grid<br>*Support for finding pinned pieces.<br>* fixed problem with previous puzzles in tactics when random is turned on"
+  },
+  "banners" : {
+    "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-772x250.png",
+    "high" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-1544x500.png"
+  },
+  "last_updated" : "2017-03-14 14:00:00",
+  "icons" : {
+    "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/icon-128x128.png",
+    "high" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/icon-256x256.png"
+  }
+}

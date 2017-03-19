@@ -9,7 +9,7 @@ chess.WPFen = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w);
+        this.renderTo.css('height', w + this.wpm_h);
         this.fen = config.fen;
         this.boardId = 'board' + String.uniqueID();
 
@@ -30,15 +30,20 @@ chess.WPFen = new Class({
             cls: this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
-                type: 'fill'
+                type: 'linear',orientation:'vertical'
             },
             children: [
                 {
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
-                    layout: {width: 'matchParent', 'height': 'matchParent'}
+                    layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
+
             ]
         });
 

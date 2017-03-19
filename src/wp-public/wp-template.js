@@ -11,7 +11,8 @@ chess.WPTemplate = new Class({
     wpm_h: 20,
     nav: true,
     sound: false,
-    boardId:undefined,
+    boardId: undefined,
+    _p: false,
 
     initialize: function (config) {
 
@@ -19,12 +20,15 @@ chess.WPTemplate = new Class({
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
 
+        if (config._p != undefined) this._p = config._p;
+        if (this._p) this.wpm_h = 0;
+
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if (config.sound != undefined)this.sound = config.sound;
-        if (config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
+        if (config.sound != undefined) this.sound = config.sound;
+        if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
@@ -86,7 +90,7 @@ chess.WPTemplate = new Class({
 
     onload: function () {
         this._loadCounter++;
-        if (!this._ready && this._loadCounter == 2)this.render();
+        if (!this._ready && this._loadCounter == 2) this.render();
         this._ready = this._loadCounter == 2;
 
     },

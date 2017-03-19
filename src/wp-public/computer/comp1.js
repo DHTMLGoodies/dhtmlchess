@@ -206,7 +206,8 @@ chess.WPComp1 = new Class({
                     }
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });

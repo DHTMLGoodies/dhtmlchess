@@ -1,4 +1,4 @@
-/* Generated Sat Mar 18 17:24:01 CET 2017 */
+/* Generated Sun Mar 19 19:30:23 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34115,7 +34115,8 @@ chess.WPTemplate = new Class({
     wpm_h: 20,
     nav: true,
     sound: false,
-    boardId:undefined,
+    boardId: undefined,
+    _p: false,
 
     initialize: function (config) {
 
@@ -34123,12 +34124,15 @@ chess.WPTemplate = new Class({
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
 
+        if (config._p != undefined) this._p = config._p;
+        if (this._p) this.wpm_h = 0;
+
         this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if (config.sound != undefined)this.sound = config.sound;
-        if (config.heading_tpl != undefined)this.heading_tpl = config.heading_tpl;
+        if (config.sound != undefined) this.sound = config.sound;
+        if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
@@ -34190,7 +34194,7 @@ chess.WPTemplate = new Class({
 
     onload: function () {
         this._loadCounter++;
-        if (!this._ready && this._loadCounter == 2)this.render();
+        if (!this._ready && this._loadCounter == 2) this.render();
         this._ready = this._loadCounter == 2;
 
     },
@@ -34531,7 +34535,8 @@ chess.WPGame1 = new Class({
                 ]
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
         ];
     }
@@ -34622,7 +34627,8 @@ chess.WPGame2 = new Class({
 
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });
@@ -34857,7 +34863,8 @@ chess.WPGame3 = new Class({
                 ]
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
         ];
     }
@@ -35011,7 +35018,8 @@ chess.WPGame4 = new Class({
                         ]
                 },
                 {
-                    type: 'chess.WPComMessage'
+                    type: 'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });
@@ -35244,7 +35252,8 @@ chess.WPGame5 = new Class({
                     ]
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
 
         ];
@@ -35313,7 +35322,8 @@ chess.WPGame5 = new Class({
 
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden:this._p
             }
         ]
 
@@ -35514,7 +35524,8 @@ chess.WPViewer1 = new Class({
                         }
                     },
                     {
-                        type:'chess.WPComMessage'
+                        type:'chess.WPComMessage',
+                        hidden:this._p
                     }
 
                 ]
@@ -35871,7 +35882,8 @@ chess.WPViewer2 = new Class({
 
             },
             {
-                type:'chess.WPComMessage'
+                type:'chess.WPComMessage',
+                hidden:this._p
             }
 
 
@@ -36233,7 +36245,8 @@ chess.WPViewer3 = new Class({
                         }
                     },
                     {
-                        type:'chess.WPComMessage'
+                        type:'chess.WPComMessage',
+                        hidden:this._p
                     }
 
                 ]
@@ -36365,7 +36378,7 @@ chess.WPFen = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w);
+        this.renderTo.css('height', w + this.wpm_h);
         this.fen = config.fen;
         this.boardId = 'board' + String.uniqueID();
 
@@ -36386,15 +36399,20 @@ chess.WPFen = new Class({
             cls: this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
-                type: 'fill'
+                type: 'linear',orientation:'vertical'
             },
             children: [
                 {
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
-                    layout: {width: 'matchParent', 'height': 'matchParent'}
+                    layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
+
             ]
         });
 
@@ -36644,7 +36662,8 @@ chess.WPComp1 = new Class({
                     }
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });
@@ -36841,7 +36860,8 @@ chess.WPPinned = new Class({
                             ]
                         },
                         {
-                            type: 'chess.WPComMessage'
+                            type: 'chess.WPComMessage',
+                            hidden:this._p
                         }
                     ]
                 }
