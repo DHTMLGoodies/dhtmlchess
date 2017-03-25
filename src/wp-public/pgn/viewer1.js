@@ -49,6 +49,9 @@ chess.WPViewer1 = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
         this.showLabels = !ludo.isMobile;
         if (this.canRender()) {
             this.render();
@@ -140,12 +143,36 @@ chess.WPViewer1 = new Class({
                         ]
                     },
                     {
-                        type: 'chess.view.buttonbar.Bar',
-                        layout: {
+                        layout:{
                             height: 40,
-                            width: this.boardSize
+                            width:this.boardSize,
+                            type:'linear', orientation:'horizontal'
                         },
-                        module: this.module
+                        children:[
+                            {
+                                anchor:[0.5,1],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: this.buttons,
+                                module: this.module,
+                                layout: {
+                                    height: 'matchParent',
+                                    width:(this.boardSize - 40)
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            },
+                            {
+                                module:this.module,
+                                type: 'chess.view.board.SideToMove',
+                                layout: {
+                                    width: 40,
+                                    height:'matchParent'
+                                },
+                                hidden:true
+                            }
+
+                        ]
                     },
                     {
                         title: this.pgn.name,

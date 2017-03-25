@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 2:32:28 CET 2017 */
+/* Generated Sat Mar 25 22:32:02 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27793,6 +27793,7 @@ chess.WPTemplate = new Class({
     },
 
     onGameOver:function(result, playerColor){
+
         if(this.game_over_div == undefined){
             var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
                 '<div class="dhtml_chess_overlay"></div>' +

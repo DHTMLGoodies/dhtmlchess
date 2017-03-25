@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 2:32:38 CET 2017 */
+/* Generated Sat Mar 25 22:32:10 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30687,7 +30687,7 @@ chess.controller.PlayStockFishController = new Class({
                             score = (score / 100.0).toFixed(2);
                         } else if (match[1] == 'mate') {
                             ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
-                            score = '#' + match[2];
+                            score = '#' + Math.abs(parseInt(ret.mate));
                         }
 
                         ret.score = score;
@@ -30848,7 +30848,6 @@ chess.controller.PlayStockFishController = new Class({
 
             if (model.getResult() != 0) {
                 var result = model.getResult();
-
                 this.onGameOver(result);
                 return;
             }
@@ -30919,7 +30918,7 @@ chess.controller.ComputerController = new Class({
 
     receiveEngineUpdate: function (e) {
         var m = this.currentModel.getCurrentMove();
-        if (m) {
+        if (m && e.scoreLiteral != '#0') {
             this.currentModel.setCommentAfter(e.scoreLiteral, m);
         }
     },
@@ -30982,13 +30981,14 @@ chess.controller.ComputerController = new Class({
 
         if (this.engineGameModel == undefined) {
             this.engineGameModel = this.getNewModel();
-
         }
 
         this.currentModel = this.engineGameModel;
         this.history = [];
         this.startFen = this.gameModel.fen();
         this.engineGameModel.setPosition(this.startFen);
+        this.engineGameModel.setMetadata(this.gameModel.getMetadata());
+        this.engineGameModel.setMetadataValue('result', '*');
 
         var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
         this.engineGameModel.setGameComment(txt);
@@ -34239,6 +34239,7 @@ chess.WPTemplate = new Class({
     },
 
     onGameOver:function(result, playerColor){
+
         if(this.game_over_div == undefined){
             var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
                 '<div class="dhtml_chess_overlay"></div>' +
@@ -35565,13 +35566,17 @@ chess.WPViewer1 = new Class({
             this.boardSize = w - 150;
             r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
         }
-
+        this.lastButtons = ['next','end'];
+        this.adjustButtonArray(this.lastButtons);
 
         this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
+
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.showLabels = !ludo.isMobile;
         if (this.canRender()) {
@@ -35664,12 +35669,36 @@ chess.WPViewer1 = new Class({
                         ]
                     },
                     {
-                        type: 'chess.view.buttonbar.Bar',
-                        layout: {
+                        layout:{
                             height: 40,
-                            width: this.boardSize
+                            width:this.boardSize,
+                            type:'linear', orientation:'horizontal'
                         },
-                        module: this.module
+                        children:[
+                            {
+                                anchor:[0.5,1],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: this.buttons,
+                                module: this.module,
+                                layout: {
+                                    height: 'matchParent',
+                                    width:(this.boardSize - 40)
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            },
+                            {
+                                module:this.module,
+                                type: 'chess.view.board.SideToMove',
+                                layout: {
+                                    width: 40,
+                                    height:'matchParent'
+                                },
+                                hidden:true
+                            }
+
+                        ]
                     },
                     {
                         title: this.pgn.name,
@@ -35776,10 +35805,10 @@ chess.WPViewer1 = new Class({
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
                                     height: 40,
-                                    width: 90
+                                    width: 45 * this.lastButtons.length
                                 },
                                 module: this.module,
-                                buttons:['next','end'],
+                                buttons:this.lastButtons,
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
@@ -35876,6 +35905,10 @@ chess.WPViewer2 = new Class({
         if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
 
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
+
         this.gameListDsId = 'gamelist' + String.uniqueID();
         this.standingsId = 'standingsId' + String.uniqueID();
         if(this.canRender()){
@@ -35968,15 +36001,36 @@ chess.WPViewer2 = new Class({
                 ]
             },
             {
-                type: 'chess.view.buttonbar.Bar',
-                layout: {
+                layout:{
                     height: 40,
-                    width: this.boardSize
+                    width:this.boardSize,
+                    type:'linear', orientation:'horizontal'
                 },
-                module: this.module,
-                buttonSize: function (ofSize) {
-                    return ofSize * 0.9;
-                }
+                children:[
+                    {
+                        anchor:[0.5,1],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: this.buttons,
+                        module: this.module,
+                        layout: {
+                            height: 'matchParent',
+                            width:(this.boardSize - 40)
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        module:this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: 40,
+                            height:'matchParent'
+                        },
+                        hidden:true
+                    }
+
+                ]
             },
             {
                 height: 300,
@@ -36267,7 +36321,6 @@ chess.WPViewer3 = new Class({
     boardSize: undefined,
 
 
-
     initialize: function (config) {
         this.parent(config);
         this.renderTo = config.renderTo;
@@ -36283,7 +36336,8 @@ chess.WPViewer3 = new Class({
         }
 
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -36300,7 +36354,7 @@ chess.WPViewer3 = new Class({
     render: function () {
 
         new chess.view.Chess({
-            cls:this.th,
+            cls: this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -36371,7 +36425,7 @@ chess.WPViewer3 = new Class({
                                 name: "notation-panel",
                                 type: 'chess.view.notation.Panel',
                                 layout: {
-                                    weight:1
+                                    weight: 1
                                 },
                                 elCss: {
                                     'margin-left': '2px'
@@ -36381,16 +36435,36 @@ chess.WPViewer3 = new Class({
                         ]
                     },
                     {
-                        anchor: [1, 0.5],
-                        type: 'chess.view.buttonbar.Bar',
-                        buttons: this.buttons,
-                        module: this.module,
-                        layout: {
-                            height:40
+                        layout:{
+                        height: 40,
+                            type:'linear', orientation:'horizontal'
                         },
-                        buttonSize: function (ofSize) {
-                            return ofSize * 0.9;
-                        }
+                        children:[
+                            {
+                                module:this.module,
+                                type: 'chess.view.board.SideToMove',
+                                layout: {
+                                    width: 40,
+                                    height:'matchParent'
+                                },
+                                hidden:true
+                            },
+                            {
+                                anchor: [1, 0.5],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: this.buttons,
+                                module: this.module,
+                                layout: {
+                                    height: 'matchParent',
+                                    weight:1
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            }
+
+                        ]
+
                     },
                     {
                         title: this.pgn.name,
@@ -36427,8 +36501,8 @@ chess.WPViewer3 = new Class({
                         }
                     },
                     {
-                        type:'chess.WPComMessage',
-                        hidden:this._p
+                        type: 'chess.WPComMessage',
+                        hidden: this._p
                     }
 
                 ]
@@ -36466,11 +36540,11 @@ chess.WPViewer3 = new Class({
                         ]
                     }, this.board),
                     {
-                        layout:{
-                            height:40,type:'linear',orientation:'horizontal'
+                        layout: {
+                            height: 40, type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
-                            { weight:1 },
+                        children: [
+                            {weight: 1},
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
@@ -36478,19 +36552,19 @@ chess.WPViewer3 = new Class({
                                     width: 90
                                 },
                                 module: this.module,
-                                buttons:['start','previous'],
+                                buttons: ['start', 'previous'],
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                type:'chess.view.notation.LastMove',
+                                type: 'chess.view.notation.LastMove',
                                 module: this.module,
-                                layout:{
-                                    width:70
+                                layout: {
+                                    width: 70
                                 },
-                                css:{
-                                    'padding-top' : 4, 'padding-bottom' : 4, border:'none'
+                                css: {
+                                    'padding-top': 4, 'padding-bottom': 4, border: 'none'
                                 }
                             },
                             {
@@ -36500,13 +36574,13 @@ chess.WPViewer3 = new Class({
                                     width: 90
                                 },
                                 module: this.module,
-                                buttons:['next','end'],
+                                buttons: ['next', 'end'],
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                weight:1
+                                weight: 1
                             }
 
                         ]

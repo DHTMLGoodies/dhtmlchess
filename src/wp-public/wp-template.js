@@ -121,6 +121,7 @@ chess.WPTemplate = new Class({
     },
 
     onGameOver:function(result, playerColor){
+
         if(this.game_over_div == undefined){
             var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
                 '<div class="dhtml_chess_overlay"></div>' +

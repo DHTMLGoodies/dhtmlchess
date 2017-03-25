@@ -387,7 +387,6 @@ chess.controller.PlayStockFishController = new Class({
 
             if (model.getResult() != 0) {
                 var result = model.getResult();
-
                 this.onGameOver(result);
                 return;
             }

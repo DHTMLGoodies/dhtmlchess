@@ -46,6 +46,10 @@ chess.WPViewer2 = new Class({
         if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
 
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
+
         this.gameListDsId = 'gamelist' + String.uniqueID();
         this.standingsId = 'standingsId' + String.uniqueID();
         if(this.canRender()){
@@ -138,15 +142,36 @@ chess.WPViewer2 = new Class({
                 ]
             },
             {
-                type: 'chess.view.buttonbar.Bar',
-                layout: {
+                layout:{
                     height: 40,
-                    width: this.boardSize
+                    width:this.boardSize,
+                    type:'linear', orientation:'horizontal'
                 },
-                module: this.module,
-                buttonSize: function (ofSize) {
-                    return ofSize * 0.9;
-                }
+                children:[
+                    {
+                        anchor:[0.5,1],
+                        type: 'chess.view.buttonbar.Bar',
+                        buttons: this.buttons,
+                        module: this.module,
+                        layout: {
+                            height: 'matchParent',
+                            width:(this.boardSize - 40)
+                        },
+                        buttonSize: function (ofSize) {
+                            return ofSize * 0.9;
+                        }
+                    },
+                    {
+                        module:this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: 40,
+                            height:'matchParent'
+                        },
+                        hidden:true
+                    }
+
+                ]
             },
             {
                 height: 300,
