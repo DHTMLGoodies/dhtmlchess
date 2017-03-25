@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 22:32:10 CET 2017 */
+/* Generated Sat Mar 25 22:42:40 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30587,7 +30587,7 @@ chess.controller.PlayStockFishController = new Class({
         this.runGameStartCommands();
 
 
-        this.prepareBoard();
+        this.prepareBoard(timeControl);
 
         this.prepareMove();
     },
@@ -30603,7 +30603,7 @@ chess.controller.PlayStockFishController = new Class({
         this.uciCmd('ucinewgame');
     },
 
-    prepareBoard: function () {
+    prepareBoard: function (timeControl) {
         if (timeControl.color == 'white') {
             this.views.board.flipToWhite();
             this.views.clockTop.setColor('black');

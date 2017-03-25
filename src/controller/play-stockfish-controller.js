@@ -126,7 +126,7 @@ chess.controller.PlayStockFishController = new Class({
         this.runGameStartCommands();
 
 
-        this.prepareBoard();
+        this.prepareBoard(timeControl);
 
         this.prepareMove();
     },
@@ -142,7 +142,7 @@ chess.controller.PlayStockFishController = new Class({
         this.uciCmd('ucinewgame');
     },
 
-    prepareBoard: function () {
+    prepareBoard: function (timeControl) {
         if (timeControl.color == 'white') {
             this.views.board.flipToWhite();
             this.views.clockTop.setColor('black');
