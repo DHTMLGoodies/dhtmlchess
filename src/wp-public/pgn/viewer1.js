@@ -40,7 +40,8 @@ chess.WPViewer1 = new Class({
             this.boardSize = w - 150;
             r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
         }
-
+        this.lastButtons = ['next','end'];
+        this.adjustButtonArray(this.lastButtons);
 
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -251,10 +252,10 @@ chess.WPViewer1 = new Class({
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
                                     height: 40,
-                                    width: 90
+                                    width: 45 * this.lastButtons.length
                                 },
                                 module: this.module,
-                                buttons:['next','end'],
+                                buttons:this.lastButtons,
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }

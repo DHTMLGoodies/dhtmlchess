@@ -28,7 +28,6 @@ chess.WPViewer3 = new Class({
     boardSize: undefined,
 
 
-
     initialize: function (config) {
         this.parent(config);
         this.renderTo = config.renderTo;
@@ -44,7 +43,8 @@ chess.WPViewer3 = new Class({
         }
 
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.pgn = config.pgn;
         this.board = config.board || {};
@@ -61,7 +61,7 @@ chess.WPViewer3 = new Class({
     render: function () {
 
         new chess.view.Chess({
-            cls:this.th,
+            cls: this.th,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -132,7 +132,7 @@ chess.WPViewer3 = new Class({
                                 name: "notation-panel",
                                 type: 'chess.view.notation.Panel',
                                 layout: {
-                                    weight:1
+                                    weight: 1
                                 },
                                 elCss: {
                                     'margin-left': '2px'
@@ -142,16 +142,36 @@ chess.WPViewer3 = new Class({
                         ]
                     },
                     {
-                        anchor: [1, 0.5],
-                        type: 'chess.view.buttonbar.Bar',
-                        buttons: this.buttons,
-                        module: this.module,
-                        layout: {
-                            height:40
+                        layout:{
+                        height: 40,
+                            type:'linear', orientation:'horizontal'
                         },
-                        buttonSize: function (ofSize) {
-                            return ofSize * 0.9;
-                        }
+                        children:[
+                            {
+                                module:this.module,
+                                type: 'chess.view.board.SideToMove',
+                                layout: {
+                                    width: 40,
+                                    height:'matchParent'
+                                },
+                                hidden:true
+                            },
+                            {
+                                anchor: [1, 0.5],
+                                type: 'chess.view.buttonbar.Bar',
+                                buttons: this.buttons,
+                                module: this.module,
+                                layout: {
+                                    height: 'matchParent',
+                                    weight:1
+                                },
+                                buttonSize: function (ofSize) {
+                                    return ofSize * 0.9;
+                                }
+                            }
+
+                        ]
+
                     },
                     {
                         title: this.pgn.name,
@@ -188,8 +208,8 @@ chess.WPViewer3 = new Class({
                         }
                     },
                     {
-                        type:'chess.WPComMessage',
-                        hidden:this._p
+                        type: 'chess.WPComMessage',
+                        hidden: this._p
                     }
 
                 ]
@@ -227,11 +247,11 @@ chess.WPViewer3 = new Class({
                         ]
                     }, this.board),
                     {
-                        layout:{
-                            height:40,type:'linear',orientation:'horizontal'
+                        layout: {
+                            height: 40, type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
-                            { weight:1 },
+                        children: [
+                            {weight: 1},
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
@@ -239,19 +259,19 @@ chess.WPViewer3 = new Class({
                                     width: 90
                                 },
                                 module: this.module,
-                                buttons:['start','previous'],
+                                buttons: ['start', 'previous'],
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                type:'chess.view.notation.LastMove',
+                                type: 'chess.view.notation.LastMove',
                                 module: this.module,
-                                layout:{
-                                    width:70
+                                layout: {
+                                    width: 70
                                 },
-                                css:{
-                                    'padding-top' : 4, 'padding-bottom' : 4, border:'none'
+                                css: {
+                                    'padding-top': 4, 'padding-bottom': 4, border: 'none'
                                 }
                             },
                             {
@@ -261,13 +281,13 @@ chess.WPViewer3 = new Class({
                                     width: 90
                                 },
                                 module: this.module,
-                                buttons:['next','end'],
+                                buttons: ['next', 'end'],
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                weight:1
+                                weight: 1
                             }
 
                         ]

@@ -187,7 +187,7 @@ class DhtmlChessViews
 
     public static function countDbTemplates()
     {
-        return 2;
+        return 3;
     }
 
     public static function getAllAttributes()
@@ -337,7 +337,7 @@ class DhtmlChessViews
             if (isset($attributes["tactics"])) {
                 $view->setScript("WPTacticsGame1");
             } else {
-                $tpl = min($tpl, 6);
+                $tpl = min($tpl, self::countGameTemplates());
                 $view->setScript("WPGame" . $tpl);
 
             }
@@ -351,12 +351,12 @@ class DhtmlChessViews
             } elseif (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");
             } elseif (isset($attributes["game"])) {
-                $tpl = min($tpl, 5);
+                $tpl = min($tpl, self::countGameTemplates());
                 $view->setScript("WPGame" . $tpl);
             } elseif (isset($attributes["tactics"])) {
                 $view->setScript("WPTactics1");
             } elseif (isset($attributes["pgn"]) || isset($attributes["db"])) {
-                $tpl = min($tpl, 3);
+                $tpl = min($tpl, self::countDbTemplates());
                 $view->setScript("WPViewer" . $tpl);
             }
         }

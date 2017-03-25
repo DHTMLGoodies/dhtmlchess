@@ -226,7 +226,7 @@ chess.controller.PlayStockFishController = new Class({
                             score = (score / 100.0).toFixed(2);
                         } else if (match[1] == 'mate') {
                             ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
-                            score = '#' + match[2];
+                            score = '#' + Math.abs(parseInt(ret.mate));
                         }
 
                         ret.score = score;

@@ -17,7 +17,7 @@ chess.controller.ComputerController = new Class({
 
     receiveEngineUpdate: function (e) {
         var m = this.currentModel.getCurrentMove();
-        if (m) {
+        if (m && e.scoreLiteral != '#0') {
             this.currentModel.setCommentAfter(e.scoreLiteral, m);
         }
     },
@@ -80,13 +80,13 @@ chess.controller.ComputerController = new Class({
 
         if (this.engineGameModel == undefined) {
             this.engineGameModel = this.getNewModel();
-
         }
 
         this.currentModel = this.engineGameModel;
         this.history = [];
         this.startFen = this.gameModel.fen();
         this.engineGameModel.setPosition(this.startFen);
+        this.engineGameModel.setMetadata(this.gameModel.getMetadata());
 
         var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
         this.engineGameModel.setGameComment(txt);
