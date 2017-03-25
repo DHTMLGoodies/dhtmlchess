@@ -318,7 +318,7 @@ chess.computer.GameDialog = new Class({
     title: chess.__('New Game'),
     elo: undefined,
     color: undefined,
-    modal:false,
+    modal: false,
 
     __construct: function (config) {
         this.parent(config);
@@ -517,11 +517,15 @@ chess.computer.ComputerStatusDialog = new Class({
     module: 'chess',
     modal: true,
     submodule: 'chess.computer.computerstatusdialog',
-    title: 'Loading Stockfish JS',
     updateFn: undefined,
     layout: {
         type: 'relative',
         width: 300, height: 100
+    },
+    __construct: function (config) {
+        config.title = config.html = chess.__("Loading Stockfish JS");
+        this.parent(config);
+
     },
     __children: function () {
         return [
@@ -626,7 +630,7 @@ chess.computer.GameOverDialog = new Class({
 
         var title = myResult == 1 ? chess.__('You Won')
             : myResult == 0 ? chess.__('Game Drawn')
-            : chess.__('You lost');
+                : chess.__('You lost');
 
         this.setTitle(title);
 

@@ -232,6 +232,7 @@ chess.WPTactics1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             pgn: this.pgn.id,
+            sound:this.sound,
             autoMoveDelay: 400,
             gameEndHandler: this.nextGame.bind(this),
             listeners: {

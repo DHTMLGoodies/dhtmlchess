@@ -45,12 +45,11 @@ chess.WPTacticsGame1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             autoMoveDelay: 400,
+            sound:this.sound,
             noDialogs:true,
             gameEndHandler: this.onGameEnd.bind(this)
         });
         this.controller.currentModel.populate(this.model);
-
-        
     },
     
     onGameEnd:function(){

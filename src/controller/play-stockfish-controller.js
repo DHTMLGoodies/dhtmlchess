@@ -15,17 +15,23 @@ chess.controller.PlayStockFishController = new Class({
     stockfishElo: undefined,
     gameType: undefined,
     turn: undefined,
-    isPlaying:false,
+    isPlaying: false,
+    clockAndElo: true,
+
+    startFen: undefined,
+    autoFlip: true,
 
     __construct: function (config) {
-        if (config.playerColor != undefined)this.playerColor = config.playerColor;
-        if (config.stockfish != undefined)this.stockfish = config.stockfish;
+        if (config.playerColor != undefined) this.playerColor = config.playerColor;
+        if (config.stockfish != undefined) this.stockfish = config.stockfish;
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
         }
-        this.elo = new chess.computer.Elo();
-        this.clock = new chess.computer.Clock();
-        this.clock.on('end', this.onTimesUp.bind(this));
+        if (this.clockAndElo) {
+            this.elo = new chess.computer.Elo();
+            this.clock = new chess.computer.Clock();
+            this.clock.on('end', this.onTimesUp.bind(this));
+        }
 
         this.parent(config);
         this.history = [];
@@ -108,7 +114,6 @@ chess.controller.PlayStockFishController = new Class({
         this.clock.setTime(timeControl.time * 60, timeControl.inc);
         this.clock.start();
 
-
         this.currentModel.newGame();
 
         this.gameType = this.elo.getGameType(timeControl.time * 60, timeControl.inc);
@@ -117,8 +122,16 @@ chess.controller.PlayStockFishController = new Class({
 
 
         this.isPlaying = true;
-        console.log('stockfish', this.getSkillLevel());
 
+        this.runGameStartCommands();
+
+
+        this.prepareBoard();
+
+        this.prepareMove();
+    },
+
+    runGameStartCommands: function () {
         this.uciCmd('setoption name Mobility (Middle Game) value 150');
         this.uciCmd('setoption name Mobility (Endgame) value 150');
         this.uciCmd('setoption name Contempt Factor value 0');
@@ -127,11 +140,11 @@ chess.controller.PlayStockFishController = new Class({
         this.uciCmd('setoption name Skill Level value ' + this.getSkillLevel());
 
         this.uciCmd('ucinewgame');
+    },
 
-
+    prepareBoard: function () {
         if (timeControl.color == 'white') {
             this.views.board.flipToWhite();
-
             this.views.clockTop.setColor('black');
             this.views.clockBottom.setColor('white');
 
@@ -140,16 +153,22 @@ chess.controller.PlayStockFishController = new Class({
             this.views.clockTop.setColor('white');
             this.views.clockBottom.setColor('black');
         }
-        this.prepareMove();
     },
 
     promotion: function (promoteTo) {
 
     },
 
+    engineLoaded: function () {
+        return this.engineStatus.engineLoaded ? true : false;
+    },
+
     createEngine: function () {
+
         try {
             var that = this;
+
+            this.fireEvent('createngine');
 
             this.engine = new Worker(this.stockfish);
 
@@ -180,10 +199,10 @@ chess.controller.PlayStockFishController = new Class({
                 } else if (line == 'readyok') {
                     that.engineStatus.engineReady = true;
                 } else {
-
                     var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
                     if (match) {
-                        var m = match[1] + match[2] + (match[3] != undefined ? match[3] : '');
+
+
                         if (that.turn != that.playerColor) {
                             that.currentModel.move({from: match[1], to: match[2], promoteTo: match[3]});
                         }
@@ -211,6 +230,7 @@ chess.controller.PlayStockFishController = new Class({
                         }
 
                         ret.score = score;
+                        ret.scoreLiteral = !isNaN(score) && score > 0 ? '+' + score : score;
 
                         that.fireEvent('engineupdate', ret);
                     }
@@ -223,6 +243,7 @@ chess.controller.PlayStockFishController = new Class({
 
 
         } catch (error) {
+            console.error(error);
             this.backgroundEngineValid = false;
         }
     },
@@ -248,12 +269,12 @@ chess.controller.PlayStockFishController = new Class({
         var c = this.currentModel.turn();
 
         if (c != this.playerColor) {
-            if (this.history == undefined)this.history = [];
-            this.uciCmd('position startpos moves ' + this.history.join(' '));
+            if (this.history == undefined) this.history = [];
+            var cmd = this.startFen ? 'position fen ' + this.startFen : 'position startpos';
+            this.uciCmd(cmd + ' moves ' + this.history.join(' '));
             if (this.playingStrength <= 1200) {
                 this.uciCmd('go depth ' + this.strengthToDepth());
             } else {
-
                 this.uciCmd('go wtime ' + this.getWTime() + ' winc ' + this.getInc('white') + ' btime ' + this.getBTime() + ' binc ' + this.getInc('black'));
 
             }
@@ -281,12 +302,11 @@ chess.controller.PlayStockFishController = new Class({
         if (s <= 1700)return 7000;
         if (s <= 1800)return 9000;
         if (s <= 1900)return 12000;
-
         return 20000;
     },
 
     getInc: function (color) {
-        if (this.playerColor == color)return this.clock.inc();
+        if (this.clock && this.playerColor == color)return this.clock.inc();
         return 0;
     },
 
@@ -301,7 +321,7 @@ chess.controller.PlayStockFishController = new Class({
                 break;
             }
         }
-        if (d == undefined)d = 20;
+        if (d == undefined) d = 20;
 
 
         return d;
@@ -335,25 +355,27 @@ chess.controller.PlayStockFishController = new Class({
 
     modelEventFired: function (event, model, move) {
         if (event === 'newMove' || event == 'newGame') {
+
             if (event == 'newGame') {
-                if (this.playerColor == 'white') {
-                    this.views.board.flipToWhite();
-                } else {
-                    this.views.board.flipToBlack();
+                if (this.autoFlip) {
+                    if (this.playerColor == 'white') {
+                        this.views.board.flipToWhite();
+                    } else {
+                        this.views.board.flipToBlack();
+                    }
                 }
                 if (this.engine == undefined) {
                     this.createEngine();
                 }
             }
 
-
             var colorToMove = model.turn();
             if (event == 'newMove') {
-                this.clock.tap();
+                if (this.clock) this.clock.tap();
 
                 this.turn = this.turn == 'white' ? 'black' : 'white';
 
-                if (this.history == undefined)this.history = [];
+                if (this.history == undefined) this.history = [];
                 this.history.push(move.from + move.to + (move.promoteTo ? move.promoteTo : ''));
 
                 this.start();
@@ -383,8 +405,9 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     onGameOver: function (result) {
-
-        if(!this.isPlaying)return;
+        console.log(result);
+        if (!this.isPlaying)return;
+        this.views.board.disableDragAndDrop();
 
         this.elo.saveResult(result, this.stockfishElo, this.gameType, this.playerColor);
 
@@ -398,7 +421,6 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     fireGameOverEvent: function (myResult, strength, newElo) {
-
         this.fireEvent("gameover", [myResult, strength, newElo]);
     },
 
@@ -414,8 +436,6 @@ chess.controller.PlayStockFishController = new Class({
 
     resign: function () {
         this.onGameOver(this.playerColor == 'white' ? -1 : 1);
-
     }
-
 
 });

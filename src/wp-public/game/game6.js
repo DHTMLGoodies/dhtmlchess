@@ -1,4 +1,5 @@
 window.chess.isWordPress = true;
+/** Game model designed for [fen] */
 chess.WPGame6 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize: undefined,
@@ -6,234 +7,94 @@ chess.WPGame6 = new Class({
 
     boardWeight: 1,
     notationWeight: 1,
+    buttonHeight:35,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        if (ludo.isMobile) {
-            this.notationWeight = 0;
-        }
-        this.boardSize = (w / (this.boardWeight + this.notationWeight));
-        this.renderTo.css('height', this.boardSize + this.buttonSize + 100 + this.wpm_h);
-        this.renderTo.css('position', 'relative');
+        var eh = this.comp ? this.buttonHeight : 0;
+        this.renderTo.css('height', w + eh + this.wpm_h);
+        this.fen = config.fen;
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
-        this.configure();
+        if (config.highlight != undefined) {
+            this.highlight = config.highlight;
+        }
+        if (config.arrows != undefined) {
+            this.arrows = config.arrows;
+        }
+
         if(this.canRender()){
             this.render();
         }
     },
 
-    configure: function () {
-        this.board = Object.merge({
-            boardLayout: undefined,
-            vAlign: top,
-            id: this.boardId,
-            type: 'chess.view.board.Board',
-            module: this.module,
-            overflow: 'hidden',
-            pieceLayout: 'svg_bw',
-            background: {
-                borderRadius: 0
-            },
-            boardCss: {
-                border: 0
-            },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
-            layout: {
-                weight: this.boardWeight,
-                height: 'wrap'
-            },
-            plugins: [
-                Object.merge({
-                    type: 'chess.view.highlight.Arrow'
-                }, this.arrow)
-            ]
-        }, this.board);
-
-        chess.THEME_OVERRIDES = {
-
-            'chess.view.board.Board': {
-                background: {
-                    borderRadius: '1%'
-                }
-            },
-            'chess.view.buttonbar.Bar': {
-                borderRadius: '10%',
-                styles: {
-                    button: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    image: {
-                        fill: '#777'
-                    },
-                    buttonOver: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    imageOver: {
-                        fill: '#555'
-                    },
-                    buttonDown: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    imageDown: {
-                        fill: '#444'
-                    },
-                    buttonDisabled: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                        // , 'fill-opacity': 0.3
-                    },
-                    imageDisabled: {
-                        fill: '#555',
-                        'fill-opacity': 0.3
-                    }
-                }
-            }
-
-        };
-    },
-
     render: function () {
         new chess.view.Chess({
+            cls: this.th,
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
             layout: {
-                type: 'linear', orientation: 'vertical',
-                height: 'matchParent',
-                width: 'matchParent'
+                type: 'linear',orientation:'vertical'
             },
-
             children: [
                 {
-                    module: this.module,
-                    type:'chess.view.metadata.Game',
-                    layout:{
-                        height:100,
-                        width:'matchParent'
-                    },
-                    tpl:'<table style="width:100%;border:0">' +
-                    '<thead><colgroup><col style="width:50%;text-align:left"/><col style="width:50%;text-align:right"/></colgroup></thead>'
-                    + '<tbody>' +
-                    '<tr><td style="text-align:left;padding:0;border:0">{white} vs {black}</td><td style="text-align:right;padding:0;border:0">{result}</td></tr>' +
-                    '<tr><td style="text-align:left;padding:0;border:0">{site}, {date}</td><td style="text-align:right;padding:0;border:0"></td></tr>' +
-                    '</tbody></table>'
-
+                    module:this.module,
+                    type: 'chess.view.board.Board',
+                    id: this.boardId,
+                    fen: this.fen,
+                    layout: {width: 'matchParent', weight: 1}
                 },
                 {
-                    layout: {
-                        height: this.boardSize,
-                        type: 'linear',
-                        orientation: 'horizontal'
-                    },
-
-                    children: ludo.isMobile ? [this.board] : [
-
-                        this.board,
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Panel',
-                            layout: {
-                                weight: this.notationWeight,
-                                height: 'matchParent'
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
-                    ]
-                },
-
-                {
-                    layout: {
-                        type: 'linear', orientation: 'horizontal',
-                        height: this.buttonSize
-                    },
-                    elCss: {
-                        'margin-top': 10
-                    },
-                    children: ludo.isMobile ? [
-                        {weight: 1},
-                        {
-                            anchor: [0.5, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: ['start', 'previous'],
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize) * 3
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        },
-                        {
-                            type: 'chess.view.notation.LastMove',
-                            module: this.module,
-                            layout: {
-
-                                width: this.buttonSize * 2
-
-                            },
-                            css: {
-                                border: 'none'
-                            }
-                        },
-                        {
-                            anchor: [0.5, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: ['next', 'end'],
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize) * 2
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        },
-                        {weight: 1}
-
-                    ]
-
-                        :
-                        [
-                            {
-                                weight: 1
-                            },
-                            {
-                                anchor: [1, 0.5],
-                                type: 'chess.view.buttonbar.Bar',
-                                buttons: this.buttons,
-                                module: this.module,
-                                layout: {
-                                    width: (this.buttonSize - 10) * 5
-                                },
-                                buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
-                                }
-                            }
-
-                        ]
+                    height:this.buttonHeight,
+                    hidden: !this.compToggle,
+                    module:this.module,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons:['flip','comp']
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
 
             ]
-
-
         });
 
-        this.controller = new chess.controller.Controller({
-            applyTo: [this.module]
-        });
+        if (this.highlight != undefined) {
+            var hPool = new chess.view.highlight.SquarePool({
+                board: ludo.$(this.boardId)
+            });
+            var squares = this.highlight.split(/\,/g);
+            var color = undefined;
+            jQuery.each(squares, function (i, square) {
+                var tokens = square.split(/;/g);
+                if(tokens.length > 0){
+                    color = tokens[1];
+                }
+                hPool.show(tokens[0], color);
+            });
+        }
 
-        this.loadGame();
+        if(this.arrows != undefined){
+            var arrowPool = new chess.view.highlight.ArrowPool({
+                board: ludo.$(this.boardId)
+            });
+
+            var arrows = this.arrows.split(/,/g);
+            var styling;
+            jQuery.each(arrows, function(i, arrow){
+                var tokens = arrow.split(/;/g);
+                if(tokens.length > 1){
+                    if(styling == undefined)styling = {};
+                    styling.fill = styling.stroke = tokens[1];
+                }
+
+                var f = tokens[0].substr(0,2);
+                var t = tokens[0].substr(2,2);
+                arrowPool.show(f,t, styling);
+            });
+
+        }
+
+        this.createController();
 
     }
 

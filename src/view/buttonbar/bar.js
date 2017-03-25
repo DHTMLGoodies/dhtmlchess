@@ -1,7 +1,7 @@
 chess.view.buttonbar.Bar = new Class({
 
     Extends: ludo.View,
-    type:'chess.view.buttonbar.Bar',
+    type: 'chess.view.buttonbar.Bar',
     module: 'chess',
     submodule: 'buttonbar.bar',
 
@@ -27,11 +27,13 @@ chess.view.buttonbar.Bar = new Class({
 
     defaultStyles: undefined,
 
-    overlay:undefined,
+    overlay: undefined,
 
-    anchor:undefined,
+    anchor: undefined,
 
-    pr:undefined,
+    pr: undefined,
+
+    comp: false,
 
     __construct: function (config) {
 
@@ -88,16 +90,15 @@ chess.view.buttonbar.Bar = new Class({
 
 
             imagePlay: {fill: '#C8E6C9'},
+            imageComp: {fill: '#388E3C'},
 
-            overlay : {
-                'fill-opacity' : 0,
+            overlay: {
+                'fill-opacity': 0,
                 'fill': '#000'
             }
         };
 
         this.styles = this.styles || {};
-
-
 
         this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
         this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
@@ -105,16 +106,16 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.buttonDisabled = Object.merge(this.defaultStyles.buttonDisabled, this.styles.buttonDisabled || {});
 
         this.styles.buttonPlay = Object.merge(this.defaultStyles.buttonPlay, this.styles.buttonPlay || {});
-
+        this.styles.buttonComp = Object.merge(this.defaultStyles.button, this.styles.button || {});
 
         this.styles.image = Object.merge(this.defaultStyles.image, this.styles.image || {});
         this.styles.imageOver = Object.merge(this.defaultStyles.imageOver, this.styles.imageOver || {});
         this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
+        this.styles.imageComp = Object.merge(this.defaultStyles.imageComp, this.styles.imageComp || {});
+
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
-
-
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -122,10 +123,10 @@ chess.view.buttonbar.Bar = new Class({
     __rendered: function () {
         this.parent();
 
-        this.$b().css('overflow','hidden');
+        this.$b().css('overflow', 'hidden');
         this.createStylesheets();
 
-        this.$b().on('mousedown', function(){
+        this.$b().on('mousedown', function () {
             return false;
         });
 
@@ -147,7 +148,7 @@ chess.view.buttonbar.Bar = new Class({
         jQuery.each(this.buttons, function (i, btn) {
             if (btn != 'pause') {
                 this.createButton(btn);
-                if (btn != 'flip')this.disableButton(btn);
+                if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
             }
         }.bind(this));
 
@@ -174,6 +175,7 @@ chess.view.buttonbar.Bar = new Class({
         g.attr('data-name', name);
 
         g.attr('aria-label', name);
+        g.attr('title', name);
         g.css('cursor', 'pointer');
         g.set('x', 0);
         g.set('y', 0);
@@ -197,7 +199,6 @@ chess.view.buttonbar.Bar = new Class({
         this.els.buttonPaths[name] = p;
         p.addClass(this.pr + 'dc-image');
         g.append(p);
-
 
 
         g.on('mouseenter', this.fn('enterButton', name));
@@ -251,24 +252,39 @@ chess.view.buttonbar.Bar = new Class({
     clickButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
-            if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
+            if (btnName == 'play' && this.autoPlayMode) btnName = 'pause';
             this.fireEvent(btnName);
+            if (btnName == 'comp') {
+                this.comp = !this.comp;
+                this.cssButton('comp', 'Comp');
+            }
             return false;
         }
         return false;
     },
 
+    toggleButtonVisibility:function(){
+        var o = this.controller.compMode ? 0 : 1;
+
+        jQuery.each(this.buttons, function(i, name){
+            if(name != 'comp' && name != 'flip')this.els.buttons[name].css({
+                opacity : o
+
+            });
+
+        }.bind(this));
+    },
+
     cssButton: function (name, className) {
 
-        if(this.buttons.indexOf(name) == -1)return;
+        if (this.buttons.indexOf(name) == -1)return;
 
-        if (name == 'play' && this.autoPlayMode)className = 'Play';
+        if (name == 'play' && this.autoPlayMode) className = 'Play';
+        if (name == 'comp' && this.controller.compMode) className = 'Comp';
 
         if (this.isDisabled(name)) {
             className = 'Disabled';
-
         }
-
 
         var r = this.els.buttonRects[name];
         var p = this.els.buttonPaths[name];
@@ -314,7 +330,7 @@ chess.view.buttonbar.Bar = new Class({
         });
     },
 
-    overlayPath:function(c){
+    overlayPath: function (c) {
 
 
         var cy = c.y + (c.height * 0.55);
@@ -325,8 +341,8 @@ chess.view.buttonbar.Bar = new Class({
         var ry = c.height * 0.05;
         return ['M',
             c.x, cy,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, -ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, ry,
             'L', r, b, c.x, b,
             'Z'
         ].join(' ');
@@ -364,6 +380,7 @@ chess.view.buttonbar.Bar = new Class({
             this.els.clipRects[name].setAttributes(props);
             this.els.overlays[name].set('d', overlayPath);
             this.els.buttonPaths[name].set('d', this.getPath(name).join(' '));
+            this.els.buttonRects[name].set('title', 'Testing');
             left += change;
 
         }.bind(this));
@@ -478,6 +495,18 @@ chess.view.buttonbar.Bar = new Class({
 
                 ]);
 
+            case 'comp':
+                return this.toPath([
+                    'M', 1, 1, 'L',
+                    9, 1,
+                    9, 7,
+                    1, 7,
+                    'M', 4, 7,
+                    'L', 6, 7, 6, 8, 4, 8, 4, 7,
+                    'M', 1, 8,
+                    'L', 9, 8, 9, 9, 1, 9, 1, 8
+                ]);
+
             default:
                 return this.toPath(['M', 0, 0, 'L', 10, 0, 10, 10, 0, 10, 'Z'])
 
@@ -501,45 +530,49 @@ chess.view.buttonbar.Bar = new Class({
         this.parent(controller);
 
         this.controller.addEvents({
-            startOfGame : this.startOfGame.bind(this),
-            notStartOfGame : this.notStartOfBranch.bind(this),
-            endOfBranch : this.endOfBranch.bind(this),
-            notEndOfBranch : this.notEndOfBranch.bind(this),
-            startAutoplay : this.startAutoPlay.bind(this),
-            stopAutoplay : this.stopAutoPlay.bind(this),
-            newGame : this.newGame.bind(this)
+            startOfGame: this.startOfGame.bind(this),
+            notStartOfGame: this.notStartOfBranch.bind(this),
+            endOfBranch: this.endOfBranch.bind(this),
+            notEndOfBranch: this.notEndOfBranch.bind(this),
+            startAutoplay: this.startAutoPlay.bind(this),
+            stopAutoplay: this.stopAutoPlay.bind(this),
+            newGame: this.newGame.bind(this),
+            comp : this.toggleButtonVisibility.bind(this)
         });
     },
 
 
     startOfGame: function () {
-        this.disButtons(['start','previous']);
+        if(this.controller.compMode)return;
+        this.disButtons(['start', 'previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enButtons(['start','previous','play']);
+        if(this.controller.compMode)return;
+        this.enButtons(['start', 'previous', 'play']);
     },
     endOfBranch: function () {
-        this.disButtons(['end','next','play'])
+        if(this.controller.compMode)return;
+        this.disButtons(['end', 'next', 'play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
-    disButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    disButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.disableButton(btn);
         }.bind(this))
     },
-    enButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    enButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.enableButton(btn);
         }.bind(this))
     },
 
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enButtons(['end','next']);
+        this.enButtons(['end', 'next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -549,7 +582,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if (this.els.buttonPaths['play']) this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');
@@ -558,7 +591,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        if(!this.hasButton('play'))return;
+        if (!this.hasButton('play'))return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
         if (!this.autoPlayMode)return;
         this.autoPlayMode = false;
@@ -570,7 +603,7 @@ chess.view.buttonbar.Bar = new Class({
 
     },
 
-    hasButton:function(name){
+    hasButton: function (name) {
         return this.buttons.indexOf(name) != -1;
     },
 
@@ -579,7 +612,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     disableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -588,7 +621,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);

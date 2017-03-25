@@ -37,6 +37,9 @@ chess.WPGame3 = new Class({
             ]
         }, this.board);
 
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
+
         if (this.canRender()) {
             this.render();
         }
@@ -54,7 +57,7 @@ chess.WPGame3 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -215,8 +218,8 @@ chess.WPGame3 = new Class({
                     {
                         type: 'chess.view.buttonbar.Bar',
                         module: this.module,
-                        buttons: ['flip'],
-                        width: 42,
+                        buttons: this.lastButtons,
+                        width: 42 * this.lastButtons.length,
                         buttonSize: function (availSize) {
                             return availSize;
                         }

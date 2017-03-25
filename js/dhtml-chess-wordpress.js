@@ -1,3 +1,20 @@
+/* Generated Sat Mar 25 2:32:38 CET 2017 */
+/*
+* Copyright ©2017. dhtmlchess.com. All Rights Reserved.
+* This is a commercial software. See dhtmlchess.com for licensing options.
+*
+* You are free to use/try this software for 30 days without paying any fees.
+*
+* IN NO EVENT SHALL DHTML CHESS BE LIABLE TO ANY PARTY FOR DIRECT, INDIRECT, SPECIAL, INCIDENTAL,
+* OR CONSEQUENTIAL DAMAGES, INCLUDING LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND
+* ITS DOCUMENTATION, EVEN IF DHTML CHESS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*
+* DHTML CHESS SPECIFICALLY DISCLAIMS ANY WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+* THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+* THE SOFTWARE AND ACCOMPANYING DOCUMENTATION, IF ANY, PROVIDED HEREUNDER IS PROVIDED "AS IS".
+* DHTML CHESS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+*
+*/
 /* ../ludojs/src/../mootools/MooTools-Core-1.6.0.js */
 /* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2016 [Valerio Proietti](http://mad4milk.net/).*/
 /*!
@@ -21983,6 +22000,7 @@ chess.view.notation.Panel = new Class({
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
+        c.on('updateNotations', this.showMoves.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -24675,6 +24693,103 @@ chess.view.board.BoardInteraction = new Class({
         return 'abcdefgh'.substr(x,1) + (y);
     }
 
+});/* ../dhtml-chess/src/view/board/side-to-move.js */
+/**
+ * Created by alfmagne1 on 25/03/2017.
+ */
+chess.view.board.SideToMove = new Class({
+    Extends: ludo.View,
+    circleSize: 22,
+    borderSize: undefined,
+    c:0,
+    dir:3,
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['circleSize']);
+
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        controller.on('newGame', this.update.bind(this));
+        controller.on('fen', this.update.bind(this));
+        controller.on('comp', this.updateVisibility.bind(this));
+    },
+
+    updateVisibility: function () {
+        if (this.controller.compMode) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    },
+
+    __rendered: function () {
+        this.parent();
+
+        this.els.outer = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.outer.css({
+            top: 0, left: 0, 'position': 'absolute', width: this.circleSize, height: this.circleSize
+        });
+        this.els.inner = jQuery('<div class="dhtml-chess-side-to-move-inner"></div>');
+        this.els.inner.css({
+            'position': 'absolute','box-sizing' : 'border-box'
+        });
+        this.$b().append(this.els.outer);
+        this.$b().append(this.els.inner);
+
+        this.tick();
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        this.updateSize();
+    },
+
+    show:function(){
+        this.parent();
+        this.update();
+    },
+
+    updateSize:function(){
+        var h = this.$b().height();
+        var o = (h - this.circleSize) / 2;
+        this.els.outer.css('top', o);
+
+        if (this.borderSize == undefined) {
+            this.borderSize = parseInt(this.els.outer.css('border-width'));
+        }
+
+        var is = this.circleSize - (this.borderSize * 2) - 4;
+        this.els.inner.css({
+            width: is, height: is,
+            top: o + this.borderSize + 2,
+            left: this.borderSize + 2
+        });
+    },
+
+    update: function () {
+        if (this.controller && this.els.outer) {
+            var c = this.controller.currentModel.getColorToMove();
+            var pre = 'dhtml-chess-side-to-move-inner-';
+            this.els.inner.removeClass(pre + 'white');
+            this.els.inner.removeClass(pre + 'black');
+            this.els.inner.addClass(pre + c)
+        }
+    },
+
+    tick:function(){
+        this.c+= this.dir;
+        if(this.c > 100){
+            this.c = 99;
+            this.dir *=-1;
+        }else if(this.dir < 0 && this.c <= 50){
+            this.c = 50;
+            this.dir *=-1;
+        }
+        this.els.inner.css('opacity', this.c / 100);
+        this.tick.delay(50, this);
+    }
 });/* ../dhtml-chess/src/view/highlight/base.js */
 chess.view.highlight.Base = new Class({
     Extends: ludo.Core,
@@ -25239,7 +25354,7 @@ chess.view.highlight.SquarePool = new Class({
 chess.view.buttonbar.Bar = new Class({
 
     Extends: ludo.View,
-    type:'chess.view.buttonbar.Bar',
+    type: 'chess.view.buttonbar.Bar',
     module: 'chess',
     submodule: 'buttonbar.bar',
 
@@ -25265,11 +25380,13 @@ chess.view.buttonbar.Bar = new Class({
 
     defaultStyles: undefined,
 
-    overlay:undefined,
+    overlay: undefined,
 
-    anchor:undefined,
+    anchor: undefined,
 
-    pr:undefined,
+    pr: undefined,
+
+    comp: false,
 
     __construct: function (config) {
 
@@ -25326,16 +25443,15 @@ chess.view.buttonbar.Bar = new Class({
 
 
             imagePlay: {fill: '#C8E6C9'},
+            imageComp: {fill: '#388E3C'},
 
-            overlay : {
-                'fill-opacity' : 0,
+            overlay: {
+                'fill-opacity': 0,
                 'fill': '#000'
             }
         };
 
         this.styles = this.styles || {};
-
-
 
         this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
         this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
@@ -25343,16 +25459,16 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.buttonDisabled = Object.merge(this.defaultStyles.buttonDisabled, this.styles.buttonDisabled || {});
 
         this.styles.buttonPlay = Object.merge(this.defaultStyles.buttonPlay, this.styles.buttonPlay || {});
-
+        this.styles.buttonComp = Object.merge(this.defaultStyles.button, this.styles.button || {});
 
         this.styles.image = Object.merge(this.defaultStyles.image, this.styles.image || {});
         this.styles.imageOver = Object.merge(this.defaultStyles.imageOver, this.styles.imageOver || {});
         this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
+        this.styles.imageComp = Object.merge(this.defaultStyles.imageComp, this.styles.imageComp || {});
+
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
-
-
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -25360,10 +25476,10 @@ chess.view.buttonbar.Bar = new Class({
     __rendered: function () {
         this.parent();
 
-        this.$b().css('overflow','hidden');
+        this.$b().css('overflow', 'hidden');
         this.createStylesheets();
 
-        this.$b().on('mousedown', function(){
+        this.$b().on('mousedown', function () {
             return false;
         });
 
@@ -25385,7 +25501,7 @@ chess.view.buttonbar.Bar = new Class({
         jQuery.each(this.buttons, function (i, btn) {
             if (btn != 'pause') {
                 this.createButton(btn);
-                if (btn != 'flip')this.disableButton(btn);
+                if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
             }
         }.bind(this));
 
@@ -25412,6 +25528,7 @@ chess.view.buttonbar.Bar = new Class({
         g.attr('data-name', name);
 
         g.attr('aria-label', name);
+        g.attr('title', name);
         g.css('cursor', 'pointer');
         g.set('x', 0);
         g.set('y', 0);
@@ -25435,7 +25552,6 @@ chess.view.buttonbar.Bar = new Class({
         this.els.buttonPaths[name] = p;
         p.addClass(this.pr + 'dc-image');
         g.append(p);
-
 
 
         g.on('mouseenter', this.fn('enterButton', name));
@@ -25489,24 +25605,39 @@ chess.view.buttonbar.Bar = new Class({
     clickButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
-            if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
+            if (btnName == 'play' && this.autoPlayMode) btnName = 'pause';
             this.fireEvent(btnName);
+            if (btnName == 'comp') {
+                this.comp = !this.comp;
+                this.cssButton('comp', 'Comp');
+            }
             return false;
         }
         return false;
     },
 
+    toggleButtonVisibility:function(){
+        var o = this.controller.compMode ? 0 : 1;
+
+        jQuery.each(this.buttons, function(i, name){
+            if(name != 'comp' && name != 'flip')this.els.buttons[name].css({
+                opacity : o
+
+            });
+
+        }.bind(this));
+    },
+
     cssButton: function (name, className) {
 
-        if(this.buttons.indexOf(name) == -1)return;
+        if (this.buttons.indexOf(name) == -1)return;
 
-        if (name == 'play' && this.autoPlayMode)className = 'Play';
+        if (name == 'play' && this.autoPlayMode) className = 'Play';
+        if (name == 'comp' && this.controller.compMode) className = 'Comp';
 
         if (this.isDisabled(name)) {
             className = 'Disabled';
-
         }
-
 
         var r = this.els.buttonRects[name];
         var p = this.els.buttonPaths[name];
@@ -25552,7 +25683,7 @@ chess.view.buttonbar.Bar = new Class({
         });
     },
 
-    overlayPath:function(c){
+    overlayPath: function (c) {
 
 
         var cy = c.y + (c.height * 0.55);
@@ -25563,8 +25694,8 @@ chess.view.buttonbar.Bar = new Class({
         var ry = c.height * 0.05;
         return ['M',
             c.x, cy,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, -ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, ry,
             'L', r, b, c.x, b,
             'Z'
         ].join(' ');
@@ -25602,6 +25733,7 @@ chess.view.buttonbar.Bar = new Class({
             this.els.clipRects[name].setAttributes(props);
             this.els.overlays[name].set('d', overlayPath);
             this.els.buttonPaths[name].set('d', this.getPath(name).join(' '));
+            this.els.buttonRects[name].set('title', 'Testing');
             left += change;
 
         }.bind(this));
@@ -25716,6 +25848,18 @@ chess.view.buttonbar.Bar = new Class({
 
                 ]);
 
+            case 'comp':
+                return this.toPath([
+                    'M', 1, 1, 'L',
+                    9, 1,
+                    9, 7,
+                    1, 7,
+                    'M', 4, 7,
+                    'L', 6, 7, 6, 8, 4, 8, 4, 7,
+                    'M', 1, 8,
+                    'L', 9, 8, 9, 9, 1, 9, 1, 8
+                ]);
+
             default:
                 return this.toPath(['M', 0, 0, 'L', 10, 0, 10, 10, 0, 10, 'Z'])
 
@@ -25739,45 +25883,49 @@ chess.view.buttonbar.Bar = new Class({
         this.parent(controller);
 
         this.controller.addEvents({
-            startOfGame : this.startOfGame.bind(this),
-            notStartOfGame : this.notStartOfBranch.bind(this),
-            endOfBranch : this.endOfBranch.bind(this),
-            notEndOfBranch : this.notEndOfBranch.bind(this),
-            startAutoplay : this.startAutoPlay.bind(this),
-            stopAutoplay : this.stopAutoPlay.bind(this),
-            newGame : this.newGame.bind(this)
+            startOfGame: this.startOfGame.bind(this),
+            notStartOfGame: this.notStartOfBranch.bind(this),
+            endOfBranch: this.endOfBranch.bind(this),
+            notEndOfBranch: this.notEndOfBranch.bind(this),
+            startAutoplay: this.startAutoPlay.bind(this),
+            stopAutoplay: this.stopAutoPlay.bind(this),
+            newGame: this.newGame.bind(this),
+            comp : this.toggleButtonVisibility.bind(this)
         });
     },
 
 
     startOfGame: function () {
-        this.disButtons(['start','previous']);
+        if(this.controller.compMode)return;
+        this.disButtons(['start', 'previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enButtons(['start','previous','play']);
+        if(this.controller.compMode)return;
+        this.enButtons(['start', 'previous', 'play']);
     },
     endOfBranch: function () {
-        this.disButtons(['end','next','play'])
+        if(this.controller.compMode)return;
+        this.disButtons(['end', 'next', 'play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
-    disButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    disButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.disableButton(btn);
         }.bind(this))
     },
-    enButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    enButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.enableButton(btn);
         }.bind(this))
     },
 
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enButtons(['end','next']);
+        this.enButtons(['end', 'next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -25787,7 +25935,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if (this.els.buttonPaths['play']) this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');
@@ -25796,7 +25944,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        if(!this.hasButton('play'))return;
+        if (!this.hasButton('play'))return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
         if (!this.autoPlayMode)return;
         this.autoPlayMode = false;
@@ -25808,7 +25956,7 @@ chess.view.buttonbar.Bar = new Class({
 
     },
 
-    hasButton:function(name){
+    hasButton: function (name) {
         return this.buttons.indexOf(name) != -1;
     },
 
@@ -25817,7 +25965,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     disableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -25826,7 +25974,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);
@@ -29709,6 +29857,7 @@ chess.controller.Controller = new Class({
                 view.on('next', this.nextMove.bind(this));
                 view.on('pause', this.pauseGame.bind(this));
                 view.on('flip', this.flipBoard.bind(this));
+                view.on('comp', this.compClick.bind(this));
                 break;
             case window.chess.Views.buttonbar.game:
                 view.on('play', this.playMoves.bind(this));
@@ -29800,6 +29949,10 @@ chess.controller.Controller = new Class({
         }
 
         return true;
+    },
+
+    compClick:function(){
+
     },
 
     deleteMoves: function (move) {
@@ -30305,268 +30458,6 @@ chess.controller.TacticControllerGui = new Class({
         }
     }
 
-});/* ../dhtml-chess/src/controller/analysis-controller.js */
-/**
- Special controller for analysis boards. It extends chess.controller.Controller but calls the
- enableDragAndDrop method of the board when the events "setPosition", "nextmove" and "newMove" is
- fired by current game model.
- @namespace chess.controller
- @class AnalysisController
- @extends chess.controller.Controller
- @constructor
- @param {Object} config
- @example
- 	new chess.controller.AnalysisController();
- */
-chess.controller.AnalysisController = new Class({
-	Extends:chess.controller.Controller,
-	useEngine:false,
-
-	__construct:function(config){
-		this.parent(config);
-		this.__params(config, ['useEngine']);
-	},
-
-	modelEventFired:function (event, model, param) {
-
-		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			this.views.board.enableDragAndDrop(model);
-		}
-	}
-
-});/* ../dhtml-chess/src/controller/analysis-engine-controller.js */
-chess.controller.AnalysisEngineController = new Class({
-    Extends: chess.controller.AnalysisController,
-
-    dialog: {},
-
-    engine: undefined,
-
-    analyzing: true,
-
-    backgroundEngineValid: true,
-
-    allMoves: [],
-
-    chessModel: undefined,
-
-    thinkingTime: 40,
-
-    garboChess:'../garbochess-engine/garbochess.js',
-
-    fen:undefined,
-
-    stopped:true,
-
-    debug:false,
-    
-    startFen:undefined,
-
-    examine:true,
-
-
-    __construct: function (config) {
-        if(config.garboChess != undefined)this.garboChess = config.garboChess;
-        this.__params(config, ['stopped','examine']);
-        this.garboChess = config.garboChess;
-        if (config.thinkingTime != undefined) {
-            this.thinkingTime = config.thinkingTime;
-        }
-
-        this.parent(config);
-    },
-
-    modelEventFired: function (event, model, param) {
-
-
-
-
-        this.parent(event,model, param);
-
-        this.chessModel = model;
-
-        if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-            if(this.examine)this.views.board.enableDragAndDrop(model);
-        }
-
-        if (event === 'fen') {
-
-            this.fen = param;
-
-
-            if (model.getResult() != 0) {
-                this.fireEvent("gameover", model.getResult());
-                return;
-            }
-
-
-            if(!this.stopped)this.updateEngine();
-        }
-
-
-        if (event == 'newGame') {
-            this.ensureAnalysisStopped();
-
-            this.startFen = this.currentModel.model.startFen;
-            ResetGame();
-
-            if (this.initializeBackgroundEngine()) {
-                this.engine.postMessage("go");
-
-            }
-        }
-    },
-
-    updateEngine:function(){
-        if (this.initializeBackgroundEngine()) {
-            this.engine.postMessage("position " + this.getFen());
-            this.searchAndRedraw.delay(20, this);
-
-        }
-    },
-
-    stopEngine:function(){
-        this.stopped = true;
-        this.ensureAnalysisStopped();
-
-        //console.log('stop engine');
-
-    },
-
-    startEngine:function(){
-     
-        this.stopped = false;
-        this.updateEngine();
-
-       // console.log('start engine');
-
-
-    },
-
-    files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-
-    getXY: function (square) {
-        var move = square
-        move = move.replace(/[^a-z0-9]/g, '');
-        var file = this.files.indexOf(move.substr(move.length - 2, 1));
-        var rank = move.substr(move.length - 1, 1) - 1;
-        return {
-            x: file,
-            y: 7 - rank
-        }
-    },
-
-    shouldAutoPlayNextMove: function (colorToMove) {
-        return colorToMove == 'black'
-    },
-
-    ensureAnalysisStopped: function () {
-        if (this.analyzing && this.engine != undefined) {
-            this.engine.terminate();
-            this.engine = undefined;
-        }
-    },
-
-    initializeBackgroundEngine: function () {
-
-        if (!this.backgroundEngineValid) {
-            return false;
-        }
-
-        if (this.engine == null) {
-
-            this.backgroundEngineValid = true;
-            try {
-                var that = this;
-                this.engine = new Worker(this.garboChess);
-                this.engine.onmessage = function (e) {
-                    if (e.data.match("^pv") == "pv") {
-                        that.updatePVDisplay(e.data.substr(3, e.data.length - 3));
-                    } else if (e.data.match("^message") == "message") {
-                        that.ensureAnalysisStopped();
-                        that.updatePVDisplay(e.data.substr(8, e.data.length - 8));
-                    } else {
-                        that.playMove(GetMoveFromString(e.data), null);
-                    }
-                };
-                this.engine.error = function (e) {
-                    console.log("Error from background worker:" + e.message);
-                };
-
-                this.engine.postMessage("position " + this.getFen());
-            } catch (error) {
-                this.backgroundEngineValid = false;
-                console.log(error);
-            }
-        }
-
-        return this.backgroundEngineValid;
-    },
-
-    getFen: function () {
-
-        return this.fen ? this.fen : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-    },
-
-    color:function(){
-        return this.models[0].getColorToMove();  
-    },
-
-    updatePVDisplay: function (move) {
-        this.fireEvent("engineupdate", [move, this.color()] );
-    },
-
-    playMove: function (move, pv) {
-
-        console.log(move);
-        var fromX = this.files[(move & 0xF) - 4];
-        var fromY = 8 - (((move >> 4) & 0xF) - 2);
-        var toX = this.files[((move >> 8) & 0xF) - 4];
-        var toY = 8 - (((move >> 12) & 0xF) - 2);
-
-        this.currentModel.appendMove({
-            from: fromX + fromY, to: toX + toY
-        });
-
-        MakeMove(move);
-
-        this.updateFromMove(move);
-    },
-
-    updateFromMove: function (move) {
-
-    },
-
-    finishMove: function (bestmove, value, timeTaken, ply) {
-        if (bestMove != null) {
-            this.playMove(move, BuildPVMessage(bestMove, value, timeTaken, ply));
-        }
-    },
-
-    searchAndRedraw: function () {
-        if (this.analyzing) {
-            this.ensureAnalysisStopped();
-            this.initializeBackgroundEngine();
-
-            this.engine.postMessage("position " + this.getFen());
-            this.engine.postMessage("analyze");
-            return;
-        }
-
-        if (this.initializeBackgroundEngine()) {
-            this.engine.postMessage("search " + this.thinkingTime);
-        } else {
-            Search(this.finishMove, 99, null);
-        }
-    },
-
-    newGame: function () {
-        this.currentModel.newGame();
-    },
-
-    setThinkingTime:function(thinkingTime){
-        this.thinkingTime = thinkingTime;
-    }
 });/* ../dhtml-chess/src/controller/play-stockfish-controller.js */
 chess.controller.PlayStockFishController = new Class({
     Extends: chess.controller.Controller,
@@ -30585,17 +30476,23 @@ chess.controller.PlayStockFishController = new Class({
     stockfishElo: undefined,
     gameType: undefined,
     turn: undefined,
-    isPlaying:false,
+    isPlaying: false,
+    clockAndElo: true,
+
+    startFen: undefined,
+    autoFlip: true,
 
     __construct: function (config) {
-        if (config.playerColor != undefined)this.playerColor = config.playerColor;
-        if (config.stockfish != undefined)this.stockfish = config.stockfish;
+        if (config.playerColor != undefined) this.playerColor = config.playerColor;
+        if (config.stockfish != undefined) this.stockfish = config.stockfish;
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
         }
-        this.elo = new chess.computer.Elo();
-        this.clock = new chess.computer.Clock();
-        this.clock.on('end', this.onTimesUp.bind(this));
+        if (this.clockAndElo) {
+            this.elo = new chess.computer.Elo();
+            this.clock = new chess.computer.Clock();
+            this.clock.on('end', this.onTimesUp.bind(this));
+        }
 
         this.parent(config);
         this.history = [];
@@ -30678,7 +30575,6 @@ chess.controller.PlayStockFishController = new Class({
         this.clock.setTime(timeControl.time * 60, timeControl.inc);
         this.clock.start();
 
-
         this.currentModel.newGame();
 
         this.gameType = this.elo.getGameType(timeControl.time * 60, timeControl.inc);
@@ -30687,8 +30583,16 @@ chess.controller.PlayStockFishController = new Class({
 
 
         this.isPlaying = true;
-        console.log('stockfish', this.getSkillLevel());
 
+        this.runGameStartCommands();
+
+
+        this.prepareBoard();
+
+        this.prepareMove();
+    },
+
+    runGameStartCommands: function () {
         this.uciCmd('setoption name Mobility (Middle Game) value 150');
         this.uciCmd('setoption name Mobility (Endgame) value 150');
         this.uciCmd('setoption name Contempt Factor value 0');
@@ -30697,11 +30601,11 @@ chess.controller.PlayStockFishController = new Class({
         this.uciCmd('setoption name Skill Level value ' + this.getSkillLevel());
 
         this.uciCmd('ucinewgame');
+    },
 
-
+    prepareBoard: function () {
         if (timeControl.color == 'white') {
             this.views.board.flipToWhite();
-
             this.views.clockTop.setColor('black');
             this.views.clockBottom.setColor('white');
 
@@ -30710,16 +30614,22 @@ chess.controller.PlayStockFishController = new Class({
             this.views.clockTop.setColor('white');
             this.views.clockBottom.setColor('black');
         }
-        this.prepareMove();
     },
 
     promotion: function (promoteTo) {
 
     },
 
+    engineLoaded: function () {
+        return this.engineStatus.engineLoaded ? true : false;
+    },
+
     createEngine: function () {
+
         try {
             var that = this;
+
+            this.fireEvent('createngine');
 
             this.engine = new Worker(this.stockfish);
 
@@ -30750,10 +30660,10 @@ chess.controller.PlayStockFishController = new Class({
                 } else if (line == 'readyok') {
                     that.engineStatus.engineReady = true;
                 } else {
-
                     var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
                     if (match) {
-                        var m = match[1] + match[2] + (match[3] != undefined ? match[3] : '');
+
+
                         if (that.turn != that.playerColor) {
                             that.currentModel.move({from: match[1], to: match[2], promoteTo: match[3]});
                         }
@@ -30781,6 +30691,7 @@ chess.controller.PlayStockFishController = new Class({
                         }
 
                         ret.score = score;
+                        ret.scoreLiteral = !isNaN(score) && score > 0 ? '+' + score : score;
 
                         that.fireEvent('engineupdate', ret);
                     }
@@ -30793,6 +30704,7 @@ chess.controller.PlayStockFishController = new Class({
 
 
         } catch (error) {
+            console.error(error);
             this.backgroundEngineValid = false;
         }
     },
@@ -30818,12 +30730,12 @@ chess.controller.PlayStockFishController = new Class({
         var c = this.currentModel.turn();
 
         if (c != this.playerColor) {
-            if (this.history == undefined)this.history = [];
-            this.uciCmd('position startpos moves ' + this.history.join(' '));
+            if (this.history == undefined) this.history = [];
+            var cmd = this.startFen ? 'position fen ' + this.startFen : 'position startpos';
+            this.uciCmd(cmd + ' moves ' + this.history.join(' '));
             if (this.playingStrength <= 1200) {
                 this.uciCmd('go depth ' + this.strengthToDepth());
             } else {
-
                 this.uciCmd('go wtime ' + this.getWTime() + ' winc ' + this.getInc('white') + ' btime ' + this.getBTime() + ' binc ' + this.getInc('black'));
 
             }
@@ -30851,12 +30763,11 @@ chess.controller.PlayStockFishController = new Class({
         if (s <= 1700)return 7000;
         if (s <= 1800)return 9000;
         if (s <= 1900)return 12000;
-
         return 20000;
     },
 
     getInc: function (color) {
-        if (this.playerColor == color)return this.clock.inc();
+        if (this.clock && this.playerColor == color)return this.clock.inc();
         return 0;
     },
 
@@ -30871,7 +30782,7 @@ chess.controller.PlayStockFishController = new Class({
                 break;
             }
         }
-        if (d == undefined)d = 20;
+        if (d == undefined) d = 20;
 
 
         return d;
@@ -30905,25 +30816,27 @@ chess.controller.PlayStockFishController = new Class({
 
     modelEventFired: function (event, model, move) {
         if (event === 'newMove' || event == 'newGame') {
+
             if (event == 'newGame') {
-                if (this.playerColor == 'white') {
-                    this.views.board.flipToWhite();
-                } else {
-                    this.views.board.flipToBlack();
+                if (this.autoFlip) {
+                    if (this.playerColor == 'white') {
+                        this.views.board.flipToWhite();
+                    } else {
+                        this.views.board.flipToBlack();
+                    }
                 }
                 if (this.engine == undefined) {
                     this.createEngine();
                 }
             }
 
-
             var colorToMove = model.turn();
             if (event == 'newMove') {
-                this.clock.tap();
+                if (this.clock) this.clock.tap();
 
                 this.turn = this.turn == 'white' ? 'black' : 'white';
 
-                if (this.history == undefined)this.history = [];
+                if (this.history == undefined) this.history = [];
                 this.history.push(move.from + move.to + (move.promoteTo ? move.promoteTo : ''));
 
                 this.start();
@@ -30953,8 +30866,9 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     onGameOver: function (result) {
-
-        if(!this.isPlaying)return;
+        console.log(result);
+        if (!this.isPlaying)return;
+        this.views.board.disableDragAndDrop();
 
         this.elo.saveResult(result, this.stockfishElo, this.gameType, this.playerColor);
 
@@ -30968,7 +30882,6 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     fireGameOverEvent: function (myResult, strength, newElo) {
-
         this.fireEvent("gameover", [myResult, strength, newElo]);
     },
 
@@ -30984,10 +30897,124 @@ chess.controller.PlayStockFishController = new Class({
 
     resign: function () {
         this.onGameOver(this.playerColor == 'white' ? -1 : 1);
-
     }
 
+});/* ../dhtml-chess/src/controller/computer-controller.js */
+chess.controller.ComputerController = new Class({
+    Extends: chess.controller.PlayStockFishController,
+    gameModel: undefined,
+    engineGameModel: undefined,
 
+    clockAndElo: false,
+    compMode: false,
+
+    autoFlip: false,
+
+    __construct: function (config) {
+        this.parent(config);
+
+        this.on('enginestatus', this.receiveEngineStatus.bind(this));
+        this.on('engineupdate', this.receiveEngineUpdate.bind(this));
+    },
+
+    receiveEngineUpdate: function (e) {
+        var m = this.currentModel.getCurrentMove();
+        if (m) {
+            this.currentModel.setCommentAfter(e.scoreLiteral, m);
+        }
+    },
+
+    receiveEngineStatus: function () {
+        if (this.engineLoaded()) {
+            this.newGame();
+        }
+    },
+
+    prepareBoard: function () {
+
+    },
+
+    onGameOver: function (result) {
+        this.fireEvent('compGameOver', [result, this.playerColor]);
+    },
+
+    enableEngine: function () {
+
+    },
+
+    disableEngine: function () {
+
+    },
+
+    compClick: function () {
+        this.toggleComputerMode();
+    },
+
+    toggleComputerMode: function () {
+        if (this.compMode) {
+            this.views.board.disableDragAndDrop();
+            this.compMode = false;
+            this.currentModel = this.gameModel;
+            this.currentModel.activate();
+        } else {
+            this.compMode = true;
+            this.prepareNewGame();
+        }
+        this.fireEvent('comp');
+    },
+
+    getWTime: function () {
+        return 60000;
+    },
+
+    getBTime: function () {
+        return 60000;
+
+    },
+
+    prepareNewGame: function () {
+
+        if (this.gameModel == undefined) {
+            this.gameModel = this.currentModel;
+        }
+
+        this.playerColor = this.turn = this.currentModel.turn();
+
+        if (this.engineGameModel == undefined) {
+            this.engineGameModel = this.getNewModel();
+
+        }
+
+        this.currentModel = this.engineGameModel;
+        this.history = [];
+        this.startFen = this.gameModel.fen();
+        this.engineGameModel.setPosition(this.startFen);
+
+        var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
+        this.engineGameModel.setGameComment(txt);
+
+        this.currentModel.activate();
+
+        if (this.engineLoaded()) {
+            this.newGame();
+        } else {
+            this.createEngine();
+        }
+    },
+
+    newGame: function () {
+        this.history = [];
+        this.start();
+        this.runGameStartCommands();
+        this.prepareMove();
+    },
+
+    modelEventFired: function (event, model, move) {
+        if (!this.compMode) {
+            return;
+        }
+        this.parent(event, model, move);
+    }
 });/* ../dhtml-chess/src/model/game.js */
 /**
  * Chess game model
@@ -33635,7 +33662,7 @@ chess.computer.GameDialog = new Class({
     title: chess.__('New Game'),
     elo: undefined,
     color: undefined,
-    modal:false,
+    modal: false,
 
     __construct: function (config) {
         this.parent(config);
@@ -33834,11 +33861,15 @@ chess.computer.ComputerStatusDialog = new Class({
     module: 'chess',
     modal: true,
     submodule: 'chess.computer.computerstatusdialog',
-    title: 'Loading Stockfish JS',
     updateFn: undefined,
     layout: {
         type: 'relative',
         width: 300, height: 100
+    },
+    __construct: function (config) {
+        config.title = config.html = chess.__("Loading Stockfish JS");
+        this.parent(config);
+
     },
     __children: function () {
         return [
@@ -33943,7 +33974,7 @@ chess.computer.GameOverDialog = new Class({
 
         var title = myResult == 1 ? chess.__('You Won')
             : myResult == 0 ? chess.__('Game Drawn')
-            : chess.__('You lost');
+                : chess.__('You lost');
 
         this.setTitle(title);
 
@@ -34100,12 +34131,15 @@ chess.WPTemplate = new Class({
     sound: false,
     boardId: undefined,
     _p: false,
+    compToggle: false,
 
     initialize: function (config) {
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
+
+        if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
@@ -34128,7 +34162,6 @@ chess.WPTemplate = new Class({
         }
 
         if (!ludo.isMobile) {
-
             if (config.width) {
                 this.renderTo.css('width', config.width);
             }
@@ -34137,7 +34170,6 @@ chess.WPTemplate = new Class({
                 this.renderTo.css('float', config['float']);
             }
         }
-
 
         chess.THEME_OVERRIDES = undefined;
 
@@ -34175,6 +34207,14 @@ chess.WPTemplate = new Class({
         }
     },
 
+    adjustButtonArray:function(buttons){
+        if(this.compToggle)buttons.push('comp');
+    },
+
+    controllerType: function () {
+        return this._p ? 'ComputerController' : 'Controller';
+    },
+
     onload: function () {
         this._loadCounter++;
         if (!this._ready && this._loadCounter == 2) this.render();
@@ -34184,9 +34224,61 @@ chess.WPTemplate = new Class({
 
     canRender: function () {
         return this._ready;
+    },
+
+    createController: function () {
+        this.controller.on('enginestatus', this.showEngineStatusDialog.bind(this));
+        this.controller.on('compGameOver', this.onGameOver.bind(this));
+        this.controller.on('comp', this.hideOverlays.bind(this));
+    },
+
+    hideOverlays:function(){
+        if(this.game_over_div){
+            this.game_over_div.hide();
+        }
+    },
+
+    onGameOver:function(result, playerColor){
+        if(this.game_over_div == undefined){
+            var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_game_over_text"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+        }
+
+        var txt = result == 1 ? '1 - 0' : result == -1 ? '0 - 1' : '0.5 - 0.5';
+
+        var h = this.game_over_div.height();
+        this.game_over_div.find('.dhtml_chess_game_over_text')
+            .css('line-height', h + 'px')
+            .css('font-size', Math.round(h / 4) + 'px')
+            .html(txt);
+        this.game_over_div.show();
+    },
+
+    showEngineStatusDialog: function () {
+        if (this.controller.engineLoaded()) {
+            this.computerDialog().hide();
+        } else {
+            this.computerDialog().show();
+
+        }
+    },
+
+    cs_dialog: undefined,
+    computerDialog: function () {
+        if (this.cs_dialog == undefined) {
+            var v = jQuery('<div class="dhtml_chess_loading">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_centered_bg dhtml_chess_loading_image"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+
+
+            this.cs_dialog = v;
+        }
+
+        return this.cs_dialog;
     }
-
-
 });/* ../dhtml-chess/src/wp-public/game-grid.js */
 chess.WPGameGrid = new Class({
     Extends: chess.view.gamelist.Grid,
@@ -34283,20 +34375,28 @@ chess.WPGameTemplate = new Class({
         this.model = config.model || undefined;
 
         this.gameId = config.gameId;
-        if(!this.model && !this.gameId)this.gameId = 2;
+
+        if(config.fen){
+            this.fen = config.fen;
+        }
+        if(!this.model && !this.gameId && !this.fen)this.gameId = 2;
     },
 
 
-    createGameModel:function(){
-        this.controller = new chess.controller.Controller({
+    createController:function(){
+        this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             sound:this.sound
         });
+        if(this.fen){
+            this.controller.setPosition(this.fen);
+        }
+        this.parent();
         this.loadGame();
     },
 
     loadGame:function(){
-
 
         if(this.gameId){
             jQuery.ajax({
@@ -34328,12 +34428,7 @@ chess.WPGameTemplate = new Class({
             });
         }else if(this.model){
             this.controller.currentModel.populate(this.model);
-
         }
-
-
-
-
     }
 });/* ../dhtml-chess/src/wp-public/game/game1.js */
 window.chess.isWordPress = true;
@@ -34360,6 +34455,8 @@ chess.WPGame1 = new Class({
             this.boardSize = w - 200;
         }
 
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
         if (this.canRender()) {
@@ -34403,7 +34500,7 @@ chess.WPGame1 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -34452,6 +34549,7 @@ chess.WPGame1 = new Class({
                     'margin-top': 5
                 },
                 type: 'chess.view.buttonbar.Bar',
+                buttons:this.buttons,
                 layout: {
                     height: 45,
                     width: this.bs
@@ -34534,7 +34632,10 @@ chess.WPGame2 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 275 + this.wpm_h);
         this.boardSize = w;
-        if(this.canRender()){
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -34542,7 +34643,7 @@ chess.WPGame2 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -34590,6 +34691,10 @@ chess.WPGame2 = new Class({
                 }, this.board),
                 {
                     type: 'chess.view.buttonbar.Bar',
+                    buttons: this.buttons,
+                    elCss: {
+                        'padding-top': 2
+                    },
                     layout: {
                         height: 40,
                         width: this.boardSize
@@ -34610,13 +34715,13 @@ chess.WPGame2 = new Class({
 
                 },
                 {
-                    type:'chess.WPComMessage',
-                    hidden:this._p
+                    type: 'chess.WPComMessage',
+                    hidden: this._p
                 }
             ]
         });
 
-        this.createGameModel();
+        this.createController();
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game3.js */
@@ -34659,6 +34764,9 @@ chess.WPGame3 = new Class({
             ]
         }, this.board);
 
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
+
         if (this.canRender()) {
             this.render();
         }
@@ -34676,7 +34784,7 @@ chess.WPGame3 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -34837,8 +34945,8 @@ chess.WPGame3 = new Class({
                     {
                         type: 'chess.view.buttonbar.Bar',
                         module: this.module,
-                        buttons: ['flip'],
-                        width: 42,
+                        buttons: this.lastButtons,
+                        width: 42 * this.lastButtons.length,
                         buttonSize: function (availSize) {
                             return availSize;
                         }
@@ -34863,6 +34971,9 @@ chess.WPGame4 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35 + 20);
         this.boardSize = w;
+
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
         if (this.canRender()) {
             this.render();
         }
@@ -34992,8 +35103,8 @@ chess.WPGame4 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 module: this.module,
-                                buttons: ['flip'],
-                                width: 42,
+                                buttons: this.lastButtons,
+                                width: 42 * this.lastButtons.length,
                                 buttonSize: function (availSize) {
                                     return availSize;
                                 }
@@ -35006,7 +35117,7 @@ chess.WPGame4 = new Class({
                 }
             ]
         });
-        this.createGameModel();
+        this.createController();
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game5.js */
@@ -35035,7 +35146,8 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
         this.configure();
         if (this.canRender()) {
             this.render();
@@ -35133,7 +35245,7 @@ chess.WPGame5 = new Class({
 
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -35149,21 +35261,21 @@ chess.WPGame5 = new Class({
 
                 children: ludo.isMobile ? [this.board] : [
 
-                    this.board,
-                    {
-                        id: this.module + '-panel',
-                        name: "notation-panel",
-                        type: 'chess.view.notation.Panel',
-                        layout: {
-                            weight: this.notationWeight,
-                            height: 'matchParent'
-                        },
-                        elCss: {
-                            'margin-left': '2px'
-                        },
-                        module: this.module
-                    }
-                ]
+                        this.board,
+                        {
+                            id: this.module + '-panel',
+                            name: "notation-panel",
+                            type: 'chess.view.notation.Panel',
+                            layout: {
+                                weight: this.notationWeight,
+                                height: 'matchParent'
+                            },
+                            elCss: {
+                                'margin-left': '2px'
+                            },
+                            module: this.module
+                        }
+                    ]
             },
 
             {
@@ -35174,69 +35286,37 @@ chess.WPGame5 = new Class({
                 elCss: {
                     'margin-top': 10
                 },
-                children: ludo.isMobile ? [
-                    {weight: 1},
+                children: [
                     {
-                        anchor: [0.5, 0.5],
+                        module:this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: this.buttonSize,
+                            height:'matchParent'
+                        },
+                        hidden:true
+                    },
+                    {
+                        weight: 1
+                    },
+                    {
+                        anchor: [1, 0.5],
                         type: 'chess.view.buttonbar.Bar',
-                        buttons: ['start', 'previous'],
+                        buttons: this.buttons,
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 3
+                            width: (this.buttonSize - 10) * this.buttons.length
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
                         }
-                    },
-                    {
-                        type: 'chess.view.notation.LastMove',
-                        module: this.module,
-                        layout: {
+                    }
 
-                            width: this.buttonSize * 2
-
-                        },
-                        css: {
-                            border: 'none'
-                        }
-                    },
-                    {
-                        anchor: [0.5, 0.5],
-                        type: 'chess.view.buttonbar.Bar',
-                        buttons: ['next', 'end'],
-                        module: this.module,
-                        layout: {
-                            width: (this.buttonSize) * 2
-                        },
-                        buttonSize: function (ofSize) {
-                            return ofSize * 0.9;
-                        }
-                    },
-                    {weight: 1}
-
-                ] :
-                    [
-                        {
-                            weight: 1
-                        },
-                        {
-                            anchor: [1, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: this.buttons,
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize - 10) * 5
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        }
-
-                    ]
+                ]
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
 
         ];
@@ -35284,12 +35364,26 @@ chess.WPGame5 = new Class({
                 ]
             }, this.board),
             {
-                type: 'chess.view.buttonbar.Bar',
-                layout: {
-                    height: 40,
-                    width: this.boardSize
-                },
-                module: this.module
+                layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
+                children: [
+                    {
+                        module: this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: 40
+                        },
+                        hidden: true
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        layout: {
+                            height: 40,
+                            weight: 1
+
+                        },
+                        module: this.module
+                    }
+                ]
             },
             {
                 id: this.module + '-panel',
@@ -35306,9 +35400,110 @@ chess.WPGame5 = new Class({
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
         ]
+
+    }
+
+});/* ../dhtml-chess/src/wp-public/game/game6.js */
+window.chess.isWordPress = true;
+/** Game model designed for [fen] */
+chess.WPGame6 = new Class({
+    Extends: chess.WPGameTemplate,
+    boardSize: undefined,
+    buttonSize: 45,
+
+    boardWeight: 1,
+    notationWeight: 1,
+    buttonHeight:35,
+
+    initialize: function (config) {
+        this.parent(config);
+        var w = this.renderTo.width();
+        var eh = this.comp ? this.buttonHeight : 0;
+        this.renderTo.css('height', w + eh + this.wpm_h);
+        this.fen = config.fen;
+
+        if (config.highlight != undefined) {
+            this.highlight = config.highlight;
+        }
+        if (config.arrows != undefined) {
+            this.arrows = config.arrows;
+        }
+
+        if(this.canRender()){
+            this.render();
+        }
+    },
+
+    render: function () {
+        new chess.view.Chess({
+            cls: this.th,
+            renderTo: jQuery(this.renderTo),
+            layout: {
+                type: 'linear',orientation:'vertical'
+            },
+            children: [
+                {
+                    module:this.module,
+                    type: 'chess.view.board.Board',
+                    id: this.boardId,
+                    fen: this.fen,
+                    layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    height:this.buttonHeight,
+                    hidden: !this.compToggle,
+                    module:this.module,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons:['flip','comp']
+                },
+                {
+                    type:'chess.WPComMessage',
+                    hidden:this._p
+                }
+
+            ]
+        });
+
+        if (this.highlight != undefined) {
+            var hPool = new chess.view.highlight.SquarePool({
+                board: ludo.$(this.boardId)
+            });
+            var squares = this.highlight.split(/\,/g);
+            var color = undefined;
+            jQuery.each(squares, function (i, square) {
+                var tokens = square.split(/;/g);
+                if(tokens.length > 0){
+                    color = tokens[1];
+                }
+                hPool.show(tokens[0], color);
+            });
+        }
+
+        if(this.arrows != undefined){
+            var arrowPool = new chess.view.highlight.ArrowPool({
+                board: ludo.$(this.boardId)
+            });
+
+            var arrows = this.arrows.split(/,/g);
+            var styling;
+            jQuery.each(arrows, function(i, arrow){
+                var tokens = arrow.split(/;/g);
+                if(tokens.length > 1){
+                    if(styling == undefined)styling = {};
+                    styling.fill = styling.stroke = tokens[1];
+                }
+
+                var f = tokens[0].substr(0,2);
+                var t = tokens[0].substr(2,2);
+                arrowPool.show(f,t, styling);
+            });
+
+        }
+
+        this.createController();
 
     }
 
@@ -35316,11 +35511,15 @@ chess.WPGame5 = new Class({
 chess.WPViewerTemplate = new Class({
     Extends: chess.WPTemplate,
     createController:function(){
-        this.controller = new chess.controller.Controller({
+        this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
+            sound:this.sound,
             pgn: this.pgn.id,
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             listeners: {}
         });
+
+        this.parent();
 
     }
 });/* ../dhtml-chess/src/wp-public/pgn/viewer1.js */
@@ -36357,13 +36556,13 @@ chess.WPFen = new Class({
 
     highlight: undefined,
     arrows: undefined,
-
+    buttonHeight:35,
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + this.wpm_h);
+        var eh = this.comp ? this.buttonHeight : 0;
+        this.renderTo.css('height', w + eh + this.wpm_h);
         this.fen = config.fen;
-        this.boardId = 'board' + String.uniqueID();
 
         if (config.highlight != undefined) {
             this.highlight = config.highlight;
@@ -36386,10 +36585,18 @@ chess.WPFen = new Class({
             },
             children: [
                 {
+                    module:this.module,
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
                     layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    height:this.buttonHeight,
+                    hidden: !this.compToggle,
+                    module:this.module,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons:['flip','comp']
                 },
                 {
                     type:'chess.WPComMessage',
@@ -36434,6 +36641,23 @@ chess.WPFen = new Class({
             });
 
         }
+
+        if(this.compToggle){
+            this.createController();
+        }
+
+
+    },
+
+    createController:function(){
+        this.controller = new chess.controller[this.controllerType()]({
+            applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
+            sound:this.sound
+        });
+        this.parent();
+
+        this.controller.setPosition(this.fen);
     }
 
 });/* ../dhtml-chess/src/wp-public/computer/comp1.js */
@@ -36447,7 +36671,7 @@ chess.WPComp1 = new Class({
     boardSize: undefined,
 
     isPreview: false,
-    nav:false,
+    nav: false,
 
     initialize: function (config) {
         this.parent(config);
@@ -36460,7 +36684,7 @@ chess.WPComp1 = new Class({
         var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 
-        if (config.isPreview)this.isPreview = config.isPreview;
+        if (config.isPreview) this.isPreview = config.isPreview;
         this.boardSize = ludo.isMobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
@@ -36645,15 +36869,15 @@ chess.WPComp1 = new Class({
                     }
                 },
                 {
-                    type:'chess.WPComMessage',
-                    hidden:this._p
+                    type: 'chess.WPComMessage',
+                    hidden: this._p
                 }
             ]
         });
 
-
         this.controller = new chess.controller.PlayStockFishController({
             applyTo: [this.module],
+            sound: this.sound,
             stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             playerColor: 'white',    // Human color
             listeners: {
@@ -36691,13 +36915,10 @@ chess.WPComp1 = new Class({
                 },
                 movable: false,
                 resizable: false
-
             });
 
             sd.show();
         }
-
-
     },
 
     setThinkingTime: function (thinkingTime) {
@@ -37316,6 +37537,7 @@ chess.WPTactics1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             pgn: this.pgn.id,
+            sound:this.sound,
             autoMoveDelay: 400,
             gameEndHandler: this.nextGame.bind(this),
             listeners: {
@@ -37425,12 +37647,11 @@ chess.WPTacticsGame1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             autoMoveDelay: 400,
+            sound:this.sound,
             noDialogs:true,
             gameEndHandler: this.onGameEnd.bind(this)
         });
         this.controller.currentModel.populate(this.model);
-
-        
     },
     
     onGameEnd:function(){

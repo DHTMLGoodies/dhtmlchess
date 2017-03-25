@@ -8,6 +8,9 @@ chess.WPGame4 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35 + 20);
         this.boardSize = w;
+
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
         if (this.canRender()) {
             this.render();
         }
@@ -137,8 +140,8 @@ chess.WPGame4 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 module: this.module,
-                                buttons: ['flip'],
-                                width: 42,
+                                buttons: this.lastButtons,
+                                width: 42 * this.lastButtons.length,
                                 buttonSize: function (availSize) {
                                     return availSize;
                                 }
@@ -151,7 +154,7 @@ chess.WPGame4 = new Class({
                 }
             ]
         });
-        this.createGameModel();
+        this.createController();
     }
 
 });

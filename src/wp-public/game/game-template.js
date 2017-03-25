@@ -8,20 +8,28 @@ chess.WPGameTemplate = new Class({
         this.model = config.model || undefined;
 
         this.gameId = config.gameId;
-        if(!this.model && !this.gameId)this.gameId = 2;
+
+        if(config.fen){
+            this.fen = config.fen;
+        }
+        if(!this.model && !this.gameId && !this.fen)this.gameId = 2;
     },
 
 
-    createGameModel:function(){
-        this.controller = new chess.controller.Controller({
+    createController:function(){
+        this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             sound:this.sound
         });
+        if(this.fen){
+            this.controller.setPosition(this.fen);
+        }
+        this.parent();
         this.loadGame();
     },
 
     loadGame:function(){
-
 
         if(this.gameId){
             jQuery.ajax({
@@ -53,11 +61,6 @@ chess.WPGameTemplate = new Class({
             });
         }else if(this.model){
             this.controller.currentModel.populate(this.model);
-
         }
-
-
-
-
     }
 });

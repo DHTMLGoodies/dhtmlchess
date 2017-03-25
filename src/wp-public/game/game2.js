@@ -7,7 +7,10 @@ chess.WPGame2 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 275 + this.wpm_h);
         this.boardSize = w;
-        if(this.canRender()){
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -15,7 +18,7 @@ chess.WPGame2 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -63,6 +66,10 @@ chess.WPGame2 = new Class({
                 }, this.board),
                 {
                     type: 'chess.view.buttonbar.Bar',
+                    buttons: this.buttons,
+                    elCss: {
+                        'padding-top': 2
+                    },
                     layout: {
                         height: 40,
                         width: this.boardSize
@@ -83,13 +90,13 @@ chess.WPGame2 = new Class({
 
                 },
                 {
-                    type:'chess.WPComMessage',
-                    hidden:this._p
+                    type: 'chess.WPComMessage',
+                    hidden: this._p
                 }
             ]
         });
 
-        this.createGameModel();
+        this.createController();
     }
 
 });

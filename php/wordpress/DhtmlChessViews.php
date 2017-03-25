@@ -19,7 +19,8 @@ class DhtmlChessViews
 		    "type" => "fen",
 		    "desc" => "Display a FEN position using on of the game templates",
 		    "shortcode" => "fen",
-		    "help" => "Insert fen string between the tags.",
+		    "attributes" => array("tpl" => '&lt;game template>'),
+		    "help" => "Insert fen string between the tags. Default game template is 6",
 		    'enclosing' => '&lt;fen string>',
 		    'pro' => false
 	    ),
@@ -30,7 +31,7 @@ class DhtmlChessViews
 		    "desc" => "PGN text template",
 		    "shortcode" => "pgn",
 		    "attributes" => array("tpl" => '&lt;game template>'),
-		    "help" => "Insert pgn of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
+		    "help" => "Insert fen of one game between the tags. The <strong>tpl</strong> attribute can be used to choose a Game Template.<br><em>Tip! It's safest to enter this tag from the Text Mode of the WordPress Text editor</em>e",
 		    'enclosing' => '&lt;pgn string>',
 		    'pro' => false
 	    ),
@@ -89,6 +90,16 @@ class DhtmlChessViews
             "type" => "g",
             "shortcode" => "chess",
             "desc" => "Notations panel to the right, nav buttons below the board",
+            "attributes" => array("tpl" => 5, "game" => '&lt;gameId>'),
+            "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
+            'pro' => true
+        ),
+        array(
+            "script" => "WPGame6",
+            "title" => "Game Template 6 - For [fen]",
+            "type" => "g",
+            "shortcode" => "chess",
+            "desc" => "Designed for the [fen] short code. Board only unless compToggle is on. Then you will see buttons to toggle computer play mode below the board",
             "attributes" => array("tpl" => 5, "game" => '&lt;gameId>'),
             "help" => 'Replace the value inside the angle brackets with a game id found in the game editor.',
             'pro' => true
@@ -171,7 +182,7 @@ class DhtmlChessViews
 
     public static function countGameTemplates()
     {
-        return 5;
+        return 6;
     }
 
     public static function countDbTemplates()
@@ -185,7 +196,7 @@ class DhtmlChessViews
         $attributes = array(
             "theme" => array(
                 "example" => 'theme="brown"',
-                "desc" => "Override default theme. Possible values: " . implode(", ", $themes)
+                "desc" => "Override default theme. Possible values: <em>" . implode(", ", $themes) . "</em>"
             ),
             "width" => array(
                 "example" => 'width="60%"',
@@ -197,7 +208,7 @@ class DhtmlChessViews
             ),
             "css" => array(
                 "example" => 'css="border:1px solid #900;border-radius:5px"',
-                "desc" => "Custom CSS string"
+                "desc" => "Custom CSS styling"
             ),
             "arrows" => array(
                 "desc" => "Attribute for the FEN short code. A comma separated list of from and to squares. Custom colored arrows can be set after a semicolon, example: e2e4;#ff0000",
@@ -215,6 +226,10 @@ class DhtmlChessViews
             "standings" => array(
                 "desc" => "Used to render a standings grid or table for a database",
                 "example" => '[chess standings="1" tpl="1"]'
+            ),
+            "comp_toggle" => array(
+                "desc" => "Computer toggle button. Let you play against StockfishJS from the position shown on the board. Available for all short codes.",
+                "example" => '[fen comp_toggle="1"]..fen position...[/fen]'
             )
 
         );
@@ -302,6 +317,9 @@ class DhtmlChessViews
     {
         $view = new DHTMLChessView();
 
+        if($tag == 'fen' && empty($attributes["tpl"])){
+        	$attributes["tpl"] = 6;
+        }
 
         $tpl = isset($attributes["tpl"]) ? $attributes["tpl"] : 1;
 
@@ -319,12 +337,13 @@ class DhtmlChessViews
             if (isset($attributes["tactics"])) {
                 $view->setScript("WPTacticsGame1");
             } else {
-                $tpl = min($tpl, 5);
+                $tpl = min($tpl, 6);
                 $view->setScript("WPGame" . $tpl);
 
             }
         } else if ($tag == "fen") {
-            $view->setScript("WPFen");
+        	$view->setParam("fen", $content);
+	        $view->setScript("WPGame". $tpl);
             $view->setParam("fen", $content);
         } else {
             if (isset($attributes['pinned'])) {

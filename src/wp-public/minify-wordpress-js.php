@@ -101,6 +101,7 @@ parseDirectory(array(
     'game/game3.js',
     'game/game4.js',
     'game/game5.js',
+    'game/game6.js',
     'pgn/viewer1.js',
     'pgn/viewer2.js',
     'pgn/viewer3.js',

@@ -5,13 +5,13 @@ chess.WPFen = new Class({
 
     highlight: undefined,
     arrows: undefined,
-
+    buttonHeight:35,
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + this.wpm_h);
+        var eh = this.comp ? this.buttonHeight : 0;
+        this.renderTo.css('height', w + eh + this.wpm_h);
         this.fen = config.fen;
-        this.boardId = 'board' + String.uniqueID();
 
         if (config.highlight != undefined) {
             this.highlight = config.highlight;
@@ -34,10 +34,18 @@ chess.WPFen = new Class({
             },
             children: [
                 {
+                    module:this.module,
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
                     layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    height:this.buttonHeight,
+                    hidden: !this.compToggle,
+                    module:this.module,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons:['flip','comp']
                 },
                 {
                     type:'chess.WPComMessage',
@@ -82,6 +90,23 @@ chess.WPFen = new Class({
             });
 
         }
+
+        if(this.compToggle){
+            this.createController();
+        }
+
+
+    },
+
+    createController:function(){
+        this.controller = new chess.controller[this.controllerType()]({
+            applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
+            sound:this.sound
+        });
+        this.parent();
+
+        this.controller.setPosition(this.fen);
     }
 
 });

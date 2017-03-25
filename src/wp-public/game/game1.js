@@ -22,6 +22,8 @@ chess.WPGame1 = new Class({
             this.boardSize = w - 200;
         }
 
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
         if (this.canRender()) {
@@ -65,7 +67,7 @@ chess.WPGame1 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -114,6 +116,7 @@ chess.WPGame1 = new Class({
                     'margin-top': 5
                 },
                 type: 'chess.view.buttonbar.Bar',
+                buttons:this.buttons,
                 layout: {
                     height: 45,
                     width: this.bs

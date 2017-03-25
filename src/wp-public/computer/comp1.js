@@ -8,7 +8,7 @@ chess.WPComp1 = new Class({
     boardSize: undefined,
 
     isPreview: false,
-    nav:false,
+    nav: false,
 
     initialize: function (config) {
         this.parent(config);
@@ -21,7 +21,7 @@ chess.WPComp1 = new Class({
         var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 
-        if (config.isPreview)this.isPreview = config.isPreview;
+        if (config.isPreview) this.isPreview = config.isPreview;
         this.boardSize = ludo.isMobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
@@ -206,15 +206,15 @@ chess.WPComp1 = new Class({
                     }
                 },
                 {
-                    type:'chess.WPComMessage',
-                    hidden:this._p
+                    type: 'chess.WPComMessage',
+                    hidden: this._p
                 }
             ]
         });
 
-
         this.controller = new chess.controller.PlayStockFishController({
             applyTo: [this.module],
+            sound: this.sound,
             stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             playerColor: 'white',    // Human color
             listeners: {
@@ -252,13 +252,10 @@ chess.WPComp1 = new Class({
                 },
                 movable: false,
                 resizable: false
-
             });
 
             sd.show();
         }
-
-
     },
 
     setThinkingTime: function (thinkingTime) {

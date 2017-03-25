@@ -23,7 +23,8 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
         this.configure();
         if (this.canRender()) {
             this.render();
@@ -121,7 +122,7 @@ chess.WPGame5 = new Class({
 
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -137,21 +138,21 @@ chess.WPGame5 = new Class({
 
                 children: ludo.isMobile ? [this.board] : [
 
-                    this.board,
-                    {
-                        id: this.module + '-panel',
-                        name: "notation-panel",
-                        type: 'chess.view.notation.Panel',
-                        layout: {
-                            weight: this.notationWeight,
-                            height: 'matchParent'
-                        },
-                        elCss: {
-                            'margin-left': '2px'
-                        },
-                        module: this.module
-                    }
-                ]
+                        this.board,
+                        {
+                            id: this.module + '-panel',
+                            name: "notation-panel",
+                            type: 'chess.view.notation.Panel',
+                            layout: {
+                                weight: this.notationWeight,
+                                height: 'matchParent'
+                            },
+                            elCss: {
+                                'margin-left': '2px'
+                            },
+                            module: this.module
+                        }
+                    ]
             },
 
             {
@@ -162,69 +163,37 @@ chess.WPGame5 = new Class({
                 elCss: {
                     'margin-top': 10
                 },
-                children: ludo.isMobile ? [
-                    {weight: 1},
+                children: [
                     {
-                        anchor: [0.5, 0.5],
+                        module:this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: this.buttonSize,
+                            height:'matchParent'
+                        },
+                        hidden:true
+                    },
+                    {
+                        weight: 1
+                    },
+                    {
+                        anchor: [1, 0.5],
                         type: 'chess.view.buttonbar.Bar',
-                        buttons: ['start', 'previous'],
+                        buttons: this.buttons,
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 3
+                            width: (this.buttonSize - 10) * this.buttons.length
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
                         }
-                    },
-                    {
-                        type: 'chess.view.notation.LastMove',
-                        module: this.module,
-                        layout: {
+                    }
 
-                            width: this.buttonSize * 2
-
-                        },
-                        css: {
-                            border: 'none'
-                        }
-                    },
-                    {
-                        anchor: [0.5, 0.5],
-                        type: 'chess.view.buttonbar.Bar',
-                        buttons: ['next', 'end'],
-                        module: this.module,
-                        layout: {
-                            width: (this.buttonSize) * 2
-                        },
-                        buttonSize: function (ofSize) {
-                            return ofSize * 0.9;
-                        }
-                    },
-                    {weight: 1}
-
-                ] :
-                    [
-                        {
-                            weight: 1
-                        },
-                        {
-                            anchor: [1, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: this.buttons,
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize - 10) * 5
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        }
-
-                    ]
+                ]
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
 
         ];
@@ -272,12 +241,26 @@ chess.WPGame5 = new Class({
                 ]
             }, this.board),
             {
-                type: 'chess.view.buttonbar.Bar',
-                layout: {
-                    height: 40,
-                    width: this.boardSize
-                },
-                module: this.module
+                layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
+                children: [
+                    {
+                        module: this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: 40
+                        },
+                        hidden: true
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        layout: {
+                            height: 40,
+                            weight: 1
+
+                        },
+                        module: this.module
+                    }
+                ]
             },
             {
                 id: this.module + '-panel',
@@ -294,7 +277,7 @@ chess.WPGame5 = new Class({
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
         ]
 

@@ -1,4 +1,4 @@
-/* Generated Tue Mar 21 0:04:45 CET 2017 */
+/* Generated Sat Mar 25 2:32:28 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -17776,6 +17776,7 @@ chess.view.notation.Panel = new Class({
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
+        c.on('updateNotations', this.showMoves.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -21032,7 +21033,7 @@ chess.view.highlight.SquarePool = new Class({
 chess.view.buttonbar.Bar = new Class({
 
     Extends: ludo.View,
-    type:'chess.view.buttonbar.Bar',
+    type: 'chess.view.buttonbar.Bar',
     module: 'chess',
     submodule: 'buttonbar.bar',
 
@@ -21058,11 +21059,13 @@ chess.view.buttonbar.Bar = new Class({
 
     defaultStyles: undefined,
 
-    overlay:undefined,
+    overlay: undefined,
 
-    anchor:undefined,
+    anchor: undefined,
 
-    pr:undefined,
+    pr: undefined,
+
+    comp: false,
 
     __construct: function (config) {
 
@@ -21119,16 +21122,15 @@ chess.view.buttonbar.Bar = new Class({
 
 
             imagePlay: {fill: '#C8E6C9'},
+            imageComp: {fill: '#388E3C'},
 
-            overlay : {
-                'fill-opacity' : 0,
+            overlay: {
+                'fill-opacity': 0,
                 'fill': '#000'
             }
         };
 
         this.styles = this.styles || {};
-
-
 
         this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
         this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
@@ -21136,16 +21138,16 @@ chess.view.buttonbar.Bar = new Class({
         this.styles.buttonDisabled = Object.merge(this.defaultStyles.buttonDisabled, this.styles.buttonDisabled || {});
 
         this.styles.buttonPlay = Object.merge(this.defaultStyles.buttonPlay, this.styles.buttonPlay || {});
-
+        this.styles.buttonComp = Object.merge(this.defaultStyles.button, this.styles.button || {});
 
         this.styles.image = Object.merge(this.defaultStyles.image, this.styles.image || {});
         this.styles.imageOver = Object.merge(this.defaultStyles.imageOver, this.styles.imageOver || {});
         this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
         this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
         this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
+        this.styles.imageComp = Object.merge(this.defaultStyles.imageComp, this.styles.imageComp || {});
+
         this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
-
-
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -21153,10 +21155,10 @@ chess.view.buttonbar.Bar = new Class({
     __rendered: function () {
         this.parent();
 
-        this.$b().css('overflow','hidden');
+        this.$b().css('overflow', 'hidden');
         this.createStylesheets();
 
-        this.$b().on('mousedown', function(){
+        this.$b().on('mousedown', function () {
             return false;
         });
 
@@ -21178,7 +21180,7 @@ chess.view.buttonbar.Bar = new Class({
         jQuery.each(this.buttons, function (i, btn) {
             if (btn != 'pause') {
                 this.createButton(btn);
-                if (btn != 'flip')this.disableButton(btn);
+                if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
             }
         }.bind(this));
 
@@ -21205,6 +21207,7 @@ chess.view.buttonbar.Bar = new Class({
         g.attr('data-name', name);
 
         g.attr('aria-label', name);
+        g.attr('title', name);
         g.css('cursor', 'pointer');
         g.set('x', 0);
         g.set('y', 0);
@@ -21228,7 +21231,6 @@ chess.view.buttonbar.Bar = new Class({
         this.els.buttonPaths[name] = p;
         p.addClass(this.pr + 'dc-image');
         g.append(p);
-
 
 
         g.on('mouseenter', this.fn('enterButton', name));
@@ -21282,24 +21284,39 @@ chess.view.buttonbar.Bar = new Class({
     clickButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
-            if (btnName == 'play' && this.autoPlayMode)btnName = 'pause';
+            if (btnName == 'play' && this.autoPlayMode) btnName = 'pause';
             this.fireEvent(btnName);
+            if (btnName == 'comp') {
+                this.comp = !this.comp;
+                this.cssButton('comp', 'Comp');
+            }
             return false;
         }
         return false;
     },
 
+    toggleButtonVisibility:function(){
+        var o = this.controller.compMode ? 0 : 1;
+
+        jQuery.each(this.buttons, function(i, name){
+            if(name != 'comp' && name != 'flip')this.els.buttons[name].css({
+                opacity : o
+
+            });
+
+        }.bind(this));
+    },
+
     cssButton: function (name, className) {
 
-        if(this.buttons.indexOf(name) == -1)return;
+        if (this.buttons.indexOf(name) == -1)return;
 
-        if (name == 'play' && this.autoPlayMode)className = 'Play';
+        if (name == 'play' && this.autoPlayMode) className = 'Play';
+        if (name == 'comp' && this.controller.compMode) className = 'Comp';
 
         if (this.isDisabled(name)) {
             className = 'Disabled';
-
         }
-
 
         var r = this.els.buttonRects[name];
         var p = this.els.buttonPaths[name];
@@ -21345,7 +21362,7 @@ chess.view.buttonbar.Bar = new Class({
         });
     },
 
-    overlayPath:function(c){
+    overlayPath: function (c) {
 
 
         var cy = c.y + (c.height * 0.55);
@@ -21356,8 +21373,8 @@ chess.view.buttonbar.Bar = new Class({
         var ry = c.height * 0.05;
         return ['M',
             c.x, cy,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, -ry,
-            'a',  c.width, c.height, 90, 0, 1, c.width/2, ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, -ry,
+            'a', c.width, c.height, 90, 0, 1, c.width / 2, ry,
             'L', r, b, c.x, b,
             'Z'
         ].join(' ');
@@ -21395,6 +21412,7 @@ chess.view.buttonbar.Bar = new Class({
             this.els.clipRects[name].setAttributes(props);
             this.els.overlays[name].set('d', overlayPath);
             this.els.buttonPaths[name].set('d', this.getPath(name).join(' '));
+            this.els.buttonRects[name].set('title', 'Testing');
             left += change;
 
         }.bind(this));
@@ -21509,6 +21527,18 @@ chess.view.buttonbar.Bar = new Class({
 
                 ]);
 
+            case 'comp':
+                return this.toPath([
+                    'M', 1, 1, 'L',
+                    9, 1,
+                    9, 7,
+                    1, 7,
+                    'M', 4, 7,
+                    'L', 6, 7, 6, 8, 4, 8, 4, 7,
+                    'M', 1, 8,
+                    'L', 9, 8, 9, 9, 1, 9, 1, 8
+                ]);
+
             default:
                 return this.toPath(['M', 0, 0, 'L', 10, 0, 10, 10, 0, 10, 'Z'])
 
@@ -21532,45 +21562,49 @@ chess.view.buttonbar.Bar = new Class({
         this.parent(controller);
 
         this.controller.addEvents({
-            startOfGame : this.startOfGame.bind(this),
-            notStartOfGame : this.notStartOfBranch.bind(this),
-            endOfBranch : this.endOfBranch.bind(this),
-            notEndOfBranch : this.notEndOfBranch.bind(this),
-            startAutoplay : this.startAutoPlay.bind(this),
-            stopAutoplay : this.stopAutoPlay.bind(this),
-            newGame : this.newGame.bind(this)
+            startOfGame: this.startOfGame.bind(this),
+            notStartOfGame: this.notStartOfBranch.bind(this),
+            endOfBranch: this.endOfBranch.bind(this),
+            notEndOfBranch: this.notEndOfBranch.bind(this),
+            startAutoplay: this.startAutoPlay.bind(this),
+            stopAutoplay: this.stopAutoPlay.bind(this),
+            newGame: this.newGame.bind(this),
+            comp : this.toggleButtonVisibility.bind(this)
         });
     },
 
 
     startOfGame: function () {
-        this.disButtons(['start','previous']);
+        if(this.controller.compMode)return;
+        this.disButtons(['start', 'previous']);
 
     },
 
     notStartOfBranch: function () {
-        this.enButtons(['start','previous','play']);
+        if(this.controller.compMode)return;
+        this.enButtons(['start', 'previous', 'play']);
     },
     endOfBranch: function () {
-        this.disButtons(['end','next','play'])
+        if(this.controller.compMode)return;
+        this.disButtons(['end', 'next', 'play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
     },
 
-    disButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    disButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.disableButton(btn);
         }.bind(this))
     },
-    enButtons:function(buttons){
-        jQuery.each(buttons, function(i, btn){
+    enButtons: function (buttons) {
+        jQuery.each(buttons, function (i, btn) {
             this.enableButton(btn);
         }.bind(this))
     },
 
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
-        this.enButtons(['end','next']);
+        this.enButtons(['end', 'next']);
         if (!model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
@@ -21580,7 +21614,7 @@ chess.view.buttonbar.Bar = new Class({
 
     autoPlayMode: false,
     startAutoPlay: function () {
-        if(this.els.buttonPaths['play'])this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
+        if (this.els.buttonPaths['play']) this.els.buttonPaths['play'].set('d', this.getPath('pause').join(' '));
 
         this.enableButton('play');
         this.cssButton('play', 'Play');
@@ -21589,7 +21623,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        if(!this.hasButton('play'))return;
+        if (!this.hasButton('play'))return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
         if (!this.autoPlayMode)return;
         this.autoPlayMode = false;
@@ -21601,7 +21635,7 @@ chess.view.buttonbar.Bar = new Class({
 
     },
 
-    hasButton:function(name){
+    hasButton: function (name) {
         return this.buttons.indexOf(name) != -1;
     },
 
@@ -21610,7 +21644,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     disableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -21619,7 +21653,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
-        if(!this.hasButton(name))return;
+        if (!this.hasButton(name))return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);
@@ -24873,6 +24907,7 @@ chess.controller.Controller = new Class({
                 view.on('next', this.nextMove.bind(this));
                 view.on('pause', this.pauseGame.bind(this));
                 view.on('flip', this.flipBoard.bind(this));
+                view.on('comp', this.compClick.bind(this));
                 break;
             case window.chess.Views.buttonbar.game:
                 view.on('play', this.playMoves.bind(this));
@@ -24964,6 +24999,10 @@ chess.controller.Controller = new Class({
         }
 
         return true;
+    },
+
+    compClick:function(){
+
     },
 
     deleteMoves: function (move) {
@@ -27646,12 +27685,15 @@ chess.WPTemplate = new Class({
     sound: false,
     boardId: undefined,
     _p: false,
+    compToggle: false,
 
     initialize: function (config) {
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
+
+        if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
@@ -27674,7 +27716,6 @@ chess.WPTemplate = new Class({
         }
 
         if (!ludo.isMobile) {
-
             if (config.width) {
                 this.renderTo.css('width', config.width);
             }
@@ -27683,7 +27724,6 @@ chess.WPTemplate = new Class({
                 this.renderTo.css('float', config['float']);
             }
         }
-
 
         chess.THEME_OVERRIDES = undefined;
 
@@ -27721,6 +27761,14 @@ chess.WPTemplate = new Class({
         }
     },
 
+    adjustButtonArray:function(buttons){
+        if(this.compToggle)buttons.push('comp');
+    },
+
+    controllerType: function () {
+        return this._p ? 'ComputerController' : 'Controller';
+    },
+
     onload: function () {
         this._loadCounter++;
         if (!this._ready && this._loadCounter == 2) this.render();
@@ -27730,9 +27778,61 @@ chess.WPTemplate = new Class({
 
     canRender: function () {
         return this._ready;
+    },
+
+    createController: function () {
+        this.controller.on('enginestatus', this.showEngineStatusDialog.bind(this));
+        this.controller.on('compGameOver', this.onGameOver.bind(this));
+        this.controller.on('comp', this.hideOverlays.bind(this));
+    },
+
+    hideOverlays:function(){
+        if(this.game_over_div){
+            this.game_over_div.hide();
+        }
+    },
+
+    onGameOver:function(result, playerColor){
+        if(this.game_over_div == undefined){
+            var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_game_over_text"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+        }
+
+        var txt = result == 1 ? '1 - 0' : result == -1 ? '0 - 1' : '0.5 - 0.5';
+
+        var h = this.game_over_div.height();
+        this.game_over_div.find('.dhtml_chess_game_over_text')
+            .css('line-height', h + 'px')
+            .css('font-size', Math.round(h / 4) + 'px')
+            .html(txt);
+        this.game_over_div.show();
+    },
+
+    showEngineStatusDialog: function () {
+        if (this.controller.engineLoaded()) {
+            this.computerDialog().hide();
+        } else {
+            this.computerDialog().show();
+
+        }
+    },
+
+    cs_dialog: undefined,
+    computerDialog: function () {
+        if (this.cs_dialog == undefined) {
+            var v = jQuery('<div class="dhtml_chess_loading">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_centered_bg dhtml_chess_loading_image"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+
+
+            this.cs_dialog = v;
+        }
+
+        return this.cs_dialog;
     }
-
-
 });/* ../dhtml-chess/src/wp-public/manager.js */
 chess.WPManager = new Class({
     Extends: ludo.Core,
@@ -27799,20 +27899,28 @@ chess.WPGameTemplate = new Class({
         this.model = config.model || undefined;
 
         this.gameId = config.gameId;
-        if(!this.model && !this.gameId)this.gameId = 2;
+
+        if(config.fen){
+            this.fen = config.fen;
+        }
+        if(!this.model && !this.gameId && !this.fen)this.gameId = 2;
     },
 
 
-    createGameModel:function(){
-        this.controller = new chess.controller.Controller({
+    createController:function(){
+        this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
             sound:this.sound
         });
+        if(this.fen){
+            this.controller.setPosition(this.fen);
+        }
+        this.parent();
         this.loadGame();
     },
 
     loadGame:function(){
-
 
         if(this.gameId){
             jQuery.ajax({
@@ -27844,12 +27952,7 @@ chess.WPGameTemplate = new Class({
             });
         }else if(this.model){
             this.controller.currentModel.populate(this.model);
-
         }
-
-
-
-
     }
 });/* ../dhtml-chess/src/wp-public/game/game1.js */
 window.chess.isWordPress = true;
@@ -27876,6 +27979,8 @@ chess.WPGame1 = new Class({
             this.boardSize = w - 200;
         }
 
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
         if (this.canRender()) {
@@ -27919,7 +28024,7 @@ chess.WPGame1 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -27968,6 +28073,7 @@ chess.WPGame1 = new Class({
                     'margin-top': 5
                 },
                 type: 'chess.view.buttonbar.Bar',
+                buttons:this.buttons,
                 layout: {
                     height: 45,
                     width: this.bs
@@ -28050,7 +28156,10 @@ chess.WPGame2 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 275 + this.wpm_h);
         this.boardSize = w;
-        if(this.canRender()){
+        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
+
+        if (this.canRender()) {
             this.render();
         }
     },
@@ -28058,7 +28167,7 @@ chess.WPGame2 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: jQuery(this.renderTo),
-            cls:this.th,
+            cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -28106,6 +28215,10 @@ chess.WPGame2 = new Class({
                 }, this.board),
                 {
                     type: 'chess.view.buttonbar.Bar',
+                    buttons: this.buttons,
+                    elCss: {
+                        'padding-top': 2
+                    },
                     layout: {
                         height: 40,
                         width: this.boardSize
@@ -28126,13 +28239,13 @@ chess.WPGame2 = new Class({
 
                 },
                 {
-                    type:'chess.WPComMessage',
-                    hidden:this._p
+                    type: 'chess.WPComMessage',
+                    hidden: this._p
                 }
             ]
         });
 
-        this.createGameModel();
+        this.createController();
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game3.js */
@@ -28175,6 +28288,9 @@ chess.WPGame3 = new Class({
             ]
         }, this.board);
 
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
+
         if (this.canRender()) {
             this.render();
         }
@@ -28192,7 +28308,7 @@ chess.WPGame3 = new Class({
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -28353,8 +28469,8 @@ chess.WPGame3 = new Class({
                     {
                         type: 'chess.view.buttonbar.Bar',
                         module: this.module,
-                        buttons: ['flip'],
-                        width: 42,
+                        buttons: this.lastButtons,
+                        width: 42 * this.lastButtons.length,
                         buttonSize: function (availSize) {
                             return availSize;
                         }
@@ -28379,6 +28495,9 @@ chess.WPGame4 = new Class({
         var w = this.renderTo.width();
         this.renderTo.css('height', w + 40 + 35 + 20);
         this.boardSize = w;
+
+        this.lastButtons = ['flip'];
+        this.adjustButtonArray(this.lastButtons);
         if (this.canRender()) {
             this.render();
         }
@@ -28508,8 +28627,8 @@ chess.WPGame4 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 module: this.module,
-                                buttons: ['flip'],
-                                width: 42,
+                                buttons: this.lastButtons,
+                                width: 42 * this.lastButtons.length,
                                 buttonSize: function (availSize) {
                                     return availSize;
                                 }
@@ -28522,7 +28641,7 @@ chess.WPGame4 = new Class({
                 }
             ]
         });
-        this.createGameModel();
+        this.createController();
     }
 
 });/* ../dhtml-chess/src/wp-public/game/game5.js */
@@ -28551,7 +28670,8 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['flip', 'start', 'previous', 'next', 'end'];
+        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.adjustButtonArray(this.buttons);
         this.configure();
         if (this.canRender()) {
             this.render();
@@ -28649,7 +28769,7 @@ chess.WPGame5 = new Class({
 
         });
 
-        this.createGameModel();
+        this.createController();
 
     },
 
@@ -28665,21 +28785,21 @@ chess.WPGame5 = new Class({
 
                 children: ludo.isMobile ? [this.board] : [
 
-                    this.board,
-                    {
-                        id: this.module + '-panel',
-                        name: "notation-panel",
-                        type: 'chess.view.notation.Panel',
-                        layout: {
-                            weight: this.notationWeight,
-                            height: 'matchParent'
-                        },
-                        elCss: {
-                            'margin-left': '2px'
-                        },
-                        module: this.module
-                    }
-                ]
+                        this.board,
+                        {
+                            id: this.module + '-panel',
+                            name: "notation-panel",
+                            type: 'chess.view.notation.Panel',
+                            layout: {
+                                weight: this.notationWeight,
+                                height: 'matchParent'
+                            },
+                            elCss: {
+                                'margin-left': '2px'
+                            },
+                            module: this.module
+                        }
+                    ]
             },
 
             {
@@ -28690,69 +28810,37 @@ chess.WPGame5 = new Class({
                 elCss: {
                     'margin-top': 10
                 },
-                children: ludo.isMobile ? [
-                    {weight: 1},
+                children: [
                     {
-                        anchor: [0.5, 0.5],
+                        module:this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: this.buttonSize,
+                            height:'matchParent'
+                        },
+                        hidden:true
+                    },
+                    {
+                        weight: 1
+                    },
+                    {
+                        anchor: [1, 0.5],
                         type: 'chess.view.buttonbar.Bar',
-                        buttons: ['start', 'previous'],
+                        buttons: this.buttons,
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 3
+                            width: (this.buttonSize - 10) * this.buttons.length
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
                         }
-                    },
-                    {
-                        type: 'chess.view.notation.LastMove',
-                        module: this.module,
-                        layout: {
+                    }
 
-                            width: this.buttonSize * 2
-
-                        },
-                        css: {
-                            border: 'none'
-                        }
-                    },
-                    {
-                        anchor: [0.5, 0.5],
-                        type: 'chess.view.buttonbar.Bar',
-                        buttons: ['next', 'end'],
-                        module: this.module,
-                        layout: {
-                            width: (this.buttonSize) * 2
-                        },
-                        buttonSize: function (ofSize) {
-                            return ofSize * 0.9;
-                        }
-                    },
-                    {weight: 1}
-
-                ] :
-                    [
-                        {
-                            weight: 1
-                        },
-                        {
-                            anchor: [1, 0.5],
-                            type: 'chess.view.buttonbar.Bar',
-                            buttons: this.buttons,
-                            module: this.module,
-                            layout: {
-                                width: (this.buttonSize - 10) * 5
-                            },
-                            buttonSize: function (ofSize) {
-                                return ofSize * 0.9;
-                            }
-                        }
-
-                    ]
+                ]
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
 
         ];
@@ -28800,12 +28888,26 @@ chess.WPGame5 = new Class({
                 ]
             }, this.board),
             {
-                type: 'chess.view.buttonbar.Bar',
-                layout: {
-                    height: 40,
-                    width: this.boardSize
-                },
-                module: this.module
+                layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
+                children: [
+                    {
+                        module: this.module,
+                        type: 'chess.view.board.SideToMove',
+                        layout: {
+                            width: 40
+                        },
+                        hidden: true
+                    },
+                    {
+                        type: 'chess.view.buttonbar.Bar',
+                        layout: {
+                            height: 40,
+                            weight: 1
+
+                        },
+                        module: this.module
+                    }
+                ]
             },
             {
                 id: this.module + '-panel',
@@ -28822,7 +28924,7 @@ chess.WPGame5 = new Class({
             },
             {
                 type: 'chess.WPComMessage',
-                hidden:this._p
+                hidden: this._p
             }
         ]
 

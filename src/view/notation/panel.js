@@ -91,6 +91,7 @@ chess.view.notation.Panel = new Class({
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
+        c.on('updateNotations', this.showMoves.bind(this));
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 

@@ -13,12 +13,15 @@ chess.WPTemplate = new Class({
     sound: false,
     boardId: undefined,
     _p: false,
+    compToggle: false,
 
     initialize: function (config) {
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
+
+        if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
@@ -41,7 +44,6 @@ chess.WPTemplate = new Class({
         }
 
         if (!ludo.isMobile) {
-
             if (config.width) {
                 this.renderTo.css('width', config.width);
             }
@@ -50,7 +52,6 @@ chess.WPTemplate = new Class({
                 this.renderTo.css('float', config['float']);
             }
         }
-
 
         chess.THEME_OVERRIDES = undefined;
 
@@ -88,6 +89,14 @@ chess.WPTemplate = new Class({
         }
     },
 
+    adjustButtonArray:function(buttons){
+        if(this.compToggle)buttons.push('comp');
+    },
+
+    controllerType: function () {
+        return this._p ? 'ComputerController' : 'Controller';
+    },
+
     onload: function () {
         this._loadCounter++;
         if (!this._ready && this._loadCounter == 2) this.render();
@@ -97,7 +106,59 @@ chess.WPTemplate = new Class({
 
     canRender: function () {
         return this._ready;
+    },
+
+    createController: function () {
+        this.controller.on('enginestatus', this.showEngineStatusDialog.bind(this));
+        this.controller.on('compGameOver', this.onGameOver.bind(this));
+        this.controller.on('comp', this.hideOverlays.bind(this));
+    },
+
+    hideOverlays:function(){
+        if(this.game_over_div){
+            this.game_over_div.hide();
+        }
+    },
+
+    onGameOver:function(result, playerColor){
+        if(this.game_over_div == undefined){
+            var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_game_over_text"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+        }
+
+        var txt = result == 1 ? '1 - 0' : result == -1 ? '0 - 1' : '0.5 - 0.5';
+
+        var h = this.game_over_div.height();
+        this.game_over_div.find('.dhtml_chess_game_over_text')
+            .css('line-height', h + 'px')
+            .css('font-size', Math.round(h / 4) + 'px')
+            .html(txt);
+        this.game_over_div.show();
+    },
+
+    showEngineStatusDialog: function () {
+        if (this.controller.engineLoaded()) {
+            this.computerDialog().hide();
+        } else {
+            this.computerDialog().show();
+
+        }
+    },
+
+    cs_dialog: undefined,
+    computerDialog: function () {
+        if (this.cs_dialog == undefined) {
+            var v = jQuery('<div class="dhtml_chess_loading">' +
+                '<div class="dhtml_chess_overlay"></div>' +
+                '<div class="dhtml_chess_centered_bg dhtml_chess_loading_image"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+
+
+            this.cs_dialog = v;
+        }
+
+        return this.cs_dialog;
     }
-
-
 });

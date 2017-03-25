@@ -86,6 +86,7 @@ chess.controller.Controller = new Class({
                 view.on('next', this.nextMove.bind(this));
                 view.on('pause', this.pauseGame.bind(this));
                 view.on('flip', this.flipBoard.bind(this));
+                view.on('comp', this.compClick.bind(this));
                 break;
             case window.chess.Views.buttonbar.game:
                 view.on('play', this.playMoves.bind(this));
@@ -177,6 +178,10 @@ chess.controller.Controller = new Class({
         }
 
         return true;
+    },
+
+    compClick:function(){
+
     },
 
     deleteMoves: function (move) {
