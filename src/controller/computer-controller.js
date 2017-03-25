@@ -85,9 +85,11 @@ chess.controller.ComputerController = new Class({
         this.currentModel = this.engineGameModel;
         this.history = [];
         this.startFen = this.gameModel.fen();
+        var m = Object.clone(this.gameModel.getMetadata());
+        m.fen = this.startFen;
+        m.result = '*';
         this.engineGameModel.setPosition(this.startFen);
-        this.engineGameModel.setMetadata(this.gameModel.getMetadata());
-        this.engineGameModel.setMetadataValue('result', '*');
+        this.engineGameModel.setMetadata(m);
 
         var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
         this.engineGameModel.setGameComment(txt);

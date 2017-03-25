@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 22:46:29 CET 2017 */
+/* Generated Sat Mar 25 22:59:11 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30986,9 +30986,11 @@ chess.controller.ComputerController = new Class({
         this.currentModel = this.engineGameModel;
         this.history = [];
         this.startFen = this.gameModel.fen();
+        var m = Object.clone(this.gameModel.getMetadata());
+        m.fen = this.startFen;
+        m.result = '*';
         this.engineGameModel.setPosition(this.startFen);
-        this.engineGameModel.setMetadata(this.gameModel.getMetadata());
-        this.engineGameModel.setMetadataValue('result', '*');
+        this.engineGameModel.setMetadata(m);
 
         var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
         this.engineGameModel.setGameComment(txt);
