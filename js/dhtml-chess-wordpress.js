@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 22:42:40 CET 2017 */
+/* Generated Sat Mar 25 22:46:29 CET 2017 */
 /*
 * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30621,7 +30621,7 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     engineLoaded: function () {
-        return this.engineStatus.engineLoaded ? true : false;
+        return this.engineStatus.engineLoaded;
     },
 
     createEngine: function () {

@@ -160,7 +160,7 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     engineLoaded: function () {
-        return this.engineStatus.engineLoaded ? true : false;
+        return this.engineStatus.engineLoaded;
     },
 
     createEngine: function () {
