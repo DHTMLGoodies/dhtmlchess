@@ -47,9 +47,13 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            this.createView('chess.view.dialog.OverwriteMove');
+            if(chess.view.dialog.OverwriteMove){
+                this.createView('chess.view.dialog.OverwriteMove');
+            }
             this.createView('chess.view.dialog.Promote');
-            this.createView('chess.view.dialog.Comment');
+            if(chess.view.dialog.Comment){
+                this.createView('chess.view.dialog.Comment');
+            }
         }
     },
 

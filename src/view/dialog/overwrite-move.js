@@ -78,7 +78,7 @@ chess.view.dialog.OverwriteMove = new Class({
 
 	setController:function (controller) {
 		this.parent(controller);
-		this.controller.addEvent('overwriteOrVariation', this.showDialog.bind(this))
+        controller.on('overwriteOrVariation', this.showDialog.bind(this))
 	},
 
 	__rendered:function () {

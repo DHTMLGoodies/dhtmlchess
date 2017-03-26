@@ -1,6 +1,6 @@
 /* Generated Sat Mar 25 22:31:19 CET 2017 */
 /*
-* Copyright ©2017. dhtmlchess.com. All Rights Reserved.
+* Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
 *
 * You are free to use/try this software for 30 days without paying any fees.

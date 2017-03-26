@@ -201,8 +201,6 @@ chess.controller.PlayStockFishController = new Class({
                 } else {
                     var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
                     if (match) {
-
-
                         if (that.turn != that.playerColor) {
                             that.currentModel.move({from: match[1], to: match[2], promoteTo: match[3]});
                         }
@@ -404,7 +402,6 @@ chess.controller.PlayStockFishController = new Class({
     },
 
     onGameOver: function (result) {
-        console.log(result);
         if (!this.isPlaying)return;
         this.views.board.disableDragAndDrop();
 

@@ -48,12 +48,12 @@ chess.model.Game = new Class({
     initialize: function (config) {
         config = config || {};
         this.moveParser = new chess.parser.Move0x88();
-        this.gameReader = new chess.remote.GameReader();
-        this.gameReader.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        this.gameReader.addEvent('load', this.afterLoad.bind(this));
-        this.gameReader.addEvent('load', this.populate.bind(this));
-        this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
-        this.gameReader.addEvent('saved', this.gameSaved.bind(this));
+        var gr = this.gameReader = new chess.remote.GameReader();
+        gr.on('beforeLoad', this.beforeLoad.bind(this));
+        gr.on('load', this.afterLoad.bind(this));
+        gr.on('load', this.populate.bind(this));
+        gr.on('newMove', this.appendRemoteMove.bind(this));
+        gr.on('saved', this.gameSaved.bind(this));
         this.setDefaultModel();
 
 

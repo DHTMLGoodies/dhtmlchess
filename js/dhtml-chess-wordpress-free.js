@@ -1,6 +1,6 @@
-/* Generated Sat Mar 25 22:59:01 CET 2017 */
+/* Generated Sun Mar 26 18:59:18 CEST 2017 */
 /*
-* Copyright ©2017. dhtmlchess.com. All Rights Reserved.
+* Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
 *
 * You are free to use/try this software for 30 days without paying any fees.
@@ -24868,9 +24868,13 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            this.createView('chess.view.dialog.OverwriteMove');
+            if(chess.view.dialog.OverwriteMove){
+                this.createView('chess.view.dialog.OverwriteMove');
+            }
             this.createView('chess.view.dialog.Promote');
-            this.createView('chess.view.dialog.Comment');
+            if(chess.view.dialog.Comment){
+                this.createView('chess.view.dialog.Comment');
+            }
         }
     },
 
@@ -25534,12 +25538,12 @@ chess.model.Game = new Class({
     initialize: function (config) {
         config = config || {};
         this.moveParser = new chess.parser.Move0x88();
-        this.gameReader = new chess.remote.GameReader();
-        this.gameReader.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        this.gameReader.addEvent('load', this.afterLoad.bind(this));
-        this.gameReader.addEvent('load', this.populate.bind(this));
-        this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
-        this.gameReader.addEvent('saved', this.gameSaved.bind(this));
+        var gr = this.gameReader = new chess.remote.GameReader();
+        gr.on('beforeLoad', this.beforeLoad.bind(this));
+        gr.on('load', this.afterLoad.bind(this));
+        gr.on('load', this.populate.bind(this));
+        gr.on('newMove', this.appendRemoteMove.bind(this));
+        gr.on('saved', this.gameSaved.bind(this));
         this.setDefaultModel();
 
 

@@ -68,7 +68,7 @@ chess.view.pgn.Grid = new Class({
     },
     ludoEvents:function () {
         this.parent();
-        this.getDataSource().addEvent('select', this.selectPgnFile.bind(this))
+        this.getDataSource().on('select', this.selectPgnFile.bind(this))
     },
 
     loadGames:function (databaseId) {

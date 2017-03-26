@@ -314,13 +314,13 @@ chess.computer.GameDialog = new Class({
         padding: 10
     },
     buttonConfig: 'Ok',
-
-    title: chess.__('New Game'),
     elo: undefined,
     color: undefined,
     modal: false,
 
     __construct: function (config) {
+        config = config ||{};
+        config.title = chess.__('New Game');
         this.parent(config);
         this.elo = new chess.computer.Elo();
     },
@@ -463,7 +463,7 @@ chess.computer.GameDialog = new Class({
                 },
                 name: 'your-elo',
                 layout: {colspan: 4},
-                html: 'Your ratings'
+                html: chess.__('Your rating')
 
             }
 
@@ -476,7 +476,7 @@ chess.computer.GameDialog = new Class({
 
         var gameType = this.elo.getGameType(min * 60, inc);
         var elo = Math.round(this.elo.getElo(gameType));
-        this.child['your-elo'].html('Your rating: ' + elo + ' (' + gameType + ')');
+        this.child['your-elo'].html(chess.__('Your rating') + ': ' + elo + ' (' + gameType + ')');
 
 
         this.child['stockfishElo'].val(elo);
@@ -521,6 +521,9 @@ chess.computer.ComputerStatusDialog = new Class({
     layout: {
         type: 'relative',
         width: 300, height: 100
+    },
+    css:{
+        'text-align' : 'center'
     },
     __construct: function (config) {
         config.title = config.html = chess.__("Loading Stockfish JS");
@@ -634,20 +637,21 @@ chess.computer.GameOverDialog = new Class({
 
         this.setTitle(title);
 
-        this.child['title'].$b().removeClass('title-win');
-        this.child['title'].$b().removeClass('title-draw');
-        this.child['title'].$b().removeClass('title-loss');
+        var b = this.child['title'].$b();
+        b.removeClass('title-win');
+        b.removeClass('title-draw');
+        b.removeClass('title-loss');
 
 
         this.child['title'].html(title);
         var ratingChange = newElo - oldElo;
         if (myResult == 0) {
-            this.child['title'].$b().addClass('title-draw');
+            b.addClass('title-draw');
         }
         else if (myResult == 1) {
-            this.child['title'].$b().addClass('title-win');
+            b.addClass('title-win');
         } else {
-            this.child['title'].$b().addClass('title-loss');
+            b.addClass('title-loss');
 
         }
         if (ratingChange > 1) {
