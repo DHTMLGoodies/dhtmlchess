@@ -52,7 +52,7 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: chess.__('White'),
+            heading: 'White',
             key: 'white',
             width: 120,
             sortable: true,
@@ -61,7 +61,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         black: {
-            heading: chess.__('Black'),
+            heading: 'Black',
             key: 'black',
             width: 120,
             sortable: true,
@@ -70,7 +70,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         round: {
-            heading: chess.__('Round'),
+            heading: 'Round',
             key: 'round',
             width: 70,
             sortable: true,
@@ -79,7 +79,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         result: {
-            heading: chess.__('Result'),
+            heading: 'Result',
             key: 'result',
             width: 70,
             sortable: true,
@@ -89,7 +89,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         event: {
-            heading: chess.__('Event'),
+            heading: 'Event',
             key: 'event',
             weight: 1,
             sortable: true,
@@ -99,7 +99,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         last_moves: {
-            heading: chess.__('Last moves'),
+            heading: 'Last moves',
             key: 'last_moves',
             weight: 1,
             sortable: true,
@@ -157,6 +157,10 @@ chess.view.gamelist.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
+
+        jQuery.each(this.columns, function(i, col){
+           col.heading = chess.__(col.heading);
+        });
         var cols = config.cols || this.cols;
         if (cols) {
             this.getColumnManager().hideAllColumns();
@@ -164,6 +168,8 @@ chess.view.gamelist.Grid = new Class({
                 this.getColumnManager().showColumn(cols[i]);
             }
         }
+
+
     },
     ludoEvents: function () {
         this.parent();

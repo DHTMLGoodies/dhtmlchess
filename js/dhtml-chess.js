@@ -1,4 +1,4 @@
-/* Generated Sat Mar 25 22:31:19 CET 2017 */
+/* Generated Mon Mar 27 18:44:01 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -33367,7 +33367,7 @@ chess.view.gamelist.Grid = new Class({
 
     columns: {
         white: {
-            heading: chess.__('White'),
+            heading: 'White',
             key: 'white',
             width: 120,
             sortable: true,
@@ -33376,7 +33376,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         black: {
-            heading: chess.__('Black'),
+            heading: 'Black',
             key: 'black',
             width: 120,
             sortable: true,
@@ -33385,7 +33385,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         round: {
-            heading: chess.__('Round'),
+            heading: 'Round',
             key: 'round',
             width: 70,
             sortable: true,
@@ -33394,7 +33394,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         result: {
-            heading: chess.__('Result'),
+            heading: 'Result',
             key: 'result',
             width: 70,
             sortable: true,
@@ -33404,7 +33404,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         event: {
-            heading: chess.__('Event'),
+            heading: 'Event',
             key: 'event',
             weight: 1,
             sortable: true,
@@ -33414,7 +33414,7 @@ chess.view.gamelist.Grid = new Class({
             }
         },
         last_moves: {
-            heading: chess.__('Last moves'),
+            heading: 'Last moves',
             key: 'last_moves',
             weight: 1,
             sortable: true,
@@ -33472,6 +33472,10 @@ chess.view.gamelist.Grid = new Class({
     __construct: function (config) {
         this.parent(config);
         this.databaseId = config.databaseId || this.databaseId;
+
+        jQuery.each(this.columns, function(i, col){
+           col.heading = chess.__(col.heading);
+        });
         var cols = config.cols || this.cols;
         if (cols) {
             this.getColumnManager().hideAllColumns();
@@ -33479,6 +33483,8 @@ chess.view.gamelist.Grid = new Class({
                 this.getColumnManager().showColumn(cols[i]);
             }
         }
+
+
     },
     ludoEvents: function () {
         this.parent();
@@ -33963,7 +33969,7 @@ chess.view.dialog.OverwriteMove = new Class({
 
 	setController:function (controller) {
 		this.parent(controller);
-		this.controller.addEvent('overwriteOrVariation', this.showDialog.bind(this))
+        controller.on('overwriteOrVariation', this.showDialog.bind(this))
 	},
 
 	__rendered:function () {
@@ -35767,7 +35773,7 @@ chess.view.pgn.Grid = new Class({
     },
     ludoEvents:function () {
         this.parent();
-        this.getDataSource().addEvent('select', this.selectPgnFile.bind(this))
+        this.getDataSource().on('select', this.selectPgnFile.bind(this))
     },
 
     loadGames:function (databaseId) {
@@ -38844,9 +38850,13 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            this.createView('chess.view.dialog.OverwriteMove');
+            if(chess.view.dialog.OverwriteMove){
+                this.createView('chess.view.dialog.OverwriteMove');
+            }
             this.createView('chess.view.dialog.Promote');
-            this.createView('chess.view.dialog.Comment');
+            if(chess.view.dialog.Comment){
+                this.createView('chess.view.dialog.Comment');
+            }
         }
     },
 
@@ -39807,12 +39817,12 @@ chess.model.Game = new Class({
     initialize: function (config) {
         config = config || {};
         this.moveParser = new chess.parser.Move0x88();
-        this.gameReader = new chess.remote.GameReader();
-        this.gameReader.addEvent('beforeLoad', this.beforeLoad.bind(this));
-        this.gameReader.addEvent('load', this.afterLoad.bind(this));
-        this.gameReader.addEvent('load', this.populate.bind(this));
-        this.gameReader.addEvent('newMove', this.appendRemoteMove.bind(this));
-        this.gameReader.addEvent('saved', this.gameSaved.bind(this));
+        var gr = this.gameReader = new chess.remote.GameReader();
+        gr.on('beforeLoad', this.beforeLoad.bind(this));
+        gr.on('load', this.afterLoad.bind(this));
+        gr.on('load', this.populate.bind(this));
+        gr.on('newMove', this.appendRemoteMove.bind(this));
+        gr.on('saved', this.gameSaved.bind(this));
         this.setDefaultModel();
 
 

@@ -90,7 +90,7 @@ chess.wordpress.WordPressArchived = new Class({
                         this.child["list"].remove(record);
                         this.showMessage(chess.__('PGN deleted'));
                     } else {
-                        this.showError('Not able to delete');
+                        this.showError(chess.__('Not able to delete'));
                         this.child["list"].undoSwipe(record);
                     }
                 } else {
@@ -118,7 +118,7 @@ chess.wordpress.WordPressArchived = new Class({
                         this.child["list"].getDataSource().remove(record);
                         this.showMessage(chess.__('PGN restored'));
                     } else {
-                        this.showError('Not able to restore');
+                        this.showError(chess.__('Not able to restore'));
                         this.child["list"].undoSwipe(record);
                     }
                 } else {

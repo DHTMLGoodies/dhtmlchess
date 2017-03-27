@@ -64,7 +64,7 @@ chess.wordpress.CommentView = new Class({
 
             {
                 type: 'form.Textarea',
-                placeholder: 'Enter Comment',
+                placeholder: chess.__('Enter Comment'),
                 name: 'comment',
                 layout: {
                     weight: 1

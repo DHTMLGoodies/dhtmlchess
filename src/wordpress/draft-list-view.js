@@ -6,7 +6,10 @@ chess.wordpress.DraftListView = new Class({
     emptyText:chess.__('No Drafts Found'),
     submodule:'wordpress.draftlist',
 
-    loadMessage:chess.__('Loading drafts...'),
+    __construct:function(config){
+        config.loadMessage = chess.__('Loading drafts...');
+        this.parent(config);
+    },
 
     __rendered:function(){
         this.parent();
