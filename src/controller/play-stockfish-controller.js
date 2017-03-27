@@ -367,7 +367,7 @@ chess.controller.PlayStockFishController = new Class({
                 }
             }
 
-            var colorToMove = model.turn();
+            var colorToMove = this.colorToMove = model.turn();
             if (event == 'newMove') {
                 if (this.clock) this.clock.tap();
 

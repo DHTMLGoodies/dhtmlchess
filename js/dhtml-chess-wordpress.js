@@ -1,4 +1,4 @@
-/* Generated Mon Mar 27 18:53:52 CEST 2017 */
+/* Generated Mon Mar 27 19:03:13 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30742,7 +30742,7 @@ chess.controller.PlayStockFishController = new Class({
                 }
             }
 
-            var colorToMove = model.turn();
+            var colorToMove = this.colorToMove = model.turn();
             if (event == 'newMove') {
                 if (this.clock) this.clock.tap();
 
