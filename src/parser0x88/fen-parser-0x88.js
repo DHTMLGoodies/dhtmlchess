@@ -338,10 +338,10 @@ chess.parser.FenParser0x88 = new Class({
 			}.bind(this))
 
 		}.bind(this));
-		
+
 		return ret;
 	},
-	
+
 	getAllCheckmateMoves:function(){
 		var fen = this.getFen();
 		var moves = this.getAllMovesReadable();
@@ -1455,7 +1455,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		return notation;
 	},
-	
+
 	move:function (move) {
 		if (ludo.util.isString(move)) {
 			move = this.getFromAndToByNotation(move);

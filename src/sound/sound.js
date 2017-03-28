@@ -11,7 +11,6 @@ chess.sound.Sound = new Class({
             'move': ['move1.mp3', 'move2.mp3'],
             'castle': ['castle1.mp3', 'castle2.mp3']
         };
-
         this.createAudios();
     },
 

@@ -26,17 +26,14 @@ chess.view.notation.Table = new Class({
                 if(i> 0){
                     ret.push('</li>');
                 }
-                ret.push('<li>');
-
-                ret.push('<dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
+                ret.push('<li><dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
             }
 
             move.eval = ((Math.random() * 4) - (Math.random() * 4));
             ret.push('<dd>' + this.getDomTextForAMove(move) + "</dd>");
 
         }.bind(this));
-        ret.push('</li>');
-        ret.push('</ol>');
+        ret.push('</li></ol>');
         return ret;
     },
 

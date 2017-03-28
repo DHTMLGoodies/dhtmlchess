@@ -19,8 +19,6 @@ chess.view.notation.LastMove = new Class({
     },
 
     update: function (model) {
-
-
         var fen = model.getCurrentPosition();
 
         var tokens = fen.split(/\s/g);
@@ -35,9 +33,7 @@ chess.view.notation.LastMove = new Class({
         }
 
         if (m != this.lastIndex) {
-
             var cm = model.getCurrentMove();
-
             var pos = -1;
             var dom = this.getDOMForMove(cm, fm, c);
             var el;

@@ -50,12 +50,10 @@ chess.view.message.TacticsMessage = new Class({
 
     showWrongGuess: function () {
         this.showMessage(chess.__('Wrong move - please try again'), this.autoHideAfterMs);
-
     },
 
     showCorrectGuess: function () {
         this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
-
     },
 
     showMessage: function (message, delayBeforeHide) {

@@ -31,16 +31,16 @@ chess.view.board.SideToMove = new Class({
     __rendered: function () {
         this.parent();
 
-        this.els.outer = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
-        this.els.outer.css({
+        var o = this.els.outer = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        o.css({
             top: 0, left: 0, 'position': 'absolute', width: this.circleSize, height: this.circleSize
         });
-        this.els.inner = jQuery('<div class="dhtml-chess-side-to-move-inner"></div>');
-        this.els.inner.css({
+        var i = this.els.inner = jQuery('<div class="dhtml-chess-side-to-move-inner"></div>');
+        i.css({
             'position': 'absolute','box-sizing' : 'border-box'
         });
-        this.$b().append(this.els.outer);
-        this.$b().append(this.els.inner);
+        this.$b().append(o);
+        this.$b().append(i);
 
         this.tick();
     },
@@ -76,9 +76,10 @@ chess.view.board.SideToMove = new Class({
         if (this.controller && this.els.outer) {
             var c = this.controller.currentModel.getColorToMove();
             var pre = 'dhtml-chess-side-to-move-inner-';
-            this.els.inner.removeClass(pre + 'white');
-            this.els.inner.removeClass(pre + 'black');
-            this.els.inner.addClass(pre + c)
+            var i = this.els.inner;
+            i.removeClass(pre + 'white');
+            i.removeClass(pre + 'black');
+            i.addClass(pre + c)
         }
     },
 

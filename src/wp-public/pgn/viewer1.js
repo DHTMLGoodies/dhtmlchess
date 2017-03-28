@@ -15,22 +15,12 @@ window.chess.isWordPress = true;
 
 chess.WPViewer1 = new Class({
     Extends: chess.WPViewerTemplate,
-
-    renderTo: undefined,
-    pgn: undefined,
-
-    controller: undefined,
-
     showLabels: undefined,
-
-    module: undefined,
-
     boardSize: undefined,
 
     initialize: function (config) {
         this.parent(config);
-        this.renderTo = config.renderTo;
-        var r = jQuery(this.renderTo);
+        var r = this.renderTo;
         var w = r.width();
 
         if (ludo.isMobile) {
@@ -42,12 +32,6 @@ chess.WPViewer1 = new Class({
         }
         this.lastButtons = ['next','end'];
         this.adjustButtonArray(this.lastButtons);
-
-        this.pgn = config.pgn;
-        this.board = config.board || {};
-        this.arrow = config.arrow || {};
-        this.arrowSolution = config.arrowSolution || {};
-        this.hint = config.hint || {};
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);

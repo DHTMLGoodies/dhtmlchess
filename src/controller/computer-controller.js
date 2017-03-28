@@ -7,9 +7,13 @@ chess.controller.ComputerController = new Class({
     compMode: false,
 
     autoFlip: false,
+    w:undefined,b:undefined,
 
     __construct: function (config) {
         this.parent(config);
+
+        this.w = chess.__("white");
+        this.b = chess.__("black");
 
         this.on('enginestatus', this.receiveEngineStatus.bind(this));
         this.on('engineupdate', this.receiveEngineUpdate.bind(this));
@@ -91,7 +95,8 @@ chess.controller.ComputerController = new Class({
         this.engineGameModel.setPosition(this.startFen);
         this.engineGameModel.setMetadata(m);
 
-        var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', this.playerColor);
+        var c = this.playerColor == 'white' ? this.w : this.b;
+        var txt = chess.__("You play {color} vs StockFishJS").replace('{color}', c);
         this.engineGameModel.setGameComment(txt);
 
         this.currentModel.activate();

@@ -271,7 +271,6 @@ chess.view.board.GUI = new Class({
             }
             if (this['squareBg_' + t] != undefined) {
                 this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
-
             }
         }
     },
@@ -429,8 +428,6 @@ chess.view.board.GUI = new Class({
         var pr = this.getP('r');
         var pb = this.getP('b');
 
-
-
         bc.css({
             'padding-left': pl,
             'padding-top': pt,
@@ -503,17 +500,17 @@ chess.view.board.GUI = new Class({
             return;
         }
 
-        this.els.labels.ranks.css('height', this.els.board.css('height'));
-        this.els.labels.files.css('width', this.els.board.css('width'));
 
         var r = this.els.labels.ranks;
         var f = this.els.labels.files;
+
+        r.css('height', this.els.board.css('height'));
+        f.css('width', this.els.board.css('width'));
 
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
 
             f.css('line-height', this.getP('b') + 'px');
-
 
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
@@ -637,23 +634,24 @@ chess.view.board.GUI = new Class({
 
     getHeightOfContainer: function () {
         return this.$b().height();
-
     },
 
     getSquareByCoordinates: function (x, y) {
-        var offset = this.internal.squareSize / 2;
+        var ss = this.internal.squareSize;
+
+        var offset = ss / 2;
         x += offset;
         y += offset;
 
         x = Math.max(0, x);
         y = Math.max(0, y);
 
-        var max = this.internal.squareSize * 8;
+        var max = ss * 8;
         x = Math.min(max, x);
         y = Math.min(max, y);
 
-        x = Math.floor(x / this.internal.squareSize);
-        y = Math.floor(8 - (y / this.internal.squareSize));
+        x = Math.floor(x / ss);
+        y = Math.floor(8 - (y / ss));
         if (this.isFlipped()) {
             x = 7 - x;
             y = 7 - y;

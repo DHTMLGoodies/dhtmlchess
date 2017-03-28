@@ -6,7 +6,7 @@ chess.WPTemplate = new Class({
     _loadCounter: 0,
     th: undefined,
     themeObject: undefined,
-
+    controller:undefined,
     heading_tpl: undefined,
     wpm_h: 20,
     nav: true,
@@ -14,6 +14,12 @@ chess.WPTemplate = new Class({
     boardId: undefined,
     _p: false,
     compToggle: false,
+    pgn: undefined,
+
+    arrowSolution:undefined,
+    board:undefined,
+    arrow:undefined,
+    hint:undefined,
 
     initialize: function (config) {
 
@@ -21,6 +27,12 @@ chess.WPTemplate = new Class({
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
 
+        this.board = config.board || {};
+        this.arrow = config.arrow || {};
+        this.arrowSolution = config.arrowSolution || {};
+        this.hint = config.hint || {};
+
+        if (config.pgn != undefined) this.pgn = config.pgn;
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
@@ -89,8 +101,8 @@ chess.WPTemplate = new Class({
         }
     },
 
-    adjustButtonArray:function(buttons){
-        if(this.compToggle)buttons.push('comp');
+    adjustButtonArray: function (buttons) {
+        if (this.compToggle) buttons.push('comp');
     },
 
     controllerType: function () {
@@ -114,16 +126,16 @@ chess.WPTemplate = new Class({
         this.controller.on('comp', this.hideOverlays.bind(this));
     },
 
-    hideOverlays:function(){
-        if(this.game_over_div){
+    hideOverlays: function () {
+        if (this.game_over_div) {
             this.game_over_div.hide();
         }
     },
 
-    onGameOver:function(result, playerColor){
+    onGameOver: function (result, playerColor) {
 
-        if(this.game_over_div == undefined){
-            var v= this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
+        if (this.game_over_div == undefined) {
+            var v = this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
                 '<div class="dhtml_chess_overlay"></div>' +
                 '<div class="dhtml_chess_game_over_text"></div></div>');
             ludo.$(this.boardId).boardEl().append(v);

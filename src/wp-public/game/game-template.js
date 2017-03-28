@@ -1,7 +1,7 @@
 window.chess.isWordPress = true;
 chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
-
+    fen:undefined,
 
     initialize:function(config){
         this.parent(config);

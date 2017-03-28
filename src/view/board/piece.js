@@ -65,7 +65,6 @@ chess.view.board.Piece = new Class({
         this.board = config.board;
         this.aniDuration = config.aniDuration != undefined ? config.aniDuration : this.aniDuration;
 
-
         this.createDOM();
         this.resize(30);
         this.position();
@@ -180,8 +179,10 @@ chess.view.board.Piece = new Class({
             this.validTargetSquares = this.board.getValidMovesForPiece(this);
             this.fireEvent('initdrag', this);
             var pos = this.el.position();
-            this.el.css('left', pos.left + 'px');
-            this.el.css('top', pos.top + 'px');
+            this.el.css({
+                left: pos.left,
+                top : pos.top
+            });
 
             var p = ludo.util.pageXY(e);
 
@@ -196,10 +197,6 @@ chess.view.board.Piece = new Class({
             return false;
         }
         return undefined;
-    },
-
-    pageXY:function(e){
-
     },
 
     /**

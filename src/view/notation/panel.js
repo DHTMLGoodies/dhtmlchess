@@ -111,7 +111,6 @@ chess.view.notation.Panel = new Class({
         }
         this.__params(config, ['showEval', 'notations', 'showContextMenu', 'comments', 'interactive', 'figurines', 'figurineHeight', 'showResult']);
 
-
         if (this.showContextMenu)this.contextMenu = this.getContextMenuConfig();
 
         this.notationKey = this.notations === 'long' ? 'lm' : 'm';
@@ -198,7 +197,6 @@ chess.view.notation.Panel = new Class({
     },
 
     setCurrentMove: function (model) {
-
         var move = model.getCurrentMove();
         if (move) {
             this.highlightMove(jQuery("#" + this.moveMapNotation[move.uid]));
@@ -226,7 +224,6 @@ chess.view.notation.Panel = new Class({
         if (!move)return;
         if (move.position == undefined)move = jQuery(move);
         if (!move || !move.length)return;
-
 
         var moveTop = move.position().top + this.$b().scrollTop();
         var oh = move.outerHeight();

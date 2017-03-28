@@ -120,11 +120,9 @@ chess.controller.PlayStockFishController = new Class({
 
         this.playingStrength = this.elo.getEloByTime(timeControl.time * 60, timeControl.inc);
 
-
         this.isPlaying = true;
 
         this.runGameStartCommands();
-
 
         this.prepareBoard(timeControl);
 
@@ -136,9 +134,7 @@ chess.controller.PlayStockFishController = new Class({
         this.uciCmd('setoption name Mobility (Endgame) value 150');
         this.uciCmd('setoption name Contempt Factor value 0');
         this.uciCmd('setoption name UCI_LimitStrength value 1200');
-        this.uciCmd('setoption name Cowardice value 80');
         this.uciCmd('setoption name Skill Level value ' + this.getSkillLevel());
-
         this.uciCmd('ucinewgame');
     },
 
@@ -241,7 +237,6 @@ chess.controller.PlayStockFishController = new Class({
 
 
         } catch (error) {
-            console.error(error);
             this.backgroundEngineValid = false;
         }
     },

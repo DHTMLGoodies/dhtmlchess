@@ -17,28 +17,28 @@ chess.wordpress.PgnStandings = new Class({
     __columns:function(){
         return {
             'player': {
-                heading: 'Player',
+                heading: chess.__('Player'),
                 sortable: true,
                 width:200,
                 key: 'player'
             },
             'w': {
-                heading: 'Wins',
+                heading: chess.__('Wins'),
                 sortable: true,
-                width:65
+                width:50
             },
             'd': {
-                heading: 'Draws',
+                heading: chess.__('Draw'),
                 sortable: true,
-                width:65
+                width:50
             },
             'l': {
-                heading: 'Losses',
+                heading: chess.__('Loss'),
                 sortable: true,
-                width:65
+                width:50
             },
             'score': {
-                heading: 'Score',
+                heading: chess.__('Score'),
                 sortable:true,
                 renderer: function (val, record) {
                     if(this.sofiaRules){

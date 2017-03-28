@@ -184,13 +184,13 @@ chess.view.board.Background = new Class({
     createPattern: function () {
 
         if (this.paint != undefined) {
-            this.els.paintRect = this.svg.$('rect');
-            this.els.paintRect.css(this.paint);
-            this.svg.append(this.els.paintRect);
+            var r = this.els.paintRect = this.svg.$('rect');
+            r.css(this.paint);
+            this.svg.append(r);
             if (!this.paint.fill) {
-                this.els.paintRect.css('fill-opacity', 0);
+                r.css('fill-opacity', 0);
             }
-            this.els.paintRect.toFront();
+            r.toFront();
         }
 
         if (this.pattern) {
@@ -204,7 +204,6 @@ chess.view.board.Background = new Class({
 
     updatePatternSize: function () {
         if (this.size == undefined) this.size = {x: 1, y: 1};
-
 
         var min = 5;
 

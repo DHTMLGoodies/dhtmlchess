@@ -12,12 +12,9 @@ chess.WPComp1 = new Class({
 
     initialize: function (config) {
         this.parent(config);
-
-        var r = jQuery(this.renderTo);
+        var r = this.renderTo;
         var w = r.width();
-
         var ratio = (w + 50) / (w + 200 + this.wpm_h);
-
         var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 

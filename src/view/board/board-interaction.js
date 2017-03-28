@@ -40,8 +40,9 @@ chess.view.board.BoardInteraction = new Class({
 
         var offset = this.surface.offset();
 
-        var mouseX = e.pageX - offset.left;
-        var mouseY = e.pageY - offset.top;
+        var p = ludo.util.pageXY(e);
+        var mouseX = p.pageX - offset.left;
+        var mouseY = p.pageY - offset.top;
 
         var x = Math.floor(mouseX / this.size * 8);
         var y = 8 - Math.floor(mouseY / this.size * 8);

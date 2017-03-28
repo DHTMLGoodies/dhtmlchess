@@ -14,7 +14,7 @@ chess.WPGame6 = new Class({
         var w = this.renderTo.width();
         var eh = this.comp ? this.buttonHeight : 0;
         this.renderTo.css('height', w + eh + this.wpm_h);
-        this.fen = config.fen;
+
 
         if (config.highlight != undefined) {
             this.highlight = config.highlight;
@@ -31,7 +31,7 @@ chess.WPGame6 = new Class({
     render: function () {
         new chess.view.Chess({
             cls: this.th,
-            renderTo: jQuery(this.renderTo),
+            renderTo: this.renderTo,
             layout: {
                 type: 'linear',orientation:'vertical'
             },

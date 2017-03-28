@@ -99,23 +99,25 @@ chess.view.buttonbar.Bar = new Class({
         };
 
         this.styles = this.styles || {};
+        var s = this.styles;
+        var df = this.defaultStyles;
 
-        this.styles.button = Object.merge(this.defaultStyles.button, this.styles.button || {});
-        this.styles.buttonOver = Object.merge(this.defaultStyles.buttonOver, this.styles.buttonOver || {});
-        this.styles.buttonDown = Object.merge(this.defaultStyles.buttonDown, this.styles.buttonDown || {});
-        this.styles.buttonDisabled = Object.merge(this.defaultStyles.buttonDisabled, this.styles.buttonDisabled || {});
+        s.button = Object.merge(df.button, s.button || {});
+        s.buttonOver = Object.merge(df.buttonOver, s.buttonOver || {});
+        s.buttonDown = Object.merge(df.buttonDown, s.buttonDown || {});
+        s.buttonDisabled = Object.merge(df.buttonDisabled, s.buttonDisabled || {});
 
-        this.styles.buttonPlay = Object.merge(this.defaultStyles.buttonPlay, this.styles.buttonPlay || {});
-        this.styles.buttonComp = Object.merge(this.defaultStyles.button, this.styles.button || {});
+        s.buttonPlay = Object.merge(df.buttonPlay, s.buttonPlay || {});
+        s.buttonComp = Object.merge(df.button, s.button || {});
 
-        this.styles.image = Object.merge(this.defaultStyles.image, this.styles.image || {});
-        this.styles.imageOver = Object.merge(this.defaultStyles.imageOver, this.styles.imageOver || {});
-        this.styles.imageDown = Object.merge(this.defaultStyles.imageDown, this.styles.imageDown || {});
-        this.styles.imageDisabled = Object.merge(this.defaultStyles.imageDisabled, this.styles.imageDisabled || {});
-        this.styles.imagePlay = Object.merge(this.defaultStyles.imagePlay, this.styles.imagePlay || {});
-        this.styles.imageComp = Object.merge(this.defaultStyles.imageComp, this.styles.imageComp || {});
+        s.image = Object.merge(df.image, s.image || {});
+        s.imageOver = Object.merge(df.imageOver, s.imageOver || {});
+        s.imageDown = Object.merge(df.imageDown, s.imageDown || {});
+        s.imageDisabled = Object.merge(df.imageDisabled, s.imageDisabled || {});
+        s.imagePlay = Object.merge(df.imagePlay, s.imagePlay || {});
+        s.imageComp = Object.merge(df.imageComp, s.imageComp || {});
 
-        this.styles.overlay = Object.merge(this.defaultStyles.overlay, this.styles.overlay || {});
+        s.overlay = Object.merge(this.defaultStyles.overlay, s.overlay || {});
 
         jQuery(document.documentElement).on('mouseup', this.onMouseUp.bind(this));
     },
@@ -151,8 +153,6 @@ chess.view.buttonbar.Bar = new Class({
                 if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
             }
         }.bind(this));
-
-
     },
 
     createStylesheets: function () {
@@ -199,7 +199,6 @@ chess.view.buttonbar.Bar = new Class({
         this.els.buttonPaths[name] = p;
         p.addClass(this.pr + 'dc-image');
         g.append(p);
-
 
         g.on('mouseenter', this.fn('enterButton', name));
         g.on('mouseleave', this.fn('leaveButton', name));
@@ -294,8 +293,6 @@ chess.view.buttonbar.Bar = new Class({
 
         r.addClass(this.pr + 'dc-button' + className);
         p.addClass(this.pr + 'dc-image' + className);
-
-
     },
 
     resize: function (size) {
@@ -331,13 +328,9 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     overlayPath: function (c) {
-
-
         var cy = c.y + (c.height * 0.55);
         var b = c.y + c.height;
         var r = c.x + c.width;
-        // A rx ry x-axis-rotation large-arc-flag sweep-flag x y
-
         var ry = c.height * 0.05;
         return ['M',
             c.x, cy,
@@ -349,15 +342,13 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     getButtonRadius: function () {
-        if (isNaN(this.borderRadius)) {
-
-            var r = parseFloat(this.borderRadius);
+        var r = this.borderRadius;
+        if (isNaN(r)) {
+            var r = parseFloat(r);
             r = Math.min(50, r);
-
             return this.btnSize * r / 100;
-
         }
-        return Math.min(this.btnSize / 2, this.borderRadius);
+        return Math.min(this.btnSize / 2, r);
 
     },
 
@@ -387,11 +378,11 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     toPath: function (points) {
-
-        var innerWidth = this.btnSize * 0.65;
-        var innerHeight = this.btnSize * 0.55;
-        var innerX = (this.btnSize - innerWidth) / 2;
-        var innerY = (this.btnSize - innerHeight) / 2;
+        var s = this.btnSize;
+        var innerWidth = s * 0.65;
+        var innerHeight = s * 0.55;
+        var innerX = (s - innerWidth) / 2;
+        var innerY = (s - innerHeight) / 2;
 
         var x = function (x) {
             return innerX + (innerWidth * x / 10)
@@ -633,6 +624,4 @@ chess.view.buttonbar.Bar = new Class({
     buttonSize: function (availSize) {
         return availSize * 0.9;
     }
-
-
 });

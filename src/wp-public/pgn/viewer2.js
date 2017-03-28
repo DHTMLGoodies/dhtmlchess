@@ -15,33 +15,17 @@ window.chess.isWordPress = true;
 
 chess.WPViewer2 = new Class({
     Extends: chess.WPViewerTemplate,
-
-    renderTo: undefined,
-    pgn: undefined,
-
-    controller: undefined,
-
     showLabels: undefined,
-
-    module: undefined,
-
     boardSize: undefined,
-
     sofia:false,
-
+    width:undefined,
     initialize: function (config) {
         this.parent(config);
-        this.renderTo = config.renderTo;
-        var r = jQuery(this.renderTo);
-        var w = r.width();
-        this.boardSize = w - (ludo.isMobile ? 0 : 150);
+        var r = this.renderTo;
+        var w = this.width = r.width();
+        this.boardSize = ludo.isMobile ? w : w/2;
 
         r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
-        this.pgn = config.pgn;
-        this.board = config.board || {};
-        this.arrow = config.arrow || {};
-        this.arrowSolution = config.arrowSolution || {};
-        this.hint = config.hint || {};
 
         if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
@@ -130,9 +114,9 @@ chess.WPViewer2 = new Class({
                     {
                         id: this.module + '-panel',
                         name: "notation-panel",
-                        type: 'chess.view.notation.Table',
+                        type: 'chess.view.notation.Panel',
                         layout: {
-                            width: 150
+                            weight: 1
                         },
                         elCss: {
                             'margin-left': '2px'
@@ -144,18 +128,18 @@ chess.WPViewer2 = new Class({
             {
                 layout:{
                     height: 40,
-                    width:this.boardSize,
-                    type:'linear', orientation:'horizontal'
+                    type:'linear', orientation:'horizontal',
+                    width:'matchParent'
                 },
                 children:[
                     {
-                        anchor:[0.5,1],
+                        anchor:[1,0.5],
                         type: 'chess.view.buttonbar.Bar',
                         buttons: this.buttons,
                         module: this.module,
                         layout: {
                             height: 'matchParent',
-                            width:(this.boardSize - 40)
+                            width:this.width - 40
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;

@@ -102,13 +102,9 @@ class Archiver
 
 
         foreach($this->files as $source=>$destination){
-
             $cmd = "cp -r ". $source . " ". $destination;
-
             echo $cmd."<br>";
             echo exec($cmd);
-
-
         }
 
 
@@ -168,8 +164,7 @@ class Archiver
 
         echo "<br>Size: " . filesize($zipDestination);
         exec("cp -f ".$zipDestination." ../../../wp-testing/wordpresschess.zip");
-
-
+		# chmod("../../../wp-testing/wordpresschess.zip", 0755);
 
 
         exec("rm -rf wordpresschess");

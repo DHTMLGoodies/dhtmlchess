@@ -1,5 +1,7 @@
 chess.WPViewerTemplate = new Class({
     Extends: chess.WPTemplate,
+    pgn:undefined,
+
     createController:function(){
         this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
@@ -10,6 +12,12 @@ chess.WPViewerTemplate = new Class({
         });
 
         this.parent();
+
+    },
+
+    initialize:function(config){
+        this.parent(config);
+
 
     }
 });
