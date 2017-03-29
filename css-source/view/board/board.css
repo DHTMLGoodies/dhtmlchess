@@ -81,3 +81,8 @@
     display:inline-block;
     margin-right:4px;
 }
+
+.dhtml-chess-highlight-square{
+    opacity:0.5;
+    background-color:#D32F2F;
+}

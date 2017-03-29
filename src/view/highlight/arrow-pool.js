@@ -12,8 +12,8 @@ chess.view.highlight.ArrowPool = new Class({
 
     arrowStyles: {
         'stroke-linejoin': 'round',
-        stroke: '#a7311e',
-        fill: '#a7311e',
+        stroke: '#006064',
+        fill: '#006064',
         'stroke-opacity': .8,
         'fill-opacity': .5
     },
@@ -24,7 +24,7 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = config.arrowStyles;
+        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
         if (config.single != undefined)this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));

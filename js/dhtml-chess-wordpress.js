@@ -1,4 +1,4 @@
-/* Generated Tue Mar 28 20:52:26 CEST 2017 */
+/* Generated Wed Mar 29 20:47:37 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -21498,6 +21498,7 @@ var _w = (function () {
 
 _w.chess = {
     language: {},
+    action:{},
     plugins: {},
     pgn: {},
     wordpress: {},
@@ -21559,6 +21560,8 @@ _w.chess.isWordPress = false;
 
 _w.chess.events = {
     game: {
+        clearActions: 'clearActions',
+        action: 'action',
         loadGame: 'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',
@@ -22397,59 +22400,65 @@ chess.view.notation.Table = new Class({
     Extends: chess.view.notation.Panel,
     type: 'chess.view.notation.Table',
 
-    showContextMenu:false,
+    showContextMenu: false,
 
-    
-    ludoDOM:function(){
+
+    ludoDOM: function () {
         this.parent();
         this.$e.addClass('dhtml-chess-notation-table');
     },
-    
-    showEval:false,
-    
+
+    showEval: false,
+
     getMovesInBranch: function (branch, startPly, depth, branchIndex, countBranches) {
         this.comments = false;
         var ret = [];
         ret.push('<ol>');
 
-        jQuery.each(branch, function(i, move){
-            var ply = i + startPly;
-            if(i == 0 && ply % 2 == 1){
-                ret.push('<li><dt>' + ( Math.ceil(ply / 2)) + '</dt><dd>&nbsp;</dd>');
-            }
-            if((ply % 2) == 0){
-                if(i> 0){
-                    ret.push('</li>');
+        var c = 0;
+        jQuery.each(branch, function (i, move) {
+            if (move['m']) {
+                var ply = c + startPly;
+                if (c == 0 && ply % 2 == 1) {
+                    ret.push('<li><dt>' + ( Math.ceil(ply / 2)) + '</dt><dd>&nbsp;</dd>');
                 }
-                ret.push('<li><dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
+                if ((ply % 2) == 0) {
+                    if (c > 0) {
+                        ret.push('</li>');
+                    }
+                    ret.push('<li><dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
+                }
+                move.eval = ((Math.random() * 4) - (Math.random() * 4));
+                ret.push('<dd>' + this.getDomTextForAMove(move) + "</dd>");
+                c++;
             }
 
-            move.eval = ((Math.random() * 4) - (Math.random() * 4));
-            ret.push('<dd>' + this.getDomTextForAMove(move) + "</dd>");
 
         }.bind(this));
         ret.push('</li></ol>');
         return ret;
     },
 
-    appendMove:function(){
+    appendMove: function () {
         this.showMoves(this.controller.currentModel);
         this.setCurrentMove(this.controller.currentModel);
     },
 
-    scrollMoveIntoView: function(move){
-        if(!move)return;
-        if (move.position == undefined)move = jQuery(move);
+    scrollMoveIntoView: function (move) {
+        if (!move)return;
+
+        if (move.position == undefined) move = jQuery(move);
+        if (!move.length)return;
         var moveTop = move.offset().top - this.$b().offset().top + this.$b().scrollTop();
         var oh = move.outerHeight();
         this._scrollIntoView(moveTop, oh);
     },
-    
-    addVariations:function(){
+
+    addVariations: function () {
         // silent is golden
     },
 
-    getResultDOM:function(model){
+    getResultDOM: function (model) {
         return '<p class="game-result">' + this.parent(model) + '</p>';
     }
 });/* ../dhtml-chess/src/view/notation/last-move.js */
@@ -25038,8 +25047,8 @@ chess.view.highlight.ArrowPool = new Class({
 
     arrowStyles: {
         'stroke-linejoin': 'round',
-        stroke: '#a7311e',
-        fill: '#a7311e',
+        stroke: '#006064',
+        fill: '#006064',
         'stroke-opacity': .8,
         'fill-opacity': .5
     },
@@ -25050,7 +25059,7 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = config.arrowStyles;
+        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
         if (config.single != undefined)this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
@@ -25153,39 +25162,6 @@ chess.view.highlight.ArrowPool = new Class({
 chess.view.board.ArrowNode = new Class({
     Extends: ludo.svg.Node,
 
-    squareSize:60,
-    /*
-     * Width of arrow head
-     */
-    arrowWidth:24,
-    /*
-     * Height of arrow head
-     */
-    arrowHeight:35,
-    /*
-     * Width of arrow line
-     */
-    lineWidth:10,
-    /*
-     * Offset at arrow end(+ value = smaller arrow, measured from center of square)
-     */
-    offsetEnd:15,
-    /*
-     * Offset at start of arrow (positive value = smaller arrow - measured from center of square)
-     */
-    offsetStart:0,
-    /*
-     * Size of rounded edge
-     */
-    roundEdgeSize:8,
-    /*
-     * 0 = 90 degrees from line to left and right tip of arrow, positive value = less than 90 degrees
-     */
-    arrowOffset:0,
-    
-    arrowPaint:undefined,
-
-
     initialize: function (properties) {
         this.parent('path', properties);
     },
@@ -25240,6 +25216,14 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
+    lastSquare:undefined,
+
+    lastBgColor:function(){
+        if(this.lastSquare){
+            return this.lastSquare.el.css('background-color');
+        }
+    },
+
     show: function (square, color) {
         if(this.onlySingles && this.isShown(square)){
             if(color)this.map[square][0].el.css('background-color', color);
@@ -25260,6 +25244,8 @@ chess.view.highlight.SquarePool = new Class({
         });
         s.el.show();
         s.square = square;
+
+        this.lastSquare = s;
     },
 
     isShown: function (square) {
@@ -26964,7 +26950,105 @@ chess.pgn.Parser = new Class({
         return ret.join(' ');
     }
 });
-/* ../dhtml-chess/src/util/coordinate-util.js */
+/* ../dhtml-chess/src/action/handler.js */
+chess.action.Handler = new Class({
+
+    board: undefined,
+    arrowPool: undefined,
+    highlightPool: undefined,
+
+    arrowStyles: {
+        stroke: '#BF360C',
+        fill: '#0288D1'
+    },
+
+    curStyling: undefined,
+    curSquareColor:undefined,
+
+    initialize: function (config) {
+        this.board = config.board;
+        config.controller.on('clearActions', this.clear.bind(this));
+        config.controller.on('action', this.receiveAction.bind(this));
+
+        if (chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles_actions != undefined) {
+            var s = chess.OVERRIDES.arrow_styles_actions.split(/;/g);
+            jQuery.each(s, function (i, style) {
+                var tokens = style.split(/:/);
+                this.arrowStyles[tokens[0]] = tokens[1];
+            }.bind(this))
+        }
+        if(config.arrowStyles){
+            this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        }
+        this.curStyling = {};
+    },
+
+    clear: function () {
+        if (this.highlightPool) {
+            this.highlightPool.hideAll();
+        }
+        if (this.arrowPool) {
+            this.arrowPool.hideAll();
+        }
+
+    },
+
+    receiveAction: function (model, action) {
+        switch (action.type) {
+            case 'highlight':
+                this.highlight(action);
+                break;
+            case 'arrow':
+                this.showArrow(action);
+                break;
+            default:
+        }
+
+    },
+
+    highlight: function (action) {
+        if (this.highlightPool == undefined) {
+            this.highlightPool = new chess.view.highlight.SquarePool({
+                board: this.board
+            });
+        }
+        this.highlightPool.show(action.square, action.color || this.curSquareColor );
+
+        if(action.color){
+            this.curSquareColor = action.color;
+        }else{
+            action.color = this.highlightPool.lastBgColor();
+        }
+    },
+
+    showArrow: function (action) {
+        if (this.arrowPool == undefined) {
+
+            console.log(this.arrowStyles);
+            this.arrowPool = new chess.view.highlight.ArrowPool({
+                board: this.board,
+                arrowStyles:this.arrowStyles
+            });
+        }
+
+        if (action.color) {
+            this.curStyling = {
+                fill: action.color, stroke: action.color
+            }
+        }else{
+            if(this.curStyling && this.curStyling.fill){
+                action.color = this.curStyling.fill;
+            }else{
+                action.color = this.arrowPool.arrowStyles.fill;
+            }
+        }
+
+        var styling = Object.merge(this.arrowStyles, this.curStyling);
+        this.arrowPool.show(action.from, action.to, styling);
+    }
+
+
+});/* ../dhtml-chess/src/util/coordinate-util.js */
 /**
  * Utility for mapping squares to board coordinates(pixels)
  * Created by alfmagne1 on 10/03/2017.
@@ -27026,13 +27110,13 @@ chess.util.CoordinateUtil = {
         }
 
         var sz = boardSize / 8;
-        var lw = properties.lineWidth || sz * 0.2;
+        var lw = properties.lineWidth || sz * 0.18;
         var ah = properties.arrowHeight || sz* .65;
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
-        var ao = properties.arrowOffset || 0;
+        var ao = properties.arrowOffset || 0.5;
         var oe = properties.offsetEnd || sz * .2;
-        var os = properties.offsetStart || 0;
+        var os = properties.offsetStart || sz * 0.1;
 
         var ret = [];
 
@@ -29532,7 +29616,6 @@ chess.parser.Move0x88 = new Class({
         if(/[\!\?]/.test(n)){
             grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
         }
-
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation() + grade,
@@ -29543,6 +29626,7 @@ chess.parser.Move0x88 = new Class({
             promoteTo : move.promoteTo,
             comment : move.comment,
             clk : move.clk,
+            actions : move.actions,
             eval : move.eval,
             to:move.to,
             variations:move.variations || []
@@ -29665,11 +29749,10 @@ chess.controller.Controller = new Class({
     applyTo: undefined,
     currentModel: null,
     modelCacheSize: 15,
-
     views: {},
     disabledEvents: {},
     pgn: undefined,
-    debug: false,
+    debug: true,
 
     _module: undefined,
 
@@ -29680,7 +29763,7 @@ chess.controller.Controller = new Class({
     __construct: function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.__params(config, ['debug', 'pgn', 'theme', 'sound']);
+        this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
         if (config.applyTo != undefined) {
             this._module = config.applyTo[0];
@@ -29698,20 +29781,28 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            if(chess.view.dialog.OverwriteMove){
+            if (chess.view.dialog.OverwriteMove) {
                 this.createView('chess.view.dialog.OverwriteMove');
             }
             this.createView('chess.view.dialog.Promote');
-            if(chess.view.dialog.Comment){
+            if (chess.view.dialog.Comment) {
                 this.createView('chess.view.dialog.Comment');
             }
+        }
+
+        if (this.views.board) {
+            new chess.action.Handler({
+                board: this.views.board,
+                controller: this,
+                arrowStyles:this.arrowStylesSec
+            })
         }
     },
 
     createView: function (type) {
         var c = this.theme[type] || {};
         c.type = type;
-        if (this._module != undefined)c.module = this._module;
+        if (this._module != undefined) c.module = this._module;
         return ludo.factory.create(c);
     },
 
@@ -29728,7 +29819,7 @@ chess.controller.Controller = new Class({
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            if (this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if (this.debug) ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             //return false;
         }
         this.views[view.submodule] = view;
@@ -29835,7 +29926,7 @@ chess.controller.Controller = new Class({
         return true;
     },
 
-    compClick:function(){
+    compClick: function () {
 
     },
 
@@ -29968,7 +30059,7 @@ chess.controller.Controller = new Class({
      */
     toStart: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toStart();
+        if (!this.isBusy) this.currentModel.toStart();
     },
     /**
      * Go to end of current game
@@ -29977,7 +30068,7 @@ chess.controller.Controller = new Class({
      */
     toEnd: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toEnd();
+        if (!this.isBusy) this.currentModel.toEnd();
     },
     /**
      * Go to previous move
@@ -29986,7 +30077,7 @@ chess.controller.Controller = new Class({
      */
     previousMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.previousMove();
+        if (!this.isBusy) this.currentModel.previousMove();
     },
     /**
      * Go to next move
@@ -29995,7 +30086,7 @@ chess.controller.Controller = new Class({
      */
     nextMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.nextMove();
+        if (!this.isBusy) this.currentModel.nextMove();
     },
     /**
      * Start auto play of moves in current game from current position
@@ -30003,7 +30094,7 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     playMoves: function () {
-        if (!this.isBusy)this.currentModel.startAutoPlay();
+        if (!this.isBusy) this.currentModel.startAutoPlay();
     },
     /**
      * Pause auto play of moves
@@ -30055,7 +30146,7 @@ chess.controller.Controller = new Class({
 
     getNewModel: function (game, pgn) {
         game = game || {};
-        if (pgn)game.pgn = pgn;
+        if (pgn) game.pgn = pgn;
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
@@ -30085,7 +30176,7 @@ chess.controller.Controller = new Class({
 
     fireModelEvent: function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            if (this.debug)ludo.util.log(event);
+            if (this.debug) ludo.util.log(event);
             this.fireEvent(event, [model, param]);
             this.modelEventFired(event, model, param);
         }
@@ -30124,7 +30215,7 @@ chess.controller.Controller = new Class({
     },
 
     loadNextWordPressGame: function (pgn) {
-        if (arguments.length > 0)this.pgn = pgn;
+        if (arguments.length > 0) this.pgn = pgn;
         this.currentModel.loadNextStaticGame(pgn);
     },
 
@@ -31163,7 +31254,7 @@ chess.model.Game = new Class({
         this.toStart();
     },
 
-    reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
+    reservedMetadata: ["actions", "clk", "event", "site", "date", "round", "white", "black", "result",
         "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id", "eval"],
     // TODO refactor this to match server
     /**
@@ -32259,6 +32350,32 @@ chess.model.Game = new Class({
             this.fire('endOfBranch');
             this.fire('endOfGame');
         }
+
+    },
+
+    handleActions:function(){
+
+
+        this.fire('clearActions');
+
+        if(this.currentMove){
+            this.fireAction(this.currentMove);
+        }else{
+            var m = this.model.moves;
+            if(m && m.length && !m[0].m){
+                this.fireAction(m[0]);
+            }
+        }
+    },
+
+    fireAction:function(m){
+
+        if(m.actions && m.actions.length){
+            var a = m.actions;
+            jQuery.each(a, function(i,action){
+                this.fire('action', action);
+            }.bind(this));
+        }
     },
 
     /**
@@ -32633,6 +32750,7 @@ chess.model.Game = new Class({
         return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
     },
 
+    lastFenEventMove:'',
     /**
      * @method fire
      * @param {String} eventName
@@ -32648,8 +32766,12 @@ chess.model.Game = new Class({
         this.fireEvent(event, [event, this, param]);
 
 
-        if (event == 'newGame' || event == 'newMove' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
-            this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+        if (event == 'setPosition' || event == 'newGame' || event == 'newMove' || event == 'newMove' || event == 'nextmove') {
+            if(!this.currentMove || this.lastFenEventMove != this.currentMove){
+                this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+                this.handleActions();
+                this.lastFenEventMove = this.currentMove;
+            }
         }
     },
 

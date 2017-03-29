@@ -88,7 +88,6 @@ chess.WPFen = new Class({
                 var t = tokens[0].substr(2,2);
                 arrowPool.show(f,t, styling);
             });
-
         }
 
         if(this.compToggle){

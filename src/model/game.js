@@ -262,7 +262,7 @@ chess.model.Game = new Class({
         this.toStart();
     },
 
-    reservedMetadata: ["clk", "event", "site", "date", "round", "white", "black", "result",
+    reservedMetadata: ["actions", "clk", "event", "site", "date", "round", "white", "black", "result",
         "annotator", "termination", "fen", "plycount", "database_id", "id", "pgn", "pgn_id", "draft_id", "eval"],
     // TODO refactor this to match server
     /**
@@ -1358,6 +1358,32 @@ chess.model.Game = new Class({
             this.fire('endOfBranch');
             this.fire('endOfGame');
         }
+
+    },
+
+    handleActions:function(){
+
+
+        this.fire('clearActions');
+
+        if(this.currentMove){
+            this.fireAction(this.currentMove);
+        }else{
+            var m = this.model.moves;
+            if(m && m.length && !m[0].m){
+                this.fireAction(m[0]);
+            }
+        }
+    },
+
+    fireAction:function(m){
+
+        if(m.actions && m.actions.length){
+            var a = m.actions;
+            jQuery.each(a, function(i,action){
+                this.fire('action', action);
+            }.bind(this));
+        }
     },
 
     /**
@@ -1732,6 +1758,7 @@ chess.model.Game = new Class({
         return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
     },
 
+    lastFenEventMove:'',
     /**
      * @method fire
      * @param {String} eventName
@@ -1747,8 +1774,12 @@ chess.model.Game = new Class({
         this.fireEvent(event, [event, this, param]);
 
 
-        if (event == 'newGame' || event == 'newMove' || event == 'setPosition' || event == 'newMove' || event == 'nextmove') {
-            this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+        if (event == 'setPosition' || event == 'newGame' || event == 'newMove' || event == 'newMove' || event == 'nextmove') {
+            if(!this.currentMove || this.lastFenEventMove != this.currentMove){
+                this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+                this.handleActions();
+                this.lastFenEventMove = this.currentMove;
+            }
         }
     },
 

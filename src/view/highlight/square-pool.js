@@ -42,6 +42,14 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
+    lastSquare:undefined,
+
+    lastBgColor:function(){
+        if(this.lastSquare){
+            return this.lastSquare.el.css('background-color');
+        }
+    },
+
     show: function (square, color) {
         if(this.onlySingles && this.isShown(square)){
             if(color)this.map[square][0].el.css('background-color', color);
@@ -62,6 +70,8 @@ chess.view.highlight.SquarePool = new Class({
         });
         s.el.show();
         s.square = square;
+
+        this.lastSquare = s;
     },
 
     isShown: function (square) {

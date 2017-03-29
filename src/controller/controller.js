@@ -14,11 +14,10 @@ chess.controller.Controller = new Class({
     applyTo: undefined,
     currentModel: null,
     modelCacheSize: 15,
-
     views: {},
     disabledEvents: {},
     pgn: undefined,
-    debug: false,
+    debug: true,
 
     _module: undefined,
 
@@ -29,7 +28,7 @@ chess.controller.Controller = new Class({
     __construct: function (config) {
         this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.__params(config, ['debug', 'pgn', 'theme', 'sound']);
+        this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
         if (config.applyTo != undefined) {
             this._module = config.applyTo[0];
@@ -47,20 +46,28 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            if(chess.view.dialog.OverwriteMove){
+            if (chess.view.dialog.OverwriteMove) {
                 this.createView('chess.view.dialog.OverwriteMove');
             }
             this.createView('chess.view.dialog.Promote');
-            if(chess.view.dialog.Comment){
+            if (chess.view.dialog.Comment) {
                 this.createView('chess.view.dialog.Comment');
             }
+        }
+
+        if (this.views.board) {
+            new chess.action.Handler({
+                board: this.views.board,
+                controller: this,
+                arrowStyles:this.arrowStylesSec
+            })
         }
     },
 
     createView: function (type) {
         var c = this.theme[type] || {};
         c.type = type;
-        if (this._module != undefined)c.module = this._module;
+        if (this._module != undefined) c.module = this._module;
         return ludo.factory.create(c);
     },
 
@@ -77,7 +84,7 @@ chess.controller.Controller = new Class({
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            if (this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if (this.debug) ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             //return false;
         }
         this.views[view.submodule] = view;
@@ -184,7 +191,7 @@ chess.controller.Controller = new Class({
         return true;
     },
 
-    compClick:function(){
+    compClick: function () {
 
     },
 
@@ -317,7 +324,7 @@ chess.controller.Controller = new Class({
      */
     toStart: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toStart();
+        if (!this.isBusy) this.currentModel.toStart();
     },
     /**
      * Go to end of current game
@@ -326,7 +333,7 @@ chess.controller.Controller = new Class({
      */
     toEnd: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toEnd();
+        if (!this.isBusy) this.currentModel.toEnd();
     },
     /**
      * Go to previous move
@@ -335,7 +342,7 @@ chess.controller.Controller = new Class({
      */
     previousMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.previousMove();
+        if (!this.isBusy) this.currentModel.previousMove();
     },
     /**
      * Go to next move
@@ -344,7 +351,7 @@ chess.controller.Controller = new Class({
      */
     nextMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.nextMove();
+        if (!this.isBusy) this.currentModel.nextMove();
     },
     /**
      * Start auto play of moves in current game from current position
@@ -352,7 +359,7 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     playMoves: function () {
-        if (!this.isBusy)this.currentModel.startAutoPlay();
+        if (!this.isBusy) this.currentModel.startAutoPlay();
     },
     /**
      * Pause auto play of moves
@@ -404,7 +411,7 @@ chess.controller.Controller = new Class({
 
     getNewModel: function (game, pgn) {
         game = game || {};
-        if (pgn)game.pgn = pgn;
+        if (pgn) game.pgn = pgn;
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
@@ -434,7 +441,7 @@ chess.controller.Controller = new Class({
 
     fireModelEvent: function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            if (this.debug)ludo.util.log(event);
+            if (this.debug) ludo.util.log(event);
             this.fireEvent(event, [model, param]);
             this.modelEventFired(event, model, param);
         }
@@ -473,7 +480,7 @@ chess.controller.Controller = new Class({
     },
 
     loadNextWordPressGame: function (pgn) {
-        if (arguments.length > 0)this.pgn = pgn;
+        if (arguments.length > 0) this.pgn = pgn;
         this.currentModel.loadNextStaticGame(pgn);
     },
 

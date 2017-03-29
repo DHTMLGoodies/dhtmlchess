@@ -111,7 +111,6 @@ chess.parser.Move0x88 = new Class({
         if(/[\!\?]/.test(n)){
             grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
         }
-
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation() + grade,
@@ -122,6 +121,7 @@ chess.parser.Move0x88 = new Class({
             promoteTo : move.promoteTo,
             comment : move.comment,
             clk : move.clk,
+            actions : move.actions,
             eval : move.eval,
             to:move.to,
             variations:move.variations || []

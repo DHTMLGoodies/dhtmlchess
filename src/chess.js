@@ -5,6 +5,7 @@ var _w = (function () {
 
 _w.chess = {
     language: {},
+    action:{},
     plugins: {},
     pgn: {},
     wordpress: {},
@@ -66,6 +67,8 @@ _w.chess.isWordPress = false;
 
 _w.chess.events = {
     game: {
+        clearActions: 'clearActions',
+        action: 'action',
         loadGame: 'loadGame',
         setPosition: 'setPosition',
         invalidMove: 'invalidMove',

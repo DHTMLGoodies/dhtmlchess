@@ -2026,6 +2026,11 @@ span.notation-chess-move-highlighted{
 .dhtml-chess-move-number{
     display:inline-block;
     margin-right:4px;
+}
+
+.dhtml-chess-highlight-square{
+    opacity:0.5;
+    background-color:#D32F2F;
 }/* ../dhtml-chess/css-source/view/gamelist/grid.css */
 div.ludo-grid-data-cell {
     font-size: 12px !important;
