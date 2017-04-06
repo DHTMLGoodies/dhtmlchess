@@ -59,6 +59,9 @@ class DhtmlChessElo {
 			}
 		}
 
+		$this->incrementMultiPlayer($playerWhite);
+		$this->incrementMultiPlayer($playerBlack);
+
 	}
 
 	public function eloChange( $whiteElo, $blackElo, $result ) {
@@ -157,6 +160,11 @@ class DhtmlChessElo {
 
 	private function incrementPuzzles( $userId ) {
 		$this->store->increment( $this->getKey( self::GAME_KEY_PUZZLE_COUNT, $userId ) );
+	}
+
+	private function incrementMultiPlayer($userId){
+
+		$this->store->increment( $this->getKey( self::GAME_KEY_MULTIPLAY_COUNT, $userId ) );
 	}
 
 	public function countMultiGames( $userId ) {
