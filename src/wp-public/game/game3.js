@@ -128,7 +128,8 @@ chess.WPGame3 = new Class({
                 module: this.module
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden: this._p
             }
 
         ]

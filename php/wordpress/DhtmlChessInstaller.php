@@ -9,7 +9,7 @@
 class DhtmlChessInstaller
 {
 
-    const DATABASE_VERSION = 1;
+    const DATABASE_VERSION = 2;
     private static $testMode = false;
 
     private $charset_collate;
@@ -101,6 +101,9 @@ class DhtmlChessInstaller
         }
         $this->upgrade();
 
+
+
+
     }
 
     private function doQuery($query)
@@ -154,6 +157,11 @@ class DhtmlChessInstaller
         if ($oldVersion < 1) {
             $this->onUpgrade1();
         }
+        if($oldVersion < 2){
+        	$this->onUpgrade2();
+        }
+
+	    $this->updateDatabaseVersion(self::DATABASE_VERSION);
     }
 
     private function onUpgrade1()
@@ -179,6 +187,20 @@ class DhtmlChessInstaller
                 '%d'
             )
         );
+    }
+
+    private function onUpgrade2(){
+	    $query = "create table " . DhtmlChessDatabase::TABLE_KEY_VALUE_STORE . "("
+	    . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+	    . DhtmlChessDatabase::COL_KEY . " varchar(255),"
+	    . DhtmlChessDatabase::COL_VALUE_TYPE . " varchar(64),"
+	    . DhtmlChessDatabase::COL_VALUE . " varchar(255))" . $this->charset_collate;
+
+	    $this->doQuery($query);
+
+	    $query =  "create index wp_wpc_index_key_value on " . DhtmlChessDatabase::TABLE_KEY_VALUE_STORE . "(" . DhtmlChessDatabase::COL_KEY . ")";
+	    $this->doQuery($query);
+
     }
 
     public function getCurrentDatabaseVersion()
@@ -215,6 +237,7 @@ class DhtmlChessInstaller
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_CACHE);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DATABASE_VERSION);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_KEY_VALUE_STORE);
     }
 
     private $pgnTactic = '[setup "1"]

@@ -1,4 +1,4 @@
-/* Generated Wed Mar 29 20:47:37 CEST 2017 */
+/* Generated Mon Apr 3 19:03:02 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -29752,7 +29752,7 @@ chess.controller.Controller = new Class({
     views: {},
     disabledEvents: {},
     pgn: undefined,
-    debug: true,
+    debug: false,
 
     _module: undefined,
 
@@ -34579,7 +34579,8 @@ chess.WPGame1 = new Class({
                 module: this.module
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden : this._p
             }
         ];
     },
@@ -34877,7 +34878,8 @@ chess.WPGame3 = new Class({
                 module: this.module
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden: this._p
             }
 
         ]
@@ -36276,7 +36278,8 @@ chess.WPViewer2 = new Class({
 
             },
             {
-                type:'chess.WPComMessage'
+                type:'chess.WPComMessage',
+                hidden: this._p
             }
 
 
@@ -37359,7 +37362,6 @@ chess.WPTactics1 = new Class({
                             css: {
                                 'text-align': 'center',
                                 'overflow-y': 'auto',
-                                'font-size': '1.2em',
                                 'font-weight': 'bold'
                             }
                         },
@@ -37447,7 +37449,8 @@ chess.WPTactics1 = new Class({
                             type: 'chess.view.notation.TacticPanel'
                         },
                         {
-                            type: 'chess.WPComMessage'
+                            type: 'chess.WPComMessage',
+                            hidden: this._p
                         }
                     ]
                 }

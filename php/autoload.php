@@ -17,6 +17,7 @@ spl_autoload_register(
                 'dhtmlchessdraft' => '/wordpress/DhtmlChessDraft.php',
                 'dhtmlchessexception' => '/wordpress/DhtmlChessException.php',
                 'dhtmlchesspgnnotfoundexception' => '/wordpress/DhtmlChessException.php',
+                'dhtmlchesselo' => '/wordpress/DhtmlChessElo.php',
 
 
                 'accessortest' => '/chessDB/ludoDB/Tests/AccessorTest.php',

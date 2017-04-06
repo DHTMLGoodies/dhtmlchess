@@ -8,9 +8,7 @@ chess.THEME = {
     css: {
 
 
-
     },
-
     'chess.view.board.Board': {
         background: {
             borderRadius: ludo.isMobile ? '0.5%' : '1%',

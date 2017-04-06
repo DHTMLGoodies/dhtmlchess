@@ -115,7 +115,6 @@ chess.WPTactics1 = new Class({
                             css: {
                                 'text-align': 'center',
                                 'overflow-y': 'auto',
-                                'font-size': '1.2em',
                                 'font-weight': 'bold'
                             }
                         },
@@ -203,7 +202,8 @@ chess.WPTactics1 = new Class({
                             type: 'chess.view.notation.TacticPanel'
                         },
                         {
-                            type: 'chess.WPComMessage'
+                            type: 'chess.WPComMessage',
+                            hidden: this._p
                         }
                     ]
                 }

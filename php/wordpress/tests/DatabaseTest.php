@@ -54,6 +54,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         DhtmlChessInstaller::disableTestMode();
         $database->install();
 
+
         $wpdb = new wpdb("root", "", "wordpress", "localhost");
         $database = new DhtmlChessDatabase();
         $database->upgrade();
@@ -1027,98 +1028,6 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("1", $params["pgn"]["id"]);
         $this->assertEquals("lcc2016", $params["pgn"]["name"]);
     }
-    
-    /**
-     * @test
-     */
-    public function shouldGetTags()
-    {
-        $this->database->import('lcc2016.pgn');
-
-        $content = '<strong>Heading here</strong>
-
-[DC;D1;1]
-
-More text here
-
-[DC;G1;1]
-
-&nbsp;';
-
-        $views = new DhtmlChessViews();
-
-        $tags = $views->getTags($content);
-
-        $this->assertEquals(2, count($tags));
-
-        $this->assertInstanceOf(DHTMLChessView::class,$tags[0] );
-        $this->assertInstanceOf(DHTMLChessView::class,$tags[1] );
-    }
-
-    /**
-     * @test
-     */
-    public function shouldDetermineExistenceOfTags(){
-        $views = new DhtmlChessViews();
-        $content = '<strong>Heading here</strong>
-
-[DC;D1;1]
-
-More text here
-
-[DC;G1;1]
-
-&nbsp;';
-
-        $this->assertTrue($views->hasTags($content));
-
-        $this->assertFalse($views->hasTags("Hello there DC 100"));
-        $this->assertTrue($views->hasTags("hello[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1] tester"));
-        $this->assertTrue($views->hasTags("hello[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR] tester"));
-
-
-
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFenTags(){
-
-        $this->database->import('lcc2016.pgn');
-
-        $views = new DhtmlChessViews();
-
-        $content = '<strong>Heading here</strong>
-
-[DC;D1;1]
-[fen:rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR]
-More text here
-
-[DC;G1;1]
-
-[fen:rnbqkbnr/4pppp/8/8/8/8/PPP3PP/RNBQKBNR w KQkq - 0 1]
-
-&nbsp;';
-
-        $tags = $views->getTags($content);
-
-        $this->assertEquals(4, count($tags));
-
-        /**
-         * @var DHTMLChessView $fenTag
-         */
-        $fenTag = $tags[0];
-
-        $this->assertEquals("WPFen", $fenTag->getScript());
-        $this->assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", $fenTag->getParam("fen"));
-        $fenTag = $tags[1];
-
-        $this->assertEquals("WPFen", $fenTag->getScript());
-        $this->assertEquals("rnbqkbnr/4pppp/8/8/8/8/PPP3PP/RNBQKBNR w KQkq - 0 1", $fenTag->getParam("fen"));
-
-
-    }
 
 
     /**
@@ -1129,7 +1038,7 @@ More text here
 
         $v = $views->getParsedTagFromAttributes("fen", null,"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
 
-        $this->assertEquals("WPFen", $v->getScript());
+        $this->assertEquals("WPGame6", $v->getScript());
         $this->assertEquals("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", $v->getParam("fen"));
     }
     /**
@@ -1157,7 +1066,7 @@ More text here
 
         $this->assertEquals("WPGame5", $v->getScript());
         $this->assertNotNull($v->getParam("model"));
-        $model = json_decode($v->getParam("model"), true);
+        $model = $v->getParam("model");
         $this->assertEquals("1998.??.??", $model["metadata"]["eventdate"], $v->getParam("model"));
 
     }
@@ -1214,6 +1123,82 @@ More text here
 
     }
 
+
+    /* KEY VALUE STORE TESTS */
+
+	/**
+	 * @test
+	 */
+    public function shouldBeAbleToPutValueInDatabase(){
+
+    	// given
+	    $store = new DhtmlChessKeyValue();
+
+	    // when
+	    $store->upsert("alf", "magne");
+
+	    // then
+	    $this->assertEquals("magne", $store->get("alf"));
+
+    }
+
+	/**
+	 * @test
+	 */
+    public function shouldBeAbleToIncrement(){
+
+    	// given
+	    $store = new DhtmlChessKeyValue();
+
+	    // when
+	    $store->increment("number");
+	    $store->increment("number");
+	    $store->increment("number");
+	    $store->increment("number", 3);
+
+	    // then
+	    $this->assertEquals(6, $store->get("number"));
+    }
+
+	/**
+	 * @test
+	 */
+	public function shouldNotCreateDuplicateKeyValues(){
+
+		// given
+		$store = new DhtmlChessKeyValue();
+
+		// when
+		$store->upsert("key1", "val1");
+		$store->upsert("key2", "val2");
+		$store->upsert("key1", "val3");
+		$store->upsert("key3", "val33");
+		$store->upsert("key4", "val4");
+		$store->upsert("key4", "val44");
+		$store->increment("key5", 2);
+
+		// then
+		$this->assertEquals(5, $store->count());
+	}
+
+	/**
+	 * @test
+	 */
+	public function shouldBeAbleToDeleteKey(){
+		// given
+		$store = new DhtmlChessKeyValue();
+		$store->upsert("alf", "magne");
+		$this->assertEquals("magne", $store->get("alf"));
+
+		// when
+		$store->remove("alf");
+
+		// then
+		$this->assertNull($store->get("alf"));
+
+	}
+
+
     private function countPgnsDb()
     {
         $query = "select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_PGN;
@@ -1238,7 +1223,6 @@ More text here
         /**
          * @var wpdb $wpdb
          */
-
         $query = "select " . DhtmlChessDatabase::COL_ID . " from " . DhtmlChessDatabase::TABLE_GAME;
         $results = $this->wpdb->get_results($query);
         return count($results);

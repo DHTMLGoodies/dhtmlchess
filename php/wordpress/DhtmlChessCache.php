@@ -24,8 +24,9 @@ class DhtmlChessCache
             array( DhtmlChessDatabase::COL_CACHE_KEY => $key ),
             array( '%s' )
         );
-
     }
+
+
 
     public function putInCache($key, $val){
 

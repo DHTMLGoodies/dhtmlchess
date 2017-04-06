@@ -1,4 +1,4 @@
-/* Generated Wed Mar 29 20:47:26 CEST 2017 */
+/* Generated Mon Apr 3 19:02:54 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -24887,7 +24887,7 @@ chess.controller.Controller = new Class({
     views: {},
     disabledEvents: {},
     pgn: undefined,
-    debug: true,
+    debug: false,
 
     _module: undefined,
 
@@ -28185,7 +28185,8 @@ chess.WPGame1 = new Class({
                 module: this.module
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden : this._p
             }
         ];
     },
@@ -28483,7 +28484,8 @@ chess.WPGame3 = new Class({
                 module: this.module
             },
             {
-                type: 'chess.WPComMessage'
+                type: 'chess.WPComMessage',
+                hidden: this._p
             }
 
         ]

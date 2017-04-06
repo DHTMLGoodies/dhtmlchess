@@ -16,6 +16,7 @@ class DhtmlChessDatabase
     const TABLE_DRAFT = "dhtml_chess_game_draft";
     const TABLE_DUMMY = "dhtml_chess_dummy";
     const TABLE_DATABASE_VERSION = "dhtml_chess_version";
+    const TABLE_KEY_VALUE_STORE = "dhtml_chess_key_value";
 
     const COL_ID = "id";
     const COL_DHTML_CHESS_ID = "dhtml_chess_id";
@@ -32,6 +33,10 @@ class DhtmlChessDatabase
     const COL_TMP = "tmp";
     const COL_HIDDEN = "hidden";
     const COL_DB_VERSION = "db_version";
+
+    const COL_KEY = "store_key";
+    const COL_VALUE = "store_value";
+    const COL_VALUE_TYPE = "store_type";
 
 
     const COL_CACHE_KEY = "cache_key";
