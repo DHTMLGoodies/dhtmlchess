@@ -16,78 +16,58 @@ chess.WPTactics2 = new Class({
     random: false,
     nav: false,
 
-    history: undefined,
-    historySize: 20,
-    historyKey: undefined,
-    historyIndexKey: undefined,
-    historyIndex: 0,
-    loadedFromHistory: false,
-    previousButtonId:undefined,
+    gameFinished: false,
+
+    startTime: undefined,
+
+    lastGameId: undefined,
+
+    gameIndex: 0,
+
+    storageKey: undefined,
+
+    validateGameData: false,
+    storage: undefined,
 
     initialize: function (config) {
         this.parent(config);
+
         var r = jQuery(this.renderTo);
         var w = r.width();
-        r.css('height', Math.round(w + 130 + this.wpm_h));
+        r.css('height', Math.round(w + 164 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.previousButtonId = 'dc-' + String.uniqueID();
-
-        this.historyKey = 'tactics-history-' + this.pgn.id;
-        this.historyIndexKey = 'tactics-history-index' + this.pgn.id;
-        var hist = ludo.getLocalStorage().get(this.historyKey, '');
-        this.history = hist.length > 0 ? hist.split(/,/g) : [];
-        this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
-
-
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
+
+        var id = String.uniqueID();
+        this.avId = 'av' + id;
+        this.eloId = 'elo' + id;
+        this.nextBtnId = 'btn' + id;
+        this.reloadBtnId = 'btn_r' + id;
+        this.clockId = 'clk' + id;
+        this.iconId = 'icon' + id;
+        this.colorViewId = 'clr' + id;
         if (this.canRender()) {
             this.render();
         }
-    },
-
-    previousGame: function () {
-        this.loadedFromHistory = true;
-        if (this.random) {
-            if (this.history.length > 1 && this.historyIndex > 0) {
-                this.historyIndex--;
-                this.loadFromHistory();
-            }
-        } else {
-            this.controller.loadPreviousGameFromFile(this.pgn);
-        }
-
     },
 
 
     nextGame: function () {
         this.loadedFromHistory = false;
         if (this.random) {
-            if(this.historyIndex < this.history.length - 1){
-                this.historyIndex++;
-                this.loadFromHistory();
-            }else{
-                this.controller.loadRandomGame();
-            }
+            this.controller.loadRandomGame();
         } else {
-            this.controller.loadNextGameFromFile();
+            this.loadNextGame();
         }
-    },
-
-    loadFromHistory:function(){
-        this.loadedFromHistory = true;
-        this.saveHistoryIndex();
-        var id = this.history[this.historyIndex];
-        this.controller.loadWordPressGameById(this.pgn.id, id);
     },
 
     render: function () {
@@ -106,6 +86,13 @@ chess.WPTactics2 = new Class({
                         type: 'linear', orientation: 'vertical'
                     },
                     children: [
+                        {
+                            layout: {
+                                height: 34
+                            },
+                            id: this.colorViewId,
+                            type: 'chess.ColorView'
+                        },
                         Object.merge({
                             boardLayout: undefined,
                             id: this.boardId,
@@ -116,8 +103,7 @@ chess.WPTactics2 = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp,
                             layout: {
                                 height: this.boardSize
                             },
@@ -134,100 +120,366 @@ chess.WPTactics2 = new Class({
                             ]
                         }, this.board),
                         {
-                            height:30,
-                            layout:{
-                                type:'linear', orientation:'horizontal'
+                            height: 48,
+                            cls: 'wpc-user-info-panel',
+                            layout: {
+                                type: 'linear', orientation: 'horizontal'
                             },
-                            children:[
+                            children: [
                                 {
-
-                                },{
-
+                                    type: 'chess.UserAvatarView',
+                                    id: this.avId,
+                                    auto: false,
+                                    layout: {
+                                        width: 48, height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    module: this.module,
+                                    type: 'chess.UserElo',
+                                    id: this.eloId,
+                                    css: {
+                                        'line-height': '40px'
+                                    },
+                                    layout: {
+                                        weight: 1, height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    id: this.clockId,
+                                    type: 'chess.Clock',
+                                    layout: {
+                                        weight: 1, height: 'matchParent'
+                                    }
                                 }
                             ]
                         },
                         {
-                            type: 'chess.WPComMessage',
-                            hidden: this._p
+                            layout: {
+                                height: 48, type: 'linear', orientation: 'horizontal'
+                            },
+                            children: [
+                                {
+                                    id: this.iconId,
+                                    type: 'chess.IconView',
+                                    layout: {
+                                        width: 48,
+                                        height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    weight: 1
+                                },
+                                {
+                                    id: this.reloadBtnId,
+                                    type: 'chess.ImageButton',
+                                    img: this.dr + 'images/reload.png',
+                                    layout: {
+                                        width: 80,
+                                        height: 'matchParent'
+                                    },
+                                    btnVisible: false,
+                                    listeners: {
+                                        'click': this.reloadGame.bind(this)
+                                    }
+                                },
+                                {
+                                    id: this.nextBtnId,
+                                    type: 'chess.ImageButton',
+                                    img: this.dr + 'images/btn-next.png',
+                                    layout: {
+                                        width: 80,
+                                        height: 'matchParent'
+                                    },
+                                    btnVisible: false,
+                                    listeners: {
+                                        'click': this.nextGame.bind(this)
+                                    }
+                                }
+
+                            ]
                         }
                     ]
                 }
             ]
         });
 
-        var storageKey = 'wp_' + this.pgn.id + '_tactics';
+        this.storageKey = 'wpcu_' + this.pgn.id + '_tactics';
 
-        new chess.view.message.TacticsMessage({
-            renderTo: jQuery(document.body),
-            module: this.module,
-            autoHideAfterMs: 1000,
-            hidden: true,
-            autoHideWelcomeAfterMs: 1000,
-            css: {
-                'background-color': '#fff',
-                'border-radius': '5px',
-                'line-height': '50px'
-            },
-            layout: {
-                centerIn: this.boardId,
-                width: 300, height: 50
-            }
-        });
-
-        this.controller = new chess.controller.TacticControllerGui({
+        this.controller = new chess.controller.Controller({
             applyTo: [this.module],
-            pgn: this.pgn.id,
-            sound:this.sound,
+            pgn: this.pgnId(),
+            sound: this.sound,
             autoMoveDelay: 400,
-            gameEndHandler: this.nextGame.bind(this),
+            noDialogs: true,
+            eventHandler: this.eventHandler.bind(this),
             listeners: {
-                'loadGame': function () {
-                    var id = this.controller.getCurrentModel().model.id;
-                    var index = this.controller.getCurrentModel().getGameIndex();
-                    ludo.getLocalStorage().save(storageKey, index);
-                    if (!this.loadedFromHistory && this.random) {
-                        this.addToHistory(id);
-                    }
+                'loadGame': function (m, model) {
+
+
                 }.bind(this)
             }
         });
 
-        var index = ludo.getLocalStorage().get(storageKey, 0);
-
+        var index = this.getIndex();
 
         if (isNaN(index)) index = 0;
         index = Math.max(0, index);
-        if (index != undefined) {
-            this.controller.getCurrentModel().setGameIndex(index);
+
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.loadGame(index);
+        }
+
+        this.loadUserInfo();
+    },
+
+    loadNextGame: function () {
+        this.validateGameData = true;
+        this.loadGame(this.getIndex() + 1);
+    },
+
+    getIndex: function () {
+        return this.storageVal('index', 0);
+    },
+
+    loadGame: function (index) {
+
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'game_by_index_strict',
+                pgn: this.pgnId(),
+                index: index
+            },
+            complete: function (response, success) {
+                this.gameFinished = false;
+                if (success) {
+                    var json = response.responseJSON;
+
+                    if (json.success) {
+                        this.onGameLoaded(json.response);
+                    }else{
+                        var pgnId = this.nextPgnId();
+
+                        this.pgnId(pgnId);
+                        this.saveStorageVal('index', 0);
+                        this.loadGame(0);
+                    }
+
+                }
+            }.bind(this)
+
+        });
+
+    },
+
+    onGameLoaded: function (model) {
+
+        var gameId = model.id;
+        var pgnId = model.pgn_id;
+        var index = model.index;
+
+        this.controller.currentModel.populate(model);
+
+        ludo.$(this.eloId).clearIncs();
+
+        this.saveStorageVal('id', gameId);
+        this.pgnId(pgnId);
+        this.saveStorageVal('index', index);
+    },
+
+
+    pgnId: function (val) {
+        if(arguments.length == 1){
+            this.saveStorageVal('pgn', val);
+            return;
+        }
+        return this.storageVal('pgn', this.pgn.id);
+    },
+
+    nextPgnId: function () {
+        var pgn = this.pgnId();
+        var index = 0;
+        jQuery.each(this.pgnAll, function (i, pgnObj) {
+            if (pgnObj.id == pgn) {
+                index = i;
+            }
+        });
+
+        if (index < this.pgnAll.length - 1) {
+            index++;
         } else {
             index = 0;
         }
 
-        if (this.random) {
-            if(this.history.length > 0){
-                this.loadFromHistory();
-            }else{
-                this.controller.loadRandomGame();
+        return this.pgnAll[index].id;
+    },
+
+    reloadGame: function () {
+
+        this.controller.currentModel.toStart();
+
+        ludo.$(this.iconId).animateOut();
+
+        var clk = ludo.$(this.clockId);
+        clk.reset();
+        clk.start();
+    },
+
+    myColor: undefined,
+
+
+    eventHandler: function (event, model, controller, move) {
+
+        var b = controller.views.board;
+
+        if (event == 'boardMove') {
+            controller.currentModel.tryNextMove(move);
+        }
+
+        if (event == 'newGame') {
+            var result = model.getResult();
+            if (result == -1) {
+                b.flipToBlack();
+                this.myColor = 'black';
+            } else {
+                b.flipToWhite();
+                this.myColor = 'white';
             }
+
+            var clk = ludo.$(this.clockId);
+            clk.reset();
+            clk.start();
+
+
+            ludo.$(this.iconId).animateOut();
+
+            ludo.$(this.nextBtnId).hideButton();
+            ludo.$(this.reloadBtnId).hideButton();
+            ludo.$(this.colorViewId).hideView();
+        }
+
+        if (event == 'setPosition' || event == 'nextmove') {
+            colorToMove = model.getColorToMove();
+
+            if (colorToMove == this.myColor) {
+                b.enableDragAndDrop(model);
+            } else {
+                model.nextMove.delay(200, model);
+            }
+        }
+
+        if (event == 'wrongGuess') {
+            this.onGameEnd(true);
+        }
+
+        if (event === 'endOfBranch') {
+            this.onGameEnd();
+        }
+    },
+
+    getStorage: function () {
+        if (this.storage == undefined) {
+            var storage = ludo.getLocalStorage().get(this.storageKey);
+            this.storage = storage ? storage : {};
+        }
+        return this.storage;
+    },
+
+    saveStorageVal: function (key, val) {
+        var s = this.getStorage();
+        s[key] = val;
+        ludo.getLocalStorage().save(this.storageKey, s);
+    },
+
+    storageVal: function (key, defaultVal) {
+
+        var s = this.getStorage();
+        return s[key] != undefined ? s[key] : defaultVal;
+    },
+
+
+    onGameEnd: function (wasWrong) {
+
+        var src = wasWrong ? 'incorrect-icon.png' : 'solved-icon.png';
+        ludo.$(this.iconId).setIcon(this.dr + 'images/' + src);
+
+
+        if (this.gameFinished)return;
+
+        var clk = ludo.$(this.clockId);
+        clk.stop();
+
+        this.gameFinished = true;
+
+        var moves = this.controller.getCurrentModel().model.moves.length;
+        var ms = clk.elapsed();
+        var solved = !wasWrong;
+
+        var cv = ludo.$(this.colorViewId);
+        cv.showView();
+        if (solved) {
+            cv.color('#388E3C');
+            cv.icon(this.dr + 'images/solved-icon-white.png');
         } else {
-            this.controller.loadGameFromFile(index);
+            cv.color('#388E3C');
+            cv.icon(this.dr + 'images/incorrect-icon-white.png');
         }
+
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_puzzle_complete',
+                moves: moves,
+                solved: solved ? 1 : 0,
+                ms: ms,
+                puzzleId: this.controller.currentModel.getId()
+            },
+            complete: function (response, success) {
+                this.gameFinished = false;
+                if (success) {
+                    var json = response.responseJSON;
+                    var elo = json.response;
+
+                    ludo.$(this.eloId).val(elo);
+
+                    ludo.$(this.nextBtnId).showButton();
+                    ludo.$(this.reloadBtnId).showButton();
+                }
+            }.bind(this)
+        });
+
     },
 
-    addToHistory: function (gameId) {
-        this.history.push(gameId);
-        if (this.history.length > this.historySize) {
-            this.history.shift();
-        }
-        this.historyIndex = this.history.length - 1;
-        this.saveHistory();
-    },
+    loadUserInfo: function () {
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_userinfo',
+                size: 32
+            },
+            complete: function (response, success) {
 
-    saveHistory: function () {
-        ludo.getLocalStorage().save(this.historyKey, this.history.join(','));
-    },
+                if (success) {
+                    var json = response.responseJSON;
+                    ludo.$(this.avId).setAvatar(json.response.avatar);
+                    // ludo.$(this.userInfoId).html(json.response.nick);
+                    ludo.$(this.eloId).val(json.response.puzzleelo);
+                } else {
+                }
 
-    saveHistoryIndex:function(){
-        ludo.getLocalStorage().save(this.historyIndexKey, this.historyIndex);
+            }.bind(this)
+        });
     }
 });

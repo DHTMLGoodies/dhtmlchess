@@ -37,8 +37,8 @@ chess.view.board.GUI = new Class({
     labelEvenStyles: undefined,
     labelStyles: undefined,
 
-    squareStyles_white:undefined,
-    squareStyles_black:undefined,
+    squareStyles_white: undefined,
+    squareStyles_black: undefined,
 
     __construct: function (config) {
 
@@ -49,7 +49,7 @@ chess.view.board.GUI = new Class({
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
-            'bgWhite', 'bgBlack','squareStyles_white', 'squareStyles_black']);
+            'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
 
 
         if (!jQuery.isPlainObject(this.padding)) {
@@ -148,10 +148,10 @@ chess.view.board.GUI = new Class({
     __rendered: function () {
         this.parent();
 
-        if(this.bgWhite){
+        if (this.bgWhite) {
             this.setSquareBg('white', this.bgWhite);
         }
-        if(this.bgBlack){
+        if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
         this.resizeSquares();
@@ -218,7 +218,7 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.hParent);
     },
 
-    getDivForInteraction:function(){
+    getDivForInteraction: function () {
         return this.els.hParent;
     },
 
@@ -226,7 +226,7 @@ chess.view.board.GUI = new Class({
         return this.els.squares;
     },
 
-    boardEl:function(){
+    boardEl: function () {
         return this.els.board;
     },
 
@@ -315,6 +315,9 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
+            if(this.labelPos == 'inside'){
+                file.css('line-height', '120%');
+            }
             el.append(file);
         }
 
@@ -343,6 +346,8 @@ chess.view.board.GUI = new Class({
         for (var i = 0; i < 8; i++) {
             var odd = (i + 1) % 2 == 0;
             var rank = this.els.ranks[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+
+
             if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }
@@ -358,10 +363,8 @@ chess.view.board.GUI = new Class({
                 'height': (100 / 8) + '%',
                 'overflow': 'hidden'
             });
-            if (this.labelPos == 'outside') {
-                rank.css('line-height', this.internal.squareSize);
-
-            }
+            var lh = this.labelPos == 'outside' ? this.internal.squareSize + 'px' : '100%';
+            rank.css('line-height', lh);
             el.append(rank);
         }
 
@@ -469,14 +472,14 @@ chess.view.board.GUI = new Class({
 
         var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
-        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+        if (Browser.name == 'safari') { // Safari workaround - not accepting decimal values
             var o = w % 8;
-            if(o > 4){
+            if (o > 4) {
                 o = o - 8;
             }
-            w-=o;
-            pl += (o/2);
-            pt += (o/2);
+            w -= o;
+            pl += (o / 2);
+            pt += (o / 2);
         }
 
         this.internal.squareSize = w / 8;
@@ -519,7 +522,7 @@ chess.view.board.GUI = new Class({
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
-        }else{
+        } else {
             var fs2 = Math.round(this.getSquareSize() * 0.2);
             r.css('font-size', fs2 + 'px');
             f.css('font-size', fs2 + 'px');
@@ -550,7 +553,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(),  this.$b().height()) * p / 100;
+            return Math.min(this.$b().width(), this.$b().height()) * p / 100;
         }
         return p;
     },
@@ -663,7 +666,7 @@ chess.view.board.GUI = new Class({
         return Math.min(size.width, size.height);
     },
 
-    wrappedWidth:function(size){
+    wrappedWidth: function (size) {
         return Math.max(size.width, size.height);
     }
 });

@@ -1,4 +1,4 @@
-/* Generated Mon Apr 3 19:02:54 CEST 2017 */
+/* Generated Sat Apr 8 13:26:24 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -18442,8 +18442,8 @@ chess.view.board.GUI = new Class({
     labelEvenStyles: undefined,
     labelStyles: undefined,
 
-    squareStyles_white:undefined,
-    squareStyles_black:undefined,
+    squareStyles_white: undefined,
+    squareStyles_black: undefined,
 
     __construct: function (config) {
 
@@ -18454,7 +18454,7 @@ chess.view.board.GUI = new Class({
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
-            'bgWhite', 'bgBlack','squareStyles_white', 'squareStyles_black']);
+            'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
 
 
         if (!jQuery.isPlainObject(this.padding)) {
@@ -18553,10 +18553,10 @@ chess.view.board.GUI = new Class({
     __rendered: function () {
         this.parent();
 
-        if(this.bgWhite){
+        if (this.bgWhite) {
             this.setSquareBg('white', this.bgWhite);
         }
-        if(this.bgBlack){
+        if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
         this.resizeSquares();
@@ -18623,7 +18623,7 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.hParent);
     },
 
-    getDivForInteraction:function(){
+    getDivForInteraction: function () {
         return this.els.hParent;
     },
 
@@ -18631,7 +18631,7 @@ chess.view.board.GUI = new Class({
         return this.els.squares;
     },
 
-    boardEl:function(){
+    boardEl: function () {
         return this.els.board;
     },
 
@@ -18720,6 +18720,9 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
+            if(this.labelPos == 'inside'){
+                file.css('line-height', '120%');
+            }
             el.append(file);
         }
 
@@ -18748,6 +18751,8 @@ chess.view.board.GUI = new Class({
         for (var i = 0; i < 8; i++) {
             var odd = (i + 1) % 2 == 0;
             var rank = this.els.ranks[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+
+
             if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }
@@ -18763,10 +18768,8 @@ chess.view.board.GUI = new Class({
                 'height': (100 / 8) + '%',
                 'overflow': 'hidden'
             });
-            if (this.labelPos == 'outside') {
-                rank.css('line-height', this.internal.squareSize);
-
-            }
+            var lh = this.labelPos == 'outside' ? this.internal.squareSize + 'px' : '100%';
+            rank.css('line-height', lh);
             el.append(rank);
         }
 
@@ -18874,14 +18877,14 @@ chess.view.board.GUI = new Class({
 
         var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
-        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+        if (Browser.name == 'safari') { // Safari workaround - not accepting decimal values
             var o = w % 8;
-            if(o > 4){
+            if (o > 4) {
                 o = o - 8;
             }
-            w-=o;
-            pl += (o/2);
-            pt += (o/2);
+            w -= o;
+            pl += (o / 2);
+            pt += (o / 2);
         }
 
         this.internal.squareSize = w / 8;
@@ -18924,7 +18927,7 @@ chess.view.board.GUI = new Class({
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
-        }else{
+        } else {
             var fs2 = Math.round(this.getSquareSize() * 0.2);
             r.css('font-size', fs2 + 'px');
             f.css('font-size', fs2 + 'px');
@@ -18955,7 +18958,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(),  this.$b().height()) * p / 100;
+            return Math.min(this.$b().width(), this.$b().height()) * p / 100;
         }
         return p;
     },
@@ -19068,7 +19071,7 @@ chess.view.board.GUI = new Class({
         return Math.min(size.width, size.height);
     },
 
-    wrappedWidth:function(size){
+    wrappedWidth: function (size) {
         return Math.max(size.width, size.height);
     }
 });/* ../dhtml-chess/src/view/board/board.js */
@@ -24894,9 +24897,10 @@ chess.controller.Controller = new Class({
     isBusy: false,
 
     sound: false,
+    eventHandler: undefined,
 
     __construct: function (config) {
-        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
+        this.applyTo = config.applyTo || ['eventHandler', 'chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
@@ -25149,7 +25153,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
-        this.currentModel.appendMove(move);
+        if(this.eventHandler != undefined){
+            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+        }else{
+            this.currentModel.appendMove(move);
+        }
     },
     gradeMove: function (move, grade) {
         this.currentModel.gradeMove(move, grade);
@@ -25317,8 +25325,10 @@ chess.controller.Controller = new Class({
         }
     },
 
-    modelEventFired: function () {
-
+    modelEventFired: function (event, model) {
+        if(this.eventHandler){
+            this.eventHandler.apply(this, [event,model, this]);
+        }
     },
 
     /**
@@ -25528,7 +25538,6 @@ chess.controller.TacticControllerGui = new Class({
         this.parent(config);
 
     },
-
 
 
     modelEventFired:function(event, model){
@@ -27784,7 +27793,15 @@ chess.WPTemplate = new Class({
     arrow:undefined,
     hint:undefined,
 
+    dr : undefined,
+    url: undefined,
+
+    lp : undefined,
+
     initialize: function (config) {
+        this.lp = ludo.isMobile ? 'inside' : 'outside';
+        this.dr = ludo.config.getDocumentRoot();
+        this.url = ludo.config.getUrl();
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
@@ -27842,7 +27859,7 @@ chess.WPTemplate = new Class({
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + 'themes/' + t + '.css',
+                href: this.dr + 'themes/' + t + '.css',
                 complete: function () {
                     this.onload();
                 }.bind(this)
@@ -27850,7 +27867,7 @@ chess.WPTemplate = new Class({
 
 
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + 'themes/' + t + '.js',
+                url: this.dr + 'themes/' + t + '.js',
                 dataType: "script",
                 complete: function () {
                     this.onload();
@@ -28104,8 +28121,7 @@ chess.WPGame1 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: 1,
                 height: 'wrap'
@@ -28306,8 +28322,7 @@ chess.WPGame2 = new Class({
                     boardCss: {
                         border: 0
                     },
-                    labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                    labelPos: 'outside', // show labels inside board, default is 'outside'
+                    labelPos: this.lp, // show labels inside board, default is 'outside'
                     layout: {
                         weight: 1,
                         height: 'wrap'
@@ -28380,8 +28395,7 @@ chess.WPGame3 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: 2,
                 height: 'wrap'
@@ -28653,8 +28667,7 @@ chess.WPGame4 = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp, // show labels inside board, default is 'outside'
                             layout: {
                                 weight: 1,
                                 height: 'wrap'
@@ -28801,8 +28814,7 @@ chess.WPGame5 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: this.boardWeight,
                 height: 'wrap'
@@ -28982,7 +28994,7 @@ chess.WPGame5 = new Class({
                     border: 0
                 },
                 labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                labelPos: 'outside', // show labels inside board, default is 'outside'
+                labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,
                     height: 'wrap'
@@ -29033,6 +29045,54 @@ chess.WPGame5 = new Class({
                 hidden: this._p
             }
         ]
+
+    }
+
+});/* ../dhtml-chess/src/wp-public/views/user-avatar-view.js */
+chess.UserAvatarView = new Class({
+    Extends: ludo.View,
+    avatarSize: 32,
+    auto:true,
+
+    __construct: function (config) {
+        this.parent(config);
+        if (config.avatarSize != undefined) this.avatarSize = config.avatarSize;
+        if (config.auto != undefined) this.auto = config.auto;
+    },
+
+    setAvatar: function (imageTag) {
+        var src = imageTag.replace(/.*?src=["']([^"']+?)["'].*/gi, '$1');
+        this.$b().css('background-image', 'url(' + src + ')');
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.$b().addClass('wpc-avatar');
+        if(this.auto)this.loadAvatar();
+    },
+
+    loadAvatar: function () {
+
+        jQuery.ajax({
+            url: ludo.config.getUrl(),
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_userinfo',
+                size: this.avatarSize
+            },
+            complete: function (response, success) {
+
+                if (success) {
+                    var json = response.responseJSON;
+                    this.setAvatar(json.response.avatar);
+                } else {
+
+                }
+
+            }.bind(this)
+        });
 
     }
 

@@ -1,0 +1,47 @@
+[castle "1"]
+[event "#3 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 1"]
+[black "Mate in one White to move"]
+[result "1-0"]
+[fen "r2q1rk1/pp1p1p1p/5PpQ/8/4N3/8/PP3PPP/R5K1 w - - 0 1"]
+[index "2"]
+[plycount "1"]
+[ts "1486251266979"]
+
+
+1. Qg7#
+
+[castle "1"]
+[event "#4 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 1"]
+[black "Mate in one White to move"]
+[result "1-0"]
+[fen "6r1/7k/2p1pPp1/3p4/8/1R6/5PPP/5K2 w - - 0 1"]
+[index "3"]
+[plycount "1"]
+[ts "1486251275448"]
+
+
+1. Rh3#
+
+[castle "1"]
+[event "#5 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 1"]
+[black "Mate in one White to move"]
+[result "1-0"]
+[fen "1r4k1/1q3p2/5Bp1/8/8/8/PP6/1K5R w - - 0 1"]
+[index "4"]
+[plycount "1"]
+[ts "1486251283751"]
+
+
+1. Rh8#

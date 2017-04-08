@@ -11,7 +11,7 @@ chess.WPStandings1 = new Class({
             dataType: 'json',
             data: {
                 action:'get_standings',
-                pgn:config.pgn.id
+                pgn:this.pgn.id
             },
             complete: function (response, status) {
                 if(status == "success"){

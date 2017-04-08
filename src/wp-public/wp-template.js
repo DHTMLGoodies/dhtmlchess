@@ -15,13 +15,22 @@ chess.WPTemplate = new Class({
     _p: false,
     compToggle: false,
     pgn: undefined,
+    pgnAll:undefined,
 
     arrowSolution:undefined,
     board:undefined,
     arrow:undefined,
     hint:undefined,
 
+    dr : undefined,
+    url: undefined,
+
+    lp : undefined,
+
     initialize: function (config) {
+        this.lp = ludo.isMobile ? 'inside' : 'outside';
+        this.dr = ludo.config.getDocumentRoot();
+        this.url = ludo.config.getUrl();
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
@@ -32,7 +41,11 @@ chess.WPTemplate = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
-        if (config.pgn != undefined) this.pgn = config.pgn;
+        if (config.pgn != undefined){
+            this.pgn = config.pgn[0];
+            this.pgnAll = config.pgn;
+        }
+        console.log(this.pgn);
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
@@ -79,7 +92,7 @@ chess.WPTemplate = new Class({
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + 'themes/' + t + '.css',
+                href: this.dr + 'themes/' + t + '.css',
                 complete: function () {
                     this.onload();
                 }.bind(this)
@@ -87,7 +100,7 @@ chess.WPTemplate = new Class({
 
 
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + 'themes/' + t + '.js',
+                url: this.dr + 'themes/' + t + '.js',
                 dataType: "script",
                 complete: function () {
                     this.onload();
@@ -107,6 +120,20 @@ chess.WPTemplate = new Class({
 
     controllerType: function () {
         return this._p ? 'ComputerController' : 'Controller';
+    },
+
+    randomPgn:function(){
+        var i = Math.floor(Math.random() * this.pgnAll.length);
+        return this.pgnAll[i];
+    },
+
+    allPgnIdsString:function(){
+        var ret = [];
+        jQuery.each(this.pgnAll, function(i, pgn){
+            console.log(pgn);
+           ret.push(pgn.id);
+        });
+        return ret.join('_');
     },
 
     onload: function () {

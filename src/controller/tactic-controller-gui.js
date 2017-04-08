@@ -23,7 +23,6 @@ chess.controller.TacticControllerGui = new Class({
     },
 
 
-
     modelEventFired:function(event, model){
         this.parent(event, model);
 

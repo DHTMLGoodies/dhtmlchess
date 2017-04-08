@@ -142,6 +142,7 @@ spl_autoload_register(
                 'dhtmlchessdraft' => '/php/wordpress/DhtmlChessDraft.php',
                 'dhtmlchessexception' => '/php/wordpress/DhtmlChessException.php',
                 'dhtmlchesspgnnotfoundexception' => '/php/wordpress/DhtmlChessException.php',
+                'dhtmlchessinvalidrangeexception' => '/php/wordpress/DhtmlChessException.php',
                 'dhtmlchesselo' => '/php/wordpress/DhtmlChessElo.php',
                 'dhtmlchesskeyvalue' => '/php/wordpress/DhtmlChessKeyValue.php',
             );

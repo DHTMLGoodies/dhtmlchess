@@ -116,4 +116,10 @@ parseDirectory(array(
     '../computer/computer-play.js',
     '../controller/play-stockfish-controller.js',
     'computer/comp1.js',
+	'views/clock.js',
+	'views/color-view.js',
+	'views/icon-view.js',
+	'views/image-button.js',
+	'views/user-avatar-view.js',
+	'views/user-elo.js'
     ), "wordpress-templates-minified.js");

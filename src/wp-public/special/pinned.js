@@ -28,7 +28,6 @@ chess.WPPinned = new Class({
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
@@ -79,12 +78,11 @@ chess.WPPinned = new Class({
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',
-                            labels: this.showLabels,
                             pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
                             },
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp, // show labels inside board, default is 'outside'
                             layout: {
                                 height: this.boardSize
                             }

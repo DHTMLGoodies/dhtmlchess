@@ -259,7 +259,7 @@ chess.computer.ClockView = new Class({
 
     setController: function (controller) {
         this.parent(controller);
-        controller.clock.on('change', this.update.bind(this));
+        if(controller.clock)controller.clock.on('change', this.update.bind(this));
         this.elo = controller.elo;
     },
 

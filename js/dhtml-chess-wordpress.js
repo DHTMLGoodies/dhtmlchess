@@ -1,4 +1,4 @@
-/* Generated Mon Apr 3 19:03:02 CEST 2017 */
+/* Generated Sat Apr 8 13:26:34 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -22670,8 +22670,8 @@ chess.view.board.GUI = new Class({
     labelEvenStyles: undefined,
     labelStyles: undefined,
 
-    squareStyles_white:undefined,
-    squareStyles_black:undefined,
+    squareStyles_white: undefined,
+    squareStyles_black: undefined,
 
     __construct: function (config) {
 
@@ -22682,7 +22682,7 @@ chess.view.board.GUI = new Class({
             'background',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
-            'bgWhite', 'bgBlack','squareStyles_white', 'squareStyles_black']);
+            'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
 
 
         if (!jQuery.isPlainObject(this.padding)) {
@@ -22781,10 +22781,10 @@ chess.view.board.GUI = new Class({
     __rendered: function () {
         this.parent();
 
-        if(this.bgWhite){
+        if (this.bgWhite) {
             this.setSquareBg('white', this.bgWhite);
         }
-        if(this.bgBlack){
+        if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
         this.resizeSquares();
@@ -22851,7 +22851,7 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.hParent);
     },
 
-    getDivForInteraction:function(){
+    getDivForInteraction: function () {
         return this.els.hParent;
     },
 
@@ -22859,7 +22859,7 @@ chess.view.board.GUI = new Class({
         return this.els.squares;
     },
 
-    boardEl:function(){
+    boardEl: function () {
         return this.els.board;
     },
 
@@ -22948,6 +22948,9 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
+            if(this.labelPos == 'inside'){
+                file.css('line-height', '120%');
+            }
             el.append(file);
         }
 
@@ -22976,6 +22979,8 @@ chess.view.board.GUI = new Class({
         for (var i = 0; i < 8; i++) {
             var odd = (i + 1) % 2 == 0;
             var rank = this.els.ranks[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+
+
             if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }
@@ -22991,10 +22996,8 @@ chess.view.board.GUI = new Class({
                 'height': (100 / 8) + '%',
                 'overflow': 'hidden'
             });
-            if (this.labelPos == 'outside') {
-                rank.css('line-height', this.internal.squareSize);
-
-            }
+            var lh = this.labelPos == 'outside' ? this.internal.squareSize + 'px' : '100%';
+            rank.css('line-height', lh);
             el.append(rank);
         }
 
@@ -23102,14 +23105,14 @@ chess.view.board.GUI = new Class({
 
         var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
-        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+        if (Browser.name == 'safari') { // Safari workaround - not accepting decimal values
             var o = w % 8;
-            if(o > 4){
+            if (o > 4) {
                 o = o - 8;
             }
-            w-=o;
-            pl += (o/2);
-            pt += (o/2);
+            w -= o;
+            pl += (o / 2);
+            pt += (o / 2);
         }
 
         this.internal.squareSize = w / 8;
@@ -23152,7 +23155,7 @@ chess.view.board.GUI = new Class({
 
             r.css('font-size', fs + 'px');
             f.css('font-size', fs + 'px');
-        }else{
+        } else {
             var fs2 = Math.round(this.getSquareSize() * 0.2);
             r.css('font-size', fs2 + 'px');
             f.css('font-size', fs2 + 'px');
@@ -23183,7 +23186,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(),  this.$b().height()) * p / 100;
+            return Math.min(this.$b().width(), this.$b().height()) * p / 100;
         }
         return p;
     },
@@ -23296,7 +23299,7 @@ chess.view.board.GUI = new Class({
         return Math.min(size.width, size.height);
     },
 
-    wrappedWidth:function(size){
+    wrappedWidth: function (size) {
         return Math.max(size.width, size.height);
     }
 });/* ../dhtml-chess/src/view/board/board.js */
@@ -29759,9 +29762,10 @@ chess.controller.Controller = new Class({
     isBusy: false,
 
     sound: false,
+    eventHandler: undefined,
 
     __construct: function (config) {
-        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
+        this.applyTo = config.applyTo || ['eventHandler', 'chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
@@ -30014,7 +30018,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
-        this.currentModel.appendMove(move);
+        if(this.eventHandler != undefined){
+            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+        }else{
+            this.currentModel.appendMove(move);
+        }
     },
     gradeMove: function (move, grade) {
         this.currentModel.gradeMove(move, grade);
@@ -30182,8 +30190,10 @@ chess.controller.Controller = new Class({
         }
     },
 
-    modelEventFired: function () {
-
+    modelEventFired: function (event, model) {
+        if(this.eventHandler){
+            this.eventHandler.apply(this, [event,model, this]);
+        }
     },
 
     /**
@@ -30418,7 +30428,6 @@ chess.controller.TacticControllerGui = new Class({
         this.parent(config);
 
     },
-
 
 
     modelEventFired:function(event, model){
@@ -33608,7 +33617,7 @@ chess.computer.ClockView = new Class({
 
     setController: function (controller) {
         this.parent(controller);
-        controller.clock.on('change', this.update.bind(this));
+        if(controller.clock)controller.clock.on('change', this.update.bind(this));
         this.elo = controller.elo;
     },
 
@@ -34148,7 +34157,15 @@ chess.WPTemplate = new Class({
     arrow:undefined,
     hint:undefined,
 
+    dr : undefined,
+    url: undefined,
+
+    lp : undefined,
+
     initialize: function (config) {
+        this.lp = ludo.isMobile ? 'inside' : 'outside';
+        this.dr = ludo.config.getDocumentRoot();
+        this.url = ludo.config.getUrl();
 
         this.renderTo = jQuery(config.renderTo);
         this.module = String.uniqueID();
@@ -34206,7 +34223,7 @@ chess.WPTemplate = new Class({
             jQuery('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href: ludo.config.getDocumentRoot() + 'themes/' + t + '.css',
+                href: this.dr + 'themes/' + t + '.css',
                 complete: function () {
                     this.onload();
                 }.bind(this)
@@ -34214,7 +34231,7 @@ chess.WPTemplate = new Class({
 
 
             jQuery.ajax({
-                url: ludo.config.getDocumentRoot() + 'themes/' + t + '.js',
+                url: this.dr + 'themes/' + t + '.js',
                 dataType: "script",
                 complete: function () {
                     this.onload();
@@ -34498,8 +34515,7 @@ chess.WPGame1 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: 1,
                 height: 'wrap'
@@ -34700,8 +34716,7 @@ chess.WPGame2 = new Class({
                     boardCss: {
                         border: 0
                     },
-                    labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                    labelPos: 'outside', // show labels inside board, default is 'outside'
+                    labelPos: this.lp, // show labels inside board, default is 'outside'
                     layout: {
                         weight: 1,
                         height: 'wrap'
@@ -34774,8 +34789,7 @@ chess.WPGame3 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: 2,
                 height: 'wrap'
@@ -35047,8 +35061,7 @@ chess.WPGame4 = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp, // show labels inside board, default is 'outside'
                             layout: {
                                 weight: 1,
                                 height: 'wrap'
@@ -35195,8 +35208,7 @@ chess.WPGame5 = new Class({
             boardCss: {
                 border: 0
             },
-            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-            labelPos: 'outside', // show labels inside board, default is 'outside'
+            labelPos: this.lp, // show labels inside board, default is 'outside'
             layout: {
                 weight: this.boardWeight,
                 height: 'wrap'
@@ -35376,7 +35388,7 @@ chess.WPGame5 = new Class({
                     border: 0
                 },
                 labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                labelPos: 'outside', // show labels inside board, default is 'outside'
+                labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,
                     height: 'wrap'
@@ -35474,6 +35486,7 @@ chess.WPGame6 = new Class({
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
+                    labelPos:this.lp,
                     layout: {width: 'matchParent', weight: 1}
                 },
                 {
@@ -35657,8 +35670,7 @@ chess.WPViewer1 = new Class({
                                 boardCss: {
                                     border: 0
                                 },
-                                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                                labelPos: 'outside', // show labels inside board, default is 'outside'
+                                labelPos: this.lp, // show labels inside board, default is 'outside'
                                 layout: {
                                     weight: 1,
                                     height: 'wrap'
@@ -35778,7 +35790,7 @@ chess.WPViewer1 = new Class({
                             border: 0
                         },
                         labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                        labelPos: 'outside', // show labels inside board, default is 'outside'
+                        labelPos: this.lp, // show labels inside board, default is 'outside'
                         layout: {
                             height: this.boardSize
                         },
@@ -35973,8 +35985,7 @@ chess.WPViewer2 = new Class({
                         boardCss: {
                             border: 0
                         },
-                        labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                        labelPos: 'outside', // show labels inside board, default is 'outside'
+                        labelPos: this.lp, // show labels inside board, default is 'outside'
                         layout: {
                             weight: 1,
                             height: 'wrap'
@@ -36138,7 +36149,7 @@ chess.WPViewer2 = new Class({
                     border: 0
                 },
                 labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                labelPos: 'outside', // show labels inside board, default is 'outside'
+                labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,
                     height: 'wrap'
@@ -36392,7 +36403,7 @@ chess.WPViewer3 = new Class({
                                     border: 0
                                 },
                                 labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                                labelPos: 'outside', // show labels inside board, default is 'outside'
+                                labelPos: this.lp, // show labels inside board, default is 'outside'
                                 layout: {
                                     weight: 1,
                                     height: 'wrap'
@@ -36511,8 +36522,7 @@ chess.WPViewer3 = new Class({
                         boardCss: {
                             border: 0
                         },
-                        labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                        labelPos: 'outside', // show labels inside board, default is 'outside'
+                        labelPos: this.lp, // show labels inside board, default is 'outside'
                         layout: {
                             height: this.boardSize
                         },
@@ -36962,12 +36972,11 @@ chess.WPPinned = new Class({
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',
-                            labels: this.showLabels,
                             pieceLayout: 'svg3',
                             boardCss: {
                                 border: 0
                             },
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp, // show labels inside board, default is 'outside'
                             layout: {
                                 height: this.boardSize
                             }
@@ -37424,8 +37433,7 @@ chess.WPTactics1 = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp,
                             layout: {
                                 height: this.boardSize
                             },
@@ -37541,6 +37549,426 @@ chess.WPTactics1 = new Class({
     saveHistoryIndex:function(){
         ludo.getLocalStorage().save(this.historyIndexKey, this.historyIndex);
     }
+});/* ../dhtml-chess/src/wp-public/tactics/tactics2.js */
+window.chess.isWordPress = true;
+
+chess.WPTactics2 = new Class({
+    Extends: chess.WPTemplate,
+
+    renderTo: undefined,
+    pgn: undefined,
+
+    controller: undefined,
+
+    showLabels: undefined,
+
+    module: undefined,
+
+    boardSize: undefined,
+    random: false,
+    nav: false,
+
+    history: undefined,
+    historySize: 20,
+    historyKey: undefined,
+    historyIndexKey: undefined,
+    historyIndex: 0,
+    loadedFromHistory: false,
+    previousButtonId: undefined,
+
+    gameFinished: false,
+
+    startTime: undefined,
+
+    initialize: function (config) {
+        this.parent(config);
+        var r = jQuery(this.renderTo);
+        var w = r.width();
+        r.css('height', Math.round(w + 164 + this.wpm_h));
+        this.boardSize = w;
+        if (config.random != undefined) this.random = config.random;
+
+        this.pgn = config.pgn;
+        this.board = config.board || {};
+        this.arrow = config.arrow || {};
+        this.arrowSolution = config.arrowSolution || {};
+        this.hint = config.hint || {};
+        this.module = String.uniqueID();
+
+        this.previousButtonId = 'dc-' + String.uniqueID();
+
+        this.historyKey = 'tactics-history-' + this.pgn.id;
+        this.historyIndexKey = 'tactics-history-index' + this.pgn.id;
+        var hist = ludo.getLocalStorage().get(this.historyKey, '');
+        this.history = hist.length > 0 ? hist.split(/,/g) : [];
+        this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
+
+
+        this.showLabels = !ludo.isMobile;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
+
+        var id = String.uniqueID();
+        this.avId = 'av' + id;
+        this.eloId = 'elo' + id;
+        this.nextBtnId = 'btn' + id;
+        this.reloadBtnId = 'btn_r' + id;
+        this.clockId = 'clk' + id;
+        this.iconId = 'icon' + id;
+        this.colorViewId = 'clr' + id;
+        if (this.canRender()) {
+            this.render();
+        }
+
+
+    },
+
+    previousGame: function () {
+        this.loadedFromHistory = true;
+        if (this.random) {
+            if (this.history.length > 1 && this.historyIndex > 0) {
+                this.historyIndex--;
+                this.loadFromHistory();
+            }
+        } else {
+            this.controller.loadPreviousGameFromFile(this.pgn);
+        }
+
+    },
+
+
+    nextGame: function () {
+        this.loadedFromHistory = false;
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.controller.loadNextGameFromFile();
+        }
+    },
+
+    render: function () {
+
+        new chess.view.Chess({
+            cls: this.th,
+            renderTo: jQuery(this.renderTo),
+            layout: {
+                type: 'fill',
+                height: 'matchParent',
+                width: 'matchParent'
+            },
+            children: [
+                {
+                    layout: {
+                        type: 'linear', orientation: 'vertical'
+                    },
+                    children: [
+                        {
+                            layout: {
+                                height: 34
+                            },
+                            id: this.colorViewId,
+                            type: 'chess.ColorView'
+                        },
+                        Object.merge({
+                            boardLayout: undefined,
+                            id: this.boardId,
+                            type: 'chess.view.board.Board',
+                            module: this.module,
+                            overflow: 'hidden',
+                            pieceLayout: 'svg3',
+                            boardCss: {
+                                border: 0
+                            },
+                            labelPos: this.lp,
+                            layout: {
+                                height: this.boardSize
+                            },
+                            plugins: [
+                                Object.merge({
+                                    type: 'chess.view.highlight.Arrow'
+                                }, this.arrow),
+                                Object.merge({
+                                    type: 'chess.view.highlight.ArrowTactic'
+                                }, this.arrowSolution),
+                                Object.merge({
+                                    type: 'chess.view.highlight.SquareTacticHint'
+                                }, this.hint)
+                            ]
+                        }, this.board),
+                        {
+                            height: 48,
+                            cls: 'wpc-user-info-panel',
+                            layout: {
+                                type: 'linear', orientation: 'horizontal'
+                            },
+                            children: [
+                                {
+                                    type: 'chess.UserAvatarView',
+                                    id: this.avId,
+                                    auto: false,
+                                    layout: {
+                                        width: 48, height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    module: this.module,
+                                    type: 'chess.UserElo',
+                                    id: this.eloId,
+                                    css: {
+                                        'line-height': '40px'
+                                    },
+                                    layout: {
+                                        weight: 1, height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    id: this.clockId,
+                                    type: 'chess.Clock',
+                                    layout: {
+                                        weight: 1, height: 'matchParent'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            layout: {
+                                height: 48, type: 'linear', orientation: 'horizontal'
+                            },
+                            children: [
+                                {
+                                    id: this.iconId,
+                                    type: 'chess.IconView',
+                                    layout: {
+                                        width: 48,
+                                        height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    weight: 1
+                                },
+                                {
+                                    id: this.reloadBtnId,
+                                    type: 'chess.ImageButton',
+                                    img: this.dr + 'images/reload.png',
+                                    layout: {
+                                        width: 80,
+                                        height: 'matchParent'
+                                    },
+                                    btnVisible: false,
+                                    listeners: {
+                                        'click': this.reloadGame.bind(this)
+                                    }
+                                },
+                                {
+                                    id: this.nextBtnId,
+                                    type: 'chess.ImageButton',
+                                    img: this.dr + 'images/btn-next.png',
+                                    layout: {
+                                        width: 80,
+                                        height: 'matchParent'
+                                    },
+                                    btnVisible: false,
+                                    listeners: {
+                                        'click': this.nextGame.bind(this)
+                                    }
+                                }
+
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+        var storageKey = 'wp_' + this.pgn.id + '_tactics';
+
+        this.controller = new chess.controller.Controller({
+            applyTo: [this.module],
+            pgn: this.pgn.id,
+            sound: this.sound,
+            autoMoveDelay: 400,
+            noDialogs: true,
+            eventHandler: this.eventHandler.bind(this),
+            listeners: {
+                'loadGame': function () {
+                    var index = this.controller.getCurrentModel().getGameIndex();
+                    ludo.getLocalStorage().save(storageKey, index);
+                }.bind(this)
+            }
+        });
+
+        var index = ludo.getLocalStorage().get(storageKey, 0);
+
+        if (isNaN(index)) index = 0;
+        index = Math.max(0, index);
+        if (index != undefined) {
+            this.controller.getCurrentModel().setGameIndex(index);
+        } else {
+            index = 0;
+        }
+
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.controller.loadGameFromFile(index);
+        }
+
+        this.loadUserInfo();
+    },
+
+    reloadGame: function () {
+        if (this.overlayWrong) this.overlayWrong.hide();
+        this.controller.currentModel.toStart();
+
+        ludo.$(this.iconId).animateOut();
+
+        var clk = ludo.$(this.clockId);
+        clk.reset();
+        clk.start();
+    },
+
+    overlayWrong: undefined,
+    showWrongMoveOverlay: function () {
+        return;
+        if (this.overlayWrong == undefined) {
+            var v = this.overlayWrong = jQuery('<div class="dhtml_chess_overlay_parent"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image dhtml_chess_game_wrong_move_image"></div></div>');
+            ludo.$(this.boardId).boardEl().append(v);
+        }
+        this.overlayWrong.show();
+    },
+
+    myColor: undefined,
+
+
+
+    eventHandler: function (event, model, controller, move) {
+
+        var b = controller.views.board;
+
+        if (event == 'boardMove') {
+            controller.currentModel.tryNextMove(move);
+        }
+
+        if (event == 'newGame') {
+            if (this.overlayWrong) this.overlayWrong.hide();
+            var result = model.getResult();
+            if (result == -1) {
+                b.flipToBlack();
+                this.myColor = 'black';
+            } else {
+                b.flipToWhite();
+                this.myColor = 'white';
+            }
+
+            var clk = ludo.$(this.clockId);
+            clk.reset();
+            clk.start();
+
+
+            ludo.$(this.iconId).animateOut();
+            ludo.$(this.eloId).clearIncs();
+            ludo.$(this.nextBtnId).hideButton();
+            ludo.$(this.reloadBtnId).hideButton();
+            ludo.$(this.colorViewId).hideView();
+        }
+
+        if (event == 'setPosition' || event == 'nextmove') {
+            colorToMove = model.getColorToMove();
+
+            if (colorToMove == this.myColor) {
+                b.enableDragAndDrop(model);
+            } else {
+                model.nextMove.delay(200, model);
+            }
+        }
+
+        if (event == 'wrongGuess') {
+            this.showWrongMoveOverlay();
+            this.onGameEnd(true);
+        }
+
+        if (event === 'endOfBranch') {
+            this.onGameEnd();
+        }
+    },
+
+    onGameEnd: function (wasWrong) {
+
+        var src = wasWrong ? 'incorrect-icon.png' : 'solved-icon.png';
+        ludo.$(this.iconId).setIcon(this.dr + 'images/' + src);
+
+
+        if (this.gameFinished)return;
+
+        var clk = ludo.$(this.clockId);
+        clk.stop();
+
+        this.gameFinished = true;
+
+        var moves = this.controller.getCurrentModel().model.moves.length;
+        var ms = clk.elapsed();
+        var solved = !wasWrong;
+
+        var cv = ludo.$(this.colorViewId);
+        cv.showView();
+        if(solved){
+            cv.color('#388E3C');
+            cv.icon(this.dr + 'images/solved-icon-white.png');
+        }else{
+            cv.color('#388E3C');
+            cv.icon(this.dr + 'images/incorrect-icon-white.png');
+        }
+
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_puzzle_complete',
+                moves: moves,
+                solved: solved ? 1 : 0,
+                ms: ms,
+                puzzleId: this.controller.currentModel.getId()
+            },
+            complete: function (response, success) {
+                this.gameFinished = false;
+                if (success) {
+                    var json = response.responseJSON;
+                    var elo = json.response;
+
+                    ludo.$(this.eloId).val(elo);
+
+                    ludo.$(this.nextBtnId).showButton();
+                    ludo.$(this.reloadBtnId).showButton();
+                }
+            }.bind(this)
+        });
+
+    },
+
+    loadUserInfo: function () {
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_userinfo',
+                size: 32
+            },
+            complete: function (response, success) {
+
+                if (success) {
+                    var json = response.responseJSON;
+                    ludo.$(this.avId).setAvatar(json.response.avatar);
+                    // ludo.$(this.userInfoId).html(json.response.nick);
+                    ludo.$(this.eloId).val(json.response.puzzleelo);
+                } else {
+                }
+
+            }.bind(this)
+        });
+    }
 });/* ../dhtml-chess/src/wp-public/tactics/tactics-game1.js */
 /**
  * Created by alfmagne1 on 11/03/2017.
@@ -37597,7 +38025,274 @@ chess.WPTacticsGame1 = new Class({
     },
     
     onGameEnd:function(){
-        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_game_solved_overlay"></div><div class="dhtml_chess_game_solved_image"></div></div>');
+        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image dhtml_chess_game_solved_image"></div></div>');
         ludo.$(this.boardId).boardEl().append(v);
     }
+});/* ../dhtml-chess/src/wp-public/views/clock.js */
+/**
+ * Created by alfmagne1 on 08/04/2017.
+ */
+chess.Clock = new Class({
+    Extends: ludo.View,
+
+    startTime: 0,
+    endTime:0,
+
+    cv: undefined,
+
+    stopped:true,
+
+    __rendered: function () {
+        this.parent();
+
+        this.cv = jQuery('<div class="wpc-clock"></div>');
+        this.cv.appendTo(this.$b());
+        this.reset();
+        this.showTime();
+    },
+
+
+
+    reset:function(){
+        this.stopped = true;
+        this.startTime = this.endTime = new Date().getTime();
+
+    },
+
+    start:function(){
+        this.stopped = false;
+    },
+
+    stop:function(){
+        this.stopped = true;
+        this.endTime = new Date().getTime();
+    },
+
+    elapsed:function(){
+        if(this.stopped){
+            return this.endTime - this.startTime;
+        }
+        return new Date().getTime() - this.startTime;
+    },
+
+    timeAsString:function(){
+        var elapsed = this.elapsed();
+        var sec = Math.floor(elapsed / 1000);
+        var min = Math.floor(sec / 60);
+        sec = sec % 60;
+        var pad = sec < 10 ? "0" : "";
+        return min + ":" + pad + sec;
+    },
+
+    showTime: function () {
+        this.cv.html(this.timeAsString());
+        this.showTime.delay(1000, this);
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        var h = this.$b().height();
+        this.$b().css({
+            'line-height': Math.floor(h * 0.9) + 'px',
+            'font-size' : Math.floor(h * 0.6)
+        });
+    }
+});/* ../dhtml-chess/src/wp-public/views/color-view.js */
+chess.ColorView = new Class({
+    Extends: ludo.View,
+    colorView: undefined,
+
+    __rendered: function () {
+        this.parent();
+        this.colorView = jQuery('<div class="wpc-color-view"></div>').appendTo(this.$b());
+        this.$b().addClass('wpc-color-view-parent');
+    },
+
+    color: function (color) {
+        this.colorView.css('background-color', color);
+    },
+
+    icon: function (url) {
+        this.colorView.css('background-image', 'url(' + url + ')');
+    },
+
+    hideView: function () {
+        this.animateOut();
+    },
+    showView: function () {
+        this.animateIn();
+    },
+
+    animateIn:function(){
+        this.colorView.css('top', this.$e.height());
+        this.colorView.animate({
+            top:0
+        });
+    },
+
+    animateOut:function(){
+        this.colorView.animate({
+            top:this.$e.height()
+        });
+    }
+});/* ../dhtml-chess/src/wp-public/views/icon-view.js */
+chess.IconView = new Class({
+    Extends: ludo.View,
+
+    iconView:undefined,
+
+    __rendered:function(){
+        this.parent();
+        this.iconView = jQuery('<div class="wpc-icon-view"></div>');
+        this.$b().append(this.iconView);
+    },
+
+    setIcon:function(url){
+        this.iconView.css('background-image', 'url(' + url + ')');
+        this.animateIn();
+    },
+
+    animateIn:function(){
+        this.iconView.css('top', this.$e.height());
+        this.iconView.animate({
+            top:0
+        });
+    },
+
+    animateOut:function(){
+        this.iconView.animate({
+            top:this.$e.height()
+        });
+    }
+
+});/* ../dhtml-chess/src/wp-public/views/image-button.js */
+chess.ImageButton = new Class({
+    Extends: ludo.View,
+
+    img: undefined,
+    btnVisible:true,
+    elCss:{
+        padding:2
+    },
+
+    __construct:function(config){
+        this.parent(config);
+        this.__params(config, ['img','btnVisible']);
+    },
+
+    __rendered:function(){
+        this.parent();
+        var b = this.$b();
+        b.addClass('wpc-image-button');
+
+        this.bg(this.img);
+
+        b.mouseenter(this.onEnter.bind(this));
+        b.mouseleave(this.onLeave.bind(this));
+
+        if(!this.btnVisible){
+            this.hideButton();
+        }
+
+        var fn = function(){
+            this.fireEvent('click');
+        }.bind(this);
+        this.$b().on('click', fn);
+    },
+
+    onEnter:function(){
+        this.$b().addClass('wpc-image-button-over');
+    },
+
+    onLeave:function(){
+        this.$b().removeClass('wpc-image-button-over');
+    },
+
+    bg:function(src){
+        this.$b().css('background-image', 'url(' + src + ')');
+    },
+
+    hideButton:function(){
+        this.$b().css('visibility', 'hidden');
+    },
+
+    showButton:function(){
+        if(this.hidden)this.show();
+        this.$b().css('visibility', 'visible');
+    }
+
+
+});/* ../dhtml-chess/src/wp-public/views/user-avatar-view.js */
+chess.UserAvatarView = new Class({
+    Extends: ludo.View,
+    avatarSize: 32,
+    auto:true,
+
+    __construct: function (config) {
+        this.parent(config);
+        if (config.avatarSize != undefined) this.avatarSize = config.avatarSize;
+        if (config.auto != undefined) this.auto = config.auto;
+    },
+
+    setAvatar: function (imageTag) {
+        var src = imageTag.replace(/.*?src=["']([^"']+?)["'].*/gi, '$1');
+        this.$b().css('background-image', 'url(' + src + ')');
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.$b().addClass('wpc-avatar');
+        if(this.auto)this.loadAvatar();
+    },
+
+    loadAvatar: function () {
+
+        jQuery.ajax({
+            url: ludo.config.getUrl(),
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_userinfo',
+                size: this.avatarSize
+            },
+            complete: function (response, success) {
+
+                if (success) {
+                    var json = response.responseJSON;
+                    this.setAvatar(json.response.avatar);
+                } else {
+
+                }
+
+            }.bind(this)
+        });
+
+    }
+
+});/* ../dhtml-chess/src/wp-public/views/user-elo.js */
+chess.UserElo = new Class({
+    Extends: ludo.View,
+    elo: undefined,
+    cls: 'wpc-user-info-elo',
+
+    val: function (elo) {
+        elo = Math.floor(elo);
+        var suff = '';
+        if (this.elo && elo != this.elo) {
+            var diff = elo - this.elo;
+            suff = diff > 0 ? '+' + diff : diff;
+            var cls = diff > 0 ? 'wpc-positve-elo' : 'wpc-negative-elo';
+            suff = ' (<span class="' + cls + '">' + suff + '</span>)';
+        }
+
+        this.html(elo + suff);
+        this.elo = elo;
+    },
+
+    clearIncs: function () {
+        if(this.elo)this.val(this.elo);
+    }
+
+
 });

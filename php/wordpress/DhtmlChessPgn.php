@@ -157,6 +157,18 @@ class DhtmlChessPgn
         return !empty($game) ? $game[0] : null;
     }
 
+
+    public function gameByIndexStrict($index){
+
+	    $index = preg_replace("/[^0-9]/si", "", $index);
+
+	    $count = $this->countGames();
+	    if($index >= $count){
+	    	throw new DhtmlChessException("game index outside of range 0 - ". ($count-1));
+	    }
+	    return $this->gameByIndex($index);
+    }
+
     /**
      * @param $index
      * @return string|null

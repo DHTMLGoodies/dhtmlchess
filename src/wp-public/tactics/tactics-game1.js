@@ -53,7 +53,7 @@ chess.WPTacticsGame1 = new Class({
     },
     
     onGameEnd:function(){
-        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_game_solved_overlay"></div><div class="dhtml_chess_game_solved_image"></div></div>');
+        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image dhtml_chess_game_solved_image"></div></div>');
         ludo.$(this.boardId).boardEl().append(v);
     }
 });

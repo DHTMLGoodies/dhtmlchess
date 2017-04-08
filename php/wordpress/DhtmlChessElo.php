@@ -89,17 +89,36 @@ class DhtmlChessElo {
 		$this->store->upsert( $key, $puzzleId, DhtmlChessKeyValue::NUMERIC );
 	}
 
+
+
 	public function onPuzzleFailed( $userId, $againstElo, $puzzleId = null ) {
 		return $this->onPuzzleComplete( $userId, $againstElo, self::BLACK_WIN, $puzzleId );
 	}
 
+	public function onPuzzleCompleteAuto($userId, $puzzleId, $moves, $ms, $solved){
+		if($solved){
+			return $this->onPuzzleSolvedAuto($userId, $puzzleId, $moves, $ms);
+		}else{
+			return $this->onPuzzleFailedAuto($userId, $puzzleId, $moves, $ms);
+		}
+	}
+
+	public function onPuzzleFailedAuto($userId, $puzzleId = null, $moves, $ms){
+		$elo = $this->puzzleOppenentElo($moves, $ms);
+		return $this->onPuzzleFailed($userId, $elo, $puzzleId);
+	}
+
+	public function onPuzzleSolvedAuto($userId, $puzzleId = null, $moves, $ms){
+		$elo = $this->puzzleOppenentElo($moves, $ms);
+		return $this->onPuzzleSolved($userId, $elo, $puzzleId);
+	}
+
+
 	public function onPuzzleSolved( $userId, $againstElo, $puzzleId = null ) {
 		return $this->onPuzzleComplete( $userId, $againstElo, self::WHITE_WIN, $puzzleId );
-
 	}
 
 	private function onPuzzleComplete( $userId, $againstElo, $result, $puzzleId = null ) {
-
 		$elo = $this->getPuzzleElo( $userId );
 
 		if ( ! empty( $puzzleId ) ) {
@@ -185,5 +204,17 @@ class DhtmlChessElo {
 		return $prefix . "_" . $userId;
 	}
 
+	public function puzzleOppenentElo($moves, $msToSolve = 0){
+
+		$elo = 1000 + ($moves * 250);
+
+		if($msToSolve){
+			$sec = round($msToSolve / 1000);
+			$elo -= ($sec * 4);
+		}
+
+		return max(800, $elo);
+
+	}
 
 }

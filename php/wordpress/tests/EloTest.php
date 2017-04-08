@@ -64,6 +64,53 @@ class EloTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @test
 	 */
+	public function shouldNotIncrementPuzzleEloForSamePuzzleInSequence(){
+
+		// given
+		$eloObj = new DhtmlChessElo();
+
+		// when
+		$eloStart = $eloObj->onPuzzleSolvedAuto(1, 1, 1, 10000);
+		$elo = $eloObj->onPuzzleSolvedAuto(1, 1, 1, 10000);
+
+		// then
+		$this->assertEquals($elo, $eloStart, "Should increment, but was $elo after $eloStart");
+	}
+
+	/**
+	 * @test
+	 */
+	public function shouldIncrementEloOnPuzzleSolved(){
+
+		// given
+		$eloObj = new DhtmlChessElo();
+
+		// when
+		$eloStart = $eloObj->onPuzzleSolved(1, 1400, 1);
+		$elo = $eloObj->onPuzzleSolved(1, 1400, 2);
+
+		// then
+		$this->assertTrue($elo > $eloStart, "Should increment, but was $elo after $eloStart");
+
+	}
+
+
+	public function shouldDecrementOnPuzzleFailed(){
+		// given
+		$eloObj = new DhtmlChessElo();
+
+		$elo = $eloObj->getPuzzleElo(1);
+
+		$eloAfter = $eloObj->onPuzzleFailed(1, 1400);
+
+		// then
+		$this->assertTrue($eloAfter < $elo, "Wrong elo on failed, before: $elo, after: $eloAfter");
+
+	}
+
+	/**
+	 * @test
+	 */
 	public function shouldIncrementPuzzlesPlayed() {
 
 		// given
@@ -91,6 +138,20 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 1430, $newElo );
 
 	}
+	/**
+	 * @test
+	 */
+	public function shouldGiveDoubleEloOnFirstPuzzlesSolvedAuto() {
+		// given
+		$elo = new DhtmlChessElo();
+
+		// when
+		$newElo = $elo->onPuzzlesolved( 1, 1400 );
+
+		// then
+		$this->assertEquals( 1430, $newElo );
+
+	}
 
 	/**
 	 * @test
@@ -104,7 +165,6 @@ class EloTest extends PHPUnit_Framework_TestCase {
 
 		// then
 		$this->assertEquals( 1370, $newElo );
-
 	}
 
 	/**
@@ -128,6 +188,32 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( $opponentElo + 15, $newElo );
 	}
 
+
+	/**
+	 * @test
+	 */
+	public function shouldDetermineEloFromMovesAndTimeUsedOnPuzzles(){
+		// given
+		$eloObj = new DhtmlChessElo();
+
+		// when
+		$elo = $eloObj->puzzleOppenentElo(5, 0);
+
+		// then
+		$this->assertEquals(2250, $elo);
+
+
+		$elo = $eloObj->puzzleOppenentElo(5, 60000);
+		$this->assertEquals(2010, $elo);
+
+
+		$elo = $eloObj->puzzleOppenentElo(3, 60000);
+		$this->assertEquals(1510, $elo);
+
+
+
+	}
+
 	/**
 	 * @test
 	 */
@@ -141,8 +227,22 @@ class EloTest extends PHPUnit_Framework_TestCase {
 
 		// then
 		$this->assertEquals( 1430, $elo->getPuzzleElo( 1 ) );
-
 	}
+
+	/**
+	 * @test
+	 */
+	public function shouldSetInitialEloForPuzzles(){
+		// given
+		$eloObj = new DhtmlChessElo();
+
+		// when
+		$elo = $eloObj->getPuzzleElo(1);
+
+		// then
+		$this->assertEquals(1400, $elo);
+	}
+
 
 
 	/**
@@ -212,6 +312,9 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 1400, $elo->getMultiPlayElo( self::PLAYER_ID_WHITE ) );
 
 	}
+
+
+
 
 
 	private function setMultiCount( $playerId, $count ) {

@@ -24,9 +24,10 @@ chess.controller.Controller = new Class({
     isBusy: false,
 
     sound: false,
+    eventHandler: undefined,
 
     __construct: function (config) {
-        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
+        this.applyTo = config.applyTo || ['eventHandler', 'chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
         this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
@@ -279,7 +280,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
-        this.currentModel.appendMove(move);
+        if(this.eventHandler != undefined){
+            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+        }else{
+            this.currentModel.appendMove(move);
+        }
     },
     gradeMove: function (move, grade) {
         this.currentModel.gradeMove(move, grade);
@@ -447,8 +452,10 @@ chess.controller.Controller = new Class({
         }
     },
 
-    modelEventFired: function () {
-
+    modelEventFired: function (event, model) {
+        if(this.eventHandler){
+            this.eventHandler.apply(this, [event,model, this]);
+        }
     },
 
     /**

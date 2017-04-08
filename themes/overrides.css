@@ -347,13 +347,22 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
 }
 .dhtml_chess_loading_image{
     background: url(../images/loader.gif) no-repeat center center;
-
 }
-.dhtml_chess_game_solved_image{
+
+
+.dhtml_chess_overlay_image{
     width:100%;
     height:100%;
     position:absolute;z-index:2;
-    background: url(../images/puzzle-solved.png) no-repeat center center;
+    background: no-repeat center center;
+}
+.dhtml_chess_game_solved_image{
+    background-image: url(../images/puzzle-solved.png);
+}
+
+.dhtml_chess_game_wrong_move_image{
+    background-image: url(../images/wrong-move-icon.png);
+
 }
 
 .dhtml_chess_current_annotation{
@@ -374,4 +383,70 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     width:100%;
     position:absolute;
     font-weight:bold;
+}
+
+.wpc-avatar{
+    background: no-repeat center center;
+}
+
+.wpc-user-info-panel{
+    border-radius:5px;
+    padding:3px;
+    background-color:#DDD;
+    overflow:hidden;
+}
+
+.wpc-user-info-nick{
+    font-size:24px;
+}
+.wpc-user-info-elo{
+    font-size:24px;
+    font-weight:bold;
+    padding-right:2px;
+}
+
+.wpc-image-button{
+    background: no-repeat center center;
+    cursor:pointer;
+    background-color:#CCC;
+    border-radius:4px;
+}
+
+.wpc-image-button-over{
+    background-color: #BBB;
+}
+
+.wpc-clock{
+    float:right;
+    font-family: Orbitron, sans-serif;
+    padding-left:35px;
+    padding-right:4px;
+    background:url(../images/clock-icon.png) left center no-repeat;
+}
+
+.wpc-positve-elo{
+    color:#388E3C;
+}
+
+.wpc-negative-elo{
+    color:#D32F2F;
+}
+
+.wpc-icon-view{
+    position:absolute;
+    width:100%;height:100%;
+    top:0;left:0;
+    background: no-repeat center center;
+}
+
+.wpc-color-view{
+    position:absolute;
+    border-radius:5px;
+    left:0;top:0;
+    width:100%;height:100%;
+    background: no-repeat center center;
+}
+.wpc-color-view-parent{
+    margin-top:2px;
+    margin-bottom:2px;
 }

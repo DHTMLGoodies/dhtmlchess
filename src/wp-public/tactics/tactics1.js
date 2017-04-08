@@ -32,7 +32,6 @@ chess.WPTactics1 = new Class({
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
@@ -177,8 +176,7 @@ chess.WPTactics1 = new Class({
                             boardCss: {
                                 border: 0
                             },
-                            labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
-                            labelPos: 'outside', // show labels inside board, default is 'outside'
+                            labelPos: this.lp,
                             layout: {
                                 height: this.boardSize
                             },

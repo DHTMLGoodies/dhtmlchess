@@ -17,6 +17,10 @@ class DhtmlChessViews {
 		return 3;
 	}
 
+	public static function countTacticTemplates(){
+		return 2;
+	}
+
 	public static function getAllAttributes() {
 		$themes     = self::getThemeNames();
 		$attributes = array(
@@ -354,7 +358,8 @@ class DhtmlChessViews {
 				$tpl = min( $tpl, self::countGameTemplates() );
 				$view->setScript( "WPGame" . $tpl );
 			} elseif ( isset( $attributes["tactics"] ) ) {
-				$view->setScript( "WPTactics1" );
+				$tpl = min($tpl, self::countTacticTemplates());
+				$view->setScript( "WPTactics" . $tpl );
 			} elseif ( isset( $attributes["pgn"] ) || isset( $attributes["db"] ) ) {
 				$tpl = min( $tpl, self::countDbTemplates() );
 				$view->setScript( "WPViewer" . $tpl );
@@ -385,12 +390,17 @@ class DhtmlChessViews {
 			case "db":
 			case "pgn":
 
-				$pgn = DhtmlChessPgn::instanceById( $val );
+				$pgnIds = explode(",", $val);
 
-				$val = array(
-					"id"   => $pgn->getId(),
-					"name" => $pgn->getName()
-				);
+				$val = array();
+
+				foreach($pgnIds as $pgnId){
+					$pgn = DhtmlChessPgn::instanceById( $pgnId );
+					$val[] = array(
+						"id"   => $pgn->getId(),
+						"name" => $pgn->getName()
+					);
+				}
 
 				return array( "key" => "pgn", "val" => $val );
 

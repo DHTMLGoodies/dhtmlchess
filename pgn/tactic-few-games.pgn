@@ -1,0 +1,31 @@
+[castle "1"]
+[event "#1 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 1"]
+[black "Mate in one White to move"]
+[result "1-0"]
+[fen "3q1rk1/5pbp/5Qp1/8/8/2B5/5PPP/6K1 w - - 0 1"]
+[index "0"]
+[plycount "1"]
+[ts "1486251250322"]
+
+
+1. Qxg7#
+
+[castle "1"]
+[event "#2 Chess: 5334 Problems, Combinations, and Games by Laszlo Polgar"]
+[site "Copyright 1994 Konemann"]
+[date "1994.??.??"]
+[round "-"]
+[white "White mates in 1"]
+[black "Mate in one White to move"]
+[result "1-0"]
+[fen "2r2rk1/2q2p1p/6pQ/4P1N1/8/8/PPP5/2KR4 w - - 0 1"]
+[index "1"]
+[plycount "1"]
+[ts "1486251258645"]
+
+
+1. Qxh7#
