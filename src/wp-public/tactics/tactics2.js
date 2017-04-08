@@ -204,7 +204,7 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        this.storageKey = 'wpcu_' + this.pgn.id + '_tactics';
+        this.storageKey = 'wordpresschess_user_tactics';
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
@@ -273,9 +273,7 @@ chess.WPTactics2 = new Class({
 
                 }
             }.bind(this)
-
         });
-
     },
 
     onGameLoaded: function (model) {

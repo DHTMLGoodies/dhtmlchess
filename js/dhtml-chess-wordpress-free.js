@@ -1,4 +1,4 @@
-/* Generated Sat Apr 8 13:26:24 CEST 2017 */
+/* Generated Sat Apr 8 16:10:15 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27778,7 +27778,7 @@ chess.WPTemplate = new Class({
     _loadCounter: 0,
     th: undefined,
     themeObject: undefined,
-    controller:undefined,
+    controller: undefined,
     heading_tpl: undefined,
     wpm_h: 20,
     nav: true,
@@ -27787,18 +27787,25 @@ chess.WPTemplate = new Class({
     _p: false,
     compToggle: false,
     pgn: undefined,
+    pgnAll: undefined,
 
-    arrowSolution:undefined,
-    board:undefined,
-    arrow:undefined,
-    hint:undefined,
+    arrowSolution: undefined,
+    board: undefined,
+    arrow: undefined,
+    hint: undefined,
 
-    dr : undefined,
+    dr: undefined,
     url: undefined,
 
-    lp : undefined,
+    lp: undefined,
 
     initialize: function (config) {
+
+        if (config.docRoot) {
+            ludo.config.setDocumentRoot(config.docRoot);
+        }
+
+
         this.lp = ludo.isMobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
@@ -27812,7 +27819,15 @@ chess.WPTemplate = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
-        if (config.pgn != undefined) this.pgn = config.pgn;
+        if (config.pgn != undefined) {
+            if (jQuery.isArray(config.pgn)) {
+                this.pgn = config.pgn[0];
+                this.pgnAll = config.pgn;
+            } else {
+                this.pgn = config.pgn;
+                this.pgnAll = [config.pgn];
+            }
+        }
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
@@ -27846,10 +27861,6 @@ chess.WPTemplate = new Class({
         }
 
         chess.THEME_OVERRIDES = undefined;
-
-        if (config.docRoot) {
-            ludo.config.setDocumentRoot(config.docRoot);
-        }
 
 
         var t = config.theme;
@@ -27887,6 +27898,19 @@ chess.WPTemplate = new Class({
 
     controllerType: function () {
         return this._p ? 'ComputerController' : 'Controller';
+    },
+
+    randomPgn: function () {
+        var i = Math.floor(Math.random() * this.pgnAll.length);
+        return this.pgnAll[i];
+    },
+
+    allPgnIdsString: function () {
+        var ret = [];
+        jQuery.each(this.pgnAll, function (i, pgn) {
+            ret.push(pgn.id);
+        });
+        return ret.join('_');
     },
 
     onload: function () {

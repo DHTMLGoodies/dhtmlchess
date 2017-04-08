@@ -1,4 +1,4 @@
-/* Generated Sat Apr 8 13:26:34 CEST 2017 */
+/* Generated Sat Apr 8 16:10:23 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34142,7 +34142,7 @@ chess.WPTemplate = new Class({
     _loadCounter: 0,
     th: undefined,
     themeObject: undefined,
-    controller:undefined,
+    controller: undefined,
     heading_tpl: undefined,
     wpm_h: 20,
     nav: true,
@@ -34151,18 +34151,25 @@ chess.WPTemplate = new Class({
     _p: false,
     compToggle: false,
     pgn: undefined,
+    pgnAll: undefined,
 
-    arrowSolution:undefined,
-    board:undefined,
-    arrow:undefined,
-    hint:undefined,
+    arrowSolution: undefined,
+    board: undefined,
+    arrow: undefined,
+    hint: undefined,
 
-    dr : undefined,
+    dr: undefined,
     url: undefined,
 
-    lp : undefined,
+    lp: undefined,
 
     initialize: function (config) {
+
+        if (config.docRoot) {
+            ludo.config.setDocumentRoot(config.docRoot);
+        }
+
+
         this.lp = ludo.isMobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
@@ -34176,7 +34183,15 @@ chess.WPTemplate = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
 
-        if (config.pgn != undefined) this.pgn = config.pgn;
+        if (config.pgn != undefined) {
+            if (jQuery.isArray(config.pgn)) {
+                this.pgn = config.pgn[0];
+                this.pgnAll = config.pgn;
+            } else {
+                this.pgn = config.pgn;
+                this.pgnAll = [config.pgn];
+            }
+        }
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p != undefined) this._p = config._p;
@@ -34210,10 +34225,6 @@ chess.WPTemplate = new Class({
         }
 
         chess.THEME_OVERRIDES = undefined;
-
-        if (config.docRoot) {
-            ludo.config.setDocumentRoot(config.docRoot);
-        }
 
 
         var t = config.theme;
@@ -34251,6 +34262,19 @@ chess.WPTemplate = new Class({
 
     controllerType: function () {
         return this._p ? 'ComputerController' : 'Controller';
+    },
+
+    randomPgn: function () {
+        var i = Math.floor(Math.random() * this.pgnAll.length);
+        return this.pgnAll[i];
+    },
+
+    allPgnIdsString: function () {
+        var ret = [];
+        jQuery.each(this.pgnAll, function (i, pgn) {
+            ret.push(pgn.id);
+        });
+        return ret.join('_');
     },
 
     onload: function () {
@@ -36921,7 +36945,6 @@ chess.WPPinned = new Class({
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
@@ -37231,7 +37254,7 @@ chess.WPStandings1 = new Class({
             dataType: 'json',
             data: {
                 action:'get_standings',
-                pgn:config.pgn.id
+                pgn:this.pgn.id
             },
             complete: function (response, status) {
                 if(status == "success"){
@@ -37288,7 +37311,6 @@ chess.WPTactics1 = new Class({
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
@@ -37568,41 +37590,33 @@ chess.WPTactics2 = new Class({
     random: false,
     nav: false,
 
-    history: undefined,
-    historySize: 20,
-    historyKey: undefined,
-    historyIndexKey: undefined,
-    historyIndex: 0,
-    loadedFromHistory: false,
-    previousButtonId: undefined,
-
     gameFinished: false,
 
     startTime: undefined,
 
+    lastGameId: undefined,
+
+    gameIndex: 0,
+
+    storageKey: undefined,
+
+    validateGameData: false,
+    storage: undefined,
+
     initialize: function (config) {
         this.parent(config);
+
         var r = jQuery(this.renderTo);
         var w = r.width();
         r.css('height', Math.round(w + 164 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.pgn = config.pgn;
         this.board = config.board || {};
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
         this.module = String.uniqueID();
-
-        this.previousButtonId = 'dc-' + String.uniqueID();
-
-        this.historyKey = 'tactics-history-' + this.pgn.id;
-        this.historyIndexKey = 'tactics-history-index' + this.pgn.id;
-        var hist = ludo.getLocalStorage().get(this.historyKey, '');
-        this.history = hist.length > 0 ? hist.split(/,/g) : [];
-        this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
-
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
@@ -37618,21 +37632,6 @@ chess.WPTactics2 = new Class({
         if (this.canRender()) {
             this.render();
         }
-
-
-    },
-
-    previousGame: function () {
-        this.loadedFromHistory = true;
-        if (this.random) {
-            if (this.history.length > 1 && this.historyIndex > 0) {
-                this.historyIndex--;
-                this.loadFromHistory();
-            }
-        } else {
-            this.controller.loadPreviousGameFromFile(this.pgn);
-        }
-
     },
 
 
@@ -37641,7 +37640,7 @@ chess.WPTactics2 = new Class({
         if (this.random) {
             this.controller.loadRandomGame();
         } else {
-            this.controller.loadNextGameFromFile();
+            this.loadNextGame();
         }
     },
 
@@ -37779,44 +37778,122 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        var storageKey = 'wp_' + this.pgn.id + '_tactics';
+        this.storageKey = 'wordpresschess_user_tactics';
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
-            pgn: this.pgn.id,
+            pgn: this.pgnId(),
             sound: this.sound,
             autoMoveDelay: 400,
             noDialogs: true,
             eventHandler: this.eventHandler.bind(this),
             listeners: {
-                'loadGame': function () {
-                    var index = this.controller.getCurrentModel().getGameIndex();
-                    ludo.getLocalStorage().save(storageKey, index);
+                'loadGame': function (m, model) {
+
+
                 }.bind(this)
             }
         });
 
-        var index = ludo.getLocalStorage().get(storageKey, 0);
+        var index = this.getIndex();
 
         if (isNaN(index)) index = 0;
         index = Math.max(0, index);
-        if (index != undefined) {
-            this.controller.getCurrentModel().setGameIndex(index);
-        } else {
-            index = 0;
-        }
 
         if (this.random) {
             this.controller.loadRandomGame();
         } else {
-            this.controller.loadGameFromFile(index);
+            this.loadGame(index);
         }
 
         this.loadUserInfo();
     },
 
+    loadNextGame: function () {
+        this.validateGameData = true;
+        this.loadGame(this.getIndex() + 1);
+    },
+
+    getIndex: function () {
+        return this.storageVal('index', 0);
+    },
+
+    loadGame: function (index) {
+
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'game_by_index_strict',
+                pgn: this.pgnId(),
+                index: index
+            },
+            complete: function (response, success) {
+                this.gameFinished = false;
+                if (success) {
+                    var json = response.responseJSON;
+
+                    if (json.success) {
+                        this.onGameLoaded(json.response);
+                    }else{
+                        var pgnId = this.nextPgnId();
+
+                        this.pgnId(pgnId);
+                        this.saveStorageVal('index', 0);
+                        this.loadGame(0);
+                    }
+
+                }
+            }.bind(this)
+        });
+    },
+
+    onGameLoaded: function (model) {
+
+        var gameId = model.id;
+        var pgnId = model.pgn_id;
+        var index = model.index;
+
+        this.controller.currentModel.populate(model);
+
+        ludo.$(this.eloId).clearIncs();
+
+        this.saveStorageVal('id', gameId);
+        this.pgnId(pgnId);
+        this.saveStorageVal('index', index);
+    },
+
+
+    pgnId: function (val) {
+        if(arguments.length == 1){
+            this.saveStorageVal('pgn', val);
+            return;
+        }
+        return this.storageVal('pgn', this.pgn.id);
+    },
+
+    nextPgnId: function () {
+        var pgn = this.pgnId();
+        var index = 0;
+        jQuery.each(this.pgnAll, function (i, pgnObj) {
+            if (pgnObj.id == pgn) {
+                index = i;
+            }
+        });
+
+        if (index < this.pgnAll.length - 1) {
+            index++;
+        } else {
+            index = 0;
+        }
+
+        return this.pgnAll[index].id;
+    },
+
     reloadGame: function () {
-        if (this.overlayWrong) this.overlayWrong.hide();
+
         this.controller.currentModel.toStart();
 
         ludo.$(this.iconId).animateOut();
@@ -37826,18 +37903,7 @@ chess.WPTactics2 = new Class({
         clk.start();
     },
 
-    overlayWrong: undefined,
-    showWrongMoveOverlay: function () {
-        return;
-        if (this.overlayWrong == undefined) {
-            var v = this.overlayWrong = jQuery('<div class="dhtml_chess_overlay_parent"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image dhtml_chess_game_wrong_move_image"></div></div>');
-            ludo.$(this.boardId).boardEl().append(v);
-        }
-        this.overlayWrong.show();
-    },
-
     myColor: undefined,
-
 
 
     eventHandler: function (event, model, controller, move) {
@@ -37849,7 +37915,6 @@ chess.WPTactics2 = new Class({
         }
 
         if (event == 'newGame') {
-            if (this.overlayWrong) this.overlayWrong.hide();
             var result = model.getResult();
             if (result == -1) {
                 b.flipToBlack();
@@ -37865,7 +37930,7 @@ chess.WPTactics2 = new Class({
 
 
             ludo.$(this.iconId).animateOut();
-            ludo.$(this.eloId).clearIncs();
+
             ludo.$(this.nextBtnId).hideButton();
             ludo.$(this.reloadBtnId).hideButton();
             ludo.$(this.colorViewId).hideView();
@@ -37882,7 +37947,6 @@ chess.WPTactics2 = new Class({
         }
 
         if (event == 'wrongGuess') {
-            this.showWrongMoveOverlay();
             this.onGameEnd(true);
         }
 
@@ -37890,6 +37954,27 @@ chess.WPTactics2 = new Class({
             this.onGameEnd();
         }
     },
+
+    getStorage: function () {
+        if (this.storage == undefined) {
+            var storage = ludo.getLocalStorage().get(this.storageKey);
+            this.storage = storage ? storage : {};
+        }
+        return this.storage;
+    },
+
+    saveStorageVal: function (key, val) {
+        var s = this.getStorage();
+        s[key] = val;
+        ludo.getLocalStorage().save(this.storageKey, s);
+    },
+
+    storageVal: function (key, defaultVal) {
+
+        var s = this.getStorage();
+        return s[key] != undefined ? s[key] : defaultVal;
+    },
+
 
     onGameEnd: function (wasWrong) {
 
@@ -37910,10 +37995,10 @@ chess.WPTactics2 = new Class({
 
         var cv = ludo.$(this.colorViewId);
         cv.showView();
-        if(solved){
+        if (solved) {
             cv.color('#388E3C');
             cv.icon(this.dr + 'images/solved-icon-white.png');
-        }else{
+        } else {
             cv.color('#388E3C');
             cv.icon(this.dr + 'images/incorrect-icon-white.png');
         }
@@ -38276,8 +38361,11 @@ chess.UserElo = new Class({
     elo: undefined,
     cls: 'wpc-user-info-elo',
 
+    suffix:undefined,
+
     val: function (elo) {
         elo = Math.floor(elo);
+        if(!this.elo)this.elo = elo;
         var suff = '';
         if (this.elo && elo != this.elo) {
             var diff = elo - this.elo;
@@ -38286,13 +38374,25 @@ chess.UserElo = new Class({
             suff = ' (<span class="' + cls + '">' + suff + '</span>)';
         }
 
-        this.html(elo + suff);
+        this.html(this.elo + suff);
+
+        if(elo != this.elo){
+            this.animateElo(this.elo, elo);
+        }
         this.elo = elo;
+
+        this.suffix = suff;
+    },
+
+    animateElo:function(from, to){
+        this.html(Math.round(from) + this.suffix);
+        if(from != to){
+            from += to > from ? 1 : -1;
+            this.animateElo.delay(17, this, [from, to]);
+        }
     },
 
     clearIncs: function () {
         if(this.elo)this.val(this.elo);
     }
-
-
 });

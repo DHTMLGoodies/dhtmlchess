@@ -109,6 +109,7 @@ parseDirectory(array(
     'manager.js',
     'wpcom-message.js',
     'tactics/tactics1.js',
+    'tactics/tactics2.js',
     'tactics/tactics-game1.js',
     'fen/wp-fen.js',
     'special/pinned.js',
