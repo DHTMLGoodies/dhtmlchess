@@ -389,6 +389,11 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     background: no-repeat center center;
 }
 
+.wpc-login-image{
+    background-image: url(../images/login-300x300.png);
+
+}
+
 .wpc-user-info-panel{
     border-radius:5px;
     padding:3px;
@@ -450,3 +455,4 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     margin-top:2px;
     margin-bottom:2px;
 }
+

@@ -221,16 +221,8 @@ chess.WPTactics2 = new Class({
             }
         });
 
-        var index = this.getIndex();
 
-        if (isNaN(index)) index = 0;
-        index = Math.max(0, index);
 
-        if (this.random) {
-            this.controller.loadRandomGame();
-        } else {
-            this.loadGame(index);
-        }
 
         this.loadUserInfo();
     },
@@ -457,6 +449,18 @@ chess.WPTactics2 = new Class({
 
     },
 
+    showLogOnWarning:function(){
+        ludo.$(this.clockId).reset();
+
+        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image wpc-login-image"></div></div>');
+        ludo.$(this.boardId).boardEl().append(v);
+
+        v.css('cursor', 'pointer');
+
+        v.on('click', function() { location.href = ludo.config.wpRoot + '/wp-login.php' });
+
+    },
+
     loadUserInfo: function () {
         jQuery.ajax({
             url: this.url,
@@ -470,10 +474,24 @@ chess.WPTactics2 = new Class({
             complete: function (response, success) {
 
                 if (success) {
-                    var json = response.responseJSON;
-                    ludo.$(this.avId).setAvatar(json.response.avatar);
+                    var json = response.responseJSON.response;
+
+                    if(json.id == 0){
+                        this.showLogOnWarning();
+                        return;
+                    }
+
+                    ludo.$(this.avId).setAvatar(json.avatar);
                     // ludo.$(this.userInfoId).html(json.response.nick);
-                    ludo.$(this.eloId).val(json.response.puzzleelo);
+                    ludo.$(this.eloId).val(json.puzzleelo);
+
+
+                    if (this.random) {
+                        this.controller.loadRandomGame();
+                    } else {
+                        this.loadGame(this.getIndex());
+                    }
+
                 } else {
                 }
 

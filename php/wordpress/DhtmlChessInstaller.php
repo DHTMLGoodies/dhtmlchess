@@ -114,13 +114,13 @@ class DhtmlChessInstaller
         global $wpdb;
 
         try {
-            if ($this->useDbDelta) {
-                dbDelta($query);
-            } else {
-                $wpdb->query($query);
-            }
+	        $wpdb->query($query);
 
         } catch (Exception $e) {
+
+	        dbDelta($query);
+
+
             throw new Exception("Unable to create database, try to do it manually with " . join(";\n", $query));
         }
 
