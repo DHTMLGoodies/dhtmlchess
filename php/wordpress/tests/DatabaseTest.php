@@ -96,7 +96,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $installer->getCurrentDatabaseVersion());
 
         $this->database->install();
-        $this->assertEquals(1, $installer->getCurrentDatabaseVersion());
+        $this->assertEquals(3, $installer->getCurrentDatabaseVersion());
 
         $installer->updateDatabaseVersion(2);
         $this->assertEquals(2, $installer->getCurrentDatabaseVersion());

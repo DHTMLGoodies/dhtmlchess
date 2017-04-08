@@ -44,8 +44,43 @@ class EloTest extends PHPUnit_Framework_TestCase {
 			$store->remove( DhtmlChessElo::GAME_KEY_MULTIPLAY_ELO . "_" . $i );
 			$store->remove( DhtmlChessElo::GAME_KEY_MULTIPLAY_COUNT . "_" . $i );
 		}
+
+		$wpdb->query("delete from ". DhtmlChessDatabase::TABLE_ELO);
 	}
 
+
+
+
+	/**
+	 * @test
+	 */
+	public function shouldSaveEloInDatabase(){
+		// given
+		$eloDb = new DhtmlChessEloDb();
+
+		// when
+		$eloDb->upsert(1, "puzzle", 1450);
+
+		// then
+		$this->assertEquals(1450, $eloDb->getElo("puzzle", 1));
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function shouldUpdateEloAndNotInsertNew(){
+		// given
+		$eloDb = new DhtmlChessEloDb();
+
+		// when
+		$eloDb->upsert(1, "puzzle", 1450);
+		$eloDb->upsert(1, "puzzle", 1500);
+
+		// then
+		$this->assertEquals(1500, $eloDb->getElo("puzzle", 1));
+
+	}
 
 	/**
 	 * @test
@@ -74,7 +109,7 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		$elo = $eloObj->onPuzzleSolvedAuto(1, 1, 1, 10000);
 
 		// then
-		$this->assertEquals($elo, $eloStart, "Should increment, but was $elo after $eloStart");
+		$this->assertEquals(round($elo), round($eloStart), "Should increment, but was $elo after $eloStart");
 	}
 
 	/**
@@ -93,7 +128,6 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($elo > $eloStart, "Should increment, but was $elo after $eloStart");
 
 	}
-
 
 	public function shouldDecrementOnPuzzleFailed(){
 		// given

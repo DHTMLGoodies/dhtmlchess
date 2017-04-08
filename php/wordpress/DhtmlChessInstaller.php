@@ -9,7 +9,7 @@
 class DhtmlChessInstaller
 {
 
-    const DATABASE_VERSION = 2;
+    const DATABASE_VERSION = 3;
     private static $testMode = false;
 
     private $charset_collate;
@@ -160,6 +160,9 @@ class DhtmlChessInstaller
         if($oldVersion < 2){
         	$this->onUpgrade2();
         }
+        if($oldVersion < 3){
+        	$this->onUpgrade3();
+        }
 
 	    $this->updateDatabaseVersion(self::DATABASE_VERSION);
     }
@@ -203,6 +206,22 @@ class DhtmlChessInstaller
 
     }
 
+    private function onUpgrade3(){
+	    $query = "create table " . DhtmlChessDatabase::TABLE_ELO . "("
+	             . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+	             . DhtmlChessDatabase::COL_USER_ID . " int,"
+	             . DhtmlChessDatabase::COL_KEY . " varchar(32),"
+	             . DhtmlChessDatabase::COL_ELO . " decimal(8,2))" . $this->charset_collate;
+
+	    $this->doQuery($query);
+
+	    $query =  "create index wp_wpc_elo_user on " . DhtmlChessDatabase::TABLE_ELO . "(" . DhtmlChessDatabase::COL_USER_ID . ")";
+	    $this->doQuery($query);
+	    $query =  "create index wp_wpc_elo_key on " . DhtmlChessDatabase::TABLE_ELO . "(" . DhtmlChessDatabase::COL_KEY . ")";
+	    $this->doQuery($query);
+
+    }
+
     public function getCurrentDatabaseVersion()
     {
         /**
@@ -238,6 +257,7 @@ class DhtmlChessInstaller
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DRAFT);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DATABASE_VERSION);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_KEY_VALUE_STORE);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_ELO);
     }
 
     private $pgnTactic = '[setup "1"]

@@ -30,8 +30,15 @@ class DhtmlChessElo {
 	 */
 	private $store;
 
+
+	/**
+	 * @var DhtmlChessEloDb $eloDb
+	 */
+	private $eloDb;
+
 	public function __construct() {
 		$this->store = new DhtmlChessKeyValue();
+		$this->eloDb = new DhtmlChessEloDb();
 	}
 
 	public function onGameEnd( $playerWhite, $playerBlack, $result ) {
@@ -149,31 +156,21 @@ class DhtmlChessElo {
 	}
 
 	private function saveMultiplayElo( $userId, $elo ) {
-		$this->saveElo( DhtmlChessElo::GAME_KEY_MULTIPLAY_ELO, $userId, $elo );
+		$this->eloDb->upsertMultiplayer($userId, $elo);
 
 	}
 
 	private function savePuzzleElo( $userId, $elo ) {
-		$this->saveElo( DhtmlChessElo::GAME_KEY_PUZZLE_ELO, $userId, $elo );
+		$this->eloDb->upsertPuzzle($userId, $elo);
 	}
 
-	private function saveElo( $key, $userId, $elo ) {
-
-		$key = $this->getKey( $key, $userId );
-		$this->store->upsert( $key, $elo, DhtmlChessKeyValue::NUMERIC );
-	}
 
 	public function getMultiPlayElo( $userId ) {
-
-		$key = $this->getKey( self::GAME_KEY_MULTIPLAY_ELO, $userId );
-
-		return $this->store->get( $key, 1400 );
+		return $this->eloDb->getMultiplayerElo($userId);
 	}
 
 	public function getPuzzleElo( $userId ) {
-		$key = $this->getKey( self::GAME_KEY_PUZZLE_ELO, $userId );
-
-		return $this->store->get( $key, 1400 );
+		return $this->eloDb->getPuzzleElo($userId);
 	}
 
 

@@ -18,6 +18,8 @@ class DhtmlChessDatabase
     const TABLE_DATABASE_VERSION = "dhtml_chess_version";
     const TABLE_KEY_VALUE_STORE = "dhtml_chess_key_value";
 
+    const TABLE_ELO = "dhtml_chess_elo";
+
     const COL_ID = "id";
     const COL_DHTML_CHESS_ID = "dhtml_chess_id";
     const COL_SORT = "sort";
@@ -41,6 +43,8 @@ class DhtmlChessDatabase
 
     const COL_CACHE_KEY = "cache_key";
     const COL_CACHE_VALUE = "cache_val";
+    const COL_USER_ID = "user_id";
+    const COL_ELO = "elo";
 
     const CACHE_PGN = "pgn";
     const CACHE_PGN_ARCHIVED = "pgn_archived";
@@ -48,6 +52,7 @@ class DhtmlChessDatabase
 
     const KEY_PGN = "pgn";
     const KEY_DRAFT_ID = "draft_id";
+
 
     public function __construct()
     {
