@@ -1,4 +1,4 @@
-/* Generated Sat Apr 8 17:10:15 CEST 2017 */
+/* Generated Sun Apr 9 0:09:41 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27911,6 +27911,13 @@ chess.WPTemplate = new Class({
             ret.push(pgn.id);
         });
         return ret.join('_');
+    },
+
+    isValidPgn:function(pgnId){
+        for(var i=0;i<this.pgnAll.length;i++){
+            if(this.pgnAll[i].id == pgnId)return true;
+        }
+        return false;
     },
 
     onload: function () {

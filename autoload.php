@@ -146,6 +146,7 @@ spl_autoload_register(
                 'dhtmlchesselo' => '/php/wordpress/DhtmlChessElo.php',
                 'dhtmlchesselodb' => '/php/wordpress/DhtmlChessEloDb.php',
                 'dhtmlchesskeyvalue' => '/php/wordpress/DhtmlChessKeyValue.php',
+                'dhtmlchessuserdata' => '/php/wordpress/DhtmlChessUserData.php',
             );
         }
         $cn = strtolower($class);

@@ -1,4 +1,4 @@
-/* Generated Sat Apr 8 17:10:25 CEST 2017 */
+/* Generated Sun Apr 9 0:09:54 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -34277,6 +34277,13 @@ chess.WPTemplate = new Class({
         return ret.join('_');
     },
 
+    isValidPgn:function(pgnId){
+        for(var i=0;i<this.pgnAll.length;i++){
+            if(this.pgnAll[i].id == pgnId)return true;
+        }
+        return false;
+    },
+
     onload: function () {
         this._loadCounter++;
         if (!this._ready && this._loadCounter == 2) this.render();
@@ -37602,9 +37609,12 @@ chess.WPTactics2 = new Class({
 
     validateGameData: false,
     storage: undefined,
+    group_id: "",
 
     initialize: function (config) {
         this.parent(config);
+
+        if (config.group_id != undefined) this.group_id = config.group_id;
 
         var r = jQuery(this.renderTo);
         var w = r.width();
@@ -37778,7 +37788,7 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        this.storageKey = 'wordpresschess_user_tactics';
+        this.storageKey = 'wordpresschess_user_tactics' + this.group_id;
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
@@ -37794,8 +37804,6 @@ chess.WPTactics2 = new Class({
                 }.bind(this)
             }
         });
-
-
 
 
         this.loadUserInfo();
@@ -37829,7 +37837,7 @@ chess.WPTactics2 = new Class({
 
                     if (json.success) {
                         this.onGameLoaded(json.response);
-                    }else{
+                    } else {
                         var pgnId = this.nextPgnId();
 
                         this.pgnId(pgnId);
@@ -37855,11 +37863,28 @@ chess.WPTactics2 = new Class({
         this.saveStorageVal('id', gameId);
         this.pgnId(pgnId);
         this.saveStorageVal('index', index);
+
+        this.updateServerStore();
+    },
+
+    updateServerStore: function () {
+        jQuery.ajax({
+            url: this.url,
+            method: 'post',
+            cache: false,
+            dataType: 'json',
+            data: {
+                action: 'wpc_save_tactics_data',
+                pgn: this.pgnId(),
+                gameId: this.storageVal('id'),
+                index: this.storageVal('index')
+            }
+        });
     },
 
 
     pgnId: function (val) {
-        if(arguments.length == 1){
+        if (arguments.length == 1) {
             this.saveStorageVal('pgn', val);
             return;
         }
@@ -37991,7 +38016,7 @@ chess.WPTactics2 = new Class({
             cv.color('#388E3C');
             cv.icon(this.dr + 'images/solved-icon-white.png');
         } else {
-            cv.color('#388E3C');
+            cv.color('#D32F2F');
             cv.icon(this.dr + 'images/incorrect-icon-white.png');
         }
 
@@ -38023,7 +38048,7 @@ chess.WPTactics2 = new Class({
 
     },
 
-    showLogOnWarning:function(){
+    showLogOnWarning: function () {
         ludo.$(this.clockId).reset();
 
         var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image wpc-login-image"></div></div>');
@@ -38031,7 +38056,9 @@ chess.WPTactics2 = new Class({
 
         v.css('cursor', 'pointer');
 
-        v.on('click', function() { location.href = ludo.config.wpRoot + '/wp-login.php' });
+        v.on('click', function () {
+            location.href = ludo.config.wpRoot + '/wp-login.php'
+        });
 
     },
 
@@ -38046,19 +38073,25 @@ chess.WPTactics2 = new Class({
                 size: 32
             },
             complete: function (response, success) {
-
                 if (success) {
                     var json = response.responseJSON.response;
 
-                    if(json.id == 0){
+                    if (json.id == 0) {
                         this.showLogOnWarning();
                         return;
                     }
 
-                    ludo.$(this.avId).setAvatar(json.avatar);
-                    // ludo.$(this.userInfoId).html(json.response.nick);
-                    ludo.$(this.eloId).val(json.puzzleelo);
+                    if (json.tactics) {
+                        var t = json.tactics;
+                        if (t.pgn && this.isValidPgn(t.pgn)) {
+                            this.pgnId(t.pgn);
+                            this.saveStorageVal("id", t.gameId);
+                            this.saveStorageVal("index", t.index);
+                        }
+                    }
 
+                    ludo.$(this.avId).setAvatar(json.avatar);
+                    ludo.$(this.eloId).val(json.puzzleelo);
 
                     if (this.random) {
                         this.controller.loadRandomGame();

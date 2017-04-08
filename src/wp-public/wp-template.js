@@ -141,6 +141,13 @@ chess.WPTemplate = new Class({
         return ret.join('_');
     },
 
+    isValidPgn:function(pgnId){
+        for(var i=0;i<this.pgnAll.length;i++){
+            if(this.pgnAll[i].id == pgnId)return true;
+        }
+        return false;
+    },
+
     onload: function () {
         this._loadCounter++;
         if (!this._ready && this._loadCounter == 2) this.render();
