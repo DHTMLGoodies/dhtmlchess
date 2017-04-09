@@ -342,11 +342,12 @@ chess.view.board.Piece = new Class({
             this.updateBackgroundImage();
             return;
         }
-        if (squareSize < this.validSizes[0]) {
-            squareSize = this.validSizes[0];
+        var vs = this.validSizes;
+        if (squareSize < vs[0]) {
+            squareSize = vs[0];
         }
-        if (squareSize > this.validSizes[this.validSizes.length - 1]) {
-            squareSize = this.validSizes[this.validSizes.length - 1];
+        if (squareSize > vs[vs.length - 1]) {
+            squareSize = vs[vs - 1];
         }
 
         var tmpSquareSize = squareSize * 1.1;
@@ -371,7 +372,6 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
-
     },
 
     /**

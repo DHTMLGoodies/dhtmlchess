@@ -11,6 +11,8 @@ chess.Clock = new Class({
 
     stopped:true,
 
+    interval: undefined,
+
     __rendered: function () {
         this.parent();
 
@@ -20,7 +22,12 @@ chess.Clock = new Class({
         this.showTime();
     },
 
-
+    createInterval:function(){
+        if(this.interval){
+            clearInterval(this.interval);
+        }
+        this.interval = setInterval(this.showTime.bind(this), 1000);
+    },
 
     reset:function(){
         this.stopped = true;
@@ -30,6 +37,8 @@ chess.Clock = new Class({
 
     start:function(){
         this.stopped = false;
+        this.createInterval();
+        this.showTime();
     },
 
     stop:function(){
@@ -55,15 +64,14 @@ chess.Clock = new Class({
 
     showTime: function () {
         this.cv.html(this.timeAsString());
-        this.showTime.delay(1000, this);
     },
 
     resize: function (size) {
         this.parent(size);
         var h = this.$b().height();
         this.$b().css({
-            'line-height': Math.floor(h * 0.9) + 'px',
-            'font-size' : Math.floor(h * 0.6)
+            'line-height': h + 'px',
+            'font-size' : h
         });
     }
 });

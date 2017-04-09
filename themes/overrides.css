@@ -337,6 +337,10 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     z-index:20000;
     position:absolute;width:100%;height:100%;
 }
+.dhtml_chess_overlay_parent div{
+    background-repeat:no-repeat;
+    background-position: center center;
+}
 .dhtml_chess_game_solved_overlay, .dhtml_chess_overlay{
     position:absolute;width:100%;height:100%;opacity:0.2;-moz-opacity: 0.2;background-color:#FFF;filter:alpha(opacity=50);
 }
@@ -423,7 +427,7 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
 
 .wpc-clock{
     float:right;
-    font-family: Orbitron, sans-serif;
+    font-family: digital-dream, Orbitron, sans-serif;
     padding-left:35px;
     padding-right:4px;
     background:url(../images/clock-icon.png) left center no-repeat;
@@ -435,6 +439,14 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
 
 .wpc-negative-elo{
     color:#D32F2F;
+}
+
+/**
+container for pieces in promote dialog
+ */
+.dhtml-chess-promote-piece .ludo-body {
+    background-color:transparent;
+    border-color:#F00;
 }
 
 .wpc-icon-view{
@@ -456,3 +468,22 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     margin-bottom:2px;
 }
 
+.wpc-tactics-solved{
+    background-color:#388E3C;
+}
+
+.wpc-tactics-failed{
+    background-color:#D32F2F;
+}
+
+.wpc-start-button-large{
+    cursor:pointer;
+    background-image:url(../images/btn-play-large.png);
+}
+
+@font-face {
+    font-family:digital-dream;
+    /* src: url(../fonts/digital-dream/DIGITALDREAMFAT.ttf); */
+    src: url(../fonts/digital-7/digital-7-mono.ttf);
+    font-weight:normal;
+}

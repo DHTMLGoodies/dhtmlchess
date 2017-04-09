@@ -1,4 +1,4 @@
-/* Generated Sun Apr 9 0:09:54 CEST 2017 */
+/* Generated Sun Apr 9 12:34:52 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -24135,11 +24135,12 @@ chess.view.board.Piece = new Class({
             this.updateBackgroundImage();
             return;
         }
-        if (squareSize < this.validSizes[0]) {
-            squareSize = this.validSizes[0];
+        var vs = this.validSizes;
+        if (squareSize < vs[0]) {
+            squareSize = vs[0];
         }
-        if (squareSize > this.validSizes[this.validSizes.length - 1]) {
-            squareSize = this.validSizes[this.validSizes.length - 1];
+        if (squareSize > vs[vs.length - 1]) {
+            squareSize = vs[vs - 1];
         }
 
         var tmpSquareSize = squareSize * 1.1;
@@ -24164,7 +24165,6 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
-
     },
 
     /**
@@ -34269,6 +34269,11 @@ chess.WPTemplate = new Class({
         return this.pgnAll[i];
     },
 
+
+    curModel: function () {
+        return this.controller.currentModel;
+    },
+
     allPgnIdsString: function () {
         var ret = [];
         jQuery.each(this.pgnAll, function (i, pgn) {
@@ -34277,9 +34282,9 @@ chess.WPTemplate = new Class({
         return ret.join('_');
     },
 
-    isValidPgn:function(pgnId){
-        for(var i=0;i<this.pgnAll.length;i++){
-            if(this.pgnAll[i].id == pgnId)return true;
+    isValidPgn: function (pgnId) {
+        for (var i = 0; i < this.pgnAll.length; i++) {
+            if (this.pgnAll[i].id == pgnId)return true;
         }
         return false;
     },
@@ -34296,9 +34301,10 @@ chess.WPTemplate = new Class({
     },
 
     createController: function () {
-        this.controller.on('enginestatus', this.showEngineStatusDialog.bind(this));
-        this.controller.on('compGameOver', this.onGameOver.bind(this));
-        this.controller.on('comp', this.hideOverlays.bind(this));
+        var c = this.controller;
+        c.on('enginestatus', this.showEngineStatusDialog.bind(this));
+        c.on('compGameOver', this.onGameOver.bind(this));
+        c.on('comp', this.hideOverlays.bind(this));
     },
 
     hideOverlays: function () {
@@ -34307,7 +34313,7 @@ chess.WPTemplate = new Class({
         }
     },
 
-    onGameOver: function (result, playerColor) {
+    onGameOver: function (result) {
 
         if (this.game_over_div == undefined) {
             var v = this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
@@ -34327,11 +34333,11 @@ chess.WPTemplate = new Class({
     },
 
     showEngineStatusDialog: function () {
+        var d = this.computerDialog();
         if (this.controller.engineLoaded()) {
-            this.computerDialog().hide();
+            d.hide();
         } else {
-            this.computerDialog().show();
-
+            d.show();
         }
     },
 
@@ -37583,19 +37589,8 @@ window.chess.isWordPress = true;
 
 chess.WPTactics2 = new Class({
     Extends: chess.WPTemplate,
-
-    renderTo: undefined,
-    pgn: undefined,
-
-    controller: undefined,
-
-    showLabels: undefined,
-
-    module: undefined,
-
     boardSize: undefined,
     random: false,
-    nav: false,
 
     gameFinished: false,
 
@@ -37609,12 +37604,9 @@ chess.WPTactics2 = new Class({
 
     validateGameData: false,
     storage: undefined,
-    group_id: "",
 
     initialize: function (config) {
         this.parent(config);
-
-        if (config.group_id != undefined) this.group_id = config.group_id;
 
         var r = jQuery(this.renderTo);
         var w = r.width();
@@ -37628,7 +37620,6 @@ chess.WPTactics2 = new Class({
         this.hint = config.hint || {};
         this.module = String.uniqueID();
 
-        this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
 
         var id = String.uniqueID();
@@ -37643,7 +37634,6 @@ chess.WPTactics2 = new Class({
             this.render();
         }
     },
-
 
     nextGame: function () {
         this.loadedFromHistory = false;
@@ -37788,7 +37778,7 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        this.storageKey = 'wordpresschess_user_tactics' + this.group_id;
+        this.storageKey = 'wordpresschess_user_tactics';
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
@@ -37796,15 +37786,8 @@ chess.WPTactics2 = new Class({
             sound: this.sound,
             autoMoveDelay: 400,
             noDialogs: true,
-            eventHandler: this.eventHandler.bind(this),
-            listeners: {
-                'loadGame': function (m, model) {
-
-
-                }.bind(this)
-            }
+            eventHandler: this.eventHandler.bind(this)
         });
-
 
         this.loadUserInfo();
     },
@@ -37856,7 +37839,7 @@ chess.WPTactics2 = new Class({
         var pgnId = model.pgn_id;
         var index = model.index;
 
-        this.controller.currentModel.populate(model);
+        this.curModel().populate(model);
 
         ludo.$(this.eloId).clearIncs();
 
@@ -37911,7 +37894,7 @@ chess.WPTactics2 = new Class({
 
     reloadGame: function () {
 
-        this.controller.currentModel.toStart();
+        this.curModel().toStart();
 
         ludo.$(this.iconId).animateOut();
 
@@ -37941,10 +37924,11 @@ chess.WPTactics2 = new Class({
                 this.myColor = 'white';
             }
 
-            var clk = ludo.$(this.clockId);
-            clk.reset();
-            clk.start();
-
+            if (model.model.moves.length > 0) {
+                var clk = ludo.$(this.clockId);
+                clk.reset();
+                clk.start();
+            }
 
             ludo.$(this.iconId).animateOut();
 
@@ -37987,11 +37971,9 @@ chess.WPTactics2 = new Class({
     },
 
     storageVal: function (key, defaultVal) {
-
         var s = this.getStorage();
         return s[key] != undefined ? s[key] : defaultVal;
     },
-
 
     onGameEnd: function (wasWrong) {
 
@@ -38013,10 +37995,10 @@ chess.WPTactics2 = new Class({
         var cv = ludo.$(this.colorViewId);
         cv.showView();
         if (solved) {
-            cv.color('#388E3C');
+            cv.colorCls('wpc-tactics-solved');
             cv.icon(this.dr + 'images/solved-icon-white.png');
         } else {
-            cv.color('#D32F2F');
+            cv.colorCls('wpc-tactics-failed');
             cv.icon(this.dr + 'images/incorrect-icon-white.png');
         }
 
@@ -38048,10 +38030,17 @@ chess.WPTactics2 = new Class({
 
     },
 
+    showStartButton: function () {
+        var v = this.startButton = jQuery('<div class="dhtml_chess_overlay_parent"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image wpc-start-button-large"></div></div>');
+        ludo.$(this.boardId).boardEl().append(v);
+
+        v.on('click', this.loadFirstGame.bind(this));
+    },
+
     showLogOnWarning: function () {
         ludo.$(this.clockId).reset();
 
-        var v = jQuery('<div class="dhtml_chess_game_solved"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image wpc-login-image"></div></div>');
+        var v = jQuery('<div class="dhtml_chess_overlay_parent"><div class="dhtml_chess_overlay"></div><div class="dhtml_chess_overlay_image wpc-login-image"></div></div>');
         ludo.$(this.boardId).boardEl().append(v);
 
         v.css('cursor', 'pointer');
@@ -38059,8 +38048,19 @@ chess.WPTactics2 = new Class({
         v.on('click', function () {
             location.href = ludo.config.wpRoot + '/wp-login.php'
         });
-
     },
+
+
+    loadFirstGame: function () {
+
+        this.startButton.remove();
+        if (this.random) {
+            this.controller.loadRandomGame();
+        } else {
+            this.loadGame(this.getIndex());
+        }
+    },
+
 
     loadUserInfo: function () {
         jQuery.ajax({
@@ -38093,11 +38093,8 @@ chess.WPTactics2 = new Class({
                     ludo.$(this.avId).setAvatar(json.avatar);
                     ludo.$(this.eloId).val(json.puzzleelo);
 
-                    if (this.random) {
-                        this.controller.loadRandomGame();
-                    } else {
-                        this.loadGame(this.getIndex());
-                    }
+                    this.showStartButton();
+
 
                 } else {
                 }
@@ -38178,6 +38175,8 @@ chess.Clock = new Class({
 
     stopped:true,
 
+    interval: undefined,
+
     __rendered: function () {
         this.parent();
 
@@ -38187,7 +38186,12 @@ chess.Clock = new Class({
         this.showTime();
     },
 
-
+    createInterval:function(){
+        if(this.interval){
+            clearInterval(this.interval);
+        }
+        this.interval = setInterval(this.showTime.bind(this), 1000);
+    },
 
     reset:function(){
         this.stopped = true;
@@ -38197,6 +38201,8 @@ chess.Clock = new Class({
 
     start:function(){
         this.stopped = false;
+        this.createInterval();
+        this.showTime();
     },
 
     stop:function(){
@@ -38222,26 +38228,34 @@ chess.Clock = new Class({
 
     showTime: function () {
         this.cv.html(this.timeAsString());
-        this.showTime.delay(1000, this);
     },
 
     resize: function (size) {
         this.parent(size);
         var h = this.$b().height();
         this.$b().css({
-            'line-height': Math.floor(h * 0.9) + 'px',
-            'font-size' : Math.floor(h * 0.6)
+            'line-height': h + 'px',
+            'font-size' : h
         });
     }
 });/* ../dhtml-chess/src/wp-public/views/color-view.js */
 chess.ColorView = new Class({
     Extends: ludo.View,
     colorView: undefined,
+    ccls:undefined,
 
     __rendered: function () {
         this.parent();
         this.colorView = jQuery('<div class="wpc-color-view"></div>').appendTo(this.$b());
         this.$b().addClass('wpc-color-view-parent');
+    },
+
+    colorCls:function(cls){
+        if(this.ccls){
+            this.colorView.removeClass(this.ccls);
+        }
+        this.colorView.addClass(cls);
+        this.ccls = cls;
     },
 
     color: function (color) {

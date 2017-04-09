@@ -1,11 +1,20 @@
 chess.ColorView = new Class({
     Extends: ludo.View,
     colorView: undefined,
+    ccls:undefined,
 
     __rendered: function () {
         this.parent();
         this.colorView = jQuery('<div class="wpc-color-view"></div>').appendTo(this.$b());
         this.$b().addClass('wpc-color-view-parent');
+    },
+
+    colorCls:function(cls){
+        if(this.ccls){
+            this.colorView.removeClass(this.ccls);
+        }
+        this.colorView.addClass(cls);
+        this.ccls = cls;
     },
 
     color: function (color) {

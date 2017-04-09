@@ -1,4 +1,4 @@
-/* Generated Sun Apr 9 0:09:41 CEST 2017 */
+/* Generated Sun Apr 9 12:34:42 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -19907,11 +19907,12 @@ chess.view.board.Piece = new Class({
             this.updateBackgroundImage();
             return;
         }
-        if (squareSize < this.validSizes[0]) {
-            squareSize = this.validSizes[0];
+        var vs = this.validSizes;
+        if (squareSize < vs[0]) {
+            squareSize = vs[0];
         }
-        if (squareSize > this.validSizes[this.validSizes.length - 1]) {
-            squareSize = this.validSizes[this.validSizes.length - 1];
+        if (squareSize > vs[vs.length - 1]) {
+            squareSize = vs[vs - 1];
         }
 
         var tmpSquareSize = squareSize * 1.1;
@@ -19936,7 +19937,6 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
-
     },
 
     /**
@@ -27905,6 +27905,11 @@ chess.WPTemplate = new Class({
         return this.pgnAll[i];
     },
 
+
+    curModel: function () {
+        return this.controller.currentModel;
+    },
+
     allPgnIdsString: function () {
         var ret = [];
         jQuery.each(this.pgnAll, function (i, pgn) {
@@ -27913,9 +27918,9 @@ chess.WPTemplate = new Class({
         return ret.join('_');
     },
 
-    isValidPgn:function(pgnId){
-        for(var i=0;i<this.pgnAll.length;i++){
-            if(this.pgnAll[i].id == pgnId)return true;
+    isValidPgn: function (pgnId) {
+        for (var i = 0; i < this.pgnAll.length; i++) {
+            if (this.pgnAll[i].id == pgnId)return true;
         }
         return false;
     },
@@ -27932,9 +27937,10 @@ chess.WPTemplate = new Class({
     },
 
     createController: function () {
-        this.controller.on('enginestatus', this.showEngineStatusDialog.bind(this));
-        this.controller.on('compGameOver', this.onGameOver.bind(this));
-        this.controller.on('comp', this.hideOverlays.bind(this));
+        var c = this.controller;
+        c.on('enginestatus', this.showEngineStatusDialog.bind(this));
+        c.on('compGameOver', this.onGameOver.bind(this));
+        c.on('comp', this.hideOverlays.bind(this));
     },
 
     hideOverlays: function () {
@@ -27943,7 +27949,7 @@ chess.WPTemplate = new Class({
         }
     },
 
-    onGameOver: function (result, playerColor) {
+    onGameOver: function (result) {
 
         if (this.game_over_div == undefined) {
             var v = this.game_over_div = jQuery('<div class="dhtml_chess_overlay_parent">' +
@@ -27963,11 +27969,11 @@ chess.WPTemplate = new Class({
     },
 
     showEngineStatusDialog: function () {
+        var d = this.computerDialog();
         if (this.controller.engineLoaded()) {
-            this.computerDialog().hide();
+            d.hide();
         } else {
-            this.computerDialog().show();
-
+            d.show();
         }
     },
 
