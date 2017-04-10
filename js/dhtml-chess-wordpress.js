@@ -1,4 +1,4 @@
-/* Generated Mon Apr 10 21:41:33 CEST 2017 */
+/* Generated Mon Apr 10 22:19:43 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -37897,7 +37897,7 @@ chess.WPTactics2 = new Class({
         v.css('cursor', 'pointer');
 
         v.on('click', function () {
-            location.href = ludo.config.wpRoot + '/wp-login.php'
+            location.href = ludo.config.wpRoot + '/wp-login.php?redirect_to=' + encodeURI(location.href);
         });
     },
 

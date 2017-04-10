@@ -2041,45 +2041,59 @@ div.ludo-grid-data-cell {
     font-size:20px;
     font-weight:bold;
 }/* ../dhtml-chess/css-source/view/dialog/promote.css */
-.dhtml-chess-promote-piece{
-    cursor:pointer;
-    padding:5px;
+.dhtml-chess-promote-piece {
+    cursor: pointer;
+    padding: 5px;
 
 }
 
-.dhtml-chess-promote-piece .ludo-body{
-    border-radius:5px;
-    border:1px solid !important;
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-color:#FFF;
+.dhtml-chess-promote-piece .ludo-body {
+    border-radius: 5px;
+    border: 1px solid !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color: #FFF;
+
+    background-size: 100% 100%;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -webkit-background-size: cover;
+
 }
 
-.dhtml-chess-promote-white-q .ludo-body{
-    background-image:url('../images/alphapale90wq.png');
-}
-.dhtml-chess-promote-white-r .ludo-body{
-    background-image:url('../images/alphapale90wr.png');
-}
-.dhtml-chess-promote-white-b .ludo-body{
-    background-image:url('../images/alphapale90wb.png');
-}
-.dhtml-chess-promote-white-n .ludo-body{
-    background-image:url('../images/alphapale90wn.png');
+
+.dhtml-chess-promote-white-q .ludo-body {
+    background-image: url(../images/svg_egg45wq.svg);
 }
 
-.dhtml-chess-promote-black-q .ludo-body{
-    background-image:url('../images/alphapale90bq.png');
+.dhtml-chess-promote-white-r .ludo-body {
+    background-image: url(../images/svg_egg45wr.svg);
 }
-.dhtml-chess-promote-black-r .ludo-body{
-    background-image:url('../images/alphapale90br.png');
+
+.dhtml-chess-promote-white-b .ludo-body {
+    background-image: url(../images/svg_egg45wb.svg);
 }
-.dhtml-chess-promote-black-b .ludo-body{
-    background-image:url('../images/alphapale90bb.png');
+
+.dhtml-chess-promote-white-n .ludo-body {
+    background-image: url(../images/svg_egg45wn.svg);
 }
-.dhtml-chess-promote-black-n .ludo-body{
-    background-image:url('../images/alphapale90bn.png');
-}/* ../dhtml-chess/css-source/view/command/command.css */
+
+.dhtml-chess-promote-black-q .ludo-body {
+    background-image: url(../images/svg_egg45bq.svg);
+}
+
+.dhtml-chess-promote-black-r .ludo-body {
+    background-image: url(../images/svg_egg45br.svg);
+}
+
+.dhtml-chess-promote-black-b .ludo-body {
+    background-image: url(../images/svg_egg45bb.svg);
+}
+
+.dhtml-chess-promote-black-n .ludo-body {
+    background-image: url(../images/svg_egg45bn.svg);
+}
+/* ../dhtml-chess/css-source/view/command/command.css */
 .dhtml-chess-command-panel-message, .dhtml-chess-command-panel-error-message{
     margin:2px;
 }

@@ -1,4 +1,4 @@
-/* Generated Wed Mar 29 19:24:24 CEST 2017 */
+/* Generated Mon Apr 10 22:19:54 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -4300,8 +4300,6 @@ ludo.svg.Node = new Class({
      * @memberof ludo.svg.Node.prototype
      */
     _addEvent: (function () {
-
-
         if (document.addEventListener) {
             return function (ev, fn, el) {
                 if (el == undefined)el = this.el;
@@ -4377,20 +4375,6 @@ ludo.svg.Node = new Class({
             return false;
         }.bind(this);
     },
-    svgCoordinates: undefined,
-    svgPos: function (target) {
-        if (this.svgCoordinates == undefined) {
-            while (target.tagName.toLowerCase() != 'g') {
-                target = target.parentNode;
-            }
-            this.svgCoordinates = jQuery(target).position();
-
-            console.log(this.svgCoordinates);
-
-        }
-
-        return this.svgCoordinates;
-    },
 
     /**
      * append a new node
@@ -4436,10 +4420,8 @@ ludo.svg.Node = new Class({
         return this.css('display') == 'none';
     },
 
-    
     setAttributes:function(p){
         jQuery.each(p, function(key, val){
-
             this.set(key, val);
         }.bind(this));
     },
@@ -5765,8 +5747,6 @@ ludo.layout.Base = new Class({
 
         this.hasWrapWidth = !view.layout.weight && view.layout.width == 'wrap';
         this.hasWrapHeight = !view.layout.weight && view.layout.height == 'wrap';
-
-
     },
 
     prepareForChildrenOnCreate: function () {
@@ -5774,11 +5754,6 @@ ludo.layout.Base = new Class({
     },
 
     onCreate: function () {
-
-
-        if (this.view.layout.collapseBar) {
-            this.addCollapseBars();
-        }
         if (this.view.layout.listeners != undefined) {
             this.addEvents(this.view.layout.listeners);
         }
@@ -5796,8 +5771,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     addChild: function (child, insertAt, pos) {
-
-
         child = this.getValidChild(child);
         child = this.getNewComponent(child);
         var parentEl = this.getParentForNewChild(child);
@@ -5889,11 +5862,9 @@ ludo.layout.Base = new Class({
 
         if (!this.firstResized) {
             this.beforeFirstResize();
-
         }
 
         this.resize();
-
 
         if (!this.firstResized) {
 
@@ -5920,12 +5891,9 @@ ludo.layout.Base = new Class({
             this.afterRendered();
         }
 
-
         if (this.benchmarkTime) {
             ludo.util.log("Time for resize(" + this.view.layout.type + "): " + (new Date().getTime() - start));
         }
-
-
     },
 
     afterRendered: function () {
@@ -5950,10 +5918,11 @@ ludo.layout.Base = new Class({
 
 
     storeViewPortSize: function () {
-        this.viewport.absWidth = this.getAvailWidth();
-        this.viewport.absHeight = this.getAvailHeight();
-        this.viewport.width = this.getAvailWidth();
-        this.viewport.height = this.getAvailHeight();
+        var wp = this.viewport;
+        wp.absWidth = this.getAvailWidth();
+        wp.absHeight = this.getAvailHeight();
+        wp.width = this.getAvailWidth();
+        wp.height = this.getAvailHeight();
     },
 
     previousContentWidth: undefined,
@@ -6000,8 +5969,9 @@ ludo.layout.Base = new Class({
         if (config.width < 0) {
             config.width = undefined;
         }
-        for (var i = 0; i < this.view.children.length; i++) {
-            this.view.children[i].resize(config);
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            c[i].resize(config);
         }
     },
 
@@ -6013,36 +5983,6 @@ ludo.layout.Base = new Class({
         return this.view.$b().height();
     },
 
-    addCollapseBars: function () {
-        var pos = this.view.layout.collapseBar;
-        if (!ludo.util.isArray(pos))pos = [pos];
-        for (var i = 0; i < pos.length; i++) {
-            this.addChild(this.getCollapseBar(pos[i]));
-        }
-    },
-
-    collapseBars: {},
-    getCollapseBar: function (position) {
-        position = position || 'left';
-        if (this.collapseBars[position] === undefined) {
-            var bar = this.collapseBars[position] = new ludo.layout.CollapseBar({
-                position: position,
-                parentComponent: this.view,
-                parentLayout: this.view.layout,
-                listeners: {
-                    'show': this.toggleCollapseBar.bind(this),
-                    'hide': this.toggleCollapseBar.bind(this)
-                }
-            });
-            this.updateViewport(bar.getChangedViewport());
-        }
-        return this.collapseBars[position];
-    },
-
-    toggleCollapseBar: function (bar) {
-        this.updateViewport(bar.getChangedViewport());
-        this.resize();
-    },
     /**
      * Update viewport properties, coordinates of DHTML Container for child views, i.e. body of parent view
      * @function updateViewport
@@ -6050,7 +5990,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     updateViewport: function (c) {
-
         if (c)this.viewport[c.key] = c.value;
     },
 
@@ -6120,8 +6059,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     clearTemporaryValues: function (child) {
-        if (child) {
-        }
         if (child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
         if (child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
         child.layout.cached_width = undefined;
@@ -6132,8 +6069,6 @@ ludo.layout.Base = new Class({
     getWidthOf: function (child) {
         return child.layout.width;
     },
-
-
 
     heightSizeForWrap:function(forChild){
         var ret = {
@@ -6637,18 +6572,19 @@ ludo.layout.Linear = new Class({
 
 	updateLayoutObject:function (child) {
 		child.layout = child.layout || {};
-		child.layout.width = child.layout.width || child.width;
-		child.layout.height = child.layout.height || child.height;
-		child.layout.weight = child.layout.weight || child.weight;
-		child.layout.resizable = child.layout.resizable || child.resizable;
-		child.layout.minWidth = child.layout.minWidth || child.minWidth;
-		child.layout.maxWidth = child.layout.maxWidth || child.maxWidth;
-		child.layout.minHeight = child.layout.minHeight || child.minHeight;
-		child.layout.maxHeight = child.layout.maxHeight || child.maxHeight;
+		var l = child.layout;
+		l.width = l.width || child.width;
+		l.height = l.height || child.height;
+		l.weight = l.weight || child.weight;
+		l.resizable = l.resizable || child.resizable;
+		l.minWidth = l.minWidth || child.minWidth;
+		l.maxWidth = l.maxWidth || child.maxWidth;
+		l.minHeight = l.minHeight || child.minHeight;
+		l.maxHeight = l.maxHeight || child.maxHeight;
 	},
 
 	isResizable:function (child) {
-		return child.layout.resizable ? true : false;
+		return child.layout.resizable;
 	},
 
 	beforeResize:function (resize, child) {
@@ -6662,8 +6598,6 @@ ludo.layout.Linear = new Class({
 	},
 
 	getResizableFor:function (child, r) {
-
-
 		var resizeProp = (r === 'left' || r === 'right') ? 'width' : 'height';
 		return new ludo.layout.Resizer({
 			name:'resizer-' + child.name,
@@ -6789,16 +6723,17 @@ ludo.layout.LinearVertical = new Class({
 		this.parent();
 	},
 	resize:function () {
-		var availHeight = this.viewport.height;
+		var vp = this.viewport;
+		var availHeight = vp.height;
 		var s = {
-			width:this.viewport.width,
+			width:vp.width,
 			height: availHeight
 		};
 
 		var totalHeightOfItems = 0;
 		var totalWeight = 0;
 		var height;
-		var tm = this.viewport.top;
+		var tm = vp.top;
 		for (var i = 0; i < this.view.children.length; i++) {
 			if (!this.hasLayoutWeight(this.view.children[i])) {
                 height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i], s);
@@ -6827,7 +6762,7 @@ ludo.layout.LinearVertical = new Class({
 					width:c.type == 'layout.Resizer' ? width: cW
 				};
 
-				if(config.width < this.viewport.width && c.layout.anchor != undefined){
+				if(config.width < vp.width && c.layout.anchor != undefined){
 					var off = this.viewport.width;
 					config.left = off * c.layout.anchor - (config.width * c.layout.anchor);
 				}
@@ -6835,10 +6770,10 @@ ludo.layout.LinearVertical = new Class({
 				if(w && c.layout.align){
 					switch(c.layout.align){
 						case 'right':
-							config.left = this.viewport.width - c.layout.width;
+							config.left = vp.width - c.layout.width;
 							break;
 						case 'center':
-							config.left = (this.viewport.width / 2) - (c.layout.width / 2);
+							config.left = (vp.width / 2) - (c.layout.width / 2);
 							break;
 					}
 				}
@@ -6868,7 +6803,6 @@ ludo.layout.LinearVertical = new Class({
 	},
 	resizeChild:function (child, resize) {
 		child.layout.height = resize.height;
-
 		child.resize(resize);
 		child.saveState();
 	},
@@ -25760,14 +25694,15 @@ ludo.Notification = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-notification');
+		this.$e.addClass('ludo-notification');
 	},
 
 	__rendered:function () {
-		if (!this.layout.width || !this.layout.height) {
+		var l = this.layout;
+		if (!l.width || !l.height) {
 			var size = ludo.dom.getWrappedSizeOfView(this);
-			if (!this.layout.width)this.layout.width = size.x;
-			if (!this.layout.height)this.layout.height = size.y;
+			if (!l.width)l.width = size.x;
+			if (!l.height)l.height = size.y;
 		}
 		this.parent();
 		this.show();
@@ -25901,8 +25836,8 @@ ludo.paging.Next = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
+		ds.on('lastPage', this.disable.bind(this));
+		ds.on('notLastPage', this.enable.bind(this));
 	},
 
 	/**
@@ -25940,8 +25875,8 @@ ludo.paging.Previous = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
+		ds.on('firstPage', this.disable.bind(this));
+		ds.on('notFirstPage', this.enable.bind(this));
 
 		if (ds.isOnFirstPage()) {
 			this.disable();
@@ -25979,8 +25914,8 @@ ludo.paging.Last = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
+		ds.on('lastPage', this.disable.bind(this));
+		ds.on('notLastPage', this.enable.bind(this));
 	},
 
 	nextPage:function () {
@@ -26013,8 +25948,8 @@ ludo.paging.First = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.firstPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
+		ds.on('firstPage', this.disable.bind(this));
+		ds.on('notFirstPage', this.enable.bind(this));
 
 		if (ds.isOnFirstPage()) {
 			this.disable();
@@ -26049,8 +25984,8 @@ ludo.paging.PageInput = new Class({
         if(ludo.get(this.dataSource)){
             var ds = this.getDataSource();
             if(ds){
-                ds.addEvent('page', this.setPageNumber.bind(this));
-                ds.addEvent('load', this.updateMaxValue.bind(this));
+                ds.on('page', this.setPageNumber.bind(this));
+                ds.on('load', this.updateMaxValue.bind(this));
                 this.setPageNumber(ds.getPageNumber());
                 this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
                 this.updateMaxValue();
@@ -26103,8 +26038,8 @@ ludo.paging.CurrentPage = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-current-page');
+		this.$e.addClass('ludo-paging-text');
+		this.$e.addClass('ludo-paging-current-page');
 	},
 
 	ludoEvents:function () {
@@ -26163,8 +26098,8 @@ ludo.paging.TotalPages = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-total-pages');
+		this.$e.addClass('ludo-paging-text');
+		this.$e.addClass('ludo-paging-total-pages');
 	},
 
 	ludoEvents:function () {
@@ -26182,8 +26117,8 @@ ludo.paging.TotalPages = new Class({
         if(ludo.get(this.dataSource)){
             var ds = this.getDataSource();
             if (ds) {
-                ds.addEvent('load', this.setPageNumber.bind(this));
-                ds.addEvent('pageCount', this.setPageNumber.bind(this));
+                ds.on('load', this.setPageNumber.bind(this));
+                ds.on('pageCount', this.setPageNumber.bind(this));
                 this.setPageNumber(ds.getPageNumber());
             }
         }else{
@@ -26428,7 +26363,7 @@ ludo.paging.PageSize = new Class({
 
 	ludoEvents:function(){
 		this.parent();
-		this.addEvent('change', this.setPageSize.bind(this));
+		this.on('change', this.setPageSize.bind(this));
 	},
 
 	setPageSize:function(){
@@ -29169,30 +29104,30 @@ chess.view.notation.Table = new Class({
     Extends: chess.view.notation.Panel,
     type: 'chess.view.notation.Table',
 
-    showContextMenu:false,
+    showContextMenu: false,
 
-    
-    ludoDOM:function(){
+
+    ludoDOM: function () {
         this.parent();
         this.$e.addClass('dhtml-chess-notation-table');
     },
-    
-    showEval:false,
-    
+
+    showEval: false,
+
     getMovesInBranch: function (branch, startPly, depth, branchIndex, countBranches) {
         this.comments = false;
         var ret = [];
         ret.push('<ol>');
 
         var c = 0;
-        jQuery.each(branch, function(i, move){
-            if(move['m']){
+        jQuery.each(branch, function (i, move) {
+            if (move['m']) {
                 var ply = c + startPly;
-                if(c == 0 && ply % 2 == 1){
+                if (c == 0 && ply % 2 == 1) {
                     ret.push('<li><dt>' + ( Math.ceil(ply / 2)) + '</dt><dd>&nbsp;</dd>');
                 }
-                if((ply % 2) == 0){
-                    if(c> 0){
+                if ((ply % 2) == 0) {
+                    if (c > 0) {
                         ret.push('</li>');
                     }
                     ret.push('<li><dt>' + (1 + Math.ceil(ply / 2)) + '</dt>');
@@ -29208,24 +29143,26 @@ chess.view.notation.Table = new Class({
         return ret;
     },
 
-    appendMove:function(){
+    appendMove: function () {
         this.showMoves(this.controller.currentModel);
         this.setCurrentMove(this.controller.currentModel);
     },
 
-    scrollMoveIntoView: function(move){
-        if(!move)return;
-        if (move.position == undefined)move = jQuery(move);
+    scrollMoveIntoView: function (move) {
+        if (!move)return;
+
+        if (move.position == undefined) move = jQuery(move);
+        if (!move.length)return;
         var moveTop = move.offset().top - this.$b().offset().top + this.$b().scrollTop();
         var oh = move.outerHeight();
         this._scrollIntoView(moveTop, oh);
     },
-    
-    addVariations:function(){
+
+    addVariations: function () {
         // silent is golden
     },
 
-    getResultDOM:function(model){
+    getResultDOM: function (model) {
         return '<p class="game-result">' + this.parent(model) + '</p>';
     }
 });/* ../dhtml-chess/src/view/notation/last-move.js */
@@ -29489,8 +29426,10 @@ chess.view.board.GUI = new Class({
     labelEvenStyles: undefined,
     labelStyles: undefined,
 
-    squareStyles_white:undefined,
-    squareStyles_black:undefined,
+    squareStyles_white: undefined,
+    squareStyles_black: undefined,
+
+    sideToMove: true,
 
     __construct: function (config) {
 
@@ -29498,10 +29437,10 @@ chess.view.board.GUI = new Class({
         this.padding = '3.5%';
 
         this.__params(config, [
-            'background',
+            'background', 'sideToMove',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
-            'bgWhite', 'bgBlack','squareStyles_white', 'squareStyles_black']);
+            'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
 
 
         if (!jQuery.isPlainObject(this.padding)) {
@@ -29530,7 +29469,6 @@ chess.view.board.GUI = new Class({
     },
 
     hideLabels: function () {
-
     },
 
     setPaddings: function (l, t, r, b) {
@@ -29576,19 +29514,76 @@ chess.view.board.GUI = new Class({
             this.addLabelsForRanks();
         }
 
-
         if (this.hasLabels()) {
             this.addLabelsForFiles();
         }
 
+        if (this.sideToMove) {
+            this.addSideToMove();
+        }
 
         if (this.boardLayout) {
             this.els.boardContainer.addClass('dhtml-chess-board-container-' + this.boardLayout);
         }
     },
+
     ludoEvents: function () {
         this.parent();
         jQuery(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
+    },
+
+    addSideToMove: function () {
+        this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(this.els.sideToMoveOuter);
+        this.els.boardContainer.append(this.els.sideToMoveOuter);
+    },
+
+    stml: undefined,
+
+    updateSTM: function () {
+        var c = this.controller && this.controller.currentModel ? this.controller.currentModel.turn() : undefined;
+        if (c != this.stml) {
+            var pre = 'dhtml-chess-side-to-move-';
+            var i = this.els.sideToMove;
+            i.removeClass(pre + 'white');
+            i.removeClass(pre + 'black');
+            i.addClass(pre + c);
+
+            var o = this.els.sideToMoveOuter;
+            o.removeClass(pre + 'outer-' + 'white');
+            o.removeClass(pre + 'outer-' + 'black');
+            o.addClass(pre + 'outer-' + c);
+            this.stml = c;
+
+            this.resizeSTM();
+        }
+    },
+
+    resizeSTM: function () {
+        var p = this.getP('r');
+        var size = Math.min(12, p);
+        var padding = Math.ceil(Math.max(2, (p - size) / 2));
+        var d = padding + size - p;
+        if (d > 0) {
+            size -= d;
+        }
+
+        var bc = this.flipped ? 'black' : 'white';
+        var pr = bc == this.stml ? 'bottom' : 'top';
+        padding++;
+        var css = {
+            width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
+        };
+        css[pr] = padding;
+        this.els.sideToMoveOuter.css(css);
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        if (this.sideToMove) {
+            controller.on('newGame', this.updateSTM.bind(this));
+            controller.on('fen', this.updateSTM.bind(this));
+        }
     },
 
     receiveKeyboardInput: function (e) {
@@ -29600,14 +29595,15 @@ chess.view.board.GUI = new Class({
     __rendered: function () {
         this.parent();
 
-        if(this.bgWhite){
+        if (this.bgWhite) {
             this.setSquareBg('white', this.bgWhite);
         }
-        if(this.bgBlack){
+        if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
+
         this.updateLabels();
     },
 
@@ -29670,7 +29666,7 @@ chess.view.board.GUI = new Class({
         this.els.board.append(this.els.hParent);
     },
 
-    getDivForInteraction:function(){
+    getDivForInteraction: function () {
         return this.els.hParent;
     },
 
@@ -29678,7 +29674,7 @@ chess.view.board.GUI = new Class({
         return this.els.squares;
     },
 
-    boardEl:function(){
+    boardEl: function () {
         return this.els.board;
     },
 
@@ -29767,6 +29763,9 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
+            if (this.labelPos == 'inside') {
+                file.css('line-height', '120%');
+            }
             el.append(file);
         }
 
@@ -29795,6 +29794,8 @@ chess.view.board.GUI = new Class({
         for (var i = 0; i < 8; i++) {
             var odd = (i + 1) % 2 == 0;
             var rank = this.els.ranks[i] = jQuery('<div class="dhtml-chess-board-label dhtml-chess-board-label-rank"></div>');
+
+
             if (this.labelStyles) {
                 rank.css(this.labelStyles);
             }
@@ -29810,10 +29811,8 @@ chess.view.board.GUI = new Class({
                 'height': (100 / 8) + '%',
                 'overflow': 'hidden'
             });
-            if (this.labelPos == 'outside') {
-                rank.css('line-height', this.internal.squareSize);
-
-            }
+            var lh = this.labelPos == 'outside' ? this.internal.squareSize + 'px' : '100%';
+            rank.css('line-height', lh);
             el.append(rank);
         }
 
@@ -29921,14 +29920,14 @@ chess.view.board.GUI = new Class({
 
         var w = bc.width() - (this.els.board.outerWidth() - this.els.board.width());
 
-        if(Browser.name == 'safari'){ // Safari workaround - not accepting decimal values
+        if (Browser.name == 'safari') { // Safari workaround - not accepting decimal values
             var o = w % 8;
-            if(o > 4){
+            if (o > 4) {
                 o = o - 8;
             }
-            w-=o;
-            pl += (o/2);
-            pt += (o/2);
+            w -= o;
+            pl += (o / 2);
+            pt += (o / 2);
         }
 
         this.internal.squareSize = w / 8;
@@ -29945,6 +29944,8 @@ chess.view.board.GUI = new Class({
         this.resizePieces();
 
         this.fireEvent('boardResized', this.boardCoordinates());
+
+        this.resizeSTM();
     },
 
     resizeLabels: function () {
@@ -29959,6 +29960,7 @@ chess.view.board.GUI = new Class({
         r.css('height', this.els.board.css('height'));
         f.css('width', this.els.board.css('width'));
 
+        var fs;
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
 
@@ -29967,15 +29969,12 @@ chess.view.board.GUI = new Class({
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
 
-            var fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
-
-            r.css('font-size', fs + 'px');
-            f.css('font-size', fs + 'px');
-        }else{
-            var fs2 = Math.round(this.getSquareSize() * 0.2);
-            r.css('font-size', fs2 + 'px');
-            f.css('font-size', fs2 + 'px');
+            fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
+        } else {
+            fs = Math.round(this.getSquareSize() * 0.2);
         }
+        r.css('font-size', fs + 'px');
+        f.css('font-size', fs + 'px');
 
         var h = this.els.ranks[0].height();
         for (var i = 0; i < 8; i++) {
@@ -30002,7 +30001,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(),  this.$b().height()) * p / 100;
+            return Math.round(Math.min(this.$b().width(), this.$b().height()) * p / 100);
         }
         return p;
     },
@@ -30115,7 +30114,7 @@ chess.view.board.GUI = new Class({
         return Math.min(size.width, size.height);
     },
 
-    wrappedWidth:function(size){
+    wrappedWidth: function (size) {
         return Math.max(size.width, size.height);
     }
 });/* ../dhtml-chess/src/view/board/board.js */
@@ -30951,11 +30950,12 @@ chess.view.board.Piece = new Class({
             this.updateBackgroundImage();
             return;
         }
-        if (squareSize < this.validSizes[0]) {
-            squareSize = this.validSizes[0];
+        var vs = this.validSizes;
+        if (squareSize < vs[0]) {
+            squareSize = vs[0];
         }
-        if (squareSize > this.validSizes[this.validSizes.length - 1]) {
-            squareSize = this.validSizes[this.validSizes.length - 1];
+        if (squareSize > vs[vs.length - 1]) {
+            squareSize = vs[vs - 1];
         }
 
         var tmpSquareSize = squareSize * 1.1;
@@ -30980,7 +30980,6 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
-
     },
 
     /**
@@ -31506,6 +31505,8 @@ chess.view.board.SideToMove = new Class({
     },
 
     updateSize:function(){
+
+        var ip = 0;
         var h = this.$b().height();
         var o = (h - this.circleSize) / 2;
         this.els.outer.css('top', o);
@@ -31514,18 +31515,18 @@ chess.view.board.SideToMove = new Class({
             this.borderSize = parseInt(this.els.outer.css('border-width'));
         }
 
-        var is = this.circleSize - (this.borderSize * 2) - 4;
+        var is = this.circleSize - (this.borderSize * 2) - (ip * 2);
         this.els.inner.css({
             width: is, height: is,
-            top: o + this.borderSize + 2,
-            left: this.borderSize + 2
+            top: o + this.borderSize + ip,
+            left: this.borderSize + ip
         });
     },
 
     update: function () {
         if (this.controller && this.els.outer) {
             var c = this.controller.currentModel.getColorToMove();
-            var pre = 'dhtml-chess-side-to-move-inner-';
+            var pre = 'dhtml-chess-side-to-move-';
             var i = this.els.inner;
             i.removeClass(pre + 'white');
             i.removeClass(pre + 'black');
@@ -31534,16 +31535,7 @@ chess.view.board.SideToMove = new Class({
     },
 
     tick:function(){
-        this.c+= this.dir;
-        if(this.c > 100){
-            this.c = 99;
-            this.dir *=-1;
-        }else if(this.dir < 0 && this.c <= 50){
-            this.c = 50;
-            this.dir *=-1;
-        }
-        this.els.inner.css('opacity', this.c / 100);
-        this.tick.delay(50, this);
+
     }
 });/* ../dhtml-chess/src/view/board/board-interaction.js */
 chess.view.board.BoardInteraction = new Class({
@@ -32078,8 +32070,8 @@ chess.view.highlight.ArrowPool = new Class({
 
     arrowStyles: {
         'stroke-linejoin': 'round',
-        stroke: '#a7311e',
-        fill: '#a7311e',
+        stroke: '#006064',
+        fill: '#006064',
         'stroke-opacity': .8,
         'fill-opacity': .5
     },
@@ -32090,7 +32082,7 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = config.arrowStyles;
+        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
         if (config.single != undefined)this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
@@ -32193,39 +32185,6 @@ chess.view.highlight.ArrowPool = new Class({
 chess.view.board.ArrowNode = new Class({
     Extends: ludo.svg.Node,
 
-    squareSize:60,
-    /*
-     * Width of arrow head
-     */
-    arrowWidth:24,
-    /*
-     * Height of arrow head
-     */
-    arrowHeight:35,
-    /*
-     * Width of arrow line
-     */
-    lineWidth:10,
-    /*
-     * Offset at arrow end(+ value = smaller arrow, measured from center of square)
-     */
-    offsetEnd:15,
-    /*
-     * Offset at start of arrow (positive value = smaller arrow - measured from center of square)
-     */
-    offsetStart:0,
-    /*
-     * Size of rounded edge
-     */
-    roundEdgeSize:8,
-    /*
-     * 0 = 90 degrees from line to left and right tip of arrow, positive value = less than 90 degrees
-     */
-    arrowOffset:0,
-    
-    arrowPaint:undefined,
-
-
     initialize: function (properties) {
         this.parent('path', properties);
     },
@@ -32280,6 +32239,14 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
+    lastSquare:undefined,
+
+    lastBgColor:function(){
+        if(this.lastSquare){
+            return this.lastSquare.el.css('background-color');
+        }
+    },
+
     show: function (square, color) {
         if(this.onlySingles && this.isShown(square)){
             if(color)this.map[square][0].el.css('background-color', color);
@@ -32300,6 +32267,8 @@ chess.view.highlight.SquarePool = new Class({
         });
         s.el.show();
         s.square = square;
+
+        this.lastSquare = s;
     },
 
     isShown: function (square) {
@@ -36097,13 +36066,33 @@ chess.action.Handler = new Class({
     arrowPool: undefined,
     highlightPool: undefined,
 
+    arrowStyles: {
+        stroke: '#BF360C',
+        fill: '#0288D1'
+    },
+
+    curStyling: undefined,
+    curSquareColor:undefined,
+
     initialize: function (config) {
         this.board = config.board;
         config.controller.on('clearActions', this.clear.bind(this));
         config.controller.on('action', this.receiveAction.bind(this));
+
+        if (chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles_actions != undefined) {
+            var s = chess.OVERRIDES.arrow_styles_actions.split(/;/g);
+            jQuery.each(s, function (i, style) {
+                var tokens = style.split(/:/);
+                this.arrowStyles[tokens[0]] = tokens[1];
+            }.bind(this))
+        }
+        if(config.arrowStyles){
+            this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        }
+        this.curStyling = {};
     },
 
-    clear: function (model, action) {
+    clear: function () {
         if (this.highlightPool) {
             this.highlightPool.hideAll();
         }
@@ -36132,22 +36121,39 @@ chess.action.Handler = new Class({
                 board: this.board
             });
         }
-        this.highlightPool.show(action.square, action.color);
+        this.highlightPool.show(action.square, action.color || this.curSquareColor );
+
+        if(action.color){
+            this.curSquareColor = action.color;
+        }else{
+            action.color = this.highlightPool.lastBgColor();
+        }
     },
 
     showArrow: function (action) {
         if (this.arrowPool == undefined) {
+
+            console.log(this.arrowStyles);
             this.arrowPool = new chess.view.highlight.ArrowPool({
-                board: this.board
+                board: this.board,
+                arrowStyles:this.arrowStyles
             });
         }
 
-        var styling = action.color ? {
+        if (action.color) {
+            this.curStyling = {
                 fill: action.color, stroke: action.color
-            } : {};
+            }
+        }else{
+            if(this.curStyling && this.curStyling.fill){
+                action.color = this.curStyling.fill;
+            }else{
+                action.color = this.arrowPool.arrowStyles.fill;
+            }
+        }
+
+        var styling = Object.merge(this.arrowStyles, this.curStyling);
         this.arrowPool.show(action.from, action.to, styling);
-
-
     }
 
 
@@ -36213,13 +36219,13 @@ chess.util.CoordinateUtil = {
         }
 
         var sz = boardSize / 8;
-        var lw = properties.lineWidth || sz * 0.2;
+        var lw = properties.lineWidth || sz * 0.18;
         var ah = properties.arrowHeight || sz* .65;
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
-        var ao = properties.arrowOffset || 0;
+        var ao = properties.arrowOffset || 0.5;
         var oe = properties.offsetEnd || sz * .2;
-        var os = properties.offsetStart || 0;
+        var os = properties.offsetStart || sz * 0.1;
 
         var ret = [];
 
@@ -38719,7 +38725,6 @@ chess.parser.Move0x88 = new Class({
         if(/[\!\?]/.test(n)){
             grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
         }
-
         return {
             fen:move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation() + grade,
@@ -38856,18 +38861,19 @@ chess.controller.Controller = new Class({
     views: {},
     disabledEvents: {},
     pgn: undefined,
-    debug: true,
+    debug: false,
 
     _module: undefined,
 
     isBusy: false,
 
     sound: false,
+    eventHandler: undefined,
 
     __construct: function (config) {
-        this.applyTo = config.applyTo || ['chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
+        this.applyTo = config.applyTo || ['eventHandler', 'chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.__params(config, ['debug', 'pgn', 'theme', 'sound']);
+        this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
 
         if (config.applyTo != undefined) {
             this._module = config.applyTo[0];
@@ -38885,28 +38891,28 @@ chess.controller.Controller = new Class({
 
     createDefaultViews: function () {
         if (chess.view.dialog != undefined) {
-            if(chess.view.dialog.OverwriteMove){
+            if (chess.view.dialog.OverwriteMove) {
                 this.createView('chess.view.dialog.OverwriteMove');
             }
             this.createView('chess.view.dialog.Promote');
-            if(chess.view.dialog.Comment){
+            if (chess.view.dialog.Comment) {
                 this.createView('chess.view.dialog.Comment');
             }
         }
 
-        if(this.views.board){
+        if (this.views.board) {
             new chess.action.Handler({
                 board: this.views.board,
-                controller:this
+                controller: this,
+                arrowStyles:this.arrowStylesSec
             })
         }
-
     },
 
     createView: function (type) {
         var c = this.theme[type] || {};
         c.type = type;
-        if (this._module != undefined)c.module = this._module;
+        if (this._module != undefined) c.module = this._module;
         return ludo.factory.create(c);
     },
 
@@ -38923,7 +38929,7 @@ chess.controller.Controller = new Class({
 
         // TODO find a better way to relay events from views.
         if (this.views[view.submodule] !== undefined) {
-            if (this.debug)ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
+            if (this.debug) ludo.util.log('submodule ' + view.submodule + ' already registered in controller');
             //return false;
         }
         this.views[view.submodule] = view;
@@ -39030,7 +39036,7 @@ chess.controller.Controller = new Class({
         return true;
     },
 
-    compClick:function(){
+    compClick: function () {
 
     },
 
@@ -39118,7 +39124,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
-        this.currentModel.appendMove(move);
+        if(this.eventHandler != undefined){
+            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+        }else{
+            this.currentModel.appendMove(move);
+        }
     },
     gradeMove: function (move, grade) {
         this.currentModel.gradeMove(move, grade);
@@ -39163,7 +39173,7 @@ chess.controller.Controller = new Class({
      */
     toStart: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toStart();
+        if (!this.isBusy) this.currentModel.toStart();
     },
     /**
      * Go to end of current game
@@ -39172,7 +39182,7 @@ chess.controller.Controller = new Class({
      */
     toEnd: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.toEnd();
+        if (!this.isBusy) this.currentModel.toEnd();
     },
     /**
      * Go to previous move
@@ -39181,7 +39191,7 @@ chess.controller.Controller = new Class({
      */
     previousMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.previousMove();
+        if (!this.isBusy) this.currentModel.previousMove();
     },
     /**
      * Go to next move
@@ -39190,7 +39200,7 @@ chess.controller.Controller = new Class({
      */
     nextMove: function () {
         this.pauseGame();
-        if (!this.isBusy)this.currentModel.nextMove();
+        if (!this.isBusy) this.currentModel.nextMove();
     },
     /**
      * Start auto play of moves in current game from current position
@@ -39198,7 +39208,7 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     playMoves: function () {
-        if (!this.isBusy)this.currentModel.startAutoPlay();
+        if (!this.isBusy) this.currentModel.startAutoPlay();
     },
     /**
      * Pause auto play of moves
@@ -39250,7 +39260,7 @@ chess.controller.Controller = new Class({
 
     getNewModel: function (game, pgn) {
         game = game || {};
-        if (pgn)game.pgn = pgn;
+        if (pgn) game.pgn = pgn;
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
@@ -39280,14 +39290,16 @@ chess.controller.Controller = new Class({
 
     fireModelEvent: function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            if (this.debug)ludo.util.log(event);
+            if (this.debug) ludo.util.log(event);
             this.fireEvent(event, [model, param]);
             this.modelEventFired(event, model, param);
         }
     },
 
-    modelEventFired: function () {
-
+    modelEventFired: function (event, model) {
+        if(this.eventHandler){
+            this.eventHandler.apply(this, [event,model, this]);
+        }
     },
 
     /**
@@ -39319,7 +39331,7 @@ chess.controller.Controller = new Class({
     },
 
     loadNextWordPressGame: function (pgn) {
-        if (arguments.length > 0)this.pgn = pgn;
+        if (arguments.length > 0) this.pgn = pgn;
         this.currentModel.loadNextStaticGame(pgn);
     },
 
@@ -39522,7 +39534,6 @@ chess.controller.TacticControllerGui = new Class({
         this.parent(config);
 
     },
-
 
 
     modelEventFired:function(event, model){
@@ -41179,7 +41190,6 @@ chess.model.Game = new Class({
         this.fire('clearActions');
 
         if(this.currentMove){
-            console.log(this.currentMove);
             this.fireAction(this.currentMove);
         }else{
             var m = this.model.moves;
@@ -41571,6 +41581,7 @@ chess.model.Game = new Class({
         return ((move.from && move.to) || (move.m && move.m == '--')) ? true : false
     },
 
+    lastFenEventMove:'',
     /**
      * @method fire
      * @param {String} eventName
@@ -41586,9 +41597,12 @@ chess.model.Game = new Class({
         this.fireEvent(event, [event, this, param]);
 
 
-        if (event == 'newGame' || event == 'newMove' || event == 'newMove' || event == 'nextmove') {
-            this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
-            this.handleActions();
+        if (event == 'setPosition' || event == 'newGame' || event == 'newMove' || event == 'newMove' || event == 'nextmove') {
+            if(!this.currentMove || this.lastFenEventMove != this.currentMove){
+                this.fireEvent('fen', ['fen', this, this.getCurrentPosition()]);
+                this.handleActions();
+                this.lastFenEventMove = this.currentMove;
+            }
         }
     },
 

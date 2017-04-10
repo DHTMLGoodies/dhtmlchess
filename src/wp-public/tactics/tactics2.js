@@ -459,7 +459,7 @@ chess.WPTactics2 = new Class({
         v.css('cursor', 'pointer');
 
         v.on('click', function () {
-            location.href = ludo.config.wpRoot + '/wp-login.php'
+            location.href = ludo.config.wpRoot + '/wp-login.php?redirect_to=' + encodeURI(location.href);
         });
     },
 

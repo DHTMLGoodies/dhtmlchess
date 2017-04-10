@@ -369,6 +369,11 @@ class DhtmlChessViews {
 				$view->setScript( "WPGame" . $tpl );
 			} elseif ( isset( $attributes["tactics"] ) ) {
 				$tpl = min($tpl, self::countTacticTemplates());
+
+				if($tpl == 2 && isset($attributes["fallback_tpl"])){
+					$tpl = $attributes["fallback_tpl"];
+				}
+
 				$view->setScript( "WPTactics" . $tpl );
 			} elseif ( isset( $attributes["pgn"] ) || isset( $attributes["db"] ) ) {
 				$tpl = min( $tpl, self::countDbTemplates() );
