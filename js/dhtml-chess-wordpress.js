@@ -1,4 +1,4 @@
-/* Generated Mon Apr 10 21:21:23 CEST 2017 */
+/* Generated Mon Apr 10 21:41:33 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -38085,9 +38085,12 @@ chess.Clock = new Class({
         var h = this.$b().height();
         this.cv.css({
             'margin-top' : Math.floor(h* 0.05) + 'px',
-            'line-height': h + 'px',
             'font-size' : h
         });
+
+        if(!ludo.isMobile){
+            this.cv.css('line-height', h + 'px');
+        }
     }
 });/* ../dhtml-chess/src/wp-public/views/color-view.js */
 chess.ColorView = new Class({

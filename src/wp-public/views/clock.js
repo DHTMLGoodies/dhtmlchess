@@ -70,8 +70,11 @@ chess.Clock = new Class({
         var h = this.$b().height();
         this.cv.css({
             'margin-top' : Math.floor(h* 0.05) + 'px',
-            'line-height': h + 'px',
             'font-size' : h
         });
+
+        if(!ludo.isMobile){
+            this.cv.css('line-height', h + 'px');
+        }
     }
 });
