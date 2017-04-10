@@ -40,13 +40,15 @@ chess.view.board.GUI = new Class({
     squareStyles_white: undefined,
     squareStyles_black: undefined,
 
+    sideToMove: true,
+
     __construct: function (config) {
 
         this.parent(config);
         this.padding = '3.5%';
 
         this.__params(config, [
-            'background',
+            'background', 'sideToMove',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
             'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
@@ -78,7 +80,6 @@ chess.view.board.GUI = new Class({
     },
 
     hideLabels: function () {
-
     },
 
     setPaddings: function (l, t, r, b) {
@@ -124,19 +125,76 @@ chess.view.board.GUI = new Class({
             this.addLabelsForRanks();
         }
 
-
         if (this.hasLabels()) {
             this.addLabelsForFiles();
         }
 
+        if (this.sideToMove) {
+            this.addSideToMove();
+        }
 
         if (this.boardLayout) {
             this.els.boardContainer.addClass('dhtml-chess-board-container-' + this.boardLayout);
         }
     },
+
     ludoEvents: function () {
         this.parent();
         jQuery(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
+    },
+
+    addSideToMove: function () {
+        this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(this.els.sideToMoveOuter);
+        this.els.boardContainer.append(this.els.sideToMoveOuter);
+    },
+
+    stml: undefined,
+
+    updateSTM: function () {
+        var c = this.controller && this.controller.currentModel ? this.controller.currentModel.turn() : undefined;
+        if (c != this.stml) {
+            var pre = 'dhtml-chess-side-to-move-';
+            var i = this.els.sideToMove;
+            i.removeClass(pre + 'white');
+            i.removeClass(pre + 'black');
+            i.addClass(pre + c);
+
+            var o = this.els.sideToMoveOuter;
+            o.removeClass(pre + 'outer-' + 'white');
+            o.removeClass(pre + 'outer-' + 'black');
+            o.addClass(pre + 'outer-' + c);
+            this.stml = c;
+
+            this.resizeSTM();
+        }
+    },
+
+    resizeSTM: function () {
+        var p = this.getP('r');
+        var size = Math.min(12, p);
+        var padding = Math.ceil(Math.max(2, (p - size) / 2));
+        var d = padding + size - p;
+        if (d > 0) {
+            size -= d;
+        }
+
+        var bc = this.flipped ? 'black' : 'white';
+        var pr = bc == this.stml ? 'bottom' : 'top';
+        padding++;
+        var css = {
+            width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
+        };
+        css[pr] = padding;
+        this.els.sideToMoveOuter.css(css);
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        if (this.sideToMove) {
+            controller.on('newGame', this.updateSTM.bind(this));
+            controller.on('fen', this.updateSTM.bind(this));
+        }
     },
 
     receiveKeyboardInput: function (e) {
@@ -156,6 +214,7 @@ chess.view.board.GUI = new Class({
         }
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
+
         this.updateLabels();
     },
 
@@ -315,7 +374,7 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
-            if(this.labelPos == 'inside'){
+            if (this.labelPos == 'inside') {
                 file.css('line-height', '120%');
             }
             el.append(file);
@@ -496,6 +555,8 @@ chess.view.board.GUI = new Class({
         this.resizePieces();
 
         this.fireEvent('boardResized', this.boardCoordinates());
+
+        this.resizeSTM();
     },
 
     resizeLabels: function () {
@@ -510,6 +571,7 @@ chess.view.board.GUI = new Class({
         r.css('height', this.els.board.css('height'));
         f.css('width', this.els.board.css('width'));
 
+        var fs;
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
 
@@ -518,15 +580,12 @@ chess.view.board.GUI = new Class({
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
 
-            var fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
-
-            r.css('font-size', fs + 'px');
-            f.css('font-size', fs + 'px');
+            fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
         } else {
-            var fs2 = Math.round(this.getSquareSize() * 0.2);
-            r.css('font-size', fs2 + 'px');
-            f.css('font-size', fs2 + 'px');
+            fs = Math.round(this.getSquareSize() * 0.2);
         }
+        r.css('font-size', fs + 'px');
+        f.css('font-size', fs + 'px');
 
         var h = this.els.ranks[0].height();
         for (var i = 0; i < 8; i++) {
@@ -553,7 +612,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(), this.$b().height()) * p / 100;
+            return Math.round(Math.min(this.$b().width(), this.$b().height()) * p / 100);
         }
         return p;
     },

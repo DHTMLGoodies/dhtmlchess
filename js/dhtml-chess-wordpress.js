@@ -1,4 +1,4 @@
-/* Generated Sun Apr 9 12:34:52 CEST 2017 */
+/* Generated Mon Apr 10 21:21:23 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -3945,8 +3945,6 @@ ludo.svg.Node = new Class({
      * @memberof ludo.svg.Node.prototype
      */
     _addEvent: (function () {
-
-
         if (document.addEventListener) {
             return function (ev, fn, el) {
                 if (el == undefined)el = this.el;
@@ -4022,20 +4020,6 @@ ludo.svg.Node = new Class({
             return false;
         }.bind(this);
     },
-    svgCoordinates: undefined,
-    svgPos: function (target) {
-        if (this.svgCoordinates == undefined) {
-            while (target.tagName.toLowerCase() != 'g') {
-                target = target.parentNode;
-            }
-            this.svgCoordinates = jQuery(target).position();
-
-            console.log(this.svgCoordinates);
-
-        }
-
-        return this.svgCoordinates;
-    },
 
     /**
      * append a new node
@@ -4081,10 +4065,8 @@ ludo.svg.Node = new Class({
         return this.css('display') == 'none';
     },
 
-    
     setAttributes:function(p){
         jQuery.each(p, function(key, val){
-
             this.set(key, val);
         }.bind(this));
     },
@@ -5610,8 +5592,6 @@ ludo.layout.Base = new Class({
 
         this.hasWrapWidth = !view.layout.weight && view.layout.width == 'wrap';
         this.hasWrapHeight = !view.layout.weight && view.layout.height == 'wrap';
-
-
     },
 
     prepareForChildrenOnCreate: function () {
@@ -5619,11 +5599,6 @@ ludo.layout.Base = new Class({
     },
 
     onCreate: function () {
-
-
-        if (this.view.layout.collapseBar) {
-            this.addCollapseBars();
-        }
         if (this.view.layout.listeners != undefined) {
             this.addEvents(this.view.layout.listeners);
         }
@@ -5641,8 +5616,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     addChild: function (child, insertAt, pos) {
-
-
         child = this.getValidChild(child);
         child = this.getNewComponent(child);
         var parentEl = this.getParentForNewChild(child);
@@ -5734,11 +5707,9 @@ ludo.layout.Base = new Class({
 
         if (!this.firstResized) {
             this.beforeFirstResize();
-
         }
 
         this.resize();
-
 
         if (!this.firstResized) {
 
@@ -5765,12 +5736,9 @@ ludo.layout.Base = new Class({
             this.afterRendered();
         }
 
-
         if (this.benchmarkTime) {
             ludo.util.log("Time for resize(" + this.view.layout.type + "): " + (new Date().getTime() - start));
         }
-
-
     },
 
     afterRendered: function () {
@@ -5795,10 +5763,11 @@ ludo.layout.Base = new Class({
 
 
     storeViewPortSize: function () {
-        this.viewport.absWidth = this.getAvailWidth();
-        this.viewport.absHeight = this.getAvailHeight();
-        this.viewport.width = this.getAvailWidth();
-        this.viewport.height = this.getAvailHeight();
+        var wp = this.viewport;
+        wp.absWidth = this.getAvailWidth();
+        wp.absHeight = this.getAvailHeight();
+        wp.width = this.getAvailWidth();
+        wp.height = this.getAvailHeight();
     },
 
     previousContentWidth: undefined,
@@ -5845,8 +5814,9 @@ ludo.layout.Base = new Class({
         if (config.width < 0) {
             config.width = undefined;
         }
-        for (var i = 0; i < this.view.children.length; i++) {
-            this.view.children[i].resize(config);
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            c[i].resize(config);
         }
     },
 
@@ -5858,36 +5828,6 @@ ludo.layout.Base = new Class({
         return this.view.$b().height();
     },
 
-    addCollapseBars: function () {
-        var pos = this.view.layout.collapseBar;
-        if (!ludo.util.isArray(pos))pos = [pos];
-        for (var i = 0; i < pos.length; i++) {
-            this.addChild(this.getCollapseBar(pos[i]));
-        }
-    },
-
-    collapseBars: {},
-    getCollapseBar: function (position) {
-        position = position || 'left';
-        if (this.collapseBars[position] === undefined) {
-            var bar = this.collapseBars[position] = new ludo.layout.CollapseBar({
-                position: position,
-                parentComponent: this.view,
-                parentLayout: this.view.layout,
-                listeners: {
-                    'show': this.toggleCollapseBar.bind(this),
-                    'hide': this.toggleCollapseBar.bind(this)
-                }
-            });
-            this.updateViewport(bar.getChangedViewport());
-        }
-        return this.collapseBars[position];
-    },
-
-    toggleCollapseBar: function (bar) {
-        this.updateViewport(bar.getChangedViewport());
-        this.resize();
-    },
     /**
      * Update viewport properties, coordinates of DHTML Container for child views, i.e. body of parent view
      * @function updateViewport
@@ -5895,7 +5835,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     updateViewport: function (c) {
-
         if (c)this.viewport[c.key] = c.value;
     },
 
@@ -5965,8 +5904,6 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     clearTemporaryValues: function (child) {
-        if (child) {
-        }
         if (child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
         if (child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
         child.layout.cached_width = undefined;
@@ -5977,8 +5914,6 @@ ludo.layout.Base = new Class({
     getWidthOf: function (child) {
         return child.layout.width;
     },
-
-
 
     heightSizeForWrap:function(forChild){
         var ret = {
@@ -9078,18 +9013,19 @@ ludo.layout.Linear = new Class({
 
 	updateLayoutObject:function (child) {
 		child.layout = child.layout || {};
-		child.layout.width = child.layout.width || child.width;
-		child.layout.height = child.layout.height || child.height;
-		child.layout.weight = child.layout.weight || child.weight;
-		child.layout.resizable = child.layout.resizable || child.resizable;
-		child.layout.minWidth = child.layout.minWidth || child.minWidth;
-		child.layout.maxWidth = child.layout.maxWidth || child.maxWidth;
-		child.layout.minHeight = child.layout.minHeight || child.minHeight;
-		child.layout.maxHeight = child.layout.maxHeight || child.maxHeight;
+		var l = child.layout;
+		l.width = l.width || child.width;
+		l.height = l.height || child.height;
+		l.weight = l.weight || child.weight;
+		l.resizable = l.resizable || child.resizable;
+		l.minWidth = l.minWidth || child.minWidth;
+		l.maxWidth = l.maxWidth || child.maxWidth;
+		l.minHeight = l.minHeight || child.minHeight;
+		l.maxHeight = l.maxHeight || child.maxHeight;
 	},
 
 	isResizable:function (child) {
-		return child.layout.resizable ? true : false;
+		return child.layout.resizable;
 	},
 
 	beforeResize:function (resize, child) {
@@ -9103,8 +9039,6 @@ ludo.layout.Linear = new Class({
 	},
 
 	getResizableFor:function (child, r) {
-
-
 		var resizeProp = (r === 'left' || r === 'right') ? 'width' : 'height';
 		return new ludo.layout.Resizer({
 			name:'resizer-' + child.name,
@@ -9143,16 +9077,17 @@ ludo.layout.LinearVertical = new Class({
 		this.parent();
 	},
 	resize:function () {
-		var availHeight = this.viewport.height;
+		var vp = this.viewport;
+		var availHeight = vp.height;
 		var s = {
-			width:this.viewport.width,
+			width:vp.width,
 			height: availHeight
 		};
 
 		var totalHeightOfItems = 0;
 		var totalWeight = 0;
 		var height;
-		var tm = this.viewport.top;
+		var tm = vp.top;
 		for (var i = 0; i < this.view.children.length; i++) {
 			if (!this.hasLayoutWeight(this.view.children[i])) {
                 height = this.view.children[i].isHidden() ? 0 :  this.getHeightOf(this.view.children[i], s);
@@ -9181,7 +9116,7 @@ ludo.layout.LinearVertical = new Class({
 					width:c.type == 'layout.Resizer' ? width: cW
 				};
 
-				if(config.width < this.viewport.width && c.layout.anchor != undefined){
+				if(config.width < vp.width && c.layout.anchor != undefined){
 					var off = this.viewport.width;
 					config.left = off * c.layout.anchor - (config.width * c.layout.anchor);
 				}
@@ -9189,10 +9124,10 @@ ludo.layout.LinearVertical = new Class({
 				if(w && c.layout.align){
 					switch(c.layout.align){
 						case 'right':
-							config.left = this.viewport.width - c.layout.width;
+							config.left = vp.width - c.layout.width;
 							break;
 						case 'center':
-							config.left = (this.viewport.width / 2) - (c.layout.width / 2);
+							config.left = (vp.width / 2) - (c.layout.width / 2);
 							break;
 					}
 				}
@@ -9222,7 +9157,6 @@ ludo.layout.LinearVertical = new Class({
 	},
 	resizeChild:function (child, resize) {
 		child.layout.height = resize.height;
-
 		child.resize(resize);
 		child.saveState();
 	},
@@ -20002,14 +19936,15 @@ ludo.Notification = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-notification');
+		this.$e.addClass('ludo-notification');
 	},
 
 	__rendered:function () {
-		if (!this.layout.width || !this.layout.height) {
+		var l = this.layout;
+		if (!l.width || !l.height) {
 			var size = ludo.dom.getWrappedSizeOfView(this);
-			if (!this.layout.width)this.layout.width = size.x;
-			if (!this.layout.height)this.layout.height = size.y;
+			if (!l.width)l.width = size.x;
+			if (!l.height)l.height = size.y;
 		}
 		this.parent();
 		this.show();
@@ -20628,8 +20563,8 @@ ludo.paging.Next = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
+		ds.on('lastPage', this.disable.bind(this));
+		ds.on('notLastPage', this.enable.bind(this));
 	},
 
 	/**
@@ -20667,8 +20602,8 @@ ludo.paging.Previous = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
+		ds.on('firstPage', this.disable.bind(this));
+		ds.on('notFirstPage', this.enable.bind(this));
 
 		if (ds.isOnFirstPage()) {
 			this.disable();
@@ -20706,8 +20641,8 @@ ludo.paging.Last = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.nextPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('lastPage', this.disable.bind(this));
-		ds.addEvent('notLastPage', this.enable.bind(this));
+		ds.on('lastPage', this.disable.bind(this));
+		ds.on('notLastPage', this.enable.bind(this));
 	},
 
 	nextPage:function () {
@@ -20740,8 +20675,8 @@ ludo.paging.First = new Class({
 	addDataSourceEvents:function () {
 		this.addEvent('click', this.firstPage.bind(this));
 		var ds = this.getDataSource();
-		ds.addEvent('firstPage', this.disable.bind(this));
-		ds.addEvent('notFirstPage', this.enable.bind(this));
+		ds.on('firstPage', this.disable.bind(this));
+		ds.on('notFirstPage', this.enable.bind(this));
 
 		if (ds.isOnFirstPage()) {
 			this.disable();
@@ -20895,8 +20830,8 @@ ludo.paging.PageInput = new Class({
         if(ludo.get(this.dataSource)){
             var ds = this.getDataSource();
             if(ds){
-                ds.addEvent('page', this.setPageNumber.bind(this));
-                ds.addEvent('load', this.updateMaxValue.bind(this));
+                ds.on('page', this.setPageNumber.bind(this));
+                ds.on('load', this.updateMaxValue.bind(this));
                 this.setPageNumber(ds.getPageNumber());
                 this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
                 this.updateMaxValue();
@@ -20949,8 +20884,8 @@ ludo.paging.CurrentPage = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-current-page');
+		this.$e.addClass('ludo-paging-text');
+		this.$e.addClass('ludo-paging-current-page');
 	},
 
 	ludoEvents:function () {
@@ -21009,8 +20944,8 @@ ludo.paging.TotalPages = new Class({
 
 	ludoDOM:function () {
 		this.parent();
-		this.getEl().addClass('ludo-paging-text');
-		this.getEl().addClass('ludo-paging-total-pages');
+		this.$e.addClass('ludo-paging-text');
+		this.$e.addClass('ludo-paging-total-pages');
 	},
 
 	ludoEvents:function () {
@@ -21028,8 +20963,8 @@ ludo.paging.TotalPages = new Class({
         if(ludo.get(this.dataSource)){
             var ds = this.getDataSource();
             if (ds) {
-                ds.addEvent('load', this.setPageNumber.bind(this));
-                ds.addEvent('pageCount', this.setPageNumber.bind(this));
+                ds.on('load', this.setPageNumber.bind(this));
+                ds.on('pageCount', this.setPageNumber.bind(this));
                 this.setPageNumber(ds.getPageNumber());
             }
         }else{
@@ -21274,7 +21209,7 @@ ludo.paging.PageSize = new Class({
 
 	ludoEvents:function(){
 		this.parent();
-		this.addEvent('change', this.setPageSize.bind(this));
+		this.on('change', this.setPageSize.bind(this));
 	},
 
 	setPageSize:function(){
@@ -22673,13 +22608,15 @@ chess.view.board.GUI = new Class({
     squareStyles_white: undefined,
     squareStyles_black: undefined,
 
+    sideToMove: true,
+
     __construct: function (config) {
 
         this.parent(config);
         this.padding = '3.5%';
 
         this.__params(config, [
-            'background',
+            'background', 'sideToMove',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
             'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
@@ -22711,7 +22648,6 @@ chess.view.board.GUI = new Class({
     },
 
     hideLabels: function () {
-
     },
 
     setPaddings: function (l, t, r, b) {
@@ -22757,19 +22693,76 @@ chess.view.board.GUI = new Class({
             this.addLabelsForRanks();
         }
 
-
         if (this.hasLabels()) {
             this.addLabelsForFiles();
         }
 
+        if (this.sideToMove) {
+            this.addSideToMove();
+        }
 
         if (this.boardLayout) {
             this.els.boardContainer.addClass('dhtml-chess-board-container-' + this.boardLayout);
         }
     },
+
     ludoEvents: function () {
         this.parent();
         jQuery(document.documentElement).on('keypress', this.receiveKeyboardInput.bind(this));
+    },
+
+    addSideToMove: function () {
+        this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(this.els.sideToMoveOuter);
+        this.els.boardContainer.append(this.els.sideToMoveOuter);
+    },
+
+    stml: undefined,
+
+    updateSTM: function () {
+        var c = this.controller && this.controller.currentModel ? this.controller.currentModel.turn() : undefined;
+        if (c != this.stml) {
+            var pre = 'dhtml-chess-side-to-move-';
+            var i = this.els.sideToMove;
+            i.removeClass(pre + 'white');
+            i.removeClass(pre + 'black');
+            i.addClass(pre + c);
+
+            var o = this.els.sideToMoveOuter;
+            o.removeClass(pre + 'outer-' + 'white');
+            o.removeClass(pre + 'outer-' + 'black');
+            o.addClass(pre + 'outer-' + c);
+            this.stml = c;
+
+            this.resizeSTM();
+        }
+    },
+
+    resizeSTM: function () {
+        var p = this.getP('r');
+        var size = Math.min(12, p);
+        var padding = Math.ceil(Math.max(2, (p - size) / 2));
+        var d = padding + size - p;
+        if (d > 0) {
+            size -= d;
+        }
+
+        var bc = this.flipped ? 'black' : 'white';
+        var pr = bc == this.stml ? 'bottom' : 'top';
+        padding++;
+        var css = {
+            width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
+        };
+        css[pr] = padding;
+        this.els.sideToMoveOuter.css(css);
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        if (this.sideToMove) {
+            controller.on('newGame', this.updateSTM.bind(this));
+            controller.on('fen', this.updateSTM.bind(this));
+        }
     },
 
     receiveKeyboardInput: function (e) {
@@ -22789,6 +22782,7 @@ chess.view.board.GUI = new Class({
         }
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
+
         this.updateLabels();
     },
 
@@ -22948,7 +22942,7 @@ chess.view.board.GUI = new Class({
                 'float': 'left',
                 'overflow': 'hidden'
             });
-            if(this.labelPos == 'inside'){
+            if (this.labelPos == 'inside') {
                 file.css('line-height', '120%');
             }
             el.append(file);
@@ -23129,6 +23123,8 @@ chess.view.board.GUI = new Class({
         this.resizePieces();
 
         this.fireEvent('boardResized', this.boardCoordinates());
+
+        this.resizeSTM();
     },
 
     resizeLabels: function () {
@@ -23143,6 +23139,7 @@ chess.view.board.GUI = new Class({
         r.css('height', this.els.board.css('height'));
         f.css('width', this.els.board.css('width'));
 
+        var fs;
         if (this.labelPos == 'outside') {
             r.css('top', this.els.boardContainer.css('padding-top'));
 
@@ -23151,15 +23148,12 @@ chess.view.board.GUI = new Class({
             r.css('width', this.getP('l'));
             f.css('height', this.getP('b'));
 
-            var fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
-
-            r.css('font-size', fs + 'px');
-            f.css('font-size', fs + 'px');
+            fs = Math.ceil(f.height() * (this.labelPos == 'outside' ? 0.65 : 0.5 ));
         } else {
-            var fs2 = Math.round(this.getSquareSize() * 0.2);
-            r.css('font-size', fs2 + 'px');
-            f.css('font-size', fs2 + 'px');
+            fs = Math.round(this.getSquareSize() * 0.2);
         }
+        r.css('font-size', fs + 'px');
+        f.css('font-size', fs + 'px');
 
         var h = this.els.ranks[0].height();
         for (var i = 0; i < 8; i++) {
@@ -23186,7 +23180,7 @@ chess.view.board.GUI = new Class({
         var p = this.padding[pos];
         if (isNaN(p)) {
             p = parseInt(p);
-            return Math.min(this.$b().width(), this.$b().height()) * p / 100;
+            return Math.round(Math.min(this.$b().width(), this.$b().height()) * p / 100);
         }
         return p;
     },
@@ -24688,104 +24682,6 @@ chess.view.board.BoardInteraction = new Class({
         return 'abcdefgh'.substr(x,1) + (y);
     }
 
-});/* ../dhtml-chess/src/view/board/side-to-move.js */
-/**
- * Created by alfmagne1 on 25/03/2017.
- */
-chess.view.board.SideToMove = new Class({
-    Extends: ludo.View,
-    circleSize: 22,
-    borderSize: undefined,
-    c:0,
-    dir:3,
-    __construct: function (config) {
-        this.parent(config);
-        this.__params(config, ['circleSize']);
-
-    },
-
-    setController: function (controller) {
-        this.parent(controller);
-        controller.on('newGame', this.update.bind(this));
-        controller.on('fen', this.update.bind(this));
-        controller.on('comp', this.updateVisibility.bind(this));
-    },
-
-    updateVisibility: function () {
-        if (this.controller.compMode) {
-            this.show();
-        } else {
-            this.hide();
-        }
-    },
-
-    __rendered: function () {
-        this.parent();
-
-        var o = this.els.outer = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
-        o.css({
-            top: 0, left: 0, 'position': 'absolute', width: this.circleSize, height: this.circleSize
-        });
-        var i = this.els.inner = jQuery('<div class="dhtml-chess-side-to-move-inner"></div>');
-        i.css({
-            'position': 'absolute','box-sizing' : 'border-box'
-        });
-        this.$b().append(o);
-        this.$b().append(i);
-
-        this.tick();
-    },
-
-    resize: function (size) {
-        this.parent(size);
-        this.updateSize();
-    },
-
-    show:function(){
-        this.parent();
-        this.update();
-    },
-
-    updateSize:function(){
-        var h = this.$b().height();
-        var o = (h - this.circleSize) / 2;
-        this.els.outer.css('top', o);
-
-        if (this.borderSize == undefined) {
-            this.borderSize = parseInt(this.els.outer.css('border-width'));
-        }
-
-        var is = this.circleSize - (this.borderSize * 2) - 4;
-        this.els.inner.css({
-            width: is, height: is,
-            top: o + this.borderSize + 2,
-            left: this.borderSize + 2
-        });
-    },
-
-    update: function () {
-        if (this.controller && this.els.outer) {
-            var c = this.controller.currentModel.getColorToMove();
-            var pre = 'dhtml-chess-side-to-move-inner-';
-            var i = this.els.inner;
-            i.removeClass(pre + 'white');
-            i.removeClass(pre + 'black');
-            i.addClass(pre + c)
-        }
-    },
-
-    tick:function(){
-        this.c+= this.dir;
-        if(this.c > 100){
-            this.c = 99;
-            this.dir *=-1;
-        }else if(this.dir < 0 && this.c <= 50){
-            this.c = 50;
-            this.dir *=-1;
-        }
-        this.els.inner.css('opacity', this.c / 100);
-        this.tick.delay(50, this);
-    }
 });/* ../dhtml-chess/src/view/highlight/base.js */
 chess.view.highlight.Base = new Class({
     Extends: ludo.Core,
@@ -35361,15 +35257,6 @@ chess.WPGame5 = new Class({
                 },
                 children: [
                     {
-                        module:this.module,
-                        type: 'chess.view.board.SideToMove',
-                        layout: {
-                            width: this.buttonSize,
-                            height:'matchParent'
-                        },
-                        hidden:true
-                    },
-                    {
                         weight: 1
                     },
                     {
@@ -35439,14 +35326,6 @@ chess.WPGame5 = new Class({
             {
                 layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
                 children: [
-                    {
-                        module: this.module,
-                        type: 'chess.view.board.SideToMove',
-                        layout: {
-                            width: 40
-                        },
-                        hidden: true
-                    },
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {
@@ -35523,6 +35402,7 @@ chess.WPGame6 = new Class({
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
+                    sideToMove:false,
                     labelPos:this.lp,
                     layout: {width: 'matchParent', weight: 1}
                 },
@@ -35751,17 +35631,7 @@ chess.WPViewer1 = new Class({
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
-                            },
-                            {
-                                module:this.module,
-                                type: 'chess.view.board.SideToMove',
-                                layout: {
-                                    width: 40,
-                                    height:'matchParent'
-                                },
-                                hidden:true
                             }
-
                         ]
                     },
                     {
@@ -36066,17 +35936,7 @@ chess.WPViewer2 = new Class({
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
                         }
-                    },
-                    {
-                        module:this.module,
-                        type: 'chess.view.board.SideToMove',
-                        layout: {
-                            width: 40,
-                            height:'matchParent'
-                        },
-                        hidden:true
                     }
-
                 ]
             },
             {
@@ -36471,15 +36331,6 @@ chess.WPViewer3 = new Class({
                             type:'linear', orientation:'horizontal'
                         },
                         children:[
-                            {
-                                module:this.module,
-                                type: 'chess.view.board.SideToMove',
-                                layout: {
-                                    width: 40,
-                                    height:'matchParent'
-                                },
-                                hidden:true
-                            },
                             {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
@@ -38179,9 +38030,8 @@ chess.Clock = new Class({
 
     __rendered: function () {
         this.parent();
-
-        this.cv = jQuery('<div class="wpc-clock"></div>');
-        this.cv.appendTo(this.$b());
+        this.$b().addClass('wpc-clock');
+        this.cv = jQuery('<div class="wpc-clock-digits"></div>').appendTo(this.$b());
         this.reset();
         this.showTime();
     },
@@ -38233,7 +38083,8 @@ chess.Clock = new Class({
     resize: function (size) {
         this.parent(size);
         var h = this.$b().height();
-        this.$b().css({
+        this.cv.css({
+            'margin-top' : Math.floor(h* 0.05) + 'px',
             'line-height': h + 'px',
             'font-size' : h
         });

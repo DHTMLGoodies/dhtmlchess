@@ -164,15 +164,6 @@ chess.WPGame5 = new Class({
                 },
                 children: [
                     {
-                        module:this.module,
-                        type: 'chess.view.board.SideToMove',
-                        layout: {
-                            width: this.buttonSize,
-                            height:'matchParent'
-                        },
-                        hidden:true
-                    },
-                    {
                         weight: 1
                     },
                     {
@@ -242,14 +233,6 @@ chess.WPGame5 = new Class({
             {
                 layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
                 children: [
-                    {
-                        module: this.module,
-                        type: 'chess.view.board.SideToMove',
-                        layout: {
-                            width: 40
-                        },
-                        hidden: true
-                    },
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {

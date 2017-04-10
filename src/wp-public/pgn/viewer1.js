@@ -144,17 +144,7 @@ chess.WPViewer1 = new Class({
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
-                            },
-                            {
-                                module:this.module,
-                                type: 'chess.view.board.SideToMove',
-                                layout: {
-                                    width: 40,
-                                    height:'matchParent'
-                                },
-                                hidden:true
                             }
-
                         ]
                     },
                     {

@@ -32,9 +32,9 @@ chess.THEME = {
             {
                 type: 'chess.view.highlight.Arrow',
                 styles:{
-                    'fill':'#81C784',
-                    'stroke':'#1B5E20',
-                    'stroke-opacity':1,
+                    'fill':'#45994f',
+                    'stroke':'#45994f',
+                    'stroke-opacity':0.8,
                     'stroke-width':1
                 }
             },

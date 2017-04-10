@@ -18,7 +18,10 @@ chess.THEME = {
         background:{
             borderRadius:'1%',
             horizontal:'[DOCROOT]images/board-bg/wood-strip-horizontal.png',
-            vertical:'[DOCROOT]images/board-bg/wood-strip-vertical.png'
+            vertical:'[DOCROOT]images/board-bg/wood-strip-vertical.png',
+            iePaint:{
+                fill: '#6b2d1a'
+            }
         },
         bgWhite: '[DOCROOT]images/board/lighter-wood.png',
         bgBlack: '[DOCROOT]images/board/darker-wood.png',

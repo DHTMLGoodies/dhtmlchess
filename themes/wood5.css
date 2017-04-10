@@ -84,6 +84,11 @@ body.ludo-twilight {
 
 .dc-wood5 .ludo-grid-Grid div.ludo-active-record {
     background-color: #cfaa91;
-
 }
+
+.dc-wood5 div.dhtml-chess-side-to-move-outer{
+    border-color:#e1b886;
+}
+
+
 

@@ -172,15 +172,15 @@
 
 
     var parser = new chess.AutoParse({
-        in: "tactic-checkmates",
-        "out": "tactic-checkmates.pgn",
-        findLastMove:true,
+        inFile: "tactic-checkmates",
+        "out": "tm-20170410.pgn",
+        findLastMove:false,
         timeout:240000,
         ///acceptedScore:3,
         checkmatesOnly:true,
        // maxMoves:3,
         append:true,
-        startIndex:<?php echo isset($_GET["index"]) ? $_GET["index"] : 802; ?>,
+        startIndex:<?php echo isset($_GET["index"]) ? $_GET["index"] : 8; ?>,
         listeners:{
             score:function(score){
                 ludo.$('scoreBar').setScore(score);

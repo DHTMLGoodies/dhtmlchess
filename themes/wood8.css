@@ -19,5 +19,10 @@
 .dc-wood8 .ludo-grid-Grid div.ludo-active-record {
     font-weight: bold;
     background-color: #D7CCC8;
-
 }
+
+.dc-wood8 div.dhtml-chess-side-to-move-outer{
+    border-color:#806b4e;
+}
+
+

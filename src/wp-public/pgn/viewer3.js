@@ -131,15 +131,6 @@ chess.WPViewer3 = new Class({
                         },
                         children:[
                             {
-                                module:this.module,
-                                type: 'chess.view.board.SideToMove',
-                                layout: {
-                                    width: 40,
-                                    height:'matchParent'
-                                },
-                                hidden:true
-                            },
-                            {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
                                 buttons: this.buttons,

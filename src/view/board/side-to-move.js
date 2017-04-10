@@ -56,6 +56,8 @@ chess.view.board.SideToMove = new Class({
     },
 
     updateSize:function(){
+
+        var ip = 0;
         var h = this.$b().height();
         var o = (h - this.circleSize) / 2;
         this.els.outer.css('top', o);
@@ -64,18 +66,18 @@ chess.view.board.SideToMove = new Class({
             this.borderSize = parseInt(this.els.outer.css('border-width'));
         }
 
-        var is = this.circleSize - (this.borderSize * 2) - 4;
+        var is = this.circleSize - (this.borderSize * 2) - (ip * 2);
         this.els.inner.css({
             width: is, height: is,
-            top: o + this.borderSize + 2,
-            left: this.borderSize + 2
+            top: o + this.borderSize + ip,
+            left: this.borderSize + ip
         });
     },
 
     update: function () {
         if (this.controller && this.els.outer) {
             var c = this.controller.currentModel.getColorToMove();
-            var pre = 'dhtml-chess-side-to-move-inner-';
+            var pre = 'dhtml-chess-side-to-move-';
             var i = this.els.inner;
             i.removeClass(pre + 'white');
             i.removeClass(pre + 'black');
@@ -84,15 +86,6 @@ chess.view.board.SideToMove = new Class({
     },
 
     tick:function(){
-        this.c+= this.dir;
-        if(this.c > 100){
-            this.c = 99;
-            this.dir *=-1;
-        }else if(this.dir < 0 && this.c <= 50){
-            this.c = 50;
-            this.dir *=-1;
-        }
-        this.els.inner.css('opacity', this.c / 100);
-        this.tick.delay(50, this);
+
     }
 });

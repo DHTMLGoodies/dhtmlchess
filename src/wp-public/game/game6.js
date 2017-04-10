@@ -41,6 +41,7 @@ chess.WPGame6 = new Class({
                     type: 'chess.view.board.Board',
                     id: this.boardId,
                     fen: this.fen,
+                    sideToMove:false,
                     labelPos:this.lp,
                     layout: {width: 'matchParent', weight: 1}
                 },

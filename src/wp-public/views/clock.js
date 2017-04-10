@@ -15,9 +15,8 @@ chess.Clock = new Class({
 
     __rendered: function () {
         this.parent();
-
-        this.cv = jQuery('<div class="wpc-clock"></div>');
-        this.cv.appendTo(this.$b());
+        this.$b().addClass('wpc-clock');
+        this.cv = jQuery('<div class="wpc-clock-digits"></div>').appendTo(this.$b());
         this.reset();
         this.showTime();
     },
@@ -69,7 +68,8 @@ chess.Clock = new Class({
     resize: function (size) {
         this.parent(size);
         var h = this.$b().height();
-        this.$b().css({
+        this.cv.css({
+            'margin-top' : Math.floor(h* 0.05) + 'px',
             'line-height': h + 'px',
             'font-size' : h
         });

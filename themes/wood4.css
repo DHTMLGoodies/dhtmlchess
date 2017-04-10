@@ -81,7 +81,10 @@
 
 .dc-wood4 .ludo-grid-Grid div.ludo-active-record {
     background-color: #cfaa91;
+}
 
+.dc-wood4 div.dhtml-chess-side-to-move-outer{
+    border-color:#b58159;
 }
 
 

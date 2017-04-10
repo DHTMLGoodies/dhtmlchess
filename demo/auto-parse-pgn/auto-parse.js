@@ -46,7 +46,7 @@ chess.AutoParse = new Class({
     findLastMove:false,
 
     initialize: function (config) {
-        this.in = config.in;
+        this.inFile = config.inFile;
         this.out = config.out;
         this.garbochess = config.garbochess || this.garbochess;
         this.timeout = config.timeout || this.timeout;
@@ -91,7 +91,7 @@ chess.AutoParse = new Class({
 
         this.ds = new chess.dataSource.PgnGames({
             id: 'gameList',
-            postData: {"arguments": this.in},
+            postData: {"arguments": this.inFile},
             "listeners": {
                 "load": function (data) {
                     this.startTime = new Date().getTime();
@@ -146,7 +146,6 @@ chess.AutoParse = new Class({
 
     loadNext: function () {
 
-
         if(!this.findLastMove){
             location.href='index.php?index=' + (this.index + 1);
             return;
@@ -167,7 +166,7 @@ chess.AutoParse = new Class({
         var that = this;
         this.controller = new chess.controller.StockfishEngineController({
             stockfish: '../../stockfish-js/stockfish.js',
-            pgn: this.in,
+            pgn: this.inFile,
             autoStopEngineOnNewGame: false,
             stopped: true,
             debug: false,
@@ -178,6 +177,7 @@ chess.AutoParse = new Class({
             }
         });
     },
+
 
 
     gameLoaded: function (model, gameData) {
@@ -212,8 +212,6 @@ chess.AutoParse = new Class({
                 this.currentFens.push(m.fen);
             }.bind(this));
 
-
-
             this.onGameEnd();
         }else{
             if (this.controller.stopped && this.parsingMode == 0) {
@@ -221,9 +219,6 @@ chess.AutoParse = new Class({
             }
 
         }
-
-
-
     },
 
     bestMoves: undefined,
@@ -559,6 +554,8 @@ chess.AutoParse = new Class({
             }
 
         }
+
+        this.currentPgn.elapsed = this.elapsed();
 
         if (this.currentMoves.length > 1 && this.checkmatesOnly && !this.findLastMove) {
             this.parsingMode = 1;

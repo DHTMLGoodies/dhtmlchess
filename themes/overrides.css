@@ -1,6 +1,6 @@
 div.ludo-window {
     background-color: #ddd;
-    border:1px solid #aeb0b0;
+    border: 1px solid #aeb0b0;
 }
 
 .ludo-view {
@@ -11,8 +11,8 @@ div.ludo-window {
     color: #333
 }
 
-.ludo-tab-strip-tab-txt-svg,.ludo-tab-strip-tab-txt-svg-active{
-    font-family:arial,helvetica, sans-serif;
+.ludo-tab-strip-tab-txt-svg, .ludo-tab-strip-tab-txt-svg-active {
+    font-family: arial, helvetica, sans-serif;
 }
 
 .ludo-layout-tabs {
@@ -37,7 +37,7 @@ body.ludo-twilight {
 }
 
 div.ludo-tab-strip-tab span {
-    color: #333 ;
+    color: #333;
 }
 
 div.ludo-tab-strip-tab-active span {
@@ -53,40 +53,42 @@ div.ludo-tab-strip-tab-bg {
 }
 
 .ludo-tab-strip .ludo-tab-strip-line {
-    background-color: #ddd ;
+    background-color: #ddd;
     border-color: #aeb0b0;
 }
 
 .ludo-tab-strip-bottom .ludo-tab-strip-line {
-    border-top-width: 0 ;
+    border-top-width: 0;
     height: 4px
 }
 
-.ludo-tab-strip-top{
-    border-bottom:1px solid #aeb0b0 !important;
+.ludo-tab-strip-top {
+    border-bottom: 1px solid #aeb0b0 !important;
 }
+
 .ludo-tab-strip-top .ludo-tab-strip-line {
-    border-bottom-width: 0 ;
+    border-bottom-width: 0;
     height: 4px
 }
 
-.ludo-tab-strip-bottom{
-    border-top:1px solid #aeb0b0;
+.ludo-tab-strip-bottom {
+    border-top: 1px solid #aeb0b0;
 }
 
-.ludo-tab-strip-left{
-    border-right:1px solid #aeb0b0;
+.ludo-tab-strip-left {
+    border-right: 1px solid #aeb0b0;
 }
+
 .ludo-tab-strip-left .ludo-tab-strip-line {
-    border-left:1px solid #aeb0b0;
+    border-left: 1px solid #aeb0b0;
 }
 
-.ludo-tab-strip-right{
-    border-left:1px solid #aeb0b0;
+.ludo-tab-strip-right {
+    border-left: 1px solid #aeb0b0;
 }
 
 .ludo-tab-strip-right .ludo-tab-strip-line {
-    border-right:1px solid #aeb0b0;
+    border-right: 1px solid #aeb0b0;
 }
 
 div.ludo-tab-strip-tab-active {
@@ -103,20 +105,20 @@ div.ludo-tab-strip-tab-active {
 
 .ludo-grid-header-cell {
     box-sizing: content-box;
-    background-color: #ddd ;
-    border-right: 1px solid #aeb0b0 ;
+    background-color: #ddd;
+    border-right: 1px solid #aeb0b0;
     border-bottom: 1px solid #aeb0b0;
-    color:#000;
+    color: #000;
 }
 
 .ludo-grid-Grid div.ludo-active-record {
-    font-weight: bold ;
+    font-weight: bold;
     background-color: #ccc;
 
 }
 
 .ludo-grid-Grid .ludo-menu-button-active {
-    background-color: #535354 ;
+    background-color: #535354;
     border-left: 1px solid transparent
 }
 
@@ -132,70 +134,72 @@ div.ludo-tab-strip-tab-active {
     background-color: transparent;
 }
 
-.ludo-grid-header-cell{
-    color:#000;
+.ludo-grid-header-cell {
+    color: #000;
 }
 
-.ludo-grid-data-column{
-    border-right-width:0;
+.ludo-grid-data-column {
+    border-right-width: 0;
 }
 
-.ludo-grid-data-even-row{
+.ludo-grid-data-even-row {
 }
 
-
-.ludo-grid-data-odd-row, .ludo-grid-data-even-row{
-    border-bottom-width:0;
+.ludo-grid-data-odd-row, .ludo-grid-data-even-row {
+    border-bottom-width: 0;
 }
 
-.ludo-grid-record-over{
-    background-color:#eee;
+.ludo-grid-record-over {
+    background-color: #eee;
 }
 
-.ludo-window > .ludo-framed-view-titlebar > .ludo-framed-view-titlebar-title{
-    text-align:center !important;
-    width:100%;
-    line-height:24px;
+.ludo-window > .ludo-framed-view-titlebar > .ludo-framed-view-titlebar-title {
+    text-align: center !important;
+    width: 100%;
+    line-height: 24px;
 }
 
-.ludo-framed-view-titlebar{
-    background-color:#424242;
-    font-weight:normal;
-    border-bottom:1px solid #aeb0b0;
-    border-radius:0;
-    color:#FFF;
+.ludo-framed-view-titlebar {
+    background-color: #424242;
+    font-weight: normal;
+    border-bottom: 1px solid #aeb0b0;
+    border-radius: 0;
+    color: #FFF;
 }
 
-.ludo-window > .ludo-framed-view-titlebar{
-    border-top-left-radius:7px;
-    border-top-right-radius:7px;
-    background-color:#e3e3e4;
-    color:#000;
+.ludo-window > .ludo-framed-view-titlebar {
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    background-color: #e3e3e4;
+    color: #000;
 }
 
-.ludo-window{
-    box-shadow:3px 3px 7px #222;
+.ludo-window {
+    box-shadow: 3px 3px 7px #222;
     -webkit-box-shadow: 3px 3px 7px #222;
-    -moz-box-shadow:    3px 3px 7px #222;
+    -moz-box-shadow: 3px 3px 7px #222;
 }
 
-.ludo-form-button-m-bg-left, .ludo-form-button-m-bg-right{
-    background-image:none;
-    display:none;
+.ludo-form-button-m-bg-left, .ludo-form-button-m-bg-right {
+    background-image: none;
+    display: none;
 }
 
-.ludo-form-button{
-    height:24px;
+.ludo-form-button {
+    height: 24px;
 }
-.ludo-window > .ludo-body{
-    font-size:14px;
-    padding:3px;
+
+.ludo-window > .ludo-body {
+    font-size: 14px;
+    padding: 3px;
 }
-.ludo-form-button .ludo-body{
-    border-radius:999px;
+
+.ludo-form-button .ludo-body {
+    border-radius: 999px;
 }
-.ludo-view-buttonbar{
-    height:30px !important;
+
+.ludo-view-buttonbar {
+    height: 30px !important;
 }
 
 .ludo-form-button div.ludo-form-button-over {
@@ -215,96 +219,149 @@ div.ludo-tab-strip-tab-active {
     background-color: #666;
     color: #aeb0b0;
 }
-div.ludo-form-button-disabled{
-    opacity:0.5;
+
+div.ludo-form-button-disabled {
+    opacity: 0.5;
 }
 
-.ludo-view, .ludo-view div{
+.ludo-view, .ludo-view div {
     box-sizing: content-box !important;
 }
 
 div.dhtml-chess-notation-panel {
     cursor: default;
     user-select: none;
-    font-weight:normal;
+    font-weight: normal;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
 
-.ludo-chess-view-metadata-game{
-    color:#222;
+.ludo-chess-view-metadata-game {
+    color: #222;
 }
-
 
 div.dhtml-chess-notation-panel, span.notation-branch, .notation-chess-move {
-    font-weight:bold;
+    font-weight: bold;
 }
 
-span.notation-comment{
-    display:inline;
-    font-style:normal;
-    font-family:inherit !important;
+span.notation-comment {
+    display: inline;
+    font-style: normal;
+    font-family: inherit !important;
 }
+
 /** Highlighted notation styles */
 span.notation-chess-move-highlighted {
-    font-weight:normal;
+    font-weight: normal;
 }
 
-.ludo-chess-view-notation-table{
-
-}
-
-.ludo-chess-view-notation-table{
-    font-size:12px;
-}
-.ludo-chess-view-notation-table >.ludo-body{
-    border-radius:5px;
-    border-width:1px;
+.ludo-chess-view-notation-table {
 
 }
 
-div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
-    box-sizing: border-box !important;
+.ludo-chess-view-notation-table {
+    font-size: 12px;
+}
+
+.ludo-chess-view-notation-table > .ludo-body {
+    border-radius: 5px;
+    border-width: 1px;
+
+}
+
+div.dhtml-chess-side-to-move-board{
+    position:absolute;
+    width:100%;height:100%;
+
     border-radius:999px;
+    box-sizing: border-box !important;
+}
+div.dhtml-chess-side-to-move,
+div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
+    box-sizing: border-box !important;
+    border-radius: 999px;
 }
 
-.dhtml-chess-side-to-move-outer{
-    border:1px solid #aaa;
+.dhtml-chess-side-to-move-outer {
+    position:absolute;
+    right:0;
+    border:1px solid;
 }
-.dhtml-chess-side-to-move-inner{
-    border-width:2px;
+.dhtml-chess-side-to-move-outer-white{
+    border-color:transparent;
 }
-.dhtml-chess-side-to-move-inner-white{
-    background-color:#ccc;
-    border-color:#888;
+.dhtml-chess-side-to-move-outer-black{
+    border-color:transparent;
 }
-.dhtml-chess-side-to-move-inner-black{
-    background-color:#555;
-    border-color:#333;
+
+.dhtml-chess-side-to-move-inner {
+    border: 0;
+}
+
+.dhtml-chess-side-to-move-white {
+    background-color: #FFF;
+}
+
+.dhtml-chess-side-to-move-black {
+    background-color: #111;
+}
+
+.dhtml-chess-side-to-move-white, .dhtml-chess-side-to-move-black{
+    animation-name: whitesideanim;
+    -webkit-animation-duration: 3s;
+    -moz-animation-duration: 3s;
+    -o-animation-duration: 3s;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
 }
 
 
-.dhtml-chess-comp-eval-notation{
-    color:#000 !important;
+
+@keyframes whitesideanim {
+    0% {
+        opacity:0.5;
+        -moz-opacity: 0.5;
+    }
+    50% {
+        opacity:1;
+        -moz-opacity: 0.5;
+    }
+    100%{
+        opacity:0.5;
+        -moz-opacity: 0.5;
+    }
 }
 
-.dhtml-chess-comp-eval-score{
-    color:#000 !important;
-}
-.dhtml-chess-comp-eval{
-    font-size:0.8em;
+@keyframes blacksideanim {
+    from {background-color: #888;}
+    to {background-color: #000;}
+
 }
 
-.ludo-view{
-    font-family:inherit;
+
+
+.dhtml-chess-comp-eval-notation {
+    color: #000 !important;
 }
 
-.ludo-tab-strip span{
-    font-size:13px;
+.dhtml-chess-comp-eval-score {
+    color: #000 !important;
 }
 
-.ludo-view img{
-    background-color:transparent !important;
+.dhtml-chess-comp-eval {
+    font-size: 0.8em;
+}
+
+.ludo-view {
+    font-family: inherit;
+}
+
+.ludo-tab-strip span {
+    font-size: 13px;
+}
+
+.ludo-view img {
+    background-color: transparent !important;
 }
 
 /* Computer play */
@@ -313,177 +370,203 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner{
     font-weight: bold;
 }
 
-.rating-change-win, .title-win{
-    color:#1B5E20;
+.rating-change-win, .title-win {
+    color: #1B5E20;
 }
 
-.rating-change-loss, .title-loss{
-    color:#EF5350;
-}
-.rating-change-draw, .title-draw{
-    color:#555;
+.rating-change-loss, .title-loss {
+    color: #EF5350;
 }
 
-.ludo-notification{
-    background-color:#0D47A1;
-    color:#FFF;
-    padding-left:10px;
-    padding-right:10px;
-    padding-top:2px;
-    border-radius:999px;
+.rating-change-draw, .title-draw {
+    color: #555;
 }
 
-.dhtml_chess_game_solved,.dhtml_chess_loading,.dhtml_chess_overlay_parent{
-    z-index:20000;
-    position:absolute;width:100%;height:100%;
+.ludo-notification {
+    background-color: #0D47A1;
+    color: #FFF;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    border-radius: 999px;
 }
-.dhtml_chess_overlay_parent div{
-    background-repeat:no-repeat;
+
+.dhtml_chess_game_solved, .dhtml_chess_loading, .dhtml_chess_overlay_parent {
+    z-index: 20000;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.dhtml_chess_overlay_parent div {
+    background-repeat: no-repeat;
     background-position: center center;
 }
-.dhtml_chess_game_solved_overlay, .dhtml_chess_overlay{
-    position:absolute;width:100%;height:100%;opacity:0.2;-moz-opacity: 0.2;background-color:#FFF;filter:alpha(opacity=50);
+
+.dhtml_chess_game_solved_overlay, .dhtml_chess_overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    -moz-opacity: 0.2;
+    background-color: #FFF;
+    filter: alpha(opacity=50);
 }
-.dhtml_chess_centered_bg{
-    width:100%;
-    height:100%;
-    position:absolute;z-index:2;
+
+.dhtml_chess_centered_bg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
 }
-.dhtml_chess_loading_image{
+
+.dhtml_chess_loading_image {
     background: url(../images/loader.gif) no-repeat center center;
 }
 
-
-.dhtml_chess_overlay_image{
-    width:100%;
-    height:100%;
-    position:absolute;z-index:2;
+.dhtml_chess_overlay_image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
     background: no-repeat center center;
 }
-.dhtml_chess_game_solved_image{
+
+.dhtml_chess_game_solved_image {
     background-image: url(../images/puzzle-solved.png);
 }
 
-.dhtml_chess_game_wrong_move_image{
+.dhtml_chess_game_wrong_move_image {
     background-image: url(../images/wrong-move-icon.png);
 
 }
 
-.dhtml_chess_current_annotation{
+.dhtml_chess_current_annotation {
     background-color: #eee;
-    border-radius:5px;
+    border-radius: 5px;
     padding: 8px;
 }
 
-.dhtml-chess-highlight-square{
-    opacity:0.5;
-    background-color:#D32F2F;
+.dhtml-chess-highlight-square {
+    opacity: 0.5;
+    background-color: #D32F2F;
 }
 
-.dhtml_chess_game_over_text{
-    color:#01579B;
-    font-size:40px;
-    text-align:center;
-    width:100%;
-    position:absolute;
-    font-weight:bold;
+.dhtml_chess_game_over_text {
+    color: #01579B;
+    font-size: 40px;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    font-weight: bold;
 }
 
-.wpc-avatar{
+.wpc-avatar {
     background: no-repeat center center;
 }
 
-.wpc-login-image{
+.wpc-login-image {
     background-image: url(../images/login-300x300.png);
 
 }
 
-.wpc-user-info-panel{
-    border-radius:5px;
-    padding:3px;
-    background-color:#DDD;
-    overflow:hidden;
+.wpc-user-info-panel {
+    border-radius: 5px;
+    padding: 3px;
+    background-color: #DDD;
+    overflow: hidden;
 }
 
-.wpc-user-info-nick{
-    font-size:24px;
-}
-.wpc-user-info-elo{
-    font-size:24px;
-    font-weight:bold;
-    padding-right:2px;
+.wpc-user-info-nick {
+    font-size: 24px;
 }
 
-.wpc-image-button{
+.wpc-user-info-elo {
+    font-size: 24px;
+    font-weight: bold;
+    padding-right: 2px;
+}
+
+.wpc-image-button {
     background: no-repeat center center;
-    cursor:pointer;
-    background-color:#CCC;
-    border-radius:4px;
+    cursor: pointer;
+    background-color: #CCC;
+    border-radius: 4px;
 }
 
-.wpc-image-button-over{
+.wpc-image-button-over {
     background-color: #BBB;
 }
 
-.wpc-clock{
-    float:right;
-    font-family: digital-dream, Orbitron, sans-serif;
-    padding-left:35px;
-    padding-right:4px;
-    background:url(../images/clock-icon.png) left center no-repeat;
+.wpc-clock {
+    float: right;
+    padding-left: 35px;
+    padding-right: 4px;
+    background: url(../images/clock-icon.png) left center no-repeat;
 }
 
-.wpc-positve-elo{
-    color:#388E3C;
+.wpc-clock-digits {
+    position:relative;
+    top:0;
+    font-family: digital-7, arial, sans-serif;
 }
 
-.wpc-negative-elo{
-    color:#D32F2F;
+.wpc-positve-elo {
+    color: #388E3C;
+}
+
+.wpc-negative-elo {
+    color: #D32F2F;
 }
 
 /**
 container for pieces in promote dialog
  */
 .dhtml-chess-promote-piece .ludo-body {
-    background-color:transparent;
-    border-color:#F00;
+    background-color: transparent;
+    border-color: #F00;
 }
 
-.wpc-icon-view{
-    position:absolute;
-    width:100%;height:100%;
-    top:0;left:0;
+.wpc-icon-view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background: no-repeat center center;
 }
 
-.wpc-color-view{
-    position:absolute;
-    border-radius:5px;
-    left:0;top:0;
-    width:100%;height:100%;
+.wpc-color-view {
+    position: absolute;
+    border-radius: 5px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     background: no-repeat center center;
 }
-.wpc-color-view-parent{
-    margin-top:2px;
-    margin-bottom:2px;
+
+.wpc-color-view-parent {
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
-.wpc-tactics-solved{
-    background-color:#388E3C;
+.wpc-tactics-solved {
+    background-color: #388E3C;
 }
 
-.wpc-tactics-failed{
-    background-color:#D32F2F;
+.wpc-tactics-failed {
+    background-color: #D32F2F;
 }
 
-.wpc-start-button-large{
-    cursor:pointer;
-    background-image:url(../images/btn-play-large.png);
+.wpc-start-button-large {
+    cursor: pointer;
+    background-image: url(../images/btn-play-large.png);
 }
 
 @font-face {
-    font-family:digital-dream;
+    font-family: digital-7;
     /* src: url(../fonts/digital-dream/DIGITALDREAMFAT.ttf); */
     src: url(../fonts/digital-7/digital-7-mono.ttf);
-    font-weight:normal;
+    font-weight: bold;
 }
