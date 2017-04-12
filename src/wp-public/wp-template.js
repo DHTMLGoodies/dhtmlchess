@@ -65,6 +65,7 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
+
         if (config.sound != undefined) this.sound = config.sound;
         if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
 

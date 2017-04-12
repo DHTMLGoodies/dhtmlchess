@@ -23,30 +23,34 @@ chess.view.dialog.Promote = new Class({
     move: undefined,
     autoRemove: false,
 
-    children: [
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'q',
-            layout: {x: 0, y: 0}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'r',
-            layout: {x: 1, y: 0}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'b',
-            layout: {x: 0, y: 1}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'n',
-            layout: {x: 1, y: 1}
-        }
-    ],
+    __children: function () {
+        var t = 'chess.view.dialog.PromotePiece';
+        return [
+            {
+                type: t,
+                piece: 'q',
+                layout: {x: 0, y: 0}
+            },
+            {
+                type: t,
+                piece: 'r',
+                layout: {x: 1, y: 0}
+            },
+            {
+                type: t,
+                piece: 'b',
+                layout: {x: 0, y: 1}
+            },
+            {
+                type: t,
+                piece: 'n',
+                layout: {x: 1, y: 1}
+            }
+        ]
 
-    __construct:function(config){
+    },
+
+    __construct: function (config) {
 
         this.parent(config);
     },

@@ -1,15 +1,34 @@
 chess.view.highlight.SquareTacticHint = new Class({
-    Extends:chess.view.highlight.SquareBase,
-    delay : 1,
 
-	__construct:function (config) {
-        this.parent(config);
+    delay : 1,
+    squarePool:undefined,
+    board:undefined,
+
+	initialize:function (config) {
+        console.log(config);
         if(config.delay !== undefined)this.delay = config.delay;
-        this.parentComponent.addEvent('showHint', this.showHint.bind(this));
+        this.board = config.parentComponent;
+        this.board.on('showHint', this.showHint.bind(this));
     },
 
     showHint:function(move){
-        this.highlightSquare(move.from);
-        this.clear.delay(this.delay * 1000, this);
+
+        var p = this.pool();
+        p.hideAll();
+        p.show(move.from);
+
+        p.hide.delay(this.delay* 1000, p, move.from);
+
+        //this.highlightSquare(move.from);
+        //this.clear.delay(this.delay * 1000, this);
+    },
+
+    pool:function(){
+        if(this.squarePool == undefined){
+            this.squarePool = new chess.view.highlight.SquarePool({
+                board:this.board
+            });
+        }
+        return this.squarePool;
     }
 });

@@ -144,9 +144,9 @@ chess.view.board.GUI = new Class({
     },
 
     addSideToMove: function () {
-        this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
-        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(this.els.sideToMoveOuter);
-        this.els.boardContainer.append(this.els.sideToMoveOuter);
+        var el = this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(el);
+        this.els.boardContainer.append(el);
     },
 
     stml: undefined,
@@ -181,7 +181,6 @@ chess.view.board.GUI = new Class({
 
         var bc = this.flipped ? 'black' : 'white';
         var pr = bc == this.stml ? 'bottom' : 'top';
-        padding++;
         var css = {
             width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
         };
@@ -290,15 +289,15 @@ chess.view.board.GUI = new Class({
     },
 
     createPieceContainer: function () {
-        this.els.pieceContainer = jQuery('<div>');
-        this.els.pieceContainer.css({
+        var el = this.els.pieceContainer = jQuery('<div>');
+        el.css({
             position: 'absolute',
             left: 0,
             top: 0,
             width: '100%',
             height: '100%'
         });
-        this.els.board.append(this.els.pieceContainer);
+        this.els.board.append(el);
     },
 
     squareBg_white: undefined,
@@ -556,7 +555,7 @@ chess.view.board.GUI = new Class({
 
         this.fireEvent('boardResized', this.boardCoordinates());
 
-        this.resizeSTM();
+        if(this.sideToMove)this.resizeSTM();
     },
 
     resizeLabels: function () {

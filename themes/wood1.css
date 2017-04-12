@@ -22,7 +22,14 @@
     background-color: #D7CCC8;
 
 }
+.dc-wood1 .dhtml-chess-board-label, .dc-wood1 .dhtml-chess-file-label-even  {
+    color: #f6cc96
+}
 
-.dhtml-chess-side-to-move-outer{
+.dc-wood1 .dhtml-chess-rank-label-even, .dc-wood1 .dhtml-chess-file-label-odd  {
+    color: #f6cc96
+}
+
+dc-wood1 .dhtml-chess-side-to-move-outer{
     border-color:#402016;
 }

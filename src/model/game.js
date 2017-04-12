@@ -1885,7 +1885,7 @@ chess.model.Game = new Class({
     },
 
     modelForServer: function () {
-        return this.toValidServerModel(this.toValidServerModel(this.model));
+        return this.toValidServerModel(this.model);
     },
 
     /**

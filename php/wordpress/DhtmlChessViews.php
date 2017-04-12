@@ -212,7 +212,8 @@ class DhtmlChessViews {
 					"shortcode"  => "chess",
 					"attributes" => array( "tpl" => 1, "tactics" => true, "db" => '&lt;databaseId>' ),
 					"help"       => __( 'Example: [chess tactics=true db="2,3" tpl="2"] to show games from database id 2 and 3. Note that you can pass multiple databases in the db attribute. The tactic trainer switches to the next database once a user has completed all puzzles. ' ),
-					'pro'        => true
+					'pro'        => true,
+					'helpurl'    => 'https://wordpresschess.com/rated-tactics/'
 				),
 				array(
 					"script"     => "WPComp1",

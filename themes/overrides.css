@@ -447,7 +447,7 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
     padding: 8px;
 }
 
-.dhtml-chess-highlight-square {
+.dhtml-chess-square-highlight {
     opacity: 0.5;
     background-color: #D32F2F;
 }

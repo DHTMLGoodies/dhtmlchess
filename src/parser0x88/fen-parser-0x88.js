@@ -13,8 +13,12 @@
 chess.parser.FenParser0x88 = new Class({
 
     madeMoves:[],
+	
+	bc: Board0x88Config,
+	lan: undefined,
 
 	initialize:function (fen) {
+    	this.lan = chess.language.pieces;
 		if (fen) {
 			this.setFen(fen);
 		}
@@ -26,7 +30,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @param {String} fen
 	 */
 	setFen:function (fen) {
-		this.cache = {
+		this.c = {
             fenParts: {},
 			'board':[],
 			'white':[],
@@ -44,10 +48,10 @@ chess.parser.FenParser0x88 = new Class({
 	updateFenArray:function () {
 		var fenParts = this.fen.split(' ');
 
-		this.cache.fenParts = {
+		this.c.fenParts = {
 			'pieces':fenParts[0],
 			'color':fenParts[1],
-			'castleCode':Board0x88Config.castleToNumberMapping[fenParts[2]],
+			'castleCode':this.bc.castleToNumberMapping[fenParts[2]],
 			'enPassant':fenParts[3],
 			'halfMoves':fenParts[4],
 			'fullMoves':fenParts[5]
@@ -61,31 +65,31 @@ chess.parser.FenParser0x88 = new Class({
 	parseFen:function () {
 		var pos = 0;
 
-		var squares = Board0x88Config.fenSquares;
+		var squares = this.bc.fenSquares;
 		var index, type, piece;
-		for (var i = 0, len = this.cache.fenParts['pieces'].length; i < len; i++) {
-			var token = this.cache.fenParts['pieces'].substr(i, 1);
+		for (var i = 0, len = this.c.fenParts['pieces'].length; i < len; i++) {
+			var token = this.c.fenParts['pieces'].substr(i, 1);
 
-			if (Board0x88Config.fenPieces[token]) {
-				index = Board0x88Config.mapping[squares[pos]];
-				type = Board0x88Config.pieces[token];
+			if (this.bc.fenPieces[token]) {
+				index = this.bc.mapping[squares[pos]];
+				type = this.bc.pieces[token];
 				piece = {
 					t:type,
 					s:index
 				};
 				// Board array
-				this.cache['board'][index] = type;
+				this.c['board'][index] = type;
 
 				// White and black array
-				this.cache[Board0x88Config.colorMapping[token]].push(piece);
+				this.c[this.bc.colorMapping[token]].push(piece);
 
 				// King array
-				if (Board0x88Config.typeMapping[type] == 'k') {
-					this.cache['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
+				if (this.bc.typeMapping[type] == 'k') {
+					this.c['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
 				}
 				pos++;
-			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
-				var token2 = this.cache.fenParts['pieces'].substr(i + 1, 1);
+			} else if (i < len - 1 && this.bc.numbers[token]) {
+				var token2 = this.c.fenParts['pieces'].substr(i + 1, 1);
 				if (!isNaN(token2)) {
 					token = [token, token2].join('');
 				}
@@ -101,7 +105,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Array} pieces
 	 */
 	getPieces:function () {
-		return this.cache['white'].append(this.cache['black']);
+		return this.c['white'].append(this.c['black']);
 	},
 
 	/**
@@ -117,7 +121,7 @@ chess.parser.FenParser0x88 = new Class({
 	 both are numeric according to the 0x88 board.
 	 */
 	getKing:function (color) {
-		return this.cache['k' + color];
+		return this.c['k' + color];
 	},
 
 	/**
@@ -158,7 +162,7 @@ chess.parser.FenParser0x88 = new Class({
 	 and sliding pieces using the bitwise & operator.
 	 */
 	getPiecesOfAColor:function (color) {
-		return this.cache[color]
+		return this.c[color]
 	},
 
 	/**
@@ -170,44 +174,44 @@ chess.parser.FenParser0x88 = new Class({
 	 	alert(parser.getEnPassantSquare()); // alerts 'd6'
 	 */
 	getEnPassantSquare:function () {
-		var enPassant = this.cache.fenParts['enPassant'];
+		var enPassant = this.c.fenParts['enPassant'];
 		if (enPassant != '-') {
 			return enPassant;
 		}
 		return undefined;
 	},
 	setEnPassantSquare:function (square) {
-		this.cache.fenParts['enPassant'] = square;
+		this.c.fenParts['enPassant'] = square;
 	},
 
 	getSlidingPieces:function (color) {
-		return this.cache[color + 'Sliding'];
+		return this.c[color + 'Sliding'];
 	},
 
 	getHalfMoves:function () {
-		return this.cache.fenParts['halfMoves'];
+		return this.c.fenParts['halfMoves'];
 	},
 
 	getFullMoves:function () {
-		return this.cache.fenParts['fullMoves'];
+		return this.c.fenParts['fullMoves'];
 	},
 
 	canCastleKingSide:function (color) {
-		var code = color === 'white' ? Board0x88Config.castle['K'] : Board0x88Config.castle['k'];
-		return this.cache.fenParts.castleCode & code;
+		var code = color === 'white' ? this.bc.castle['K'] : this.bc.castle['k'];
+		return this.c.fenParts.castleCode & code;
 	},
 
 	canCastleQueenSide:function (color) {
-		var code = color === 'white' ? Board0x88Config.castle['Q'] : Board0x88Config.castle['q'];
-		return this.cache.fenParts.castleCode & code;
+		var code = color === 'white' ? this.bc.castle['Q'] : this.bc.castle['q'];
+		return this.c.fenParts.castleCode & code;
 	},
 
 	getColor:function () {
-		return Board0x88Config.colorAbbreviations[this.cache.fenParts['color']];
+		return this.bc.colorAbbreviations[this.c.fenParts['color']];
 	},
 
 	getColorCode:function () {
-		return this.cache.fenParts['color'];
+		return this.c.fenParts['color'];
 	},
 
 	/**
@@ -218,7 +222,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @example
 	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	console.log(parser.getPieceOnSquare(Board0x88Config.mapping['e2']));
+	 	console.log(parser.getPieceOnSquare(this.bc.mapping['e2']));
 	 will return an object like this:
 	 @example
 	 	{
@@ -229,11 +233,11 @@ chess.parser.FenParser0x88 = new Class({
 	 	}
 	 */
 	getPieceOnSquare:function (square) {
-		var piece = this.cache['board'][square];
+		var piece = this.c['board'][square];
 		if (piece) {
 			return {
-				square:Board0x88Config.numberToSquareMapping[square],
-				type:Board0x88Config.typeMapping[piece],
+				square:this.bc.numberToSquareMapping[square],
+				type:this.bc.typeMapping[piece],
 				color:(piece & 0x8) > 0 ? 'black' : 'white',
 				sliding:(piece & 0x4) > 0
 			}
@@ -242,11 +246,11 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	getPieceTypeOnSquare:function (square) {
-		return this.cache['board'][square];
+		return this.c['board'][square];
 	},
 	/**
 	 * Returns true if two squares are on the same rank. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
+	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
 	 @method isOnSameRank
 	 @param {Number} square1
 	 @param {Number} square2
@@ -268,14 +272,14 @@ chess.parser.FenParser0x88 = new Class({
      */
 	rank:function(square){
 		if(square.substr != undefined){
-			square = Board0x88Config.mapping[square];
+			square = this.bc.mapping[square];
 		}
 		return (square & 240) / 16;
 	},
 
 	/**
 	 * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
+	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
 	 @method isOnSameFile
 	 @param {Number} square1
 	 @param {Number} square2
@@ -296,10 +300,10 @@ chess.parser.FenParser0x88 = new Class({
 			this.secondParser = new chess.parser.FenParser0x88();
 		}
 
-		this.secondParser.setFen(fen);
-		this.secondParser.move(move);
-
-		var notation = this.secondParser.notation;
+		var p = this.secondParser;
+		p.setFen(fen);
+		p.move(move);
+		var notation = p.notation;
 
 		return notation.indexOf('#')>0 ? notation:undefined;
 
@@ -311,7 +315,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		var promoteTo = ['R','N', 'B', 'Q'];
 		jQuery.each(moves, function(from, toSquares){
-			var fs = Board0x88Config.numberToSquareMapping[from];
+			var fs = this.bc.numberToSquareMapping[from];
 			jQuery.each(toSquares, function(i, toSquare){
 				var addPromotion = false;
 				var rank = this.rank(toSquare);
@@ -319,7 +323,7 @@ chess.parser.FenParser0x88 = new Class({
 					var p = this.getPieceOnSquare(from);
 					if(p.type == 'p')addPromotion = true;
 				}
-				var ts = Board0x88Config.numberToSquareMapping[toSquare];
+				var ts = this.bc.numberToSquareMapping[toSquare];
 				if(addPromotion){
 					jQuery.each(promoteTo, function(i, promote){
 						ret.push({
@@ -354,41 +358,6 @@ chess.parser.FenParser0x88 = new Class({
 			}
 		}.bind(this));
 		return ret;
-
-		/*
-
-		var obj = this.getValidMovesAndResult();
-		var moves = obj.moves;
-		var fen = this.getFen();
-		var promoteTo = ['R','N', 'B', 'Q'];
-
-
-		var ret = [];
-		jQuery.each(moves, function(from, toSquares){
-			var fs = Board0x88Config.numberToSquareMapping[from];
-
-			jQuery.each(toSquares, function(i, toSquare){
-
-				var addPromotion = false;
-				var rank = this.rank(toSquare);
-				if(rank == 0 || rank == 7){
-					var p = this.getPieceOnSquare(from);
-					if(p.type == 'p')addPromotion = true;
-				}
-
-				var m = {
-					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
-				};
-				var notation = this.getNotationForAMove(m);
-				if(this.isCheckmate(fen, m)){
-					ret.push(notation + '#');
-				}
-			}.bind(this))
-
-		}.bind(this));
-		return ret;
-		*/
-
 	},
 
 	/**
@@ -417,7 +386,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {}, directions;
 		var enPassantSquare = this.getEnPassantSquare();
 		if (enPassantSquare) {
-			enPassantSquare = Board0x88Config.mapping[enPassantSquare];
+			enPassantSquare = this.bc.mapping[enPassantSquare];
 		}
 
 		var kingSideCastle = this.canCastleKingSide(color);
@@ -432,7 +401,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (checks === 2) {
 			pieces = [this.getKing(color)];
 		} else {
-			pieces = this.cache[color];
+			pieces = this.c[color];
 			pinned = this.getPinned(color);
 			if (checks === 1) {
 				validSquares = this.getValidSquaresOnCheck(color);
@@ -447,44 +416,44 @@ chess.parser.FenParser0x88 = new Class({
 				// pawns
 				case 0x01:
 					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.cache['board'][piece.s + 16]) {
+						if (!this.c['board'][piece.s + 16]) {
 							paths.push(piece.s + 16);
 							if (piece.s < 32) {
-								if (!this.cache['board'][piece.s + 32]) {
+								if (!this.c['board'][piece.s + 32]) {
 									paths.push(piece.s + 32);
 								}
 							}
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
-						if (enPassantSquare == piece.s + 15 || (this.cache['board'][piece.s + 15]) && (this.cache['board'][piece.s + 15] & 0x8) > 0) {
+						if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
 							paths.push(piece.s + 15);
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
-						if (enPassantSquare == piece.s + 17 || (this.cache['board'][piece.s + 17]) && (this.cache['board'][piece.s + 17] & 0x8) > 0) {
+						if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
 							paths.push(piece.s + 17);
 						}
 					}
 					break;
 				case 0x09:
 					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.cache['board'][piece.s - 16]) {
+						if (!this.c['board'][piece.s - 16]) {
 							paths.push(piece.s - 16);
 							if (piece.s > 87) {
-								if (!this.cache['board'][piece.s - 32]) {
+								if (!this.c['board'][piece.s - 32]) {
 									paths.push(piece.s - 32);
 								}
 							}
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
-						if (enPassantSquare == piece.s - 15 || (this.cache['board'][piece.s - 15]) && (this.cache['board'][piece.s - 15] & 0x8) === 0) {
+						if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
 							paths.push(piece.s - 15);
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
-						if (enPassantSquare == piece.s - 17 || (this.cache['board'][piece.s - 17]) && (this.cache['board'][piece.s - 17] & 0x8) === 0) {
+						if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
 							paths.push(piece.s - 17);
 						}
 					}
@@ -497,7 +466,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x0D:
 				case 0x0E:
 				case 0x0F:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					if (pinned[piece.s]) {
 						if (directions.indexOf(pinned[piece.s].direction) >= 0) {
 							directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
@@ -508,8 +477,8 @@ chess.parser.FenParser0x88 = new Class({
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						while ((square & 0x88) === 0) {
-							if (this.cache['board'][square]) {
-								if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || (!WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+							if (this.c['board'][square]) {
+								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
 									paths.push(square);
 								}
 								break;
@@ -525,13 +494,13 @@ chess.parser.FenParser0x88 = new Class({
 					if (pinned[piece.s]) {
 						break;
 					}
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
-							if (this.cache['board'][square]) {
-								if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+							if (this.c['board'][square]) {
+								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
 									paths.push(square);
 								}
 							} else {
@@ -544,13 +513,13 @@ chess.parser.FenParser0x88 = new Class({
 				// Black king
 				case 0X03:
                 case 0X0B:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
 							if (protectiveMoves.indexOf(square) == -1) {
-								if (this.cache['board'][square]) {
-									if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+								if (this.c['board'][square]) {
+									if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
 										paths.push(square);
 									}
 								} else {
@@ -559,10 +528,10 @@ chess.parser.FenParser0x88 = new Class({
 							}
 						}
 					}
-					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+					if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
 						paths.push(piece.s + 2);
 					}
-					if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+					if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
 						paths.push(piece.s - 2);
 					}
 					break;
@@ -588,7 +557,7 @@ chess.parser.FenParser0x88 = new Class({
         var directions;
         var enPassantSquare = this.getEnPassantSquare();
         if (enPassantSquare) {
-            enPassantSquare = Board0x88Config.mapping[enPassantSquare];
+            enPassantSquare = this.bc.mapping[enPassantSquare];
         }
 
         var kingSideCastle = this.canCastleKingSide(color);
@@ -603,7 +572,7 @@ chess.parser.FenParser0x88 = new Class({
         if (checks === 2) {
             pieces = [this.getKing(color)];
         } else {
-            pieces = this.cache[color];
+            pieces = this.c[color];
             pinned = this.getPinned(color);
             if (checks === 1) {
                 validSquares = this.getValidSquaresOnCheck(color);
@@ -619,44 +588,44 @@ chess.parser.FenParser0x88 = new Class({
                 // pawns
                 case 0x01:
                     if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-                        if (!this.cache['board'][piece.s + 16]) {
+                        if (!this.c['board'][piece.s + 16]) {
                             paths.push([piece.s, piece.s + 16]);
                             if (piece.s < 32) {
-                                if (!this.cache['board'][piece.s + 32]) {
+                                if (!this.c['board'][piece.s + 32]) {
                                     paths.push([piece.s, piece.s + 32]);
                                 }
                             }
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
-                        if (enPassantSquare == piece.s + 15 || (this.cache['board'][piece.s + 15]) && (this.cache['board'][piece.s + 15] & 0x8) > 0) {
+                        if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
                             paths.push([piece.s, piece.s + 15]);
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
-                        if (enPassantSquare == piece.s + 17 || (this.cache['board'][piece.s + 17]) && (this.cache['board'][piece.s + 17] & 0x8) > 0) {
+                        if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
                             paths.push([piece.s, piece.s + 17]);
                     }
                     }
                     break;
                 case 0x09:
                     if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-                        if (!this.cache['board'][piece.s - 16]) {
+                        if (!this.c['board'][piece.s - 16]) {
                             paths.push([piece.s, piece.s - 16]);
                             if (piece.s > 87) {
-                                if (!this.cache['board'][piece.s - 32]) {
+                                if (!this.c['board'][piece.s - 32]) {
                                     paths.push([piece.s, piece.s - 32]);
                                 }
                             }
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
-                        if (enPassantSquare == piece.s - 15 || (this.cache['board'][piece.s - 15]) && (this.cache['board'][piece.s - 15] & 0x8) === 0) {
+                        if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
                             paths.push([piece.s, piece.s - 15]);
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
-                        if (enPassantSquare == piece.s - 17 || (this.cache['board'][piece.s - 17]) && (this.cache['board'][piece.s - 17] & 0x8) === 0) {
+                        if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
                             paths.push([piece.s, piece.s - 17]);
                         }
                     }
@@ -669,7 +638,7 @@ chess.parser.FenParser0x88 = new Class({
                 case 0x0D:
                 case 0x0E:
                 case 0x0F:
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
                     if (pinned[piece.s]) {
                         if (directions.indexOf(pinned[piece.s].direction) >= 0) {
                             directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
@@ -680,8 +649,8 @@ chess.parser.FenParser0x88 = new Class({
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         while ((square & 0x88) === 0) {
-                            if (this.cache['board'][square]) {
-                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || (!WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                     paths.push([piece.s, square]);
                                 }
                                 break;
@@ -697,13 +666,13 @@ chess.parser.FenParser0x88 = new Class({
                     if (pinned[piece.s]) {
                         break;
                     }
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
 
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         if ((square & 0x88) === 0) {
-                            if (this.cache['board'][square]) {
-                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                     paths.push([piece.s, square]);
                                 }
                             } else {
@@ -716,13 +685,13 @@ chess.parser.FenParser0x88 = new Class({
                 // Black king
                 case 0X03:
                 case 0X0B:
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         if ((square & 0x88) === 0) {
                             if (protectiveMoves.indexOf(square) == -1) {
-                                if (this.cache['board'][square]) {
-                                    if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                                if (this.c['board'][square]) {
+                                    if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
                                     }
                                 } else {
@@ -731,10 +700,10 @@ chess.parser.FenParser0x88 = new Class({
                             }
                         }
                     }
-                    if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+                    if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s + 2]);
                     }
-                    if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+                    if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s - 2]);
                     }
                     break;
@@ -765,7 +734,7 @@ chess.parser.FenParser0x88 = new Class({
 	getCaptureAndProtectiveMoves:function (color) {
 		var ret = [], directions, square, a;
 
-		var pieces = this.cache[color];
+		var pieces = this.c[color];
 		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
 
 		for (var i = 0; i < pieces.length; i++) {
@@ -787,11 +756,11 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x0D:
 				case 0x0E:
 				case 0x0F:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						while ((square & 0x88) === 0) {
-							if (this.cache['board'][square] && square !== oppositeKingSquare) {
+							if (this.c['board'][square] && square !== oppositeKingSquare) {
 								ret.push(square);
 								break;
 							}
@@ -804,7 +773,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x02:
 				case 0x0A:
 					// White knight
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
@@ -815,7 +784,7 @@ chess.parser.FenParser0x88 = new Class({
 				// king
 				case 0X03:
 				case 0X0B:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
@@ -848,8 +817,8 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
-		var king = this.cache['k' + (color === 'white' ? 'black' : 'white')];
-		var pieces = this.cache[color];
+		var king = this.c['k' + (color === 'white' ? 'black' : 'white')];
+		var pieces = this.c[color];
 		for (var i = 0; i < pieces.length; i++) {
 			var piece = pieces[i];
 			if ((piece.t & 0x4) > 0) {
@@ -893,8 +862,8 @@ chess.parser.FenParser0x88 = new Class({
 
 	/**
 	 Return array of the squares where pieces are pinned, i.e. cannot move.
-	 Squares are in the 0x88 format. You can use Board0x88Config.numberToSquareMapping
-	 to translate to readable format, example: Board0x88Config.numberToSquareMapping[16] will give you 'a2'
+	 Squares are in the 0x88 format. You can use this.bc.numberToSquareMapping
+	 to translate to readable format, example: this.bc.numberToSquareMapping[16] will give you 'a2'
 	 @method getPinned
 	 @param {String} color
 	 @return {Object}
@@ -920,7 +889,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {};
 		var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
 		var WHITE = color === 'white';
-		var king = this.cache['k' + color];
+		var king = this.c['k' + color];
 		var i = 0;
 		while (i < pieces.length) {
 			var piece = pieces[i];
@@ -929,9 +898,9 @@ chess.parser.FenParser0x88 = new Class({
 
 			var pinning = '';
 			while (square !== king.s && countPieces < 2) {
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					countPieces++;
-					if ((!WHITE && (this.cache['board'][square] & 0x8) > 0) || (WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+					if ((!WHITE && (this.c['board'][square] & 0x8) > 0) || (WHITE && (this.c['board'][square] & 0x8) === 0)) {
 						pinning = square;
 					} else {
 						break;
@@ -955,9 +924,9 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		jQuery.each(pinned, function(square, by){
 			var obj = {
-				king : Board0x88Config.numberToSquareMapping[this.getKing(color).s],
-				pinned : Board0x88Config.numberToSquareMapping[square],
-				by: Board0x88Config.numberToSquareMapping[by.by]
+				king : this.bc.numberToSquareMapping[this.getKing(color).s],
+				pinned : this.bc.numberToSquareMapping[square],
+				by: this.bc.numberToSquareMapping[by.by]
 			};
 			ret.push(obj);
 		}.bind(this));
@@ -977,8 +946,8 @@ chess.parser.FenParser0x88 = new Class({
 
 	getValidSquaresOnCheck:function (color) {
 		var ret = [], checks;
-		var king = this.cache['k' + color];
-		var pieces = this.cache[color === 'white' ? 'black' : 'white'];
+		var king = this.c['k' + color];
+		var pieces = this.c[color === 'white' ? 'black' : 'white'];
 
 
 		for (var i = 0; i < pieces.length; i++) {
@@ -999,7 +968,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x02:
 				case 0x0A:
 					if (this.getDistance(piece.s, king.s) === 2) {
-						var directions = Board0x88Config.movePatterns[piece.t];
+						var directions = this.bc.movePatterns[piece.t];
 						for (var a = 0; a < directions.length; a++) {
 							var square = piece.s + directions[a];
 							if (square === king.s) {
@@ -1048,7 +1017,7 @@ chess.parser.FenParser0x88 = new Class({
 			var squares = [piece.s];
 			while (square !== king.s && !pieceFound) {
 				squares.push(square);
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					pieceFound = true;
 				}
 				square += direction;
@@ -1073,7 +1042,7 @@ chess.parser.FenParser0x88 = new Class({
 			var squares = [piece.s];
 			while (square !== king.s && !pieceFound) {
 				squares.push(square);
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					pieceFound = true;
 				}
 				square += direction;
@@ -1087,7 +1056,7 @@ chess.parser.FenParser0x88 = new Class({
 
 
 	getCountChecks:function (kingColor, moves) {
-		var king = this.cache['k' + kingColor];
+		var king = this.c['k' + kingColor];
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
@@ -1106,7 +1075,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Number} distance
 	 */
 	getDistance:function (sq1, sq2) {
-		return Board0x88Config.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
+		return this.bc.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
 	},
 
 
@@ -1116,12 +1085,12 @@ chess.parser.FenParser0x88 = new Class({
 		];
 		var square;
 		move = {
-			from:Board0x88Config.mapping[move.from],
-			to:Board0x88Config.mapping[move.to],
+			from:this.bc.mapping[move.from],
+			to:this.bc.mapping[move.to],
 			promoteTo:move.promoteTo
 		};
 
-		var color = (this.cache['board'][move.from] & 0x8) ? 'black' : 'white';
+		var color = (this.c['board'][move.from] & 0x8) ? 'black' : 'white';
 
 		if (this.isEnPassantMove(move.from, move.to)) {
 			if (color == 'black') {
@@ -1130,7 +1099,7 @@ chess.parser.FenParser0x88 = new Class({
 			} else {
 				square = move.to - 16;
 			}
-			ret.push({ capture:Board0x88Config.numberToSquareMapping[square]})
+			ret.push({ capture:this.bc.numberToSquareMapping[square]})
 		}
 
 		if (this.isCastleMove(move)) {
@@ -1149,7 +1118,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		if (move.promoteTo) {
 			ret.push({
-				promoteTo:move.promoteTo, square:Board0x88Config.numberToSquareMapping[move.to]
+				promoteTo:move.promoteTo, square:this.bc.numberToSquareMapping[move.to]
 			});
 		}
 		return ret;
@@ -1163,17 +1132,17 @@ chess.parser.FenParser0x88 = new Class({
 	 @return {Boolean}
 	 @example
 	 	var move = {
-	 		from: Board0x88Config.mapping['e5'],
-	 		to: Board0x88Config.mapping['e6']
+	 		from: this.bc.mapping['e5'],
+	 		to: this.bc.mapping['e6']
 	 	}
 	 console.log(parser.isEnPassantMove(move);
 
 	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
 	 */
 	isEnPassantMove:function (from, to) {
-		if ((this.cache['board'][from] === 0x01 || this.cache['board'][from] == 0x09)) {
+		if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
 			if (
-				!this.cache['board'][to] &&
+				!this.c['board'][to] &&
 					((from - to) % 17 === 0 || (from - to) % 15 === 0)) {
 				return true;
 			}
@@ -1189,7 +1158,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @return {Boolean}
 	 */
 	isCastleMove:function (move) {
-		if ((this.cache['board'][move.from] === 0x03 || this.cache['board'][move.from] == 0x0B)) {
+		if ((this.c['board'][move.from] === 0x03 || this.c['board'][move.from] == 0x0B)) {
 			if (this.getDistance(move.from, move.to) === 2) {
 				return true;
 			}
@@ -1222,9 +1191,9 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	makeMoveByObject:function (move) {
         this.makeMove(
-            Board0x88Config.mapping[move.from],
-            Board0x88Config.mapping[move.to],
-            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+            this.bc.mapping[move.from],
+            this.bc.mapping[move.to],
+            move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
 		this.fen = undefined;
 	},
@@ -1260,11 +1229,11 @@ chess.parser.FenParser0x88 = new Class({
 	getPromoteByNotation:function (notation) {
 		if (notation.indexOf('=') > 0) {
 			var piece = notation.replace(/^.*?=([QRBN]).*$/, '$1');
-			return Board0x88Config.pieceAbbr[piece];
+			return this.bc.pieceAbbr[piece];
 		}
 		if (notation.match(/[a-h][18][NBRQ]/)) {
 			notation = notation.replace(/[^a-h18NBRQ]/g, '');
-			return Board0x88Config.pieceAbbr[notation.substr(notation.length - 1, 1)];
+			return this.bc.pieceAbbr[notation.substr(notation.length - 1, 1)];
 		}
 		return '';
 	},
@@ -1282,10 +1251,10 @@ chess.parser.FenParser0x88 = new Class({
 		if (notation === 'OO')notation = 'O-O';
 		if (notation === 'OOO')notation = 'O-O-O';
 		if (notation.length === 2) {
-			var square = Board0x88Config.mapping[notation];
-			ret.to = Board0x88Config.mapping[notation];
+			var square = this.bc.mapping[notation];
+			ret.to = this.bc.mapping[notation];
 			var direction = color === 'white' ? -16 : 16;
-			if (this.cache['board'][square + direction]) {
+			if (this.c['board'][square + direction]) {
 				foundPieces.push(square + direction);
 			} else {
 				foundPieces.push(square + (direction * 2));
@@ -1318,7 +1287,7 @@ chess.parser.FenParser0x88 = new Class({
 					}
 					for (i = 0; i < offsets.length; i++) {
 						sq = ret.to + offsets[i];
-						if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+						if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 							foundPieces.push(sq);
 						}
 					}
@@ -1340,11 +1309,11 @@ chess.parser.FenParser0x88 = new Class({
 					break;
 				case 0x02:
 				case 0x0A:
-					var pattern = Board0x88Config.movePatterns[pieceType];
+					var pattern = this.bc.movePatterns[pieceType];
 					for (i = 0; i < pattern.length; i++) {
 						sq = ret.to + pattern[i];
 						if ((sq & 0x88) === 0) {
-							if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 								foundPieces.push(sq);
 								if (fromRank === null && fromFile === null) {
 									break;
@@ -1356,12 +1325,12 @@ chess.parser.FenParser0x88 = new Class({
 					break;
 				// Sliding pieces
 				default:
-					var patterns = Board0x88Config.movePatterns[pieceType];
+					var patterns = this.bc.movePatterns[pieceType];
 
 					for (i = 0; i < patterns.length; i++) {
 						sq = ret.to + patterns[i];
 						while ((sq & 0x88) === 0) {
-							if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 								foundPieces.push(sq);
 								if (fromRank === null && fromFile === null) {
 									break;
@@ -1395,8 +1364,8 @@ chess.parser.FenParser0x88 = new Class({
 				}
 			}
 		}
-		ret.from = Board0x88Config.numberToSquareMapping[ret.from];
-		ret.to = Board0x88Config.numberToSquareMapping[ret.to];
+		ret.from = this.bc.numberToSquareMapping[ret.from];
+		ret.to = this.bc.numberToSquareMapping[ret.to];
 
 		return ret;
 	},
@@ -1425,7 +1394,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (notation.length > 1) {
 			return null;
 		}
-		return Board0x88Config.files[notation];
+		return this.bc.files[notation];
 	},
 	/**
 	 * Return numeric destination square by notation.
@@ -1434,7 +1403,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Number} square
 	 */
 	getToSquareByNotation:function (notation) {
-		return Board0x88Config.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
+		return this.bc.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
 	},
 
 	getPieceTypeByNotation:function (notation, color) {
@@ -1448,7 +1417,7 @@ chess.parser.FenParser0x88 = new Class({
 			}
 		}
 
-		notation = Board0x88Config.pieces[notation];
+		notation = this.bc.pieces[notation];
 		if (color === 'black') {
 			notation += 8;
 		}
@@ -1470,9 +1439,9 @@ chess.parser.FenParser0x88 = new Class({
 		this.longNotation = this.getLongNotationForAMove(move, this.notation);
 
         this.makeMove(
-            Board0x88Config.mapping[move.from],
-            Board0x88Config.mapping[move.to],
-            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+            this.bc.mapping[move.from],
+            this.bc.mapping[move.to],
+            move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
 
 		var config = this.getValidMovesAndResult();
@@ -1489,28 +1458,23 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	setNewColor:function () {
-		this.cache.fenParts['color'] = (this.cache.fenParts['color'] == 'w') ? 'b' : 'w';
+		this.c.fenParts['color'] = (this.c.fenParts['color'] == 'w') ? 'b' : 'w';
 
 	},
 
 	getCastle:function () {
-		return Board0x88Config.castleMapping[this.cache.fenParts['castleCode']];
+		return this.bc.castleMapping[this.c.fenParts['castleCode']];
 	},
 
     historyCurrentMove:[],
 
     getCopyOfColoredPieces:function(color){
         var ret = [];
-        for(var i=0;i<this.cache[color].length;i++){
-            ret.push({ s : this.cache[color][i].s, t: this.cache[color][i].t });
+        for(var i=0;i<this.c[color].length;i++){
+            ret.push({ s : this.c[color][i].s, t: this.c[color][i].t });
         }
         return ret;
-        /*
-        var ret = this.cache[color].concat(0);
-        ret.pop();
-        return ret;*/
     },
-
 
     /**
      * Used on comp eval. Valid from and to is assumed
@@ -1522,14 +1486,14 @@ chess.parser.FenParser0x88 = new Class({
         this.historyCurrentMove = [
             { key : "white", value : this.getCopyOfColoredPieces('white')},
             { key : "black", value : this.getCopyOfColoredPieces('black')},
-            { key : "castle", value:  this.cache.fenParts['castleCode'] },
+            { key : "castle", value:  this.c.fenParts['castleCode'] },
             { key : "halfMoves", value: this.getHalfMoves() },
             { key : "fullMoves", value: this.getFullMoves() },
-            { key : "color", value: this.cache.fenParts['color'] },
-            { key : "enPassant", value : this.cache.fenParts['enPassant'] }
+            { key : "color", value: this.c.fenParts['color'] },
+            { key : "enPassant", value : this.c.fenParts['enPassant'] }
         ];
 
-        if (!this.cache['board'][to] && (this.cache['board'][from] !== 0x01 && this.cache['board'][from]!== 0x09)) {
+        if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from]!== 0x09)) {
             this.incrementHalfMoves();
         }else{
             this.resetHalfMoves();
@@ -1537,15 +1501,15 @@ chess.parser.FenParser0x88 = new Class({
 
         var enPassant = '-';
 
-        switch(this.cache['board'][from]){
+        switch(this.c['board'][from]){
             case 0x03:
             case 0x0B:
                 var rook,offset;
                 this.disableCastle(from);
 
-                this.cache['k' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
+                this.c['k' + this.bc.numberToColorMapping[this.c['board'][from]]].s = to;
                 if(this.getDistance(from,to) > 1){
-                    if (this.cache['board'][from] === 0x03) {
+                    if (this.c['board'][from] === 0x03) {
                         rook = 0x06;
                         offset = 0;
                     } else {
@@ -1564,34 +1528,34 @@ chess.parser.FenParser0x88 = new Class({
             case 0x01:
             case 0x09:
                 if (this.isEnPassantMove(from, to)) {
-                    if (Board0x88Config.numberToColorMapping[this.cache['board'][from]] == 'black') {
+                    if (this.bc.numberToColorMapping[this.c['board'][from]] == 'black') {
                         this.deletePiece(to+16);
-                        this.cache['board'][to + 16] = undefined;
+                        this.c['board'][to + 16] = undefined;
                     } else {
                         this.deletePiece(to-16);
-                        this.cache['board'][to - 16] = undefined;
+                        this.c['board'][to - 16] = undefined;
                     }
                 }
 
-                if(this.getDistance(from,to) > 1 && (this.cache['board'][to-1] || this.cache['board'][to+1])){
+                if(this.getDistance(from,to) > 1 && (this.c['board'][to-1] || this.c['board'][to+1])){
                     enPassant = to > from ? from + 16 : from - 16;
-                    enPassant = Board0x88Config.numberToSquareMapping[enPassant];
+                    enPassant = this.bc.numberToSquareMapping[enPassant];
                 }
 
                 if(promoteTo){
-                    if(this.cache['board'][from] > 0x08){
+                    if(this.c['board'][from] > 0x08){
                         promoteTo += 8;
                     }
                     this.updatePieceType(from, promoteTo);
                 }
                 break;
             case 0x06:
-                if(from === 0)this.disableCastleCode(Board0x88Config.castle['Q']);
-                if(from === 7)this.disableCastleCode(Board0x88Config.castle['K']);
+                if(from === 0)this.disableCastleCode(this.bc.castle['Q']);
+                if(from === 7)this.disableCastleCode(this.bc.castle['K']);
                 break;
             case 0x0E:
-                if(from === Board0x88Config.mapping['a8'])this.disableCastleCode(Board0x88Config.castle['q']);
-                if(from === Board0x88Config.mapping['h8'])this.disableCastleCode(Board0x88Config.castle['k']);
+                if(from === this.bc.mapping['a8'])this.disableCastleCode(this.bc.castle['q']);
+                if(from === this.bc.mapping['h8'])this.disableCastleCode(this.bc.castle['k']);
                 break;
         }
 
@@ -1599,29 +1563,29 @@ chess.parser.FenParser0x88 = new Class({
 
         this.updatePiece(from, to);
 
-        if(this.cache['board'][to]){
+        if(this.c['board'][to]){
             this.deletePiece(to);
             this.historyCurrentMove.push({
-                key : 'addToBoard', square : to, type : this.cache['board'][to]
+                key : 'addToBoard', square : to, type : this.c['board'][to]
             })
         }
         this.movePiece(from, to);
-        if(promoteTo)this.cache['board'][to] = promoteTo;
+        if(promoteTo)this.c['board'][to] = promoteTo;
 
-        if(this.cache.fenParts['color'] === 'b')this.incrementFullMoves();
+        if(this.c.fenParts['color'] === 'b')this.incrementFullMoves();
         this.setNewColor();
         this.madeMoves.push(this.historyCurrentMove);
     },
 
     movePiece:function(from, to){
         this.historyCurrentMove.push({
-            key : 'addToBoard', square : from, type: this.cache['board'][from]
+            key : 'addToBoard', square : from, type: this.c['board'][from]
         });
         this.historyCurrentMove.push({
             key : 'removeFromBoard', square : to
         });
-        this.cache['board'][to] = this.cache['board'][from];
-        delete this.cache['board'][from];
+        this.c['board'][to] = this.c['board'][from];
+        delete this.c['board'][from];
     },
 
     unmakeMove:function(){
@@ -1631,31 +1595,31 @@ chess.parser.FenParser0x88 = new Class({
             var item = changes[i];
             switch(item.key){
                 case 'white':
-                    this.cache['white'] = item.value;
+                    this.c['white'] = item.value;
                     break;
                 case 'black':
-                    this.cache['black'] = item.value;
+                    this.c['black'] = item.value;
                     break;
                 case 'color':
-                    this.cache.fenParts['color'] = item.value;
+                    this.c.fenParts['color'] = item.value;
                     break;
                 case 'castle':
-                    this.cache.fenParts['castleCode'] = item.value;
+                    this.c.fenParts['castleCode'] = item.value;
                     break;
                 case 'halfMoves':
-                    this.cache.fenParts['halfMoves'] = item.value;
+                    this.c.fenParts['halfMoves'] = item.value;
                     break;
                 case 'fullMoves':
-                    this.cache.fenParts['fullMoves'] = item.value;
+                    this.c.fenParts['fullMoves'] = item.value;
                     break;
                 case 'enPassant':
-                    this.cache.fenParts['enPassant'] = item.value;
+                    this.c.fenParts['enPassant'] = item.value;
                     break;
                 case 'addToBoard':
-                    this.cache['board'][item.square] = item.type;
+                    this.c['board'][item.square] = item.type;
                     break;
                 case 'removeFromBoard':
-                    this.cache['board'][item.square] = undefined;
+                    this.c['board'][item.square] = undefined;
                     break;
 
             }
@@ -1664,58 +1628,58 @@ chess.parser.FenParser0x88 = new Class({
 
 	isValid:function(move){
 		var moves = this.getValidMovesAndResult().moves;
-		return moves[Board0x88Config.mapping[move.from]] != undefined &&
-			moves[Board0x88Config.mapping[move.from]].indexOf(Board0x88Config.mapping[move.to]) >= 0;
+		return moves[this.bc.mapping[move.from]] != undefined &&
+			moves[this.bc.mapping[move.from]].indexOf(this.bc.mapping[move.to]) >= 0;
 	},
 
     updatePiece:function(from, to){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][from]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === from){
-                this.cache[color][i] = { s: to, t: this.cache[color][i].t };
+        var color = this.bc.numberToColorMapping[this.c['board'][from]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === from){
+                this.c[color][i] = { s: to, t: this.c[color][i].t };
                 return;
             }
         }
     },
 
     updatePieceType:function(square, type){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === square){
-                this.cache[color][i] = { s: this.cache[color][i].s, t : type };
+        var color = this.bc.numberToColorMapping[this.c['board'][square]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === square){
+                this.c[color][i] = { s: this.c[color][i].s, t : type };
                 return;
             }
         }
     },
 
     deletePiece:function(square){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === square){
-                this.cache[color].splice(i,1);
+        var color = this.bc.numberToColorMapping[this.c['board'][square]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === square){
+                this.c[color].splice(i,1);
                 return;
             }
         }
     },
 
     disableCastle:function(from){
-        var codes = this.cache['board'][from] < 9 ? [4,8] : [1,2];
+        var codes = this.c['board'][from] < 9 ? [4,8] : [1,2];
         this.disableCastleCode(codes[0]);
         this.disableCastleCode(codes[1]);
     },
 
     disableCastleCode:function(code){
-        if((this.cache.fenParts['castleCode'] & code) > 0) this.cache.fenParts['castleCode'] -= code;
+        if((this.c.fenParts['castleCode'] & code) > 0) this.c.fenParts['castleCode'] -= code;
     },
 
 	incrementFullMoves:function () {
-		this.cache.fenParts['fullMoves']++;
+		this.c.fenParts['fullMoves']++;
 	},
 	incrementHalfMoves:function () {
-		this.cache.fenParts['halfMoves']++;
+		this.c.fenParts['halfMoves']++;
 	},
 	resetHalfMoves:function () {
-		this.cache.fenParts['halfMoves'] = 0;
+		this.c.fenParts['halfMoves'] = 0;
 	},
 
 	getPiecesInvolvedInLastMove:function () {
@@ -1759,14 +1723,14 @@ chess.parser.FenParser0x88 = new Class({
 		var toSquare = move.to;
 
 
-		var type = this.cache['board'][Board0x88Config.mapping[move.from]];
-		type = Board0x88Config.typeMapping[type];
+		var type = this.c['board'][this.bc.mapping[move.from]];
+		type = this.bc.typeMapping[type];
 		var separator = shortNotation.indexOf('x') >= 0 ? 'x' : '-';
 
-		var ret = chess.language.pieces[type] + fromSquare + separator + toSquare;
+		var ret = this.lan[type] + fromSquare + separator + toSquare;
 
 		if (move.promoteTo) {
-			ret += '=' + chess.language.pieces[move.promoteTo];
+			ret += '=' + this.lan[move.promoteTo];
 		}
 		return ret;
 	},
@@ -1781,24 +1745,24 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getNotationForAMove:function (move) {
 		move = {
-			from:Board0x88Config.mapping[move.from],
-			to:Board0x88Config.mapping[move.to],
+			from:this.bc.mapping[move.from],
+			to:this.bc.mapping[move.to],
 			promoteTo:move.promoteTo
 		};
 
-		var type = this.cache['board'][move.from];
+		var type = this.c['board'][move.from];
 
-		var ret = chess.language.pieces[Board0x88Config.typeMapping[this.cache['board'][move.from]]];
+		var ret = this.lan[this.bc.typeMapping[this.c['board'][move.from]]];
 
 		switch (type) {
 			case 0x01:
 			case 0x09:
-				if (this.isEnPassantMove(move.from, move.to) || this.cache['board'][move.to]) {
-					ret += Board0x88Config.fileMapping[move.from & 15] + 'x';
+				if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
+					ret += this.bc.fileMapping[move.from & 15] + 'x';
 				}
-				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				if (move.promoteTo) {
-					var pr = chess.language.pieces[move.promoteTo] != undefined ? chess.language.pieces[move.promoteTo] : move.promoteTo;
+					var pr = this.lan[move.promoteTo] != undefined ? this.lan[move.promoteTo] : move.promoteTo;
 					ret += '=' + pr;
 				}
 				break;
@@ -1812,21 +1776,21 @@ chess.parser.FenParser0x88 = new Class({
 			case 0x0F:
 				var config = this.getValidMovesAndResult();
 				for (var square in config.moves) {
-					if (square != move.from && this.cache['board'][square] === type) {
+					if (square != move.from && this.c['board'][square] === type) {
 						if (config.moves[square].indexOf(move.to) >= 0) {
 							if ((square & 15) != (move.from & 15)) {
-								ret += Board0x88Config.fileMapping[move.from & 15];
+								ret += this.bc.fileMapping[move.from & 15];
 							}
 							else if ((square & 240) != (move.from & 240)) {
-								ret += Board0x88Config.rankMapping[move.from & 240];
+								ret += this.bc.rankMapping[move.from & 240];
 							}
 						}
 					}
 				}
-				if (this.cache['board'][move.to]) {
+				if (this.c['board'][move.to]) {
 					ret += 'x';
 				}
-				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				break;
 			case 0x03:
 			case 0x0B:
@@ -1837,10 +1801,10 @@ chess.parser.FenParser0x88 = new Class({
 						ret = 'O-O-O';
 					}
 				} else {
-					if (this.cache['board'][move.to]) {
+					if (this.c['board'][move.to]) {
 						ret += 'x';
 					}
-					ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+					ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				}
 				break;
 		}
@@ -1853,18 +1817,18 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {String}
 	 */
 	getNewFen:function () {
-		var board = this.cache['board'];
+		var board = this.c['board'];
 		var fen = '';
 		var emptyCounter = 0;
 
 		for (var rank = 7; rank >= 0; rank--) {
 			for (var file = 0; file < 8; file++) {
 				var index = (rank * 8) + file;
-				if (board[Board0x88Config.numericMapping[index]]) {
+				if (board[this.bc.numericMapping[index]]) {
 					if (emptyCounter) {
 						fen += emptyCounter;
 					}
-					fen += Board0x88Config.pieceMapping[board[Board0x88Config.numericMapping[index]]];
+					fen += this.bc.pieceMapping[board[this.bc.numericMapping[index]]];
 					emptyCounter = 0;
 				} else {
 					emptyCounter++;
@@ -1883,7 +1847,7 @@ chess.parser.FenParser0x88 = new Class({
 			fen += emptyCounter;
 		}
 
-		return [fen, this.getColorCode(), this.getCastle(), this.cache.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
+		return [fen, this.getColorCode(), this.getCastle(), this.c.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
 	},
 
     /**
@@ -1909,7 +1873,6 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     evaluate:function(){
-        var res = this.getValidMovesAndResult();
         var score = this.getMaterialScore();
         score += this.getMobility() * 2;
         return score;
@@ -1942,7 +1905,7 @@ chess.parser.FenParser0x88 = new Class({
     getHangingSquaresTranslated:function(color){
         var hanging = this.getHangingPieces(color);
         for(var i=0;i<hanging.length;i++){
-            hanging[i] = Board0x88Config.numberToSquareMapping[hanging[i]];
+            hanging[i] = this.bc.numberToSquareMapping[hanging[i]];
         }
         return hanging;
     },
@@ -1955,7 +1918,7 @@ chess.parser.FenParser0x88 = new Class({
         var ret = 0;
         var pieces = this.getPiecesOfAColor(color);
         for(var i=0;i<pieces.length;i++){
-            ret += Board0x88Config.pieceValues[pieces[i].t];
+            ret += this.bc.pieceValues[pieces[i].t];
         }
         return ret;
     }

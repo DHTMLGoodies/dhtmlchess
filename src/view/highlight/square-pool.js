@@ -65,9 +65,11 @@ chess.view.highlight.SquarePool = new Class({
         var pos = this.posBySquare(square);
 
         s.el.css({
-            left: pos.x, top: pos.y,
-            'background-color': color
+            left: pos.x, top: pos.y
         });
+        if(color){
+            s.el.css('background-color', color);
+        }
         s.el.show();
         s.square = square;
 

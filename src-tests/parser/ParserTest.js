@@ -1707,10 +1707,10 @@ TestCase("ParserTest", {
         for (var i = 0; i < moves.length; i++) {
             var parser = this.getParser();
             var validMoves = Object.clone(parser.getValidMovesAndResult().moves);
-            var countWhite = parser.cache['white'].length;
-            var countBlack = parser.cache['black'].length;
-            var white = Object.clone(parser.cache['white']);
-            var black = Object.clone(parser.cache['black']);
+            var countWhite = parser.c['white'].length;
+            var countBlack = parser.c['black'].length;
+            var white = Object.clone(parser.c['white']);
+            var black = Object.clone(parser.c['black']);
             for (var j = 0; j < moves[i].length; j++) {
                 parser.makeMove(
                     Board0x88Config.mapping[moves[i][j][0]],
@@ -1722,10 +1722,10 @@ TestCase("ParserTest", {
                 parser.unmakeMove();
             }
             assertEquals('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', parser.getNewFen());
-            assertEquals(countWhite, parser.cache['white'].length);
-            assertEquals(countBlack, parser.cache['black'].length);
-            assertEquals(white, Object.clone(parser.cache['white']));
-            assertEquals(black, Object.clone(parser.cache['black']));
+            assertEquals(countWhite, parser.c['white'].length);
+            assertEquals(countBlack, parser.c['black'].length);
+            assertEquals(white, Object.clone(parser.c['white']));
+            assertEquals(black, Object.clone(parser.c['black']));
             assertEquals(validMoves, parser.getValidMovesAndResult().moves);
         }
     },
