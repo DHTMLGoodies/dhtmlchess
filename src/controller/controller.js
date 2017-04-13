@@ -248,8 +248,9 @@ chess.controller.Controller = new Class({
     },
 
     newVariation: function (oldMove, newMove) {
-        this.currentModel.setCurrentMove(oldMove);
-        this.currentModel.newVariation(newMove);
+        var m = this.currentModel;
+        m.setCurrentMove(oldMove);
+        m.newVariation(newMove);
     },
 
     cancelOverwrite: function () {
@@ -280,10 +281,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
+        var m = this.currentModel;
         if(this.eventHandler != undefined){
-            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+            this.eventHandler.apply(this, ['boardMove', m, this, move]);
         }else{
-            this.currentModel.appendMove(move);
+            m.appendMove(move);
         }
     },
     gradeMove: function (move, grade) {
@@ -291,9 +293,10 @@ chess.controller.Controller = new Class({
     },
 
     gradeCurrentMove: function (grade) {
-        var move = this.currentModel.getCurrentMove();
+        var m = this.currentModel;
+        var move = m.getCurrentMove();
         if (move) {
-            this.currentModel.gradeMove(move, grade);
+            m.gradeMove(move, grade);
         }
     },
 
@@ -390,8 +393,6 @@ chess.controller.Controller = new Class({
     },
 
     selectGame: function (game, pgn) {
-
-
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -420,16 +421,17 @@ chess.controller.Controller = new Class({
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
-        this.models.push(model);
+        var m = this.models;
+        m.push(model);
 
-        if (this.models.length > this.modelCacheSize) {
-            this.models[0].removeEvents();
-            delete this.models[0];
+        if (m.length > this.modelCacheSize) {
+            m[0].removeEvents();
+            delete m[0];
 
-            for (var i = 0; i < this.models.length - 1; i++) {
-                this.models[i] = this.models[i + 1];
+            for (var i = 0; i < m.length - 1; i++) {
+                m[i] = m[i + 1];
             }
-            this.models.length = this.models.length - 1;
+            m.length = m.length - 1;
         }
         return model;
     },

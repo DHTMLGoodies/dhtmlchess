@@ -1,4 +1,4 @@
-/* Generated Thu Apr 13 17:27:01 CEST 2017 */
+/* Generated Fri Apr 14 0:27:29 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -22364,7 +22364,7 @@ chess.view.board.Background = new Class({
 
     initialize: function (config) {
         this.view = config.view;
-        this.svg = this.view.svg();
+        var svg = this.svg = this.view.svg();
 
         if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
@@ -22374,9 +22374,9 @@ chess.view.board.Background = new Class({
                 }
 
         }
-        this.svg.css('position', 'absolute');
-        this.svg.css('left', '0');
-        this.svg.css('top', '0');
+        svg.css('position', 'absolute');
+        svg.css('left', '0');
+        svg.css('top', '0');
         if (config.square != undefined) this.square = config.square;
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
@@ -22425,11 +22425,11 @@ chess.view.board.Background = new Class({
 
 
     createClipPath: function () {
-        this.els.clipPath = this.svg.$('clipPath');
+        var cp = this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
 
-        this.els.clipPath.append(this.els.clip);
-        this.svg.appendDef(this.els.clipPath);
+        cp.append(this.els.clip);
+        this.svg.appendDef(cp);
 
         this.setBorderRadius(this.borderRadius);
     },
@@ -22562,18 +22562,18 @@ chess.view.board.Background = new Class({
     },
 
     applyPattern: function () {
-
+        var paths = this.paths;
         if (this.els.pattern) {
-            this.paths.t.setPattern(this.els.pattern);
+            paths.t.setPattern(this.els.pattern);
         }
         if (this.els.horizontal) {
-            this.paths.t.setPattern(this.els.horizontalPattern);
-            this.paths.b.setPattern(this.els.horizontalPattern);
+            paths.t.setPattern(this.els.horizontalPattern);
+            paths.b.setPattern(this.els.horizontalPattern);
         }
 
         if (this.els.vertical) {
-            this.paths.l.setPattern(this.els.verticalPattern);
-            this.paths.r.setPattern(this.els.verticalPattern);
+            paths.l.setPattern(this.els.verticalPattern);
+            paths.r.setPattern(this.els.verticalPattern);
         }
     },
 
@@ -22648,9 +22648,7 @@ chess.view.board.Background = new Class({
         this.setBorderRadius(this.borderRadius);
 
         this.updatePatternSize();
-
     }
-
 });/* ../dhtml-chess/src/view/board/board-interaction.js */
 chess.view.board.BoardInteraction = new Class({
 
@@ -24363,11 +24361,6 @@ chess.view.dialog.Promote = new Class({
 
     clickOnPiece: function (piece) {
         this.move.promoteTo = piece;
-        /**
-         * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
-         * @event promote
-         * @param {chess.model.Move} updatedMove
-         */
         this.fireEvent('promote', this.move);
         this.hide();
     },
@@ -24398,9 +24391,11 @@ chess.view.dialog.PromotePiece = new Class({
     },
 
     setColor: function (color) {
-        this.$e.removeClass('dhtml-chess-promote-white-' + this.piece);
-        this.$e.removeClass('dhtml-chess-promote-black-' + this.piece);
-        this.$e.addClass('dhtml-chess-promote-' + color + '-' + this.piece);
+        var e = this.$e;
+        var p = this.piece;
+        e.removeClass('dhtml-chess-promote-white-' + p);
+        e.removeClass('dhtml-chess-promote-black-' + p);
+        e.addClass('dhtml-chess-promote-' + color + '-' + p);
     },
 
     clickOnPiece: function () {
@@ -24672,130 +24667,7 @@ chess.view.pgn.Grid = new Class({
 
         this.fireEvent('selectPgn', record.file);
     }
-});/* ../dhtml-chess/src/pgn/parser.js */
-/**
- Model to PGN parser. Takes a
- {{#crossLink "chess.model.Game"}}{{/crossLink}} as only argument
- and returns a PGN string for the game.
- @namespace chess.pgn
- @class Parser
- @constructor
- @param {chess.model.Game} model
- @example
- var game = new chess.model.Game();
- game.setMetadataValue('white','Magnus Carlsen');
- game.setMetadataValue('black','Levon Aronian');
- game.appendMove('e4');
- game.appendMove('e5');
-
- var parser = new chess.pgn.Parser(game);
- console.log(parser.getPgn());
- */
-chess.pgn.Parser = new Class({
-    /**
-     * @property {chess.model.Game} model
-     * @private
-     */
-    model: undefined,
-
-
-    initialize: function (model) {
-        this.model = model;
-    },
-
-    /**
-     * Return pgn in string format
-     * @method getPgn
-     * @return {String}
-     */
-    getPgn: function (model) {
-        if (model != undefined)this.model = model;
-        return [this.getMetadata(), this.getMoves()].join("\n\n");
-    },
-
-    /**
-     * @method getMetadata
-     * @return {String}
-     * @private
-     */
-    getMetadata: function () {
-        var ret = [];
-        var metadata = this.model.getMetadata();
-        jQuery.each(metadata, function(key, val){
-            if(key != 'id' && key != 'pgn' && key != 'draft_id' && key != 'index'){
-                ret.push('[' + this.ucFirst(key) + ' "' +val + '"]');
-            }
-        }.bind(this));
-        return ret.join('\n');
-    },
-
-    ucFirst: function (string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    },
-
-    /**
-     * @method getMoves
-     * @return {String}
-     * @private
-     */
-    getMoves: function () {
-        return this.getFirstComment() + this.getMovesInBranch(this.model.getMoves(), 0);
-    },
-
-    /**
-     * Return comment before first move
-     * @method getFirstComment
-     * @return {String}
-     * @private
-     */
-    getFirstComment: function () {
-        var m = this.model.getMetadata();
-        if (m['comment'] !== undefined && m['comment'].length > 0) {
-            return '{' + m['comment'] + '} ';
-        }
-        return '';
-    },
-
-    /**
-     * Return main line of moves or a variation
-     * @method getMovesInBranch
-     * @param {Array} moves
-     * @param {Number} moveIndex
-     * @return {String}
-     * @private
-     */
-    getMovesInBranch: function (moves, moveIndex) {
-        moveIndex = moveIndex || 0;
-        var ret = [];
-        var insertNumber = true;
-        for (var i = 0; i < moves.length; i++) {
-            if (moves[i]['m'] !== undefined) {
-                if (moveIndex % 2 === 0 || insertNumber) {
-                    var isWhite = moveIndex % 2 === 0;
-                    ret.push([Math.floor(moveIndex / 2) + 1, (isWhite ? '.' : '..')].join(''));
-                }
-                ret.push(moves[i]['m']);
-                moveIndex++;
-
-                insertNumber = false;
-            }
-            if (moves[i]['comment'] !== undefined) {
-                ret.push("{" + moves[i]['comment'] + "}");
-            }
-
-            if (moves[i]['variations'] !== undefined && moves[i]['variations'].length > 0) {
-                var variations = moves[i]['variations'];
-                for (var j = 0; j < variations.length; j++) {
-                    ret.push("(" + this.getMovesInBranch(variations[j], moveIndex - 1) + ")");
-
-                }
-                insertNumber = true;
-            }
-        }
-        return ret.join(' ');
-    }
-});
-/* ../dhtml-chess/src/action/handler.js */
+});/* ../dhtml-chess/src/action/handler.js */
 chess.action.Handler = new Class({
 
     board: undefined,
@@ -27744,8 +27616,9 @@ chess.controller.Controller = new Class({
     },
 
     newVariation: function (oldMove, newMove) {
-        this.currentModel.setCurrentMove(oldMove);
-        this.currentModel.newVariation(newMove);
+        var m = this.currentModel;
+        m.setCurrentMove(oldMove);
+        m.newVariation(newMove);
     },
 
     cancelOverwrite: function () {
@@ -27776,10 +27649,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
+        var m = this.currentModel;
         if(this.eventHandler != undefined){
-            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+            this.eventHandler.apply(this, ['boardMove', m, this, move]);
         }else{
-            this.currentModel.appendMove(move);
+            m.appendMove(move);
         }
     },
     gradeMove: function (move, grade) {
@@ -27787,9 +27661,10 @@ chess.controller.Controller = new Class({
     },
 
     gradeCurrentMove: function (grade) {
-        var move = this.currentModel.getCurrentMove();
+        var m = this.currentModel;
+        var move = m.getCurrentMove();
         if (move) {
-            this.currentModel.gradeMove(move, grade);
+            m.gradeMove(move, grade);
         }
     },
 
@@ -27886,8 +27761,6 @@ chess.controller.Controller = new Class({
     },
 
     selectGame: function (game, pgn) {
-
-
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -27916,16 +27789,17 @@ chess.controller.Controller = new Class({
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
-        this.models.push(model);
+        var m = this.models;
+        m.push(model);
 
-        if (this.models.length > this.modelCacheSize) {
-            this.models[0].removeEvents();
-            delete this.models[0];
+        if (m.length > this.modelCacheSize) {
+            m[0].removeEvents();
+            delete m[0];
 
-            for (var i = 0; i < this.models.length - 1; i++) {
-                this.models[i] = this.models[i + 1];
+            for (var i = 0; i < m.length - 1; i++) {
+                m[i] = m[i + 1];
             }
-            this.models.length = this.models.length - 1;
+            m.length = m.length - 1;
         }
         return model;
     },
@@ -30954,25 +30828,6 @@ chess.dataSource.PgnGames = new Class({
     getPgnFileName:function(){
         return this.postData.arguments;
     }
-});/* ../dhtml-chess/src/datasource/pgn-list.js */
-/**
- * Data source for list of games. An object of this class is automatically created
- * by chess.view.gamelist.Grid
- * @module DataSource
- * @namespace chess.dataSource
- * @class GameList
- * @extends dataSource.JSONArray
- */
-chess.dataSource.PgnList = new Class({
-    Extends: ludo.dataSource.JSONArray,
-    type : 'chess.dataSource.PgnList',
-    autoload:true,
-    singleton: true,
-    postData:{
-        resource:'ChessFSPgn',
-        service:'read'
-    }
-    
 });/* ../dhtml-chess/src/wordpress/game-list-grid.js */
 chess.wordpress.GameListGrid = new Class({
     Extends: chess.view.gamelist.Grid,
@@ -31038,14 +30893,6 @@ chess.wordpress.GameListGrid = new Class({
 
     selectGame: function (record) {
         this.fireEvent('selectGame', [record, this.getDataSource().postData.pgn]);
-    }
-});/* ../dhtml-chess/src/wordpress/pgn-list.js */
-chess.wordpress.PgnList = new Class({
-    Extends: ludo.dataSource.JSONArray,
-    type : 'chess.dataSource.PgnList',
-    autoload:true,
-    postData:{
-        action:'list_pgns'
     }
 });/* ../dhtml-chess/src/wordpress/game-list.js */
 /**

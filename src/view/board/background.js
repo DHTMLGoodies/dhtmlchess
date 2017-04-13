@@ -28,7 +28,7 @@ chess.view.board.Background = new Class({
 
     initialize: function (config) {
         this.view = config.view;
-        this.svg = this.view.svg();
+        var svg = this.svg = this.view.svg();
 
         if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
@@ -38,9 +38,9 @@ chess.view.board.Background = new Class({
                 }
 
         }
-        this.svg.css('position', 'absolute');
-        this.svg.css('left', '0');
-        this.svg.css('top', '0');
+        svg.css('position', 'absolute');
+        svg.css('left', '0');
+        svg.css('top', '0');
         if (config.square != undefined) this.square = config.square;
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
@@ -89,11 +89,11 @@ chess.view.board.Background = new Class({
 
 
     createClipPath: function () {
-        this.els.clipPath = this.svg.$('clipPath');
+        var cp = this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
 
-        this.els.clipPath.append(this.els.clip);
-        this.svg.appendDef(this.els.clipPath);
+        cp.append(this.els.clip);
+        this.svg.appendDef(cp);
 
         this.setBorderRadius(this.borderRadius);
     },
@@ -226,18 +226,18 @@ chess.view.board.Background = new Class({
     },
 
     applyPattern: function () {
-
+        var paths = this.paths;
         if (this.els.pattern) {
-            this.paths.t.setPattern(this.els.pattern);
+            paths.t.setPattern(this.els.pattern);
         }
         if (this.els.horizontal) {
-            this.paths.t.setPattern(this.els.horizontalPattern);
-            this.paths.b.setPattern(this.els.horizontalPattern);
+            paths.t.setPattern(this.els.horizontalPattern);
+            paths.b.setPattern(this.els.horizontalPattern);
         }
 
         if (this.els.vertical) {
-            this.paths.l.setPattern(this.els.verticalPattern);
-            this.paths.r.setPattern(this.els.verticalPattern);
+            paths.l.setPattern(this.els.verticalPattern);
+            paths.r.setPattern(this.els.verticalPattern);
         }
     },
 
@@ -312,7 +312,5 @@ chess.view.board.Background = new Class({
         this.setBorderRadius(this.borderRadius);
 
         this.updatePatternSize();
-
     }
-
 });

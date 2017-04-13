@@ -1,4 +1,4 @@
-/* Generated Thu Apr 13 17:26:49 CEST 2017 */
+/* Generated Fri Apr 14 0:27:18 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -20051,7 +20051,7 @@ chess.view.board.Background = new Class({
 
     initialize: function (config) {
         this.view = config.view;
-        this.svg = this.view.svg();
+        var svg = this.svg = this.view.svg();
 
         if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
@@ -20061,9 +20061,9 @@ chess.view.board.Background = new Class({
                 }
 
         }
-        this.svg.css('position', 'absolute');
-        this.svg.css('left', '0');
-        this.svg.css('top', '0');
+        svg.css('position', 'absolute');
+        svg.css('left', '0');
+        svg.css('top', '0');
         if (config.square != undefined) this.square = config.square;
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
@@ -20112,11 +20112,11 @@ chess.view.board.Background = new Class({
 
 
     createClipPath: function () {
-        this.els.clipPath = this.svg.$('clipPath');
+        var cp = this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
 
-        this.els.clipPath.append(this.els.clip);
-        this.svg.appendDef(this.els.clipPath);
+        cp.append(this.els.clip);
+        this.svg.appendDef(cp);
 
         this.setBorderRadius(this.borderRadius);
     },
@@ -20249,18 +20249,18 @@ chess.view.board.Background = new Class({
     },
 
     applyPattern: function () {
-
+        var paths = this.paths;
         if (this.els.pattern) {
-            this.paths.t.setPattern(this.els.pattern);
+            paths.t.setPattern(this.els.pattern);
         }
         if (this.els.horizontal) {
-            this.paths.t.setPattern(this.els.horizontalPattern);
-            this.paths.b.setPattern(this.els.horizontalPattern);
+            paths.t.setPattern(this.els.horizontalPattern);
+            paths.b.setPattern(this.els.horizontalPattern);
         }
 
         if (this.els.vertical) {
-            this.paths.l.setPattern(this.els.verticalPattern);
-            this.paths.r.setPattern(this.els.verticalPattern);
+            paths.l.setPattern(this.els.verticalPattern);
+            paths.r.setPattern(this.els.verticalPattern);
         }
     },
 
@@ -20335,9 +20335,7 @@ chess.view.board.Background = new Class({
         this.setBorderRadius(this.borderRadius);
 
         this.updatePatternSize();
-
     }
-
 });/* ../dhtml-chess/src/view/board/board-interaction.js */
 chess.view.board.BoardInteraction = new Class({
 
@@ -21808,11 +21806,6 @@ chess.view.dialog.Promote = new Class({
 
     clickOnPiece: function (piece) {
         this.move.promoteTo = piece;
-        /**
-         * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
-         * @event promote
-         * @param {chess.model.Move} updatedMove
-         */
         this.fireEvent('promote', this.move);
         this.hide();
     },
@@ -21843,9 +21836,11 @@ chess.view.dialog.PromotePiece = new Class({
     },
 
     setColor: function (color) {
-        this.$e.removeClass('dhtml-chess-promote-white-' + this.piece);
-        this.$e.removeClass('dhtml-chess-promote-black-' + this.piece);
-        this.$e.addClass('dhtml-chess-promote-' + color + '-' + this.piece);
+        var e = this.$e;
+        var p = this.piece;
+        e.removeClass('dhtml-chess-promote-white-' + p);
+        e.removeClass('dhtml-chess-promote-black-' + p);
+        e.addClass('dhtml-chess-promote-' + color + '-' + p);
     },
 
     clickOnPiece: function () {
@@ -24892,8 +24887,9 @@ chess.controller.Controller = new Class({
     },
 
     newVariation: function (oldMove, newMove) {
-        this.currentModel.setCurrentMove(oldMove);
-        this.currentModel.newVariation(newMove);
+        var m = this.currentModel;
+        m.setCurrentMove(oldMove);
+        m.newVariation(newMove);
     },
 
     cancelOverwrite: function () {
@@ -24924,10 +24920,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
+        var m = this.currentModel;
         if(this.eventHandler != undefined){
-            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+            this.eventHandler.apply(this, ['boardMove', m, this, move]);
         }else{
-            this.currentModel.appendMove(move);
+            m.appendMove(move);
         }
     },
     gradeMove: function (move, grade) {
@@ -24935,9 +24932,10 @@ chess.controller.Controller = new Class({
     },
 
     gradeCurrentMove: function (grade) {
-        var move = this.currentModel.getCurrentMove();
+        var m = this.currentModel;
+        var move = m.getCurrentMove();
         if (move) {
-            this.currentModel.gradeMove(move, grade);
+            m.gradeMove(move, grade);
         }
     },
 
@@ -25034,8 +25032,6 @@ chess.controller.Controller = new Class({
     },
 
     selectGame: function (game, pgn) {
-
-
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -25064,16 +25060,17 @@ chess.controller.Controller = new Class({
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
-        this.models.push(model);
+        var m = this.models;
+        m.push(model);
 
-        if (this.models.length > this.modelCacheSize) {
-            this.models[0].removeEvents();
-            delete this.models[0];
+        if (m.length > this.modelCacheSize) {
+            m[0].removeEvents();
+            delete m[0];
 
-            for (var i = 0; i < this.models.length - 1; i++) {
-                this.models[i] = this.models[i + 1];
+            for (var i = 0; i < m.length - 1; i++) {
+                m[i] = m[i + 1];
             }
-            this.models.length = this.models.length - 1;
+            m.length = m.length - 1;
         }
         return model;
     },

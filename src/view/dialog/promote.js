@@ -79,11 +79,6 @@ chess.view.dialog.Promote = new Class({
 
     clickOnPiece: function (piece) {
         this.move.promoteTo = piece;
-        /**
-         * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
-         * @event promote
-         * @param {chess.model.Move} updatedMove
-         */
         this.fireEvent('promote', this.move);
         this.hide();
     },
@@ -114,9 +109,11 @@ chess.view.dialog.PromotePiece = new Class({
     },
 
     setColor: function (color) {
-        this.$e.removeClass('dhtml-chess-promote-white-' + this.piece);
-        this.$e.removeClass('dhtml-chess-promote-black-' + this.piece);
-        this.$e.addClass('dhtml-chess-promote-' + color + '-' + this.piece);
+        var e = this.$e;
+        var p = this.piece;
+        e.removeClass('dhtml-chess-promote-white-' + p);
+        e.removeClass('dhtml-chess-promote-black-' + p);
+        e.addClass('dhtml-chess-promote-' + color + '-' + p);
     },
 
     clickOnPiece: function () {

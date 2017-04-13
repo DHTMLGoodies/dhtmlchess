@@ -70,9 +70,6 @@ chess.controller.StockfishEngineController = new Class({
 
             if(!this.stopped)this.updateEngine();
         }
-
-
-
     },
 
     updateEngine:function(){
@@ -81,10 +78,7 @@ chess.controller.StockfishEngineController = new Class({
 
     stopEngine:function(){
         this.stopped = true;
-        this.awaitingStop = true;
-
         this.uciCmd("stop");
-
     },
 
     startEngine:function(){
