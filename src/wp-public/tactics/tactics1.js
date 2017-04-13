@@ -134,12 +134,13 @@ chess.WPTactics1 = new Class({
                                 },
                                 {
                                     module: this.module,
-                                    layout: {width: 80},
+                                    layout: {width: ludo.isMobile ? 40 : 80},
                                     type: 'chess.view.button.TacticHint',
-                                    value: chess.__('Hint')
+                                    value: ludo.isMobile ? '?' : chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
+                                    hidden:ludo.isMobile,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
                                     value: chess.__('Solution')

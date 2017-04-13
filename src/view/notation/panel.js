@@ -80,18 +80,21 @@ chess.view.notation.Panel = new Class({
     setController: function (controller) {
         this.parent(controller);
         var c = this.controller = controller;
+        var sm = this.showMoves.bind(this);
+        var scm = this.setCurrentMove.bind(this);
+        
         c.on('startOfGame', this.goToStartOfBranch.bind(this));
-        c.on('newGame', this.showMoves.bind(this));
-        c.on('newMoves', this.showMoves.bind(this));
-        c.on('deleteMove', this.showMoves.bind(this));
-        c.on('setPosition', this.setCurrentMove.bind(this));
-        c.on('nextmove', this.setCurrentMove.bind(this));
-        c.on('correctGuess', this.setCurrentMove.bind(this));
+        c.on('newGame', sm);
+        c.on('newMoves', sm);
+        c.on('deleteMove', sm);
+        c.on('setPosition', scm);
+        c.on('nextmove', scm);
+        c.on('correctGuess', scm);
         c.on('updateMove', this.updateMove.bind(this));
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
-        c.on('updateNotations', this.showMoves.bind(this));
+        c.on('updateNotations', sm);
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 

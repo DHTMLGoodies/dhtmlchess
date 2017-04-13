@@ -70,8 +70,6 @@ chess.action.Handler = new Class({
 
     showArrow: function (action) {
         if (this.arrowPool == undefined) {
-
-            console.log(this.arrowStyles);
             this.arrowPool = new chess.view.highlight.ArrowPool({
                 board: this.board,
                 arrowStyles:this.arrowStyles

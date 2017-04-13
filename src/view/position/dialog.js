@@ -339,7 +339,6 @@ chess.view.position.Dialog = new Class({
 
     isValidFen: function (fen) {
 
-        console.log(fen);
         try{
             parser = new chess.parser.FenParser0x88(fen);
             var res = parser.getValidMovesAndResult();

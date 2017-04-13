@@ -1,4 +1,4 @@
-/* Generated Wed Apr 12 23:26:28 CEST 2017 */
+/* Generated Thu Apr 13 17:27:01 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -1603,7 +1603,6 @@ ludo.util = {
 
 
 	dispose:function(view){
-		console.log('remove');
 		if (view.getParent()) {
 			view.getParent().removeChild(view);
 		}
@@ -4343,16 +4342,16 @@ ludo.layout.Resizer = new Class({
             + ((this.orientation === 'horizontal') ? 'col' : 'row')
             + 'ludo-layout-resize-' + (h ? 'col' : 'row');
 
-        this.el = jQuery('<div class="' + cls + '">');
-        this.el.on('mouseenter', this.enterResizer.bind(this));
-        this.el.on('mouseleave', this.leaveResizer.bind(this));
+        var el = this.el = jQuery('<div class="' + cls + '">');
+        el.on('mouseenter', this.enterResizer.bind(this));
+        el.on('mouseleave', this.leaveResizer.bind(this));
 
-        this.el.css({
+        el.css({
             cursor: (h ? 'ew-resize' : 'ns-resize'),
             zIndex: 100000
         });
 
-        renderTo.append(this.el);
+        renderTo.append(el);
 
     },
 
@@ -4449,12 +4448,13 @@ ludo.layout.Resizer = new Class({
     },
 
     addViewEvents: function () {
-        this.view.on('maximize', this.show.bind(this));
-        this.view.on('expand', this.show.bind(this));
-        this.view.on('minimize', this.hide.bind(this));
-        this.view.on('collapse', this.hide.bind(this));
-        this.view.on('hide', this.hide.bind(this));
-        this.view.on('show', this.show.bind(this));
+        var v = this.view;
+        v.on('maximize', this.show.bind(this));
+        v.on('expand', this.show.bind(this));
+        v.on('minimize', this.hide.bind(this));
+        v.on('collapse', this.hide.bind(this));
+        v.on('hide', this.hide.bind(this));
+        v.on('show', this.show.bind(this));
     },
 
     show: function () {
@@ -4852,12 +4852,13 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     setTemporarySize: function (child, newSize) {
+        var l = child.layout;
         if (newSize.width !== undefined) {
-            child.layout.cached_width = child.layout.width;
-            child.layout.width = newSize.width;
+            l.cached_width = l.width;
+            l.width = newSize.width;
         } else {
-            child.layout.cached_height = child.layout.height;
-            child.layout.height = newSize.height;
+            l.cached_height = l.height;
+            l.height = newSize.height;
         }
     },
     /*
@@ -4869,10 +4870,11 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     clearTemporaryValues: function (child) {
-        if (child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
-        if (child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
-        child.layout.cached_width = undefined;
-        child.layout.cached_height = undefined;
+        var l = child.layout;
+        if (l.cached_width !== undefined)l.width = l.cached_width;
+        if (l.cached_height !== undefined)l.height = l.cached_height;
+        l.cached_width = undefined;
+        l.cached_height = undefined;
         this.resize();
     },
 
@@ -5388,7 +5390,7 @@ ludo.layout.Renderer = new Class({
         this.view = config.view;
         this.fixReferences();
         this.setDefaultProperties();
-        this.view.addEvent('show', this.resize.bind(this));
+        this.view.on('show', this.resize.bind(this));
         ludo.dom.clearCache();
         this.addResizeEvent();
 
@@ -5430,14 +5432,14 @@ ludo.layout.Renderer = new Class({
                             }
                             if (view) {
                                 el = view.getEl();
-                                view.addEvent('resize', this.clearFn.bind(this));
+                                view.on('resize', this.clearFn.bind(this));
                             } else {
                                 el = jQuery(val);
                             }
                         } else {
                             if (val.getEl !== undefined) {
                                 el = val.getEl();
-                                val.addEvent('resize', this.clearFn.bind(this));
+                                val.on('resize', this.clearFn.bind(this));
                             } else {
                                 el = jQuery(val);
                             }
@@ -5821,7 +5823,7 @@ ludo.tpl.Parser = new Class({
 
     getCompiledTpl:function(tpl){
         if(!this.compiledTpl){
-            this.compiledTpl = [];
+            var tpl = this.compiledTpl = [];
             var pos = tpl.indexOf('{');
             var end = 0;
 
@@ -5829,13 +5831,13 @@ ludo.tpl.Parser = new Class({
                 if(pos > end){
                     var start = end === 0 ? end : end+1;
                     var len = end === 0 ? pos-end : pos-end-1;
-                    this.compiledTpl.push(tpl.substr(start,len));
+                    tpl.push(tpl.substr(start,len));
                 }
 
                 end = tpl.indexOf('}', pos);
 
                 if(end != -1){
-                    this.compiledTpl.push({
+                    tpl.push({
                         key : tpl.substr(pos, end-pos).replace(/[{}"]/g,"")
                     });
                 }
@@ -5843,7 +5845,7 @@ ludo.tpl.Parser = new Class({
             }
 
             if(end != -1 && end < tpl.length){
-                this.compiledTpl.push(tpl.substr(end+1));
+                tpl.push(tpl.substr(end+1));
             }
 
         }
@@ -6009,54 +6011,10 @@ ludo.dom = {
 		return el.parent('#' + id);
 	},
 
-	addClass:function (el, className) {
-		console.info("Use of deprecated ludo.dom.addClass");
-		console.trace();
-		if (el && !this.hasClass(el, className)) {
-			if(el.attr != undefined){
-				el.addClass(className);
-			}else{
-				el.className = el.className ? el.className + ' ' + className : className;
-			}
-		}
-	},
-
-	hasClass:function (el, className) {
-		console.info("use of deprecated ludo.dom.hasClass");
-		console.trace();
-		if(el.attr != undefined)return el.hasClass(className);
-		var search = el.attr != undefined ? el.attr("class") : el.className;
-		return el && search ? search.split(/\s/g).indexOf(className) > -1 : false;
-	},
-
-	removeClass:function (el, className) {
-		console.info("use of deprecated ludo.dom.removeClass");
-		console.trace();
-		el.removeClass(className);
-	},
-
 	getParent:function (el, selector) {
 		el = el.parentNode;
 		while (el && !ludo.dom.hasClass(el, selector))el = el.parentNode;
 		return el;
-	},
-
-	scrollIntoView:function (domNode, view) {
-		var c = view.getEl();
-		var el = view.$b();
-		var viewHeight = c.offsetHeight - ludo.dom.getPH(c) - ludo.dom.getBH(c) - ludo.dom.getMBPH(el);
-
-		var pos = domNode.getPosition(el).y;
-
-		var pxBeneathBottomEdge = (pos + 20) - (c.scrollTop + viewHeight);
-		if (pxBeneathBottomEdge > 0) {
-			el.scrollTop += pxBeneathBottomEdge;
-		}
-
-        var pxAboveTopEdge = c.scrollTop - pos;
-		if (pxAboveTopEdge > 0) {
-			el.scrollTop -= pxAboveTopEdge;
-		}
 	},
 
 	size:function(el){
@@ -6095,22 +6053,7 @@ ludo.dom = {
 			return this.getSize();
 		});
 		return size.x + ludo.dom.getMW(el);
-	},
-
-    create:function(node){
-		console.info("use of deprecated ludo.dom.create");
-		console.trace();
-        var el = jQuery('<' + (node.tag || 'div') + '>');
-        if(node.cls)el.addClass(node.cls);
-        if(node.renderTo)jQuery(node.renderTo).append(el);
-        if(node.css){
-			el.css(node.css);
-          }
-        if(node.id)el.attr("id", node.id);
-        if(node.html)el.html(node.html);
-        return el;
-
-    }
+	}
 };/* ../ludojs/src/view/shim.js */
 /**
  * Render a shim
@@ -7004,13 +6947,6 @@ ludo.View = new Class({
         ludo.util.dispose(this);
     },
 
-
-    dispose: function () {
-        console.warn("Use of deprecated dispose");
-        console.trace();
-        this.fireEvent('remove', this);
-        ludo.util.dispose(this);
-    },
     /**
      * Returns title
      * @function getTitle
@@ -8309,7 +8245,7 @@ ludo.layout.Tabs = new Class({
         this.lm.on('showChild', this.activateTabFor.bind(this));
         this.lm.on('hideChild', this.hideTabFor.bind(this));
         this.lm.on('removeChild', this.removeTabFor.bind(this));
-        this.addEvent('resize', this.resizeTabs.bind(this));
+        this.on('resize', this.resizeTabs.bind(this));
     },
 
     __rendered: function () {
@@ -9103,17 +9039,18 @@ ludo.layout.Table = new Class({
     },
 
     getParentForNewChild: function (child) {
-        if (this.countChildren == 0 || child.layout.row || (this.simple && this.countChildren % this.cols.length == 0)) {
-            child.layout.row = true;
+        var l = child.layout;
+        if (this.countChildren == 0 || l.row || (this.simple && this.countChildren % this.cols.length == 0)) {
+            l.row = true;
             this.currentRow = jQuery('<tr style="border:none;padding:0;margin:0"></tr>');
             this.tbody.append(this.currentRow);
             this.countCellsInNextRow = this.cols.length;
 
         }
-        var colspan = child.layout.colspan ? child.layout.colspan : 1;
-        var rowspan = child.layout.rowspan ? child.layout.rowspan : 1;
+        var colspan = l.colspan ? l.colspan : 1;
+        var rowspan = l.rowspan ? l.rowspan : 1;
 
-        var vAlign = child.layout.vAlign ? child.layout.vAlign : "top";
+        var vAlign = l.vAlign ? l.vAlign : "top";
 
         var cell = jQuery('<td style="vertical-align:' + vAlign + ';margin:0;padding:0" colspan="' + colspan + '" rowspan="' + rowspan + '"></td>');
         this.currentRow.append(cell);
@@ -9655,11 +9592,12 @@ ludo.dataSource.JSONArraySearch = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-		if(!this.dataSource.hasRemoteSearch()){
-			this.dataSource.addEvent('beforeload', this.clearSearchIndex.bind(this));
-			this.dataSource.addEvent('beforeload', this.deleteSearch.bind(this));
-			this.dataSource.addEvent('update', this.clearSearchIndex.bind(this));
-			this.dataSource.addEvent('delete', this.onDelete.bind(this));
+		var ds = this.dataSource;
+		if(!ds.hasRemoteSearch()){
+			ds.on('beforeload', this.clearSearchIndex.bind(this));
+			ds.on('beforeload', this.deleteSearch.bind(this));
+			ds.on('update', this.clearSearchIndex.bind(this));
+			ds.on('delete', this.onDelete.bind(this));
 		}
 	},
 	/**
@@ -9851,7 +9789,7 @@ ludo.dataSource.JSONArraySearch = new Class({
 	 * @function branch
 	 * @chainable
 	 * @memberof ludo.dataSource.JSONArraySearch.prototype
-	 * @return {endBranch.CollectionSearch} this
+	 * @return {ludo.dataSource.JSONArraySearch} this
 	 */
 	endBranch:function () {
 		this.appendOperator(')');
@@ -9958,11 +9896,9 @@ ludo.dataSource.JSONArraySearch = new Class({
 				if(rec.uid == record.uid){
 					this.clearSearchIndex();
 					this.searchResult.splice(i, 1);
-					console.log(this.searchResult.length);
 				}
 			}
 		}
-
 	},
 
 	clearSearchIndex:function () {
@@ -10151,15 +10087,15 @@ ludo.dataSource.JSONArray = new Class({
                 this.fireEvent('page', (this.paging.initialOffset / this.paging.size) + 1);
             }
             if (this.isCacheEnabled()) {
-                this.addEvent('load', this.populateCache.bind(this));
+                this.on('load', this.populateCache.bind(this));
             }
         }
 
-        this.addEvent('parsedata', this.createIndex.bind(this));
+        this.on('parsedata', this.createIndex.bind(this));
 
 
         if (this.selected) {
-            this.addEvent('firstLoad', this.setInitialSelected.bind(this));
+            this.on('firstLoad', this.setInitialSelected.bind(this));
         }
 
         if (this.data && !this.index)this.createIndex();
@@ -11151,9 +11087,9 @@ ludo.dataSource.JSONArray = new Class({
     },
 
     addRecordEvents: function (record) {
-        record.addEvent('update', this.onRecordUpdate.bind(this));
-        record.addEvent('remove', this.onRecordDispose.bind(this));
-        record.addEvent('select', this.selectRecord.bind(this));
+        record.on('update', this.onRecordUpdate.bind(this));
+        record.on('remove', this.onRecordDispose.bind(this));
+        record.on('select', this.selectRecord.bind(this));
     },
 
     fireSelect: function (record) {
@@ -11205,64 +11141,2264 @@ ludo.dataSource.JSONArray = new Class({
     }
 });
 
-ludo.factory.registerClass('dataSource.JSONArray', ludo.dataSource.JSONArray);/* ../ludojs/src/effect/drop-point.js */
+ludo.factory.registerClass('dataSource.JSONArray', ludo.dataSource.JSONArray);/* ../ludojs/src/scroller.js */
+ludo.Scroller = new Class({
+    Extends: Events,
+    els: {
+        applyTo: null,
+        el: null,
+        elInner: null,
+        parent: null
+    },
+
+    active: 0,
+    wheelSize: 5,
+    type: 'horizontal',
+    currentSize: 0,
+    renderTo: undefined,
+
+    initialize: function (config) {
+        this.type = config.type || this.type;
+        if (config.applyTo) {
+            this.setApplyTo(config.applyTo);
+
+        }
+        this.renderTo = config.parent ? jQuery(config.parent) : null;
+        if (config.mouseWheelSizeCls) {
+            this.determineMouseWheelSize(config.mouseWheelSizeCls);
+        }
+        this.createElements();
+        this.createEvents();
+    },
+
+    setApplyTo: function (applyTo) {
+        if (!ludo.util.isArray(applyTo)) applyTo = [applyTo];
+        this.els.applyTo = applyTo;
+    },
+
+    determineMouseWheelSize: function (cls) {
+        var el = jQuery('<div>');
+        el.addClass(cls);
+        el.css('visibility', 'hidden');
+        jQuery(document.body).append(el);
+        this.wheelSize = el.height();
+        if (!this.wheelSize) {
+            this.wheelSize = 25;
+        }
+        el.remove();
+    },
+
+    createElements: function () {
+        var el = this.els.el = jQuery('<div>');
+        el.addClass('ludo-scroller');
+        el.addClass('ludo-scroller-' + this.type);
+        el.css({
+            'position': 'relative',
+            'z-index': 1000,
+            'overflow': 'hidden'
+        });
+
+        var overflow = 'auto';
+        if (this.type == 'horizontal') {
+            el.css({
+                'overflow-x': overflow,
+                'width': '100%',
+                'height': Browser.ie ? '21px' : '17px'
+            });
+        } else {
+            el.css({
+                'overflow-y': overflow,
+                'height': '100%',
+                'width': Browser.ie ? '21px' : '17px',
+                'right': '0px',
+                'top': '0px',
+                'position': 'absolute'
+            });
+        }
+
+
+        el.scroll(this.performScroll.bind(this));
+
+        this.els.elInner = jQuery('<div>');
+        this.els.elInner.css('position', 'relative');
+        this.els.elInner.html('&nbsp;');
+
+        el.append(this.els.elInner);
+    },
+
+    createEvents: function () {
+        this.els.elInner.on('resize', this.toggle.bind(this));
+        if (this.type == 'vertical') {
+            for (var i = 0; i < this.els.applyTo.length; i++) {
+                this.els.applyTo[i].on('mousewheel', this.eventScroll.bind(this));
+            }
+        }
+        jQuery(window).on('resize', this.resize.bind(this));
+    },
+
+    resize: function () {
+        if (this.type == 'horizontal') {
+            this.els.el.css('width', this.renderTo.outerWidth());
+        } else {
+            var size = this.renderTo.outerHeight();
+            if (size == 0) {
+                return;
+            }
+            this.els.el.css('height', size);
+        }
+        this.toggle();
+    },
+
+    getEl: function () {
+        return this.els.el;
+    },
+
+    setContentSize: function (size) {
+        if (this.type == 'horizontal') {
+            this.currentSize = size || this.getWidthOfScrollableElements();
+            this.els.elInner.css('width', this.currentSize);
+        } else {
+
+            this.currentSize = size || this.getHeightOfScrollableElements();
+
+            if (this.currentSize <= 0) {
+                var el = this.els.applyTo.getChildren('.ludo-grid-data-column');
+                if (el.length) {
+                    this.currentSize = el[0].outerHeight();
+                }
+            }
+            this.els.elInner.css('height', this.currentSize);
+        }
+
+        if (this.currentSize <= 0) {
+            this.setContentSize.delay(1000, this);
+        }
+
+        this.resize();
+        this.toggle();
+    },
+
+    getWidthOfScrollableElements: function () {
+        return this.getTotalSize('outerWidth');
+    },
+
+    getHeightOfScrollableElements: function () {
+        return this.getTotalSize('outerHeight');
+    },
+
+    getTotalSize: function (key) {
+        var ret = 0;
+        for (var i = 0; i < this.els.applyTo.length; i++) {
+            ret += this.els.applyTo[i][key]();
+        }
+        return ret;
+    },
+
+    eventScroll: function (e) {
+        var s = this.els.el.scrollTop();
+        this.els.el.scrollTop(s - e.originalEvent.wheelDelta);
+        return false;
+    },
+
+    performScroll: function () {
+
+        if (this.type == 'horizontal') {
+            this.scrollTo(this.els.el.scrollLeft());
+        } else {
+            this.scrollTo(this.els.el.scrollTop());
+        }
+    },
+
+    scrollBy: function (val) {
+
+
+        var key = this.type === 'horizontal' ? 'scrollLeft' : 'scrollTop';
+        this.els.el[key] += val;
+        this.scrollTo(this.els.el[key]);
+    },
+
+    scrollTo: function (val) {
+
+        var css = this.type === 'horizontal' ? 'left' : 'top';
+        for (var i = 0; i < this.els.applyTo.length; i++) {
+            this.els.applyTo[i].css(css, (val * -1));
+        }
+        this.fireEvent('scroll', this);
+    },
+
+    getHeight: function () {
+
+        return this.active ? this.els.el.height() : 0;
+    },
+
+    getWidth: function () {
+        return this.active ? this.els.el.width() : 0;
+    },
+
+    toggle: function () {
+        this.shouldShowScrollbar() ? this.show() : this.hide();
+    },
+
+    shouldShowScrollbar: function () {
+        var css = this.type === 'horizontal' ? 'width' : 'height';
+        var size = this.getParentEl()[css]();
+        return this.currentSize > size && size > 0;
+    },
+
+    getParentEl: function () {
+        return this.renderTo ? this.renderTo : this.els.el;
+    },
+
+    show: function () {
+        this.active = true;
+        this.els.el.css('display', '');
+    },
+
+    hide: function () {
+        this.active = false;
+        this.scrollTo(0);
+        this.els.el.css('display', 'none');
+    }
+});/* ../ludojs/src/grid/grid-header.js */
 /**
- Specification of a drop point node sent to {{#crossLink "effect.DragDrop/addDropTarget"}}{{/crossLink}}.
- You may add your own properties in addition to the ones below.
- @namespace ludo.effect
- @class ludo.effect.DropPoint
+ Private class used by grid.Grid to render headers
+ @private
+ */
+ludo.grid.GridHeader = new Class({
+	Extends:ludo.Core,
+	columnManager:undefined,
+	grid:undefined,
+	cells:{},
+	cellHeight:undefined,
+	spacing:{},
+	headerMenu:false,
+
+	__construct:function (config) {
+		this.parent(config);
+        this.__params(config, ['columnManager','headerMenu','grid']);
+
+		this.measureCellHeight();
+		this.createDOM();
+	},
+
+	ludoEvents:function () {
+		this.parent();
+        var c = this.columnManager;
+		c.on('resize', this.renderColumns.bind(this));
+		c.on('stretch', this.renderColumns.bind(this));
+		c.on('movecolumn', this.renderColumns.bind(this));
+		c.on('hidecolumn', this.renderColumns.bind(this));
+		c.on('showcolumn', this.renderColumns.bind(this));
+		this.grid.on('render', this.renderColumns.bind(this));
+		this.grid.getDataSource().addEvent('sort', this.updateSortArrow.bind(this));
+	},
+
+	createDOM:function () {
+		this.el = jQuery('<div class="ludo-header">');
+		this.grid.$b().prepend(this.el);
+		var countRows = this.columnManager.getCountRows();
+		this.el.css('height', this.cellHeight * countRows + ludo.dom.getMBPH(this.el));
+		this.renderColumns();
+	},
+
+	renderColumns:function () {
+		var countRows = this.columnManager.getCountRows();
+
+		this.measureCellHeight();
+		for (var i = 0; i < countRows; i++) {
+			var columns = this.columnManager.getColumnsInRow(i);
+			var left = 0;
+			for (var j = 0; j < columns.length; j++) {
+				var width = this.columnManager.getWidthOf(columns[j]);
+				if (i == this.columnManager.getStartRowOf(columns[j])) {
+
+					var cell = this.getCell(columns[j]);
+					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
+					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
+
+					cell.css({
+						'display' : '',
+						left : left,
+						top : i * this.cellHeight,
+						width: width - spacing,
+						height : height,
+						'line-height' : height + 'px'
+                    });
+
+					this.resizeCellBackgrounds(columns[j]);
+
+					cell.removeClass('last-header-cell');
+					if (j == columns.length - 1) {
+						cell.addClass('last-header-cell');
+					}
+				}
+				left += width;
+			}
+		}
+		this.hideHiddenColumns();
+	},
+
+	hideHiddenColumns:function () {
+		var hiddenColumns = this.columnManager.getHiddenColumns();
+		for (var i = 0; i < hiddenColumns.length; i++) {
+			if (this.cellExists(hiddenColumns[i])) {
+				this.cells[hiddenColumns[i]].css('display', 'none');
+			}
+		}
+	},
+
+	cellExists:function (col) {
+		return this.cells[col] !== undefined;
+	},
+
+	measureCellHeight:function () {
+		if(this.grid.isHidden())return;
+		var el = jQuery('<div>');
+		el.addClass('ludo-grid-header-cell');
+		this.grid.$b().append(el);
+		this.cellHeight = el.height() + ludo.dom.getMH(el);
+
+		this.spacing = {
+			width:el.outerWidth() - el.width(),
+			height:el.outerHeight() - el.height()
+		};
+		el.remove();
+	},
+
+	menuButtons:{},
+
+	getCell:function (col) {
+		if (this.cells[col]) {
+			return this.cells[col];
+		}
+
+		var cm = this.columnManager;
+
+		var el = this.cells[col] = jQuery('<div>');
+		el.attr('col', col);
+		el.addClass('ludo-grid-header-cell');
+		el.addClass('ludo-header-' + cm.getHeaderAlignmentOf(col));
+
+		var span = jQuery('<span class="ludo-cell-text">' + cm.getHeadingFor(col) + '</span>');
+		el.append(span);
+
+		this.createTopAndBottomBackgrounds(col);
+        if(cm.isMovable(col)) {
+            this.addDOMForDropTargets(el, col);
+        }
+
+		if (cm.isSortable(col)) {
+			el.on('click', this.sortByDOM.bind(this));
+		}
+		el.on('mouseover', this.mouseoverHeader.bind(this));
+		el.on('mouseout', this.mouseoutHeader.bind(this));
+
+		if (this.headerMenu) {
+			this.menuButtons[col] = new ludo.menu.Button({
+				renderTo:el,
+				id:this.getMenuButtonId(col),
+				menu:this.getMenu(col),
+				listeners:{
+					beforeShow:this.validateButtonDisplay.bind(this)
+				}
+			});
+		}
+		this.el.append(el);
+
+		if(cm.isMovable(col)){
+            this.getMovable().add({
+                el:el,
+                column:col
+            });
+
+		}
+
+		return el;
+	},
+
+	validateButtonDisplay:function (button) {
+		if (this.columnMove && this.columnMove.isActive()) {
+			button.cancelShow();
+		}
+	},
+	cellBg:{},
+
+	createTopAndBottomBackgrounds:function (col) {
+		var top = jQuery('<div>');
+		top.addClass('ludo-grid-header-cell-top');
+		this.cells[col].append(top);
+		var bottom = jQuery('<div>');
+		bottom.addClass('ludo-grid-header-cell-bottom');
+		this.cells[col].append(bottom);
+		this.cellBg[col] = {
+			top:top,
+			bottom:bottom
+		};
+	},
+
+	resizeCellBackgrounds:function (col) {
+		var totalHeight = (this.columnManager.getRowSpanOf(col) * this.cellHeight) -  this.spacing.height;
+		var height = Math.round(totalHeight) / 2;
+		this.cellBg[col].top.css('height', height);
+		height = totalHeight - height;
+		this.cellBg[col].bottom.css('height', height);
+	},
+
+	getMenu:function (col) {
+		return {
+			singleton:true,
+			id:this.getMenuId(),
+			type:'menu.Menu',
+			direction:'vertical',
+			children:this.getColumnMenu(col)
+		};
+	},
+
+	getColumnMenu:function (forColumn) {
+		var ret = [];
+		var columnKeys = this.columnManager.getLeafKeys();
+		for (var i = 0; i < columnKeys.length; i++) {
+			ret.push({
+				type:'form.Checkbox',
+				disabled:!(this.columnManager.isRemovable(columnKeys[i])),
+				checked:this.columnManager.isVisible(columnKeys[i]),
+				label:this.columnManager.getHeadingFor(columnKeys[i]),
+				action:columnKeys[i],
+                height: 25, width: 150,
+				listeners:{
+					change:this.getColumnToggleFn(columnKeys[i], forColumn)
+				}
+			});
+		}
+
+        ret.push(
+            {
+                html: ludo.language.get('Sort ascending'),
+                listeners:{
+                    click:function(){
+                        this.sort('ascending');
+                    }.bind(this)
+                }
+            }
+        );
+        ret.push(
+            {
+                html: ludo.language.get('Sort descending'),
+                listeners:{
+                    click:function(){
+                        this.sort('descending');
+                    }.bind(this)
+                }
+            }
+        );
+		return ret;
+	},
+
+    sort:function(method){
+        this.grid.getDataSource().by(this.currentColumn)[method]().sort();
+        ludo.get(this.getMenuButtonId(this.currentColumn)).hideMenu();
+    },
+
+	getColumnToggleFn:function (column, forColumn) {
+		return function (checked) {
+			if (checked) {
+				this.columnManager.showColumn(column);
+			} else {
+				this.columnManager.hideColumn(column);
+			}
+			ludo.get(this.getMenuButtonId(forColumn)).hideMenu();
+		}.bind(this);
+	},
+
+	getMenuId:function () {
+		return 'header-menu-' + this.getId();
+	},
+
+	getMenuButtonId:function (column) {
+		return this.getMenuId() + '-' + column;
+	},
+
+    currentColumn:undefined,
+
+	mouseoverHeader:function (e) {
+		var col = this.getColByDOM(e.target);
+
+		if (!this.grid.colResizeHandler.isActive() && !this.grid.isColumnDragActive() && this.columnManager.isSortable(col)) {
+            this.currentColumn = col;
+			this.cells[col].addClass('ludo-grid-header-cell-over');
+		}
+	},
+
+	mouseoutHeader:function (e) {
+		if (!this.grid.colResizeHandler.isActive()) {
+			var col = this.getColByDOM(e.target);
+			if (!col)return;
+			this.cells[col].removeClass('ludo-grid-header-cell-over');
+		}
+	},
+
+	getColByDOM:function (el) {
+		el = jQuery(el);
+		var ret = el.attr('col');
+		if (!ret && ret != '0') {
+			ret = el.parent().attr('col');
+		}
+		return ret;
+	},
+
+	getHeight:function () {
+		if (this.cachedHeight === undefined) {
+			this.cachedHeight = this.columnManager.getCountRows() * this.cellHeight;
+			this.cachedHeight += ludo.dom.getMBPH(this.el);
+		}
+		return this.cachedHeight;
+	},
+
+	getEl:function () {
+		return this.el;
+	},
+
+	sortByDOM:function (e) {
+		var col = this.getColByDOM(e.target);
+		this.grid.getDataSource().sortBy(col);
+	},
+
+	addDOMForDropTargets:function (parent, column) {
+		var left = jQuery('<div>');
+		left.css({
+			position:'absolute',
+			'z-index':15,
+			left:'0px', top:'0px',
+			width:'50%', height:'100%'
+		});
+
+		parent.append(left);
+		var right = jQuery('<div>');
+		right.css({
+			position:'absolute',
+			'z-index':15,
+			right:'0px', top:'0px',
+			width:'50%', height:'100%'
+		});
+		parent.append(right);
+
+		var m = this.getMovable();
+		m.addDropTarget({
+			el:left,
+			column:column,
+			position:'before'
+		});
+		m.addDropTarget({
+			el:right,
+			column:column,
+			position:'after'
+		});
+
+	},
+
+	columnMove:undefined,
+	getMovable:function () {
+		if (this.columnMove === undefined) {
+			this.columnMove = new ludo.grid.ColumnMove({
+				useShim:true,
+				delay:.5,
+				mouseYOffset:15,
+				mouseXOffset:15,
+				listeners:{
+					before:this.validateMove.bind(this),
+					start:this.grid.hideResizeHandles.bind(this.grid),
+					end:this.grid.showResizeHandles.bind(this.grid),
+					enterDropTarget:this.validateDrop.bind(this),
+					leaveDropTarget:this.leaveDropTarget.bind(this),
+					showShim:this.setColumnTextOnMove.bind(this),
+					drop:this.moveColumn.bind(this)
+				}
+			});
+		}
+		return this.columnMove;
+	},
+
+	setColumnTextOnMove:function (shim, dd) {
+		var column = dd.getDragged().column;
+		shim.html( this.columnManager.getHeadingFor(column));
+		shim.css('line-height', shim.css('height'));
+	},
+
+	validateMove:function (dragged, dd) {
+		if (!this.columnManager.isMovable(dragged.column)) {
+			dd.cancelDrag();
+		}
+	},
+	validateDrop:function (dragged, dropPoint) {
+		var cm = this.columnManager;
+		if (cm.canBeMovedTo(dragged.column, dropPoint.column, dropPoint.position)) {
+			var m = this.getMovable();
+			m.showMarkerAt(this.getCell(dropPoint.column), dropPoint.position);
+			var height = (cm.getChildDepthOf(dropPoint.column) + cm.getRowSpanOf(dropPoint.column)) * this.cellHeight;
+			m.setMarkerHeight(height);
+		}
+	},
+
+	leaveDropTarget:function () {
+		this.getMovable().hideMarker();
+	},
+
+	moveColumn:function (dragged, droppedAt) {
+		if (droppedAt.position == 'before') {
+			this.columnManager.insertColumnBefore(dragged.column, droppedAt.column);
+		} else {
+			this.columnManager.insertColumnAfter(dragged.column, droppedAt.column);
+		}
+		this.getMovable().hideMarker();
+	},
+
+	clearSortClassNameFromHeaders:function () {
+		var keys = this.columnManager.getLeafKeys();
+		for (var i = 0; i < keys.length; i++) {
+			if (this.cells[keys[i]] !== undefined) {
+				var el = this.cells[keys[i]].find('span');
+				el.removeClass('ludo-cell-text-sort-asc');
+				el.removeClass('ludo-cell-text-sort-desc');
+			}
+		}
+	},
+
+	updateSortArrow:function (sortedBy) {
+		this.clearSortClassNameFromHeaders();
+		if (this.cells[sortedBy.column]) {
+            this.cells[sortedBy.column].find('span').addClass('ludo-cell-text-sort-' + sortedBy.order);
+		}
+	}
+});/* ../ludojs/src/col-resize.js */
+ludo.ColResize = new Class({
+    Extends:ludo.Core,
+    component:undefined,
+    resizeHandles:{},
+    resizeProperties:{},
+    minPos:0,
+    maxPos:10000,
+
+    __construct:function (config) {
+        this.parent(config);
+        this.component = config.component;
+        this.createEvents();
+    },
+
+    createEvents:function () {
+        this.getEventEl().on(ludo.util.getDragMoveEvent(), this.moveColResizeHandle.bind(this));
+        this.getEventEl().on(ludo.util.getDragEndEvent(), this.stopColResize.bind(this));
+    },
+
+    setPos:function (index, pos) {
+        this.resizeHandles[index].css('left', pos);
+    },
+
+    hideHandle:function (index) {
+        this.resizeHandles[index].css('display', 'none');
+    },
+    showHandle:function (index) {
+        this.resizeHandles[index].css('display', '');
+    },
+
+    hideAllHandles:function () {
+        for (var key in this.resizeHandles){
+            if(this.resizeHandles.hasOwnProperty(key)){
+                this.hideHandle(key);
+            }
+        }
+    },
+    showAllHandles:function () {
+        for (var key in this.resizeHandles){
+            if(this.resizeHandles.hasOwnProperty(key)){
+                this.showHandle(key);
+            }
+        }
+    },
+
+    getHandle:function (key, isVisible) {
+
+        var el = jQuery('<div>');
+        el.addClass('ludo-column-resize-handle');
+        el.css({
+            'top':0,
+            'position':'absolute',
+            'height':'100%',
+            'cursor':'col-resize',
+            'z-index':15000,
+            display:isVisible ? '' : 'none'
+        });
+        el.attr('col-reference', key);
+        el.on(ludo.util.getDragStartEvent(), this.startColResize.bind(this));
+        if (!ludo.util.isTabletOrMobile()) {
+            el.on('mouseenter', this.mouseOverResizeHandle.bind(this));
+            el.on('mouseleave', this.mouseOutResizeHandle.bind(this));
+        }
+        this.resizeHandles[key] = el;
+        return el;
+    },
+
+    startColResize:function (e) {
+        var columnName = jQuery(e.target).attr('col-reference');
+        this.fireEvent('startresize', columnName);
+        jQuery(e.target).addClass('ludo-resize-handle-active');
+        var offset = this.getLeftOffsetOfColResizeHandle();
+
+        var r = this.resizeProperties;
+        r.min = this.getMinPos() - offset;
+        r.max = this.getMaxPos() - offset;
+
+        r.mouseX = this.resizeProperties.currentX = e.pageX;
+        r.elX = parseInt(jQuery(e.target).css('left').replace('px', ''));
+        r.currentX = this.resizeProperties.elX;
+
+        r.active = true;
+        r.el = jQuery(e.target);
+        r.index = columnName;
+
+        return false;
+    },
+
+    getLeftOffsetOfColResizeHandle:function () {
+        if (!this.resizeHandles[0]) {
+            return 3;
+        }
+        if (!this.handleOffset) {
+            var offset = Math.ceil(this.resizeHandles[0].getSize().x / 2);
+            if (offset > 0) {
+                this.handleOffset = offset;
+            } else {
+                return 3;
+            }
+        }
+        return this.handleOffset;
+    },
+
+    moveColResizeHandle:function (e) {
+
+        if (this.resizeProperties.active) {
+            var pos = this.resizeProperties.elX - this.resizeProperties.mouseX + e.pageX;
+            pos = Math.max(pos, this.resizeProperties.min);
+            pos = Math.min(pos, this.resizeProperties.max);
+
+            this.resizeProperties.el.css('left', pos);
+
+            this.resizeProperties.currentX = pos;
+            return false;
+        }
+		return undefined;
+    },
+
+    stopColResize:function () {
+        if (this.resizeProperties.active) {
+            this.resizeProperties.active = false;
+            this.resizeProperties.el.removeClass('ludo-resize-handle-active');
+            var change = this.resizeProperties.currentX - this.resizeProperties.elX;
+            this.fireEvent('resize', [this.resizeProperties.index, change]);
+            return false;
+        }
+		return undefined;
+    },
+
+    getMinPos:function () {
+        return this.minPos;
+    },
+    getMaxPos:function () {
+        return this.maxPos;
+    },
+
+    setMinPos:function (pos) {
+        this.minPos = pos;
+    },
+
+    setMaxPos:function (pos) {
+        this.maxPos = pos;
+    },
+
+    mouseOverResizeHandle:function (e) {
+        jQuery(e.target).addClass('ludo-grid-resize-handle-over');
+    },
+    mouseOutResizeHandle:function (e) {
+        jQuery(e.target).removeClass('ludo-grid-resize-handle-over');
+    },
+
+    isActive:function(){
+        return this.resizeProperties.active;
+    }
+});/* ../ludojs/src/grid/column-manager.js */
+/**
+ Column manager for grids. Grids will listen to events fired by this component. A column manager is usually created by
+ sending a "columns" array to the constructor of a grid.Grid view.
+ @namespace ludo.grid
+ @class ludo.grid.ColumnManager
+ @augments Core
+ @param {Object} config
+ @fires ludo.grid.ColumnManager#showcolumn Fired when a column is shown. Argument: {String} column name
+ @fires ludo.grid.ColumnManager#hideColumn Fired when a column is hidden. Argument: {String} column name
+ @fires ludo.grid.ColumnManager#moveColumn Fired when a column has been moved. Argument: 1) {String} column moved, 2) {String} new sibling column 3) {String} before or after new sibling
+ @example
+ columnManager:{
+		columns:{
+			'country':{
+				heading:'Country',
+				removable:false,
+				sortable:true,
+				movable:true,
+				width:200,
+				renderer:function (val) {
+					return '<span style="color:blue">' + val + '</span>';
+				}
+			},
+			'capital':{
+				heading:'Capital',
+				sortable:true,
+				removable:true,
+				movable:true,
+				width:150
+			},
+			population:{
+				heading:'Population',
+				movable:true,
+				removable:true
+			}
+		}
+	}
+ Is example of a ColumnManager config object sent to a grid. It defines three columns, "country", "capital" and "population". These names
+ corresponds to keys in the data sets. How to configure columns is specified in {{#crossLink "grid.Column"}}{{/crossLink}}
+ */
+ludo.grid.ColumnManager = new Class({
+    Extends: ludo.Core,
+    type: 'grid.ColumnManager',
+    fill: true,
+    columns: {},
+    columnKeys: [],
+    statefulProperties: ['columns', 'columnKeys'],
+    columnLookup: {},
+
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['fill', 'columns']);
+
+        this.createColumnLookup();
+
+        if (config.columnKeys !== undefined && this.hasValidColumnKeys(config.columnKeys)) {
+            this.columnKeys = config.columnKeys;
+        } else {
+            this.columnKeys = this.getLeafKeysFromColumns();
+        }
+    },
+
+    getLeafKeysFromColumns: function (parent) {
+        var ret = [];
+        parent = parent || this.columns;
+        for (var key in parent) {
+            if (parent.hasOwnProperty(key)) {
+                ret.push(key);
+                if (parent[key].columns !== undefined) {
+                    var keys = this.getLeafKeysFromColumns(parent[key].columns);
+                    for (var i = 0; i < keys.length; i++) {
+                        ret.push(keys[i]);
+                    }
+                }
+            }
+        }
+        return ret;
+    },
+
+    createColumnLookup: function (parent, groupName) {
+        parent = parent || this.columns;
+        for (var key in parent) {
+            if (parent.hasOwnProperty(key)) {
+                this.columnLookup[key] = parent[key];
+                this.columnLookup[key].group = groupName;
+                if (parent[key].columns !== undefined) {
+                    this.createColumnLookup(parent[key].columns, key);
+                }
+            }
+        }
+    },
+
+    hasValidColumnKeys: function (keys) {
+        for (var i = 0; i < keys.length; i++) {
+            if (this.columnLookup[keys[i]] === undefined)return false;
+        }
+        return true;
+    },
+
+    hasLastColumnDynamicWidth: function () {
+        return this.fill;
+    },
+
+    getColumns: function () {
+        return this.columns;
+    },
+
+    getColumn: function (key) {
+        return this.columnLookup[key];
+    },
+
+    getLeafKeys: function () {
+        var ret = [];
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (this.columnLookup[this.columnKeys[i]].columns === undefined) {
+                ret.push(this.columnKeys[i]);
+            }
+        }
+        return ret;
+    },
+
+    /**
+     Returns object of visible columns, example:
+     @function getVisibleColumns
+     @memberof ludo.grid.ColumnManager.prototype
+     @return {Object} visible columns
+     @example
+     {
+         country : {
+             heading : 'Country'
+         },
+         population: {
+             heading : 'Population'
+         }
+     }
+     */
+    getVisibleColumns: function () {
+        var ret = {};
+        var keys = this.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (!this.isHidden(key)) {
+                ret[key] = this.columnLookup[key];
+            }
+        }
+        return ret;
+    },
+
+    getHeadingFor: function (column) {
+        return this.getColumnKey(column, 'heading') || '';
+    },
+
+    getMinWidthOf: function (column) {
+        if (this.isGroup(column)) {
+            var children = this.getIdOfChildren(column);
+            var ret = 0;
+            for (var i = 0; i < children.length; i++) {
+                ret += this.getMinWidthOf(children[i]);
+            }
+            return ret;
+        }
+        return this.getColumnKey(column, 'minWidth') || 50;
+    },
+
+    getMaxWidthOf: function (column) {
+        return this.getColumnKey(column, 'maxWidth') || 1000;
+    },
+
+
+    getWidthOf: function (column) {
+        var stretchedWidth = this.getStrechedWithOf(column);
+        if (stretchedWidth) return stretchedWidth;
+        if (this.isGroup(column)) {
+            var columns = this.getColumnsInGroup(column);
+            var width = 0;
+            Object.each(columns, function (value, column) {
+                if (!this.isHidden(column)) width += this.getWidthOf(column);
+            }.bind(this));
+            return width;
+        } else {
+            return this.getColumnKey(column, 'width') || 100;
+        }
+    },
+
+    isGroup: function (column) {
+        return this.columnLookup[column] !== undefined && this.columnLookup[column].columns !== undefined;
+    },
+
+    getColumnsInGroup: function (group) {
+        return this.columnLookup[group].columns;
+    },
+
+    getStrechedWithOf: function (column) {
+        return this.getColumnKey(column, 'stretchWidth');
+    },
+
+    isRemovable: function (column) {
+        return !!this.getColumnKey(column, 'removable');
+    },
+
+    /**
+     * Returns true if column with given id is in a group.
+     * @function isInAGroup
+     * @param {String} column
+     * @return {Boolean} is in a group
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    isInAGroup: function (column) {
+        return this.getColumnKey(column, 'group') !== undefined;
+    },
+
+    /**
+     * Returns id of parent group
+     * @function getGroupIdOf
+     * @param {String} column
+     * @return {String} group id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getGroupIdOf: function (column) {
+        return this.getColumnKey(column, 'group');
+    },
+
+    /**
+     * Returns parent group object for a column
+     * @function getGroupFor
+     * @param {String} column
+     * @return {grid.Column|undefined} parent
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getGroupFor: function (column) {
+        var id = this.getGroupIdOf(column);
+        return id ? this.columnLookup[id] : undefined;
+    },
+
+    getChildCount: function (groupId) {
+        var group = this.getColumn(groupId);
+        if (group.columns !== undefined) {
+            return ludo.util.lengthOfObject(group.columns);
+        }
+        return 0;
+    },
+
+    getIdOfChildren: function (groupId) {
+        var group = this.getColumn(groupId);
+        if (group) {
+            return Object.keys(group.columns);
+        }
+        return 0;
+    },
+
+    isInSameGroup: function (columnA, columnB) {
+        return this.isInAGroup(columnA) && this.getGroupIdOf(columnA) == this.getGroupIdOf(columnB);
+    },
+
+    isSortable: function (column) {
+        return !!this.getColumnKey(column, 'sortable');
+    },
+
+    isHidden: function (column) {
+        var hidden = this.getColumnKey(column, 'hidden');
+        if (hidden)return true;
+        var parentGroup;
+        if (parentGroup = this.getGroupIdOf(column)) {
+            return this.isHidden(parentGroup);
+        }
+        return hidden;
+    },
+    isVisible: function (column) {
+        return !this.isHidden(column);
+    },
+    /**
+     * Returns true if column with given id is resizable
+     * @function isResizable
+     * @param {String} column
+     * @return {Boolean}
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    isResizable: function (column) {
+        var resizable = this.getColumnKey(column, 'resizable') !== false;
+        if (resizable && this.hasLastColumnDynamicWidth() && this.isLastVisibleColumn(column)) {
+            resizable = false;
+        }
+        return resizable;
+    },
+    isMovable: function (column) {
+        var parent = this.getGroupIdOf(column);
+        if (parent && this.getChildCount(parent) == 1) {
+            return false;
+        }
+        return this.getColumnKey(column, 'movable') || false;
+    },
+
+    hasMovableColumns: function () {
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (this.isMovable(this.columnKeys[i]))return true;
+        }
+        return false;
+    },
+
+    getAlignmentOf: function (column) {
+        return this.getColumnKey(column, 'align') || 'left';
+    },
+
+    getHeaderAlignmentOf: function (column) {
+        return this.getColumnKey(column, 'headerAlign') || 'left';
+    },
+
+    setLeft: function (column, left) {
+        this.columnLookup[column].left = left;
+    },
+    getLeftPosOf: function (column) {
+        return this.getColumnKey(column, 'left') || 0;
+    },
+
+    getRendererFor: function (column) {
+        return this.getColumnKey(column, 'renderer');
+    },
+
+    setWidth: function (column, width) {
+        this.columnLookup[column].width = width;
+    },
+
+    setStretchedWidth: function (width) {
+        this.columnLookup[this.getLastVisible()].stretchWidth = width;
+        this.fireEvent('stretch');
+    },
+
+    clearStretchedWidths: function () {
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            this.columnLookup[this.columnKeys[i]].stretchWidth = undefined;
+        }
+
+    },
+
+    increaseWithFor: function (column, increaseBy) {
+        var width = this.getWidthOf(column);
+        this.columnLookup[column].width = width + increaseBy;
+        this.fireEvent('resize');
+        this.fireEvent('state');
+    },
+
+    getColumnKey: function (column, key) {
+        if (this.columnLookup[column] !== undefined) {
+            return this.columnLookup[column][key];
+        }
+        return null;
+    },
+
+    getTotalWidth: function () {
+        var cols = this.getVisibleColumns();
+        var ret = 0;
+        for (var col in cols) {
+            if (cols.hasOwnProperty(col)) {
+                ret += this.getWidthOf(col);
+            }
+        }
+        return ret;
+    },
+
+    getMinPosOf: function (column) {
+        return this.getTotalWidthOfPreviousOf(column) + this.getMinWidthOf(column);
+    },
+
+    getMaxPosOf: function (column) {
+        return this.getTotalWidthOfPreviousOf(column) + this.getMaxWidthOf(column);
+    },
+
+    getTotalWidthOfPreviousOf: function (column) {
+        var keys = this.getLeafKeys();
+        var ret = 0;
+        for (var i = 0; i < keys.length; i++) {
+            if (keys[i] == column) {
+                return ret;
+            }
+            if (!this.isHidden(keys[i])) {
+                ret += this.getWidthOf(keys[i]);
+            }
+        }
+        return 0;
+    },
+
+    /**
+     * Insert a column before given column
+     * @function insertColumnBefore
+     * @param {String} column id
+     * @param {String} before column id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    insertColumnBefore: function (column, before) {
+        this.moveColumn(column, before, 'before');
+    },
+    /**
+     * Insert a column after given column
+     * @function insertColumnAfter
+     * @param {String} column id
+     * @param {String} after column id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    insertColumnAfter: function (column, after) {
+        this.moveColumn(column, after, 'after');
+    },
+
+    moveColumn: function (column, insertAt, beforeOrAfter) {
+        var indexAt = this.getInsertionPoint(insertAt, beforeOrAfter);
+        var indexThis = this.columnKeys.indexOf(column);
+
+        if (this.isInAGroup(column) && !this.isInSameGroup(column, insertAt)) {
+            this.removeFromGroup(column);
+        }
+        var i, j;
+        var indexes = [indexThis];
+        if (this.isGroup(column)) {
+            var children = this.getIdOfChildren(column);
+            for (i = 0; i < children.length; i++) {
+                indexes.push(this.columnKeys.indexOf(children[i]));
+            }
+        }
+
+        if (this.isInAGroup(insertAt)) {
+            this.insertIntoSameGroupAs(column, insertAt);
+        }
+
+        var ret = [];
+        for (i = 0; i < this.columnKeys.length; i++) {
+            if (i == indexAt && beforeOrAfter == 'before') {
+                for (j = 0; j < indexes.length; j++) {
+                    ret.push(this.columnKeys[indexes[j]]);
+                }
+            }
+            if (indexes.indexOf(i) == -1) {
+                ret.push(this.columnKeys[i]);
+            }
+            if (i == indexAt && beforeOrAfter == 'after') {
+                for (j = 0; j < indexes.length; j++) {
+                    ret.push(this.columnKeys[indexes[j]]);
+                }
+            }
+        }
+        this.columnKeys = ret;
+
+        this.fireEvent('movecolumn', [column, this.columnKeys[indexAt], beforeOrAfter]);
+        this.fireEvent('state');
+    },
+
+    getInsertionPoint: function (insertAtColumn, pos) {
+        var ret = this.columnKeys.indexOf(insertAtColumn);
+        if (pos === 'after' && this.isGroup(insertAtColumn)) {
+            var columns = Object.keys(this.getColumnsInGroup(insertAtColumn));
+            for (var i = 0; i < columns.length; i++) {
+                ret = Math.max(ret, this.columnKeys.indexOf(columns[i]));
+            }
+        }
+        return ret;
+    },
+
+    /**
+     * @function insertIntoSameGroupAs
+     * @param {String} column
+     * @param {String} as
+     * memberof ludo.grid.ColumnManager.prototype
+     * @private
+     */
+    insertIntoSameGroupAs: function (column, as) {
+        var l = this.columnLookup;
+        var group = l[as].group;
+        l[column].group = group;
+        l[group].columns[column] = l[column];
+        this.clearCache();
+    },
+
+    isLastVisibleColumn: function (column) {
+        var keys = this.getLeafKeys();
+        for (var i = keys.length - 1; i >= 0; i--) {
+            var key = keys[i];
+            if (!this.isHidden([key])) {
+                return key === column;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Remove column from a group
+     * @function removeFromGroup
+     * @param {String} column
+     * @return {Boolean} success
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    removeFromGroup: function (column) {
+        var group = this.getGroupFor(column);
+        if (group) {
+            delete group.columns[column];
+            this.getColumn(column).group = undefined;
+            this.clearCache();
+            return true;
+        }
+        return false;
+    },
+
+    hideColumn: function (column) {
+        if (this.columnExists(column) && !this.isHidden(column)) {
+            this.columnLookup[column].hidden = true;
+            this.fireEvent('hidecolumn', column);
+            this.fireEvent('state');
+        }
+    },
+
+    columnExists: function (column) {
+        return this.columnLookup[column] !== undefined;
+    },
+
+    hideAllColumns: function () {
+        var keys = this.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            this.columnLookup[keys[i]].hidden = true;
+        }
+    },
+
+    showColumn: function (column) {
+        if (this.columnExists(column) && this.isHidden([column])) {
+            this.columnLookup[column].hidden = false;
+            this.fireEvent('showcolumn', column);
+            this.fireEvent('state');
+        }
+    },
+
+    getIndexOfLastVisible: function () {
+        var keys = this.getLeafKeys();
+        for (var i = keys.length - 1; i >= 0; i--) {
+            if (!this.isHidden(keys[i])) {
+                return i;
+            }
+        }
+        return null;
+    },
+
+    getLastVisible: function () {
+        return this.getLeafKeys()[this.getIndexOfLastVisible()];
+    },
+
+    countHeaderRows: undefined,
+    getCountRows: function () {
+        if (this.countHeaderRows === undefined) {
+            var ret = 0;
+            var keys = this.getLeafKeys();
+            for (var i = 0; i < keys.length; i++) {
+                ret = Math.max(ret, this.getStartRowOf(keys[i]));
+            }
+            this.countHeaderRows = ret + 1;
+        }
+        return this.countHeaderRows;
+    },
+
+    countParentCache: {},
+    getStartRowOf: function (column) {
+        if (this.countParentCache[column] === undefined) {
+            var ret = 0;
+            if (this.columnLookup[column].group !== undefined) {
+                var col = this.columnLookup[column].group;
+                while (col) {
+                    ret++;
+                    col = this.columnLookup[col].group;
+                }
+            }
+            this.countParentCache[column] = ret;
+        }
+        return this.countParentCache[column];
+    },
+    clearCache: function () {
+        this.countParentCache = {};
+        this.colDCache = {};
+    },
+
+    /**
+     * Return array of column keys for a header row, 0 is first row
+     * @function getColumnsInRow
+     * @param {Number} rowNumber
+     * @return {Array} columns
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getColumnsInRow: function (rowNumber) {
+        var ret = [];
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (!this.isHidden(this.columnKeys[i])) {
+                var col = this.columnKeys[i];
+                var startRow = this.getStartRowOf(col);
+                if (startRow <= rowNumber && !this.isGroup(col)) {
+                    ret.push(col);
+                } else {
+                    if (startRow == rowNumber) {
+                        ret.push(col);
+                    }
+                }
+            }
+        }
+        return ret;
+
+    },
+
+    getRowSpanOf: function (column) {
+        var countRows = this.getCountRows();
+        return countRows - this.getStartRowOf(column) - (this.isGroup(column) ? this.getChildDepthOf(column) : 0);
+    },
+
+    colDCache: {},
+    getChildDepthOf: function (column) {
+        if (this.colDCache[column] === undefined) {
+            if (this.isGroup(column)) {
+                var ret = 0;
+                var children = this.getIdOfChildren(column);
+                for (var i = 0; i < children.length; i++) {
+                    ret = Math.max(ret, this.getChildDepthOf(children[i]));
+                }
+                ret++;
+                this.colDCache[column] = ret;
+            } else {
+                this.colDCache[column] = 0;
+            }
+        }
+        return this.colDCache[column];
+    },
+
+    getHiddenColumns: function () {
+        var ret = [];
+        var keys = this.columnKeys;
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            if (this.isHidden(k)) {
+                ret.push(k);
+            }
+        }
+        return ret;
+    },
+
+    canBeMovedTo: function (column, to) {
+        return column !== to;
+    }
+});/* ../ludojs/src/grid/row-manager.js */
+/**
+ * Row renderer config for a grid.
+ * @class ludo.grid.RowManager
+ * @param {Object} config
+ * @param {Function} config.rowCls Function returning css class as string for a row. Argument to function: JSON for a row.
+ * @example:
+ * new ludo.grid.Grid({
+ * 	rowManager: {
+ * 		rowCls:function(row){ return "my-css-class" }
+ * 	}
+ *
+ *
+ */
+ludo.grid.RowManager = new Class({
+	Extends: ludo.Core,
+	type : 'grid.RowManager',
+
+	rowCls:undefined,
+
+	__construct:function(config){
+		this.parent(config);
+		if(config.rowCls)this.rowCls = config.rowCls;
+	}
+
+});/* ../ludojs/src/grid/grid.js */
+/**
+ * @namespace ludo.grid
+ */
+
+/**
+ @namespace ludo.grid
+ @class ludo.grid.Grid
+ @augments View
 
  @param {Object} config
+ @param {Boolean} config.headerMenu Show menu on each column heading.
+ @param {Boolean} config.highlightRecord True to highlight rows on click, default: true
+ @param {Boolean} config.mouseOverEffect True to highlight rows on mouse over, default: true.
+ @param {Object} config.columns Description of columns. See example below for details.
+ @param {Object} config.emptyText Text to show on grid when there are no data, default: "No data"
+ @fires ludo.grid.Grid#click Row clicked. Arguments: 1) The record, i.e. JSON Object, example: { "firstname": "Jane", "lastname": "Johnson" } and 2) name of clicked column, example: "lastname"
+ @fires ludo.grid.Grid#dblclick Row double clicked. Arguments: 1) The record, i.e. JSON Object, example: { "firstname": "Jane", "lastname": "Johnson" } and 2) name of clicked column, example: "lastname"
  @example
- var dd = new ludo.effect.DragDrop();
- var el = jQuery('<div>');
- dd.addDropTarget({
- 		id:'myDropPoint',
- 		el:el,
- 		name:'John Doe'
-	});
- var el = jQuery('<div>');
- dd.addDropTarget({
-		id:'myDropPoint',
-		el:el,
-		name:'Jane Doe'
-	});
- dd.addEvent('enterDropTarget', function(node, dd){
- 		if(node.name === 'John Doe'){
- 			dd.setInvalid(); // Triggers an invalidDropTarget event
- 		}
- 	});
+ children:[
+ ..
+ {
+      id:'myGrid',
+      type:'grid.Grid',
+      stateful:true,
+      resizable:false,
+
+      columns:{
+          'country':{
+              heading:'Country',
+              removable:false,
+              sortable:true,
+              movable:true,
+              width:200,
+              renderer:function (val) {
+                  return '<span style="color:blue">' + val + '</span>';
+              }
+          },
+          'capital':{
+              heading:'Capital',
+              sortable:true,
+              removable:true,
+              movable:true,
+              width:150
+          },
+          population:{
+              heading:'Population',
+              movable:true,
+              removable:true
+          }
+      },
+      dataSource:{
+          url:'data-source/grid.php',
+          id:'myDataSource',
+          paging:{
+              size:12,
+              remotePaging:false,
+              cache:false,
+              cacheTimeout:1000
+          },
+          searchConfig:{
+              index:['capital', 'country']
+          },
+          listeners:{
+              select:function (record) {
+                  console.log(record)
+              },
+               count:function(countRecords){
+                   ludo.get('gridWindowSearchable').setTitle('Grid - capital and population - Stateful (' + countRecords + ' records)');
+               }
+          }
+      }
+
+  }
+ ...
+ ]
+ Is example of code used to add a grid as child view of another view. You may also create the grid directly using:
+
+ @example
+ new ludo.grid.Grid({...})
+ where {...} can be the same code as above. use the "renderTo" config property to specify where you want the grid to be rendered.
+
  */
-ludo.effect.DropPoint = new Class({
-    /**
-     id of node. This attribute is optional
-     @property id
-     @type {String}
-     @default undefined
-     @optional
-     @memberof ludo.effect.DropPoint.prototype
-     */
-    id: undefined,
+ludo.grid.Grid = new Class({
+    Extends: ludo.View,
+    type: 'Grid',
 
-    /**
-     * Reference to dragable DOM node
-     * @property el
-     * @default undefined
-     * @type {String|HTMLDivElement}
-     * @memberof ludo.effect.DropPoint.prototype
-     */
-    el: undefined,
+    hasMenu: true,
+    colMovable: null,
+    menu: true,
 
-    /**
-     Capture regions(north,south, west east) when moving over drop points
-     @config {Boolean|undefined} captureRegions
-     @optional
-     @default false
-     @memberof ludo.effect.DropPoint.prototype
+    menuConfig: [],
+
+    sb: {},
+
+    highlightRecord: true,
+
+    uniqueId: '',
+    activeRecord: {},
+
+    headerMenu: true,
+
+
+    mouseOverEffect: true,
+
+    columnManager: undefined,
+
+    /*
+     Column config
+     @config {Object} columns
      @example
-     captureRegions:true
+     columns:{
+     'country':{
+     heading:'Country',
+     sortable:true,
+     movable:true,
+     renderer:function (val) {
+     return '<span style="color:blue">' + val + '</span>';
+     }
+     },
+     'capital':{
+     heading:'Capital',
+     sortable:true,
+     movable:true
+     },
+     population:{
+     heading:'Population',
+     movable:true
+     }
+     }
+     or nested:
+
+     columns:{
+     info:{
+     heading:'Country and Capital',
+     headerAlign:'center',
+     columns:{
+     'country':{
+     heading:'Country',
+     removable:false,
+     sortable:true,
+     movable:true,
+     width:200,
+     renderer:function (val) {
+     return '<span style="color:blue">' + val + '</span>';
+     }
+     },
+     'capital':{
+     heading:'Capital',
+     sortable:true,
+     removable:true,
+     movable:true,
+     width:150
+     }
+     }
+     },
+     population:{
+     heading:'Population',
+     movable:true,
+     removable:true
+     }
+     }
+
      */
-    captureRegions: undefined
+    columns: undefined,
+    rowManager: undefined,
+
+    emptyText: 'No data',
+
+    defaultDS: 'dataSource.JSONArray',
+
+    __construct: function (config) {
+        this.parent(config);
+
+        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord','keys']);
+
+        if (this.columns == undefined) {
+            this.columns = this.__columns();
+        }
+
+        if(this.keys != undefined){
+            var cols = {};
+            jQuery.each(this.keys, function(i, key){
+                 if(this.columns[key] != undefined){
+                     cols[key] = this.columns[key];
+                 }
+            }.bind(this));
+            this.columns = cols;
+        }
+
+        if (!this.cm) {
+            this.cm = {
+                columns: this.columns,
+                fill: this.fill
+            };
+        }
+        if (this.cm) {
+            if (!this.cm.type)this.cm.type = 'grid.ColumnManager';
+            this.cm.stateful = this.stateful;
+            this.cm.id = this.cm.id || this.id + '_cm';
+            this.cm = this.createDependency('colManager', this.cm);
+            this.cm.addEvents({
+                'hidecolumn': this.refreshData.bind(this),
+                'showcolumn': this.refreshData.bind(this),
+                'movecolumn': this.onColumnMove.bind(this),
+                'resize': this.resizeColumns.bind(this)
+            });
+        }
+
+        if (this.rowManager) {
+            if (!this.rowManager.type)this.rowManager.type = 'grid.RowManager';
+            this.rowManager = this.createDependency('rowManager', this.rowManager);
+        }
+
+        var ds = this.dataSource;
+        if (this.stateful && ds !== undefined && ludo.util.isObject(ds)) {
+            ds.id = ds.id || this.id + '_ds';
+            ds.stateful = this.stateful;
+        }
+        this.uniqueId = String.uniqueID();
+
+    },
+
+    __columns: function () {
+        return undefined;
+    },
+
+    ludoDOM: function () {
+        this.parent();
+        this.getEl().addClass('ludo-grid-Grid');
+
+        var b = this.$b();
+        var t = this.els.dataContainerTop = jQuery('<div>');
+
+        t.addClass('ludo-grid-data-container');
+        t.css({
+            'overflow': ludo.util.isTabletOrMobile() ? 'auto' : 'hidden',
+            'position': 'relative'
+        });
+
+        b.append(t);
+        b.css('overflow', 'visible');
+
+        this.els.dataContainer = jQuery('<div>');
+        t.append(this.els.dataContainer);
+
+        this.els.dataContainer.css('position', 'relative');
+        this.gridHeader = this.createDependency('gridHeader', {
+            type: 'grid.GridHeader',
+            headerMenu: this.headerMenu,
+            columnManager: this.cm,
+            grid: this
+        });
+        this.createDataColumnElements();
+        this.createScrollbars();
+        this.createColResizeHandles();
+    },
+
+    ludoEvents: function () {
+        this.parent();
+
+        if (this.dataSource) {
+            if (this.dataSourceObj && this.dataSourceObj.hasData()) {
+                this.populateData();
+            }
+            this.getDataSource().addEvents({
+                'change': this.populateData.bind(this),
+                'select': this.setSelectedRecord.bind(this),
+                'deselect': this.deselectDOMForRecord.bind(this),
+                'update': this.showUpdatedRecord.bind(this),
+                'delete': this.removeDOMForRecord.bind(this)
+            });
+            this.getDataSource().addEvent('select', this.selectDOMForRecord.bind(this));
+        }
+        var b = this.$b();
+        b.on('selectstart', ludo.util.cancelEvent);
+        if (this.highlightRecord) {
+            b.on('click', this.cellClick.bind(this));
+            b.on('dblclick', this.cellDoubleClick.bind(this));
+        }else{
+            b.css('cursor', 'default');
+        }
+
+        if (this.mouseOverEffect) {
+            this.els.dataContainer.on('mouseleave', this.mouseLeavesGrid.bind(this));
+        }
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.ifStretchHideLastResizeHandles();
+
+        if (this.highlightRecord) {
+            this.els.dataContainer.css('cursor', 'pointer');
+        }
+
+        this.positionVerticalScrollbar.delay(100, this);
+
+        if (this.getParent()) {
+            this.getParent().$b().css({
+                'padding': 0
+            });
+            ludo.dom.clearCache();
+            this.getParent().resize.delay(100, this.getParent());
+        }
+
+        this.toggleEmptyText();
+    },
+
+    currentOverRecord: undefined,
+    mouseoverDisabled: false,
+
+    enterCell: function (el) {
+        if (this.mouseoverDisabled)return;
+        var record = this.getRecordByDOM(el);
+        if (record) {
+            if (this.currentOverRecord) {
+                this.deselectDOMForRecord(this.currentOverRecord, 'ludo-grid-record-over');
+            }
+            this.currentOverRecord = record;
+            this.selectDOMForRecord(record, 'ludo-grid-record-over');
+        }
+    },
+
+    mouseLeavesGrid: function () {
+        if (this.currentOverRecord) {
+            this.deselectDOMForRecord(this.currentOverRecord, 'ludo-grid-record-over');
+            this.currentOverRecord = undefined;
+        }
+    },
+
+    cellClick: function (e) {
+        var record = this.getRecordByDOM(e.target);
+        if (record) {
+            this.getDataSource().selectRecord(record);
+            this.fireEvent('click', [record, this.getColumnByDom(e.target)]);
+        }
+    },
+
+    getColumnByDom: function (el) {
+        el = jQuery(el);
+        if (!el.hasClass('ludo-grid-data-cell')) {
+            el = el.closest('.ludo-grid-data-cell');
+        }
+        if (el) {
+            return el.attr('col');
+        }
+        return undefined;
+    },
+
+    setSelectedRecord: function (record) {
+        // TODO should use dataSource.Record object instead of plain object
+        this.fireEvent('selectrecord', record);
+        this.highlightActiveRecord();
+    },
+
+    highlightActiveRecord: function () {
+        if (this.highlightRecord) {
+            var selectedRecord = this.getDataSource().getSelectedRecord();
+            if (selectedRecord && selectedRecord.uid) {
+                this.selectDOMForRecord(selectedRecord, 'ludo-active-record');
+            }
+        }
+    },
+
+    selectDOMForRecord: function (record, cls) {
+        cls = cls || 'ludo-active-record';
+        var cells = this.getDOMCellsForRecord(record);
+        for (var key in cells) {
+            if (cells.hasOwnProperty(key)) {
+                cells[key].addClass(cls);
+            }
+        }
+    },
+
+    deselectDOMForRecord: function (record, cls) {
+        cls = cls || 'ludo-active-record';
+        var cells = this.getDOMCellsForRecord(record);
+        for (var key in cells) {
+            if (cells.hasOwnProperty(key)) {
+                cells[key].removeClass(cls);
+            }
+        }
+    },
+
+
+    showUpdatedRecord: function (record) {
+        var cells = this.getDOMCellsForRecord(record);
+        var content;
+        var renderer;
+
+        for (var key in cells) {
+            if (cells.hasOwnProperty(key)) {
+                renderer = this.cm.getRendererFor(key);
+                if (renderer) {
+                    content = renderer(record[key], record);
+                } else {
+                    content = record[key];
+                }
+                cells[key].find('span').html(content);
+            }
+        }
+    },
+
+    removeDOMForRecord: function (record) {
+        var cells = this.getDOMCellsForRecord(record);
+        for (var key in cells) {
+            if (cells.hasOwnProperty(key)) {
+                cells[key].dispose();
+            }
+        }
+    },
+
+    getDOMCellsForRecord: function (record) {
+        var ret = {};
+        var div, divId;
+
+        var keys = this.cm.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var col = this.$b().find('#ludo-grid-column-' + keys[i] + '-' + this.uniqueId);
+            divId = 'cell-' + keys[i] + '-' + record.uid + '-' + this.uniqueId;
+            div = col.find('#' + divId);
+            if (div) {
+                ret[keys[i]] = div;
+            }
+        }
+        return ret;
+    },
+    /**
+     Select a record.
+     @function selectRecord
+     @param {Object} record
+     @memberof ludo.grid.Grid.prototype
+     @example
+     grid.selectRecord({ id: 100 } );
+     */
+    selectRecord: function (record) {
+        if (ludo.util.isString(record)) {
+            record = {id: record};
+        }
+        this.getDataSource().selectRecord(record);
+    },
+
+    cellDoubleClick: function (e) {
+        var record = this.getRecordByDOM(e.target);
+        if (record) {
+            this.getDataSource().selectRecord(record);
+            this.fireEvent('dblclick', [record, this.getColumnByDom(e.target)]);
+        }
+    },
+
+    getRecordByDOM: function (el) {
+        el = jQuery(el);
+        if (!el.hasClass('ludo-grid-data-cell')) {
+            el = el.parent('.ludo-grid-data-cell');
+        }
+        if (el && el.hasClass('ludo-grid-data-cell')) {
+            var uid = el.attr('uid');
+            return this.getDataSource().findRecord({uid: uid});
+        }
+        return undefined;
+    },
+
+    isColumnDragActive: function () {
+        return this.colMovable && this.colMovable.isActive();
+    },
+
+    hideResizeHandles: function () {
+        this.colResizeHandler.hideAllHandles();
+    },
+
+    showResizeHandles: function () {
+        this.colResizeHandler.showAllHandles();
+        this.ifStretchHideLastResizeHandles();
+    },
+
+    resizeChildren: function () {
+        this.parent();
+        if (this.colResizeHandler && this.cm.hasLastColumnDynamicWidth()) {
+            this.resizeColumns();
+        }
+    },
+
+    onColumnMove: function (source, target, pos) {
+        var c = this.els.dataColumns;
+        if (pos == 'before') {
+            c[source].insertBefore(c[target]);
+        } else {
+            c[source].insertAfter(c[target]);
+        }
+        this.cssColumns();
+        this.resizeColumns();
+
+    },
+
+    cssColumns: function () {
+        var keys = Object.keys(this.els.dataColumns);
+        for (var i = 0; i < keys.length; i++) {
+            var c = this.els.dataColumns[keys[i]];
+            var cls = [
+                'ludo-grid-data-last-column',
+                'ludo-grid-data-column'
+
+            ];
+            jQuery.each(cls, function(i, cl){
+                c.removeClass(cl);
+                c.removeClass(cl + '-left');
+                c.removeClass(cl + '-center');
+                c.removeClass(cl + '-right');
+            });
+            ludo.dom.addClass(c, this.getColumnCssClass(keys[i]));
+        }
+    },
+
+    refreshData: function () {
+        if (!this.isRendered)return;
+        this.createDataColumnElements();
+        this.resizeColumns();
+        this.populateData();
+        this.showResizeHandles();
+    },
+
+    JSON: function () {
+
+    },
+
+    addRecord: function (record) {
+        this.getDataSource().addRecord(record);
+    },
+
+    resizeDOM: function () {
+        this.resizeColumns();
+        var height = this.getHeight() - ludo.dom.getMBPH(this.$e) - ludo.dom.getMBPH(this.els.body);
+        height -= this.sb.h.getHeight();
+        if (height < 0) {
+            return;
+        }
+        this.$b().css('height', height);
+        var contentHeight = this.$b().height();
+
+        if (contentHeight == 0) {
+            this.resizeDOM.delay(100, this);
+            return;
+        }
+        this.els.dataContainerTop.css('height', contentHeight - this.gridHeader.getHeight());
+
+        this.sb.v.resize();
+        this.sb.h.resize();
+    },
+
+    createScrollbars: function () {
+        this.sb.h = this.createDependency('scrollHorizontal', new ludo.Scroller({
+            type: 'horizontal',
+            applyTo: this.$b(),
+            parent: this.$b()
+        }));
+        this.sb.h.getEl().insertAfter(this.$b());
+
+        this.sb.v = this.createDependency('scrollVertical', new ludo.Scroller({
+            type: 'vertical',
+            applyTo: this.els.dataContainer,
+            parent: this.els.dataContainerTop,
+            mouseWheelSizeCls: 'ludo-grid-data-cell'
+        }));
+        this.getEl().append(this.sb.v.getEl());
+        this.positionVerticalScrollbar();
+    },
+
+    positionVerticalScrollbar: function () {
+        var top = this.gridHeader.getHeight();
+        if (top == 0) {
+            this.positionVerticalScrollbar.delay(100, this);
+            return;
+        }
+        this.sb.v.getEl().css('top', top);
+    },
+    
+    createColResizeHandles: function () {
+        this.colResizeHandler = new ludo.ColResize({
+            component: this,
+            listeners: {
+                startresize: this.setResizePos.bind(this),
+                resize: this.resizeColumn.bind(this)
+            }
+        });
+        var keys = this.cm.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var el = this.colResizeHandler.getHandle(keys[i], this.cm.isResizable(keys[i]));
+            this.$b().append(el);
+            el.addClass('ludo-grid-resize-handle');
+        }
+    },
+
+    setResizePos: function (column) {
+        var rh = this.colResizeHandler;
+        rh.setMinPos(this.cm.getMinPosOf(column));
+        rh.setMaxPos(this.cm.getMaxPosOf(column));
+        this.mouseoverDisabled = true;
+        this.mouseLeavesGrid();
+    },
+
+    mouseOverResizeHandle: function (e) {
+        jQuery(e.target).addClass('ludo-grid-resize-handle-over');
+    },
+    mouseOutResizeHandle: function (e) {
+        jQuery(e.target).removeClass('ludo-grid-resize-handle-over');
+    },
+
+    resizeColumns: function () {
+        this.mouseoverDisabled = false;
+        var leftPos = 0;
+
+        this.stretchLastColumn();
+        var columns = this.cm.getLeafKeys();
+    
+        var rh = this.colResizeHandler;
+        for (var i = 0; i < columns.length; i++) {
+            if (this.cm.isHidden(columns[i])) {
+                rh.hideHandle(columns[i]);
+            } else {
+                var width = this.cm.getWidthOf(columns[i]);
+                var col = this.els.dataColumns[columns[i]];
+                
+                var bw = ludo.dom.getBW(col) - (i === columns.length - 1) ? 1 : 0;
+                col.css('left', leftPos);
+                col.css('width', (width - ludo.dom.getPW(col) - bw));
+
+                this.cm.setLeft(columns[i], leftPos);
+
+                leftPos += width;
+
+                rh.setPos(columns[i], leftPos);
+                if (this.cm.isResizable(columns[i])) {
+                    rh.showHandle(columns[i]);
+                } else {
+                    rh.hideHandle(columns[i]);
+                }
+            }
+        }
+
+        var totalWidth = this.cm.getTotalWidth();
+        this.els.dataContainerTop.css('width', totalWidth);
+        // this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
+
+        this.sb.h.setContentSize(totalWidth);
+
+    },
+
+    stretchLastColumn: function () {
+        if (this.cm.hasLastColumnDynamicWidth()) {
+
+            this.cm.clearStretchedWidths();
+
+            var totalWidth = this.cm.getTotalWidth();
+            var viewSize = this.$b().width();
+            var restSize = viewSize - totalWidth;
+            if (restSize <= 0) {
+                return;
+            }
+            var width = this.cm.getWidthOf(this.cm.getLastVisible()) + restSize;
+            this.cm.setStretchedWidth(width)
+        }
+    },
+
+    toggleEmptyText: function () {
+
+        if (this.emptyText) {
+            this.emptyTextEl().css('display', (!this.currentData || this.currentData.length) > 0 ? 'none' : '');
+        }
+    },
+
+    populateData: function () {
+
+        this.fireEvent('state');
+        this.currentOverRecord = undefined;
+        this.currentData = this.getDataSource().getData();
+
+
+        this.toggleEmptyText();
+
+        var contentHtml = [];
+        var keys = this.cm.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var columnId = 'ludo-grid-column-' + keys[i] + '-' + this.uniqueId;
+            if (this.cm.isHidden(keys[i])) {
+                contentHtml.push('<div id="' + columnId + '" class="ludo-grid-data-column" style="display:none"></div>');
+            } else {
+                contentHtml.push('<div id="' + columnId + '" col="' + keys[i] + '" class="ludo-grid-data-column ludo-grid-data-column-' + i + ' ' + this.getColumnCssClass(keys[i]) + '">' + this.getHtmlTextForColumn(keys[i]) + '</div>');
+            }
+        }
+
+        this.els.dataContainer.html(contentHtml.join(''));
+
+        var columns = this.els.dataContainer.find('.ludo-grid-data-column');
+        this.els.dataColumns = {};
+        var count;
+        for (i = 0, count = columns.length; i < count; i++) {
+
+            this.els.dataColumns[jQuery(columns[i]).attr('col')] = jQuery(columns[i]);
+        }
+
+        this.fireEvent('renderdata', [this, this]);
+        this.resizeColumns();
+        this.resizeVerticalScrollbar();
+        this.highlightActiveRecord();
+    },
+
+
+    emptyTextEl: function () {
+        if (this.els.emptyText === undefined) {
+            this.els.emptyText = jQuery('<div class="ludo-grid-empty-text">' + this.emptyText + '</div>');
+            this.getEl().append(this.els.emptyText);
+
+        }
+        return this.els.emptyText;
+    },
+
+    getColumnCssClass: function (col) {
+        var ret;
+        if (this.cm.isLastVisibleColumn(col)) {
+            ret = 'ludo-grid-data-last-column ludo-grid-data-last-column-';
+        } else {
+            ret = 'ludo-grid-data-column-';
+        }
+        ret += this.cm.getAlignmentOf(col);
+        return ret;
+    },
+
+    resizeVerticalScrollbar: function () {
+        var column = this.els.dataColumns[this.cm.getLastVisible()];
+        if (!column) {
+            return;
+        }
+        var height = column.outerHeight();
+
+        if (height === 0) {
+            this.resizeVerticalScrollbar.delay(300, this);
+        } else {
+            this.els.dataContainer.css('height', height);
+            this.sb.v.setContentSize();
+        }
+    },
+
+    createDataColumnElements: function () {
+        this.els.dataColumns = {};
+        var keys = this.cm.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var el = jQuery('<div>');
+            this.els.dataContainer.append(el);
+            el.addClass('ludo-grid-data-column');
+
+            el.attr('col', keys[i]);
+            el.addClass(this.getColumnCssClass(i));
+            el.id = 'ludo-grid-column-' + keys[i] + '-' + this.uniqueId;
+            this.els.dataColumns[keys[i]] = el;
+        }
+    },
+
+    getHtmlTextForColumn: function (col) {
+        var ret = [];
+        var rowClasses = ['ludo-grid-data-odd-row', 'ludo-grid-data-even-row'];
+        var content;
+        var data = this.currentData;
+        if (!data)return '';
+
+        var renderer = this.cm.getRendererFor(col);
+
+        var rowRenderer = this.rowManager ? this.rowManager.rowCls : undefined;
+        var rowCls = '';
+        for (var i = 0, count = data.length; i < count; i++) {
+            content = data[i][col];
+            if (renderer) {
+                content = renderer(content, data[i]);
+            }
+            var id = ['cell-', col, '-', data[i].uid, '-', this.uniqueId].join('');
+            var over = this.mouseOverEffect ? ' onmouseover="ludo.get(\'' + this.id + '\').enterCell(this)"' : '';
+            if (rowRenderer) {
+                rowCls = rowRenderer(data[i]);
+                if (rowCls)rowCls = ' ' + rowCls;
+            }
+            ret.push('<div id="' + id + '" ' + over + ' col="' + col + '" class="ludo-grid-data-cell ' + (rowClasses[i % 2]) + rowCls + '" uid="' + data[i].uid + '"><span class="ludo-grid-data-cell-text">' + content + '</span></div>');
+        }
+
+        return ret.join('');
+    },
+
+    resizeColumn: function (col, resizedBy) {
+        this.cm.increaseWithFor(col, resizedBy);
+    },
+
+    ifStretchHideLastResizeHandles: function () {
+        if (this.cm.hasLastColumnDynamicWidth()) {
+            this.colResizeHandler.hideHandle(this.cm.getLastVisible());
+        }
+    },
+
+    scrollBy: function (x, y) {
+        if (y) {
+            this.sb.v.scrollBy(y);
+        }
+        if (x) {
+            this.sb.h.scrollBy(x);
+        }
+    },
+
+    getSelectedRecord: function () {
+        return this.getDataSource().getSelectedRecord();
+    },
+
+    getColumnManager: function () {
+        return this.cm;
+    }
 });/* ../ludojs/src/effect/draggable-node.js */
 /*
  Specification of a draggable node objects sent to {{#crossLink "effect.Drag/add"}}{{/crossLink}}. You will
@@ -11593,12 +13729,13 @@ ludo.effect.Drag = new Class({
 
     ludoEvents: function () {
         this.parent();
-        this.getEventEl().on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
-        this.getEventEl().on(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
+        var el = this.getEventEl();
+        el.on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
+        el.on(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
         if (this.useShim) {
-            this.addEvent('start', this.showShim.bind(this));
+            this.on('start', this.showShim.bind(this));
             if (this.autoHideShim) {
-                this.addEvent('end', this.hideShim.bind(this));
+                this.on('end', this.hideShim.bind(this));
             }
         }
     },
@@ -11644,7 +13781,7 @@ ludo.effect.Drag = new Class({
 
         var handle = node.handle ? jQuery(node.handle) : el;
 
-        handle.attr("id",  handle.id || 'ludo-' + String.uniqueID());
+        handle.attr("id", handle.id || 'ludo-' + String.uniqueID());
         handle.addClass("ludo-drag");
 
         handle.on(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
@@ -11688,11 +13825,11 @@ ludo.effect.Drag = new Class({
             };
         }
         if (typeof node.el === 'string') {
-            if (node.el.substr(0, 1) != "#")node.el = "#" + node.el;
+            if (node.el.substr(0, 1) != "#") node.el = "#" + node.el;
             node.el = jQuery(node.el);
         }
         node.id = node.id || node.el.attr("id") || 'ludo-' + String.uniqueID();
-        if (!node.el.attr("id"))node.el.attr("id", node.id);
+        if (!node.el.attr("id")) node.el.attr("id", node.id);
         node.el.attr('forId', node.id);
         return node;
     },
@@ -11812,10 +13949,10 @@ ludo.effect.Drag = new Class({
 
             this.fireEvent('start', [this.els[id], this, {x: x, y: y}]);
 
-            if (this.fireEffectEvents)ludo.EffectObject.start();
+            if (this.fireEffectEvents) ludo.EffectObject.start();
         }
 
-        if(!ludo.util.isTabletOrMobile()){
+        if (!ludo.util.isTabletOrMobile()) {
             return false;
         }
 
@@ -11863,7 +14000,7 @@ ludo.effect.Drag = new Class({
     cancelDrag: function () {
         this.dragProcess.active = false;
         this.dragProcess.el = undefined;
-        if (this.fireEffectEvents)ludo.EffectObject.end();
+        if (this.fireEffectEvents) ludo.EffectObject.end();
     },
 
     getShimFor: function (el) {
@@ -12000,7 +14137,7 @@ ludo.effect.Drag = new Class({
             ]);
 
         }
-        if (this.inDelayMode)this.inDelayMode = false;
+        if (this.inDelayMode) this.inDelayMode = false;
 
     },
 
@@ -12233,2550 +14370,10 @@ ludo.effect.Drag = new Class({
     setShimText: function (text) {
         this.getShim().html(text);
     },
-    
+
 
     isActive: function () {
         return this.dragProcess.active;
-    }
-});/* ../ludojs/src/effect/drag-drop.js */
-/**
- * effect.Drag with support for drop events.
- * @namespace ludo.effect
- * @class ludo.effect.DragDrop
- * @augments effect.Drag
- * @param {Object} config
- * @param {Boolean} config.captureRegions. True to capture regions. When set, events like "north", "south", "west" and "east"
- * will be fired when dragging over drop points.
- * @fires ludo.effect.Dragdrop#enterDropTarget Fired when entering drop target DOM node. Arguments: 1) DOM dragged 2) DOM drop target, 3) ludo.effect.DragDrop, 4) event.target
- * @fires ludo.effect.Dragdrop#validDropTarget Fired when entering valid drop target DOM node. Arguments: 1) DOM dragged 2) DOM drop target, 3) ludo.effect.DragDrop, 4) event.target
- * @fires ludo.effect.Dragdrop#invalidDropTarget Fired when entering invalid drop target DOM node. This happens when you have an event handler on enterDropTarget and
- * call the setInvalid method. Arguments: 1) DOM dragged 2) DOM drop target, 3) ludo.effect.DragDrop, 4) event.target
- * @fires ludo.effect.Dragdrop#drop Fired on drop. Arguments: 1) DOM dragged 2) DOM drop target, 3) ludo.effect.DragDrop, 4) event.target
- * @fires ludo.effect.Dragdrop#north When captureRegions is set, this event is fired when entering north region of a drop point. Same arguments as otehr drop events.
- * @fires ludo.effect.Dragdrop#south When captureRegions is set, this event is fired when entering south region of a drop point. Same arguments as otehr drop events.
- * @fires ludo.effect.Dragdrop#west When captureRegions is set, this event is fired when entering west region of a drop point. Same arguments as otehr drop events.
- * @fires ludo.effect.Dragdrop#east When captureRegions is set, this event is fired when entering east region of a drop point. Same arguments as otehr drop events.
- */
-ludo.effect.DragDrop = new Class({
-	Extends:ludo.effect.Drag,
-	useShim:false,
-	currentDropPoint:undefined,
-	onValidDropPoint:undefined,
-
-	captureRegions:false,
-
-	/*
-	 * While dragging, always show dragged element this amount of pixels below mouse cursor.
-	 * @config mouseYOffset
-	 * @type {Number|undefined}
-	 * @optional
-	 * @default undefined
-	 */
-	mouseYOffset:undefined,
-
-	__construct:function (config) {
-		this.parent(config);
-		if (config.captureRegions !== undefined)this.captureRegions = config.captureRegions;
-
-	},
-
-	ludoEvents:function () {
-		this.parent();
-		this.addEvent('start', this.setStartProperties.bind(this));
-		this.addEvent('end', this.drop.bind(this));
-	},
-
-	getDropIdByEvent:function (e) {
-		var el = jQuery(e.target);
-		if (!el.hasClass('ludo-drop')) {
-			el = el.getParent('.ludo-drop');
-		}
-		return el.attr('forId');
-	},
-
-	/**
-	 * Remove node
-	 * @function remove
-	 * @param {String} id
-	 * @return {Boolean} success
-	 * @memberof ludo.effect.DragDrop.prototype
-	 */
-	remove:function (id) {
-		if (this.els[id] !== undefined) {
-			var el = jQuery(this.els[id].el);
-			el.unbind('mouseenter', this.enterDropTarget.bind(this));
-			el.unbind('mouseleave', this.leaveDropTarget.bind(this));
-			return this.parent(id);
-		}
-		return false;
-	},
-
-	/**
-	 * Create new drop point.
-	 * @function addDropTarget
-	 * @param {ludo.effect.DropPoint} node
-	 * @return {ludo.effect.DropPoint} node
-	 * @memberof ludo.effect.DragDrop.prototype
-	 */
-	addDropTarget:function (node) {
-		node = this.getValidNode(node);
-		node.el.addClass('ludo-drop');
-		if(node.el.mouseenter != undefined){
-			node.el.mouseenter(this.enterDropTarget.bind(this));
-			node.el.mouseleave(this.leaveDropTarget.bind(this));
-
-		}else{
-			node.el.on('mouseenter', this.enterDropTarget.bind(this));
-			node.el.on('mouseleave', this.leaveDropTarget.bind(this));
-		}
-
-		var captureRegions = node.captureRegions !== undefined ? node.captureRegions : this.captureRegions;
-		if (captureRegions) {
-			node.el.on('mousemove', this.captureRegion.bind(this));
-		}
-
-		node = this.els[node.id] = Object.merge(node, {
-			el:node.el,
-			captureRegions:captureRegions
-		});
-
-		return node;
-	},
-
-	enterDropTarget:function (e) {
-		if (this.isActive()) {
-			this.setCurrentDropPoint(e);
-			this.onValidDropPoint = true;
-
-			this.fireEvent('enterDropTarget', this.getDropEventArguments(e));
-
-			if (this.onValidDropPoint) {
-				if (this.shouldCaptureRegionsFor(this.currentDropPoint)) {
-					this.setMidPoint();
-				}
-
-				this.fireEvent('validDropTarget', this.getDropEventArguments(e));
-			} else {
-
-				this.fireEvent('invalidDropTarget', this.getDropEventArguments(e));
-			}
-			return false;
-		}
-		return undefined;
-	},
-
-	setCurrentDropPoint:function (e) {
-		this.currentDropPoint = this.getById(this.getDropIdByEvent(e));
-	},
-
-	leaveDropTarget:function (e) {
-		if (this.isActive() && this.currentDropPoint) {
-			this.fireEvent('leaveDropTarget', this.getDropEventArguments(e));
-			this.onValidDropPoint = false;
-			this.currentDropPoint = undefined;
-		}
-	},
-
-	getDropEventArguments:function (e) {
-		return [this.getDragged(), this.currentDropPoint, this, e.target];
-	},
-
-	/**
-	 Set drop point invalid. This method is usually used in connection with a listener
-	 for the enterDropTarget event
-	 @function setInvalid
-	 @memberof ludo.effect.DragDrop.prototype
-	 @example
-	 	dd.addEvent('enterDropTarget', function(node, dd){
-			 if(node.name === 'John Doe'){
-				 dd.setInvalid(); // Triggers an invalidDropTarget event
-			 }
-		 });
-	 */
-	setInvalid:function () {
-		this.onValidDropPoint = false;
-	},
-
-	getCurrentDropPoint:function () {
-		return this.currentDropPoint;
-	},
-
-	drop:function (e) {
-		if (this.onValidDropPoint)this.fireEvent('drop', this.getDropEventArguments(e));
-	},
-
-	setStartProperties:function () {
-		this.onValidDropPoint = false;
-	},
-
-	shouldCaptureRegionsFor:function (node) {
-		return this.els[node.id].captureRegions === true;
-	},
-
-	getDropPointCoordinates:function () {
-		if (this.currentDropPoint) {
-			var el = this.currentDropPoint.el;
-			var ret = el.position();
-			ret.width = el.width();
-			ret.height = el.height();
-			return ret;
-			return this.currentDropPoint.el.getCoordinates();
-		}
-		return undefined;
-	},
-
-	previousRegions:{
-		h:undefined,
-		v:undefined
-	},
-
-	captureRegion:function (e) {
-		if (this.isActive() && this.onValidDropPoint && this.shouldCaptureRegionsFor(this.currentDropPoint)) {
-			var midPoint = this.midPoint;
-			if (e.pageY < midPoint.y && this.previousRegions.v !== 'n') {
-				this.fireEvent('north', this.getDropEventArguments(e));
-				this.previousRegions.v = 'n';
-			} else if (e.pageY >= midPoint.y && this.previousRegions.v !== 's') {
-
-				this.fireEvent('south', this.getDropEventArguments(e));
-				this.previousRegions.v = 's';
-			}
-			if (e.pageX < midPoint.x && this.previousRegions.h !== 'w') {
-
-				this.fireEvent('west', this.getDropEventArguments(e));
-				this.previousRegions.h = 'w';
-			} else if (e.pageX >= midPoint.x && this.previousRegions.h !== 'e') {
-
-				this.fireEvent('east', this.getDropEventArguments(e));
-				this.previousRegions.h = 'e';
-			}
-
-		}
-	},
-
-	midPoint:undefined,
-	setMidPoint:function () {
-		var coords = this.getDropPointCoordinates();
-		this.midPoint = {
-			x:coords.left + (coords.width / 2),
-			y:coords.top + (coords.height / 2)
-		};
-		this.previousRegions = {
-			h:undefined,
-			v:undefined
-		};
-	}
-});/* ../ludojs/src/grid/column-move.js */
-/**
- * Class responsible for moving columns using drag and drop.
- * An instance of this class is automatically created by the grid. It is
- * rarely nescessary to create your own instances of this class
- */
-ludo.grid.ColumnMove = new Class({
-	Extends:ludo.effect.DragDrop,
-	gridHeader:undefined,
-	columnManager:undefined,
-
-	shimCls:['ludo-grid-movable-shim'],
-	insertionMarker:undefined,
-
-	arrowHeight:undefined,
-
-	__construct:function (config) {
-		this.parent(config);
-        this.__params(config, ['gridHeader','columnManager']);
-	},
-
-	ludoEvents:function(){
-		this.parent();
-		this.on('createShim', this.setZIndex.bind(this));
-	},
-
-	setZIndex:function(shim){
-		jQuery(shim).css('zIndex', 50000);
-	},
-
-	getMarker:function () {
-		if (this.insertionMarker === undefined) {
-            this.insertionMarker = ludo.dom.create({
-                cls : 'ludo-grid-movable-insertion-marker',
-                css : { display: 'none' },
-                renderTo : document.body
-            });
-            ludo.dom.create({ cls : 'ludo-grid-movable-insertion-marker-bottom', renderTo : this.insertionMarker});
-		}
-		return this.insertionMarker;
-	},
-
-	hideMarker:function(){
-		this.getMarker().css('display', 'none');
-	},
-
-	showMarkerAt:function(cell, pos){
-		var coordinates = cell.offset();
-		coordinates.width= cell.outerWidth();
-		coordinates.height = cell.outerHeight();
-
-		this.getMarker().css({
-			display:'',
-			left: (coordinates.left + (pos=='after' ? coordinates.width : 0)),
-			top: (coordinates.top - this.getArrowHeight()),
-			height: coordinates.height
-
-		});
-	},
-
-	setMarkerHeight:function(height){
-		this.getMarker().css('height', (height + (this.getArrowHeight() * 2)));
-	},
-
-	getArrowHeight:function(){
-		if(!this.arrowHeight){
-			this.arrowHeight = this.getMarker().find('.ludo-grid-movable-insertion-marker-bottom').first().outerHeight();
-		}
-		return this.arrowHeight;
-	}
-});/* ../ludojs/src/scroller.js */
-ludo.Scroller = new Class({
-    Extends:Events,
-    els:{
-        applyTo:null,
-        el:null,
-        elInner:null,
-        parent:null
-    },
-
-    active:0,
-    wheelSize:5,
-    type:'horizontal',
-    currentSize:0,
-    renderTo:undefined,
-
-    initialize:function (config) {
-        this.type = config.type || this.type;
-        if (config.applyTo) {
-            this.setApplyTo(config.applyTo);
-
-        }
-        this.renderTo = config.parent ? jQuery(config.parent) : null;
-        if (config.mouseWheelSizeCls) {
-            this.determineMouseWheelSize(config.mouseWheelSizeCls);
-        }
-        this.createElements();
-        this.createEvents();
-    },
-
-    setApplyTo:function (applyTo) {
-        if (!ludo.util.isArray(applyTo))applyTo = [applyTo];
-        this.els.applyTo = applyTo;
-    },
-
-    determineMouseWheelSize:function (cls) {
-        var el = jQuery('<div>');
-        el.addClass(cls);
-        el.css('visibility', 'hidden');
-        jQuery(document.body).append(el);
-        this.wheelSize = el.height();
-        if (!this.wheelSize) {
-            this.wheelSize = 25;
-        }
-        el.remove();
-    },
-
-    createElements:function () {
-        this.els.el = jQuery('<div>');
-        this.els.el.addClass('ludo-scroller');
-        this.els.el.addClass('ludo-scroller-' + this.type);
-        this.els.el.css({
-            'position':'relative',
-            'z-index':1000,
-            'overflow':'hidden'
-        });
-
-		var overflow = 'auto';
-        if (this.type == 'horizontal') {
-            this.els.el.css({
-                'overflow-x':overflow,
-                'width':'100%',
-                'height':Browser.ie ? '21px' : '17px'
-            });
-        } else {
-            this.els.el.css({
-                'overflow-y':overflow,
-                'height':'100%',
-                'width':Browser.ie ? '21px' : '17px',
-                'right':'0px',
-                'top':'0px',
-                'position':'absolute'
-            });
-        }
-
-
-
-        this.els.el.scroll(this.performScroll.bind(this));
-
-        this.els.elInner = jQuery('<div>');
-        this.els.elInner.css('position', 'relative');
-        this.els.elInner.html('&nbsp;');
-
-        this.els.el.append(this.els.elInner);
-    },
-
-    createEvents:function () {
-        this.els.elInner.on('resize', this.toggle.bind(this));
-        if (this.type == 'vertical') {
-            for (var i = 0; i < this.els.applyTo.length; i++) {
-                this.els.applyTo[i].on('mousewheel', this.eventScroll.bind(this));
-            }
-        }
-        jQuery(window).on('resize', this.resize.bind(this));
-    },
-
-    resize:function () {
-        if (this.type == 'horizontal') {
-            this.els.el.css('width', this.renderTo.outerWidth());
-        } else {
-            var size = this.renderTo.outerHeight();
-            if (size == 0) {
-                return;
-            }
-            this.els.el.css('height', size);
-        }
-        this.toggle();
-    },
-
-    getEl:function () {
-        return this.els.el;
-    },
-
-    setContentSize:function (size) {
-        if (this.type == 'horizontal') {
-            this.currentSize = size || this.getWidthOfScrollableElements();
-            this.els.elInner.css('width', this.currentSize);
-        } else {
-
-            this.currentSize = size || this.getHeightOfScrollableElements();
-
-            if (this.currentSize <= 0) {
-                var el = this.els.applyTo.getChildren('.ludo-grid-data-column');
-                if (el.length) {
-                    this.currentSize = el[0].outerHeight();
-                }
-            }
-            this.els.elInner.css('height', this.currentSize);
-        }
-
-        if (this.currentSize <= 0) {
-            this.setContentSize.delay(1000, this);
-        }
-
-        this.resize();
-        this.toggle();
-    },
-
-    getWidthOfScrollableElements:function () {
-        return this.getTotalSize('outerWidth');
-    },
-
-    getHeightOfScrollableElements:function () {
-        return this.getTotalSize('outerHeight');
-    },
-
-    getTotalSize:function (key) {
-        var ret = 0;
-        for (var i = 0; i < this.els.applyTo.length; i++) {
-            ret += this.els.applyTo[i][key]();
-        }
-        return ret;
-    },
-
-    eventScroll:function (e) {
-        var s = this.els.el.scrollTop();
-        this.els.el.scrollTop(s - e.originalEvent.wheelDelta);
-        return false;
-    },
-
-    performScroll:function () {
-
-        if (this.type == 'horizontal') {
-            this.scrollTo(this.els.el.scrollLeft());
-        } else {
-            this.scrollTo(this.els.el.scrollTop());
-        }
-    },
-
-    scrollBy:function (val) {
-
-
-        var key = this.type === 'horizontal' ? 'scrollLeft' : 'scrollTop';
-        this.els.el[key] += val;
-        this.scrollTo(this.els.el[key]);
-    },
-
-    scrollTo:function (val) {
-
-        var css = this.type === 'horizontal' ? 'left' : 'top';
-        for (var i = 0; i < this.els.applyTo.length; i++) {
-            this.els.applyTo[i].css(css, (val * -1));
-        }
-        this.fireEvent('scroll', this);
-    },
-
-    getHeight:function () {
-
-        return this.active ? this.els.el.height() : 0;
-    },
-
-    getWidth:function () {
-        return this.active ? this.els.el.width() : 0;
-    },
-
-    toggle:function () {
-        this.shouldShowScrollbar() ? this.show() : this.hide();
-    },
-
-    shouldShowScrollbar:function () {
-        var css = this.type === 'horizontal' ? 'width' : 'height';
-        var size = this.getParentEl()[css]();
-        return this.currentSize > size && size > 0;
-    },
-
-    getParentEl:function () {
-        return this.renderTo ? this.renderTo : this.els.el;
-    },
-
-    show:function () {
-        this.active = true;
-        this.els.el.css('display', '');
-    },
-
-    hide:function () {
-        this.active = false;
-        this.scrollTo(0);
-        this.els.el.css('display', 'none');
-    }
-});/* ../ludojs/src/grid/grid-header.js */
-/**
- Private class used by grid.Grid to render headers
- @private
- */
-ludo.grid.GridHeader = new Class({
-	Extends:ludo.Core,
-	columnManager:undefined,
-	grid:undefined,
-	cells:{},
-	cellHeight:undefined,
-	spacing:{},
-	headerMenu:false,
-
-	__construct:function (config) {
-		this.parent(config);
-        this.__params(config, ['columnManager','headerMenu','grid']);
-
-		this.measureCellHeight();
-		this.createDOM();
-	},
-
-	ludoEvents:function () {
-		this.parent();
-        var c = this.columnManager;
-		c.on('resize', this.renderColumns.bind(this));
-		c.on('stretch', this.renderColumns.bind(this));
-		c.on('movecolumn', this.renderColumns.bind(this));
-		c.on('hidecolumn', this.renderColumns.bind(this));
-		c.on('showcolumn', this.renderColumns.bind(this));
-		this.grid.addEvent('render', this.renderColumns.bind(this));
-		this.grid.getDataSource().addEvent('sort', this.updateSortArrow.bind(this));
-	},
-
-	createDOM:function () {
-		this.el = jQuery('<div class="ludo-header">');
-		this.grid.$b().prepend(this.el);
-		var countRows = this.columnManager.getCountRows();
-		this.el.css('height', this.cellHeight * countRows + ludo.dom.getMBPH(this.el));
-		this.renderColumns();
-	},
-
-	renderColumns:function () {
-		var countRows = this.columnManager.getCountRows();
-
-		this.measureCellHeight();
-		for (var i = 0; i < countRows; i++) {
-			var columns = this.columnManager.getColumnsInRow(i);
-			var left = 0;
-			for (var j = 0; j < columns.length; j++) {
-				var width = this.columnManager.getWidthOf(columns[j]);
-				if (i == this.columnManager.getStartRowOf(columns[j])) {
-
-					var cell = this.getCell(columns[j]);
-					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
-					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
-
-					cell.css({
-						'display' : '',
-						left : left,
-						top : i * this.cellHeight,
-						width: width - spacing,
-						height : height,
-						'line-height' : height + 'px'
-                    });
-
-					this.resizeCellBackgrounds(columns[j]);
-
-					cell.removeClass('last-header-cell');
-					if (j == columns.length - 1) {
-						cell.addClass('last-header-cell');
-					}
-				}
-				left += width;
-			}
-		}
-		this.hideHiddenColumns();
-	},
-
-	hideHiddenColumns:function () {
-		var hiddenColumns = this.columnManager.getHiddenColumns();
-		for (var i = 0; i < hiddenColumns.length; i++) {
-			if (this.cellExists(hiddenColumns[i])) {
-				this.cells[hiddenColumns[i]].css('display', 'none');
-			}
-		}
-	},
-
-	cellExists:function (col) {
-		return this.cells[col] !== undefined;
-	},
-
-	measureCellHeight:function () {
-		if(this.grid.isHidden())return;
-		var el = jQuery('<div>');
-		el.addClass('ludo-grid-header-cell');
-		this.grid.$b().append(el);
-		this.cellHeight = el.height() + ludo.dom.getMH(el);
-
-		this.spacing = {
-			width:el.outerWidth() - el.width(),
-			height:el.outerHeight() - el.height()
-		};
-		el.remove();
-	},
-
-	menuButtons:{},
-
-	getCell:function (col) {
-		if (this.cells[col]) {
-			return this.cells[col];
-		}
-		var el = this.cells[col] = jQuery('<div>');
-		el.attr('col', col);
-		el.addClass('ludo-grid-header-cell');
-		el.addClass('ludo-header-' + this.columnManager.getHeaderAlignmentOf(col));
-
-		var span = jQuery('<span class="ludo-cell-text">' + this.columnManager.getHeadingFor(col) + '</span>');
-		el.append(span);
-
-		this.createTopAndBottomBackgrounds(col);
-		this.addDOMForDropTargets(el, col);
-
-		if (this.columnManager.isSortable(col)) {
-			el.on('click', this.sortByDOM.bind(this));
-		}
-		el.on('mouseover', this.mouseoverHeader.bind(this));
-		el.on('mouseout', this.mouseoutHeader.bind(this));
-
-		if (this.headerMenu) {
-			this.menuButtons[col] = new ludo.menu.Button({
-				renderTo:el,
-				id:this.getMenuButtonId(col),
-				menu:this.getMenu(col),
-				listeners:{
-					beforeShow:this.validateButtonDisplay.bind(this)
-				}
-			});
-		}
-		this.el.append(el);
-
-		this.getMovable().add({
-			el:el,
-			column:col
-		});
-		return el;
-	},
-
-	validateButtonDisplay:function (button) {
-		if (this.columnMove && this.columnMove.isActive()) {
-			button.cancelShow();
-		}
-	},
-	cellBg:{},
-
-	createTopAndBottomBackgrounds:function (col) {
-		var top = jQuery('<div>');
-		top.addClass('ludo-grid-header-cell-top');
-		this.cells[col].append(top);
-		var bottom = jQuery('<div>');
-		bottom.addClass('ludo-grid-header-cell-bottom');
-		this.cells[col].append(bottom);
-		this.cellBg[col] = {
-			top:top,
-			bottom:bottom
-		};
-	},
-
-	resizeCellBackgrounds:function (col) {
-		var totalHeight = (this.columnManager.getRowSpanOf(col) * this.cellHeight) -  this.spacing.height;
-		var height = Math.round(totalHeight) / 2;
-		this.cellBg[col].top.css('height', height);
-		height = totalHeight - height;
-		this.cellBg[col].bottom.css('height', height);
-	},
-
-	getMenu:function (col) {
-		return {
-			singleton:true,
-			id:this.getMenuId(),
-			type:'menu.Menu',
-			direction:'vertical',
-			children:this.getColumnMenu(col)
-		};
-	},
-
-	getColumnMenu:function (forColumn) {
-		var ret = [];
-		var columnKeys = this.columnManager.getLeafKeys();
-		for (var i = 0; i < columnKeys.length; i++) {
-			ret.push({
-				type:'form.Checkbox',
-				disabled:!(this.columnManager.isRemovable(columnKeys[i])),
-				checked:this.columnManager.isVisible(columnKeys[i]),
-				label:this.columnManager.getHeadingFor(columnKeys[i]),
-				action:columnKeys[i],
-                height: 25, width: 150,
-				listeners:{
-					change:this.getColumnToggleFn(columnKeys[i], forColumn)
-				}
-			});
-		}
-
-        ret.push(
-            {
-                html: ludo.language.get('Sort ascending'),
-                listeners:{
-                    click:function(){
-                        this.sort('ascending');
-                    }.bind(this)
-                }
-            }
-        );
-        ret.push(
-            {
-                html: ludo.language.get('Sort descending'),
-                listeners:{
-                    click:function(){
-                        this.sort('descending');
-                    }.bind(this)
-                }
-            }
-        );
-		return ret;
-	},
-
-    sort:function(method){
-        this.grid.getDataSource().by(this.currentColumn)[method]().sort();
-        ludo.get(this.getMenuButtonId(this.currentColumn)).hideMenu();
-    },
-
-	getColumnToggleFn:function (column, forColumn) {
-		return function (checked) {
-			if (checked) {
-				this.columnManager.showColumn(column);
-			} else {
-				this.columnManager.hideColumn(column);
-			}
-			ludo.get(this.getMenuButtonId(forColumn)).hideMenu();
-		}.bind(this);
-	},
-
-	getMenuId:function () {
-		return 'header-menu-' + this.getId();
-	},
-
-	getMenuButtonId:function (column) {
-		return this.getMenuId() + '-' + column;
-	},
-
-    currentColumn:undefined,
-
-	mouseoverHeader:function (e) {
-		var col = this.getColByDOM(e.target);
-
-		if (!this.grid.colResizeHandler.isActive() && !this.grid.isColumnDragActive() && this.columnManager.isSortable(col)) {
-            this.currentColumn = col;
-			this.cells[col].addClass('ludo-grid-header-cell-over');
-		}
-	},
-
-	mouseoutHeader:function (e) {
-		if (!this.grid.colResizeHandler.isActive()) {
-			var col = this.getColByDOM(e.target);
-			if (!col)return;
-			this.cells[col].removeClass('ludo-grid-header-cell-over');
-		}
-	},
-
-	getColByDOM:function (el) {
-		el = jQuery(el);
-		var ret = el.attr('col');
-		if (!ret && ret != '0') {
-			ret = el.parent().attr('col');
-		}
-		return ret;
-	},
-
-	getHeight:function () {
-		if (this.cachedHeight === undefined) {
-			this.cachedHeight = this.columnManager.getCountRows() * this.cellHeight;
-			this.cachedHeight += ludo.dom.getMBPH(this.el);
-		}
-		return this.cachedHeight;
-	},
-
-	getEl:function () {
-		return this.el;
-	},
-
-	sortByDOM:function (e) {
-		var col = this.getColByDOM(e.target);
-		this.grid.getDataSource().sortBy(col);
-	},
-
-	addDOMForDropTargets:function (parent, column) {
-		var left = jQuery('<div>');
-		left.css({
-			position:'absolute',
-			'z-index':15,
-			left:'0px', top:'0px',
-			width:'50%', height:'100%'
-		});
-
-		parent.append(left);
-		var right = jQuery('<div>');
-		right.css({
-			position:'absolute',
-			'z-index':15,
-			right:'0px', top:'0px',
-			width:'50%', height:'100%'
-		});
-		parent.append(right);
-
-		this.getMovable().addDropTarget({
-			el:left,
-			column:column,
-			position:'before'
-		});
-		this.getMovable().addDropTarget({
-			el:right,
-			column:column,
-			position:'after'
-		});
-	},
-
-	columnMove:undefined,
-	getMovable:function () {
-		if (this.columnMove === undefined) {
-			this.columnMove = new ludo.grid.ColumnMove({
-				useShim:true,
-				delay:.5,
-				mouseYOffset:15,
-				mouseXOffset:15,
-				listeners:{
-					before:this.validateMove.bind(this),
-					start:this.grid.hideResizeHandles.bind(this.grid),
-					end:this.grid.showResizeHandles.bind(this.grid),
-					enterDropTarget:this.validateDrop.bind(this),
-					leaveDropTarget:this.leaveDropTarget.bind(this),
-					showShim:this.setColumnTextOnMove.bind(this),
-					drop:this.moveColumn.bind(this)
-				}
-			});
-		}
-		return this.columnMove;
-	},
-
-	setColumnTextOnMove:function (shim, dd) {
-		var column = dd.getDragged().column;
-		shim.html( this.columnManager.getHeadingFor(column));
-		shim.css('line-height', shim.css('height'));
-	},
-
-	validateMove:function (dragged, dd) {
-		if (!this.columnManager.isMovable(dragged.column)) {
-			dd.cancelDrag();
-		}
-	},
-	validateDrop:function (dragged, dropPoint) {
-		var cm = this.columnManager;
-		if (cm.canBeMovedTo(dragged.column, dropPoint.column, dropPoint.position)) {
-			var m = this.getMovable();
-			m.showMarkerAt(this.getCell(dropPoint.column), dropPoint.position);
-			var height = (cm.getChildDepthOf(dropPoint.column) + cm.getRowSpanOf(dropPoint.column)) * this.cellHeight;
-			m.setMarkerHeight(height);
-		}
-	},
-
-	leaveDropTarget:function () {
-		this.getMovable().hideMarker();
-	},
-
-	moveColumn:function (dragged, droppedAt) {
-		if (droppedAt.position == 'before') {
-			this.columnManager.insertColumnBefore(dragged.column, droppedAt.column);
-		} else {
-			this.columnManager.insertColumnAfter(dragged.column, droppedAt.column);
-		}
-		this.getMovable().hideMarker();
-	},
-
-	clearSortClassNameFromHeaders:function () {
-		var keys = this.columnManager.getLeafKeys();
-		for (var i = 0; i < keys.length; i++) {
-			if (this.cells[keys[i]] !== undefined) {
-				var el = this.cells[keys[i]].find('span');
-				el.removeClass('ludo-cell-text-sort-asc');
-				el.removeClass('ludo-cell-text-sort-desc');
-			}
-		}
-	},
-
-	updateSortArrow:function (sortedBy) {
-		this.clearSortClassNameFromHeaders();
-		if (this.cells[sortedBy.column]) {
-            this.cells[sortedBy.column].find('span').addClass('ludo-cell-text-sort-' + sortedBy.order);
-		}
-	}
-});/* ../ludojs/src/col-resize.js */
-ludo.ColResize = new Class({
-    Extends:ludo.Core,
-    component:undefined,
-    resizeHandles:{},
-    resizeProperties:{},
-    minPos:0,
-    maxPos:10000,
-
-    __construct:function (config) {
-        this.parent(config);
-        this.component = config.component;
-        this.createEvents();
-    },
-
-    createEvents:function () {
-        this.getEventEl().on(ludo.util.getDragMoveEvent(), this.moveColResizeHandle.bind(this));
-        this.getEventEl().on(ludo.util.getDragEndEvent(), this.stopColResize.bind(this));
-    },
-
-    setPos:function (index, pos) {
-        this.resizeHandles[index].css('left', pos);
-    },
-
-    hideHandle:function (index) {
-        this.resizeHandles[index].css('display', 'none');
-    },
-    showHandle:function (index) {
-        this.resizeHandles[index].css('display', '');
-    },
-
-    hideAllHandles:function () {
-        for (var key in this.resizeHandles){
-            if(this.resizeHandles.hasOwnProperty(key)){
-                this.hideHandle(key);
-            }
-        }
-    },
-    showAllHandles:function () {
-        for (var key in this.resizeHandles){
-            if(this.resizeHandles.hasOwnProperty(key)){
-                this.showHandle(key);
-            }
-        }
-    },
-
-    getHandle:function (key, isVisible) {
-
-        var el = jQuery('<div>');
-        el.addClass('ludo-column-resize-handle');
-        el.css({
-            'top':0,
-            'position':'absolute',
-            'height':'100%',
-            'cursor':'col-resize',
-            'z-index':15000,
-            display:isVisible ? '' : 'none'
-        });
-        el.attr('col-reference', key);
-        el.on(ludo.util.getDragStartEvent(), this.startColResize.bind(this));
-        if (!ludo.util.isTabletOrMobile()) {
-            el.on('mouseenter', this.mouseOverResizeHandle.bind(this));
-            el.on('mouseleave', this.mouseOutResizeHandle.bind(this));
-        }
-        this.resizeHandles[key] = el;
-        return el;
-    },
-
-    startColResize:function (e) {
-        var columnName = jQuery(e.target).attr('col-reference');
-        this.fireEvent('startresize', columnName);
-        jQuery(e.target).addClass('ludo-resize-handle-active');
-        var offset = this.getLeftOffsetOfColResizeHandle();
-
-        var r = this.resizeProperties;
-        r.min = this.getMinPos() - offset;
-        r.max = this.getMaxPos() - offset;
-
-        r.mouseX = this.resizeProperties.currentX = e.pageX;
-        r.elX = parseInt(jQuery(e.target).css('left').replace('px', ''));
-        r.currentX = this.resizeProperties.elX;
-
-        r.active = true;
-        r.el = jQuery(e.target);
-        r.index = columnName;
-
-        return false;
-    },
-
-    getLeftOffsetOfColResizeHandle:function () {
-        if (!this.resizeHandles[0]) {
-            return 3;
-        }
-        if (!this.handleOffset) {
-            var offset = Math.ceil(this.resizeHandles[0].getSize().x / 2);
-            if (offset > 0) {
-                this.handleOffset = offset;
-            } else {
-                return 3;
-            }
-        }
-        return this.handleOffset;
-    },
-
-    moveColResizeHandle:function (e) {
-
-        if (this.resizeProperties.active) {
-            var pos = this.resizeProperties.elX - this.resizeProperties.mouseX + e.pageX;
-            pos = Math.max(pos, this.resizeProperties.min);
-            pos = Math.min(pos, this.resizeProperties.max);
-
-            this.resizeProperties.el.css('left', pos);
-
-            this.resizeProperties.currentX = pos;
-            return false;
-        }
-		return undefined;
-    },
-
-    stopColResize:function () {
-        if (this.resizeProperties.active) {
-            this.resizeProperties.active = false;
-            this.resizeProperties.el.removeClass('ludo-resize-handle-active');
-            var change = this.resizeProperties.currentX - this.resizeProperties.elX;
-            this.fireEvent('resize', [this.resizeProperties.index, change]);
-            return false;
-        }
-		return undefined;
-    },
-
-    getMinPos:function () {
-        return this.minPos;
-    },
-    getMaxPos:function () {
-        return this.maxPos;
-    },
-
-    setMinPos:function (pos) {
-        this.minPos = pos;
-    },
-
-    setMaxPos:function (pos) {
-        this.maxPos = pos;
-    },
-
-    mouseOverResizeHandle:function (e) {
-        jQuery(e.target).addClass('ludo-grid-resize-handle-over');
-    },
-    mouseOutResizeHandle:function (e) {
-        jQuery(e.target).removeClass('ludo-grid-resize-handle-over');
-    },
-
-    isActive:function(){
-        return this.resizeProperties.active;
-    }
-});/* ../ludojs/src/grid/column-manager.js */
-/**
- Column manager for grids. Grids will listen to events fired by this component. A column manager is usually created by
- sending a "columns" array to the constructor of a grid.Grid view.
- @namespace ludo.grid
- @class ludo.grid.ColumnManager
- @augments Core
- @param {Object} config
- @fires ludo.grid.ColumnManager#showcolumn Fired when a column is shown. Argument: {String} column name
- @fires ludo.grid.ColumnManager#hideColumn Fired when a column is hidden. Argument: {String} column name
- @fires ludo.grid.ColumnManager#moveColumn Fired when a column has been moved. Argument: 1) {String} column moved, 2) {String} new sibling column 3) {String} before or after new sibling
- @example
-    columnManager:{
-		columns:{
-			'country':{
-				heading:'Country',
-				removable:false,
-				sortable:true,
-				movable:true,
-				width:200,
-				renderer:function (val) {
-					return '<span style="color:blue">' + val + '</span>';
-				}
-			},
-			'capital':{
-				heading:'Capital',
-				sortable:true,
-				removable:true,
-				movable:true,
-				width:150
-			},
-			population:{
-				heading:'Population',
-				movable:true,
-				removable:true
-			}
-		}
-	}
- Is example of a ColumnManager config object sent to a grid. It defines three columns, "country", "capital" and "population". These names
- corresponds to keys in the data sets. How to configure columns is specified in {{#crossLink "grid.Column"}}{{/crossLink}}
- */
-ludo.grid.ColumnManager = new Class({
-	Extends:ludo.Core,
-	type:'grid.ColumnManager',
-	fill:true,
-	columns:{},
-	columnKeys:[],
-	statefulProperties:['columns', 'columnKeys'],
-	columnLookup:{},
-
-	__construct:function (config) {
-		this.parent(config);
-        this.__params(config, ['fill','columns']);
-
-		this.createColumnLookup();
-
-		if (config.columnKeys !== undefined && this.hasValidColumnKeys(config.columnKeys)) {
-			this.columnKeys = config.columnKeys;
-		} else {
-			this.columnKeys = this.getLeafKeysFromColumns();
-		}
-	},
-
-	getLeafKeysFromColumns:function (parent) {
-		var ret = [];
-		parent = parent || this.columns;
-		for (var key in parent) {
-			if (parent.hasOwnProperty(key)) {
-				ret.push(key);
-				if (parent[key].columns !== undefined) {
-					var keys = this.getLeafKeysFromColumns(parent[key].columns);
-					for (var i = 0; i < keys.length; i++) {
-						ret.push(keys[i]);
-					}
-				}
-			}
-		}
-		return ret;
-	},
-
-	createColumnLookup:function (parent, groupName) {
-		parent = parent || this.columns;
-		for (var key in parent) {
-			if (parent.hasOwnProperty(key)) {
-				this.columnLookup[key] = parent[key];
-				this.columnLookup[key].group = groupName;
-				if (parent[key].columns !== undefined) {
-					this.createColumnLookup(parent[key].columns, key);
-				}
-			}
-		}
-	},
-
-	hasValidColumnKeys:function (keys) {
-		for (var i = 0; i < keys.length; i++) {
-			if (this.columnLookup[keys[i]] === undefined)return false;
-		}
-		return true;
-	},
-
-	hasLastColumnDynamicWidth:function () {
-		return this.fill;
-	},
-
-	getColumns:function () {
-		return this.columns;
-	},
-
-	getColumn:function (key) {
-		return this.columnLookup[key];
-	},
-
-	getLeafKeys:function () {
-		var ret = [];
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			if (this.columnLookup[this.columnKeys[i]].columns === undefined) {
-				ret.push(this.columnKeys[i]);
-			}
-		}
-		return ret;
-	},
-
-	/**
-	 Returns object of visible columns, example:
-	 @function getVisibleColumns
-	 @memberof ludo.grid.ColumnManager.prototype
-	 @return {Object} visible columns
-     @example
-        {
-            country : {
-                heading : 'Country'
-            },
-            population: {
-                heading : 'Population'
-            }
-        }
-	 */
-	getVisibleColumns:function () {
-		var ret = {};
-		var keys = this.getLeafKeys();
-		for (var i = 0; i < keys.length; i++) {
-			var key = keys[i];
-			if (!this.isHidden(key)) {
-				ret[key] = this.columnLookup[key];
-			}
-		}
-		return ret;
-	},
-
-	getHeadingFor:function (column) {
-		return this.getColumnKey(column, 'heading') || '';
-	},
-
-	getMinWidthOf:function (column) {
-		if (this.isGroup(column)) {
-			var children = this.getIdOfChildren(column);
-			var ret = 0;
-			for (var i = 0; i < children.length; i++) {
-				ret += this.getMinWidthOf(children[i]);
-			}
-			return ret;
-		}
-		return this.getColumnKey(column, 'minWidth') || 50;
-	},
-
-	getMaxWidthOf:function (column) {
-		return this.getColumnKey(column, 'maxWidth') || 1000;
-	},
-
-
-	getWidthOf:function (column) {
-		var stretchedWidth = this.getStrechedWithOf(column);
-		if (stretchedWidth) return stretchedWidth;
-		if (this.isGroup(column)) {
-			var columns = this.getColumnsInGroup(column);
-			var width = 0;
-			Object.each(columns, function (value, column) {
-				if(!this.isHidden(column))width += this.getWidthOf(column);
-			}.bind(this));
-			return width;
-		} else {
-			return this.getColumnKey(column, 'width') || 100;
-		}
-	},
-
-	isGroup:function (column) {
-		return this.columnLookup[column] !== undefined && this.columnLookup[column].columns !== undefined;
-	},
-
-	getColumnsInGroup:function (group) {
-		return this.columnLookup[group].columns;
-	},
-
-	getStrechedWithOf:function (column) {
-		return this.getColumnKey(column, 'stretchWidth');
-	},
-
-	isRemovable:function (column) {
-		return !!this.getColumnKey(column, 'removable');
-	},
-
-	/**
-	 * Returns true if column with given id is in a group.
-	 * @function isInAGroup
-	 * @param {String} column
-	 * @return {Boolean} is in a group
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	isInAGroup:function (column) {
-		return this.getColumnKey(column, 'group') !== undefined;
-	},
-
-	/**
-	 * Returns id of parent group
-	 * @function getGroupIdOf
-	 * @param {String} column
-	 * @return {String} group id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getGroupIdOf:function (column) {
-		return this.getColumnKey(column, 'group');
-	},
-
-	/**
-	 * Returns parent group object for a column
-	 * @function getGroupFor
-	 * @param {String} column
-	 * @return {grid.Column|undefined} parent
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getGroupFor:function (column) {
-		var id = this.getGroupIdOf(column);
-        return id ? this.columnLookup[id] : undefined;
-	},
-
-	getChildCount:function (groupId) {
-		var group = this.getColumn(groupId);
-		if (group.columns !== undefined) {
-			return ludo.util.lengthOfObject(group.columns);
-		}
-		return 0;
-	},
-
-	getIdOfChildren:function (groupId) {
-		var group = this.getColumn(groupId);
-		if (group) {
-			return Object.keys(group.columns);
-		}
-		return 0;
-	},
-
-	isInSameGroup:function (columnA, columnB) {
-		return this.isInAGroup(columnA) && this.getGroupIdOf(columnA) == this.getGroupIdOf(columnB);
-	},
-
-	isSortable:function (column) {
-		return !!this.getColumnKey(column, 'sortable');
-	},
-
-	isHidden:function (column) {
-		var hidden = this.getColumnKey(column, 'hidden');
-		if (hidden)return true;
-		var parentGroup;
-		if (parentGroup = this.getGroupIdOf(column)) {
-			return this.isHidden(parentGroup);
-		}
-		return hidden;
-	},
-	isVisible:function (column) {
-		return !this.isHidden(column);
-	},
-	/**
-	 * Returns true if column with given id is resizable
-	 * @function isResizable
-	 * @param {String} column
-	 * @return {Boolean}
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	isResizable:function (column) {
-		var resizable = this.getColumnKey(column, 'resizable') !== false;
-		if (resizable && this.hasLastColumnDynamicWidth() && this.isLastVisibleColumn(column)) {
-			resizable = false;
-		}
-		return resizable;
-	},
-	isMovable:function (column) {
-		var parent = this.getGroupIdOf(column);
-		if (parent && this.getChildCount(parent) == 1) {
-			return false;
-		}
-		return this.getColumnKey(column, 'movable') || false;
-	},
-
-	hasMovableColumns:function () {
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			if (this.isMovable(this.columnKeys[i]))return true;
-		}
-		return false;
-	},
-
-	getAlignmentOf:function (column) {
-		return this.getColumnKey(column, 'align') || 'left';
-	},
-
-	getHeaderAlignmentOf:function(column){
-		return this.getColumnKey(column, 'headerAlign') || 'left';
-	},
-
-	setLeft:function (column, left) {
-		this.columnLookup[column].left = left;
-	},
-	getLeftPosOf:function (column) {
-		return this.getColumnKey(column, 'left') || 0;
-	},
-
-	getRendererFor:function (column) {
-		return this.getColumnKey(column, 'renderer');
-	},
-
-	setWidth:function (column, width) {
-		this.columnLookup[column].width = width;
-	},
-
-	setStretchedWidth:function (width) {
-		this.columnLookup[this.getLastVisible()].stretchWidth = width;
-		this.fireEvent('stretch');
-	},
-
-	clearStretchedWidths:function () {
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			this.columnLookup[this.columnKeys[i]].stretchWidth = undefined;
-		}
-
-	},
-
-	increaseWithFor:function (column, increaseBy) {
-		var width = this.getWidthOf(column);
-		this.columnLookup[column].width = width + increaseBy;
-		this.fireEvent('resize');
-		this.fireEvent('state');
-	},
-
-	getColumnKey:function (column, key) {
-		if (this.columnLookup[column] !== undefined) {
-			return this.columnLookup[column][key];
-		}
-		return null;
-	},
-
-	getTotalWidth:function () {
-		var cols = this.getVisibleColumns();
-		var ret = 0;
-		for (var col in cols) {
-			if (cols.hasOwnProperty(col)) {
-				ret += this.getWidthOf(col);
-			}
-		}
-		return ret;
-	},
-
-	getMinPosOf:function (column) {
-		return this.getTotalWidthOfPreviousOf(column) + this.getMinWidthOf(column);
-	},
-
-	getMaxPosOf:function (column) {
-		return this.getTotalWidthOfPreviousOf(column) + this.getMaxWidthOf(column);
-	},
-
-	getTotalWidthOfPreviousOf:function (column) {
-		var keys = this.getLeafKeys();
-		var ret = 0;
-		for (var i = 0; i < keys.length; i++) {
-			if (keys[i] == column) {
-				return ret;
-			}
-            if (!this.isHidden(keys[i])) {
-                ret += this.getWidthOf(keys[i]);
-            }
-		}
-		return 0;
-	},
-
-	/**
-	 * Insert a column before given column
-	 * @function insertColumnBefore
-	 * @param {String} column id
-	 * @param {String} before column id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	insertColumnBefore:function (column, before) {
-		this.moveColumn(column, before, 'before');
-	},
-	/**
-	 * Insert a column after given column
-	 * @function insertColumnAfter
-	 * @param {String} column id
-	 * @param {String} after column id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	insertColumnAfter:function (column, after) {
-		this.moveColumn(column, after, 'after');
-	},
-
-	moveColumn:function (column, insertAt, beforeOrAfter) {
-		var indexAt = this.getInsertionPoint(insertAt, beforeOrAfter);
-		var indexThis = this.columnKeys.indexOf(column);
-
-		if (this.isInAGroup(column) && !this.isInSameGroup(column, insertAt)) {
-			this.removeFromGroup(column);
-		}
-		var i,j;
-		var indexes = [indexThis];
-		if (this.isGroup(column)) {
-			var children = this.getIdOfChildren(column);
-			for (i = 0; i < children.length; i++) {
-				indexes.push(this.columnKeys.indexOf(children[i]));
-			}
-		}
-
-		if(this.isInAGroup(insertAt)){
-			this.insertIntoSameGroupAs(column,insertAt);
-		}
-
-		var ret = [];
-		for (i = 0; i < this.columnKeys.length; i++) {
-			if (i == indexAt && beforeOrAfter == 'before') {
-				for (j = 0; j < indexes.length; j++) {
-					ret.push(this.columnKeys[indexes[j]]);
-				}
-			}
-			if (indexes.indexOf(i) == -1) {
-				ret.push(this.columnKeys[i]);
-			}
-			if (i == indexAt && beforeOrAfter == 'after') {
-				for (j = 0; j < indexes.length; j++) {
-					ret.push(this.columnKeys[indexes[j]]);
-				}
-			}
-		}
-		this.columnKeys = ret;
-
-		this.fireEvent('movecolumn', [column, this.columnKeys[indexAt], beforeOrAfter]);
-		this.fireEvent('state');
-	},
-
-	getInsertionPoint:function(insertAtColumn, pos){
-		var ret = this.columnKeys.indexOf(insertAtColumn);
-		if (pos === 'after' && this.isGroup(insertAtColumn)){
-			var columns = Object.keys(this.getColumnsInGroup(insertAtColumn));
-			for(var i=0;i<columns.length;i++){
-				ret = Math.max(ret, this.columnKeys.indexOf(columns[i]));
-			}
-		}
-		return ret;
-	},
-
-	/**
-	 * @function insertIntoSameGroupAs
-	 * @param {String} column
-	 * @param {String} as
-	 * memberof ludo.grid.ColumnManager.prototype
-	 * @private
-	 */
-	insertIntoSameGroupAs:function(column, as){
-		var group = this.columnLookup[as].group;
-		this.columnLookup[column].group = group;
-		this.columnLookup[group].columns[column] = this.columnLookup[column];
-		this.clearCache();
-	},
-
-	isLastVisibleColumn:function (column) {
-		var keys = this.getLeafKeys();
-		for (var i = keys.length - 1; i >= 0; i--) {
-			var key = keys[i];
-			if (!this.isHidden([key])) {
-				return key === column;
-			}
-		}
-		return false;
-	},
-
-	/**
-	 * Remove column from a group
-	 * @function removeFromGroup
-	 * @param {String} column
-	 * @return {Boolean} success
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	removeFromGroup:function (column) {
-		var group = this.getGroupFor(column);
-		if (group) {
-			delete group.columns[column];
-			this.getColumn(column).group = undefined;
-			this.clearCache();
-			return true;
-		}
-		return false;
-	},
-
-	hideColumn:function (column) {
-		if (this.columnExists(column) && !this.isHidden(column)) {
-			this.columnLookup[column].hidden = true;
-			this.fireEvent('hidecolumn', column);
-			this.fireEvent('state');
-		}
-	},
-
-	columnExists:function (column) {
-		return this.columnLookup[column] !== undefined;
-	},
-
-	hideAllColumns:function () {
-		var keys = this.getLeafKeys();
-		for (var i = 0; i < keys.length; i++) {
-			this.columnLookup[keys[i]].hidden = true;
-		}
-	},
-
-	showColumn:function (column) {
-		if (this.columnExists(column) && this.isHidden([column])) {
-			this.columnLookup[column].hidden = false;
-
-			this.fireEvent('showcolumn', column);
-
-			this.fireEvent('state');
-		}
-	},
-
-	getIndexOfLastVisible:function () {
-		var keys = this.getLeafKeys();
-		for (var i = keys.length - 1; i >= 0; i--) {
-			if (!this.isHidden(keys[i])) {
-				return i;
-			}
-		}
-		return null;
-	},
-
-	getLastVisible:function () {
-		return this.getLeafKeys()[this.getIndexOfLastVisible()];
-	},
-
-	countHeaderRows:undefined,
-	getCountRows:function () {
-		if (this.countHeaderRows === undefined) {
-			var ret = 0;
-			var keys = this.getLeafKeys();
-			for (var i = 0; i < keys.length; i++) {
-				ret = Math.max(ret, this.getStartRowOf(keys[i]));
-			}
-			this.countHeaderRows = ret + 1;
-		}
-		return this.countHeaderRows;
-	},
-
-	countParentCache:{},
-	getStartRowOf:function (column) {
-		if (this.countParentCache[column] === undefined) {
-			var ret = 0;
-			if (this.columnLookup[column].group !== undefined) {
-				var col = this.columnLookup[column].group;
-				while (col) {
-					ret++;
-					col = this.columnLookup[col].group;
-				}
-			}
-			this.countParentCache[column] = ret;
-		}
-		return this.countParentCache[column];
-	},
-	clearCache:function(){
-		this.countParentCache = {};
-		this.columnDepthCache = {};
-	},
-
-	/**
-	 * Return array of column keys for a header row, 0 is first row
-	 * @function getColumnsInRow
-	 * @param {Number} rowNumber
-	 * @return {Array} columns
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getColumnsInRow:function (rowNumber) {
-		var ret = [];
-		for(var i=0;i<this.columnKeys.length;i++){
-			if(!this.isHidden(this.columnKeys[i])){
-                var col = this.columnKeys[i];
-				var startRow = this.getStartRowOf(col);
-				if(startRow <= rowNumber && !this.isGroup(col)){
-					ret.push(col);
-				}else{
-					if(startRow == rowNumber){
-						ret.push(col);
-					}
-				}
-			}
-		}
-		return ret;
-
-	},
-
-	getRowSpanOf:function(column){
-		var countRows = this.getCountRows();
-        return countRows - this.getStartRowOf(column) - (this.isGroup(column) ? this.getChildDepthOf(column) : 0);
-	},
-
-	columnDepthCache:{},
-	getChildDepthOf:function(column){
-		if(this.columnDepthCache[column] === undefined){
-			if(this.isGroup(column)){
-				var ret = 0;
-				var children = this.getIdOfChildren(column);
-				for(var i=0;i<children.length;i++){
-					ret = Math.max(ret, this.getChildDepthOf(children[i]));
-				}
-				ret++;
-				this.columnDepthCache[column] = ret;
-			}else{
-				this.columnDepthCache[column] = 0;
-			}
-		}
-		return this.columnDepthCache[column];
-	},
-
-	getHiddenColumns:function(){
-		var ret = [];
-		for(var i=0;i<this.columnKeys.length;i++){
-			if(this.isHidden(this.columnKeys[i])){
-				ret.push(this.columnKeys[i]);
-			}
-		}
-		return ret;
-	},
-
-	canBeMovedTo:function(column, to){
-		return column !== to;
-	}
-});/* ../ludojs/src/grid/row-manager.js */
-/**
- * Row renderer config for a grid.
- * @class ludo.grid.RowManager
- * @param {Object} config
- * @param {Function} config.rowCls Function returning css class as string for a row. Argument to function: JSON for a row.
- * @example:
- * new ludo.grid.Grid({
- * 	rowManager: {
- * 		rowCls:function(row){ return "my-css-class" }
- * 	}
- *
- *
- */
-ludo.grid.RowManager = new Class({
-	Extends: ludo.Core,
-	type : 'grid.RowManager',
-
-	rowCls:undefined,
-
-	__construct:function(config){
-		this.parent(config);
-		if(config.rowCls)this.rowCls = config.rowCls;
-	}
-
-});/* ../ludojs/src/grid/grid.js */
-/**
- * @namespace ludo.grid
- */
-
-/**
- @namespace ludo.grid
- @class ludo.grid.Grid
- @augments View
-
- @param {Object} config
- @param {Boolean} config.headerMenu Show menu on each column heading.
- @param {Boolean} config.highlightRecord True to highlight rows on click, default: true
- @param {Boolean} config.mouseOverEffect True to highlight rows on mouse over, default: true.
- @param {Object} config.columns Description of columns. See example below for details.
- @param {Object} config.emptyText Text to show on grid when there are no data, default: "No data"
- @fires ludo.grid.Grid#click Row clicked. Arguments: 1) The record, i.e. JSON Object, example: { "firstname": "Jane", "lastname": "Johnson" } and 2) name of clicked column, example: "lastname"
- @fires ludo.grid.Grid#dblclick Row double clicked. Arguments: 1) The record, i.e. JSON Object, example: { "firstname": "Jane", "lastname": "Johnson" } and 2) name of clicked column, example: "lastname"
- @example
- children:[
- ..
- {
-      id:'myGrid',
-      type:'grid.Grid',
-      stateful:true,
-      resizable:false,
-
-      columns:{
-          'country':{
-              heading:'Country',
-              removable:false,
-              sortable:true,
-              movable:true,
-              width:200,
-              renderer:function (val) {
-                  return '<span style="color:blue">' + val + '</span>';
-              }
-          },
-          'capital':{
-              heading:'Capital',
-              sortable:true,
-              removable:true,
-              movable:true,
-              width:150
-          },
-          population:{
-              heading:'Population',
-              movable:true,
-              removable:true
-          }
-      },
-      dataSource:{
-          url:'data-source/grid.php',
-          id:'myDataSource',
-          paging:{
-              size:12,
-              remotePaging:false,
-              cache:false,
-              cacheTimeout:1000
-          },
-          searchConfig:{
-              index:['capital', 'country']
-          },
-          listeners:{
-              select:function (record) {
-                  console.log(record)
-              },
-               count:function(countRecords){
-                   ludo.get('gridWindowSearchable').setTitle('Grid - capital and population - Stateful (' + countRecords + ' records)');
-               }
-          }
-      }
-
-  }
- ...
- ]
- Is example of code used to add a grid as child view of another view. You may also create the grid directly using:
-
- @example
- new ludo.grid.Grid({...})
- where {...} can be the same code as above. use the "renderTo" config property to specify where you want the grid to be rendered.
-
- */
-ludo.grid.Grid = new Class({
-    Extends: ludo.View,
-    type: 'Grid',
-
-    hasMenu: true,
-    colMovable: null,
-    menu: true,
-
-    menuConfig: [],
-
-    sb: {},
-
-    highlightRecord: true,
-
-    uniqueId: '',
-    activeRecord: {},
-
-    headerMenu: true,
-
-
-    mouseOverEffect: true,
-
-    columnManager: undefined,
-
-    /*
-     Column config
-     @config {Object} columns
-     @example
-     columns:{
-     'country':{
-     heading:'Country',
-     sortable:true,
-     movable:true,
-     renderer:function (val) {
-     return '<span style="color:blue">' + val + '</span>';
-     }
-     },
-     'capital':{
-     heading:'Capital',
-     sortable:true,
-     movable:true
-     },
-     population:{
-     heading:'Population',
-     movable:true
-     }
-     }
-     or nested:
-
-     columns:{
-     info:{
-     heading:'Country and Capital',
-     headerAlign:'center',
-     columns:{
-     'country':{
-     heading:'Country',
-     removable:false,
-     sortable:true,
-     movable:true,
-     width:200,
-     renderer:function (val) {
-     return '<span style="color:blue">' + val + '</span>';
-     }
-     },
-     'capital':{
-     heading:'Capital',
-     sortable:true,
-     removable:true,
-     movable:true,
-     width:150
-     }
-     }
-     },
-     population:{
-     heading:'Population',
-     movable:true,
-     removable:true
-     }
-     }
-
-     */
-    columns: undefined,
-    rowManager: undefined,
-
-    emptyText: 'No data',
-
-    defaultDS: 'dataSource.JSONArray',
-
-    __construct: function (config) {
-        this.parent(config);
-
-        this.__params(config, ['columns', 'fill', 'headerMenu', 'rowManager', 'mouseOverEffect', 'emptyText', 'highlightRecord','keys']);
-
-        if (this.columns == undefined) {
-            this.columns = this.__columns();
-        }
-
-        if(this.keys != undefined){
-            var cols = {};
-            jQuery.each(this.keys, function(i, key){
-                 if(this.columns[key] != undefined){
-                     console.log(key);
-                     cols[key] = this.columns[key];
-                 }
-            }.bind(this));
-            this.columns = cols;
-        }
-
-        if (!this.cm) {
-            this.cm = {
-                columns: this.columns,
-                fill: this.fill
-            };
-        }
-        if (this.cm) {
-            if (!this.cm.type)this.cm.type = 'grid.ColumnManager';
-            this.cm.stateful = this.stateful;
-            this.cm.id = this.cm.id || this.id + '_cm';
-            this.cm = this.createDependency('colManager', this.cm);
-            this.cm.addEvents({
-                'hidecolumn': this.refreshData.bind(this),
-                'showcolumn': this.refreshData.bind(this),
-                'movecolumn': this.onColumnMove.bind(this),
-                'resize': this.resizeColumns.bind(this)
-            });
-        }
-
-        if (this.rowManager) {
-            if (!this.rowManager.type)this.rowManager.type = 'grid.RowManager';
-            this.rowManager = this.createDependency('rowManager', this.rowManager);
-        }
-        if (this.stateful && this.dataSource !== undefined && ludo.util.isObject(this.dataSource)) {
-            this.dataSource.id = this.dataSource.id || this.id + '_ds';
-            this.dataSource.stateful = this.stateful;
-        }
-
-        this.uniqueId = String.uniqueID();
-
-    },
-
-    __columns: function () {
-        return undefined;
-    },
-
-    ludoDOM: function () {
-        this.parent();
-        this.getEl().addClass('ludo-grid-Grid');
-
-        var b = this.$b();
-        var t = this.els.dataContainerTop = jQuery('<div>');
-
-        t.addClass('ludo-grid-data-container');
-        t.css({
-            'overflow': ludo.util.isTabletOrMobile() ? 'auto' : 'hidden',
-            'position': 'relative'
-        });
-
-        b.append(t);
-        b.css('overflow', 'visible');
-
-        this.els.dataContainer = jQuery('<div>');
-        t.append(this.els.dataContainer);
-
-        this.els.dataContainer.css('position', 'relative');
-        this.gridHeader = this.createDependency('gridHeader', {
-            type: 'grid.GridHeader',
-            headerMenu: this.headerMenu,
-            columnManager: this.cm,
-            grid: this
-        });
-        this.createDataColumnElements();
-        this.createScrollbars();
-        this.createColResizeHandles();
-    },
-
-    ludoEvents: function () {
-        this.parent();
-
-        if (this.dataSource) {
-            if (this.dataSourceObj && this.dataSourceObj.hasData()) {
-                this.populateData();
-            }
-            this.getDataSource().addEvents({
-                'change': this.populateData.bind(this),
-                'select': this.setSelectedRecord.bind(this),
-                'deselect': this.deselectDOMForRecord.bind(this),
-                'update': this.showUpdatedRecord.bind(this),
-                'delete': this.removeDOMForRecord.bind(this)
-            });
-            this.getDataSource().addEvent('select', this.selectDOMForRecord.bind(this));
-        }
-        var b = this.$b();
-        b.on('selectstart', ludo.util.cancelEvent);
-        if (this.highlightRecord) {
-            b.on('click', this.cellClick.bind(this));
-            b.on('dblclick', this.cellDoubleClick.bind(this));
-        }else{
-            b.css('cursor', 'default');
-        }
-
-        if (this.mouseOverEffect) {
-            this.els.dataContainer.on('mouseleave', this.mouseLeavesGrid.bind(this));
-        }
-    },
-
-    __rendered: function () {
-        this.parent();
-        this.ifStretchHideLastResizeHandles();
-
-        if (this.highlightRecord) {
-            this.els.dataContainer.css('cursor', 'pointer');
-        }
-
-        this.positionVerticalScrollbar.delay(100, this);
-
-        if (this.getParent()) {
-            this.getParent().$b().css({
-                'padding': 0
-            });
-            ludo.dom.clearCache();
-            this.getParent().resize.delay(100, this.getParent());
-        }
-
-        this.toggleEmptyText();
-    },
-
-    currentOverRecord: undefined,
-    mouseoverDisabled: false,
-
-    enterCell: function (el) {
-        if (this.mouseoverDisabled)return;
-        var record = this.getRecordByDOM(el);
-        if (record) {
-            if (this.currentOverRecord) {
-                this.deselectDOMForRecord(this.currentOverRecord, 'ludo-grid-record-over');
-            }
-            this.currentOverRecord = record;
-            this.selectDOMForRecord(record, 'ludo-grid-record-over');
-        }
-    },
-
-    mouseLeavesGrid: function () {
-        if (this.currentOverRecord) {
-            this.deselectDOMForRecord(this.currentOverRecord, 'ludo-grid-record-over');
-            this.currentOverRecord = undefined;
-        }
-    },
-
-    cellClick: function (e) {
-        var record = this.getRecordByDOM(e.target);
-        if (record) {
-            this.getDataSource().selectRecord(record);
-            this.fireEvent('click', [record, this.getColumnByDom(e.target)]);
-        }
-    },
-
-    getColumnByDom: function (el) {
-        el = jQuery(el);
-        if (!el.hasClass('ludo-grid-data-cell')) {
-            el = el.closest('.ludo-grid-data-cell');
-        }
-        if (el) {
-            return el.attr('col');
-        }
-        return undefined;
-    },
-
-    setSelectedRecord: function (record) {
-        // TODO should use dataSource.Record object instead of plain object
-        this.fireEvent('selectrecord', record);
-        this.highlightActiveRecord();
-    },
-
-    highlightActiveRecord: function () {
-        if (this.highlightRecord) {
-            var selectedRecord = this.getDataSource().getSelectedRecord();
-            if (selectedRecord && selectedRecord.uid) {
-                this.selectDOMForRecord(selectedRecord, 'ludo-active-record');
-            }
-        }
-    },
-
-    selectDOMForRecord: function (record, cls) {
-        cls = cls || 'ludo-active-record';
-        var cells = this.getDOMCellsForRecord(record);
-        for (var key in cells) {
-            if (cells.hasOwnProperty(key)) {
-                cells[key].addClass(cls);
-            }
-        }
-    },
-
-    deselectDOMForRecord: function (record, cls) {
-        cls = cls || 'ludo-active-record';
-        var cells = this.getDOMCellsForRecord(record);
-        for (var key in cells) {
-            if (cells.hasOwnProperty(key)) {
-                cells[key].removeClass(cls);
-            }
-        }
-    },
-
-
-    showUpdatedRecord: function (record) {
-        var cells = this.getDOMCellsForRecord(record);
-        var content;
-        var renderer;
-
-        for (var key in cells) {
-            if (cells.hasOwnProperty(key)) {
-                renderer = this.cm.getRendererFor(key);
-                if (renderer) {
-                    content = renderer(record[key], record);
-                } else {
-                    content = record[key];
-                }
-                cells[key].find('span').html(content);
-            }
-        }
-    },
-
-    removeDOMForRecord: function (record) {
-        var cells = this.getDOMCellsForRecord(record);
-        for (var key in cells) {
-            if (cells.hasOwnProperty(key)) {
-                cells[key].dispose();
-            }
-        }
-    },
-
-    getDOMCellsForRecord: function (record) {
-        var ret = {};
-        var div, divId;
-
-        var keys = this.cm.getLeafKeys();
-        for (var i = 0; i < keys.length; i++) {
-            var col = this.$b().find('#ludo-grid-column-' + keys[i] + '-' + this.uniqueId);
-            divId = 'cell-' + keys[i] + '-' + record.uid + '-' + this.uniqueId;
-            div = col.find('#' + divId);
-            if (div) {
-                ret[keys[i]] = div;
-            }
-        }
-        return ret;
-    },
-    /**
-     Select a record.
-     @function selectRecord
-     @param {Object} record
-     @memberof ludo.grid.Grid.prototype
-     @example
-     grid.selectRecord({ id: 100 } );
-     */
-    selectRecord: function (record) {
-        if (ludo.util.isString(record)) {
-            record = {id: record};
-        }
-        this.getDataSource().selectRecord(record);
-    },
-
-    cellDoubleClick: function (e) {
-        var record = this.getRecordByDOM(e.target);
-        if (record) {
-            this.getDataSource().selectRecord(record);
-
-            this.fireEvent('dblclick', [record, this.getColumnByDom(e.target)]);
-        }
-    },
-
-    getRecordByDOM: function (el) {
-        el = jQuery(el);
-        if (!el.hasClass('ludo-grid-data-cell')) {
-            el = el.parent('.ludo-grid-data-cell');
-        }
-        if (el && el.hasClass('ludo-grid-data-cell')) {
-            var uid = el.attr('uid');
-            return this.getDataSource().findRecord({uid: uid});
-        }
-        return undefined;
-    },
-
-    isColumnDragActive: function () {
-        return this.colMovable && this.colMovable.isActive();
-    },
-
-    hideResizeHandles: function () {
-        this.colResizeHandler.hideAllHandles();
-    },
-
-    showResizeHandles: function () {
-        this.colResizeHandler.showAllHandles();
-        this.ifStretchHideLastResizeHandles();
-    },
-
-    resizeChildren: function () {
-        this.parent();
-        if (this.colResizeHandler && this.cm.hasLastColumnDynamicWidth()) {
-            this.resizeColumns();
-        }
-    },
-
-    onColumnMove: function (source, target, pos) {
-        var c = this.els.dataColumns;
-        if (pos == 'before') {
-            c[source].insertBefore(c[target]);
-        } else {
-            c[source].insertAfter(c[target]);
-        }
-        this.cssColumns();
-        this.resizeColumns();
-
-    },
-
-    cssColumns: function () {
-        var keys = Object.keys(this.els.dataColumns);
-        for (var i = 0; i < keys.length; i++) {
-            var c = this.els.dataColumns[keys[i]];
-            c.removeClass('ludo-grid-data-last-column');
-            c.removeClass('ludo-grid-data-last-column-left');
-            c.removeClass('ludo-grid-data-column-left');
-            c.removeClass('ludo-grid-data-last-column-center');
-            c.removeClass('ludo-grid-data-column-center');
-            c.removeClass('ludo-grid-data-last-column-right');
-            c.removeClass('ludo-grid-data-column-right');
-            ludo.dom.addClass(c, this.getColumnCssClass(keys[i]));
-        }
-    },
-
-    refreshData: function () {
-        if (!this.isRendered)return;
-        this.createDataColumnElements();
-        this.resizeColumns();
-        this.populateData();
-        this.showResizeHandles();
-    },
-
-    JSON: function () {
-
-    },
-
-    addRecord: function (record) {
-        this.getDataSource().addRecord(record);
-    },
-
-    resizeDOM: function () {
-        this.resizeColumns();
-        var height = this.getHeight() - ludo.dom.getMBPH(this.$e) - ludo.dom.getMBPH(this.els.body);
-        height -= this.sb.h.getHeight();
-        if (height < 0) {
-            return;
-        }
-        this.$b().css('height', height);
-        var contentHeight = this.$b().height();
-
-        if (contentHeight == 0) {
-            this.resizeDOM.delay(100, this);
-            return;
-        }
-        this.els.dataContainerTop.css('height', contentHeight - this.gridHeader.getHeight());
-
-        this.sb.v.resize();
-        this.sb.h.resize();
-    },
-
-    createScrollbars: function () {
-        this.sb.h = this.createDependency('scrollHorizontal', new ludo.Scroller({
-            type: 'horizontal',
-            applyTo: this.$b(),
-            parent: this.$b()
-        }));
-        this.sb.h.getEl().insertAfter(this.$b());
-
-        this.sb.v = this.createDependency('scrollVertical', new ludo.Scroller({
-            type: 'vertical',
-            applyTo: this.els.dataContainer,
-            parent: this.els.dataContainerTop,
-            mouseWheelSizeCls: 'ludo-grid-data-cell'
-        }));
-        this.getEl().append(this.sb.v.getEl());
-        this.positionVerticalScrollbar();
-    },
-
-    positionVerticalScrollbar: function () {
-        var top = this.gridHeader.getHeight();
-        if (top == 0) {
-            this.positionVerticalScrollbar.delay(100, this);
-            return;
-        }
-        this.sb.v.getEl().css('top', top);
-    },
-    
-    createColResizeHandles: function () {
-        this.colResizeHandler = new ludo.ColResize({
-            component: this,
-            listeners: {
-                startresize: this.setResizePos.bind(this),
-                resize: this.resizeColumn.bind(this)
-            }
-        });
-        var keys = this.cm.getLeafKeys();
-        for (var i = 0; i < keys.length; i++) {
-            var el = this.colResizeHandler.getHandle(keys[i], this.cm.isResizable(keys[i]));
-            this.$b().append(el);
-            el.addClass('ludo-grid-resize-handle');
-        }
-    },
-
-    setResizePos: function (column) {
-        this.colResizeHandler.setMinPos(this.cm.getMinPosOf(column));
-        this.colResizeHandler.setMaxPos(this.cm.getMaxPosOf(column));
-        this.mouseoverDisabled = true;
-        this.mouseLeavesGrid();
-    },
-
-    mouseOverResizeHandle: function (e) {
-        jQuery(e.target).addClass('ludo-grid-resize-handle-over');
-    },
-    mouseOutResizeHandle: function (e) {
-        jQuery(e.target).removeClass('ludo-grid-resize-handle-over');
-    },
-
-    resizeColumns: function () {
-        this.mouseoverDisabled = false;
-        var leftPos = 0;
-
-        this.stretchLastColumn();
-        var columns = this.cm.getLeafKeys();
-
-        for (var i = 0; i < columns.length; i++) {
-            if (this.cm.isHidden(columns[i])) {
-                this.colResizeHandler.hideHandle(columns[i]);
-            } else {
-                var width = this.cm.getWidthOf(columns[i]);
-                var col = this.els.dataColumns[columns[i]];
-                
-                var bw = ludo.dom.getBW(col) - (i === columns.length - 1) ? 1 : 0;
-                col.css('left', leftPos);
-                col.css('width', (width - ludo.dom.getPW(col) - bw));
-
-                this.cm.setLeft(columns[i], leftPos);
-
-                leftPos += width;
-
-                this.colResizeHandler.setPos(columns[i], leftPos);
-                if (this.cm.isResizable(columns[i])) {
-                    this.colResizeHandler.showHandle(columns[i]);
-                } else {
-                    this.colResizeHandler.hideHandle(columns[i]);
-                }
-            }
-        }
-
-        var totalWidth = this.cm.getTotalWidth();
-        this.els.dataContainerTop.css('width', totalWidth);
-        // this.els.dataContainerTop.css('width', Math.min(Math.floor(this.$b().width()), totalWidth));
-
-        this.sb.h.setContentSize(totalWidth);
-
-    },
-
-    stretchLastColumn: function () {
-        if (this.cm.hasLastColumnDynamicWidth()) {
-
-            this.cm.clearStretchedWidths();
-
-            var totalWidth = this.cm.getTotalWidth();
-            var viewSize = this.$b().width();
-            var restSize = viewSize - totalWidth;
-            if (restSize <= 0) {
-                return;
-            }
-            var width = this.cm.getWidthOf(this.cm.getLastVisible()) + restSize;
-            this.cm.setStretchedWidth(width)
-        }
-    },
-
-    toggleEmptyText: function () {
-
-        if (this.emptyText) {
-            this.emptyTextEl().css('display', (!this.currentData || this.currentData.length) > 0 ? 'none' : '');
-        }
-    },
-
-    populateData: function () {
-
-        this.fireEvent('state');
-        this.currentOverRecord = undefined;
-        this.currentData = this.getDataSource().getData();
-
-
-        this.toggleEmptyText();
-
-        var contentHtml = [];
-        var keys = this.cm.getLeafKeys();
-        for (var i = 0; i < keys.length; i++) {
-            var columnId = 'ludo-grid-column-' + keys[i] + '-' + this.uniqueId;
-            if (this.cm.isHidden(keys[i])) {
-                contentHtml.push('<div id="' + columnId + '" class="ludo-grid-data-column" style="display:none"></div>');
-            } else {
-                contentHtml.push('<div id="' + columnId + '" col="' + keys[i] + '" class="ludo-grid-data-column ludo-grid-data-column-' + i + ' ' + this.getColumnCssClass(keys[i]) + '">' + this.getHtmlTextForColumn(keys[i]) + '</div>');
-            }
-        }
-
-        this.els.dataContainer.html(contentHtml.join(''));
-
-        var columns = this.els.dataContainer.find('.ludo-grid-data-column');
-        this.els.dataColumns = {};
-        var count;
-        for (i = 0, count = columns.length; i < count; i++) {
-
-            this.els.dataColumns[jQuery(columns[i]).attr('col')] = jQuery(columns[i]);
-        }
-
-        this.fireEvent('renderdata', [this, this]);
-        this.resizeColumns();
-        this.resizeVerticalScrollbar();
-        this.highlightActiveRecord();
-    },
-
-
-    emptyTextEl: function () {
-        if (this.els.emptyText === undefined) {
-            this.els.emptyText = jQuery('<div class="ludo-grid-empty-text">' + this.emptyText + '</div>');
-            this.getEl().append(this.els.emptyText);
-
-        }
-        return this.els.emptyText;
-    },
-
-    getColumnCssClass: function (col) {
-        var ret;
-        if (this.cm.isLastVisibleColumn(col)) {
-            ret = 'ludo-grid-data-last-column ludo-grid-data-last-column-';
-        } else {
-            ret = 'ludo-grid-data-column-';
-        }
-        ret += this.cm.getAlignmentOf(col);
-        return ret;
-    },
-
-    resizeVerticalScrollbar: function () {
-        var column = this.els.dataColumns[this.cm.getLastVisible()];
-        if (!column) {
-            return;
-        }
-        var height = column.outerHeight();
-
-        if (height === 0) {
-            this.resizeVerticalScrollbar.delay(300, this);
-        } else {
-            this.els.dataContainer.css('height', height);
-            this.sb.v.setContentSize();
-        }
-    },
-
-    createDataColumnElements: function () {
-        this.els.dataColumns = {};
-        var keys = this.cm.getLeafKeys();
-        for (var i = 0; i < keys.length; i++) {
-            var el = jQuery('<div>');
-            this.els.dataContainer.append(el);
-            el.addClass('ludo-grid-data-column');
-
-            el.attr('col', keys[i]);
-            el.addClass(this.getColumnCssClass(i));
-            el.id = 'ludo-grid-column-' + keys[i] + '-' + this.uniqueId;
-            this.els.dataColumns[keys[i]] = el;
-        }
-    },
-
-    getHtmlTextForColumn: function (col) {
-        var ret = [];
-        var rowClasses = ['ludo-grid-data-odd-row', 'ludo-grid-data-even-row'];
-        var content;
-        var data = this.currentData;
-        if (!data)return '';
-
-        var renderer = this.cm.getRendererFor(col);
-
-        var rowRenderer = this.rowManager ? this.rowManager.rowCls : undefined;
-        var rowCls = '';
-        for (var i = 0, count = data.length; i < count; i++) {
-            content = data[i][col];
-            if (renderer) {
-                content = renderer(content, data[i]);
-            }
-            var id = ['cell-', col, '-', data[i].uid, '-', this.uniqueId].join('');
-            var over = this.mouseOverEffect ? ' onmouseover="ludo.get(\'' + this.id + '\').enterCell(this)"' : '';
-            if (rowRenderer) {
-                rowCls = rowRenderer(data[i]);
-                if (rowCls)rowCls = ' ' + rowCls;
-            }
-            ret.push('<div id="' + id + '" ' + over + ' col="' + col + '" class="ludo-grid-data-cell ' + (rowClasses[i % 2]) + rowCls + '" uid="' + data[i].uid + '"><span class="ludo-grid-data-cell-text">' + content + '</span></div>');
-        }
-
-        return ret.join('');
-    },
-
-    resizeColumn: function (col, resizedBy) {
-        this.cm.increaseWithFor(col, resizedBy);
-    },
-
-    ifStretchHideLastResizeHandles: function () {
-        if (this.cm.hasLastColumnDynamicWidth()) {
-            this.colResizeHandler.hideHandle(this.cm.getLastVisible());
-        }
-    },
-
-    scrollBy: function (x, y) {
-        if (y) {
-            this.sb.v.scrollBy(y);
-        }
-        if (x) {
-            this.sb.h.scrollBy(x);
-        }
-    },
-
-    getSelectedRecord: function () {
-        return this.getDataSource().getSelectedRecord();
-    },
-
-    getColumnManager: function () {
-        return this.cm;
     }
 });/* ../ludojs/src/effect/resize.js */
 /***
@@ -15349,7 +14946,7 @@ ludo.view.ButtonBar = new Class({
 
     __rendered:function () {
         this.parent();
-		this.component.addEvent('resize', this.resizeRenderer.bind(this));
+		this.component.on('resize', this.resizeRenderer.bind(this));
 
 		if(this.buttonBarCss){
 			this.getEl().parent().css(this.buttonBarCss);
@@ -16260,120 +15857,121 @@ ludo.Window = new Class({
 
  */
 ludo.dialog.Dialog = new Class({
-	Extends:ludo.Window,
-	type:'dialog.Dialog',
-	modal:true,
-	autoRemove:true,
-	autoHideOnBtnClick:true,
-	buttonConfig:undefined,
-	movable:true,
-	closable:false,
-	minimizable:false,
+    Extends: ludo.Window,
+    type: 'dialog.Dialog',
+    modal: true,
+    autoRemove: true,
+    autoHideOnBtnClick: true,
+    buttonConfig: undefined,
+    movable: true,
+    closable: false,
+    minimizable: false,
 
-	__construct:function (config) {
-		// TODO use buttons instead of buttonConfig and check for string
-		config.buttonConfig = config.buttonConfig || this.buttonConfig;
-		if (config.buttonConfig) {
-			var buttons = config.buttonConfig.replace(/([A-Z])/g, ' $1');
-			buttons = buttons.trim();
-			buttons = buttons.split(/\s/g);
-			config.buttons = [];
-			for (var i = 0; i < buttons.length; i++) {
-				config.buttons.push({
-					value:buttons[i]
-				});
-			}
-		}
-		this.parent(config);
-	
-        this.__params(config, ['modal','autoRemove','autoHideOnBtnClick']);
-	},
+    __construct: function (config) {
+        // TODO use buttons instead of buttonConfig and check for string
+        config.buttonConfig = config.buttonConfig || this.buttonConfig;
+        if (config.buttonConfig) {
+            var buttons = config.buttonConfig.replace(/([A-Z])/g, ' $1');
+            buttons = buttons.trim();
+            buttons = buttons.split(/\s/g);
+            config.buttons = [];
+            for (var i = 0; i < buttons.length; i++) {
+                config.buttons.push({
+                    value: buttons[i]
+                });
+            }
+        }
+        this.parent(config);
 
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-dialog');
-	},
+        this.__params(config, ['modal', 'autoRemove', 'autoHideOnBtnClick']);
+    },
 
-    getShim:function(){
-        if(this.els.shim === undefined){
+    ludoDOM: function () {
+        this.parent();
+        this.getEl().addClass('ludo-dialog');
+    },
+
+    getShim: function () {
+        if (this.els.shim === undefined) {
             var el = this.els.shim = jQuery('<div>');
-			jQuery(document.body).append(el);
-			el.addClass('ludo-dialog-shim');
+            jQuery(document.body).append(el);
+            el.addClass('ludo-dialog-shim');
             el.css('display', 'none');
         }
         return this.els.shim;
     },
 
-	ludoEvents:function () {
-		this.parent();
-		if (this.isModal()) {
-			this.getEventEl().on('resize', this.resizeShim.bind(this));
-		}
-	},
+    ludoEvents: function () {
+        this.parent();
+        if (this.isModal()) {
+            this.getEventEl().on('resize', this.resizeShim.bind(this));
+        }
+    },
 
-	__rendered:function () {
-		this.parent();
-		if (!this.isHidden()) {
-			this.showShim();
-		}
-		var buttons = this.getButtons();
+    __rendered: function () {
+        this.parent();
+        if (!this.isHidden()) {
+            this.showShim();
+        }
+        var buttons = this.getButtons();
+        var fn = this.buttonClick.bind(this);
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].on('click', fn);
+        }
+    },
 
-		for (var i = 0; i < buttons.length; i++) {
-			buttons[i].addEvent('click', this.buttonClick.bind(this));
-		}
-	},
-
-	isModal:function () {
-		return this.modal;
-	},
-	show:function () {
+    isModal: function () {
+        return this.modal;
+    },
+    show: function () {
 
         this.showShim();
-		this.parent();
+        this.parent();
 
-	},
+    },
 
-	hide:function () {
-		this.parent();
-		this.hideShim();
-		if (this.autoRemove) {
-			this.remove.delay(1000, this);
-		}
-	},
+    hide: function () {
+        this.parent();
+        this.hideShim();
+        if (this.autoRemove) {
+            this.remove.delay(1000, this);
+        }
+    },
 
-	showShim:function () {
-        if(!this.layout){
-			this.center();
-		}
-		if (this.isModal()) {
-			this.getShim().css({
-				display:'',
-				'z-index' : this.getEl().css('z-index') -1
-			});
-			this.resizeShim();
-		}
-	},
+    showShim: function () {
+        if (!this.layout) {
+            this.center();
+        }
+        if (this.isModal()) {
+            this.getShim().css({
+                display: '',
+                'z-index': this.getEl().css('z-index') - 1
+            });
+            this.resizeShim();
+        }
+    },
 
-	resizeShim:function () {
-		var b = jQuery(document.body);
-		var size = { x: b.width(), y: b.height() };
-        this.getShim().css('width',  size.x);
-        this.getShim().css('height',  size.y + 'px');
-	},
+    resizeShim: function () {
+        var b = jQuery(document.body);
+        this.getShim().css({
+            width: b.width(),
+            height: b.height()
+        });
+    },
 
-	hideShim:function () {
-		if (this.isModal()) {
+    hideShim: function () {
+        if (this.isModal()) {
             this.getShim().css('display', 'none');
-		}
-	},
+        }
+    },
 
-	buttonClick:function (value, button) {
+    buttonClick: function (value, button) {
 
-		this.fireEvent(button._get().replace(/\s/g, '').toLowerCase(), this);
-		if (this.autoHideOnBtnClick) {
-			this.hide();
-		}
-	}
+        this.fireEvent(button._get().replace(/\s/g, '').toLowerCase(), this);
+        if (this.autoHideOnBtnClick) {
+            this.hide();
+        }
+    }
 });/* ../ludojs/src/dialog/confirm.js */
 /**
   Standard confirm dialog with default "OK" and "Cancel" buttons
@@ -16423,943 +16021,7 @@ ludo.dialog.Confirm = new Class({
     }
 });
 
-/* ../ludojs/src/dialog/alert.js */
-/**
- Alert dialog. This component has by default one button "OK" and will fire an
- "ok" event when this button is clicked
- @namespace ludo.dialog
- @class ludo.dialog.Alert
- @augments ludo.dialog.Dialog
- @param {Object} config
- @example
-	 new ludo.dialog.Alert(
-	 	{ html: 'Well done! You solved this puzzle. Click OK to load next' }
-	 	listeners : {
-		   'ok' : this.loadNextPuzzle.bind(this)
-		  }
-	 });
- will display a dialog in default size with a listener attached to the "OK" button. When clicked
- it will call the loadNextPuzzle method of the object creating the alert dialog.
- */
-ludo.dialog.Alert = new Class({
-	Extends:ludo.dialog.Dialog,
-	type:'dialog.Alert',
-	buttonConfig:undefined,
-	width:300,
-	height:150,
-
-	resizable:false,
-
-	__construct:function (config) {
-		if (config.substr) {
-			config = {
-				html:config
-			}
-		}
-		if (!config.buttons) {
-			config.buttons = [
-				{
-					value:'OK',
-					width:60
-				}
-			]
-		}
-		this.parent(config);
-	}
-});
-
-/* ../ludojs/src/form/validator/fns.js */
-ludo.form.validator.required = function(value, required){
-    return !required || value.length > 0;
-};
-
-ludo.form.validator.minLength = function(value, minLength){
-    return value.length === 0 || value.length >= minLength;
-};
-
-ludo.form.validator.maxLength = function(value, maxLength){
-    return value.length === 0 || value.length <= maxLength;
-};
-
-ludo.form.validator.regex = function(value, regex){
-    return value.length === 0 || regex.test(value);
-};
-
-ludo.form.validator.minValue = function(value, minValue){
-    return value.length === 0 || parseInt(value) >= minValue;
-};
-ludo.form.validator.maxValue = function(value, maxValue){
-    return value.length === 0 || parseInt(value) <= maxValue;
-};
-ludo.form.validator.twin = function(value, twin){
-    var cmp = ludo.get(twin);
-    return !cmp || (cmp && value === cmp.value);
-};/* ../ludojs/src/form/element.js */
-/**
- * Super class for form Views.
- * This class inherits from <a href="ludo.View.html">ludo.View</a>.
- * @module form
- * @class ludo.form.Element
- * @param {Object} config Configuration when creating the View. These properties and properties from superclass is available
- * @param {String} config.name Name of element. A call to parentView.getForm().values() will return &lt;name> : &lt;value>.
- * @param {Boolean} config.required True to apply validation for required. Default:false
- * @param {Object} config.formCss Optional css styling of the form element. Example: { type:'form.Text', formCss:{ "text-align": right }} to right align text of a text input.
- * @param {Function} config.validator A Validator function to be executed when value is changed. This function should return true when valid, false when invalid. Current value will be passed to this function.
- * @param {Function} config.linkWith Creates a link with form element with this id. When two form views are linked, they will always have the same value. When one value is changed, the linked form view is automatically updated.
- * @param {String} config.name Name of form element
- * @param {String|Number} config.value - Initial value for form element.
- * Example: A link between a form.Seekbar and a form.Number.
- * Example: { type:'form.Text', placeHolder='Enter Valid Value', validator:function(value){ return value == 'Valid Value' } }
- * @fires ludo.form.Element#enable - Fired on enable, argument: ludo.form.Element
- * @fires ludo.form.Element#disable - Fired on disable, argument: ludo.form.Element
- * @fires ludo.form.Element#key_down - Fired on key down. Arguments: key, value, ludo.form.Element
- * @fires ludo.form.Element#key_up - Fired on key up. Arguments: key, value, ludo.form.Element
- * @fires ludo.form.Element#key_press - Fired on key up. Arguments: key, value, ludo.form.Element
- * @fires ludo.form.Element#focus - Fired on focus received. Arguments: value, ludo.form.Element
- * @fires ludo.form.Element#blur - Fired on blur. Arguments: value, ludo.form.Element
- * @fires ludo.form.Element#change - Fired on changed value by GUI. Arguments: value, ludo.form.Element
- * @fires ludo.form.Element#valueChange - Fired on changed value by GUI or the val function. Arguments: value, ludo.form.Element
- * @fires ludo.form.Element#dirty - Fired on new value which is different from initial. Arguments. value, ludo.form.Element
- * @fires ludo.form.Element#clean - Fired on new value which is the same as initial. Arguments. value, ludo.form.Element
- * @fires ludo.form.Element#value - Fired when a new valid value is set. Arguments. value, ludo.form.Element
- * @fires ludo.form.Element#invalid - Fired when a new value is set which is invalid. Arguments. value, ludo.form.Element
- * @namespace ludo.form
- */
-ludo.form.Element = new Class({
-    Extends:ludo.View,
-
-    value:undefined,
-    onLoadMessage:'',
-
-    name:undefined,
-
-
-    formCss:undefined,
-    stretchField:true,
-    required:false,
-    dirtyFlag:false,
-    initialValue:undefined,
-    constructorValue:undefined,
-    /*
-     * Is form element ready for setValue. For combo boxes and select boxes it may
-     * not be ready until available values has been loaded remotely
-     * @property isReady
-     * @type {Boolean}
-     * @private
-     */
-    isReady:true,
-    overflow:'hidden',
-
-    /*
-     * Will not validate unless value is the same as value of the form element with this id
-     * Example of use: Password and Repeat password. It's sufficient to specify "twin" for one of
-     * the views.
-     * @property twin
-     * @type String
-     * @default undefined
-     */
-    twin:undefined,
-    linkWith:undefined,
-    statefulProperties:['value'],
-    validator:undefined,
-    validatorFn:undefined,
-
-    validators:[],
-    submittable:true,
-
-    __construct:function (config) {
-        
-
-        this.parent(config);
-        var defaultConfig = this.getInheritedFormConfig();
-
-        // TODO change disabled to enabled
-
-
-        var keys = ['label', 'suffix', 'formCss', 'validator', 'stretchField', 'required', 'twin', 'disabled','submittable',
-            'value', 'data'];
-        this.__params(config, keys);
-
-        this.elementId = ('el-' + this.name).trim();
-        this.formCss = defaultConfig.formCss || this.formCss;
-        if (defaultConfig.height && config.height === undefined)this.layout.height = defaultConfig.height;
-
-        if (this.validator) {
-            this.createValidator();
-        }
-        if (config.linkWith !== undefined) {
-            this.setLinkWith(config.linkWith);
-        }
-
-        if (this.dataSource && !this.dataSource.data) {
-            this.isReady = false;
-        }
-        this.initialValue = this.constructorValue = this.value;
-        if (!this.name)this.name = 'ludo-form-el-' + String.uniqueID();
-
-
-        ludo.Form.add(this);
-        if(this.required)this.applyValidatorFns(['required']);
-        this.applyValidatorFns(['twin']);
-    },
-
-    ludoDOM:function(){
-        this.parent();
-        this.addInput();
-    },
-
-    applyValidatorFns:function (keys) {
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            if (this[key] !== undefined) {
-                this.validators.push({
-                    fn:ludo.form.validator[key],
-                    key:key
-                });
-            }
-        }
-    },
-
-    createValidator:function () {
-        var fn;
-        if (ludo.util.isFunction(this.validator)) {
-            fn = this.validator;
-        } else {
-            this.validator.applyTo = this;
-            this.validator = ludo._new(this.validator);
-            fn = this.validator.isValid.bind(this.validator);
-        }
-        this.validators.push({
-            fn : fn,key:''
-        });
-    },
-
-    ludoEvents:function () {
-        this.parent();
-
-        if (this.dataSource) {
-            this.getDataSource().on('load', this.setReady.bind(this));
-        }
-
-        var formEl = this.getFormEl();
-
-        if (formEl) {
-            formEl.on('keydown', this.keyDown.bind(this));
-            formEl.on('keypress', this.keyPress.bind(this));
-            formEl.on('keyup', this.keyUp.bind(this));
-            formEl.on('focus', this.focus.bind(this));
-            formEl.on('change', this.change.bind(this));
-            formEl.on('blur', this.blur.bind(this));
-        }
-    },
-
-    __rendered:function () {
-        this.parent();
-
-        if (this.disabled)this.disable();
-
-		if(this.els.formEl){
-			this.els.formEl.attr('name', this.getName());
-			if(this.value !== undefined)this.els.formEl.val(this.value)
-		}
-        if (this.linkWith) {
-            this.createBackLink();
-        }
-		var parentFormManager = this.getParentForm();
-	    if (parentFormManager) {
-			parentFormManager.registerFormElement(this);
-		}
-		this.validate();
-    },
-
-    /**
-     * Enable or disable form element
-     * @param {Boolean} enabled
-     * @memberof ludo.form.Element.prototype
-     */
-    setEnabled:function(enabled){
-        if(enabled)this.enable(); else this.disable();
-    },
-
-    /**
-     * Disable form element
-     * @function disable
-     * @return void
-     * @memberof ludo.form.Element.prototype
-     */
-    disable:function () {
-        this.getFormEl().attr('disabled', '1');
-        this.fireEvent('disable', this);
-    },
-    /**
-     * Enable form element
-     * @function enable
-     * @return void
-     * @memberof ludo.form.Element.prototype
-     */
-    enable:function () {
-        this.getFormEl().removeAttr('disabled');
-        this.fireEvent('enable', this);
-    },
-
-    getInheritedFormConfig:function () {
-        var cmp = this.getParent();
-        if (cmp) {
-            return cmp.formConfig || {};
-        }
-        return {};
-    },
-
-    ludoCSS:function () {
-        this.parent();
-        this.getEl().addClass('ludo-form-element');
-        if (this.els.formEl) {
-            this.els.formEl.id = this.elementId;
-
-            if (this.formCss) {
-                this.els.formEl.css(this.formCss);
-            }
-        }
-    },
-
-    getFormElId:function () {
-        return this.elementId;
-    },
-
-    getWidth:function () {
-        var ret = this.parent();
-        return ret ? ret : 20;
-    },
-
-    keyUp:function (e) {
-        this.fireEvent('key_up', [ e.key, this.value, this ]);
-    },
-
-    keyDown:function (e) {
-        this.fireEvent('key_down', [ e.key, this.value, this ]);
-    },
-
-    keyPress:function (e) {
-        this.fireEvent('key_press', [ e.key, this.value, this ]);
-    },
-
-    focus:function () {
-        this._focus = true;
-        this.clearInvalid();
-        this.fireEvent('focus', [ this.value, this ]);
-    },
-    change:function () {
-        if (this.els.formEl) {
-            this._set(this.els.formEl.val());
-
-        }
-        if (this.wasValid)this.fireEvent('change', [ this._get(), this ]);
-    },
-
-    blur:function () {
-        this._focus = false;
-        this.validate();
-        if (this.getFormEl())this.value = this.getValueOfFormEl();
-        this.toggleDirtyFlag();
-
-        this.fireEvent('blur', [ this.value, this ]);
-    },
-
-    getValueOfFormEl:function(){
-        return this.getFormEl().val();
-    },
-
-    toggleDirtyFlag:function(){
-        if (this.value !== this.initialValue) {
-            this.setDirty();
-            this.fireEvent('dirty', [this.value, this]);
-        } else {
-            this.setClean();
-            this.fireEvent('clean', [this.value, this]);
-        }
-    },
-
-    hasFocus:function () {
-        return this._focus;
-    },
-    JSON:function (data) {
-        this.populate(data);
-    },
-    populate:function () {
-
-    },
-    getLabel:function () {
-        return this.label;
-    },
-
-    getValue:function () {
-        console.warn("Use of deprecated getValue");
-        console.trace();
-        return this.els.formEl ? this.els.formEl.val() : this.value;
-    },
-
-    /**
-     * Set or get value. If val argument is set, you will set a value, if not current value
-     * will be returned.
-     * @param {String|Number|Array|Object|Boolean} val
-     * @returns {*}
-     * @memberof ludo.form.Element.prototype
-     */
-
-    val:function(val){
-        if(arguments.length == 0){
-            return this._get();
-        }
-        this._set(val);
-    },
-
-    _get:function(){
-        return this.els.formEl ? this.els.formEl.val() : this.value;
-    },
-
-    _set:function(value){
-
-        if (value == this.value) {
-            return value;
-        }
-
-        this.setFormElValue(value);
-        this.value = value;
-
-        this.validate();
-
-        if (this.wasValid) {
-            this.fireEvent('valueChange', [this._get(), this]);
-            if (this.stateful)this.fireEvent('state');
-            if (this.linkWith)this.updateLinked();
-        }
-
-        this.fireEvent('value', value);
-
-        return value;
-    },
-
-    /*
-     * Set new value
-     * @function setValue
-     * @param value
-     * @return void
-     */
-    setValue:function (value) {
-        console.warn("Use of deprecated setValue");
-        console.trace();
-        return this._set(value);
-    },
-
-    setFormElValue:function(value){
-        if (this.els.formEl && this.els.formEl.val() !== value) {
-            this.els.formEl.val(value);
-            if(this.inlineLabel)this.els.formEl.removeClass('ludo-form-el-inline-label');
-        }
-    },
-
-    /**
-     * Get reference to input element
-     * @function getFormEl
-     * @return DOMElement
-     * @memberof ludo.form.Element.prototype
-     */
-    getFormEl:function () {
-        return this.els.formEl;
-    },
-    /**
-     * Returns true when value of form element is valid, i.e. larger than minValue, matching regex etc.
-     * @function isValid
-     * @return {Boolean} valid
-     * @memberof ludo.form.Element.prototype
-     */
-    isValid:function () {
-        if(this.validators.length === 0)return true;
-
-        var val = this.getFormEl() ? this.getValueOfFormEl().trim() : this.value;
-        for (var i = 0; i < this.validators.length; i++) {
-            if (!this.validators[i].fn.apply(this, [val, this[this.validators[i].key], this])){
-                return false;
-            }
-        }
-        return true;
-    },
-
-    clearInvalid:function () {
-        this.getEl().removeClass('ludo-form-el-invalid');
-    },
-
-    wasValid:true,
-
-    validate:function () {
-        this.clearInvalid();
-        if (this.isValid()) {
-            this.wasValid = true;
-            this.fireEvent('valid', [this.value, this]);
-            return true;
-        } else {
-            this.wasValid = false;
-
-            this.fireEvent('invalid', [this.value, this]);
-            return false;
-        }
-    },
-
-    isFormElement:function () {
-        return true;
-    },
-
-    /**
-     * Alias to reset
-     * @memberof ludo.form.Element.prototype
-     */
-    rollback:function(){
-        this.reset();
-    },
-    /**
-     * Reset / Roll back to last committed value. It could be the value stored by last commit method call
-     * or if the original value/default value of this field.
-     * @function reset
-     * @memberof ludo.form.Element.prototype
-     * @return void
-     */
-    reset:function () {
-        this._set(this.initialValue);
-    },
-
-    /**
-     * Reset value back to the original value sent(constructor value)
-     * @function clear
-     * @memberof ludo.form.Element.prototype
-     */
-    clear:function () {
-        this._set(this.constructorValue);
-    },
-
-    /**
-     * Update initial value to current value. These actions will always trigger a commit<br>
-     * - Form or Model submission
-     * - Fetching new record for a ludo.model.Model
-     * @function commit
-     * @memberOf ludo.form.Element.prototype
-     */
-    commit:function () {
-        if(!this.isReady){
-            this.commit.delay(100, this);
-            return;
-        }
-        this.initialValue = this.value;
-    },
-    /**
-     * Returns true if current value is different from original value
-     * @function isDirty
-     * @return {Boolean} isDirty
-     * @memberof ludo.form.Element.prototype
-     */
-    isDirty:function () {
-        return this.dirtyFlag;
-    },
-
-    setDirty:function () {
-        this.dirtyFlag = true;
-        this.getEl().addClass('ludo-form-el-dirty');
-    },
-
-    setClean:function () {
-        this.dirtyFlag = false;
-        var el = this.getEl();
-        if(el)el.removeClass('ludo-form-el-dirty');
-    },
-
-    setReady:function () {
-        this.isReady = true;
-        var val = this.value;
-        this.value = undefined;
-        if(val)this._set(val);
-    },
-
-    updateLinked:function () {
-        var cmp = this.getLinkWith();
-        if (cmp && cmp.value !== this.value) {
-            cmp._set(this.value);
-        }
-    },
-
-    setLinkWith:function (linkWith) {
-        this.linkWith = linkWith;
-        this.addEvent('valueChange', this.updateLinked.bind(this));
-    },
-
-    createBackLink:function (attempts) {
-        attempts = attempts || 0;
-        var cmp = this.getLinkWith();
-        if (cmp && !cmp.linkWith) {
-            if (this.value === undefined){
-				this.initialValue = this.constructorValue = cmp.value;
-				this._set(cmp.value);
-			}
-            cmp.setLinkWith(this);
-        } else {
-            if (attempts < 100) {
-                this.createBackLink.delay(50, this, attempts + 1);
-            }
-        }
-    },
-
-    addInput: function () {
-        if (!this.inputTag) {
-            return;
-        }
-
-        this.els.inputCell = jQuery('<div class="input-cell"></div>');
-        this.$b().append(this.els.inputCell);
-        var fe = this.els.formEl = jQuery('<' + this.inputTag + '>');
-
-        if (this.inputType) {
-            fe.attr('type', this.inputType);
-        }
-        if (this.maxLength) {
-            fe.attr('maxlength', this.maxLength);
-        }
-        if (this.readonly) {
-            fe.attr('readonly', true);
-        }
-        this.getInputCell().append(fe);
-        fe.css('width', '100%');
-        fe.attr("id", this.getFormElId());
-    },
-
-    getLinkWith:function(){
-        var cmp = ludo.get(this.linkWith);
-        return cmp ? cmp : this.parentComponent ? this.parentComponent.child[this.linkWith] : undefined;
-    },
-
-    getInputCell:function(){
-        return this.els.inputCell;
-    }
-});/* ../ludojs/src/form/label-element.js */
-/**
- * Class which render two child views, one label and one form field. This is a convenient class for rendering
- * a form field with a label to the left.
- *
- * This class renders the views in a linear horizontal layout.
- *
- * @class ludo.form.LabelElement
- * @param {Object} config
- * @param {Object} config.label Configuration for ludo.form.Label
- * @param {Object} config.field Configuration for a form field
- * @example:
-*  var labelElement = new ludo.form.LabelElement({
-    label:{
-        label:'myLabel',
-        type:'form.Label',
-        layout:{
-            width:70
-        }
-    },
-    field:{
-        type:'form.Number',
-        name:'myField',
-        minValue:0,
-        maxValue:255
-    },
-    renderTo:document.body,
-    layout:{
-        width:200,
-        height:50
-    }
-});
- */
-ludo.form.LabelElement = new Class({
-    Extends: ludo.View,
-
-    label:undefined,
-    field:undefined,
-
-    __construct: function (config) {
-        this.parent(config);
-        this.__params(config, ['label', 'field']);
-
-        if(!this.label.type)this.label.type='form.Label';
-        this.label.labelFor = this.field.name;
-
-        this.layout = this.layout || {};
-        this.layout.type = 'linear';
-        this.layout.orientation = 'horizontal';
-    },
-
-    __children:function(){
-        return [
-            this.label,
-            this.field
-        ]
-    },
-
-    __rendered: function () {
-        this.parent();
-    }
-
-});/* ../ludojs/src/form/text.js */
-/**
- * Text Input View
- * This class inherits from <a href="ludo.form.Element.html">ludo.form.Element</a>.
- * @module form
- * @namespace ludo.form
- * @class ludo.form.Text
- * @description Form input text
- *  @param {Object} config Configuration when creating the View. These properties and properties from superclass is available
- * @param {String} config.name Name of element. A call to parentView.getForm().values() will return &lt;name> : &lt;value>.
- * @param {String} config.placeholder Placeholder attribute for the input. Displayed when value is empty. (Default:undefined)
- * @param {Number} config.minLength Defines required min length of value(count characters). (Default:undefined)
- * @param {Number} config.maxLength Defines required max length of value(count characters)
- * @param {Boolean} config.ucFirst True to automatically Uppercase first letter. (Default: false)
- * @param {RegExp} config.regex Regular expression used for validation, example: regex: /$[0-9]{3}^/ to require 3 digits. (Default:undefined)
- * @param {Boolean} config.readonly True to make this form field read only. (Default: false)
- * @param {Boolean} config.selectOnFocus Automatically make the text selected on focus. Default: false
- * @param {Boolean} config.validateKeyStrokes True to run validation after every key stroke(Default: false)
- * @param {Boolean} config.autoComplete False to disable browsers auto complete(default : true)
- * @param {Function} config.validator Optional validator function for the value.
- * @fires ludo.form.Text#key Fired when a key is pressed. Argument: {String} key pressed.
- * @augments ludo.form.Element
- *
- */
-ludo.form.Text = new Class({
-    Extends: ludo.form.Element,
-    type: 'form.Text',
-    labelWidth: 100,
-    defaultValue: '',
-    placeholder:'',
-
-    maxLength: undefined,
-
-    minLength: undefined,
-    ucFirst: false,
-    ucWords: false,
-
-    inputType: 'text',
-    inputTag: 'input',
-    regex: undefined,
-    validateKeyStrokes: false,
-    formFieldWidth: undefined,
-    readonly: false,
-    selectOnFocus: false,
-    autoComplete:true,
-
-    __construct: function (config) {
-        this.parent(config);
-        
-        var keys = ['placeholder', 'selectOnFocus', 'regex', 'minLength', 'maxLength', 'defaultValue', 'autoComplete', 'validateKeyStrokes', 'ucFirst', 'ucWords', 'readonly'];
-        this.__params(config, keys);
-        if (this.regex && ludo.util.isString(this.regex)) {
-            var tokens = this.regex.split(/\//g);
-            var flags = tokens.length > 1 ? tokens.pop() : '';
-            this.regex = new RegExp(tokens.join('/'), flags);
-        }
-        this.applyValidatorFns(['minLength', 'maxLength', 'regex']);
-
-        if(this.layout.height == undefined){
-            this.layout.height = 'wrap';
-        }
-
-    },
-
-    ludoDOM:function(){
-        this.parent();
-        var fe = this.getFormEl();
-        if(this.placeholder){
-            fe.attr('placeholder', this.placeholder);
-        }
-
-        if(!this.autoComplete){
-            fe.attr('x-autocompletetype', String.uniqueID());
-            fe.attr('autocomplete', 'false');
-        }
-    },
-
-    ludoEvents: function () {
-        this.parent();
-        var el = this.getFormEl();
-        if (this.ucFirst || this.ucWords) {
-            this.addEvent('blur', this.upperCaseWords.bind(this));
-        }
-        this.addEvent('blur', this.validate.bind(this));
-        if (this.validateKeyStrokes) {
-            el.on('keydown', this.validateKey.bind(this));
-        }
-        el.parent().addClass('ludo-form-text-element');
-        el.on('keyup', this.sendKeyEvent.bind(this));
-
-        if (this.selectOnFocus) {
-            el.on('focus', this.selectText.bind(this));
-        }
-    },
-
-    sendKeyEvent: function () {
-        this.fireEvent('key', this.els.formEl.val());
-    },
-
-    validateKey: function (e) {
-        if (!e.control && !e.alt && this.regex && e.key && e.key.length == 1) {
-            if (!this.regex.test(e.key)) {
-                return false;
-            }
-        }
-        return undefined;
-    },
-
-    getFieldWidth: function () {
-        return this.formFieldWidth;
-    },
-    /**
-     * Focus form element
-     * @function focus
-     * @return void
-     * @memberof ludo.form.Text.prototype
-     */
-    focus: function () {
-        this.parent();
-        if (!this.getFormEl().is(":focus")) {
-            this.getFormEl().focus();
-        }
-    },
-
-    validate: function () {
-        var valid = this.parent();
-        if (!valid && !this._focus) {
-            this.$e.addClass('ludo-form-el-invalid');
-        }
-        return valid;
-    },
-    keyUp: function (e) {
-        this.parent(e);
-        if (this.validateKeyStrokes) {
-            this.validate();
-        }
-    },
-
-    upperCaseWords: function () {
-        if (this.ucFirst || this.ucWords) {
-            var val = this.getValueOfFormEl();
-            if (val.length == 0) {
-                return;
-            }
-            if (this.ucWords && val.length > 1) {
-                var tokens = val.split(/\s/g);
-                for (var i = 0; i < tokens.length; i++) {
-                    if (tokens[i].length == 1) {
-                        tokens[i] = tokens[i].toUpperCase();
-                    } else {
-                        tokens[i] = tokens[i].substr(0, 1).toUpperCase() + tokens[i].substr(1);
-                    }
-                }
-                this.getFormEl().val(tokens.join(' '));
-            }
-            else {
-                val = val.substr(0, 1).toUpperCase() + val.substr(1);
-                this.getFormEl().val(val);
-            }
-        }
-    },
-
-    hasSelection: function () {
-        var start = this.getSelectionStart();
-        var end = this.getSelectionEnd();
-        return end > start;
-    },
-
-    select:function(){
-        this.getFormEl().select();
-    },
-
-    selectText: function () {
-        this.select();
-    },
-
-    getSelectionStart: function () {
-        if (this.els.formEl.createTextRange) {
-            var r = document.selection.createRange().duplicate();
-            r.moveEnd('character', this.els.formEl.val().length);
-            if (r.text == '') return this.els.formEl.val().length;
-            return this.els.formEl.val().lastIndexOf(r.text);
-        } else return this.els.formEl.selectionStart;
-    },
-
-    getSelectionEnd: function () {
-        if (this.els.formEl.createTextRange) {
-            var r = document.selection.createRange().duplicate();
-            r.moveStart('character', -this.els.formEl.val().length);
-            return r.text.length;
-        } else return this.els.formEl.selectionEnd;
-    }
-});
-/* ../ludojs/src/dialog/prompt.js */
-/**
- * Dialog with one text field. Default buttons are "OK" and "Cancel"
- * @namespace ludo.dialog
- * @class ludo.dialog.Prompt
- * @augments ludo.dialog.Dialog
- * @param {Object} config
- */
-ludo.dialog.Prompt = new Class({
-    Extends: ludo.dialog.Dialog,
-    type : 'dialog.Prompt',
-    input : undefined,
-    inputConfig : {},
-    label:'',
-    value:'',
-    __construct : function(config){
-        if(!config.buttons && !config.buttonConfig && !config.buttonBar){
-            config.buttons = [
-                {
-                    value : 'OK',
-                    width : 60,
-					defaultSubmit:true,
-                    type:'form.Button'
-                },
-                {
-                    value : 'Cancel',
-                    width : 60
-                }
-            ]
-        }
-        this.__params(config, ['label','value','inputConfig']);
-        this.parent(config);
-    },
-
-    __rendered : function(){
-        this.parent();
-        var inputConfig = Object.merge(this.inputConfig, {
-            type : 'form.Text',
-            label : this.label,
-            value : this.value
-        });
-
-        this.input = this.addChild(inputConfig);
-        this.input.focus();
-    },
-
-    /**
-     * Return value of input field
-     * @function val
-     * @return String value
-     * @memberof ludo.dialog.Prompt
-     */
-    val: function(){
-        return this.input.val();
-    },
-
-    getValue : function(){
-        return this.input.val()
-    },
-
-    buttonClick : function(value, button){
-        this.fireEvent(button.value.toLowerCase(), [this.val(), this]);
-        if (this.autoHideOnBtnClick) {
-            this.hide();
-        }
-    }
-
-});/* ../ludojs/src/controller/manager.js */
+/* ../ludojs/src/controller/manager.js */
 /**
  * This class connects view modules and controllers
  * @namespace ludo.controller
@@ -18256,302 +16918,6 @@ ludo.remote.JSON = new Class({
         this.resource = resource;
     }
 });
-/* ../ludojs/src/remote/html.js */
-/**
- Class for remote HTML requests.
- @namespace remote
- @class ludo.remote.HTML
-
- */
-ludo.remote.HTML = new Class({
-	Extends:ludo.remote.Base,
-	HTML:undefined,
-
-	sendToServer:function (service, resourceArguments, serviceArguments, additionalData) {
-		jQuery.ajax({
-			dataType: "html",
-			method: this.method,
-			url:this.getUrl(service, resourceArguments),
-			async:true,
-			cache:false,
-			data:this.getDataForRequest(service, resourceArguments, serviceArguments, additionalData),
-			success:function(html){
-				this.remoteData = html;
-				this.fireEvent('success', this);
-				this.sendBroadCast(service);
-				this.onComplete();
-			}.bind(this),
-
-			error:function(xhr, text, error){
-				this.remoteData = { "code":500, "message":error };
-				this.fireEvent('servererror', this);
-				this.sendBroadCast(service);
-				this.onComplete();
-			}.bind(this)
-
-		});
-	},
-	/**
-	 * Return JSON response data from last request.
-	 * @function getResponseData
-	 * @return {Object|undefined}
-	 * @memberof ludo.remote.HTML.prototype
-	 */
-	getResponseData:function () {
-		return this.remoteData;
-	},
-
-	/**
-	 * Return entire server response of last request.
-	 * @function getResponse
-	 * @return {Object|undefined}
-	 * @memberof ludo.remote.HTML.prototype
-	 */
-	getResponse:function () {
-		return this.remoteData;
-	}
-});/* ../ludojs/src/remote/broadcaster.js */
-/**
- Singleton class responsible for broadcasting messages from remote requests.
- Instance of this class is available in ludo.remoteBroadcaster.
-
- The broadcaster can fire four events:
- start, success, failure and serverError. The example below show you how
- to add listeners to these events.
-
- @class ludo.remote.Broadcaster
-ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-    // Do something
-});
- */
-ludo.remote.Broadcaster = new Class({
-    Extends:Events,
-
-    defaultMessages:{},
-    /**
-     * @function broadcast
-     * @param {ludo.remote.JSON} request
-     * @param {String} service
-     * @private
-     */
-    broadcast:function (request, service) {
-        var code = request.getResponseCode();
-
-		var type, eventNameWithService;
-        switch (code) {
-			case 0:
-				type = 'start';
-				break;
-            case 200:
-				type = 'success';
-                break;
-            default:
-				type = 'failure';
-                break;
-        }
-
-		var eventName = this.getEventName(type, request.getResource());
-
-		if(eventName){
-			eventNameWithService = this.getEventName(type, request.getResource(), service);
-		}else{
-            eventName = this.getEventName('serverError', request.getResource());
-            eventNameWithService = this.getEventName('serverError', request.getResource(), service);
-        }
-
-        var eventObj = {
-            "message":request.getResponseMessage(),
-            "code":request.getResponseCode(),
-            "resource":request.getResource(),
-            "service":service,
-            "type": type
-        };
-        if (!eventObj.message)eventObj.message = this.getDefaultMessage(eventNameWithService || eventName);
-        this.fireEvent(eventName, eventObj);
-        if (service) {
-            this.fireEvent(eventNameWithService, eventObj);
-        }
-    },
-
-    getDefaultMessage:function (key) {
-        return this.defaultMessages[key] ? this.defaultMessages[key] : '';
-    },
-
-    clear:function (request, service) {
-        var eventObj = {
-            "message":request.getResponseMessage(),
-            "code":request.getResponseCode(),
-            "resource":request.getResource(),
-            "service":service
-        };
-        var eventName = this.getEventName('clear', eventObj.resource);
-        var eventNameWithService = this.getEventName('clear', eventObj.resource, service);
-
-        this.fireEvent(eventName, eventObj);
-        if (service) {
-            this.fireEvent(eventNameWithService, eventObj);
-        }
-    },
-
-    getEventName:function (eventType, resource, service) {
-        resource = resource || '';
-        service = service || '';
-        return [resource, service, eventType.capitalize(), 'Message'].join('');
-    },
-
-    /**
-     Listen to events from remote requests. EventType is either
-     success, failure or serverError. resource is a name of resource
-     specified in the request.
-     @function addResourceEvent
-     @param {String} eventType
-     @param {String} resource
-     @param {Function} fn
-     @memberof ludo.remote.Broadcaster.prototype
-     @example
-        ludo.remoteBroadcaster.addEvent('failure', 'Person', function(response){
-            this.$b().html( response.message');
-        }.bind(this));
-     The event payload is an object in this format:
-     @example
-         {
-             "code": 200,
-             "message": "A message",
-             "resource": "Which resource",
-             "service": "Which service"
-         }
-     */
-    addResourceEvent:function (eventType, resource, fn) {
-        this.addEvent(this.getEventName(eventType, resource), fn);
-    },
-    /**
-     Listen to remote events from a specific service only.
-     @function addResourceEvent
-     @param {String} eventType
-     @param {String} resource
-     @param {Array} services
-     @param {Function} fn
-     @memberof ludo.remote.Broadcaster.prototype
-     @example
-        ludo.remoteBroadcaster.addEvent('failure', 'Person', ['save'], function(response){
-            this.$b().html( response.message');
-        }.bind(this));
-     The event payload is an object in this format:
-     @example
-         {
-             "code": 200,
-             "message": "A message",
-             "resource": "Which resource",
-             "service": "Which service"
-         }
-     */
-    addServiceEvent:function (eventType, resource, services, fn) {
-        if (!services.length) {
-            this.addEvent(this.getEventName(eventType, resource, undefined), fn);
-        } else {
-            for (var i = 0; i < services.length; i++) {
-                this.addEvent(this.getEventName(eventType, resource, services[i]), fn);
-            }
-        }
-    },
-
-    /**
-     Specify default response messages for resource service
-     @function setDefaultMessage
-     @param {String} message
-     @param {String} eventType
-     @param {String} resource
-     @param {String} service
-     @memberof ludo.remote.Broadcaster.prototype
-     @example
-        ludo.remoteBroadcaster.setDefaultMessage('You have registered successfully', 'success', 'User', 'register');
-     */
-    setDefaultMessage:function (message, eventType, resource, service) {
-        this.defaultMessages[this.getEventName(eventType, resource, service)] = message;
-    },
-
-	eventObjToBuild :{},
-    /**
-     Chained method for adding broadcaster events.
-     @function withResourceService
-     @param {String} resourceAndService
-     @return {remote.Broadcaster}
-     @memberof ludo.remote.Broadcaster.prototype
-     @example
-     ludo.remoteBroadcaster.withResourceService('Person/save').on('success', function(){
-	 		alert('Save success');
-	 	});
-     */
-    withResourceService:function(resourceAndService){
-        var tokens = resourceAndService.split(/\//g);
-        this.withResource(tokens[0]);
-        if(tokens.length == 2)this.withService(tokens[1]);
-        return this;
-    },
-
-	/**
-	 Chained method for adding broadcaster events.
-	 @function withResource
-	 @param {String} resource
-	 @return {remote.Broadcaster}
-     @memberof ludo.remote.Broadcaster.prototype
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('save').on('success', function(){
-	 		alert('Save success');
-	 	});
-	 */
-	withResource:function(resource){
-		this.eventObjToBuild = {
-			resource : resource
-		};
-		return this;
-	},
-	/**
-	 Chained method for adding broadcaster events.
-	 @function withService
-	 @param {String} service
-	 @return {remote.Broadcaster}
-     @memberof ludo.remote.Broadcaster.prototype
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('read').
-            withService('save').on('success', function(){
-	 		alert('Save success');
-	 	});
-	 */
-	withService:function(service){
-		if(this.eventObjToBuild.service === undefined){
-			this.eventObjToBuild.service = [];
-		}
-		this.eventObjToBuild.service.push(service);
-		return this;
-	},
-	/**
-	 Chained method for adding broadcaster events.
-	 @function on
-	 @param {String|Array} events
-	 @param {Function} fn
-	 @return {remote.Broadcaster}
-     @memberof ludo.remote.Broadcaster.prototype
-	 @example
-	 	ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-	 		alert('Save success');
-	 	}).on('start', function(){ alert('About to save') });
-     Example with array:
-
-        ludo.remoteBroadcaster.withResource('Person').withService('read').on('success', function(){
-	 		alert('Save success');
-	 	}).on(['start','success'], function(){ alert('Remote event') });
-	 */
-	on:function(events, fn){
-        if(!ludo.util.isArray(events))events = [events];
-        for(var i=0;i<events.length;i++){
-		    this.addServiceEvent(events[i], this.eventObjToBuild.resource, this.eventObjToBuild.service, fn);
-        }
-		return this;
-	}
-});
-
-ludo.remoteBroadcaster = new ludo.remote.Broadcaster();
 /* ../ludojs/src/remote/message.js */
 /*
  Class displaying all messages from remote requests
@@ -18969,6 +17335,576 @@ ludo.Notification = new Class({
 		this.getEl().css('display', 'none');
 		this.fireEvent('hide', this);
 	}
+});/* ../ludojs/src/form/validator/fns.js */
+ludo.form.validator.required = function(value, required){
+    return !required || value.length > 0;
+};
+
+ludo.form.validator.minLength = function(value, minLength){
+    return value.length === 0 || value.length >= minLength;
+};
+
+ludo.form.validator.maxLength = function(value, maxLength){
+    return value.length === 0 || value.length <= maxLength;
+};
+
+ludo.form.validator.regex = function(value, regex){
+    return value.length === 0 || regex.test(value);
+};
+
+ludo.form.validator.minValue = function(value, minValue){
+    return value.length === 0 || parseInt(value) >= minValue;
+};
+ludo.form.validator.maxValue = function(value, maxValue){
+    return value.length === 0 || parseInt(value) <= maxValue;
+};
+ludo.form.validator.twin = function(value, twin){
+    var cmp = ludo.get(twin);
+    return !cmp || (cmp && value === cmp.value);
+};/* ../ludojs/src/form/element.js */
+/**
+ * Super class for form Views.
+ * This class inherits from <a href="ludo.View.html">ludo.View</a>.
+ * @module form
+ * @class ludo.form.Element
+ * @param {Object} config Configuration when creating the View. These properties and properties from superclass is available
+ * @param {String} config.name Name of element. A call to parentView.getForm().values() will return &lt;name> : &lt;value>.
+ * @param {Boolean} config.required True to apply validation for required. Default:false
+ * @param {Object} config.formCss Optional css styling of the form element. Example: { type:'form.Text', formCss:{ "text-align": right }} to right align text of a text input.
+ * @param {Function} config.validator A Validator function to be executed when value is changed. This function should return true when valid, false when invalid. Current value will be passed to this function.
+ * @param {Function} config.linkWith Creates a link with form element with this id. When two form views are linked, they will always have the same value. When one value is changed, the linked form view is automatically updated.
+ * @param {String} config.name Name of form element
+ * @param {String|Number} config.value - Initial value for form element.
+ * Example: A link between a form.Seekbar and a form.Number.
+ * Example: { type:'form.Text', placeHolder='Enter Valid Value', validator:function(value){ return value == 'Valid Value' } }
+ * @fires ludo.form.Element#enable - Fired on enable, argument: ludo.form.Element
+ * @fires ludo.form.Element#disable - Fired on disable, argument: ludo.form.Element
+ * @fires ludo.form.Element#key_down - Fired on key down. Arguments: key, value, ludo.form.Element
+ * @fires ludo.form.Element#key_up - Fired on key up. Arguments: key, value, ludo.form.Element
+ * @fires ludo.form.Element#key_press - Fired on key up. Arguments: key, value, ludo.form.Element
+ * @fires ludo.form.Element#focus - Fired on focus received. Arguments: value, ludo.form.Element
+ * @fires ludo.form.Element#blur - Fired on blur. Arguments: value, ludo.form.Element
+ * @fires ludo.form.Element#change - Fired on changed value by GUI. Arguments: value, ludo.form.Element
+ * @fires ludo.form.Element#valueChange - Fired on changed value by GUI or the val function. Arguments: value, ludo.form.Element
+ * @fires ludo.form.Element#dirty - Fired on new value which is different from initial. Arguments. value, ludo.form.Element
+ * @fires ludo.form.Element#clean - Fired on new value which is the same as initial. Arguments. value, ludo.form.Element
+ * @fires ludo.form.Element#value - Fired when a new valid value is set. Arguments. value, ludo.form.Element
+ * @fires ludo.form.Element#invalid - Fired when a new value is set which is invalid. Arguments. value, ludo.form.Element
+ * @namespace ludo.form
+ */
+ludo.form.Element = new Class({
+    Extends:ludo.View,
+
+    value:undefined,
+    onLoadMessage:'',
+
+    name:undefined,
+
+
+    formCss:undefined,
+    stretchField:true,
+    required:false,
+    dirtyFlag:false,
+    initialValue:undefined,
+    constructorValue:undefined,
+    /*
+     * Is form element ready for setValue. For combo boxes and select boxes it may
+     * not be ready until available values has been loaded remotely
+     * @property isReady
+     * @type {Boolean}
+     * @private
+     */
+    isReady:true,
+    overflow:'hidden',
+
+    /*
+     * Will not validate unless value is the same as value of the form element with this id
+     * Example of use: Password and Repeat password. It's sufficient to specify "twin" for one of
+     * the views.
+     * @property twin
+     * @type String
+     * @default undefined
+     */
+    twin:undefined,
+    linkWith:undefined,
+    statefulProperties:['value'],
+    validator:undefined,
+    validatorFn:undefined,
+
+    validators:[],
+    submittable:true,
+
+    __construct:function (config) {
+        
+
+        this.parent(config);
+        var defaultConfig = this.getInheritedFormConfig();
+
+        // TODO change disabled to enabled
+
+
+        var keys = ['label', 'suffix', 'formCss', 'validator', 'stretchField', 'required', 'twin', 'disabled','submittable',
+            'value', 'data'];
+        this.__params(config, keys);
+
+        this.elementId = ('el-' + this.name).trim();
+        this.formCss = defaultConfig.formCss || this.formCss;
+        if (defaultConfig.height && config.height === undefined)this.layout.height = defaultConfig.height;
+
+        if (this.validator) {
+            this.createValidator();
+        }
+        if (config.linkWith !== undefined) {
+            this.setLinkWith(config.linkWith);
+        }
+
+        if (this.dataSource && !this.dataSource.data) {
+            this.isReady = false;
+        }
+        this.initialValue = this.constructorValue = this.value;
+        if (!this.name)this.name = 'ludo-form-el-' + String.uniqueID();
+
+
+        ludo.Form.add(this);
+        if(this.required)this.applyValidatorFns(['required']);
+        this.applyValidatorFns(['twin']);
+    },
+
+    ludoDOM:function(){
+        this.parent();
+        this.addInput();
+    },
+
+    applyValidatorFns:function (keys) {
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (this[key] !== undefined) {
+                this.validators.push({
+                    fn:ludo.form.validator[key],
+                    key:key
+                });
+            }
+        }
+    },
+
+    createValidator:function () {
+        var fn;
+        if (ludo.util.isFunction(this.validator)) {
+            fn = this.validator;
+        } else {
+            var v = this.validator;
+            v.applyTo = this;
+            var val = this.validator = ludo._new(v);
+            fn = v.isValid.bind(val);
+        }
+        this.validators.push({
+            fn : fn,key:''
+        });
+    },
+
+    ludoEvents:function () {
+        this.parent();
+
+        if (this.dataSource) {
+            this.getDataSource().on('load', this.setReady.bind(this));
+        }
+
+        var formEl = this.getFormEl();
+
+        if (formEl) {
+            formEl.on('keydown', this.keyDown.bind(this));
+            formEl.on('keypress', this.keyPress.bind(this));
+            formEl.on('keyup', this.keyUp.bind(this));
+            formEl.on('focus', this.focus.bind(this));
+            formEl.on('change', this.change.bind(this));
+            formEl.on('blur', this.blur.bind(this));
+        }
+    },
+
+    __rendered:function () {
+        this.parent();
+
+        if (this.disabled)this.disable();
+
+		if(this.els.formEl){
+			this.els.formEl.attr('name', this.getName());
+			if(this.value !== undefined)this.els.formEl.val(this.value)
+		}
+        if (this.linkWith) {
+            this.createBackLink();
+        }
+		var parentFormManager = this.getParentForm();
+	    if (parentFormManager) {
+			parentFormManager.registerFormElement(this);
+		}
+		this.validate();
+    },
+
+    /**
+     * Enable or disable form element
+     * @param {Boolean} enabled
+     * @memberof ludo.form.Element.prototype
+     */
+    setEnabled:function(enabled){
+        if(enabled)this.enable(); else this.disable();
+    },
+
+    /**
+     * Disable form element
+     * @function disable
+     * @return void
+     * @memberof ludo.form.Element.prototype
+     */
+    disable:function () {
+        this.getFormEl().attr('disabled', '1');
+        this.fireEvent('disable', this);
+    },
+    /**
+     * Enable form element
+     * @function enable
+     * @return void
+     * @memberof ludo.form.Element.prototype
+     */
+    enable:function () {
+        this.getFormEl().removeAttr('disabled');
+        this.fireEvent('enable', this);
+    },
+
+    getInheritedFormConfig:function () {
+        var cmp = this.getParent();
+        if (cmp) {
+            return cmp.formConfig || {};
+        }
+        return {};
+    },
+
+    ludoCSS:function () {
+        this.parent();
+        this.getEl().addClass('ludo-form-element');
+        var fe = this.els.formEl;
+        if (fe) {
+            fe.id = this.elementId;
+            if (this.formCss) {
+                fe.css(this.formCss);
+            }
+        }
+    },
+
+    getFormElId:function () {
+        return this.elementId;
+    },
+
+    getWidth:function () {
+        var ret = this.parent();
+        return ret ? ret : 20;
+    },
+
+    keyUp:function (e) {
+        this.fireEvent('key_up', [ e.key, this.value, this ]);
+    },
+
+    keyDown:function (e) {
+        this.fireEvent('key_down', [ e.key, this.value, this ]);
+    },
+
+    keyPress:function (e) {
+        this.fireEvent('key_press', [ e.key, this.value, this ]);
+    },
+
+    focus:function () {
+        this._focus = true;
+        this.clearInvalid();
+        this.fireEvent('focus', [ this.value, this ]);
+    },
+    change:function () {
+        if (this.els.formEl) {
+            this._set(this.els.formEl.val());
+
+        }
+        if (this.wasValid)this.fireEvent('change', [ this._get(), this ]);
+    },
+
+    blur:function () {
+        this._focus = false;
+        this.validate();
+        if (this.getFormEl())this.value = this.getValueOfFormEl();
+        this.toggleDirtyFlag();
+
+        this.fireEvent('blur', [ this.value, this ]);
+    },
+
+    getValueOfFormEl:function(){
+        return this.getFormEl().val();
+    },
+
+    toggleDirtyFlag:function(){
+        if (this.value !== this.initialValue) {
+            this.setDirty();
+            this.fireEvent('dirty', [this.value, this]);
+        } else {
+            this.setClean();
+            this.fireEvent('clean', [this.value, this]);
+        }
+    },
+
+    hasFocus:function () {
+        return this._focus;
+    },
+    JSON:function (data) {
+        this.populate(data);
+    },
+    populate:function () {
+
+    },
+    getLabel:function () {
+        return this.label;
+    },
+
+    getValue:function () {
+        console.warn("Use of deprecated getValue");
+        console.trace();
+        return this.els.formEl ? this.els.formEl.val() : this.value;
+    },
+
+    /**
+     * Set or get value. If val argument is set, you will set a value, if not current value
+     * will be returned.
+     * @param {String|Number|Array|Object|Boolean} val
+     * @returns {*}
+     * @memberof ludo.form.Element.prototype
+     */
+
+    val:function(val){
+        if(arguments.length == 0){
+            return this._get();
+        }
+        this._set(val);
+    },
+
+    _get:function(){
+        return this.els.formEl ? this.els.formEl.val() : this.value;
+    },
+
+    _set:function(value){
+
+        if (value == this.value) {
+            return value;
+        }
+
+        this.setFormElValue(value);
+        this.value = value;
+
+        this.validate();
+
+        if (this.wasValid) {
+            this.fireEvent('valueChange', [this._get(), this]);
+            if (this.stateful)this.fireEvent('state');
+            if (this.linkWith)this.updateLinked();
+        }
+
+        this.fireEvent('value', value);
+
+        return value;
+    },
+
+    /*
+     * Set new value
+     * @function setValue
+     * @param value
+     * @return void
+     */
+    setValue:function (value) {
+        console.warn("Use of deprecated setValue");
+        console.trace();
+        return this._set(value);
+    },
+
+    setFormElValue:function(value){
+        if (this.els.formEl && this.els.formEl.val() !== value) {
+            this.els.formEl.val(value);
+            if(this.inlineLabel)this.els.formEl.removeClass('ludo-form-el-inline-label');
+        }
+    },
+
+    /**
+     * Get reference to input element
+     * @function getFormEl
+     * @return DOMElement
+     * @memberof ludo.form.Element.prototype
+     */
+    getFormEl:function () {
+        return this.els.formEl;
+    },
+    /**
+     * Returns true when value of form element is valid, i.e. larger than minValue, matching regex etc.
+     * @function isValid
+     * @return {Boolean} valid
+     * @memberof ludo.form.Element.prototype
+     */
+    isValid:function () {
+        if(this.validators.length === 0)return true;
+
+        var val = this.getFormEl() ? this.getValueOfFormEl().trim() : this.value;
+        for (var i = 0; i < this.validators.length; i++) {
+            if (!this.validators[i].fn.apply(this, [val, this[this.validators[i].key], this])){
+                return false;
+            }
+        }
+        return true;
+    },
+
+    clearInvalid:function () {
+        this.getEl().removeClass('ludo-form-el-invalid');
+    },
+
+    wasValid:true,
+
+    validate:function () {
+        this.clearInvalid();
+        if (this.isValid()) {
+            this.wasValid = true;
+            this.fireEvent('valid', [this.value, this]);
+            return true;
+        } else {
+            this.wasValid = false;
+
+            this.fireEvent('invalid', [this.value, this]);
+            return false;
+        }
+    },
+
+    isFormElement:function () {
+        return true;
+    },
+
+    /**
+     * Alias to reset
+     * @memberof ludo.form.Element.prototype
+     */
+    rollback:function(){
+        this.reset();
+    },
+    /**
+     * Reset / Roll back to last committed value. It could be the value stored by last commit method call
+     * or if the original value/default value of this field.
+     * @function reset
+     * @memberof ludo.form.Element.prototype
+     * @return void
+     */
+    reset:function () {
+        this._set(this.initialValue);
+    },
+
+    /**
+     * Reset value back to the original value sent(constructor value)
+     * @function clear
+     * @memberof ludo.form.Element.prototype
+     */
+    clear:function () {
+        this._set(this.constructorValue);
+    },
+
+    /**
+     * Update initial value to current value. These actions will always trigger a commit<br>
+     * - Form or Model submission
+     * - Fetching new record for a ludo.model.Model
+     * @function commit
+     * @memberOf ludo.form.Element.prototype
+     */
+    commit:function () {
+        if(!this.isReady){
+            this.commit.delay(100, this);
+            return;
+        }
+        this.initialValue = this.value;
+    },
+    /**
+     * Returns true if current value is different from original value
+     * @function isDirty
+     * @return {Boolean} isDirty
+     * @memberof ludo.form.Element.prototype
+     */
+    isDirty:function () {
+        return this.dirtyFlag;
+    },
+
+    setDirty:function () {
+        this.dirtyFlag = true;
+        this.getEl().addClass('ludo-form-el-dirty');
+    },
+
+    setClean:function () {
+        this.dirtyFlag = false;
+        var el = this.getEl();
+        if(el)el.removeClass('ludo-form-el-dirty');
+    },
+
+    setReady:function () {
+        this.isReady = true;
+        var val = this.value;
+        this.value = undefined;
+        if(val)this._set(val);
+    },
+
+    updateLinked:function () {
+        var cmp = this.getLinkWith();
+        if (cmp && cmp.value !== this.value) {
+            cmp._set(this.value);
+        }
+    },
+
+    setLinkWith:function (linkWith) {
+        this.linkWith = linkWith;
+        this.on('valueChange', this.updateLinked.bind(this));
+    },
+
+    createBackLink:function (attempts) {
+        attempts = attempts || 0;
+        var cmp = this.getLinkWith();
+        if (cmp && !cmp.linkWith) {
+            if (this.value === undefined){
+				this.initialValue = this.constructorValue = cmp.value;
+				this._set(cmp.value);
+			}
+            cmp.setLinkWith(this);
+        } else {
+            if (attempts < 100) {
+                this.createBackLink.delay(50, this, attempts + 1);
+            }
+        }
+    },
+
+    addInput: function () {
+        if (!this.inputTag) {
+            return;
+        }
+
+        this.els.inputCell = jQuery('<div class="input-cell"></div>');
+        this.$b().append(this.els.inputCell);
+        var fe = this.els.formEl = jQuery('<' + this.inputTag + '>');
+
+        if (this.inputType) {
+            fe.attr('type', this.inputType);
+        }
+        if (this.maxLength) {
+            fe.attr('maxlength', this.maxLength);
+        }
+        if (this.readonly) {
+            fe.attr('readonly', true);
+        }
+        this.getInputCell().append(fe);
+        fe.css('width', '100%');
+        fe.attr("id", this.getFormElId());
+    },
+
+    getLinkWith:function(){
+        var cmp = ludo.get(this.linkWith);
+        return cmp ? cmp : this.parentComponent ? this.parentComponent.child[this.linkWith] : undefined;
+    },
+
+    getInputCell:function(){
+        return this.els.inputCell;
+    }
 });/* ../ludojs/src/form/button.js */
 /**
  * TODO specify which form the button belongs to. used for disableOnInvalid
@@ -19193,8 +18129,8 @@ ludo.form.Button = new Class({
             }else{
                  m = this.component.getForm();
             }
-            m.addEvent('valid', this.enable.bind(this));
-            m.addEvent('invalid', this.disable.bind(this));
+            m.on('valid', this.enable.bind(this));
+            m.on('invalid', this.disable.bind(this));
             if(!m.isValid())this.disable();
         }
     },
@@ -19271,10 +18207,11 @@ ludo.form.Button = new Class({
 
     disable:function () {
         this.disabled = true;
-        if (this.els.body) {
-            this.els.body.addClass('ludo-form-button-disabled');
-            this.els.body.removeClass('ludo-form-button-over');
-            this.els.body.removeClass('ludo-form-button-down');
+        var b = this.$b();
+        if (b) {
+            b.addClass('ludo-form-button-disabled');
+            b.removeClass('ludo-form-button-over');
+            b.removeClass('ludo-form-button-down');
         }
     },
 
@@ -19630,7 +18567,7 @@ ludo.paging.First = new Class({
 	buttonCls:'ludo-paging-first',
 
 	addDataSourceEvents:function () {
-		this.addEvent('click', this.firstPage.bind(this));
+		this.on('click', this.firstPage.bind(this));
 		var ds = this.getDataSource();
 		ds.on('firstPage', this.disable.bind(this));
 		ds.on('notFirstPage', this.enable.bind(this));
@@ -19644,176 +18581,6 @@ ludo.paging.First = new Class({
 		this.getDataSource().firstPage();
 	}
 
-});/* ../ludojs/src/form/number.js */
-/**
- * A <a href="ludo.form.Text.html">ludo.form.Text</a> field accepting only numeric characters.
- * @namespace ludo.form
- * @class ludo.form.Number
- * @augments ludo.form.Text
- * @param {Object} config
- * @param {Number} config.minValue Optional minimum value
- * @param {Number} config.maxValue Optional maximum value
- * @param {Boolean} config.disableWheel Disable chaning values using mouse wheel.
- * @param {Boolean} config.reverseWheel Reverse wheel. Up = smaller value.
- * @param {Number} config.shiftIncrement Mouse wheel increment when shift key is pressed. Default = 10.
- */
-ludo.form.Number = new Class({
-    Extends:ludo.form.Text,
-    type:'form.Number',
-    regex:/^[0-9]+$/,
-    validateKeyStrokes:true,
-    formCss:{
-        'text-align':'right'
-    },
-
-    stretchField:false,
-    disableWheel:false,
-    reverseWheel:false,
-    shiftIncrement:10,
-
-    __construct:function (config) {
-        this.parent(config);
-        this.__params(config, ['disableWheel','shiftIncrement','reverseWheel','minValue','maxValue']);
-
-        if (this.minValue !== undefined)this.minValue = parseInt(this.minValue);
-        if (this.maxValue !== undefined)this.maxValue = parseInt(this.maxValue);
-
-        this.applyValidatorFns(['minValue','maxValue']);
-    },
-
-    ludoEvents:function () {
-        this.parent();
-        if (!this.disableWheel) {
-            this.getFormEl().on('mousewheel', this._mouseWheel.bind(this));
-        }
-        this.getFormEl().on('keydown', this.keyIncrement.bind(this));
-    },
-
-    keyIncrement:function(e){
-        if(e.key === 'up' || e.key === 'down'){
-            if(e.key === 'up')this.incrementBy(1, e.shift);
-            if(e.key === 'down')this.incrementBy(-1, e.shift);
-            return false;
-        }
-        return undefined;
-    },
-
-    blur:function(){
-        var value = this.getFormEl().val();
-        if(!this.isValid(value)){
-            var min = this.minValue;
-            var max = this.maxValue;
-            if (min!==undefined && parseInt(value) < min) {
-                value = min;
-            }
-            if (max!==undefined && parseInt(value) > max) {
-                value = max;
-            }
-            this._set(value);
-        }
-        this.parent();
-    },
-
-    /**
-     * Update min value
-     * @param {Number} minValue
-     * @memberof ludo.form.Number.prototype
-     */
-
-    setMinVal:function(minValue){
-        this.minValue = minValue;
-    },
-    /**
-     * Update max value
-     * @param {Number} maxValue
-     * @memberof ludo.form.Number.prototype
-     */
-    setMaxValue:function(maxValue){
-        this.maxValue = maxValue;
-    },
-
-    _mouseWheel:function (e) {
-        var delta = (e.originalEvent.wheelDelta || e.originalEvent.detail) / 120;
-        if(delta == 0)return;
-        this.incrementBy(delta >0 ? 1 : -1, e.shift);	// Math.ceil because of a mystery error in either firefox or mootools
-        return false;
-    },
-
-    incrementBy:function (value, shift) {
-        var min = this.minValue;
-        var max = this.maxValue;
-        if(!this.value){
-            if(min){
-                this._set(min);
-                return;
-            }
-            this._set(0);
-        }
-
-        if(this.reverseWheel)value = value * -1;
-        value = parseInt(this.value) + (shift ? value * this.shiftIncrement : value);
-        if(max && value > max)value = max;
-        if(min !== undefined && value < min)value = min;
-        if(this.isValid(value)){
-            this._set(value);
-			this.fireEvent('change', [ value, this ]);
-        }
-    },
-
-    _get:function(){
-        return parseFloat(this.parent());
-    }
-});/* ../ludojs/src/paging/page-input.js */
-/**
- * Text input for navigating to a specific page in a datasource.Collection
- * @namespace ludo.paging
- * @class ludo.paging.PageInput
- * @augments form.Number
- */
-ludo.paging.PageInput = new Class({
-    Extends: ludo.form.Number,
-    type : 'grid.paging.PageInput',
-    width: 35,
-    fieldWidth:30,
-    minValue : 1,
-    reverseWheel:true,
-
-    ludoEvents:function(){
-        this.parent();
-        this.dataSourceEvents();
-    },
-
-    dataSourceEvents:function(){
-        if(ludo.get(this.dataSource)){
-            var ds = this.getDataSource();
-            if(ds){
-                ds.on('page', this.setPageNumber.bind(this));
-                ds.on('load', this.updateMaxValue.bind(this));
-                this.setPageNumber(ds.getPageNumber());
-                this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
-                this.updateMaxValue();
-            }
-
-        }else{
-            this.dataSourceEvents.delay(100, this);
-        }
-    },
-    setPageNumber:function(number){
-        this.value = number;
-        this.els.formEl.val(number);
-    },
-
-    updateDataSourcePageNumber:function(){
-        this.getDataSource().toPage(this.val());
-    },
-
-    updateMaxValue:function(){
-        this.maxValue = this.getDataSource().getPageCount();
-    },
-
-    JSON:function(){
-
-	}
 });/* ../ludojs/src/paging/current-page.js */
 /**
  Displays current page number shown in a collection
@@ -19936,80 +18703,6 @@ ludo.paging.TotalPages = new Class({
 	JSON:function () {
 
 	}
-});/* ../ludojs/src/paging/nav-bar.js */
-/**
- A view containing buttons and views for navigating in a dataSource.JSONArray.
- default children: ['paging.First','paging.Previous','paging.PageInput','paging.TotalPages','paging.Next','paging.Last']
- You can customize which views to show by using the children constructor property.
- @namespace ludo.paging
- @class ludo.paging.NavBar
- @augments View
- 
- @param {Object} config
- @example
- 	children:[
- 		{
-			type:'grid.Grid',
-			columnManager:{
-				...
-			},
-			dataSource:{
-				url:'data-source/grid.php',
-				id:'myDataSource'
-			}
-
- 		},
- 		...
- 		...
-		{
-			type:'paging.NavBar',
-			dataSource:'myDataSource'
-		}
- 		...
- 	}
- where 'myDataSource' is the id of a dataSource.JSONArray object used by the Grid above.
- */
-ludo.paging.NavBar = new Class({
-	Extends:ludo.View,
-	type:'paging.NavBar',
-	layout:'cols',
-	height:25,
-
-	children:[
-		{
-			type:'paging.First'
-		},
-		{
-			type:'paging.Previous'
-		},
-		{
-			type:'paging.PageInput'
-		},
-		{
-			type:'paging.TotalPages'
-		},
-		{
-			type:'paging.Next'
-		},
-		{
-			type:'paging.Last'
-		}
-	],
-
-	__construct:function (config) {
-		this.parent(config);
-
-		if (config.dataSource) {
-			for (var i = 0; i < config.children.length; i++) {
-				config.children[i].dataSource = config.dataSource;
-			}
-			this.dataSource = undefined;
-		}
-	},
-
-	JSON:function(){
-
-	}
 });/* ../ludojs/src/form/select.js */
 /**
  Select box (&lt;select>)
@@ -20084,10 +18777,10 @@ ludo.form.Select = new Class({
             }
             this.populate();
             var ds = this.getDataSource();
-            ds.addEvent('select', this.selectRecord.bind(this));
-            ds.addEvent('update', this.populate.bind(this));
-            ds.addEvent('delete', this.populate.bind(this));
-            ds.addEvent('sort', this.populate.bind(this));
+            ds.on('select', this.selectRecord.bind(this));
+            ds.on('update', this.populate.bind(this));
+            ds.on('delete', this.populate.bind(this));
+            ds.on('sort', this.populate.bind(this));
         }
     },
 
@@ -20352,10 +19045,10 @@ ludo.form.Label = new Class({
         var view = ludo.get(this.labelFor);
 
         if(view){
-            view.addEvent('valid', this.onValid.bind(this));
-            view.addEvent('invalid', this.onInvalid.bind(this));
-            view.addEvent('enable', this.onEnable.bind(this));
-            view.addEvent('disable', this.onDisable.bind(this));
+            view.on('valid', this.onValid.bind(this));
+            view.on('invalid', this.onInvalid.bind(this));
+            view.on('enable', this.onEnable.bind(this));
+            view.on('disable', this.onDisable.bind(this));
             if(!view.isValid())
                 this.onInvalid();
         }
@@ -20381,6 +19074,380 @@ ludo.form.Label = new Class({
     onInvalid:function(){
         this.$b().removeClass('ludo-form-el-invalid');
         this.$b().addClass('ludo-form-el-invalid');
+    }
+});/* ../ludojs/src/form/label-element.js */
+/**
+ * Class which render two child views, one label and one form field. This is a convenient class for rendering
+ * a form field with a label to the left.
+ *
+ * This class renders the views in a linear horizontal layout.
+ *
+ * @class ludo.form.LabelElement
+ * @param {Object} config
+ * @param {Object} config.label Configuration for ludo.form.Label
+ * @param {Object} config.field Configuration for a form field
+ * @example:
+*  var labelElement = new ludo.form.LabelElement({
+    label:{
+        label:'myLabel',
+        type:'form.Label',
+        layout:{
+            width:70
+        }
+    },
+    field:{
+        type:'form.Number',
+        name:'myField',
+        minValue:0,
+        maxValue:255
+    },
+    renderTo:document.body,
+    layout:{
+        width:200,
+        height:50
+    }
+});
+ */
+ludo.form.LabelElement = new Class({
+    Extends: ludo.View,
+
+    label:undefined,
+    field:undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['label', 'field']);
+
+        if(!this.label.type)this.label.type='form.Label';
+        this.label.labelFor = this.field.name;
+
+        this.layout = this.layout || {};
+        this.layout.type = 'linear';
+        this.layout.orientation = 'horizontal';
+    },
+
+    __children:function(){
+        return [
+            this.label,
+            this.field
+        ]
+    },
+
+    __rendered: function () {
+        this.parent();
+    }
+
+});/* ../ludojs/src/form/text.js */
+/**
+ * Text Input View
+ * This class inherits from <a href="ludo.form.Element.html">ludo.form.Element</a>.
+ * @module form
+ * @namespace ludo.form
+ * @class ludo.form.Text
+ * @description Form input text
+ *  @param {Object} config Configuration when creating the View. These properties and properties from superclass is available
+ * @param {String} config.name Name of element. A call to parentView.getForm().values() will return &lt;name> : &lt;value>.
+ * @param {String} config.placeholder Placeholder attribute for the input. Displayed when value is empty. (Default:undefined)
+ * @param {Number} config.minLength Defines required min length of value(count characters). (Default:undefined)
+ * @param {Number} config.maxLength Defines required max length of value(count characters)
+ * @param {Boolean} config.ucFirst True to automatically Uppercase first letter. (Default: false)
+ * @param {RegExp} config.regex Regular expression used for validation, example: regex: /$[0-9]{3}^/ to require 3 digits. (Default:undefined)
+ * @param {Boolean} config.readonly True to make this form field read only. (Default: false)
+ * @param {Boolean} config.selectOnFocus Automatically make the text selected on focus. Default: false
+ * @param {Boolean} config.validateKeyStrokes True to run validation after every key stroke(Default: false)
+ * @param {Boolean} config.autoComplete False to disable browsers auto complete(default : true)
+ * @param {Function} config.validator Optional validator function for the value.
+ * @fires ludo.form.Text#key Fired when a key is pressed. Argument: {String} key pressed.
+ * @augments ludo.form.Element
+ *
+ */
+ludo.form.Text = new Class({
+    Extends: ludo.form.Element,
+    type: 'form.Text',
+    labelWidth: 100,
+    defaultValue: '',
+    placeholder:'',
+
+    maxLength: undefined,
+
+    minLength: undefined,
+    ucFirst: false,
+    ucWords: false,
+
+    inputType: 'text',
+    inputTag: 'input',
+    regex: undefined,
+    validateKeyStrokes: false,
+    formFieldWidth: undefined,
+    readonly: false,
+    selectOnFocus: false,
+    autoComplete:true,
+
+    __construct: function (config) {
+        this.parent(config);
+        
+        var keys = ['placeholder', 'selectOnFocus', 'regex', 'minLength', 'maxLength', 'defaultValue', 'autoComplete', 'validateKeyStrokes', 'ucFirst', 'ucWords', 'readonly'];
+        this.__params(config, keys);
+        if (this.regex && ludo.util.isString(this.regex)) {
+            var tokens = this.regex.split(/\//g);
+            var flags = tokens.length > 1 ? tokens.pop() : '';
+            this.regex = new RegExp(tokens.join('/'), flags);
+        }
+        this.applyValidatorFns(['minLength', 'maxLength', 'regex']);
+
+        if(this.layout.height == undefined){
+            this.layout.height = 'wrap';
+        }
+
+    },
+
+    ludoDOM:function(){
+        this.parent();
+        var fe = this.getFormEl();
+        if(this.placeholder){
+            fe.attr('placeholder', this.placeholder);
+        }
+
+        if(!this.autoComplete){
+            fe.attr('x-autocompletetype', String.uniqueID());
+            fe.attr('autocomplete', 'false');
+        }
+    },
+
+    ludoEvents: function () {
+        this.parent();
+        var el = this.getFormEl();
+        if (this.ucFirst || this.ucWords) {
+            this.on('blur', this.upperCaseWords.bind(this));
+        }
+        this.on('blur', this.validate.bind(this));
+        if (this.validateKeyStrokes) {
+            el.on('keydown', this.validateKey.bind(this));
+        }
+        el.parent().addClass('ludo-form-text-element');
+        el.on('keyup', this.sendKeyEvent.bind(this));
+
+        if (this.selectOnFocus) {
+            el.on('focus', this.selectText.bind(this));
+        }
+    },
+
+    sendKeyEvent: function () {
+        this.fireEvent('key', this.els.formEl.val());
+    },
+
+    validateKey: function (e) {
+        if (!e.control && !e.alt && this.regex && e.key && e.key.length == 1) {
+            if (!this.regex.test(e.key)) {
+                return false;
+            }
+        }
+        return undefined;
+    },
+
+    getFieldWidth: function () {
+        return this.formFieldWidth;
+    },
+    /**
+     * Focus form element
+     * @function focus
+     * @return void
+     * @memberof ludo.form.Text.prototype
+     */
+    focus: function () {
+        this.parent();
+        if (!this.getFormEl().is(":focus")) {
+            this.getFormEl().focus();
+        }
+    },
+
+    validate: function () {
+        var valid = this.parent();
+        if (!valid && !this._focus) {
+            this.$e.addClass('ludo-form-el-invalid');
+        }
+        return valid;
+    },
+    keyUp: function (e) {
+        this.parent(e);
+        if (this.validateKeyStrokes) {
+            this.validate();
+        }
+    },
+
+    upperCaseWords: function () {
+        if (this.ucFirst || this.ucWords) {
+            var val = this.getValueOfFormEl();
+            if (val.length == 0) {
+                return;
+            }
+            if (this.ucWords && val.length > 1) {
+                var tokens = val.split(/\s/g);
+                for (var i = 0; i < tokens.length; i++) {
+                    if (tokens[i].length == 1) {
+                        tokens[i] = tokens[i].toUpperCase();
+                    } else {
+                        tokens[i] = tokens[i].substr(0, 1).toUpperCase() + tokens[i].substr(1);
+                    }
+                }
+                this.getFormEl().val(tokens.join(' '));
+            }
+            else {
+                val = val.substr(0, 1).toUpperCase() + val.substr(1);
+                this.getFormEl().val(val);
+            }
+        }
+    },
+
+    hasSelection: function () {
+        var start = this.getSelectionStart();
+        var end = this.getSelectionEnd();
+        return end > start;
+    },
+
+    select:function(){
+        this.getFormEl().select();
+    },
+
+    selectText: function () {
+        this.select();
+    },
+
+    getSelectionStart: function () {
+        if (this.els.formEl.createTextRange) {
+            var r = document.selection.createRange().duplicate();
+            r.moveEnd('character', this.els.formEl.val().length);
+            if (r.text == '') return this.els.formEl.val().length;
+            return this.els.formEl.val().lastIndexOf(r.text);
+        } else return this.els.formEl.selectionStart;
+    },
+
+    getSelectionEnd: function () {
+        if (this.els.formEl.createTextRange) {
+            var r = document.selection.createRange().duplicate();
+            r.moveStart('character', -this.els.formEl.val().length);
+            return r.text.length;
+        } else return this.els.formEl.selectionEnd;
+    }
+});
+/* ../ludojs/src/form/number.js */
+/**
+ * A <a href="ludo.form.Text.html">ludo.form.Text</a> field accepting only numeric characters.
+ * @namespace ludo.form
+ * @class ludo.form.Number
+ * @augments ludo.form.Text
+ * @param {Object} config
+ * @param {Number} config.minValue Optional minimum value
+ * @param {Number} config.maxValue Optional maximum value
+ * @param {Boolean} config.disableWheel Disable chaning values using mouse wheel.
+ * @param {Boolean} config.reverseWheel Reverse wheel. Up = smaller value.
+ * @param {Number} config.shiftIncrement Mouse wheel increment when shift key is pressed. Default = 10.
+ */
+ludo.form.Number = new Class({
+    Extends:ludo.form.Text,
+    type:'form.Number',
+    regex:/^[0-9]+$/,
+    validateKeyStrokes:true,
+    formCss:{
+        'text-align':'right'
+    },
+
+    stretchField:false,
+    disableWheel:false,
+    reverseWheel:false,
+    shiftIncrement:10,
+
+    __construct:function (config) {
+        this.parent(config);
+        this.__params(config, ['disableWheel','shiftIncrement','reverseWheel','minValue','maxValue']);
+
+        if (this.minValue !== undefined)this.minValue = parseInt(this.minValue);
+        if (this.maxValue !== undefined)this.maxValue = parseInt(this.maxValue);
+
+        this.applyValidatorFns(['minValue','maxValue']);
+    },
+
+    ludoEvents:function () {
+        this.parent();
+        if (!this.disableWheel) {
+            this.getFormEl().on('mousewheel', this._mouseWheel.bind(this));
+        }
+        this.getFormEl().on('keydown', this.keyIncrement.bind(this));
+    },
+
+    keyIncrement:function(e){
+        if(e.key === 'up' || e.key === 'down'){
+            if(e.key === 'up')this.incrementBy(1, e.shift);
+            if(e.key === 'down')this.incrementBy(-1, e.shift);
+            return false;
+        }
+        return undefined;
+    },
+
+    blur:function(){
+        var value = this.getFormEl().val();
+        if(!this.isValid(value)){
+            var min = this.minValue;
+            var max = this.maxValue;
+            if (min!==undefined && parseInt(value) < min) {
+                value = min;
+            }
+            if (max!==undefined && parseInt(value) > max) {
+                value = max;
+            }
+            this._set(value);
+        }
+        this.parent();
+    },
+
+    /**
+     * Update min value
+     * @param {Number} minValue
+     * @memberof ludo.form.Number.prototype
+     */
+
+    setMinVal:function(minValue){
+        this.minValue = minValue;
+    },
+    /**
+     * Update max value
+     * @param {Number} maxValue
+     * @memberof ludo.form.Number.prototype
+     */
+    setMaxValue:function(maxValue){
+        this.maxValue = maxValue;
+    },
+
+    _mouseWheel:function (e) {
+        var delta = (e.originalEvent.wheelDelta || e.originalEvent.detail) / 120;
+        if(delta == 0)return;
+        this.incrementBy(delta >0 ? 1 : -1, e.shift);	// Math.ceil because of a mystery error in either firefox or mootools
+        return false;
+    },
+
+    incrementBy:function (value, shift) {
+        var min = this.minValue;
+        var max = this.maxValue;
+        if(!this.value){
+            if(min){
+                this._set(min);
+                return;
+            }
+            this._set(0);
+        }
+
+        if(this.reverseWheel)value = value * -1;
+        value = parseInt(this.value) + (shift ? value * this.shiftIncrement : value);
+        if(max && value > max)value = max;
+        if(min !== undefined && value < min)value = min;
+        if(this.isValid(value)){
+            this._set(value);
+			this.fireEvent('change', [ value, this ]);
+        }
+    },
+
+    _get:function(){
+        return parseFloat(this.parent());
     }
 });/* ../dhtml-chess/src/chess.js */
 ludo.factory.createNamespace('chess');
@@ -20883,18 +19950,21 @@ chess.view.notation.Panel = new Class({
     setController: function (controller) {
         this.parent(controller);
         var c = this.controller = controller;
+        var sm = this.showMoves.bind(this);
+        var scm = this.setCurrentMove.bind(this);
+        
         c.on('startOfGame', this.goToStartOfBranch.bind(this));
-        c.on('newGame', this.showMoves.bind(this));
-        c.on('newMoves', this.showMoves.bind(this));
-        c.on('deleteMove', this.showMoves.bind(this));
-        c.on('setPosition', this.setCurrentMove.bind(this));
-        c.on('nextmove', this.setCurrentMove.bind(this));
-        c.on('correctGuess', this.setCurrentMove.bind(this));
+        c.on('newGame', sm);
+        c.on('newMoves', sm);
+        c.on('deleteMove', sm);
+        c.on('setPosition', scm);
+        c.on('nextmove', scm);
+        c.on('correctGuess', scm);
         c.on('updateMove', this.updateMove.bind(this));
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
-        c.on('updateNotations', this.showMoves.bind(this));
+        c.on('updateNotations', sm);
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -23781,22 +22851,16 @@ chess.view.highlight.SquareTacticHint = new Class({
     board:undefined,
 
 	initialize:function (config) {
-        console.log(config);
         if(config.delay !== undefined)this.delay = config.delay;
         this.board = config.parentComponent;
         this.board.on('showHint', this.showHint.bind(this));
     },
 
     showHint:function(move){
-
         var p = this.pool();
         p.hideAll();
         p.show(move.from);
-
         p.hide.delay(this.delay* 1000, p, move.from);
-
-        //this.highlightSquare(move.from);
-        //this.clear.delay(this.delay * 1000, this);
     },
 
     pool:function(){
@@ -25804,8 +24868,6 @@ chess.action.Handler = new Class({
 
     showArrow: function (action) {
         if (this.arrowPool == undefined) {
-
-            console.log(this.arrowStyles);
             this.arrowPool = new chess.view.highlight.ArrowPool({
                 board: this.board,
                 arrowStyles:this.arrowStyles
@@ -36078,12 +35140,13 @@ chess.WPTactics1 = new Class({
                                 },
                                 {
                                     module: this.module,
-                                    layout: {width: 80},
+                                    layout: {width: ludo.isMobile ? 40 : 80},
                                     type: 'chess.view.button.TacticHint',
-                                    value: chess.__('Hint')
+                                    value: ludo.isMobile ? '?' : chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
+                                    hidden:ludo.isMobile,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
                                     value: chess.__('Solution')
@@ -36793,7 +35856,8 @@ chess.WPTacticsGame1 = new Class({
                     layout: {width: 'matchParent', weight: 1}
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });

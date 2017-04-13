@@ -36,7 +36,8 @@ chess.WPTacticsGame1 = new Class({
                     layout: {width: 'matchParent', weight: 1}
                 },
                 {
-                    type:'chess.WPComMessage'
+                    type:'chess.WPComMessage',
+                    hidden:this._p
                 }
             ]
         });

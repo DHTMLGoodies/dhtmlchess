@@ -180,8 +180,6 @@ chess.controller.AnalysisEngineController = new Class({
     },
 
     playMove: function (move, pv) {
-
-        console.log(move);
         var fromX = this.files[(move & 0xF) - 4];
         var fromY = 8 - (((move >> 4) & 0xF) - 2);
         var toX = this.files[((move >> 8) & 0xF) - 4];

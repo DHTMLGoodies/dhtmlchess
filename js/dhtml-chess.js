@@ -1,4 +1,4 @@
-/* Generated Mon Apr 10 22:19:54 CEST 2017 */
+/* Generated Thu Apr 13 17:06:30 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -15,452 +15,463 @@
 * DHTML CHESS HAS NO OBLIGATION TO PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 *
 */
-/* ../ludojs/src/../mootools/MooTools-Core-1.6.0.js */
-/* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2016 [Valerio Proietti](http://mad4milk.net/).*/
+/* ../ludojs/src/../mootools/MooTools-Core-1.6.0-smaller.js */
+/* MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2017 [Valerio Proietti](https://mootools.net/).*/ 
 /*!
- Web Build: http://mootools.net/core/builder/e7289bd0058c6790cb2b769822285f97
- */
+Web Build: https://mootools.net/core/builder/e7289bd0058c6790cb2b769822285f97
+*/
 /*
- ---
+---
 
- name: Core
+name: Core
 
- description: The heart of MooTools.
+description: The heart of MooTools.
 
- license: MIT-style license.
+license: MIT-style license.
 
- copyright: Copyright (c) 2006-2015 [Valerio Proietti](http://mad4milk.net/).
+copyright: Copyright (c) 2006-2015 [Valerio Proietti](https://github.com/kamicane/).
 
- authors: The MooTools production team (http://mootools.net/developers/)
+authors: The MooTools production team (http://mootools.net/developers/)
 
- inspiration:
- - Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
- - Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
+inspiration:
+  - Class implementation inspired by [Base.js](http://dean.edwards.name/weblog/2006/03/base/) Copyright (c) 2006 Dean Edwards, [GNU Lesser General Public License](http://opensource.org/licenses/lgpl-license.php)
+  - Some functionality inspired by [Prototype.js](http://prototypejs.org) Copyright (c) 2005-2007 Sam Stephenson, [MIT License](http://opensource.org/licenses/mit-license.php)
 
- provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
+provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 
- ...
- */
-/*! MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2015 [Valerio Proietti](http://mad4milk.net/).*/
+...
+*/
+/*! MooTools: the javascript framework. license: MIT-style license. copyright: Copyright (c) 2006-2015 [Valerio Proietti](https://github.com/kamicane/).*/
 (function(){
 
-	this.MooTools = {
-		version: '1.6.0',
-		build: '529422872adfff401b901b8b6c7ca5114ee95e2b'
-	};
+this.MooTools = {
+	version: '1.6.0',
+	build: '529422872adfff401b901b8b6c7ca5114ee95e2b'
+};
 
 // typeOf, instanceOf
 
-	var typeOf = this.typeOf = function(item){
-		if (item == null) return 'null';
-		if (item.$family != null) return item.$family();
+var typeOf = this.typeOf = function(item){
+	if (item == null) return 'null';
+	if (item.$family != null) return item.$family();
 
-		if (item.nodeName){
-			if (item.nodeType == 1) return 'element';
-			if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
-		} else if (typeof item.length == 'number'){
-			if ('callee' in item) return 'arguments';
-			if ('item' in item) return 'collection';
-		}
-
-		return typeof item;
-	};
-
-	var instanceOf = this.instanceOf = function(item, object){
-		if (item == null) return false;
-		var constructor = item.$constructor || item.constructor;
-		while (constructor){
-			if (constructor === object) return true;
-			constructor = constructor.parent;
-		}
-		/*<ltIE8>*/
-		if (!item.hasOwnProperty) return false;
-		/*</ltIE8>*/
-		return item instanceof object;
-	};
-
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-	/*<ltIE8>*/
-	var enumerables = true;
-	for (var i in {toString: 1}) enumerables = null;
-	if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
-	function forEachObjectEnumberableKey(object, fn, bind){
-		if (enumerables) for (var i = enumerables.length; i--;){
-			var k = enumerables[i];
-			// signature has key-value, so overloadSetter can directly pass the
-			// method function, without swapping arguments.
-			if (hasOwnProperty.call(object, k)) fn.call(bind, k, object[k]);
-		}
+	if (item.nodeName){
+		if (item.nodeType == 1) return 'element';
+		if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
+	} else if (typeof item.length == 'number'){
+		if ('callee' in item) return 'arguments';
+		if ('item' in item) return 'collection';
 	}
+
+	return typeof item;
+};
+
+var instanceOf = this.instanceOf = function(item, object){
+	if (item == null) return false;
+	var constructor = item.$constructor || item.constructor;
+	while (constructor){
+		if (constructor === object) return true;
+		constructor = constructor.parent;
+	}
+	/*<ltIE8>*/
+	if (!item.hasOwnProperty) return false;
 	/*</ltIE8>*/
+	return item instanceof object;
+};
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+/*<ltIE8>*/
+var enumerables = true;
+for (var i in {toString: 1}) enumerables = null;
+if (enumerables) enumerables = ['hasOwnProperty', 'valueOf', 'isPrototypeOf', 'propertyIsEnumerable', 'toLocaleString', 'toString', 'constructor'];
+function forEachObjectEnumberableKey(object, fn, bind){
+	if (enumerables) for (var i = enumerables.length; i--;){
+		var k = enumerables[i];
+		// signature has key-value, so overloadSetter can directly pass the
+		// method function, without swapping arguments.
+		if (hasOwnProperty.call(object, k)) fn.call(bind, k, object[k]);
+	}
+}
+/*</ltIE8>*/
 
 // Function overloading
 
-	var Function = this.Function;
+var Function = this.Function;
 
-	Function.prototype.overloadSetter = function(usePlural){
-		var self = this;
-		return function(a, b){
-			if (a == null) return this;
-			if (usePlural || typeof a != 'string'){
-				for (var k in a) self.call(this, k, a[k]);
-				/*<ltIE8>*/
-				forEachObjectEnumberableKey(a, self, this);
-				/*</ltIE8>*/
-			} else {
-				self.call(this, a, b);
-			}
-			return this;
-		};
+Function.prototype.overloadSetter = function(usePlural){
+	var self = this;
+	return function(a, b){
+		if (a == null) return this;
+		if (usePlural || typeof a != 'string'){
+			for (var k in a) self.call(this, k, a[k]);
+			/*<ltIE8>*/
+			forEachObjectEnumberableKey(a, self, this);
+			/*</ltIE8>*/
+		} else {
+			self.call(this, a, b);
+		}
+		return this;
 	};
+};
 
-	Function.prototype.overloadGetter = function(usePlural){
-		var self = this;
-		return function(a){
-			var args, result;
-			if (typeof a != 'string') args = a;
-			else if (arguments.length > 1) args = arguments;
-			else if (usePlural) args = [a];
-			if (args){
-				result = {};
-				for (var i = 0; i < args.length; i++) result[args[i]] = self.call(this, args[i]);
-			} else {
-				result = self.call(this, a);
-			}
-			return result;
-		};
+Function.prototype.overloadGetter = function(usePlural){
+	var self = this;
+	return function(a){
+		var args, result;
+		if (typeof a != 'string') args = a;
+		else if (arguments.length > 1) args = arguments;
+		else if (usePlural) args = [a];
+		if (args){
+			result = {};
+			for (var i = 0; i < args.length; i++) result[args[i]] = self.call(this, args[i]);
+		} else {
+			result = self.call(this, a);
+		}
+		return result;
 	};
+};
 
-	Function.prototype.extend = function(key, value){
-		this[key] = value;
-	}.overloadSetter();
+Function.prototype.extend = function(key, value){
+	this[key] = value;
+}.overloadSetter();
 
-	Function.prototype.implement = function(key, value){
-		this.prototype[key] = value;
-	}.overloadSetter();
+Function.prototype.implement = function(key, value){
+	this.prototype[key] = value;
+}.overloadSetter();
 
 // From
 
-	var slice = Array.prototype.slice;
+var slice = Array.prototype.slice;
 
-	Array.convert = function(item){
-		if (item == null) return [];
-		return (Type.isEnumerable(item) && typeof item != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
+Array.convert = function(item){
+	if (item == null) return [];
+	return (Type.isEnumerable(item) && typeof item != 'string') ? (typeOf(item) == 'array') ? item : slice.call(item) : [item];
+};
+
+Function.convert = function(item){
+	return (typeOf(item) == 'function') ? item : function(){
+		return item;
 	};
-
-	Function.convert = function(item){
-		return (typeOf(item) == 'function') ? item : function(){
-			return item;
-		};
-	};
+};
 
 
-	Number.convert = function(item){
-		var number = parseFloat(item);
-		return isFinite(number) ? number : null;
-	};
+Number.convert = function(item){
+	var number = parseFloat(item);
+	return isFinite(number) ? number : null;
+};
 
-	String.convert = function(item){
-		return item + '';
-	};
+String.convert = function(item){
+	return item + '';
+};
 
 
 
-	Function.from = Function.convert;
-	Number.from = Number.convert;
-	String.from = String.convert;
+Function.from = Function.convert;
+Number.from = Number.convert;
+String.from = String.convert;
 
 // hide, protect
 
-	Function.implement({
+Function.implement({
 
-		hide: function(){
-			this.$hidden = true;
-			return this;
-		},
+	hide: function(){
+		this.$hidden = true;
+		return this;
+	},
 
-		protect: function(){
-			this.$protected = true;
-			return this;
-		}
+	protect: function(){
+		this.$protected = true;
+		return this;
+	}
 
-	});
+});
 
 // Type
 
-	var Type = this.Type = function(name, object){
-		if (name){
-			var lower = name.toLowerCase();
-			var typeCheck = function(item){
-				return (typeOf(item) == lower);
-			};
+var Type = this.Type = function(name, object){
+	if (name){
+		var lower = name.toLowerCase();
+		var typeCheck = function(item){
+			return (typeOf(item) == lower);
+		};
 
-			Type['is' + name] = typeCheck;
-			if (object != null){
-				object.prototype.$family = (function(){
-					return lower;
-				}).hide();
-
-			}
+		Type['is' + name] = typeCheck;
+		if (object != null){
+			object.prototype.$family = (function(){
+				return lower;
+			}).hide();
+			
 		}
+	}
 
-		if (object == null) return null;
+	if (object == null) return null;
 
-		object.extend(this);
-		object.$constructor = Type;
-		object.prototype.$constructor = object;
+	object.extend(this);
+	object.$constructor = Type;
+	object.prototype.$constructor = object;
 
-		return object;
-	};
+	return object;
+};
 
-	var toString = Object.prototype.toString;
+var toString = Object.prototype.toString;
 
-	Type.isEnumerable = function(item){
-		return (item != null && typeof item.length == 'number' && toString.call(item) != '[object Function]' );
-	};
+Type.isEnumerable = function(item){
+	return (item != null && typeof item.length == 'number' && toString.call(item) != '[object Function]' );
+};
 
-	var hooks = {};
+var hooks = {};
 
-	var hooksOf = function(object){
-		var type = typeOf(object.prototype);
-		return hooks[type] || (hooks[type] = []);
-	};
+var hooksOf = function(object){
+	var type = typeOf(object.prototype);
+	return hooks[type] || (hooks[type] = []);
+};
 
-	var implement = function(name, method){
-		if (method && method.$hidden) return;
+var implement = function(name, method){
+	if (method && method.$hidden) return;
 
-		var hooks = hooksOf(this);
+	var hooks = hooksOf(this);
 
-		for (var i = 0; i < hooks.length; i++){
-			var hook = hooks[i];
-			if (typeOf(hook) == 'type') implement.call(hook, name, method);
-			else hook.call(this, name, method);
-		}
+	for (var i = 0; i < hooks.length; i++){
+		var hook = hooks[i];
+		if (typeOf(hook) == 'type') implement.call(hook, name, method);
+		else hook.call(this, name, method);
+	}
 
-		var previous = this.prototype[name];
-		if (previous == null || !previous.$protected) this.prototype[name] = method;
+	var previous = this.prototype[name];
+	if (previous == null || !previous.$protected) this.prototype[name] = method;
 
-		if (this[name] == null && typeOf(method) == 'function') extend.call(this, name, function(item){
-			return method.apply(item, slice.call(arguments, 1));
-		});
-	};
-
-	var extend = function(name, method){
-		if (method && method.$hidden) return;
-		var previous = this[name];
-		if (previous == null || !previous.$protected) this[name] = method;
-	};
-
-	Type.implement({
-
-		implement: implement.overloadSetter(),
-
-		extend: extend.overloadSetter(),
-
-		alias: function(name, existing){
-			implement.call(this, name, this.prototype[existing]);
-		}.overloadSetter(),
-
-		mirror: function(hook){
-			hooksOf(this).push(hook);
-			return this;
-		}
-
+	if (this[name] == null && typeOf(method) == 'function') extend.call(this, name, function(item){
+		return method.apply(item, slice.call(arguments, 1));
 	});
+};
 
-	new Type('Type', Type);
+var extend = function(name, method){
+	if (method && method.$hidden) return;
+	var previous = this[name];
+	if (previous == null || !previous.$protected) this[name] = method;
+};
+
+Type.implement({
+
+	implement: implement.overloadSetter(),
+
+	extend: extend.overloadSetter(),
+
+	alias: function(name, existing){
+		implement.call(this, name, this.prototype[existing]);
+	}.overloadSetter(),
+
+	mirror: function(hook){
+		hooksOf(this).push(hook);
+		return this;
+	}
+
+});
+
+new Type('Type', Type);
 
 // Default Types
 
-	var force = function(name, object, methods){
-		var isType = (object != Object),
-			prototype = object.prototype;
+var force = function(name, object, methods){
+	var isType = (object != Object),
+		prototype = object.prototype;
 
-		if (isType) object = new Type(name, object);
+	if (isType) object = new Type(name, object);
 
-		for (var i = 0, l = methods.length; i < l; i++){
-			var key = methods[i],
-				generic = object[key],
-				proto = prototype[key];
+	for (var i = 0, l = methods.length; i < l; i++){
+		var key = methods[i],
+			generic = object[key],
+			proto = prototype[key];
 
-			if (generic) generic.protect();
-			if (isType && proto) object.implement(key, proto.protect());
-		}
+		if (generic) generic.protect();
+		if (isType && proto) object.implement(key, proto.protect());
+	}
 
-		if (isType){
-			var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);
-			object.forEachMethod = function(fn){
-				if (!methodsEnumerable) for (var i = 0, l = methods.length; i < l; i++){
-					fn.call(prototype, prototype[methods[i]], methods[i]);
-				}
-				for (var key in prototype) fn.call(prototype, prototype[key], key);
-			};
-		}
+	if (isType){
+		var methodsEnumerable = prototype.propertyIsEnumerable(methods[0]);
+		object.forEachMethod = function(fn){
+			if (!methodsEnumerable) for (var i = 0, l = methods.length; i < l; i++){
+				fn.call(prototype, prototype[methods[i]], methods[i]);
+			}
+			for (var key in prototype) fn.call(prototype, prototype[key], key);
+		};
+	}
 
-		return force;
-	};
+	return force;
+};
 
-	force('String', String, [
-		'charAt', 'charCodeAt', 'concat', 'contains', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
-		'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
-	])('Array', Array, [
-		'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice',
-		'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight', 'contains'
-	])('Number', Number, [
-		'toExponential', 'toFixed', 'toLocaleString', 'toPrecision'
-	])('Function', Function, [
-		'apply', 'call', 'bind'
-	])('RegExp', RegExp, [
-		'exec', 'test'
-	])('Object', Object, [
-		'create', 'defineProperty', 'defineProperties', 'keys',
-		'getPrototypeOf', 'getOwnPropertyDescriptor', 'getOwnPropertyNames',
-		'preventExtensions', 'isExtensible', 'seal', 'isSealed', 'freeze', 'isFrozen'
-	])('Date', Date, ['now']);
+force('String', String, [
+	'charAt', 'charCodeAt', 'concat', 'contains', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
+	'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
+])('Array', Array, [
+	'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice',
+	'indexOf', 'lastIndexOf', 'filter', 'forEach', 'every', 'map', 'some', 'reduce', 'reduceRight', 'contains'
+])('Number', Number, [
+	'toExponential', 'toFixed', 'toLocaleString', 'toPrecision'
+])('Function', Function, [
+	'apply', 'call', 'bind'
+])('RegExp', RegExp, [
+	'exec', 'test'
+])('Object', Object, [
+	'create', 'defineProperty', 'defineProperties', 'keys',
+	'getPrototypeOf', 'getOwnPropertyDescriptor', 'getOwnPropertyNames',
+	'preventExtensions', 'isExtensible', 'seal', 'isSealed', 'freeze', 'isFrozen'
+])('Date', Date, ['now']);
 
-	Object.extend = extend.overloadSetter();
+Object.extend = extend.overloadSetter();
 
-	Date.extend('now', function(){
-		return +(new Date);
-	});
+Date.extend('now', function(){
+	return +(new Date);
+});
 
-	new Type('Boolean', Boolean);
+new Type('Boolean', Boolean);
 
 // fixes NaN returning as Number
 
-	Number.prototype.$family = function(){
-		return isFinite(this) ? 'number' : 'null';
-	}.hide();
+Number.prototype.$family = function(){
+	return isFinite(this) ? 'number' : 'null';
+}.hide();
 
 // Number.random
 
-	Number.extend('random', function(min, max){
-		return Math.floor(Math.random() * (max - min + 1) + min);
-	});
+Number.extend('random', function(min, max){
+	return Math.floor(Math.random() * (max - min + 1) + min);
+});
 
 // forEach, each, keys
 
+Array.implement({
 
-	Object.extend({
-
-		keys: function(object){
-			var keys = [];
-			for (var k in object){
-				if (hasOwnProperty.call(object, k)) keys.push(k);
-			}
-			/*<ltIE8>*/
-			forEachObjectEnumberableKey(object, function(k){
-				keys.push(k);
-			});
-			/*</ltIE8>*/
-			return keys;
-		},
-
-		forEach: function(object, fn, bind){
-			Object.keys(object).forEach(function(key){
-				fn.call(bind, object[key], key, object);
-			});
+	/*<!ES5>*/
+	forEach: function(fn, bind){
+		for (var i = 0, l = this.length; i < l; i++){
+			if (i in this) fn.call(bind, this[i], i, this);
 		}
+	},
+	/*</!ES5>*/
 
-	});
+	each: function(fn, bind){
+		Array.forEach(this, fn, bind);
+		return this;
+	}
 
-	Object.each = Object.forEach;
+});
+
+Object.extend({
+
+	keys: function(object){
+		var keys = [];
+		for (var k in object){
+			if (hasOwnProperty.call(object, k)) keys.push(k);
+		}
+		/*<ltIE8>*/
+		forEachObjectEnumberableKey(object, function(k){
+			keys.push(k);
+		});
+		/*</ltIE8>*/
+		return keys;
+	},
+
+	forEach: function(object, fn, bind){
+		Object.keys(object).forEach(function(key){
+			fn.call(bind, object[key], key, object);
+		});
+	}
+
+});
+
+Object.each = Object.forEach;
 
 
 // Array & Object cloning, Object merging and appending
 
-	var cloneOf = function(item){
-		switch (typeOf(item)){
-			case 'array': return item.clone();
-			case 'object': return Object.clone(item);
-			default: return item;
-		}
-	};
+var cloneOf = function(item){
+	switch (typeOf(item)){
+		case 'array': return item.clone();
+		case 'object': return Object.clone(item);
+		default: return item;
+	}
+};
 
-	Array.implement('clone', function(){
-		var i = this.length, clone = new Array(i);
-		while (i--) clone[i] = cloneOf(this[i]);
-		return clone;
-	});
+Array.implement('clone', function(){
+	var i = this.length, clone = new Array(i);
+	while (i--) clone[i] = cloneOf(this[i]);
+	return clone;
+});
 
-	var mergeOne = function(source, key, current){
-		switch (typeOf(current)){
-			case 'object':
-				if (typeOf(source[key]) == 'object') Object.merge(source[key], current);
-				else source[key] = Object.clone(current);
-				break;
-			case 'array': source[key] = current.clone(); break;
-			default: source[key] = current;
+var mergeOne = function(source, key, current){
+	switch (typeOf(current)){
+		case 'object':
+			if (typeOf(source[key]) == 'object') Object.merge(source[key], current);
+			else source[key] = Object.clone(current);
+			break;
+		case 'array': source[key] = current.clone(); break;
+		default: source[key] = current;
+	}
+	return source;
+};
+
+Object.extend({
+
+	merge: function(source, k, v){
+		if (typeOf(k) == 'string') return mergeOne(source, k, v);
+		for (var i = 1, l = arguments.length; i < l; i++){
+			var object = arguments[i];
+			for (var key in object) mergeOne(source, key, object[key]);
 		}
 		return source;
-	};
+	},
 
-	Object.extend({
+	clone: function(object){
+		var clone = {};
+		for (var key in object) clone[key] = cloneOf(object[key]);
+		return clone;
+	},
 
-		merge: function(source, k, v){
-			if (typeOf(k) == 'string') return mergeOne(source, k, v);
-			for (var i = 1, l = arguments.length; i < l; i++){
-				var object = arguments[i];
-				for (var key in object) mergeOne(source, key, object[key]);
-			}
-			return source;
-		},
-
-		clone: function(object){
-			var clone = {};
-			for (var key in object) clone[key] = cloneOf(object[key]);
-			return clone;
-		},
-
-		append: function(original){
-			for (var i = 1, l = arguments.length; i < l; i++){
-				var extended = arguments[i] || {};
-				for (var key in extended) original[key] = extended[key];
-			}
-			return original;
+	append: function(original){
+		for (var i = 1, l = arguments.length; i < l; i++){
+			var extended = arguments[i] || {};
+			for (var key in extended) original[key] = extended[key];
 		}
+		return original;
+	}
 
-	});
+});
 
 // Object-less types
 
-	jQuery.each(['Object', 'WhiteSpace', 'TextNode', 'Collection', 'Arguments'], function(i, name){
-		new Type(name);
-	});
-	/*
-	['Object', 'WhiteSpace', 'TextNode', 'Collection', 'Arguments'].each(function(name){
-		new Type(name);
-	});
-	*/
+['Object', 'WhiteSpace', 'TextNode', 'Collection', 'Arguments'].each(function(name){
+	new Type(name);
+});
 
 // Unique ID
 
-	var UID = Date.now();
+var UID = Date.now();
 
-	String.extend('uniqueID', function(){
-		return (UID++).toString(36);
-	});
+String.extend('uniqueID', function(){
+	return (UID++).toString(36);
+});
 
 
 
 })();
 
 /*
- ---
+---
 
- name: Array
+name: Array
 
- description: Contains Array Prototypes like each, contains, and erase.
+description: Contains Array Prototypes like each, contains, and erase.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: [Type]
+requires: [Type]
 
- provides: Array
+provides: Array
 
- ...
- */
+...
+*/
 
 Array.implement({
 
@@ -619,20 +630,20 @@ Array.implement({
 
 
 /*
- ---
+---
 
- name: Function
+name: Function
 
- description: Contains Function Prototypes like create, bind, pass, and delay.
+description: Contains Function Prototypes like create, bind, pass, and delay.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: Type
+requires: Type
 
- provides: Function
+provides: Function
 
- ...
- */
+...
+*/
 
 Function.extend({
 
@@ -699,20 +710,20 @@ Function.implement({
 
 
 /*
- ---
+---
 
- name: Number
+name: Number
 
- description: Contains Number Prototypes like limit, round, times, and ceil.
+description: Contains Number Prototypes like limit, round, times, and ceil.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: Type
+requires: Type
 
- provides: Number
+provides: Number
 
- ...
- */
+...
+*/
 
 Number.implement({
 
@@ -743,40 +754,33 @@ Number.alias('each', 'times');
 
 (function(math){
 
-	var methods = {};
+var methods = {};
 
-	jQuery.each(math, function(i, name){
-		if (!Number[name]) methods[name] = function(){
-			return Math[name].apply(null, [this].concat(Array.convert(arguments)));
-		};
-	});
+math.each(function(name){
+	if (!Number[name]) methods[name] = function(){
+		return Math[name].apply(null, [this].concat(Array.convert(arguments)));
+	};
+});
 
-	/*
-	math.each(function(name){
-		if (!Number[name]) methods[name] = function(){
-			return Math[name].apply(null, [this].concat(Array.convert(arguments)));
-		};
-	});*/
-
-	Number.implement(methods);
+Number.implement(methods);
 
 })(['abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'exp', 'floor', 'log', 'max', 'min', 'pow', 'sin', 'sqrt', 'tan']);
 
 /*
- ---
+---
 
- name: String
+name: String
 
- description: Contains String Prototypes like camelCase, capitalize, test, and toInt.
+description: Contains String Prototypes like camelCase, capitalize, test, and toInt.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: [Type, Array]
+requires: [Type, Array]
 
- provides: String
+provides: String
 
- ...
- */
+...
+*/
 
 String.implement({
 
@@ -850,446 +854,438 @@ String.implement({
 
 
 /*
- ---
+---
 
- name: Browser
+name: Browser
 
- description: The Browser Object. Contains Browser initialization, Window and Document, and the Browser Hash.
+description: The Browser Object. Contains Browser initialization, Window and Document, and the Browser Hash.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: [Array, Function, Number, String]
+requires: [Array, Function, Number, String]
 
- provides: [Browser, Window, Document]
+provides: [Browser, Window, Document]
 
- ...
- */
+...
+*/
 
 (function(){
 
-	var document = this.document;
-	var window = document.window = this;
+var document = this.document;
+var window = document.window = this;
 
-	var parse = function(ua, platform){
-		ua = ua.toLowerCase();
-		platform = (platform ? platform.toLowerCase() : '');
+var parse = function(ua, platform){
+	ua = ua.toLowerCase();
+	platform = (platform ? platform.toLowerCase() : '');
 
-		// chrome is included in the edge UA, so need to check for edge first,
-		// before checking if it's chrome.
-		var UA = ua.match(/(edge)[\s\/:]([\w\d\.]+)/);
-		if (!UA){
-			UA = ua.match(/(opera|ie|firefox|chrome|trident|crios|version)[\s\/:]([\w\d\.]+)?.*?(safari|(?:rv[\s\/:]|version[\s\/:])([\w\d\.]+)|$)/) || [null, 'unknown', 0];
-		}
-
-		if (UA[1] == 'trident'){
-			UA[1] = 'ie';
-			if (UA[4]) UA[2] = UA[4];
-		} else if (UA[1] == 'crios'){
-			UA[1] = 'chrome';
-		}
-
-		platform = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || ua.match(/mac|win|linux/) || ['other'])[0];
-		if (platform == 'win') platform = 'windows';
-
-		return {
-			extend: Function.prototype.extend,
-			name: (UA[1] == 'version') ? UA[3] : UA[1],
-			version: parseFloat((UA[1] == 'opera' && UA[4]) ? UA[4] : UA[2]),
-			platform: platform
-		};
-	};
-
-	var Browser = this.Browser = parse(navigator.userAgent, navigator.platform);
-
-	if (Browser.name == 'ie' && document.documentMode){
-		Browser.version = document.documentMode;
+	// chrome is included in the edge UA, so need to check for edge first,
+	// before checking if it's chrome.
+	var UA = ua.match(/(edge)[\s\/:]([\w\d\.]+)/);
+	if (!UA){
+		UA = ua.match(/(opera|ie|firefox|chrome|trident|crios|version)[\s\/:]([\w\d\.]+)?.*?(safari|(?:rv[\s\/:]|version[\s\/:])([\w\d\.]+)|$)/) || [null, 'unknown', 0];
 	}
 
-	Browser.extend({
-		Features: {
-			xpath: !!(document.evaluate),
-			air: !!(window.runtime),
-			query: !!(document.querySelector),
-			json: !!(window.JSON)
-		},
-		parseUA: parse
-	});
+	if (UA[1] == 'trident'){
+		UA[1] = 'ie';
+		if (UA[4]) UA[2] = UA[4];
+	} else if (UA[1] == 'crios'){
+		UA[1] = 'chrome';
+	}
+
+	platform = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || ua.match(/mac|win|linux/) || ['other'])[0];
+	if (platform == 'win') platform = 'windows';
+
+	return {
+		extend: Function.prototype.extend,
+		name: (UA[1] == 'version') ? UA[3] : UA[1],
+		version: parseFloat((UA[1] == 'opera' && UA[4]) ? UA[4] : UA[2]),
+		platform: platform
+	};
+};
+
+var Browser = this.Browser = parse(navigator.userAgent, navigator.platform);
+
+if (Browser.name == 'ie' && document.documentMode){
+	Browser.version = document.documentMode;
+}
+
+Browser.extend({
+	Features: {
+		xpath: !!(document.evaluate),
+		air: !!(window.runtime),
+		query: !!(document.querySelector),
+		json: !!(window.JSON)
+	},
+	parseUA: parse
+});
 
 
 
 // Request
 
-	Browser.Request = (function(){
+Browser.Request = (function(){
 
-		var XMLHTTP = function(){
-			return new XMLHttpRequest();
-		};
+	var XMLHTTP = function(){
+		return new XMLHttpRequest();
+	};
 
-		var MSXML2 = function(){
-			return new ActiveXObject('MSXML2.XMLHTTP');
-		};
+	var MSXML2 = function(){
+		return new ActiveXObject('MSXML2.XMLHTTP');
+	};
 
-		var MSXML = function(){
-			return new ActiveXObject('Microsoft.XMLHTTP');
-		};
+	var MSXML = function(){
+		return new ActiveXObject('Microsoft.XMLHTTP');
+	};
 
-		return Function.attempt(function(){
-			XMLHTTP();
-			return XMLHTTP;
-		}, function(){
-			MSXML2();
-			return MSXML2;
-		}, function(){
-			MSXML();
-			return MSXML;
-		});
+	return Function.attempt(function(){
+		XMLHTTP();
+		return XMLHTTP;
+	}, function(){
+		MSXML2();
+		return MSXML2;
+	}, function(){
+		MSXML();
+		return MSXML;
+	});
 
-	})();
+})();
 
-	Browser.Features.xhr = !!(Browser.Request);
+Browser.Features.xhr = !!(Browser.Request);
 
 
 
 // String scripts
 
-	Browser.exec = function(text){
-		if (!text) return text;
-		if (window.execScript){
-			window.execScript(text);
-		} else {
-			var script = document.createElement('script');
-			script.setAttribute('type', 'text/javascript');
-			script.text = text;
-			document.head.appendChild(script);
-			document.head.removeChild(script);
-		}
-		return text;
-	};
+Browser.exec = function(text){
+	if (!text) return text;
+	if (window.execScript){
+		window.execScript(text);
+	} else {
+		var script = document.createElement('script');
+		script.setAttribute('type', 'text/javascript');
+		script.text = text;
+		document.head.appendChild(script);
+		document.head.removeChild(script);
+	}
+	return text;
+};
 
-	String.implement('stripScripts', function(exec){
-		var scripts = '';
-		var text = this.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function(all, code){
-			scripts += code + '\n';
-			return '';
-		});
-		if (exec === true) Browser.exec(scripts);
-		else if (typeOf(exec) == 'function') exec(scripts, text);
-		return text;
+String.implement('stripScripts', function(exec){
+	var scripts = '';
+	var text = this.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, function(all, code){
+		scripts += code + '\n';
+		return '';
 	});
+	if (exec === true) Browser.exec(scripts);
+	else if (typeOf(exec) == 'function') exec(scripts, text);
+	return text;
+});
 
 // Window, Document
 
-	Browser.extend({
-		Document: this.Document,
-		Window: this.Window,
-		Element: this.Element,
-		Event: this.Event
-	});
+Browser.extend({
+	Document: this.Document,
+	Window: this.Window,
+	Element: this.Element,
+	Event: this.Event
+});
 
-	this.Window = this.$constructor = new Type('Window', function(){});
+this.Window = this.$constructor = new Type('Window', function(){});
 
-	this.$family = Function.convert('window').hide();
+this.$family = Function.convert('window').hide();
 
-	Window.mirror(function(name, method){
-		window[name] = method;
-	});
+Window.mirror(function(name, method){
+	window[name] = method;
+});
 
-	this.Document = document.$constructor = new Type('Document', function(){});
+this.Document = document.$constructor = new Type('Document', function(){});
 
-	document.$family = Function.convert('document').hide();
+document.$family = Function.convert('document').hide();
 
-	Document.mirror(function(name, method){
-		document[name] = method;
-	});
+Document.mirror(function(name, method){
+	document[name] = method;
+});
 
-	document.html = document.documentElement;
-	if (!document.head) document.head = document.getElementsByTagName('head')[0];
+document.html = document.documentElement;
+if (!document.head) document.head = document.getElementsByTagName('head')[0];
 
-	if (document.execCommand) try {
-		document.execCommand('BackgroundImageCache', false, true);
-	} catch (e){}
+if (document.execCommand) try {
+	document.execCommand('BackgroundImageCache', false, true);
+} catch (e){}
 
-	/*<ltIE9>*/
-	if (this.attachEvent && !this.addEventListener){
-		var unloadEvent = function(){
-			this.detachEvent('onunload', unloadEvent);
-			document.head = document.html = document.window = null;
-			window = this.Window = document = null;
-		};
-		this.attachEvent('onunload', unloadEvent);
-	}
+/*<ltIE9>*/
+if (this.attachEvent && !this.addEventListener){
+	var unloadEvent = function(){
+		this.detachEvent('onunload', unloadEvent);
+		document.head = document.html = document.window = null;
+		window = this.Window = document = null;
+	};
+	this.attachEvent('onunload', unloadEvent);
+}
 
 // IE fails on collections and <select>.options (refers to <select>)
-	var arrayFrom = Array.convert;
-	try {
-		arrayFrom(document.html.childNodes);
-	} catch (e){
-		Array.convert = function(item){
-			if (typeof item != 'string' && Type.isEnumerable(item) && typeOf(item) != 'array'){
-				var i = item.length, array = new Array(i);
-				while (i--) array[i] = item[i];
-				return array;
-			}
-			return arrayFrom(item);
+var arrayFrom = Array.convert;
+try {
+	arrayFrom(document.html.childNodes);
+} catch (e){
+	Array.convert = function(item){
+		if (typeof item != 'string' && Type.isEnumerable(item) && typeOf(item) != 'array'){
+			var i = item.length, array = new Array(i);
+			while (i--) array[i] = item[i];
+			return array;
+		}
+		return arrayFrom(item);
+	};
+
+	var prototype = Array.prototype,
+		slice = prototype.slice;
+	['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice'].each(function(name){
+		var method = prototype[name];
+		Array[name] = function(item){
+			return method.apply(Array.convert(item), slice.call(arguments, 1));
 		};
+	});
+}
+/*</ltIE9>*/
 
-		var prototype = Array.prototype,
-			slice = prototype.slice;
-		['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice'].each(function(name){
-			var method = prototype[name];
-			Array[name] = function(item){
-				return method.apply(Array.convert(item), slice.call(arguments, 1));
-			};
-		});
+
+
+})();
+
+/*
+---
+
+name: Class
+
+description: Contains the Class Function for easily creating, extending, and implementing reusable Classes.
+
+license: MIT-style license.
+
+requires: [Array, String, Function, Number]
+
+provides: Class
+
+...
+*/
+
+(function(){
+
+var Class = this.Class = new Type('Class', function(params){
+	if (instanceOf(params, Function)) params = {initialize: params};
+
+	var newClass = function(){
+		reset(this);
+		if (newClass.$prototyping) return this;
+		this.$caller = null;
+		this.$family = null;
+		var value = (this.initialize) ? this.initialize.apply(this, arguments) : this;
+		this.$caller = this.caller = null;
+		return value;
+	}.extend(this).implement(params);
+
+	newClass.$constructor = Class;
+	newClass.prototype.$constructor = newClass;
+	newClass.prototype.parent = parent;
+
+	return newClass;
+});
+
+var parent = function(){
+	if (!this.$caller) throw new Error('The method "parent" cannot be called.');
+	var name = this.$caller.$name,
+		parent = this.$caller.$owner.parent,
+		previous = (parent) ? parent.prototype[name] : null;
+	if (!previous) throw new Error('The method "' + name + '" has no parent.');
+	return previous.apply(this, arguments);
+};
+
+var reset = function(object){
+	for (var key in object){
+		var value = object[key];
+		switch (typeOf(value)){
+			case 'object':
+				var F = function(){};
+				F.prototype = value;
+				object[key] = reset(new F);
+				break;
+			case 'array': object[key] = value.clone(); break;
+		}
 	}
-	/*</ltIE9>*/
+	return object;
+};
 
+var wrap = function(self, key, method){
+	if (method.$origin) method = method.$origin;
+	var wrapper = function(){
+		if (method.$protected && this.$caller == null) throw new Error('The method "' + key + '" cannot be called.');
+		var caller = this.caller, current = this.$caller;
+		this.caller = current; this.$caller = wrapper;
+		var result = method.apply(this, arguments);
+		this.$caller = current; this.caller = caller;
+		return result;
+	}.extend({$owner: self, $origin: method, $name: key});
+	return wrapper;
+};
 
+var implement = function(key, value, retain){
+	if (Class.Mutators.hasOwnProperty(key)){
+		value = Class.Mutators[key].call(this, value);
+		if (value == null) return this;
+	}
+
+	if (typeOf(value) == 'function'){
+		if (value.$hidden) return this;
+		this.prototype[key] = (retain) ? value : wrap(this, key, value);
+	} else {
+		Object.merge(this.prototype, key, value);
+	}
+
+	return this;
+};
+
+var getInstance = function(klass){
+	klass.$prototyping = true;
+	var proto = new klass;
+	delete klass.$prototyping;
+	return proto;
+};
+
+Class.implement('implement', implement.overloadSetter());
+
+Class.Mutators = {
+
+	Extends: function(parent){
+		this.parent = parent;
+		this.prototype = getInstance(parent);
+	},
+
+	Implements: function(items){
+		Array.convert(items).each(function(item){
+			var instance = new item;
+			for (var key in instance) implement.call(this, key, instance[key], true);
+		}, this);
+	}
+};
 
 })();
 
 /*
- ---
+---
 
- name: Class
+name: Class.Extras
 
- description: Contains the Class Function for easily creating, extending, and implementing reusable Classes.
+description: Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
 
- license: MIT-style license.
+license: MIT-style license.
 
- requires: [Array, String, Function, Number]
+requires: Class
 
- provides: Class
+provides: [Class.Extras, Chain, Events, Options]
 
- ...
- */
+...
+*/
 
 (function(){
 
-	var Class = this.Class = new Type('Class', function(params){
-		if (instanceOf(params, Function)) params = {initialize: params};
+this.Chain = new Class({
 
-		var newClass = function(){
-			reset(this);
-			if (newClass.$prototyping) return this;
-			this.$caller = null;
-			this.$family = null;
-			var value = (this.initialize) ? this.initialize.apply(this, arguments) : this;
-			this.$caller = this.caller = null;
-			return value;
-		}.extend(this).implement(params);
+	$chain: [],
 
-		newClass.$constructor = Class;
-		newClass.prototype.$constructor = newClass;
-		newClass.prototype.parent = parent;
-
-		return newClass;
-	});
-
-	var parent = function(){
-		if (!this.$caller) throw new Error('The method "parent" cannot be called.');
-		var name = this.$caller.$name,
-			parent = this.$caller.$owner.parent,
-			previous = (parent) ? parent.prototype[name] : null;
-		if (!previous) throw new Error('The method "' + name + '" has no parent.');
-		return previous.apply(this, arguments);
-	};
-
-	var reset = function(object){
-		for (var key in object){
-			var value = object[key];
-			switch (typeOf(value)){
-				case 'object':
-					var F = function(){};
-					F.prototype = value;
-					object[key] = reset(new F);
-					break;
-				case 'array': object[key] = value.clone(); break;
-			}
-		}
-		return object;
-	};
-
-	var wrap = function(self, key, method){
-		if (method.$origin) method = method.$origin;
-		var wrapper = function(){
-			if (method.$protected && this.$caller == null) throw new Error('The method "' + key + '" cannot be called.');
-			var caller = this.caller, current = this.$caller;
-			this.caller = current; this.$caller = wrapper;
-			var result = method.apply(this, arguments);
-			this.$caller = current; this.caller = caller;
-			return result;
-		}.extend({$owner: self, $origin: method, $name: key});
-		return wrapper;
-	};
-
-	var implement = function(key, value, retain){
-		if (Class.Mutators.hasOwnProperty(key)){
-			value = Class.Mutators[key].call(this, value);
-			if (value == null) return this;
-		}
-
-		if (typeOf(value) == 'function'){
-			if (value.$hidden) return this;
-			this.prototype[key] = (retain) ? value : wrap(this, key, value);
-		} else {
-			Object.merge(this.prototype, key, value);
-		}
-
+	chain: function(){
+		this.$chain.append(Array.flatten(arguments));
 		return this;
-	};
+	},
 
-	var getInstance = function(klass){
-		klass.$prototyping = true;
-		var proto = new klass;
-		delete klass.$prototyping;
-		return proto;
-	};
+	callChain: function(){
+		return (this.$chain.length) ? this.$chain.shift().apply(this, arguments) : false;
+	},
 
-	Class.implement('implement', implement.overloadSetter());
+	clearChain: function(){
+		this.$chain.empty();
+		return this;
+	}
 
-	Class.Mutators = {
+});
 
-		Extends: function(parent){
-			this.parent = parent;
-			this.prototype = getInstance(parent);
-		},
-
-		Implements: function(items){
-			Array.convert(items).each(function(item){
-				var instance = new item;
-				for (var key in instance) implement.call(this, key, instance[key], true);
-			}, this);
-		}
-	};
-
-})();
-
-/*
- ---
-
- name: Class.Extras
-
- description: Contains Utility Classes that can be implemented into your own Classes to ease the execution of many common tasks.
-
- license: MIT-style license.
-
- requires: Class
-
- provides: [Class.Extras, Chain, Events, Options]
-
- ...
- */
-
-(function(){
-
-	this.Chain = new Class({
-
-		$chain: [],
-
-		chain: function(){
-			this.$chain.append(Array.flatten(arguments));
-			return this;
-		},
-
-		callChain: function(){
-			return (this.$chain.length) ? this.$chain.shift().apply(this, arguments) : false;
-		},
-
-		clearChain: function(){
-			this.$chain.empty();
-			return this;
-		}
-
+var removeOn = function(string){
+	return string.replace(/^on([A-Z])/, function(full, first){
+		return first.toLowerCase();
 	});
+};
 
-	var removeOn = function(string){
-		return string.replace(/^on([A-Z])/, function(full, first){
-			return first.toLowerCase();
-		});
-	};
+this.Events = new Class({
 
-	this.Events = new Class({
+	$events: {},
 
-		$events: {},
+	addEvent: function(type, fn, internal){
+		type = removeOn(type);
 
-		addEvent: function(type, fn, internal){
-			type = removeOn(type);
+		
 
+		this.$events[type] = (this.$events[type] || []).include(fn);
+		if (internal) fn.internal = true;
+		return this;
+	},
 
+	addEvents: function(events){
+		for (var type in events) this.addEvent(type, events[type]);
+		return this;
+	},
 
-			this.$events[type] = (this.$events[type] || []).include(fn);
-			if (internal) fn.internal = true;
-			return this;
-		},
+	fireEvent: function(type, args, delay){
+		type = removeOn(type);
+		var events = this.$events[type];
+		if (!events) return this;
+		args = Array.convert(args);
+		events.each(function(fn){
+			if (delay) fn.delay(delay, this, args);
+			else fn.apply(this, args);
+		}, this);
+		return this;
+	},
 
-		addEvents: function(events){
-			for (var type in events) this.addEvent(type, events[type]);
-			return this;
-		},
+	removeEvent: function(type, fn){
+		type = removeOn(type);
+		var events = this.$events[type];
+		if (events && !fn.internal){
+			var index = events.indexOf(fn);
+			if (index != -1) delete events[index];
+		}
+		return this;
+	},
 
-		fireEvent: function(type, args, delay){
-			type = removeOn(type);
-			var events = this.$events[type];
-			if (!events) return this;
-			args = Array.convert(args);
-
-			jQuery.each(events, function(i, fn){
-				if (delay) fn.delay(delay, this, args);
-				else if(fn)fn.apply(this, args);
-			}.bind(this));
-
-			/*
-			events.each(function(fn){
-				if (delay) fn.delay(delay, this, args);
-				else fn.apply(this, args);
-			}, this);
-			*/
-			return this;
-		},
-
-		removeEvent: function(type, fn){
-			type = removeOn(type);
-			var events = this.$events[type];
-			if (events && !fn.internal){
-				var index = events.indexOf(fn);
-				if (index != -1) delete events[index];
-			}
-			return this;
-		},
-
-		removeEvents: function(events){
-			var type;
-			if (typeOf(events) == 'object'){
-				for (type in events) this.removeEvent(type, events[type]);
-				return this;
-			}
-			if (events) events = removeOn(events);
-			for (type in this.$events){
-				if (events && events != type) continue;
-				var fns = this.$events[type];
-				for (var i = fns.length; i--;) if (i in fns){
-					this.removeEvent(type, fns[i]);
-				}
-			}
+	removeEvents: function(events){
+		var type;
+		if (typeOf(events) == 'object'){
+			for (type in events) this.removeEvent(type, events[type]);
 			return this;
 		}
-
-	});
-
-	this.Options = new Class({
-
-		setOptions: function(){
-			var options = this.options = Object.merge.apply(null, [{}, this.options].append(arguments));
-			if (this.addEvent) for (var option in options){
-				if (typeOf(options[option]) != 'function' || !(/^on[A-Z]/).test(option)) continue;
-				this.addEvent(option, options[option]);
-				delete options[option];
+		if (events) events = removeOn(events);
+		for (type in this.$events){
+			if (events && events != type) continue;
+			var fns = this.$events[type];
+			for (var i = fns.length; i--;) if (i in fns){
+				this.removeEvent(type, fns[i]);
 			}
-			return this;
 		}
+		return this;
+	}
 
-	});
+});
+
+this.Options = new Class({
+
+	setOptions: function(){
+		var options = this.options = Object.merge.apply(null, [{}, this.options].append(arguments));
+		if (this.addEvent) for (var option in options){
+			if (typeOf(options[option]) != 'function' || !(/^on[A-Z]/).test(option)) continue;
+			this.addEvent(option, options[option]);
+			delete options[option];
+		}
+		return this;
+	}
+
+});
 
 })();
 /* ../ludojs/src/../mootools/Mootools-More-1.6.0.js */
@@ -2650,7 +2646,6 @@ ludo.util = {
 
 
 	dispose:function(view){
-		console.log('remove');
 		if (view.getParent()) {
 			view.getParent().removeChild(view);
 		}
@@ -3396,7 +3391,7 @@ ludo.Core = new Class({
 
         if (this.stateful && this.statefulProperties && this.id) {
             config = this.appendPropertiesFromStore(config);
-            this.addEvent('state', this.saveStatefulProperties.bind(this));
+            this.on('state', this.saveStatefulProperties.bind(this));
         }
 		if (config.listeners !== undefined)this.addEvents(config.listeners);
 		if (this.controller !== undefined)ludo.controllerManager.assignSpecificControllerFor(this.controller, this);
@@ -3735,7 +3730,7 @@ ludo.layout.Factory = new Class({
 ludo.layoutFactory = new ludo.layout.Factory();/* ../ludojs/src/layout/resizer.js */
 ludo.layout.Resizer = new Class({
     Extends: ludo.Core,
-    type:'layout.Resizer',
+    type: 'layout.Resizer',
     layout: {},
     orientation: undefined,
     view: undefined,
@@ -3743,39 +3738,41 @@ ludo.layout.Resizer = new Class({
     pos: undefined,
     isActive: false,
     hidden: false,
-    lm:undefined,
+    lm: undefined,
 
     __construct: function (config) {
         this.parent(config);
-        this.__params(config, ['orientation', 'view', 'layout', 'pos', 'hidden','lm']);
+        this.__params(config, ['orientation', 'view', 'layout', 'pos', 'hidden', 'lm']);
         this.createDOM(config.renderTo);
         this.addViewEvents();
         this.createDragable();
 
 
-        if(this.lm.type=='layout.Docking' && this.lm.collapsed){
+        if (this.lm.type == 'layout.Docking' && this.lm.collapsed) {
             this.hidden = true;
         }
-        if (this.hidden)this.hide();
-        
+        if (this.hidden) this.hide();
+
         this.lm.on('collapse', this.hide.bind(this));
         this.lm.on('expand', this.show.bind(this));
     },
 
     createDOM: function (renderTo) {
-        this.el = jQuery('<div>');
-        this.el.on('mouseenter', this.enterResizer.bind(this));
-        this.el.on('mouseleave', this.leaveResizer.bind(this));
-        this.el.addClass("ludo-resize-handle");
-        this.el.addClass('ludo-resize-handle-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
-        this.el.addClass('ludo-layout-resize-' + ((this.orientation === 'horizontal') ? 'col' : 'row'));
+        var h = this.orientation === 'horizontal';
+        var cls = "ludo-resize-handle ludo-resize-handle-"
+            + ((this.orientation === 'horizontal') ? 'col' : 'row')
+            + 'ludo-layout-resize-' + (h ? 'col' : 'row');
 
-        this.el.css({
-            cursor: (this.orientation == 'horizontal' ? 'ew-resize' : 'ns-resize'),
+        var el = this.el = jQuery('<div class="' + cls + '">');
+        el.on('mouseenter', this.enterResizer.bind(this));
+        el.on('mouseleave', this.leaveResizer.bind(this));
+
+        el.css({
+            cursor: (h ? 'ew-resize' : 'ns-resize'),
             zIndex: 100000
         });
 
-        renderTo.append(this.el);
+        renderTo.append(el);
 
     },
 
@@ -3796,8 +3793,8 @@ ludo.layout.Resizer = new Class({
         this.dd = new ludo.effect.Drag({
             directions: this.orientation == 'horizontal' ? 'X' : 'Y'
         });
-        this.dd.addEvent('before', this.beforeDrag.bind(this));
-        this.dd.addEvent('end', this.endDrag.bind(this));
+        this.dd.on('before', this.beforeDrag.bind(this));
+        this.dd.on('end', this.endDrag.bind(this));
         this.dd.add(this.el);
     },
 
@@ -3872,12 +3869,13 @@ ludo.layout.Resizer = new Class({
     },
 
     addViewEvents: function () {
-        this.view.addEvent('maximize', this.show.bind(this));
-        this.view.addEvent('expand', this.show.bind(this));
-        this.view.addEvent('minimize', this.hide.bind(this));
-        this.view.addEvent('collapse', this.hide.bind(this));
-        this.view.addEvent('hide', this.hide.bind(this));
-        this.view.addEvent('show', this.show.bind(this));
+        var v = this.view;
+        v.on('maximize', this.show.bind(this));
+        v.on('expand', this.show.bind(this));
+        v.on('minimize', this.hide.bind(this));
+        v.on('collapse', this.hide.bind(this));
+        v.on('hide', this.hide.bind(this));
+        v.on('show', this.show.bind(this));
     },
 
     show: function () {
@@ -3903,13 +3901,13 @@ ludo.layout.Resizer = new Class({
         this.el.css({
             left: '', top: '', right: '', bottom: ''
         });
-        
-        if (config.width !== undefined && config.width > 0)this.el.css('width', config.width);
-        if (config.height !== undefined && config.height > 0)this.el.css('height', (config.height - ludo.dom.getMBPH(this.el)));
-        if (config.left !== undefined)this.el.css('left', config.left);
-        if (config.top !== undefined)this.el.css('top', config.top);
-        if (config.bottom !== undefined)this.el.css('bottom', config.bottom);
-        if (config.right !== undefined)this.el.css('right', config.right);
+
+        if (config.width !== undefined && config.width > 0) this.el.css('width', config.width);
+        if (config.height !== undefined && config.height > 0) this.el.css('height', (config.height - ludo.dom.getMBPH(this.el)));
+        if (config.left !== undefined) this.el.css('left', config.left);
+        if (config.top !== undefined) this.el.css('top', config.top);
+        if (config.bottom !== undefined) this.el.css('bottom', config.bottom);
+        if (config.right !== undefined) this.el.css('right', config.right);
     },
 
     getParent: function () {
@@ -4193,10 +4191,19 @@ ludo.svg.Node = new Class({
 
     dirty: undefined,
 
+    /**
+     * @private
+     */
     _bbox: undefined,
 
+    /**
+     * @private
+     */
     _attr: undefined,
 
+    /**
+     * @private
+     */
     classNameCache: [],
 
     /*
@@ -4330,6 +4337,12 @@ ludo.svg.Node = new Class({
         };
     },
 
+    /**
+     * @private
+     * @param eventName
+     * @param fn
+     * @returns {*}
+     */
     getDOMEventFn: function (eventName, fn) {
         return function (e) {
             e = e || window.event;
@@ -4645,7 +4658,7 @@ ludo.svg.Node = new Class({
     addClass: function (className) {
         if (!this.hasClass(className)) {
             this.classNameCache.push(className);
-            this.updateNodeClassNameById();
+            this.updateClsById();
         }
         var cls = this.el.getAttribute('class');
         if (cls) {
@@ -4697,7 +4710,7 @@ ludo.svg.Node = new Class({
         if (this.hasClass(className)) {
             var id = this._attr['id'];
             this.classNameCache.erase(className);
-            this.updateNodeClassNameById();
+            this.updateClsById();
         }
         return this;
     },
@@ -4708,7 +4721,7 @@ ludo.svg.Node = new Class({
     },
 
 
-    updateNodeClassNameById: function () {
+    updateClsById: function () {
         this.set('class', this.classNameCache.join(' '));
     },
 
@@ -4773,8 +4786,6 @@ ludo.svg.Node = new Class({
         }
 
         return pos;
-
-
     },
 
     /**
@@ -4859,7 +4870,6 @@ ludo.svg.Node = new Class({
                         width: r.width,
                         height: r.height
                     };
-                    console.log(r, parent);
                     return;
                 }
             }
@@ -4868,7 +4878,6 @@ ludo.svg.Node = new Class({
 
         p = p.replace(/\s+/g, ' ');
         p = p.trim();
-
 
         var points = p.split(/\s/g);
         var minX, minY, maxX, maxY;
@@ -4886,7 +4895,6 @@ ludo.svg.Node = new Class({
                     currentChar = p;
                     i++;
                     yi = i + 2;
-
                 }
             }
 
@@ -6042,12 +6050,13 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     setTemporarySize: function (child, newSize) {
+        var l = child.layout;
         if (newSize.width !== undefined) {
-            child.layout.cached_width = child.layout.width;
-            child.layout.width = newSize.width;
+            l.cached_width = l.width;
+            l.width = newSize.width;
         } else {
-            child.layout.cached_height = child.layout.height;
-            child.layout.height = newSize.height;
+            l.cached_height = l.height;
+            l.height = newSize.height;
         }
     },
     /*
@@ -6059,10 +6068,11 @@ ludo.layout.Base = new Class({
      * @memberof ludo.layout.Base.prototype
      */
     clearTemporaryValues: function (child) {
-        if (child.layout.cached_width !== undefined)child.layout.width = child.layout.cached_width;
-        if (child.layout.cached_height !== undefined)child.layout.height = child.layout.cached_height;
-        child.layout.cached_width = undefined;
-        child.layout.cached_height = undefined;
+        var l = child.layout;
+        if (l.cached_width !== undefined)l.width = l.cached_width;
+        if (l.cached_height !== undefined)l.height = l.cached_height;
+        l.cached_width = undefined;
+        l.cached_height = undefined;
         this.resize();
     },
 
@@ -6190,17 +6200,18 @@ ludo.layout.Table = new Class({
     },
 
     getParentForNewChild: function (child) {
-        if (this.countChildren == 0 || child.layout.row || (this.simple && this.countChildren % this.cols.length == 0)) {
-            child.layout.row = true;
+        var l = child.layout;
+        if (this.countChildren == 0 || l.row || (this.simple && this.countChildren % this.cols.length == 0)) {
+            l.row = true;
             this.currentRow = jQuery('<tr style="border:none;padding:0;margin:0"></tr>');
             this.tbody.append(this.currentRow);
             this.countCellsInNextRow = this.cols.length;
 
         }
-        var colspan = child.layout.colspan ? child.layout.colspan : 1;
-        var rowspan = child.layout.rowspan ? child.layout.rowspan : 1;
+        var colspan = l.colspan ? l.colspan : 1;
+        var rowspan = l.rowspan ? l.rowspan : 1;
 
-        var vAlign = child.layout.vAlign ? child.layout.vAlign : "top";
+        var vAlign = l.vAlign ? l.vAlign : "top";
 
         var cell = jQuery('<td style="vertical-align:' + vAlign + ';margin:0;padding:0" colspan="' + colspan + '" rowspan="' + rowspan + '"></td>');
         this.currentRow.append(cell);
@@ -7629,7 +7640,7 @@ ludo.layout.Renderer = new Class({
         this.view = config.view;
         this.fixReferences();
         this.setDefaultProperties();
-        this.view.addEvent('show', this.resize.bind(this));
+        this.view.on('show', this.resize.bind(this));
         ludo.dom.clearCache();
         this.addResizeEvent();
 
@@ -7671,14 +7682,14 @@ ludo.layout.Renderer = new Class({
                             }
                             if (view) {
                                 el = view.getEl();
-                                view.addEvent('resize', this.clearFn.bind(this));
+                                view.on('resize', this.clearFn.bind(this));
                             } else {
                                 el = jQuery(val);
                             }
                         } else {
                             if (val.getEl !== undefined) {
                                 el = val.getEl();
-                                val.addEvent('resize', this.clearFn.bind(this));
+                                val.on('resize', this.clearFn.bind(this));
                             } else {
                                 el = jQuery(val);
                             }
@@ -8062,7 +8073,7 @@ ludo.tpl.Parser = new Class({
 
     getCompiledTpl:function(tpl){
         if(!this.compiledTpl){
-            this.compiledTpl = [];
+            var tpl = this.compiledTpl = [];
             var pos = tpl.indexOf('{');
             var end = 0;
 
@@ -8070,13 +8081,13 @@ ludo.tpl.Parser = new Class({
                 if(pos > end){
                     var start = end === 0 ? end : end+1;
                     var len = end === 0 ? pos-end : pos-end-1;
-                    this.compiledTpl.push(tpl.substr(start,len));
+                    tpl.push(tpl.substr(start,len));
                 }
 
                 end = tpl.indexOf('}', pos);
 
                 if(end != -1){
-                    this.compiledTpl.push({
+                    tpl.push({
                         key : tpl.substr(pos, end-pos).replace(/[{}"]/g,"")
                     });
                 }
@@ -8084,7 +8095,7 @@ ludo.tpl.Parser = new Class({
             }
 
             if(end != -1 && end < tpl.length){
-                this.compiledTpl.push(tpl.substr(end+1));
+                tpl.push(tpl.substr(end+1));
             }
 
         }
@@ -8250,54 +8261,10 @@ ludo.dom = {
 		return el.parent('#' + id);
 	},
 
-	addClass:function (el, className) {
-		console.info("Use of deprecated ludo.dom.addClass");
-		console.trace();
-		if (el && !this.hasClass(el, className)) {
-			if(el.attr != undefined){
-				el.addClass(className);
-			}else{
-				el.className = el.className ? el.className + ' ' + className : className;
-			}
-		}
-	},
-
-	hasClass:function (el, className) {
-		console.info("use of deprecated ludo.dom.hasClass");
-		console.trace();
-		if(el.attr != undefined)return el.hasClass(className);
-		var search = el.attr != undefined ? el.attr("class") : el.className;
-		return el && search ? search.split(/\s/g).indexOf(className) > -1 : false;
-	},
-
-	removeClass:function (el, className) {
-		console.info("use of deprecated ludo.dom.removeClass");
-		console.trace();
-		el.removeClass(className);
-	},
-
 	getParent:function (el, selector) {
 		el = el.parentNode;
 		while (el && !ludo.dom.hasClass(el, selector))el = el.parentNode;
 		return el;
-	},
-
-	scrollIntoView:function (domNode, view) {
-		var c = view.getEl();
-		var el = view.$b();
-		var viewHeight = c.offsetHeight - ludo.dom.getPH(c) - ludo.dom.getBH(c) - ludo.dom.getMBPH(el);
-
-		var pos = domNode.getPosition(el).y;
-
-		var pxBeneathBottomEdge = (pos + 20) - (c.scrollTop + viewHeight);
-		if (pxBeneathBottomEdge > 0) {
-			el.scrollTop += pxBeneathBottomEdge;
-		}
-
-        var pxAboveTopEdge = c.scrollTop - pos;
-		if (pxAboveTopEdge > 0) {
-			el.scrollTop -= pxAboveTopEdge;
-		}
 	},
 
 	size:function(el){
@@ -8336,22 +8303,7 @@ ludo.dom = {
 			return this.getSize();
 		});
 		return size.x + ludo.dom.getMW(el);
-	},
-
-    create:function(node){
-		console.info("use of deprecated ludo.dom.create");
-		console.trace();
-        var el = jQuery('<' + (node.tag || 'div') + '>');
-        if(node.cls)el.addClass(node.cls);
-        if(node.renderTo)jQuery(node.renderTo).append(el);
-        if(node.css){
-			el.css(node.css);
-          }
-        if(node.id)el.attr("id", node.id);
-        if(node.html)el.html(node.html);
-        return el;
-
-    }
+	}
 };/* ../ludojs/src/view/shim.js */
 /**
  * Render a shim
@@ -8845,7 +8797,7 @@ ludo.View = new Class({
             b.css('overflow-Y', this.overflow);
         }
 
-        if (ludo.util.isTabletOrMobile()) {
+        if (ludo.isMobile) {
             e.addClass('ludo-view-mobile');
         }
 
@@ -8876,7 +8828,6 @@ ludo.View = new Class({
         if (e && e.target && e.target.tagName.toLowerCase() == 'a') {
             return;
         }
-
         this.fireEvent('activate', this);
         this.fireEvent('toFront', this);
         this.setNewZIndex();
@@ -9203,7 +9154,7 @@ ludo.View = new Class({
         if (child.name) {
             this.child[child.name] = child;
         }
-        child.addEvent('remove', this.removeChild.bind(this));
+        child.on('remove', this.removeChild.bind(this));
         return child;
     },
 
@@ -9246,13 +9197,6 @@ ludo.View = new Class({
         ludo.util.dispose(this);
     },
 
-
-    dispose: function () {
-        console.warn("Use of deprecated dispose");
-        console.trace();
-        this.fireEvent('remove', this);
-        ludo.util.dispose(this);
-    },
     /**
      * Returns title
      * @function getTitle
@@ -9456,7 +9400,7 @@ ludo.layout.Tabs = new Class({
         this.lm.on('showChild', this.activateTabFor.bind(this));
         this.lm.on('hideChild', this.hideTabFor.bind(this));
         this.lm.on('removeChild', this.removeTabFor.bind(this));
-        this.addEvent('resize', this.resizeTabs.bind(this));
+        this.on('resize', this.resizeTabs.bind(this));
     },
 
     __rendered: function () {
@@ -11246,15 +11190,17 @@ ludo.layout.Grid = new Class({
 
     addChild: function (child, insertAt, pos) {
         child.layout = child.layout || {};
-        
-        if(child.layout.x == undefined && child.layout.y == undefined){
-            child.layout.x = this.view.children.length % this.columns;
-            child.layout.y = Math.floor(this.view.children.length / this.columns);
+        var l = child.layout;
+
+        if (l.x == undefined && l.y == undefined) {
+            var c = this.view.children.length;
+            l.x = c % this.columns;
+            l.y = Math.floor(c / this.columns);
         }
-        child.layout.colspan = child.layout.colspan ||1;
-        child.layout.rowspan = child.layout.rowspan ||1;
-        child.layout.x = child.layout.x || 0;
-        child.layout.y = child.layout.y || 0;
+        l.colspan = l.colspan || 1;
+        l.rowspan = l.rowspan || 1;
+        l.x = l.x || 0;
+        l.y = l.y || 0;
         return this.parent(child, insertAt, pos);
     },
 
@@ -11271,20 +11217,20 @@ ludo.layout.Grid = new Class({
         }
     },
 
-    pos:function(child){
+    pos: function (child) {
         return {
             left: child.layout.x * this.colWidth,
             top: child.layout.y * this.rowHeight
         }
     },
 
-    widthOfView:function(child){
+    widthOfView: function (child) {
         var colspan = child.layout.colspan || 1;
         var width = colspan * this.colWidth;
         return width - this.padX;
     },
 
-    heightOfView:function(child){
+    heightOfView: function (child) {
         var rowspan = child.layout.rowspan || 1;
         return (rowspan * this.rowHeight) - this.padY;
     },
@@ -11321,7 +11267,7 @@ ludo.layout.Popup = new Class({
 			this.setVisibleChild(child);
 		}
 		child.getEl().css('position', 'absolute');
-		child.addEvent('show', this.setVisibleChild.bind(this));
+		child.on('show', this.setVisibleChild.bind(this));
 		this.parent(child);
 	},
 
@@ -11385,8 +11331,8 @@ ludo.layout.Canvas = new Class({
      * @private
      */
     addChildEvents: function (child) {
-        child.addEvent('hide', this.hideChild.bind(this));
-        child.addEvent('show', this.clearTemporaryValues.bind(this));
+        child.on('hide', this.hideChild.bind(this));
+        child.on('show', this.clearTemporaryValues.bind(this));
 
     },
 
@@ -11830,7 +11776,7 @@ ludo.layout.Menu = new Class({
 			this.parentForNewChild = p;
 
 			if (isTop) {
-				this.view.addEvent('show', this.resize.bind(this));
+				this.view.on('show', this.resize.bind(this));
 			}
 		}
 		return this.parentForNewChild;
@@ -11931,19 +11877,19 @@ ludo.layout.Menu = new Class({
 		}.bind(child);
 
 		
-		child.addEvent('click', function () {
+		child.on('click', function () {
 			topMenu.fireEvent('click', this);
 		}.bind(child));
 
 		if (this.view.layout.orientation === 'horizontal' && child.children.length > 0) {
-			child.addEvent('click', function () {
+			child.on('click', function () {
 				topLm.activate(child);
 			}.bind(this));
 		} else {
-			child.addEvent('click', topLm.hideAllMenus.bind(topLm));
+			child.on('click', topLm.hideAllMenus.bind(topLm));
 		}
 
-		child.addEvent('enterMenuItem', function () {
+		child.on('enterMenuItem', function () {
 			topLm.showMenusFor(child);
 			topLm.highlightItemPath(child);
 		}.bind(this));
@@ -12581,12 +12527,13 @@ ludo.effect.Drag = new Class({
 
     ludoEvents: function () {
         this.parent();
-        this.getEventEl().on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
-        this.getEventEl().on(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
+        var el = this.getEventEl();
+        el.on(ludo.util.getDragMoveEvent(), this.drag.bind(this));
+        el.on(ludo.util.getDragEndEvent(), this.endDrag.bind(this));
         if (this.useShim) {
-            this.addEvent('start', this.showShim.bind(this));
+            this.on('start', this.showShim.bind(this));
             if (this.autoHideShim) {
-                this.addEvent('end', this.hideShim.bind(this));
+                this.on('end', this.hideShim.bind(this));
             }
         }
     },
@@ -12632,7 +12579,7 @@ ludo.effect.Drag = new Class({
 
         var handle = node.handle ? jQuery(node.handle) : el;
 
-        handle.attr("id",  handle.id || 'ludo-' + String.uniqueID());
+        handle.attr("id", handle.id || 'ludo-' + String.uniqueID());
         handle.addClass("ludo-drag");
 
         handle.on(ludo.util.getDragStartEvent(), this.startDrag.bind(this));
@@ -12676,11 +12623,11 @@ ludo.effect.Drag = new Class({
             };
         }
         if (typeof node.el === 'string') {
-            if (node.el.substr(0, 1) != "#")node.el = "#" + node.el;
+            if (node.el.substr(0, 1) != "#") node.el = "#" + node.el;
             node.el = jQuery(node.el);
         }
         node.id = node.id || node.el.attr("id") || 'ludo-' + String.uniqueID();
-        if (!node.el.attr("id"))node.el.attr("id", node.id);
+        if (!node.el.attr("id")) node.el.attr("id", node.id);
         node.el.attr('forId', node.id);
         return node;
     },
@@ -12800,10 +12747,10 @@ ludo.effect.Drag = new Class({
 
             this.fireEvent('start', [this.els[id], this, {x: x, y: y}]);
 
-            if (this.fireEffectEvents)ludo.EffectObject.start();
+            if (this.fireEffectEvents) ludo.EffectObject.start();
         }
 
-        if(!ludo.util.isTabletOrMobile()){
+        if (!ludo.util.isTabletOrMobile()) {
             return false;
         }
 
@@ -12851,7 +12798,7 @@ ludo.effect.Drag = new Class({
     cancelDrag: function () {
         this.dragProcess.active = false;
         this.dragProcess.el = undefined;
-        if (this.fireEffectEvents)ludo.EffectObject.end();
+        if (this.fireEffectEvents) ludo.EffectObject.end();
     },
 
     getShimFor: function (el) {
@@ -12988,7 +12935,7 @@ ludo.effect.Drag = new Class({
             ]);
 
         }
-        if (this.inDelayMode)this.inDelayMode = false;
+        if (this.inDelayMode) this.inDelayMode = false;
 
     },
 
@@ -13221,7 +13168,7 @@ ludo.effect.Drag = new Class({
     setShimText: function (text) {
         this.getShim().html(text);
     },
-    
+
 
     isActive: function () {
         return this.dragProcess.active;
@@ -13797,7 +13744,7 @@ ludo.view.ButtonBar = new Class({
 
     __rendered:function () {
         this.parent();
-		this.component.addEvent('resize', this.resizeRenderer.bind(this));
+		this.component.on('resize', this.resizeRenderer.bind(this));
 
 		if(this.buttonBarCss){
 			this.getEl().parent().css(this.buttonBarCss);
@@ -13907,7 +13854,6 @@ ludo.view.TitleBar = new Class({
         el.append(this.getButtonContainer());
         this.resizeButtonContainer.delay(20, this);
         this.els.title.css('left', left);
-        el.on('selectstart', ludo.util.cancelEvent);
     },
 
     createIconDOM:function () {
@@ -13923,15 +13869,9 @@ ludo.view.TitleBar = new Class({
     },
 
     createTitleDOM:function () {
-
         this.els.title = jQuery('<div class="ludo-framed-view-titlebar-title"></div>');
         this.els.el.append(this.els.title);
-
         this.setTitle(this.view.title);
-    },
-
-    cancelTextSelection:function () {
-        return false;
     },
 
     getButtonContainer:function () {
@@ -13955,7 +13895,6 @@ ludo.view.TitleBar = new Class({
 
         el.attr("style", 'position:absolute;z-index:1;' + pos + ':0;top:0;width:55%;height:100%;background-repeat:no-repeat;background-position:top ' + pos);
         return el;
-
     },
 
     resizeButtonContainer:function () {
@@ -14322,9 +14261,9 @@ ludo.FramedView = new Class({
 			if(!this.titleBar)this.titleBar = this.getTitleBarConfig() || {};
 			this.titleBar.view = this;
 			this.titleBar.type = 'view.TitleBar';
-			this.titleBarObj = this.createDependency('titleBar', this.titleBar);
+			var obj = this.titleBarObj = this.createDependency('titleBar', this.titleBar);
 
-			this.titleBarObj.addEvents({
+			obj.addEvents({
 				close:this.close.bind(this),
 				minimize:this.minimize.bind(this),
 				maximize:this.maximize.bind(this)
@@ -14332,14 +14271,14 @@ ludo.FramedView = new Class({
 
 			if (this.movable && !this.getParent()) {
 				this.drag = this.createDependency('drag', new ludo.effect.Drag({
-					handle:this.titleBarObj.getEl(),
+					handle:obj.getEl(),
 					el:this.getEl(),
 					listeners:{
 						start:this.increaseZIndex.bind(this),
 						end:this.stopMove.bind(this)
 					}
 				}));
-				this.titleBarObj.getEl().css('cursor', 'move');
+				obj.getEl().css('cursor', 'move');
 			}
 		}
 		return this.titleBarObj;
@@ -14370,7 +14309,7 @@ ludo.FramedView = new Class({
             this.resize({
                 height:this.layout.height
             });
-            this.els.body.css('visibility', 'visible');
+            this.$b().css('visibility', 'visible');
             this.showResizeHandles();
             this.fireEvent('maximize', this);
         }
@@ -14417,9 +14356,10 @@ ludo.FramedView = new Class({
 			this.$e.append(el);
 
 			this.getEl().addClass('ludo-view-with-buttonbar');
-			this.buttonBar.renderTo = el;
-			this.buttonBar.component = this;
-			this.buttonBarComponent = this.createDependency('buttonBar', new ludo.view.ButtonBar(this.buttonBar));
+			var bb = this.buttonBar;
+			bb.renderTo = el;
+			bb.component = this;
+			this.buttonBarComponent = this.createDependency('buttonBar', new ludo.view.ButtonBar(bb));
 		}
 		return this.els.buttonBar.el;
 	},
@@ -14486,8 +14426,9 @@ ludo.FramedView = new Class({
 			return this.buttonBarComponent.getButton(key);
 		}
 		for (var i = 0; i < this.buttons.length; i++) {
-			if (this.buttons[i].getId() === key || this.buttons[i].val() == key || this.buttons[i].getName() == key) {
-				return this.buttons[i];
+			var btn = this.buttons[i];
+			if (btn.getId() === key || btn.val() == key || btn.getName() == key) {
+				return btn;
 			}
 		}
 		return null;
@@ -14935,11 +14876,12 @@ ludo.dataSource.JSONArraySearch = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-		if(!this.dataSource.hasRemoteSearch()){
-			this.dataSource.addEvent('beforeload', this.clearSearchIndex.bind(this));
-			this.dataSource.addEvent('beforeload', this.deleteSearch.bind(this));
-			this.dataSource.addEvent('update', this.clearSearchIndex.bind(this));
-			this.dataSource.addEvent('delete', this.onDelete.bind(this));
+		var ds = this.dataSource;
+		if(!ds.hasRemoteSearch()){
+			ds.on('beforeload', this.clearSearchIndex.bind(this));
+			ds.on('beforeload', this.deleteSearch.bind(this));
+			ds.on('update', this.clearSearchIndex.bind(this));
+			ds.on('delete', this.onDelete.bind(this));
 		}
 	},
 	/**
@@ -15131,7 +15073,7 @@ ludo.dataSource.JSONArraySearch = new Class({
 	 * @function branch
 	 * @chainable
 	 * @memberof ludo.dataSource.JSONArraySearch.prototype
-	 * @return {endBranch.CollectionSearch} this
+	 * @return {ludo.dataSource.JSONArraySearch} this
 	 */
 	endBranch:function () {
 		this.appendOperator(')');
@@ -15238,11 +15180,9 @@ ludo.dataSource.JSONArraySearch = new Class({
 				if(rec.uid == record.uid){
 					this.clearSearchIndex();
 					this.searchResult.splice(i, 1);
-					console.log(this.searchResult.length);
 				}
 			}
 		}
-
 	},
 
 	clearSearchIndex:function () {
@@ -15431,15 +15371,15 @@ ludo.dataSource.JSONArray = new Class({
                 this.fireEvent('page', (this.paging.initialOffset / this.paging.size) + 1);
             }
             if (this.isCacheEnabled()) {
-                this.addEvent('load', this.populateCache.bind(this));
+                this.on('load', this.populateCache.bind(this));
             }
         }
 
-        this.addEvent('parsedata', this.createIndex.bind(this));
+        this.on('parsedata', this.createIndex.bind(this));
 
 
         if (this.selected) {
-            this.addEvent('firstLoad', this.setInitialSelected.bind(this));
+            this.on('firstLoad', this.setInitialSelected.bind(this));
         }
 
         if (this.data && !this.index)this.createIndex();
@@ -16431,9 +16371,9 @@ ludo.dataSource.JSONArray = new Class({
     },
 
     addRecordEvents: function (record) {
-        record.addEvent('update', this.onRecordUpdate.bind(this));
-        record.addEvent('remove', this.onRecordDispose.bind(this));
-        record.addEvent('select', this.selectRecord.bind(this));
+        record.on('update', this.onRecordUpdate.bind(this));
+        record.on('remove', this.onRecordDispose.bind(this));
+        record.on('select', this.selectRecord.bind(this));
     },
 
     fireSelect: function (record) {
@@ -16587,8 +16527,8 @@ ludo.effect.DragDrop = new Class({
 
 	ludoEvents:function () {
 		this.parent();
-		this.addEvent('start', this.setStartProperties.bind(this));
-		this.addEvent('end', this.drop.bind(this));
+		this.on('start', this.setStartProperties.bind(this));
+		this.on('end', this.drop.bind(this));
 	},
 
 	getDropIdByEvent:function (e) {
@@ -16843,21 +16783,21 @@ ludo.grid.ColumnMove = new Class({
 	}
 });/* ../ludojs/src/scroller.js */
 ludo.Scroller = new Class({
-    Extends:Events,
-    els:{
-        applyTo:null,
-        el:null,
-        elInner:null,
-        parent:null
+    Extends: Events,
+    els: {
+        applyTo: null,
+        el: null,
+        elInner: null,
+        parent: null
     },
 
-    active:0,
-    wheelSize:5,
-    type:'horizontal',
-    currentSize:0,
-    renderTo:undefined,
+    active: 0,
+    wheelSize: 5,
+    type: 'horizontal',
+    currentSize: 0,
+    renderTo: undefined,
 
-    initialize:function (config) {
+    initialize: function (config) {
         this.type = config.type || this.type;
         if (config.applyTo) {
             this.setApplyTo(config.applyTo);
@@ -16871,12 +16811,12 @@ ludo.Scroller = new Class({
         this.createEvents();
     },
 
-    setApplyTo:function (applyTo) {
-        if (!ludo.util.isArray(applyTo))applyTo = [applyTo];
+    setApplyTo: function (applyTo) {
+        if (!ludo.util.isArray(applyTo)) applyTo = [applyTo];
         this.els.applyTo = applyTo;
     },
 
-    determineMouseWheelSize:function (cls) {
+    determineMouseWheelSize: function (cls) {
         var el = jQuery('<div>');
         el.addClass(cls);
         el.css('visibility', 'hidden');
@@ -16888,46 +16828,45 @@ ludo.Scroller = new Class({
         el.remove();
     },
 
-    createElements:function () {
-        this.els.el = jQuery('<div>');
-        this.els.el.addClass('ludo-scroller');
-        this.els.el.addClass('ludo-scroller-' + this.type);
-        this.els.el.css({
-            'position':'relative',
-            'z-index':1000,
-            'overflow':'hidden'
+    createElements: function () {
+        var el = this.els.el = jQuery('<div>');
+        el.addClass('ludo-scroller');
+        el.addClass('ludo-scroller-' + this.type);
+        el.css({
+            'position': 'relative',
+            'z-index': 1000,
+            'overflow': 'hidden'
         });
 
-		var overflow = 'auto';
+        var overflow = 'auto';
         if (this.type == 'horizontal') {
-            this.els.el.css({
-                'overflow-x':overflow,
-                'width':'100%',
-                'height':Browser.ie ? '21px' : '17px'
+            el.css({
+                'overflow-x': overflow,
+                'width': '100%',
+                'height': Browser.ie ? '21px' : '17px'
             });
         } else {
-            this.els.el.css({
-                'overflow-y':overflow,
-                'height':'100%',
-                'width':Browser.ie ? '21px' : '17px',
-                'right':'0px',
-                'top':'0px',
-                'position':'absolute'
+            el.css({
+                'overflow-y': overflow,
+                'height': '100%',
+                'width': Browser.ie ? '21px' : '17px',
+                'right': '0px',
+                'top': '0px',
+                'position': 'absolute'
             });
         }
 
 
-
-        this.els.el.scroll(this.performScroll.bind(this));
+        el.scroll(this.performScroll.bind(this));
 
         this.els.elInner = jQuery('<div>');
         this.els.elInner.css('position', 'relative');
         this.els.elInner.html('&nbsp;');
 
-        this.els.el.append(this.els.elInner);
+        el.append(this.els.elInner);
     },
 
-    createEvents:function () {
+    createEvents: function () {
         this.els.elInner.on('resize', this.toggle.bind(this));
         if (this.type == 'vertical') {
             for (var i = 0; i < this.els.applyTo.length; i++) {
@@ -16937,7 +16876,7 @@ ludo.Scroller = new Class({
         jQuery(window).on('resize', this.resize.bind(this));
     },
 
-    resize:function () {
+    resize: function () {
         if (this.type == 'horizontal') {
             this.els.el.css('width', this.renderTo.outerWidth());
         } else {
@@ -16950,11 +16889,11 @@ ludo.Scroller = new Class({
         this.toggle();
     },
 
-    getEl:function () {
+    getEl: function () {
         return this.els.el;
     },
 
-    setContentSize:function (size) {
+    setContentSize: function (size) {
         if (this.type == 'horizontal') {
             this.currentSize = size || this.getWidthOfScrollableElements();
             this.els.elInner.css('width', this.currentSize);
@@ -16979,15 +16918,15 @@ ludo.Scroller = new Class({
         this.toggle();
     },
 
-    getWidthOfScrollableElements:function () {
+    getWidthOfScrollableElements: function () {
         return this.getTotalSize('outerWidth');
     },
 
-    getHeightOfScrollableElements:function () {
+    getHeightOfScrollableElements: function () {
         return this.getTotalSize('outerHeight');
     },
 
-    getTotalSize:function (key) {
+    getTotalSize: function (key) {
         var ret = 0;
         for (var i = 0; i < this.els.applyTo.length; i++) {
             ret += this.els.applyTo[i][key]();
@@ -16995,13 +16934,13 @@ ludo.Scroller = new Class({
         return ret;
     },
 
-    eventScroll:function (e) {
+    eventScroll: function (e) {
         var s = this.els.el.scrollTop();
         this.els.el.scrollTop(s - e.originalEvent.wheelDelta);
         return false;
     },
 
-    performScroll:function () {
+    performScroll: function () {
 
         if (this.type == 'horizontal') {
             this.scrollTo(this.els.el.scrollLeft());
@@ -17010,7 +16949,7 @@ ludo.Scroller = new Class({
         }
     },
 
-    scrollBy:function (val) {
+    scrollBy: function (val) {
 
 
         var key = this.type === 'horizontal' ? 'scrollLeft' : 'scrollTop';
@@ -17018,7 +16957,7 @@ ludo.Scroller = new Class({
         this.scrollTo(this.els.el[key]);
     },
 
-    scrollTo:function (val) {
+    scrollTo: function (val) {
 
         var css = this.type === 'horizontal' ? 'left' : 'top';
         for (var i = 0; i < this.els.applyTo.length; i++) {
@@ -17027,35 +16966,35 @@ ludo.Scroller = new Class({
         this.fireEvent('scroll', this);
     },
 
-    getHeight:function () {
+    getHeight: function () {
 
         return this.active ? this.els.el.height() : 0;
     },
 
-    getWidth:function () {
+    getWidth: function () {
         return this.active ? this.els.el.width() : 0;
     },
 
-    toggle:function () {
+    toggle: function () {
         this.shouldShowScrollbar() ? this.show() : this.hide();
     },
 
-    shouldShowScrollbar:function () {
+    shouldShowScrollbar: function () {
         var css = this.type === 'horizontal' ? 'width' : 'height';
         var size = this.getParentEl()[css]();
         return this.currentSize > size && size > 0;
     },
 
-    getParentEl:function () {
+    getParentEl: function () {
         return this.renderTo ? this.renderTo : this.els.el;
     },
 
-    show:function () {
+    show: function () {
         this.active = true;
         this.els.el.css('display', '');
     },
 
-    hide:function () {
+    hide: function () {
         this.active = false;
         this.scrollTo(0);
         this.els.el.css('display', 'none');
@@ -17090,7 +17029,7 @@ ludo.grid.GridHeader = new Class({
 		c.on('movecolumn', this.renderColumns.bind(this));
 		c.on('hidecolumn', this.renderColumns.bind(this));
 		c.on('showcolumn', this.renderColumns.bind(this));
-		this.grid.addEvent('render', this.renderColumns.bind(this));
+		this.grid.on('render', this.renderColumns.bind(this));
 		this.grid.getDataSource().addEvent('sort', this.updateSortArrow.bind(this));
 	},
 
@@ -17172,18 +17111,23 @@ ludo.grid.GridHeader = new Class({
 		if (this.cells[col]) {
 			return this.cells[col];
 		}
+
+		var cm = this.columnManager;
+
 		var el = this.cells[col] = jQuery('<div>');
 		el.attr('col', col);
 		el.addClass('ludo-grid-header-cell');
-		el.addClass('ludo-header-' + this.columnManager.getHeaderAlignmentOf(col));
+		el.addClass('ludo-header-' + cm.getHeaderAlignmentOf(col));
 
-		var span = jQuery('<span class="ludo-cell-text">' + this.columnManager.getHeadingFor(col) + '</span>');
+		var span = jQuery('<span class="ludo-cell-text">' + cm.getHeadingFor(col) + '</span>');
 		el.append(span);
 
 		this.createTopAndBottomBackgrounds(col);
-		this.addDOMForDropTargets(el, col);
+        if(cm.isMovable(col)) {
+            this.addDOMForDropTargets(el, col);
+        }
 
-		if (this.columnManager.isSortable(col)) {
+		if (cm.isSortable(col)) {
 			el.on('click', this.sortByDOM.bind(this));
 		}
 		el.on('mouseover', this.mouseoverHeader.bind(this));
@@ -17201,10 +17145,14 @@ ludo.grid.GridHeader = new Class({
 		}
 		this.el.append(el);
 
-		this.getMovable().add({
-			el:el,
-			column:col
-		});
+		if(cm.isMovable(col)){
+            this.getMovable().add({
+                el:el,
+                column:col
+            });
+
+		}
+
 		return el;
 	},
 
@@ -17374,16 +17322,18 @@ ludo.grid.GridHeader = new Class({
 		});
 		parent.append(right);
 
-		this.getMovable().addDropTarget({
+		var m = this.getMovable();
+		m.addDropTarget({
 			el:left,
 			column:column,
 			position:'before'
 		});
-		this.getMovable().addDropTarget({
+		m.addDropTarget({
 			el:right,
 			column:column,
 			position:'after'
 		});
+
 	},
 
 	columnMove:undefined,
@@ -17626,7 +17576,7 @@ ludo.ColResize = new Class({
  @fires ludo.grid.ColumnManager#hideColumn Fired when a column is hidden. Argument: {String} column name
  @fires ludo.grid.ColumnManager#moveColumn Fired when a column has been moved. Argument: 1) {String} column moved, 2) {String} new sibling column 3) {String} before or after new sibling
  @example
-    columnManager:{
+ columnManager:{
 		columns:{
 			'country':{
 				heading:'Country',
@@ -17656,601 +17606,602 @@ ludo.ColResize = new Class({
  corresponds to keys in the data sets. How to configure columns is specified in {{#crossLink "grid.Column"}}{{/crossLink}}
  */
 ludo.grid.ColumnManager = new Class({
-	Extends:ludo.Core,
-	type:'grid.ColumnManager',
-	fill:true,
-	columns:{},
-	columnKeys:[],
-	statefulProperties:['columns', 'columnKeys'],
-	columnLookup:{},
+    Extends: ludo.Core,
+    type: 'grid.ColumnManager',
+    fill: true,
+    columns: {},
+    columnKeys: [],
+    statefulProperties: ['columns', 'columnKeys'],
+    columnLookup: {},
 
-	__construct:function (config) {
-		this.parent(config);
-        this.__params(config, ['fill','columns']);
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['fill', 'columns']);
 
-		this.createColumnLookup();
+        this.createColumnLookup();
 
-		if (config.columnKeys !== undefined && this.hasValidColumnKeys(config.columnKeys)) {
-			this.columnKeys = config.columnKeys;
-		} else {
-			this.columnKeys = this.getLeafKeysFromColumns();
-		}
-	},
+        if (config.columnKeys !== undefined && this.hasValidColumnKeys(config.columnKeys)) {
+            this.columnKeys = config.columnKeys;
+        } else {
+            this.columnKeys = this.getLeafKeysFromColumns();
+        }
+    },
 
-	getLeafKeysFromColumns:function (parent) {
-		var ret = [];
-		parent = parent || this.columns;
-		for (var key in parent) {
-			if (parent.hasOwnProperty(key)) {
-				ret.push(key);
-				if (parent[key].columns !== undefined) {
-					var keys = this.getLeafKeysFromColumns(parent[key].columns);
-					for (var i = 0; i < keys.length; i++) {
-						ret.push(keys[i]);
-					}
-				}
-			}
-		}
-		return ret;
-	},
-
-	createColumnLookup:function (parent, groupName) {
-		parent = parent || this.columns;
-		for (var key in parent) {
-			if (parent.hasOwnProperty(key)) {
-				this.columnLookup[key] = parent[key];
-				this.columnLookup[key].group = groupName;
-				if (parent[key].columns !== undefined) {
-					this.createColumnLookup(parent[key].columns, key);
-				}
-			}
-		}
-	},
-
-	hasValidColumnKeys:function (keys) {
-		for (var i = 0; i < keys.length; i++) {
-			if (this.columnLookup[keys[i]] === undefined)return false;
-		}
-		return true;
-	},
-
-	hasLastColumnDynamicWidth:function () {
-		return this.fill;
-	},
-
-	getColumns:function () {
-		return this.columns;
-	},
-
-	getColumn:function (key) {
-		return this.columnLookup[key];
-	},
-
-	getLeafKeys:function () {
-		var ret = [];
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			if (this.columnLookup[this.columnKeys[i]].columns === undefined) {
-				ret.push(this.columnKeys[i]);
-			}
-		}
-		return ret;
-	},
-
-	/**
-	 Returns object of visible columns, example:
-	 @function getVisibleColumns
-	 @memberof ludo.grid.ColumnManager.prototype
-	 @return {Object} visible columns
-     @example
-        {
-            country : {
-                heading : 'Country'
-            },
-            population: {
-                heading : 'Population'
+    getLeafKeysFromColumns: function (parent) {
+        var ret = [];
+        parent = parent || this.columns;
+        for (var key in parent) {
+            if (parent.hasOwnProperty(key)) {
+                ret.push(key);
+                if (parent[key].columns !== undefined) {
+                    var keys = this.getLeafKeysFromColumns(parent[key].columns);
+                    for (var i = 0; i < keys.length; i++) {
+                        ret.push(keys[i]);
+                    }
+                }
             }
         }
-	 */
-	getVisibleColumns:function () {
-		var ret = {};
-		var keys = this.getLeafKeys();
-		for (var i = 0; i < keys.length; i++) {
-			var key = keys[i];
-			if (!this.isHidden(key)) {
-				ret[key] = this.columnLookup[key];
-			}
-		}
-		return ret;
-	},
+        return ret;
+    },
 
-	getHeadingFor:function (column) {
-		return this.getColumnKey(column, 'heading') || '';
-	},
+    createColumnLookup: function (parent, groupName) {
+        parent = parent || this.columns;
+        for (var key in parent) {
+            if (parent.hasOwnProperty(key)) {
+                this.columnLookup[key] = parent[key];
+                this.columnLookup[key].group = groupName;
+                if (parent[key].columns !== undefined) {
+                    this.createColumnLookup(parent[key].columns, key);
+                }
+            }
+        }
+    },
 
-	getMinWidthOf:function (column) {
-		if (this.isGroup(column)) {
-			var children = this.getIdOfChildren(column);
-			var ret = 0;
-			for (var i = 0; i < children.length; i++) {
-				ret += this.getMinWidthOf(children[i]);
-			}
-			return ret;
-		}
-		return this.getColumnKey(column, 'minWidth') || 50;
-	},
+    hasValidColumnKeys: function (keys) {
+        for (var i = 0; i < keys.length; i++) {
+            if (this.columnLookup[keys[i]] === undefined)return false;
+        }
+        return true;
+    },
 
-	getMaxWidthOf:function (column) {
-		return this.getColumnKey(column, 'maxWidth') || 1000;
-	},
+    hasLastColumnDynamicWidth: function () {
+        return this.fill;
+    },
+
+    getColumns: function () {
+        return this.columns;
+    },
+
+    getColumn: function (key) {
+        return this.columnLookup[key];
+    },
+
+    getLeafKeys: function () {
+        var ret = [];
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (this.columnLookup[this.columnKeys[i]].columns === undefined) {
+                ret.push(this.columnKeys[i]);
+            }
+        }
+        return ret;
+    },
+
+    /**
+     Returns object of visible columns, example:
+     @function getVisibleColumns
+     @memberof ludo.grid.ColumnManager.prototype
+     @return {Object} visible columns
+     @example
+     {
+         country : {
+             heading : 'Country'
+         },
+         population: {
+             heading : 'Population'
+         }
+     }
+     */
+    getVisibleColumns: function () {
+        var ret = {};
+        var keys = this.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            if (!this.isHidden(key)) {
+                ret[key] = this.columnLookup[key];
+            }
+        }
+        return ret;
+    },
+
+    getHeadingFor: function (column) {
+        return this.getColumnKey(column, 'heading') || '';
+    },
+
+    getMinWidthOf: function (column) {
+        if (this.isGroup(column)) {
+            var children = this.getIdOfChildren(column);
+            var ret = 0;
+            for (var i = 0; i < children.length; i++) {
+                ret += this.getMinWidthOf(children[i]);
+            }
+            return ret;
+        }
+        return this.getColumnKey(column, 'minWidth') || 50;
+    },
+
+    getMaxWidthOf: function (column) {
+        return this.getColumnKey(column, 'maxWidth') || 1000;
+    },
 
 
-	getWidthOf:function (column) {
-		var stretchedWidth = this.getStrechedWithOf(column);
-		if (stretchedWidth) return stretchedWidth;
-		if (this.isGroup(column)) {
-			var columns = this.getColumnsInGroup(column);
-			var width = 0;
-			Object.each(columns, function (value, column) {
-				if(!this.isHidden(column))width += this.getWidthOf(column);
-			}.bind(this));
-			return width;
-		} else {
-			return this.getColumnKey(column, 'width') || 100;
-		}
-	},
+    getWidthOf: function (column) {
+        var stretchedWidth = this.getStrechedWithOf(column);
+        if (stretchedWidth) return stretchedWidth;
+        if (this.isGroup(column)) {
+            var columns = this.getColumnsInGroup(column);
+            var width = 0;
+            Object.each(columns, function (value, column) {
+                if (!this.isHidden(column)) width += this.getWidthOf(column);
+            }.bind(this));
+            return width;
+        } else {
+            return this.getColumnKey(column, 'width') || 100;
+        }
+    },
 
-	isGroup:function (column) {
-		return this.columnLookup[column] !== undefined && this.columnLookup[column].columns !== undefined;
-	},
+    isGroup: function (column) {
+        return this.columnLookup[column] !== undefined && this.columnLookup[column].columns !== undefined;
+    },
 
-	getColumnsInGroup:function (group) {
-		return this.columnLookup[group].columns;
-	},
+    getColumnsInGroup: function (group) {
+        return this.columnLookup[group].columns;
+    },
 
-	getStrechedWithOf:function (column) {
-		return this.getColumnKey(column, 'stretchWidth');
-	},
+    getStrechedWithOf: function (column) {
+        return this.getColumnKey(column, 'stretchWidth');
+    },
 
-	isRemovable:function (column) {
-		return !!this.getColumnKey(column, 'removable');
-	},
+    isRemovable: function (column) {
+        return !!this.getColumnKey(column, 'removable');
+    },
 
-	/**
-	 * Returns true if column with given id is in a group.
-	 * @function isInAGroup
-	 * @param {String} column
-	 * @return {Boolean} is in a group
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	isInAGroup:function (column) {
-		return this.getColumnKey(column, 'group') !== undefined;
-	},
+    /**
+     * Returns true if column with given id is in a group.
+     * @function isInAGroup
+     * @param {String} column
+     * @return {Boolean} is in a group
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    isInAGroup: function (column) {
+        return this.getColumnKey(column, 'group') !== undefined;
+    },
 
-	/**
-	 * Returns id of parent group
-	 * @function getGroupIdOf
-	 * @param {String} column
-	 * @return {String} group id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getGroupIdOf:function (column) {
-		return this.getColumnKey(column, 'group');
-	},
+    /**
+     * Returns id of parent group
+     * @function getGroupIdOf
+     * @param {String} column
+     * @return {String} group id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getGroupIdOf: function (column) {
+        return this.getColumnKey(column, 'group');
+    },
 
-	/**
-	 * Returns parent group object for a column
-	 * @function getGroupFor
-	 * @param {String} column
-	 * @return {grid.Column|undefined} parent
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getGroupFor:function (column) {
-		var id = this.getGroupIdOf(column);
+    /**
+     * Returns parent group object for a column
+     * @function getGroupFor
+     * @param {String} column
+     * @return {grid.Column|undefined} parent
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getGroupFor: function (column) {
+        var id = this.getGroupIdOf(column);
         return id ? this.columnLookup[id] : undefined;
-	},
+    },
 
-	getChildCount:function (groupId) {
-		var group = this.getColumn(groupId);
-		if (group.columns !== undefined) {
-			return ludo.util.lengthOfObject(group.columns);
-		}
-		return 0;
-	},
+    getChildCount: function (groupId) {
+        var group = this.getColumn(groupId);
+        if (group.columns !== undefined) {
+            return ludo.util.lengthOfObject(group.columns);
+        }
+        return 0;
+    },
 
-	getIdOfChildren:function (groupId) {
-		var group = this.getColumn(groupId);
-		if (group) {
-			return Object.keys(group.columns);
-		}
-		return 0;
-	},
+    getIdOfChildren: function (groupId) {
+        var group = this.getColumn(groupId);
+        if (group) {
+            return Object.keys(group.columns);
+        }
+        return 0;
+    },
 
-	isInSameGroup:function (columnA, columnB) {
-		return this.isInAGroup(columnA) && this.getGroupIdOf(columnA) == this.getGroupIdOf(columnB);
-	},
+    isInSameGroup: function (columnA, columnB) {
+        return this.isInAGroup(columnA) && this.getGroupIdOf(columnA) == this.getGroupIdOf(columnB);
+    },
 
-	isSortable:function (column) {
-		return !!this.getColumnKey(column, 'sortable');
-	},
+    isSortable: function (column) {
+        return !!this.getColumnKey(column, 'sortable');
+    },
 
-	isHidden:function (column) {
-		var hidden = this.getColumnKey(column, 'hidden');
-		if (hidden)return true;
-		var parentGroup;
-		if (parentGroup = this.getGroupIdOf(column)) {
-			return this.isHidden(parentGroup);
-		}
-		return hidden;
-	},
-	isVisible:function (column) {
-		return !this.isHidden(column);
-	},
-	/**
-	 * Returns true if column with given id is resizable
-	 * @function isResizable
-	 * @param {String} column
-	 * @return {Boolean}
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	isResizable:function (column) {
-		var resizable = this.getColumnKey(column, 'resizable') !== false;
-		if (resizable && this.hasLastColumnDynamicWidth() && this.isLastVisibleColumn(column)) {
-			resizable = false;
-		}
-		return resizable;
-	},
-	isMovable:function (column) {
-		var parent = this.getGroupIdOf(column);
-		if (parent && this.getChildCount(parent) == 1) {
-			return false;
-		}
-		return this.getColumnKey(column, 'movable') || false;
-	},
+    isHidden: function (column) {
+        var hidden = this.getColumnKey(column, 'hidden');
+        if (hidden)return true;
+        var parentGroup;
+        if (parentGroup = this.getGroupIdOf(column)) {
+            return this.isHidden(parentGroup);
+        }
+        return hidden;
+    },
+    isVisible: function (column) {
+        return !this.isHidden(column);
+    },
+    /**
+     * Returns true if column with given id is resizable
+     * @function isResizable
+     * @param {String} column
+     * @return {Boolean}
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    isResizable: function (column) {
+        var resizable = this.getColumnKey(column, 'resizable') !== false;
+        if (resizable && this.hasLastColumnDynamicWidth() && this.isLastVisibleColumn(column)) {
+            resizable = false;
+        }
+        return resizable;
+    },
+    isMovable: function (column) {
+        var parent = this.getGroupIdOf(column);
+        if (parent && this.getChildCount(parent) == 1) {
+            return false;
+        }
+        return this.getColumnKey(column, 'movable') || false;
+    },
 
-	hasMovableColumns:function () {
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			if (this.isMovable(this.columnKeys[i]))return true;
-		}
-		return false;
-	},
+    hasMovableColumns: function () {
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (this.isMovable(this.columnKeys[i]))return true;
+        }
+        return false;
+    },
 
-	getAlignmentOf:function (column) {
-		return this.getColumnKey(column, 'align') || 'left';
-	},
+    getAlignmentOf: function (column) {
+        return this.getColumnKey(column, 'align') || 'left';
+    },
 
-	getHeaderAlignmentOf:function(column){
-		return this.getColumnKey(column, 'headerAlign') || 'left';
-	},
+    getHeaderAlignmentOf: function (column) {
+        return this.getColumnKey(column, 'headerAlign') || 'left';
+    },
 
-	setLeft:function (column, left) {
-		this.columnLookup[column].left = left;
-	},
-	getLeftPosOf:function (column) {
-		return this.getColumnKey(column, 'left') || 0;
-	},
+    setLeft: function (column, left) {
+        this.columnLookup[column].left = left;
+    },
+    getLeftPosOf: function (column) {
+        return this.getColumnKey(column, 'left') || 0;
+    },
 
-	getRendererFor:function (column) {
-		return this.getColumnKey(column, 'renderer');
-	},
+    getRendererFor: function (column) {
+        return this.getColumnKey(column, 'renderer');
+    },
 
-	setWidth:function (column, width) {
-		this.columnLookup[column].width = width;
-	},
+    setWidth: function (column, width) {
+        this.columnLookup[column].width = width;
+    },
 
-	setStretchedWidth:function (width) {
-		this.columnLookup[this.getLastVisible()].stretchWidth = width;
-		this.fireEvent('stretch');
-	},
+    setStretchedWidth: function (width) {
+        this.columnLookup[this.getLastVisible()].stretchWidth = width;
+        this.fireEvent('stretch');
+    },
 
-	clearStretchedWidths:function () {
-		for (var i = 0; i < this.columnKeys.length; i++) {
-			this.columnLookup[this.columnKeys[i]].stretchWidth = undefined;
-		}
+    clearStretchedWidths: function () {
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            this.columnLookup[this.columnKeys[i]].stretchWidth = undefined;
+        }
 
-	},
+    },
 
-	increaseWithFor:function (column, increaseBy) {
-		var width = this.getWidthOf(column);
-		this.columnLookup[column].width = width + increaseBy;
-		this.fireEvent('resize');
-		this.fireEvent('state');
-	},
+    increaseWithFor: function (column, increaseBy) {
+        var width = this.getWidthOf(column);
+        this.columnLookup[column].width = width + increaseBy;
+        this.fireEvent('resize');
+        this.fireEvent('state');
+    },
 
-	getColumnKey:function (column, key) {
-		if (this.columnLookup[column] !== undefined) {
-			return this.columnLookup[column][key];
-		}
-		return null;
-	},
+    getColumnKey: function (column, key) {
+        if (this.columnLookup[column] !== undefined) {
+            return this.columnLookup[column][key];
+        }
+        return null;
+    },
 
-	getTotalWidth:function () {
-		var cols = this.getVisibleColumns();
-		var ret = 0;
-		for (var col in cols) {
-			if (cols.hasOwnProperty(col)) {
-				ret += this.getWidthOf(col);
-			}
-		}
-		return ret;
-	},
+    getTotalWidth: function () {
+        var cols = this.getVisibleColumns();
+        var ret = 0;
+        for (var col in cols) {
+            if (cols.hasOwnProperty(col)) {
+                ret += this.getWidthOf(col);
+            }
+        }
+        return ret;
+    },
 
-	getMinPosOf:function (column) {
-		return this.getTotalWidthOfPreviousOf(column) + this.getMinWidthOf(column);
-	},
+    getMinPosOf: function (column) {
+        return this.getTotalWidthOfPreviousOf(column) + this.getMinWidthOf(column);
+    },
 
-	getMaxPosOf:function (column) {
-		return this.getTotalWidthOfPreviousOf(column) + this.getMaxWidthOf(column);
-	},
+    getMaxPosOf: function (column) {
+        return this.getTotalWidthOfPreviousOf(column) + this.getMaxWidthOf(column);
+    },
 
-	getTotalWidthOfPreviousOf:function (column) {
-		var keys = this.getLeafKeys();
-		var ret = 0;
-		for (var i = 0; i < keys.length; i++) {
-			if (keys[i] == column) {
-				return ret;
-			}
+    getTotalWidthOfPreviousOf: function (column) {
+        var keys = this.getLeafKeys();
+        var ret = 0;
+        for (var i = 0; i < keys.length; i++) {
+            if (keys[i] == column) {
+                return ret;
+            }
             if (!this.isHidden(keys[i])) {
                 ret += this.getWidthOf(keys[i]);
             }
-		}
-		return 0;
-	},
+        }
+        return 0;
+    },
 
-	/**
-	 * Insert a column before given column
-	 * @function insertColumnBefore
-	 * @param {String} column id
-	 * @param {String} before column id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	insertColumnBefore:function (column, before) {
-		this.moveColumn(column, before, 'before');
-	},
-	/**
-	 * Insert a column after given column
-	 * @function insertColumnAfter
-	 * @param {String} column id
-	 * @param {String} after column id
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	insertColumnAfter:function (column, after) {
-		this.moveColumn(column, after, 'after');
-	},
+    /**
+     * Insert a column before given column
+     * @function insertColumnBefore
+     * @param {String} column id
+     * @param {String} before column id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    insertColumnBefore: function (column, before) {
+        this.moveColumn(column, before, 'before');
+    },
+    /**
+     * Insert a column after given column
+     * @function insertColumnAfter
+     * @param {String} column id
+     * @param {String} after column id
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    insertColumnAfter: function (column, after) {
+        this.moveColumn(column, after, 'after');
+    },
 
-	moveColumn:function (column, insertAt, beforeOrAfter) {
-		var indexAt = this.getInsertionPoint(insertAt, beforeOrAfter);
-		var indexThis = this.columnKeys.indexOf(column);
+    moveColumn: function (column, insertAt, beforeOrAfter) {
+        var indexAt = this.getInsertionPoint(insertAt, beforeOrAfter);
+        var indexThis = this.columnKeys.indexOf(column);
 
-		if (this.isInAGroup(column) && !this.isInSameGroup(column, insertAt)) {
-			this.removeFromGroup(column);
-		}
-		var i,j;
-		var indexes = [indexThis];
-		if (this.isGroup(column)) {
-			var children = this.getIdOfChildren(column);
-			for (i = 0; i < children.length; i++) {
-				indexes.push(this.columnKeys.indexOf(children[i]));
-			}
-		}
+        if (this.isInAGroup(column) && !this.isInSameGroup(column, insertAt)) {
+            this.removeFromGroup(column);
+        }
+        var i, j;
+        var indexes = [indexThis];
+        if (this.isGroup(column)) {
+            var children = this.getIdOfChildren(column);
+            for (i = 0; i < children.length; i++) {
+                indexes.push(this.columnKeys.indexOf(children[i]));
+            }
+        }
 
-		if(this.isInAGroup(insertAt)){
-			this.insertIntoSameGroupAs(column,insertAt);
-		}
+        if (this.isInAGroup(insertAt)) {
+            this.insertIntoSameGroupAs(column, insertAt);
+        }
 
-		var ret = [];
-		for (i = 0; i < this.columnKeys.length; i++) {
-			if (i == indexAt && beforeOrAfter == 'before') {
-				for (j = 0; j < indexes.length; j++) {
-					ret.push(this.columnKeys[indexes[j]]);
-				}
-			}
-			if (indexes.indexOf(i) == -1) {
-				ret.push(this.columnKeys[i]);
-			}
-			if (i == indexAt && beforeOrAfter == 'after') {
-				for (j = 0; j < indexes.length; j++) {
-					ret.push(this.columnKeys[indexes[j]]);
-				}
-			}
-		}
-		this.columnKeys = ret;
+        var ret = [];
+        for (i = 0; i < this.columnKeys.length; i++) {
+            if (i == indexAt && beforeOrAfter == 'before') {
+                for (j = 0; j < indexes.length; j++) {
+                    ret.push(this.columnKeys[indexes[j]]);
+                }
+            }
+            if (indexes.indexOf(i) == -1) {
+                ret.push(this.columnKeys[i]);
+            }
+            if (i == indexAt && beforeOrAfter == 'after') {
+                for (j = 0; j < indexes.length; j++) {
+                    ret.push(this.columnKeys[indexes[j]]);
+                }
+            }
+        }
+        this.columnKeys = ret;
 
-		this.fireEvent('movecolumn', [column, this.columnKeys[indexAt], beforeOrAfter]);
-		this.fireEvent('state');
-	},
+        this.fireEvent('movecolumn', [column, this.columnKeys[indexAt], beforeOrAfter]);
+        this.fireEvent('state');
+    },
 
-	getInsertionPoint:function(insertAtColumn, pos){
-		var ret = this.columnKeys.indexOf(insertAtColumn);
-		if (pos === 'after' && this.isGroup(insertAtColumn)){
-			var columns = Object.keys(this.getColumnsInGroup(insertAtColumn));
-			for(var i=0;i<columns.length;i++){
-				ret = Math.max(ret, this.columnKeys.indexOf(columns[i]));
-			}
-		}
-		return ret;
-	},
+    getInsertionPoint: function (insertAtColumn, pos) {
+        var ret = this.columnKeys.indexOf(insertAtColumn);
+        if (pos === 'after' && this.isGroup(insertAtColumn)) {
+            var columns = Object.keys(this.getColumnsInGroup(insertAtColumn));
+            for (var i = 0; i < columns.length; i++) {
+                ret = Math.max(ret, this.columnKeys.indexOf(columns[i]));
+            }
+        }
+        return ret;
+    },
 
-	/**
-	 * @function insertIntoSameGroupAs
-	 * @param {String} column
-	 * @param {String} as
-	 * memberof ludo.grid.ColumnManager.prototype
-	 * @private
-	 */
-	insertIntoSameGroupAs:function(column, as){
-		var group = this.columnLookup[as].group;
-		this.columnLookup[column].group = group;
-		this.columnLookup[group].columns[column] = this.columnLookup[column];
-		this.clearCache();
-	},
+    /**
+     * @function insertIntoSameGroupAs
+     * @param {String} column
+     * @param {String} as
+     * memberof ludo.grid.ColumnManager.prototype
+     * @private
+     */
+    insertIntoSameGroupAs: function (column, as) {
+        var l = this.columnLookup;
+        var group = l[as].group;
+        l[column].group = group;
+        l[group].columns[column] = l[column];
+        this.clearCache();
+    },
 
-	isLastVisibleColumn:function (column) {
-		var keys = this.getLeafKeys();
-		for (var i = keys.length - 1; i >= 0; i--) {
-			var key = keys[i];
-			if (!this.isHidden([key])) {
-				return key === column;
-			}
-		}
-		return false;
-	},
+    isLastVisibleColumn: function (column) {
+        var keys = this.getLeafKeys();
+        for (var i = keys.length - 1; i >= 0; i--) {
+            var key = keys[i];
+            if (!this.isHidden([key])) {
+                return key === column;
+            }
+        }
+        return false;
+    },
 
-	/**
-	 * Remove column from a group
-	 * @function removeFromGroup
-	 * @param {String} column
-	 * @return {Boolean} success
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	removeFromGroup:function (column) {
-		var group = this.getGroupFor(column);
-		if (group) {
-			delete group.columns[column];
-			this.getColumn(column).group = undefined;
-			this.clearCache();
-			return true;
-		}
-		return false;
-	},
+    /**
+     * Remove column from a group
+     * @function removeFromGroup
+     * @param {String} column
+     * @return {Boolean} success
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    removeFromGroup: function (column) {
+        var group = this.getGroupFor(column);
+        if (group) {
+            delete group.columns[column];
+            this.getColumn(column).group = undefined;
+            this.clearCache();
+            return true;
+        }
+        return false;
+    },
 
-	hideColumn:function (column) {
-		if (this.columnExists(column) && !this.isHidden(column)) {
-			this.columnLookup[column].hidden = true;
-			this.fireEvent('hidecolumn', column);
-			this.fireEvent('state');
-		}
-	},
+    hideColumn: function (column) {
+        if (this.columnExists(column) && !this.isHidden(column)) {
+            this.columnLookup[column].hidden = true;
+            this.fireEvent('hidecolumn', column);
+            this.fireEvent('state');
+        }
+    },
 
-	columnExists:function (column) {
-		return this.columnLookup[column] !== undefined;
-	},
+    columnExists: function (column) {
+        return this.columnLookup[column] !== undefined;
+    },
 
-	hideAllColumns:function () {
-		var keys = this.getLeafKeys();
-		for (var i = 0; i < keys.length; i++) {
-			this.columnLookup[keys[i]].hidden = true;
-		}
-	},
+    hideAllColumns: function () {
+        var keys = this.getLeafKeys();
+        for (var i = 0; i < keys.length; i++) {
+            this.columnLookup[keys[i]].hidden = true;
+        }
+    },
 
-	showColumn:function (column) {
-		if (this.columnExists(column) && this.isHidden([column])) {
-			this.columnLookup[column].hidden = false;
+    showColumn: function (column) {
+        if (this.columnExists(column) && this.isHidden([column])) {
+            this.columnLookup[column].hidden = false;
+            this.fireEvent('showcolumn', column);
+            this.fireEvent('state');
+        }
+    },
 
-			this.fireEvent('showcolumn', column);
+    getIndexOfLastVisible: function () {
+        var keys = this.getLeafKeys();
+        for (var i = keys.length - 1; i >= 0; i--) {
+            if (!this.isHidden(keys[i])) {
+                return i;
+            }
+        }
+        return null;
+    },
 
-			this.fireEvent('state');
-		}
-	},
+    getLastVisible: function () {
+        return this.getLeafKeys()[this.getIndexOfLastVisible()];
+    },
 
-	getIndexOfLastVisible:function () {
-		var keys = this.getLeafKeys();
-		for (var i = keys.length - 1; i >= 0; i--) {
-			if (!this.isHidden(keys[i])) {
-				return i;
-			}
-		}
-		return null;
-	},
+    countHeaderRows: undefined,
+    getCountRows: function () {
+        if (this.countHeaderRows === undefined) {
+            var ret = 0;
+            var keys = this.getLeafKeys();
+            for (var i = 0; i < keys.length; i++) {
+                ret = Math.max(ret, this.getStartRowOf(keys[i]));
+            }
+            this.countHeaderRows = ret + 1;
+        }
+        return this.countHeaderRows;
+    },
 
-	getLastVisible:function () {
-		return this.getLeafKeys()[this.getIndexOfLastVisible()];
-	},
+    countParentCache: {},
+    getStartRowOf: function (column) {
+        if (this.countParentCache[column] === undefined) {
+            var ret = 0;
+            if (this.columnLookup[column].group !== undefined) {
+                var col = this.columnLookup[column].group;
+                while (col) {
+                    ret++;
+                    col = this.columnLookup[col].group;
+                }
+            }
+            this.countParentCache[column] = ret;
+        }
+        return this.countParentCache[column];
+    },
+    clearCache: function () {
+        this.countParentCache = {};
+        this.colDCache = {};
+    },
 
-	countHeaderRows:undefined,
-	getCountRows:function () {
-		if (this.countHeaderRows === undefined) {
-			var ret = 0;
-			var keys = this.getLeafKeys();
-			for (var i = 0; i < keys.length; i++) {
-				ret = Math.max(ret, this.getStartRowOf(keys[i]));
-			}
-			this.countHeaderRows = ret + 1;
-		}
-		return this.countHeaderRows;
-	},
-
-	countParentCache:{},
-	getStartRowOf:function (column) {
-		if (this.countParentCache[column] === undefined) {
-			var ret = 0;
-			if (this.columnLookup[column].group !== undefined) {
-				var col = this.columnLookup[column].group;
-				while (col) {
-					ret++;
-					col = this.columnLookup[col].group;
-				}
-			}
-			this.countParentCache[column] = ret;
-		}
-		return this.countParentCache[column];
-	},
-	clearCache:function(){
-		this.countParentCache = {};
-		this.columnDepthCache = {};
-	},
-
-	/**
-	 * Return array of column keys for a header row, 0 is first row
-	 * @function getColumnsInRow
-	 * @param {Number} rowNumber
-	 * @return {Array} columns
-	 * @memberof ludo.grid.ColumnManager.prototype
-	 */
-	getColumnsInRow:function (rowNumber) {
-		var ret = [];
-		for(var i=0;i<this.columnKeys.length;i++){
-			if(!this.isHidden(this.columnKeys[i])){
+    /**
+     * Return array of column keys for a header row, 0 is first row
+     * @function getColumnsInRow
+     * @param {Number} rowNumber
+     * @return {Array} columns
+     * @memberof ludo.grid.ColumnManager.prototype
+     */
+    getColumnsInRow: function (rowNumber) {
+        var ret = [];
+        for (var i = 0; i < this.columnKeys.length; i++) {
+            if (!this.isHidden(this.columnKeys[i])) {
                 var col = this.columnKeys[i];
-				var startRow = this.getStartRowOf(col);
-				if(startRow <= rowNumber && !this.isGroup(col)){
-					ret.push(col);
-				}else{
-					if(startRow == rowNumber){
-						ret.push(col);
-					}
-				}
-			}
-		}
-		return ret;
+                var startRow = this.getStartRowOf(col);
+                if (startRow <= rowNumber && !this.isGroup(col)) {
+                    ret.push(col);
+                } else {
+                    if (startRow == rowNumber) {
+                        ret.push(col);
+                    }
+                }
+            }
+        }
+        return ret;
 
-	},
+    },
 
-	getRowSpanOf:function(column){
-		var countRows = this.getCountRows();
+    getRowSpanOf: function (column) {
+        var countRows = this.getCountRows();
         return countRows - this.getStartRowOf(column) - (this.isGroup(column) ? this.getChildDepthOf(column) : 0);
-	},
+    },
 
-	columnDepthCache:{},
-	getChildDepthOf:function(column){
-		if(this.columnDepthCache[column] === undefined){
-			if(this.isGroup(column)){
-				var ret = 0;
-				var children = this.getIdOfChildren(column);
-				for(var i=0;i<children.length;i++){
-					ret = Math.max(ret, this.getChildDepthOf(children[i]));
-				}
-				ret++;
-				this.columnDepthCache[column] = ret;
-			}else{
-				this.columnDepthCache[column] = 0;
-			}
-		}
-		return this.columnDepthCache[column];
-	},
+    colDCache: {},
+    getChildDepthOf: function (column) {
+        if (this.colDCache[column] === undefined) {
+            if (this.isGroup(column)) {
+                var ret = 0;
+                var children = this.getIdOfChildren(column);
+                for (var i = 0; i < children.length; i++) {
+                    ret = Math.max(ret, this.getChildDepthOf(children[i]));
+                }
+                ret++;
+                this.colDCache[column] = ret;
+            } else {
+                this.colDCache[column] = 0;
+            }
+        }
+        return this.colDCache[column];
+    },
 
-	getHiddenColumns:function(){
-		var ret = [];
-		for(var i=0;i<this.columnKeys.length;i++){
-			if(this.isHidden(this.columnKeys[i])){
-				ret.push(this.columnKeys[i]);
-			}
-		}
-		return ret;
-	},
+    getHiddenColumns: function () {
+        var ret = [];
+        var keys = this.columnKeys;
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            if (this.isHidden(k)) {
+                ret.push(k);
+            }
+        }
+        return ret;
+    },
 
-	canBeMovedTo:function(column, to){
-		return column !== to;
-	}
+    canBeMovedTo: function (column, to) {
+        return column !== to;
+    }
 });/* ../ludojs/src/grid/row-manager.js */
 /**
  * Row renderer config for a grid.
@@ -18460,7 +18411,6 @@ ludo.grid.Grid = new Class({
             var cols = {};
             jQuery.each(this.keys, function(i, key){
                  if(this.columns[key] != undefined){
-                     console.log(key);
                      cols[key] = this.columns[key];
                  }
             }.bind(this));
@@ -18490,11 +18440,12 @@ ludo.grid.Grid = new Class({
             if (!this.rowManager.type)this.rowManager.type = 'grid.RowManager';
             this.rowManager = this.createDependency('rowManager', this.rowManager);
         }
-        if (this.stateful && this.dataSource !== undefined && ludo.util.isObject(this.dataSource)) {
-            this.dataSource.id = this.dataSource.id || this.id + '_ds';
-            this.dataSource.stateful = this.stateful;
-        }
 
+        var ds = this.dataSource;
+        if (this.stateful && ds !== undefined && ludo.util.isObject(ds)) {
+            ds.id = ds.id || this.id + '_ds';
+            ds.stateful = this.stateful;
+        }
         this.uniqueId = String.uniqueID();
 
     },
@@ -18675,7 +18626,7 @@ ludo.grid.Grid = new Class({
                 } else {
                     content = record[key];
                 }
-                cells[key].getElement('span').html(content);
+                cells[key].find('span').html(content);
             }
         }
     },
@@ -18723,7 +18674,6 @@ ludo.grid.Grid = new Class({
         var record = this.getRecordByDOM(e.target);
         if (record) {
             this.getDataSource().selectRecord(record);
-
             this.fireEvent('dblclick', [record, this.getColumnByDom(e.target)]);
         }
     },
@@ -18776,13 +18726,17 @@ ludo.grid.Grid = new Class({
         var keys = Object.keys(this.els.dataColumns);
         for (var i = 0; i < keys.length; i++) {
             var c = this.els.dataColumns[keys[i]];
-            c.removeClass('ludo-grid-data-last-column');
-            c.removeClass('ludo-grid-data-last-column-left');
-            c.removeClass('ludo-grid-data-column-left');
-            c.removeClass('ludo-grid-data-last-column-center');
-            c.removeClass('ludo-grid-data-column-center');
-            c.removeClass('ludo-grid-data-last-column-right');
-            c.removeClass('ludo-grid-data-column-right');
+            var cls = [
+                'ludo-grid-data-last-column',
+                'ludo-grid-data-column'
+
+            ];
+            jQuery.each(cls, function(i, cl){
+                c.removeClass(cl);
+                c.removeClass(cl + '-left');
+                c.removeClass(cl + '-center');
+                c.removeClass(cl + '-right');
+            });
             ludo.dom.addClass(c, this.getColumnCssClass(keys[i]));
         }
     },
@@ -18867,8 +18821,9 @@ ludo.grid.Grid = new Class({
     },
 
     setResizePos: function (column) {
-        this.colResizeHandler.setMinPos(this.cm.getMinPosOf(column));
-        this.colResizeHandler.setMaxPos(this.cm.getMaxPosOf(column));
+        var rh = this.colResizeHandler;
+        rh.setMinPos(this.cm.getMinPosOf(column));
+        rh.setMaxPos(this.cm.getMaxPosOf(column));
         this.mouseoverDisabled = true;
         this.mouseLeavesGrid();
     },
@@ -18886,10 +18841,11 @@ ludo.grid.Grid = new Class({
 
         this.stretchLastColumn();
         var columns = this.cm.getLeafKeys();
-
+    
+        var rh = this.colResizeHandler;
         for (var i = 0; i < columns.length; i++) {
             if (this.cm.isHidden(columns[i])) {
-                this.colResizeHandler.hideHandle(columns[i]);
+                rh.hideHandle(columns[i]);
             } else {
                 var width = this.cm.getWidthOf(columns[i]);
                 var col = this.els.dataColumns[columns[i]];
@@ -18902,11 +18858,11 @@ ludo.grid.Grid = new Class({
 
                 leftPos += width;
 
-                this.colResizeHandler.setPos(columns[i], leftPos);
+                rh.setPos(columns[i], leftPos);
                 if (this.cm.isResizable(columns[i])) {
-                    this.colResizeHandler.showHandle(columns[i]);
+                    rh.showHandle(columns[i]);
                 } else {
-                    this.colResizeHandler.hideHandle(columns[i]);
+                    rh.hideHandle(columns[i]);
                 }
             }
         }
@@ -19292,120 +19248,121 @@ ludo.Window = new Class({
 
  */
 ludo.dialog.Dialog = new Class({
-	Extends:ludo.Window,
-	type:'dialog.Dialog',
-	modal:true,
-	autoRemove:true,
-	autoHideOnBtnClick:true,
-	buttonConfig:undefined,
-	movable:true,
-	closable:false,
-	minimizable:false,
+    Extends: ludo.Window,
+    type: 'dialog.Dialog',
+    modal: true,
+    autoRemove: true,
+    autoHideOnBtnClick: true,
+    buttonConfig: undefined,
+    movable: true,
+    closable: false,
+    minimizable: false,
 
-	__construct:function (config) {
-		// TODO use buttons instead of buttonConfig and check for string
-		config.buttonConfig = config.buttonConfig || this.buttonConfig;
-		if (config.buttonConfig) {
-			var buttons = config.buttonConfig.replace(/([A-Z])/g, ' $1');
-			buttons = buttons.trim();
-			buttons = buttons.split(/\s/g);
-			config.buttons = [];
-			for (var i = 0; i < buttons.length; i++) {
-				config.buttons.push({
-					value:buttons[i]
-				});
-			}
-		}
-		this.parent(config);
-	
-        this.__params(config, ['modal','autoRemove','autoHideOnBtnClick']);
-	},
+    __construct: function (config) {
+        // TODO use buttons instead of buttonConfig and check for string
+        config.buttonConfig = config.buttonConfig || this.buttonConfig;
+        if (config.buttonConfig) {
+            var buttons = config.buttonConfig.replace(/([A-Z])/g, ' $1');
+            buttons = buttons.trim();
+            buttons = buttons.split(/\s/g);
+            config.buttons = [];
+            for (var i = 0; i < buttons.length; i++) {
+                config.buttons.push({
+                    value: buttons[i]
+                });
+            }
+        }
+        this.parent(config);
 
-	ludoDOM:function () {
-		this.parent();
-		this.getEl().addClass('ludo-dialog');
-	},
+        this.__params(config, ['modal', 'autoRemove', 'autoHideOnBtnClick']);
+    },
 
-    getShim:function(){
-        if(this.els.shim === undefined){
+    ludoDOM: function () {
+        this.parent();
+        this.getEl().addClass('ludo-dialog');
+    },
+
+    getShim: function () {
+        if (this.els.shim === undefined) {
             var el = this.els.shim = jQuery('<div>');
-			jQuery(document.body).append(el);
-			el.addClass('ludo-dialog-shim');
+            jQuery(document.body).append(el);
+            el.addClass('ludo-dialog-shim');
             el.css('display', 'none');
         }
         return this.els.shim;
     },
 
-	ludoEvents:function () {
-		this.parent();
-		if (this.isModal()) {
-			this.getEventEl().on('resize', this.resizeShim.bind(this));
-		}
-	},
+    ludoEvents: function () {
+        this.parent();
+        if (this.isModal()) {
+            this.getEventEl().on('resize', this.resizeShim.bind(this));
+        }
+    },
 
-	__rendered:function () {
-		this.parent();
-		if (!this.isHidden()) {
-			this.showShim();
-		}
-		var buttons = this.getButtons();
+    __rendered: function () {
+        this.parent();
+        if (!this.isHidden()) {
+            this.showShim();
+        }
+        var buttons = this.getButtons();
+        var fn = this.buttonClick.bind(this);
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].on('click', fn);
+        }
+    },
 
-		for (var i = 0; i < buttons.length; i++) {
-			buttons[i].addEvent('click', this.buttonClick.bind(this));
-		}
-	},
-
-	isModal:function () {
-		return this.modal;
-	},
-	show:function () {
+    isModal: function () {
+        return this.modal;
+    },
+    show: function () {
 
         this.showShim();
-		this.parent();
+        this.parent();
 
-	},
+    },
 
-	hide:function () {
-		this.parent();
-		this.hideShim();
-		if (this.autoRemove) {
-			this.remove.delay(1000, this);
-		}
-	},
+    hide: function () {
+        this.parent();
+        this.hideShim();
+        if (this.autoRemove) {
+            this.remove.delay(1000, this);
+        }
+    },
 
-	showShim:function () {
-        if(!this.layout){
-			this.center();
-		}
-		if (this.isModal()) {
-			this.getShim().css({
-				display:'',
-				'z-index' : this.getEl().css('z-index') -1
-			});
-			this.resizeShim();
-		}
-	},
+    showShim: function () {
+        if (!this.layout) {
+            this.center();
+        }
+        if (this.isModal()) {
+            this.getShim().css({
+                display: '',
+                'z-index': this.getEl().css('z-index') - 1
+            });
+            this.resizeShim();
+        }
+    },
 
-	resizeShim:function () {
-		var b = jQuery(document.body);
-		var size = { x: b.width(), y: b.height() };
-        this.getShim().css('width',  size.x);
-        this.getShim().css('height',  size.y + 'px');
-	},
+    resizeShim: function () {
+        var b = jQuery(document.body);
+        this.getShim().css({
+            width: b.width(),
+            height: b.height()
+        });
+    },
 
-	hideShim:function () {
-		if (this.isModal()) {
+    hideShim: function () {
+        if (this.isModal()) {
             this.getShim().css('display', 'none');
-		}
-	},
+        }
+    },
 
-	buttonClick:function (value, button) {
+    buttonClick: function (value, button) {
 
-		this.fireEvent(button._get().replace(/\s/g, '').toLowerCase(), this);
-		if (this.autoHideOnBtnClick) {
-			this.hide();
-		}
-	}
+        this.fireEvent(button._get().replace(/\s/g, '').toLowerCase(), this);
+        if (this.autoHideOnBtnClick) {
+            this.hide();
+        }
+    }
 });/* ../ludojs/src/dialog/confirm.js */
 /**
   Standard confirm dialog with default "OK" and "Cancel" buttons
@@ -19657,9 +19614,10 @@ ludo.form.Element = new Class({
         if (ludo.util.isFunction(this.validator)) {
             fn = this.validator;
         } else {
-            this.validator.applyTo = this;
-            this.validator = ludo._new(this.validator);
-            fn = this.validator.isValid.bind(this.validator);
+            var v = this.validator;
+            v.applyTo = this;
+            var val = this.validator = ludo._new(v);
+            fn = v.isValid.bind(val);
         }
         this.validators.push({
             fn : fn,key:''
@@ -19745,11 +19703,11 @@ ludo.form.Element = new Class({
     ludoCSS:function () {
         this.parent();
         this.getEl().addClass('ludo-form-element');
-        if (this.els.formEl) {
-            this.els.formEl.id = this.elementId;
-
+        var fe = this.els.formEl;
+        if (fe) {
+            fe.id = this.elementId;
             if (this.formCss) {
-                this.els.formEl.css(this.formCss);
+                fe.css(this.formCss);
             }
         }
     },
@@ -20019,7 +19977,7 @@ ludo.form.Element = new Class({
 
     setLinkWith:function (linkWith) {
         this.linkWith = linkWith;
-        this.addEvent('valueChange', this.updateLinked.bind(this));
+        this.on('valueChange', this.updateLinked.bind(this));
     },
 
     createBackLink:function (attempts) {
@@ -20212,9 +20170,9 @@ ludo.form.Text = new Class({
         this.parent();
         var el = this.getFormEl();
         if (this.ucFirst || this.ucWords) {
-            this.addEvent('blur', this.upperCaseWords.bind(this));
+            this.on('blur', this.upperCaseWords.bind(this));
         }
-        this.addEvent('blur', this.validate.bind(this));
+        this.on('blur', this.validate.bind(this));
         if (this.validateKeyStrokes) {
             el.on('keydown', this.validateKey.bind(this));
         }
@@ -20840,9 +20798,6 @@ ludo.controller.Controller = new Class({
 		this.parent(config);
 		if (config.broadcast)this.broadcast = config.broadcast;
 		ludo.controllerManager.registerController(this);
-		if (this['addView'] == undefined) {
-			alert('You need to implement an addView method for the controller (' + this.type + ')');
-		}
 	},
 
 	addBroadcastFor:function (component) {
@@ -20972,9 +20927,9 @@ ludo.menu.Item = new Class({
     ludoEvents:function () {
         this.parent();
         if (!this.isSpacer()) {
-            this.getEl().on("click", this.click.bind(this));
-            this.getEl().mouseenter(this.mouseOver.bind(this));
-            this.getEl().mouseleave(this.mouseOut.bind(this));
+            this.$e.on("click", this.click.bind(this));
+            this.$e.mouseenter(this.mouseOver.bind(this));
+            this.$e.mouseleave(this.mouseOut.bind(this));
         }
     },
 
@@ -20992,9 +20947,9 @@ ludo.menu.Item = new Class({
 
         if (this.isSpacer()) {
             if (this.orientation === 'horizontal') {
-                this.getEl().css('width', 1);
+                this.$e.css('width', 1);
             }
-            this.getEl().addClass('ludo-menu-item-spacer-' + this.orientation);
+            this.$e.addClass('ludo-menu-item-spacer-' + this.orientation);
         }
 
         this.getEl().addClass('ludo-menu-item-' + this.orientation);
@@ -21008,9 +20963,7 @@ ludo.menu.Item = new Class({
         }
 
 		if(this.children.length){
-			var el = this.els.expand = jQuery('<div>');
-		    el.addClass('ludo-menu-item-expand');
-		    el.addClass('-expand');
+			var el = this.els.expand = jQuery('<div class="ludo-menu-item-expand -expand">');
 		    this.getEl().append(el);
 		}
     },
@@ -21042,11 +20995,11 @@ ludo.menu.Item = new Class({
 
 
     select:function () {
-        this.getEl().addClass('ludo-menu-item-selected');
+        this.$e.addClass('ludo-menu-item-selected');
     },
 
     deselect:function () {
-        this.getEl().removeClass('ludo-menu-item-selected');
+        this.$e.removeClass('ludo-menu-item-selected');
     },
 
     /**
@@ -21057,7 +21010,7 @@ ludo.menu.Item = new Class({
      */
     disable:function () {
         this.disabled = true;
-        this.getEl().addClass('ludo-menu-item-disabled');
+        this.$e.addClass('ludo-menu-item-disabled');
     },
 
     /**
@@ -21078,7 +21031,7 @@ ludo.menu.Item = new Class({
      */
     enable:function () {
         this.disabled = false;
-        this.getEl().removeClass('ludo-menu-item-disabled');
+        this.$e.removeClass('ludo-menu-item-disabled');
     },
 
     createIcon:function () {
@@ -21109,8 +21062,8 @@ ludo.menu.Item = new Class({
 
     mouseOut:function () {
         if (!this.disabled) {
-            this.getEl().removeClass('ludo-menu-item-over');
-            this.getEl().removeClass('ludo-menu-item-down');
+            this.$e.removeClass('ludo-menu-item-over');
+            this.$e.removeClass('ludo-menu-item-down');
             this.fireEvent('leaveMenuItem', this);
         }
     },
@@ -25233,8 +25186,8 @@ ludo.form.Button = new Class({
             }else{
                  m = this.component.getForm();
             }
-            m.addEvent('valid', this.enable.bind(this));
-            m.addEvent('invalid', this.disable.bind(this));
+            m.on('valid', this.enable.bind(this));
+            m.on('invalid', this.disable.bind(this));
             if(!m.isValid())this.disable();
         }
     },
@@ -25311,10 +25264,11 @@ ludo.form.Button = new Class({
 
     disable:function () {
         this.disabled = true;
-        if (this.els.body) {
-            this.els.body.addClass('ludo-form-button-disabled');
-            this.els.body.removeClass('ludo-form-button-over');
-            this.els.body.removeClass('ludo-form-button-down');
+        var b = this.$b();
+        if (b) {
+            b.addClass('ludo-form-button-disabled');
+            b.removeClass('ludo-form-button-over');
+            b.removeClass('ludo-form-button-down');
         }
     },
 
@@ -25946,7 +25900,7 @@ ludo.paging.First = new Class({
 	buttonCls:'ludo-paging-first',
 
 	addDataSourceEvents:function () {
-		this.addEvent('click', this.firstPage.bind(this));
+		this.on('click', this.firstPage.bind(this));
 		var ds = this.getDataSource();
 		ds.on('firstPage', this.disable.bind(this));
 		ds.on('notFirstPage', this.enable.bind(this));
@@ -25987,7 +25941,7 @@ ludo.paging.PageInput = new Class({
                 ds.on('page', this.setPageNumber.bind(this));
                 ds.on('load', this.updateMaxValue.bind(this));
                 this.setPageNumber(ds.getPageNumber());
-                this.addEvent('change', this.updateDataSourcePageNumber.bind(this));
+                this.on('change', this.updateDataSourcePageNumber.bind(this));
                 this.updateMaxValue();
             }
 
@@ -26281,10 +26235,10 @@ ludo.form.Select = new Class({
             }
             this.populate();
             var ds = this.getDataSource();
-            ds.addEvent('select', this.selectRecord.bind(this));
-            ds.addEvent('update', this.populate.bind(this));
-            ds.addEvent('delete', this.populate.bind(this));
-            ds.addEvent('sort', this.populate.bind(this));
+            ds.on('select', this.selectRecord.bind(this));
+            ds.on('update', this.populate.bind(this));
+            ds.on('delete', this.populate.bind(this));
+            ds.on('sort', this.populate.bind(this));
         }
     },
 
@@ -27550,10 +27504,10 @@ ludo.form.Label = new Class({
         var view = ludo.get(this.labelFor);
 
         if(view){
-            view.addEvent('valid', this.onValid.bind(this));
-            view.addEvent('invalid', this.onInvalid.bind(this));
-            view.addEvent('enable', this.onEnable.bind(this));
-            view.addEvent('disable', this.onDisable.bind(this));
+            view.on('valid', this.onValid.bind(this));
+            view.on('invalid', this.onInvalid.bind(this));
+            view.on('enable', this.onEnable.bind(this));
+            view.on('disable', this.onDisable.bind(this));
             if(!view.isValid())
                 this.onInvalid();
         }
@@ -28695,18 +28649,21 @@ chess.view.notation.Panel = new Class({
     setController: function (controller) {
         this.parent(controller);
         var c = this.controller = controller;
+        var sm = this.showMoves.bind(this);
+        var scm = this.setCurrentMove.bind(this);
+        
         c.on('startOfGame', this.goToStartOfBranch.bind(this));
-        c.on('newGame', this.showMoves.bind(this));
-        c.on('newMoves', this.showMoves.bind(this));
-        c.on('deleteMove', this.showMoves.bind(this));
-        c.on('setPosition', this.setCurrentMove.bind(this));
-        c.on('nextmove', this.setCurrentMove.bind(this));
-        c.on('correctGuess', this.setCurrentMove.bind(this));
+        c.on('newGame', sm);
+        c.on('newMoves', sm);
+        c.on('deleteMove', sm);
+        c.on('setPosition', scm);
+        c.on('nextmove', scm);
+        c.on('correctGuess', scm);
         c.on('updateMove', this.updateMove.bind(this));
         c.on('newMove', this.appendMove.bind(this));
         c.on('beforeLoad', this.beforeLoad.bind(this));
         c.on('afterLoad', this.afterLoad.bind(this));
-        c.on('updateNotations', this.showMoves.bind(this));
+        c.on('updateNotations', sm);
         // this.controller.addEvent('newVariation', this.createNewVariation.bind(this));
     },
 
@@ -29533,9 +29490,9 @@ chess.view.board.GUI = new Class({
     },
 
     addSideToMove: function () {
-        this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
-        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(this.els.sideToMoveOuter);
-        this.els.boardContainer.append(this.els.sideToMoveOuter);
+        var el = this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
+        this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(el);
+        this.els.boardContainer.append(el);
     },
 
     stml: undefined,
@@ -29570,7 +29527,6 @@ chess.view.board.GUI = new Class({
 
         var bc = this.flipped ? 'black' : 'white';
         var pr = bc == this.stml ? 'bottom' : 'top';
-        padding++;
         var css = {
             width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
         };
@@ -29679,15 +29635,15 @@ chess.view.board.GUI = new Class({
     },
 
     createPieceContainer: function () {
-        this.els.pieceContainer = jQuery('<div>');
-        this.els.pieceContainer.css({
+        var el = this.els.pieceContainer = jQuery('<div>');
+        el.css({
             position: 'absolute',
             left: 0,
             top: 0,
             width: '100%',
             height: '100%'
         });
-        this.els.board.append(this.els.pieceContainer);
+        this.els.board.append(el);
     },
 
     squareBg_white: undefined,
@@ -29945,7 +29901,7 @@ chess.view.board.GUI = new Class({
 
         this.fireEvent('boardResized', this.boardCoordinates());
 
-        this.resizeSTM();
+        if(this.sideToMove)this.resizeSTM();
     },
 
     resizeLabels: function () {
@@ -32042,18 +31998,31 @@ chess.view.highlight.ArrowTactic = new Class({
     }
 });/* ../dhtml-chess/src/view/highlight/square-tactic-hint.js */
 chess.view.highlight.SquareTacticHint = new Class({
-    Extends:chess.view.highlight.SquareBase,
-    delay : 1,
 
-	__construct:function (config) {
-        this.parent(config);
+    delay : 1,
+    squarePool:undefined,
+    board:undefined,
+
+	initialize:function (config) {
         if(config.delay !== undefined)this.delay = config.delay;
-        this.parentComponent.addEvent('showHint', this.showHint.bind(this));
+        this.board = config.parentComponent;
+        this.board.on('showHint', this.showHint.bind(this));
     },
 
     showHint:function(move){
-        this.highlightSquare(move.from);
-        this.clear.delay(this.delay * 1000, this);
+        var p = this.pool();
+        p.hideAll();
+        p.show(move.from);
+        p.hide.delay(this.delay* 1000, p, move.from);
+    },
+
+    pool:function(){
+        if(this.squarePool == undefined){
+            this.squarePool = new chess.view.highlight.SquarePool({
+                board:this.board
+            });
+        }
+        return this.squarePool;
     }
 });/* ../dhtml-chess/src/view/highlight/arrow-pool.js */
 /**
@@ -32262,9 +32231,11 @@ chess.view.highlight.SquarePool = new Class({
         var pos = this.posBySquare(square);
 
         s.el.css({
-            left: pos.x, top: pos.y,
-            'background-color': color
+            left: pos.x, top: pos.y
         });
+        if(color){
+            s.el.css('background-color', color);
+        }
         s.el.show();
         s.square = square;
 
@@ -33970,30 +33941,34 @@ chess.view.dialog.Promote = new Class({
     move: undefined,
     autoRemove: false,
 
-    children: [
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'q',
-            layout: {x: 0, y: 0}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'r',
-            layout: {x: 1, y: 0}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'b',
-            layout: {x: 0, y: 1}
-        },
-        {
-            type: 'chess.view.dialog.PromotePiece',
-            piece: 'n',
-            layout: {x: 1, y: 1}
-        }
-    ],
+    __children: function () {
+        var t = 'chess.view.dialog.PromotePiece';
+        return [
+            {
+                type: t,
+                piece: 'q',
+                layout: {x: 0, y: 0}
+            },
+            {
+                type: t,
+                piece: 'r',
+                layout: {x: 1, y: 0}
+            },
+            {
+                type: t,
+                piece: 'b',
+                layout: {x: 0, y: 1}
+            },
+            {
+                type: t,
+                piece: 'n',
+                layout: {x: 1, y: 1}
+            }
+        ]
 
-    __construct:function(config){
+    },
+
+    __construct: function (config) {
 
         this.parent(config);
     },
@@ -35408,7 +35383,6 @@ chess.view.position.Dialog = new Class({
 
     isValidFen: function (fen) {
 
-        console.log(fen);
         try{
             parser = new chess.parser.FenParser0x88(fen);
             var res = parser.getValidMovesAndResult();
@@ -36132,8 +36106,6 @@ chess.action.Handler = new Class({
 
     showArrow: function (action) {
         if (this.arrowPool == undefined) {
-
-            console.log(this.arrowStyles);
             this.arrowPool = new chess.view.highlight.ArrowPool({
                 board: this.board,
                 arrowStyles:this.arrowStyles
@@ -36665,8 +36637,12 @@ Board0x88Config = {
 chess.parser.FenParser0x88 = new Class({
 
     madeMoves:[],
+	
+	bc: Board0x88Config,
+	lan: undefined,
 
 	initialize:function (fen) {
+    	this.lan = chess.language.pieces;
 		if (fen) {
 			this.setFen(fen);
 		}
@@ -36678,7 +36654,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @param {String} fen
 	 */
 	setFen:function (fen) {
-		this.cache = {
+		this.c = {
             fenParts: {},
 			'board':[],
 			'white':[],
@@ -36696,10 +36672,10 @@ chess.parser.FenParser0x88 = new Class({
 	updateFenArray:function () {
 		var fenParts = this.fen.split(' ');
 
-		this.cache.fenParts = {
+		this.c.fenParts = {
 			'pieces':fenParts[0],
 			'color':fenParts[1],
-			'castleCode':Board0x88Config.castleToNumberMapping[fenParts[2]],
+			'castleCode':this.bc.castleToNumberMapping[fenParts[2]],
 			'enPassant':fenParts[3],
 			'halfMoves':fenParts[4],
 			'fullMoves':fenParts[5]
@@ -36713,31 +36689,31 @@ chess.parser.FenParser0x88 = new Class({
 	parseFen:function () {
 		var pos = 0;
 
-		var squares = Board0x88Config.fenSquares;
+		var squares = this.bc.fenSquares;
 		var index, type, piece;
-		for (var i = 0, len = this.cache.fenParts['pieces'].length; i < len; i++) {
-			var token = this.cache.fenParts['pieces'].substr(i, 1);
+		for (var i = 0, len = this.c.fenParts['pieces'].length; i < len; i++) {
+			var token = this.c.fenParts['pieces'].substr(i, 1);
 
-			if (Board0x88Config.fenPieces[token]) {
-				index = Board0x88Config.mapping[squares[pos]];
-				type = Board0x88Config.pieces[token];
+			if (this.bc.fenPieces[token]) {
+				index = this.bc.mapping[squares[pos]];
+				type = this.bc.pieces[token];
 				piece = {
 					t:type,
 					s:index
 				};
 				// Board array
-				this.cache['board'][index] = type;
+				this.c['board'][index] = type;
 
 				// White and black array
-				this.cache[Board0x88Config.colorMapping[token]].push(piece);
+				this.c[this.bc.colorMapping[token]].push(piece);
 
 				// King array
-				if (Board0x88Config.typeMapping[type] == 'k') {
-					this.cache['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
+				if (this.bc.typeMapping[type] == 'k') {
+					this.c['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
 				}
 				pos++;
-			} else if (i < len - 1 && Board0x88Config.numbers[token]) {
-				var token2 = this.cache.fenParts['pieces'].substr(i + 1, 1);
+			} else if (i < len - 1 && this.bc.numbers[token]) {
+				var token2 = this.c.fenParts['pieces'].substr(i + 1, 1);
 				if (!isNaN(token2)) {
 					token = [token, token2].join('');
 				}
@@ -36753,7 +36729,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Array} pieces
 	 */
 	getPieces:function () {
-		return this.cache['white'].append(this.cache['black']);
+		return this.c['white'].append(this.c['black']);
 	},
 
 	/**
@@ -36769,7 +36745,7 @@ chess.parser.FenParser0x88 = new Class({
 	 both are numeric according to the 0x88 board.
 	 */
 	getKing:function (color) {
-		return this.cache['k' + color];
+		return this.c['k' + color];
 	},
 
 	/**
@@ -36810,7 +36786,7 @@ chess.parser.FenParser0x88 = new Class({
 	 and sliding pieces using the bitwise & operator.
 	 */
 	getPiecesOfAColor:function (color) {
-		return this.cache[color]
+		return this.c[color]
 	},
 
 	/**
@@ -36822,44 +36798,44 @@ chess.parser.FenParser0x88 = new Class({
 	 	alert(parser.getEnPassantSquare()); // alerts 'd6'
 	 */
 	getEnPassantSquare:function () {
-		var enPassant = this.cache.fenParts['enPassant'];
+		var enPassant = this.c.fenParts['enPassant'];
 		if (enPassant != '-') {
 			return enPassant;
 		}
 		return undefined;
 	},
 	setEnPassantSquare:function (square) {
-		this.cache.fenParts['enPassant'] = square;
+		this.c.fenParts['enPassant'] = square;
 	},
 
 	getSlidingPieces:function (color) {
-		return this.cache[color + 'Sliding'];
+		return this.c[color + 'Sliding'];
 	},
 
 	getHalfMoves:function () {
-		return this.cache.fenParts['halfMoves'];
+		return this.c.fenParts['halfMoves'];
 	},
 
 	getFullMoves:function () {
-		return this.cache.fenParts['fullMoves'];
+		return this.c.fenParts['fullMoves'];
 	},
 
 	canCastleKingSide:function (color) {
-		var code = color === 'white' ? Board0x88Config.castle['K'] : Board0x88Config.castle['k'];
-		return this.cache.fenParts.castleCode & code;
+		var code = color === 'white' ? this.bc.castle['K'] : this.bc.castle['k'];
+		return this.c.fenParts.castleCode & code;
 	},
 
 	canCastleQueenSide:function (color) {
-		var code = color === 'white' ? Board0x88Config.castle['Q'] : Board0x88Config.castle['q'];
-		return this.cache.fenParts.castleCode & code;
+		var code = color === 'white' ? this.bc.castle['Q'] : this.bc.castle['q'];
+		return this.c.fenParts.castleCode & code;
 	},
 
 	getColor:function () {
-		return Board0x88Config.colorAbbreviations[this.cache.fenParts['color']];
+		return this.bc.colorAbbreviations[this.c.fenParts['color']];
 	},
 
 	getColorCode:function () {
-		return this.cache.fenParts['color'];
+		return this.c.fenParts['color'];
 	},
 
 	/**
@@ -36870,7 +36846,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @example
 	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	console.log(parser.getPieceOnSquare(Board0x88Config.mapping['e2']));
+	 	console.log(parser.getPieceOnSquare(this.bc.mapping['e2']));
 	 will return an object like this:
 	 @example
 	 	{
@@ -36881,11 +36857,11 @@ chess.parser.FenParser0x88 = new Class({
 	 	}
 	 */
 	getPieceOnSquare:function (square) {
-		var piece = this.cache['board'][square];
+		var piece = this.c['board'][square];
 		if (piece) {
 			return {
-				square:Board0x88Config.numberToSquareMapping[square],
-				type:Board0x88Config.typeMapping[piece],
+				square:this.bc.numberToSquareMapping[square],
+				type:this.bc.typeMapping[piece],
 				color:(piece & 0x8) > 0 ? 'black' : 'white',
 				sliding:(piece & 0x4) > 0
 			}
@@ -36894,11 +36870,11 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	getPieceTypeOnSquare:function (square) {
-		return this.cache['board'][square];
+		return this.c['board'][square];
 	},
 	/**
 	 * Returns true if two squares are on the same rank. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
+	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
 	 @method isOnSameRank
 	 @param {Number} square1
 	 @param {Number} square2
@@ -36920,14 +36896,14 @@ chess.parser.FenParser0x88 = new Class({
      */
 	rank:function(square){
 		if(square.substr != undefined){
-			square = Board0x88Config.mapping[square];
+			square = this.bc.mapping[square];
 		}
 		return (square & 240) / 16;
 	},
 
 	/**
 	 * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use Board0x88Config.mapping to get a more readable code.
+	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
 	 @method isOnSameFile
 	 @param {Number} square1
 	 @param {Number} square2
@@ -36948,10 +36924,10 @@ chess.parser.FenParser0x88 = new Class({
 			this.secondParser = new chess.parser.FenParser0x88();
 		}
 
-		this.secondParser.setFen(fen);
-		this.secondParser.move(move);
-
-		var notation = this.secondParser.notation;
+		var p = this.secondParser;
+		p.setFen(fen);
+		p.move(move);
+		var notation = p.notation;
 
 		return notation.indexOf('#')>0 ? notation:undefined;
 
@@ -36963,7 +36939,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		var promoteTo = ['R','N', 'B', 'Q'];
 		jQuery.each(moves, function(from, toSquares){
-			var fs = Board0x88Config.numberToSquareMapping[from];
+			var fs = this.bc.numberToSquareMapping[from];
 			jQuery.each(toSquares, function(i, toSquare){
 				var addPromotion = false;
 				var rank = this.rank(toSquare);
@@ -36971,7 +36947,7 @@ chess.parser.FenParser0x88 = new Class({
 					var p = this.getPieceOnSquare(from);
 					if(p.type == 'p')addPromotion = true;
 				}
-				var ts = Board0x88Config.numberToSquareMapping[toSquare];
+				var ts = this.bc.numberToSquareMapping[toSquare];
 				if(addPromotion){
 					jQuery.each(promoteTo, function(i, promote){
 						ret.push({
@@ -37006,41 +36982,6 @@ chess.parser.FenParser0x88 = new Class({
 			}
 		}.bind(this));
 		return ret;
-
-		/*
-
-		var obj = this.getValidMovesAndResult();
-		var moves = obj.moves;
-		var fen = this.getFen();
-		var promoteTo = ['R','N', 'B', 'Q'];
-
-
-		var ret = [];
-		jQuery.each(moves, function(from, toSquares){
-			var fs = Board0x88Config.numberToSquareMapping[from];
-
-			jQuery.each(toSquares, function(i, toSquare){
-
-				var addPromotion = false;
-				var rank = this.rank(toSquare);
-				if(rank == 0 || rank == 7){
-					var p = this.getPieceOnSquare(from);
-					if(p.type == 'p')addPromotion = true;
-				}
-
-				var m = {
-					from:fs, to: Board0x88Config.numberToSquareMapping[toSquare]
-				};
-				var notation = this.getNotationForAMove(m);
-				if(this.isCheckmate(fen, m)){
-					ret.push(notation + '#');
-				}
-			}.bind(this))
-
-		}.bind(this));
-		return ret;
-		*/
-
 	},
 
 	/**
@@ -37069,7 +37010,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {}, directions;
 		var enPassantSquare = this.getEnPassantSquare();
 		if (enPassantSquare) {
-			enPassantSquare = Board0x88Config.mapping[enPassantSquare];
+			enPassantSquare = this.bc.mapping[enPassantSquare];
 		}
 
 		var kingSideCastle = this.canCastleKingSide(color);
@@ -37084,7 +37025,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (checks === 2) {
 			pieces = [this.getKing(color)];
 		} else {
-			pieces = this.cache[color];
+			pieces = this.c[color];
 			pinned = this.getPinned(color);
 			if (checks === 1) {
 				validSquares = this.getValidSquaresOnCheck(color);
@@ -37099,44 +37040,44 @@ chess.parser.FenParser0x88 = new Class({
 				// pawns
 				case 0x01:
 					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.cache['board'][piece.s + 16]) {
+						if (!this.c['board'][piece.s + 16]) {
 							paths.push(piece.s + 16);
 							if (piece.s < 32) {
-								if (!this.cache['board'][piece.s + 32]) {
+								if (!this.c['board'][piece.s + 32]) {
 									paths.push(piece.s + 32);
 								}
 							}
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
-						if (enPassantSquare == piece.s + 15 || (this.cache['board'][piece.s + 15]) && (this.cache['board'][piece.s + 15] & 0x8) > 0) {
+						if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
 							paths.push(piece.s + 15);
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
-						if (enPassantSquare == piece.s + 17 || (this.cache['board'][piece.s + 17]) && (this.cache['board'][piece.s + 17] & 0x8) > 0) {
+						if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
 							paths.push(piece.s + 17);
 						}
 					}
 					break;
 				case 0x09:
 					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.cache['board'][piece.s - 16]) {
+						if (!this.c['board'][piece.s - 16]) {
 							paths.push(piece.s - 16);
 							if (piece.s > 87) {
-								if (!this.cache['board'][piece.s - 32]) {
+								if (!this.c['board'][piece.s - 32]) {
 									paths.push(piece.s - 32);
 								}
 							}
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
-						if (enPassantSquare == piece.s - 15 || (this.cache['board'][piece.s - 15]) && (this.cache['board'][piece.s - 15] & 0x8) === 0) {
+						if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
 							paths.push(piece.s - 15);
 						}
 					}
 					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
-						if (enPassantSquare == piece.s - 17 || (this.cache['board'][piece.s - 17]) && (this.cache['board'][piece.s - 17] & 0x8) === 0) {
+						if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
 							paths.push(piece.s - 17);
 						}
 					}
@@ -37149,7 +37090,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x0D:
 				case 0x0E:
 				case 0x0F:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					if (pinned[piece.s]) {
 						if (directions.indexOf(pinned[piece.s].direction) >= 0) {
 							directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
@@ -37160,8 +37101,8 @@ chess.parser.FenParser0x88 = new Class({
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						while ((square & 0x88) === 0) {
-							if (this.cache['board'][square]) {
-								if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || (!WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+							if (this.c['board'][square]) {
+								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
 									paths.push(square);
 								}
 								break;
@@ -37177,13 +37118,13 @@ chess.parser.FenParser0x88 = new Class({
 					if (pinned[piece.s]) {
 						break;
 					}
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
-							if (this.cache['board'][square]) {
-								if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+							if (this.c['board'][square]) {
+								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
 									paths.push(square);
 								}
 							} else {
@@ -37196,13 +37137,13 @@ chess.parser.FenParser0x88 = new Class({
 				// Black king
 				case 0X03:
                 case 0X0B:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
 							if (protectiveMoves.indexOf(square) == -1) {
-								if (this.cache['board'][square]) {
-									if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+								if (this.c['board'][square]) {
+									if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
 										paths.push(square);
 									}
 								} else {
@@ -37211,10 +37152,10 @@ chess.parser.FenParser0x88 = new Class({
 							}
 						}
 					}
-					if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+					if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
 						paths.push(piece.s + 2);
 					}
-					if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+					if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
 						paths.push(piece.s - 2);
 					}
 					break;
@@ -37240,7 +37181,7 @@ chess.parser.FenParser0x88 = new Class({
         var directions;
         var enPassantSquare = this.getEnPassantSquare();
         if (enPassantSquare) {
-            enPassantSquare = Board0x88Config.mapping[enPassantSquare];
+            enPassantSquare = this.bc.mapping[enPassantSquare];
         }
 
         var kingSideCastle = this.canCastleKingSide(color);
@@ -37255,7 +37196,7 @@ chess.parser.FenParser0x88 = new Class({
         if (checks === 2) {
             pieces = [this.getKing(color)];
         } else {
-            pieces = this.cache[color];
+            pieces = this.c[color];
             pinned = this.getPinned(color);
             if (checks === 1) {
                 validSquares = this.getValidSquaresOnCheck(color);
@@ -37271,44 +37212,44 @@ chess.parser.FenParser0x88 = new Class({
                 // pawns
                 case 0x01:
                     if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-                        if (!this.cache['board'][piece.s + 16]) {
+                        if (!this.c['board'][piece.s + 16]) {
                             paths.push([piece.s, piece.s + 16]);
                             if (piece.s < 32) {
-                                if (!this.cache['board'][piece.s + 32]) {
+                                if (!this.c['board'][piece.s + 32]) {
                                     paths.push([piece.s, piece.s + 32]);
                                 }
                             }
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
-                        if (enPassantSquare == piece.s + 15 || (this.cache['board'][piece.s + 15]) && (this.cache['board'][piece.s + 15] & 0x8) > 0) {
+                        if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
                             paths.push([piece.s, piece.s + 15]);
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
-                        if (enPassantSquare == piece.s + 17 || (this.cache['board'][piece.s + 17]) && (this.cache['board'][piece.s + 17] & 0x8) > 0) {
+                        if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
                             paths.push([piece.s, piece.s + 17]);
                     }
                     }
                     break;
                 case 0x09:
                     if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-                        if (!this.cache['board'][piece.s - 16]) {
+                        if (!this.c['board'][piece.s - 16]) {
                             paths.push([piece.s, piece.s - 16]);
                             if (piece.s > 87) {
-                                if (!this.cache['board'][piece.s - 32]) {
+                                if (!this.c['board'][piece.s - 32]) {
                                     paths.push([piece.s, piece.s - 32]);
                                 }
                             }
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
-                        if (enPassantSquare == piece.s - 15 || (this.cache['board'][piece.s - 15]) && (this.cache['board'][piece.s - 15] & 0x8) === 0) {
+                        if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
                             paths.push([piece.s, piece.s - 15]);
                         }
                     }
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
-                        if (enPassantSquare == piece.s - 17 || (this.cache['board'][piece.s - 17]) && (this.cache['board'][piece.s - 17] & 0x8) === 0) {
+                        if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
                             paths.push([piece.s, piece.s - 17]);
                         }
                     }
@@ -37321,7 +37262,7 @@ chess.parser.FenParser0x88 = new Class({
                 case 0x0D:
                 case 0x0E:
                 case 0x0F:
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
                     if (pinned[piece.s]) {
                         if (directions.indexOf(pinned[piece.s].direction) >= 0) {
                             directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
@@ -37332,8 +37273,8 @@ chess.parser.FenParser0x88 = new Class({
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         while ((square & 0x88) === 0) {
-                            if (this.cache['board'][square]) {
-                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || (!WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                     paths.push([piece.s, square]);
                                 }
                                 break;
@@ -37349,13 +37290,13 @@ chess.parser.FenParser0x88 = new Class({
                     if (pinned[piece.s]) {
                         break;
                     }
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
 
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         if ((square & 0x88) === 0) {
-                            if (this.cache['board'][square]) {
-                                if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                     paths.push([piece.s, square]);
                                 }
                             } else {
@@ -37368,13 +37309,13 @@ chess.parser.FenParser0x88 = new Class({
                 // Black king
                 case 0X03:
                 case 0X0B:
-                    directions = Board0x88Config.movePatterns[piece.t];
+                    directions = this.bc.movePatterns[piece.t];
                     for (a = 0; a < directions.length; a++) {
                         square = piece.s + directions[a];
                         if ((square & 0x88) === 0) {
                             if (protectiveMoves.indexOf(square) == -1) {
-                                if (this.cache['board'][square]) {
-                                    if ((WHITE && (this.cache['board'][square] & 0x8) > 0) || ( !WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+                                if (this.c['board'][square]) {
+                                    if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
                                     }
                                 } else {
@@ -37383,10 +37324,10 @@ chess.parser.FenParser0x88 = new Class({
                             }
                         }
                     }
-                    if (kingSideCastle && !this.cache['board'][piece.s + 1] && !this.cache['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+                    if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s + 2]);
                     }
-                    if (queenSideCastle && !this.cache['board'][piece.s - 1] && !this.cache['board'][piece.s - 2] && !this.cache['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+                    if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
                         if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s - 2]);
                     }
                     break;
@@ -37417,7 +37358,7 @@ chess.parser.FenParser0x88 = new Class({
 	getCaptureAndProtectiveMoves:function (color) {
 		var ret = [], directions, square, a;
 
-		var pieces = this.cache[color];
+		var pieces = this.c[color];
 		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
 
 		for (var i = 0; i < pieces.length; i++) {
@@ -37439,11 +37380,11 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x0D:
 				case 0x0E:
 				case 0x0F:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						while ((square & 0x88) === 0) {
-							if (this.cache['board'][square] && square !== oppositeKingSquare) {
+							if (this.c['board'][square] && square !== oppositeKingSquare) {
 								ret.push(square);
 								break;
 							}
@@ -37456,7 +37397,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x02:
 				case 0x0A:
 					// White knight
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
@@ -37467,7 +37408,7 @@ chess.parser.FenParser0x88 = new Class({
 				// king
 				case 0X03:
 				case 0X0B:
-					directions = Board0x88Config.movePatterns[piece.t];
+					directions = this.bc.movePatterns[piece.t];
 					for (a = 0; a < directions.length; a++) {
 						square = piece.s + directions[a];
 						if ((square & 0x88) === 0) {
@@ -37500,8 +37441,8 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getSlidingPiecesAttackingKing:function (color) {
 		var ret = [];
-		var king = this.cache['k' + (color === 'white' ? 'black' : 'white')];
-		var pieces = this.cache[color];
+		var king = this.c['k' + (color === 'white' ? 'black' : 'white')];
+		var pieces = this.c[color];
 		for (var i = 0; i < pieces.length; i++) {
 			var piece = pieces[i];
 			if ((piece.t & 0x4) > 0) {
@@ -37545,8 +37486,8 @@ chess.parser.FenParser0x88 = new Class({
 
 	/**
 	 Return array of the squares where pieces are pinned, i.e. cannot move.
-	 Squares are in the 0x88 format. You can use Board0x88Config.numberToSquareMapping
-	 to translate to readable format, example: Board0x88Config.numberToSquareMapping[16] will give you 'a2'
+	 Squares are in the 0x88 format. You can use this.bc.numberToSquareMapping
+	 to translate to readable format, example: this.bc.numberToSquareMapping[16] will give you 'a2'
 	 @method getPinned
 	 @param {String} color
 	 @return {Object}
@@ -37572,7 +37513,7 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = {};
 		var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
 		var WHITE = color === 'white';
-		var king = this.cache['k' + color];
+		var king = this.c['k' + color];
 		var i = 0;
 		while (i < pieces.length) {
 			var piece = pieces[i];
@@ -37581,9 +37522,9 @@ chess.parser.FenParser0x88 = new Class({
 
 			var pinning = '';
 			while (square !== king.s && countPieces < 2) {
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					countPieces++;
-					if ((!WHITE && (this.cache['board'][square] & 0x8) > 0) || (WHITE && (this.cache['board'][square] & 0x8) === 0)) {
+					if ((!WHITE && (this.c['board'][square] & 0x8) > 0) || (WHITE && (this.c['board'][square] & 0x8) === 0)) {
 						pinning = square;
 					} else {
 						break;
@@ -37607,9 +37548,9 @@ chess.parser.FenParser0x88 = new Class({
 		var ret = [];
 		jQuery.each(pinned, function(square, by){
 			var obj = {
-				king : Board0x88Config.numberToSquareMapping[this.getKing(color).s],
-				pinned : Board0x88Config.numberToSquareMapping[square],
-				by: Board0x88Config.numberToSquareMapping[by.by]
+				king : this.bc.numberToSquareMapping[this.getKing(color).s],
+				pinned : this.bc.numberToSquareMapping[square],
+				by: this.bc.numberToSquareMapping[by.by]
 			};
 			ret.push(obj);
 		}.bind(this));
@@ -37629,8 +37570,8 @@ chess.parser.FenParser0x88 = new Class({
 
 	getValidSquaresOnCheck:function (color) {
 		var ret = [], checks;
-		var king = this.cache['k' + color];
-		var pieces = this.cache[color === 'white' ? 'black' : 'white'];
+		var king = this.c['k' + color];
+		var pieces = this.c[color === 'white' ? 'black' : 'white'];
 
 
 		for (var i = 0; i < pieces.length; i++) {
@@ -37651,7 +37592,7 @@ chess.parser.FenParser0x88 = new Class({
 				case 0x02:
 				case 0x0A:
 					if (this.getDistance(piece.s, king.s) === 2) {
-						var directions = Board0x88Config.movePatterns[piece.t];
+						var directions = this.bc.movePatterns[piece.t];
 						for (var a = 0; a < directions.length; a++) {
 							var square = piece.s + directions[a];
 							if (square === king.s) {
@@ -37700,7 +37641,7 @@ chess.parser.FenParser0x88 = new Class({
 			var squares = [piece.s];
 			while (square !== king.s && !pieceFound) {
 				squares.push(square);
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					pieceFound = true;
 				}
 				square += direction;
@@ -37725,7 +37666,7 @@ chess.parser.FenParser0x88 = new Class({
 			var squares = [piece.s];
 			while (square !== king.s && !pieceFound) {
 				squares.push(square);
-				if (this.cache['board'][square]) {
+				if (this.c['board'][square]) {
 					pieceFound = true;
 				}
 				square += direction;
@@ -37739,7 +37680,7 @@ chess.parser.FenParser0x88 = new Class({
 
 
 	getCountChecks:function (kingColor, moves) {
-		var king = this.cache['k' + kingColor];
+		var king = this.c['k' + kingColor];
         var index = moves.indexOf(king.s);
 		if (index >= 0) {
 			if (moves.indexOf(king.s, index+1 ) >= 0) {
@@ -37758,7 +37699,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Number} distance
 	 */
 	getDistance:function (sq1, sq2) {
-		return Board0x88Config.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
+		return this.bc.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
 	},
 
 
@@ -37768,12 +37709,12 @@ chess.parser.FenParser0x88 = new Class({
 		];
 		var square;
 		move = {
-			from:Board0x88Config.mapping[move.from],
-			to:Board0x88Config.mapping[move.to],
+			from:this.bc.mapping[move.from],
+			to:this.bc.mapping[move.to],
 			promoteTo:move.promoteTo
 		};
 
-		var color = (this.cache['board'][move.from] & 0x8) ? 'black' : 'white';
+		var color = (this.c['board'][move.from] & 0x8) ? 'black' : 'white';
 
 		if (this.isEnPassantMove(move.from, move.to)) {
 			if (color == 'black') {
@@ -37782,7 +37723,7 @@ chess.parser.FenParser0x88 = new Class({
 			} else {
 				square = move.to - 16;
 			}
-			ret.push({ capture:Board0x88Config.numberToSquareMapping[square]})
+			ret.push({ capture:this.bc.numberToSquareMapping[square]})
 		}
 
 		if (this.isCastleMove(move)) {
@@ -37801,7 +37742,7 @@ chess.parser.FenParser0x88 = new Class({
 
 		if (move.promoteTo) {
 			ret.push({
-				promoteTo:move.promoteTo, square:Board0x88Config.numberToSquareMapping[move.to]
+				promoteTo:move.promoteTo, square:this.bc.numberToSquareMapping[move.to]
 			});
 		}
 		return ret;
@@ -37815,17 +37756,17 @@ chess.parser.FenParser0x88 = new Class({
 	 @return {Boolean}
 	 @example
 	 	var move = {
-	 		from: Board0x88Config.mapping['e5'],
-	 		to: Board0x88Config.mapping['e6']
+	 		from: this.bc.mapping['e5'],
+	 		to: this.bc.mapping['e6']
 	 	}
 	 console.log(parser.isEnPassantMove(move);
 
 	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
 	 */
 	isEnPassantMove:function (from, to) {
-		if ((this.cache['board'][from] === 0x01 || this.cache['board'][from] == 0x09)) {
+		if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
 			if (
-				!this.cache['board'][to] &&
+				!this.c['board'][to] &&
 					((from - to) % 17 === 0 || (from - to) % 15 === 0)) {
 				return true;
 			}
@@ -37841,7 +37782,7 @@ chess.parser.FenParser0x88 = new Class({
 	 @return {Boolean}
 	 */
 	isCastleMove:function (move) {
-		if ((this.cache['board'][move.from] === 0x03 || this.cache['board'][move.from] == 0x0B)) {
+		if ((this.c['board'][move.from] === 0x03 || this.c['board'][move.from] == 0x0B)) {
 			if (this.getDistance(move.from, move.to) === 2) {
 				return true;
 			}
@@ -37874,9 +37815,9 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	makeMoveByObject:function (move) {
         this.makeMove(
-            Board0x88Config.mapping[move.from],
-            Board0x88Config.mapping[move.to],
-            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+            this.bc.mapping[move.from],
+            this.bc.mapping[move.to],
+            move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
 		this.fen = undefined;
 	},
@@ -37912,11 +37853,11 @@ chess.parser.FenParser0x88 = new Class({
 	getPromoteByNotation:function (notation) {
 		if (notation.indexOf('=') > 0) {
 			var piece = notation.replace(/^.*?=([QRBN]).*$/, '$1');
-			return Board0x88Config.pieceAbbr[piece];
+			return this.bc.pieceAbbr[piece];
 		}
 		if (notation.match(/[a-h][18][NBRQ]/)) {
 			notation = notation.replace(/[^a-h18NBRQ]/g, '');
-			return Board0x88Config.pieceAbbr[notation.substr(notation.length - 1, 1)];
+			return this.bc.pieceAbbr[notation.substr(notation.length - 1, 1)];
 		}
 		return '';
 	},
@@ -37934,10 +37875,10 @@ chess.parser.FenParser0x88 = new Class({
 		if (notation === 'OO')notation = 'O-O';
 		if (notation === 'OOO')notation = 'O-O-O';
 		if (notation.length === 2) {
-			var square = Board0x88Config.mapping[notation];
-			ret.to = Board0x88Config.mapping[notation];
+			var square = this.bc.mapping[notation];
+			ret.to = this.bc.mapping[notation];
 			var direction = color === 'white' ? -16 : 16;
-			if (this.cache['board'][square + direction]) {
+			if (this.c['board'][square + direction]) {
 				foundPieces.push(square + direction);
 			} else {
 				foundPieces.push(square + (direction * 2));
@@ -37970,7 +37911,7 @@ chess.parser.FenParser0x88 = new Class({
 					}
 					for (i = 0; i < offsets.length; i++) {
 						sq = ret.to + offsets[i];
-						if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+						if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 							foundPieces.push(sq);
 						}
 					}
@@ -37992,11 +37933,11 @@ chess.parser.FenParser0x88 = new Class({
 					break;
 				case 0x02:
 				case 0x0A:
-					var pattern = Board0x88Config.movePatterns[pieceType];
+					var pattern = this.bc.movePatterns[pieceType];
 					for (i = 0; i < pattern.length; i++) {
 						sq = ret.to + pattern[i];
 						if ((sq & 0x88) === 0) {
-							if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 								foundPieces.push(sq);
 								if (fromRank === null && fromFile === null) {
 									break;
@@ -38008,12 +37949,12 @@ chess.parser.FenParser0x88 = new Class({
 					break;
 				// Sliding pieces
 				default:
-					var patterns = Board0x88Config.movePatterns[pieceType];
+					var patterns = this.bc.movePatterns[pieceType];
 
 					for (i = 0; i < patterns.length; i++) {
 						sq = ret.to + patterns[i];
 						while ((sq & 0x88) === 0) {
-							if (this.cache['board'][sq] && this.cache['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
 								foundPieces.push(sq);
 								if (fromRank === null && fromFile === null) {
 									break;
@@ -38047,8 +37988,8 @@ chess.parser.FenParser0x88 = new Class({
 				}
 			}
 		}
-		ret.from = Board0x88Config.numberToSquareMapping[ret.from];
-		ret.to = Board0x88Config.numberToSquareMapping[ret.to];
+		ret.from = this.bc.numberToSquareMapping[ret.from];
+		ret.to = this.bc.numberToSquareMapping[ret.to];
 
 		return ret;
 	},
@@ -38077,7 +38018,7 @@ chess.parser.FenParser0x88 = new Class({
 		if (notation.length > 1) {
 			return null;
 		}
-		return Board0x88Config.files[notation];
+		return this.bc.files[notation];
 	},
 	/**
 	 * Return numeric destination square by notation.
@@ -38086,7 +38027,7 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {Number} square
 	 */
 	getToSquareByNotation:function (notation) {
-		return Board0x88Config.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
+		return this.bc.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
 	},
 
 	getPieceTypeByNotation:function (notation, color) {
@@ -38100,7 +38041,7 @@ chess.parser.FenParser0x88 = new Class({
 			}
 		}
 
-		notation = Board0x88Config.pieces[notation];
+		notation = this.bc.pieces[notation];
 		if (color === 'black') {
 			notation += 8;
 		}
@@ -38122,9 +38063,9 @@ chess.parser.FenParser0x88 = new Class({
 		this.longNotation = this.getLongNotationForAMove(move, this.notation);
 
         this.makeMove(
-            Board0x88Config.mapping[move.from],
-            Board0x88Config.mapping[move.to],
-            move.promoteTo ? Board0x88Config.typeToNumberMapping[move.promoteTo] : undefined
+            this.bc.mapping[move.from],
+            this.bc.mapping[move.to],
+            move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
 
 		var config = this.getValidMovesAndResult();
@@ -38141,28 +38082,23 @@ chess.parser.FenParser0x88 = new Class({
 	},
 
 	setNewColor:function () {
-		this.cache.fenParts['color'] = (this.cache.fenParts['color'] == 'w') ? 'b' : 'w';
+		this.c.fenParts['color'] = (this.c.fenParts['color'] == 'w') ? 'b' : 'w';
 
 	},
 
 	getCastle:function () {
-		return Board0x88Config.castleMapping[this.cache.fenParts['castleCode']];
+		return this.bc.castleMapping[this.c.fenParts['castleCode']];
 	},
 
     historyCurrentMove:[],
 
     getCopyOfColoredPieces:function(color){
         var ret = [];
-        for(var i=0;i<this.cache[color].length;i++){
-            ret.push({ s : this.cache[color][i].s, t: this.cache[color][i].t });
+        for(var i=0;i<this.c[color].length;i++){
+            ret.push({ s : this.c[color][i].s, t: this.c[color][i].t });
         }
         return ret;
-        /*
-        var ret = this.cache[color].concat(0);
-        ret.pop();
-        return ret;*/
     },
-
 
     /**
      * Used on comp eval. Valid from and to is assumed
@@ -38174,14 +38110,14 @@ chess.parser.FenParser0x88 = new Class({
         this.historyCurrentMove = [
             { key : "white", value : this.getCopyOfColoredPieces('white')},
             { key : "black", value : this.getCopyOfColoredPieces('black')},
-            { key : "castle", value:  this.cache.fenParts['castleCode'] },
+            { key : "castle", value:  this.c.fenParts['castleCode'] },
             { key : "halfMoves", value: this.getHalfMoves() },
             { key : "fullMoves", value: this.getFullMoves() },
-            { key : "color", value: this.cache.fenParts['color'] },
-            { key : "enPassant", value : this.cache.fenParts['enPassant'] }
+            { key : "color", value: this.c.fenParts['color'] },
+            { key : "enPassant", value : this.c.fenParts['enPassant'] }
         ];
 
-        if (!this.cache['board'][to] && (this.cache['board'][from] !== 0x01 && this.cache['board'][from]!== 0x09)) {
+        if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from]!== 0x09)) {
             this.incrementHalfMoves();
         }else{
             this.resetHalfMoves();
@@ -38189,15 +38125,15 @@ chess.parser.FenParser0x88 = new Class({
 
         var enPassant = '-';
 
-        switch(this.cache['board'][from]){
+        switch(this.c['board'][from]){
             case 0x03:
             case 0x0B:
                 var rook,offset;
                 this.disableCastle(from);
 
-                this.cache['k' + Board0x88Config.numberToColorMapping[this.cache['board'][from]]].s = to;
+                this.c['k' + this.bc.numberToColorMapping[this.c['board'][from]]].s = to;
                 if(this.getDistance(from,to) > 1){
-                    if (this.cache['board'][from] === 0x03) {
+                    if (this.c['board'][from] === 0x03) {
                         rook = 0x06;
                         offset = 0;
                     } else {
@@ -38216,34 +38152,34 @@ chess.parser.FenParser0x88 = new Class({
             case 0x01:
             case 0x09:
                 if (this.isEnPassantMove(from, to)) {
-                    if (Board0x88Config.numberToColorMapping[this.cache['board'][from]] == 'black') {
+                    if (this.bc.numberToColorMapping[this.c['board'][from]] == 'black') {
                         this.deletePiece(to+16);
-                        this.cache['board'][to + 16] = undefined;
+                        this.c['board'][to + 16] = undefined;
                     } else {
                         this.deletePiece(to-16);
-                        this.cache['board'][to - 16] = undefined;
+                        this.c['board'][to - 16] = undefined;
                     }
                 }
 
-                if(this.getDistance(from,to) > 1 && (this.cache['board'][to-1] || this.cache['board'][to+1])){
+                if(this.getDistance(from,to) > 1 && (this.c['board'][to-1] || this.c['board'][to+1])){
                     enPassant = to > from ? from + 16 : from - 16;
-                    enPassant = Board0x88Config.numberToSquareMapping[enPassant];
+                    enPassant = this.bc.numberToSquareMapping[enPassant];
                 }
 
                 if(promoteTo){
-                    if(this.cache['board'][from] > 0x08){
+                    if(this.c['board'][from] > 0x08){
                         promoteTo += 8;
                     }
                     this.updatePieceType(from, promoteTo);
                 }
                 break;
             case 0x06:
-                if(from === 0)this.disableCastleCode(Board0x88Config.castle['Q']);
-                if(from === 7)this.disableCastleCode(Board0x88Config.castle['K']);
+                if(from === 0)this.disableCastleCode(this.bc.castle['Q']);
+                if(from === 7)this.disableCastleCode(this.bc.castle['K']);
                 break;
             case 0x0E:
-                if(from === Board0x88Config.mapping['a8'])this.disableCastleCode(Board0x88Config.castle['q']);
-                if(from === Board0x88Config.mapping['h8'])this.disableCastleCode(Board0x88Config.castle['k']);
+                if(from === this.bc.mapping['a8'])this.disableCastleCode(this.bc.castle['q']);
+                if(from === this.bc.mapping['h8'])this.disableCastleCode(this.bc.castle['k']);
                 break;
         }
 
@@ -38251,29 +38187,29 @@ chess.parser.FenParser0x88 = new Class({
 
         this.updatePiece(from, to);
 
-        if(this.cache['board'][to]){
+        if(this.c['board'][to]){
             this.deletePiece(to);
             this.historyCurrentMove.push({
-                key : 'addToBoard', square : to, type : this.cache['board'][to]
+                key : 'addToBoard', square : to, type : this.c['board'][to]
             })
         }
         this.movePiece(from, to);
-        if(promoteTo)this.cache['board'][to] = promoteTo;
+        if(promoteTo)this.c['board'][to] = promoteTo;
 
-        if(this.cache.fenParts['color'] === 'b')this.incrementFullMoves();
+        if(this.c.fenParts['color'] === 'b')this.incrementFullMoves();
         this.setNewColor();
         this.madeMoves.push(this.historyCurrentMove);
     },
 
     movePiece:function(from, to){
         this.historyCurrentMove.push({
-            key : 'addToBoard', square : from, type: this.cache['board'][from]
+            key : 'addToBoard', square : from, type: this.c['board'][from]
         });
         this.historyCurrentMove.push({
             key : 'removeFromBoard', square : to
         });
-        this.cache['board'][to] = this.cache['board'][from];
-        delete this.cache['board'][from];
+        this.c['board'][to] = this.c['board'][from];
+        delete this.c['board'][from];
     },
 
     unmakeMove:function(){
@@ -38283,31 +38219,31 @@ chess.parser.FenParser0x88 = new Class({
             var item = changes[i];
             switch(item.key){
                 case 'white':
-                    this.cache['white'] = item.value;
+                    this.c['white'] = item.value;
                     break;
                 case 'black':
-                    this.cache['black'] = item.value;
+                    this.c['black'] = item.value;
                     break;
                 case 'color':
-                    this.cache.fenParts['color'] = item.value;
+                    this.c.fenParts['color'] = item.value;
                     break;
                 case 'castle':
-                    this.cache.fenParts['castleCode'] = item.value;
+                    this.c.fenParts['castleCode'] = item.value;
                     break;
                 case 'halfMoves':
-                    this.cache.fenParts['halfMoves'] = item.value;
+                    this.c.fenParts['halfMoves'] = item.value;
                     break;
                 case 'fullMoves':
-                    this.cache.fenParts['fullMoves'] = item.value;
+                    this.c.fenParts['fullMoves'] = item.value;
                     break;
                 case 'enPassant':
-                    this.cache.fenParts['enPassant'] = item.value;
+                    this.c.fenParts['enPassant'] = item.value;
                     break;
                 case 'addToBoard':
-                    this.cache['board'][item.square] = item.type;
+                    this.c['board'][item.square] = item.type;
                     break;
                 case 'removeFromBoard':
-                    this.cache['board'][item.square] = undefined;
+                    this.c['board'][item.square] = undefined;
                     break;
 
             }
@@ -38316,58 +38252,58 @@ chess.parser.FenParser0x88 = new Class({
 
 	isValid:function(move){
 		var moves = this.getValidMovesAndResult().moves;
-		return moves[Board0x88Config.mapping[move.from]] != undefined &&
-			moves[Board0x88Config.mapping[move.from]].indexOf(Board0x88Config.mapping[move.to]) >= 0;
+		return moves[this.bc.mapping[move.from]] != undefined &&
+			moves[this.bc.mapping[move.from]].indexOf(this.bc.mapping[move.to]) >= 0;
 	},
 
     updatePiece:function(from, to){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][from]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === from){
-                this.cache[color][i] = { s: to, t: this.cache[color][i].t };
+        var color = this.bc.numberToColorMapping[this.c['board'][from]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === from){
+                this.c[color][i] = { s: to, t: this.c[color][i].t };
                 return;
             }
         }
     },
 
     updatePieceType:function(square, type){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === square){
-                this.cache[color][i] = { s: this.cache[color][i].s, t : type };
+        var color = this.bc.numberToColorMapping[this.c['board'][square]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === square){
+                this.c[color][i] = { s: this.c[color][i].s, t : type };
                 return;
             }
         }
     },
 
     deletePiece:function(square){
-        var color = Board0x88Config.numberToColorMapping[this.cache['board'][square]];
-        for(var i=0;i<this.cache[color].length;i++){
-            if(this.cache[color][i].s === square){
-                this.cache[color].splice(i,1);
+        var color = this.bc.numberToColorMapping[this.c['board'][square]];
+        for(var i=0;i<this.c[color].length;i++){
+            if(this.c[color][i].s === square){
+                this.c[color].splice(i,1);
                 return;
             }
         }
     },
 
     disableCastle:function(from){
-        var codes = this.cache['board'][from] < 9 ? [4,8] : [1,2];
+        var codes = this.c['board'][from] < 9 ? [4,8] : [1,2];
         this.disableCastleCode(codes[0]);
         this.disableCastleCode(codes[1]);
     },
 
     disableCastleCode:function(code){
-        if((this.cache.fenParts['castleCode'] & code) > 0) this.cache.fenParts['castleCode'] -= code;
+        if((this.c.fenParts['castleCode'] & code) > 0) this.c.fenParts['castleCode'] -= code;
     },
 
 	incrementFullMoves:function () {
-		this.cache.fenParts['fullMoves']++;
+		this.c.fenParts['fullMoves']++;
 	},
 	incrementHalfMoves:function () {
-		this.cache.fenParts['halfMoves']++;
+		this.c.fenParts['halfMoves']++;
 	},
 	resetHalfMoves:function () {
-		this.cache.fenParts['halfMoves'] = 0;
+		this.c.fenParts['halfMoves'] = 0;
 	},
 
 	getPiecesInvolvedInLastMove:function () {
@@ -38411,14 +38347,14 @@ chess.parser.FenParser0x88 = new Class({
 		var toSquare = move.to;
 
 
-		var type = this.cache['board'][Board0x88Config.mapping[move.from]];
-		type = Board0x88Config.typeMapping[type];
+		var type = this.c['board'][this.bc.mapping[move.from]];
+		type = this.bc.typeMapping[type];
 		var separator = shortNotation.indexOf('x') >= 0 ? 'x' : '-';
 
-		var ret = chess.language.pieces[type] + fromSquare + separator + toSquare;
+		var ret = this.lan[type] + fromSquare + separator + toSquare;
 
 		if (move.promoteTo) {
-			ret += '=' + chess.language.pieces[move.promoteTo];
+			ret += '=' + this.lan[move.promoteTo];
 		}
 		return ret;
 	},
@@ -38433,24 +38369,24 @@ chess.parser.FenParser0x88 = new Class({
 	 */
 	getNotationForAMove:function (move) {
 		move = {
-			from:Board0x88Config.mapping[move.from],
-			to:Board0x88Config.mapping[move.to],
+			from:this.bc.mapping[move.from],
+			to:this.bc.mapping[move.to],
 			promoteTo:move.promoteTo
 		};
 
-		var type = this.cache['board'][move.from];
+		var type = this.c['board'][move.from];
 
-		var ret = chess.language.pieces[Board0x88Config.typeMapping[this.cache['board'][move.from]]];
+		var ret = this.lan[this.bc.typeMapping[this.c['board'][move.from]]];
 
 		switch (type) {
 			case 0x01:
 			case 0x09:
-				if (this.isEnPassantMove(move.from, move.to) || this.cache['board'][move.to]) {
-					ret += Board0x88Config.fileMapping[move.from & 15] + 'x';
+				if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
+					ret += this.bc.fileMapping[move.from & 15] + 'x';
 				}
-				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				if (move.promoteTo) {
-					var pr = chess.language.pieces[move.promoteTo] != undefined ? chess.language.pieces[move.promoteTo] : move.promoteTo;
+					var pr = this.lan[move.promoteTo] != undefined ? this.lan[move.promoteTo] : move.promoteTo;
 					ret += '=' + pr;
 				}
 				break;
@@ -38464,21 +38400,21 @@ chess.parser.FenParser0x88 = new Class({
 			case 0x0F:
 				var config = this.getValidMovesAndResult();
 				for (var square in config.moves) {
-					if (square != move.from && this.cache['board'][square] === type) {
+					if (square != move.from && this.c['board'][square] === type) {
 						if (config.moves[square].indexOf(move.to) >= 0) {
 							if ((square & 15) != (move.from & 15)) {
-								ret += Board0x88Config.fileMapping[move.from & 15];
+								ret += this.bc.fileMapping[move.from & 15];
 							}
 							else if ((square & 240) != (move.from & 240)) {
-								ret += Board0x88Config.rankMapping[move.from & 240];
+								ret += this.bc.rankMapping[move.from & 240];
 							}
 						}
 					}
 				}
-				if (this.cache['board'][move.to]) {
+				if (this.c['board'][move.to]) {
 					ret += 'x';
 				}
-				ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				break;
 			case 0x03:
 			case 0x0B:
@@ -38489,10 +38425,10 @@ chess.parser.FenParser0x88 = new Class({
 						ret = 'O-O-O';
 					}
 				} else {
-					if (this.cache['board'][move.to]) {
+					if (this.c['board'][move.to]) {
 						ret += 'x';
 					}
-					ret += Board0x88Config.fileMapping[move.to & 15] + '' + Board0x88Config.rankMapping[move.to & 240];
+					ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
 				}
 				break;
 		}
@@ -38505,18 +38441,18 @@ chess.parser.FenParser0x88 = new Class({
 	 * @return {String}
 	 */
 	getNewFen:function () {
-		var board = this.cache['board'];
+		var board = this.c['board'];
 		var fen = '';
 		var emptyCounter = 0;
 
 		for (var rank = 7; rank >= 0; rank--) {
 			for (var file = 0; file < 8; file++) {
 				var index = (rank * 8) + file;
-				if (board[Board0x88Config.numericMapping[index]]) {
+				if (board[this.bc.numericMapping[index]]) {
 					if (emptyCounter) {
 						fen += emptyCounter;
 					}
-					fen += Board0x88Config.pieceMapping[board[Board0x88Config.numericMapping[index]]];
+					fen += this.bc.pieceMapping[board[this.bc.numericMapping[index]]];
 					emptyCounter = 0;
 				} else {
 					emptyCounter++;
@@ -38535,7 +38471,7 @@ chess.parser.FenParser0x88 = new Class({
 			fen += emptyCounter;
 		}
 
-		return [fen, this.getColorCode(), this.getCastle(), this.cache.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
+		return [fen, this.getColorCode(), this.getCastle(), this.c.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
 	},
 
     /**
@@ -38561,7 +38497,6 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     evaluate:function(){
-        var res = this.getValidMovesAndResult();
         var score = this.getMaterialScore();
         score += this.getMobility() * 2;
         return score;
@@ -38594,7 +38529,7 @@ chess.parser.FenParser0x88 = new Class({
     getHangingSquaresTranslated:function(color){
         var hanging = this.getHangingPieces(color);
         for(var i=0;i<hanging.length;i++){
-            hanging[i] = Board0x88Config.numberToSquareMapping[hanging[i]];
+            hanging[i] = this.bc.numberToSquareMapping[hanging[i]];
         }
         return hanging;
     },
@@ -38607,7 +38542,7 @@ chess.parser.FenParser0x88 = new Class({
         var ret = 0;
         var pieces = this.getPiecesOfAColor(color);
         for(var i=0;i<pieces.length;i++){
-            ret += Board0x88Config.pieceValues[pieces[i].t];
+            ret += this.bc.pieceValues[pieces[i].t];
         }
         return ret;
     }
@@ -39583,7 +39518,6 @@ chess.controller.GameplayController = new Class({
 
     fireModelEvent:function (event, model, param) {
         if (model.getId() == this.currentModel.getId()) {
-            if (!Browser.ie)console.log(event);
             this.fireEvent(event, [model, param]);
         }
     }
@@ -39770,8 +39704,6 @@ chess.controller.AnalysisEngineController = new Class({
     },
 
     playMove: function (move, pv) {
-
-        console.log(move);
         var fromX = this.files[(move & 0xF) - 4];
         var fromY = 8 - (((move >> 4) & 0xF) - 2);
         var toX = this.files[((move >> 8) & 0xF) - 4];
@@ -41708,7 +41640,7 @@ chess.model.Game = new Class({
     },
 
     modelForServer: function () {
-        return this.toValidServerModel(this.toValidServerModel(this.model));
+        return this.toValidServerModel(this.model);
     },
 
     /**
