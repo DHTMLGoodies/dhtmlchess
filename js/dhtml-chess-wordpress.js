@@ -1,4 +1,4 @@
-/* Generated Fri Apr 14 0:27:29 CEST 2017 */
+/* Generated Fri Apr 14 18:32:32 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27878,31 +27878,6 @@ chess.controller.Controller = new Class({
         if (this.pgn) {
             this.currentModel.loadPreviousStaticGame(this.pgn);
         }
-    }
-});/* ../dhtml-chess/src/controller/engine-play-controller.js */
-chess.controller.EnginePlayController = new Class({
-    Extends:chess.controller.Controller,
-    disabledEvents:{
-        overwriteOrVariation:1
-    },
-    dialog : {
-
-    },
-    modelEventFired:function (event, model) {
-        if (event === 'newMove' || event == 'newGame') {
-            var result = model.getResult();
-            var colorToMove = model.getColorToMove();
-            if(this.shouldAutoPlayNextMove(colorToMove, result)){
-                model.getEngineMove();
-            }
-            if (colorToMove === 'white') {
-                this.views.board.enableDragAndDrop(model);
-            }
-        }
-    },
-
-    shouldAutoPlayNextMove : function(colorToMove){
-        return colorToMove == 'black'
     }
 });/* ../dhtml-chess/src/controller/tactic-controller.js */
 /**
