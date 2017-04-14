@@ -1,4 +1,4 @@
-/* Generated Fri Apr 14 19:19:18 CEST 2017 */
+/* Generated Fri Apr 14 23:08:47 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -17960,7 +17960,7 @@ chess.view.notation.Panel = new Class({
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
+                ret.push('<img class="dc-dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
                 ret.push(move[this.notationKey]);
             }

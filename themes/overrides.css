@@ -236,6 +236,13 @@ div.dhtml-chess-notation-panel {
     -webkit-user-select: none;
 }
 
+
+div.dhtml-chess-notation-panel img.dc-figurine{
+    display:inline !important;
+    margin:0 !important;;
+    padding:0 !important;;
+}
+
 .ludo-chess-view-metadata-game {
     color: #222;
 }
