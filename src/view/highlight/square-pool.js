@@ -14,7 +14,7 @@ chess.view.highlight.SquarePool = new Class({
     onlySingles:false,
 
     initialize: function (config) {
-        this.bg = config.board.getDivForInteraction();
+        this.bg = config.board.hitArea();
         this.board = config.board;
         if (config.opacity != undefined)this.opacity = config.opacity;
         if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;

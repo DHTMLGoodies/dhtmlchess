@@ -272,11 +272,15 @@ chess.view.board.GUI = new Class({
         }
         this.updateSquares();
 
-        this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
-        this.els.board.append(this.els.hParent);
+        this.createHitArea();
     },
 
-    getDivForInteraction: function () {
+    createHitArea:function(){
+        var elh = this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.els.board.append(elh);
+    },
+
+    hitArea: function () {
         return this.els.hParent;
     },
 
@@ -317,18 +321,16 @@ chess.view.board.GUI = new Class({
             if (i % 8 == 0) {
                 index++;
             }
-
             var t = types[index % 2];
-            this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('dhtml-chess-square-' + t);
-
-
+            var s = this.els.squares[i];
+            s.css('float', 'left');
+            s.addClass('dhtml-chess-square-' + t);
             if (this['squareStyles_' + t] != undefined) {
-                this.els.squares[i].css(this['squareStyles_' + t]);
+                s.css(this['squareStyles_' + t]);
 
             }
             if (this['squareBg_' + t] != undefined) {
-                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
+                s.css('background-image', 'url(' + this['squareBg_' + t] + ')');
             }
         }
     },
@@ -563,7 +565,6 @@ chess.view.board.GUI = new Class({
             return;
         }
 
-
         var r = this.els.labels.ranks;
         var f = this.els.labels.files;
 
@@ -629,21 +630,6 @@ chess.view.board.GUI = new Class({
         return this.internal.squareSize - this.internal.squareSize % 15;
     },
 
-    getNewSizeOfBoardContainer: function () {
-        var b = this.els.boardContainer;
-        var c = this.$b();
-
-        var widthOffset = b.outerWidth() - b.width();
-        var heightOffset = b.outerHeight() - b.height();
-
-        var size = {x: c.width(), y: c.height()};
-        size = {
-            x: size.x - widthOffset,
-            y: size.y - heightOffset
-        };
-        return size;
-    },
-
     flip: function () {
         this.flipped = !this.flipped;
         this.updateLabels();
@@ -655,34 +641,8 @@ chess.view.board.GUI = new Class({
         return this.flipped;
     },
 
-    labelHeight: undefined,
-    getLabelHeight: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelHeight === undefined) {
-            this.labelHeight = this.els.labels.files.outerHeight();
-        }
-        return this.labelHeight;
-    },
-
-    labelWidth: undefined,
-    getLabelWidth: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelWidth === undefined) {
-            this.labelWidth = this.els.labels.ranks.outerWidth();
-        }
-        return this.labelWidth;
-    },
-
     getBoard: function () {
         return this.els.pieceContainer;
-    },
-
-    getPieceSize: function () {
-        return this.internal.pieceSize;
     },
 
     getSquareSize: function () {

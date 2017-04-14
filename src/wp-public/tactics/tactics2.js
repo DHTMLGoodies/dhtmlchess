@@ -27,12 +27,6 @@ chess.WPTactics2 = new Class({
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
 
-        this.board = config.board || {};
-        this.arrow = config.arrow || {};
-        this.arrowSolution = config.arrowSolution || {};
-        this.hint = config.hint || {};
-        this.module = String.uniqueID();
-
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
 
         var id = String.uniqueID();

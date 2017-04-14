@@ -51,7 +51,6 @@ chess.WPFen = new Class({
                     type:'chess.WPComMessage',
                     hidden:this._p
                 }
-
             ]
         });
 

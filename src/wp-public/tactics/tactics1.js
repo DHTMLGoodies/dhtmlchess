@@ -31,21 +31,12 @@ chess.WPTactics1 = new Class({
         r.css('height', Math.round(w + 130 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
-
-        this.board = config.board || {};
-        this.arrow = config.arrow || {};
-        this.arrowSolution = config.arrowSolution || {};
-        this.hint = config.hint || {};
-        this.module = String.uniqueID();
-
         this.previousButtonId = 'dc-' + String.uniqueID();
-
         this.historyKey = 'tactics-history-' + this.pgn.id;
         this.historyIndexKey = 'tactics-history-index' + this.pgn.id;
         var hist = ludo.getLocalStorage().get(this.historyKey, '');
         this.history = hist.length > 0 ? hist.split(/,/g) : [];
         this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
-
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;

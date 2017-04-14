@@ -1,4 +1,4 @@
-/* Generated Fri Apr 14 0:46:59 CEST 2017 */
+/* Generated Fri Apr 14 18:58:04 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -18554,11 +18554,15 @@ chess.view.board.GUI = new Class({
         }
         this.updateSquares();
 
-        this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
-        this.els.board.append(this.els.hParent);
+        this.createHitArea();
     },
 
-    getDivForInteraction: function () {
+    createHitArea:function(){
+        var elh = this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.els.board.append(elh);
+    },
+
+    hitArea: function () {
         return this.els.hParent;
     },
 
@@ -18599,18 +18603,16 @@ chess.view.board.GUI = new Class({
             if (i % 8 == 0) {
                 index++;
             }
-
             var t = types[index % 2];
-            this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('dhtml-chess-square-' + t);
-
-
+            var s = this.els.squares[i];
+            s.css('float', 'left');
+            s.addClass('dhtml-chess-square-' + t);
             if (this['squareStyles_' + t] != undefined) {
-                this.els.squares[i].css(this['squareStyles_' + t]);
+                s.css(this['squareStyles_' + t]);
 
             }
             if (this['squareBg_' + t] != undefined) {
-                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
+                s.css('background-image', 'url(' + this['squareBg_' + t] + ')');
             }
         }
     },
@@ -18845,7 +18847,6 @@ chess.view.board.GUI = new Class({
             return;
         }
 
-
         var r = this.els.labels.ranks;
         var f = this.els.labels.files;
 
@@ -18911,21 +18912,6 @@ chess.view.board.GUI = new Class({
         return this.internal.squareSize - this.internal.squareSize % 15;
     },
 
-    getNewSizeOfBoardContainer: function () {
-        var b = this.els.boardContainer;
-        var c = this.$b();
-
-        var widthOffset = b.outerWidth() - b.width();
-        var heightOffset = b.outerHeight() - b.height();
-
-        var size = {x: c.width(), y: c.height()};
-        size = {
-            x: size.x - widthOffset,
-            y: size.y - heightOffset
-        };
-        return size;
-    },
-
     flip: function () {
         this.flipped = !this.flipped;
         this.updateLabels();
@@ -18937,34 +18923,8 @@ chess.view.board.GUI = new Class({
         return this.flipped;
     },
 
-    labelHeight: undefined,
-    getLabelHeight: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelHeight === undefined) {
-            this.labelHeight = this.els.labels.files.outerHeight();
-        }
-        return this.labelHeight;
-    },
-
-    labelWidth: undefined,
-    getLabelWidth: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelWidth === undefined) {
-            this.labelWidth = this.els.labels.ranks.outerWidth();
-        }
-        return this.labelWidth;
-    },
-
     getBoard: function () {
         return this.els.pieceContainer;
-    },
-
-    getPieceSize: function () {
-        return this.internal.pieceSize;
     },
 
     getSquareSize: function () {
@@ -19450,9 +19410,10 @@ chess.view.board.Board = new Class({
 
     resizePieces: function () {
         this.squareSize = this.getSquareSize();
-        if (!this.pieces[0].svg) {
-            for (var i = 0; i < this.pieces.length; i++) {
-                this.pieces[i].resize(this.squareSize)
+        var ps = this.pieces;
+        if (!ps[0].svg) {
+            for (var i = 0; i < ps.length; i++) {
+                ps[i].resize(this.squareSize)
             }
         }
     },
@@ -19587,24 +19548,24 @@ chess.view.board.Piece = new Class({
      * @private
      */
     createDOM: function () {
-        this.el = jQuery('<div>');
-        this.el.css({
+        var el = this.el = jQuery('<div>');
+        el.css({
             'position': 'absolute',
             padding: 0,
             margin: 0,
             borders: 0,
             width: '12.5%',
             height: '12.5%',
-            'z-index': 100,
+            'z-index': 200,
             overflow: 'hidden'
         });
 
-        this.el.mouseenter(this.mouseEnterPiece.bind(this));
-        this.el.mouseleave(this.mouseLeavePiece.bind(this));
+        el.mouseenter(this.mouseEnterPiece.bind(this));
+        el.mouseleave(this.mouseLeavePiece.bind(this));
 
-        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
+        el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
-        this.el.addClass('dhtml-chess-piece');
+        el.addClass('dhtml-chess-piece');
         this.position();
 
     },
@@ -19683,17 +19644,13 @@ chess.view.board.Piece = new Class({
                 left: pos.left,
                 top : pos.top
             });
-
             var p = ludo.util.pageXY(e);
-
             this.dd = {
                 active: true,
                 mouse: {x: p.pageX, y: p.pageY},
                 el: {x: pos.left, y: pos.top},
                 current: ludo.util.pageXY(e)
             };
-
-
             return false;
         }
         return undefined;
@@ -19707,16 +19664,14 @@ chess.view.board.Piece = new Class({
      * @private
      */
     dragPiece: function (e) {
-
         if (this.dd.active === true) {
-
+            var d = this.dd;
             var p = ludo.util.pageXY(e);
-            this.dd.current = p;
-
+            d.current = p;
             this.el.css(
                 {
-                    left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
-                    top: (p.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
+                    left: (p.pageX + d.el.x - d.mouse.x) + 'px',
+                    top: (p.pageY + d.el.y - d.mouse.y) + 'px'
                 }
             );
 
@@ -19727,15 +19682,14 @@ chess.view.board.Piece = new Class({
     /**
      * Stop dragging the chess piece.
      * @method stopDragPiece
-     * @param {Event} e
      * @private
      */
-    stopDragPiece: function (e) {
-
-        if (this.dd.active) {
+    stopDragPiece: function () {
+        var d = this.dd;
+        if (d.active) {
             var coords = {
-                x: this.dd.current.pageX + this.dd.el.x - this.dd.mouse.x,
-                y: this.dd.current.pageY + this.dd.el.y - this.dd.mouse.y
+                x: d.current.pageX + d.el.x - d.mouse.x,
+                y: d.current.pageY + d.el.y - d.mouse.y
             };
 
             var square = this.getSquareByCoordinates(
@@ -19752,7 +19706,7 @@ chess.view.board.Piece = new Class({
             } else {
                 this.position();
             }
-            this.dd.active = false;
+            d.active = false;
         }
     },
     /**
@@ -20712,7 +20666,7 @@ chess.view.highlight.SquarePool = new Class({
     onlySingles:false,
 
     initialize: function (config) {
-        this.bg = config.board.getDivForInteraction();
+        this.bg = config.board.hitArea();
         this.board = config.board;
         if (config.opacity != undefined)this.opacity = config.opacity;
         if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;
@@ -28815,6 +28769,109 @@ chess.WPGame5 = new Class({
                 hidden: this._p
             }
         ]
+
+    }
+
+});/* ../dhtml-chess/src/wp-public/game/game6.js */
+window.chess.isWordPress = true;
+/** Game model designed for [fen] */
+chess.WPGame6 = new Class({
+    Extends: chess.WPGameTemplate,
+    boardSize: undefined,
+    buttonSize: 45,
+
+    boardWeight: 1,
+    notationWeight: 1,
+    buttonHeight:35,
+
+    initialize: function (config) {
+        this.parent(config);
+        var w = this.renderTo.width();
+        var eh = this.comp ? this.buttonHeight : 0;
+        this.renderTo.css('height', w + eh + this.wpm_h);
+
+
+        if (config.highlight != undefined) {
+            this.highlight = config.highlight;
+        }
+        if (config.arrows != undefined) {
+            this.arrows = config.arrows;
+        }
+
+        if(this.canRender()){
+            this.render();
+        }
+    },
+
+    render: function () {
+        new chess.view.Chess({
+            cls: this.th,
+            renderTo: this.renderTo,
+            layout: {
+                type: 'linear',orientation:'vertical'
+            },
+            children: [
+                {
+                    module:this.module,
+                    type: 'chess.view.board.Board',
+                    id: this.boardId,
+                    fen: this.fen,
+                    sideToMove:false,
+                    labelPos:this.lp,
+                    layout: {width: 'matchParent', weight: 1}
+                },
+                {
+                    height:this.buttonHeight,
+                    hidden: !this.compToggle,
+                    module:this.module,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons:['flip','comp']
+                },
+                {
+                    type:'chess.WPComMessage',
+                    hidden:this._p
+                }
+
+            ]
+        });
+
+        if (this.highlight != undefined) {
+            var hPool = new chess.view.highlight.SquarePool({
+                board: ludo.$(this.boardId)
+            });
+            var squares = this.highlight.split(/\,/g);
+            var color = undefined;
+            jQuery.each(squares, function (i, square) {
+                var tokens = square.split(/;/g);
+                if(tokens.length > 0){
+                    color = tokens[1];
+                }
+                hPool.show(tokens[0], color);
+            });
+        }
+
+        if(this.arrows != undefined){
+            var arrowPool = new chess.view.highlight.ArrowPool({
+                board: ludo.$(this.boardId)
+            });
+
+            var arrows = this.arrows.split(/,/g);
+            var styling;
+            jQuery.each(arrows, function(i, arrow){
+                var tokens = arrow.split(/;/g);
+                if(tokens.length > 1){
+                    if(styling == undefined)styling = {};
+                    styling.fill = styling.stroke = tokens[1];
+                }
+
+                var f = tokens[0].substr(0,2);
+                var t = tokens[0].substr(2,2);
+                arrowPool.show(f,t, styling);
+            });
+
+        }
+
+        this.createController();
 
     }
 

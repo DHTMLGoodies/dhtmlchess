@@ -87,24 +87,24 @@ chess.view.board.Piece = new Class({
      * @private
      */
     createDOM: function () {
-        this.el = jQuery('<div>');
-        this.el.css({
+        var el = this.el = jQuery('<div>');
+        el.css({
             'position': 'absolute',
             padding: 0,
             margin: 0,
             borders: 0,
             width: '12.5%',
             height: '12.5%',
-            'z-index': 100,
+            'z-index': 200,
             overflow: 'hidden'
         });
 
-        this.el.mouseenter(this.mouseEnterPiece.bind(this));
-        this.el.mouseleave(this.mouseLeavePiece.bind(this));
+        el.mouseenter(this.mouseEnterPiece.bind(this));
+        el.mouseleave(this.mouseLeavePiece.bind(this));
 
-        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
+        el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
-        this.el.addClass('dhtml-chess-piece');
+        el.addClass('dhtml-chess-piece');
         this.position();
 
     },
@@ -183,17 +183,13 @@ chess.view.board.Piece = new Class({
                 left: pos.left,
                 top : pos.top
             });
-
             var p = ludo.util.pageXY(e);
-
             this.dd = {
                 active: true,
                 mouse: {x: p.pageX, y: p.pageY},
                 el: {x: pos.left, y: pos.top},
                 current: ludo.util.pageXY(e)
             };
-
-
             return false;
         }
         return undefined;
@@ -207,16 +203,14 @@ chess.view.board.Piece = new Class({
      * @private
      */
     dragPiece: function (e) {
-
         if (this.dd.active === true) {
-
+            var d = this.dd;
             var p = ludo.util.pageXY(e);
-            this.dd.current = p;
-
+            d.current = p;
             this.el.css(
                 {
-                    left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
-                    top: (p.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
+                    left: (p.pageX + d.el.x - d.mouse.x) + 'px',
+                    top: (p.pageY + d.el.y - d.mouse.y) + 'px'
                 }
             );
 
@@ -227,15 +221,14 @@ chess.view.board.Piece = new Class({
     /**
      * Stop dragging the chess piece.
      * @method stopDragPiece
-     * @param {Event} e
      * @private
      */
-    stopDragPiece: function (e) {
-
-        if (this.dd.active) {
+    stopDragPiece: function () {
+        var d = this.dd;
+        if (d.active) {
             var coords = {
-                x: this.dd.current.pageX + this.dd.el.x - this.dd.mouse.x,
-                y: this.dd.current.pageY + this.dd.el.y - this.dd.mouse.y
+                x: d.current.pageX + d.el.x - d.mouse.x,
+                y: d.current.pageY + d.el.y - d.mouse.y
             };
 
             var square = this.getSquareByCoordinates(
@@ -252,7 +245,7 @@ chess.view.board.Piece = new Class({
             } else {
                 this.position();
             }
-            this.dd.active = false;
+            d.active = false;
         }
     },
     /**
