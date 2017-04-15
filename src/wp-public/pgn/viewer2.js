@@ -25,7 +25,7 @@ chess.WPViewer2 = new Class({
         var w = this.width = r.width();
         this.boardSize = ludo.isMobile ? w : w/2;
 
-        r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+        r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
 
         if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
@@ -295,7 +295,7 @@ chess.WPViewer2 = new Class({
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {
-                            height: 40,
+                            height: this.navH,
                             width: 90
                         },
                         module: this.module,

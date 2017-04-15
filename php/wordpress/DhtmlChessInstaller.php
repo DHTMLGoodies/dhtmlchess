@@ -9,7 +9,7 @@
 class DhtmlChessInstaller
 {
 
-    const DATABASE_VERSION = 3;
+    const DATABASE_VERSION = 4;
     private static $testMode = false;
 
     private $charset_collate;
@@ -163,6 +163,9 @@ class DhtmlChessInstaller
         if($oldVersion < 3){
         	$this->onUpgrade3();
         }
+        if($oldVersion < 4){
+        	$this->onUpgrade4();
+        }
 
 	    $this->updateDatabaseVersion(self::DATABASE_VERSION);
     }
@@ -222,6 +225,39 @@ class DhtmlChessInstaller
 
     }
 
+    private function onUpgrade4(){
+        $query = "create table " . DhtmlChessDatabase::TABLE_MULTI_GAME . "("
+            . DhtmlChessDatabase::COL_ID . " int auto_increment not null primary key,"
+            . DhtmlChessDatabase::COL_WHITE_NAME . " varchar(64),"
+            . DhtmlChessDatabase::COL_WHITE_ID . " int,"
+            . DhtmlChessDatabase::COL_BLACK_ID . " int,"
+            . DhtmlChessDatabase::COL_SEEK_OPPONENT_ID . " int,"
+            . DhtmlChessDatabase::COL_BLACK_NAME . " varchar(64),"
+            . DhtmlChessDatabase::COL_MIN_ELO . " int,"
+            . DhtmlChessDatabase::COL_MAX_ELO . " int,"
+            . DhtmlChessDatabase::COL_DAYS_PER_MOVE . " int,"
+            . DhtmlChessDatabase::COL_TS_LAST_MOVE . " timestamp,"
+            . DhtmlChessDatabase::COL_USER_ID_TO_MOVE . " int,"
+            . DhtmlChessDatabase::COL_SEEK_CREATED_BY . " int,"
+            . DhtmlChessDatabase::COL_SEEK_CREATED_BY_NAME . " varchar(64),"
+            . DhtmlChessDatabase::COL_SEEK_COLOR . " char(1),"
+            . DhtmlChessDatabase::COL_FINISHED . " char(1),"
+            . DhtmlChessDatabase::COL_CURRENT_FEN . " varchar(128),"
+            . DhtmlChessDatabase::COL_RESULT . " char(1),"
+            . DhtmlChessDatabase::COL_CREATED . " timestamp DEFAULT CURRENT_TIMESTAMP,"
+            . DhtmlChessDatabase::COL_GAME . " mediumtext)" . $this->charset_collate;
+
+        $this->doQuery($query);
+
+        $this->doQuery("create index wp_wpc_ind_multi_seek on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_SEEK_CREATED_BY . ")");
+        $this->doQuery("create index wp_wpc_ind_multi_wid on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_WHITE_ID . ")");
+        $this->doQuery("create index wp_wpc_ind_multi_bid on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_BLACK_ID . ")");
+        $this->doQuery("create index wp_wpc_ind_multi_opp on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_SEEK_OPPONENT_ID . ")");
+        $this->doQuery("create index wp_wpc_ind_multi_res on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_RESULT . ")");
+        $this->doQuery("create index wp_wpc_ind_multi_uid on " . DhtmlChessDatabase::TABLE_MULTI_GAME . "(" . DhtmlChessDatabase::COL_USER_ID_TO_MOVE . ")");
+
+    }
+
     public function getCurrentDatabaseVersion()
     {
         /**
@@ -258,6 +294,7 @@ class DhtmlChessInstaller
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_DATABASE_VERSION);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_KEY_VALUE_STORE);
         $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_ELO);
+        $wpdb->query('drop table if exists ' . DhtmlChessDatabase::TABLE_MULTI_GAME);
     }
 
     private $pgnTactic = '[setup "1"]

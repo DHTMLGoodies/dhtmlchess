@@ -71,17 +71,14 @@ chess.WPGame3 = new Class({
                 tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
-                    'text-align': 'center',
-                    'overflow-y': 'auto',
-                    'font-size': '1em',
-                    'font-weight': 'bold'
+                    'text-align': 'center'
                 }
             },
             this.board,
             {
                 layout: {
                     type: 'linear', orientation: 'horizontal',
-                    height: 40,
+                    height: this.navH,
                     width: this.boardSize
                 },
                 css: {

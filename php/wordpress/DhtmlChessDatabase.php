@@ -17,8 +17,27 @@ class DhtmlChessDatabase
     const TABLE_DUMMY = "dhtml_chess_dummy";
     const TABLE_DATABASE_VERSION = "dhtml_chess_version";
     const TABLE_KEY_VALUE_STORE = "dhtml_chess_key_value";
-
     const TABLE_ELO = "dhtml_chess_elo";
+
+    const TABLE_MULTI_GAME = "dhtml_chess_mp_game";
+
+
+    const COL_WHITE_ID = "white_id";
+    const COL_BLACK_ID = "black_id";
+    const COL_SEEK_CREATED_BY = "seek_user_id";
+    const COL_SEEK_CREATED_BY_NAME = "seek_user_name";
+    const COL_SEEK_COLOR = "seek_color";
+    const COL_DAYS_PER_MOVE = "days_per_move";
+    const COL_TS_LAST_MOVE = "ts_last_move";
+    const COL_MIN_ELO = "min_elo";
+    const COL_MAX_ELO = "max_elo";
+    const COL_WHITE_NAME = "white";
+    const COL_BLACK_NAME = "black";
+    const COL_RESULT = "result";
+    const COL_FINISHED = "finished";
+    const COL_SEEK_OPPONENT_ID = "seek_against";
+    const COL_CURRENT_FEN = "fen";
+    const COL_USER_ID_TO_MOVE = "user_id_to_move";
 
     const COL_ID = "id";
     const COL_DHTML_CHESS_ID = "dhtml_chess_id";
@@ -53,6 +72,16 @@ class DhtmlChessDatabase
     const KEY_PGN = "pgn";
     const KEY_DRAFT_ID = "draft_id";
 
+    const KEY_WHITE_WIN = 1;
+    const KEY_BLACK_WIN = 2;
+    const KEY_DRAW = 3;
+
+    const YES = 1;
+    const NO = 0;
+
+    const COLOR_WHITE = "w";
+    const COLOR_BLACK = "b";
+    const COLOR_RANDOM = "r";
 
     public function __construct()
     {
@@ -157,9 +186,10 @@ class DhtmlChessDatabase
 
     }
 
-    public function gameByIndexStrict($pgnId, $index){
-	    $pgnId = DhtmlChessPgn::instanceById($pgnId);
-	    return $pgnId->gameByIndexStrict($index);
+    public function gameByIndexStrict($pgnId, $index)
+    {
+        $pgnId = DhtmlChessPgn::instanceById($pgnId);
+        return $pgnId->gameByIndexStrict($index);
     }
 
     /**
@@ -306,17 +336,20 @@ class DhtmlChessDatabase
         return $standings->getStandings($pgnId);
     }
 
-    public function getStandingsSortedAsArray($pgnId, $sofiaRules = false){
+    public function getStandingsSortedAsArray($pgnId, $sofiaRules = false)
+    {
 
         $standings = $this->getStandings($pgnId);
         $table = json_decode($standings, true);
 
-        if($sofiaRules){
-            $w = 3; $d = 1;
-        }else{
-            $w = 1; $d = .5;
+        if ($sofiaRules) {
+            $w = 3;
+            $d = 1;
+        } else {
+            $w = 1;
+            $d = .5;
         }
-        foreach($table as &$player){
+        foreach ($table as &$player) {
             $player["s"] = $player["w"] * $w + $player["d"] * $d;
         }
 
@@ -326,7 +359,8 @@ class DhtmlChessDatabase
 
     }
 
-    private function standingsSortFunction($a, $b){
+    private function standingsSortFunction($a, $b)
+    {
 
         return $a["s"] < $b["s"] ? 1 : -1;
 
@@ -430,7 +464,5 @@ class DhtmlChessDatabase
         $this->deleteDraft($draftId);
     }
 
-
- 
 
 }

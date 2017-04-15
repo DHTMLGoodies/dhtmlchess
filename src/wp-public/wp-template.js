@@ -27,13 +27,15 @@ chess.WPTemplate = new Class({
 
     lp: undefined,
 
+    navH : undefined,
+
     initialize: function (config) {
 
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-
+        this.navH = ludo.isMobile ? 38 : 40;
         this.lp = ludo.isMobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();

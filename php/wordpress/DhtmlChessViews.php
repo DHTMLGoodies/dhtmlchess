@@ -663,8 +663,6 @@ class DhtmlChessViews {
 			"Template",
 			"The Game Editor",
 			"There are {0} pinned pieces",
-			"These are the available properties",
-			"This are the available tags",
 			"Time",
 			"To elo",
 			"Undo",

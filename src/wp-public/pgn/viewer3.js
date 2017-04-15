@@ -26,10 +26,10 @@ chess.WPViewer3 = new Class({
 
         if (ludo.isMobile) {
             this.boardSize = w;
-            r.css('height', Math.round(this.boardSize + 340 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 300 + this.navH + this.wpm_h));
         } else {
             this.boardSize = w / 2;
-            r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
@@ -125,11 +125,11 @@ chess.WPViewer3 = new Class({
                         ]
                     },
                     {
-                        layout:{
-                        height: 40,
-                            type:'linear', orientation:'horizontal'
+                        layout: {
+                            height: this.navH,
+                            type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
+                        children: [
                             {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
@@ -137,7 +137,7 @@ chess.WPViewer3 = new Class({
                                 module: this.module,
                                 layout: {
                                     height: 'matchParent',
-                                    weight:1
+                                    weight: 1
                                 },
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
@@ -221,27 +221,27 @@ chess.WPViewer3 = new Class({
                     }, this.board),
                     {
                         layout: {
-                            height: 40, type: 'linear', orientation: 'horizontal'
+                            height: this.navH, type: 'linear', orientation: 'horizontal'
                         },
                         children: [
                             {weight: 1},
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
-                                    width: 90
+                                    height: this.navH,
+                                    width: (this.navH * 2)
                                 },
                                 module: this.module,
                                 buttons: ['start', 'previous'],
                                 buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
+                                    return ofSize;
                                 }
                             },
                             {
                                 type: 'chess.view.notation.LastMove',
                                 module: this.module,
                                 layout: {
-                                    width: 70
+                                    width: (this.navH * 2) + 10, height: this.navH
                                 },
                                 css: {
                                     'padding-top': 4, 'padding-bottom': 4, border: 'none'
@@ -250,13 +250,13 @@ chess.WPViewer3 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
-                                    width: 90
+                                    height: this.navH,
+                                    width: (this.navH * 2)
                                 },
                                 module: this.module,
                                 buttons: ['next', 'end'],
                                 buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
+                                    return ofSize;
                                 }
                             },
                             {

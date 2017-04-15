@@ -7,12 +7,11 @@ chess.WPGame6 = new Class({
 
     boardWeight: 1,
     notationWeight: 1,
-    buttonHeight:35,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        var eh = this.comp ? this.buttonHeight : 0;
+        var eh = this.comp ? this.navH : 0;
         this.renderTo.css('height', w + eh + this.wpm_h);
 
 
@@ -46,7 +45,7 @@ chess.WPGame6 = new Class({
                     layout: {width: 'matchParent', weight: 1}
                 },
                 {
-                    height:this.buttonHeight,
+                    height:this.navH,
                     hidden: !this.compToggle,
                     module:this.module,
                     type: 'chess.view.buttonbar.Bar',
@@ -93,11 +92,8 @@ chess.WPGame6 = new Class({
                 var t = tokens[0].substr(2,2);
                 arrowPool.show(f,t, styling);
             });
-
         }
-
         this.createController();
-
     }
 
 });

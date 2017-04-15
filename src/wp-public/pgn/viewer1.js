@@ -25,10 +25,10 @@ chess.WPViewer1 = new Class({
 
         if (ludo.isMobile) {
             this.boardSize = w;
-            r.css('height', Math.round(this.boardSize + 340 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 300 + this.navH + this.wpm_h));
         } else {
             this.boardSize = w - 150;
-            r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
         this.lastButtons = ['next','end'];
         this.adjustButtonArray(this.lastButtons);
@@ -127,7 +127,7 @@ chess.WPViewer1 = new Class({
                     },
                     {
                         layout:{
-                            height: 40,
+                            height: this.navH,
                             width:this.boardSize,
                             type:'linear', orientation:'horizontal'
                         },
@@ -222,14 +222,14 @@ chess.WPViewer1 = new Class({
                     }, this.board),
                     {
                         layout:{
-                            height:40,type:'linear',orientation:'horizontal'
+                            height:this.navH,type:'linear',orientation:'horizontal'
                         },
                         children:[
                             { weight:1 },
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
+                                    height: this.navH,
                                     width: 90
                                 },
                                 module: this.module,
@@ -251,7 +251,7 @@ chess.WPViewer1 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
+                                    height: this.navH,
                                     width: 45 * this.lastButtons.length
                                 },
                                 module: this.module,

@@ -6,7 +6,7 @@
  * Date: 15/04/2017
  * Time: 13:34
  */
-class DhtmlChessMultiplayerGame
+class DhtmlChessMultiplayerGameHandler
 {
 
     /**
@@ -24,28 +24,29 @@ class DhtmlChessMultiplayerGame
         $this->wpdb = $wpdb;
     }
 
-    public function acceptSeek($gameId, $userId = null, $username = null){
-        if(empty($userId)){
-            $userId = get_current_user_id();
-        }
-        if(empty($username)){
-            $username = self::getUserName();
-        }
-
-        
+    public function params($gameId){
+        $query = $this->wpdb->prepare("SELECT * "
+            . " FROM " . DhtmlChessDatabase::TABLE_MULTI_GAME . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $gameId);
+        $row = $this->wpdb->get_row($query);
+        return DhtmlChessMultiGameParams::getInstance($row);
     }
 
     /**
-     * @param DhtmlChessMultiplayerSeek $seek
+     * @param DhtmlChessMultiGameParams $seek
      * @return int
      */
     public function createSeek($seek){
-        $this->wpdb->insert(
-            DhtmlChessDatabase::TABLE_MULTI_GAME,
-            $seek->getSeekObject()
-        );
 
-        return $this->wpdb->insert_id;
+        $game = new DhtmlChessMultiplayerGame();
+        return $game->createGame($seek);
+    }
+
+    /**
+     * @param DhtmlChessMultiGameParams $params
+     */
+    public function save($params){
+        $game = new DhtmlChessMultiplayerGame();
+        $game->save($params);
     }
 
     public function getSeeks($userId){
@@ -70,54 +71,4 @@ class DhtmlChessMultiplayerGame
 
 }
 
-class DhtmlChessMultiplayerSeek{
 
-    private $seekObj;
-
-    public function __construct($createdBy = null, $createdByName = null){
-
-        if(empty($createdBy)){
-            $createdBy = get_current_user_id();
-        }
-        if(empty($createdByName)){
-            $createdByName = DhtmlChessMultiplayerGame::getUserName();
-        }
-
-        $this->seekObj = array(
-            DhtmlChessDatabase::COL_SEEK_CREATED_BY => $createdBy,
-            DhtmlChessDatabase::COL_SEEK_CREATED_BY_NAME => $createdByName
-        );
-    }
-
-
-    public function fromElo($fromElo = null){
-        return $this->addProperty(DhtmlChessDatabase::COL_MIN_ELO, $fromElo, 0);
-    }
-
-
-    public function toElo($toElo = null){
-        return $this->addProperty(DhtmlChessDatabase::COL_MAX_ELO, $toElo, 9999);
-    }
-
-    public function againstOpponent($opponentId = null){
-        return $this->addProperty(DhtmlChessDatabase::COL_SEEK_OPPONENT_ID, $opponentId);
-    }
-
-    private function addProperty($key, $value = null, $defaultValue = null){
-        if(!empty($value)){
-            $this->seekObj[$key] = $value;
-        }else if(isset($defaultValue)){
-            $this->seekObj[$key] = $defaultValue;
-        }
-        return $this;
-    }
-
-    public function getSeekObject(){
-        return $this->seekObj;
-    }
-
-    public function __toString()
-    {
-        return json_encode($this->seekObj);
-    }
-}

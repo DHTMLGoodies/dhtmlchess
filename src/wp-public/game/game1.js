@@ -10,7 +10,7 @@ chess.WPGame1 = new Class({
 
         if(ludo.isMobile){
             this.renderTo.css({
-                'height': Math.ceil(w + this.wpm_h + 40),
+                'height': Math.ceil(w + this.wpm_h + this.navH),
                 position: 'relative'
             });
             this.boardSize = w - 200;
@@ -135,7 +135,7 @@ chess.WPGame1 = new Class({
             {
                 layout: {
                     type: 'linear', orientation: 'horizontal',
-                    height: this.buttonSize
+                    height: this.navH
                 },
                 elCss: {
                     'margin-top': 10
@@ -148,7 +148,7 @@ chess.WPGame1 = new Class({
                         buttons: ['start', 'previous'],
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 3
+                            width: (this.navH) * 3
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
@@ -158,9 +158,7 @@ chess.WPGame1 = new Class({
                         type: 'chess.view.notation.LastMove',
                         module: this.module,
                         layout: {
-
-                            width: this.buttonSize * 2
-
+                            width: this.navH * 2
                         },
                         css: {
                             border: 'none'
@@ -172,7 +170,8 @@ chess.WPGame1 = new Class({
                         buttons: ['next', 'end'],
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 2
+                            width: (this.navH) * 2,
+                            height: this.navH
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;

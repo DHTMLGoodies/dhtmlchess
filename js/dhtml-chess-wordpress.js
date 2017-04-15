@@ -1,4 +1,4 @@
-/* Generated Fri Apr 14 23:08:59 CEST 2017 */
+/* Generated Sat Apr 15 13:01:40 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -31697,13 +31697,15 @@ chess.WPTemplate = new Class({
 
     lp: undefined,
 
+    navH : undefined,
+
     initialize: function (config) {
 
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-
+        this.navH = ludo.isMobile ? 35 : 40;
         this.lp = ludo.isMobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();

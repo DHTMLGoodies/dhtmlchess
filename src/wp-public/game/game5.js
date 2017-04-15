@@ -16,7 +16,7 @@ chess.WPGame5 = new Class({
         }
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
         if (ludo.isMobile) {
-            r.css('height', w + 275 + this.wpm_h);
+            r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
             r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
 
@@ -202,9 +202,7 @@ chess.WPGame5 = new Class({
                 tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
-                    'text-align': 'center',
-                    'font-size': '1em',
-                    'font-weight': 'bold'
+                    'text-align': 'center'
                 }
             },
 
@@ -231,12 +229,12 @@ chess.WPGame5 = new Class({
                 ]
             }, this.board),
             {
-                layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
+                layout: {type: 'linear', orientation: 'horizontal', height: this.navH, width: this.boardSize},
                 children: [
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {
-                            height: 40,
+                            height: this.navH,
                             weight: 1
 
                         },

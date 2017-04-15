@@ -30,6 +30,7 @@ function spl_autoload_wordpresschess($class)
             'elosetter' => '/php/chessDB/EloSetter.php',
             'fen' => '/php/chessDB/Fen.php',
             'fenparser0x88' => '/php/parser/FenParser0x88.php',
+            'fenparser0x88exception' => '/php/parser/FenParser0x88.php',
             'fentest' => '/php/chessDB/Tests/FenTest.php',
             'folder' => '/php/chessDB/Folder.php',
             'folders' => '/php/chessDB/Folders.php',
@@ -148,6 +149,10 @@ function spl_autoload_wordpresschess($class)
             'dhtmlchesselodb' => '/php/wordpress/DhtmlChessEloDb.php',
             'dhtmlchesskeyvalue' => '/php/wordpress/DhtmlChessKeyValue.php',
             'dhtmlchessuserdata' => '/php/wordpress/DhtmlChessUserData.php',
+            'dhtmlchessmultiplayergame' => '/php/wordpress/DhtmlChessMultiplayerGame.php',
+            'dhtmlchessmultiplayergamehandler' => '/php/wordpress/DhtmlChessMultiplayerGameHandler.php',
+            'dhtmlchessmultigameparams' => '/php/wordpress/DhtmlChessMultiGameParams.php',
+            'dhtmlchessgamebuilder' => '/php/wordpress/DhtmlChessGameBuilder.php',
         );
     }
     $cn = strtolower($class);

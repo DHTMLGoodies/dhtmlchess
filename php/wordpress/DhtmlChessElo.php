@@ -8,9 +8,6 @@
  */
 class DhtmlChessElo {
 
-	const WHITE_WIN = 1;
-	const DRAW = 0.5;
-	const BLACK_WIN = 0;
 
 	const WHITE_ADJUSTMENT = 0.05;
 
@@ -99,7 +96,7 @@ class DhtmlChessElo {
 
 
 	public function onPuzzleFailed( $userId, $againstElo, $puzzleId = null ) {
-		return $this->onPuzzleComplete( $userId, $againstElo, self::BLACK_WIN, $puzzleId );
+		return $this->onPuzzleComplete( $userId, $againstElo, DhtmlChessDatabase::KEY_BLACK_WIN, $puzzleId );
 	}
 
 	public function onPuzzleCompleteAuto($userId, $puzzleId, $moves, $ms, $solved){
@@ -122,7 +119,7 @@ class DhtmlChessElo {
 
 
 	public function onPuzzleSolved( $userId, $againstElo, $puzzleId = null ) {
-		return $this->onPuzzleComplete( $userId, $againstElo, self::WHITE_WIN, $puzzleId );
+		return $this->onPuzzleComplete( $userId, $againstElo, DhtmlChessDatabase::KEY_WHITE_WIN, $puzzleId );
 	}
 
 	private function onPuzzleComplete( $userId, $againstElo, $result, $puzzleId = null ) {

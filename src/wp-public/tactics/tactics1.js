@@ -103,9 +103,7 @@ chess.WPTactics1 = new Class({
                             tpl: this.heading_tpl || '#{index} - {white}',
                             cls: 'metadata',
                             css: {
-                                'text-align': 'center',
-                                'overflow-y': 'auto',
-                                'font-weight': 'bold'
+                                'text-align': 'center'
                             }
                         },
 

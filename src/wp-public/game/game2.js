@@ -5,7 +5,7 @@ chess.WPGame2 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + 275 + this.wpm_h);
+        this.renderTo.css('height', w + 235 + this.navH + this.wpm_h);
         this.boardSize = w;
         this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
@@ -35,10 +35,7 @@ chess.WPGame2 = new Class({
                     tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
-                        'text-align': 'center',
-                        'overflow-y': 'auto',
-                        'font-size': '1em',
-                        'font-weight': 'bold'
+                        'text-align': 'center'
                     }
                 },
 
@@ -70,7 +67,7 @@ chess.WPGame2 = new Class({
                         'padding-top': 2
                     },
                     layout: {
-                        height: 40,
+                        height: this.navH,
                         width: this.boardSize
                     },
                     module: this.module
