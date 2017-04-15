@@ -52,17 +52,22 @@ class DhtmlChessElo
         $provBlack = $this->countMultiGames($playerBlack) < self::COUNT_PROVISIONAL;
 
         $eloChangeWhite = $provWhite ? $eloChange * 2 : $eloChange;
-        $eloChangBlack = $provBlack ? $eloChange * -2 : -$eloChange;
+        $eloChangeBlack = $provBlack ? $eloChange * -2 : -$eloChange;
+
+
+        $whiteAdvantage = self::eloAdjustment($eloChangeWhite);
+        $eloChangeWhite -= $whiteAdvantage;
+        $eloChangeBlack += $whiteAdvantage;
 
         if ($provWhite && $provBlack) {
             $this->saveMultiplayElo($playerWhite, $eloWhite + $eloChangeWhite);
-            $this->saveMultiplayElo($playerBlack, $eloBlack + $eloChangBlack);
+            $this->saveMultiplayElo($playerBlack, $eloBlack + $eloChangeBlack);
         } else {
             if (!$provBlack) {
                 $this->saveMultiplayElo($playerWhite, $eloWhite + $eloChangeWhite);
             }
             if (!$provWhite) {
-                $this->saveMultiplayElo($playerBlack, $eloBlack + $eloChangBlack);
+                $this->saveMultiplayElo($playerBlack, $eloBlack + $eloChangeBlack);
             }
         }
 
@@ -70,6 +75,11 @@ class DhtmlChessElo
         $this->incrementMultiPlayer($playerBlack);
 
     }
+
+    public static function eloAdjustment($change){
+        return abs($change * self::WHITE_ADJUSTMENT);
+    }
+
 
     public function eloChange($whiteElo, $blackElo, $result)
     {

@@ -258,16 +258,21 @@ class MultiplayerTest  extends PHPUnit_Framework_TestCase{
     }
 
 
-    public function shouldUpdateEloWhenGameEnds(){
-
-
-    }
-
     /**
      * @test
      */
-    public function shouldBeAbleToAppendMove(){
+    public function shouldUpdateEloWhenGameEnds(){
+        $game = $this->createGame();
+        $game->addMove("f2","f3",1)->addMove("e7","e5",2)->addMove("g2","g4",1)->addMove("d8","h4", 2)->save();
 
+        // when
+        $elo = new DhtmlChessElo();
+        $elo1 = $elo->getMultiPlayElo(1);
+        $elo2 = $elo->getMultiPlayElo(2);
+
+        // then
+        $this->assertEquals(1370 - DhtmlChessElo::eloAdjustment(30), $elo1);
+        $this->assertEquals(1430 + DhtmlChessElo::eloAdjustment(30), $elo2);
     }
 
     /**

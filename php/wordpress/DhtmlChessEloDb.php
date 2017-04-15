@@ -49,7 +49,7 @@ class DhtmlChessEloDb {
 				DhtmlChessDatabase::COL_USER_ID => $userId
 			),
 			array(
-				'%d'
+				'%.2f'
 			),
 			array()
 		);
@@ -65,7 +65,7 @@ class DhtmlChessEloDb {
 				DhtmlChessDatabase::COL_ELO => $elo
 			),
 			array(
-				'%d','%s','%d'
+				'%d','%s','%.2f'
 			)
 		);
 
