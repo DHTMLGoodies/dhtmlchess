@@ -7,7 +7,7 @@
  * Time: 12:17
  */
 
-define( 'ABSPATH', dirname( __FILE__ ) . '/../wordpress/' );
+if(!defined("ABSPATH"))define( 'ABSPATH', dirname( __FILE__ ) . '/../wordpress/' );
 require_once( ABSPATH . '/wp-config.php' );
 require_once( "../wordpress/wp-includes/load.php" );
 require_once( "../wordpress/wp-includes/plugin.php" );
@@ -89,7 +89,7 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		// given
 		$elo = new DhtmlChessElo();
 
-		$change = $elo->eloChange( 1400, 1400, DhtmlChessElo::WHITE_WIN );
+		$change = $elo->eloChange( 1400, 1400, DhtmlChessDatabase::KEY_WHITE_WIN );
 
 		// then
 		$this->assertEquals( 15, $change );
@@ -290,7 +290,7 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		// when
 		$elo->onGameEnd(
 			1,
-			2, DhtmlChessElo::WHITE_WIN );
+			2, DhtmlChessDatabase::KEY_WHITE_WIN );
 
 		$eloWhite = $elo->getMultiPlayElo( 1 );
 		$eloBlack = $elo->getMultiPlayElo( 2 );
@@ -312,10 +312,10 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		// when
 		$elo->onGameEnd(
 			1,
-			2, DhtmlChessElo::BLACK_WIN );
+			2, DhtmlChessDatabase::KEY_BLACK_WIN );
 		$elo->onGameEnd(
 			1,
-			3, DhtmlChessElo::BLACK_WIN );
+			3, DhtmlChessDatabase::KEY_BLACK_WIN );
 
 
 		// then
@@ -339,7 +339,7 @@ class EloTest extends PHPUnit_Framework_TestCase {
 		// when
 		$elo->onGameEnd(
 			1,
-			2, DhtmlChessElo::BLACK_WIN );
+			2, DhtmlChessDatabase::KEY_BLACK_WIN );
 
 		// then
 		$this->assertEquals( 1430, $elo->getMultiPlayElo( self::PLAYER_ID_BLACK ) );

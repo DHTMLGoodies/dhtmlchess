@@ -24,30 +24,13 @@ class DhtmlChessMultiplayerGameHandler
         $this->wpdb = $wpdb;
     }
 
-    public function params($gameId){
+    public function getGame($gameId){
         $query = $this->wpdb->prepare("SELECT * "
             . " FROM " . DhtmlChessDatabase::TABLE_MULTI_GAME . " WHERE " . DhtmlChessDatabase::COL_ID . " = '%d'", $gameId);
-        $row = $this->wpdb->get_row($query);
-        return DhtmlChessMultiGameParams::getInstance($row);
+        $row = $this->wpdb->get_row($query, ARRAY_A);
+        return DhtmlChessMultiPlayerGame::getInstance($row);
     }
 
-    /**
-     * @param DhtmlChessMultiGameParams $seek
-     * @return int
-     */
-    public function createSeek($seek){
-
-        $game = new DhtmlChessMultiplayerGame();
-        return $game->createGame($seek);
-    }
-
-    /**
-     * @param DhtmlChessMultiGameParams $params
-     */
-    public function save($params){
-        $game = new DhtmlChessMultiplayerGame();
-        $game->save($params);
-    }
 
     public function getSeeks($userId){
         $query = $this->wpdb->prepare("select "

@@ -35,6 +35,7 @@ class DhtmlChessDatabase
     const COL_BLACK_NAME = "black";
     const COL_RESULT = "result";
     const COL_FINISHED = "finished";
+    const COL_STARTED = "started";
     const COL_SEEK_OPPONENT_ID = "seek_against";
     const COL_CURRENT_FEN = "fen";
     const COL_USER_ID_TO_MOVE = "user_id_to_move";

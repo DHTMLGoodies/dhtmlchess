@@ -7,7 +7,7 @@
  * Time: 12:17
  */
 
-define('ABSPATH', dirname(__FILE__) . '/../wordpress/');
+if(!defined("ABSPATH"))define( 'ABSPATH', dirname( __FILE__ ) . '/../wordpress/' );
 require_once(ABSPATH . '/wp-config.php');
 require_once("../wordpress/wp-includes/load.php");
 require_once("../wordpress/wp-includes/plugin.php");
@@ -96,7 +96,7 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(0, $installer->getCurrentDatabaseVersion());
 
         $this->database->install();
-        $this->assertEquals(3, $installer->getCurrentDatabaseVersion());
+        $this->assertEquals(4, $installer->getCurrentDatabaseVersion());
 
         $installer->updateDatabaseVersion(2);
         $this->assertEquals(2, $installer->getCurrentDatabaseVersion());
@@ -1096,10 +1096,10 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("WPViewer3", $v->getScript());
         $this->assertNotEmpty($v->getParam("pgn"));
 
-        $pgn = json_decode($v->getParam("pgn"), true);
+        $pgn = $v->getParam("pgn");
 
-        $this->assertEquals("1", $pgn["id"]);
-        $this->assertEquals("lcc2016", $pgn["name"]);
+        $this->assertEquals("1", $pgn[0]["id"]);
+        $this->assertEquals("lcc2016", $pgn[0]["name"]);
         
     }
 
@@ -1111,15 +1111,16 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
         $this->database->import('lcc2016.pgn');
         $views = new DhtmlChessViews();
         $v = $views->getParsedTagFromAttributes("chess",
-            array("tactics" => 1, "tpl" => 2),null);
+            array("tactics" => 1, "tpl" => 2, "db" => 1),null);
 
         $this->assertEquals("WPTactics2", $v->getScript());
         $this->assertNotEmpty($v->getParam("pgn"));
 
-        $pgn = json_decode($v->getParam("pgn"), true);
+        $pgn = $v->getParam("pgn");
 
-        $this->assertEquals("1", $pgn["id"]);
-        $this->assertEquals("lcc2016", $pgn["name"]);
+        $this->assertNotEmpty($pgn, json_encode($pgn));
+        $this->assertEquals("1", $pgn[0]["id"], json_encode($pgn));
+        $this->assertEquals("lcc2016", $pgn[0]["name"]);
 
     }
 
