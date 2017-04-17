@@ -1,0 +1,18 @@
+/** custom square background */
+.dc-white .dhtml-chess-square-white {
+    background-image: none !important;
+    background-color: #FFF8E1;
+
+}
+
+.dc-white .dhtml-chess-square-black {
+    background-image: none !important;
+    background-color: #a2bdd9;
+
+}
+
+
+.dc-white div.dhtml-chess-side-to-move-outer{
+    border-color:#000;
+}
+

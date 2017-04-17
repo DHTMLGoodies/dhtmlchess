@@ -152,6 +152,8 @@ function spl_autoload_wordpresschess($class)
             'dhtmlchessmultiplayergame' => '/php/wordpress/DhtmlChessMultiplayerGame.php',
             'dhtmlchessmultiplayergamehandler' => '/php/wordpress/DhtmlChessMultiplayerGameHandler.php',
             'dhtmlchessgamebuilder' => '/php/wordpress/DhtmlChessGameBuilder.php',
+            'dhtmlchesstheme' => '/php/wordpress/DhtmlChessTheme.php',
+            'dhtmlchessthemebuilder' => '/php/wordpress/DhtmlChessThemeBuilder.php',
         );
     }
     $cn = strtolower($class);

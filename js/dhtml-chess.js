@@ -1,4 +1,4 @@
-/* Generated Thu Apr 13 17:06:30 CEST 2017 */
+/* Generated Mon Apr 17 15:45:09 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28972,7 +28972,7 @@ chess.view.notation.Panel = new Class({
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
+                ret.push('<img class="dc-dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
                 ret.push(move[this.notationKey]);
             }
@@ -29449,7 +29449,7 @@ chess.view.board.GUI = new Class({
             'border': 0
         });
 
-        if (this.background) {
+        if (this.background && this.background != 'none') {
             this.bg = new chess.view.board.Background(
                 Object.merge({
                     view: this
@@ -29493,6 +29493,7 @@ chess.view.board.GUI = new Class({
         var el = this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
         this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(el);
         this.els.boardContainer.append(el);
+        this.els.boardContainer.css('overflow', 'visible');
     },
 
     stml: undefined,
@@ -29525,12 +29526,20 @@ chess.view.board.GUI = new Class({
             size -= d;
         }
 
+        size = Math.max(6, size);
+
         var bc = this.flipped ? 'black' : 'white';
         var pr = bc == this.stml ? 'bottom' : 'top';
+
+        var pos = padding;
+        if(p < 4 && this.labelPos == 'inside' && pr == 'bottom'){
+            pos += this.squareSize / 5;
+        }
+        pos = Math.round(pos);
         var css = {
             width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
         };
-        css[pr] = padding;
+        css[pr] = pos;
         this.els.sideToMoveOuter.css(css);
     },
 
@@ -29618,11 +29627,15 @@ chess.view.board.GUI = new Class({
         }
         this.updateSquares();
 
-        this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
-        this.els.board.append(this.els.hParent);
+        this.createHitArea();
     },
 
-    getDivForInteraction: function () {
+    createHitArea:function(){
+        var elh = this.els.hParent = jQuery('<div style="z-index:2;position:absolute;left:0;top:0;width:100%;height:100%"></div>');
+        this.els.board.append(elh);
+    },
+
+    hitArea: function () {
         return this.els.hParent;
     },
 
@@ -29663,18 +29676,16 @@ chess.view.board.GUI = new Class({
             if (i % 8 == 0) {
                 index++;
             }
-
             var t = types[index % 2];
-            this.els.squares[i].css('float', 'left');
-            this.els.squares[i].addClass('dhtml-chess-square-' + t);
-
-
+            var s = this.els.squares[i];
+            s.css('float', 'left');
+            s.addClass('dhtml-chess-square-' + t);
             if (this['squareStyles_' + t] != undefined) {
-                this.els.squares[i].css(this['squareStyles_' + t]);
+                s.css(this['squareStyles_' + t]);
 
             }
             if (this['squareBg_' + t] != undefined) {
-                this.els.squares[i].css('background-image', 'url(' + this['squareBg_' + t] + ')');
+                s.css('background-image', 'url(' + this['squareBg_' + t] + ')');
             }
         }
     },
@@ -29909,7 +29920,6 @@ chess.view.board.GUI = new Class({
             return;
         }
 
-
         var r = this.els.labels.ranks;
         var f = this.els.labels.files;
 
@@ -29975,21 +29985,6 @@ chess.view.board.GUI = new Class({
         return this.internal.squareSize - this.internal.squareSize % 15;
     },
 
-    getNewSizeOfBoardContainer: function () {
-        var b = this.els.boardContainer;
-        var c = this.$b();
-
-        var widthOffset = b.outerWidth() - b.width();
-        var heightOffset = b.outerHeight() - b.height();
-
-        var size = {x: c.width(), y: c.height()};
-        size = {
-            x: size.x - widthOffset,
-            y: size.y - heightOffset
-        };
-        return size;
-    },
-
     flip: function () {
         this.flipped = !this.flipped;
         this.updateLabels();
@@ -30001,34 +29996,8 @@ chess.view.board.GUI = new Class({
         return this.flipped;
     },
 
-    labelHeight: undefined,
-    getLabelHeight: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelHeight === undefined) {
-            this.labelHeight = this.els.labels.files.outerHeight();
-        }
-        return this.labelHeight;
-    },
-
-    labelWidth: undefined,
-    getLabelWidth: function () {
-        if (!this.labels || this.labelPos == 'inside') {
-            return 0;
-        }
-        if (this.labelWidth === undefined) {
-            this.labelWidth = this.els.labels.ranks.outerWidth();
-        }
-        return this.labelWidth;
-    },
-
     getBoard: function () {
         return this.els.pieceContainer;
-    },
-
-    getPieceSize: function () {
-        return this.internal.pieceSize;
     },
 
     getSquareSize: function () {
@@ -30514,9 +30483,10 @@ chess.view.board.Board = new Class({
 
     resizePieces: function () {
         this.squareSize = this.getSquareSize();
-        if (!this.pieces[0].svg) {
-            for (var i = 0; i < this.pieces.length; i++) {
-                this.pieces[i].resize(this.squareSize)
+        var ps = this.pieces;
+        if (!ps[0].svg) {
+            for (var i = 0; i < ps.length; i++) {
+                ps[i].resize(this.squareSize)
             }
         }
     },
@@ -30651,24 +30621,24 @@ chess.view.board.Piece = new Class({
      * @private
      */
     createDOM: function () {
-        this.el = jQuery('<div>');
-        this.el.css({
+        var el = this.el = jQuery('<div>');
+        el.css({
             'position': 'absolute',
             padding: 0,
             margin: 0,
             borders: 0,
             width: '12.5%',
             height: '12.5%',
-            'z-index': 100,
+            'z-index': 200,
             overflow: 'hidden'
         });
 
-        this.el.mouseenter(this.mouseEnterPiece.bind(this));
-        this.el.mouseleave(this.mouseLeavePiece.bind(this));
+        el.mouseenter(this.mouseEnterPiece.bind(this));
+        el.mouseleave(this.mouseLeavePiece.bind(this));
 
-        this.el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
+        el.on(ludo.util.getDragStartEvent(), this.initDragPiece.bind(this));
 
-        this.el.addClass('dhtml-chess-piece');
+        el.addClass('dhtml-chess-piece');
         this.position();
 
     },
@@ -30747,17 +30717,13 @@ chess.view.board.Piece = new Class({
                 left: pos.left,
                 top : pos.top
             });
-
             var p = ludo.util.pageXY(e);
-
             this.dd = {
                 active: true,
                 mouse: {x: p.pageX, y: p.pageY},
                 el: {x: pos.left, y: pos.top},
                 current: ludo.util.pageXY(e)
             };
-
-
             return false;
         }
         return undefined;
@@ -30771,16 +30737,14 @@ chess.view.board.Piece = new Class({
      * @private
      */
     dragPiece: function (e) {
-
         if (this.dd.active === true) {
-
+            var d = this.dd;
             var p = ludo.util.pageXY(e);
-            this.dd.current = p;
-
+            d.current = p;
             this.el.css(
                 {
-                    left: (p.pageX + this.dd.el.x - this.dd.mouse.x) + 'px',
-                    top: (p.pageY + this.dd.el.y - this.dd.mouse.y) + 'px'
+                    left: (p.pageX + d.el.x - d.mouse.x) + 'px',
+                    top: (p.pageY + d.el.y - d.mouse.y) + 'px'
                 }
             );
 
@@ -30791,15 +30755,14 @@ chess.view.board.Piece = new Class({
     /**
      * Stop dragging the chess piece.
      * @method stopDragPiece
-     * @param {Event} e
      * @private
      */
-    stopDragPiece: function (e) {
-
-        if (this.dd.active) {
+    stopDragPiece: function () {
+        var d = this.dd;
+        if (d.active) {
             var coords = {
-                x: this.dd.current.pageX + this.dd.el.x - this.dd.mouse.x,
-                y: this.dd.current.pageY + this.dd.el.y - this.dd.mouse.y
+                x: d.current.pageX + d.el.x - d.mouse.x,
+                y: d.current.pageY + d.el.y - d.mouse.y
             };
 
             var square = this.getSquareByCoordinates(
@@ -30816,7 +30779,7 @@ chess.view.board.Piece = new Class({
             } else {
                 this.position();
             }
-            this.dd.active = false;
+            d.active = false;
         }
     },
     /**
@@ -31115,7 +31078,7 @@ chess.view.board.Background = new Class({
 
     initialize: function (config) {
         this.view = config.view;
-        this.svg = this.view.svg();
+        var svg = this.svg = this.view.svg();
 
         if (Browser.name == 'ie' || Browser.name == 'edge' || Browser.name == 'safari') {
             config.horizontal = undefined;
@@ -31125,9 +31088,9 @@ chess.view.board.Background = new Class({
                 }
 
         }
-        this.svg.css('position', 'absolute');
-        this.svg.css('left', '0');
-        this.svg.css('top', '0');
+        svg.css('position', 'absolute');
+        svg.css('left', '0');
+        svg.css('top', '0');
         if (config.square != undefined) this.square = config.square;
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
@@ -31176,11 +31139,11 @@ chess.view.board.Background = new Class({
 
 
     createClipPath: function () {
-        this.els.clipPath = this.svg.$('clipPath');
+        var cp = this.els.clipPath = this.svg.$('clipPath');
         this.els.clip = this.svg.$('rect');
 
-        this.els.clipPath.append(this.els.clip);
-        this.svg.appendDef(this.els.clipPath);
+        cp.append(this.els.clip);
+        this.svg.appendDef(cp);
 
         this.setBorderRadius(this.borderRadius);
     },
@@ -31313,18 +31276,18 @@ chess.view.board.Background = new Class({
     },
 
     applyPattern: function () {
-
+        var paths = this.paths;
         if (this.els.pattern) {
-            this.paths.t.setPattern(this.els.pattern);
+            paths.t.setPattern(this.els.pattern);
         }
         if (this.els.horizontal) {
-            this.paths.t.setPattern(this.els.horizontalPattern);
-            this.paths.b.setPattern(this.els.horizontalPattern);
+            paths.t.setPattern(this.els.horizontalPattern);
+            paths.b.setPattern(this.els.horizontalPattern);
         }
 
         if (this.els.vertical) {
-            this.paths.l.setPattern(this.els.verticalPattern);
-            this.paths.r.setPattern(this.els.verticalPattern);
+            paths.l.setPattern(this.els.verticalPattern);
+            paths.r.setPattern(this.els.verticalPattern);
         }
     },
 
@@ -31399,9 +31362,7 @@ chess.view.board.Background = new Class({
         this.setBorderRadius(this.borderRadius);
 
         this.updatePatternSize();
-
     }
-
 });/* ../dhtml-chess/src/view/board/side-to-move.js */
 /**
  * Created by alfmagne1 on 25/03/2017.
@@ -32029,7 +31990,7 @@ chess.view.highlight.SquareTacticHint = new Class({
  * Created by alfmagne1 on 10/03/2017.
  */
 chess.view.highlight.ArrowPool = new Class({
-    type:'chess.view.highlight.ArrowPool',
+    type: 'chess.view.highlight.ArrowPool',
     bg: undefined,
     pool: undefined,
     hiddenPool: undefined,
@@ -32041,7 +32002,8 @@ chess.view.highlight.ArrowPool = new Class({
         'stroke-linejoin': 'round',
         stroke: '#006064',
         fill: '#006064',
-        'stroke-opacity': .8,
+        'stroke-width': .8,
+        'stroke-opacity': 1,
         'fill-opacity': .5
     },
 
@@ -32051,8 +32013,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined)this.single = config.single;
+        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single != undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));
@@ -32180,7 +32142,7 @@ chess.view.highlight.SquarePool = new Class({
     onlySingles:false,
 
     initialize: function (config) {
-        this.bg = config.board.getDivForInteraction();
+        this.bg = config.board.hitArea();
         this.board = config.board;
         if (config.opacity != undefined)this.opacity = config.opacity;
         if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;
@@ -33997,11 +33959,6 @@ chess.view.dialog.Promote = new Class({
 
     clickOnPiece: function (piece) {
         this.move.promoteTo = piece;
-        /**
-         * Event fired after promoted piece type has been selected. the promoteTo property of the move is updated
-         * @event promote
-         * @param {chess.model.Move} updatedMove
-         */
         this.fireEvent('promote', this.move);
         this.hide();
     },
@@ -34032,9 +33989,11 @@ chess.view.dialog.PromotePiece = new Class({
     },
 
     setColor: function (color) {
-        this.$e.removeClass('dhtml-chess-promote-white-' + this.piece);
-        this.$e.removeClass('dhtml-chess-promote-black-' + this.piece);
-        this.$e.addClass('dhtml-chess-promote-' + color + '-' + this.piece);
+        var e = this.$e;
+        var p = this.piece;
+        e.removeClass('dhtml-chess-promote-white-' + p);
+        e.removeClass('dhtml-chess-promote-black-' + p);
+        e.addClass('dhtml-chess-promote-' + color + '-' + p);
     },
 
     clickOnPiece: function () {
@@ -36191,13 +36150,13 @@ chess.util.CoordinateUtil = {
         }
 
         var sz = boardSize / 8;
-        var lw = properties.lineWidth || sz * 0.18;
+        var lw = properties.lineWidth || sz * 0.12;
         var ah = properties.arrowHeight || sz* .65;
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
         var oe = properties.offsetEnd || sz * .2;
-        var os = properties.offsetStart || sz * 0.1;
+        var os = properties.offsetStart || sz * -.1;
 
         var ret = [];
 
@@ -39027,8 +38986,9 @@ chess.controller.Controller = new Class({
     },
 
     newVariation: function (oldMove, newMove) {
-        this.currentModel.setCurrentMove(oldMove);
-        this.currentModel.newVariation(newMove);
+        var m = this.currentModel;
+        m.setCurrentMove(oldMove);
+        m.newVariation(newMove);
     },
 
     cancelOverwrite: function () {
@@ -39059,10 +39019,11 @@ chess.controller.Controller = new Class({
      * @return undefined
      */
     addMove: function (move) {
+        var m = this.currentModel;
         if(this.eventHandler != undefined){
-            this.eventHandler.apply(this, ['boardMove', this.currentModel, this, move]);
+            this.eventHandler.apply(this, ['boardMove', m, this, move]);
         }else{
-            this.currentModel.appendMove(move);
+            m.appendMove(move);
         }
     },
     gradeMove: function (move, grade) {
@@ -39070,9 +39031,10 @@ chess.controller.Controller = new Class({
     },
 
     gradeCurrentMove: function (grade) {
-        var move = this.currentModel.getCurrentMove();
+        var m = this.currentModel;
+        var move = m.getCurrentMove();
         if (move) {
-            this.currentModel.gradeMove(move, grade);
+            m.gradeMove(move, grade);
         }
     },
 
@@ -39169,8 +39131,6 @@ chess.controller.Controller = new Class({
     },
 
     selectGame: function (game, pgn) {
-
-
         var model;
         if (model = this.getModelFromCache(game)) {
             this.currentModel = model;
@@ -39199,16 +39159,17 @@ chess.controller.Controller = new Class({
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
-        this.models.push(model);
+        var m = this.models;
+        m.push(model);
 
-        if (this.models.length > this.modelCacheSize) {
-            this.models[0].removeEvents();
-            delete this.models[0];
+        if (m.length > this.modelCacheSize) {
+            m[0].removeEvents();
+            delete m[0];
 
-            for (var i = 0; i < this.models.length - 1; i++) {
-                this.models[i] = this.models[i + 1];
+            for (var i = 0; i < m.length - 1; i++) {
+                m[i] = m[i + 1];
             }
-            this.models.length = this.models.length - 1;
+            m.length = m.length - 1;
         }
         return model;
     },

@@ -9,7 +9,7 @@
 class DhtmlChessInstaller
 {
 
-    const DATABASE_VERSION = 4;
+    const DATABASE_VERSION = 3;
     private static $testMode = false;
 
     private $charset_collate;
@@ -164,7 +164,7 @@ class DhtmlChessInstaller
         	$this->onUpgrade3();
         }
         if($oldVersion < 4){
-        	$this->onUpgrade4();
+        	// $this->onUpgrade4();
         }
 
 	    $this->updateDatabaseVersion(self::DATABASE_VERSION);

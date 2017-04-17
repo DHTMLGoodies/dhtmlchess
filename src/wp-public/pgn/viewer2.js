@@ -105,7 +105,7 @@ chess.WPViewer2 = new Class({
                             height: 'wrap'
                         },
                         plugins: [
-                            Object.merge({
+                            ObjeOct.merge({
                                 type: 'chess.view.highlight.Arrow'
                             }, this.arrow)
                         ]

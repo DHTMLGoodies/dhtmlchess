@@ -48,7 +48,7 @@ chess.view.board.GUI = new Class({
         this.padding = '3.5%';
 
         this.__params(config, [
-            'background', 'sideToMove',
+            'background', 'sideToMove','bgColorWhite', 'bgColorBlack',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
             'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
@@ -103,7 +103,7 @@ chess.view.board.GUI = new Class({
             'border': 0
         });
 
-        if (this.background) {
+        if (this.background && this.background != 'none') {
             this.bg = new chess.view.board.Background(
                 Object.merge({
                     view: this
@@ -147,6 +147,7 @@ chess.view.board.GUI = new Class({
         var el = this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
         this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(el);
         this.els.boardContainer.append(el);
+        this.els.boardContainer.css('overflow', 'visible');
     },
 
     stml: undefined,
@@ -179,12 +180,20 @@ chess.view.board.GUI = new Class({
             size -= d;
         }
 
+        size = Math.max(6, size);
+
         var bc = this.flipped ? 'black' : 'white';
         var pr = bc == this.stml ? 'bottom' : 'top';
+
+        var pos = padding;
+        if(p < 4 && this.labelPos == 'inside' && pr == 'bottom'){
+            pos += this.squareSize / 5;
+        }
+        pos = Math.round(pos);
         var css = {
             width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
         };
-        css[pr] = padding;
+        css[pr] = pos;
         this.els.sideToMoveOuter.css(css);
     },
 
@@ -211,6 +220,7 @@ chess.view.board.GUI = new Class({
         if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
+
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
 

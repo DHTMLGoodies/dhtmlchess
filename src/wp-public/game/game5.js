@@ -117,12 +117,9 @@ chess.WPGame5 = new Class({
             },
 
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
-
-
         });
 
         this.createController();
-
     },
 
 

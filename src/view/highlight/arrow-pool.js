@@ -2,7 +2,7 @@
  * Created by alfmagne1 on 10/03/2017.
  */
 chess.view.highlight.ArrowPool = new Class({
-    type:'chess.view.highlight.ArrowPool',
+    type: 'chess.view.highlight.ArrowPool',
     bg: undefined,
     pool: undefined,
     hiddenPool: undefined,
@@ -14,7 +14,8 @@ chess.view.highlight.ArrowPool = new Class({
         'stroke-linejoin': 'round',
         stroke: '#006064',
         fill: '#006064',
-        'stroke-opacity': .8,
+        'stroke-width': .8,
+        'stroke-opacity': 1,
         'fill-opacity': .5
     },
 
@@ -24,8 +25,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined)this.single = config.single;
+        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single != undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));

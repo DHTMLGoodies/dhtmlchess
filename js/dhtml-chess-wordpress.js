@@ -1,4 +1,4 @@
-/* Generated Sat Apr 15 13:01:40 CEST 2017 */
+/* Generated Mon Apr 17 15:44:57 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -20698,7 +20698,7 @@ chess.view.board.GUI = new Class({
             'border': 0
         });
 
-        if (this.background) {
+        if (this.background && this.background != 'none') {
             this.bg = new chess.view.board.Background(
                 Object.merge({
                     view: this
@@ -20742,6 +20742,7 @@ chess.view.board.GUI = new Class({
         var el = this.els.sideToMoveOuter = jQuery('<div class="dhtml-chess-side-to-move-outer"></div>');
         this.els.sideToMove = jQuery('<div class="dhtml-chess-side-to-move-board"></div>').appendTo(el);
         this.els.boardContainer.append(el);
+        this.els.boardContainer.css('overflow', 'visible');
     },
 
     stml: undefined,
@@ -20774,12 +20775,20 @@ chess.view.board.GUI = new Class({
             size -= d;
         }
 
+        size = Math.max(6, size);
+
         var bc = this.flipped ? 'black' : 'white';
         var pr = bc == this.stml ? 'bottom' : 'top';
+
+        var pos = padding;
+        if(p < 4 && this.labelPos == 'inside' && pr == 'bottom'){
+            pos += this.squareSize / 5;
+        }
+        pos = Math.round(pos);
         var css = {
             width: size, height: size, right: padding, top: 'auto', bottom: 'auto'
         };
-        css[pr] = padding;
+        css[pr] = pos;
         this.els.sideToMoveOuter.css(css);
     },
 
@@ -22828,7 +22837,7 @@ chess.view.highlight.SquareTacticHint = new Class({
  * Created by alfmagne1 on 10/03/2017.
  */
 chess.view.highlight.ArrowPool = new Class({
-    type:'chess.view.highlight.ArrowPool',
+    type: 'chess.view.highlight.ArrowPool',
     bg: undefined,
     pool: undefined,
     hiddenPool: undefined,
@@ -22840,7 +22849,8 @@ chess.view.highlight.ArrowPool = new Class({
         'stroke-linejoin': 'round',
         stroke: '#006064',
         fill: '#006064',
-        'stroke-opacity': .8,
+        'stroke-width': .8,
+        'stroke-opacity': 1,
         'fill-opacity': .5
     },
 
@@ -22850,8 +22860,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined)this.single = config.single;
+        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single != undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));
@@ -24779,13 +24789,13 @@ chess.util.CoordinateUtil = {
         }
 
         var sz = boardSize / 8;
-        var lw = properties.lineWidth || sz * 0.18;
+        var lw = properties.lineWidth || sz * 0.12;
         var ah = properties.arrowHeight || sz* .65;
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
         var oe = properties.offsetEnd || sz * .2;
-        var os = properties.offsetStart || sz * 0.1;
+        var os = properties.offsetStart || sz * -.1;
 
         var ret = [];
 
@@ -31705,7 +31715,7 @@ chess.WPTemplate = new Class({
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-        this.navH = ludo.isMobile ? 35 : 40;
+        this.navH = ludo.isMobile ? 38 : 40;
         this.lp = ludo.isMobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
@@ -32056,7 +32066,7 @@ chess.WPGame1 = new Class({
 
         if(ludo.isMobile){
             this.renderTo.css({
-                'height': Math.ceil(w + this.wpm_h + 40),
+                'height': Math.ceil(w + this.wpm_h + this.navH),
                 position: 'relative'
             });
             this.boardSize = w - 200;
@@ -32181,7 +32191,7 @@ chess.WPGame1 = new Class({
             {
                 layout: {
                     type: 'linear', orientation: 'horizontal',
-                    height: this.buttonSize
+                    height: this.navH
                 },
                 elCss: {
                     'margin-top': 10
@@ -32194,7 +32204,7 @@ chess.WPGame1 = new Class({
                         buttons: ['start', 'previous'],
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 3
+                            width: (this.navH) * 3
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
@@ -32204,9 +32214,7 @@ chess.WPGame1 = new Class({
                         type: 'chess.view.notation.LastMove',
                         module: this.module,
                         layout: {
-
-                            width: this.buttonSize * 2
-
+                            width: this.navH * 2
                         },
                         css: {
                             border: 'none'
@@ -32218,7 +32226,8 @@ chess.WPGame1 = new Class({
                         buttons: ['next', 'end'],
                         module: this.module,
                         layout: {
-                            width: (this.buttonSize) * 2
+                            width: (this.navH) * 2,
+                            height: this.navH
                         },
                         buttonSize: function (ofSize) {
                             return ofSize * 0.9;
@@ -32243,7 +32252,7 @@ chess.WPGame2 = new Class({
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + 275 + this.wpm_h);
+        this.renderTo.css('height', w + 235 + this.navH + this.wpm_h);
         this.boardSize = w;
         this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
@@ -32273,10 +32282,7 @@ chess.WPGame2 = new Class({
                     tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
-                        'text-align': 'center',
-                        'overflow-y': 'auto',
-                        'font-size': '1em',
-                        'font-weight': 'bold'
+                        'text-align': 'center'
                     }
                 },
 
@@ -32308,7 +32314,7 @@ chess.WPGame2 = new Class({
                         'padding-top': 2
                     },
                     layout: {
-                        height: 40,
+                        height: this.navH,
                         width: this.boardSize
                     },
                     module: this.module
@@ -32410,17 +32416,14 @@ chess.WPGame3 = new Class({
                 tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
-                    'text-align': 'center',
-                    'overflow-y': 'auto',
-                    'font-size': '1em',
-                    'font-weight': 'bold'
+                    'text-align': 'center'
                 }
             },
             this.board,
             {
                 layout: {
                     type: 'linear', orientation: 'horizontal',
-                    height: 40,
+                    height: this.navH,
                     width: this.boardSize
                 },
                 css: {
@@ -32611,10 +32614,7 @@ chess.WPGame4 = new Class({
                     tpl: this.heading_tpl || '{white} - {black}',
                     cls: 'metadata',
                     css: {
-                        'text-align': 'center',
-                        'overflow-y': 'auto',
-                        'font-size': '1em',
-                        'font-weight': 'bold'
+                        'text-align': 'center'
                     }
                 },
 
@@ -32651,7 +32651,7 @@ chess.WPGame4 = new Class({
                 {
                     layout: {
                         type: 'linear', orientation: 'horizontal',
-                        height: 40,
+                        height: this.navH,
                         width: this.boardSize
                     },
                     css: {
@@ -32750,7 +32750,7 @@ chess.WPGame5 = new Class({
         }
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
         if (ludo.isMobile) {
-            r.css('height', w + 275 + this.wpm_h);
+            r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
             r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
 
@@ -32851,12 +32851,9 @@ chess.WPGame5 = new Class({
             },
 
             children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
-
-
         });
 
         this.createController();
-
     },
 
 
@@ -32936,9 +32933,7 @@ chess.WPGame5 = new Class({
                 tpl: this.heading_tpl || '{white} - {black}',
                 cls: 'metadata',
                 css: {
-                    'text-align': 'center',
-                    'font-size': '1em',
-                    'font-weight': 'bold'
+                    'text-align': 'center'
                 }
             },
 
@@ -32965,12 +32960,12 @@ chess.WPGame5 = new Class({
                 ]
             }, this.board),
             {
-                layout: {type: 'linear', orientation: 'horizontal', height: 40, width: this.boardSize},
+                layout: {type: 'linear', orientation: 'horizontal', height: this.navH, width: this.boardSize},
                 children: [
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {
-                            height: 40,
+                            height: this.navH,
                             weight: 1
 
                         },
@@ -33009,12 +33004,11 @@ chess.WPGame6 = new Class({
 
     boardWeight: 1,
     notationWeight: 1,
-    buttonHeight:35,
 
     initialize: function (config) {
         this.parent(config);
         var w = this.renderTo.width();
-        var eh = this.comp ? this.buttonHeight : 0;
+        var eh = this.comp ? this.navH : 0;
         this.renderTo.css('height', w + eh + this.wpm_h);
 
 
@@ -33048,7 +33042,7 @@ chess.WPGame6 = new Class({
                     layout: {width: 'matchParent', weight: 1}
                 },
                 {
-                    height:this.buttonHeight,
+                    height:this.navH,
                     hidden: !this.compToggle,
                     module:this.module,
                     type: 'chess.view.buttonbar.Bar',
@@ -33095,11 +33089,8 @@ chess.WPGame6 = new Class({
                 var t = tokens[0].substr(2,2);
                 arrowPool.show(f,t, styling);
             });
-
         }
-
         this.createController();
-
     }
 
 });/* ../dhtml-chess/src/wp-public/pgn/viewer-template.js */
@@ -33153,10 +33144,10 @@ chess.WPViewer1 = new Class({
 
         if (ludo.isMobile) {
             this.boardSize = w;
-            r.css('height', Math.round(this.boardSize + 340 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 300 + this.navH + this.wpm_h));
         } else {
             this.boardSize = w - 150;
-            r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
         this.lastButtons = ['next','end'];
         this.adjustButtonArray(this.lastButtons);
@@ -33204,10 +33195,7 @@ chess.WPViewer1 = new Class({
                         tpl: this.heading_tpl || '{white} - {black}',
                         cls: 'metadata',
                         css: {
-                            'text-align': 'center',
-                            'overflow-y': 'auto',
-                            'font-size': '1em',
-                            'font-weight': 'bold'
+                            'text-align': 'center'
                         }
                     },
 
@@ -33255,7 +33243,7 @@ chess.WPViewer1 = new Class({
                     },
                     {
                         layout:{
-                            height: 40,
+                            height: this.navH,
                             width:this.boardSize,
                             type:'linear', orientation:'horizontal'
                         },
@@ -33350,14 +33338,14 @@ chess.WPViewer1 = new Class({
                     }, this.board),
                     {
                         layout:{
-                            height:40,type:'linear',orientation:'horizontal'
+                            height:this.navH,type:'linear',orientation:'horizontal'
                         },
                         children:[
                             { weight:1 },
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
+                                    height: this.navH,
                                     width: 90
                                 },
                                 module: this.module,
@@ -33379,7 +33367,7 @@ chess.WPViewer1 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
+                                    height: this.navH,
                                     width: 45 * this.lastButtons.length
                                 },
                                 module: this.module,
@@ -33459,7 +33447,7 @@ chess.WPViewer2 = new Class({
         var w = this.width = r.width();
         this.boardSize = ludo.isMobile ? w : w/2;
 
-        r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+        r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
 
         if(config.sofia)this.sofia = true;
         this.showLabels = !ludo.isMobile;
@@ -33539,7 +33527,7 @@ chess.WPViewer2 = new Class({
                             height: 'wrap'
                         },
                         plugins: [
-                            Object.merge({
+                            ObjeOct.merge({
                                 type: 'chess.view.highlight.Arrow'
                             }, this.arrow)
                         ]
@@ -33729,7 +33717,7 @@ chess.WPViewer2 = new Class({
                     {
                         type: 'chess.view.buttonbar.Bar',
                         layout: {
-                            height: 40,
+                            height: this.navH,
                             width: 90
                         },
                         module: this.module,
@@ -33868,10 +33856,10 @@ chess.WPViewer3 = new Class({
 
         if (ludo.isMobile) {
             this.boardSize = w;
-            r.css('height', Math.round(this.boardSize + 340 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 300 + this.navH + this.wpm_h));
         } else {
             this.boardSize = w / 2;
-            r.css('height', Math.round(this.boardSize + 375 + this.wpm_h));
+            r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
 
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
@@ -33967,11 +33955,11 @@ chess.WPViewer3 = new Class({
                         ]
                     },
                     {
-                        layout:{
-                        height: 40,
-                            type:'linear', orientation:'horizontal'
+                        layout: {
+                            height: this.navH,
+                            type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
+                        children: [
                             {
                                 anchor: [1, 0.5],
                                 type: 'chess.view.buttonbar.Bar',
@@ -33979,7 +33967,7 @@ chess.WPViewer3 = new Class({
                                 module: this.module,
                                 layout: {
                                     height: 'matchParent',
-                                    weight:1
+                                    weight: 1
                                 },
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
@@ -34063,27 +34051,27 @@ chess.WPViewer3 = new Class({
                     }, this.board),
                     {
                         layout: {
-                            height: 40, type: 'linear', orientation: 'horizontal'
+                            height: this.navH, type: 'linear', orientation: 'horizontal'
                         },
                         children: [
                             {weight: 1},
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
-                                    width: 90
+                                    height: this.navH,
+                                    width: (this.navH * 2)
                                 },
                                 module: this.module,
                                 buttons: ['start', 'previous'],
                                 buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
+                                    return ofSize;
                                 }
                             },
                             {
                                 type: 'chess.view.notation.LastMove',
                                 module: this.module,
                                 layout: {
-                                    width: 70
+                                    width: (this.navH * 2) + 10, height: this.navH
                                 },
                                 css: {
                                     'padding-top': 4, 'padding-bottom': 4, border: 'none'
@@ -34092,13 +34080,13 @@ chess.WPViewer3 = new Class({
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
-                                    height: 40,
-                                    width: 90
+                                    height: this.navH,
+                                    width: (this.navH * 2)
                                 },
                                 module: this.module,
                                 buttons: ['next', 'end'],
                                 buttonSize: function (ofSize) {
-                                    return ofSize * 0.9;
+                                    return ofSize;
                                 }
                             },
                             {
@@ -34887,9 +34875,7 @@ chess.WPTactics1 = new Class({
                             tpl: this.heading_tpl || '#{index} - {white}',
                             cls: 'metadata',
                             css: {
-                                'text-align': 'center',
-                                'overflow-y': 'auto',
-                                'font-weight': 'bold'
+                                'text-align': 'center'
                             }
                         },
 

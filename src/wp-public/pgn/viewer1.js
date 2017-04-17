@@ -76,10 +76,7 @@ chess.WPViewer1 = new Class({
                         tpl: this.heading_tpl || '{white} - {black}',
                         cls: 'metadata',
                         css: {
-                            'text-align': 'center',
-                            'overflow-y': 'auto',
-                            'font-size': '1em',
-                            'font-weight': 'bold'
+                            'text-align': 'center'
                         }
                     },
 

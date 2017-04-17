@@ -59,13 +59,13 @@ chess.util.CoordinateUtil = {
         }
 
         var sz = boardSize / 8;
-        var lw = properties.lineWidth || sz * 0.18;
+        var lw = properties.lineWidth || sz * 0.12;
         var ah = properties.arrowHeight || sz* .65;
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
         var oe = properties.offsetEnd || sz * .2;
-        var os = properties.offsetStart || sz * 0.1;
+        var os = properties.offsetStart || sz * -.1;
 
         var ret = [];
 

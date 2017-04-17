@@ -716,6 +716,7 @@ class DhtmlChessViews {
 			array( 'blue', __( 'Blue', "wordpresschess" ) ),
 			array( 'light-grey', __( 'Light Grey', "wordpresschess" ) ),
 			array( 'green', __( 'Green', "wordpresschess" ) ),
+			array( 'white', __( 'White', "wordpresschess" ) ),
 			array( 'wood1', __( 'Wood 1', "wordpresschess" ) ),
 			array( 'wood2', __( 'Wood 2', "wordpresschess" ) ),
 			array( 'wood3', __( 'Wood 3', "wordpresschess" ) ),
@@ -726,6 +727,13 @@ class DhtmlChessViews {
 			array( 'wood8', __( 'Wood 8', "wordpresschess" ) ),
 		);
 	}
+
+	public static function pieces(){
+
+        return array("svg_bw", "svg_egg", "svg_alpha_bw", "svg_alpha_egg", "svg_alpha_blue",
+            "svg_merida", "svg_chessole", "svg_chess-7", "merida", "meridapale", "kingdom", "leipzig", "smart");
+
+    }
 
 	public static function getThemeNames() {
 		$themes = self::getThemes();
