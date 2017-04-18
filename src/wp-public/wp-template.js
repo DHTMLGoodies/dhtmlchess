@@ -96,7 +96,7 @@ chess.WPTemplate = new Class({
 
         var t = config.theme;
 
-        if (t) {
+        if (t && t != 'custom') {
             this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',

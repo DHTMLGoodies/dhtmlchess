@@ -14,10 +14,13 @@ class DhtmlChessThemeBuilder
     "borderColor":"#aaa",
     "css": {
 
-        
     },
     "chess.view.board.Board": {
         "pieceLayout":"svg_bw",
+        "labelPos":"outside",
+        "bgColorWhite": "#ffffff",
+        "bgColorBlack": "#aaaaaa",
+        "padding" : "3.5%",
         "labelEvenStyles" : {
             "color": "#fff",
             "font-weight": "normal"
@@ -42,6 +45,7 @@ class DhtmlChessThemeBuilder
                 "styles":{
                     "fill": "#039BE5",
                     "stroke":"#0D47A1",
+                    "stroke-width" : 1,
                     "stroke-opacity" : 0.8,
                     "fill-opacity" : 0.5
                 }
@@ -181,6 +185,17 @@ class DhtmlChessThemeBuilder
         return $this->json;
     }
 
+    public function cssArray(){
+        $fields = $this->allFields();
+        $ret = array();
+        foreach($fields as $field){
+            if(isset($field["css"])){
+                $ret[$field["css"]] = $field["val"];
+            }
+        }
+        return $ret;
+    }
+
     private function populatedFields($fields)
     {
         for ($i = 0, $len = count($fields); $i < $len; $i++) {
@@ -217,23 +232,30 @@ class DhtmlChessThemeBuilder
     private function categoryLink($link)
     {
 
-        return '<li><a href="#" onclick="toggleCategory(\'' . $link . '\');return false">' . $link . '</a></li>';
+        return '<li><a href="#" id="category-header-' . $link . '" onclick="toggleCategory(\'' . $link . '\');return false">' . $link . '</a></li>';
 
     }
 
     public function categoryHtml($category)
     {
 
+
+        if (!defined("WORDPRESSCHESS_LANG_DOMAIN")) define("WORDPRESSCHESS_LANG_DOMAIN", "wordpresschess");
+
         $fields = $this->theme->categoryFields($category);
         $fields = $this->populatedFields($fields);
 
-        $html = "<div class='wpc-category-content' id='category-" . $category . "' style='display:none'><table>";
+        $html = "<div class='wpc-category-content' id='category-" . $category . "' style='display:none'>";
+
+        $html .= '<fieldset class="dhtml-chess-admin-fieldset"><legend>' . __($category, WORDPRESSCHESS_LANG_DOMAIN) . '</legend>';
+
+        $html .= "<table>";
 
         foreach ($fields as $field) {
             $html .= $this->fieldHtml($field);
         }
 
-        $html .= "</table></div>";
+        $html .= "</table></fieldset></div>";
         return $html;
 
 
@@ -260,6 +282,9 @@ class DhtmlChessThemeBuilder
             case "pcs":
                 $html .= $this->piecesHtml($field);
                 break;
+            case "radio":
+                $html .= $this->radioHtml($field);
+                break;
             default:
                 return "";
 
@@ -269,11 +294,51 @@ class DhtmlChessThemeBuilder
         return $html;
     }
 
+    private function cssData($field)
+    {
+        if(isset($field["css"])){
+            return ' data-cls="' . $field["css"] . '" data-css-key="' . $field["cssKey"] . '"';
+
+        }
+        return "";
+    }
+
+    private function radioHtml($field)
+    {
+
+        $n = $field["name"];
+        $options = $field["opt"];
+        $val = $field["val"];
+
+        $html = "<table><tr>";
+
+        $ind = 0;
+        foreach ($options as $option) {
+            $id = $n . (++$ind);
+
+            $checked = $option["val"] == $val ? " checked" : "";
+
+            $html .= '<td><input '. $this->cssData($field) . ' type="radio" onchange="if(this.checked)themeBuilder.set(this.name, this.value)" value="'
+                . $option["val"] . '" id="'
+                . $id . '" name="' . $n . '"' . $checked . '>';
+
+            $html .= '</td><td><label for="' . $id . '">' . $option["txt"] . "</label></td>";
+        }
+
+
+        $html .= "</tr></table>";
+
+        return $html;
+    }
+
     private function colorHtml($field)
     {
-        $n = $field["name"];
-        $html = '<input class="wpc-color-picker" type="text" value="' . $field["val"] . '" id="' . $n . '" name="' . $n . '">';
 
+        $n = $field["name"];
+        $html = '<input'. $this->cssData($field) . ' class="wpc-color-picker wpc-theme-input" data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" type="text" value="' . $field["val"] . '" id="' . $n . '" name="' . $n . '">';
+        if (isset($field["suffix"])) {
+            $html .= $field["suffix"];
+        }
         if (!$this->colorScriptAdded) {
             $this->colorScriptAdded = true;
             $html .= "<script type='text/javascript'>jQuery(document).ready(function($){
@@ -286,14 +351,21 @@ class DhtmlChessThemeBuilder
 
     private function textHtml($field)
     {
-        return '<input type="text" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
+        $ret = '<input class="wpc-theme-input" type="text"'. $this->cssData($field) . ' data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" onchange="themeBuilder.set(this.name, this.value)" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
 
+        if (isset($field["suffix"])) {
+            $ret .= $field["suffix"];
+        }
+        return $ret;
     }
 
     private function numericHtml($field)
     {
-        return '<input type="text" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
-
+        $ret = '<input'. $this->cssData($field) . ' class="wpc-theme-input" data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" type="text" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
+        if (isset($field["suffix"])) {
+            $ret .= $field["suffix"];
+        }
+        return $ret;
     }
 
     private function imageHtml($field)
@@ -305,11 +377,9 @@ class DhtmlChessThemeBuilder
 
         $html .= "<tr>";
 
-        $root = plugins_url($this->plugin_name . "/api/", $this->plugin_name);
-
         foreach ($options as $option) {
             $img = $this->replaceDOCROOT($option);
-            $html .= '<td><div style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background:url(' . $img . ') no-repeat center center;"></div></td>';
+            $html .= '<td>' . $this->imageRadioDiv($img, $option, $field) . '</td>';
         }
 
         $html .= "</tr>";
@@ -343,11 +413,20 @@ class DhtmlChessThemeBuilder
         foreach ($pieces as $piece) {
             $extension = substr($piece, 0, 3) == "svg" ? "svg" : "png";
             $img = $root . "images/" . $piece . "45wk." . $extension;
-            $html .= '<td><div style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background: url(' . $img . ') no-repeat center center"></div></td>';
+            $html .= '<td>' . $this->imageRadioDiv($img, $piece, $field) . '</td>';
         }
         $html .= "</tr>";
         $html .= "</table>";
         return $html;
+    }
+
+    private function imageRadioDiv($img, $val, $field)
+    {
+        $id = $field["name"] . "_" . $val;
+        $cls = $val == $field["val"] ? " wpc-image-radio-selected" : "";
+
+        return '<div data-name="' . $field["name"] . '" data-value="' . $val . '" class="wpc-image-radio' . $cls . '" id="' . $id . '" style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background: url(' . $img . ') no-repeat center center"></div>';
+
     }
 
     public function css()
@@ -397,27 +476,5 @@ class DhtmlChessThemeBuilder
         $css .= "}\n";
         return $css;
 
-    }
-
-    public function initJSThemeBuilder()
-    {
-
-        echo '<script type="text/javascript">
-            var visibleCat;
-            function toggleCategory(name){
-                if(visibleCat){
-                    visibleCat.hide();
-                }
-                var el = jQuery("#category-" + name);
-                el.show();
-                visibleCat = el;
-            }
-            var themeBuilder;
-            jQuery(document).ready(function(){
-                themeBuilder = new chess.ThemeBuilder('. json_encode($this->json()) . ');
-                toggleCategory("' . DhtmlChessTheme::CATEGORY_BOARD . '");
-        
-            });
-            </script>';
     }
 }

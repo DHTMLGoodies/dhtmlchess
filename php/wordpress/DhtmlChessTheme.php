@@ -82,8 +82,20 @@ class DhtmlChessTheme
                 "maxlen" => 2,
                 "def" => 1,
                 "defm" => 0,
-                "suffix" => "%",
+                "suffix" => "",
                 "label" => __('Border radius', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp(),
+                "f" => "padding",
+                "t" => "n",
+                "v" => '/^[0-9\.]{1,3}%?$/',
+                "size" => 5,
+                "maxlen" => 4,
+                "def" => 1,
+                "defm" => 0,
+                "suffix" => " of board size",
+                "label" => __('Border size', "wordpresschess")
             )
 
         );
@@ -164,7 +176,7 @@ class DhtmlChessTheme
                 "size" => 3,
                 "maxlen" => 2,
                 "def" => 1,
-                "suffix" => "",
+                "suffix" => __("Will not be shown if background image is set", "wordpresschess"),
                 "css" => ".dhtml-chess-square-white",
                 "cssKey" => "background-color",
                 "cssType" => "color",
@@ -261,7 +273,7 @@ class DhtmlChessTheme
                 "size" => 4,
                 "maxlen" => 3,
                 "def" => .5,
-                "suffix" => "",
+                "suffix" => "0 = transparent, 1 = opaque",
                 "label" => __('Arrow fill opacity(0-1)', "wordpresschess")
             ),
             array(
@@ -277,13 +289,24 @@ class DhtmlChessTheme
             ),
             array(
                 "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "stroke-width",
+                "t" => "n",
+                "v" => '/^[0-9]{1,2}$/',
+                "size" => 3,
+                "maxlen" => 2,
+                "def" => 1,
+                "suffix" => "pixel",
+                "label" => __('Arrow stroke width', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
                 "f" => "stroke-opacity",
                 "t" => "t",
                 "v" => '/^#[0-9]?\.[0-9]$/',
                 "size" => 4,
                 "maxlen" => 3,
                 "def" => .8,
-                "suffix" => "",
+                "suffix" => "0 = transparent, 1 = opaque",
                 "label" => __('Arrow stroke opacity(0-1)', "wordpresschess")
             ),
 
