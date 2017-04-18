@@ -22,7 +22,9 @@ chess.ThemeBuilder = new Class({
     },
 
     setCss:function(selector, key, val){
-        this.css[selector] = { key: key, val: val};
+
+        if(!this.css[selector])this.css[selector] = {};
+        this.css[selector][key] = val;
     },
 
     getKey:function(path){
@@ -43,5 +45,23 @@ chess.ThemeBuilder = new Class({
             }
         });
         return el;
+    },
+
+    cssString:function(){
+        var ret = [];
+        jQuery.each(this.css, function(selector, rules){
+
+            jQuery.each(rules, function(key, val){
+                if(val.indexOf('images')>=0){
+                    val = 'url(' + val + ')';
+                    val = val.replace('[DOCROOT]', ludo.config.getDocumentRoot());
+                }
+                ret.push('.dc-custom ' + selector + '{' + key + ":" + val + ' !important }');
+            });
+
+        });
+
+        return ret.join('\n');
+
     }
 });

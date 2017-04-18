@@ -190,7 +190,11 @@ class DhtmlChessThemeBuilder
         $ret = array();
         foreach($fields as $field){
             if(isset($field["css"])){
-                $ret[$field["css"]] = $field["val"];
+                $key = $field["css"];
+                if(!isset($ret[$key])){
+                    $ret[$key] = array();
+                }
+                $ret[$key][$field["cssKey"]] = $field["val"];
             }
         }
         return $ret;
@@ -339,13 +343,6 @@ class DhtmlChessThemeBuilder
         if (isset($field["suffix"])) {
             $html .= $field["suffix"];
         }
-        if (!$this->colorScriptAdded) {
-            $this->colorScriptAdded = true;
-            $html .= "<script type='text/javascript'>jQuery(document).ready(function($){
-            $('.wpc-color-picker').wpColorPicker();
-        });</script>";
-        }
-
         return $html;
     }
 
@@ -425,7 +422,7 @@ class DhtmlChessThemeBuilder
         $id = $field["name"] . "_" . $val;
         $cls = $val == $field["val"] ? " wpc-image-radio-selected" : "";
 
-        return '<div data-name="' . $field["name"] . '" data-value="' . $val . '" class="wpc-image-radio' . $cls . '" id="' . $id . '" style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background: url(' . $img . ') no-repeat center center"></div>';
+        return '<div'. $this->cssData($field) . ' data-name="' . $field["name"] . '" data-value="' . $val . '" class="wpc-image-radio' . $cls . '" id="' . $id . '" style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background: url(' . $img . ') no-repeat center center"></div>';
 
     }
 
