@@ -45,7 +45,8 @@ chess.view.board.Background = new Class({
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
         this.view.on('boardResized', this.resize.bind(this));
-
+        if(config.horizontal=='none')config.horizontal = undefined;
+        if(config.vertical=='none')config.vertical = undefined;
         this.horizontal = config.horizontal;
         this.vertical = config.vertical;
         this.pattern = config.pattern;

@@ -13,6 +13,8 @@ class DhtmlChessTheme
     const CATEGORY_BOARD = "Board";
     const CATEGORY_LABELS = "Labels";
     const CATEGORY_BORDER = "Border";
+    const CATEGORY_NOTATIONS = "Notations";
+    const CATEGORY_ARROWS = "Arrows";
 
     /**
      * @var array
@@ -29,8 +31,6 @@ class DhtmlChessTheme
     {
 
     }
-
-
 
     public function categoryFields($category){
         $fields = $this->getFields();
@@ -55,6 +55,8 @@ class DhtmlChessTheme
             $fields = $this->borderFields();
             $fields = array_merge($fields, $this->boardFields());
             $fields = array_merge($fields, $this->labelFields());
+            $fields = array_merge($fields, $this->arrowFields());
+            $fields = array_merge($fields, $this->notationFields());
             $this->fields = $fields;
             $this->setNames();
         }
@@ -67,6 +69,21 @@ class DhtmlChessTheme
         foreach ($this->fields as &$field) {
             $field["name"] = $field["p"] . "/" . $field["f"];
         }
+    }
+
+    private function notationFields(){
+
+
+        $fields = array(
+            array(
+                "p" => $this->notationPath(),
+                "f" => "figurines",
+                "t" => "pcssvg",
+                "label" => "Figurines"
+            )
+        );
+
+        return $this->applyCat($fields, self::CATEGORY_NOTATIONS);
     }
 
     private function borderFields()
@@ -96,7 +113,42 @@ class DhtmlChessTheme
                 "defm" => 0,
                 "suffix" => " of board size",
                 "label" => __('Border size', "wordpresschess")
-            )
+            ),
+            array(
+                "p" => $this->bp()."/background",
+                "f" => "horizontal",
+                "t" => "img",
+                "v" => null,
+                "opt" => array(
+                    self::$imgNone,
+                    self::$bgPath . "wood-strip-horizontal.png",
+                    self::$bgPath . "wood-strip2-horizontal.png",
+                    self::$bgPath . "wood-strip3-horizontal.png",
+                    self::$bgPath . "wood-strip5-horizontal.png",
+                    self::$bgPath . "wood-strip6-horizontal.png",
+                    self::$bgPath . "wood-strip-dark-horizontal.png",
+                    self::$bgPath . "grey-wood-strip-horizontal.png",
+                    self::$bgPath . "red-wood-strip-horizontal.png",
+                ),
+                "alternative" => array("from" => "horizontal", "to" => "vertical"),
+                "size" => 3,
+                "maxlen" => 2,
+                "def" => 0,
+                "defm" => 0,
+                "suffix" => "",
+                "label" => __('Border pattern', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/background/paint",
+                "f" => "fill",
+                "t" => "clr",
+                "v" => null,
+                "size" => 4,
+                "maxlen" => 3,
+                "def" => .8,
+                "suffix" => "",
+                "label" => __('Background color', "wordpresschess")
+            ),
 
         );
 
@@ -157,6 +209,70 @@ class DhtmlChessTheme
         );
 
         return $this->applyCat($fields, self::CATEGORY_LABELS);
+    }
+
+    private function arrowFields(){
+        $fields = array(
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "fill",
+                "t" => "clr",
+                "v" => '/^#[0-9A-Z]{6}$/',
+                "size" => 3,
+                "maxlen" => 7,
+                "def" => 1,
+                "suffix" => "%",
+                "label" => __('Arrow fill color', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "fill-opacity",
+                "t" => "t",
+                "v" => '/^#[0-9]?\.[0-9]$/',
+                "size" => 4,
+                "maxlen" => 3,
+                "def" => .5,
+                "suffix" => "0 = transparent, 1 = opaque",
+                "label" => __('Arrow fill opacity(0-1)', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "stroke",
+                "t" => "clr",
+                "v" => '/^#[0-9A-Z]{6}$/',
+                "size" => 3,
+                "maxlen" => 2,
+                "def" => 1,
+                "suffix" => "",
+                "label" => __('Arrow stroke color', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "stroke-width",
+                "t" => "n",
+                "v" => '/^[0-9]{1,2}$/',
+                "size" => 3,
+                "maxlen" => 2,
+                "def" => 1,
+                "suffix" => "pixel",
+                "label" => __('Arrow stroke width', "wordpresschess")
+            ),
+            array(
+                "p" => $this->bp() . "/plugins/0/styles",
+                "f" => "stroke-opacity",
+                "t" => "t",
+                "v" => '/^#[0-9]?\.[0-9]$/',
+                "size" => 4,
+                "maxlen" => 3,
+                "def" => .8,
+                "suffix" => "0 = transparent, 1 = opaque",
+                "label" => __('Arrow stroke opacity(0-1)', "wordpresschess")
+            ),
+
+        );
+
+        return $this->applyCat($fields, self::CATEGORY_ARROWS);
+
     }
 
     private function boardFields()
@@ -254,61 +370,7 @@ class DhtmlChessTheme
                 "suffix" => "%",
                 "label" => __('Black Squares Image', "wordpresschess")
             ),
-            array(
-                "p" => $this->bp() . "/plugins/0/styles",
-                "f" => "fill",
-                "t" => "clr",
-                "v" => '/^#[0-9A-Z]{6}$/',
-                "size" => 3,
-                "maxlen" => 7,
-                "def" => 1,
-                "suffix" => "%",
-                "label" => __('Arrow fill color', "wordpresschess")
-            ),
-            array(
-                "p" => $this->bp() . "/plugins/0/styles",
-                "f" => "fill-opacity",
-                "t" => "t",
-                "v" => '/^#[0-9]?\.[0-9]$/',
-                "size" => 4,
-                "maxlen" => 3,
-                "def" => .5,
-                "suffix" => "0 = transparent, 1 = opaque",
-                "label" => __('Arrow fill opacity(0-1)', "wordpresschess")
-            ),
-            array(
-                "p" => $this->bp() . "/plugins/0/styles",
-                "f" => "stroke",
-                "t" => "clr",
-                "v" => '/^#[0-9A-Z]{6}$/',
-                "size" => 3,
-                "maxlen" => 2,
-                "def" => 1,
-                "suffix" => "",
-                "label" => __('Arrow stroke color', "wordpresschess")
-            ),
-            array(
-                "p" => $this->bp() . "/plugins/0/styles",
-                "f" => "stroke-width",
-                "t" => "n",
-                "v" => '/^[0-9]{1,2}$/',
-                "size" => 3,
-                "maxlen" => 2,
-                "def" => 1,
-                "suffix" => "pixel",
-                "label" => __('Arrow stroke width', "wordpresschess")
-            ),
-            array(
-                "p" => $this->bp() . "/plugins/0/styles",
-                "f" => "stroke-opacity",
-                "t" => "t",
-                "v" => '/^#[0-9]?\.[0-9]$/',
-                "size" => 4,
-                "maxlen" => 3,
-                "def" => .8,
-                "suffix" => "0 = transparent, 1 = opaque",
-                "label" => __('Arrow stroke opacity(0-1)', "wordpresschess")
-            ),
+
 
         );
 
@@ -329,6 +391,9 @@ class DhtmlChessTheme
         return "chess.view.board.Board";
     }
 
+    private function notationPath(){
+        return "chess.view.notation.Panel";
+    }
 
 
 }

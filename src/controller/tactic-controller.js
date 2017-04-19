@@ -103,7 +103,6 @@ chess.controller.TacticController = new Class({
                     c = 'white';
                 }
             }
-
             if (c == 'white') {
                 this.views.board.flipToWhite();
             } else {

@@ -1,4 +1,4 @@
-/* Generated Mon Apr 17 15:44:46 CEST 2017 */
+/* Generated Wed Apr 19 20:54:33 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -18330,7 +18330,7 @@ chess.view.board.GUI = new Class({
         this.padding = '3.5%';
 
         this.__params(config, [
-            'background', 'sideToMove',
+            'background', 'sideToMove','bgColorWhite', 'bgColorBlack',
             'labels', 'boardCls', 'boardCss', 'boardLayout', 'lowerCaseLabels', 'chessSet', 'vAlign',
             'labelPos', 'labelStyles', 'labelOddStyles', 'labelEvenStyles', 'padding',
             'bgWhite', 'bgBlack', 'squareStyles_white', 'squareStyles_black']);
@@ -18502,6 +18502,7 @@ chess.view.board.GUI = new Class({
         if (this.bgBlack) {
             this.setSquareBg('black', this.bgBlack);
         }
+
         this.resizeSquares();
         this.resizeBoard.delay(50, this);
 
@@ -20031,7 +20032,8 @@ chess.view.board.Background = new Class({
         if (config.borderRadius != undefined) this.borderRadius = config.borderRadius;
 
         this.view.on('boardResized', this.resize.bind(this));
-
+        if(config.horizontal=='none')config.horizontal = undefined;
+        if(config.vertical=='none')config.vertical = undefined;
         this.horizontal = config.horizontal;
         this.vertical = config.vertical;
         this.pattern = config.pattern;
@@ -25220,7 +25222,6 @@ chess.controller.TacticController = new Class({
                     c = 'white';
                 }
             }
-
             if (c == 'white') {
                 this.views.board.flipToWhite();
             } else {
@@ -27581,7 +27582,7 @@ chess.WPTemplate = new Class({
 
         var t = config.theme;
 
-        if (t) {
+        if (t && t != 'custom') {
             this._ready = false;
             jQuery('<link/>', {
                 rel: 'stylesheet',
