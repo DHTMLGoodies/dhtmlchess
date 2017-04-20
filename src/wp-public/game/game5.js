@@ -34,6 +34,8 @@ chess.WPGame5 = new Class({
     configure: function () {
 
 
+
+
         this.board = Object.merge({
             boardLayout: undefined,
             vAlign: top,
@@ -107,6 +109,7 @@ chess.WPGame5 = new Class({
     },
 
     render: function () {
+
         new chess.view.Chess({
             renderTo: this.renderTo,
             cls: this.th,
@@ -124,6 +127,8 @@ chess.WPGame5 = new Class({
 
 
     desktopChildren: function () {
+
+
         return [
             {
                 layout: {

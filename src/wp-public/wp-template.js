@@ -67,7 +67,6 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-
         if (config.sound != undefined) this.sound = config.sound;
         if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
 
@@ -93,8 +92,11 @@ chess.WPTemplate = new Class({
 
         chess.THEME_OVERRIDES = undefined;
 
+        var t = config.theme || config.defaultTheme;
 
-        var t = config.theme;
+        if(t == 'dc-custom'){
+            chess.THEME = chess.CUSTOMTHEME;
+        }
 
         if (t && t != 'custom') {
             this._ready = false;

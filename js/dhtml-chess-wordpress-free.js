@@ -1,4 +1,4 @@
-/* Generated Wed Apr 19 20:54:33 CEST 2017 */
+/* Generated Thu Apr 20 20:17:25 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -17318,8 +17318,9 @@ chess.view.Chess = new Class({
     },
     __construct:function(config){
 
-        if(config.theme == undefined && chess.THEME != undefined){
-            config.theme = chess.THEME;
+
+        if(config.theme == undefined){
+            config.theme = chess.THEME || {};
         }
 
         if(chess.THEME_OVERRIDES != undefined){
@@ -27553,7 +27554,6 @@ chess.WPTemplate = new Class({
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-
         if (config.sound != undefined) this.sound = config.sound;
         if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
 
@@ -27579,8 +27579,11 @@ chess.WPTemplate = new Class({
 
         chess.THEME_OVERRIDES = undefined;
 
+        var t = config.theme || config.defaultTheme;
 
-        var t = config.theme;
+        if(t == 'dc-custom'){
+            chess.THEME = chess.CUSTOMTHEME;
+        }
 
         if (t && t != 'custom') {
             this._ready = false;
@@ -28544,6 +28547,8 @@ chess.WPGame5 = new Class({
     configure: function () {
 
 
+
+
         this.board = Object.merge({
             boardLayout: undefined,
             vAlign: top,
@@ -28617,6 +28622,7 @@ chess.WPGame5 = new Class({
     },
 
     render: function () {
+
         new chess.view.Chess({
             renderTo: this.renderTo,
             cls: this.th,
@@ -28634,6 +28640,8 @@ chess.WPGame5 = new Class({
 
 
     desktopChildren: function () {
+
+
         return [
             {
                 layout: {

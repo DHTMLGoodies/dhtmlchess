@@ -725,6 +725,7 @@ class DhtmlChessViews {
 			array( 'wood6', __( 'Wood 6', "wordpresschess" ) ),
 			array( 'wood7', __( 'Wood 7', "wordpresschess" ) ),
 			array( 'wood8', __( 'Wood 8', "wordpresschess" ) ),
+			array( 'custom', __( 'Your theme', "wordpresschess" ) ),
 		);
 	}
 

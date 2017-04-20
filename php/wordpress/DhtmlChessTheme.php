@@ -27,9 +27,35 @@ class DhtmlChessTheme
     private static $squareBg = "[DOCROOT]images/board/";
     private static $imgNone = "[DOCROOT]images/none.png";
 
+
+    private static $squareBgs;
+
     public function __construct()
     {
-
+        self::$squareBgs = array(
+            self::$imgNone,
+            self::$squareBg . "lightest-wood.png",
+            self::$squareBg . "lighter-wood.png",
+            self::$squareBg . "light-wood.png",
+            self::$squareBg . "light-wood2.png",
+            self::$squareBg . "light-grey-wood.png",
+            self::$squareBg . "wood4.png",
+            self::$squareBg . "wood5.png",
+            self::$squareBg . "wood6.png",
+            self::$squareBg . "wood7.png",
+            self::$squareBg . "wood8.png",
+            self::$squareBg . "wood-1.png",
+            self::$squareBg . "wood-2.png",
+            self::$squareBg . "dark-wood.png",
+            self::$squareBg . "dark-wood-2.png",
+            self::$squareBg . "grey-wood.png",
+            self::$squareBg . "wood-bamboo.png",
+            self::$squareBg . "wood-cherry.png",
+            self::$squareBg . "darker-wood.png",
+            self::$squareBg . "red-wood2.png",
+            self::$squareBg . "light-blue-wood-2.png",
+            self::$squareBg . "dark-blue-wood-2.png",
+        );
     }
 
     public function categoryFields($category){
@@ -95,8 +121,8 @@ class DhtmlChessTheme
                 "f" => "borderRadius",
                 "t" => "n",
                 "v" => '/^[0-9]{1,2}$/',
-                "size" => 3,
-                "maxlen" => 2,
+                "size" => 4,
+                "maxlen" => 3,
                 "def" => 1,
                 "defm" => 0,
                 "suffix" => "",
@@ -183,7 +209,7 @@ class DhtmlChessTheme
                 "label" => __('Label pos', "wordpresschess")
             ),
             array(
-                "p" => $this->bp() . "/labelOddStyles",
+                "p" => $this->bp() . "/labelStyles",
                 "f" => "color",
                 "t" => "clr",
                 "v" => null,
@@ -191,18 +217,7 @@ class DhtmlChessTheme
                 "maxlen" => 3,
                 "def" => .8,
                 "suffix" => "",
-                "label" => __('Label odd color(B,D,F,H)', "wordpresschess")
-            ),
-            array(
-                "p" => $this->bp() . "/labelEvenStyles",
-                "f" => "color",
-                "t" => "clr",
-                "v" => null,
-                "size" => 4,
-                "maxlen" => 3,
-                "def" => .8,
-                "suffix" => "",
-                "label" => __('Label even color(B,D,F,H)', "wordpresschess")
+                "label" => __('Label color(B,D,F,H)', "wordpresschess")
             )
 
 
@@ -317,21 +332,7 @@ class DhtmlChessTheme
                 "f" => "bgWhite",
                 "t" => "img",
                 "v" => null,
-                "opt" => array(
-                    self::$imgNone,
-                    self::$squareBg . "lightest-wood.png",
-                    self::$squareBg . "lighter-wood.png",
-                    self::$squareBg . "light-wood.png",
-                    self::$squareBg . "light-wood2.png",
-                    self::$squareBg . "light-grey-wood.png",
-                    self::$squareBg . "light-blue-wood.png",
-                    self::$squareBg . "wood6.png",
-                    self::$squareBg . "wood7.png",
-                    self::$squareBg . "wood8.png",
-                    self::$squareBg . "wood-1.png",
-                    self::$squareBg . "wood-2.png",
-                    self::$squareBg . "wood-bamboo.png",
-                ),
+                "opt" => self::$squareBgs,
                 "size" => 3,
                 "maxlen" => 2,
                 "def" => 0,
@@ -347,19 +348,7 @@ class DhtmlChessTheme
                 "f" => "bgBlack",
                 "t" => "img",
                 "v" => null,
-                "opt" => array(
-                    self::$imgNone,
-                    self::$squareBg . "dark-wood.png",
-                    self::$squareBg . "dark-wood-2.png",
-                    self::$squareBg . "darker-wood.png",
-                    self::$squareBg . "darker-wood2.png",
-                    self::$squareBg . "darkest-wood.png",
-                    self::$squareBg . "grey-wood.png",
-                    self::$squareBg . "wood4.png",
-                    self::$squareBg . "wood6.png",
-                    self::$squareBg . "wood8.png",
-                    self::$squareBg . "wood-cherry.png",
-                ),
+                "opt" => self::$squareBgs,
                 "size" => 3,
                 "maxlen" => 2,
                 "def" => 0,

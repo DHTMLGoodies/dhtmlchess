@@ -12,7 +12,18 @@ chess.ThemeBuilder = new Class({
         this.css = css;
     },
 
+    mergeJSON:function(json){
+        this.json = Object.merge(this.json, json);
+    },
+
     set:function(key, val){
+        // Some exceptions
+        if(key=='chess.view.board.Board/labelStyles/color'){
+            this.set('chess.view.board.Board/labelOddStyles', undefined)
+            this.set('chess.view.board.Board/labelEvenStyles', undefined)
+        }
+
+
         var el = this.findJSONArray(key);
         if(el){
             var k = this.getKey(key);

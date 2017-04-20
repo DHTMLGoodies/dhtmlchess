@@ -22,11 +22,15 @@ class DhtmlChessThemeBuilder
         "bgColorBlack": "#aaaaaa",
         "padding" : "3.5%",
         "labelEvenStyles" : {
-            "color": "#fff",
+            "color": "#000",
             "font-weight": "normal"
         },
         "labelOddStyles": {
-            "color": "#fff",
+            "color": "#000",
+            "font-weight": "normal"
+        },
+        "labelStyles": {
+            "color": "#000",
             "font-weight": "normal"
         },
         "background":{
@@ -141,6 +145,16 @@ class DhtmlChessThemeBuilder
         $this->json = json_decode(self::$tpl, true);
     }
 
+    /**
+     * @param array $json
+     */
+    public function mergeJson($json){
+        $json_string = json_encode($json);
+        $json_string = preg_replace('/"http.+?\/images/si', '"[DOCROOT]images', $json_string);
+        $json = json_decode($json_string, true);
+        $this->json = array_merge($this->json, $json);
+    }
+
 
     public function set($path, $val)
     {
@@ -167,7 +181,7 @@ class DhtmlChessThemeBuilder
 
         foreach ($tokens as $item) {
             if (!isset($path[$item])) {
-                return null;
+                $path[$item] = array();
             }
             $path = &$path[$item];
         }
@@ -334,7 +348,7 @@ class DhtmlChessThemeBuilder
 
             $checked = $option["val"] == $val ? " checked" : "";
 
-            $html .= '<td><input ' . $this->dataOptions($field) . ' type="radio" onchange="if(this.checked)themeBuilder.set(this.name, this.value)" value="'
+            $html .= '<td><input ' . $this->dataOptions($field) . ' class="wpc-radio" type="radio" data-name="' . $field["name"] . '" name="' . $field["name"] . '"  value="'
                 . $option["val"] . '" id="'
                 . $id . '" name="' . $n . '"' . $checked . '>';
 
@@ -360,7 +374,7 @@ class DhtmlChessThemeBuilder
 
     private function textHtml($field)
     {
-        $ret = '<input class="wpc-theme-input" type="text"' . $this->dataOptions($field) . ' data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" onchange="themeBuilder.set(this.name, this.value)" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
+        $ret = '<input class="wpc-theme-input" type="text"' . $this->dataOptions($field) . ' data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
 
         if (isset($field["suffix"])) {
             $ret .= $field["suffix"];
@@ -385,9 +399,15 @@ class DhtmlChessThemeBuilder
         $html = "<table>";
 
         $html .= "<tr>";
-
+        $c = 0;
         foreach ($options as $option) {
             $img = $this->replaceDOCROOT($option);
+
+            if($c > 0 && $c % 10 == 0){
+                $html .="</tr><tr>";
+            }
+            $c++;
+
             $html .= '<td>' . $this->imageRadioDiv($img, $option, $field) . '</td>';
         }
 
@@ -439,7 +459,8 @@ class DhtmlChessThemeBuilder
         $id = $field["name"] . "_" . $val;
         $cls = $val == $field["val"] ? " wpc-image-radio-selected" : "";
 
-        return '<div' . $this->dataOptions($field) . ' data-name="' . $field["name"] . '" data-value="' . $val . '" class="wpc-image-radio' . $cls . '" id="' . $id . '" style="border-radius:5px;border:3px solid;border-color:transparent;width:50px;height:50px;overflow:hidden;background: url(' . $img . ') no-repeat center center"></div>';
+        return '<div' . $this->dataOptions($field) . ' data-name="' . $field["name"] . '" data-value="' . $val . '" class="wpc-image-radio' . $cls
+            . '" id="' . $id . '" style="background: url(' . $img . ') no-repeat center center"></div>';
 
     }
 

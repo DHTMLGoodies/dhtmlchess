@@ -53,8 +53,9 @@ chess.view.Chess = new Class({
     },
     __construct:function(config){
 
-        if(config.theme == undefined && chess.THEME != undefined){
-            config.theme = chess.THEME;
+
+        if(config.theme == undefined){
+            config.theme = chess.THEME || {};
         }
 
         if(chess.THEME_OVERRIDES != undefined){
