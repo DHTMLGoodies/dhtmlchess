@@ -732,7 +732,7 @@ class DhtmlChessViews {
 	public static function pieces(){
 
         return array("svg_bw", "svg_egg", "svg_alpha_bw", "svg_alpha_egg", "svg_alpha_blue",
-            "svg_merida", "svg_chessole", "svg_chess-7", "merida", "meridapale", "kingdom", "leipzig", "smart");
+            "svg_merida", "svg_chess-7", "merida", "meridapale", "kingdom", "leipzig", "smart");
 
     }
 
@@ -824,7 +824,7 @@ class DHTMLChessView {
 		$params = json_encode( $this->params );
 		$script = $this->getScript();
 
-		$board .= '<script type="text/javascript"> jQuery(document).ready(function(){new chess.'
+		$board .= '<script type="text/javascript">wpchess_add_snippet(function(){new chess.'
 		          . $script
 		          . '('
 		          . $params . ')})</script>';

@@ -17,6 +17,7 @@ chess.WPGame2 = new Class({
 
     render: function () {
         new chess.view.Chess({
+            theme : this.themeObject,
             renderTo: this.renderTo,
             cls: this.th,
             layout: {

@@ -30,6 +30,7 @@ chess.WPComp1 = new Class({
     render: function () {
 
         new chess.view.Chess({
+            theme : this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 width: 'matchParent',

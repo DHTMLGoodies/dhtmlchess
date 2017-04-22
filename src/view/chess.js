@@ -45,16 +45,17 @@
             }
         ]
  */
+
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
     layout:{
         width:'matchParent', height:'matchParent'
     },
+
     __construct:function(config){
 
-
-        if(config.theme == undefined){
+        if(config.theme === undefined){
             config.theme = chess.THEME || {};
         }
 

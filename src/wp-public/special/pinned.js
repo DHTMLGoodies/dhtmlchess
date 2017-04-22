@@ -47,6 +47,7 @@ chess.WPPinned = new Class({
 
         new chess.view.Chess({
             cls: this.th,
+            theme : this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',

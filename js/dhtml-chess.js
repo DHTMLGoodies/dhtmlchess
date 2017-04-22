@@ -1,4 +1,4 @@
-/* Generated Thu Apr 20 18:08:21 CEST 2017 */
+/* Generated Fri Apr 21 21:47:01 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28330,8 +28330,9 @@ chess.view.Chess = new Class({
     },
     __construct:function(config){
 
-        if(config.theme == undefined && chess.THEME != undefined){
-            config.theme = chess.THEME;
+
+        if(config.theme == undefined){
+            config.theme = chess.THEME || {};
         }
 
         if(chess.THEME_OVERRIDES != undefined){

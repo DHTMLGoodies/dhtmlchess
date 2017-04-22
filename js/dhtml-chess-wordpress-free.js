@@ -1,4 +1,4 @@
-/* Generated Thu Apr 20 20:17:25 CEST 2017 */
+/* Generated Sat Apr 22 11:53:44 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -17310,16 +17310,17 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/view/chess.js */
             }
         ]
  */
+
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
     layout:{
         width:'matchParent', height:'matchParent'
     },
+
     __construct:function(config){
 
-
-        if(config.theme == undefined){
+        if(config.theme === undefined){
             config.theme = chess.THEME || {};
         }
 
@@ -27514,7 +27515,9 @@ chess.WPTemplate = new Class({
 
     lp: undefined,
 
-    navH : undefined,
+    navH: undefined,
+    to_end: false,
+
 
     initialize: function (config) {
 
@@ -27535,6 +27538,8 @@ chess.WPTemplate = new Class({
         this.arrow = config.arrow || {};
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
+        this.to_end = config.to_end || false;
+
 
         if (config.pgn != undefined) {
             if (jQuery.isArray(config.pgn)) {
@@ -27550,7 +27555,6 @@ chess.WPTemplate = new Class({
         if (config._p != undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
 
-        this.themeObject = chess.THEME;
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
@@ -27581,29 +27585,44 @@ chess.WPTemplate = new Class({
 
         var t = config.theme || config.defaultTheme;
 
-        if(t == 'dc-custom'){
+        if (t == 'custom') {
             chess.THEME = chess.CUSTOMTHEME;
+            this.themeObject = Object.clone(chess.CUSTOMTHEME);
         }
-
+        chess.THEMES = chess.THEMES || {};
+        chess.CSSLOADED = chess.CSSLOADED || {};
         if (t && t != 'custom') {
             this._ready = false;
-            jQuery('<link/>', {
-                rel: 'stylesheet',
-                type: 'text/css',
-                href: this.dr + 'themes/' + t + '.css',
-                complete: function () {
-                    this.onload();
-                }.bind(this)
-            }).appendTo('head');
 
+            if(!chess.CSSLOADED[t]){
+                jQuery('<link/>', {
+                    rel: 'stylesheet',
+                    type: 'text/css',
+                    href: this.dr + 'themes/' + t + '.css',
+                    complete: function () {
+                        chess.CSSLOADED[t] = true;
+                        this.onload();
+                    }.bind(this)
+                }).appendTo('head');
+            }else{
+                this.onload();
+            }
 
-            jQuery.ajax({
-                url: this.dr + 'themes/' + t + '.js',
-                dataType: "script",
-                complete: function () {
-                    this.onload();
-                }.bind(this)
-            });
+            if (chess.THEMES[t] != undefined) {
+                this.themeObject = chess.THEMES[t];
+                this.onload();
+            }
+            else {
+                jQuery.ajax({
+                    url: this.dr + 'themes/' + t + '.js',
+                    dataType: "script",
+                    complete: function () {
+                        this.themeObject = Object.clone(chess.THEME);
+                        chess.THEMES[t] = this.themeObject;
+                        this.onload();
+                    }.bind(this)
+                });
+            }
         }
 
         if (this.nav) {
@@ -27816,9 +27835,12 @@ chess.WPGameTemplate = new Class({
                         var json = response.responseJSON;
                         if (json.success) {
                             var game = json.response;
-                            this.controller.currentModel.populate(game);
+                            var model = this.controller.currentModel;
+                            model.populate(game);
+                            if(this.to_end){
+                                model.toEnd();
+                            }
                         }
-
                     } else {
                         this.fireEvent('wperrror', chess.__('Could not load game. Try again later'));
                     }
@@ -27893,6 +27915,7 @@ chess.WPGame1 = new Class({
         new chess.view.Chess({
             renderTo: this.renderTo,
             cls: this.th,
+            theme : this.themeObject,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -28043,6 +28066,7 @@ chess.WPGame2 = new Class({
 
     render: function () {
         new chess.view.Chess({
+            theme : this.themeObject,
             renderTo: this.renderTo,
             cls: this.th,
             layout: {
@@ -28171,6 +28195,7 @@ chess.WPGame3 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: this.renderTo,
+            theme : this.themeObject,
             cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
@@ -28376,6 +28401,7 @@ chess.WPGame4 = new Class({
     render: function () {
         new chess.view.Chess({
             renderTo: this.renderTo,
+            theme : this.themeObject,
             cls: this.th,
             layout: {
                 type: 'linear', orientation: 'vertical',
@@ -28626,6 +28652,7 @@ chess.WPGame5 = new Class({
         new chess.view.Chess({
             renderTo: this.renderTo,
             cls: this.th,
+            theme : this.themeObject,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -28811,6 +28838,7 @@ chess.WPGame6 = new Class({
     render: function () {
         new chess.view.Chess({
             cls: this.th,
+            theme : this.themeObject,
             renderTo: this.renderTo,
             layout: {
                 type: 'linear',orientation:'vertical'
@@ -28877,4 +28905,32 @@ chess.WPGame6 = new Class({
         this.createController();
     }
 
+});/* ../dhtml-chess/src/wp-public/wp-queue.js */
+/**
+ * Created by alfmagne1 on 22/04/2017.
+ */
+wpchess = {};
+wpchess.WPScriptQueueInitialized = false;
+wpchess.WpScriptQueue = new Class({
+
+    initialize: function () {
+        var fns = window.wpchess_snippets;
+        if (fns !== undefined && chess != undefined) {
+            jQuery.each(fns, function (i, fn) {
+                fn.call();
+
+            });
+            window.wpchess_snippets = [];
+        }
+
+        if (!wpchess.WPScriptQueueInitialized) {
+            wpchess.WPScriptQueueInitialized = true;
+            jQuery(document).ready(function () {
+                new wpchess.WpScriptQueue();
+
+            });
+        }
+    }
+
 });
+new wpchess.WpScriptQueue();

@@ -47,9 +47,12 @@ chess.WPGameTemplate = new Class({
                         var json = response.responseJSON;
                         if (json.success) {
                             var game = json.response;
-                            this.controller.currentModel.populate(game);
+                            var model = this.controller.currentModel;
+                            model.populate(game);
+                            if(this.to_end){
+                                model.toEnd();
+                            }
                         }
-
                     } else {
                         this.fireEvent('wperrror', chess.__('Could not load game. Try again later'));
                     }

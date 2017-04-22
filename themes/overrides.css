@@ -577,3 +577,15 @@ container for pieces in promote dialog
     src: url(../fonts/digital-7/digital-7-mono.ttf);
     font-weight: bold;
 }
+
+div.dhtml-chess-board{
+    border-style:solid;
+}
+
+.dhtml-chess-square-white {
+    background-color: transparent;
+}
+
+.dhtml-chess-square-black {
+    background-color: transparent;
+}

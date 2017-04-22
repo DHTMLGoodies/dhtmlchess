@@ -16,6 +16,8 @@ class DhtmlChessThemeBuilder
 
     },
     "chess.view.board.Board": {
+        "innerBorderWidth" : 1,
+        "innerBorderColor" : "#ff0000",
         "pieceLayout":"svg_bw",
         "labelPos":"outside",
         "bgColorWhite": "#ffffff",
@@ -325,10 +327,32 @@ class DhtmlChessThemeBuilder
     {
         $ret = "";
         if (isset($field["css"])) {
-            $ret = ' data-cls="' . $field["css"] . '" data-css-key="' . $field["cssKey"] . '"';
+            $ret = ' data-cls="' . $field["css"] . '" data-css-key="' . $field["cssKey"] . '" data-css-type="' . $field["cssType"] . '"';
+        }
+        if(isset($field["regex"])){
+            $ret .= ' data-regex="'. $field['regex'] . '"';
         }
         if (isset($field["alternative"])) {
             $ret .= ' data-alternative=\'' . json_encode($field["alternative"]) . '\'';
+        }
+        return $ret;
+    }
+
+    private function dataOptionsAsArray($field){
+
+        $ret = array();
+        if (isset($field["css"])) {
+            $ret["cls"] = $field["css"];
+            $ret["css-key"] = $field["cssKey"];
+            $ret["css-type"] = $field["cssType"];
+
+        }
+        if (isset($field["alternative"])) {
+            $ret["alternative"] = json_encode($field["alternative"]);
+        }
+
+        if(isset($field["def"])){
+            $ret["default-value"] = $field["def"];
         }
         return $ret;
     }
@@ -348,7 +372,7 @@ class DhtmlChessThemeBuilder
 
             $checked = $option["val"] == $val ? " checked" : "";
 
-            $html .= '<td><input ' . $this->dataOptions($field) . ' class="wpc-radio" type="radio" data-name="' . $field["name"] . '" name="' . $field["name"] . '"  value="'
+            $html .= '<td><input ' . $this->dataOptions($field) . ' class="wpc-radio" type="radio" name="' . $field["name"] . '"  value="'
                 . $option["val"] . '" id="'
                 . $id . '" name="' . $n . '"' . $checked . '>';
 
@@ -364,8 +388,11 @@ class DhtmlChessThemeBuilder
     private function colorHtml($field)
     {
 
+        $val = $this->defaultValue($field);
         $n = $field["name"];
-        $html = '<input' . $this->dataOptions($field) . ' class="wpc-color-picker wpc-theme-input" data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" type="text" value="' . $field["val"] . '" id="' . $n . '" name="' . $n . '">';
+        $html = '<input' . $this->dataOptions($field) . ' class="wpc-color-picker wpc-theme-input" name="'
+            . $field["name"] . '" data-value="' . $val . '" type="text" value="' . $val . '" id="' . $n
+            . '" name="' . $n . '" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '">';
         if (isset($field["suffix"])) {
             $html .= $field["suffix"];
         }
@@ -374,7 +401,9 @@ class DhtmlChessThemeBuilder
 
     private function textHtml($field)
     {
-        $ret = '<input class="wpc-theme-input" type="text"' . $this->dataOptions($field) . ' data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
+        $val = $this->defaultValue($field);
+        $ret = '<input class="wpc-theme-input" type="text"' . $this->dataOptions($field) . ' name="' . $field["name"]
+            . '" data-value="' . $val . '" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $val . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
 
         if (isset($field["suffix"])) {
             $ret .= $field["suffix"];
@@ -384,11 +413,20 @@ class DhtmlChessThemeBuilder
 
     private function numericHtml($field)
     {
-        $ret = '<input' . $this->dataOptions($field) . ' class="wpc-theme-input" data-name="' . $field["name"] . '" data-value="' . $field["val"] . '" type="text" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $field["val"] . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
+        $val = $this->defaultValue($field);
+        $ret = '<input' . $this->dataOptions($field) . ' class="wpc-theme-input" name="' . $field["name"]
+            . '" data-value="' . $val . '" type="text" size="' . $field["size"] . '"  maxlength="' . $field["maxlen"] . '" value="' . $val . '" id="' . $field["name"] . '" name="' . $field["name"] . '">';
         if (isset($field["suffix"])) {
             $ret .= $field["suffix"];
         }
         return $ret;
+    }
+
+    private function defaultValue($field){
+
+        if(isset($field["val"]))return $field["val"];
+        if(!empty($field["def"]))return $field["def"];
+        return "";
     }
 
     private function imageHtml($field)
@@ -399,21 +437,38 @@ class DhtmlChessThemeBuilder
         $html = "<table>";
 
         $html .= "<tr>";
-        $c = 0;
-        foreach ($options as $option) {
-            $img = $this->replaceDOCROOT($option);
 
-            if($c > 0 && $c % 10 == 0){
-                $html .="</tr><tr>";
-            }
-            $c++;
+        $fieldId = uniqid("wpc");
 
-            $html .= '<td>' . $this->imageRadioDiv($img, $option, $field) . '</td>';
+        $html .= '<td id="' . $fieldId . '"></td>';
+
+        $images = array();
+
+        foreach($options as $option){
+            $val = $option;
+            $image = $this->replaceDOCROOT($option);
+            $images[] = array("value" => $val, "image" => $image);
         }
 
+        $value = null;
+        if(!empty($field["val"])){
+            $value= array(
+                "image" => $this->replaceDOCROOT($field["val"]),
+                "value" => $field["val"]
+            );
+
+        }
+
+        $args = array(
+            "nameInForm" => $field["name"],
+            "renderTo" => '#' . $fieldId,
+            "images" => $images,
+            "value" => $value,
+            "dataFields" => $this->dataOptionsAsArray($field),
+        );
+
+        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector('. json_encode($args) . '); selector.on("change", onValChange ) })</script>';
         $html .= "</tr>";
-
-
         $html .= "</table>";
 
         return $html;
@@ -434,23 +489,43 @@ class DhtmlChessThemeBuilder
         $html = "<table>";
 
         $html .= "<tr>";
+        $fieldid = uniqid("wpc");
+        $html .= '<td id="' . $fieldid . '"></div>';
 
         $root = plugins_url($this->plugin_name . "/api/", $this->plugin_name);
 
         $pieces = DhtmlChessViews::pieces();
+
+        $images = array();
 
         foreach ($pieces as $piece) {
             $extension = substr($piece, 0, 3) == "svg" ? "svg" : "png";
             if ($onlySvg && $extension != "svg") {
 
             } else {
-                $img = $root . "images/" . $piece . "45wk." . $extension;
-                $html .= '<td>' . $this->imageRadioDiv($img, $piece, $field) . '</td>';
-
+                $images[] = array(
+                    "value" => $piece,
+                    "image" => $root . "images/" . $piece . "45wk." . $extension
+                );
             }
         }
+        $extension = substr($field["val"], 0, 3) == "svg" ? "svg" : "png";
+        $value = array(
+            "value" => $field["val"],
+            "image" => !empty($field["val"]) ? $root . "images/" . $field["val"] . "45wk." . $extension : ""
+        );
+        $args = array(
+            "nameInForm" => $field["name"],
+            "renderTo" => '#' . $fieldid,
+            "images" => $images,
+            "value" => $value,
+            "dataFields" => $this->dataOptionsAsArray($field),
+        );
+
+        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector('. json_encode($args) . '); selector.on("change", onValChange ) })</script>';
         $html .= "</tr>";
         $html .= "</table>";
+
         return $html;
     }
 
@@ -489,7 +564,6 @@ class DhtmlChessThemeBuilder
         $sel = $field["cssKey"];
         switch ($field["cssType"]) {
             case "image":
-
                 $val = $this->replaceDOCROOT($val);
                 $ret[$sel] = "url(" . $val . ")";
                 break;
@@ -497,8 +571,10 @@ class DhtmlChessThemeBuilder
                 $val = empty($val) ? "transparent" : $val;
                 $ret[$sel] = $val;
                 break;
+            case "px":
+                $ret[$sel] = $field["val"] . "px";
+                break;
             default:
-                echo $field["val"];
                 $ret[$sel] = $field["val"];
         }
 
