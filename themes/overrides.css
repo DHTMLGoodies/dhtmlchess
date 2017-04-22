@@ -262,11 +262,8 @@ span.notation-chess-move-highlighted {
     font-weight: normal;
 }
 
-.ludo-chess-view-notation-table {
-
-}
-
-.ludo-chess-view-notation-table {
+.dhtml-chess-view-notation-table {
+    line-height:120%;
     font-size: 12px;
 }
 

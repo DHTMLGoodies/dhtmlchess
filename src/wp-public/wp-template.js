@@ -178,9 +178,8 @@ chess.WPTemplate = new Class({
 
     onload: function () {
         this._loadCounter++;
-        if (!this._ready && this._loadCounter == 2) this.render();
+        if (!this._ready && this._loadCounter == 2 && this.render !== undefined) this.render();
         this._ready = this._loadCounter == 2;
-
     },
 
     canRender: function () {

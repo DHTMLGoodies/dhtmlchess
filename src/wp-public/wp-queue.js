@@ -7,7 +7,7 @@ wpchess.WpScriptQueue = new Class({
 
     initialize: function () {
         var fns = window.wpchess_snippets;
-        if (fns !== undefined && chess != undefined) {
+        if (fns !== undefined && window.chess !== undefined) {
             jQuery.each(fns, function (i, fn) {
                 fn.call();
 

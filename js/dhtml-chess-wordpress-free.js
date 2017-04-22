@@ -1,4 +1,4 @@
-/* Generated Sat Apr 22 11:53:44 CEST 2017 */
+/* Generated Sat Apr 22 12:15:14 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27666,9 +27666,8 @@ chess.WPTemplate = new Class({
 
     onload: function () {
         this._loadCounter++;
-        if (!this._ready && this._loadCounter == 2) this.render();
+        if (!this._ready && this._loadCounter == 2 && this.render !== undefined) this.render();
         this._ready = this._loadCounter == 2;
-
     },
 
     canRender: function () {
@@ -28915,7 +28914,7 @@ wpchess.WpScriptQueue = new Class({
 
     initialize: function () {
         var fns = window.wpchess_snippets;
-        if (fns !== undefined && chess != undefined) {
+        if (fns !== undefined && window.chess !== undefined) {
             jQuery.each(fns, function (i, fn) {
                 fn.call();
 
