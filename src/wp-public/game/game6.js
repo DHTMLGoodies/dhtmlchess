@@ -8,9 +8,9 @@ chess.WPGame6 = new Class({
     boardWeight: 1,
     notationWeight: 1,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
-        var w = this.renderTo.width();
+        var w = this.renderWidth();
         var eh = this.comp ? this.navH : 0;
         this.renderTo.css('height', w + eh + this.wpm_h);
 
@@ -22,9 +22,7 @@ chess.WPGame6 = new Class({
             this.arrows = config.arrows;
         }
 
-        if(this.canRender()){
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {

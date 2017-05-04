@@ -5,16 +5,14 @@ chess.WPTacticsGame1 = new Class({
     Extends: chess.WPTemplate,
     nav:false,
     
-    initialize:function(config){
+    __construct:function(config){
         this.parent(config);
         var r = this.renderTo;
-        var w = r.width();
+        var w = this.renderWidth();
         this.model = config.model || undefined;
         r.css('height', w + this.wpm_h);
         this.boardId = 'board' + String.uniqueID();
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
 
     },
 

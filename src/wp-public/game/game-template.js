@@ -3,7 +3,7 @@ chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
     fen:undefined,
 
-    initialize:function(config){
+    __construct:function(config){
         this.parent(config);
         this.model = config.model || undefined;
 

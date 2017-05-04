@@ -4,9 +4,9 @@ chess.WPGame1 = new Class({
     boardSize: undefined,
     buttonSize: 45,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
-        var w = this.renderTo.width();
+        var w = this.renderWidth();
 
         if(ludo.isMobile){
             this.renderTo.css({
@@ -26,9 +26,7 @@ chess.WPGame1 = new Class({
         this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {
@@ -88,7 +86,6 @@ chess.WPGame1 = new Class({
                     'font-weight': 'bold'
                 }
             },
-
             {
                 layout: {
                     type: 'linear', orientation: 'horizontal',

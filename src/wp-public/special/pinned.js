@@ -17,16 +17,16 @@ chess.WPPinned = new Class({
 
     solved:false,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
 
         this.renderTo = config.renderTo;
         var r = jQuery(this.renderTo);
         r.addClass('ludo-twilight');
-        var w = r.width();
+        var w = this.renderWidth();
         r.css('height', Math.round(w + 65 + this.wpm_h));
         this.boardSize = w;
-        if (config.random != undefined) this.random = config.random;
+        if (config.random !== undefined) this.random = config.random;
 
         this.board = config.board || {};
         this.arrow = config.arrow || {};
@@ -38,9 +38,7 @@ chess.WPPinned = new Class({
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {

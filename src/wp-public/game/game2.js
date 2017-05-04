@@ -2,17 +2,15 @@ chess.WPGame2 = new Class({
     Extends: chess.WPGameTemplate,
     boardSize: undefined,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
-        var w = this.renderTo.width();
+        var w = this.renderWidth();
         this.renderTo.css('height', w + 235 + this.navH + this.wpm_h);
         this.boardSize = w;
         this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {

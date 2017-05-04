@@ -148,6 +148,7 @@ class Archiver
             exec("rm -rf api/garbochess");
             exec("rm -rf api/router.php");
             exec("rm -rf api/stockfish-js/example");
+            exec("rm -rf api/php/wordpress/wordpress");
 
         }else{
             die("Not found");

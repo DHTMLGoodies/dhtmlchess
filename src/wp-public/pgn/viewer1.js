@@ -18,10 +18,10 @@ chess.WPViewer1 = new Class({
     showLabels: undefined,
     boardSize: undefined,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
         var r = this.renderTo;
-        var w = r.width();
+        var w = this.renderWidth();
 
         if (ludo.isMobile) {
             this.boardSize = w;
@@ -37,9 +37,7 @@ chess.WPViewer1 = new Class({
         this.adjustButtonArray(this.buttons);
 
         this.showLabels = !ludo.isMobile;
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {

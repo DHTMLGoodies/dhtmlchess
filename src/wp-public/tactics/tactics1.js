@@ -24,10 +24,10 @@ chess.WPTactics1 = new Class({
     loadedFromHistory: false,
     previousButtonId:undefined,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
-        var r = jQuery(this.renderTo);
-        var w = r.width();
+        var r = this.renderTo;
+        var w = this.renderWidth();
         r.css('height', Math.round(w + 130 + this.wpm_h));
         this.boardSize = w;
         if (config.random != undefined) this.random = config.random;
@@ -40,9 +40,7 @@ chess.WPTactics1 = new Class({
 
         this.showLabels = !ludo.isMobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     previousGame: function () {

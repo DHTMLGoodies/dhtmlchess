@@ -32,7 +32,22 @@ chess.WPTemplate = new Class({
 
 
     initialize: function (config) {
+        this.renderTo = jQuery(config.renderTo);
+        this.prep(config);
+    },
 
+    prep:function(config){
+        if(this.render === undefined)return;
+        var w = this.renderTo.width();
+        if(w === 0){
+            this.prep.delay(50, this, config);
+            return;
+        }
+        this.__construct(config);
+
+    },
+
+    __construct:function(config){
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
@@ -42,7 +57,7 @@ chess.WPTemplate = new Class({
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
 
-        this.renderTo = jQuery(config.renderTo);
+
         this.module = String.uniqueID();
         this.boardId = 'dhtml_chess' + String.uniqueID();
 
@@ -53,7 +68,7 @@ chess.WPTemplate = new Class({
         this.to_end = config.to_end || false;
 
 
-        if (config.pgn != undefined) {
+        if (config.pgn !== undefined) {
             if (jQuery.isArray(config.pgn)) {
                 this.pgn = config.pgn[0];
                 this.pgnAll = config.pgn;
@@ -64,14 +79,14 @@ chess.WPTemplate = new Class({
         }
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
-        if (config._p != undefined) this._p = config._p;
+        if (config._p !== undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
 
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
 
-        if (config.sound != undefined) this.sound = config.sound;
-        if (config.heading_tpl != undefined) this.heading_tpl = config.heading_tpl;
+        if (config.sound !== undefined) this.sound = config.sound;
+        if (config.heading_tpl !== undefined) this.heading_tpl = config.heading_tpl;
 
         if (config.css) {
             var rules = config.css.split(/;/g);
@@ -97,13 +112,13 @@ chess.WPTemplate = new Class({
 
         var t = config.theme || config.defaultTheme;
 
-        if (t == 'custom') {
+        if (t === 'custom') {
             chess.THEME = chess.CUSTOMTHEME;
             this.themeObject = Object.clone(chess.CUSTOMTHEME);
         }
         chess.THEMES = chess.THEMES || {};
         chess.CSSLOADED = chess.CSSLOADED || {};
-        if (t && t != 'custom') {
+        if (t && t !== 'custom') {
             this._ready = false;
 
             if(!chess.CSSLOADED[t]){
@@ -120,7 +135,7 @@ chess.WPTemplate = new Class({
                 this.onload();
             }
 
-            if (chess.THEMES[t] != undefined) {
+            if (chess.THEMES[t] !== undefined) {
                 this.themeObject = chess.THEMES[t];
                 this.onload();
             }
@@ -141,6 +156,16 @@ chess.WPTemplate = new Class({
             var manager = ludo._new('chess.WPManager');
             manager.add(this);
         }
+    },
+
+    beforeRender:function(){
+        if(this.canRender()){
+            this.render();
+        }
+    },
+
+    renderWidth:function(){
+        return this.renderTo.width();
     },
 
     adjustButtonArray: function (buttons) {

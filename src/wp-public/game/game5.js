@@ -7,10 +7,10 @@ chess.WPGame5 = new Class({
     boardWeight: 1,
     notationWeight: 1,
 
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
         var r = this.renderTo;
-        var w = r.width();
+        var w = this.renderWidth();
         if (ludo.isMobile) {
             this.notationWeight = 0;
         }
@@ -26,14 +26,10 @@ chess.WPGame5 = new Class({
         this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
         this.configure();
-        if (this.canRender()) {
-            this.render();
-        }
+        this.beforeRender();
     },
 
     configure: function () {
-
-
 
 
         this.board = Object.merge({

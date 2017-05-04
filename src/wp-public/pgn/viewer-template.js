@@ -15,7 +15,7 @@ chess.WPViewerTemplate = new Class({
 
     },
 
-    initialize:function(config){
+    __construct:function(config){
         this.parent(config);
 
 

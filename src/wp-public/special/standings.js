@@ -1,7 +1,7 @@
 chess.WPStandings1 = new Class({
     Extends: chess.WPTemplate,
 
-    initialize:function(config){
+    __construct:function(config){
         this.parent(config);
 
         jQuery.ajax({
@@ -14,7 +14,7 @@ chess.WPStandings1 = new Class({
                 pgn:this.pgn.id
             },
             complete: function (response, status) {
-                if(status == "success"){
+                if(status === "success"){
                     var standings = response.responseJSON.response;
                     new chess.wordpress.PgnStandings({
                         renderTo:this.renderTo,

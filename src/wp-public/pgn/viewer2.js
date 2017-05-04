@@ -19,7 +19,7 @@ chess.WPViewer2 = new Class({
     boardSize: undefined,
     sofia:false,
     width:undefined,
-    initialize: function (config) {
+    __construct: function (config) {
         this.parent(config);
         var r = this.renderTo;
         var w = this.width = r.width();
@@ -36,9 +36,7 @@ chess.WPViewer2 = new Class({
 
         this.gameListDsId = 'gamelist' + String.uniqueID();
         this.standingsId = 'standingsId' + String.uniqueID();
-        if(this.canRender()){
-            this.render();
-        }
+        this.beforeRender();
     },
 
     render: function () {
