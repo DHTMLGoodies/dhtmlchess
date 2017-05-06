@@ -38,7 +38,7 @@ chess.WPTactics1 = new Class({
         this.history = hist.length > 0 ? hist.split(/,/g) : [];
         this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
 
-        this.showLabels = !ludo.isMobile;
+        this.showLabels = !this.mobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
         this.beforeRender();
     },
@@ -122,13 +122,13 @@ chess.WPTactics1 = new Class({
                                 },
                                 {
                                     module: this.module,
-                                    layout: {width: ludo.isMobile ? 40 : 80},
+                                    layout: {width: this.mobile ? 40 : 80},
                                     type: 'chess.view.button.TacticHint',
-                                    value: ludo.isMobile ? '?' : chess.__('Hint')
+                                    value: this.mobile ? '?' : chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
-                                    hidden:ludo.isMobile,
+                                    hidden:this.mobile,
                                     layout: {width: 80},
                                     type: 'chess.view.button.TacticSolution',
                                     value: chess.__('Solution')

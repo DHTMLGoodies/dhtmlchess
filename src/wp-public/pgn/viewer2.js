@@ -23,14 +23,14 @@ chess.WPViewer2 = new Class({
         this.parent(config);
         var r = this.renderTo;
         var w = this.width = r.width();
-        this.boardSize = ludo.isMobile ? w : w/2;
+        this.boardSize = this.mobile ? w : w/2;
 
         r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
 
         if(config.sofia)this.sofia = true;
-        this.showLabels = !ludo.isMobile;
+        this.showLabels = !this.mobile;
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
 
@@ -55,7 +55,7 @@ chess.WPViewer2 = new Class({
                     layout: {
                         type: 'linear', orientation: 'vertical'
                     },
-                    children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+                    children: this.mobile ? this.mobileChildren() : this.desktopChildren()
                 }
             ]
         });
@@ -251,7 +251,7 @@ chess.WPViewer2 = new Class({
                 boardCss: {
                     border: 0
                 },
-                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                labels: !this.mobile, // show labels for ranks, A-H, 1-8
                 labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,

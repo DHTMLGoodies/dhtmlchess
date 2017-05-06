@@ -8,7 +8,7 @@ chess.WPGame1 = new Class({
         this.parent(config);
         var w = this.renderWidth();
 
-        if(ludo.isMobile){
+        if(this.mobile){
             this.renderTo.css({
                 'height': Math.ceil(w + this.wpm_h + this.navH),
                 position: 'relative'
@@ -62,7 +62,7 @@ chess.WPGame1 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -74,7 +74,7 @@ chess.WPGame1 = new Class({
             {
                 layout: {
                     height: 35,
-                    width: ludo.isMobile ? 'matchParent' : this.boardSize
+                    width: this.mobile ? 'matchParent' : this.boardSize
                 },
                 module: this.module,
                 type: 'chess.view.metadata.Game',

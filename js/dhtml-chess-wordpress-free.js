@@ -1,4 +1,4 @@
-/* Generated Sat May 6 17:10:42 CEST 2017 */
+/* Generated Sat May 6 20:09:49 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -27475,16 +27475,20 @@ chess.WPTemplate = new Class({
     navH: undefined,
     to_end: false,
 
+    mobile: undefined,
+
 
     initialize: function (config) {
+        var res = window.screen.width;
+        this.mobile = ludo.isMobile && (res) < 600;
         this.renderTo = jQuery(config.renderTo);
         this.prep(config);
     },
 
-    prep:function(config){
-        if(this.render === undefined)return;
+    prep: function (config) {
+        if (this.render === undefined)return;
         var w = this.renderTo.width();
-        if(w === 0){
+        if (w === 0) {
             this.prep.delay(50, this, config);
             return;
         }
@@ -27492,13 +27496,13 @@ chess.WPTemplate = new Class({
 
     },
 
-    __construct:function(config){
+    __construct: function (config) {
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-        this.navH = ludo.isMobile ? 38 : 40;
-        this.lp = ludo.isMobile ? 'inside' : 'outside';
+        this.navH = this.mobile ? 38 : 40;
+        this.lp = this.mobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
 
@@ -27543,10 +27547,15 @@ chess.WPTemplate = new Class({
             }.bind(this));
         }
 
-        if (!ludo.isMobile) {
-            if (config.width) {
-                this.renderTo.css('width', config.width);
-            }
+        var w;
+        if (config.width_mobile) {
+            w = config.width_mobile;
+        } else if (!this.mobile) {
+            w = config.width;
+        }
+
+        if (w) {
+            this.renderTo.css('width', w);
 
             if (config['float']) {
                 this.renderTo.css('float', config['float']);
@@ -27562,11 +27571,11 @@ chess.WPTemplate = new Class({
             this.themeObject = Object.clone(chess.CUSTOMTHEME);
         }
         chess.THEMES = chess.THEMES || {};
-        chess.CSSLOADED = chess.CSSLOADED || {};
+        chess.CSSLOADED = chess.CSSLOADED || {};
         if (t && t !== 'custom') {
             this._ready = false;
 
-            if(!chess.CSSLOADED[t]){
+            if (!chess.CSSLOADED[t]) {
                 jQuery('<link/>', {
                     rel: 'stylesheet',
                     type: 'text/css',
@@ -27576,7 +27585,7 @@ chess.WPTemplate = new Class({
                         this.onload();
                     }.bind(this)
                 }).appendTo('head');
-            }else{
+            } else {
                 this.onload();
             }
 
@@ -27603,13 +27612,13 @@ chess.WPTemplate = new Class({
         }
     },
 
-    beforeRender:function(){
-        if(this.canRender()){
+    beforeRender: function () {
+        if (this.canRender()) {
             this.render();
         }
     },
 
-    renderWidth:function(){
+    renderWidth: function () {
         return this.renderTo.width();
     },
 
@@ -27846,7 +27855,7 @@ chess.WPGame1 = new Class({
         this.parent(config);
         var w = this.renderWidth();
 
-        if(ludo.isMobile){
+        if(this.mobile){
             this.renderTo.css({
                 'height': Math.ceil(w + this.wpm_h + this.navH),
                 position: 'relative'
@@ -27900,7 +27909,7 @@ chess.WPGame1 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -27912,7 +27921,7 @@ chess.WPGame1 = new Class({
             {
                 layout: {
                     height: 35,
-                    width: ludo.isMobile ? 'matchParent' : this.boardSize
+                    width: this.mobile ? 'matchParent' : this.boardSize
                 },
                 module: this.module,
                 type: 'chess.view.metadata.Game',
@@ -28130,7 +28139,7 @@ chess.WPGame3 = new Class({
     __construct: function (config) {
         this.parent(config);
         var w = this.renderWidth();
-        if (ludo.isMobile) {
+        if (this.mobile) {
             this.renderTo.css('height', w + 275 + this.wpm_h);
             this.boardSize = w;
         } else {
@@ -28176,7 +28185,7 @@ chess.WPGame3 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -28434,7 +28443,7 @@ chess.WPGame4 = new Class({
                     css: {
                         'margin-top': 5
                     },
-                    children: ludo.isMobile ?
+                    children: this.mobile ?
                         [{
                             type: 'chess.view.buttonbar.Bar',
                             module: this.module,
@@ -28522,11 +28531,11 @@ chess.WPGame5 = new Class({
         this.parent(config);
         var r = this.renderTo;
         var w = this.renderWidth();
-        if (ludo.isMobile) {
+        if (this.mobile) {
             this.notationWeight = 0;
         }
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
-        if (ludo.isMobile) {
+        if (this.mobile) {
             r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
             r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
@@ -28534,7 +28543,7 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
         this.configure();
         this.beforeRender();
@@ -28627,7 +28636,7 @@ chess.WPGame5 = new Class({
                 width: 'matchParent'
             },
 
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -28645,7 +28654,7 @@ chess.WPGame5 = new Class({
                     orientation: 'horizontal'
                 },
 
-                children: ludo.isMobile ? [this.board] : [
+                children: this.mobile ? [this.board] : [
 
                         this.board,
                         {
@@ -28726,7 +28735,7 @@ chess.WPGame5 = new Class({
                 boardCss: {
                     border: 0
                 },
-                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                labels: !this.mobile, // show labels for ranks, A-H, 1-8
                 labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,

@@ -73,7 +73,7 @@ chess.Clock = new Class({
             'font-size' : h
         });
 
-        if(!ludo.isMobile){
+        if(!this.mobile){
             this.cv.css('line-height', h + 'px');
         }
     }

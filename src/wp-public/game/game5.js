@@ -11,11 +11,11 @@ chess.WPGame5 = new Class({
         this.parent(config);
         var r = this.renderTo;
         var w = this.renderWidth();
-        if (ludo.isMobile) {
+        if (this.mobile) {
             this.notationWeight = 0;
         }
         this.boardSize = (w / (this.boardWeight + this.notationWeight));
-        if (ludo.isMobile) {
+        if (this.mobile) {
             r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
             r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
@@ -23,7 +23,7 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
         this.configure();
         this.beforeRender();
@@ -116,7 +116,7 @@ chess.WPGame5 = new Class({
                 width: 'matchParent'
             },
 
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -134,7 +134,7 @@ chess.WPGame5 = new Class({
                     orientation: 'horizontal'
                 },
 
-                children: ludo.isMobile ? [this.board] : [
+                children: this.mobile ? [this.board] : [
 
                         this.board,
                         {
@@ -215,7 +215,7 @@ chess.WPGame5 = new Class({
                 boardCss: {
                     border: 0
                 },
-                labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                labels: !this.mobile, // show labels for ranks, A-H, 1-8
                 labelPos: this.lp, // show labels inside board, default is 'outside'
                 layout: {
                     weight: 1,

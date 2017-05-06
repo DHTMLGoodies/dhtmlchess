@@ -368,7 +368,14 @@ class DhtmlChessViews {
 				$view->setScript( "WPComp1" );
 			} elseif ( isset( $attributes["game"] ) ) {
 				$tpl = min( $tpl, self::countGameTemplates() );
-				$view->setScript( "WPGame" . $tpl );
+                if ( isset( $attributes["tactics"] ) ) {
+                    $d = new DhtmlChessDatabase();
+                    $json = $d->gameById($attributes["game"] );
+                    $view->setParam( "model", json_decode($json, true) );
+                    $view->setScript( "WPTacticsGame1" );
+                } else {
+                    $view->setScript("WPGame" . $tpl);
+                }
 			} elseif ( isset( $attributes["tactics"] ) ) {
 				$tpl = min($tpl, self::countTacticTemplates());
 

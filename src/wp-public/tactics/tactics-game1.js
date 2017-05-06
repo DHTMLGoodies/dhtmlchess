@@ -18,7 +18,6 @@ chess.WPTacticsGame1 = new Class({
 
     render:function(){
 
-
         new chess.view.Chess({
             cls:this.th,
             theme : this.themeObject,

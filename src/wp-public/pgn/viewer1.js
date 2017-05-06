@@ -23,7 +23,7 @@ chess.WPViewer1 = new Class({
         var r = this.renderTo;
         var w = this.renderWidth();
 
-        if (ludo.isMobile) {
+        if (this.mobile) {
             this.boardSize = w;
             r.css('height', Math.round(this.boardSize + 300 + this.navH + this.wpm_h));
         } else {
@@ -33,10 +33,10 @@ chess.WPViewer1 = new Class({
         this.lastButtons = ['next','end'];
         this.adjustButtonArray(this.lastButtons);
 
-        this.buttons = ludo.isMobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
-        this.showLabels = !ludo.isMobile;
+        this.showLabels = !this.mobile;
         this.beforeRender();
     },
 
@@ -51,7 +51,7 @@ chess.WPViewer1 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
@@ -205,7 +205,7 @@ chess.WPViewer1 = new Class({
                         boardCss: {
                             border: 0
                         },
-                        labels: !ludo.isMobile, // show labels for ranks, A-H, 1-8
+                        labels: !this.mobile, // show labels for ranks, A-H, 1-8
                         labelPos: this.lp, // show labels inside board, default is 'outside'
                         layout: {
                             height: this.boardSize

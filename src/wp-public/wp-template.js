@@ -30,16 +30,20 @@ chess.WPTemplate = new Class({
     navH: undefined,
     to_end: false,
 
+    mobile: undefined,
+
 
     initialize: function (config) {
+        var res = window.screen.width;
+        this.mobile = ludo.isMobile && (res) < 600;
         this.renderTo = jQuery(config.renderTo);
         this.prep(config);
     },
 
-    prep:function(config){
-        if(this.render === undefined)return;
+    prep: function (config) {
+        if (this.render === undefined)return;
         var w = this.renderTo.width();
-        if(w === 0){
+        if (w === 0) {
             this.prep.delay(50, this, config);
             return;
         }
@@ -47,13 +51,13 @@ chess.WPTemplate = new Class({
 
     },
 
-    __construct:function(config){
+    __construct: function (config) {
         if (config.docRoot) {
             ludo.config.setDocumentRoot(config.docRoot);
         }
 
-        this.navH = ludo.isMobile ? 38 : 40;
-        this.lp = ludo.isMobile ? 'inside' : 'outside';
+        this.navH = this.mobile ? 38 : 40;
+        this.lp = this.mobile ? 'inside' : 'outside';
         this.dr = ludo.config.getDocumentRoot();
         this.url = ludo.config.getUrl();
 
@@ -98,10 +102,15 @@ chess.WPTemplate = new Class({
             }.bind(this));
         }
 
-        if (!ludo.isMobile) {
-            if (config.width) {
-                this.renderTo.css('width', config.width);
-            }
+        var w;
+        if (config.width_mobile) {
+            w = config.width_mobile;
+        } else if (!this.mobile) {
+            w = config.width;
+        }
+
+        if (w) {
+            this.renderTo.css('width', w);
 
             if (config['float']) {
                 this.renderTo.css('float', config['float']);
@@ -117,11 +126,11 @@ chess.WPTemplate = new Class({
             this.themeObject = Object.clone(chess.CUSTOMTHEME);
         }
         chess.THEMES = chess.THEMES || {};
-        chess.CSSLOADED = chess.CSSLOADED || {};
+        chess.CSSLOADED = chess.CSSLOADED || {};
         if (t && t !== 'custom') {
             this._ready = false;
 
-            if(!chess.CSSLOADED[t]){
+            if (!chess.CSSLOADED[t]) {
                 jQuery('<link/>', {
                     rel: 'stylesheet',
                     type: 'text/css',
@@ -131,7 +140,7 @@ chess.WPTemplate = new Class({
                         this.onload();
                     }.bind(this)
                 }).appendTo('head');
-            }else{
+            } else {
                 this.onload();
             }
 
@@ -158,13 +167,13 @@ chess.WPTemplate = new Class({
         }
     },
 
-    beforeRender:function(){
-        if(this.canRender()){
+    beforeRender: function () {
+        if (this.canRender()) {
             this.render();
         }
     },
 
-    renderWidth:function(){
+    renderWidth: function () {
         return this.renderTo.width();
     },
 

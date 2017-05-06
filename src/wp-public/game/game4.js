@@ -78,7 +78,7 @@ chess.WPGame4 = new Class({
                     css: {
                         'margin-top': 5
                     },
-                    children: ludo.isMobile ?
+                    children: this.mobile ?
                         [{
                             type: 'chess.view.buttonbar.Bar',
                             module: this.module,

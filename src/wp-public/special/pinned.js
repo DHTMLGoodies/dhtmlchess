@@ -36,7 +36,7 @@ chess.WPPinned = new Class({
 
         this.pinnedMsgId = 'dc-' + String.uniqueID();
 
-        this.showLabels = !ludo.isMobile;
+        this.showLabels = !this.mobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
         this.beforeRender();
     },

@@ -15,11 +15,11 @@ chess.WPComp1 = new Class({
         var r = this.renderTo;
         var w = r.width();
         var ratio = (w + 50) / (w + 200 + this.wpm_h);
-        var h = ludo.isMobile ? w + 150 + this.wpm_h : w * ratio;
+        var h = this.mobile ? w + 150 + this.wpm_h : w * ratio;
         r.css('height', Math.round(h));
 
         if (config.isPreview) this.isPreview = config.isPreview;
-        this.boardSize = ludo.isMobile ? w : w - 200;
+        this.boardSize = this.mobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
         if (this.canRender()) {
@@ -40,7 +40,7 @@ chess.WPComp1 = new Class({
             },
             children: [
                 {
-                    hidden: !ludo.isMobile,
+                    hidden: !this.mobile,
                     type: 'chess.computer.ClockView',
                     module: this.module,
                     color: 'white',
@@ -69,8 +69,8 @@ chess.WPComp1 = new Class({
                             pieceLayout: 'svg_egg',
                             boardLayout: 'wood',
                             module: this.module,
-                            padding: ludo.isMobile ? '1%' : '2.5%',
-                            labels: !ludo.isMobile,
+                            padding: this.mobile ? '1%' : '2.5%',
+                            labels: !this.mobile,
                             background: {
                                 borderRadius: '1%',
                                 paint: {
@@ -90,7 +90,7 @@ chess.WPComp1 = new Class({
                         },
                         {
                             width: 205,
-                            hidden: ludo.isMobile,
+                            hidden: this.mobile,
                             css: {
                                 'margin-left': 5
                             },
@@ -132,7 +132,7 @@ chess.WPComp1 = new Class({
                     ]
                 },
                 {
-                    hidden: !ludo.isMobile,
+                    hidden: !this.mobile,
                     type: 'chess.computer.ClockView',
                     module: this.module,
                     color: 'white',

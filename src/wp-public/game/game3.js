@@ -6,7 +6,7 @@ chess.WPGame3 = new Class({
     __construct: function (config) {
         this.parent(config);
         var w = this.renderWidth();
-        if (ludo.isMobile) {
+        if (this.mobile) {
             this.renderTo.css('height', w + 275 + this.wpm_h);
             this.boardSize = w;
         } else {
@@ -52,7 +52,7 @@ chess.WPGame3 = new Class({
                 height: 'matchParent',
                 width: 'matchParent'
             },
-            children: ludo.isMobile ? this.mobileChildren() : this.desktopChildren()
+            children: this.mobile ? this.mobileChildren() : this.desktopChildren()
         });
 
         this.createController();
