@@ -1,4 +1,4 @@
-// (C) dhtmlchess.com, Alf Kalleland 2017-05-04 19:59:03
+// (C) dhtmlchess.com, Alf Kalleland 2017-05-06 17:10:43
 /*
  * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
  * This is a commercial software. See dhtmlchess.com for licensing options.
