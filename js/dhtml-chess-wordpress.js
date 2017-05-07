@@ -1,4 +1,4 @@
-/* Generated Sat May 6 23:18:54 CEST 2017 */
+/* Generated Sun May 7 18:00:43 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -6237,6 +6237,7 @@ ludo.View = new Class({
     initialItemsObject: [],
     contextMenu: undefined,
     lifeCycleComplete: false,
+    clickable: false,
     loadMessage:undefined,
 
     lifeCycle: function (config) {
@@ -6327,7 +6328,7 @@ ludo.View = new Class({
         var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'form', 'title', 'hidden',
             'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
             'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
-            'overflow','loadMessage'];
+            'overflow','loadMessage','clickable'];
 
         if (config.css !== undefined) {
             if (this.css !== undefined) {
@@ -6422,6 +6423,11 @@ ludo.View = new Class({
         this.isRendered = true;
         if (this.form) {
             this.getForm();
+        }
+        if(this.clickable){
+            this.$b().on('click', function(){
+                this.fireEvent('click', this);
+            }.bind(this));
         }
     },
 
@@ -11380,6 +11386,7 @@ ludo.grid.GridHeader = new Class({
 		this.parent();
         var c = this.columnManager;
 		c.on('resize', this.renderColumns.bind(this));
+		c.on('resize', this.resizeHeader.bind(this));
 		c.on('stretch', this.renderColumns.bind(this));
 		c.on('movecolumn', this.renderColumns.bind(this));
 		c.on('hidecolumn', this.renderColumns.bind(this));
@@ -11391,10 +11398,16 @@ ludo.grid.GridHeader = new Class({
 	createDOM:function () {
 		this.el = jQuery('<div class="ludo-header">');
 		this.grid.$b().prepend(this.el);
-		var countRows = this.columnManager.getCountRows();
-		this.el.css('height', this.cellHeight * countRows + ludo.dom.getMBPH(this.el));
+		this.resizeHeader();
 		this.renderColumns();
 	},
+
+	resizeHeader:function(){
+        var countRows = this.columnManager.getCountRows();
+        var h = this.cellHeight * countRows + ludo.dom.getMBPH(this.el);
+        this.el.css('height', Math.max(h, 20));
+	},
+
 
 	renderColumns:function () {
 		var countRows = this.columnManager.getCountRows();
@@ -11405,11 +11418,11 @@ ludo.grid.GridHeader = new Class({
 			var left = 0;
 			for (var j = 0; j < columns.length; j++) {
 				var width = this.columnManager.getWidthOf(columns[j]);
-				if (i == this.columnManager.getStartRowOf(columns[j])) {
+				if (i === this.columnManager.getStartRowOf(columns[j])) {
 
 					var cell = this.getCell(columns[j]);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
-					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
+					var spacing = (j===columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
 
 					cell.css({
 						'display' : '',
@@ -30768,7 +30781,7 @@ chess.wordpress.GameListGrid = new Class({
 
     loadGames: function () {
         if(this.controller){
-            if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+            if (this.controller.pgn && this.controller.pgn !== this.getDataSource().postData.pgn) {
                 this.load();
             }
         }else if(this.getDataSource().postData.pgn){
@@ -30778,12 +30791,14 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     load: function () {
-        if (this.controller.pgn) {
+        if (this.controller && this.controller.pgn) {
             this.getParent().setTitle(chess.__('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
+        }else if(this.getDataSource().postData.pgn){
+            this.getDataSource().load();
         }
     },
 
@@ -32043,7 +32058,7 @@ chess.WPGameTemplate = new Class({
                 },
                 complete: function (response, status) {
                     this.controller.currentModel.afterLoad();
-                    if (status == 'success') {
+                    if (status === 'success') {
                         var json = response.responseJSON;
                         if (json.success) {
                             var game = json.response;

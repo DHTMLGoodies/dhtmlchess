@@ -43,7 +43,7 @@ chess.WPGameTemplate = new Class({
                 },
                 complete: function (response, status) {
                     this.controller.currentModel.afterLoad();
-                    if (status == 'success') {
+                    if (status === 'success') {
                         var json = response.responseJSON;
                         if (json.success) {
                             var game = json.response;

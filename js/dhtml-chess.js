@@ -1,4 +1,4 @@
-/* Generated Fri Apr 21 21:47:01 CEST 2017 */
+/* Generated Sun May 7 17:20:45 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -5565,7 +5565,7 @@ ludo.layout.TextBox = new Class({
         x: 0, y: 0
     },
     x: 0, y: 0,
-    colorUtil:undefined,
+    colorUtil: undefined,
 
     __construct: function (config) {
         this.text = config.text;
@@ -5573,8 +5573,8 @@ ludo.layout.TextBox = new Class({
         this.className = config.className;
         this.classNameOver = config.classNameOver || config.className;
         this.renderTo = config.renderTo;
-        if (config.x !== undefined)this.x = config.x;
-        if (config.y !== undefined)this.y = config.y;
+        if (config.x !== undefined) this.x = config.x;
+        if (config.y !== undefined) this.y = config.y;
 
         if (document.createElementNS === undefined) {
             this.createIE8Box(config);
@@ -5587,10 +5587,6 @@ ludo.layout.TextBox = new Class({
         this.storeSize();
         this.rotate();
         this.resizeCanvas();
-
-
-
-
     },
 
     createIE8Box: function () {
@@ -5623,12 +5619,12 @@ ludo.layout.TextBox = new Class({
 
     },
 
-    leave:function(){
+    leave: function () {
         this.textNode.removeClass(this.classNameOver + 'svg');
         this.textNode.addClass(this.className + 'svg');
     },
 
-    enter:function(){
+    enter: function () {
         this.textNode.addClass(this.classNameOver + 'svg');
     },
 
@@ -5649,12 +5645,12 @@ ludo.layout.TextBox = new Class({
 
     createStyles: function () {
         this.styles = ludo.svg.Util.textStyles(this.className);
-        this.stylesOver = ludo.svg.Util.textStyles(this.classNameOver);
-        this.stylesOver['font-size'] = this.styles['font-size'];
-        this.stylesOver['line-height'] = this.styles['line-height'];
+        var s = ludo.svg.Util.textStyles(this.classNameOver);
+        s['font-size'] = this.styles['font-size'];
+        s['line-height'] = this.styles['line-height'];
 
         this.addStyleSheet(this.className + 'svg', this.styles);
-        this.addStyleSheet(this.classNameOver + 'svg', this.stylesOver);
+        this.addStyleSheet(this.classNameOver + 'svg', s);
 
     },
 
@@ -5695,7 +5691,7 @@ ludo.layout.TextBox = new Class({
 
         }
         this.textNode.set('transform', transformation);
-    }, 
+    },
 
     getSize: function () {
         switch (this.rotation) {
@@ -7942,7 +7938,7 @@ ludo.layout.Renderer = new Class({
 
         for (var i = 0; i < this.posKeys.length; i++) {
             var k = this.posKeys[i];
-            if (this.coordinates[k] !== undefined && this.coordinates[k] !== this.lastCoordinates[k]) this.view.getEl().css(k, c[k]);
+            if (c[k] !== undefined && c[k] !== this.lastCoordinates[k]) this.view.getEl().css(k, c[k]);
         }
         this.lastCoordinates = Object.clone(c);
     },
@@ -8131,7 +8127,7 @@ ludo.dom = {
 	getMW:function (el) {
 		if (!el.id)el.id = 'el-' + String.uniqueID();
 		if (ludo.dom.cache.MW[el.id] === undefined) {
-			ludo.dom.cache.MW[el.id] = ludo.dom.getNumericStyle(el, 'margin-left') + ludo.dom.getNumericStyle(el, 'margin-right')
+			ludo.dom.cache.MW[el.id] = ludo.dom.numStyle(el, 'margin-left') + ludo.dom.numStyle(el, 'margin-right')
 		}
 		return ludo.dom.cache.MW[el.id];
 	},
@@ -8146,7 +8142,7 @@ ludo.dom = {
 	getBW:function (el) {
 		if (!el.id)el.id = 'el-' + String.uniqueID();
 		if (ludo.dom.cache.BW[el.id] === undefined) {
-			ludo.dom.cache.BW[el.id] = ludo.dom.getNumericStyle(el, 'border-left-width') + ludo.dom.getNumericStyle(el, 'border-right-width');
+			ludo.dom.cache.BW[el.id] = ludo.dom.numStyle(el, 'border-left-width') + ludo.dom.numStyle(el, 'border-right-width');
 		}
 		return ludo.dom.cache.BW[el.id];
 	},
@@ -8160,7 +8156,7 @@ ludo.dom = {
 	getPW:function (el) {
 		if (!el.id)el.id = 'el-' + String.uniqueID();
 		if (ludo.dom.cache.PW[el.id] === undefined) {
-			ludo.dom.cache.PW[el.id] = ludo.dom.getNumericStyle(el, 'padding-left') + ludo.dom.getNumericStyle(el, 'padding-right');
+			ludo.dom.cache.PW[el.id] = ludo.dom.numStyle(el, 'padding-left') + ludo.dom.numStyle(el, 'padding-right');
 		}
 		return ludo.dom.cache.PW[el.id];
 
@@ -8176,7 +8172,7 @@ ludo.dom = {
 		this.addId(el);
 		var id = el.attr("id");
 		if (ludo.dom.cache.MH[id] === undefined) {
-			ludo.dom.cache.MH[id] = ludo.dom.getNumericStyle(el, 'margin-top') + ludo.dom.getNumericStyle(el, 'margin-bottom')
+			ludo.dom.cache.MH[id] = ludo.dom.numStyle(el, 'margin-top') + ludo.dom.numStyle(el, 'margin-bottom')
 		}
 		return ludo.dom.cache.MH[id];
 
@@ -8192,7 +8188,7 @@ ludo.dom = {
 		this.addId(el);
 		var id = el.attr("id");
 		if (ludo.dom.cache.BH[id] === undefined) {
-			ludo.dom.cache.BH[id] = ludo.dom.getNumericStyle(el, 'border-top-width') + ludo.dom.getNumericStyle(el, 'border-bottom-width');
+			ludo.dom.cache.BH[id] = ludo.dom.numStyle(el, 'border-top-width') + ludo.dom.numStyle(el, 'border-bottom-width');
 		}
 		return ludo.dom.cache.BH[id];
 	},
@@ -8207,7 +8203,7 @@ ludo.dom = {
 		this.addId(el);
 		var id = el.attr("id");
 		if (ludo.dom.cache.PH[id] === undefined) {
-			ludo.dom.cache.PH[id] = ludo.dom.getNumericStyle(el, 'padding-top') + ludo.dom.getNumericStyle(el, 'padding-bottom');
+			ludo.dom.cache.PH[id] = ludo.dom.numStyle(el, 'padding-top') + ludo.dom.numStyle(el, 'padding-bottom');
 		}
 		return ludo.dom.cache.PH[id];
 	},
@@ -8236,12 +8232,12 @@ ludo.dom = {
 
 	/*
 	 * Return numeric style value,
-	 * @function getNumericStyle
+	 * @function numStyle
 	 * @private
 	 * @param {Object} el
 	 * @param {String} style
 	 */
-	getNumericStyle:function (el, style) {
+	numStyle:function (el, style) {
 
 		if (!el || !style || !el.css)return 0;
 		var val = el.css(style);
@@ -8491,6 +8487,7 @@ ludo.View = new Class({
     initialItemsObject: [],
     contextMenu: undefined,
     lifeCycleComplete: false,
+    clickable: false,
     loadMessage:undefined,
 
     lifeCycle: function (config) {
@@ -8547,8 +8544,8 @@ ludo.View = new Class({
 
         this.increaseZIndex();
 
-        if (this.layout && this.layout.type && (this.layout.type == 'tabs' || this.layout.type == 'docking')) {
-
+        var l = this.layout;
+        if (l && l.type && (l.type === 'tabs' || l.type === 'docking')) {
             this.getLayout().prepareView();
         }
 
@@ -8581,16 +8578,16 @@ ludo.View = new Class({
         var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'form', 'title', 'hidden',
             'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
             'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
-            'overflow','loadMessage'];
+            'overflow','loadMessage','clickable'];
 
-        if (config.css != undefined) {
-            if (this.css != undefined) {
+        if (config.css !== undefined) {
+            if (this.css !== undefined) {
                 this.css = Object.merge(this.css, config.css);
             } else {
                 this.css = config.css;
             }
         }
-        if (config.html != undefined)this._html = config.html;
+        if (config.html !== undefined)this._html = config.html;
         this.__params(config, keys);
 
         if (this.renderTo)this.renderTo = jQuery(this.renderTo);
@@ -8621,18 +8618,17 @@ ludo.View = new Class({
      */
     ludoDOM: function () {
         if (this.contextMenu) {
-            if (!ludo.util.isArray(this.contextMenu)) {
-                this.contextMenu = [this.contextMenu];
+            var c = this.contextMenu;
+            if (!ludo.util.isArray(c)) {
+                c = [c];
             }
-            for (var i = 0; i < this.contextMenu.length; i++) {
-                this.contextMenu[i].applyTo = this;
-                this.contextMenu[i].contextEl = this.isFormElement() ? this.getFormEl() : this.getEl();
-                new ludo.menu.Context(this.contextMenu[i]);
+            for (var i = 0; i < c.length; i++) {
+                c[i].applyTo = this;
+                c[i].contextEl = this.isFormElement() ? this.getFormEl() : this.getEl();
+                new ludo.menu.Context(c[i]);
             }
             this.contextMenu = undefined;
         }
-
-
     },
 
     ludoCSS: function () {
@@ -8663,7 +8659,8 @@ ludo.View = new Class({
      * @function __rendered
      */
     __rendered: function () {
-        if (!this.layout.height && !this.layout.above && !this.layout.sameHeightAs && !this.layout.alignWith) {
+        var l = this.layout;
+        if (!l.height && !l.above && !l.sameHeightAs && !l.alignWith) {
             this.autoSetHeight();
         }
         if (!this.parentComponent) {
@@ -8676,6 +8673,11 @@ ludo.View = new Class({
         this.isRendered = true;
         if (this.form) {
             this.getForm();
+        }
+        if(this.clickable){
+            this.$b().on('click', function(){
+                this.fireEvent('click', this);
+            }.bind(this));
         }
     },
 
@@ -8966,10 +8968,11 @@ ludo.View = new Class({
      */
     getAllChildren: function () {
         var ret = [];
-        for (var i = 0; i < this.children.length; i++) {
-            ret.push(this.children[i]);
-            if (this.children[i].hasChildren()) {
-                ret = ret.append(this.children[i].getChildren());
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            ret.push(c[i]);
+            if (c[i].hasChildren()) {
+                ret = ret.append(c[i].getChildren());
             }
         }
         return ret;
@@ -9071,7 +9074,7 @@ ludo.View = new Class({
             this.fireEvent('resize', p);
         }
 
-        if(this._fr == false){
+        if(this._fr === false){
             this.fireEvent('rendered', this);
             this._fr = true;
         }
@@ -9166,9 +9169,10 @@ ludo.View = new Class({
      *
      */
     getChild: function (childName) {
-        for (var i = 0; i < this.children.length; i++) {
-            if (this.children[i].id == childName || this.children[i].name == childName) {
-                return this.children[i];
+        var c = this.children;
+        for (var i = 0; i < c.length; i++) {
+            if (c[i].id == childName || c[i].name == childName) {
+                return c[i];
             }
         }
         return undefined;
@@ -9539,24 +9543,24 @@ ludo.layout.Tabs = new Class({
                 this.tabMenuEl = this.$b();
                 return this.tabMenuEl;
             }
-            this.tabMenuEl = jQuery('<div class="ludo-tab-expand-box ludo-tab-expand-box-' + this.tabPos + '"></div>');
-            this.$b().append(this.tabMenuEl);
+            var el = this.tabMenuEl = jQuery('<div class="ludo-tab-expand-box ludo-tab-expand-box-' + this.tabPos + '"></div>');
+            this.$b().append(el);
 
             var s = this.$b().outerHeight() - this.elLine.height();
             var k = this.tabPos == 'top' || this.tabPos == 'bottom' ? 'height' : 'width';
-            this.tabMenuEl.css(k, s);
+            el.css(k, s);
 
             if (this.tabPos == 'bottom') {
-                this.tabMenuEl.css('top', this.elLine.outerHeight());
+                el.css('top', this.elLine.outerHeight());
             }
 
-            this.tabMenuEl.css('line-height', s + "px");
+            el.css('line-height', s + "px");
 
-            this.tabMenuEl.on('click', this.toggleMenu.bind(this));
-            this.tabMenuEl.css('visibility', 'hidden');
+            el.on('click', this.toggleMenu.bind(this));
+            el.css('visibility', 'hidden');
 
-            this.tabMenuEl.mouseenter(this.enterMenuIcon.bind(this));
-            this.tabMenuEl.mouseleave(this.leaveMenuIcon.bind(this));
+            el.mouseenter(this.enterMenuIcon.bind(this));
+            el.mouseleave(this.leaveMenuIcon.bind(this));
 
         }
         return this.tabMenuEl;
@@ -9602,10 +9606,8 @@ ludo.layout.Tabs = new Class({
 
             });
             this.menu.getEl().mousedown(ludo.util.cancelEvent);
-            ;
             ludo.EffectObject.on('start', this.hideMenu.bind(this));
             jQuery(document.documentElement).mousedown(this.domClick.bind(this));
-
         }
         return this.menu;
     },
@@ -9625,7 +9627,6 @@ ludo.layout.Tabs = new Class({
     hideMenu: function () {
         this.getMenu().hide();
     },
-
 
     toggleMenu: function () {
         var menu = this.getMenu();
@@ -9655,10 +9656,10 @@ ludo.layout.Tabs = new Class({
     },
 
     createTabFor: function (child) {
-
-        if (this.tabParent == undefined) {
-            this.tabParent = jQuery('<div style="position:absolute" class="ludo-tab-layout-parent-for-tabs ludo-tab-layout-parent-for-tabs-' + this.tabPos + '"></div>');
-            if (this.tabPos == 'top' || this.tabPos == 'bottom') {
+        var p = this.tabPos;
+        if (this.tabParent === undefined) {
+            this.tabParent = jQuery('<div style="position:absolute" class="ludo-tab-layout-parent-for-tabs ludo-tab-layout-parent-for-tabs-' + p + '"></div>');
+            if (p === 'top' || p === 'bottom') {
                 this.tabParent.css({
                     height: this.$b().height(),
                     width: 10000
@@ -9673,7 +9674,7 @@ ludo.layout.Tabs = new Class({
             this.$b().append(this.tabParent);
         }
         var node;
-        if (this.tabPos === 'top' || this.tabPos == 'bottom') {
+        if (p === 'top' || p === 'bottom') {
             node = this.getPlainTabFor(child);
         } else {
             node = this.getSVGTabFor(child);
@@ -9686,7 +9687,7 @@ ludo.layout.Tabs = new Class({
         }
         node.css(this.getPosAttribute(), this.currentPos);
         node.addClass("ludo-tab-strip-tab");
-        node.addClass('ludo-tab-strip-tab-' + this.tabPos);
+        node.addClass('ludo-tab-strip-tab-' + p);
         this.tabs[child.getId()] = node;
 
         if (!child.isHidden())this.activateTabFor(child);
@@ -9820,7 +9821,7 @@ ludo.layout.Tabs = new Class({
     },
 
     hideTabFor: function () {
-        if (this.activeTab != undefined) {
+        if (this.activeTab !== undefined) {
             this.activeTab.removeClass('ludo-tab-strip-tab-active');
             this.svgTextMethod(this.activeTabId, 'leave');
 
@@ -9829,7 +9830,7 @@ ludo.layout.Tabs = new Class({
 
     svgTextMethod: function (childId, method) {
         var t = this.svgTexts[childId];
-        if (t != undefined && t[method] != undefined) {
+        if (t !== undefined && t[method] !== undefined) {
             t[method]();
         }
     },
@@ -11212,7 +11213,6 @@ ludo.layout.Grid = new Class({
             var r = this.pos(c);
             r.width = this.widthOfView(c);
             r.height = this.heightOfView(c);
-
             c.resize(r);
         }
     },
@@ -11236,8 +11236,9 @@ ludo.layout.Grid = new Class({
     },
 
     storeSize: function () {
-        this.colWidth = this.viewport.width / this.columns;
-        this.rowHeight = this.viewport.height / this.rows;
+        var vp = this.viewport;
+        this.colWidth = vp.width / this.columns;
+        this.rowHeight = vp.height / this.rows;
     },
 
     onNewChild: function (child) {
@@ -17025,6 +17026,7 @@ ludo.grid.GridHeader = new Class({
 		this.parent();
         var c = this.columnManager;
 		c.on('resize', this.renderColumns.bind(this));
+		c.on('resize', this.resizeHeader.bind(this));
 		c.on('stretch', this.renderColumns.bind(this));
 		c.on('movecolumn', this.renderColumns.bind(this));
 		c.on('hidecolumn', this.renderColumns.bind(this));
@@ -17036,10 +17038,16 @@ ludo.grid.GridHeader = new Class({
 	createDOM:function () {
 		this.el = jQuery('<div class="ludo-header">');
 		this.grid.$b().prepend(this.el);
-		var countRows = this.columnManager.getCountRows();
-		this.el.css('height', this.cellHeight * countRows + ludo.dom.getMBPH(this.el));
+		this.resizeHeader();
 		this.renderColumns();
 	},
+
+	resizeHeader:function(){
+        var countRows = this.columnManager.getCountRows();
+        var h = this.cellHeight * countRows + ludo.dom.getMBPH(this.el);
+        this.el.css('height', Math.max(h, 20));
+	},
+
 
 	renderColumns:function () {
 		var countRows = this.columnManager.getCountRows();
@@ -17050,11 +17058,11 @@ ludo.grid.GridHeader = new Class({
 			var left = 0;
 			for (var j = 0; j < columns.length; j++) {
 				var width = this.columnManager.getWidthOf(columns[j]);
-				if (i == this.columnManager.getStartRowOf(columns[j])) {
+				if (i === this.columnManager.getStartRowOf(columns[j])) {
 
 					var cell = this.getCell(columns[j]);
 					var height = (this.columnManager.getRowSpanOf(columns[j]) * this.cellHeight) - this.spacing.height;
-					var spacing = (j==columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
+					var spacing = (j===columns.length-1) ? this.spacing.width - 1 : this.spacing.width;
 
 					cell.css({
 						'display' : '',
@@ -19782,12 +19790,6 @@ ludo.form.Element = new Class({
         return this.label;
     },
 
-    getValue:function () {
-        console.warn("Use of deprecated getValue");
-        console.trace();
-        return this.els.formEl ? this.els.formEl.val() : this.value;
-    },
-
     /**
      * Set or get value. If val argument is set, you will set a value, if not current value
      * will be returned.
@@ -19827,18 +19829,6 @@ ludo.form.Element = new Class({
         this.fireEvent('value', value);
 
         return value;
-    },
-
-    /*
-     * Set new value
-     * @function setValue
-     * @param value
-     * @return void
-     */
-    setValue:function (value) {
-        console.warn("Use of deprecated setValue");
-        console.trace();
-        return this._set(value);
     },
 
     setFormElValue:function(value){
@@ -20147,7 +20137,7 @@ ludo.form.Text = new Class({
         }
         this.applyValidatorFns(['minLength', 'maxLength', 'regex']);
 
-        if(this.layout.height == undefined){
+        if(this.layout.height === undefined){
             this.layout.height = 'wrap';
         }
 
@@ -20189,7 +20179,7 @@ ludo.form.Text = new Class({
     },
 
     validateKey: function (e) {
-        if (!e.control && !e.alt && this.regex && e.key && e.key.length == 1) {
+        if (!e.control && !e.alt && this.regex && e.key && e.key.length === 1) {
             if (!this.regex.test(e.key)) {
                 return false;
             }
@@ -20230,13 +20220,13 @@ ludo.form.Text = new Class({
     upperCaseWords: function () {
         if (this.ucFirst || this.ucWords) {
             var val = this.getValueOfFormEl();
-            if (val.length == 0) {
+            if (val.length === 0) {
                 return;
             }
             if (this.ucWords && val.length > 1) {
                 var tokens = val.split(/\s/g);
                 for (var i = 0; i < tokens.length; i++) {
-                    if (tokens[i].length == 1) {
+                    if (tokens[i].length === 1) {
                         tokens[i] = tokens[i].toUpperCase();
                     } else {
                         tokens[i] = tokens[i].substr(0, 1).toUpperCase() + tokens[i].substr(1);
@@ -20251,35 +20241,12 @@ ludo.form.Text = new Class({
         }
     },
 
-    hasSelection: function () {
-        var start = this.getSelectionStart();
-        var end = this.getSelectionEnd();
-        return end > start;
-    },
-
     select:function(){
         this.getFormEl().select();
     },
 
     selectText: function () {
         this.select();
-    },
-
-    getSelectionStart: function () {
-        if (this.els.formEl.createTextRange) {
-            var r = document.selection.createRange().duplicate();
-            r.moveEnd('character', this.els.formEl.val().length);
-            if (r.text == '') return this.els.formEl.val().length;
-            return this.els.formEl.val().lastIndexOf(r.text);
-        } else return this.els.formEl.selectionStart;
-    },
-
-    getSelectionEnd: function () {
-        if (this.els.formEl.createTextRange) {
-            var r = document.selection.createRange().duplicate();
-            r.moveStart('character', -this.els.formEl.val().length);
-            return r.text.length;
-        } else return this.els.formEl.selectionEnd;
     }
 });
 /* ../ludojs/src/dialog/prompt.js */
@@ -22068,8 +22035,7 @@ ludo.color.Color = new Class({
     },
 
     brightness:function(color, brightness){
-        if(arguments.length == 1){
-
+        if(arguments.length === 1){
             return this.toHSV(color).v;
         }else{
             var hsv = this.toHSV(color);
@@ -22079,7 +22045,7 @@ ludo.color.Color = new Class({
     },
 
     saturation:function(color, saturation){
-        if(arguments.length == 1){
+        if(arguments.length === 1){
             return this.toHSV(color).s;
         }else{
             var hsv = this.toHSV(color);
@@ -22127,7 +22093,7 @@ ludo.color.Color = new Class({
         var h, s;
 
         var d = max - min;
-        s = max == 0 ? 0 : d / max;
+        s = max === 0 ? 0 : d / max;
 
         if (max == min) {
             h = 0;
@@ -25549,35 +25515,38 @@ ludo.form.CancelButton = new Class({
  * @augments ludo.form.Text
  */
 ludo.form.Textarea = new Class({
-    Extends:ludo.form.Text,
-    type:'form.Textarea',
-    inputType:undefined,
-    inputTag:'textarea',
-    overflow:'hidden',
+    Extends: ludo.form.Text,
+    type: 'form.Textarea',
+    inputType: undefined,
+    inputTag: 'textarea',
+    overflow: 'hidden',
 
-    __construct:function (config) {
+    __construct: function (config) {
         this.parent(config);
         this.ucWords = false;
     },
 
-    __rendered:function(){
+    __rendered: function () {
         this.parent();
         this.els.formEl.css({
-            paddingRight:0,paddingTop:0
+            paddingRight: 0, paddingTop: 0
         });
     },
 
-    offX:undefined, offY:undefined,
+    offX: undefined, offY: undefined,
 
-    resizeDOM:function () {
+    resizeDOM: function () {
         this.parent();
 
-        if(this.offX == undefined){
-            this.offX = (this.els.formEl.outerWidth() - this.els.formEl.width()) + (this.getInputCell().outerWidth() - this.getInputCell().width());
-            this.offY = (this.els.formEl.outerWidth() - this.els.formEl.width()) + (this.getInputCell().outerHeight() - this.getInputCell().height());
+        var el = this.els.formEl;
+        var c = this.getInputCell();
+
+        if (this.offX === undefined) {
+            this.offX = (el.outerWidth() - el.width()) + (c.outerWidth() - c.width());
+            this.offY = (el.outerWidth() - el.width()) + (c.outerHeight() - c.height());
         }
-        this.els.formEl.css('width', this.$b().width() - this.offX);
-        this.els.formEl.css('height', this.$b().height() - this.offY - 2);
+        el.css('width', this.$b().width() - this.offX);
+        el.css('height', this.$b().height() - this.offY - 2);
     }
 });/* ../ludojs/src/notification.js */
 /**
@@ -28322,16 +28291,17 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/view/chess.js */
             }
         ]
  */
+
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
     layout:{
         width:'matchParent', height:'matchParent'
     },
+
     __construct:function(config){
 
-
-        if(config.theme == undefined){
+        if(config.theme === undefined){
             config.theme = chess.THEME || {};
         }
 
@@ -42099,7 +42069,7 @@ chess.wordpress.GameListGrid = new Class({
 
     loadGames: function () {
         if(this.controller){
-            if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+            if (this.controller.pgn && this.controller.pgn !== this.getDataSource().postData.pgn) {
                 this.load();
             }
         }else if(this.getDataSource().postData.pgn){
@@ -42109,12 +42079,14 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     load: function () {
-        if (this.controller.pgn) {
+        if (this.controller && this.controller.pgn) {
             this.getParent().setTitle(chess.__('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
+        }else if(this.getDataSource().postData.pgn){
+            this.getDataSource().load();
         }
     },
 

@@ -13,6 +13,7 @@ div.ludo-window {
 
 .ludo-tab-strip-tab-txt-svg, .ludo-tab-strip-tab-txt-svg-active {
     font-family: arial, helvetica, sans-serif;
+    font-size:11px !important;
 }
 
 .ludo-layout-tabs {
@@ -587,3 +588,5 @@ div.dhtml-chess-board{
 .dhtml-chess-square-black {
     background-color: transparent;
 }
+
+

@@ -1,4 +1,4 @@
-/* Generated Sat May 6 23:18:42 CEST 2017 */
+/* Generated Sun May 7 18:00:32 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -7280,6 +7280,7 @@ ludo.View = new Class({
     initialItemsObject: [],
     contextMenu: undefined,
     lifeCycleComplete: false,
+    clickable: false,
     loadMessage:undefined,
 
     lifeCycle: function (config) {
@@ -7370,7 +7371,7 @@ ludo.View = new Class({
         var keys = ['contextMenu', 'renderTo', 'tpl', 'elCss', 'form', 'title', 'hidden',
             'dataSource', 'movable', 'resizable', 'closable', 'minimizable', 'alwaysInFront',
             'parentComponent', 'cls', 'bodyCls', 'objMovable', 'width', 'height', 'frame', 'formConfig',
-            'overflow','loadMessage'];
+            'overflow','loadMessage','clickable'];
 
         if (config.css !== undefined) {
             if (this.css !== undefined) {
@@ -7465,6 +7466,11 @@ ludo.View = new Class({
         this.isRendered = true;
         if (this.form) {
             this.getForm();
+        }
+        if(this.clickable){
+            this.$b().on('click', function(){
+                this.fireEvent('click', this);
+            }.bind(this));
         }
     },
 
@@ -27821,7 +27827,7 @@ chess.WPGameTemplate = new Class({
                 },
                 complete: function (response, status) {
                     this.controller.currentModel.afterLoad();
-                    if (status == 'success') {
+                    if (status === 'success') {
                         var json = response.responseJSON;
                         if (json.success) {
                             var game = json.response;

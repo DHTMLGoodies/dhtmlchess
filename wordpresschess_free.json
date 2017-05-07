@@ -3,12 +3,12 @@
   "slug" : "wordpresschess_free",
   "homepage" : "https://www.wordpresschess.com",
   "download_url" : "http://dhtmlchess.com/api/zip/wordpresschess_free.zip",
-  "version" : "1.0.61",
+  "version" : "1.0.62",
   "author" : "wordpresschess.com",
   "sections" : {
     "description" : "An online chess database with beautiful layout for your WordPress site.<br>* Lots of templates to choose from<br>* Choose between simple game views, tournament views and tactics.<br>* Have your games stored in a database<br>* Import your PGN files with the click of a button<br>* Analyse your games online using StockfishJS embedded in the browser(No installation required).",
     "screenshots": "1. Online Game Editor.\r<br>2. Many board templates",
-    "changelog" : "1.0.61<br>* Text editor button for adding shortcodes"
+    "changelog" : "1.0.62<br>* Text editor button for adding shortcodes"
   },
   "banners" : {
     "low" : "https://wordpresschess.com/wp-content/plugins/dhtml_chess/assets/banner-772x250.png",

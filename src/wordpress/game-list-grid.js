@@ -41,7 +41,7 @@ chess.wordpress.GameListGrid = new Class({
 
     loadGames: function () {
         if(this.controller){
-            if (this.controller.pgn && this.controller.pgn != this.getDataSource().postData.pgn) {
+            if (this.controller.pgn && this.controller.pgn !== this.getDataSource().postData.pgn) {
                 this.load();
             }
         }else if(this.getDataSource().postData.pgn){
@@ -51,12 +51,14 @@ chess.wordpress.GameListGrid = new Class({
     },
 
     load: function () {
-        if (this.controller.pgn) {
+        if (this.controller && this.controller.pgn) {
             this.getParent().setTitle(chess.__('PGN:') + ' ' + this.controller.pgn.pgn_name);
 
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
+        }else if(this.getDataSource().postData.pgn){
+            this.getDataSource().load();
         }
     },
 
