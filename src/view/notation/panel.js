@@ -403,7 +403,7 @@ chess.view.notation.Panel = new Class({
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img class="dc-dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
+                ret.push('<img class="dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
                 ret.push(move[this.notationKey]);
             }

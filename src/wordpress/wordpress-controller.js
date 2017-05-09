@@ -162,7 +162,7 @@ chess.wordpress.WordpressController = new Class({
     },
 
     getDatabaseRenameDialog: function () {
-        if (this.renameDbDialog == undefined) {
+        if (this.renameDbDialog === undefined) {
             this.renameDbDialog = new chess.wordpress.RenameDatabaseDialog({
                 layout: {
                     centerIn: this.views.board

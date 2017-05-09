@@ -241,7 +241,8 @@ div.dhtml-chess-notation-panel {
 div.dhtml-chess-notation-panel img.dc-figurine{
     display:inline !important;
     margin:0 !important;;
-    padding:0 !important;;
+    padding:0 !important;
+    opacity:1 !important;
 }
 
 .ludo-chess-view-metadata-game {
