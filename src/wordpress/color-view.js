@@ -64,5 +64,13 @@ chess.wordpress.ColorView = new Class({
             this.selectedEl = el;
         }
 
+    },
+
+    clear:function(){
+        if(this.selectedEl){
+            this.selectedEl.removeClass('wpc-color-box-selected');
+        }
+        this.selectedColor = undefined;
+        this.selectedEl = undefined;
     }
 });
