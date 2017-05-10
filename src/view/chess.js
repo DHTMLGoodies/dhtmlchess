@@ -56,14 +56,14 @@ chess.view.Chess = new Class({
     __construct:function(config){
 
         if(config.theme === undefined){
-            config.theme = chess.THEME || {};
+            config.theme = chess.THEME || {};
         }
 
-        if(chess.THEME_OVERRIDES != undefined){
+        if(chess.THEME_OVERRIDES !== undefined){
             config.theme = Object.merge(config.theme, chess.THEME_OVERRIDES);
         }
 
-        if(config.theme != undefined){
+        if(config.theme !== undefined){
             this.theme = config.theme;
 
             this.parseTheme();

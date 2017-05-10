@@ -1,4 +1,4 @@
-/* Generated Wed May 10 19:55:38 CEST 2017 */
+/* Generated Wed May 10 23:16:59 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28302,14 +28302,14 @@ chess.view.Chess = new Class({
     __construct:function(config){
 
         if(config.theme === undefined){
-            config.theme = chess.THEME || {};
+            config.theme = chess.THEME || {};
         }
 
-        if(chess.THEME_OVERRIDES != undefined){
+        if(chess.THEME_OVERRIDES !== undefined){
             config.theme = Object.merge(config.theme, chess.THEME_OVERRIDES);
         }
 
-        if(config.theme != undefined){
+        if(config.theme !== undefined){
             this.theme = config.theme;
 
             this.parseTheme();
@@ -34641,6 +34641,10 @@ chess.view.position.Board = new Class({
 
     ludoEvents:function () {
         this.parent();
+        this.addBoardEvents();
+    },
+
+    addBoardEvents:function(){
         this.els.board.on('click', this.insertPiece.bind(this));
         this.addEvent('resetboard', this.sendFen.bind(this));
         this.addEvent('modifyboard', this.sendFen.bind(this));
@@ -34665,6 +34669,8 @@ chess.view.position.Board = new Class({
         this.selectedPiece = piece;
         this.els.board.css('cursor', 'pointer');
     },
+
+
 
     insertPiece:function (e) {
         if (!this.selectedPiece) {
@@ -35069,7 +35075,6 @@ chess.view.position.Dialog = new Class({
         this.parent(config);
 
     },
-
 
     __rendered: function () {
         this.parent();
