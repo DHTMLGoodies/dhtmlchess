@@ -1,4 +1,4 @@
-/* Generated Sun May 7 17:20:45 CEST 2017 */
+/* Generated Wed May 10 19:55:38 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -28943,7 +28943,7 @@ chess.view.notation.Panel = new Class({
                 var c = p.color.substr(0, 1);
                 var t = p.type == 'n' ? 'n' : p.type.substr(0, 1);
                 var src = ludo.config.getDocumentRoot() + '/images/' + this.figurines + '45' + c + t + '.svg';
-                ret.push('<img class="dc-dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
+                ret.push('<img class="dc-figurine" width="' + this.figurineHeight + '" height="' + this.figurineHeight + '" style="vertical-align:text-bottom;height:' + this.figurineHeight + 'px" src="' + src + '">' + (move['m'].substr(p.type == 'p' ? 0 : 1)));
             } else {
                 ret.push(move[this.notationKey]);
             }
@@ -34628,7 +34628,7 @@ chess.view.position.Board = new Class({
     Extends:chess.view.board.Board,
     type : 'chess.view.position.Board',
     vAlign:'top',
-    pieceLayout:'svg_egg',
+    pieceLayout:'svg_bw',
     boardLayout:'wood',
     module:'positionsetup',
     submodule:'chesspositionboard',
@@ -34678,7 +34678,7 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
-        if (this.selectedPiece.pieceType == 'k') {
+        if (this.selectedPiece.pieceType === 'k') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
@@ -34692,7 +34692,7 @@ chess.view.position.Board = new Class({
         }
         if (!p) {
             p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.pieceType == 'k') {
+            if (p && p.pieceType === 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -34714,7 +34714,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.pieceType == 'p') {
+        if (p.pieceType === 'p') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -34735,13 +34735,13 @@ chess.view.position.Board = new Class({
     },
 
     isEqualPiece:function (piece1, piece2) {
-        return piece1.color == piece2.color && piece1.pieceType == piece2.pieceType;
+        return piece1.color === piece2.color && piece1.pieceType === piece2.pieceType;
     },
 
     getIndexForNewPiece:function (color) {
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
+            if (this.pieces[i].color === color) {
                 if (!firstIndex)firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
@@ -34754,7 +34754,7 @@ chess.view.position.Board = new Class({
     getIndexesOfPiecesOfAColor:function (color) {
         var ret = [];
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
+            if (this.pieces[i].color === color) {
                 ret.push(i);
             }
         }
@@ -34763,7 +34763,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType == 'k' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }
@@ -34834,7 +34834,7 @@ chess.view.position.Board = new Class({
 chess.view.position.Pieces = new Class({
     Extends:ludo.View,
     pieceColor:'white',
-    pieceLayout:'alphapale',
+    pieceLayout:'svg_bw',
     pieceTypes:['k', 'q', 'r', 'b', 'n', 'p'],
     pieces : {},
 
@@ -34892,12 +34892,24 @@ chess.view.position.Piece = new Class({
     __rendered:function () {
         this.parent();
         var piece = this.els.piece = jQuery('<div>');
+        var extension = this.pieceLayout.indexOf('svg') >= 0 ? 'svg' : 'png';
         piece.css({
-            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
+            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.' + extension +')',
             'background-position':'center center',
             'background-repeat':'no-repeat',
             'cursor':'pointer'
         });
+
+
+        if(extension === 'svg'){
+            piece.css({
+                'background-size' :'100% 100%',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                '-webkit-background-size' :'cover'
+
+            });
+        }
 
         piece.attr('pieceType', this.pieceType);
         piece.on('click', this.selectPiece.bind(this));

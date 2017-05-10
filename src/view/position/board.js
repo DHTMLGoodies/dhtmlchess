@@ -8,7 +8,7 @@ chess.view.position.Board = new Class({
     Extends:chess.view.board.Board,
     type : 'chess.view.position.Board',
     vAlign:'top',
-    pieceLayout:'svg_egg',
+    pieceLayout:'svg_bw',
     boardLayout:'wood',
     module:'positionsetup',
     submodule:'chesspositionboard',
@@ -21,6 +21,10 @@ chess.view.position.Board = new Class({
 
     ludoEvents:function () {
         this.parent();
+        this.addBoardEvents();
+    },
+
+    addBoardEvents:function(){
         this.els.board.on('click', this.insertPiece.bind(this));
         this.addEvent('resetboard', this.sendFen.bind(this));
         this.addEvent('modifyboard', this.sendFen.bind(this));
@@ -46,6 +50,8 @@ chess.view.position.Board = new Class({
         this.els.board.css('cursor', 'pointer');
     },
 
+
+
     insertPiece:function (e) {
         if (!this.selectedPiece) {
             return;
@@ -58,7 +64,7 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
-        if (this.selectedPiece.pieceType == 'k') {
+        if (this.selectedPiece.pieceType === 'k') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
@@ -72,7 +78,7 @@ chess.view.position.Board = new Class({
         }
         if (!p) {
             p = this.getVisiblePieceOnNumericSquare(square);
-            if (p && p.pieceType == 'k') {
+            if (p && p.pieceType === 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
@@ -94,7 +100,7 @@ chess.view.position.Board = new Class({
     isValidSquareForSelectedPiece:function (square) {
         var p = this.selectedPiece;
 
-        if (p.pieceType == 'p') {
+        if (p.pieceType === 'p') {
             var rank = ((square & 240) / 16) + 1;
             if (rank < 2 || rank > 7) {
                 return false;
@@ -115,13 +121,13 @@ chess.view.position.Board = new Class({
     },
 
     isEqualPiece:function (piece1, piece2) {
-        return piece1.color == piece2.color && piece1.pieceType == piece2.pieceType;
+        return piece1.color === piece2.color && piece1.pieceType === piece2.pieceType;
     },
 
     getIndexForNewPiece:function (color) {
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
+            if (this.pieces[i].color === color) {
                 if (!firstIndex)firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
@@ -134,7 +140,7 @@ chess.view.position.Board = new Class({
     getIndexesOfPiecesOfAColor:function (color) {
         var ret = [];
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].color == color) {
+            if (this.pieces[i].color === color) {
                 ret.push(i);
             }
         }
@@ -143,7 +149,7 @@ chess.view.position.Board = new Class({
 
     getKingPiece:function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType == 'k' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color == color) {
                 return this.pieces[i];
             }
         }

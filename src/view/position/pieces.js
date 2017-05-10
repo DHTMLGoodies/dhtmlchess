@@ -7,7 +7,7 @@
 chess.view.position.Pieces = new Class({
     Extends:ludo.View,
     pieceColor:'white',
-    pieceLayout:'alphapale',
+    pieceLayout:'svg_bw',
     pieceTypes:['k', 'q', 'r', 'b', 'n', 'p'],
     pieces : {},
 
@@ -65,12 +65,24 @@ chess.view.position.Piece = new Class({
     __rendered:function () {
         this.parent();
         var piece = this.els.piece = jQuery('<div>');
+        var extension = this.pieceLayout.indexOf('svg') >= 0 ? 'svg' : 'png';
         piece.css({
-            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.png)',
+            'background-image':'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + this.size + this.getColorCode() + this.getTypeCode() + '.' + extension +')',
             'background-position':'center center',
             'background-repeat':'no-repeat',
             'cursor':'pointer'
         });
+
+
+        if(extension === 'svg'){
+            piece.css({
+                'background-size' :'100% 100%',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                '-webkit-background-size' :'cover'
+
+            });
+        }
 
         piece.attr('pieceType', this.pieceType);
         piece.on('click', this.selectPiece.bind(this));

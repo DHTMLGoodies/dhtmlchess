@@ -82,7 +82,6 @@ chess.view.position.Dialog = new Class({
 
     },
 
-
     __rendered: function () {
         this.parent();
 
