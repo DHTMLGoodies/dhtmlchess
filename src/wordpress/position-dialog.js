@@ -369,6 +369,10 @@ chess.wordpress.PositionDialog = new Class({
 
     updatePosition: function (key, value) {
         this.position[key] = value;
+        this.toggleOkButton();
+    },
+
+    toggleOkButton:function(){
         var button = this.getButton('ok');
         if (this.positionValidator.isValid(this.getPosition())) {
             if (button) button.enable();
@@ -482,16 +486,30 @@ chess.wordpress.PositionDialog = new Class({
     },
 
     showPositionDialog: function (parentDialog, fen, arrowString, squareString) {
-        this.fen = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-        var off = parentDialog.offset();
-        this.showAt(off.left - 20, off.top + 20);
+        fen = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
         this.boardView().clearBoard();
 
-        if (this.fen) {
-            this.loadFen(this.fen);
-        }
 
+        var tokens = fen.split(/\s/g);
+        this.position = {
+            'board' : tokens[0],
+            'color': tokens[1],
+            'castling' : tokens.length > 1 ? tokens[2] : '',
+            'enPassant' : tokens.length> 2 ? tokens[3] : '',
+            'halfMoves' : tokens.length> 3 ? tokens[4] : '',
+            'fullMoves' : tokens.length> 4 ? tokens[5] : ''
+        };
+
+        this.toggleOkButton();
+
+        var off = parentDialog.offset();
+        this.showAt(off.left - 20, off.top + 20);
+
+
+        if (fen) {
+            this.loadFen(fen);
+        }
 
         if (arrowString) {
             var arrows = arrowString.split(/,/g);

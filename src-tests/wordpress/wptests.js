@@ -27,14 +27,14 @@ TestCase("WPTest", {
         return {
             code: 'fen',
             attr: this.attributes(content),
-            content: this.content(content)
+            content: this.content(content, 'fen')
         }
     },
     getPgnContent: function (content) {
         return {
             code: 'pgn',
             attr: this.attributes(content),
-            content: this.content(content)
+            content: this.content(content, 'pgn')
         }
     },
 
@@ -47,8 +47,20 @@ TestCase("WPTest", {
 
     },
 
-    content: function (content) {
-        var pattern = /\[.+?\]([^\[]+?)\[/;
+    content: function (content, tag) {
+
+        var pattern;
+        // /\[.+?\]([^\[]+?)\[\//;
+
+        switch(tag){
+            case 'pgn':
+                pattern = /\[pgn.*?\]([\s\S]+?)\[\/pgn/;
+                break;
+            case 'fen':
+                pattern = /\[fen.*?\](.+?)\[\/fen/;
+                break;
+        }
+
         return content.match(pattern)[1];
     },
 
@@ -74,7 +86,7 @@ TestCase("WPTest", {
         return ret;
     },
 
-    "test should get fen content": function () {
+    "test should get pgn content": function () {
         // given
         var content = '[pgn theme="custom" sound=1]\n[Event "Immortal game"]\n[Site "London"]\n[Date "1851.??.??"]\n[Round "?"]\n[White "Anderssen,A"]\n[Black "Kieseritzky,L"]\n'
             + '[Result "1-0"]\n'
@@ -89,6 +101,23 @@ TestCase("WPTest", {
         assertEquals('pgn', parsed.code);
         assertEquals("custom", parsed.attr.theme);
         assertEquals("1", parsed.attr.sound);
+        assertNotUndefined(parsed.content);
+
+
+    },
+    "test should get pgn content2": function () {
+        // given
+        var content = '[pgn theme="wood8" float="left"][Event "Evergreen game"] [Site "Berlin"] [Date "1852"] [Round "?"] [White "Anderssen,A"] [Black "Dufresne,J"] [Result "1-0"] 1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O d3 8.Qb3 Qf6 9.e5 Qg6 10.Re1 Nge7 11.Ba3 b5 12.Qxb5 Rb8 13.Qa4 Bb6 14.Nbd2 Bb7 15.Ne4 Qf5 16.Bxd3 Qh5 17.Nf6+ gxf6 18.exf6 Rg8 19.Rad1 Qxf3 20.Rxe7+ Nxe7 21.Qxd7+ Kxd7 22.Bf5+ Ke8 23.Bd7+ Kf8 24.Bxe7+ 1-0 [/pgn]';
+
+        // when
+        var parsed = this.parsed(content);
+
+        // then
+        assertEquals('pgn', parsed.code);
+        assertEquals("wood8", parsed.attr.theme);
+        assertEquals("left", parsed.attr.float);
+        assertNotUndefined(parsed.content);
+        assertTrue("Invalid length" + parsed.content.length, parsed.content.length > 50);
 
     },
 
