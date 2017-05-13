@@ -31,7 +31,7 @@ chess.wordpress.PositionDialog = new Class({
         fullMoves: '0'
     },
 
-    colors: ['#ff0000', '#00ff00', "#B71C1C", '#66BB6A', '#29B6F6', '#FB8C00', '#7B1FA2','#303F9F','#1976D2','#0097A7'],
+    colors: ['#ff0000', '#00ff00', "#B71C1C", '#66BB6A', '#29B6F6', '#FB8C00', '#7B1FA2', '#303F9F', '#1976D2', '#0097A7'],
 
     boardId: 'boardContainer',
 
@@ -279,9 +279,9 @@ chess.wordpress.PositionDialog = new Class({
                         id: 'highlightColorView',
                         layout: {weight: 1, height: 'matchParent'},
                         type: 'chess.wordpress.ColorView',
-                        storageKey:'wpc-highlight-colors',
+                        storageKey: 'wpc-highlight-colors',
                         title: 'Highlight Squares',
-                        dialog:this,
+                        dialog: this,
                         colors: this.colors,
                         listeners: {
                             'select': function (color) {
@@ -303,8 +303,8 @@ chess.wordpress.PositionDialog = new Class({
                         type: 'chess.wordpress.ColorView',
                         title: 'Arrows',
                         colors: this.colors,
-                        dialog:this,
-                        storageKey:'wpc-arrow-colors',
+                        dialog: this,
+                        storageKey: 'wpc-arrow-colors',
                         listeners: {
                             'select': function (color) {
                                 this.boardView().startArrowMode(color);
@@ -330,9 +330,7 @@ chess.wordpress.PositionDialog = new Class({
 
     onClickSquare: function (square) {
 
-        console.log(square);
     },
-
 
     __rendered: function () {
         this.parent();
@@ -402,19 +400,11 @@ chess.wordpress.PositionDialog = new Class({
          */
         var payload = {
             fen: this.getPosition(),
-            arrows: this.getArrows(),
-            highlightedSquares: this.highlightedSquares()
+            arrows: this.boardView().arrowString(),
+            squares: this.boardView().highlightString()
         };
         this.fireEvent('setPosition', payload);
         this.hide();
-    },
-
-    highlightedSquares: function () {
-        return "";
-    },
-
-    getArrows: function () {
-        return "";
     },
 
     flipBoard: function () {
@@ -491,15 +481,51 @@ chess.wordpress.PositionDialog = new Class({
         return true;
     },
 
-    showPositionDialog: function (parentDialog, fen) {
+    showPositionDialog: function (parentDialog, fen, arrowString, squareString) {
         this.fen = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
         var off = parentDialog.offset();
         this.showAt(off.left - 20, off.top + 20);
 
+        this.boardView().clearBoard();
 
         if (this.fen) {
             this.loadFen(this.fen);
         }
+
+
+        if (arrowString) {
+            var arrows = arrowString.split(/,/g);
+            arrows.forEach(function (arrow) {
+                var tokens = arrow.split(/;/);
+                if (/^[a-h][1-8][a-h][1-8]$/.test(tokens[0])) {
+                    var color = tokens.length === 2 && this.isColor(tokens[1]) ? tokens[1] : '#ff0000';
+                    this.boardView().addArrow(
+                        tokens[0].substr(0, 2),
+                        tokens[0].substr(2, 2),
+                        color
+                    );
+                }
+            }.bind(this));
+        }
+
+        if (squareString) {
+            var squares = squareString.split(/,/g);
+            squares.forEach(function (square) {
+                var tokens = square.split(/;/);
+                if (/^[a-h][1-8]$/.test(tokens[0])) {
+                    var color = tokens.length === 2 && this.isColor(tokens[1]) ? tokens[1] : '#ff0000';
+                    this.boardView().highlightSquare(tokens[0], color);
+                }
+
+            }.bind(this));
+        }
+
+    },
+
+    isColor: function (color) {
+        var pattern = /^#[a-f0-9]{3}$/;
+        var pattern2 = /^#[a-f0-9]{6}$/;
+        return pattern.test(color) || pattern2.test(color);
     },
 
     show: function () {

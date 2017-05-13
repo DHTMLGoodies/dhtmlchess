@@ -9,7 +9,7 @@ chess.view.highlight.ArrowPool = new Class({
     board: undefined,
     svgNode: undefined,
     single: false,
-    autoToggle:false,
+    autoToggle: false,
 
     arrowStyles: {
         'stroke-linejoin': 'round',
@@ -70,6 +70,8 @@ chess.view.highlight.ArrowPool = new Class({
 
         arrow.from = from;
         arrow.to = to;
+        arrow.color = styling.fill;
+
         this.pool.push(arrow);
 
         arrow.el.show();
@@ -79,8 +81,21 @@ chess.view.highlight.ArrowPool = new Class({
         return arrow;
     },
 
-    update:function(arrow, toSquare){
+    update: function (arrow, toSquare) {
+        if(!toSquare)return;
+        arrow.to = toSquare;
         arrow.el.showArrow(arrow.from, toSquare, this.bg.width(), this.board.flipped);
+    },
+
+    removeArrow: function (arrow) {
+        var index = this.pool.indexOf(arrow);
+        if (index >= 0) {
+            this.pool.splice(index, 1);
+        }
+        index = this.hiddenPool.indexOf(arrow);
+        if (index === -1) {
+            this.hiddenPool.push(arrow);
+        }
     },
 
 
@@ -89,12 +104,12 @@ chess.view.highlight.ArrowPool = new Class({
             this.hiddenPool.push(arrow);
             arrow.el.hide();
         }.bind(this));
+        this.pool = [];
         this.bg.hide();
 
     },
 
     getArrow: function () {
-
         if (this.hiddenPool.length > 0) {
             return this.hiddenPool.pop();
         } else if (this.single && this.pool.length > 0) {
@@ -129,5 +144,25 @@ chess.view.highlight.ArrowPool = new Class({
                 return piece.initDragPiece(e);
             }
         }
+    },
+
+    toString: function () {
+        var ret = [];
+        var curColor = "";
+
+        this.pool.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        this.pool.forEach(function (arrow) {
+            var arrowString = arrow.from + arrow.to;
+            if (arrow.color !== curColor) {
+                curColor = arrow.color;
+                arrowString += ";" + arrow.color;
+            }
+            ret.push(arrowString);
+
+        });
+        return ret.join(",");
     }
 });

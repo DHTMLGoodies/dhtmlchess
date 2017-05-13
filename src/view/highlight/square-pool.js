@@ -9,16 +9,16 @@ chess.view.highlight.SquarePool = new Class({
     visibleItems: undefined,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     map: undefined,
-    colorMap:undefined,
-    onlySingles:false,
-    autoToggle:false,
+    colorMap: undefined,
+    onlySingles: false,
+    autoToggle: false,
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
         this.board = config.board;
-        if (config.opacity !== undefined)this.opacity = config.opacity;
-        if (config.onlySingles !== undefined)this.onlySingles = config.onlySingles;
-        if (config.autoToggle !== undefined)this.autoToggle = config.autoToggle;
+        if (config.opacity !== undefined) this.opacity = config.opacity;
+        if (config.onlySingles !== undefined) this.onlySingles = config.onlySingles;
+        if (config.autoToggle !== undefined) this.autoToggle = config.autoToggle;
 
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
@@ -36,18 +36,47 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
-    toggle:function(square, color){
-        if(this.isShown(square)){
+    toggle: function (square, color) {
+        if (this.isShown(square)) {
             this.hide(square);
-        }else{
+        } else {
             this.show(square, color);
         }
     },
 
-    lastSquare:undefined,
+    toString: function () {
+        var ret = [];
 
-    lastBgColor:function(){
-        if(this.lastSquare){
+        var items = [];
+        this.visibleItems.forEach(function (item) {
+            var s = item.square;
+            items.push({
+                square: s, color: this.colorMap[s]
+            })
+
+        }.bind(this));
+
+        items.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        var curColor = '';
+
+        items.forEach(function (item) {
+            var str = item.square;
+            if (item.color !== curColor) {
+                curColor = item.color;
+                str += ";" + curColor;
+            }
+            ret.push(str);
+        });
+        return ret.join(',');
+    },
+
+    lastSquare: undefined,
+
+    lastBgColor: function () {
+        if (this.lastSquare) {
             return this.lastSquare.el.css('background-color');
         }
     },
@@ -55,14 +84,14 @@ chess.view.highlight.SquarePool = new Class({
     show: function (square, color) {
 
         var isShown = this.isShown(square);
-        if(isShown && this.autoToggle){
+        if (isShown && this.autoToggle) {
             var sameColor = this.colorMap[square] === color;
             this.hide(square);
-            if(sameColor)return;
+            if (sameColor)return;
         }
 
-        if(this.onlySingles && isShown){
-            if(color)this.map[square][0].el.css('background-color', color);
+        if (this.onlySingles && isShown) {
+            if (color) this.map[square][0].el.css('background-color', color);
             return;
         }
         var s = this.getSquare();
@@ -78,7 +107,7 @@ chess.view.highlight.SquarePool = new Class({
         s.el.css({
             left: pos.x, top: pos.y
         });
-        if(color){
+        if (color) {
             s.el.css('background-color', color);
         }
         s.el.show();
@@ -154,9 +183,9 @@ chess.view.highlight.SquarePool = new Class({
         }.bind(this));
     },
 
-    getSquares:function(){
-        var ret =[];
-        jQuery.each(this.visibleItems, function(i, square){
+    getSquares: function () {
+        var ret = [];
+        jQuery.each(this.visibleItems, function (i, square) {
             ret.push(square.square);
         });
         return ret;

@@ -58,7 +58,7 @@ chess.WPGame6 = new Class({
             ]
         });
 
-        if (this.highlight != undefined) {
+        if (this.highlight !== undefined) {
             var hPool = new chess.view.highlight.SquarePool({
                 board: ludo.$(this.boardId)
             });
@@ -73,7 +73,7 @@ chess.WPGame6 = new Class({
             });
         }
 
-        if(this.arrows != undefined){
+        if(this.arrows !== undefined){
             var arrowPool = new chess.view.highlight.ArrowPool({
                 board: ludo.$(this.boardId)
             });

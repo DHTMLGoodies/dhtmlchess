@@ -2,10 +2,10 @@ chess.wordpress.PopupView = new Class({
     Extends: ludo.View,
     pos: undefined,
     alignWith: undefined,
-    arrowEl:undefined,
-    posDelta:undefined,
+    arrowEl: undefined,
+    posDelta: undefined,
 
-    arrowSize:20,
+    arrowSize: 20,
 
     __construct: function (config) {
         this.parent(config);
@@ -28,7 +28,7 @@ chess.wordpress.PopupView = new Class({
         this.alignWith = el;
 
         this.arrowEl[0].className = 'wpc-popupview-arrow';
-        switch(pos){
+        switch (pos) {
             case 'above':
                 this.arrowEl.addClass('wpc-popupview-arrow-down');
                 break;
@@ -42,11 +42,11 @@ chess.wordpress.PopupView = new Class({
 
         var bw = this.arrowSize / 2;
         this.arrowEl.css({
-            'border-left-width' : bw,
-            'border-right-width' : bw,
-            'border-top-width' : bw,
-            'border-bottom-width' : bw,
-            'margin-left' : -bw
+            'border-left-width': bw,
+            'border-right-width': bw,
+            'border-top-width': bw,
+            'border-bottom-width': bw,
+            'margin-left': -bw
 
         });
         var offsetR = this.renderTo.offset();
@@ -71,7 +71,7 @@ chess.wordpress.PopupView = new Class({
         switch (this.pos) {
             case 'above':
                 css.top = -this.$e.height() + this.posDelta.y - this.arrowEl.outerHeight();
-                css.left = Math.max(0, pos.left - (widthThis / 2) + (width / 2));
+                css.left = Math.max(0, this.posDelta.x - (widthThis / 2) + (el.width() / 2));
                 break;
 
             default:

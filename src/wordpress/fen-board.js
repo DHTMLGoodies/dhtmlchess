@@ -3,10 +3,12 @@ chess.wordpress.FenBoard = new Class({
     mode: 'insertPiece',
 
     curColor: undefined,
-    curArrow:undefined,
+    curArrow: undefined,
 
     addBoardEvents: function () {
 
+        this.els.board.on('mousedown', this.onMouseDown.bind(this));
+        this.els.board.on('mouseup', this.onMouseUp.bind(this));
         this.els.board.on('click', this.onBoardClick.bind(this));
         this.els.board.on('mousemove', this.onBoardMove.bind(this));
 
@@ -18,31 +20,73 @@ chess.wordpress.FenBoard = new Class({
         this.addEvent('render', this.sendFen.bind(this));
     },
 
-    lastArrowSquare:undefined,
+    lastArrowSquare: undefined,
 
-    onMouseUp:function(){
+    onMouseUp: function (e) {
+        if (this.mode === 'arrowMove') {
+            var square = this.getSquareByEvent(e);
+            var squareString = Board0x88Config.numberToSquareMapping[square];
+
+            if (squareString === this.curArrow.from) {
+                this.arrowPool().removeArrow(this.curArrow);
+            } else {
+                this.arrowPool().update(this.curArrow, squareString);
+            }
+
+            console.log(this.arrowPool().toString());
+            this.mode = 'arrowStart';
+        }
         this.lastArrowSquare = undefined;
     },
 
-    onBoardMove:function(e){
-          if(this.mode === 'arrowMove'){
-              var square = this.getSquareByEvent(e);
-              if(square !== this.lastArrowSquare){
-                  var squareString = Board0x88Config.numberToSquareMapping[square];
-                  this.lastArrowSquare = square;
-                  this.arrowPool().update(this.curArrow, squareString);
-              }
-          }
+    onBoardMove: function (e) {
+        if (this.mode === 'arrowMove') {
+            var square = this.getSquareByEvent(e);
+            if (square !== this.lastArrowSquare) {
+                var squareString = Board0x88Config.numberToSquareMapping[square];
+                this.lastArrowSquare = square;
+                this.arrowPool().update(this.curArrow, squareString);
+            }
+        }
     },
 
-    clearBoard:function(){
+    clearBoard: function () {
         this.parent();
         this.clearArrows();
         this.highlightPool().hideAll();
     },
 
-    clearArrows:function(){
+    clearArrows: function () {
         this.arrowPool().hideAll();
+    },
+
+    addArrow: function(from, to, color){
+        this.arrowPool().show(from, to, { fill: color, stroke: color });
+    },
+
+    highlightSquare:function(square, color){
+        this.highlightPool().show(square, color);
+    },
+
+    onMouseDown: function (e) {
+        if (this.mode !== 'arrowStart')return;
+        var square = this.getSquareByEvent(e);
+        if (square === undefined)return;
+        var squareString = Board0x88Config.numberToSquareMapping[square];
+
+        this.curArrow = this.arrowPool().show(squareString, squareString, {
+            fill: this.curColor,
+            stroke: this.curColor
+        });
+        this.mode = 'arrowMove'
+    },
+
+    arrowString:function(){
+        return this.arrowPool().toString();
+    },
+
+    highlightString:function(){
+        return this.highlightPool().toString();
     },
 
     onBoardClick: function (e) {
@@ -57,22 +101,13 @@ chess.wordpress.FenBoard = new Class({
                 this.insertPiece(e);
                 break;
             case 'arrowStart':
-                this.curArrow = this.arrowPool().show(squareString, squareString, {
-                    fill:this.curColor,
-                    stroke: this.curColor
-                });
-                this.mode = 'arrowMove'
-                break;
-
             case 'arrowMove':
-                this.arrowPool().update(this.curArrow, squareString);
-                this.mode = 'arrowStart';
+
                 break;
             case 'highlight':
                 this.highlightPool().show(squareString, this.curColor);
                 break;
         }
-
     },
 
     startHighlight: function (color) {
@@ -97,7 +132,7 @@ chess.wordpress.FenBoard = new Class({
         if (this._highlightPool === undefined) {
             this._highlightPool = new chess.view.highlight.SquarePool({
                 board: this,
-                autoToggle:true
+                autoToggle: true
             });
         }
 
