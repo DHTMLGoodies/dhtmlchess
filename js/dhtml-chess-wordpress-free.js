@@ -1,4 +1,4 @@
-/* Generated Sat May 13 0:46:21 CEST 2017 */
+/* Generated Sat May 13 2:25:26 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -19509,10 +19509,10 @@ chess.view.board.Piece = new Class({
 
     setPieceLayout:function(layout){
         this.pieceLayout = layout;
-        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.svg = this.pieceLayout.indexOf('svg') === 0;
         this.extension = this.svg ? 'svg' : 'png';
         this.bgUpdated = false;
-        if(this.el != undefined){
+        if(this.el){
             this.updateBackgroundImage();
         }
     },
@@ -19592,6 +19592,7 @@ chess.view.board.Piece = new Class({
      * @method hide
      */
     hide: function () {
+
         this.el.css('display', 'none');
     },
     /**
@@ -19741,7 +19742,9 @@ chess.view.board.Piece = new Class({
 
         var s = this.svg ? 45 : this.size;
 
-        if (this.svg && this.getColorCode() + this.getTypeCode() == this.bgUpdated) {
+        var c = this.getColorCode() + this.getTypeCode();
+
+        if (this.svg && c === this.bgUpdated) {
 
         } else {
             this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
@@ -19756,8 +19759,7 @@ chess.view.board.Piece = new Class({
 
             });
         }
-        this.bgUpdated = this.getColorCode() + this.getTypeCode();
-
+        this.bgUpdated = c;
     },
 
     /**
@@ -19801,6 +19803,8 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
+
+
     },
 
     /**
@@ -20498,6 +20502,7 @@ chess.view.highlight.ArrowPool = new Class({
     board: undefined,
     svgNode: undefined,
     single: false,
+    autoToggle:false,
 
     arrowStyles: {
         'stroke-linejoin': 'round',
@@ -20514,8 +20519,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined) this.single = config.single;
+        if (config.arrowStyles !== undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single !== undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));
@@ -20563,6 +20568,12 @@ chess.view.highlight.ArrowPool = new Class({
         arrow.el.show();
         arrow.el.showArrow(from, to, this.bg.width(), this.board.flipped);
         arrow.el.css(styling);
+
+        return arrow;
+    },
+
+    update:function(arrow, toSquare){
+        arrow.el.showArrow(arrow.from, toSquare, this.bg.width(), this.board.flipped);
     },
 
 
@@ -20571,7 +20582,6 @@ chess.view.highlight.ArrowPool = new Class({
             this.hiddenPool.push(arrow);
             arrow.el.hide();
         }.bind(this));
-
         this.bg.hide();
 
     },
@@ -22019,10 +22029,22 @@ chess.util.CoordinateUtil = {
      * @param {bool} flip
      */
     arrowPath: function (fromSquare, toSquare, properties, boardSize, flip) {
+
+
+
+
         var c = {
             start: this.centerOfSquare(fromSquare, boardSize, flip),
             end: this.centerOfSquare(toSquare, boardSize, flip)
         };
+
+
+        if(fromSquare === toSquare){
+
+            return '';
+
+        }
+
         c.oposite = c.start.y - c.end.y;
         c.adjacent = c.end.x - c.start.x;
         c.hyp = Math.sqrt(c.oposite * c.oposite + c.adjacent * c.adjacent);
@@ -22045,7 +22067,7 @@ chess.util.CoordinateUtil = {
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
-        var oe = properties.offsetEnd || sz * .2;
+        var oe = properties.offsetEnd || sz * 0;
         var os = properties.offsetStart || sz * -.1;
 
         var ret = [];

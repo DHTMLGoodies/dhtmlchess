@@ -28,18 +28,30 @@ chess.wordpress.ColorView = new Class({
         jQuery.each(this.colors, function(i, color){
             this.colorContainer.append(this.getColorBox(color));
         }.bind(this));
+        this.colorContainer.append('<div style="clear:both">');
+        for(var i=0;i<10;i++){
+            this.colorContainer.append(this.getColorBox());
+
+        }
+
     },
 
 
     resize: function (size) {
         this.parent(size);
-
     },
+
 
     getColorBox: function (color) {
 
         var el = jQuery('<div class="wpc-color-box"></div>');
-        el.css('background-color', color);
+        if(color){
+            el.css('background-color', color);
+            el.attr("title", color);
+        }else{
+            el.addClass('wpc-color-box-empty');
+            el.attr("title", "Click to add color");
+        }
         el.data('color', color);
         el.on('click', this.selectColor.bind(this));
         return el;
