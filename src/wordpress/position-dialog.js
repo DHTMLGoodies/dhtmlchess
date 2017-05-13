@@ -31,7 +31,7 @@ chess.wordpress.PositionDialog = new Class({
         fullMoves: '0'
     },
 
-    colors: ['#ff0000', '#00ff00', "#B71C1C", '#66BB6A', '#29B6F6', '#FB8C00', '#7B1FA2','#303F9F','#1976D2'],
+    colors: ['#ff0000', '#00ff00', "#B71C1C", '#66BB6A', '#29B6F6', '#FB8C00', '#7B1FA2','#303F9F','#1976D2','#0097A7'],
 
     boardId: 'boardContainer',
 
@@ -279,7 +279,9 @@ chess.wordpress.PositionDialog = new Class({
                         id: 'highlightColorView',
                         layout: {weight: 1, height: 'matchParent'},
                         type: 'chess.wordpress.ColorView',
+                        storageKey:'wpc-highlight-colors',
                         title: 'Highlight Squares',
+                        dialog:this,
                         colors: this.colors,
                         listeners: {
                             'select': function (color) {
@@ -301,6 +303,8 @@ chess.wordpress.PositionDialog = new Class({
                         type: 'chess.wordpress.ColorView',
                         title: 'Arrows',
                         colors: this.colors,
+                        dialog:this,
+                        storageKey:'wpc-arrow-colors',
                         listeners: {
                             'select': function (color) {
                                 this.boardView().startArrowMode(color);
