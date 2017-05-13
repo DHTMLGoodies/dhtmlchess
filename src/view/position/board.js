@@ -51,12 +51,15 @@ chess.view.position.Board = new Class({
     },
 
 
-
     insertPiece:function (e) {
+
         if (!this.selectedPiece) {
             return;
         }
         var square = this.getSquareByEvent(e);
+
+
+
         if (square === undefined) {
             return;
         }
@@ -64,6 +67,7 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
+
         if (this.selectedPiece.pieceType === 'k') {
             p = this.getKingPiece(this.selectedPiece.color);
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
@@ -92,6 +96,8 @@ chess.view.position.Board = new Class({
             }
         }
 
+
+
         this.configurePieceAndPlaceOnSquare(p, square);
         this.fireEvent('modifyboard');
 
@@ -112,11 +118,11 @@ chess.view.position.Board = new Class({
 
     configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
         piece.square = placeOnSquare;
-        piece.pieceType = this.selectedPiece.pieceType;
         piece.color = this.selectedPiece.color;
+        piece.pieceType = this.selectedPiece.pieceType;
         piece.position();
-        piece.updateBackgroundImage();
-        piece.show();
+        piece.setPieceLayout(this.pieceLayout);
+        piece.el.show();
         this.pieceMap[piece.square] = piece;
     },
 

@@ -38,10 +38,22 @@ chess.util.CoordinateUtil = {
      * @param {bool} flip
      */
     arrowPath: function (fromSquare, toSquare, properties, boardSize, flip) {
+
+
+
+
         var c = {
             start: this.centerOfSquare(fromSquare, boardSize, flip),
             end: this.centerOfSquare(toSquare, boardSize, flip)
         };
+
+
+        if(fromSquare === toSquare){
+
+            return '';
+
+        }
+
         c.oposite = c.start.y - c.end.y;
         c.adjacent = c.end.x - c.start.x;
         c.hyp = Math.sqrt(c.oposite * c.oposite + c.adjacent * c.adjacent);
@@ -64,7 +76,7 @@ chess.util.CoordinateUtil = {
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
-        var oe = properties.offsetEnd || sz * .2;
+        var oe = properties.offsetEnd || sz * 0;
         var os = properties.offsetStart || sz * -.1;
 
         var ret = [];

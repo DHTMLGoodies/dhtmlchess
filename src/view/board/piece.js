@@ -73,10 +73,10 @@ chess.view.board.Piece = new Class({
 
     setPieceLayout:function(layout){
         this.pieceLayout = layout;
-        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.svg = this.pieceLayout.indexOf('svg') === 0;
         this.extension = this.svg ? 'svg' : 'png';
         this.bgUpdated = false;
-        if(this.el != undefined){
+        if(this.el){
             this.updateBackgroundImage();
         }
     },
@@ -156,6 +156,7 @@ chess.view.board.Piece = new Class({
      * @method hide
      */
     hide: function () {
+
         this.el.css('display', 'none');
     },
     /**
@@ -305,7 +306,9 @@ chess.view.board.Piece = new Class({
 
         var s = this.svg ? 45 : this.size;
 
-        if (this.svg && this.getColorCode() + this.getTypeCode() == this.bgUpdated) {
+        var c = this.getColorCode() + this.getTypeCode();
+
+        if (this.svg && c === this.bgUpdated) {
 
         } else {
             this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
@@ -320,8 +323,7 @@ chess.view.board.Piece = new Class({
 
             });
         }
-        this.bgUpdated = this.getColorCode() + this.getTypeCode();
-
+        this.bgUpdated = c;
     },
 
     /**
@@ -365,6 +367,8 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
+
+
     },
 
     /**

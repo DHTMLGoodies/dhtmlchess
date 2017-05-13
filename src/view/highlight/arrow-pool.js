@@ -9,6 +9,7 @@ chess.view.highlight.ArrowPool = new Class({
     board: undefined,
     svgNode: undefined,
     single: false,
+    autoToggle:false,
 
     arrowStyles: {
         'stroke-linejoin': 'round',
@@ -25,8 +26,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined) this.single = config.single;
+        if (config.arrowStyles !== undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single !== undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));
@@ -74,6 +75,12 @@ chess.view.highlight.ArrowPool = new Class({
         arrow.el.show();
         arrow.el.showArrow(from, to, this.bg.width(), this.board.flipped);
         arrow.el.css(styling);
+
+        return arrow;
+    },
+
+    update:function(arrow, toSquare){
+        arrow.el.showArrow(arrow.from, toSquare, this.bg.width(), this.board.flipped);
     },
 
 
@@ -82,7 +89,6 @@ chess.view.highlight.ArrowPool = new Class({
             this.hiddenPool.push(arrow);
             arrow.el.hide();
         }.bind(this));
-
         this.bg.hide();
 
     },

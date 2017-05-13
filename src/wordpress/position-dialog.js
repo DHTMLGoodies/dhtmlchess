@@ -10,9 +10,9 @@ chess.wordpress.PositionDialog = new Class({
     submodule: 'positionSetup',
     autoRemove: false,
     autoHideOnBtnClick: false,
-    width: 640,
+    width: 670,
     height: 550,
-    title: chess.__('Position setup'),
+    title: chess.__('Fen Setup'),
     layout: {
         type: 'relative'
     },
@@ -30,6 +30,8 @@ chess.wordpress.PositionDialog = new Class({
         halfMoves: '0',
         fullMoves: '0'
     },
+
+    colors: ['#ff0000', '#00ff00', "#B71C1C", '#66BB6A', '#29B6F6', '#FB8C00', '#7B1FA2','#303F9F','#1976D2'],
 
     boardId: 'boardContainer',
 
@@ -52,6 +54,7 @@ chess.wordpress.PositionDialog = new Class({
                 },
                 {
                     value: 'Reset',
+                    css: {'font-weight': 'normal'},
                     listeners: {
                         click: this.resetBoard.bind(this)
                     }
@@ -66,6 +69,14 @@ chess.wordpress.PositionDialog = new Class({
                     value: 'Load fen',
                     listeners: {
                         click: this.showLoadFenDialog.bind(this)
+                    }
+                },
+                {
+                    value: 'Clear Arrows',
+                    listeners: {
+                        click: function () {
+                            this.boardView().clearArrows();
+                        }.bind(this)
                     }
                 },
                 {
@@ -90,7 +101,7 @@ chess.wordpress.PositionDialog = new Class({
         return [
             {
                 type: 'chess.wordpress.FenBoard',
-                id: 'boardContainer',
+                id: this.boardId,
                 autoResize: false,
                 pieceLayout: 'svg_darkgrey',
                 background: {
@@ -110,7 +121,8 @@ chess.wordpress.PositionDialog = new Class({
                     margin: 3
                 },
                 listeners: {
-                    setPosition: this.receivePosition.bind(this)
+                    setPosition: this.receivePosition.bind(this),
+                    clickSquare: this.onClickSquare.bind(this)
                 },
                 plugins: [
                     {
@@ -175,7 +187,7 @@ chess.wordpress.PositionDialog = new Class({
                 },
                 layout: {
                     rightOf: 'blackPieces',
-                    width: 130,
+                    width: 150,
                     alignParentTop: true,
                     height: 145
                 }
@@ -264,17 +276,18 @@ chess.wordpress.PositionDialog = new Class({
                 css: {},
                 children: [
                     {
+                        id: 'highlightColorView',
                         layout: {weight: 1, height: 'matchParent'},
                         type: 'chess.wordpress.ColorView',
                         title: 'Highlight Squares',
-                        colors: ["#EF5350", '#66BB6A', '#29B6F6', '#FB8C00'],
+                        colors: this.colors,
                         listeners: {
                             'select': function (color) {
-                                this.highlightColor = color;
-
+                                this.boardView().startHighlight(color);
+                                ludo.$('arrowColorView').clear();
                             }.bind(this),
                             'deselect': function () {
-                                this.highlightColor = undefined;
+                                this.boardView().clearMode();
 
                             }.bind(this)
                         }
@@ -283,18 +296,19 @@ chess.wordpress.PositionDialog = new Class({
                         width: 5
                     },
                     {
+                        id: 'arrowColorView',
                         layout: {weight: 1, height: 'matchParent'},
                         type: 'chess.wordpress.ColorView',
                         title: 'Arrows',
-                        colors: ["#EF5350", '#66BB6A', '#29B6F6', '#FB8C00'],
+                        colors: this.colors,
                         listeners: {
-                            'select': function () {
-
+                            'select': function (color) {
+                                this.boardView().startArrowMode(color);
+                                ludo.$('highlightColorView').clear();
 
                             }.bind(this),
                             'deselect': function () {
-
-
+                                this.boardView().clearMode();
                             }.bind(this)
                         }
                     }
@@ -305,8 +319,15 @@ chess.wordpress.PositionDialog = new Class({
         ]
     },
 
-    highlightColor:undefined,
+    highlightColor: undefined,
+    boardView: function () {
+        return ludo.$(this.boardId);
+    },
 
+    onClickSquare: function (square) {
+
+        console.log(square);
+    },
 
 
     __rendered: function () {
@@ -361,6 +382,7 @@ chess.wordpress.PositionDialog = new Class({
 
     clearBoard: function () {
         this.board.clearBoard();
+
     },
     resetBoard: function () {
         this.board.resetBoard();
@@ -396,6 +418,12 @@ chess.wordpress.PositionDialog = new Class({
     },
 
     selectPiece: function (obj) {
+
+
+        ludo.$('highlightColorView').clear();
+        ludo.$('arrowColorView').clear();
+        this.boardView().clearMode();
+
         this.pieces.white.clearSelections();
         this.pieces.black.clearSelections();
         if (this.selectedPiece && this.selectedPiece.pieceType === obj.pieceType && this.selectedPiece.color === obj.color) {
@@ -480,29 +508,6 @@ chess.wordpress.PositionDialog = new Class({
             }
         }
 
-    },
-
-    _highlightPool: undefined,
-
-    highlightPool: function () {
-        if (this._highlightPool === undefined) {
-            this._highlightPool = new chess.view.highlight.SquarePool({
-                board: ludo.$(this.boardId)
-            });
-        }
-
-        return this._highlightPool;
-
-    },
-
-    _arrowPool: undefined,
-    arrowPool: function () {
-        if (this._arrowPool === undefined) {
-            this._arrowPool = new chess.view.highlight.ArrowPool({
-                board: ludo.$(this.boardId)
-            });
-        }
-        return this._arrowPool;
-
     }
+
 });

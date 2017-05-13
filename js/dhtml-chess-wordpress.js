@@ -1,4 +1,4 @@
-/* Generated Wed May 10 23:16:48 CEST 2017 */
+/* Generated Sat May 13 0:46:33 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -4775,7 +4775,7 @@ ludo.layout.Base = new Class({
         if (config.width < 0) {
             config.width = undefined;
         }
-        var c = this.children;
+        var c = this.view.children;
         for (var i = 0; i < c.length; i++) {
             c[i].resize(config);
         }
@@ -19604,11 +19604,11 @@ chess.view.Chess = new Class({
             config.theme = chess.THEME || {};
         }
 
-        if(chess.THEME_OVERRIDES != undefined){
+        if(chess.THEME_OVERRIDES !== undefined){
             config.theme = Object.merge(config.theme, chess.THEME_OVERRIDES);
         }
 
-        if(config.theme != undefined){
+        if(config.theme !== undefined){
             this.theme = config.theme;
 
             this.parseTheme();
@@ -22954,16 +22954,17 @@ chess.view.highlight.SquarePool = new Class({
     hiddenItems: undefined,
     visibleItems: undefined,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-
     map: undefined,
-
+    colorMap:undefined,
     onlySingles:false,
+    autoToggle:false,
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
         this.board = config.board;
-        if (config.opacity != undefined)this.opacity = config.opacity;
-        if (config.onlySingles != undefined)this.onlySingles = config.onlySingles;
+        if (config.opacity !== undefined)this.opacity = config.opacity;
+        if (config.onlySingles !== undefined)this.onlySingles = config.onlySingles;
+        if (config.autoToggle !== undefined)this.autoToggle = config.autoToggle;
 
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
@@ -22971,6 +22972,7 @@ chess.view.highlight.SquarePool = new Class({
         this.visibleItems = [];
 
         this.map = {};
+        this.colorMap = {};
     },
 
     hideAll: function () {
@@ -22997,16 +22999,25 @@ chess.view.highlight.SquarePool = new Class({
     },
 
     show: function (square, color) {
-        if(this.onlySingles && this.isShown(square)){
+
+        var isShown = this.isShown(square);
+        if(isShown && this.autoToggle){
+            var sameColor = this.colorMap[square] === color;
+            this.hide(square);
+            if(sameColor)return;
+        }
+
+        if(this.onlySingles && isShown){
             if(color)this.map[square][0].el.css('background-color', color);
             return;
         }
         var s = this.getSquare();
         this.visibleItems.push(s);
-        if (this.map[square] == undefined) {
+        if (this.map[square] === undefined) {
             this.map[square] = [];
         }
         this.map[square].push(s);
+        this.colorMap[square] = color;
 
         var pos = this.posBySquare(square);
 
@@ -23035,6 +23046,8 @@ chess.view.highlight.SquarePool = new Class({
                     this.visibleItems.splice(i, 1);
                 }
                 this._hide(s);
+
+                this.colorMap[square] = undefined;
             }
         }
     },
