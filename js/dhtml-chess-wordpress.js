@@ -1,4 +1,4 @@
-/* Generated Sat May 13 2:25:37 CEST 2017 */
+/* Generated Sun May 14 14:17:47 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -1909,7 +1909,9 @@ ludo.ObjectFactory = new Class({
 		}catch(e){
 
 		}
-		ludo.util.log('Could not find class ' + config.type);
+		if(window.console){
+			window.console.trace('Could not find class ' + config.type);
+		}
 		return undefined;
 	},
 
@@ -19431,6 +19433,7 @@ _w.chess = {
     computer: {},
     sound: {},
     view: {
+        popup:{},
         seek: {},
         board: {},
         highlight: {},
@@ -19594,6 +19597,11 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/view/chess.js */
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
+    alias:{
+        'chess.wordpress.FenBoard' : 'chess.view.board.Board'
+
+    },
+
     layout:{
         width:'matchParent', height:'matchParent'
     },
@@ -19661,18 +19669,32 @@ chess.view.Chess = new Class({
 
     parseChildren:function(config){
         var children =  config.children || this.__children();
-
         this.parseBranch(children);
-        
         return children;
+    },
+
+    themeEntry:function(type){
+        if(this.theme[type]){
+            return this.theme[type];
+        }
+        var alias = this.alias[type];
+        if(alias && this.theme[alias] ){
+            return this.theme[alias];
+        }
+        return undefined;
+
     },
     
     parseBranch:function(children){
         jQuery.each(children, function(i, child){
-            if(child.type && this.theme[child.type] != undefined){
-                child = Object.merge(child, this.theme[child.type]);
+            if(child.type){
+                var themeEntry = this.themeEntry(child.type);
+                if(themeEntry){
+                    child = Object.merge(child, themeEntry);
+                }
+
             }
-            if(child.children != undefined) {
+            if(child.children) {
                 this.parseBranch(child.children);
             }
 
@@ -22819,7 +22841,7 @@ chess.view.highlight.ArrowPool = new Class({
     board: undefined,
     svgNode: undefined,
     single: false,
-    autoToggle:false,
+    autoToggle: false,
 
     arrowStyles: {
         'stroke-linejoin': 'round',
@@ -22880,6 +22902,8 @@ chess.view.highlight.ArrowPool = new Class({
 
         arrow.from = from;
         arrow.to = to;
+        arrow.color = styling.fill;
+
         this.pool.push(arrow);
 
         arrow.el.show();
@@ -22889,8 +22913,21 @@ chess.view.highlight.ArrowPool = new Class({
         return arrow;
     },
 
-    update:function(arrow, toSquare){
+    update: function (arrow, toSquare) {
+        if(!toSquare)return;
+        arrow.to = toSquare;
         arrow.el.showArrow(arrow.from, toSquare, this.bg.width(), this.board.flipped);
+    },
+
+    removeArrow: function (arrow) {
+        var index = this.pool.indexOf(arrow);
+        if (index >= 0) {
+            this.pool.splice(index, 1);
+        }
+        index = this.hiddenPool.indexOf(arrow);
+        if (index === -1) {
+            this.hiddenPool.push(arrow);
+        }
     },
 
 
@@ -22899,12 +22936,12 @@ chess.view.highlight.ArrowPool = new Class({
             this.hiddenPool.push(arrow);
             arrow.el.hide();
         }.bind(this));
+        this.pool = [];
         this.bg.hide();
 
     },
 
     getArrow: function () {
-
         if (this.hiddenPool.length > 0) {
             return this.hiddenPool.pop();
         } else if (this.single && this.pool.length > 0) {
@@ -22939,6 +22976,26 @@ chess.view.highlight.ArrowPool = new Class({
                 return piece.initDragPiece(e);
             }
         }
+    },
+
+    toString: function () {
+        var ret = [];
+        var curColor = "";
+
+        this.pool.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        this.pool.forEach(function (arrow) {
+            var arrowString = arrow.from + arrow.to;
+            if (arrow.color !== curColor) {
+                curColor = arrow.color;
+                arrowString += ";" + arrow.color;
+            }
+            ret.push(arrowString);
+
+        });
+        return ret.join(",");
     }
 });/* ../dhtml-chess/src/view/highlight/arrow-node.js */
 chess.view.board.ArrowNode = new Class({
@@ -22965,16 +23022,16 @@ chess.view.highlight.SquarePool = new Class({
     visibleItems: undefined,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     map: undefined,
-    colorMap:undefined,
-    onlySingles:false,
-    autoToggle:false,
+    colorMap: undefined,
+    onlySingles: false,
+    autoToggle: false,
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
         this.board = config.board;
-        if (config.opacity !== undefined)this.opacity = config.opacity;
-        if (config.onlySingles !== undefined)this.onlySingles = config.onlySingles;
-        if (config.autoToggle !== undefined)this.autoToggle = config.autoToggle;
+        if (config.opacity !== undefined) this.opacity = config.opacity;
+        if (config.onlySingles !== undefined) this.onlySingles = config.onlySingles;
+        if (config.autoToggle !== undefined) this.autoToggle = config.autoToggle;
 
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
@@ -22992,18 +23049,47 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
-    toggle:function(square, color){
-        if(this.isShown(square)){
+    toggle: function (square, color) {
+        if (this.isShown(square)) {
             this.hide(square);
-        }else{
+        } else {
             this.show(square, color);
         }
     },
 
-    lastSquare:undefined,
+    toString: function () {
+        var ret = [];
 
-    lastBgColor:function(){
-        if(this.lastSquare){
+        var items = [];
+        this.visibleItems.forEach(function (item) {
+            var s = item.square;
+            items.push({
+                square: s, color: this.colorMap[s]
+            })
+
+        }.bind(this));
+
+        items.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        var curColor = '';
+
+        items.forEach(function (item) {
+            var str = item.square;
+            if (item.color !== curColor) {
+                curColor = item.color;
+                str += ";" + curColor;
+            }
+            ret.push(str);
+        });
+        return ret.join(',');
+    },
+
+    lastSquare: undefined,
+
+    lastBgColor: function () {
+        if (this.lastSquare) {
             return this.lastSquare.el.css('background-color');
         }
     },
@@ -23011,14 +23097,14 @@ chess.view.highlight.SquarePool = new Class({
     show: function (square, color) {
 
         var isShown = this.isShown(square);
-        if(isShown && this.autoToggle){
+        if (isShown && this.autoToggle) {
             var sameColor = this.colorMap[square] === color;
             this.hide(square);
-            if(sameColor)return;
+            if (sameColor)return;
         }
 
-        if(this.onlySingles && isShown){
-            if(color)this.map[square][0].el.css('background-color', color);
+        if (this.onlySingles && isShown) {
+            if (color) this.map[square][0].el.css('background-color', color);
             return;
         }
         var s = this.getSquare();
@@ -23034,7 +23120,7 @@ chess.view.highlight.SquarePool = new Class({
         s.el.css({
             left: pos.x, top: pos.y
         });
-        if(color){
+        if (color) {
             s.el.css('background-color', color);
         }
         s.el.show();
@@ -23110,9 +23196,9 @@ chess.view.highlight.SquarePool = new Class({
         }.bind(this));
     },
 
-    getSquares:function(){
-        var ret =[];
-        jQuery.each(this.visibleItems, function(i, square){
+    getSquares: function () {
+        var ret = [];
+        jQuery.each(this.visibleItems, function (i, square) {
             ret.push(square.square);
         });
         return ret;
@@ -32134,8 +32220,9 @@ chess.WPGame1 = new Class({
             });
             this.boardSize = w - 200;
         }else{
+            var h = Math.ceil(w - 200 + 45 + 45 + this.wpm_h);
             this.renderTo.css({
-                'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
+                'height': h,
                 position: 'relative'
             });
             this.boardSize = w - 200;
@@ -33115,7 +33202,7 @@ chess.WPGame6 = new Class({
             ]
         });
 
-        if (this.highlight != undefined) {
+        if (this.highlight !== undefined) {
             var hPool = new chess.view.highlight.SquarePool({
                 board: ludo.$(this.boardId)
             });
@@ -33130,7 +33217,7 @@ chess.WPGame6 = new Class({
             });
         }
 
-        if(this.arrows != undefined){
+        if(this.arrows !== undefined){
             var arrowPool = new chess.view.highlight.ArrowPool({
                 board: ludo.$(this.boardId)
             });

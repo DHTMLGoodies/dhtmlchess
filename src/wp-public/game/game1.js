@@ -15,8 +15,9 @@ chess.WPGame1 = new Class({
             });
             this.boardSize = w - 200;
         }else{
+            var h = Math.ceil(w - 200 + 45 + 45 + this.wpm_h);
             this.renderTo.css({
-                'height': Math.ceil(w - 200 + 45 + 35 + this.wpm_h),
+                'height': h,
                 position: 'relative'
             });
             this.boardSize = w - 200;

@@ -180,7 +180,7 @@ chess.controller.StockfishEngineController = new Class({
             }
 
             jQuery.ajax({
-                url:ludo.config.getUrl() + '/stockfish-js/book.bin',
+                url:ludo.config.getDocumentRoot() + '/stockfish-js/book.bin',
                 complete:function(response){
                     this.engine.postMessage({book: response.responseText });
                 }.bind(this)
@@ -212,7 +212,6 @@ chess.controller.StockfishEngineController = new Class({
     },
 
     getFen: function () {
-
         return this.fen ? this.fen : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
     },
 

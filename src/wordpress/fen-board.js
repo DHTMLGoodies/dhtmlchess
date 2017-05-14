@@ -32,8 +32,6 @@ chess.wordpress.FenBoard = new Class({
             } else {
                 this.arrowPool().update(this.curArrow, squareString);
             }
-
-            console.log(this.arrowPool().toString());
             this.mode = 'arrowStart';
         }
         this.lastArrowSquare = undefined;

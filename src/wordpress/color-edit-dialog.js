@@ -3,7 +3,7 @@
  */
 
 chess.wordpress.ColorEditDialog = new Class({
-    Extends: chess.wordpress.PopupView,
+    Extends: chess.view.popup.View,
     color: undefined,
     cls: 'wpc-color-edit-dialog',
     selectedEl:undefined,

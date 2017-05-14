@@ -72,11 +72,7 @@ chess.wordpress.PgnListView = new Class({
             });
 
         }.bind(this));
-
-
     },
-
-    
 
     setController: function (controller) {
         this.parent(controller);

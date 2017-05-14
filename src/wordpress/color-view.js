@@ -39,7 +39,6 @@ chess.wordpress.ColorView = new Class({
         this.colorContainer.append('<div style="clear:both">');
 
         this.userColors = this.colorsFromStorage();
-        console.log(this.userColors);
 
         for (var i = 0; i < 10; i++) {
             var clr = this.userColors.length > i ? this.userColors[i] : undefined;

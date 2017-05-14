@@ -12,6 +12,7 @@ _w.chess = {
     computer: {},
     sound: {},
     view: {
+        popup:{},
         seek: {},
         board: {},
         highlight: {},

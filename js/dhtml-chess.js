@@ -1,4 +1,4 @@
-/* Generated Sat May 13 0:46:45 CEST 2017 */
+/* Generated Sun May 14 14:05:01 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -2952,7 +2952,9 @@ ludo.ObjectFactory = new Class({
 		}catch(e){
 
 		}
-		ludo.util.log('Could not find class ' + config.type);
+		if(window.console){
+			window.console.trace('Could not find class ' + config.type);
+		}
 		return undefined;
 	},
 
@@ -28132,6 +28134,7 @@ _w.chess = {
     computer: {},
     sound: {},
     view: {
+        popup:{},
         seek: {},
         board: {},
         highlight: {},
@@ -28295,6 +28298,11 @@ ludo.config.disableModRewriteUrls();/* ../dhtml-chess/src/view/chess.js */
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
+    alias:{
+        'chess.wordpress.FenBoard' : 'chess.view.board.Board'
+
+    },
+
     layout:{
         width:'matchParent', height:'matchParent'
     },
@@ -28362,18 +28370,32 @@ chess.view.Chess = new Class({
 
     parseChildren:function(config){
         var children =  config.children || this.__children();
-
         this.parseBranch(children);
-        
         return children;
+    },
+
+    themeEntry:function(type){
+        if(this.theme[type]){
+            return this.theme[type];
+        }
+        var alias = this.alias[type];
+        if(alias && this.theme[alias] ){
+            return this.theme[alias];
+        }
+        return undefined;
+
     },
     
     parseBranch:function(children){
         jQuery.each(children, function(i, child){
-            if(child.type && this.theme[child.type] != undefined){
-                child = Object.merge(child, this.theme[child.type]);
+            if(child.type){
+                var themeEntry = this.themeEntry(child.type);
+                if(themeEntry){
+                    child = Object.merge(child, themeEntry);
+                }
+
             }
-            if(child.children != undefined) {
+            if(child.children) {
                 this.parseBranch(child.children);
             }
 
@@ -28537,7 +28559,91 @@ chess.language = {
 chess.__ = function (phrase) {
     return chess.language[phrase] !== undefined ? chess.language[phrase] : phrase;
 };
-/* ../dhtml-chess/src/view/notation/panel.js */
+/* ../dhtml-chess/src/view/popup/view.js */
+chess.view.popup.View = new Class({
+    Extends: ludo.View,
+    pos: undefined,
+    alignWith: undefined,
+    arrowEl: undefined,
+    posDelta: undefined,
+
+    arrowSize: 20,
+
+    __construct: function (config) {
+        this.parent(config);
+    },
+
+    __rendered: function () {
+        this.parent();
+        this.$e.css('position', 'absolute');
+
+        this.arrowEl = jQuery('<div class="wpc-popupview-arrow"></div>');
+        this.$e.append(this.arrowEl);
+        this.$e.css('overflow', 'visible');
+        this.$b().css('overflow', 'visible');
+    },
+
+
+    showWith: function (el, pos) {
+        this.show();
+        this.pos = pos;
+        this.alignWith = el;
+
+        this.arrowEl[0].className = 'wpc-popupview-arrow';
+        switch (pos) {
+            case 'above':
+                this.arrowEl.addClass('wpc-popupview-arrow-down');
+                break;
+            case 'below':
+                this.arrowEl.addClass('wpc-popupview-arrow-up');
+                break;
+        }
+
+        this.arrowEl[0].className = 'wpc-popupview-arrow';
+        this.arrowEl.addClass('wpc-popupview-arrow-' + pos);
+
+        var bw = this.arrowSize / 2;
+        this.arrowEl.css({
+            'border-left-width': bw,
+            'border-right-width': bw,
+            'border-top-width': bw,
+            'border-bottom-width': bw,
+            'margin-left': -bw
+
+        });
+        var offsetR = this.renderTo.offset();
+        var offsetA = el.offset();
+        this.posDelta = {
+            y: offsetA.top - offsetR.top,
+            x: offsetA.left - offsetR.left
+        };
+
+
+        this.updatePosition();
+    },
+
+    updatePosition: function () {
+        var css = {};
+        var el = this.alignWith;
+        var pos = el.position();
+
+        var widthThis = this.$e.width();
+        var width = el.outerWidth();
+
+        switch (this.pos) {
+            case 'above':
+                css.top = -this.$e.height() + this.posDelta.y - this.arrowEl.outerHeight();
+                css.left = Math.max(0, this.posDelta.x - (widthThis / 2) + (el.width() / 2));
+                break;
+
+            default:
+
+        }
+
+        this.$e.css(css);
+    }
+
+});/* ../dhtml-chess/src/view/notation/panel.js */
 /**
  Chess notation panel
 
@@ -30579,10 +30685,10 @@ chess.view.board.Piece = new Class({
 
     setPieceLayout:function(layout){
         this.pieceLayout = layout;
-        this.svg = this.pieceLayout.indexOf('svg') == 0;
+        this.svg = this.pieceLayout.indexOf('svg') === 0;
         this.extension = this.svg ? 'svg' : 'png';
         this.bgUpdated = false;
-        if(this.el != undefined){
+        if(this.el){
             this.updateBackgroundImage();
         }
     },
@@ -30662,6 +30768,7 @@ chess.view.board.Piece = new Class({
      * @method hide
      */
     hide: function () {
+
         this.el.css('display', 'none');
     },
     /**
@@ -30811,7 +30918,9 @@ chess.view.board.Piece = new Class({
 
         var s = this.svg ? 45 : this.size;
 
-        if (this.svg && this.getColorCode() + this.getTypeCode() == this.bgUpdated) {
+        var c = this.getColorCode() + this.getTypeCode();
+
+        if (this.svg && c === this.bgUpdated) {
 
         } else {
             this.el.css('background-image', 'url(' + ludo.config.getDocumentRoot() + '/images/' + this.pieceLayout + s + this.getColorCode() + this.getTypeCode() + '.' + this.extension + ')');
@@ -30826,8 +30935,7 @@ chess.view.board.Piece = new Class({
 
             });
         }
-        this.bgUpdated = this.getColorCode() + this.getTypeCode();
-
+        this.bgUpdated = c;
     },
 
     /**
@@ -30871,6 +30979,8 @@ chess.view.board.Piece = new Class({
             'left': pos.x,
             'top': pos.y
         });
+
+
     },
 
     /**
@@ -31970,6 +32080,7 @@ chess.view.highlight.ArrowPool = new Class({
     board: undefined,
     svgNode: undefined,
     single: false,
+    autoToggle: false,
 
     arrowStyles: {
         'stroke-linejoin': 'round',
@@ -31986,8 +32097,8 @@ chess.view.highlight.ArrowPool = new Class({
         this.board.boardEl().append(this.bg);
         this.pool = [];
         this.hiddenPool = [];
-        if (config.arrowStyles != undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
-        if (config.single != undefined) this.single = config.single;
+        if (config.arrowStyles !== undefined) this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
+        if (config.single !== undefined) this.single = config.single;
 
         this.board.on('resize', this.resize.bind(this));
         this.board.on('flip', this.resize.bind(this));
@@ -32030,11 +32141,32 @@ chess.view.highlight.ArrowPool = new Class({
 
         arrow.from = from;
         arrow.to = to;
+        arrow.color = styling.fill;
+
         this.pool.push(arrow);
 
         arrow.el.show();
         arrow.el.showArrow(from, to, this.bg.width(), this.board.flipped);
         arrow.el.css(styling);
+
+        return arrow;
+    },
+
+    update: function (arrow, toSquare) {
+        if(!toSquare)return;
+        arrow.to = toSquare;
+        arrow.el.showArrow(arrow.from, toSquare, this.bg.width(), this.board.flipped);
+    },
+
+    removeArrow: function (arrow) {
+        var index = this.pool.indexOf(arrow);
+        if (index >= 0) {
+            this.pool.splice(index, 1);
+        }
+        index = this.hiddenPool.indexOf(arrow);
+        if (index === -1) {
+            this.hiddenPool.push(arrow);
+        }
     },
 
 
@@ -32043,13 +32175,12 @@ chess.view.highlight.ArrowPool = new Class({
             this.hiddenPool.push(arrow);
             arrow.el.hide();
         }.bind(this));
-
+        this.pool = [];
         this.bg.hide();
 
     },
 
     getArrow: function () {
-
         if (this.hiddenPool.length > 0) {
             return this.hiddenPool.pop();
         } else if (this.single && this.pool.length > 0) {
@@ -32084,6 +32215,26 @@ chess.view.highlight.ArrowPool = new Class({
                 return piece.initDragPiece(e);
             }
         }
+    },
+
+    toString: function () {
+        var ret = [];
+        var curColor = "";
+
+        this.pool.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        this.pool.forEach(function (arrow) {
+            var arrowString = arrow.from + arrow.to;
+            if (arrow.color !== curColor) {
+                curColor = arrow.color;
+                arrowString += ";" + arrow.color;
+            }
+            ret.push(arrowString);
+
+        });
+        return ret.join(",");
     }
 });/* ../dhtml-chess/src/view/highlight/arrow-node.js */
 chess.view.board.ArrowNode = new Class({
@@ -32110,16 +32261,16 @@ chess.view.highlight.SquarePool = new Class({
     visibleItems: undefined,
     files: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     map: undefined,
-    colorMap:undefined,
-    onlySingles:false,
-    autoToggle:false,
+    colorMap: undefined,
+    onlySingles: false,
+    autoToggle: false,
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
         this.board = config.board;
-        if (config.opacity !== undefined)this.opacity = config.opacity;
-        if (config.onlySingles !== undefined)this.onlySingles = config.onlySingles;
-        if (config.autoToggle !== undefined)this.autoToggle = config.autoToggle;
+        if (config.opacity !== undefined) this.opacity = config.opacity;
+        if (config.onlySingles !== undefined) this.onlySingles = config.onlySingles;
+        if (config.autoToggle !== undefined) this.autoToggle = config.autoToggle;
 
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
@@ -32137,18 +32288,47 @@ chess.view.highlight.SquarePool = new Class({
         }
     },
 
-    toggle:function(square, color){
-        if(this.isShown(square)){
+    toggle: function (square, color) {
+        if (this.isShown(square)) {
             this.hide(square);
-        }else{
+        } else {
             this.show(square, color);
         }
     },
 
-    lastSquare:undefined,
+    toString: function () {
+        var ret = [];
 
-    lastBgColor:function(){
-        if(this.lastSquare){
+        var items = [];
+        this.visibleItems.forEach(function (item) {
+            var s = item.square;
+            items.push({
+                square: s, color: this.colorMap[s]
+            })
+
+        }.bind(this));
+
+        items.sort(function (a, b) {
+            return a.color < b.color ? 1 : -1;
+        });
+
+        var curColor = '';
+
+        items.forEach(function (item) {
+            var str = item.square;
+            if (item.color !== curColor) {
+                curColor = item.color;
+                str += ";" + curColor;
+            }
+            ret.push(str);
+        });
+        return ret.join(',');
+    },
+
+    lastSquare: undefined,
+
+    lastBgColor: function () {
+        if (this.lastSquare) {
             return this.lastSquare.el.css('background-color');
         }
     },
@@ -32156,14 +32336,14 @@ chess.view.highlight.SquarePool = new Class({
     show: function (square, color) {
 
         var isShown = this.isShown(square);
-        if(isShown && this.autoToggle){
+        if (isShown && this.autoToggle) {
             var sameColor = this.colorMap[square] === color;
             this.hide(square);
-            if(sameColor)return;
+            if (sameColor)return;
         }
 
-        if(this.onlySingles && isShown){
-            if(color)this.map[square][0].el.css('background-color', color);
+        if (this.onlySingles && isShown) {
+            if (color) this.map[square][0].el.css('background-color', color);
             return;
         }
         var s = this.getSquare();
@@ -32179,7 +32359,7 @@ chess.view.highlight.SquarePool = new Class({
         s.el.css({
             left: pos.x, top: pos.y
         });
-        if(color){
+        if (color) {
             s.el.css('background-color', color);
         }
         s.el.show();
@@ -32255,9 +32435,9 @@ chess.view.highlight.SquarePool = new Class({
         }.bind(this));
     },
 
-    getSquares:function(){
-        var ret =[];
-        jQuery.each(this.visibleItems, function(i, square){
+    getSquares: function () {
+        var ret = [];
+        jQuery.each(this.visibleItems, function (i, square) {
             ret.push(square.square);
         });
         return ret;
@@ -34638,26 +34818,26 @@ chess.view.menuItems.NewGame = new Class({
  * @extends chess.view.board.Board
  */
 chess.view.position.Board = new Class({
-    Extends:chess.view.board.Board,
-    type : 'chess.view.position.Board',
-    vAlign:'top',
-    pieceLayout:'svg_bw',
-    boardLayout:'wood',
-    module:'positionsetup',
-    submodule:'chesspositionboard',
-    boardCss:{
-        'background-color':'transparent',
-        border:0
+    Extends: chess.view.board.Board,
+    type: 'chess.view.position.Board',
+    vAlign: 'top',
+    pieceLayout: 'svg_bw',
+    boardLayout: 'wood',
+    module: 'positionsetup',
+    submodule: 'chesspositionboard',
+    boardCss: {
+        'background-color': 'transparent',
+        border: 0
     },
-    lowerCaseLabels:true,
-    selectedPiece:undefined,
+    lowerCaseLabels: true,
+    selectedPiece: undefined,
 
-    ludoEvents:function () {
+    ludoEvents: function () {
         this.parent();
         this.addBoardEvents();
     },
 
-    addBoardEvents:function(){
+    addBoardEvents: function () {
         this.els.board.on('click', this.insertPiece.bind(this));
         this.addEvent('resetboard', this.sendFen.bind(this));
         this.addEvent('modifyboard', this.sendFen.bind(this));
@@ -34665,31 +34845,32 @@ chess.view.position.Board = new Class({
         this.addEvent('render', this.sendFen.bind(this));
     },
 
-    setController:function(){
+    setController: function () {
 
     },
 
-    sendFen:function () {
+    sendFen: function () {
         this.fireEvent('setPosition', this.getFen());
     },
 
-    deleteSelectedPiece:function () {
+    deleteSelectedPiece: function () {
         this.selectedPiece = undefined;
         this.els.board.css('cursor', 'default');
     },
 
-    setSelectedPiece:function (piece) {
+    setSelectedPiece: function (piece) {
         this.selectedPiece = piece;
         this.els.board.css('cursor', 'pointer');
     },
 
 
+    insertPiece: function (e) {
 
-    insertPiece:function (e) {
         if (!this.selectedPiece) {
             return;
         }
         var square = this.getSquareByEvent(e);
+
         if (square === undefined) {
             return;
         }
@@ -34697,25 +34878,30 @@ chess.view.position.Board = new Class({
             return;
         }
         var p;
+
         if (this.selectedPiece.pieceType === 'k') {
-            p = this.getKingPiece(this.selectedPiece.color);
+            p = this.getAvailablePiece(square);
+
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
-                this.hidePiece(visiblePieceOnSquare);
+
                 if (this.isEqualPiece(visiblePieceOnSquare, p)) {
+                    this.hidePiece(visiblePieceOnSquare);
                     this.fireEvent('modifyboard');
                     return;
                 }
             }
-            this.hidePiece(p);
         }
         if (!p) {
-            p = this.getVisiblePieceOnNumericSquare(square);
+            p = this.getAvailablePiece(square);
+
             if (p && p.pieceType === 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
-                if (this.isEqualPiece(p, this.selectedPiece) && p.isVisible()) {
+                var ex = this.getVisiblePieceOnNumericSquare(square);
+                if (ex && this.isEqualPiece(ex, this.selectedPiece)) {
+
                     this.hidePiece(p);
                     this.fireEvent('modifyboard');
                     return;
@@ -34730,7 +34916,59 @@ chess.view.position.Board = new Class({
 
     },
 
-    isValidSquareForSelectedPiece:function (square) {
+    hidePiece:function(p){
+
+        this.pieceMap[p.square] = undefined;
+        this.parent(p);
+    },
+
+
+    getAvailablePiece: function (square) {
+        var selType = this.selectedPiece.pieceType;
+        if (selType === 'k') {
+            return this.getKingPiece(this.selectedPiece.color);
+        }
+
+        var color = this.selectedPiece.color;
+        var ps;
+
+        for (var i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.pieceType === selType && !ps.isVisible()) {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && !ps.isVisible() && ps.pieceType !== 'k') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.pieceType === 'p') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.square !== square && ps.pieceType === 'p') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color) {
+                return ps;
+            }
+        }
+    },
+
+    isValidSquareForSelectedPiece: function (square) {
         var p = this.selectedPiece;
 
         if (p.pieceType === 'p') {
@@ -34743,25 +34981,27 @@ chess.view.position.Board = new Class({
         return true;
     },
 
-    configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
+    configurePieceAndPlaceOnSquare: function (piece, placeOnSquare) {
+
         piece.square = placeOnSquare;
-        piece.pieceType = this.selectedPiece.pieceType;
         piece.color = this.selectedPiece.color;
+        piece.pieceType = this.selectedPiece.pieceType;
         piece.position();
-        piece.updateBackgroundImage();
-        piece.show();
+        piece.setPieceLayout(this.pieceLayout);
+        piece.el.show();
+
         this.pieceMap[piece.square] = piece;
     },
 
-    isEqualPiece:function (piece1, piece2) {
+    isEqualPiece: function (piece1, piece2) {
         return piece1.color === piece2.color && piece1.pieceType === piece2.pieceType;
     },
 
-    getIndexForNewPiece:function (color) {
+    getIndexForNewPiece: function (color) {
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color === color) {
-                if (!firstIndex)firstIndex = i;
+                if (!firstIndex) firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
                 }
@@ -34770,7 +35010,7 @@ chess.view.position.Board = new Class({
         return firstIndex;
     },
 
-    getIndexesOfPiecesOfAColor:function (color) {
+    getIndexesOfPiecesOfAColor: function (color) {
         var ret = [];
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color === color) {
@@ -34780,16 +35020,16 @@ chess.view.position.Board = new Class({
         return ret;
     },
 
-    getKingPiece:function (color) {
+    getKingPiece: function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color === color) {
                 return this.pieces[i];
             }
         }
         return null;
     },
 
-    getVisiblePieceOnNumericSquare:function (square) {
+    getVisiblePieceOnNumericSquare: function (square) {
         var piece = this.pieceMap[square];
         if (piece && piece.isVisible()) {
             return piece;
@@ -34797,7 +35037,7 @@ chess.view.position.Board = new Class({
         return null;
     },
 
-    getSquareByEvent:function (e) {
+    getSquareByEvent: function (e) {
         var boardPos = this.els.board.offset();
         var squareSize = this.getSquareSize();
 
@@ -34815,7 +35055,7 @@ chess.view.position.Board = new Class({
         return undefined;
     },
 
-    getFen:function () {
+    getFen: function () {
         var fen = '';
         var emptyCounter = 0;
         for (var i = 0; i < Board0x88Config.fenSquaresNumeric.length; i++) {
@@ -35347,10 +35587,7 @@ chess.view.position.Dialog = new Class({
 
         try{
             parser = new chess.parser.FenParser0x88(fen);
-            var res = parser.getValidMovesAndResult();
-
-
-
+            parser.getValidMovesAndResult();
         }catch(e){
             new ludo.Notification({
                 html : chess.__('Invalid Fen')
@@ -36132,10 +36369,22 @@ chess.util.CoordinateUtil = {
      * @param {bool} flip
      */
     arrowPath: function (fromSquare, toSquare, properties, boardSize, flip) {
+
+
+
+
         var c = {
             start: this.centerOfSquare(fromSquare, boardSize, flip),
             end: this.centerOfSquare(toSquare, boardSize, flip)
         };
+
+
+        if(fromSquare === toSquare){
+
+            return '';
+
+        }
+
         c.oposite = c.start.y - c.end.y;
         c.adjacent = c.end.x - c.start.x;
         c.hyp = Math.sqrt(c.oposite * c.oposite + c.adjacent * c.adjacent);
@@ -36158,7 +36407,7 @@ chess.util.CoordinateUtil = {
         var aw = properties.arrowWidth || sz * .45;
         var res = properties.roundEdgeSize || lw / 1.5;
         var ao = properties.arrowOffset || 0.5;
-        var oe = properties.offsetEnd || sz * .2;
+        var oe = properties.offsetEnd || sz * 0;
         var os = properties.offsetStart || sz * -.1;
 
         var ret = [];
@@ -39470,8 +39719,8 @@ chess.controller.AnalysisController = new Class({
 
 	modelEventFired:function (event, model, param) {
 
-		if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-			this.views.board.enableDragAndDrop(model);
+		if (event === 'setPosition' || event === 'nextmove' || event === 'newMove') {
+			if(this.views && this.views.board)this.views.board.enableDragAndDrop(model);
 		}
 	}
 

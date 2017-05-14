@@ -6,7 +6,6 @@
  */
 chess.wordpress.PositionDialog = new Class({
     Extends: ludo.dialog.Dialog,
-    module: 'chess',
     submodule: 'positionSetup',
     autoRemove: false,
     autoHideOnBtnClick: false,
@@ -35,8 +34,16 @@ chess.wordpress.PositionDialog = new Class({
 
     boardId: 'boardContainer',
 
+    controller: undefined,
+
+    module: 'wpc-pos-dialog',
+
+    _curTheme: 'grey',
+
     __construct: function (config) {
         config = config || {};
+
+        if (config.theme) this._curTheme = config.theme;
 
         this.positionValidator = new chess.parser.PositionValidator();
 
@@ -100,174 +107,238 @@ chess.wordpress.PositionDialog = new Class({
     __children: function () {
         return [
             {
-                type: 'chess.wordpress.FenBoard',
-                id: this.boardId,
-                autoResize: false,
-                pieceLayout: 'svg_darkgrey',
-                background: {
-                    borderRadius: ludo.isMobile ? '0.5%' : '1%',
-                    paint: {
-                        'fill': '#1a2026'
-                    }
-                },
+                id:'boardChessView',
+                type: 'chess.view.Chess',
                 layout: {
                     alignParentLeft: true,
                     alignParentTop: true,
                     width: 380,
+                    height: 380,
+                    type: 'fill'
+                },
+                children: [
+                    {
+                        type: 'chess.wordpress.FenBoard',
+                        id: this.boardId,
+                        autoResize: false,
+                        pieceLayout: 'svg_darkgrey',
+                        background: {
+                            borderRadius: ludo.isMobile ? '0.5%' : '1%',
+                            paint: {
+                                'fill': '#1a2026'
+                            }
+                        },
+                        layout: {},
+                        padding: '3%',
+                        elCss: {
+                            margin: 3
+                        },
+                        listeners: {
+                            setPosition: this.receivePosition.bind(this),
+                            clickSquare: this.onClickSquare.bind(this)
+                        },
+                        plugins: [
+                            {
+                                type: 'chess.view.highlight.Arrow',
+                                styles: {
+                                    'fill': '#f77cc5',
+                                    'stroke': '#888'
+                                }
+                            },
+                            {
+                                type: 'chess.view.highlight.ArrowTactic',
+                                styles: {
+                                    'fill': '#f77cc5',
+                                    'stroke': '#888'
+                                }
+                            },
+                            {
+                                type: 'chess.view.highlight.SquareTacticHint'
+                            }
+                        ]
+                    }
+                ]
+            },
+
+
+            {
+                layout: {
+                    type: 'tabs',
+                    tabs: 'top',
+                    rightOf: 'boardChessView',
+                    alignParentTop: true,
+                    fillRight: true,
                     height: 380
                 },
-                padding: '3%',
                 elCss: {
-                    margin: 3
+                    'border-top': '1px solid #ccc'
                 },
-                listeners: {
-                    setPosition: this.receivePosition.bind(this),
-                    clickSquare: this.onClickSquare.bind(this)
+                css: {
+                    border: '1px solid #ccc',
+                    'border-top': 'none',
+                    'padding-top': 2
                 },
-                plugins: [
+                children: [
                     {
-                        type: 'chess.view.highlight.Arrow',
-                        styles: {
-                            'fill': '#f77cc5',
-                            'stroke': '#888'
-                        }
+                        title: 'Setup',
+                        layout: {
+                            type: 'relative'
+                        },
+                        children: [
+                            {
+                                type: 'chess.view.position.Pieces',
+                                id: 'whitePieces',
+                                layout: {
+                                    height: 'matchParent',
+                                    width: 55,
+                                    type: 'linear',
+                                    orientation: 'vertical',
+                                    top: 4,
+                                    fillDown: true
+                                },
+                                pieceColor: 'white',
+                                listeners: {
+                                    selectpiece: this.selectPiece.bind(this)
+                                }
+                            },
+                            {
+                                type: 'chess.view.position.Pieces',
+                                id: 'blackPieces',
+                                width: 55,
+                                pieceColor: 'black',
+                                listeners: {
+                                    selectpiece: this.selectPiece.bind(this)
+                                },
+                                elCss: {
+                                    'padding-right': 4
+                                },
+                                layout: {
+                                    top: 4,
+                                    height: 'matchParent',
+                                    rightOf: 'whitePieces',
+                                    type: 'linear',
+                                    orientation: 'vertical'
+                                }
+                            },
+                            {
+                                id: 'castling',
+                                type: 'chess.view.position.Castling',
+                                listeners: {
+                                    change: this.receiveCastling.bind(this)
+                                },
+                                layout: {
+                                    top: 4,
+                                    rightOf: 'blackPieces',
+                                    width: 150,
+                                    height: 145
+                                }
+                            }, {
+                                id: 'sideToMove',
+                                type: 'chess.view.position.SideToMove',
+                                listeners: {
+                                    change: this.receiveColor.bind(this)
+                                },
+                                layout: {
+                                    sameWidthAs: 'castling',
+                                    height: 100,
+                                    below: 'castling',
+                                    alignLeft: 'castling'
+                                }
+                            },
+                            {
+                                id: 'moveNumberContainer',
+                                children: [
+                                    {
+                                        id: 'moveNumber',
+                                        type: 'form.Label', labelFor: 'moveNumber',
+                                        label: chess.__('Ply'),
+                                        value: 1
+                                    },
+                                    {
+                                        id: 'moveNumber',
+                                        name: 'moveNumber',
+                                        type: 'form.Number',
+                                        minValue: 1,
+                                        maxValue: 500,
+                                        required: true,
+                                        value: '1',
+                                        listeners: {
+                                            change: this.receiveFullMoves.bind(this)
+                                        }
+                                    }
+                                ],
+                                layout: {
+                                    type: 'table',
+                                    columns: [{weight: 1}, {width: 40}],
+                                    below: 'sideToMove',
+                                    sameWidthAs: 'sideToMove',
+                                    alignLeft: 'sideToMove',
+                                    height: 25
+                                }
+                            },
+                            {
+                                children: [
+                                    {
+                                        type: 'form.Label', labelFor: 'enPassant',
+                                        label: chess.__('En passant')
+                                    },
+                                    {
+                                        id: 'positionEnPassant',
+                                        type: 'form.Text',
+                                        name: 'enPassant',
+                                        maxLength: 1,
+                                        required: false,
+                                        stretchField: false,
+                                        validateKeyStrokes: true,
+                                        regex: /[a-h]/g,
+                                        listeners: {
+                                            change: this.receiveEnPassant.bind(this)
+                                        }
+                                    }
+                                ],
+
+                                layout: {
+                                    type: 'table',
+                                    columns: [{weight: 1}, {width: 40}],
+                                    below: 'moveNumberContainer',
+                                    sameWidthAs: 'moveNumberContainer',
+                                    alignLeft: 'moveNumberContainer',
+                                    height: 25
+                                }
+                            }
+                        ]
                     },
                     {
-                        type: 'chess.view.highlight.ArrowTactic',
-                        styles: {
-                            'fill': '#f77cc5',
-                            'stroke': '#888'
+                        title: 'Analysis',
+                        type: 'chess.wordpress.ComputerEval',
+                        id: 'compEval',
+                        layout: {
+                            height: 470, width: 'matchParent',
+                            type: 'linear', orientation: 'vertical'
+                        },
+                        listeners: {
+                            'start': function () {
+                                if (this.isCurFenValid()) {
+                                    var fen = this.getPosition();
+                                    ludo.$('compEval').fen = fen;
+                                    this.controller.currentModel.setPosition(fen);
+                                    this.controller.startEngine();
+                                } else {
+                                    ludo.$('compEval').stopEngine();
+                                }
+
+                            }.bind(this),
+                            'stop': function () {
+                                this.controller.stopEngine();
+
+                            }.bind(this)
                         }
-                    },
-                    {
-                        type: 'chess.view.highlight.SquareTacticHint'
                     }
                 ]
             },
             {
-                type: 'chess.view.position.Pieces',
-                id: 'whitePieces',
                 layout: {
-                    height: 470,
-                    width: 55,
-                    type: 'linear',
-                    orientation: 'vertical',
-                    alignParentTop: true,
-                    fillDown: true,
-                    rightOf: 'boardContainer'
-                },
-                pieceColor: 'white',
-                listeners: {
-                    selectpiece: this.selectPiece.bind(this)
-                }
-            },
-            {
-                type: 'chess.view.position.Pieces',
-                id: 'blackPieces',
-                width: 55,
-                pieceColor: 'black',
-                listeners: {
-                    selectpiece: this.selectPiece.bind(this)
-                },
-                elCss: {
-                    'padding-right': 4
-                },
-                layout: {
-                    height: 400,
-                    rightOf: 'whitePieces',
-                    type: 'linear',
-                    orientation: 'vertical'
-                }
-            },
-            {
-                id: 'castling',
-                type: 'chess.view.position.Castling',
-                listeners: {
-                    change: this.receiveCastling.bind(this)
-                },
-                layout: {
-                    rightOf: 'blackPieces',
-                    width: 150,
-                    alignParentTop: true,
-                    height: 145
-                }
-            }, {
-                id: 'sideToMove',
-                type: 'chess.view.position.SideToMove',
-                listeners: {
-                    change: this.receiveColor.bind(this)
-                },
-                layout: {
-                    sameWidthAs: 'castling',
-                    height: 100,
-                    below: 'castling',
-                    alignLeft: 'castling'
-                }
-            },
-            {
-                id: 'moveNumberContainer',
-                children: [
-                    {
-                        id: 'moveNumber',
-                        type: 'form.Label', labelFor: 'moveNumber',
-                        label: chess.__('Ply'),
-                        value: 1
-                    },
-                    {
-                        id: 'moveNumber',
-                        name: 'moveNumber',
-                        type: 'form.Number',
-                        minValue: 1,
-                        maxValue: 500,
-                        required: true,
-                        value: '1',
-                        listeners: {
-                            change: this.receiveFullMoves.bind(this)
-                        }
-                    }
-                ],
-                layout: {
-                    type: 'table',
-                    columns: [{weight: 1}, {width: 40}],
-                    below: 'sideToMove',
-                    sameWidthAs: 'sideToMove',
-                    alignLeft: 'sideToMove',
-                    height: 25
-                }
-            },
-            {
-                children: [
-                    {
-                        type: 'form.Label', labelFor: 'enPassant',
-                        label: chess.__('En passant')
-                    },
-                    {
-                        id: 'positionEnPassant',
-                        type: 'form.Text',
-                        name: 'enPassant',
-                        maxLength: 1,
-                        required: false,
-                        stretchField: false,
-                        validateKeyStrokes: true,
-                        regex: /[a-h]/g,
-                        listeners: {
-                            change: this.receiveEnPassant.bind(this)
-                        }
-                    }
-                ],
-
-                layout: {
-                    type: 'table',
-                    columns: [{weight: 1}, {width: 40}],
-                    below: 'moveNumberContainer',
-                    sameWidthAs: 'moveNumberContainer',
-                    alignLeft: 'moveNumberContainer',
-                    height: 25
-                }
-            },
-            {
-                layout: {
-                    below: 'boardContainer',
+                    below: 'boardChessView',
                     type: 'linear',
                     orientation: 'horizontal',
                     fillDown: true,
@@ -332,19 +403,29 @@ chess.wordpress.PositionDialog = new Class({
 
     },
 
+
     __rendered: function () {
         this.parent();
-        this.$b().addClass('dc-grey');
+        this.$b().addClass('dc-' + this._curTheme);
         this.$b().addClass('dc-admin-pos-dialog');
 
         this.board = ludo.$('boardContainer');
-        this.pieces = {};
-        this.pieces.white = ludo.$('whitePieces');
-        this.pieces.black = ludo.$('blackPieces');
-        this.castling = ludo.$('castling');
-        this.sideToMove = ludo.$('sideToMove');
         this.moveNumber = ludo.$('moveNumber');
+
+        this.controller = new chess.controller.StockfishEngineController({
+            examine: false,
+            applyTo: this.module,
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
+            listeners: {
+                'engineupdate': this.onEngineUpdate.bind(this)
+            }
+        });
     },
+
+    onEngineUpdate: function (score) {
+        ludo.$('compEval').receiveEngineUpdate(score);
+    },
+
     receiveCastling: function (castling) {
         this.updatePosition('castling', castling);
     },
@@ -372,9 +453,13 @@ chess.wordpress.PositionDialog = new Class({
         this.toggleOkButton();
     },
 
-    toggleOkButton:function(){
+    isCurFenValid: function () {
+        return this.positionValidator.isValid(this.getPosition());
+    },
+
+    toggleOkButton: function () {
         var button = this.getButton('ok');
-        if (this.positionValidator.isValid(this.getPosition())) {
+        if (this.isCurFenValid()) {
             if (button) button.enable();
         } else {
             if (button) button.disable();
@@ -392,8 +477,8 @@ chess.wordpress.PositionDialog = new Class({
     },
     resetBoard: function () {
         this.board.resetBoard();
-        this.castling.resetOptions();
-        this.sideToMove.resetOptions();
+        ludo.$('castling').resetOptions();
+        ludo.$('sideToMove').resetOptions();
         ludo.$('moveNumber').val('1');
         ludo.$('positionEnPassant').val('');
     },
@@ -405,7 +490,7 @@ chess.wordpress.PositionDialog = new Class({
         var payload = {
             fen: this.getPosition(),
             arrows: this.boardView().arrowString(),
-            squares: this.boardView().highlightString()
+            highlight: this.boardView().highlightString()
         };
         this.fireEvent('setPosition', payload);
         this.hide();
@@ -422,14 +507,14 @@ chess.wordpress.PositionDialog = new Class({
         ludo.$('arrowColorView').clear();
         this.boardView().clearMode();
 
-        this.pieces.white.clearSelections();
-        this.pieces.black.clearSelections();
+        ludo.$('whitePieces').clearSelections();
+        ludo.$('blackPieces').clearSelections();
         if (this.selectedPiece && this.selectedPiece.pieceType === obj.pieceType && this.selectedPiece.color === obj.color) {
             this.selectedPiece = undefined;
             this.board.deleteSelectedPiece();
         } else {
             this.selectedPiece = obj;
-            this.pieces[obj.color].addSelection(obj.pieceType);
+            ludo.$(obj.color + 'Pieces').addSelection(obj.pieceType);
             this.board.setSelectedPiece(obj);
         }
 
@@ -463,8 +548,8 @@ chess.wordpress.PositionDialog = new Class({
 
             this.positionValidator.setFen(fen);
 
-            this.sideToMove.setColor(this.positionValidator.getColor());
-            this.castling.val(this.positionValidator.getCastle());
+            ludo.$('sideToMove').setColor(this.positionValidator.getColor());
+            ludo.$('castling').val(this.positionValidator.getCastle());
             ludo.$('moveNumber').val(this.positionValidator.getFullMoves());
             ludo.$('positionEnPassant').val(this.positionValidator.getEnPassantSquare());
             this.board.showFen(fen);
@@ -472,7 +557,6 @@ chess.wordpress.PositionDialog = new Class({
     },
 
     isValidFen: function (fen) {
-
         try {
             parser = new chess.parser.FenParser0x88(fen);
             parser.getValidMovesAndResult();
@@ -485,27 +569,25 @@ chess.wordpress.PositionDialog = new Class({
         return true;
     },
 
-    showPositionDialog: function (parentDialog, fen, arrowString, squareString) {
+    showPositionDialog: function (parentDialog, fen, arrowString, squareString, theme) {
         fen = fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
         this.boardView().clearBoard();
 
-
         var tokens = fen.split(/\s/g);
         this.position = {
-            'board' : tokens[0],
+            'board': tokens[0],
             'color': tokens[1],
-            'castling' : tokens.length > 1 ? tokens[2] : '',
-            'enPassant' : tokens.length> 2 ? tokens[3] : '',
-            'halfMoves' : tokens.length> 3 ? tokens[4] : '',
-            'fullMoves' : tokens.length> 4 ? tokens[5] : ''
+            'castling': tokens.length > 1 ? tokens[2] : '',
+            'enPassant': tokens.length > 2 ? tokens[3] : '',
+            'halfMoves': tokens.length > 3 ? tokens[4] : '',
+            'fullMoves': tokens.length > 4 ? tokens[5] : ''
         };
 
         this.toggleOkButton();
 
         var off = parentDialog.offset();
         this.showAt(off.left - 20, off.top + 20);
-
 
         if (fen) {
             this.loadFen(fen);
@@ -538,24 +620,14 @@ chess.wordpress.PositionDialog = new Class({
             }.bind(this));
         }
 
+        this.$b().removeClass('dc-' + this._curTheme);
+        this._curTheme = theme;
+        this.$b().addClass('dc-' + theme);
     },
 
     isColor: function (color) {
         var pattern = /^#[a-f0-9]{3}$/;
         var pattern2 = /^#[a-f0-9]{6}$/;
         return pattern.test(color) || pattern2.test(color);
-    },
-
-    show: function () {
-        this.parent();
-
-        if (this.controller) {
-            var model = this.controller.getCurrentModel();
-            if (model) {
-                this.loadFen(model.getCurrentPosition());
-            }
-        }
-
     }
-
 });

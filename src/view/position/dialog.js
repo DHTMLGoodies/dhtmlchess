@@ -340,10 +340,7 @@ chess.view.position.Dialog = new Class({
 
         try{
             parser = new chess.parser.FenParser0x88(fen);
-            var res = parser.getValidMovesAndResult();
-
-
-
+            parser.getValidMovesAndResult();
         }catch(e){
             new ludo.Notification({
                 html : chess.__('Invalid Fen')

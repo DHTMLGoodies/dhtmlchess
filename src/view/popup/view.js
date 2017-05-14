@@ -1,4 +1,4 @@
-chess.wordpress.PopupView = new Class({
+chess.view.popup.View = new Class({
     Extends: ludo.View,
     pos: undefined,
     alignWith: undefined,

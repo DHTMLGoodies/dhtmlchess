@@ -339,7 +339,7 @@ chess.wordpress.WordpressController = new Class({
     },
 
     showStandings: function () {
-        if (this.standingsWindow == undefined) {
+        if (this.standingsWindow === undefined) {
             this.standingsWindow = new ludo.dialog.Dialog({
                 title: chess.__('Standings'),
                 autoRemove: false,
@@ -375,7 +375,7 @@ chess.wordpress.WordpressController = new Class({
     },
 
     showNewDatabaseDialog: function () {
-        if (this.newDbDialog == undefined) {
+        if (!this.newDbDialog) {
             this.newDbDialog = new chess.wordpress.NewDatabaseDialog({
                 module: this.module,
                 autoRemove: false

@@ -95,5 +95,3 @@ chess.THEME = {
 
 
 };
-
-console.log(ludo.config.getDocumentRoot());

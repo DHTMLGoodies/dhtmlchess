@@ -5,26 +5,26 @@
  * @extends chess.view.board.Board
  */
 chess.view.position.Board = new Class({
-    Extends:chess.view.board.Board,
-    type : 'chess.view.position.Board',
-    vAlign:'top',
-    pieceLayout:'svg_bw',
-    boardLayout:'wood',
-    module:'positionsetup',
-    submodule:'chesspositionboard',
-    boardCss:{
-        'background-color':'transparent',
-        border:0
+    Extends: chess.view.board.Board,
+    type: 'chess.view.position.Board',
+    vAlign: 'top',
+    pieceLayout: 'svg_bw',
+    boardLayout: 'wood',
+    module: 'positionsetup',
+    submodule: 'chesspositionboard',
+    boardCss: {
+        'background-color': 'transparent',
+        border: 0
     },
-    lowerCaseLabels:true,
-    selectedPiece:undefined,
+    lowerCaseLabels: true,
+    selectedPiece: undefined,
 
-    ludoEvents:function () {
+    ludoEvents: function () {
         this.parent();
         this.addBoardEvents();
     },
 
-    addBoardEvents:function(){
+    addBoardEvents: function () {
         this.els.board.on('click', this.insertPiece.bind(this));
         this.addEvent('resetboard', this.sendFen.bind(this));
         this.addEvent('modifyboard', this.sendFen.bind(this));
@@ -32,33 +32,31 @@ chess.view.position.Board = new Class({
         this.addEvent('render', this.sendFen.bind(this));
     },
 
-    setController:function(){
+    setController: function () {
 
     },
 
-    sendFen:function () {
+    sendFen: function () {
         this.fireEvent('setPosition', this.getFen());
     },
 
-    deleteSelectedPiece:function () {
+    deleteSelectedPiece: function () {
         this.selectedPiece = undefined;
         this.els.board.css('cursor', 'default');
     },
 
-    setSelectedPiece:function (piece) {
+    setSelectedPiece: function (piece) {
         this.selectedPiece = piece;
         this.els.board.css('cursor', 'pointer');
     },
 
 
-    insertPiece:function (e) {
+    insertPiece: function (e) {
 
         if (!this.selectedPiece) {
             return;
         }
         var square = this.getSquareByEvent(e);
-
-
 
         if (square === undefined) {
             return;
@@ -69,24 +67,28 @@ chess.view.position.Board = new Class({
         var p;
 
         if (this.selectedPiece.pieceType === 'k') {
-            p = this.getKingPiece(this.selectedPiece.color);
+            p = this.getAvailablePiece(square);
+
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
-                this.hidePiece(visiblePieceOnSquare);
+
                 if (this.isEqualPiece(visiblePieceOnSquare, p)) {
+                    this.hidePiece(visiblePieceOnSquare);
                     this.fireEvent('modifyboard');
                     return;
                 }
             }
-            this.hidePiece(p);
         }
         if (!p) {
-            p = this.getVisiblePieceOnNumericSquare(square);
+            p = this.getAvailablePiece(square);
+
             if (p && p.pieceType === 'k') {
                 this.hidePiece(p);
             }
             else if (p) {
-                if (this.isEqualPiece(p, this.selectedPiece) && p.isVisible()) {
+                var ex = this.getVisiblePieceOnNumericSquare(square);
+                if (ex && this.isEqualPiece(ex, this.selectedPiece)) {
+
                     this.hidePiece(p);
                     this.fireEvent('modifyboard');
                     return;
@@ -96,14 +98,64 @@ chess.view.position.Board = new Class({
             }
         }
 
-
-
         this.configurePieceAndPlaceOnSquare(p, square);
         this.fireEvent('modifyboard');
 
     },
 
-    isValidSquareForSelectedPiece:function (square) {
+    hidePiece:function(p){
+
+        this.pieceMap[p.square] = undefined;
+        this.parent(p);
+    },
+
+
+    getAvailablePiece: function (square) {
+        var selType = this.selectedPiece.pieceType;
+        if (selType === 'k') {
+            return this.getKingPiece(this.selectedPiece.color);
+        }
+
+        var color = this.selectedPiece.color;
+        var ps;
+
+        for (var i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.pieceType === selType && !ps.isVisible()) {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && !ps.isVisible() && ps.pieceType !== 'k') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.pieceType === 'p') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color && ps.square !== square && ps.pieceType === 'p') {
+                return ps;
+            }
+        }
+
+        for (i = 0; i < this.pieces.length; i++) {
+            ps = this.pieces[i];
+            if (ps.color === color) {
+                return ps;
+            }
+        }
+    },
+
+    isValidSquareForSelectedPiece: function (square) {
         var p = this.selectedPiece;
 
         if (p.pieceType === 'p') {
@@ -116,25 +168,27 @@ chess.view.position.Board = new Class({
         return true;
     },
 
-    configurePieceAndPlaceOnSquare:function (piece, placeOnSquare) {
+    configurePieceAndPlaceOnSquare: function (piece, placeOnSquare) {
+
         piece.square = placeOnSquare;
         piece.color = this.selectedPiece.color;
         piece.pieceType = this.selectedPiece.pieceType;
         piece.position();
         piece.setPieceLayout(this.pieceLayout);
         piece.el.show();
+
         this.pieceMap[piece.square] = piece;
     },
 
-    isEqualPiece:function (piece1, piece2) {
+    isEqualPiece: function (piece1, piece2) {
         return piece1.color === piece2.color && piece1.pieceType === piece2.pieceType;
     },
 
-    getIndexForNewPiece:function (color) {
+    getIndexForNewPiece: function (color) {
         var firstIndex;
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color === color) {
-                if (!firstIndex)firstIndex = i;
+                if (!firstIndex) firstIndex = i;
                 if (!this.pieces[i].isVisible()) {
                     return i;
                 }
@@ -143,7 +197,7 @@ chess.view.position.Board = new Class({
         return firstIndex;
     },
 
-    getIndexesOfPiecesOfAColor:function (color) {
+    getIndexesOfPiecesOfAColor: function (color) {
         var ret = [];
         for (var i = 0; i < this.pieces.length; i++) {
             if (this.pieces[i].color === color) {
@@ -153,16 +207,16 @@ chess.view.position.Board = new Class({
         return ret;
     },
 
-    getKingPiece:function (color) {
+    getKingPiece: function (color) {
         for (var i = 0; i < this.pieces.length; i++) {
-            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color == color) {
+            if (this.pieces[i].pieceType === 'k' && this.pieces[i].color === color) {
                 return this.pieces[i];
             }
         }
         return null;
     },
 
-    getVisiblePieceOnNumericSquare:function (square) {
+    getVisiblePieceOnNumericSquare: function (square) {
         var piece = this.pieceMap[square];
         if (piece && piece.isVisible()) {
             return piece;
@@ -170,7 +224,7 @@ chess.view.position.Board = new Class({
         return null;
     },
 
-    getSquareByEvent:function (e) {
+    getSquareByEvent: function (e) {
         var boardPos = this.els.board.offset();
         var squareSize = this.getSquareSize();
 
@@ -188,7 +242,7 @@ chess.view.position.Board = new Class({
         return undefined;
     },
 
-    getFen:function () {
+    getFen: function () {
         var fen = '';
         var emptyCounter = 0;
         for (var i = 0; i < Board0x88Config.fenSquaresNumeric.length; i++) {

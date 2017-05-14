@@ -49,6 +49,11 @@
 chess.view.Chess = new Class({
     Extends: ludo.View,
 
+    alias:{
+        'chess.wordpress.FenBoard' : 'chess.view.board.Board'
+
+    },
+
     layout:{
         width:'matchParent', height:'matchParent'
     },
@@ -116,18 +121,32 @@ chess.view.Chess = new Class({
 
     parseChildren:function(config){
         var children =  config.children || this.__children();
-
         this.parseBranch(children);
-        
         return children;
+    },
+
+    themeEntry:function(type){
+        if(this.theme[type]){
+            return this.theme[type];
+        }
+        var alias = this.alias[type];
+        if(alias && this.theme[alias] ){
+            return this.theme[alias];
+        }
+        return undefined;
+
     },
     
     parseBranch:function(children){
         jQuery.each(children, function(i, child){
-            if(child.type && this.theme[child.type] != undefined){
-                child = Object.merge(child, this.theme[child.type]);
+            if(child.type){
+                var themeEntry = this.themeEntry(child.type);
+                if(themeEntry){
+                    child = Object.merge(child, themeEntry);
+                }
+
             }
-            if(child.children != undefined) {
+            if(child.children) {
                 this.parseBranch(child.children);
             }
 
