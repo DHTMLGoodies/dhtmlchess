@@ -1,4 +1,4 @@
-/* Generated Sun May 14 14:05:01 CEST 2017 */
+/* Generated Sun May 21 23:53:33 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -30761,7 +30761,7 @@ chess.view.board.Piece = new Class({
      * @return {Boolean}
      */
     isVisible: function () {
-        return this.el.css('display') != 'none';
+        return this.el.css('display') !== 'none';
     },
     /**
      * Hide the chess piece
@@ -34900,11 +34900,12 @@ chess.view.position.Board = new Class({
             }
             else if (p) {
                 var ex = this.getVisiblePieceOnNumericSquare(square);
-                if (ex && this.isEqualPiece(ex, this.selectedPiece)) {
-
-                    this.hidePiece(p);
-                    this.fireEvent('modifyboard');
-                    return;
+                if (ex) {
+                    this.hidePiece(ex);
+                    if (this.isEqualPiece(ex, this.selectedPiece)) {
+                        this.fireEvent('modifyboard');
+                        return;
+                    }
                 }
             } else {
                 p = this.pieces[this.getIndexForNewPiece(this.selectedPiece.color)];
@@ -34916,7 +34917,7 @@ chess.view.position.Board = new Class({
 
     },
 
-    hidePiece:function(p){
+    hidePiece: function (p) {
 
         this.pieceMap[p.square] = undefined;
         this.parent(p);
@@ -34932,9 +34933,11 @@ chess.view.position.Board = new Class({
         var color = this.selectedPiece.color;
         var ps;
 
+
         for (var i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];
             if (ps.color === color && ps.pieceType === selType && !ps.isVisible()) {
+                console.log('returning 1');
                 return ps;
             }
         }
@@ -34942,12 +34945,14 @@ chess.view.position.Board = new Class({
         for (i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];
             if (ps.color === color && !ps.isVisible() && ps.pieceType !== 'k') {
+                console.log('returning 2');
                 return ps;
             }
         }
 
         for (i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];
+            console.log('returning 3');
             if (ps.color === color && ps.pieceType === 'p') {
                 return ps;
             }
@@ -34955,6 +34960,7 @@ chess.view.position.Board = new Class({
 
         for (i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];
+            console.log('returning 4');
             if (ps.color === color && ps.square !== square && ps.pieceType === 'p') {
                 return ps;
             }
@@ -34963,6 +34969,7 @@ chess.view.position.Board = new Class({
         for (i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];
             if (ps.color === color) {
+                console.log('returning 5');
                 return ps;
             }
         }

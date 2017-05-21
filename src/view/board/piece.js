@@ -149,7 +149,7 @@ chess.view.board.Piece = new Class({
      * @return {Boolean}
      */
     isVisible: function () {
-        return this.el.css('display') != 'none';
+        return this.el.css('display') !== 'none';
     },
     /**
      * Hide the chess piece

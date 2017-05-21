@@ -87,11 +87,12 @@ chess.view.position.Board = new Class({
             }
             else if (p) {
                 var ex = this.getVisiblePieceOnNumericSquare(square);
-                if (ex && this.isEqualPiece(ex, this.selectedPiece)) {
-
-                    this.hidePiece(p);
-                    this.fireEvent('modifyboard');
-                    return;
+                if (ex) {
+                    this.hidePiece(ex);
+                    if (this.isEqualPiece(ex, this.selectedPiece)){
+                        this.fireEvent('modifyboard');
+                        return;
+                    }
                 }
             } else {
                 p = this.pieces[this.getIndexForNewPiece(this.selectedPiece.color)];
@@ -103,7 +104,7 @@ chess.view.position.Board = new Class({
 
     },
 
-    hidePiece:function(p){
+    hidePiece: function (p) {
 
         this.pieceMap[p.square] = undefined;
         this.parent(p);
@@ -118,6 +119,7 @@ chess.view.position.Board = new Class({
 
         var color = this.selectedPiece.color;
         var ps;
+
 
         for (var i = 0; i < this.pieces.length; i++) {
             ps = this.pieces[i];

@@ -1,4 +1,4 @@
-/* Generated Sun May 14 14:17:47 CEST 2017 */
+/* Generated Sun May 21 23:53:20 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -21924,7 +21924,7 @@ chess.view.board.Piece = new Class({
      * @return {Boolean}
      */
     isVisible: function () {
-        return this.el.css('display') != 'none';
+        return this.el.css('display') !== 'none';
     },
     /**
      * Hide the chess piece
