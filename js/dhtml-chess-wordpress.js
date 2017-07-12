@@ -1,4 +1,4 @@
-/* Generated Sun May 21 23:53:20 CEST 2017 */
+/* Generated Wed Jul 12 22:31:29 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -9015,17 +9015,17 @@ ludo.layout.Table = new Class({
 
         this.countChildren = 0;
         this.cols = this.view.layout.columns;
-        if (this.view.layout.rowHeight != undefined)this.rowHeight = this.view.layout.rowHeight;
+        if (this.view.layout.rowHeight !== undefined)this.rowHeight = this.view.layout.rowHeight;
         this.fixedWidth = 0;
         this.totalWeight = 0;
         this.simple = this.view.layout.simple || this.simple;
         var cols = [];
         for (var i = 0; i < this.cols.length; i++) {
             var col = this.cols[i];
-            var numWidth = col.width != undefined ? col.width : 0;
+            var numWidth = col.width !== undefined ? col.width : 0;
             this.fixedWidth += numWidth;
             this.totalWeight += (col.weight != undefined ? col.weight : 0);
-            var width = numWidth != undefined && numWidth > 0 ? ' width="' + numWidth + '"' : "";
+            var width = numWidth !== undefined && numWidth > 0 ? ' width="' + numWidth + '"' : "";
             cols.push('<col' + width + '>');
         }
 
@@ -9043,7 +9043,7 @@ ludo.layout.Table = new Class({
 
     getParentForNewChild: function (child) {
         var l = child.layout;
-        if (this.countChildren == 0 || l.row || (this.simple && this.countChildren % this.cols.length == 0)) {
+        if (this.countChildren === 0 || l.row || (this.simple && this.countChildren % this.cols.length == 0)) {
             l.row = true;
             this.currentRow = jQuery('<tr style="border:none;padding:0;margin:0"></tr>');
             this.tbody.append(this.currentRow);

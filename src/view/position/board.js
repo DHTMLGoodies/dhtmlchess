@@ -67,18 +67,14 @@ chess.view.position.Board = new Class({
         var p;
 
         if (this.selectedPiece.pieceType === 'k') {
-            p = this.getAvailablePiece(square);
+            p = this.getKingPiece(this.selectedPiece.color);
 
             var visiblePieceOnSquare = this.getVisiblePieceOnNumericSquare(square);
             if (visiblePieceOnSquare) {
-
-                if (this.isEqualPiece(visiblePieceOnSquare, p)) {
-                    this.hidePiece(visiblePieceOnSquare);
-                    this.fireEvent('modifyboard');
-                    return;
-                }
+                this.hidePiece(visiblePieceOnSquare);
             }
         }
+
         if (!p) {
             p = this.getAvailablePiece(square);
 
