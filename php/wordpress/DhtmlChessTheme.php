@@ -15,6 +15,7 @@ class DhtmlChessTheme
     const CATEGORY_BORDER = "Border";
     const CATEGORY_NOTATIONS = "Notations";
     const CATEGORY_ARROWS = "Arrows";
+    const CATEGORY_BUTTONS = "Buttons";
 
     /**
      * @var array
@@ -58,11 +59,12 @@ class DhtmlChessTheme
         );
     }
 
-    public function categoryFields($category){
+    public function categoryFields($category)
+    {
         $fields = $this->getFields();
         $ret = array();
-        foreach($fields as $field){
-            if($field["c"] == $category){
+        foreach ($fields as $field) {
+            if ($field["c"] == $category) {
                 $ret[] = $field;
             }
         }
@@ -83,6 +85,7 @@ class DhtmlChessTheme
             $fields = array_merge($fields, $this->labelFields());
             $fields = array_merge($fields, $this->arrowFields());
             $fields = array_merge($fields, $this->notationFields());
+            $fields = array_merge($fields, $this->buttonFields());
             $this->fields = $fields;
             $this->setNames();
         }
@@ -94,10 +97,16 @@ class DhtmlChessTheme
 
         foreach ($this->fields as &$field) {
             $field["name"] = $field["p"] . "/" . $field["f"];
+            if (isset($field["arr"])) {
+                for ($i = 0, $len = count($field["arr"]); $i < $len; $i++) {
+                    $field["arr"][$i] = $field["p"] . "/" . $field["arr"][$i];
+                }
+            }
         }
     }
 
-    private function notationFields(){
+    private function notationFields()
+    {
 
 
         $fields = array(
@@ -141,7 +150,7 @@ class DhtmlChessTheme
                 "label" => __('Border size', "wordpresschess")
             ),
             array(
-                "p" => $this->bp()."/background",
+                "p" => $this->bp() . "/background",
                 "f" => "horizontal",
                 "t" => "img",
                 "regex" => null,
@@ -219,7 +228,8 @@ class DhtmlChessTheme
     }
 
 
-    private function labelFields(){
+    private function labelFields()
+    {
         $fields = array(
             array(
                 "p" => $this->bp(),
@@ -254,7 +264,8 @@ class DhtmlChessTheme
         return $this->applyCat($fields, self::CATEGORY_LABELS);
     }
 
-    private function arrowFields(){
+    private function arrowFields()
+    {
         $fields = array(
             array(
                 "p" => $this->bp() . "/plugins/0/styles",
@@ -315,6 +326,271 @@ class DhtmlChessTheme
         );
 
         return $this->applyCat($fields, self::CATEGORY_ARROWS);
+
+    }
+
+    /**
+     *         borderRadius:'10%',
+     * styles:{
+     * button:{
+     * fill:'#6e3f31',
+     * stroke:'#6e3f31'
+     * },
+     * image:{
+     * fill:'#e8bfa0'
+     * },
+     * buttonOver:{
+     * fill:'#6e483c',
+     * stroke:'#6e3f31'
+     * },
+     * imageOver:{
+     * fill:'#e8bfa0'
+     * },
+     * buttonDown:{
+     * fill:'#8c6445',
+     * stroke:'#6e3f31'
+     * },
+     * imageDown:{
+     * fill:'#e8bfa0'
+     * },
+     * buttonDisabled:{
+     * fill:'#d5c8c5',
+     * stroke : '#b38578',
+     * 'stroke-opacity' : 0.3
+     * // , 'fill-opacity': 0.3
+     * },
+     * imageDisabled:{
+     * fill:'#6e483c',
+     * 'fill-opacity' : 0.3
+     * }
+     * }
+     *
+     */
+
+    private function buttonFields()
+    {
+        // chess.view.buttonbar.Bar
+        $fields = array(
+            array(
+                "p" => $this->buttonPath(),
+                "f" => "borderRadius",
+                "t" => "t",
+                "size" => 5,
+                "def" => "10%",
+                "maxlen" => 5,
+                "label" => __('Border Radius', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles",
+                "f" => "button/fill-opacity",
+                "arr" => array("button/fill-opacity", "button/stroke-opacity", "buttonOver/fill-opacity", "buttonOver/stroke-opacity", "buttonDown/fill-opacity", "buttonDown/stroke-opacity", "buttonDisabled/fill-opacity", "buttonDisabled/stroke-opacity"),
+                "t" => "n",
+                "def" => 1,
+                "regex" => '/^#[0-9]?\.?[0-9]$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "label" => __('Button Background Opacity 0-1', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/image",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "label" => __('Button Color', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/button",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "2ndcol" => true,
+                "maxlen" => 9,
+                "label" => __('BG fill', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/button",
+                "f" => "stroke",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG Stroke', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/imageOver",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "label" => __('Button (mouseover)', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonOver",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG fill', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonOver",
+                "f" => "stroke",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG stroke', "wordpresschess")
+            ),
+            /// MOUSE DOWN
+            ///
+            array(
+                "p" => $this->buttonPath() . "/styles/imageDown",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+
+                "label" => __('Button (mouse down)', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonDown",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG Fill', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonDown",
+                "f" => "stroke",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG Stroke', "wordpresschess")
+            ),
+
+            // DISABLED
+
+            array(
+                "p" => $this->buttonPath() . "/styles/imageDisabled",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+
+                "label" => __('Button (Disabled)', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonDisabled",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "2ndcol" => true,
+                "maxlen" => 9,
+                "label" => __('BG Fill', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonDisabled",
+                "f" => "stroke",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG Stroke', "wordpresschess")
+            ),
+            // PLAY BUTTON
+
+            array(
+                "p" => $this->buttonPath() . "/styles/imagePlay",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9]{1}$/',
+                "def" => 1,
+                "size" => 10,
+                "maxlen" => 7,
+
+                "label" => __('Play Button Color(Active)', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonPlay",
+                "f" => "fill",
+                "t" => "clr",
+                "def" => "#388E3C",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG Fill', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/buttonPlay",
+                "f" => "stroke",
+                "def" => "#C8E6C9",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('BG stroke', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/imageComp",
+                "f" => "fill",
+                "t" => "clr",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "def" => "#669900",
+                "label" => __('Comp Button Color (Active)', "wordpresschess")
+            ),
+            /*
+             *           overlay: {
+                'fill-opacity': 0,
+                'fill': '#000'
+            }
+             */
+            array(
+                "p" => $this->buttonPath() . "/styles/overlay",
+                "f" => "fill-opacity",
+                "def" => 0,
+                "t" => "n",
+                "regex" => '/^#[0-9]?\.?[0-9]$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "label" => __('Bevel - opacity 0-1', "wordpresschess")
+            ),
+            array(
+                "p" => $this->buttonPath() . "/styles/overlay",
+                "f" => "fill",
+                "t" => "clr",
+                "def" => "#cccccc",
+                "regex" => '/^#[0-9A-Z]{6}$/',
+                "size" => 10,
+                "maxlen" => 9,
+                "2ndcol" => true,
+                "label" => __('Bevel color', "wordpresschess")
+            ),
+
+
+        );
+
+        return $this->applyCat($fields, self::CATEGORY_BUTTONS);
 
     }
 
@@ -398,17 +674,30 @@ class DhtmlChessTheme
     {
         foreach ($array as &$entry) {
             $entry["c"] = $cat;
+            if ($entry["t"] === "clr") {
+                $entry["regex"] = '/^#([0-9A-Z]{6}|[0-9A-Z]{3})$/';
+            }
+        }
+        for ($i = 0, $len = count($array) - 1; $i < $len; $i++) {
+            if (!empty($array[$i + 1]["2ndcol"])) {
+                $array[$i]["noEndTr"] = true;
+            }
         }
         return $array;
     }
 
+    private function buttonPath()
+    {
+        return "chess.view.buttonbar.Bar";
+    }
 
     private function bp()
     {
         return "chess.view.board.Board";
     }
 
-    private function notationPath(){
+    private function notationPath()
+    {
         return "chess.view.notation.Panel";
     }
 

@@ -18,22 +18,26 @@ chess.WPTactics2 = new Class({
     validateGameData: false,
     storage: undefined,
 
+    movesSolved: 0,
+
+    inHintMode: false,
+
     __construct: function (config) {
         this.parent(config);
-
-        var r = this.renderTo
+        var r = this.renderTo;
         var w = this.renderWidth();
         r.css('height', Math.round(w + 164 + this.wpm_h));
         this.boardSize = w;
         if (config.random !== undefined) this.random = config.random;
 
-        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) !== "#") this.renderTo = "#" + this.renderTo;
 
         var id = String.uniqueID();
         this.avId = 'av' + id;
         this.eloId = 'elo' + id;
         this.nextBtnId = 'btn' + id;
         this.reloadBtnId = 'btn_r' + id;
+        this.hintBtnId = 'hint' + id;
         this.clockId = 'clk' + id;
         this.iconId = 'icon' + id;
         this.colorViewId = 'clr' + id;
@@ -53,7 +57,7 @@ chess.WPTactics2 = new Class({
 
         new chess.view.Chess({
             cls: this.th,
-            theme : this.themeObject,
+            theme: this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -175,6 +179,19 @@ chess.WPTactics2 = new Class({
                                     listeners: {
                                         'click': this.nextGame.bind(this)
                                     }
+                                },
+                                {
+                                    id: this.hintBtnId,
+                                    type: 'chess.ImageButton',
+                                    img: this.dr + 'images/hint.png',
+                                    layout: {
+                                        width: 80,
+                                        height: 'matchParent'
+                                    },
+                                    btnVisible: false,
+                                    listeners: {
+                                        'click': this.showSolution.bind(this)
+                                    }
                                 }
 
                             ]
@@ -196,6 +213,14 @@ chess.WPTactics2 = new Class({
         });
 
         this.loadUserInfo();
+    },
+
+    showSolution: function () {
+        this.inHintMode = true;
+        ludo.$(this.hintBtnId).hideButton();
+        ludo.$(this.clockId).stop();
+        this.controller.playMoves();
+
     },
 
     loadNextGame: function () {
@@ -241,6 +266,8 @@ chess.WPTactics2 = new Class({
 
     onGameLoaded: function (model) {
 
+        this.inHintMode = false;
+
         var gameId = model.id;
         var pgnId = model.pgn_id;
         var index = model.index;
@@ -248,10 +275,13 @@ chess.WPTactics2 = new Class({
         this.curModel().populate(model);
 
         ludo.$(this.eloId).clearIncs();
+        ludo.$(this.hintBtnId).showButton();
 
         this.saveStorageVal('id', gameId);
         this.pgnId(pgnId);
         this.saveStorageVal('index', index);
+
+        this.movesSolved = 0;
 
         this.updateServerStore();
     },
@@ -273,7 +303,7 @@ chess.WPTactics2 = new Class({
 
 
     pgnId: function (val) {
-        if (arguments.length == 1) {
+        if (arguments.length === 1) {
             this.saveStorageVal('pgn', val);
             return;
         }
@@ -305,6 +335,9 @@ chess.WPTactics2 = new Class({
         ludo.$(this.iconId).animateOut();
 
         var clk = ludo.$(this.clockId);
+
+        ludo.$(this.hintBtnId).showButton();
+
         clk.reset();
         clk.start();
     },
@@ -316,11 +349,15 @@ chess.WPTactics2 = new Class({
 
         var b = controller.views.board;
 
-        if (event == 'boardMove') {
+        if (event === 'correctGuess') {
+            this.movesSolved++;
+        }
+
+        if (event === 'boardMove') {
             controller.currentModel.tryNextMove(move);
         }
 
-        if (event == 'newGame') {
+        if (event === 'newGame') {
             var result = model.getResult();
             if (result == -1) {
                 b.flipToBlack();
@@ -343,17 +380,17 @@ chess.WPTactics2 = new Class({
             ludo.$(this.colorViewId).hideView();
         }
 
-        if (event == 'setPosition' || event == 'nextmove') {
+        if (!this.inHintMode && (event === 'setPosition' || event === 'nextmove')) {
             colorToMove = model.getColorToMove();
-
-            if (colorToMove == this.myColor) {
+            if (colorToMove === this.myColor) {
                 b.enableDragAndDrop(model);
             } else {
                 model.nextMove.delay(200, model);
             }
         }
 
-        if (event == 'wrongGuess') {
+
+        if (event === 'wrongGuess') {
             this.onGameEnd(true);
         }
 
@@ -363,7 +400,7 @@ chess.WPTactics2 = new Class({
     },
 
     getStorage: function () {
-        if (this.storage == undefined) {
+        if (this.storage === undefined) {
             var storage = ludo.getLocalStorage().get(this.storageKey);
             this.storage = storage ? storage : {};
         }
@@ -378,12 +415,17 @@ chess.WPTactics2 = new Class({
 
     storageVal: function (key, defaultVal) {
         var s = this.getStorage();
-        return s[key] != undefined ? s[key] : defaultVal;
+        return s[key] !== undefined ? s[key] : defaultVal;
     },
 
     onGameEnd: function (wasWrong) {
 
-        var src = wasWrong ? 'incorrect-icon.png' : 'solved-icon.png';
+        if (!wasWrong) this.movesSolved++;
+
+
+        ludo.$(this.hintBtnId).hideButton();
+
+        var src = wasWrong ? 'incorrect-icon.png' : this.inHintMode ? 'solved-skipped.png' : 'solved-icon.png';
         ludo.$(this.iconId).setIcon(this.dr + 'images/' + src);
 
 
@@ -401,12 +443,13 @@ chess.WPTactics2 = new Class({
         var cv = ludo.$(this.colorViewId);
         cv.showView();
         if (solved) {
-            cv.colorCls('wpc-tactics-solved');
+            cv.colorCls(this.inHintMode ? 'wpc-tactics-skipped' : 'wpc-tactics-solved');
             cv.icon(this.dr + 'images/solved-icon-white.png');
         } else {
             cv.colorCls('wpc-tactics-failed');
             cv.icon(this.dr + 'images/incorrect-icon-white.png');
         }
+
 
         jQuery.ajax({
             url: this.url,
@@ -416,7 +459,9 @@ chess.WPTactics2 = new Class({
             data: {
                 action: 'wpc_puzzle_complete',
                 moves: moves,
-                solved: solved ? 1 : 0,
+                solvedMoves: this.inHintMode ? moves / 2 : this.movesSolved,
+                rated: !this.inHintMode,
+                solved: solved && !this.inHintMode ? 1 : 0,
                 ms: ms,
                 puzzleId: this.controller.currentModel.getId()
             },
@@ -433,6 +478,8 @@ chess.WPTactics2 = new Class({
                 }
             }.bind(this)
         });
+
+        this.inHintMode = false;
 
     },
 
@@ -452,7 +499,7 @@ chess.WPTactics2 = new Class({
         v.css('cursor', 'pointer');
 
         v.on('click', function () {
-            location.href = ludo.config.wpRoot + '/wp-login.php?redirect_to=' + encodeURI(location.href);
+            location.href = ludo.config.wpRoot + '?redirect_to=' + encodeURI(location.href);
         });
     },
 

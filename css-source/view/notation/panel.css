@@ -1,5 +1,6 @@
 .ludo-blue .dhtml-chess-view-notation-panel .ludo-body{
     background-color:#FFF;
+    text-align:center;
 }
 .notation-chess-move {
     cursor: pointer;

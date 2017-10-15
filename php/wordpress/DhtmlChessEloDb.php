@@ -39,6 +39,7 @@ class DhtmlChessEloDb {
 	}
 
 	private function update($userId, $key, $elo){
+	    #echo $userId." " . $key
 		$this->wpdb->update(
 			DhtmlChessDatabase::TABLE_ELO,
 			array(
@@ -49,7 +50,7 @@ class DhtmlChessEloDb {
 				DhtmlChessDatabase::COL_USER_ID => $userId
 			),
 			array(
-				'%.2f'
+				'%d'
 			),
 			array()
 		);

@@ -29,7 +29,7 @@ class DhtmlChessImportPgn
             $count = $parser->countGames();
 
             for($i=0;$i<$count;$i++){
-                $game = $parser->getGameByIndex($i);
+                $game = $parser->getGameByIndexShort($i);
                 $pgn->appendGame($game);
 
             }
@@ -63,7 +63,7 @@ class DhtmlChessImportPgn
         $countImported = 0;
         for($i=0;$i<$count;$i++){
             try{
-                $game = $parser->getGameByIndex($i);
+                $game = $parser->getGameByIndexShort($i);
                 $pgn->appendGame($game);
                 $countImported++;
             }catch(Exception $e){
@@ -83,7 +83,7 @@ class DhtmlChessImportPgn
         try{
             $count = $parser->countGames();
             for($i=0;$i<$count;$i++){
-                $game = $parser->getGameByIndex($i);
+                $game = $parser->getGameByIndexShort($i);
                 $pgn->appendGame($game);
 
             }
@@ -123,7 +123,7 @@ class DhtmlChessImportPgn
 
         for($i=0;$i<$count;$i++){
             try{
-                $game = $parser->getGameByIndex($i);
+                $game = $parser->getGameByIndexShort($i);
                 $pgn->appendGame($game);
             }catch(Exception $e){
 

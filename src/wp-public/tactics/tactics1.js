@@ -25,12 +25,13 @@ chess.WPTactics1 = new Class({
     previousButtonId:undefined,
 
     __construct: function (config) {
+
         this.parent(config);
         var r = this.renderTo;
         var w = this.renderWidth();
         r.css('height', Math.round(w + 130 + this.wpm_h));
         this.boardSize = w;
-        if (config.random != undefined) this.random = config.random;
+        if (config.random !== undefined) this.random = config.random;
         this.previousButtonId = 'dc-' + String.uniqueID();
         this.historyKey = 'tactics-history-' + this.pgn.id;
         this.historyIndexKey = 'tactics-history-index' + this.pgn.id;
@@ -39,7 +40,7 @@ chess.WPTactics1 = new Class({
         this.historyIndex = ludo.getLocalStorage().get(this.historyIndexKey, 0) / 1;
 
         this.showLabels = !this.mobile;
-        if (this.renderTo.substr && this.renderTo.substr(0, 1) != "#") this.renderTo = "#" + this.renderTo;
+        if (this.renderTo.substr && this.renderTo.substr(0, 1) !== "#") this.renderTo = "#" + this.renderTo;
         this.beforeRender();
     },
 
@@ -55,7 +56,6 @@ chess.WPTactics1 = new Class({
         }
 
     },
-
 
     nextGame: function () {
         this.loadedFromHistory = false;
@@ -248,7 +248,7 @@ chess.WPTactics1 = new Class({
 
         if (isNaN(index)) index = 0;
         index = Math.max(0, index);
-        if (index != undefined) {
+        if (index !== undefined) {
             this.controller.getCurrentModel().setGameIndex(index);
         } else {
             index = 0;

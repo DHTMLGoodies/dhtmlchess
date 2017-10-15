@@ -93,7 +93,8 @@ class DhtmlChessThemeBuilder
         "styles":{
             "button":{
                 "fill":"#6e3f31",
-                "stroke":"#6e3f31"
+                "stroke":"#6e3f31",
+                "fill-opacity": 1
             },
             "image":{
                 "fill":"#e8bfa0"
@@ -117,9 +118,24 @@ class DhtmlChessThemeBuilder
                 "stroke" : "#b38578",
                 "stroke-opacity" : 0.3
             },
+            "buttonPlay": {
+                "stroke":"#C8E6C9",
+                "fill":"#388E3C",
+                "stroke-width": 1
+            },
+            "imagePlay": {
+                "fill":"#e8bfa0"
+            },
             "imageDisabled":{
                 "fill":"#6e483c",
                 "fill-opacity" : 0.3
+            },
+            "overlay": {
+                "fill-opacity": 0,
+                "fill" : "#ccc"
+            },
+            "imageComp": {
+                "fill" : "#669900"
             }
         }
     }
@@ -147,10 +163,16 @@ class DhtmlChessThemeBuilder
         $this->json = json_decode(self::$tpl, true);
     }
 
+    public static function defaultTp(){
+        return self::$tpl;
+
+    }
+
     /**
      * @param array $json
      */
-    public function mergeJson($json){
+    public function mergeJson($json)
+    {
         $json_string = json_encode($json);
         $json_string = preg_replace('/"http.+?\/images/si', '"[DOCROOT]images', $json_string);
         $json = json_decode($json_string, true);
@@ -248,6 +270,7 @@ class DhtmlChessThemeBuilder
         $ret .= $this->categoryLink(DhtmlChessTheme::CATEGORY_LABELS);
         $ret .= $this->categoryLink(DhtmlChessTheme::CATEGORY_ARROWS);
         $ret .= $this->categoryLink(DhtmlChessTheme::CATEGORY_NOTATIONS);
+        $ret .= $this->categoryLink(DhtmlChessTheme::CATEGORY_BUTTONS);
 
         $ret .= '</ul></nav><div class="wp-clearfix"></div>';
 
@@ -290,9 +313,10 @@ class DhtmlChessThemeBuilder
     public function fieldHtml($field)
     {
 
-        $html = "<tr><td><label for='" . $field["name"] . "'>" . $field["label"] . ":</label></td><td>";
+        $lineBreak = empty($field["2ndcol"]);
+        $pre = $lineBreak ? "<tr>" : "";
+        $html = $pre . "<td><label for='" . $field["name"] . "'>" . $field["label"] . ":</label></td><td>";
         switch ($field["t"]) {
-
             case "n":
                 $html .= $this->numericHtml($field);
                 break;
@@ -318,7 +342,8 @@ class DhtmlChessThemeBuilder
                 return "";
 
         }
-        $html .= "</td></tr>";
+        $html .= "</td>";
+        if (empty($field["noEndTr"])) $html .= "</tr>";
 
         return $html;
     }
@@ -329,16 +354,21 @@ class DhtmlChessThemeBuilder
         if (isset($field["css"])) {
             $ret = ' data-cls="' . $field["css"] . '" data-css-key="' . $field["cssKey"] . '" data-css-type="' . $field["cssType"] . '"';
         }
-        if(isset($field["regex"])){
-            $ret .= ' data-regex="'. $field['regex'] . '"';
+        if (isset($field["regex"])) {
+            $ret .= ' data-regex="' . $field['regex'] . '"';
         }
         if (isset($field["alternative"])) {
             $ret .= ' data-alternative=\'' . json_encode($field["alternative"]) . '\'';
         }
+        if(isset($field["arr"])){
+            $ret .= ' data-array=\'' . implode(",", $field["arr"])  . '\'';
+        }
+
         return $ret;
     }
 
-    private function dataOptionsAsArray($field){
+    private function dataOptionsAsArray($field)
+    {
 
         $ret = array();
         if (isset($field["css"])) {
@@ -351,9 +381,11 @@ class DhtmlChessThemeBuilder
             $ret["alternative"] = json_encode($field["alternative"]);
         }
 
-        if(isset($field["def"])){
-            $ret["default-value"] = $field["def"];
+        if (isset($field["def"])) {
+            $ret["data-default-value"] = $field["def"];
         }
+
+
         return $ret;
     }
 
@@ -422,10 +454,11 @@ class DhtmlChessThemeBuilder
         return $ret;
     }
 
-    private function defaultValue($field){
+    private function defaultValue($field)
+    {
 
-        if(isset($field["val"]))return $field["val"];
-        if(!empty($field["def"]))return $field["def"];
+        if (!empty($field["val"])) return $field["val"];
+        if (isset($field["def"])) return $field["def"];
         return "";
     }
 
@@ -444,15 +477,15 @@ class DhtmlChessThemeBuilder
 
         $images = array();
 
-        foreach($options as $option){
+        foreach ($options as $option) {
             $val = $option;
             $image = $this->replaceDOCROOT($option);
             $images[] = array("value" => $val, "image" => $image);
         }
 
         $value = null;
-        if(!empty($field["val"])){
-            $value= array(
+        if (!empty($field["val"])) {
+            $value = array(
                 "image" => $this->replaceDOCROOT($field["val"]),
                 "value" => $field["val"]
             );
@@ -467,7 +500,7 @@ class DhtmlChessThemeBuilder
             "dataFields" => $this->dataOptionsAsArray($field),
         );
 
-        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector('. json_encode($args) . '); selector.on("change", onValChange ) })</script>';
+        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector(' . json_encode($args) . '); selector.on("change", onValChange ) })</script>';
         $html .= "</tr>";
         $html .= "</table>";
 
@@ -522,7 +555,7 @@ class DhtmlChessThemeBuilder
             "dataFields" => $this->dataOptionsAsArray($field),
         );
 
-        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector('. json_encode($args) . '); selector.on("change", onValChange ) })</script>';
+        $html .= '<script type="text/javascript">jQuery(document).ready(function () { var selector =new chess.ImageSelector(' . json_encode($args) . '); selector.on("change", onValChange ) })</script>';
         $html .= "</tr>";
         $html .= "</table>";
 

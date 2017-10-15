@@ -384,6 +384,7 @@ chess.controller.Controller = new Class({
 
     setBusy: function () {
         this.isBusy = true;
+
     },
 
     nextAutoPlayMove: function () {

@@ -225,16 +225,18 @@ chess.view.board.Board = new Class({
     playChainOfMoves: function (model, move) {
 
         var ca = this.currentAnimation;
-        if (this.animationDuration == 0) {
+        if (this.animationDuration === 0) {
             this.showMove(model, move);
             return;
         }
 
-        this.fireEvent('animationStart');
         if (ca.isBusy) {
             this.playChainOfMoves.delay(200, this, [model, move]);
             return;
         }
+
+        this.fireEvent('animationStart');
+
         var moves = move.moves;
 
         ca.duration = this.getDurationPerMovedPiece(move);
@@ -250,7 +252,7 @@ chess.view.board.Board = new Class({
         if (move.capture) {
 
             var sq = Board0x88Config.mapping[move.capture];
-            if (sq != move.to) {
+            if (sq !== move.to) {
                 this.pieceMap[sq].hide();
                 this.pieceMap[sq] = null;
             }
@@ -259,6 +261,7 @@ chess.view.board.Board = new Class({
         else if (move.promoteTo) {
             this.getPieceOnSquare(move.square).promote(move.promoteTo);
             this.currentAnimation.isBusy = false;
+            this.fireEvent('animationComplete');
         } else if (move.from) {
             var piece = this.getPieceOnSquare(move.from);
             if (piece) piece.playMove(move.to, this.currentAnimation.duration);

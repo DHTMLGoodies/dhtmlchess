@@ -10,6 +10,23 @@ chess.ThemeBuilder = new Class({
     initialize: function (json, css) {
         this.json = json;
         this.css = css;
+        this.validateBranch(this.json);
+    },
+
+
+    validateBranch: function(branch){
+        jQuery.each(branch, function(key, item){
+
+            var t = jQuery.type(item);
+            if(t === "object"){
+                this.validateBranch(item);
+            }else if(t === "array"){
+                if(item.length === 0){
+                    branch[key] = {}
+                }
+            }
+
+        }.bind(this));
     },
 
     mergeJSON: function (json) {
@@ -18,6 +35,10 @@ chess.ThemeBuilder = new Class({
 
     set: function (key, val) {
         // Some exceptions
+
+
+
+
         if (key == 'chess.view.board.Board/labelStyles/color') {
             this.set('chess.view.board.Board/labelOddStyles', undefined)
             this.set('chess.view.board.Board/labelEvenStyles', undefined)
@@ -47,9 +68,8 @@ chess.ThemeBuilder = new Class({
         var tokens = key.split(/\//g);
         tokens.pop();
         var el = this.json;
-
-        jQuery.each(tokens, function (i, t) {
-            if (el && el[t] != undefined) {
+        tokens.forEach(function(t){
+            if (el && el[t] !== undefined) {
                 el = el[t];
             } else {
                 el = undefined;

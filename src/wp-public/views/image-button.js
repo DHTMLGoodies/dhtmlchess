@@ -46,6 +46,7 @@ chess.ImageButton = new Class({
 
     hideButton:function(){
         this.$b().css('visibility', 'hidden');
+        this.hide();
     },
 
     showButton:function(){

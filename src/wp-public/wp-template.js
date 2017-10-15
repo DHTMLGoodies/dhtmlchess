@@ -29,9 +29,11 @@ chess.WPTemplate = new Class({
 
     navH: undefined,
     to_end: false,
+    forward : 0,
 
     mobile: undefined,
 
+    custom: false,
 
     initialize: function (config) {
         var res = window.screen.width;
@@ -70,6 +72,7 @@ chess.WPTemplate = new Class({
         this.arrowSolution = config.arrowSolution || {};
         this.hint = config.hint || {};
         this.to_end = config.to_end || false;
+        this.forward = config.forward || 0;
 
 
         if (config.pgn !== undefined) {
@@ -122,6 +125,7 @@ chess.WPTemplate = new Class({
         var t = config.theme || config.defaultTheme;
 
         if (t === 'custom') {
+            this.custom = true;
             chess.THEME = chess.CUSTOMTHEME;
             this.themeObject = Object.clone(chess.CUSTOMTHEME);
         }

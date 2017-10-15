@@ -1,45 +1,48 @@
 window.chess.isWordPress = true;
 chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
-    fen:undefined,
+    fen: undefined,
 
-    __construct:function(config){
+    __construct: function (config) {
+        //console.time("render");
         this.parent(config);
         this.model = config.model || undefined;
 
         this.gameId = config.gameId;
 
-        if(config.fen){
+        if (config.fen) {
             this.fen = config.fen;
         }
-        if(!this.model && !this.gameId && !this.fen)this.gameId = 2;
+        if (!this.model && !this.gameId && !this.fen) this.gameId = 2;
+
+        //console.timeEnd("render");
     },
 
 
-    createController:function(){
+    createController: function () {
         this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
             stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
-            sound:this.sound
+            sound: this.sound
         });
-        if(this.fen){
+        if (this.fen) {
             this.controller.setPosition(this.fen);
         }
         this.parent();
         this.loadGame();
     },
 
-    loadGame:function(){
+    loadGame: function () {
 
-        if(this.gameId){
+        if (this.gameId) {
             jQuery.ajax({
                 url: ludo.config.getUrl(),
                 method: 'post',
                 cache: false,
                 dataType: 'json',
                 data: {
-                    action:'game_by_id',
-                    id:this.gameId
+                    action: 'game_by_id',
+                    id: this.gameId
                 },
                 complete: function (response, status) {
                     this.controller.currentModel.afterLoad();
@@ -49,8 +52,11 @@ chess.WPGameTemplate = new Class({
                             var game = json.response;
                             var model = this.controller.currentModel;
                             model.populate(game);
-                            if(this.to_end){
+                            if (this.to_end) {
                                 model.toEnd();
+                            }
+                            if (this.forward) {
+                                model.forward(this.forward);
                             }
                         }
                     } else {
@@ -62,7 +68,7 @@ chess.WPGameTemplate = new Class({
                 }.bind(this)
 
             });
-        }else if(this.model){
+        } else if (this.model) {
             this.controller.currentModel.populate(this.model);
         }
     }

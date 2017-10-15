@@ -2579,6 +2579,22 @@ TestCase("ModelTest", {
         console.log(model.getCurrentMove().from)
 
 
+    },
+
+    "test should handle short format" : function(){
+        // given
+        var game = '{"metadata":{"setup":"1","castle":1},"event":"001 Art of Attack","site":"?","date":"????.??.??","round":"?","white":"?","black":"?","result":"*","plycount":"5","fen":"rnbqkbnr\/pppppppp\/8\/8\/8\/8\/PPPPPPPP\/RNBQKBNR w KQkq - 0 1",' +
+            '"moves":[{"n":"e2e4","v":[[{"n":"d2d4"},{"n":"g8f6"}],[{"n":"c2c4"}],[{"n":"f2f4"}]]},{"n":"e7e5"},{"n":"g1f3","v":[[{"n":"b1c3"}]]},{"n":"f7f5"}]}';
+        game = JSON.parse(game);
+        var model = new chess.model.Game();
+        model.populate(game);
+
+        var msg = JSON.stringify(model.getMoves());
+        var move = model.getMoves()[0];
+
+        assertEquals(msg, 'e2', move.from);
+        assertEquals(msg, 'e4', move.to);
+
     }
 
 

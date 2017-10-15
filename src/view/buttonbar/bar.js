@@ -50,7 +50,8 @@ chess.view.buttonbar.Bar = new Class({
             button: {
                 'stroke': '#888',
                 'fill': '#aeb0b0',
-                'stroke-width': 1
+                'stroke-width': 1,
+                "fill-opacity": 1
             },
             image: {fill: '#444'},
 
@@ -87,11 +88,8 @@ chess.view.buttonbar.Bar = new Class({
                 'fill': '#388E3C',
                 'stroke-width': 1
             },
-
-
             imagePlay: {fill: '#C8E6C9'},
             imageComp: {fill: '#388E3C'},
-
             overlay: {
                 'fill-opacity': 0,
                 'fill': '#000'
@@ -210,7 +208,7 @@ chess.view.buttonbar.Bar = new Class({
 
     fn: function (fnName, btnName) {
         var that = this;
-        return function (e) {
+        return function () {
             that[fnName].call(that, btnName);
         }
     },
@@ -251,9 +249,9 @@ chess.view.buttonbar.Bar = new Class({
     clickButton: function (btnName) {
         if (!this.isDisabled(btnName)) {
             this.cssButton(btnName, '');
-            if (btnName == 'play' && this.autoPlayMode) btnName = 'pause';
+            if (btnName === 'play' && this.autoPlayMode) btnName = 'pause';
             this.fireEvent(btnName);
-            if (btnName == 'comp') {
+            if (btnName === 'comp') {
                 this.comp = !this.comp;
                 this.cssButton('comp', 'Comp');
             }
@@ -266,7 +264,7 @@ chess.view.buttonbar.Bar = new Class({
         var o = this.controller.compMode ? 0 : 1;
 
         jQuery.each(this.buttons, function(i, name){
-            if(name != 'comp' && name != 'flip')this.els.buttons[name].css({
+            if(name !== 'comp' && name !== 'flip')this.els.buttons[name].css({
                 opacity : o
 
             });
@@ -276,10 +274,10 @@ chess.view.buttonbar.Bar = new Class({
 
     cssButton: function (name, className) {
 
-        if (this.buttons.indexOf(name) == -1)return;
+        if (this.buttons.indexOf(name) === -1)return;
 
-        if (name == 'play' && this.autoPlayMode) className = 'Play';
-        if (name == 'comp' && this.controller.compMode) className = 'Comp';
+        if (name === 'play' && this.autoPlayMode) className = 'Play';
+        if (name === 'comp' && this.controller.compMode) className = 'Comp';
 
         if (this.isDisabled(name)) {
             className = 'Disabled';
@@ -312,7 +310,7 @@ chess.view.buttonbar.Bar = new Class({
         this.orientation = s.width > s.height ? 'horizontal' : 'vertical';
         this.size = Math.min(s.width, s.height);
 
-        if (this.orientation == 'horizontal') {
+        if (this.orientation === 'horizontal') {
             this.resizeHorizontal();
         } else {
             this.resizeVertical();

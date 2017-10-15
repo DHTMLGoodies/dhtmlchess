@@ -131,6 +131,21 @@ class EloTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldGetEloChangeOnLoss()
+    {
+        // given
+        $elo = new DhtmlChessElo();
+
+        $change = $elo->eloChange(1400, 2700, DhtmlChessDatabase::KEY_BLACK_WIN);
+
+        // then
+        $this->assertEquals(-1, $change);
+    }
+
+
+    /**
+     * @test
+     */
     public function shouldNotIncrementPuzzleEloForSamePuzzleInSequence()
     {
 
@@ -163,6 +178,9 @@ class EloTest extends PHPUnit_Framework_TestCase
 
     }
 
+    /**
+     * @test
+     */
     public function shouldDecrementOnPuzzleFailed()
     {
         // given
@@ -175,6 +193,21 @@ class EloTest extends PHPUnit_Framework_TestCase
         // then
         $this->assertTrue($eloAfter < $elo, "Wrong elo on failed, before: $elo, after: $eloAfter");
 
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotLoseManyPointsIfSomeMovesAreSolved()
+    {
+        // given
+        $eloObj = new DhtmlChessElo();
+        $eloObj->testSetCountPuzzleGames(1, 100);
+
+        $eloAfter = $eloObj->onPuzzleFailed(1, 1400, 1, 2 / 3);
+
+        // then
+        $this->assertEquals(1395, $eloAfter);
     }
 
     /**

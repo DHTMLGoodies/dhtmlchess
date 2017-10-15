@@ -76,7 +76,8 @@ class DhtmlChessElo
 
     }
 
-    public static function eloAdjustment($change){
+    public static function eloAdjustment($change)
+    {
         return abs($change * self::WHITE_ADJUSTMENT);
     }
 
@@ -100,7 +101,17 @@ class DhtmlChessElo
         }
         $expected = $this->getExpectedScore($whiteElo, $blackElo);
 
-        return self::K * ($eloResult - $expected);
+        $val = self::K * ($eloResult - $expected);
+
+        if ($val > -1 && $val < 1) $val = self::to1($val);
+        return $val;
+    }
+
+    private static function to1($val)
+    {
+        if ($val < 0) $val = -1;
+        if ($val > 0) $val = 1;
+        return $val;
     }
 
     private function getExpectedScore($ratingA, $ratingB)
@@ -126,24 +137,25 @@ class DhtmlChessElo
     }
 
 
-    public function onPuzzleFailed($userId, $againstElo, $puzzleId = null)
+    public function onPuzzleFailed($userId, $againstElo, $puzzleId = null, $ratioSolved = 0)
     {
-        return $this->onPuzzleComplete($userId, $againstElo, DhtmlChessDatabase::KEY_BLACK_WIN, $puzzleId);
+        return $this->onPuzzleComplete($userId, $againstElo, DhtmlChessDatabase::KEY_BLACK_WIN, $puzzleId, $ratioSolved);
     }
 
-    public function onPuzzleCompleteAuto($userId, $puzzleId, $moves, $ms, $solved)
+    public function onPuzzleCompleteAuto($userId, $puzzleId, $moves, $ms, $solved, $movesSolved)
     {
         if ($solved) {
             return $this->onPuzzleSolvedAuto($userId, $puzzleId, $moves, $ms);
         } else {
-            return $this->onPuzzleFailedAuto($userId, $puzzleId, $moves, $ms);
+            return $this->onPuzzleFailedAuto($userId, $puzzleId, $moves, $ms, $movesSolved);
         }
     }
 
-    public function onPuzzleFailedAuto($userId, $puzzleId = null, $moves, $ms)
+    public function onPuzzleFailedAuto($userId, $puzzleId = null, $moves, $ms, $movesSolved)
     {
+        $moves = max($moves, 1);
         $elo = $this->puzzleOppenentElo($moves, $ms);
-        return $this->onPuzzleFailed($userId, $elo, $puzzleId);
+        return $this->onPuzzleFailed($userId, $elo, $puzzleId, min($movesSolved, $moves - 1) / $moves);
     }
 
     public function onPuzzleSolvedAuto($userId, $puzzleId = null, $moves, $ms)
@@ -158,7 +170,7 @@ class DhtmlChessElo
         return $this->onPuzzleComplete($userId, $againstElo, DhtmlChessDatabase::KEY_WHITE_WIN, $puzzleId);
     }
 
-    private function onPuzzleComplete($userId, $againstElo, $result, $puzzleId = null)
+    private function onPuzzleComplete($userId, $againstElo, $result, $puzzleId = null, $ratioSolved = 0)
     {
         $elo = $this->getPuzzleElo($userId);
 
@@ -170,6 +182,10 @@ class DhtmlChessElo
         }
 
         $change = $this->eloChange($elo, $againstElo, $result);
+        if ($change < 0 && $ratioSolved) {
+            $change -= $change * $ratioSolved;
+            if ($change > -1) $change = -1;
+        }
 
         $countPlayed = $this->countPuzzleGames($userId);
 
@@ -234,6 +250,13 @@ class DhtmlChessElo
         return $this->countGames($userId, self::GAME_KEY_PUZZLE_COUNT);
     }
 
+
+    public function testSetCountPuzzleGames($userId, $count)
+    {
+        $key = self::GAME_KEY_PUZZLE_COUNT;
+        $this->store->upsert($this->getKey($key, $userId), $count);
+    }
+
     public function countGames($userId, $key)
     {
 
@@ -258,5 +281,6 @@ class DhtmlChessElo
         return max(800, $elo);
 
     }
+
 
 }

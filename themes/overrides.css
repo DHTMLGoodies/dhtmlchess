@@ -13,7 +13,7 @@ div.ludo-window {
 
 .ludo-tab-strip-tab-txt-svg, .ludo-tab-strip-tab-txt-svg-active {
     font-family: arial, helvetica, sans-serif;
-    font-size:11px !important;
+    font-size: 11px !important;
 }
 
 .ludo-layout-tabs {
@@ -237,12 +237,11 @@ div.dhtml-chess-notation-panel {
     -webkit-user-select: none;
 }
 
-
-div.dhtml-chess-notation-panel img.dc-figurine{
-    display:inline !important;
-    margin:0 !important;;
-    padding:0 !important;
-    opacity:1 !important;
+div.dhtml-chess-notation-panel img.dc-figurine {
+    display: inline !important;
+    margin: 0 !important;;
+    padding: 0 !important;
+    opacity: 1 !important;
 }
 
 .ludo-chess-view-metadata-game {
@@ -265,7 +264,7 @@ span.notation-chess-move-highlighted {
 }
 
 .dhtml-chess-view-notation-table {
-    line-height:120%;
+    line-height: 120%;
     font-size: 12px;
 }
 
@@ -275,13 +274,15 @@ span.notation-chess-move-highlighted {
 
 }
 
-div.dhtml-chess-side-to-move-board{
-    position:absolute;
-    width:100%;height:100%;
+div.dhtml-chess-side-to-move-board {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 
-    border-radius:999px;
+    border-radius: 999px;
     box-sizing: border-box !important;
 }
+
 div.dhtml-chess-side-to-move,
 div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
     box-sizing: border-box !important;
@@ -289,15 +290,17 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
 }
 
 .dhtml-chess-side-to-move-outer {
-    position:absolute;
-    right:0;
-    border:1px solid;
+    position: absolute;
+    right: 0;
+    border: 1px solid;
 }
-.dhtml-chess-side-to-move-outer-white{
-    border-color:transparent;
+
+.dhtml-chess-side-to-move-outer-white {
+    border-color: transparent;
 }
-.dhtml-chess-side-to-move-outer-black{
-    border-color:transparent;
+
+.dhtml-chess-side-to-move-outer-black {
+    border-color: transparent;
 }
 
 .dhtml-chess-side-to-move-inner {
@@ -312,7 +315,7 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
     background-color: #111;
 }
 
-.dhtml-chess-side-to-move-white, .dhtml-chess-side-to-move-black{
+.dhtml-chess-side-to-move-white, .dhtml-chess-side-to-move-black {
     animation-name: whitesideanim;
     -webkit-animation-duration: 3s;
     -moz-animation-duration: 3s;
@@ -321,30 +324,30 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
     animation-iteration-count: infinite;
 }
 
-
-
 @keyframes whitesideanim {
     0% {
-        opacity:0.5;
+        opacity: 0.5;
         -moz-opacity: 0.5;
     }
     50% {
-        opacity:1;
+        opacity: 1;
         -moz-opacity: 0.5;
     }
-    100%{
-        opacity:0.5;
+    100% {
+        opacity: 0.5;
         -moz-opacity: 0.5;
     }
 }
 
 @keyframes blacksideanim {
-    from {background-color: #888;}
-    to {background-color: #000;}
+    from {
+        background-color: #888;
+    }
+    to {
+        background-color: #000;
+    }
 
 }
-
-
 
 .dhtml-chess-comp-eval-notation {
     color: #000 !important;
@@ -512,8 +515,8 @@ div.dhtml-chess-side-to-move-outer, div.dhtml-chess-side-to-move-inner {
 }
 
 .wpc-clock-digits {
-    position:relative;
-    top:0;
+    position: relative;
+    top: 0;
     font-family: digital-7, arial, sans-serif;
 }
 
@@ -565,6 +568,10 @@ container for pieces in promote dialog
     background-color: #D32F2F;
 }
 
+.wpc-tactics-skipped {
+    background-color: #FFC107;
+}
+
 .wpc-start-button-large {
     cursor: pointer;
     background-image: url(../images/btn-play-large.png);
@@ -577,9 +584,9 @@ container for pieces in promote dialog
     font-weight: bold;
 }
 
-div.dhtml-chess-board{
-    border-style:solid;
-    border-width:1px;
+div.dhtml-chess-board {
+    border-style: solid;
+    border-width: 1px;
 
 }
 

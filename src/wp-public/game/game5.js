@@ -8,6 +8,8 @@ chess.WPGame5 = new Class({
     notationWeight: 1,
 
     __construct: function (config) {
+
+
         this.parent(config);
         var r = this.renderTo;
         var w = this.renderWidth();
@@ -23,7 +25,12 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        if (!config.admPreview) {
+            this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        }else{
+            this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip', 'comp']
+        }
+
         this.adjustButtonArray(this.buttons);
         this.configure();
         this.beforeRender();
@@ -58,50 +65,55 @@ chess.WPGame5 = new Class({
             ]
         }, this.board);
 
-        chess.THEME_OVERRIDES = {
 
-            'chess.view.board.Board': {
-                background: {
-                    borderRadius: '1%'
-                }
-            },
-            'chess.view.buttonbar.Bar': {
-                borderRadius: '10%',
-                styles: {
-                    button: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    image: {
-                        fill: '#777'
-                    },
-                    buttonOver: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    imageOver: {
-                        fill: '#555'
-                    },
-                    buttonDown: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                    },
-                    imageDown: {
-                        fill: '#444'
-                    },
-                    buttonDisabled: {
-                        'fill-opacity': 0,
-                        'stroke-opacity': 0
-                        // , 'fill-opacity': 0.3
-                    },
-                    imageDisabled: {
-                        fill: '#555',
-                        'fill-opacity': 0.3
+        if (!this.custom) {
+            chess.THEME_OVERRIDES = {
+
+                'chess.view.board.Board': {
+                    background: {
+                        borderRadius: '1%'
+                    }
+                },
+                'chess.view.buttonbar.Bar': {
+                    borderRadius: '10%',
+                    styles: {
+                        button: {
+                            'fill-opacity': 0,
+                            'stroke-opacity': 0
+                        },
+                        image: {
+                            fill: '#777'
+                        },
+                        buttonOver: {
+                            'fill-opacity': 0,
+                            'stroke-opacity': 0
+                        },
+                        imageOver: {
+                            fill: '#555'
+                        },
+                        buttonDown: {
+                            'fill-opacity': 0,
+                            'stroke-opacity': 0
+                        },
+                        imageDown: {
+                            fill: '#444'
+                        },
+                        buttonDisabled: {
+                            'fill-opacity': 0,
+                            'stroke-opacity': 0
+                            // , 'fill-opacity': 0.3
+                        },
+                        imageDisabled: {
+                            fill: '#555',
+                            'fill-opacity': 0.3
+                        }
                     }
                 }
-            }
+            };
 
-        };
+        }
+
+
     },
 
     render: function () {
@@ -109,7 +121,7 @@ chess.WPGame5 = new Class({
         new chess.view.Chess({
             renderTo: this.renderTo,
             cls: this.th,
-            theme : this.themeObject,
+            theme: this.themeObject,
             layout: {
                 type: 'linear', orientation: 'vertical',
                 height: 'matchParent',
@@ -136,21 +148,21 @@ chess.WPGame5 = new Class({
 
                 children: this.mobile ? [this.board] : [
 
-                        this.board,
-                        {
-                            id: this.module + '-panel',
-                            name: "notation-panel",
-                            type: 'chess.view.notation.Panel',
-                            layout: {
-                                weight: this.notationWeight,
-                                height: 'matchParent'
-                            },
-                            elCss: {
-                                'margin-left': '2px'
-                            },
-                            module: this.module
-                        }
-                    ]
+                    this.board,
+                    {
+                        id: this.module + '-panel',
+                        name: "notation-panel",
+                        type: 'chess.view.notation.Panel',
+                        layout: {
+                            weight: this.notationWeight,
+                            height: 'matchParent'
+                        },
+                        elCss: {
+                            'margin-left': '2px'
+                        },
+                        module: this.module
+                    }
+                ]
             },
 
             {

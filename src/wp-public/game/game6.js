@@ -66,7 +66,7 @@ chess.WPGame6 = new Class({
             var color = undefined;
             jQuery.each(squares, function (i, square) {
                 var tokens = square.split(/;/g);
-                if(tokens.length > 0){
+                if(tokens.length > 1){
                     color = tokens[1];
                 }
                 hPool.show(tokens[0], color);
@@ -83,7 +83,7 @@ chess.WPGame6 = new Class({
             jQuery.each(arrows, function(i, arrow){
                 var tokens = arrow.split(/;/g);
                 if(tokens.length > 1){
-                    if(styling == undefined)styling = {};
+                    if(styling === undefined)styling = {};
                     styling.fill = styling.stroke = tokens[1];
                 }
 
