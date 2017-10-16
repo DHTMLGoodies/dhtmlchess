@@ -1,4 +1,4 @@
-/* Generated Sun Oct 15 16:21:40 CEST 2017 */
+/* Generated Mon Oct 16 21:52:38 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -3330,7 +3330,7 @@ ludo.Core = new Class({
 	statefulProperties:undefined,
 
 
-	dependency:{},
+	dependency:undefined,
 
     /*
     TODO figure out this
@@ -3381,7 +3381,7 @@ ludo.Core = new Class({
 	
 	__construct:function(config){
         this.__params(config, ['url','name','controller','module','submodule','stateful','id','useController','plugins']);
-
+		this.dependency = {};
 		// TODO new code 2016 - custom functions
 		if(config != undefined){
 			for(var key in config){
@@ -6289,8 +6289,6 @@ ludo.dataSource.JSON = new Class({
     _loaded:false,
 
 
-
-
     /**
      * Reload data from server
      * Components using this data-source will be automatically updated
@@ -6320,7 +6318,7 @@ ludo.dataSource.JSON = new Class({
             data: data,
             complete: function (response, status) {
                 this._loaded = true;
-                if(status == 'success'){
+                if(status === 'success'){
                     var json = response.responseJSON;
                     var data = this.dataHandler(json);
                     if(data === false){
@@ -13703,9 +13701,9 @@ ludo.dataSource.JSONArraySearch = new Class({
  */
 ludo.dataSource.JSONArray = new Class({
     Extends: ludo.dataSource.JSON,
-    sortFn: {},
+    sortFn: undefined,
 
-    selectedRecords: [],
+    selectedRecords: undefined,
 
     primaryKey: 'id',
 
@@ -13727,13 +13725,14 @@ ludo.dataSource.JSONArray = new Class({
 
     searcherType: 'dataSource.JSONArraySearch',
 
-    uidMap: {},
+    uidMap: undefined,
 
 
     selected: undefined,
 
     __construct: function (config) {
         this.parent(config);
+        this.sortFn = {}; this.selectedRecords = []; this.uidMap = {};
         this.__params(config, ['searchConfig', 'sortFn', 'primaryKey', 'sortedBy', 'paging', 'selected']);
 
         if (this.primaryKey && !ludo.util.isArray(this.primaryKey))this.primaryKey = [this.primaryKey];

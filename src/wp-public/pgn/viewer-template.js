@@ -3,6 +3,7 @@ chess.WPViewerTemplate = new Class({
     pgn:undefined,
 
     createController:function(){
+
         this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
             sound:this.sound,

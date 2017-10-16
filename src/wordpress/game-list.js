@@ -18,6 +18,7 @@ chess.wordpress.GameList = new Class({
 
 
     __construct:function(config){
+        if(config.singleton !== undefined)this.singleton = config.singleton;
         this.url = ludo.config.getUrl();
         this.parent(config);
 

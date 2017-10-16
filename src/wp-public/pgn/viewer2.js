@@ -177,6 +177,7 @@ chess.WPViewer2 = new Class({
                                     id: this.gameListDsId,
                                     "type": 'chess.wordpress.GameList',
                                     module: this.module,
+                                    singleton:false,
                                     autoload: true,
                                     postData: {
                                         pgn: this.pgn.id
@@ -341,6 +342,7 @@ chess.WPViewer2 = new Class({
                                     id: this.gameListDsId,
                                     "type": 'chess.wordpress.GameList',
                                     module: this.module,
+                                    singleton:false,
                                     autoload: true,
                                     postData: {
                                         pgn: this.pgn.id

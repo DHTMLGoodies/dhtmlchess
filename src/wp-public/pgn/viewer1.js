@@ -155,8 +155,9 @@ chess.WPViewer1 = new Class({
                         },
                         cols: ['white', 'black', 'result'],
                         dataSource: {
-                            id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            id: 'gameList' + this.module,
+                            type: 'chess.wordpress.GameList',
+                            singleton:false,
                             module: this.module,
                             autoload: true,
                             postData: {
@@ -168,7 +169,7 @@ chess.WPViewer1 = new Class({
                                 }.bind(this),
                                 "load": function (data) {
                                     if (data.length) {
-                                        ludo.get('gameList').selectRecord(data[0]);
+                                        ludo.get('gameList' + this.module).selectRecord(data[0]);
                                     }
                                 }
                             },
@@ -275,7 +276,8 @@ chess.WPViewer1 = new Class({
                         cols: ['white', 'black', 'result'],
                         dataSource: {
                             id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            type: 'chess.wordpress.GameList',
+                            singleton:false,
                             module: this.module,
                             autoload: true,
                             postData: {

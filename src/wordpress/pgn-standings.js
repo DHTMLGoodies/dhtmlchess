@@ -2,46 +2,40 @@ chess.wordpress.PgnStandings = new Class({
     submodule: 'wordpress.pgnstandings',
     Extends: ludo.grid.Grid,
     currentPgn: undefined,
-    dataSource: {
-        type: 'dataSource.JSONArray',
-        autoload: false,
-        postData: {
-            action: 'get_standings'
-        }
-    },
-    headerMenu:false,
-    sofiaRules:false,
-    pgnId:undefined,
-    highlightRecord:false,
+    dataSource: undefined,
+    headerMenu: false,
+    sofiaRules: false,
+    pgnId: undefined,
+    highlightRecord: false,
 
-    __columns:function(){
+    __columns: function () {
         return {
             'player': {
                 heading: chess.__('Player'),
                 sortable: true,
-                width:200,
+                width: 200,
                 key: 'player'
             },
             'w': {
                 heading: chess.__('Wins'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'd': {
                 heading: chess.__('Draw'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'l': {
                 heading: chess.__('Loss'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'score': {
                 heading: chess.__('Score'),
-                sortable:true,
+                sortable: true,
                 renderer: function (val, record) {
-                    if(this.sofiaRules){
+                    if (this.sofiaRules) {
                         return (record.w * 3) + record.d;
                     }
                     return record.w + (record.d / 2)
@@ -49,10 +43,17 @@ chess.wordpress.PgnStandings = new Class({
             }
         };
     },
-    
-    __construct:function(config){
+
+    __construct: function (config) {
+        this.dataSource = {
+            type: 'dataSource.JSONArray',
+            autoload: false,
+            postData: {
+                action: 'get_standings'
+            }
+        };
         this.parent(config);
-        this.__params(config, ['sofiaRules','pgnId']);
+        this.__params(config, ['sofiaRules', 'pgnId']);
     },
 
     __rendered: function () {
@@ -75,7 +76,7 @@ chess.wordpress.PgnStandings = new Class({
 
         this.on('show', this.updateStandings.bind(this));
 
-        if(this.pgnId){
+        if (this.pgnId) {
             this.getDataSource().setPostParam('pgn', this.pgnId);
             this.getDataSource().load();
         }
@@ -87,20 +88,20 @@ chess.wordpress.PgnStandings = new Class({
     },
 
 
-    setPgn:function(pgn){
-        if(pgn != this.currentPgn){
+    setPgn: function (pgn) {
+        if (pgn != this.currentPgn) {
             this.currentPgn = pgn;
         }
         this.updateStandings();
     },
 
-    autoSort:function(){
+    autoSort: function () {
         this.getDataSource().by('score').descending().sort();
     },
 
     updateStandings: function () {
-        if(!this.currentPgn)return;
-        if(this.controller && this.controller.pgn && this.controller.pgn.id != this.currentPgn)return;
+        if (!this.currentPgn)return;
+        if (this.controller && this.controller.pgn && this.controller.pgn.id != this.currentPgn)return;
         this.getDataSource().setPostParam('pgn', this.currentPgn);
         this.getDataSource().load();
     }

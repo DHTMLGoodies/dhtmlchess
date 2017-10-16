@@ -1,4 +1,4 @@
-/* Generated Sun Oct 15 16:21:50 CEST 2017 */
+/* Generated Mon Oct 16 21:52:49 CEST 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -2287,7 +2287,7 @@ ludo.Core = new Class({
 	statefulProperties:undefined,
 
 
-	dependency:{},
+	dependency:undefined,
 
     /*
     TODO figure out this
@@ -2338,7 +2338,7 @@ ludo.Core = new Class({
 	
 	__construct:function(config){
         this.__params(config, ['url','name','controller','module','submodule','stateful','id','useController','plugins']);
-
+		this.dependency = {};
 		// TODO new code 2016 - custom functions
 		if(config != undefined){
 			for(var key in config){
@@ -5246,8 +5246,6 @@ ludo.dataSource.JSON = new Class({
     _loaded:false,
 
 
-
-
     /**
      * Reload data from server
      * Components using this data-source will be automatically updated
@@ -5277,7 +5275,7 @@ ludo.dataSource.JSON = new Class({
             data: data,
             complete: function (response, status) {
                 this._loaded = true;
-                if(status == 'success'){
+                if(status === 'success'){
                     var json = response.responseJSON;
                     var data = this.dataHandler(json);
                     if(data === false){
@@ -10049,9 +10047,9 @@ ludo.dataSource.JSONArraySearch = new Class({
  */
 ludo.dataSource.JSONArray = new Class({
     Extends: ludo.dataSource.JSON,
-    sortFn: {},
+    sortFn: undefined,
 
-    selectedRecords: [],
+    selectedRecords: undefined,
 
     primaryKey: 'id',
 
@@ -10073,13 +10071,14 @@ ludo.dataSource.JSONArray = new Class({
 
     searcherType: 'dataSource.JSONArraySearch',
 
-    uidMap: {},
+    uidMap: undefined,
 
 
     selected: undefined,
 
     __construct: function (config) {
         this.parent(config);
+        this.sortFn = {}; this.selectedRecords = []; this.uidMap = {};
         this.__params(config, ['searchConfig', 'sortFn', 'primaryKey', 'sortedBy', 'paging', 'selected']);
 
         if (this.primaryKey && !ludo.util.isArray(this.primaryKey))this.primaryKey = [this.primaryKey];
@@ -30911,21 +30910,25 @@ chess.wordpress.GameListGrid = new Class({
     Extends: chess.view.gamelist.Grid,
     headerMenu: false,
     submodule: 'wordpress.gamelist',
-    dataSource: {
-        id:'editor_game_list_ds',
-        'type': 'ludo.dataSource.JSONArray',
-        autoload: false,
-        postData: {
-            action: 'list_of_games'
-        },
-        paging:{
-            size:25
-        }
-    },
-    emptyText:chess.__('No games'),
+    dataSource: undefined,
+    emptyText: chess.__('No games'),
     loadMessage: chess.__('Loading games...'),
-    cols: ['white','black', 'round', 'result', 'last_moves'],
+    cols: ['white', 'black', 'round', 'result', 'last_moves'],
 
+    __construct: function (config) {
+        this.dataSource = {
+            id: 'editor_game_list_ds',
+            'type': 'ludo.dataSource.JSONArray',
+            autoload: false,
+            postData: {
+                action: 'list_of_games'
+            },
+            paging: {
+                size: 25
+            }
+        };
+        this.parent(config);
+    },
     __rendered: function () {
         this.parent();
         this.loadGames();
@@ -30936,24 +30939,24 @@ chess.wordpress.GameListGrid = new Class({
     setController: function (controller) {
         this.parent(controller);
         controller.on('publish', function () {
-            if(this.controller.pgn){
+            if (this.controller.pgn) {
                 this.getDataSource().load();
             }
         }.bind(this));
 
-        controller.on('imported', function(){
-            if(this.controller.pgn){
+        controller.on('imported', function () {
+            if (this.controller.pgn) {
                 this.getDataSource().load();
             }
         }.bind(this));
     },
 
     loadGames: function () {
-        if(this.controller){
+        if (this.controller) {
             if (this.controller.pgn && this.controller.pgn !== this.getDataSource().postData.pgn) {
                 this.load();
             }
-        }else if(this.getDataSource().postData.pgn){
+        } else if (this.getDataSource().postData.pgn) {
             this.load();
         }
 
@@ -30966,7 +30969,7 @@ chess.wordpress.GameListGrid = new Class({
             this.getDataSource().postData.pgn = this.controller.pgn.id;
             this.getDataSource().load();
 
-        }else if(this.getDataSource().postData.pgn){
+        } else if (this.getDataSource().postData.pgn) {
             this.getDataSource().load();
         }
     },
@@ -30995,6 +30998,7 @@ chess.wordpress.GameList = new Class({
 
 
     __construct:function(config){
+        if(config.singleton !== undefined)this.singleton = config.singleton;
         this.url = ludo.config.getUrl();
         this.parent(config);
 
@@ -31715,46 +31719,40 @@ chess.wordpress.PgnStandings = new Class({
     submodule: 'wordpress.pgnstandings',
     Extends: ludo.grid.Grid,
     currentPgn: undefined,
-    dataSource: {
-        type: 'dataSource.JSONArray',
-        autoload: false,
-        postData: {
-            action: 'get_standings'
-        }
-    },
-    headerMenu:false,
-    sofiaRules:false,
-    pgnId:undefined,
-    highlightRecord:false,
+    dataSource: undefined,
+    headerMenu: false,
+    sofiaRules: false,
+    pgnId: undefined,
+    highlightRecord: false,
 
-    __columns:function(){
+    __columns: function () {
         return {
             'player': {
                 heading: chess.__('Player'),
                 sortable: true,
-                width:200,
+                width: 200,
                 key: 'player'
             },
             'w': {
                 heading: chess.__('Wins'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'd': {
                 heading: chess.__('Draw'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'l': {
                 heading: chess.__('Loss'),
                 sortable: true,
-                width:50
+                width: 50
             },
             'score': {
                 heading: chess.__('Score'),
-                sortable:true,
+                sortable: true,
                 renderer: function (val, record) {
-                    if(this.sofiaRules){
+                    if (this.sofiaRules) {
                         return (record.w * 3) + record.d;
                     }
                     return record.w + (record.d / 2)
@@ -31762,10 +31760,17 @@ chess.wordpress.PgnStandings = new Class({
             }
         };
     },
-    
-    __construct:function(config){
+
+    __construct: function (config) {
+        this.dataSource = {
+            type: 'dataSource.JSONArray',
+            autoload: false,
+            postData: {
+                action: 'get_standings'
+            }
+        };
         this.parent(config);
-        this.__params(config, ['sofiaRules','pgnId']);
+        this.__params(config, ['sofiaRules', 'pgnId']);
     },
 
     __rendered: function () {
@@ -31788,7 +31793,7 @@ chess.wordpress.PgnStandings = new Class({
 
         this.on('show', this.updateStandings.bind(this));
 
-        if(this.pgnId){
+        if (this.pgnId) {
             this.getDataSource().setPostParam('pgn', this.pgnId);
             this.getDataSource().load();
         }
@@ -31800,20 +31805,20 @@ chess.wordpress.PgnStandings = new Class({
     },
 
 
-    setPgn:function(pgn){
-        if(pgn != this.currentPgn){
+    setPgn: function (pgn) {
+        if (pgn != this.currentPgn) {
             this.currentPgn = pgn;
         }
         this.updateStandings();
     },
 
-    autoSort:function(){
+    autoSort: function () {
         this.getDataSource().by('score').descending().sort();
     },
 
     updateStandings: function () {
-        if(!this.currentPgn)return;
-        if(this.controller && this.controller.pgn && this.controller.pgn.id != this.currentPgn)return;
+        if (!this.currentPgn)return;
+        if (this.controller && this.controller.pgn && this.controller.pgn.id != this.currentPgn)return;
         this.getDataSource().setPostParam('pgn', this.currentPgn);
         this.getDataSource().load();
     }
@@ -33315,6 +33320,7 @@ chess.WPViewerTemplate = new Class({
     pgn:undefined,
 
     createController:function(){
+
         this.controller = new chess.controller[this.controllerType()]({
             applyTo: [this.module],
             sound:this.sound,
@@ -33490,8 +33496,9 @@ chess.WPViewer1 = new Class({
                         },
                         cols: ['white', 'black', 'result'],
                         dataSource: {
-                            id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            id: 'gameList' + this.module,
+                            type: 'chess.wordpress.GameList',
+                            singleton:false,
                             module: this.module,
                             autoload: true,
                             postData: {
@@ -33503,7 +33510,7 @@ chess.WPViewer1 = new Class({
                                 }.bind(this),
                                 "load": function (data) {
                                     if (data.length) {
-                                        ludo.get('gameList').selectRecord(data[0]);
+                                        ludo.get('gameList' + this.module).selectRecord(data[0]);
                                     }
                                 }
                             },
@@ -33610,7 +33617,8 @@ chess.WPViewer1 = new Class({
                         cols: ['white', 'black', 'result'],
                         dataSource: {
                             id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            type: 'chess.wordpress.GameList',
+                            singleton:false,
                             module: this.module,
                             autoload: true,
                             postData: {
@@ -33814,6 +33822,7 @@ chess.WPViewer2 = new Class({
                                     id: this.gameListDsId,
                                     "type": 'chess.wordpress.GameList',
                                     module: this.module,
+                                    singleton:false,
                                     autoload: true,
                                     postData: {
                                         pgn: this.pgn.id
@@ -33978,6 +33987,7 @@ chess.WPViewer2 = new Class({
                                     id: this.gameListDsId,
                                     "type": 'chess.wordpress.GameList',
                                     module: this.module,
+                                    singleton:false,
                                     autoload: true,
                                     postData: {
                                         pgn: this.pgn.id
@@ -34201,20 +34211,21 @@ chess.WPViewer3 = new Class({
                         },
                         cols: ['white', 'black', 'result'],
                         dataSource: {
-                            id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            id: 'gameList' + this.module,
+                            type: 'chess.wordpress.GameList',
+                            singleton:false,
                             module: this.module,
                             autoload: true,
                             postData: {
                                 pgn: this.pgn.id
                             },
-                            "listeners": {
-                                "select": function () {
+                            listeners: {
+                                select: function () {
                                     ludo.$(this.module + '-panel').show();
                                 }.bind(this),
-                                "load": function (data) {
+                                load: function (data) {
                                     if (data.length) {
-                                        ludo.get('gameList').selectRecord(data[0]);
+                                        ludo.get('gameList' + this.module).selectRecord(data[0]);
                                     }
                                 }
                             },
@@ -34319,9 +34330,10 @@ chess.WPViewer3 = new Class({
                         },
                         cols: ['white', 'black', 'result'],
                         dataSource: {
-                            id: 'gameList',
-                            "type": 'chess.wordpress.GameList',
+                            id: 'gameList' + this.module,
+                            type: 'chess.wordpress.GameList',
                             module: this.module,
+                            singleton:false,
                             autoload: true,
                             postData: {
                                 pgn: this.pgn.id
@@ -34329,7 +34341,7 @@ chess.WPViewer3 = new Class({
                             "listeners": {
                                 "load": function (data) {
                                     if (data.length) {
-                                        ludo.get('gameList').selectRecord(data[0]);
+                                        ludo.get('gameList' + this.module).selectRecord(data[0]);
                                     }
                                 }
                             },
