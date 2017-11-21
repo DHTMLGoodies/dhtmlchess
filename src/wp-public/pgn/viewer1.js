@@ -30,10 +30,11 @@ chess.WPViewer1 = new Class({
             this.boardSize = w - 150;
             r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
-        this.lastButtons = ['next','end'];
+        this.lastButtons = ['next', 'end'];
         this.adjustButtonArray(this.lastButtons);
 
-        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+
+        if (!this.buttons) this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.showLabels = !this.mobile;
@@ -43,8 +44,8 @@ chess.WPViewer1 = new Class({
     render: function () {
 
         new chess.view.Chess({
-            cls:this.th,
-            theme : this.themeObject,
+            cls: this.th,
+            theme: this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -122,20 +123,20 @@ chess.WPViewer1 = new Class({
                         ]
                     },
                     {
-                        layout:{
+                        layout: {
                             height: this.navH,
-                            width:this.boardSize,
-                            type:'linear', orientation:'horizontal'
+                            width: this.boardSize,
+                            type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
+                        children: [
                             {
-                                anchor:[0.5,1],
+                                anchor: [0.5, 1],
                                 type: 'chess.view.buttonbar.Bar',
                                 buttons: this.buttons,
                                 module: this.module,
                                 layout: {
                                     height: 'matchParent',
-                                    width:(this.boardSize - 40)
+                                    width: (this.boardSize - 40)
                                 },
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
@@ -157,7 +158,7 @@ chess.WPViewer1 = new Class({
                         dataSource: {
                             id: 'gameList' + this.module,
                             type: 'chess.wordpress.GameList',
-                            singleton:false,
+                            singleton: false,
                             module: this.module,
                             autoload: true,
                             postData: {
@@ -179,8 +180,8 @@ chess.WPViewer1 = new Class({
                         }
                     },
                     {
-                        type:'chess.WPComMessage',
-                        hidden:this._p
+                        type: 'chess.WPComMessage',
+                        hidden: this._p
                     }
 
                 ]
@@ -218,11 +219,11 @@ chess.WPViewer1 = new Class({
                         ]
                     }, this.board),
                     {
-                        layout:{
-                            height:this.navH,type:'linear',orientation:'horizontal'
+                        layout: {
+                            height: this.navH, type: 'linear', orientation: 'horizontal'
                         },
-                        children:[
-                            { weight:1 },
+                        children: [
+                            {weight: 1},
                             {
                                 type: 'chess.view.buttonbar.Bar',
                                 layout: {
@@ -230,19 +231,19 @@ chess.WPViewer1 = new Class({
                                     width: 90
                                 },
                                 module: this.module,
-                                buttons:['start','previous'],
+                                buttons: ['start', 'previous'],
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                type:'chess.view.notation.LastMove',
+                                type: 'chess.view.notation.LastMove',
                                 module: this.module,
-                                layout:{
-                                    width:70
+                                layout: {
+                                    width: 70
                                 },
-                                css:{
-                                    'padding-top' : 4, 'padding-bottom' : 4, border:'none'
+                                css: {
+                                    'padding-top': 4, 'padding-bottom': 4, border: 'none'
                                 }
                             },
                             {
@@ -252,13 +253,13 @@ chess.WPViewer1 = new Class({
                                     width: 45 * this.lastButtons.length
                                 },
                                 module: this.module,
-                                buttons:this.lastButtons,
+                                buttons: this.lastButtons,
                                 buttonSize: function (ofSize) {
                                     return ofSize * 0.9;
                                 }
                             },
                             {
-                                weight:1
+                                weight: 1
                             }
 
                         ]
@@ -277,7 +278,7 @@ chess.WPViewer1 = new Class({
                         dataSource: {
                             id: 'gameList',
                             type: 'chess.wordpress.GameList',
-                            singleton:false,
+                            singleton: false,
                             module: this.module,
                             autoload: true,
                             postData: {

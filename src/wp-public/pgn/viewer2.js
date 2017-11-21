@@ -30,7 +30,9 @@ chess.WPViewer2 = new Class({
         if(config.sofia)this.sofia = true;
         this.showLabels = !this.mobile;
 
-        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+
+
+        if(!this.buttons)this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
 

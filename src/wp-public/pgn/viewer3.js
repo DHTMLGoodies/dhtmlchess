@@ -31,7 +31,7 @@ chess.WPViewer3 = new Class({
             r.css('height', Math.round(this.boardSize + 335 + this.navH + this.wpm_h));
         }
 
-        this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+        if(!this.buttons)this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.showLabels = !this.mobile;

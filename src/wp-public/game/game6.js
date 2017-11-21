@@ -15,10 +15,10 @@ chess.WPGame6 = new Class({
         this.renderTo.css('height', w + eh + this.wpm_h);
 
 
-        if (config.highlight != undefined) {
+        if (config.highlight !== undefined) {
             this.highlight = config.highlight;
         }
-        if (config.arrows != undefined) {
+        if (config.arrows !== undefined) {
             this.arrows = config.arrows;
         }
 

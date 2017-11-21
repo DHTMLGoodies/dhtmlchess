@@ -25,10 +25,12 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        if (!config.admPreview) {
-            this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
-        }else{
-            this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip', 'comp']
+        if (!this.buttons) {
+            if (!config.admPreview) {
+                this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+            } else {
+                this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip', 'comp']
+            }
         }
 
         this.adjustButtonArray(this.buttons);

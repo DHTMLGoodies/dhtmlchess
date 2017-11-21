@@ -388,6 +388,7 @@ chess.controller.Controller = new Class({
     },
 
     nextAutoPlayMove: function () {
+
         this.fireModelEvent('animationComplete', this.currentModel, undefined);
         this.currentModel.nextAutoPlayMove();
         this.isBusy = false;

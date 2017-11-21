@@ -1,4 +1,4 @@
-/* Generated Mon Oct 16 21:52:38 CEST 2017 */
+/* Generated Tue Nov 21 21:34:50 CET 2017 */
 /*
 * Copyright 2017. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -25079,6 +25079,7 @@ chess.controller.Controller = new Class({
     },
 
     nextAutoPlayMove: function () {
+
         this.fireModelEvent('animationComplete', this.currentModel, undefined);
         this.currentModel.nextAutoPlayMove();
         this.isBusy = false;
@@ -27654,6 +27655,8 @@ chess.WPTemplate = new Class({
 
     custom: false,
 
+    chessButtons: undefined,
+
     initialize: function (config) {
         var res = window.screen.width;
         this.mobile = ludo.isMobile && (res) < 600;
@@ -27693,6 +27696,9 @@ chess.WPTemplate = new Class({
         this.to_end = config.to_end || false;
         this.forward = config.forward || 0;
 
+        if(config.buttons){
+            this.buttons = this.configureButtons(config.buttons);
+        }
 
         if (config.pgn !== undefined) {
             if (jQuery.isArray(config.pgn)) {
@@ -27707,6 +27713,7 @@ chess.WPTemplate = new Class({
 
         if (config._p !== undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
+
 
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
@@ -27788,6 +27795,25 @@ chess.WPTemplate = new Class({
             var manager = ludo._new('chess.WPManager');
             manager.add(this);
         }
+    },
+
+
+    configureButtons:function(buttonString){
+        var btns = buttonString.split(/,/g);
+        var buttons = [];
+        btns.forEach(function(button){
+            button = button.toLowerCase().substr(0,2);
+            switch(button){
+                case "st": buttons.push("start");break;
+                case "pr": buttons.push("previous");break;
+                case "pl": buttons.push("play");break;
+                case "ne": buttons.push("next");break;
+                case "en": buttons.push("end");break;
+                case "fl": buttons.push("flip");break;
+                case "co": buttons.push("comp");break;
+            }
+        });
+        return buttons;
     },
 
     beforeRender: function () {
@@ -27905,7 +27931,7 @@ chess.WPManager = new Class({
     singleton: true,
     views: undefined,
 
-    activeView:undefined,
+    activeView: undefined,
 
     __construct: function (config) {
         this.parent(config);
@@ -27915,26 +27941,29 @@ chess.WPManager = new Class({
 
     add: function (boardView) {
         this.views.push(boardView);
-        var fn = function(){
+        var fn = function () {
             this.activeView = boardView;
         }.bind(this);
         boardView.renderTo.on('click', fn);
     },
 
-    addKeyEvents:function(){
+    addKeyEvents: function () {
         jQuery(document).keydown(function (e) {
-            if(this.activeView){
+            if (this.activeView) {
                 var c = this.activeView.controller;
-                if(e.key=='ArrowRight'){
+
+                if (e.key === 'ArrowRight' && !c.isBusy) {
                     c.currentModel.nextMove();
                     return false;
-                }else if(e.key=='ArrowLeft'){
+                } else if (e.key === 'ArrowLeft' && !c.isBusy) {
                     c.currentModel.previousMove();
                     return false;
                 }
             }
         }.bind(this));
     }
+
+
 });
 
 ludo.factory.createAlias('chess.WPManager', chess.WPManager);/* ../dhtml-chess/src/wp-public/wpcom-message.js */
@@ -28054,7 +28083,7 @@ chess.WPGame1 = new Class({
             this.boardSize = w - 200;
         }
 
-        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.buttons = this.buttons || ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
@@ -28228,7 +28257,7 @@ chess.WPGame2 = new Class({
         var w = this.renderWidth();
         this.renderTo.css('height', w + 235 + this.navH + this.wpm_h);
         this.boardSize = w;
-        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.buttons = this.buttons || ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.beforeRender();
@@ -28730,10 +28759,12 @@ chess.WPGame5 = new Class({
         }
         r.css('position', 'relative');
 
-        if (!config.admPreview) {
-            this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
-        }else{
-            this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip', 'comp']
+        if (!this.buttons) {
+            if (!config.admPreview) {
+                this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
+            } else {
+                this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip', 'comp']
+            }
         }
 
         this.adjustButtonArray(this.buttons);
@@ -28997,10 +29028,10 @@ chess.WPGame6 = new Class({
         this.renderTo.css('height', w + eh + this.wpm_h);
 
 
-        if (config.highlight != undefined) {
+        if (config.highlight !== undefined) {
             this.highlight = config.highlight;
         }
-        if (config.arrows != undefined) {
+        if (config.arrows !== undefined) {
             this.arrows = config.arrows;
         }
 

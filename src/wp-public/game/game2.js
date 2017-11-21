@@ -7,7 +7,7 @@ chess.WPGame2 = new Class({
         var w = this.renderWidth();
         this.renderTo.css('height', w + 235 + this.navH + this.wpm_h);
         this.boardSize = w;
-        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.buttons = this.buttons || ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.beforeRender();

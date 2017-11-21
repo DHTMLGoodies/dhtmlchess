@@ -8,17 +8,10 @@ chess.WPViewerTemplate = new Class({
             applyTo: [this.module],
             sound:this.sound,
             pgn: this.pgn.id,
-            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
-            listeners: {}
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js'
         });
 
         this.parent();
-
-    },
-
-    __construct:function(config){
-        this.parent(config);
-
 
     }
 });

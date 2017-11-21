@@ -35,6 +35,8 @@ chess.WPTemplate = new Class({
 
     custom: false,
 
+    chessButtons: undefined,
+
     initialize: function (config) {
         var res = window.screen.width;
         this.mobile = ludo.isMobile && (res) < 600;
@@ -74,6 +76,9 @@ chess.WPTemplate = new Class({
         this.to_end = config.to_end || false;
         this.forward = config.forward || 0;
 
+        if(config.buttons){
+            this.buttons = this.configureButtons(config.buttons);
+        }
 
         if (config.pgn !== undefined) {
             if (jQuery.isArray(config.pgn)) {
@@ -88,6 +93,7 @@ chess.WPTemplate = new Class({
 
         if (config._p !== undefined) this._p = config._p;
         if (this._p) this.wpm_h = 0;
+
 
         this.th = config.theme || config.defaultTheme;
         this.th = 'dc-' + this.th;
@@ -169,6 +175,25 @@ chess.WPTemplate = new Class({
             var manager = ludo._new('chess.WPManager');
             manager.add(this);
         }
+    },
+
+
+    configureButtons:function(buttonString){
+        var btns = buttonString.split(/,/g);
+        var buttons = [];
+        btns.forEach(function(button){
+            button = button.toLowerCase().substr(0,2);
+            switch(button){
+                case "st": buttons.push("start");break;
+                case "pr": buttons.push("previous");break;
+                case "pl": buttons.push("play");break;
+                case "ne": buttons.push("next");break;
+                case "en": buttons.push("end");break;
+                case "fl": buttons.push("flip");break;
+                case "co": buttons.push("comp");break;
+            }
+        });
+        return buttons;
     },
 
     beforeRender: function () {

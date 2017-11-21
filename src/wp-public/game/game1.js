@@ -23,7 +23,7 @@ chess.WPGame1 = new Class({
             this.boardSize = w - 200;
         }
 
-        this.buttons = ['start', 'previous', 'play', 'next', 'end', 'flip'];
+        this.buttons = this.buttons || ['start', 'previous', 'play', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
 
         this.bs = this.boardSize > 400 ? this.boardSize : w;
