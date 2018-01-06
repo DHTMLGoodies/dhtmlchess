@@ -24,7 +24,7 @@ chess.view.highlight.ArrowBase = new Class({
         }
 
         // TODO refactor
-        if (chess.OVERRIDES != undefined && chess.OVERRIDES.arrow_styles != undefined) {
+        if (chess.OVERRIDES !== undefined && chess.OVERRIDES.arrow_styles !== undefined) {
             var s = chess.OVERRIDES.arrow_styles.split(/;/g);
             jQuery.each(s, function (i, style) {
                 var tokens = style.split(/:/);

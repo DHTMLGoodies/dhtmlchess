@@ -1,6 +1,6 @@
-// (C) dhtmlchess.com, Alf Kalleland 2017-11-21 21:34:51
+// (C) dhtmlchess.com, Alf Kalleland 2018-01-06 14:13:21
 /*
- * Copyright ©2017. dhtmlchess.com. All Rights Reserved.
+ * Copyright ©2018. dhtmlchess.com. All Rights Reserved.
  * This is a commercial software. See dhtmlchess.com for licensing options.
  *
  * You are free to use/try this software for 30 days without paying any fees.
