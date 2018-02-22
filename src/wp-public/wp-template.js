@@ -89,6 +89,8 @@ chess.WPTemplate = new Class({
                 this.pgnAll = [config.pgn];
             }
         }
+
+
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p !== undefined) this._p = config._p;

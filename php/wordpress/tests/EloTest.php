@@ -67,6 +67,54 @@ class EloTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldGetHighscoreList()
+    {
+
+        // given
+        $eloDb = new DhtmlChessEloDb();
+        for ($i = 1; $i <= 20; $i++) {
+            $eloDb->upsert($i, "puzzle", 1450 + ($i * 10));
+        }
+
+        // when
+        $list = $eloDb->getList("puzzle", 10);
+
+        // then
+        $this->assertNotEmpty($list);
+
+        $this->assertCount(10, $list);
+        $this->assertEquals($list[0]["elo"], 1650);
+
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPartialListForUser(){
+
+        // given
+        $eloDb = new DhtmlChessEloDb();
+        for ($i = 1; $i <= 300; $i++) {
+            $eloDb->upsert($i, "puzzle", 1450 + ($i * 3));
+        }
+
+        $userId = 150;
+
+        $list = $eloDb->getuserList($userId, "puzzle");
+
+        $this->assertCount(10, $list, json_encode($list));
+
+        $found = false;
+        foreach($list as $user){
+            if($user["id"] == $userId)$found = true;
+        }
+
+        $this->assertTrue($found, json_encode($list));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSaveEloInDatabase()
     {
         // given

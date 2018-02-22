@@ -1,4 +1,4 @@
-/* Generated Sat Jan 6 14:13:20 CET 2018 */
+/* Generated Thu Feb 22 20:19:24 CET 2018 */
 /*
 * Copyright 2018. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -22024,9 +22024,9 @@ chess.action.Handler = new Class({
                 }.bind(this));
             }
 
-            if (chess.OVERRIDES.clr_R !== undefined) this.colors.R = chess.OVERRIDES.clr_R;
-            if (chess.OVERRIDES.clr_G !== undefined) this.colors.G = chess.OVERRIDES.clr_G;
-            if (chess.OVERRIDES.clr_B !== undefined) this.colors.B = chess.OVERRIDES.clr_B;
+            if (chess.OVERRIDES.clr_R) this.colors.R = chess.OVERRIDES.clr_R;
+            if (chess.OVERRIDES.clr_G) this.colors.G = chess.OVERRIDES.clr_G;
+            if (chess.OVERRIDES.clr_B) this.colors.B = chess.OVERRIDES.clr_B;
 
         }
         if (config.arrowStyles)this.arrowStyles = Object.merge(this.arrowStyles, config.arrowStyles);
@@ -27736,6 +27736,8 @@ chess.WPTemplate = new Class({
                 this.pgnAll = [config.pgn];
             }
         }
+
+
         if (config.comp_toggle) this.compToggle = config.comp_toggle;
 
         if (config._p !== undefined) this._p = config._p;

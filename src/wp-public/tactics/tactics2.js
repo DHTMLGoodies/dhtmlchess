@@ -201,7 +201,7 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        this.storageKey = 'wordpresschess_user_tactics';
+        this.storageKey = 'wordpresschess_user_tactics'  + this.pgnAll.map(function(pgn){ return pgn.id }).join("_");
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
@@ -529,7 +529,7 @@ chess.WPTactics2 = new Class({
                 if (success) {
                     var json = response.responseJSON.response;
 
-                    if (json.id == 0) {
+                    if (json.id === 0) {
                         this.showLogOnWarning();
                         return;
                     }
