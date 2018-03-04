@@ -1,4 +1,4 @@
-/* Generated Sun Mar 4 2:17:10 CET 2018 */
+/* Generated Sun Mar 4 3:32:45 CET 2018 */
 /*
 * Copyright 2018. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -19458,12 +19458,25 @@ chess.view.board.Board = new Class({
         if (move.from === move.to) return;
 
         if (this.instructorMode) {
-            var p = this.getPieceOnSquare(move.to);
-            if (p && p !== piece) {
-                p.hide();
-            }
+
             var s = Board0x88Config.mapping[move.to];
             var f = Board0x88Config.mapping[move.from];
+            var type = piece.pieceType;
+
+            if (this.pieceMap[s] && this.pieceMap[s].pieceType === "k") {
+                piece.position(f);
+                return;
+            }
+
+            if(type === "p" && /[18]/.test(move.to)){
+                piece.promote("q");
+            }
+
+            var p = this.getPieceOnSquare(move.to);
+            if (p && p !== piece && p.pieceType !== "k") {
+                p.hide();
+            }
+
             this.pieceMap[f] = undefined;
             this.pieceMap[s] = piece;
             piece.square = Board0x88Config.mapping[move.to];

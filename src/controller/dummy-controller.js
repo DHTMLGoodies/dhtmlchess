@@ -230,7 +230,21 @@ chess.controller.DummyController = new Class({
         this.onFenUpdated();
         this.updateFen(m.move, m.color);
         this.fireEvent("move", m);
+    },
 
+    restartEngine: function () {
+        if (this._restartTimer) clearTimeout(this._restartTimer);
+        console.log(this.compMode);
+        if (!this.compMode) return;
+        this.stopEngine();
+
+        var fn = function () {
+            if (this.compMode) {
+                this.startEngine();
+            }
+            this._restartTimer = undefined;
+        }.bind(this);
+        this._restartTimer = setTimeout(fn, 1500);
     },
 
     addView: function (view) {
