@@ -216,10 +216,10 @@ chess.controller.PlayStockFishController = new Class({
                         };
 
                         if (match[1] == 'cp') {
-                            var score = parseInt(match[2]) * (that.colorToMove == 'white' ? 1 : -1);
+                            var score = parseInt(match[2]) * (that._colorToMove == 'white' ? 1 : -1);
                             score = (score / 100.0).toFixed(2);
                         } else if (match[1] == 'mate') {
-                            ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
+                            ret.mate = match[2] * (that._colorToMove == 'white' ? 1 : -1);
                             score = '#' + Math.abs(parseInt(ret.mate));
                         }
 
@@ -362,7 +362,7 @@ chess.controller.PlayStockFishController = new Class({
                 }
             }
 
-            var colorToMove = this.colorToMove = model.turn();
+            var colorToMove = this._colorToMove = model.turn();
             if (event == 'newMove') {
                 if (this.clock) this.clock.tap();
 

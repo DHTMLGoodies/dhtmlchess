@@ -29,9 +29,13 @@ chess.controller.StockfishEngineController = new Class({
 
     engineStatus:{},
 
-    colorToMove:undefined,
+    _colorToMove:undefined,
 
     autoStopEngineOnNewGame:true,
+
+    colorToMove: function(){
+        return this._colorToMove;
+    },
 
     __construct: function (config) {
         if(config.stockfish != undefined)this.stockfish = config.stockfish;
@@ -91,7 +95,7 @@ chess.controller.StockfishEngineController = new Class({
 
     searchAndRedraw: function () {
         if (this.analyzing) {
-            this.colorToMove = this.getCurrentModel().getColorToMove();
+            this._colorToMove = this.getCurrentModel().getColorToMove();
             this.currentPly = this.getCurrentModel().getCurrentPly();
             
             this.uciCmd("ucinewgame");
@@ -158,10 +162,10 @@ chess.controller.StockfishEngineController = new Class({
                             };
 
                             if(match[1] == 'cp') {
-                                var score = parseInt(match[2]) * (that.colorToMove == 'white' ? 1 : -1);
+                                var score = parseInt(match[2]) * (that.colorToMove() == 'white' ? 1 : -1);
                                 score = (score / 100.0).toFixed(2);
                             } else if(match[1] == 'mate') {
-                                ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
+                                ret.mate = match[2] * (that.colorToMove() == 'white' ? 1 : -1);
                                 score = '#' + match[2];
                             }
                             ret.score = score;
