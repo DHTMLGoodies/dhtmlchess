@@ -90,7 +90,7 @@ chess.controller.DummyController = new Class({
             this.arrowPool.hideAll();
         }
 
-
+        this.restartEngine();
     },
 
     validateFen: function (fen) {
@@ -127,6 +127,9 @@ chess.controller.DummyController = new Class({
             }
         } else {
             this.stopEngine();
+            if (console) console.log("invalid fen");
+            this.fireEvent("comp");
+
         }
     },
     compMode: false,
@@ -211,7 +214,6 @@ chess.controller.DummyController = new Class({
             this._movePointer--;
             this._onNav();
         }
-        console.log("back");
     },
 
     _onNav: function () {
@@ -235,6 +237,9 @@ chess.controller.DummyController = new Class({
         this.views[view.submodule] = view;
 
         switch (view.submodule) {
+            case 'wordpress.computereval':
+                view.on("error", this.restartEngine.bind(this));
+                break;
             case 'board':
                 view.enableInstructorMode();
                 view.on('move', function (move, piece) {
@@ -253,6 +258,8 @@ chess.controller.DummyController = new Class({
                     this.fireEvent("notStartOfGame");
 
                     this.fireEvent("move", move);
+
+                    this.restartEngine();
 
                 }.bind(this));
                 view.on('fen', function (fen) {

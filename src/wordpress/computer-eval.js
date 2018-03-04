@@ -204,8 +204,7 @@ chess.wordpress.ComputerEval = new Class({
             }
             this.bestLine.push('</span>');
         } catch (e) {
-            this.stopEngine(true);
-            this.startEngine.delay(200, this);
+            this.fireEvent("error");
         }
 
         return this.bestLine.join(' ');

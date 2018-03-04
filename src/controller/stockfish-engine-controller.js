@@ -15,33 +15,33 @@ chess.controller.StockfishEngineController = new Class({
 
     thinkingTime: 40,
 
-    stockfish:'../stockfish-js/stockfish.js',
+    stockfish: '../stockfish-js/stockfish.js',
 
-    fen:undefined,
+    fen: undefined,
 
-    stopped:true,
+    stopped: true,
 
-    debug:false,
+    debug: false,
 
-    startFen:undefined,
+    startFen: undefined,
 
-    examine:true,
+    examine: true,
 
-    engineStatus:{},
+    engineStatus: {},
 
-    _colorToMove:undefined,
+    _colorToMove: undefined,
 
-    autoStopEngineOnNewGame:true,
+    autoStopEngineOnNewGame: true,
 
-    colorToMove: function(){
+    colorToMove: function () {
         return this._colorToMove;
     },
 
     __construct: function (config) {
-        if(config.stockfish != undefined)this.stockfish = config.stockfish;
-        if(config.autoStopEngineOnNewGame != undefined)this.autoStopEngineOnNewGame = config.autoStopEngineOnNewGame;
+        if (config.stockfish != undefined) this.stockfish = config.stockfish;
+        if (config.autoStopEngineOnNewGame != undefined) this.autoStopEngineOnNewGame = config.autoStopEngineOnNewGame;
         this.engineStatus = {};
-        this.__params(config, ['stopped','examine']);
+        this.__params(config, ['stopped', 'examine']);
         if (config.thinkingTime != undefined) {
             this.thinkingTime = config.thinkingTime;
         }
@@ -51,7 +51,7 @@ chess.controller.StockfishEngineController = new Class({
 
     modelEventFired: function (event, model, param) {
 
-        this.parent(event,model, param);
+        this.parent(event, model, param);
 
         this.chessModel = model;
 
@@ -61,7 +61,7 @@ chess.controller.StockfishEngineController = new Class({
         }
 
         if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
-            if(this.examine)this.views.board.enableDragAndDrop(model);
+            if (this.examine) this.views.board.enableDragAndDrop(model);
         }
 
         if (event === 'fen') {
@@ -72,22 +72,38 @@ chess.controller.StockfishEngineController = new Class({
                 return;
             }
 
-            if(!this.stopped)this.updateEngine();
+            if (!this.stopped) this.updateEngine();
         }
     },
 
-    updateEngine:function(){
+    updateEngine: function () {
         this.searchAndRedraw();
     },
 
-    stopEngine:function(){
+    stopEngine: function () {
+        console.log("stop");
         this.stopped = true;
         this.uciCmd("stop");
     },
 
-    startEngine:function(){
+    _restartTimer: undefined,
+
+    restartEngine: function () {
+        if (this._restartTimer) clearTimeout(this._restartTimer);
+
+        this.stopEngine();
+
+        var fn = function () {
+            this.startEngine();
+            this._restartTimer = undefined;
+        }.bind(this);
+        this._restartTimer = setTimeout(fn, 1500);
+    },
+
+    startEngine: function () {
         this.stopped = false;
-        if(!this.engine){
+        console.log("start");
+        if (!this.engine) {
             this.initializeBackgroundEngine();
         }
         this.searchAndRedraw();
@@ -97,15 +113,15 @@ chess.controller.StockfishEngineController = new Class({
         if (this.analyzing) {
             this._colorToMove = this.getCurrentModel().getColorToMove();
             this.currentPly = this.getCurrentModel().getCurrentPly();
-            
+
             this.uciCmd("ucinewgame");
             this.uciCmd("position fen " + this.getCurrentModel().fen());
             this.uciCmd("go infinite");
         }
     },
 
-    uciCmd: function(cmd){
-        if(this.engine){
+    uciCmd: function (cmd) {
+        if (this.engine) {
             this.engine.postMessage(cmd);
         }
     },
@@ -130,41 +146,41 @@ chess.controller.StockfishEngineController = new Class({
 
                 this.engine.onmessage = function (event) {
                     var line = event.data;
-                    if(line == 'uciok') {
+                    if (line == 'uciok') {
                         that.engineStatus.engineLoaded = true;
-                    } else if(line == 'readyok') {
+                    } else if (line == 'readyok') {
                         that.engineStatus.engineReady = true;
-                    }else{
+                    } else {
                         var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
-                        if(match){
+                        if (match) {
 
-                        // UCICmd Out info depth 120 seldepth 8 score mate 4 nodes 7372428 nps 1571611 time 4691 multipv 1 pv d5f7 f8f7 e2e8 f7f8 e8f8 g8f8
+                            // UCICmd Out info depth 120 seldepth 8 score mate 4 nodes 7372428 nps 1571611 time 4691 multipv 1 pv d5f7 f8f7 e2e8 f7f8 e8f8 g8f8
 
-                        }else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
+                        } else if (match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
                             that.engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
                         }
-                        if(!that.stopped && (match = line.match(/^info .*\bscore (\w+) (-?\d+)/))) {
+                        if (!that.stopped && (match = line.match(/^info .*\bscore (\w+) (-?\d+)/))) {
                             // info depth 120 seldepth 6 score mate 3 nodes 293724 nps 428169 time 686 multipv 1 pv d5c7 e8f8 d1d8 e7d8 e1e8
                             // info depth 20 seldepth 24 score cp 19 nodes 7739291 nps 442548 time 17488 multipv 1 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f8d6 d2d3 a7a6 b5c6 d7c6 c1g5 h7h6 g5f6 d8f6 b1d2 e8g8 a2a3 c8d7 b2b4
                             var bestMoves = line.replace(/.*pv(.+?)$/g, '$1').trim();
 
-                            if(!that.isValidEngineMoveForCurrentPosition(bestMoves)){
+                            if (!that.isValidEngineMoveForCurrentPosition(bestMoves)) {
                                 return false;
                             }
                             var nps = line.replace(/.*nps.*?([0-9]+?)[^0-9].+/g, '$1');
                             var depth = line.replace(/.*?depth ([0-9]+?)[^0-9].*/g, '$1').trim();
                             var ret = {
-                                depth:depth,
-                                bestMoves:bestMoves,
+                                depth: depth,
+                                bestMoves: bestMoves,
                                 nps: nps,
-                                mate:false,
+                                mate: false,
                                 currentPly: that.currentPly
                             };
 
-                            if(match[1] == 'cp') {
+                            if (match[1] == 'cp') {
                                 var score = parseInt(match[2]) * (that.colorToMove() == 'white' ? 1 : -1);
                                 score = (score / 100.0).toFixed(2);
-                            } else if(match[1] == 'mate') {
+                            } else if (match[1] == 'mate') {
                                 ret.mate = match[2] * (that.colorToMove() == 'white' ? 1 : -1);
                                 score = '#' + match[2];
                             }
@@ -182,9 +198,9 @@ chess.controller.StockfishEngineController = new Class({
             }
 
             jQuery.ajax({
-                url:ludo.config.getDocumentRoot() + '/stockfish-js/book.bin',
-                complete:function(response){
-                    this.engine.postMessage({book: response.responseText });
+                url: ludo.config.getDocumentRoot() + '/stockfish-js/book.bin',
+                complete: function (response) {
+                    this.engine.postMessage({book: response.responseText});
                 }.bind(this)
             });
         }
@@ -192,20 +208,20 @@ chess.controller.StockfishEngineController = new Class({
         return this.backgroundEngineValid;
     },
 
-    isValidEngineMoveForCurrentPosition:function(line){
-        if(this.parser == undefined){
+    isValidEngineMoveForCurrentPosition: function (line) {
+        if (this.parser == undefined) {
             this.parser = new chess.parser.FenParser0x88();
         }
 
         this.parser.setFen(this.fen);
         var m = {
-            from: Board0x88Config.mapping[line.substr(0,2)],
-            to: Board0x88Config.mapping[line.substr(2,2)]
+            from: Board0x88Config.mapping[line.substr(0, 2)],
+            to: Board0x88Config.mapping[line.substr(2, 2)]
         };
 
         var valid = this.parser.getValidMovesAndResult().moves;
 
-        if(valid[m.from] && valid[m.from].indexOf(m.to) >=0){
+        if (valid[m.from] && valid[m.from].indexOf(m.to) >= 0) {
             return true;
 
         }
@@ -217,7 +233,7 @@ chess.controller.StockfishEngineController = new Class({
         return this.fen ? this.fen : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
     },
 
-    color:function(){
+    color: function () {
         return this.models[0].getColorToMove();
     },
 
@@ -226,7 +242,7 @@ chess.controller.StockfishEngineController = new Class({
         this.currentModel.newGame();
     },
 
-    setThinkingTime:function(thinkingTime){
+    setThinkingTime: function (thinkingTime) {
         this.thinkingTime = thinkingTime;
     }
 });
