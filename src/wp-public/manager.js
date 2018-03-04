@@ -26,10 +26,10 @@ chess.WPManager = new Class({
                 var c = this.activeView.controller;
 
                 if (e.key === 'ArrowRight' && !c.isBusy) {
-                    c.currentModel.nextMove();
+                    c.keyNext();
                     return false;
                 } else if (e.key === 'ArrowLeft' && !c.isBusy) {
-                    c.currentModel.previousMove();
+                    c.keyBack();
                     return false;
                 }
             }

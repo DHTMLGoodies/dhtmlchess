@@ -106,7 +106,7 @@ chess.view.highlight.ArrowPool = new Class({
         }.bind(this));
         this.pool = [];
         this.bg.hide();
-
+        return this;
     },
 
     getArrow: function () {

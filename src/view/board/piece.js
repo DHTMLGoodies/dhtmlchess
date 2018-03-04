@@ -71,12 +71,12 @@ chess.view.board.Piece = new Class({
     },
 
 
-    setPieceLayout:function(layout){
+    setPieceLayout: function (layout) {
         this.pieceLayout = layout;
         this.svg = this.pieceLayout.indexOf('svg') === 0;
         this.extension = this.svg ? 'svg' : 'png';
         this.bgUpdated = false;
-        if(this.el){
+        if (this.el) {
             this.updateBackgroundImage();
         }
     },
@@ -175,6 +175,8 @@ chess.view.board.Piece = new Class({
      */
     initDragPiece: function (e) {
 
+        if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
+
         if (this.ddEnabled) {
             this.increaseZIndex();
             this.validTargetSquares = this.board.getValidMovesForPiece(this);
@@ -182,7 +184,7 @@ chess.view.board.Piece = new Class({
             var pos = this.el.position();
             this.el.css({
                 left: pos.left,
-                top : pos.top
+                top: pos.top
             });
             var p = ludo.util.pageXY(e);
             this.dd = {
@@ -191,6 +193,7 @@ chess.view.board.Piece = new Class({
                 el: {x: pos.left, y: pos.top},
                 current: ludo.util.pageXY(e)
             };
+            if(this.board)this.board.onDown(e);
             return false;
         }
         return undefined;
@@ -239,10 +242,10 @@ chess.view.board.Piece = new Class({
 
             if (this.validTargetSquares.indexOf(square) >= 0) {
                 this.position(square);
-                this.fireEvent('move', {
+                this.fireEvent('move', [{
                     from: Board0x88Config.numberToSquareMapping[this.square],
-                    to: Board0x88Config.numberToSquareMapping[square]
-                });
+                    to: Board0x88Config.numberToSquareMapping[square],
+                }, this]);
             } else {
                 this.position();
             }
@@ -316,10 +319,10 @@ chess.view.board.Piece = new Class({
 
         if (this.svg && !this.bgUpdated) {
             this.el.css({
-                'background-size' :'100% 100%',
+                'background-size': '100% 100%',
                 '-moz-background-size': 'cover',
                 '-o-background-size': 'cover',
-                '-webkit-background-size' :'cover'
+                '-webkit-background-size': 'cover'
 
             });
         }
@@ -332,7 +335,7 @@ chess.view.board.Piece = new Class({
      * @param {Number} squareSize
      */
     resize: function (squareSize) {
-        if(this.svg){
+        if (this.svg) {
             this.size = squareSize;
             this.updateBackgroundImage();
             return;

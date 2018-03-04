@@ -12,6 +12,8 @@ chess.view.highlight.SquarePool = new Class({
     colorMap: undefined,
     onlySingles: false,
     autoToggle: false,
+    circular: false,
+
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
@@ -19,7 +21,7 @@ chess.view.highlight.SquarePool = new Class({
         if (config.opacity !== undefined) this.opacity = config.opacity;
         if (config.onlySingles !== undefined) this.onlySingles = config.onlySingles;
         if (config.autoToggle !== undefined) this.autoToggle = config.autoToggle;
-
+        if (config.circular !== undefined) this.circular = config.circular;
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
         this.hiddenItems = [];
@@ -34,6 +36,7 @@ chess.view.highlight.SquarePool = new Class({
             var s = this.visibleItems.pop();
             this._hide(s);
         }
+        return this;
     },
 
     toggle: function (square, color) {
@@ -77,7 +80,8 @@ chess.view.highlight.SquarePool = new Class({
 
     lastBgColor: function () {
         if (this.lastSquare) {
-            return this.lastSquare.el.css('background-color');
+            var el = this.lastSquare.el;
+            return this.circular ? el.css("border-color") : el.css("background-color");
         }
     },
 
@@ -87,11 +91,17 @@ chess.view.highlight.SquarePool = new Class({
         if (isShown && this.autoToggle) {
             var sameColor = this.colorMap[square] === color;
             this.hide(square);
-            if (sameColor)return;
+            if (sameColor) return;
         }
 
         if (this.onlySingles && isShown) {
-            if (color) this.map[square][0].el.css('background-color', color);
+            if (color) {
+                if (this.circular) {
+                    this.map[square][0].el.css('border', "5px solid " + color);
+                } else {
+                    this.map[square][0].el.css('background-color', color);
+                }
+            }
             return;
         }
         var s = this.getSquare();
@@ -108,12 +118,20 @@ chess.view.highlight.SquarePool = new Class({
             left: pos.x, top: pos.y
         });
         if (color) {
-            s.el.css('background-color', color);
+            if (this.circular) {
+                s.el.css('border', "5px solid " + color);
+                s.el.css('background-color', "transparent");
+            } else {
+                s.el.css('background-color', color);
+            }
+
         }
         s.el.show();
         s.square = square;
 
         this.lastSquare = s;
+
+        return this;
     },
 
     isShown: function (square) {
@@ -165,6 +183,11 @@ chess.view.highlight.SquarePool = new Class({
         }
         var square = jQuery('<div class="dhtml-chess-highlight-square" style="box-sizing:border-box !important;position:absolute;width:12.5%;height:12.5%"></div>');
         this.bg.append(square);
+
+        if (this.circular) {
+            square.css("border-radius", 999);
+        }
+
         var obj = {
             square: undefined,
             el: square

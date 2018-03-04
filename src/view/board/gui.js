@@ -153,8 +153,8 @@ chess.view.board.GUI = new Class({
     stml: undefined,
 
     updateSTM: function () {
-        var c = this.controller && this.controller.currentModel ? this.controller.currentModel.turn() : undefined;
-        if (c != this.stml) {
+        var c = this.controller.colorToMove();
+        if (c !== this.stml) {
             var pre = 'dhtml-chess-side-to-move-';
             var i = this.els.sideToMove;
             i.removeClass(pre + 'white');

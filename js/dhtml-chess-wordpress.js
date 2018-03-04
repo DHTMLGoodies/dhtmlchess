@@ -1,4 +1,4 @@
-/* Generated Thu Feb 22 20:19:36 CET 2018 */
+/* Generated Sun Mar 4 1:14:21 CET 2018 */
 /*
 * Copyright 2018. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -4900,7 +4900,1514 @@ ludo.layout.Base = new Class({
         }
         return isNaN(child.layout.height) ? child.getEl().outerHeight(true) : child.layout.height;
     }
-});/* ../ludojs/src/layout/factory.js */
+});/* ../ludojs/src/color/color.js */
+/**
+ * Utilities for easy handling of colors
+ * @namespace ludo.color
+ */
+/**
+ * A class with a lot of color conversion functions.
+ *
+ * With this class, you can convert between RGB and HSV, darken and brighten colors,
+ * increase and decrease saturation and brightness of a color etc.
+ *
+ * @class ludo.color.Color
+ * @example {@lang JavaScript}
+ * var util = new ludo.color.Color();
+ * var rgbCode = '#669900';
+ * var rgbObject = util.rgbObject(rgbCode);
+ *
+ */
+ludo.color.Color = new Class({
+
+
+    /**
+     * Function returning a random color
+     * @returns {string}
+     * @memberof ludo.color.Color.prototype
+     * @example
+     * var util = new ludo.color.Color();
+     * var color = util.randomColor(); // returns color in #RRGGBB format
+     */
+    randomColor:function(){
+        return this.rgbCode(
+            {
+                r: Math.floor(Math.random() * 255),
+                g: Math.floor(Math.random() * 255),
+                b: Math.floor(Math.random() * 255)
+            }
+        );
+    },
+    /**
+     * Converting color into RGB Object. This method accepts color in HSV format({h:120,s:40,v:100})
+     * and in string format(RGB), example: '#669900'
+     * @memberof ludo.color.prototype
+     * @function rgbColors
+     * @param {object|String} a
+     * @returns {object}
+     * @memberof ludo.color.Color.prototype
+     * @example
+     * var util = new ludo.color.Color();
+     * console.log(util.rgbColors('#669900');
+     * console.log(util.rgbColors({ h: 300, s: 100, v: 50 });
+     *
+     *
+     */
+    rgbColors:function (a) {
+        if (a.substr !== undefined) {
+            return this.rgbObject(a);
+        }
+        if (a.h !== undefined) {
+            return this.hsvToRGB(a.h, a.s, a.v);
+        }
+        return undefined;
+    },
+    /**
+     Converts rgb color string to rgb color object
+     @public
+     @param {string} rgbColor
+     @memberof ludo.color
+     @return {Object}
+     @memberof ludo.color.Color.prototype
+     @example {@lang JavaScript}
+     * var c = new ludo.color.Color();
+     * console.log(c.rgbObject('#FFEEDD');
+     * // returns { 'r': 'FF','g' : 'EE', 'b' : 'DD' }
+     */
+    rgbObject:function (rgbColor) {
+        rgbColor = rgbColor.replace('#', '');
+        return {
+            r:rgbColor.substr(0, 2).toInt(16),
+            g:rgbColor.substr(2, 2).toInt(16),
+            b:rgbColor.substr(4, 2).toInt(16)
+        };
+    },
+    /**
+     * Converts RGB or HSV color object to rgb code
+     * @memberof ludo.color.Color.prototype
+     * @param {number} a
+     * @param {number} b
+     * @param {number} c
+     * @return {string}
+     * @example
+     * var c = new ludo.color.Color();
+     * console.log(c.rgbCode({r:100,g:125,b:200});
+     * console.log(c.rgbCode({h:144,s:45,b:55});
+     */
+    rgbCode:function (a, b, c) {
+        if (b === undefined) {
+            if (a.r !== undefined) {
+                b = a.g;
+                c = a.b;
+                a = a.r;
+            }
+            else if (a.h !== undefined) {
+                var color = this.hsvToRGB(a.h, a.s, a.v);
+                a = color.r;
+                b = color.g;
+                c = color.b;
+            }
+        }
+        return this.toRGB(a, b, c);
+    },
+    /**
+     * Converts rgb object to rgb string
+     * @memberof ludo.color.Color.prototype
+     * @function toRGB
+     * @param {Number} red
+     * @param {Number} green
+     * @param {Number} blue
+     * @return {String}
+     * @example
+     * var c = new ludo.color.Color();
+     * console.log(c.toRgb(100,14,200));
+     */
+    toRGB:function (red, green, blue) {
+        var r = Math.round(red).toString(16);
+        var g = Math.round(green).toString(16);
+        var b = Math.round(blue).toString(16);
+        if (r.length === 1)r = ['0', r].join('');
+        if (g.length === 1)g = ['0', g].join('');
+        if (b.length === 1)b = ['0', b].join('');
+        return ['#', r, g, b].join('').toUpperCase();
+    },
+    toRGBFromObject:function (color) {
+        return this.toRGB(color.r, color.g, color.b);
+    },
+
+    brightness:function(color, brightness){
+        if(arguments.length === 1){
+            return this.toHSV(color).v;
+        }else{
+            var hsv = this.toHSV(color);
+            hsv.v = brightness;
+            return this.rgbCode(hsv);
+        }
+    },
+
+    saturation:function(color, saturation){
+        if(arguments.length === 1){
+            return this.toHSV(color).s;
+        }else{
+            var hsv = this.toHSV(color);
+            hsv.s = saturation;
+            return this.rgbCode(hsv);
+        }
+    },
+
+    /**
+     * Converts a RGB color to HSV(Hue, Saturation, Brightness)
+     * @param {String|Object} color
+     * @memberof ludo.color.Color.prototype
+     * @returns {Object}
+     * @example
+     * var c = new ludo.color.Color();
+     * console.log(c.toHSV('#7e8080'));
+     * // outputs {h: 180, s: 1.5624999999999944, v: 50.19607843137255}
+     */
+    toHSV:function (color) {
+        if (color.r === undefined)color = this.rgbObject(color);
+        return this.toHSVFromRGB(color.r, color.g, color.b);
+    },
+    toHSVFromRGBCode:function (rgbColor) {
+        var color = this.rgbObject(rgbColor);
+        return this.toHSVFromRGB(color.r, color.g, color.b);
+    },
+    /**
+     * Converts red,green and blue to HSV(Hue, Saturation, Brightness)
+     * @memberof ludo.color.Color.prototype
+     * @function toHSVFromRGB
+     * @param r
+     * @param g
+     * @param b
+     * @return {Object}
+     * @example
+     * var c = new ludo.color.Color();
+     * var hsv = c.toHSVFromRGB(100,200,10);
+     * console.log(hsv);
+     */
+    toHSVFromRGB:function (r, g, b) {
+        r = r / 255;
+        g = g / 255;
+        b = b / 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s;
+
+        var d = max - min;
+        s = max === 0 ? 0 : d / max;
+
+        if (max == min) {
+            h = 0;
+        } else {
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+        return {
+            h:h * 360,
+            s:s * 100,
+            v:max * 100
+        };
+    },
+
+    /**
+     * Converts Hue,Saturation,Brightness to RGB Code
+     * @memberof ludo.color.Color.prototype
+     * @param h
+     * @param s
+     * @param v
+     * @returns {String}
+     * @example
+     * var c = new ludo.color.Color();
+     * var color = c.hsvToRGBCode(200,40,60);
+     * console.log(color);
+     */
+    hsvToRGBCode:function (h, s, v) {
+        if (s === undefined) {
+            s = h.s;
+            v = h.v;
+            h = h.h;
+        }
+        var rgb = this.hsvToRGB(h, s, v);
+        return this.toRGB(rgb.r, rgb.g, rgb.b);
+    },
+
+
+    /**
+     * Converts HSV(Hue, Saturation, Brightness) to RGB(red, green, blue).
+     * @memberof ludo.color.Color.prototype
+     * @param h
+     * @param s
+     * @param v
+     * @returns {{r: number, g: number, b: number}}
+     * @example {@lang JavaScript}
+     * var colorUtil = new ludo.color.Color();
+     * var hue = 300;
+     * var saturation = 40;
+     * var brightness = 90;
+     * var rgb = colorUtil.hsvToRGB(hue, saturation, brightness);
+     *  // returns { r: 229, g: 138, b: 229 }
+     */
+    hsvToRGB:function (h, s, v) {
+        if (s === undefined) {
+            s = h.s;
+            v = h.v;
+            h = h.h;
+        }
+        h /= 360;
+        s /= 100;
+        v /= 100;
+
+        var r, g, b;
+
+        var i = Math.floor(h * 6);
+        var f = h * 6 - i;
+        var p = v * (1 - s);
+        var q = v * (1 - f * s);
+        var t = v * (1 - (1 - f) * s);
+
+        switch (i % 6) {
+            case 0:
+                r = v;
+                g = t;
+                b = p;
+                break;
+            case 1:
+                r = q;
+                g = v;
+                b = p;
+                break;
+            case 2:
+                r = p;
+                g = v;
+                b = t;
+                break;
+            case 3:
+                r = p;
+                g = q;
+                b = v;
+                break;
+            case 4:
+                r = t;
+                g = p;
+                b = v;
+                break;
+            case 5:
+                r = v;
+                g = p;
+                b = q;
+                break;
+        }
+        return{
+            r:r * 255,
+            g:g * 255,
+            b:b * 255
+        };
+    },
+
+    hslToRgb:function (h, s, l) {
+        var r, g, b;
+
+        if (s == 0) {
+            r = g = b = l; // achromatic
+        } else {
+            function hue2rgb(p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            }
+
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return { r:r * 255, g:g * 255, b:b * 255 }
+    },
+
+    /**
+     * Return rgb code after hue has been adjusted by a number of degrees
+     * @function offsetHue
+     * @memberof ludo.color.Color.prototype
+     * @param color
+     * @param offset
+     * @return {String}
+     * @example
+     * var c = new ludo.color.Color();
+     * var color = '#FF0000'; // red
+     * color = c.offsetHue(color, 10);
+     * console.log(color); // Outputs #FF2A00
+     */
+    offsetHue:function(color, offset){
+        var hsv = this.toHSV(color);
+        hsv.h += offset;
+        hsv.h = hsv.h % 360;
+        return this.rgbCode(hsv);
+    },
+
+    /**
+     * Return rgb code after hue has been adjusted by a number of degrees
+     * @function offsetBrightness
+     * @memberof ludo.color.Color.prototype
+     * @param color
+     * @param offset
+     * @return {String}
+     * @example
+     * var c = new ludo.color.Color();
+     * var color = '#FF0000'; // Bright red with full brightness and saturation
+     * color = c.offsetBrightness(color, -10); // 10 degrees darker
+     * console.log(color); // outputs #E60000
+     */
+    offsetBrightness:function(color, offset){
+        var hsv = this.toHSV(color);
+        hsv.v += offset;
+        if(hsv.v > 100) hsv.v = 100;
+        if(hsv.v < 0)hsv.v = 0;
+        return this.rgbCode(hsv);
+    },
+
+    /**
+     * Return rgb code after saturation(color intensity) has been adjusted. Saturation can be 0-100(no saturation to full saturation)
+     * @function offsetSaturation
+     * @memberof ludo.color.Color.prototype
+     * @param {Object|String} color
+     * @param {Number} offset
+     * @return {String}
+     * @example
+     * var c = new ludo.color.Color();
+     * var color = '#80994d'; // Green color with a saturation of 50
+     * color = c.offsetSaturation(color, 10); // Increase saturation by 10 points
+     * console.log(color); // outputs #85995C
+     */
+    offsetSaturation:function(color, offset){
+        var hsv = this.toHSV(color);
+        hsv.s += offset;
+        if(hsv.s > 100) hsv.s = 100;
+        if(hsv.s < 0)hsv.s = 0;
+        return this.rgbCode(hsv);
+    },
+
+    /**
+     * Returns a brighter color.
+     * @memberof ludo.color.Color.prototype
+     * @param {String|Object} color
+     * @param {number} percent
+     * @returns {String}
+     * @example
+     * var util = new ludo.color.Color();
+     * var color = '#669900';
+     * var brighterColor = util.brighten(color, 10);
+     * console.log(brighterColor); // outputs #76A811;
+     * color = '#AAAAAA';
+     * brighterColor = util.brighten(color, 10);
+     * console.log(brighterColor); // outputs #BBBBBB;
+     */
+    brighten:function(color, percent){
+        var hsv = this.toHSV(color);
+        color = this.offsetBrightness(color, hsv.v * percent/100);
+        color = this.offsetSaturation(color, hsv.s * percent/100 * -1);
+        return color;
+    },
+
+    /**
+     * Brightens a color
+     * @memberof ludo.color.Color.prototype
+     * @param color
+     * @param percent
+     * @returns {String}
+     * @example
+     var c = new ludo.color.Color();
+     var color = '#BBBBBB';
+     var darker = c.darken(color, 10);
+     console.log(darker); // outputs #A8A8A8
+     */
+    darken:function(color, percent){
+        var hsv = this.toHSV(color);
+        color = this.offsetBrightness(color, hsv.v * percent/100 * -1);
+        color = this.offsetSaturation(color, hsv.s * percent/100);
+        return color;
+    }
+});
+
+/* ../ludojs/src/svg/animation.js */
+/**
+ * Animation of SVG DOM Nodes
+ * @class ludo.svg.Animation
+ * @example
+ * circle.animate({
+ *      cx : 100, cy: 100, r: 10
+ * }, 200,
+ * ludo.svg.easing.outCubic,
+ * function(){ console.log('finished') }
+ * );
+ */
+ludo.svg.Animation = new Class({
+
+    animationRate: 13,
+    color: undefined,
+    _queue:undefined,
+    _animationIds:undefined,
+
+    testing:false,
+    initialize:function(){
+        this._queue = {};
+        this._animationIds = {};
+    },
+
+
+    colorUtil: function () {
+        if (this.color == undefined)this.color = new ludo.color.Color();
+        return this.color;
+    },
+
+    getPathSegments:function(path){
+        if(path.substr == undefined)return path;
+        path = path.replace(/,/g, " ");
+        path = path.replace(/\s+/g, " ");
+        var tokens = path.split(/\s/g);
+        jQuery.each(tokens, function(index, value){
+           if(!isNaN(value)){
+               tokens[index] = parseFloat(value);
+           }
+        });
+
+        return tokens;
+    },
+    
+    animate:function(node, properties,options){
+        if(this.color == undefined)this.colorUtil();
+
+        this.queue({ node: node, properties:properties, options: options });
+    },
+
+    queue:function(animation){
+        animation.__finish = this.next.bind(this);
+        animation.id = animation.node.id;
+        animation.animationId = String.uniqueID();
+
+        this._animationIds[animation.id] = animation.animationId;
+
+        var hasQueue = this.hasQueue(animation);
+        var shouldQueue = animation.options.queue != undefined ?  animation.options.queue :  true;
+
+        if(this._queue[animation.id] == undefined){
+            this._queue[animation.id] = [];
+        }
+
+        if(shouldQueue){
+            this._queue[animation.id].push(animation);
+        }
+
+        if(!shouldQueue || !hasQueue){
+            this.fn.call(this, animation);
+        }
+    },
+
+    hasQueue:function(animation){
+
+        return this._queue[animation.id] != undefined && this._queue[animation.id].length > 0;
+    },
+
+
+
+    fn: function (animation) {
+        var node = animation.node;
+
+        var properties = animation.properties;
+        var options = animation.options;
+
+        var duration = options.duration || 400;
+        var easing = options.easing || ludo.svg.easing.inSine;
+
+
+        var changes = {};
+        var start = {};
+        var special = {};
+        var finishedFn = animation.__finish;
+
+        jQuery.each(properties, function (key, value) {
+            special[key] = true;
+
+            switch (key) {
+                
+                case "d":
+                    var p = node.attr("d");
+
+                    start[key] = this.getPathSegments(p);
+                    changes[key] = this.getPathSegments(value);
+
+                    jQuery.each(changes[key], function(index, value){
+                        if(!isNaN(value)){
+                            changes[key][index] = value - start[key][index];
+                        }
+                    });
+                    break;
+                case 'fill':
+                case 'stroke':
+                case 'stop-color':
+                    var clr = node.attr(key) || '#000000';
+
+                    if (clr.length == 4) clr = clr + clr.substr(1);
+                    var u = this.colorUtil();
+                    var rgb = u.rgbColors(clr);
+                    var to = u.rgbColors(value);
+
+                    changes[key] = [
+                        to.r - rgb.r, to.g - rgb.g, to.b - rgb.b
+                    ];
+                    start[key] = rgb;
+                    break;
+                case 'translate':
+                    var add = jQuery.type(value[0]) == 'string' && (/[+\-]/.test(value[0]));
+                    value[0] = parseInt(value[0]);
+                    value[1] = value[1] ? parseInt(value[1]) : 0;
+                    var cur = add ? [0,0] : node.getTranslate();
+                    changes[key] = [
+                        value[0] - cur[0], value[1] - cur[1]
+                    ];
+                    start[key] = node.getTranslate();
+                    special[key] = true;
+                    break;
+                case 'rotate':
+                    var c = node.getRotate();
+                    changes[key] = [
+                        value[0] - c[0], value[1], value[2]
+                    ];
+                    start[key] = c[0];
+                    break;
+                case 'scale':
+
+                default:
+                    var current = parseFloat(node.get(key));
+                    if(isNaN(current)){
+                        current = 1;
+                    }
+
+                    changes[key] = value - current;
+                    start[key] = current;
+
+                    special[key] = false;
+
+            }
+
+        }.bind(this));
+
+        var progress = options.progress;
+        var startFn = options.start;
+        var stepFn = options.step;
+        
+        var fn = function (t, d) {
+
+            if(options.validate != undefined){
+                var success = options.validate.call(this, animation.animationId, this._animationIds[animation.id]);
+                if(!success){
+                    finishedFn.call(ludo.svgAnimation , animation);
+                    return;
+                }
+            }
+
+            var isFinished = t >= d;
+
+            if (!isFinished && !this.testing) {
+                fn.delay(this.animationRate, this, [t + 1, d]);
+            }
+
+            var vals;
+
+            if(t == 0 && startFn){
+                startFn.call(node);
+            }
+
+            if(isFinished)t = d;
+            var delta = easing(t, 0, 1, d);
+            var x,y;
+
+            for(var key in changes) {
+                if(changes.hasOwnProperty(key)) {
+                    var value = changes[key];
+                    
+                    
+                    if (special[key]) {
+                        switch (key) {
+                            case 'd':
+                                var v = [];
+
+                                jQuery.each(start[key], function (index, v2) {
+                                    if (isNaN(v2)) {
+                                        v.push(v2);
+                                    } else {
+                                        v.push(v2 + (value[index] * delta))
+                                    }
+                                });
+
+                                if(stepFn != undefined)value = stepFn.call(this, v, delta, t/d) || value;
+                                
+                                node.set("d", v.join(" "));
+                                break;
+                            case 'stroke':
+                            case 'fill':
+                            case 'stop-color':
+                                var r = Math.round(start[key].r + (delta * value[0]));
+                                var g = Math.round(start[key].g + (delta * value[1]));
+                                var b = Math.round(start[key].b + (delta * value[2]));
+                                var c = this.color.toRGB(r, g, b);
+                                node.el.setAttribute(key, c);
+                                node._attr[key] = c;
+                                node.dirty = true;
+
+                                break;
+                            case 'translate':
+                                x = start[key][0] + (delta * value[0]);
+                                y = start[key][1] + (delta * value[1]);
+                                node._getMatrix().setTranslate(x, y);
+                                break;
+                            case 'rotate':
+                                var rotate = start[key] + (delta * value[0]);
+                                x = value[1];
+                                y = value[2];
+                                rotate = rotate % 360;
+                                node._getMatrix().setRotation(rotate, x, y);
+                                break;
+                        }
+                    } else {
+                        var val = start[key] + (value * delta);
+                        if(stepFn != undefined)val = stepFn.call(this, val, delta, t/d) || val;
+                        node.el.setAttribute(key, val);
+                        node._attr[key] = val;
+                        node.dirty = true;
+
+                        if (progress) {
+                            if (vals == undefined) {
+                                vals = {};
+                            }
+                            vals[key] = val;
+                        }
+                    }
+                }
+
+            }
+
+            /*
+            if (options.step != undefined) {
+                options.step.call(node, node, vals, delta, t / d);
+            }
+            */
+
+            if(progress!= undefined){
+                progress.call(node, t/d, vals);
+            }
+            if (isFinished) {
+                if (options.complete != undefined) {
+                    options.complete.call(node);
+                }
+
+                finishedFn.call(ludo.svgAnimation , animation);
+            }
+
+
+            if(this.testing && !isFinished){
+                fn.call(this, t + 1, d);
+            }
+        }.bind(this);
+        animation.startTime = new Date().getTime();
+        fn.call(this, 1, Math.ceil(duration / this.animationRate));
+    },
+    
+    next:function(anim){
+        var index = this._queue[anim.id].indexOf(anim);
+        if(index >= 0){
+            this._queue[anim.id].splice(index,1);
+        }
+
+        if(this._queue[anim.id].length > 0){
+            this.fn(this._queue[anim.id][0]);
+        }
+    }
+
+
+});
+
+ludo.svgAnimation = new ludo.svg.Animation();
+
+
+/**
+ * Easing methods for SVG animations.
+ *
+ * To see how the different functions work, see the <a href="../demo/svg/animation.php">SVG animation demo</a>.
+ *
+ * @class ludo.svg.easing
+ * @example
+ * circle.animate({
+ *      cx : 100, cy: 100, r: 10
+ * }, {
+ *      duration: 200,
+ *      easing: ludo.svg.easing.outCubic,
+ *      complete: function(){ console.log('finished') }
+ * });
+ */
+
+
+ludo.svg.easing = {
+
+    /**
+     *
+     * @function linear
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body,
+     *      layout:{
+     *          width:'matchParent', height:'matchParent'
+     *      }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50 });
+     * circle.css('fill', '#ff0000');
+     * svg.append(circle);
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.linear
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    linear: function (t, b, c, d) {
+        return c * t / d + b;
+    },
+
+    /**
+     * inQuad easing functions
+     * @function inQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inQuad: function (t, b, c, d) {
+        t /= d;
+        return c * t * t + b;
+    },
+
+    /**
+     * outQuad easing functions
+     * @function outQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outQuad: function (t, b, c, d) {
+        t /= d;
+        return -c * t * (t - 2) + b;
+    },
+
+    /**
+     * inOutQuad easing functions
+     * @function inOutQuad
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuad
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutQuad: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t + b;
+        t--;
+        return -c / 2 * (t * (t - 2) - 1) + b;
+    },
+
+    /**
+     * inCubic easing functions
+     * @function inCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inCubic: function (t, b, c, d) {
+        t /= d;
+        return c * t * t * t + b;
+    },
+
+    /**
+     * outCubic easing functions
+     * @function outCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outCubic: function (t, b, c, d) {
+        t /= d;
+        t--;
+        return c * (t * t * t + 1) + b;
+    },
+
+    /**
+     * inOutCubic easing functions
+     * @function inOutCubic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutCubic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutCubic: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t + 2) + b;
+    },
+
+    /**
+     * inQuart easing functions
+     * @function inQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inQuart: function (t, b, c, d) {
+        t /= d;
+        return c * t * t * t * t + b;
+    },
+
+    /**
+     * outQuart easing functions
+     * @function outQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outQuart: function (t, b, c, d) {
+        t /= d;
+        t--;
+        return -c * (t * t * t * t - 1) + b;
+    },
+
+    /**
+     * inOutQuart easing functions
+     * @function inOutQuart
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuart
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutQuart: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t * t + b;
+        t -= 2;
+        return -c / 2 * (t * t * t * t - 2) + b;
+    },
+
+    /**
+     * inQuint easing functions
+     * @function inQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inQuint: function (t, b, c, d) {
+        t /= d;
+        return c * t * t * t * t * t + b;
+    },
+
+    /**
+     * outQuint easing functions
+     * @function outQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outQuint: function (t, b, c, d) {
+        t /= d;
+        t--;
+        return c * (t * t * t * t * t + 1) + b;
+    },
+
+    /**
+     * inOutQuint easing functions
+     * @function inOutQuint
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutQuint
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutQuint: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t * t * t + 2) + b;
+    },
+
+    /**
+     * inSine easing functions
+     * @function inSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inSine: function (t, b, c, d) {
+        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+    },
+
+    /**
+     * outSine easing functions
+     * @function outSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outSine: function (t, b, c, d) {
+        return c * Math.sin(t / d * (Math.PI / 2)) + b;
+    },
+
+    /**
+     * outSine easing functions
+     * sinusoidal easing in/out - accelerating until halfway, then decelerating
+     * @function outSine
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outSine
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutSine: function (t, b, c, d) {
+        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+    },
+
+
+    /**
+     * inExpo easing functions
+     * exponential easing in - accelerating from zero velocity
+     * @function inExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inExpo: function (t, b, c, d) {
+        return c * Math.pow(2, 10 * (t / d - 1)) + b;
+    },
+
+    /**
+     * outExpo easing functions
+     * exponential easing out - decelerating to zero velocity
+     * @function outExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outExpo: function (t, b, c, d) {
+        return c * ( -Math.pow(2, -10 * t / d) + 1 ) + b;
+    },
+
+
+    /**
+     * inOutExpo easing functions
+     * exponential easing in/out - accelerating until halfway, then decelerating
+     * @function inOutExpo
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutExpo
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutExpo: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+        t--;
+        return c / 2 * ( -Math.pow(2, -10 * t) + 2 ) + b;
+    },
+
+    /**
+     * inCirc easing functions
+     * circular easing in - accelerating from zero velocity
+     * @function inCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inCirc: function (t, b, c, d) {
+        t /= d;
+        return -c * (Math.sqrt(1 - t * t) - 1) + b;
+    },
+
+
+    /**
+     * outCirc easing functions
+     * circular easing out - decelerating to zero velocity
+     * @function outCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    outCirc: function (t, b, c, d) {
+        t /= d;
+        t--;
+        return c * Math.sqrt(1 - t * t) + b;
+    },
+
+    /**
+     * inOutCirc easing functions
+     * circular easing in/out - acceleration until halfway, then deceleration
+     * @function inOutCirc
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.inOutCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    inOutCirc: function (t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+        t -= 2;
+        return c / 2 * (Math.sqrt(1 - t * t) + 1) + b;
+    },
+
+    /**
+     * bounce easing functions
+     * @function bounce
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.bounce
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    bounce: function (t, b, c, d) {
+        var progress = t / d;
+        progress = 1 - ludo.svg.easing._bounce(1 - progress);
+        return c * progress + b;
+    },
+
+    /**
+     * bounce easing functions
+     * @function bounce
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.outCirc
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    bow:function(t,b,c,d){
+        var progress = ludo.svg.easing._bow(t/d, 1.5);
+        return c * progress + b;
+    },
+
+    /**
+     * elastic easing functions
+     * @function elastic
+     * @memberof ludo.svg.easing
+     * @example
+     * var v = new ludo.View({
+     *      renderTo: document.body, layout:{ width:'matchParent', height:'matchParent'  }
+     * });
+     * var svg = v.svg();
+     *
+     * var circle = svg.$('circle', { cx: 100, cy: 100, r: 50, fill: '#ff0000' });
+     * svg.append(circle);
+     *
+     * circle.animate({
+     *      cx:300, cy: 200
+     * },{
+     *      easing: ludo.svg.easing.elastic
+     *      duration: 1000,
+     *      complete:function(){
+     *          console.log('completed');
+     *   }
+     * });
+     */
+    elastic:function(t,b,c,d){
+        var progress = ludo.svg.easing._elastic(t/d, 1.5);
+        return c * progress + b;
+    },
+
+    _elastic:function(progress, x){
+        return Math.pow(2, 10 * (progress-1)) * Math.cos(20*Math.PI*x/3*progress)
+
+    },
+
+    _bounce: function (progress) {
+        for(var a = 0, b = 1; 1; a += b, b /= 2) {
+            if (progress >= (7 - 4 * a) / 11) {
+                return -Math.pow((11 - 6 * a - 11 * progress) / 4, 2) + Math.pow(b, 2);
+            }
+        }
+    },
+
+    _bow:function(progress, x){
+        return Math.pow(progress, 2) * ((x + 1) * progress - x)
+
+    }
+
+
+};
+/* ../ludojs/src/layout/factory.js */
 /**
  * Factory class for layout managers
  * @namespace ludo.layout
@@ -7871,6 +9378,113 @@ ludo.layout.Relative = new Class({
 		child.on('expand', this.clearTemporaryValues.bind(this));
 		child.on('maximize', this.clearTemporaryValues.bind(this));
 	}
+});/* ../ludojs/src/layout/canvas.js */
+/**
+ * Layout manager for items in a chart
+ * @namespace chart
+ * @class ludo.layout.Canvas
+ * @augments layout.Relative
+ */
+ludo.layout.Canvas = new Class({
+    Extends: ludo.layout.Relative,
+    type:'layout.Canvas',
+
+    addChild: function (child) {
+
+
+        child = this.getValidChild(child);
+        child = this.getNewComponent(child);
+
+
+        this.view.children.push(child);
+
+        var p = child.parentNode ? this.view : this.view.svg();
+
+        p.append(child);
+
+        this.onNewChild(child);
+        this.addChildEvents(child);
+
+        this.fireEvent('addChild', [child, this]);
+
+
+        return child;
+    },
+
+    /**
+     * Add events to child view
+     * @function addChildEvents
+     * @param {ludo.View} child
+     * @private
+     */
+    addChildEvents: function (child) {
+        child.on('hide', this.hideChild.bind(this));
+        child.on('show', this.clearTemporaryValues.bind(this));
+
+    },
+
+    /**
+     * Position child at this coordinates
+     * @function positionChild
+     * @param {canvas.View} child
+     * @param {String} property
+     * @param {Number} value
+     * @private
+     */
+    positionChild: function (child, property, value) {
+
+        child[property] = value;
+        this.currentTranslate[property] = value;
+        child.position(this.currentTranslate.left, this.currentTranslate.top);
+    },
+
+    currentTranslate: {
+        left: 0, top: 0
+    },
+
+    zIndexAdjusted: false,
+    _rendered: false,
+
+    resize: function () {
+        this.parent();
+
+
+        if (!this.zIndexAdjusted) {
+            this.zIndexAdjusted = true;
+
+            for (var i = 0; i < this.children.length; i++) {
+                if (this.children[i].layout.zIndex != undefined) {
+                    // TODO this needs to be refactored
+                    var p = this.view.parentNode ? this.view.parentNode: this.view.svg();
+                    p.append(this.children[i]);
+                }
+            }
+        }
+
+        if (!this._rendered) {
+            this._rendered = true;
+            jQuery.each(this.view.children, function (i, child) {
+                if (child.__rendered != undefined) {
+                    child.__rendered();
+                }
+            });
+        }
+
+    },
+
+    getAvailWidth: function () {
+        if (!this.view.parentNode)return this.parent();
+        return this.view.width;
+    },
+
+    getAvailHeight: function () {
+        if (!this.view.parentNode)return this.parent();
+        return this.view.height;
+    },
+
+    getParentForNewChild: function () {
+        return this.view.node;
+    }
 });/* ../ludojs/src/layout/linear.js */
 /**
  * Superclass for the linear vertical and linear horizontal layout.
@@ -20738,8 +22352,8 @@ chess.view.board.GUI = new Class({
     stml: undefined,
 
     updateSTM: function () {
-        var c = this.controller && this.controller.currentModel ? this.controller.currentModel.turn() : undefined;
-        if (c != this.stml) {
+        var c = this.controller.colorToMove();
+        if (c !== this.stml) {
             var pre = 'dhtml-chess-side-to-move-';
             var i = this.els.sideToMove;
             i.removeClass(pre + 'white');
@@ -21306,7 +22920,7 @@ chess.view.board.Board = new Class({
     type: 'chess.view.board.Board',
     pieces: [],
     pieceMap: {},
-
+    instructorMode: false,
 
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     /**
@@ -21358,11 +22972,72 @@ chess.view.board.Board = new Class({
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
+    inAltMode: false,
+    posOnDown: undefined,
+
     __rendered: function () {
         this.createPieces();
         this.showFen(this.fen);
         this.parent();
+
+
+        var el = this.getEl();
+        var doc = jQuery(document.documentElement);
+
+        el.on("click", function (evt) {
+            var pos = evt.pageX + evt.pageY;
+            if (Math.abs(pos - this.posOnDown) <= 2) {
+                this.fireDomEvent("clickSquare", evt);
+            }
+        }.bind(this));
+
+        el.on("mousedown", this.onDown.bind(this));
+
+        doc.on("mouseup", function (evt) {
+            if (this.inAltMode) {
+                this.fireDomEvent("arrowEnd", evt);
+                this.inAltMode = false;
+            }
+        }.bind(this));
+
+        doc.on("mousemove", function (evt) {
+            if (this.inAltMode) {
+                this.fireDomEvent("arrowMove", evt);
+            }
+        }.bind(this));
     },
+
+    onDown: function (evt) {
+        this.posOnDown = evt.pageX + evt.pageY;
+        if (evt.altKey) {
+            this.inAltMode = true;
+            this.fireDomEvent("arrowStart", evt);
+        }
+    },
+
+    fireDomEvent: function (eventeName, evt) {
+        var b = this.getBoard();
+        var p = b.offset();
+        var w = b.width() / 8;
+        var x = evt.pageX - p.left;
+        var y = evt.pageY - p.top;
+        x = Math.floor(x / w);
+        y = Math.floor(y / w);
+
+        if (x > 7 || x < 0 || y > 7 || y < 0) return;
+
+        var files = 'abcdefgh';
+        var ranks = '87654321';
+
+        if (this.flipped) {
+            x = 7 - x;
+            y = 7 - y;
+        }
+        var square = files.charAt(x) + ranks.charAt(y);
+
+        this.fireEvent(eventeName, [square, evt]);
+    },
+
 
     createPieces: function () {
         var flipped = this.isFlipped();
@@ -21457,6 +23132,16 @@ chess.view.board.Board = new Class({
     clearHighlightedSquares: function () {
         this.fireEvent('clearHighlight', this);
     },
+
+    enableInstructorMode: function () {
+        this.instructorMode = true;
+        this.ddEnabled = true;
+        this.currentValidMoves = this.positionParser.getFullSquareMap();
+        this.pieces.forEach(function (piece) {
+            piece.enableDragAndDrop()
+        });
+    },
+
     /**
      * Enable drag and drop feature of the board. It expects a game model as first argument.
      * When connected to a controller event, the controller always sends current game model as
@@ -21641,6 +23326,8 @@ chess.view.board.Board = new Class({
         for (var j = i; j < this.pieces.length; j++) {
             this.pieces[j].hide();
         }
+
+        this.fireEvent("fen", fen);
     },
     /**
      * Return number of visible pieces on the board
@@ -21697,14 +23384,59 @@ chess.view.board.Board = new Class({
         this.fireEvent('clearboard', this);
     },
 
-    makeMove: function (move) {
+    makeMove: function (move, piece) {
+
+        if (move.from === move.to) return;
+
+        if (this.instructorMode) {
+            var p = this.getPieceOnSquare(move.to);
+            if (p && p !== piece) {
+                p.hide();
+            }
+            var s = Board0x88Config.mapping[move.to];
+            var f = Board0x88Config.mapping[move.from];
+            this.pieceMap[f] = undefined;
+            this.pieceMap[s] = piece;
+            piece.square = Board0x88Config.mapping[move.to];
+        }
+
         /**
          * Event fired when a piece is moved from one square to another
          * @event move
          * @param Object move, example: { from: "e2", to: "e4" }
          */
-        this.fireEvent('move', move);
+
+        this.fireEvent('move', [move, piece]);
     },
+
+    buildFen: function () {
+        var squares = Board0x88Config.fenSquaresNumeric;
+        var emptyCounter = 0;
+        var ret = "";
+        for (var i = 0; i < squares.length; i++) {
+            var square = squares[i];
+            var p = this.pieceMap[square];
+
+            if (i && i % 8 === 0) {
+                if (emptyCounter) ret += emptyCounter;
+                ret += "/";
+                emptyCounter = 0;
+            }
+
+            if (p) {
+                var t = p.getTypeCode();
+                if (p.color === "white") t = t.toUpperCase();
+                if (emptyCounter) ret += emptyCounter;
+                ret += t;
+                emptyCounter = 0;
+            } else {
+
+                emptyCounter++;
+            }
+        }
+        return ret;
+    },
+
     getValidMovesForPiece: function (piece) {
         return this.currentValidMoves[piece.square] || [];
     },
@@ -21848,12 +23580,12 @@ chess.view.board.Piece = new Class({
     },
 
 
-    setPieceLayout:function(layout){
+    setPieceLayout: function (layout) {
         this.pieceLayout = layout;
         this.svg = this.pieceLayout.indexOf('svg') === 0;
         this.extension = this.svg ? 'svg' : 'png';
         this.bgUpdated = false;
-        if(this.el){
+        if (this.el) {
             this.updateBackgroundImage();
         }
     },
@@ -21952,6 +23684,8 @@ chess.view.board.Piece = new Class({
      */
     initDragPiece: function (e) {
 
+        if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return;
+
         if (this.ddEnabled) {
             this.increaseZIndex();
             this.validTargetSquares = this.board.getValidMovesForPiece(this);
@@ -21959,7 +23693,7 @@ chess.view.board.Piece = new Class({
             var pos = this.el.position();
             this.el.css({
                 left: pos.left,
-                top : pos.top
+                top: pos.top
             });
             var p = ludo.util.pageXY(e);
             this.dd = {
@@ -21968,6 +23702,7 @@ chess.view.board.Piece = new Class({
                 el: {x: pos.left, y: pos.top},
                 current: ludo.util.pageXY(e)
             };
+            if(this.board)this.board.onDown(e);
             return false;
         }
         return undefined;
@@ -22016,10 +23751,10 @@ chess.view.board.Piece = new Class({
 
             if (this.validTargetSquares.indexOf(square) >= 0) {
                 this.position(square);
-                this.fireEvent('move', {
+                this.fireEvent('move', [{
                     from: Board0x88Config.numberToSquareMapping[this.square],
-                    to: Board0x88Config.numberToSquareMapping[square]
-                });
+                    to: Board0x88Config.numberToSquareMapping[square],
+                }, this]);
             } else {
                 this.position();
             }
@@ -22093,10 +23828,10 @@ chess.view.board.Piece = new Class({
 
         if (this.svg && !this.bgUpdated) {
             this.el.css({
-                'background-size' :'100% 100%',
+                'background-size': '100% 100%',
                 '-moz-background-size': 'cover',
                 '-o-background-size': 'cover',
-                '-webkit-background-size' :'cover'
+                '-webkit-background-size': 'cover'
 
             });
         }
@@ -22109,7 +23844,7 @@ chess.view.board.Piece = new Class({
      * @param {Number} squareSize
      */
     resize: function (squareSize) {
-        if(this.svg){
+        if (this.svg) {
             this.size = squareSize;
             this.updateBackgroundImage();
             return;
@@ -22940,7 +24675,7 @@ chess.view.highlight.ArrowPool = new Class({
         }.bind(this));
         this.pool = [];
         this.bg.hide();
-
+        return this;
     },
 
     getArrow: function () {
@@ -23003,15 +24738,33 @@ chess.view.highlight.ArrowPool = new Class({
 chess.view.board.ArrowNode = new Class({
     Extends: ludo.svg.Node,
 
+    _fromSquare: undefined,
+    _toSquare: undefined,
+    _bs: undefined,
+    _flip: undefined,
+
     initialize: function (properties) {
         this.parent('path', properties);
     },
 
-    showArrow:function(fromSquare, toSquare, boardSize, flip){
-        this.set('d', chess.util.CoordinateUtil.arrowPath(fromSquare, toSquare, {}, boardSize, flip));
+    showArrow: function (fromSquare, toSquare, boardSize, flip) {
+        this._fromSquare = fromSquare;
+        this._toSquare = toSquare;
+        this._bs = boardSize;
+        this._flip = flip;
+        this._update();
+    },
+
+    setTo: function (square) {
+        this._toSquare = square;
+        this._update();
+    },
+
+    _update: function () {
+        this.set('d', chess.util.CoordinateUtil.arrowPath(this._fromSquare, this._toSquare, {}, this._bs, this._flip));
     }
-    
-    
+
+
 });/* ../dhtml-chess/src/view/highlight/square-pool.js */
 chess.view.highlight.SquarePool = new Class({
 
@@ -23027,6 +24780,8 @@ chess.view.highlight.SquarePool = new Class({
     colorMap: undefined,
     onlySingles: false,
     autoToggle: false,
+    circular: false,
+
 
     initialize: function (config) {
         this.bg = config.board.hitArea();
@@ -23034,7 +24789,7 @@ chess.view.highlight.SquarePool = new Class({
         if (config.opacity !== undefined) this.opacity = config.opacity;
         if (config.onlySingles !== undefined) this.onlySingles = config.onlySingles;
         if (config.autoToggle !== undefined) this.autoToggle = config.autoToggle;
-
+        if (config.circular !== undefined) this.circular = config.circular;
         this.board.on('flip', this.flip.bind(this));
         this.items = [];
         this.hiddenItems = [];
@@ -23049,6 +24804,7 @@ chess.view.highlight.SquarePool = new Class({
             var s = this.visibleItems.pop();
             this._hide(s);
         }
+        return this;
     },
 
     toggle: function (square, color) {
@@ -23092,7 +24848,8 @@ chess.view.highlight.SquarePool = new Class({
 
     lastBgColor: function () {
         if (this.lastSquare) {
-            return this.lastSquare.el.css('background-color');
+            var el = this.lastSquare.el;
+            return this.circular ? el.css("border-color") : el.css("background-color");
         }
     },
 
@@ -23102,11 +24859,17 @@ chess.view.highlight.SquarePool = new Class({
         if (isShown && this.autoToggle) {
             var sameColor = this.colorMap[square] === color;
             this.hide(square);
-            if (sameColor)return;
+            if (sameColor) return;
         }
 
         if (this.onlySingles && isShown) {
-            if (color) this.map[square][0].el.css('background-color', color);
+            if (color) {
+                if (this.circular) {
+                    this.map[square][0].el.css('border', "5px solid " + color);
+                } else {
+                    this.map[square][0].el.css('background-color', color);
+                }
+            }
             return;
         }
         var s = this.getSquare();
@@ -23123,12 +24886,20 @@ chess.view.highlight.SquarePool = new Class({
             left: pos.x, top: pos.y
         });
         if (color) {
-            s.el.css('background-color', color);
+            if (this.circular) {
+                s.el.css('border', "5px solid " + color);
+                s.el.css('background-color', "transparent");
+            } else {
+                s.el.css('background-color', color);
+            }
+
         }
         s.el.show();
         s.square = square;
 
         this.lastSquare = s;
+
+        return this;
     },
 
     isShown: function (square) {
@@ -23180,6 +24951,11 @@ chess.view.highlight.SquarePool = new Class({
         }
         var square = jQuery('<div class="dhtml-chess-highlight-square" style="box-sizing:border-box !important;position:absolute;width:12.5%;height:12.5%"></div>');
         this.bg.append(square);
+
+        if (this.circular) {
+            square.css("border-radius", 999);
+        }
+
         var obj = {
             square: undefined,
             el: square
@@ -23770,7 +25546,7 @@ chess.view.buttonbar.Bar = new Class({
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
         this.enButtons(['end', 'next']);
-        if (!model.isInAutoPlayMode()) {
+        if (model && !model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
         }
@@ -24711,7 +26487,333 @@ chess.view.pgn.Grid = new Class({
 
         this.fireEvent('selectPgn', record.file);
     }
-});/* ../dhtml-chess/src/action/handler.js */
+});/* ../dhtml-chess/src/view/score/bar.js */
+
+/**
+ * Created by alfmagne1 on 29/12/2016.
+ */
+
+chess.view.score.Bar = new Class({
+    Extends: ludo.View,
+    submodule : "score.Bar",
+    borderRadius: undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
+        this.layout.type = 'Canvas';
+    },
+
+    __children: function () {
+        return [
+            {
+                name: 'scoreBar',
+                type: 'chess.view.score.BarBackground',
+                layout: {
+                    height: 'matchParent',
+                    width: 'matchParent'
+                },
+                borderRadius: this.borderRadius,
+                whiteColor: this.whiteColor,
+                blackColor: this.blackColor,
+                markerColor: this.markerColor,
+                markerTextColor: this.markerTextColor,
+                stroke: this.stroke,
+                range: this.range
+            }
+
+        ]
+    },
+
+    setScore: function (score) {
+        this.child['scoreBar'].setScore(score);
+    }
+
+});
+
+chess.view.score.BarBackground = new Class({
+    Extends: ludo.svg.Group,
+    range: 3,
+    backgroundB: undefined,
+    backgroundW: undefined,
+
+    markerGroup: undefined,
+    marker: undefined,
+
+    textNode: undefined,
+    borderRadius: undefined,
+
+    score: 0,
+
+    scoreRectGroups: undefined,
+    scoreRects: undefined,
+    scoreRectTexts: undefined,
+
+    strokeRect: undefined,
+
+    debugCircle: undefined,
+
+    whiteColor: '#d2d2d2',
+    blackColor: '#333333',
+
+    markerColor: '#B71C1C',
+    markerTextColor: '#FFFFFF',
+    stroke: '#ddd',
+
+    __construct: function (config) {
+        this.parent(config);
+        this.__params(config, ['borderRadius', 'whiteColor', 'blackColor', 'markerColor', 'markerTextColor', 'stroke', 'range']);
+    },
+
+    __rendered: function () {
+
+        this.backgroundW = this.$('path');
+        this.backgroundW.css('fill', this.whiteColor);
+        this.append(this.backgroundW);
+
+        this.backgroundB = this.$('path');
+        this.backgroundB.css('fill', this.blackColor);
+        this.append(this.backgroundB);
+
+        this.createScoreRects();
+
+        this.markerGroup = this.$('g');
+        this.append(this.markerGroup);
+
+        this.marker = this.$('path');
+        this.markerGroup.append(this.marker);
+        this.marker.css('fill', this.markerColor);
+
+        this.textNode = this.$('text');
+        this.textNode.set('text-anchor', 'middle');
+        this.textNode.text("0,0");
+        this.textNode.css('fill', this.markerTextColor);
+        this.markerGroup.append(this.textNode);
+
+
+        this.textNode.attr('alignment-baseline', 'central');
+
+
+        this.strokeRect = this.$('path');
+        this.strokeRect.css('fill-opacity', 0);
+        this.strokeRect.css('stroke', this.stroke);
+        this.append(this.strokeRect);
+
+
+        this.markerGroup.toFront();
+
+
+        this.resizeItems();
+
+        this.updateScore();
+
+    },
+
+    createScoreRects: function () {
+        var colorUtil = new ludo.color.Color();
+
+        this.scoreRects = [];
+        this.scoreRectGroups = [];
+        this.scoreRectTexts = [];
+
+        var s = this.scoreArea();
+
+        var fill = colorUtil.offsetBrightness(this.whiteColor, -(this.range * 15));
+        var score = this.range;
+        var x = this.scoreAreaStart();
+
+
+        var textFill = this.blackColor;
+        for (var i = 0; i < this.range * 2; i++) {
+
+            if (i == this.range) {
+                fill = colorUtil.offsetBrightness(this.blackColor, (this.range * 10));
+                textFill = this.whiteColor;
+            }
+
+            var index = i % this.range;
+            var fillOpacity = i >= this.range ? this.range - 1 - index : index;
+            fillOpacity = (fillOpacity / this.range) / (this.range / 3);
+
+            var g = this.$('g');
+            this.append(g);
+
+            var h = (this.height / 2) - (this.height * i / 24);
+
+            var r = this.$('rect', {x: 0, y: 0, height: h, width: s / (this.range * 2)});
+            r.css('fill-opacity', fillOpacity);
+            r.css('fill', fill);
+
+            g.append(r);
+
+            var t = this.$('text');
+            t.set('text-anchor', i < this.range ? 'start' : 'end');
+            t.set('font-size', this.height / 4);
+            t.set('x', s / 6);
+            t.css('fill', textFill);
+            t.attr('alignment-baseline', 'after-edge');
+
+            t.text(score);
+            g.append(t);
+
+            this.scoreRectGroups.push(g);
+            this.scoreRects.push(r);
+            this.scoreRectTexts.push(t);
+
+            g.setTranslate(x, 0);
+
+            x += s / 6;
+
+            score--;
+            if (score == 0)score = -1;
+        }
+
+        this.scoreRectGroups[2].toFront();
+        this.scoreRectGroups[3].toFront();
+        this.scoreRectGroups[5].toFront();
+        this.scoreRectGroups[4].toFront();
+    },
+
+    resizeRects: function () {
+
+        var s = this.scoreArea();
+        var x = this.scoreAreaStart();
+        var ah = this.scoreRectWidth();
+
+        var w = s / 2;
+        var t = (this.range * 2);
+
+        for (var i = 0; i < this.range * 2; i++) {
+            var index = i % this.range;
+            if (i == this.range)w = s / t;
+            if (i >= this.range)index = this.range - 1 - index;
+
+            var h = (ah) - (this.height * index / t);
+
+            w = Math.max(w, 10);
+            h = Math.max(h, 10);
+
+            this.scoreRectGroups[i].setTranslate(x, ah - h);
+            this.scoreRects[i].set('width', w);
+            this.scoreRects[i].set('height', h);
+            this.scoreRectTexts[i].set('x', i >= this.range ? w - 2 : 2);
+            this.scoreRectTexts[i].set('y', h - 1);
+
+            if (i < this.range) {
+                w -= s / t;
+                x += s / t;
+            } else {
+                w += s / t;
+            }
+        }
+    },
+
+    scoreAreaStart: function () {
+        return this.height / 2;
+    },
+    scoreArea: function () {
+        return this.width - this.height;
+    },
+
+    scoreRectWidth: function () {
+        return this.height * 0.7;
+    },
+
+    resize: function (size) {
+        this.parent(size);
+        if (this.backgroundB) {
+            this.resizeItems();
+        }
+    },
+
+    xPos: function () {
+        var size = this.scoreArea();
+        var s = ludo.util.clamp(this.score, -this.range, this.range);
+        return (this.width / 2) + (-s * size / (this.range * 2));
+    },
+
+    lastScore: undefined,
+
+    updateScore: function () {
+
+        if (this.score !== this.lastScore) {
+            this.textNode.text(Math.abs(this.score).toFixed(1));
+            this.markerGroup.animate({
+                translate: [this.xPos(), 0]
+            });
+            this.lastScore = this.score;
+        }
+        this.updateScore.delay(500, this);
+    },
+
+    resizeItems: function () {
+        var c = this.width / 2;
+        var h = this.scoreRectWidth();
+        var r = this.borderRadius ? this.borderRadius : h / 2;
+
+        var right = this.width - r;
+        var left = r;
+
+        var p = ['M', left, 0,
+            'L', c, 0, c, h, left, h,
+            'A', r, r, 0, 0, 1, 0, h - r,
+            'L', 0, r,
+            'A', r, r, 0, 0, 1, left, 0];
+
+        this.backgroundW.set('d', p.join(' '));
+
+        p = ['M', c, 0,
+            'L', right, 0,
+            'A', r, r, 0, 0, 1, this.width, r,
+            'L', this.width, h - r,
+            'A', r, r, 0, 0, 1, right, h,
+            'L', c, h, c, 0];
+
+        this.backgroundB.set('d', p.join(' '));
+
+
+        p = ['M', left, 0,
+            'L', right, 0,
+            'A', r, r, 0, 0, 1, this.width, r,
+            'L', this.width, h - r,
+            'A', r, r, 0, 0, 1, right, h,
+            'L', left, h,
+            'A', r, r, 0, 0, 1, 0, h - r,
+            'L', 0, r,
+            'A', r, r, 0, 0, 1, left, 0
+
+        ];
+        
+        this.strokeRect.set('d', p.join(' '));
+
+        r = h / 2;
+        p = [
+            'M', 0, 0, 'L', -r / 2, r, 'A', r, r, 0, 1, 0, r / 2, r, 'L', 0, 0
+        ];
+
+        this.marker.set('d', p.join(' '));
+
+        this.markerGroup.setTranslate(this.xPos(), 0);
+        this.textNode.setTranslate(0, (r / 2) + this.height / 2);
+        this.textNode.css('font-size', r / 1.5);
+        this.textNode.css('line-height', r / 1.5);
+
+        this.resizeRects();
+
+    },
+
+    setScore: function (score) {
+        if (jQuery.type(score) == 'string' && score.indexOf('#') != -1) {
+            score = score.replace(/[^0-9\-]/g, '');
+            score = parseInt(score) * 100;
+        }
+        score = ludo.util.clamp(score, -100, 100);
+        this.score = Math.round(score * 10) / 10;
+    }
+});
+
+
+/* ../dhtml-chess/src/action/handler.js */
 chess.action.Handler = new Class({
 
     board: undefined,
@@ -25347,553 +27449,569 @@ Board0x88Config = {
  @constructor
  @param {String} fen
  @example
- 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
- 	console.log(parser.getValidMovesAndResult('white'));
+ var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+ console.log(parser.getValidMovesAndResult('white'));
 
  */
 chess.parser.FenParser0x88 = new Class({
 
-    madeMoves:[],
-	
-	bc: Board0x88Config,
-	lan: undefined,
+    madeMoves: [],
 
-	initialize:function (fen) {
-    	this.lan = chess.language.pieces;
-		if (fen) {
-			this.setFen(fen);
-		}
-	},
+    bc: Board0x88Config,
+    lan: undefined,
 
-	/**
-	 * Set a new position
-	 * @method setFen
-	 * @param {String} fen
-	 */
-	setFen:function (fen) {
-		this.c = {
-            fenParts: {},
-			'board':[],
-			'white':[],
-			'black':[],
-			'whiteSliding':[],
-			'blackSliding':[],
-			'k':{ 'white':undefined, 'black':'undefined'}
-		};
-		this.fen = fen;
-		this.updateFenArray(fen);
-		this.parseFen();
-        this.madeMoves = [];
-	},
+    initialize: function (fen) {
+        this.lan = chess.language.pieces;
+        if (fen) {
+            this.setFen(fen);
+        }
+    },
 
-	updateFenArray:function () {
-		var fenParts = this.fen.split(' ');
-
-		this.c.fenParts = {
-			'pieces':fenParts[0],
-			'color':fenParts[1],
-			'castleCode':this.bc.castleToNumberMapping[fenParts[2]],
-			'enPassant':fenParts[3],
-			'halfMoves':fenParts[4],
-			'fullMoves':fenParts[5]
-		};
-	},
-
-	/**
-	 * Parses current fen and stores board information internally
-	 * @method parseFen
-	 */
-	parseFen:function () {
-		var pos = 0;
-
-		var squares = this.bc.fenSquares;
-		var index, type, piece;
-		for (var i = 0, len = this.c.fenParts['pieces'].length; i < len; i++) {
-			var token = this.c.fenParts['pieces'].substr(i, 1);
-
-			if (this.bc.fenPieces[token]) {
-				index = this.bc.mapping[squares[pos]];
-				type = this.bc.pieces[token];
-				piece = {
-					t:type,
-					s:index
-				};
-				// Board array
-				this.c['board'][index] = type;
-
-				// White and black array
-				this.c[this.bc.colorMapping[token]].push(piece);
-
-				// King array
-				if (this.bc.typeMapping[type] == 'k') {
-					this.c['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
-				}
-				pos++;
-			} else if (i < len - 1 && this.bc.numbers[token]) {
-				var token2 = this.c.fenParts['pieces'].substr(i + 1, 1);
-				if (!isNaN(token2)) {
-					token = [token, token2].join('');
-				}
-				pos += parseInt(token);
-			}
-		}
-
-	},
-
-	/**
-	 * Return all pieces on board
-	 * @method getPieces
-	 * @return {Array} pieces
-	 */
-	getPieces:function () {
-		return this.c['white'].append(this.c['black']);
-	},
-
-	/**
-	 Return king of a color
-	 @method getKing
-	 @param color
-	 @return {Object} king
-	 @example
-		var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-		var parser = new chess.parser.FenParser0x88(fen);
-		console.log(parser.getKing('white'));
-	 returns an object containing the properties s for square and t for type.
-	 both are numeric according to the 0x88 board.
-	 */
-	getKing:function (color) {
-		return this.c['k' + color];
-	},
-
-	/**
-	 Returns pieces of a color
-	 @method getPiecesOfAColor
-	 @param color
-	 @return {Array}
-	 @example
-	 	var parser = new chess.parser.FenParser0x88('5k2/8/8/3pP3/8/8/8/7K w - d6 0 1');
-	 	var pieces = parser.getPiecesOfAColor('white');
-	 	console.log(pieces);
-	 each piece is represented by an object like this:
-	 @example
-	 	{
-	 		s : 112,
-	 		t : 14
-	 	}
-	 where s is square and type is type. s is numeric according to the 0x88 chess board where
-	 a1 is 0, a2 is 16, b2 is 17, a3 is 32, i.e. a 128x64 square board.
-
-	 t is a numeric representation(4 bits).
-	 @example
-		 P : 0001
-		 N : 0010
-		 K : 0011
-		 B : 0101
-		 R : 0110
-		 Q : 0111
-		 p : 1001
-		 n : 1010
-		 k : 1011
-		 b : 1101
-		 r : 1100
-		 q : 1100
-
-	 As you can see, black pieces all have the first bit set to 1, and all the sliding pieces
-	 (bishop, rook and queen) has the second bit set to 1. This makes it easy to to determine color
-	 and sliding pieces using the bitwise & operator.
-	 */
-	getPiecesOfAColor:function (color) {
-		return this.c[color]
-	},
-
-	/**
-	 @method getEnPassantSquare
-	 @return {String|null}
-	 @example
-	 	var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
-	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	alert(parser.getEnPassantSquare()); // alerts 'd6'
-	 */
-	getEnPassantSquare:function () {
-		var enPassant = this.c.fenParts['enPassant'];
-		if (enPassant != '-') {
-			return enPassant;
-		}
-		return undefined;
-	},
-	setEnPassantSquare:function (square) {
-		this.c.fenParts['enPassant'] = square;
-	},
-
-	getSlidingPieces:function (color) {
-		return this.c[color + 'Sliding'];
-	},
-
-	getHalfMoves:function () {
-		return this.c.fenParts['halfMoves'];
-	},
-
-	getFullMoves:function () {
-		return this.c.fenParts['fullMoves'];
-	},
-
-	canCastleKingSide:function (color) {
-		var code = color === 'white' ? this.bc.castle['K'] : this.bc.castle['k'];
-		return this.c.fenParts.castleCode & code;
-	},
-
-	canCastleQueenSide:function (color) {
-		var code = color === 'white' ? this.bc.castle['Q'] : this.bc.castle['q'];
-		return this.c.fenParts.castleCode & code;
-	},
-
-	getColor:function () {
-		return this.bc.colorAbbreviations[this.c.fenParts['color']];
-	},
-
-	getColorCode:function () {
-		return this.c.fenParts['color'];
-	},
-
-	/**
-	 Return information about piece on square in human readable format
-	 @method getPieceOnSquare
-	 @param {Number} square
-	 @return {Object}
-	 @example
-	 	var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-	 	var parser = new chess.parser.FenParser0x88(fen);
-	 	console.log(parser.getPieceOnSquare(this.bc.mapping['e2']));
-	 will return an object like this:
-	 @example
-	 	{
-	 		"square": "e2",
-	 		"type": 'p',
-	 		"color": "white",
-	 		"sliding": 0
-	 	}
-	 */
-	getPieceOnSquare:function (square) {
-		var piece = this.c['board'][square];
-		if (piece) {
-			return {
-				square:this.bc.numberToSquareMapping[square],
-				type:this.bc.typeMapping[piece],
-				color:(piece & 0x8) > 0 ? 'black' : 'white',
-				sliding:(piece & 0x4) > 0
-			}
-		}
-		return undefined;
-	},
-
-	getPieceTypeOnSquare:function (square) {
-		return this.c['board'][square];
-	},
-	/**
-	 * Returns true if two squares are on the same rank. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
-	 @method isOnSameRank
-	 @param {Number} square1
-	 @param {Number} square2
-	 @return {Boolean}
-	 @example
-	 	var parser = new chess.parser.FenParser0x88();
-	 	console.log(parser.isOnSameSquare(0,16)); // a1 and a2 -> false
-	 	console.log(parser.isOnSameSquare(0,1)); // a1 and b1 -> true
-	 */
-	isOnSameRank:function (square1, square2) {
-		return (square1 & 240) === (square2 & 240);
-	},
-
-	/**
-	 * Returns rank 0-7 where 0 is first rank and 7 is last rank
-	 * @function rank
-	 * @param {Number|String} square
-	 * @returns {number}
+    /**
+     * Set a new position
+     * @method setFen
+     * @param {String} fen
      */
-	rank:function(square){
-		if(square.substr != undefined){
-			square = this.bc.mapping[square];
-		}
-		return (square & 240) / 16;
-	},
+    setFen: function (fen) {
+        this.c = {
+            fenParts: {},
+            'board': [],
+            'white': [],
+            'black': [],
+            'whiteSliding': [],
+            'blackSliding': [],
+            'k': {'white': undefined, 'black': 'undefined'}
+        };
+        this.fen = fen;
+        this.updateFenArray(fen);
+        this.parseFen();
+        this.madeMoves = [];
+    },
 
-	/**
-	 * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
-	 * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
-	 @method isOnSameFile
-	 @param {Number} square1
-	 @param {Number} square2
-	 @return {Boolean}
-	 @example
-	 	var parser = new chess.parser.FenParser0x88();
-	 	console.log(parser.isOnSameFile(0,16)); // a1 and a2 -> true
-	 	console.log(parser.isOnSameFile(0,1)); // a1 and b1 -> false
-	 */
-	isOnSameFile:function (square1, square2) {
-		return (square1 & 15) === (square2 & 15);
-	},
+    updateFenArray: function () {
+        var fenParts = this.fen.split(' ');
 
-	secondParser:undefined,
+        this.c.fenParts = {
+            'pieces': fenParts[0],
+            'color': fenParts[1],
+            'castleCode': this.bc.castleToNumberMapping[fenParts[2]],
+            'enPassant': fenParts[3],
+            'halfMoves': fenParts[4],
+            'fullMoves': fenParts[5]
+        };
+    },
 
-	isCheckmate:function(fen, move){
-		if(this.secondParser == undefined){
-			this.secondParser = new chess.parser.FenParser0x88();
-		}
+    /**
+     * Parses current fen and stores board information internally
+     * @method parseFen
+     */
+    parseFen: function () {
+        var pos = 0;
 
-		var p = this.secondParser;
-		p.setFen(fen);
-		p.move(move);
-		var notation = p.notation;
+        var squares = this.bc.fenSquares;
+        var index, type, piece;
+        for (var i = 0, len = this.c.fenParts['pieces'].length; i < len; i++) {
+            var token = this.c.fenParts['pieces'].substr(i, 1);
 
-		return notation.indexOf('#')>0 ? notation:undefined;
+            if (this.bc.fenPieces[token]) {
+                index = this.bc.mapping[squares[pos]];
+                type = this.bc.pieces[token];
+                piece = {
+                    t: type,
+                    s: index
+                };
+                // Board array
+                this.c['board'][index] = type;
 
-	},
+                // White and black array
+                this.c[this.bc.colorMapping[token]].push(piece);
 
-	getAllMovesReadable:function(){
-		var obj = this.getValidMovesAndResult();
-		var moves = obj.moves;
-		var ret = [];
-		var promoteTo = ['R','N', 'B', 'Q'];
-		jQuery.each(moves, function(from, toSquares){
-			var fs = this.bc.numberToSquareMapping[from];
-			jQuery.each(toSquares, function(i, toSquare){
-				var addPromotion = false;
-				var rank = this.rank(toSquare);
-				if(rank == 0 || rank == 7){
-					var p = this.getPieceOnSquare(from);
-					if(p.type == 'p')addPromotion = true;
-				}
-				var ts = this.bc.numberToSquareMapping[toSquare];
-				if(addPromotion){
-					jQuery.each(promoteTo, function(i, promote){
-						ret.push({
-							from: fs,
-							to: ts,
-							promoteTo:promote
-						})
-					});
-				}else{
-					ret.push({
-						from: fs,
-						to: ts
-					})
-				}
+                // King array
+                if (this.bc.typeMapping[type] == 'k') {
+                    this.c['k' + ((piece.t & 0x8) > 0 ? 'black' : 'white')] = piece;
+                }
+                pos++;
+            } else if (i < len - 1 && this.bc.numbers[token]) {
+                var token2 = this.c.fenParts['pieces'].substr(i + 1, 1);
+                if (!isNaN(token2)) {
+                    token = [token, token2].join('');
+                }
+                pos += parseInt(token);
+            }
+        }
 
-			}.bind(this))
+    },
 
-		}.bind(this));
+    /**
+     * Return all pieces on board
+     * @method getPieces
+     * @return {Array} pieces
+     */
+    getPieces: function () {
+        return this.c['white'].append(this.c['black']);
+    },
 
-		return ret;
-	},
+    /**
+     Return king of a color
+     @method getKing
+     @param color
+     @return {Object} king
+     @example
+     var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+     var parser = new chess.parser.FenParser0x88(fen);
+     console.log(parser.getKing('white'));
+     returns an object containing the properties s for square and t for type.
+     both are numeric according to the 0x88 board.
+     */
+    getKing: function (color) {
+        return this.c['k' + color];
+    },
 
-	getAllCheckmateMoves:function(){
-		var fen = this.getFen();
-		var moves = this.getAllMovesReadable();
-		var ret = [];
-		jQuery.each(moves, function(i, m){
-			var notation = this.getNotationForAMove(m);
+    /**
+     Returns pieces of a color
+     @method getPiecesOfAColor
+     @param color
+     @return {Array}
+     @example
+     var parser = new chess.parser.FenParser0x88('5k2/8/8/3pP3/8/8/8/7K w - d6 0 1');
+     var pieces = parser.getPiecesOfAColor('white');
+     console.log(pieces);
+     each piece is represented by an object like this:
+     @example
+     {
+         s : 112,
+         t : 14
+     }
+     where s is square and type is type. s is numeric according to the 0x88 chess board where
+     a1 is 0, a2 is 16, b2 is 17, a3 is 32, i.e. a 128x64 square board.
 
-			if(this.isCheckmate(fen, m)){
-				ret.push(notation + '#');
-			}
-		}.bind(this));
-		return ret;
-	},
+     t is a numeric representation(4 bits).
+     @example
+     P : 0001
+     N : 0010
+     K : 0011
+     B : 0101
+     R : 0110
+     Q : 0111
+     p : 1001
+     n : 1010
+     k : 1011
+     b : 1101
+     r : 1100
+     q : 1100
 
-	/**
-	 Returns valid moves and results for the position according to the 0x88 chess programming
-	 algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
-	 First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
-	 rank starts at second rank + 16, i.e. A3 = 32 and so on.
-	 @method getValidMovesAndResult
-	 @param color
-	 @return {Object}
-	 @example
-	 	 var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-	 	 var parser = new chess.parser.FenParser0x88(fen)
-	 	 console.log(parser.getValidMovesAndResult());
-	 returns an object containing information about number of checks(0,1 or 2 for double check),
-	 valid moves and result(0 for undecided, .5 for stalemate, -1 for black win and 1 for white win).
-	 moves are returend in the following format:
-	 	numeric square : [array of valid squares to move]
-	 example for knight on b1:
-	 @example
-	 	1 : [32,34]
-	 since it's located on b1(numeric value 1) and can move to either a3 or c3(32 and 34).
-	 */
-	getValidMovesAndResult:function (color) {
-		color = color || this.getColor();
-		var ret = {}, directions;
-		var enPassantSquare = this.getEnPassantSquare();
-		if (enPassantSquare) {
-			enPassantSquare = this.bc.mapping[enPassantSquare];
-		}
+     As you can see, black pieces all have the first bit set to 1, and all the sliding pieces
+     (bishop, rook and queen) has the second bit set to 1. This makes it easy to to determine color
+     and sliding pieces using the bitwise & operator.
+     */
+    getPiecesOfAColor: function (color) {
+        return this.c[color]
+    },
 
-		var kingSideCastle = this.canCastleKingSide(color);
-		var queenSideCastle = this.canCastleQueenSide(color);
-		var oppositeColor = color === 'white' ? 'black' : 'white';
+    /**
+     @method getEnPassantSquare
+     @return {String|null}
+     @example
+     var fen = '5k2/8/8/3pP3/8/8/8/7K w - d6 0 1';
+     var parser = new chess.parser.FenParser0x88(fen);
+     alert(parser.getEnPassantSquare()); // alerts 'd6'
+     */
+    getEnPassantSquare: function () {
+        var enPassant = this.c.fenParts['enPassant'];
+        if (enPassant != '-') {
+            return enPassant;
+        }
+        return undefined;
+    },
+    setEnPassantSquare: function (square) {
+        this.c.fenParts['enPassant'] = square;
+    },
 
-		var WHITE = color === 'white';
+    getSlidingPieces: function (color) {
+        return this.c[color + 'Sliding'];
+    },
 
-		var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
-		var checks = this.getCountChecks(color, protectiveMoves);
-		var pinned = [], pieces, validSquares;
-		if (checks === 2) {
-			pieces = [this.getKing(color)];
-		} else {
-			pieces = this.c[color];
-			pinned = this.getPinned(color);
-			if (checks === 1) {
-				validSquares = this.getValidSquaresOnCheck(color);
-			}
-		}
-		var totalCountMoves = 0, a, square;
-		for (var i = 0; i < pieces.length; i++) {
-			var piece = pieces[i];
-			var paths = [];
+    getHalfMoves: function () {
+        return this.c.fenParts['halfMoves'];
+    },
 
-			switch (piece.t) {
-				// pawns
-				case 0x01:
-					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.c['board'][piece.s + 16]) {
-							paths.push(piece.s + 16);
-							if (piece.s < 32) {
-								if (!this.c['board'][piece.s + 32]) {
-									paths.push(piece.s + 32);
-								}
-							}
-						}
-					}
-					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
-						if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
-							paths.push(piece.s + 15);
-						}
-					}
-					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
-						if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
-							paths.push(piece.s + 17);
-						}
-					}
-					break;
-				case 0x09:
-					if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
-						if (!this.c['board'][piece.s - 16]) {
-							paths.push(piece.s - 16);
-							if (piece.s > 87) {
-								if (!this.c['board'][piece.s - 32]) {
-									paths.push(piece.s - 32);
-								}
-							}
-						}
-					}
-					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
-						if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
-							paths.push(piece.s - 15);
-						}
-					}
-					if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
-						if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
-							paths.push(piece.s - 17);
-						}
-					}
+    getFullMoves: function () {
+        return this.c.fenParts['fullMoves'];
+    },
 
-					break;
-				// Sliding pieces
-				case 0x05:
-				case 0x07:
-				case 0x06:
-				case 0x0D:
-				case 0x0E:
-				case 0x0F:
-					directions = this.bc.movePatterns[piece.t];
-					if (pinned[piece.s]) {
-						if (directions.indexOf(pinned[piece.s].direction) >= 0) {
-							directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
-						} else {
-							directions = [];
-						}
-					}
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						while ((square & 0x88) === 0) {
-							if (this.c['board'][square]) {
-								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
-									paths.push(square);
-								}
-								break;
-							}
-							paths.push(square);
-							square += directions[a];
-						}
-					}
-					break;
-				// Knight
-				case 0x02:
-				case 0x0A:
-					if (pinned[piece.s]) {
-						break;
-					}
-					directions = this.bc.movePatterns[piece.t];
+    canCastleKingSide: function (color) {
+        var code = color === 'white' ? this.bc.castle['K'] : this.bc.castle['k'];
+        return this.c.fenParts.castleCode & code;
+    },
 
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						if ((square & 0x88) === 0) {
-							if (this.c['board'][square]) {
-								if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
-									paths.push(square);
-								}
-							} else {
-								paths.push(square);
-							}
-						}
-					}
-					break;
-				// White king
-				// Black king
-				case 0X03:
+    canCastleQueenSide: function (color) {
+        var code = color === 'white' ? this.bc.castle['Q'] : this.bc.castle['q'];
+        return this.c.fenParts.castleCode & code;
+    },
+
+    getColor: function () {
+        return this.bc.colorAbbreviations[this.c.fenParts['color']];
+    },
+
+    getColorCode: function () {
+        return this.c.fenParts['color'];
+    },
+
+    /**
+     Return information about piece on square in human readable format
+     @method getPieceOnSquare
+     @param {Number} square
+     @return {Object}
+     @example
+     var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+     var parser = new chess.parser.FenParser0x88(fen);
+     console.log(parser.getPieceOnSquare(this.bc.mapping['e2']));
+     will return an object like this:
+     @example
+     {
+         "square": "e2",
+         "type": 'p',
+         "color": "white",
+         "sliding": 0
+     }
+     */
+    getPieceOnSquare: function (square) {
+        var piece = this.c['board'][square];
+        if (piece) {
+            return {
+                square: this.bc.numberToSquareMapping[square],
+                type: this.bc.typeMapping[piece],
+                color: (piece & 0x8) > 0 ? 'black' : 'white',
+                sliding: (piece & 0x4) > 0
+            }
+        }
+        return undefined;
+    },
+
+    getPieceTypeOnSquare: function (square) {
+        return this.c['board'][square];
+    },
+    /**
+     * Returns true if two squares are on the same rank. Squares are in the 0x88 format, i.e.
+     * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
+     @method isOnSameRank
+     @param {Number} square1
+     @param {Number} square2
+     @return {Boolean}
+     @example
+     var parser = new chess.parser.FenParser0x88();
+     console.log(parser.isOnSameSquare(0,16)); // a1 and a2 -> false
+     console.log(parser.isOnSameSquare(0,1)); // a1 and b1 -> true
+     */
+    isOnSameRank: function (square1, square2) {
+        return (square1 & 240) === (square2 & 240);
+    },
+
+    /**
+     * Returns rank 0-7 where 0 is first rank and 7 is last rank
+     * @function rank
+     * @param {Number|String} square
+     * @returns {number}
+     */
+    rank: function (square) {
+        if (square.substr != undefined) {
+            square = this.bc.mapping[square];
+        }
+        return (square & 240) / 16;
+    },
+
+    /**
+     * Returns true if two squares are on the same file. Squares are in the 0x88 format, i.e.
+     * a1=0,a2=16. You can use this.bc.mapping to get a more readable code.
+     @method isOnSameFile
+     @param {Number} square1
+     @param {Number} square2
+     @return {Boolean}
+     @example
+     var parser = new chess.parser.FenParser0x88();
+     console.log(parser.isOnSameFile(0,16)); // a1 and a2 -> true
+     console.log(parser.isOnSameFile(0,1)); // a1 and b1 -> false
+     */
+    isOnSameFile: function (square1, square2) {
+        return (square1 & 15) === (square2 & 15);
+    },
+
+    secondParser: undefined,
+
+    isCheckmate: function (fen, move) {
+        if (this.secondParser == undefined) {
+            this.secondParser = new chess.parser.FenParser0x88();
+        }
+
+        var p = this.secondParser;
+        p.setFen(fen);
+        p.move(move);
+        var notation = p.notation;
+
+        return notation.indexOf('#') > 0 ? notation : undefined;
+
+    },
+
+    getAllMovesReadable: function () {
+        var obj = this.getValidMovesAndResult();
+        var moves = obj.moves;
+        var ret = [];
+        var promoteTo = ['R', 'N', 'B', 'Q'];
+        jQuery.each(moves, function (from, toSquares) {
+            var fs = this.bc.numberToSquareMapping[from];
+            jQuery.each(toSquares, function (i, toSquare) {
+                var addPromotion = false;
+                var rank = this.rank(toSquare);
+                if (rank == 0 || rank == 7) {
+                    var p = this.getPieceOnSquare(from);
+                    if (p.type == 'p') addPromotion = true;
+                }
+                var ts = this.bc.numberToSquareMapping[toSquare];
+                if (addPromotion) {
+                    jQuery.each(promoteTo, function (i, promote) {
+                        ret.push({
+                            from: fs,
+                            to: ts,
+                            promoteTo: promote
+                        })
+                    });
+                } else {
+                    ret.push({
+                        from: fs,
+                        to: ts
+                    })
+                }
+
+            }.bind(this))
+
+        }.bind(this));
+
+        return ret;
+    },
+
+    getAllCheckmateMoves: function () {
+        var fen = this.getFen();
+        var moves = this.getAllMovesReadable();
+        var ret = [];
+        jQuery.each(moves, function (i, m) {
+            var notation = this.getNotationForAMove(m);
+
+            if (this.isCheckmate(fen, m)) {
+                ret.push(notation + '#');
+            }
+        }.bind(this));
+        return ret;
+    },
+
+    /**
+     Returns valid moves and results for the position according to the 0x88 chess programming
+     algorithm where position on the board is numeric (A1=0,H1=7,A2=16,H2=23,A3=32,A4=48).
+     First rank is numbered 0-7. Second rank starts at first rank + 16, i.e. A2 = 16. Third
+     rank starts at second rank + 16, i.e. A3 = 32 and so on.
+     @method getValidMovesAndResult
+     @param color
+     @return {Object}
+     @example
+     var fen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+     var parser = new chess.parser.FenParser0x88(fen)
+     console.log(parser.getValidMovesAndResult());
+     returns an object containing information about number of checks(0,1 or 2 for double check),
+     valid moves and result(0 for undecided, .5 for stalemate, -1 for black win and 1 for white win).
+     moves are returend in the following format:
+     numeric square : [array of valid squares to move]
+     example for knight on b1:
+     @example
+     1 : [32,34]
+     since it's located on b1(numeric value 1) and can move to either a3 or c3(32 and 34).
+     */
+    getValidMovesAndResult: function (color) {
+        color = color || this.getColor();
+        var ret = {}, directions;
+        var enPassantSquare = this.getEnPassantSquare();
+        if (enPassantSquare) {
+            enPassantSquare = this.bc.mapping[enPassantSquare];
+        }
+
+        var kingSideCastle = this.canCastleKingSide(color);
+        var queenSideCastle = this.canCastleQueenSide(color);
+        var oppositeColor = color === 'white' ? 'black' : 'white';
+
+        var WHITE = color === 'white';
+
+        var protectiveMoves = this.getCaptureAndProtectiveMoves(oppositeColor);
+        var checks = this.getCountChecks(color, protectiveMoves);
+        var pinned = [], pieces, validSquares;
+        if (checks === 2) {
+            pieces = [this.getKing(color)];
+        } else {
+            pieces = this.c[color];
+            pinned = this.getPinned(color);
+            if (checks === 1) {
+                validSquares = this.getValidSquaresOnCheck(color);
+            }
+        }
+        var totalCountMoves = 0, a, square;
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+            var paths = [];
+
+            switch (piece.t) {
+                // pawns
+                case 0x01:
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by))) {
+                        if (!this.c['board'][piece.s + 16]) {
+                            paths.push(piece.s + 16);
+                            if (piece.s < 32) {
+                                if (!this.c['board'][piece.s + 32]) {
+                                    paths.push(piece.s + 32);
+                                }
+                            }
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 15)) {
+                        if (enPassantSquare == piece.s + 15 || (this.c['board'][piece.s + 15]) && (this.c['board'][piece.s + 15] & 0x8) > 0) {
+                            paths.push(piece.s + 15);
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
+                        if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
+                            paths.push(piece.s + 17);
+                        }
+                    }
+                    break;
+                case 0x09:
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by))) {
+                        if (!this.c['board'][piece.s - 16]) {
+                            paths.push(piece.s - 16);
+                            if (piece.s > 87) {
+                                if (!this.c['board'][piece.s - 32]) {
+                                    paths.push(piece.s - 32);
+                                }
+                            }
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 15)) {
+                        if (enPassantSquare == piece.s - 15 || (this.c['board'][piece.s - 15]) && (this.c['board'][piece.s - 15] & 0x8) === 0) {
+                            paths.push(piece.s - 15);
+                        }
+                    }
+                    if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s - 17)) {
+                        if (enPassantSquare == piece.s - 17 || (this.c['board'][piece.s - 17]) && (this.c['board'][piece.s - 17] & 0x8) === 0) {
+                            paths.push(piece.s - 17);
+                        }
+                    }
+
+                    break;
+                // Sliding pieces
+                case 0x05:
+                case 0x07:
+                case 0x06:
+                case 0x0D:
+                case 0x0E:
+                case 0x0F:
+                    directions = this.bc.movePatterns[piece.t];
+                    if (pinned[piece.s]) {
+                        if (directions.indexOf(pinned[piece.s].direction) >= 0) {
+                            directions = [pinned[piece.s].direction, pinned[piece.s].direction * -1];
+                        } else {
+                            directions = [];
+                        }
+                    }
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        while ((square & 0x88) === 0) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                                    paths.push(square);
+                                }
+                                break;
+                            }
+                            paths.push(square);
+                            square += directions[a];
+                        }
+                    }
+                    break;
+                // Knight
+                case 0x02:
+                case 0x0A:
+                    if (pinned[piece.s]) {
+                        break;
+                    }
+                    directions = this.bc.movePatterns[piece.t];
+
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            if (this.c['board'][square]) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                                    paths.push(square);
+                                }
+                            } else {
+                                paths.push(square);
+                            }
+                        }
+                    }
+                    break;
+                // White king
+                // Black king
+                case 0X03:
                 case 0X0B:
-					directions = this.bc.movePatterns[piece.t];
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						if ((square & 0x88) === 0) {
-							if (protectiveMoves.indexOf(square) == -1) {
-								if (this.c['board'][square]) {
-									if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
-										paths.push(square);
-									}
-								} else {
-									paths.push(square);
-								}
-							}
-						}
-					}
-					if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
-						paths.push(piece.s + 2);
-					}
-					if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
-						paths.push(piece.s - 2);
-					}
-					break;
-			}
-			if (validSquares && piece.t != 0x03 && piece.t != 0x0B) {
-				paths = this.excludeInvalidSquares(paths, validSquares);
-			}
-			ret[piece.s] = paths;
-			totalCountMoves += paths.length;
-		}
-		var result = 0;
-		if (checks && !totalCountMoves) {
-			result = color === 'black' ? 1 : -1;
-		}
-		else if (!checks && !totalCountMoves) {
-			result = .5;
-		}
-		return { moves:ret, result:result, check:checks };
-	},
+                    directions = this.bc.movePatterns[piece.t];
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            if (protectiveMoves.indexOf(square) == -1) {
+                                if (this.c['board'][square]) {
+                                    if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                                        paths.push(square);
+                                    }
+                                } else {
+                                    paths.push(square);
+                                }
+                            }
+                        }
+                    }
+                    if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
+                        paths.push(piece.s + 2);
+                    }
+                    if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
+                        paths.push(piece.s - 2);
+                    }
+                    break;
+            }
+            if (validSquares && piece.t != 0x03 && piece.t != 0x0B) {
+                paths = this.excludeInvalidSquares(paths, validSquares);
+            }
+            ret[piece.s] = paths;
+            totalCountMoves += paths.length;
+        }
+        var result = 0;
+        if (checks && !totalCountMoves) {
+            result = color === 'black' ? 1 : -1;
+        }
+        else if (!checks && !totalCountMoves) {
+            result = .5;
+        }
+        return {moves: ret, result: result, check: checks};
+    },
 
-    getMovesAndResultLinear:function(color){
+    fullMap: undefined,
+    /**
+     * Returns full map of squares for instructor board
+     */
+    getFullSquareMap: function () {
+        if (!this.fullMap) {
+            this.fullMap = {};
+            var s = Board0x88Config.fenSquaresNumeric;
+            for (var i = 0; i < s.length; i++) {
+                this.fullMap[s[i]] = s;
+            }
+        }
+        return this.fullMap;
+    },
+
+
+    getMovesAndResultLinear: function (color) {
         color = color || this.getColor();
         var directions;
         var enPassantSquare = this.getEnPassantSquare();
@@ -25928,7 +28046,7 @@ chess.parser.FenParser0x88 = new Class({
             switch (piece.t) {
                 // pawns
                 case 0x01:
-                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by))) {
                         if (!this.c['board'][piece.s + 16]) {
                             paths.push([piece.s, piece.s + 16]);
                             if (piece.s < 32) {
@@ -25946,11 +28064,11 @@ chess.parser.FenParser0x88 = new Class({
                     if (!pinned[piece.s] || (pinned[piece.s] && pinned[piece.s].by === piece.s + 17)) {
                         if (enPassantSquare == piece.s + 17 || (this.c['board'][piece.s + 17]) && (this.c['board'][piece.s + 17] & 0x8) > 0) {
                             paths.push([piece.s, piece.s + 17]);
-                    }
+                        }
                     }
                     break;
                 case 0x09:
-                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by) )) {
+                    if (!pinned[piece.s] || (pinned[piece.s] && this.isOnSameFile(piece.s, pinned[piece.s].by))) {
                         if (!this.c['board'][piece.s - 16]) {
                             paths.push([piece.s, piece.s - 16]);
                             if (piece.s > 87) {
@@ -26013,7 +28131,7 @@ chess.parser.FenParser0x88 = new Class({
                         square = piece.s + directions[a];
                         if ((square & 0x88) === 0) {
                             if (this.c['board'][square]) {
-                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                                if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
                                     paths.push([piece.s, square]);
                                 }
                             } else {
@@ -26032,20 +28150,20 @@ chess.parser.FenParser0x88 = new Class({
                         if ((square & 0x88) === 0) {
                             if (protectiveMoves.indexOf(square) == -1) {
                                 if (this.c['board'][square]) {
-                                    if ((WHITE && (this.c['board'][square] & 0x8) > 0) || ( !WHITE && (this.c['board'][square] & 0x8) === 0)) {
-                                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
+                                    if ((WHITE && (this.c['board'][square] & 0x8) > 0) || (!WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                                        if (!validSquares || validSquares.indexOf(square) >= 0) paths.push([piece.s, square]);
                                     }
                                 } else {
-                                    if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, square]);
+                                    if (!validSquares || validSquares.indexOf(square) >= 0) paths.push([piece.s, square]);
                                 }
                             }
                         }
                     }
                     if (kingSideCastle && !this.c['board'][piece.s + 1] && !this.c['board'][piece.s + 2] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s + 2) == -1) {
-                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s + 2]);
+                        if (!validSquares || validSquares.indexOf(square) >= 0) paths.push([piece.s, piece.s + 2]);
                     }
                     if (queenSideCastle && !this.c['board'][piece.s - 1] && !this.c['board'][piece.s - 2] && !this.c['board'][piece.s - 3] && protectiveMoves.indexOf(piece.s) == -1 && protectiveMoves.indexOf(piece.s - 1) == -1 && protectiveMoves.indexOf(piece.s - 2) == -1) {
-                        if(!validSquares || validSquares.indexOf(square) >=0)paths.push([piece.s, piece.s - 2]);
+                        if (!validSquares || validSquares.indexOf(square) >= 0) paths.push([piece.s, piece.s - 2]);
                     }
                     break;
             }
@@ -26057,727 +28175,726 @@ chess.parser.FenParser0x88 = new Class({
         else if (!checks && paths.length === 0) {
             result = .5;
         }
-        return { moves:paths, result:result, check:checks };
+        return {moves: paths, result: result, check: checks};
 
     },
 
-	excludeInvalidSquares:function (squares, validSquares) {
-		var ret = [];
-		for (var i = 0; i < squares.length; i++) {
-			if (validSquares.indexOf(squares[i]) >= 0) {
-				ret.push(squares[i]);
-			}
-		}
-		return ret;
-	},
-
-	/* This method returns a comma separated string of moves since it's faster to work with than arrays*/
-	getCaptureAndProtectiveMoves:function (color) {
-		var ret = [], directions, square, a;
-
-		var pieces = this.c[color];
-		var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
-
-		for (var i = 0; i < pieces.length; i++) {
-			var piece = pieces[i];
-			switch (piece.t) {
-				// pawns
-				case 0x01:
-					if (((piece.s + 15) & 0x88) === 0) ret.push(piece.s + 15);
-					if (((piece.s + 17) & 0x88) === 0) ret.push(piece.s + 17);
-					break;
-				case 0x09:
-					if (((piece.s - 15) & 0x88) === 0) ret.push(piece.s - 15);
-					if (((piece.s - 17) & 0x88) === 0) ret.push(piece.s - 17);
-					break;
-				// Sliding pieces
-				case 0x05:
-				case 0x07:
-				case 0x06:
-				case 0x0D:
-				case 0x0E:
-				case 0x0F:
-					directions = this.bc.movePatterns[piece.t];
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						while ((square & 0x88) === 0) {
-							if (this.c['board'][square] && square !== oppositeKingSquare) {
-								ret.push(square);
-								break;
-							}
-							ret.push(square);
-							square += directions[a];
-						}
-					}
-					break;
-				// knight
-				case 0x02:
-				case 0x0A:
-					// White knight
-					directions = this.bc.movePatterns[piece.t];
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						if ((square & 0x88) === 0) {
-							ret.push(square);
-						}
-					}
-					break;
-				// king
-				case 0X03:
-				case 0X0B:
-					directions = this.bc.movePatterns[piece.t];
-					for (a = 0; a < directions.length; a++) {
-						square = piece.s + directions[a];
-						if ((square & 0x88) === 0) {
-							ret.push(square);
-						}
-					}
-					break;
-			}
-
-		}
+    excludeInvalidSquares: function (squares, validSquares) {
+        var ret = [];
+        for (var i = 0; i < squares.length; i++) {
+            if (validSquares.indexOf(squares[i]) >= 0) {
+                ret.push(squares[i]);
+            }
+        }
         return ret;
-	},
+    },
 
-	/**
-	 Returns array of sliding pieces attacking king
-	 @method getSlidingPiecesAttackingKing
-	 @param {String} color
-	 @return {Array}
-	 @example
-	 	fen = '6k1/Q5n1/4p3/8/8/8/B7/5KR1 b - - 0 1';
-		parser = new chess.parser.FenParser0x88(fen);
-	 	pieces = parser.getSlidingPiecesAttackingKing('white');
-	 	console.log(pieces);
-	 will return
-	 @example
-	 	[ { "s" : 16, "p": 17 }, { "s": 6, "p": 16 }]
-	 where "s" is the 0x88 board position of the piece and "p" is the sliding path to the king
-	 of opposite color. A bishop on a1 and a king on h8 will return { "s": "0", "p": 17 }
-	 This method returns pieces even when the sliding piece is not checking king.
-	 */
-	getSlidingPiecesAttackingKing:function (color) {
-		var ret = [];
-		var king = this.c['k' + (color === 'white' ? 'black' : 'white')];
-		var pieces = this.c[color];
-		for (var i = 0; i < pieces.length; i++) {
-			var piece = pieces[i];
-			if ((piece.t & 0x4) > 0) {
-				var numericDistance = king.s - piece.s;
-				var boardDistance = (king.s - piece.s) / this.getDistance(king.s, piece.s);
+    /* This method returns a comma separated string of moves since it's faster to work with than arrays*/
+    getCaptureAndProtectiveMoves: function (color) {
+        var ret = [], directions, square, a;
 
-				switch (piece.t) {
-					// Bishop
-					case 0x05:
-					case 0x0D:
-						if (numericDistance % 15 === 0 || numericDistance % 17 === 0) {
-							ret.push({ s:piece.s, direction:boardDistance});
-						}
-						break;
-					// Rook
-					case 0x06:
-					case 0x0E:
-						if (numericDistance % 16 === 0) {
-							ret.push({ s:piece.s, direction:boardDistance});
-						}
-						// Rook on same rank as king
-						else if (this.isOnSameRank(piece.s, king.s)) {
-							ret.push({ s:piece.s, direction:numericDistance > 0 ? 1 : -1})
-						}
-						break;
-					// Queen
-					case 0x07:
-					case 0x0F:
-						if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
-							ret.push({ s:piece.s, direction:boardDistance});
-						}
-						else if (this.isOnSameRank(piece.s, king.s)) {
-							ret.push({ s:piece.s, direction:numericDistance > 0 ? 1 : -1})
-						}
-						break;
-				}
-			}
-		}
-		return ret;
-	},
+        var pieces = this.c[color];
+        var oppositeKingSquare = this.getKing(color === 'white' ? 'black' : 'white').s;
 
-	/**
-	 Return array of the squares where pieces are pinned, i.e. cannot move.
-	 Squares are in the 0x88 format. You can use this.bc.numberToSquareMapping
-	 to translate to readable format, example: this.bc.numberToSquareMapping[16] will give you 'a2'
-	 @method getPinned
-	 @param {String} color
-	 @return {Object}
-	 @example
-	 	var fen = '6k1/Q5n1/4p3/8/8/1B6/B7/5KR1 b - - 0 1';
-		var parser = new chess.parser.FenParser0x88(fen);
-	 	var pinned = parser.getPinned('black');
-	 	console.log(pinned);
-	 will output
-	 @example
- 		{
-	 		84: { "by": 33, "direction": 17 }, // pawn on e6(84) is pinned by bishop on b3(33).
-	 		102 : { "by": "6", "direction": 16 } // knight on g7 is pinned by rook on g1
-	 	}
-	 direction is the path to king which can be
-	 @example
-	 	15   16   17
-	 	-1         1
-	 	17  -16  -15
-	 i.e. 1 to the right, -1 to the left, 17 for higher rank and file etc.
-	 */
-	getPinned:function (color) {
-		var ret = {};
-		var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
-		var WHITE = color === 'white';
-		var king = this.c['k' + color];
-		var i = 0;
-		while (i < pieces.length) {
-			var piece = pieces[i];
-			var square = piece.s + piece.direction;
-			var countPieces = 0;
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+            switch (piece.t) {
+                // pawns
+                case 0x01:
+                    if (((piece.s + 15) & 0x88) === 0) ret.push(piece.s + 15);
+                    if (((piece.s + 17) & 0x88) === 0) ret.push(piece.s + 17);
+                    break;
+                case 0x09:
+                    if (((piece.s - 15) & 0x88) === 0) ret.push(piece.s - 15);
+                    if (((piece.s - 17) & 0x88) === 0) ret.push(piece.s - 17);
+                    break;
+                // Sliding pieces
+                case 0x05:
+                case 0x07:
+                case 0x06:
+                case 0x0D:
+                case 0x0E:
+                case 0x0F:
+                    directions = this.bc.movePatterns[piece.t];
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        while ((square & 0x88) === 0) {
+                            if (this.c['board'][square] && square !== oppositeKingSquare) {
+                                ret.push(square);
+                                break;
+                            }
+                            ret.push(square);
+                            square += directions[a];
+                        }
+                    }
+                    break;
+                // knight
+                case 0x02:
+                case 0x0A:
+                    // White knight
+                    directions = this.bc.movePatterns[piece.t];
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            ret.push(square);
+                        }
+                    }
+                    break;
+                // king
+                case 0X03:
+                case 0X0B:
+                    directions = this.bc.movePatterns[piece.t];
+                    for (a = 0; a < directions.length; a++) {
+                        square = piece.s + directions[a];
+                        if ((square & 0x88) === 0) {
+                            ret.push(square);
+                        }
+                    }
+                    break;
+            }
 
-			var pinning = '';
-			while (square !== king.s && countPieces < 2) {
-				if (this.c['board'][square]) {
-					countPieces++;
-					if ((!WHITE && (this.c['board'][square] & 0x8) > 0) || (WHITE && (this.c['board'][square] & 0x8) === 0)) {
-						pinning = square;
-					} else {
-						break;
-					}
-				}
-				square += piece.direction;
-			}
-			if (countPieces === 1 && pinning) {
-				ret[pinning] = { 'by':piece.s, 'direction':piece.direction };
-			}
-			i++;
-		}
-		if (ret.length === 0) {
-			return null;
-		}
-		return ret;
-	},
+        }
+        return ret;
+    },
 
-	getPinnedReadable:function(color){
-		var pinned = this.getPinned(color);
-		var ret = [];
-		jQuery.each(pinned, function(square, by){
-			var obj = {
-				king : this.bc.numberToSquareMapping[this.getKing(color).s],
-				pinned : this.bc.numberToSquareMapping[square],
-				by: this.bc.numberToSquareMapping[by.by]
-			};
-			ret.push(obj);
-		}.bind(this));
+    /**
+     Returns array of sliding pieces attacking king
+     @method getSlidingPiecesAttackingKing
+     @param {String} color
+     @return {Array}
+     @example
+     fen = '6k1/Q5n1/4p3/8/8/8/B7/5KR1 b - - 0 1';
+     parser = new chess.parser.FenParser0x88(fen);
+     pieces = parser.getSlidingPiecesAttackingKing('white');
+     console.log(pieces);
+     will return
+     @example
+     [ { "s" : 16, "p": 17 }, { "s": 6, "p": 16 }]
+     where "s" is the 0x88 board position of the piece and "p" is the sliding path to the king
+     of opposite color. A bishop on a1 and a king on h8 will return { "s": "0", "p": 17 }
+     This method returns pieces even when the sliding piece is not checking king.
+     */
+    getSlidingPiecesAttackingKing: function (color) {
+        var ret = [];
+        var king = this.c['k' + (color === 'white' ? 'black' : 'white')];
+        var pieces = this.c[color];
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+            if ((piece.t & 0x4) > 0) {
+                var numericDistance = king.s - piece.s;
+                var boardDistance = (king.s - piece.s) / this.getDistance(king.s, piece.s);
 
-		return ret;
-	},
+                switch (piece.t) {
+                    // Bishop
+                    case 0x05:
+                    case 0x0D:
+                        if (numericDistance % 15 === 0 || numericDistance % 17 === 0) {
+                            ret.push({s: piece.s, direction: boardDistance});
+                        }
+                        break;
+                    // Rook
+                    case 0x06:
+                    case 0x0E:
+                        if (numericDistance % 16 === 0) {
+                            ret.push({s: piece.s, direction: boardDistance});
+                        }
+                        // Rook on same rank as king
+                        else if (this.isOnSameRank(piece.s, king.s)) {
+                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                        }
+                        break;
+                    // Queen
+                    case 0x07:
+                    case 0x0F:
+                        if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
+                            ret.push({s: piece.s, direction: boardDistance});
+                        }
+                        else if (this.isOnSameRank(piece.s, king.s)) {
+                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                        }
+                        break;
+                }
+            }
+        }
+        return ret;
+    },
 
-	getPinnedSquares:function(color){
-		var pinned = this.getPinnedReadable(color);
-		var ret = [];
-		jQuery.each(pinned, function(i, pinned){
-			ret.push(pinned.pinned);
-		});
-		return ret;
+    /**
+     Return array of the squares where pieces are pinned, i.e. cannot move.
+     Squares are in the 0x88 format. You can use this.bc.numberToSquareMapping
+     to translate to readable format, example: this.bc.numberToSquareMapping[16] will give you 'a2'
+     @method getPinned
+     @param {String} color
+     @return {Object}
+     @example
+     var fen = '6k1/Q5n1/4p3/8/8/1B6/B7/5KR1 b - - 0 1';
+     var parser = new chess.parser.FenParser0x88(fen);
+     var pinned = parser.getPinned('black');
+     console.log(pinned);
+     will output
+     @example
+     {
+         84: { "by": 33, "direction": 17 }, // pawn on e6(84) is pinned by bishop on b3(33).
+         102 : { "by": "6", "direction": 16 } // knight on g7 is pinned by rook on g1
+     }
+     direction is the path to king which can be
+     @example
+     15   16   17
+     -1         1
+     17  -16  -15
+     i.e. 1 to the right, -1 to the left, 17 for higher rank and file etc.
+     */
+    getPinned: function (color) {
+        var ret = {};
+        var pieces = this.getSlidingPiecesAttackingKing((color === 'white' ? 'black' : 'white'));
+        var WHITE = color === 'white';
+        var king = this.c['k' + color];
+        var i = 0;
+        while (i < pieces.length) {
+            var piece = pieces[i];
+            var square = piece.s + piece.direction;
+            var countPieces = 0;
 
-	},
+            var pinning = '';
+            while (square !== king.s && countPieces < 2) {
+                if (this.c['board'][square]) {
+                    countPieces++;
+                    if ((!WHITE && (this.c['board'][square] & 0x8) > 0) || (WHITE && (this.c['board'][square] & 0x8) === 0)) {
+                        pinning = square;
+                    } else {
+                        break;
+                    }
+                }
+                square += piece.direction;
+            }
+            if (countPieces === 1 && pinning) {
+                ret[pinning] = {'by': piece.s, 'direction': piece.direction};
+            }
+            i++;
+        }
+        if (ret.length === 0) {
+            return null;
+        }
+        return ret;
+    },
 
-	getValidSquaresOnCheck:function (color) {
-		var ret = [], checks;
-		var king = this.c['k' + color];
-		var pieces = this.c[color === 'white' ? 'black' : 'white'];
+    getPinnedReadable: function (color) {
+        var pinned = this.getPinned(color);
+        var ret = [];
+        jQuery.each(pinned, function (square, by) {
+            var obj = {
+                king: this.bc.numberToSquareMapping[this.getKing(color).s],
+                pinned: this.bc.numberToSquareMapping[square],
+                by: this.bc.numberToSquareMapping[by.by]
+            };
+            ret.push(obj);
+        }.bind(this));
 
+        return ret;
+    },
 
-		for (var i = 0; i < pieces.length; i++) {
-			var piece = pieces[i];
+    getPinnedSquares: function (color) {
+        var pinned = this.getPinnedReadable(color);
+        var ret = [];
+        jQuery.each(pinned, function (i, pinned) {
+            ret.push(pinned.pinned);
+        });
+        return ret;
 
-			switch (piece.t) {
-				case 0x01:
-					if (king.s === piece.s + 15 || king.s === piece.s + 17) {
-						return [piece.s];
-					}
-					break;
-				case 0x09:
-					if (king.s === piece.s - 15 || king.s === piece.s - 17) {
-						return [piece.s];
-					}
-					break;
-				// knight
-				case 0x02:
-				case 0x0A:
-					if (this.getDistance(piece.s, king.s) === 2) {
-						var directions = this.bc.movePatterns[piece.t];
-						for (var a = 0; a < directions.length; a++) {
-							var square = piece.s + directions[a];
-							if (square === king.s) {
-								return [piece.s];
-							}
-						}
-					}
-					break;
-				// Bishop
-				case 0x05:
-				case 0x0D:
-					checks = this.getBishopCheckPath(piece, king);
-					if (checks) {
-						return checks;
-					}
-					break;
-				// Rook
-				case 0x06:
-				case 0x0E:
-					checks = this.getRookCheckPath(piece, king);
-					if (checks) {
-						return checks;
-					}
-					break;
-				case 0x07:
-				case 0x0F:
-					checks = this.getRookCheckPath(piece, king);
-					if (checks) {
-						return checks;
-					}
-					checks = this.getBishopCheckPath(piece, king);
-					if (checks) {
-						return checks;
-					}
-					break;
-			}
-		}
-		return ret;
-	},
+    },
 
-	getBishopCheckPath:function (piece, king) {
-		if ((king.s - piece.s) % 15 === 0 || (king.s - piece.s) % 17 === 0) {
-			var direction = (king.s - piece.s) / this.getDistance(piece.s, king.s);
-			var square = piece.s + direction;
-			var pieceFound = false;
-			var squares = [piece.s];
-			while (square !== king.s && !pieceFound) {
-				squares.push(square);
-				if (this.c['board'][square]) {
-					pieceFound = true;
-				}
-				square += direction;
-			}
-			if (!pieceFound) {
-				return squares;
-			}
-		}
-		return null;
-	},
-
-	getRookCheckPath:function (piece, king) {
-		var direction = null;
-		if (this.isOnSameFile(piece.s, king.s)) {
-			direction = (king.s - piece.s) / this.getDistance(piece.s, king.s);
-		} else if (this.isOnSameRank(piece.s, king.s)) {
-			direction = king.s > piece.s ? 1 : -1;
-		}
-		if (direction) {
-			var square = piece.s + direction;
-			var pieceFound = false;
-			var squares = [piece.s];
-			while (square !== king.s && !pieceFound) {
-				squares.push(square);
-				if (this.c['board'][square]) {
-					pieceFound = true;
-				}
-				square += direction;
-			}
-			if (!pieceFound) {
-				return squares;
-			}
-		}
-		return undefined;
-	},
+    getValidSquaresOnCheck: function (color) {
+        var ret = [], checks;
+        var king = this.c['k' + color];
+        var pieces = this.c[color === 'white' ? 'black' : 'white'];
 
 
-	getCountChecks:function (kingColor, moves) {
-		var king = this.c['k' + kingColor];
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+
+            switch (piece.t) {
+                case 0x01:
+                    if (king.s === piece.s + 15 || king.s === piece.s + 17) {
+                        return [piece.s];
+                    }
+                    break;
+                case 0x09:
+                    if (king.s === piece.s - 15 || king.s === piece.s - 17) {
+                        return [piece.s];
+                    }
+                    break;
+                // knight
+                case 0x02:
+                case 0x0A:
+                    if (this.getDistance(piece.s, king.s) === 2) {
+                        var directions = this.bc.movePatterns[piece.t];
+                        for (var a = 0; a < directions.length; a++) {
+                            var square = piece.s + directions[a];
+                            if (square === king.s) {
+                                return [piece.s];
+                            }
+                        }
+                    }
+                    break;
+                // Bishop
+                case 0x05:
+                case 0x0D:
+                    checks = this.getBishopCheckPath(piece, king);
+                    if (checks) {
+                        return checks;
+                    }
+                    break;
+                // Rook
+                case 0x06:
+                case 0x0E:
+                    checks = this.getRookCheckPath(piece, king);
+                    if (checks) {
+                        return checks;
+                    }
+                    break;
+                case 0x07:
+                case 0x0F:
+                    checks = this.getRookCheckPath(piece, king);
+                    if (checks) {
+                        return checks;
+                    }
+                    checks = this.getBishopCheckPath(piece, king);
+                    if (checks) {
+                        return checks;
+                    }
+                    break;
+            }
+        }
+        return ret;
+    },
+
+    getBishopCheckPath: function (piece, king) {
+        if ((king.s - piece.s) % 15 === 0 || (king.s - piece.s) % 17 === 0) {
+            var direction = (king.s - piece.s) / this.getDistance(piece.s, king.s);
+            var square = piece.s + direction;
+            var pieceFound = false;
+            var squares = [piece.s];
+            while (square !== king.s && !pieceFound) {
+                squares.push(square);
+                if (this.c['board'][square]) {
+                    pieceFound = true;
+                }
+                square += direction;
+            }
+            if (!pieceFound) {
+                return squares;
+            }
+        }
+        return null;
+    },
+
+    getRookCheckPath: function (piece, king) {
+        var direction = null;
+        if (this.isOnSameFile(piece.s, king.s)) {
+            direction = (king.s - piece.s) / this.getDistance(piece.s, king.s);
+        } else if (this.isOnSameRank(piece.s, king.s)) {
+            direction = king.s > piece.s ? 1 : -1;
+        }
+        if (direction) {
+            var square = piece.s + direction;
+            var pieceFound = false;
+            var squares = [piece.s];
+            while (square !== king.s && !pieceFound) {
+                squares.push(square);
+                if (this.c['board'][square]) {
+                    pieceFound = true;
+                }
+                square += direction;
+            }
+            if (!pieceFound) {
+                return squares;
+            }
+        }
+        return undefined;
+    },
+
+
+    getCountChecks: function (kingColor, moves) {
+        var king = this.c['k' + kingColor];
         var index = moves.indexOf(king.s);
-		if (index >= 0) {
-			if (moves.indexOf(king.s, index+1 ) >= 0) {
-				return 2;
-			}
-			return 1;
-		}
-		return 0;
-	},
+        if (index >= 0) {
+            if (moves.indexOf(king.s, index + 1) >= 0) {
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
+    },
 
-	/**
-	 * Returns distance between two sqaures
-	 * @method getDistance
-	 * @param {Number} sq1
-	 * @param {Number} sq2
-	 * @return {Number} distance
-	 */
-	getDistance:function (sq1, sq2) {
-		return this.bc.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
-	},
+    /**
+     * Returns distance between two sqaures
+     * @method getDistance
+     * @param {Number} sq1
+     * @param {Number} sq2
+     * @return {Number} distance
+     */
+    getDistance: function (sq1, sq2) {
+        return this.bc.distances[sq2 - sq1 + (sq2 | 7) - (sq1 | 7) + 240];
+    },
 
 
-	getPiecesInvolvedInMove:function (move) {
-		var ret = [
-			{ from:move.from, to:move.to }
-		];
-		var square;
-		move = {
-			from:this.bc.mapping[move.from],
-			to:this.bc.mapping[move.to],
-			promoteTo:move.promoteTo
-		};
+    getPiecesInvolvedInMove: function (move) {
+        var ret = [
+            {from: move.from, to: move.to}
+        ];
+        var square;
+        move = {
+            from: this.bc.mapping[move.from],
+            to: this.bc.mapping[move.to],
+            promoteTo: move.promoteTo
+        };
 
-		var color = (this.c['board'][move.from] & 0x8) ? 'black' : 'white';
+        var color = (this.c['board'][move.from] & 0x8) ? 'black' : 'white';
 
-		if (this.isEnPassantMove(move.from, move.to)) {
-			if (color == 'black') {
-				square = move.to + 16;
+        if (this.isEnPassantMove(move.from, move.to)) {
+            if (color == 'black') {
+                square = move.to + 16;
 
-			} else {
-				square = move.to - 16;
-			}
-			ret.push({ capture:this.bc.numberToSquareMapping[square]})
-		}
+            } else {
+                square = move.to - 16;
+            }
+            ret.push({capture: this.bc.numberToSquareMapping[square]})
+        }
 
-		if (this.isCastleMove(move)) {
-			if ((move.from & 15) < (move.to & 15)) {
-				ret.push({
-					from:'h' + (color == 'white' ? 1 : 8),
-					to:'f' + (color == 'white' ? 1 : 8)
-				});
-			} else {
-				ret.push({
-					from:'a' + (color == 'white' ? 1 : 8),
-					to:'d' + (color == 'white' ? 1 : 8)
-				});
-			}
-		}
+        if (this.isCastleMove(move)) {
+            if ((move.from & 15) < (move.to & 15)) {
+                ret.push({
+                    from: 'h' + (color == 'white' ? 1 : 8),
+                    to: 'f' + (color == 'white' ? 1 : 8)
+                });
+            } else {
+                ret.push({
+                    from: 'a' + (color == 'white' ? 1 : 8),
+                    to: 'd' + (color == 'white' ? 1 : 8)
+                });
+            }
+        }
 
-		if (move.promoteTo) {
-			ret.push({
-				promoteTo:move.promoteTo, square:this.bc.numberToSquareMapping[move.to]
-			});
-		}
-		return ret;
-	},
+        if (move.promoteTo) {
+            ret.push({
+                promoteTo: move.promoteTo, square: this.bc.numberToSquareMapping[move.to]
+            });
+        }
+        return ret;
+    },
 
-	/**
-	 Returns true if a move is an "en passant" move. Move is given in this format:
-	 @method isEnPassantMove
-	 @param {Number} from
-	 @param {Number} to
-	 @return {Boolean}
-	 @example
-	 	var move = {
+    /**
+     Returns true if a move is an "en passant" move. Move is given in this format:
+     @method isEnPassantMove
+     @param {Number} from
+     @param {Number} to
+     @return {Boolean}
+     @example
+     var move = {
 	 		from: this.bc.mapping['e5'],
 	 		to: this.bc.mapping['e6']
 	 	}
-	 console.log(parser.isEnPassantMove(move);
+     console.log(parser.isEnPassantMove(move);
 
-	 Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
-	 */
-	isEnPassantMove:function (from, to) {
-		if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
-			if (
-				!this.c['board'][to] &&
-					((from - to) % 17 === 0 || (from - to) % 15 === 0)) {
-				return true;
-			}
-		}
-		return false;
-	},
+     Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
+     */
+    isEnPassantMove: function (from, to) {
+        if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
+            if (
+                !this.c['board'][to] &&
+                ((from - to) % 17 === 0 || (from - to) % 15 === 0)) {
+                return true;
+            }
+        }
+        return false;
+    },
 
-	/**
-	 Returns true if a move is a castle move. This method does not validate if the king is allowed
-	 to move to the designated square.
-	 @method isCastleMove
-	 @param {Object} move
-	 @return {Boolean}
-	 */
-	isCastleMove:function (move) {
-		if ((this.c['board'][move.from] === 0x03 || this.c['board'][move.from] == 0x0B)) {
-			if (this.getDistance(move.from, move.to) === 2) {
-				return true;
-			}
-		}
-		return false;
-	},
+    /**
+     Returns true if a move is a castle move. This method does not validate if the king is allowed
+     to move to the designated square.
+     @method isCastleMove
+     @param {Object} move
+     @return {Boolean}
+     */
+    isCastleMove: function (move) {
+        if ((this.c['board'][move.from] === 0x03 || this.c['board'][move.from] == 0x0B)) {
+            if (this.getDistance(move.from, move.to) === 2) {
+                return true;
+            }
+        }
+        return false;
+    },
 
-	/**
-	 Make a move by notation
-	 @method makeMoveByNotation
-	 @param {String} notation
-	 @return undefined
-	 @example
-	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-	 	parser.makeMoveByNotation('e4');
-	 	console.log(parser.getFen());
-	 */
-	makeMoveByNotation:function (notation) {
-		this.makeMoveByObject(this.getFromAndToByNotation(notation));
-	},
+    /**
+     Make a move by notation
+     @method makeMoveByNotation
+     @param {String} notation
+     @return undefined
+     @example
+     var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+     parser.makeMoveByNotation('e4');
+     console.log(parser.getFen());
+     */
+    makeMoveByNotation: function (notation) {
+        this.makeMoveByObject(this.getFromAndToByNotation(notation));
+    },
 
-	/**
-	 Make a move by an object
-	 @method makeMove
-	 @param {Object} move
-	 @example
-	 	var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-	 	parser.makeMove({from:'e2',to:'e4'});
-	 	console.log(parser.getFen());
-	 */
-	makeMoveByObject:function (move) {
+    /**
+     Make a move by an object
+     @method makeMove
+     @param {Object} move
+     @example
+     var parser = new chess.parser.FenParser0x88('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+     parser.makeMove({from:'e2',to:'e4'});
+     console.log(parser.getFen());
+     */
+    makeMoveByObject: function (move) {
         this.makeMove(
             this.bc.mapping[move.from],
             this.bc.mapping[move.to],
             move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
-		this.fen = undefined;
-	},
+        this.fen = undefined;
+    },
 
 
+    /**
+     Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
+     repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
+     @method hasThreeFoldRepetition
+     @param {Array} fens
+     @return {Boolean}
+     This method is called from the game model where the fen of the last moves is sent.
+     */
+    hasThreeFoldRepetition: function (fens) {
+        if (!fens || fens.length === 0) return false;
+        var shortenedFens = {};
+        for (var i = 0; i < fens.length; i++) {
+            var fen = this.getTruncatedFenWithColorAndCastle(fens[i]);
+            if (shortenedFens[fen] === undefined) {
+                shortenedFens[fen] = 0;
+            }
+            shortenedFens[fen]++;
+        }
+        var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length - 1]);
+        return shortenedFens[lastFen] >= 2;
+    },
 
-	/**
-	 Returns true when last position in the game has occured 2 or more times, i.e. 3 fold
-	 repetition.(if 2, it will be 3 fold after the next move, a "claimed" draw).
-	 @method hasThreeFoldRepetition
-	 @param {Array} fens
-	 @return {Boolean}
-	 This method is called from the game model where the fen of the last moves is sent.
-	 */
-	hasThreeFoldRepetition:function (fens) {
-		if (!fens || fens.length === 0)return false;
-		var shortenedFens = {};
-		for (var i = 0; i < fens.length; i++) {
-			var fen = this.getTruncatedFenWithColorAndCastle(fens[i]);
-			if (shortenedFens[fen] === undefined) {
-				shortenedFens[fen] = 0;
-			}
-			shortenedFens[fen]++;
-		}
-		var lastFen = this.getTruncatedFenWithColorAndCastle(fens[fens.length - 1]);
-		return shortenedFens[lastFen] >= 2;
-	},
+    getTruncatedFenWithColorAndCastle: function (fen) {
+        return fen.split(/\s/g).slice(0, 3).join(' ');
+    },
 
-	getTruncatedFenWithColorAndCastle:function (fen) {
-		return fen.split(/\s/g).slice(0, 3).join(' ');
-	},
+    getPromoteByNotation: function (notation) {
+        if (notation.indexOf('=') > 0) {
+            var piece = notation.replace(/^.*?=([QRBN]).*$/, '$1');
+            return this.bc.pieceAbbr[piece];
+        }
+        if (notation.match(/[a-h][18][NBRQ]/)) {
+            notation = notation.replace(/[^a-h18NBRQ]/g, '');
+            return this.bc.pieceAbbr[notation.substr(notation.length - 1, 1)];
+        }
+        return '';
+    },
 
-	getPromoteByNotation:function (notation) {
-		if (notation.indexOf('=') > 0) {
-			var piece = notation.replace(/^.*?=([QRBN]).*$/, '$1');
-			return this.bc.pieceAbbr[piece];
-		}
-		if (notation.match(/[a-h][18][NBRQ]/)) {
-			notation = notation.replace(/[^a-h18NBRQ]/g, '');
-			return this.bc.pieceAbbr[notation.substr(notation.length - 1, 1)];
-		}
-		return '';
-	},
+    getFromAndToByNotation: function (notation) {
+        var ret = {promoteTo: this.getPromoteByNotation(notation)};
+        var color = this.getColor();
+        var offset = 0;
+        if (color === 'black') {
+            offset = 112;
+        }
+        var validMoves = this.getValidMovesAndResult().moves;
 
-	getFromAndToByNotation:function (notation) {
-		var ret = { promoteTo:this.getPromoteByNotation(notation)};
-		var color = this.getColor();
-		var offset = 0;
-		if (color === 'black') {
-			offset = 112;
-		}
-		var validMoves = this.getValidMovesAndResult().moves;
+        var foundPieces = [], offsets, sq, i;
+        if (notation === 'OO') notation = 'O-O';
+        if (notation === 'OOO') notation = 'O-O-O';
+        if (notation.length === 2) {
+            var square = this.bc.mapping[notation];
+            ret.to = this.bc.mapping[notation];
+            var direction = color === 'white' ? -16 : 16;
+            if (this.c['board'][square + direction]) {
+                foundPieces.push(square + direction);
+            } else {
+                foundPieces.push(square + (direction * 2));
+            }
 
-		var foundPieces = [], offsets, sq, i;
-		if (notation === 'OO')notation = 'O-O';
-		if (notation === 'OOO')notation = 'O-O-O';
-		if (notation.length === 2) {
-			var square = this.bc.mapping[notation];
-			ret.to = this.bc.mapping[notation];
-			var direction = color === 'white' ? -16 : 16;
-			if (this.c['board'][square + direction]) {
-				foundPieces.push(square + direction);
-			} else {
-				foundPieces.push(square + (direction * 2));
-			}
+        } else {
+            var fromRank = this.getFromRankByNotation(notation);
+            var fromFile = this.getFromFileByNotation(notation);
 
-		} else {
-			var fromRank = this.getFromRankByNotation(notation);
-			var fromFile = this.getFromFileByNotation(notation);
+            notation = notation.replace(/=[QRBN]/, '');
+            notation = notation.replace(/[\+#!\?]/g, '');
+            notation = notation.replace(/^(.*?)[QRBN]$/g, '$1');
+            var pieceType = this.getPieceTypeByNotation(notation, color);
+            var capture = notation.indexOf('x') > 0;
+            ret.to = this.getToSquareByNotation(notation);
 
-			notation = notation.replace(/=[QRBN]/, '');
-			notation = notation.replace(/[\+#!\?]/g, '');
-			notation = notation.replace(/^(.*?)[QRBN]$/g, '$1');
-			var pieceType = this.getPieceTypeByNotation(notation, color);
-			var capture = notation.indexOf('x') > 0;
-			ret.to = this.getToSquareByNotation(notation);
-
-			switch (pieceType) {
-				case 0x01:
-				case 0x09:
-					if (color === 'black') {
-						offsets = capture ? [15, 17]  : [16];
-						if (ret.to > 48) {
-							offsets.push(32);
-						}
-					} else {
-						offsets = capture ? [-15, -17] : [-16];
-						if (ret.to < 64) {
-							offsets.push(-32);
-						}
-					}
-					for (i = 0; i < offsets.length; i++) {
-						sq = ret.to + offsets[i];
-						if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
-							foundPieces.push(sq);
-						}
-					}
+            switch (pieceType) {
+                case 0x01:
+                case 0x09:
+                    if (color === 'black') {
+                        offsets = capture ? [15, 17] : [16];
+                        if (ret.to > 48) {
+                            offsets.push(32);
+                        }
+                    } else {
+                        offsets = capture ? [-15, -17] : [-16];
+                        if (ret.to < 64) {
+                            offsets.push(-32);
+                        }
+                    }
+                    for (i = 0; i < offsets.length; i++) {
+                        sq = ret.to + offsets[i];
+                        if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+                            foundPieces.push(sq);
+                        }
+                    }
 
 
-					break;
-				case 0x03:
-				case 0x0B:
+                    break;
+                case 0x03:
+                case 0x0B:
 
-					if (notation === 'O-O') {
-						foundPieces.push(offset + 4);
-						ret.to = offset + 6;
-					} else if (notation === 'O-O-O') {
-						foundPieces.push(offset + 4);
-						ret.to = offset + 2;
-					} else {
-						foundPieces.push(this.getKing(color).s);
-					}
-					break;
-				case 0x02:
-				case 0x0A:
-					var pattern = this.bc.movePatterns[pieceType];
-					for (i = 0; i < pattern.length; i++) {
-						sq = ret.to + pattern[i];
-						if ((sq & 0x88) === 0) {
-							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
-								foundPieces.push(sq);
-								if (fromRank === null && fromFile === null) {
-									break;
-								}
-							}
-						}
-					}
+                    if (notation === 'O-O') {
+                        foundPieces.push(offset + 4);
+                        ret.to = offset + 6;
+                    } else if (notation === 'O-O-O') {
+                        foundPieces.push(offset + 4);
+                        ret.to = offset + 2;
+                    } else {
+                        foundPieces.push(this.getKing(color).s);
+                    }
+                    break;
+                case 0x02:
+                case 0x0A:
+                    var pattern = this.bc.movePatterns[pieceType];
+                    for (i = 0; i < pattern.length; i++) {
+                        sq = ret.to + pattern[i];
+                        if ((sq & 0x88) === 0) {
+                            if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+                                foundPieces.push(sq);
+                                if (fromRank === null && fromFile === null) {
+                                    break;
+                                }
+                            }
+                        }
+                    }
 
-					break;
-				// Sliding pieces
-				default:
-					var patterns = this.bc.movePatterns[pieceType];
+                    break;
+                // Sliding pieces
+                default:
+                    var patterns = this.bc.movePatterns[pieceType];
 
-					for (i = 0; i < patterns.length; i++) {
-						sq = ret.to + patterns[i];
-						while ((sq & 0x88) === 0) {
-							if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
-								foundPieces.push(sq);
-								if (fromRank === null && fromFile === null) {
-									break;
-								}
-							}
-							sq += patterns[i];
-						}
-					}
-					break;
-			}
-		}
+                    for (i = 0; i < patterns.length; i++) {
+                        sq = ret.to + patterns[i];
+                        while ((sq & 0x88) === 0) {
+                            if (this.c['board'][sq] && this.c['board'][sq] === pieceType && validMoves[sq].indexOf(ret.to) >= 0) {
+                                foundPieces.push(sq);
+                                if (fromRank === null && fromFile === null) {
+                                    break;
+                                }
+                            }
+                            sq += patterns[i];
+                        }
+                    }
+                    break;
+            }
+        }
 
-		if (foundPieces.length === 1) {
-			ret.from = foundPieces[0];
-		} else {
+        if (foundPieces.length === 1) {
+            ret.from = foundPieces[0];
+        } else {
 
-			if (fromRank >= 0 && fromRank !== null) {
-				for (i = 0; i < foundPieces.length; i++) {
-					if (this.isOnSameRank(foundPieces[i], fromRank)) {
-						ret.from = foundPieces[i];
-						break;
-					}
-				}
-			}
-			else if (fromFile >= 0 && fromFile !== null) {
-				for (i = 0; i < foundPieces.length; i++) {
-					if (this.isOnSameFile(foundPieces[i], fromFile)) {
-						ret.from = foundPieces[i];
-						break;
-					}
-				}
-			}
-		}
-		ret.from = this.bc.numberToSquareMapping[ret.from];
-		ret.to = this.bc.numberToSquareMapping[ret.to];
+            if (fromRank >= 0 && fromRank !== null) {
+                for (i = 0; i < foundPieces.length; i++) {
+                    if (this.isOnSameRank(foundPieces[i], fromRank)) {
+                        ret.from = foundPieces[i];
+                        break;
+                    }
+                }
+            }
+            else if (fromFile >= 0 && fromFile !== null) {
+                for (i = 0; i < foundPieces.length; i++) {
+                    if (this.isOnSameFile(foundPieces[i], fromFile)) {
+                        ret.from = foundPieces[i];
+                        break;
+                    }
+                }
+            }
+        }
+        ret.from = this.bc.numberToSquareMapping[ret.from];
+        ret.to = this.bc.numberToSquareMapping[ret.to];
 
-		return ret;
-	},
-	/**
-	 Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
-	 @method getFromRankByNotation
-	 @param {String} notation
-	 @return {Number}
-	 */
-	getFromRankByNotation:function (notation) {
-		notation = notation.replace(/^.+([0-9]).+[0-9].*$/g, '$1');
-		if (notation.length > 1) {
-			return null;
-		}
-		return (notation - 1) * 16;
-	},
+        return ret;
+    },
+    /**
+     Get from rank by notation, 0 is first rank, 16 is second rank, 32 is third rank etc.
+     @method getFromRankByNotation
+     @param {String} notation
+     @return {Number}
+     */
+    getFromRankByNotation: function (notation) {
+        notation = notation.replace(/^.+([0-9]).+[0-9].*$/g, '$1');
+        if (notation.length > 1) {
+            return null;
+        }
+        return (notation - 1) * 16;
+    },
 
-	/**
-	 * Get from rank by notation. 0 is first file(a), 1 is second file(b), 2 is third file etc.
-	 * @method getFromFileByNotation
-	 * @param {String} notation
-	 * @return {Number}
-	 */
-	getFromFileByNotation:function (notation) {
-		notation = notation.replace(/^.*([a-h]).*[a-h].*$/g, '$1');
-		if (notation.length > 1) {
-			return null;
-		}
-		return this.bc.files[notation];
-	},
-	/**
-	 * Return numeric destination square by notation.
-	 * @method getToSquareByNotation
-	 * @param {String} notation
-	 * @return {Number} square
-	 */
-	getToSquareByNotation:function (notation) {
-		return this.bc.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
-	},
+    /**
+     * Get from rank by notation. 0 is first file(a), 1 is second file(b), 2 is third file etc.
+     * @method getFromFileByNotation
+     * @param {String} notation
+     * @return {Number}
+     */
+    getFromFileByNotation: function (notation) {
+        notation = notation.replace(/^.*([a-h]).*[a-h].*$/g, '$1');
+        if (notation.length > 1) {
+            return null;
+        }
+        return this.bc.files[notation];
+    },
+    /**
+     * Return numeric destination square by notation.
+     * @method getToSquareByNotation
+     * @param {String} notation
+     * @return {Number} square
+     */
+    getToSquareByNotation: function (notation) {
+        return this.bc.mapping[notation.replace(/.*([a-h][1-8]).*/g, '$1')];
+    },
 
-	getPieceTypeByNotation:function (notation, color) {
-		notation = notation.replace(/=[NBRQ]/, '');
-		if (notation === 'O-O-O' || notation === 'O-O') {
-			notation = 'K';
-		} else {
-			notation = notation.replace(/.*?([NRBQK]).*/g, '$1');
-			if (!notation || notation.length > 1) {
-				notation = 'P';
-			}
-		}
+    getPieceTypeByNotation: function (notation, color) {
+        notation = notation.replace(/=[NBRQ]/, '');
+        if (notation === 'O-O-O' || notation === 'O-O') {
+            notation = 'K';
+        } else {
+            notation = notation.replace(/.*?([NRBQK]).*/g, '$1');
+            if (!notation || notation.length > 1) {
+                notation = 'P';
+            }
+        }
 
-		notation = this.bc.pieces[notation];
-		if (color === 'black') {
-			notation += 8;
-		}
+        notation = this.bc.pieces[notation];
+        if (color === 'black') {
+            notation += 8;
+        }
 
-		return notation;
-	},
+        return notation;
+    },
 
-	move:function (move) {
-		if (ludo.util.isString(move)) {
-			move = this.getFromAndToByNotation(move);
-		}
-		if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
-			move.promoteTo = this.getPromoteByNotation(move.m);
-		}
+    move: function (move) {
+        if (ludo.util.isString(move)) {
+            move = this.getFromAndToByNotation(move);
+        }
+        if (!move.promoteTo && move.m && move.m.indexOf('=') >= 0) {
+            move.promoteTo = this.getPromoteByNotation(move.m);
+        }
 
-		this.fen = undefined;
-		this.piecesInvolved = this.getPiecesInvolvedInMove(move);
-		this.notation = this.getNotationForAMove(move);
-		this.longNotation = this.getLongNotationForAMove(move, this.notation);
+        this.fen = undefined;
+        this.piecesInvolved = this.getPiecesInvolvedInMove(move);
+        this.notation = this.getNotationForAMove(move);
+        this.longNotation = this.getLongNotationForAMove(move, this.notation);
 
         this.makeMove(
             this.bc.mapping[move.from],
@@ -26785,34 +28902,34 @@ chess.parser.FenParser0x88 = new Class({
             move.promoteTo ? this.bc.typeToNumberMapping[move.promoteTo] : undefined
         );
 
-		var config = this.getValidMovesAndResult();
+        var config = this.getValidMovesAndResult();
 
-		if (config.result === 1 || config.result === -1) {
-			this.notation += '#';
-			this.longNotation += '#';
-		} else {
-			if (config.check) {
-				this.notation += '+';
-				this.longNotation += '+';
-			}
-		}
-	},
+        if (config.result === 1 || config.result === -1) {
+            this.notation += '#';
+            this.longNotation += '#';
+        } else {
+            if (config.check) {
+                this.notation += '+';
+                this.longNotation += '+';
+            }
+        }
+    },
 
-	setNewColor:function () {
-		this.c.fenParts['color'] = (this.c.fenParts['color'] == 'w') ? 'b' : 'w';
+    setNewColor: function () {
+        this.c.fenParts['color'] = (this.c.fenParts['color'] == 'w') ? 'b' : 'w';
 
-	},
+    },
 
-	getCastle:function () {
-		return this.bc.castleMapping[this.c.fenParts['castleCode']];
-	},
+    getCastle: function () {
+        return this.bc.castleMapping[this.c.fenParts['castleCode']];
+    },
 
-    historyCurrentMove:[],
+    historyCurrentMove: [],
 
-    getCopyOfColoredPieces:function(color){
+    getCopyOfColoredPieces: function (color) {
         var ret = [];
-        for(var i=0;i<this.c[color].length;i++){
-            ret.push({ s : this.c[color][i].s, t: this.c[color][i].t });
+        for (var i = 0; i < this.c[color].length; i++) {
+            ret.push({s: this.c[color][i].s, t: this.c[color][i].t});
         }
         return ret;
     },
@@ -26823,33 +28940,33 @@ chess.parser.FenParser0x88 = new Class({
      * @param {Number} to
      * @param {String} promoteTo
      */
-    makeMove:function(from, to, promoteTo){
+    makeMove: function (from, to, promoteTo) {
         this.historyCurrentMove = [
-            { key : "white", value : this.getCopyOfColoredPieces('white')},
-            { key : "black", value : this.getCopyOfColoredPieces('black')},
-            { key : "castle", value:  this.c.fenParts['castleCode'] },
-            { key : "halfMoves", value: this.getHalfMoves() },
-            { key : "fullMoves", value: this.getFullMoves() },
-            { key : "color", value: this.c.fenParts['color'] },
-            { key : "enPassant", value : this.c.fenParts['enPassant'] }
+            {key: "white", value: this.getCopyOfColoredPieces('white')},
+            {key: "black", value: this.getCopyOfColoredPieces('black')},
+            {key: "castle", value: this.c.fenParts['castleCode']},
+            {key: "halfMoves", value: this.getHalfMoves()},
+            {key: "fullMoves", value: this.getFullMoves()},
+            {key: "color", value: this.c.fenParts['color']},
+            {key: "enPassant", value: this.c.fenParts['enPassant']}
         ];
 
-        if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from]!== 0x09)) {
+        if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from] !== 0x09)) {
             this.incrementHalfMoves();
-        }else{
+        } else {
             this.resetHalfMoves();
         }
 
         var enPassant = '-';
 
-        switch(this.c['board'][from]){
+        switch (this.c['board'][from]) {
             case 0x03:
             case 0x0B:
-                var rook,offset;
+                var rook, offset;
                 this.disableCastle(from);
 
                 this.c['k' + this.bc.numberToColorMapping[this.c['board'][from]]].s = to;
-                if(this.getDistance(from,to) > 1){
+                if (this.getDistance(from, to) > 1) {
                     if (this.c['board'][from] === 0x03) {
                         rook = 0x06;
                         offset = 0;
@@ -26864,39 +28981,39 @@ chess.parser.FenParser0x88 = new Class({
                         this.updatePiece(0 + offset, 3 + offset);
                         this.movePiece(0 + offset, 3 + offset);
                     }
-        }
+                }
                 break;
             case 0x01:
             case 0x09:
                 if (this.isEnPassantMove(from, to)) {
                     if (this.bc.numberToColorMapping[this.c['board'][from]] == 'black') {
-                        this.deletePiece(to+16);
+                        this.deletePiece(to + 16);
                         this.c['board'][to + 16] = undefined;
                     } else {
-                        this.deletePiece(to-16);
+                        this.deletePiece(to - 16);
                         this.c['board'][to - 16] = undefined;
                     }
                 }
 
-                if(this.getDistance(from,to) > 1 && (this.c['board'][to-1] || this.c['board'][to+1])){
+                if (this.getDistance(from, to) > 1 && (this.c['board'][to - 1] || this.c['board'][to + 1])) {
                     enPassant = to > from ? from + 16 : from - 16;
                     enPassant = this.bc.numberToSquareMapping[enPassant];
                 }
 
-                if(promoteTo){
-                    if(this.c['board'][from] > 0x08){
+                if (promoteTo) {
+                    if (this.c['board'][from] > 0x08) {
                         promoteTo += 8;
                     }
                     this.updatePieceType(from, promoteTo);
                 }
                 break;
             case 0x06:
-                if(from === 0)this.disableCastleCode(this.bc.castle['Q']);
-                if(from === 7)this.disableCastleCode(this.bc.castle['K']);
+                if (from === 0) this.disableCastleCode(this.bc.castle['Q']);
+                if (from === 7) this.disableCastleCode(this.bc.castle['K']);
                 break;
             case 0x0E:
-                if(from === this.bc.mapping['a8'])this.disableCastleCode(this.bc.castle['q']);
-                if(from === this.bc.mapping['h8'])this.disableCastleCode(this.bc.castle['k']);
+                if (from === this.bc.mapping['a8']) this.disableCastleCode(this.bc.castle['q']);
+                if (from === this.bc.mapping['h8']) this.disableCastleCode(this.bc.castle['k']);
                 break;
         }
 
@@ -26904,37 +29021,37 @@ chess.parser.FenParser0x88 = new Class({
 
         this.updatePiece(from, to);
 
-        if(this.c['board'][to]){
+        if (this.c['board'][to]) {
             this.deletePiece(to);
             this.historyCurrentMove.push({
-                key : 'addToBoard', square : to, type : this.c['board'][to]
+                key: 'addToBoard', square: to, type: this.c['board'][to]
             })
         }
         this.movePiece(from, to);
-        if(promoteTo)this.c['board'][to] = promoteTo;
+        if (promoteTo) this.c['board'][to] = promoteTo;
 
-        if(this.c.fenParts['color'] === 'b')this.incrementFullMoves();
+        if (this.c.fenParts['color'] === 'b') this.incrementFullMoves();
         this.setNewColor();
         this.madeMoves.push(this.historyCurrentMove);
     },
 
-    movePiece:function(from, to){
+    movePiece: function (from, to) {
         this.historyCurrentMove.push({
-            key : 'addToBoard', square : from, type: this.c['board'][from]
+            key: 'addToBoard', square: from, type: this.c['board'][from]
         });
         this.historyCurrentMove.push({
-            key : 'removeFromBoard', square : to
+            key: 'removeFromBoard', square: to
         });
         this.c['board'][to] = this.c['board'][from];
         delete this.c['board'][from];
     },
 
-    unmakeMove:function(){
+    unmakeMove: function () {
         var changes = this.madeMoves.pop();
 
-        for(var i=changes.length-1;i>=0;i--){
+        for (var i = changes.length - 1; i >= 0; i--) {
             var item = changes[i];
-            switch(item.key){
+            switch (item.key) {
                 case 'white':
                     this.c['white'] = item.value;
                     break;
@@ -26967,253 +29084,252 @@ chess.parser.FenParser0x88 = new Class({
         }
     },
 
-	isValid:function(move){
-		var moves = this.getValidMovesAndResult().moves;
-		return moves[this.bc.mapping[move.from]] != undefined &&
-			moves[this.bc.mapping[move.from]].indexOf(this.bc.mapping[move.to]) >= 0;
-	},
+    isValid: function (move) {
+        var moves = this.getValidMovesAndResult().moves;
+        return moves[this.bc.mapping[move.from]] != undefined &&
+            moves[this.bc.mapping[move.from]].indexOf(this.bc.mapping[move.to]) >= 0;
+    },
 
-    updatePiece:function(from, to){
+    updatePiece: function (from, to) {
         var color = this.bc.numberToColorMapping[this.c['board'][from]];
-        for(var i=0;i<this.c[color].length;i++){
-            if(this.c[color][i].s === from){
-                this.c[color][i] = { s: to, t: this.c[color][i].t };
+        for (var i = 0; i < this.c[color].length; i++) {
+            if (this.c[color][i].s === from) {
+                this.c[color][i] = {s: to, t: this.c[color][i].t};
                 return;
             }
         }
     },
 
-    updatePieceType:function(square, type){
+    updatePieceType: function (square, type) {
         var color = this.bc.numberToColorMapping[this.c['board'][square]];
-        for(var i=0;i<this.c[color].length;i++){
-            if(this.c[color][i].s === square){
-                this.c[color][i] = { s: this.c[color][i].s, t : type };
+        for (var i = 0; i < this.c[color].length; i++) {
+            if (this.c[color][i].s === square) {
+                this.c[color][i] = {s: this.c[color][i].s, t: type};
                 return;
             }
         }
     },
 
-    deletePiece:function(square){
+    deletePiece: function (square) {
         var color = this.bc.numberToColorMapping[this.c['board'][square]];
-        for(var i=0;i<this.c[color].length;i++){
-            if(this.c[color][i].s === square){
-                this.c[color].splice(i,1);
+        for (var i = 0; i < this.c[color].length; i++) {
+            if (this.c[color][i].s === square) {
+                this.c[color].splice(i, 1);
                 return;
             }
         }
     },
 
-    disableCastle:function(from){
-        var codes = this.c['board'][from] < 9 ? [4,8] : [1,2];
+    disableCastle: function (from) {
+        var codes = this.c['board'][from] < 9 ? [4, 8] : [1, 2];
         this.disableCastleCode(codes[0]);
         this.disableCastleCode(codes[1]);
     },
 
-    disableCastleCode:function(code){
-        if((this.c.fenParts['castleCode'] & code) > 0) this.c.fenParts['castleCode'] -= code;
+    disableCastleCode: function (code) {
+        if ((this.c.fenParts['castleCode'] & code) > 0) this.c.fenParts['castleCode'] -= code;
     },
 
-	incrementFullMoves:function () {
-		this.c.fenParts['fullMoves']++;
-	},
-	incrementHalfMoves:function () {
-		this.c.fenParts['halfMoves']++;
-	},
-	resetHalfMoves:function () {
-		this.c.fenParts['halfMoves'] = 0;
-	},
+    incrementFullMoves: function () {
+        this.c.fenParts['fullMoves']++;
+    },
+    incrementHalfMoves: function () {
+        this.c.fenParts['halfMoves']++;
+    },
+    resetHalfMoves: function () {
+        this.c.fenParts['halfMoves'] = 0;
+    },
 
-	getPiecesInvolvedInLastMove:function () {
-		return this.piecesInvolved;
-	},
+    getPiecesInvolvedInLastMove: function () {
+        return this.piecesInvolved;
+    },
 
-	getNotation:function () {
-		return this.notation;
-	},
-	getLongNotation:function () {
-		return this.longNotation;
-	},
-	/**
-	 * Return current fen position
-	 * @method getFen
-	 * @return {String} fen
-	 */
-	getFen:function () {
-		if (!this.fen) {
-			this.fen = this.getNewFen();
-		}
-		return this.fen;
-	},
+    getNotation: function () {
+        return this.notation;
+    },
+    getLongNotation: function () {
+        return this.longNotation;
+    },
+    /**
+     * Return current fen position
+     * @method getFen
+     * @return {String} fen
+     */
+    getFen: function () {
+        if (!this.fen) {
+            this.fen = this.getNewFen();
+        }
+        return this.fen;
+    },
 
-	/**
-	 * Return long notation for a move
-	 * @method getLongNotationForAMove
-	 * @param {Object} move
-	 * @param {String} shortNotation
-	 * @return {String} long notation
-	 */
-	getLongNotationForAMove:function (move, shortNotation) {
-		if(!shortNotation){
-			console.trace();
-			console.log(this.getFen(), move);
-		}
-		if (shortNotation.indexOf('O-') >= 0) {
-			return shortNotation;
-		}
-		var fromSquare = move.from;
-		var toSquare = move.to;
+    /**
+     * Return long notation for a move
+     * @method getLongNotationForAMove
+     * @param {Object} move
+     * @param {String} shortNotation
+     * @return {String} long notation
+     */
+    getLongNotationForAMove: function (move, shortNotation) {
+        if (!shortNotation) {
+            return "";
+        }
+        if (shortNotation.indexOf('O-') >= 0) {
+            return shortNotation;
+        }
+        var fromSquare = move.from;
+        var toSquare = move.to;
 
 
-		var type = this.c['board'][this.bc.mapping[move.from]];
-		type = this.bc.typeMapping[type];
-		var separator = shortNotation.indexOf('x') >= 0 ? 'x' : '-';
+        var type = this.c['board'][this.bc.mapping[move.from]];
+        type = this.bc.typeMapping[type];
+        var separator = shortNotation.indexOf('x') >= 0 ? 'x' : '-';
 
-		var ret = this.lan[type] + fromSquare + separator + toSquare;
+        var ret = this.lan[type] + fromSquare + separator + toSquare;
 
-		if (move.promoteTo) {
-			ret += '=' + this.lan[move.promoteTo];
-		}
-		return ret;
-	},
+        if (move.promoteTo) {
+            ret += '=' + this.lan[move.promoteTo];
+        }
+        return ret;
+    },
 
-	/**
-	 Return short notation for a move
-	 @method getNotationForAMove
-	 @param {Object} move
-	 @return {String}
-	 @example
-	 	alert(parser.getNotationForAMove({from:'g1',to:'f3'});
-	 */
-	getNotationForAMove:function (move) {
-		move = {
-			from:this.bc.mapping[move.from],
-			to:this.bc.mapping[move.to],
-			promoteTo:move.promoteTo
-		};
+    /**
+     Return short notation for a move
+     @method getNotationForAMove
+     @param {Object} move
+     @return {String}
+     @example
+     alert(parser.getNotationForAMove({from:'g1',to:'f3'});
+     */
+    getNotationForAMove: function (move) {
+        move = {
+            from: this.bc.mapping[move.from],
+            to: this.bc.mapping[move.to],
+            promoteTo: move.promoteTo
+        };
 
-		var type = this.c['board'][move.from];
+        var type = this.c['board'][move.from];
 
-		var ret = this.lan[this.bc.typeMapping[this.c['board'][move.from]]];
+        var ret = this.lan[this.bc.typeMapping[this.c['board'][move.from]]];
 
-		switch (type) {
-			case 0x01:
-			case 0x09:
-				if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
-					ret += this.bc.fileMapping[move.from & 15] + 'x';
-				}
-				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
-				if (move.promoteTo) {
-					var pr = this.lan[move.promoteTo] != undefined ? this.lan[move.promoteTo] : move.promoteTo;
-					ret += '=' + pr;
-				}
-				break;
-			case 0x02:
-			case 0x05:
-			case 0x06:
-			case 0x07:
-			case 0x0A:
-			case 0x0D:
-			case 0x0E:
-			case 0x0F:
-				var config = this.getValidMovesAndResult();
-				for (var square in config.moves) {
-					if (square != move.from && this.c['board'][square] === type) {
-						if (config.moves[square].indexOf(move.to) >= 0) {
-							if ((square & 15) != (move.from & 15)) {
-								ret += this.bc.fileMapping[move.from & 15];
-							}
-							else if ((square & 240) != (move.from & 240)) {
-								ret += this.bc.rankMapping[move.from & 240];
-							}
-						}
-					}
-				}
-				if (this.c['board'][move.to]) {
-					ret += 'x';
-				}
-				ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
-				break;
-			case 0x03:
-			case 0x0B:
-				if (this.isCastleMove(move)) {
-					if (move.to > move.from) {
-						ret = 'O-O';
-					} else {
-						ret = 'O-O-O';
-					}
-				} else {
-					if (this.c['board'][move.to]) {
-						ret += 'x';
-					}
-					ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
-				}
-				break;
-		}
-		return ret;
-	},
+        switch (type) {
+            case 0x01:
+            case 0x09:
+                if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
+                    ret += this.bc.fileMapping[move.from & 15] + 'x';
+                }
+                ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
+                if (move.promoteTo) {
+                    var pr = this.lan[move.promoteTo] != undefined ? this.lan[move.promoteTo] : move.promoteTo;
+                    ret += '=' + pr;
+                }
+                break;
+            case 0x02:
+            case 0x05:
+            case 0x06:
+            case 0x07:
+            case 0x0A:
+            case 0x0D:
+            case 0x0E:
+            case 0x0F:
+                var config = this.getValidMovesAndResult();
+                for (var square in config.moves) {
+                    if (square != move.from && this.c['board'][square] === type) {
+                        if (config.moves[square].indexOf(move.to) >= 0) {
+                            if ((square & 15) != (move.from & 15)) {
+                                ret += this.bc.fileMapping[move.from & 15];
+                            }
+                            else if ((square & 240) != (move.from & 240)) {
+                                ret += this.bc.rankMapping[move.from & 240];
+                            }
+                        }
+                    }
+                }
+                if (this.c['board'][move.to]) {
+                    ret += 'x';
+                }
+                ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
+                break;
+            case 0x03:
+            case 0x0B:
+                if (this.isCastleMove(move)) {
+                    if (move.to > move.from) {
+                        ret = 'O-O';
+                    } else {
+                        ret = 'O-O-O';
+                    }
+                } else {
+                    if (this.c['board'][move.to]) {
+                        ret += 'x';
+                    }
+                    ret += this.bc.fileMapping[move.to & 15] + '' + this.bc.rankMapping[move.to & 240];
+                }
+                break;
+        }
+        return ret;
+    },
 
-	/**
-	 * Returns new fen based on current board position
-	 * @method getNewFen
-	 * @return {String}
-	 */
-	getNewFen:function () {
-		var board = this.c['board'];
-		var fen = '';
-		var emptyCounter = 0;
+    /**
+     * Returns new fen based on current board position
+     * @method getNewFen
+     * @return {String}
+     */
+    getNewFen: function () {
+        var board = this.c['board'];
+        var fen = '';
+        var emptyCounter = 0;
 
-		for (var rank = 7; rank >= 0; rank--) {
-			for (var file = 0; file < 8; file++) {
-				var index = (rank * 8) + file;
-				if (board[this.bc.numericMapping[index]]) {
-					if (emptyCounter) {
-						fen += emptyCounter;
-					}
-					fen += this.bc.pieceMapping[board[this.bc.numericMapping[index]]];
-					emptyCounter = 0;
-				} else {
-					emptyCounter++;
-				}
-			}
-			if (rank) {
-				if (emptyCounter) {
-					fen += emptyCounter;
-				}
-				fen += '/';
-				emptyCounter = 0;
-			}
-		}
+        for (var rank = 7; rank >= 0; rank--) {
+            for (var file = 0; file < 8; file++) {
+                var index = (rank * 8) + file;
+                if (board[this.bc.numericMapping[index]]) {
+                    if (emptyCounter) {
+                        fen += emptyCounter;
+                    }
+                    fen += this.bc.pieceMapping[board[this.bc.numericMapping[index]]];
+                    emptyCounter = 0;
+                } else {
+                    emptyCounter++;
+                }
+            }
+            if (rank) {
+                if (emptyCounter) {
+                    fen += emptyCounter;
+                }
+                fen += '/';
+                emptyCounter = 0;
+            }
+        }
 
-		if (emptyCounter) {
-			fen += emptyCounter;
-		}
+        if (emptyCounter) {
+            fen += emptyCounter;
+        }
 
-		return [fen, this.getColorCode(), this.getCastle(), this.c.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
-	},
+        return [fen, this.getColorCode(), this.getCastle(), this.c.fenParts['enPassant'], this.getHalfMoves(), this.getFullMoves()].join(' ');
+    },
 
     /**
      * Return relative mobility of white compared to white. 0.5 is equal mobility
      * @method getMobility
      * @return {Number}
      */
-    getMobility:function(){
+    getMobility: function () {
         var mw = this.getCountValidMoves('white');
         var mb = this.getCountValidMoves('black');
         return mw / (mw + mb);
     },
 
-    getCountValidMoves:function(color){
+    getCountValidMoves: function (color) {
         var c = 0;
         var moves = this.getValidMovesAndResult(color).moves;
-        for(var key in moves){
-            if(moves.hasOwnProperty(key)){
-                c+= moves[key].length;
+        for (var key in moves) {
+            if (moves.hasOwnProperty(key)) {
+                c += moves[key].length;
             }
         }
         return c;
     },
 
-    evaluate:function(){
+    evaluate: function () {
         var score = this.getMaterialScore();
         score += this.getMobility() * 2;
         return score;
@@ -27224,15 +29340,15 @@ chess.parser.FenParser0x88 = new Class({
      * @method getHangingPieces
      * @param {String} color
      * @return {Array}
-    */
-    getHangingPieces:function(color){
+     */
+    getHangingPieces: function (color) {
         var ret = [];
         var m = this.getValidMovesAndResult(color);
         var c = this.getCaptureAndProtectiveMoves(color);
         var king = this.getKing(color);
-        for(var key in m.moves){
-            if(m.moves.hasOwnProperty(key)){
-                if(key != king.s && c.indexOf(parseInt(key)) === -1)ret.push(key);
+        for (var key in m.moves) {
+            if (m.moves.hasOwnProperty(key)) {
+                if (key != king.s && c.indexOf(parseInt(key)) === -1) ret.push(key);
             }
         }
         return ret;
@@ -27243,22 +29359,22 @@ chess.parser.FenParser0x88 = new Class({
      * @param {String} color
      * @return {Array}
      */
-    getHangingSquaresTranslated:function(color){
+    getHangingSquaresTranslated: function (color) {
         var hanging = this.getHangingPieces(color);
-        for(var i=0;i<hanging.length;i++){
+        for (var i = 0; i < hanging.length; i++) {
             hanging[i] = this.bc.numberToSquareMapping[hanging[i]];
         }
         return hanging;
     },
 
-    getMaterialScore:function(){
+    getMaterialScore: function () {
         return this.getValueOfPieces('white') - this.getValueOfPieces('black');
     },
 
-    getValueOfPieces:function(color){
+    getValueOfPieces: function (color) {
         var ret = 0;
         var pieces = this.getPiecesOfAColor(color);
-        for(var i=0;i<pieces.length;i++){
+        for (var i = 0; i < pieces.length; i++) {
             ret += this.bc.pieceValues[pieces[i].t];
         }
         return ret;
@@ -27448,6 +29564,51 @@ chess.parser.Move0x88 = new Class({
         this.parser.setFen(fen);
         return this.parser.getMobility();
     }
+});/* ../dhtml-chess/src/parser0x88/position-validator.js */
+/**
+ * Class used by position setup dialog to validate positions on the board.
+ * When the position is valid the "OK" button will be enabled, otherwise it will be disabled.
+ * @namespace chess.parser
+ * @class PositionValidator
+ * @extends chess.parser.FenParser0x88
+ */
+chess.parser.PositionValidator = new Class({
+   Extends : chess.parser.FenParser0x88,
+
+	/**
+	 * Returns true if a position is valid.
+	 * @method isValid
+	 * @param {String} fenPosition
+	 * @return {Boolean} valid
+	 */
+    isValid : function(fenPosition){
+		try{
+	        this.setFen(fenPosition);
+		}catch(e){
+			return false;
+		}
+        if(!this.hasBothKings()){
+            return false;
+        }
+        var oppositeConfig = this.getValidMovesAndResult(this.getOppositeColor());
+		return oppositeConfig.check ? false : true;
+    },
+
+    getValidMovesAndResult : function(color) {
+        if(!this.getKing('white') || !this.getKing('black')){
+            return { moves: [], result : 0, check : 0 }
+        }
+        return this.parent(color);
+    },
+
+    hasBothKings : function(){
+		return this.getKing('white') && this.getKing('black');
+    },
+
+    getOppositeColor : function(){
+        return this.getColor() === 'white' ? 'black' : 'white';
+    }
+
 });/* ../dhtml-chess/src/controller/controller.js */
 /**
  Game controller base class. This class acts as the glue between
@@ -27511,7 +29672,7 @@ chess.controller.Controller = new Class({
             new chess.action.Handler({
                 board: this.views.board,
                 controller: this,
-                arrowStyles:this.arrowStylesSec
+                arrowStyles: this.arrowStylesSec
             })
         }
     },
@@ -27733,9 +29894,9 @@ chess.controller.Controller = new Class({
      */
     addMove: function (move) {
         var m = this.currentModel;
-        if(this.eventHandler != undefined){
+        if (this.eventHandler != undefined) {
             this.eventHandler.apply(this, ['boardMove', m, this, move]);
-        }else{
+        } else {
             m.appendMove(move);
         }
     },
@@ -27908,8 +30069,8 @@ chess.controller.Controller = new Class({
     },
 
     modelEventFired: function (event, model) {
-        if(this.eventHandler){
-            this.eventHandler.apply(this, [event,model, this]);
+        if (this.eventHandler) {
+            this.eventHandler.apply(this, [event, model, this]);
         }
     },
 
@@ -27963,6 +30124,17 @@ chess.controller.Controller = new Class({
         if (this.pgn) {
             this.currentModel.loadPreviousStaticGame(this.pgn);
         }
+    },
+
+    colorToMove: function () {
+        return this.currentModel.getColorToMove();
+    },
+    keyNext: function(){
+        this.currentModel.nextMove();
+    },
+    keyBack: function(){
+        this.currentModel.previousMove();
+
     }
 });/* ../dhtml-chess/src/controller/tactic-controller.js */
 /**
@@ -28689,6 +30861,564 @@ chess.controller.ComputerController = new Class({
         }
         this.parent(event, model, move);
     }
+});/* ../dhtml-chess/src/controller/analysis-controller.js */
+/**
+ Special controller for analysis boards. It extends chess.controller.Controller but calls the
+ enableDragAndDrop method of the board when the events "setPosition", "nextmove" and "newMove" is
+ fired by current game model.
+ @namespace chess.controller
+ @class AnalysisController
+ @extends chess.controller.Controller
+ @constructor
+ @param {Object} config
+ @example
+ 	new chess.controller.AnalysisController();
+ */
+chess.controller.AnalysisController = new Class({
+	Extends:chess.controller.Controller,
+	useEngine:false,
+
+	__construct:function(config){
+		this.parent(config);
+		this.__params(config, ['useEngine']);
+	},
+
+	modelEventFired:function (event, model, param) {
+
+		if (event === 'setPosition' || event === 'nextmove' || event === 'newMove') {
+			if(this.views && this.views.board)this.views.board.enableDragAndDrop(model);
+		}
+	}
+
+});/* ../dhtml-chess/src/controller/stockfish-engine-controller.js */
+chess.controller.StockfishEngineController = new Class({
+    Extends: chess.controller.AnalysisController,
+
+    dialog: {},
+
+    engine: undefined,
+
+    analyzing: true,
+
+    backgroundEngineValid: true,
+
+    allMoves: [],
+
+    chessModel: undefined,
+
+    thinkingTime: 40,
+
+    stockfish:'../stockfish-js/stockfish.js',
+
+    fen:undefined,
+
+    stopped:true,
+
+    debug:false,
+
+    startFen:undefined,
+
+    examine:true,
+
+    engineStatus:{},
+
+    colorToMove:undefined,
+
+    autoStopEngineOnNewGame:true,
+
+    __construct: function (config) {
+        if(config.stockfish != undefined)this.stockfish = config.stockfish;
+        if(config.autoStopEngineOnNewGame != undefined)this.autoStopEngineOnNewGame = config.autoStopEngineOnNewGame;
+        this.engineStatus = {};
+        this.__params(config, ['stopped','examine']);
+        if (config.thinkingTime != undefined) {
+            this.thinkingTime = config.thinkingTime;
+        }
+
+        this.parent(config);
+    },
+
+    modelEventFired: function (event, model, param) {
+
+        this.parent(event,model, param);
+
+        this.chessModel = model;
+
+        if (event == 'newGame' && this.autoStopEngineOnNewGame) {
+            this.stopEngine();
+            this.startFen = this.currentModel.model.startFen;
+        }
+
+        if (event === 'setPosition' || event === 'nextmove' || event == 'newMove') {
+            if(this.examine)this.views.board.enableDragAndDrop(model);
+        }
+
+        if (event === 'fen') {
+            this.fen = param;
+
+            if (model.getResult() != 0) {
+                this.fireEvent("gameover", model.getResult());
+                return;
+            }
+
+            if(!this.stopped)this.updateEngine();
+        }
+    },
+
+    updateEngine:function(){
+        this.searchAndRedraw();
+    },
+
+    stopEngine:function(){
+        this.stopped = true;
+        this.uciCmd("stop");
+    },
+
+    startEngine:function(){
+        this.stopped = false;
+        if(!this.engine){
+            this.initializeBackgroundEngine();
+        }
+        this.searchAndRedraw();
+    },
+
+    searchAndRedraw: function () {
+        if (this.analyzing) {
+            this.colorToMove = this.getCurrentModel().getColorToMove();
+            this.currentPly = this.getCurrentModel().getCurrentPly();
+            
+            this.uciCmd("ucinewgame");
+            this.uciCmd("position fen " + this.getCurrentModel().fen());
+            this.uciCmd("go infinite");
+        }
+    },
+
+    uciCmd: function(cmd){
+        if(this.engine){
+            this.engine.postMessage(cmd);
+        }
+    },
+
+    initializeBackgroundEngine: function () {
+
+
+        if (!this.backgroundEngineValid) {
+            return false;
+        }
+
+
+        if (!this.engine) {
+
+            this.backgroundEngineValid = true;
+            try {
+                var that = this;
+                this.engine = new Worker(this.stockfish);
+
+                this.uciCmd('uci');
+                this.uciCmd('ucinewgame');
+
+                this.engine.onmessage = function (event) {
+                    var line = event.data;
+                    if(line == 'uciok') {
+                        that.engineStatus.engineLoaded = true;
+                    } else if(line == 'readyok') {
+                        that.engineStatus.engineReady = true;
+                    }else{
+                        var match = line.match(/^bestmove ([a-h][1-8])([a-h][1-8])([qrbk])?/);
+                        if(match){
+
+                        // UCICmd Out info depth 120 seldepth 8 score mate 4 nodes 7372428 nps 1571611 time 4691 multipv 1 pv d5f7 f8f7 e2e8 f7f8 e8f8 g8f8
+
+                        }else if(match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/)) {
+                            that.engineStatus.search = 'Depth: ' + match[1] + ' Nps: ' + match[2];
+                        }
+                        if(!that.stopped && (match = line.match(/^info .*\bscore (\w+) (-?\d+)/))) {
+                            // info depth 120 seldepth 6 score mate 3 nodes 293724 nps 428169 time 686 multipv 1 pv d5c7 e8f8 d1d8 e7d8 e1e8
+                            // info depth 20 seldepth 24 score cp 19 nodes 7739291 nps 442548 time 17488 multipv 1 pv e2e4 e7e5 g1f3 b8c6 f1b5 g8f6 e1g1 f8d6 d2d3 a7a6 b5c6 d7c6 c1g5 h7h6 g5f6 d8f6 b1d2 e8g8 a2a3 c8d7 b2b4
+                            var bestMoves = line.replace(/.*pv(.+?)$/g, '$1').trim();
+
+                            if(!that.isValidEngineMoveForCurrentPosition(bestMoves)){
+                                return false;
+                            }
+                            var nps = line.replace(/.*nps.*?([0-9]+?)[^0-9].+/g, '$1');
+                            var depth = line.replace(/.*?depth ([0-9]+?)[^0-9].*/g, '$1').trim();
+                            var ret = {
+                                depth:depth,
+                                bestMoves:bestMoves,
+                                nps: nps,
+                                mate:false,
+                                currentPly: that.currentPly
+                            };
+
+                            if(match[1] == 'cp') {
+                                var score = parseInt(match[2]) * (that.colorToMove == 'white' ? 1 : -1);
+                                score = (score / 100.0).toFixed(2);
+                            } else if(match[1] == 'mate') {
+                                ret.mate = match[2] * (that.colorToMove == 'white' ? 1 : -1);
+                                score = '#' + match[2];
+                            }
+                            ret.score = score;
+                            that.fireEvent('engineupdate', ret);
+                        }
+                    }
+                };
+                this.engine.error = function (e) {
+                    console.log("Error from background worker:" + e.message);
+                };
+                this.searchAndRedraw();
+            } catch (error) {
+                this.backgroundEngineValid = false;
+            }
+
+            jQuery.ajax({
+                url:ludo.config.getDocumentRoot() + '/stockfish-js/book.bin',
+                complete:function(response){
+                    this.engine.postMessage({book: response.responseText });
+                }.bind(this)
+            });
+        }
+
+        return this.backgroundEngineValid;
+    },
+
+    isValidEngineMoveForCurrentPosition:function(line){
+        if(this.parser == undefined){
+            this.parser = new chess.parser.FenParser0x88();
+        }
+
+        this.parser.setFen(this.fen);
+        var m = {
+            from: Board0x88Config.mapping[line.substr(0,2)],
+            to: Board0x88Config.mapping[line.substr(2,2)]
+        };
+
+        var valid = this.parser.getValidMovesAndResult().moves;
+
+        if(valid[m.from] && valid[m.from].indexOf(m.to) >=0){
+            return true;
+
+        }
+        return false;
+
+    },
+
+    getFen: function () {
+        return this.fen ? this.fen : 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+    },
+
+    color:function(){
+        return this.models[0].getColorToMove();
+    },
+
+
+    newGame: function () {
+        this.currentModel.newGame();
+    },
+
+    setThinkingTime:function(thinkingTime){
+        this.thinkingTime = thinkingTime;
+    }
+});/* ../dhtml-chess/src/controller/dummy-controller.js */
+chess.controller.DummyController = new Class({
+    Extends: chess.controller.StockfishEngineController,
+    positionParser: undefined,
+    fen: undefined,
+    isValid: false,
+    _colorToMove: "white",
+
+    _moves: undefined,
+    _movePointer: undefined,
+    _buttonBar: undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.circleColors = ["#E53935", "#43A047"]
+        this.positionParser = new chess.parser.FenParser0x88();
+
+        var b = this.views.board;
+
+        this.squarePool = new chess.view.highlight.SquarePool({
+            board: b
+        });
+
+        this.circlePool = new chess.view.highlight.SquarePool({
+            board: b,
+            circular: true
+        });
+
+        this.arrowPool = new chess.view.highlight.ArrowPool({
+            board: b
+        });
+
+
+    },
+
+    resetMoves: function () {
+        this._moves = [{
+            fen: Board0x88Config.fen
+        }];
+        this._movePointer = 0;
+    },
+
+    createView: function (type) {
+        var c = this.theme[type] || {};
+        c.type = type;
+        if (this._module != undefined) c.module = this._module;
+        return ludo.factory.create(c);
+    },
+
+    createDefaultViews: function () {
+        if (this.views.board) {
+            new chess.action.Handler({
+                board: this.views.board,
+                controller: this,
+                arrowStyles: this.arrowStylesSec
+            })
+        }
+    },
+
+    modelEventFired: function (event, model, param) {
+
+    },
+
+    updateFen: function (move, color) {
+        var fen = this.views.board.buildFen();
+        var c = color === "white" ? "b" : "w";
+        this.fen = [fen, c, "KQkq", "-", "0", c === "w" ? 2 : 1].join(" ");
+        this.validate();
+        if (this.isValid) this.onFenUpdated();
+
+        if (this.lastMove) {
+            this.squarePool
+                .hideAll()
+                .show(this.lastMove.from, this.circleColors[0])
+                .show(this.lastMove.to, this.circleColors[0]);
+        }
+        // console.log(this.positionParser.isValid(this.fen));
+    },
+
+    onFenUpdated: function () {
+        var fens = this.fen.split(' ');
+        this._colorToMove = fens[1] === "w" ? "white" : "black";
+
+        this.fireEvent('instructorFen', [undefined, this.fen]);
+
+        this.views.board.updateSTM();
+
+        if (this.arrowPool) {
+            this.squarePool.hideAll();
+            this.circlePool.hideAll();
+            this.arrowPool.hideAll();
+        }
+
+
+    },
+
+    validateFen: function (fen) {
+        try {
+            this.positionParser.setFen(fen);
+            var whiteKing = this.positionParser.getKing("white");
+            var blackKing = this.positionParser.getKing("black");
+            var oppositeColor = this.positionParser.getColor() === "white" ? "black" : "white";
+            var res = this.positionParser.getValidMovesAndResult(oppositeColor);
+            return whiteKing && blackKing && !res.check && res.result === 0;
+        } catch (e) {
+
+        }
+
+        return false;
+    },
+
+    validate: function () {
+        this.isValid = this.validateFen(this.fen);
+        try {
+            this.positionParser.setFen(this.fen);
+            var whiteKing = this.positionParser.getKing("white");
+            var blackKing = this.positionParser.getKing("black");
+            var oppositeColor = this.positionParser.getColor() === "white" ? "black" : "white";
+            var res = this.positionParser.getValidMovesAndResult(oppositeColor);
+            this.isValid = whiteKing && blackKing && !res.check && res.result === 0;
+        } catch (e) {
+
+        }
+
+        if (this.isValid) {
+            if (this.compMode) {
+                this.searchAndRedraw();
+            }
+        } else {
+            this.stopEngine();
+        }
+    },
+    compMode: false,
+
+    color: function () {
+        return this._colorToMove;
+    },
+
+    colorToMove: function () {
+        return this._colorToMove;
+    },
+
+    searchAndRedraw: function () {
+        if (this.compMode) {
+            this.currentPly = this._colorToMove === "white" ? 0 : 1;
+
+            this.uciCmd("ucinewgame");
+            this.uciCmd("position fen " + this.fen);
+            this.uciCmd("go infinite");
+        }
+    },
+
+    toggleCompMode: function () {
+        this.compMode = !this.compMode;
+
+        if (this.compMode) {
+            this.startEngine();
+        } else {
+            this.stopEngine();
+        }
+
+    },
+
+    clickSquare: function (square, event) {
+        var color = event.shiftKey ? this.circleColors[1] : this.circleColors[0];
+        this.circlePool.toggle(square, color);
+        event.preventDefault();
+    },
+
+    _arrow: undefined,
+
+
+    arrowStart: function (square, event) {
+
+        this._arrow = this.arrowPool.show(
+            square,
+            square,
+            {
+                fill: this.circleColors[1],
+                stroke: this.circleColors[1]
+            }
+        )
+    },
+
+    arrowMove: function (square, event) {
+        if (this._arrow) {
+            this._arrow.el.setTo(square);
+        }
+    },
+
+    arrowEnd: function (square, event) {
+        if (this._arrow) {
+            this._arrow.el.setTo(square);
+        }
+        this._arrow = undefined;
+    },
+
+    _onMove: function () {
+
+    },
+
+    keyNext: function () {
+        if (this._movePointer < this._moves.length - 1) {
+            this._movePointer++;
+            this._onNav();
+
+        }
+    },
+
+    keyBack: function () {
+        if (this._movePointer > 0) {
+            this._movePointer--;
+            this._onNav();
+        }
+        console.log("back");
+    },
+
+    _onNav: function () {
+        if (this._movePointer > 0)
+            this.fireEvent("notEndOfBranch");
+        if (this._movePointer < this._moves.length - 1) {
+            this.fireEvent("notStartOfGame");
+        }
+        var m = this._moves[this._movePointer];
+        this.lastMove = m.move;
+        this.fen = m.fen;
+        this.views.board.showFen(this.fen);
+
+        this.onFenUpdated();
+        this.updateFen(m.move, m.color);
+        this.fireEvent("move", m);
+
+    },
+
+    addView: function (view) {
+        this.views[view.submodule] = view;
+
+        switch (view.submodule) {
+            case 'board':
+                view.enableInstructorMode();
+                view.on('move', function (move, piece) {
+                    this.lastMove = move;
+
+                    this.updateFen(move, piece.color);
+
+                    this._moves = this._moves.slice(0, this._movePointer + 1);
+                    this._moves.push({
+                        fen: this.fen,
+                        move: move,
+                        color: piece.color
+                    });
+                    this._movePointer = this._moves.length - 1;
+
+                    this.fireEvent("notStartOfGame");
+
+                    this.fireEvent("move", move);
+
+                }.bind(this));
+                view.on('fen', function (fen) {
+                    if (fen !== this.fen) {
+                        this.fen = fen;
+                        this.resetMoves();
+                        this.onFenUpdated();
+                        this.lastMove = undefined;
+                        this.fireEvent("startOfGame");
+                        this.fireEvent("endOfBranch");
+
+                    }
+                }.bind(this));
+                view.on("clickSquare", this.clickSquare.bind(this));
+                view.on("arrowStart", this.arrowStart.bind(this));
+                view.on("arrowEnd", this.arrowEnd.bind(this));
+                view.on("arrowMove", this.arrowMove.bind(this));
+
+                break;
+            case 'metadata.FenField':
+
+                view.on("change", function (fen, el) {
+                    if (this.validateFen(fen)) {
+                        this.views.board.showFen(fen);
+                    } else {
+                        el.val('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+                    }
+                }.bind(this));
+                break;
+            case window.chess.Views.buttonbar.bar:
+                this._buttonBar = view;
+                view.on("comp", function () {
+                    this.toggleCompMode();
+                }.bind(this));
+                view.on('flip', function () {
+                    this.views.board.showFen(this.fen);
+                    this.views.board.flip();
+                }.bind(this));
+                view.on("previous", this.keyBack.bind(this));
+                view.on("next", this.keyNext.bind(this));
+                break;
+        }
+        return true;
+    }
+
 });/* ../dhtml-chess/src/model/game.js */
 /**
  * Chess game model
@@ -31851,6 +34581,301 @@ chess.wordpress.PgnStandings = new Class({
         this.getDataSource().load();
     }
 
+});/* ../dhtml-chess/src/wordpress/computer-eval.js */
+chess.wordpress.ComputerEval = new Class({
+
+    Extends: ludo.View,
+    submodule: 'wordpress.computereval',
+    started: false,
+    fen: undefined,
+
+    layout: {
+        type: 'linear', orientation: 'vertical'
+    },
+
+    parser: undefined,
+
+    bestLine: undefined,
+    bestLineString: undefined,
+    currentEval: undefined,
+
+    buttons: true,
+
+    appendBtn: true,
+    showNodes: true,
+
+
+    __children: function () {
+        return [
+            {
+                name: 'scoreBar',
+                css: {
+                    'margin': 5
+                },
+                type: 'chess.view.score.Bar',
+                layout: {
+                    height: 60
+                },
+                borderRadius: 5,
+                blackColor: '#444444',
+                whiteColor: '#EEEEEE',
+                markerColor: '#B71C1C',
+                markerTextColor: '#FFF',
+                stroke: '#222222',
+                range: 3
+            },
+            {
+                name: 'eval',
+                layout: {
+                    weight: 1
+                },
+                css: {
+                    padding: 4
+                }
+            },
+            {
+                name: 'buttons',
+                layout: {
+                    height: 30, type: 'linear', orientation: 'horizontal'
+                },
+                children: [
+                    {
+                        name: 'startStopEngine',
+                        value: chess.__('Start'),
+                        type: 'form.Button'
+                    },
+                    {
+                        visible: this.appendBtn && !this.hideButton,
+                        name: 'appendLine',
+                        value: chess.__('Append Line'),
+                        type: 'form.Button'
+                    },
+                    {
+                        visible: this.appendBtn,
+                        name: 'appendEval',
+                        value: chess.__('Save Eval'),
+                        type: 'form.Button'
+                    },
+                    {
+                        layout: {
+                            weight: 1
+                        },
+                        css: {
+                            'text-align': 'right',
+                            'font-style': 'italic',
+                            'font-size': '0.9em',
+                            'padding-right': '4px'
+                        },
+                        html: '<a href="https://github.com/nmrugg/stockfish.js" onclick="var w = window.open(this.href); return false">' + chess.__('StockFish.JS Engine') + '</a>'
+                    }
+                ]
+            }
+        ]
+    },
+
+    hideButton: false,
+
+    __construct: function (config) {
+        this.parent(config);
+        this.parser = new chess.parser.FenParser0x88();
+        if (config.buttons !== undefined) this.buttons = config.buttons;
+        if (config.appendBtn !== undefined) this.appendBtn = config.appendBtn;
+        if (config.hideButton !== undefined) this.hideButton = config.hideButton;
+        if (config.showNodes !== undefined) this.showNodes = config.showNodes;
+
+        this.bestLine = [];
+    },
+
+    setController: function (controller) {
+        this.parent(controller);
+        controller.on('engineupdate', this.receiveEngineUpdate.bind(this));
+        controller.on('fen', this.onPositionUpdate.bind(this));
+        controller.on('instructorFen', this.onPositionUpdate.bind(this));
+        controller.on('newGame', this.clearView.bind(this));
+    },
+
+    receiveEngineUpdate: function (update) {
+
+        if (update.mate) {
+            var s = update.mate < 0 ? -100 : 100;
+            this.child['scoreBar'].setScore(s);
+            update.score = 'Mate in ' + Math.abs(update.mate);
+        } else {
+            this.child['scoreBar'].setScore(update.score);
+        }
+
+        this.currentEval = update.score;
+        this.bestLineString = update.bestMoves;
+
+        // Ply:9 Score:3142 Nodes:341415 NPS:418914  Nxe5 Bf1 d5 d4 Nc6 e5 Bb4+ c3 Bg4 Be2
+        var ply = update.depth;
+        var nps = update.nps;
+        var pr = update.score > 0 ? '+' : '';
+        var nodes = this.showNodes ? '<br>Nodes/s: ' + nps : '';
+        this.child['eval'].html('Depth: ' + ply + nodes + '<br><div class="dhtml-chess-comp-eval"><span class="dhtml-chess-comp-eval-score">' + pr + update.score + '</span> ' + this.getMoveLine(update) + '</div>');
+
+    },
+
+    clearView: function () {
+        if (this.child['eval']) {
+            this.child['eval'].html('');
+            this.child['scoreBar'].setScore(0);
+        }
+        this.bestLineString = '';
+        this.bestLine = [];
+
+        if (this.child['buttons'] && this.buttons) {
+            this.child['buttons'].child['appendLine'].hide();
+            this.child['buttons'].child['appendEval'].hide();
+        }
+    },
+
+    getMoveLine: function (update) {
+
+        try {
+            this.parser.setFen(this.fen);
+
+            var ml = update.bestMoves.split(/\s/g);
+
+            this.bestLine = [];
+
+            var ply = update.currentPly;
+            ply += 2;
+
+            var spanMN = '<span class="dhtml-chess-comp-eval-mn">';
+            var spanNotation = '<span class="dhtml-chess-comp-eval-notation">';
+            var urlPrefix = ludo.config.getDocumentRoot() + '/images/svg_bw45';
+
+            var prefix = ply % 2 == 1 ? (spanMN + '.. ' + Math.floor(ply / 2) + '. </span>') : '';
+            this.bestLine.push(prefix);
+
+            var a = ply;
+            for (var i = 0; i < ml.length; i++) {
+
+
+                if (a % 2 == 0) {
+                    if (i > 0) this.bestLine.push('</span>');
+                    this.bestLine.push('<span class="dhtml-chess-comp-eval-group">');
+                    this.bestLine.push(spanMN + (a / 2) + '. </span>');
+                }
+
+                var m = ml[i];
+                var f = m.substr(0, 2);
+                var t = m.substr(2, 2);
+
+                var obj = {
+                    from: f, to: t
+                };
+                if (m.length == 5) {
+                    obj.promoteTo = m.substr(4, 1);
+                }
+                this.parser.move(obj);
+
+                var notation = this.parser.getNotation();
+
+                if (/[QRBN]/.test(notation.substr(0, 1))) {
+                    var c = a % 2 == 0 ? 'w' : 'b';
+                    this.bestLine.push('<img style="vertical-align:text-bottom;height:18px" src="' + urlPrefix + c + notation.substr(0, 1).toLocaleLowerCase() + '.svg">');
+
+                    notation = spanNotation + notation.substr(1) + '</span>';
+                } else {
+                    notation = spanNotation + notation + '</span>';
+                }
+
+                this.bestLine.push(notation);
+
+                a++;
+            }
+            this.bestLine.push('</span>');
+        } catch (e) {
+            this.stopEngine(true);
+            this.startEngine.delay(200, this);
+        }
+
+        return this.bestLine.join(' ');
+
+    },
+
+
+    __rendered: function () {
+        this.parent();
+        this.on('hide', this.stopEngine.bind(this));
+
+        var p = this.child['buttons'];
+        p.child['startStopEngine'].on('click', this.toggleEngine.bind(this));
+        p.child['appendLine'].on('click', this.appendLine.bind(this));
+        p.child['appendEval'].on('click', this.appendEval.bind(this));
+        p.child['appendLine'].hide();
+        p.child['appendEval'].hide();
+
+
+        if (this.hideButton) p.hide();
+
+    },
+
+    appendEval: function () {
+        this.controller.getCurrentModel().setEval(this.currentEval)
+    },
+
+    appendLine: function () {
+        if (this.bestLineString) {
+            if (this.started) this.stopEngine();
+            this.fireEvent('appendLine', this.bestLineString);
+        }
+    },
+
+    onPositionUpdate: function (model, fen) {
+        this.fen = fen;
+        this.parser.setFen(fen);
+        this.bestLine = [];
+
+        if (this.started) {
+            this.stopEngine(true);
+            this.startEngine.delay(200, this);
+        }
+    },
+
+    toggleEngine: function () {
+        if (this.started) {
+            this.stopEngine();
+        } else {
+            this.startEngine();
+        }
+    },
+
+    stopEngine: function (silent) {
+        if (!this.started) return;
+
+        this.child['buttons'].child['startStopEngine'].val('Start');
+        this.started = false;
+
+        if (!this.controller) {
+            this.fireEvent('stop');
+            return;
+        }
+
+        this.controller.stopEngine();
+        if (!silent) this.controller.sendMessage(chess.__('Engine stopped'))
+    },
+
+    startEngine: function () {
+
+        this.child['buttons'].child['startStopEngine'].val('Stop');
+        this.started = true;
+        if (!this.controller) {
+            this.fireEvent('start');
+            return;
+        }
+
+        this.controller.startEngine();
+        if (this.buttons) {
+            this.child['buttons'].child['appendLine'].show();
+            this.child['buttons'].child['appendEval'].show();
+
+        }
+
+    }
+
 });/* ../dhtml-chess/src/wp-public/wp-template.js */
 chess.WPTemplate = new Class({
     Extends: Events,
@@ -32219,10 +35244,10 @@ chess.WPManager = new Class({
                 var c = this.activeView.controller;
 
                 if (e.key === 'ArrowRight' && !c.isBusy) {
-                    c.currentModel.nextMove();
+                    c.keyNext();
                     return false;
                 } else if (e.key === 'ArrowLeft' && !c.isBusy) {
-                    c.currentModel.previousMove();
+                    c.keyBack();
                     return false;
                 }
             }
@@ -33020,7 +36045,7 @@ chess.WPGame5 = new Class({
         if (this.mobile) {
             r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
-            r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
+            r.css('height', this.boardSize + this.buttonSize + this.wpm_h + 30);
 
         }
         r.css('position', 'relative');
@@ -33138,9 +36163,18 @@ chess.WPGame5 = new Class({
 
 
     desktopChildren: function () {
-
-
         return [
+            {
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align' : 'center',
+                    'font-weight' : 'bold'
+                },
+                height: 30
+            },
             {
                 layout: {
                     height: this.boardSize,
@@ -35048,6 +38082,86 @@ chess.WPStandings1 = new Class({
             }.bind(this)
         });
     }
+
+});/* ../dhtml-chess/src/wp-public/special/instructor.js */
+chess.WPInstructor = new Class({
+    Extends: chess.WPTemplate,
+    controller: undefined,
+
+    __construct: function (config) {
+        this.parent(config);
+        if (this.canRender()) {
+            this.render();
+        }
+    },
+
+
+    render: function () {
+
+        var w = this.renderTo.width();
+        this.renderTo.css('height', w + 210);
+
+        new chess.view.Chess({
+            cls: this.th,
+            theme: this.themeObject,
+            renderTo: jQuery(this.renderTo),
+            layout: {
+                type: 'linear',
+                orientation: 'vertical',
+                height: 'matchParent',
+                width: 'matchParent'
+            },
+            children: [
+                {
+                    module: this.module,
+                    type: 'chess.view.board.Board',
+                    id: this.boardId,
+                    fen: this.fen,
+                    layout: {width: 'matchParent', weight: 1},
+                    plugins: [
+                        'chess.view.highlight.Square'
+                    ]
+                },
+                {
+                    layout: {
+                        type: "linear", orientation: "horizontal"
+                    },
+                    height: 40,
+                    children: [
+                        {
+                            type: 'chess.view.metadata.FenField',
+                            module: this.module,
+                            name: 'fenField',
+                            layout: {
+                                weight: 1
+                            }
+                        },
+                        {
+                            type: 'chess.view.buttonbar.Bar',
+                            buttons: ['previous', 'next', 'flip', 'comp'],
+                            module: this.module,
+                            width: 180
+                        }
+                    ]
+                },
+                {
+                    height: 170,
+                    module: this.module,
+                    type: 'chess.wordpress.ComputerEval',
+                    hideButton: true,
+                    showNodes: false
+                }
+            ]
+        });
+
+
+        this.controller = new chess.controller.DummyController({
+            applyTo: [this.module],
+            stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
+            sound: this.sound
+        });
+    }
+
 
 });/* ../dhtml-chess/src/wp-public/tactics/tactics1.js */
 window.chess.isWordPress = true;

@@ -60,7 +60,7 @@ chess.controller.Controller = new Class({
             new chess.action.Handler({
                 board: this.views.board,
                 controller: this,
-                arrowStyles:this.arrowStylesSec
+                arrowStyles: this.arrowStylesSec
             })
         }
     },
@@ -282,9 +282,9 @@ chess.controller.Controller = new Class({
      */
     addMove: function (move) {
         var m = this.currentModel;
-        if(this.eventHandler != undefined){
+        if (this.eventHandler != undefined) {
             this.eventHandler.apply(this, ['boardMove', m, this, move]);
-        }else{
+        } else {
             m.appendMove(move);
         }
     },
@@ -457,8 +457,8 @@ chess.controller.Controller = new Class({
     },
 
     modelEventFired: function (event, model) {
-        if(this.eventHandler){
-            this.eventHandler.apply(this, [event,model, this]);
+        if (this.eventHandler) {
+            this.eventHandler.apply(this, [event, model, this]);
         }
     },
 
@@ -512,5 +512,16 @@ chess.controller.Controller = new Class({
         if (this.pgn) {
             this.currentModel.loadPreviousStaticGame(this.pgn);
         }
+    },
+
+    colorToMove: function () {
+        return this.currentModel.getColorToMove();
+    },
+    keyNext: function(){
+        this.currentModel.nextMove();
+    },
+    keyBack: function(){
+        this.currentModel.previousMove();
+
     }
 });

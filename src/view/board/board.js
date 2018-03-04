@@ -21,7 +21,7 @@ chess.view.board.Board = new Class({
     type: 'chess.view.board.Board',
     pieces: [],
     pieceMap: {},
-
+    instructorMode: false,
 
     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
     /**
@@ -73,11 +73,72 @@ chess.view.board.Board = new Class({
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
+    inAltMode: false,
+    posOnDown: undefined,
+
     __rendered: function () {
         this.createPieces();
         this.showFen(this.fen);
         this.parent();
+
+
+        var el = this.getEl();
+        var doc = jQuery(document.documentElement);
+
+        el.on("click", function (evt) {
+            var pos = evt.pageX + evt.pageY;
+            if (Math.abs(pos - this.posOnDown) <= 2) {
+                this.fireDomEvent("clickSquare", evt);
+            }
+        }.bind(this));
+
+        el.on("mousedown", this.onDown.bind(this));
+
+        doc.on("mouseup", function (evt) {
+            if (this.inAltMode) {
+                this.fireDomEvent("arrowEnd", evt);
+                this.inAltMode = false;
+            }
+        }.bind(this));
+
+        doc.on("mousemove", function (evt) {
+            if (this.inAltMode) {
+                this.fireDomEvent("arrowMove", evt);
+            }
+        }.bind(this));
     },
+
+    onDown: function (evt) {
+        this.posOnDown = evt.pageX + evt.pageY;
+        if (evt.altKey) {
+            this.inAltMode = true;
+            this.fireDomEvent("arrowStart", evt);
+        }
+    },
+
+    fireDomEvent: function (eventeName, evt) {
+        var b = this.getBoard();
+        var p = b.offset();
+        var w = b.width() / 8;
+        var x = evt.pageX - p.left;
+        var y = evt.pageY - p.top;
+        x = Math.floor(x / w);
+        y = Math.floor(y / w);
+
+        if (x > 7 || x < 0 || y > 7 || y < 0) return;
+
+        var files = 'abcdefgh';
+        var ranks = '87654321';
+
+        if (this.flipped) {
+            x = 7 - x;
+            y = 7 - y;
+        }
+        var square = files.charAt(x) + ranks.charAt(y);
+
+        this.fireEvent(eventeName, [square, evt]);
+    },
+
 
     createPieces: function () {
         var flipped = this.isFlipped();
@@ -172,6 +233,16 @@ chess.view.board.Board = new Class({
     clearHighlightedSquares: function () {
         this.fireEvent('clearHighlight', this);
     },
+
+    enableInstructorMode: function () {
+        this.instructorMode = true;
+        this.ddEnabled = true;
+        this.currentValidMoves = this.positionParser.getFullSquareMap();
+        this.pieces.forEach(function (piece) {
+            piece.enableDragAndDrop()
+        });
+    },
+
     /**
      * Enable drag and drop feature of the board. It expects a game model as first argument.
      * When connected to a controller event, the controller always sends current game model as
@@ -356,6 +427,8 @@ chess.view.board.Board = new Class({
         for (var j = i; j < this.pieces.length; j++) {
             this.pieces[j].hide();
         }
+
+        this.fireEvent("fen", fen);
     },
     /**
      * Return number of visible pieces on the board
@@ -412,14 +485,59 @@ chess.view.board.Board = new Class({
         this.fireEvent('clearboard', this);
     },
 
-    makeMove: function (move) {
+    makeMove: function (move, piece) {
+
+        if (move.from === move.to) return;
+
+        if (this.instructorMode) {
+            var p = this.getPieceOnSquare(move.to);
+            if (p && p !== piece) {
+                p.hide();
+            }
+            var s = Board0x88Config.mapping[move.to];
+            var f = Board0x88Config.mapping[move.from];
+            this.pieceMap[f] = undefined;
+            this.pieceMap[s] = piece;
+            piece.square = Board0x88Config.mapping[move.to];
+        }
+
         /**
          * Event fired when a piece is moved from one square to another
          * @event move
          * @param Object move, example: { from: "e2", to: "e4" }
          */
-        this.fireEvent('move', move);
+
+        this.fireEvent('move', [move, piece]);
     },
+
+    buildFen: function () {
+        var squares = Board0x88Config.fenSquaresNumeric;
+        var emptyCounter = 0;
+        var ret = "";
+        for (var i = 0; i < squares.length; i++) {
+            var square = squares[i];
+            var p = this.pieceMap[square];
+
+            if (i && i % 8 === 0) {
+                if (emptyCounter) ret += emptyCounter;
+                ret += "/";
+                emptyCounter = 0;
+            }
+
+            if (p) {
+                var t = p.getTypeCode();
+                if (p.color === "white") t = t.toUpperCase();
+                if (emptyCounter) ret += emptyCounter;
+                ret += t;
+                emptyCounter = 0;
+            } else {
+
+                emptyCounter++;
+            }
+        }
+        return ret;
+    },
+
     getValidMovesForPiece: function (piece) {
         return this.currentValidMoves[piece.square] || [];
     },

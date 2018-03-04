@@ -20,7 +20,7 @@ chess.WPGame5 = new Class({
         if (this.mobile) {
             r.css('height', w + 235 + this.navH + this.wpm_h);
         } else {
-            r.css('height', this.boardSize + this.buttonSize + this.wpm_h);
+            r.css('height', this.boardSize + this.buttonSize + this.wpm_h + 30);
 
         }
         r.css('position', 'relative');
@@ -138,9 +138,18 @@ chess.WPGame5 = new Class({
 
 
     desktopChildren: function () {
-
-
         return [
+            {
+                module: this.module,
+                type: 'chess.view.metadata.Game',
+                tpl: '{white} - {black}',
+                cls: 'metadata',
+                css: {
+                    'text-align' : 'center',
+                    'font-weight' : 'bold'
+                },
+                height: 30
+            },
             {
                 layout: {
                     height: this.boardSize,

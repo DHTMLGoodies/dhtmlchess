@@ -1,10 +1,11 @@
+
 /**
  * Created by alfmagne1 on 29/12/2016.
  */
 
 chess.view.score.Bar = new Class({
     Extends: ludo.View,
-
+    submodule : "score.Bar",
     borderRadius: undefined,
 
     __construct: function (config) {

@@ -408,7 +408,9 @@ class DhtmlChessViews
             $view->setScript("WPGame" . $tpl);
             $view->setParam("fen", $content);
         } else {
-            if (isset($attributes['pinned'])) {
+            if (isset($attributes["instructor"])) {
+                $view->setScript("WPInstructor");
+            } else if (isset($attributes['pinned'])) {
                 $view->setScript("WPPinned");
             } elseif (isset($attributes["comp"])) {
                 $view->setScript("WPComp1");

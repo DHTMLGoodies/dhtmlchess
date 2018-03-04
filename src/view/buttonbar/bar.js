@@ -562,7 +562,7 @@ chess.view.buttonbar.Bar = new Class({
     notEndOfBranch: function (model) {
         this.isAtEndOfBranch = false;
         this.enButtons(['end', 'next']);
-        if (!model.isInAutoPlayMode()) {
+        if (model && !model.isInAutoPlayMode()) {
             this.stopAutoPlay();
             this.enableButton('play');
         }

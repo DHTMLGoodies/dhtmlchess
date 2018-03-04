@@ -109,10 +109,10 @@ chess.controller.StockfishEngineController = new Class({
     initializeBackgroundEngine: function () {
 
 
-
         if (!this.backgroundEngineValid) {
             return false;
         }
+
 
         if (!this.engine) {
 
@@ -157,7 +157,6 @@ chess.controller.StockfishEngineController = new Class({
                                 currentPly: that.currentPly
                             };
 
-
                             if(match[1] == 'cp') {
                                 var score = parseInt(match[2]) * (that.colorToMove == 'white' ? 1 : -1);
                                 score = (score / 100.0).toFixed(2);
@@ -176,7 +175,6 @@ chess.controller.StockfishEngineController = new Class({
                 this.searchAndRedraw();
             } catch (error) {
                 this.backgroundEngineValid = false;
-                console.log('UCICmd', error);
             }
 
             jQuery.ajax({

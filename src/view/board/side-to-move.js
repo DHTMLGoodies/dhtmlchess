@@ -14,9 +14,11 @@ chess.view.board.SideToMove = new Class({
     },
 
     setController: function (controller) {
+        console.log("set controller");
         this.parent(controller);
         controller.on('newGame', this.update.bind(this));
         controller.on('fen', this.update.bind(this));
+        controller.on('instructorFen', this.update.bind(this));
         controller.on('comp', this.updateVisibility.bind(this));
     },
 
@@ -76,7 +78,7 @@ chess.view.board.SideToMove = new Class({
 
     update: function () {
         if (this.controller && this.els.outer) {
-            var c = this.controller.currentModel.getColorToMove();
+            var c = this.controller.colorToMove();
             var pre = 'dhtml-chess-side-to-move-';
             var i = this.els.inner;
             i.removeClass(pre + 'white');
