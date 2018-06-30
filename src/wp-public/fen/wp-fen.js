@@ -36,6 +36,7 @@ chess.WPFen = new Class({
                 {
                     module:this.module,
                     type: 'chess.view.board.Board',
+                    animationDuration: this.animationDuration,
                     id: this.boardId,
                     fen: this.fen,
                     layout: {width: 'matchParent', weight: 1}

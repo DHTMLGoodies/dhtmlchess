@@ -16,18 +16,18 @@ chess.controller.TacticControllerGui = new Class({
      *  });
      */
     gameEndHandler:undefined,
+    showDialog: undefined,
 
     __construct:function(config){
         this.parent(config);
-
+        this.showDialog = config.showDialog !== undefined ? config.showDialog : true;
     },
-
 
     modelEventFired:function(event, model){
         this.parent(event, model);
 
         if (event === 'endOfGame' || event === 'endOfBranch' ) {
-            if(this.dialog.puzzleComplete){
+            if(this.showDialog && this.dialog.puzzleComplete){
                 this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
             }else if(this.gameEndHandler){
                 this.gameEndHandler.apply(this, [this]);

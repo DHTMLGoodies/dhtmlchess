@@ -66,6 +66,7 @@ chess.WPComp1 = new Class({
                         {
                             id: this.boardId,
                             type: 'chess.view.board.Board',
+                            animationDuration: this.animationDuration,
                             pieceLayout: 'svg_egg',
                             boardLayout: 'wood',
                             module: this.module,

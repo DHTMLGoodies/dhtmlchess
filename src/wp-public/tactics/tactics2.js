@@ -80,6 +80,7 @@ chess.WPTactics2 = new Class({
                         Object.merge({
                             boardLayout: undefined,
                             id: this.boardId,
+                            animationDuration: this.animationDuration,
                             type: 'chess.view.board.Board',
                             module: this.module,
                             overflow: 'hidden',

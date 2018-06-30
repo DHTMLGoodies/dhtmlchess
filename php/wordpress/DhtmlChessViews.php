@@ -65,6 +65,11 @@ class DhtmlChessViews
             "comp_toggle" => array(
                 "desc" => __("Computer toggle button. Let you play against StockfishJS from the position shown on the board. Available for all short codes.", "wordpresschess"),
                 "example" => '[fen comp_toggle="1"]..fen position...[/fen]'
+            ),
+            "animation_duration" => array(
+                "desc" => __("Animation duration of moves in seconds (default = 0.2).", "wordpresschess"),
+                "example" => '[chess duration="0.1" game="1"]'
+
             )
 
         );
@@ -375,6 +380,8 @@ class DhtmlChessViews
         return $pgn;
     }
 
+    
+
     public function getParsedTagFromAttributes($tag, $attributes = array(), $content = null)
     {
         $view = new DHTMLChessView();
@@ -401,7 +408,7 @@ class DhtmlChessViews
             } else {
                 $tpl = min($tpl, self::countGameTemplates());
                 $view->setScript("WPGame" . $tpl);
-
+                $view->setCls("dc_game_".$tpl); 
             }
         } else if ($tag == "fen") {
             $view->setParam("fen", $content);
@@ -423,6 +430,7 @@ class DhtmlChessViews
                     $view->setScript("WPTacticsGame1");
                 } else {
                     $view->setScript("WPGame" . $tpl);
+                    $view->setCls("dc_game_".$tpl);
                 }
             } elseif (isset($attributes["tactics"])) {
                 $tpl = min($tpl, self::countTacticTemplates());
@@ -435,6 +443,7 @@ class DhtmlChessViews
             } elseif (isset($attributes["pgn"]) || isset($attributes["db"])) {
                 $tpl = min($tpl, self::countDbTemplates());
                 $view->setScript("WPViewer" . $tpl);
+                $view->setCls("dc_db_".$tpl);
             }
         }
 
@@ -458,6 +467,7 @@ class DhtmlChessViews
                 return null;
             case "comp":
                 return null;
+            
             case "game":
                 return array("key" => "gameId", "val" => $val);
             case "db":
@@ -864,6 +874,10 @@ class DHTMLChessView
         return $this->params[$key];
     }
 
+    public function setCls($cls){
+        $this->cls = $cls;
+    }
+
     public function setDatabaseId($id)
     {
 
@@ -885,6 +899,7 @@ class DHTMLChessView
         return $this->script;
     }
 
+    private $cls = "";
 
     public function getJS($docRoot, $url = "null")
     {
@@ -893,7 +908,9 @@ class DHTMLChessView
         }
 
         $this->setParam('docRoot', $docRoot);
-        $board = '<div id="' . $this->id . '" style=""></div>';
+        
+
+        $board = '<div class="dhtml_chess_board '. $this->cls . '" id="' . $this->id . '" style=""></div>';
         $params = json_encode($this->params);
         $script = $this->getScript();
 

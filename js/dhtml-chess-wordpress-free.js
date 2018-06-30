@@ -1,4 +1,4 @@
-/* Generated Sun Mar 4 3:32:45 CET 2018 */
+/* Generated Sat Jun 30 14:02:15 CEST 2018 */
 /*
 * Copyright 2018. dhtmlchess.com. All Rights Reserved.
 * This is a commercial software. See dhtmlchess.com for licensing options.
@@ -18717,10 +18717,10 @@ chess.view.board.GUI = new Class({
         }
         var ranks, files;
         if (!this.isFlipped()) {
-            files = 'ABCDEFGH';
+            files = 'abcdefgh';
             ranks = '87654321';
         } else {
-            files = 'HGFEDCBA';
+            files = 'hgfedcba';
             ranks = '12345678';
 
         }
@@ -19029,6 +19029,8 @@ chess.view.board.Board = new Class({
         this.pieces = [];
         this.__params(config, ['fen', 'pieceLayout', 'animationDuration', 'plugins']);
 
+        if (this.animationDuration) this.animationDuration /= 1;
+
         if (this.plugins && Browser.ie && Browser.version < 9) {
             for (var i = 0; i < this.plugins.length; i++) {
                 if (this.plugins[i].type === 'chess.view.highlight.Arrow') {
@@ -19038,10 +19040,12 @@ chess.view.board.Board = new Class({
         }
 
 
+
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
     inAltMode: false,
+    shiftMode: false,
     posOnDown: undefined,
 
     __rendered: function () {
@@ -19063,14 +19067,15 @@ chess.view.board.Board = new Class({
         el.on("mousedown", this.onDown.bind(this));
 
         doc.on("mouseup", function (evt) {
-            if (this.inAltMode) {
+            if (this.inAltMode || this.shiftMode) {
                 this.fireDomEvent("arrowEnd", evt);
                 this.inAltMode = false;
+                this.shiftMode = false;
             }
         }.bind(this));
 
         doc.on("mousemove", function (evt) {
-            if (this.inAltMode) {
+            if (this.inAltMode || this.shiftMode) {
                 this.fireDomEvent("arrowMove", evt);
             }
         }.bind(this));
@@ -19078,8 +19083,9 @@ chess.view.board.Board = new Class({
 
     onDown: function (evt) {
         this.posOnDown = evt.pageX + evt.pageY;
-        if (evt.altKey) {
-            this.inAltMode = true;
+        if (evt.altKey || evt.shiftKey) {
+            this.inAltMode = evt.altKey;
+            this.shiftMode = evt.shiftKey;
             this.fireDomEvent("arrowStart", evt);
         }
     },
@@ -19262,9 +19268,8 @@ chess.view.board.Board = new Class({
      { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves: function (model, move) {
-
         var ca = this.currentAnimation;
-        if (this.animationDuration === 0) {
+        if (!this.animationDuration) {
             this.showMove(model, move);
             return;
         }
@@ -19468,7 +19473,7 @@ chess.view.board.Board = new Class({
                 return;
             }
 
-            if(type === "p" && /[18]/.test(move.to)){
+            if (type === "p" && /[18]/.test(move.to)) {
                 piece.promote("q");
             }
 
@@ -21108,7 +21113,7 @@ chess.view.buttonbar.Bar = new Class({
 
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.__params(config, ['buttonSize', 'background', 'buttons', 'styles',
+        this.__params(config, ['name', 'buttonSize', 'background', 'buttons', 'styles',
             'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
 
         this.disabledButtons = [];
@@ -21212,9 +21217,9 @@ chess.view.buttonbar.Bar = new Class({
         this.els.clipRects = {};
 
         jQuery.each(this.buttons, function (i, btn) {
-            if (btn != 'pause') {
+            if (btn !== 'pause') {
                 this.createButton(btn);
-                if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
+                if (btn !== 'flip' && btn !== 'comp') this.disableButton(btn);
             }
         }.bind(this));
     },
@@ -21326,12 +21331,12 @@ chess.view.buttonbar.Bar = new Class({
         return false;
     },
 
-    toggleButtonVisibility:function(){
+    toggleButtonVisibility: function () {
         var o = this.controller.compMode ? 0 : 1;
 
-        jQuery.each(this.buttons, function(i, name){
-            if(name !== 'comp' && name !== 'flip')this.els.buttons[name].css({
-                opacity : o
+        jQuery.each(this.buttons, function (i, name) {
+            if (name !== 'comp' && name !== 'flip') this.els.buttons[name].css({
+                opacity: o
 
             });
 
@@ -21340,7 +21345,7 @@ chess.view.buttonbar.Bar = new Class({
 
     cssButton: function (name, className) {
 
-        if (this.buttons.indexOf(name) === -1)return;
+        if (this.buttons.indexOf(name) === -1) return;
 
         if (name === 'play' && this.autoPlayMode) className = 'Play';
         if (name === 'comp' && this.controller.compMode) className = 'Comp';
@@ -21468,10 +21473,38 @@ chess.view.buttonbar.Bar = new Class({
     },
 
 
+    boardPath: function () {
+        var size = 9;
+        var s = 6;
+        var w = size / s;
+
+        var counter = 0;
+        var path = [];
+        for (var r = 0; r < s; r++) {
+            for (var c = 0; c < s; c++) {
+                if (counter++ % 2 === 1) {
+                    var x = c * w;
+                    var y = r * w;
+                    path.push('M', x, y);
+                    path.push('L', x + w, y);
+                    path.push('L', x + w, y + w);
+                    path.push('L', x, y + w);
+                    path.push('Z');
+                }
+
+            }
+            counter++;
+        }
+        return path;
+    },
+
     getPath: function (btnName) {
 
 
         switch (btnName) {
+            case 'board':
+                return this.toPath(this.boardPath());
+
             case 'start':
                 return this.toPath(['M',
                     0, 0,
@@ -21509,6 +21542,21 @@ chess.view.buttonbar.Bar = new Class({
                     9, 7,
                     4, 7,
                     4, 9,
+                    'Z'
+                ]);
+            case 'enter':
+                return this.toPath(['M',
+                    5.5, 1.5,
+                    'L', 9, 1.5,
+                    9, 7,
+                    4, 7,
+                    4, 9,
+                    1, 6,
+                    4, 3,
+                    4, 5,
+                    7, 5,
+                    7, 3.5,
+                    5.5, 3.5,
                     'Z'
                 ]);
             case 'play':
@@ -21583,7 +21631,6 @@ chess.view.buttonbar.Bar = new Class({
 
     setController: function (controller) {
         this.parent(controller);
-
         this.controller.addEvents({
             startOfGame: this.startOfGame.bind(this),
             notStartOfGame: this.notStartOfBranch.bind(this),
@@ -21592,23 +21639,23 @@ chess.view.buttonbar.Bar = new Class({
             startAutoplay: this.startAutoPlay.bind(this),
             stopAutoplay: this.stopAutoPlay.bind(this),
             newGame: this.newGame.bind(this),
-            comp : this.toggleButtonVisibility.bind(this)
+            comp: this.toggleButtonVisibility.bind(this)
         });
     },
 
 
     startOfGame: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.disButtons(['start', 'previous']);
 
     },
 
     notStartOfBranch: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.enButtons(['start', 'previous', 'play']);
     },
     endOfBranch: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.disButtons(['end', 'next', 'play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
@@ -21646,9 +21693,9 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        if (!this.hasButton('play'))return;
+        if (!this.hasButton('play')) return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
-        if (!this.autoPlayMode)return;
+        if (!this.autoPlayMode) return;
         this.autoPlayMode = false;
         this.cssButton('play', '');
 
@@ -21667,7 +21714,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     disableButton: function (name) {
-        if (!this.hasButton(name))return;
+        if (!this.hasButton(name)) return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -21676,7 +21723,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
-        if (!this.hasButton(name))return;
+        if (!this.hasButton(name)) return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);
@@ -21878,7 +21925,7 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showCorrectGuess: function () {
-        this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
+        // this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
     },
 
     showMessage: function (message, delayBeforeHide) {
@@ -22820,7 +22867,7 @@ chess.parser.FenParser0x88 = new Class({
             'black': [],
             'whiteSliding': [],
             'blackSliding': [],
-            'k': {'white': undefined, 'black': 'undefined'}
+            'k': { 'white': undefined, 'black': 'undefined' }
         };
         this.fen = fen;
         this.updateFenArray(fen);
@@ -23240,7 +23287,6 @@ chess.parser.FenParser0x88 = new Class({
                             paths.push(piece.s - 17);
                         }
                     }
-
                     break;
                 // Sliding pieces
                 case 0x05:
@@ -23332,7 +23378,7 @@ chess.parser.FenParser0x88 = new Class({
         else if (!checks && !totalCountMoves) {
             result = .5;
         }
-        return {moves: ret, result: result, check: checks};
+        return { moves: ret, result: result, check: checks };
     },
 
     fullMap: undefined,
@@ -23515,7 +23561,7 @@ chess.parser.FenParser0x88 = new Class({
         else if (!checks && paths.length === 0) {
             result = .5;
         }
-        return {moves: paths, result: result, check: checks};
+        return { moves: paths, result: result, check: checks };
 
     },
 
@@ -23629,28 +23675,28 @@ chess.parser.FenParser0x88 = new Class({
                     case 0x05:
                     case 0x0D:
                         if (numericDistance % 15 === 0 || numericDistance % 17 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         break;
                     // Rook
                     case 0x06:
                     case 0x0E:
                         if (numericDistance % 16 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         // Rook on same rank as king
                         else if (this.isOnSameRank(piece.s, king.s)) {
-                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                            ret.push({ s: piece.s, direction: numericDistance > 0 ? 1 : -1 })
                         }
                         break;
                     // Queen
                     case 0x07:
                     case 0x0F:
                         if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         else if (this.isOnSameRank(piece.s, king.s)) {
-                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                            ret.push({ s: piece.s, direction: numericDistance > 0 ? 1 : -1 })
                         }
                         break;
                 }
@@ -23708,7 +23754,7 @@ chess.parser.FenParser0x88 = new Class({
                 square += piece.direction;
             }
             if (countPieces === 1 && pinning) {
-                ret[pinning] = {'by': piece.s, 'direction': piece.direction};
+                ret[pinning] = { 'by': piece.s, 'direction': piece.direction };
             }
             i++;
         }
@@ -23748,6 +23794,10 @@ chess.parser.FenParser0x88 = new Class({
         var king = this.c['k' + color];
         var pieces = this.c[color === 'white' ? 'black' : 'white'];
 
+        var enPassantSquare = this.getEnPassantSquare();
+        if (enPassantSquare) {
+            enPassantSquare = this.bc.mapping[enPassantSquare];
+        }
 
         for (var i = 0; i < pieces.length; i++) {
             var piece = pieces[i];
@@ -23755,12 +23805,20 @@ chess.parser.FenParser0x88 = new Class({
             switch (piece.t) {
                 case 0x01:
                     if (king.s === piece.s + 15 || king.s === piece.s + 17) {
-                        return [piece.s];
+                        var ret = [piece.s];
+                        if (enPassantSquare == piece.s - 16) {
+                            ret.push(enPassantSquare);
+                        }
+                        return ret;
                     }
                     break;
                 case 0x09:
                     if (king.s === piece.s - 15 || king.s === piece.s - 17) {
-                        return [piece.s];
+                        var ret = [pieces.s];
+                        if (enPassantSquare == piece.s + 16) {
+                            ret.push(enPassantSquare);
+                        }
+                        return ret;
                     }
                     break;
                 // knight
@@ -23805,6 +23863,8 @@ chess.parser.FenParser0x88 = new Class({
                     break;
             }
         }
+
+
         return ret;
     },
 
@@ -23880,7 +23940,7 @@ chess.parser.FenParser0x88 = new Class({
 
     getPiecesInvolvedInMove: function (move) {
         var ret = [
-            {from: move.from, to: move.to}
+            { from: move.from, to: move.to }
         ];
         var square;
         move = {
@@ -23898,7 +23958,7 @@ chess.parser.FenParser0x88 = new Class({
             } else {
                 square = move.to - 16;
             }
-            ret.push({capture: this.bc.numberToSquareMapping[square]})
+            ret.push({ capture: this.bc.numberToSquareMapping[square] })
         }
 
         if (this.isCastleMove(move)) {
@@ -23939,6 +23999,8 @@ chess.parser.FenParser0x88 = new Class({
      Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
      */
     isEnPassantMove: function (from, to) {
+
+
         if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
             if (
                 !this.c['board'][to] &&
@@ -24037,7 +24099,7 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     getFromAndToByNotation: function (notation) {
-        var ret = {promoteTo: this.getPromoteByNotation(notation)};
+        var ret = { promoteTo: this.getPromoteByNotation(notation) };
         var color = this.getColor();
         var offset = 0;
         if (color === 'black') {
@@ -24269,7 +24331,7 @@ chess.parser.FenParser0x88 = new Class({
     getCopyOfColoredPieces: function (color) {
         var ret = [];
         for (var i = 0; i < this.c[color].length; i++) {
-            ret.push({s: this.c[color][i].s, t: this.c[color][i].t});
+            ret.push({ s: this.c[color][i].s, t: this.c[color][i].t });
         }
         return ret;
     },
@@ -24282,13 +24344,13 @@ chess.parser.FenParser0x88 = new Class({
      */
     makeMove: function (from, to, promoteTo) {
         this.historyCurrentMove = [
-            {key: "white", value: this.getCopyOfColoredPieces('white')},
-            {key: "black", value: this.getCopyOfColoredPieces('black')},
-            {key: "castle", value: this.c.fenParts['castleCode']},
-            {key: "halfMoves", value: this.getHalfMoves()},
-            {key: "fullMoves", value: this.getFullMoves()},
-            {key: "color", value: this.c.fenParts['color']},
-            {key: "enPassant", value: this.c.fenParts['enPassant']}
+            { key: "white", value: this.getCopyOfColoredPieces('white') },
+            { key: "black", value: this.getCopyOfColoredPieces('black') },
+            { key: "castle", value: this.c.fenParts['castleCode'] },
+            { key: "halfMoves", value: this.getHalfMoves() },
+            { key: "fullMoves", value: this.getFullMoves() },
+            { key: "color", value: this.c.fenParts['color'] },
+            { key: "enPassant", value: this.c.fenParts['enPassant'] }
         ];
 
         if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from] !== 0x09)) {
@@ -24325,6 +24387,7 @@ chess.parser.FenParser0x88 = new Class({
                 break;
             case 0x01:
             case 0x09:
+
                 if (this.isEnPassantMove(from, to)) {
                     if (this.bc.numberToColorMapping[this.c['board'][from]] == 'black') {
                         this.deletePiece(to + 16);
@@ -24434,7 +24497,7 @@ chess.parser.FenParser0x88 = new Class({
         var color = this.bc.numberToColorMapping[this.c['board'][from]];
         for (var i = 0; i < this.c[color].length; i++) {
             if (this.c[color][i].s === from) {
-                this.c[color][i] = {s: to, t: this.c[color][i].t};
+                this.c[color][i] = { s: to, t: this.c[color][i].t };
                 return;
             }
         }
@@ -24444,7 +24507,7 @@ chess.parser.FenParser0x88 = new Class({
         var color = this.bc.numberToColorMapping[this.c['board'][square]];
         for (var i = 0; i < this.c[color].length; i++) {
             if (this.c[color][i].s === square) {
-                this.c[color][i] = {s: this.c[color][i].s, t: type};
+                this.c[color][i] = { s: this.c[color][i].s, t: type };
                 return;
             }
         }
@@ -24554,6 +24617,7 @@ chess.parser.FenParser0x88 = new Class({
         switch (type) {
             case 0x01:
             case 0x09:
+
                 if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
                     ret += this.bc.fileMapping[move.from & 15] + 'x';
                 }
@@ -24736,17 +24800,17 @@ chess.parser.FenParser0x88 = new Class({
  */
 chess.parser.Move0x88 = new Class({
 
-    newFen:'',
-    originalFen:'',
-    removedSquares:[],
-	parser:undefined,
-    initialize:function () {
+    newFen: '',
+    originalFen: '',
+    removedSquares: [],
+    parser: undefined,
+    initialize: function () {
         this.parser = new chess.parser.FenParser0x88();
     },
 
-    moveConfig:{
-        added:{},
-        removed:{}
+    moveConfig: {
+        added: {},
+        removed: {}
     },
 
     /**
@@ -24755,9 +24819,9 @@ chess.parser.Move0x88 = new Class({
      * @param {Array} fens
      * @return {Boolean}
      */
-	hasThreeFoldRepetition:function(fens){
-		return this.parser.hasThreeFoldRepetition(fens);
-	},
+    hasThreeFoldRepetition: function (fens) {
+        return this.parser.hasThreeFoldRepetition(fens);
+    },
 
 	/**
 	 * @method getMoveByNotation
@@ -24765,10 +24829,10 @@ chess.parser.Move0x88 = new Class({
 	 * @param {String} pos
 	 * @return {chess.model.Move}
 	 */
-	getMoveByNotation:function(notation, pos){
-		this.parser.setFen(pos);
-		return this.parser.getFromAndToByNotation(notation);
-	},
+    getMoveByNotation: function (notation, pos) {
+        this.parser.setFen(pos);
+        return this.parser.getFromAndToByNotation(notation);
+    },
 
 	/**
 	 * Returns true if a move is valid
@@ -24777,19 +24841,20 @@ chess.parser.Move0x88 = new Class({
 	 * @param fen
 	 * @return {Boolean}
 	 */
-    isValid:function (move, fen) {
+    isValid: function (move, fen) {
         if (move.fen) {
             return true;
         }
         this.parser.setFen(fen);
         var obj = this.parser.getValidMovesAndResult();
 
+
+
         if (obj.result !== 0) {
             return false;
         }
 
         var moves = obj.moves[this.getNumSquare(move.from)];
-
         return moves && moves.indexOf(this.getNumSquare(move.to)) >= 0;
 
     },
@@ -24800,7 +24865,7 @@ chess.parser.Move0x88 = new Class({
      * @param {String} square
      * @return {Number}
      */
-    getNumSquare:function (square) {
+    getNumSquare: function (square) {
         return Board0x88Config.mapping[square];
     },
 
@@ -24812,14 +24877,14 @@ chess.parser.Move0x88 = new Class({
      * @return {chess.model.Move}
      * TODO perhaps rename this method
      */
-    getMoveConfig:function (move, fen) {
-        if(move.m !== undefined && move.m && move.m === '--'){
+    getMoveConfig: function (move, fen) {
+        if (move.m !== undefined && move.m && move.m === '--') {
             var newFen = this.getFenWithColorSwitched(fen);
             this.parser.setFen(newFen);
             return {
-                notation : move.m,
-                moves : [],
-                fen : newFen
+                notation: move.m,
+                moves: [],
+                fen: newFen
             }
         }
         this.parser.setFen(fen);
@@ -24827,26 +24892,26 @@ chess.parser.Move0x88 = new Class({
         var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
 
         this.parser.move(move);
-        
+
         var n = move.m;
         var grade = "";
-        if(/[\!\?]/.test(n)){
+        if (/[\!\?]/.test(n)) {
             grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
         }
         return {
-            fen:move.fen ? move.fen : this.parser.getFen(),
+            fen: move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation() + grade,
             lm: this.parser.getLongNotation() + grade,
-            moves:this.parser.getPiecesInvolvedInLastMove(),
+            moves: this.parser.getPiecesInvolvedInLastMove(),
             p: p,
-            from:move.from,
-            promoteTo : move.promoteTo,
-            comment : move.comment,
-            clk : move.clk,
-            actions : move.actions,
-            eval : move.eval,
-            to:move.to,
-            variations:move.variations || []
+            from: move.from,
+            promoteTo: move.promoteTo,
+            comment: move.comment,
+            clk: move.clk,
+            actions: move.actions,
+            eval: move.eval,
+            to: move.to,
+            variations: move.variations || []
         };
     },
 
@@ -24856,10 +24921,10 @@ chess.parser.Move0x88 = new Class({
      * @param {String} fen
      * @return {String}
      */
-    getFenWithColorSwitched : function(fen){
-        if(fen.indexOf(' w ')>=0){
+    getFenWithColorSwitched: function (fen) {
+        if (fen.indexOf(' w ') >= 0) {
             fen = fen.replace(' w ', ' b ');
-        }else{
+        } else {
             fen = fen.replace(' b ', ' w ');
         }
         return fen;
@@ -24872,7 +24937,7 @@ chess.parser.Move0x88 = new Class({
 	 * @param {String} fen
 	 * @return {Boolean} valid
 	 */
-    isPromotionMove:function (move, fen) {
+    isPromotionMove: function (move, fen) {
         this.parser.setFen(fen);
         var squareFrom = this.getNumSquare(move.from);
         var squareTo = this.getNumSquare(move.to);
@@ -24895,12 +24960,12 @@ chess.parser.Move0x88 = new Class({
      * @param {String} square
      * @return {Boolean}
      */
-    isPawnOnSquare : function(square) {
+    isPawnOnSquare: function (square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'p';
     },
 
-    getMobility:function(fen){
+    getMobility: function (fen) {
         this.parser.setFen(fen);
         return this.parser.getMobility();
     }
@@ -25581,18 +25646,18 @@ chess.controller.TacticControllerGui = new Class({
      *  });
      */
     gameEndHandler:undefined,
+    showDialog: undefined,
 
     __construct:function(config){
         this.parent(config);
-
+        this.showDialog = config.showDialog !== undefined ? config.showDialog : true;
     },
-
 
     modelEventFired:function(event, model){
         this.parent(event, model);
 
         if (event === 'endOfGame' || event === 'endOfBranch' ) {
-            if(this.dialog.puzzleComplete){
+            if(this.showDialog && this.dialog.puzzleComplete){
                 this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
             }else if(this.gameEndHandler){
                 this.gameEndHandler.apply(this, [this]);
@@ -27863,6 +27928,7 @@ chess.WPTemplate = new Class({
     compToggle: false,
     pgn: undefined,
     pgnAll: undefined,
+    animationDuration: .2,
 
     arrowSolution: undefined,
     board: undefined,
@@ -27876,7 +27942,7 @@ chess.WPTemplate = new Class({
 
     navH: undefined,
     to_end: false,
-    forward : 0,
+    forward: 0,
 
     mobile: undefined,
 
@@ -27888,11 +27954,13 @@ chess.WPTemplate = new Class({
         var res = window.screen.width;
         this.mobile = ludo.isMobile && (res) < 600;
         this.renderTo = jQuery(config.renderTo);
+        this.animationDuration = .2;
+        if (config.animation_duration !== undefined) this.animationDuration = config.animation_duration;
         this.prep(config);
     },
 
     prep: function (config) {
-        if (this.render === undefined)return;
+        if (this.render === undefined) return;
         var w = this.renderTo.width();
         if (w === 0) {
             this.prep.delay(50, this, config);
@@ -27923,7 +27991,7 @@ chess.WPTemplate = new Class({
         this.to_end = config.to_end || false;
         this.forward = config.forward || 0;
 
-        if(config.buttons){
+        if (config.buttons) {
             this.buttons = this.configureButtons(config.buttons);
         }
 
@@ -28027,19 +28095,19 @@ chess.WPTemplate = new Class({
     },
 
 
-    configureButtons:function(buttonString){
+    configureButtons: function (buttonString) {
         var btns = buttonString.split(/,/g);
         var buttons = [];
-        btns.forEach(function(button){
-            button = button.toLowerCase().substr(0,2);
-            switch(button){
-                case "st": buttons.push("start");break;
-                case "pr": buttons.push("previous");break;
-                case "pl": buttons.push("play");break;
-                case "ne": buttons.push("next");break;
-                case "en": buttons.push("end");break;
-                case "fl": buttons.push("flip");break;
-                case "co": buttons.push("comp");break;
+        btns.forEach(function (button) {
+            button = button.toLowerCase().substr(0, 2);
+            switch (button) {
+                case "st": buttons.push("start"); break;
+                case "pr": buttons.push("previous"); break;
+                case "pl": buttons.push("play"); break;
+                case "ne": buttons.push("next"); break;
+                case "en": buttons.push("end"); break;
+                case "fl": buttons.push("flip"); break;
+                case "co": buttons.push("comp"); break;
             }
         });
         return buttons;
@@ -28083,7 +28151,7 @@ chess.WPTemplate = new Class({
 
     isValidPgn: function (pgnId) {
         for (var i = 0; i < this.pgnAll.length; i++) {
-            if (this.pgnAll[i].id == pgnId)return true;
+            if (this.pgnAll[i].id == pgnId) return true;
         }
         return false;
     },
@@ -28178,6 +28246,10 @@ chess.WPManager = new Class({
 
     addKeyEvents: function () {
         jQuery(document).keydown(function (e) {
+            if (e.target) {
+                var t = (e.target.tagName || "").toLowerCase();
+                if (t === "input" || t === "select" || t === "textarea") return;
+            }
             if (this.activeView) {
                 var c = this.activeView.controller;
 
@@ -28325,6 +28397,7 @@ chess.WPGame1 = new Class({
             boardLayout: undefined,
             id: this.boardId,
             type: 'chess.view.board.Board',
+            animationDuration: this.animationDuration,
             module: this.module,
             overflow: 'hidden',
             pieceLayout: 'svg3',
@@ -28520,6 +28593,7 @@ chess.WPGame2 = new Class({
                 Object.merge({
                     boardLayout: undefined,
                     id: this.boardId,
+                    animationDuration: this.animationDuration,
                     type: 'chess.view.board.Board',
                     module: this.module,
                     overflow: 'hidden',
@@ -28594,6 +28668,7 @@ chess.WPGame3 = new Class({
             boardLayout: undefined,
             id: this.boardId,
             type: 'chess.view.board.Board',
+            animationDuration: this.animationDuration,
             module: this.module,
             overflow: 'hidden',
             pieceLayout: 'svg3',
@@ -28855,6 +28930,7 @@ chess.WPGame4 = new Class({
 
                     children: [
                         Object.merge({
+                            animationDuration: this.animationDuration,
                             boardLayout: undefined,
                             id: this.boardId,
                             type: 'chess.view.board.Board',
@@ -29006,6 +29082,7 @@ chess.WPGame5 = new Class({
 
         this.board = Object.merge({
             boardLayout: undefined,
+            animationDuration: this.animationDuration,
             vAlign: top,
             id: this.boardId,
             type: 'chess.view.board.Board',
@@ -29288,6 +29365,7 @@ chess.WPGame6 = new Class({
                 {
                     module:this.module,
                     type: 'chess.view.board.Board',
+                    animationDuration: this.animationDuration,
                     id: this.boardId,
                     fen: this.fen,
                     sideToMove:false,

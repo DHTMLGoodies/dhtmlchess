@@ -37,7 +37,7 @@ chess.parser.FenParser0x88 = new Class({
             'black': [],
             'whiteSliding': [],
             'blackSliding': [],
-            'k': {'white': undefined, 'black': 'undefined'}
+            'k': { 'white': undefined, 'black': 'undefined' }
         };
         this.fen = fen;
         this.updateFenArray(fen);
@@ -457,7 +457,6 @@ chess.parser.FenParser0x88 = new Class({
                             paths.push(piece.s - 17);
                         }
                     }
-
                     break;
                 // Sliding pieces
                 case 0x05:
@@ -549,7 +548,7 @@ chess.parser.FenParser0x88 = new Class({
         else if (!checks && !totalCountMoves) {
             result = .5;
         }
-        return {moves: ret, result: result, check: checks};
+        return { moves: ret, result: result, check: checks };
     },
 
     fullMap: undefined,
@@ -732,7 +731,7 @@ chess.parser.FenParser0x88 = new Class({
         else if (!checks && paths.length === 0) {
             result = .5;
         }
-        return {moves: paths, result: result, check: checks};
+        return { moves: paths, result: result, check: checks };
 
     },
 
@@ -846,28 +845,28 @@ chess.parser.FenParser0x88 = new Class({
                     case 0x05:
                     case 0x0D:
                         if (numericDistance % 15 === 0 || numericDistance % 17 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         break;
                     // Rook
                     case 0x06:
                     case 0x0E:
                         if (numericDistance % 16 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         // Rook on same rank as king
                         else if (this.isOnSameRank(piece.s, king.s)) {
-                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                            ret.push({ s: piece.s, direction: numericDistance > 0 ? 1 : -1 })
                         }
                         break;
                     // Queen
                     case 0x07:
                     case 0x0F:
                         if (numericDistance % 15 === 0 || numericDistance % 17 === 0 || numericDistance % 16 === 0) {
-                            ret.push({s: piece.s, direction: boardDistance});
+                            ret.push({ s: piece.s, direction: boardDistance });
                         }
                         else if (this.isOnSameRank(piece.s, king.s)) {
-                            ret.push({s: piece.s, direction: numericDistance > 0 ? 1 : -1})
+                            ret.push({ s: piece.s, direction: numericDistance > 0 ? 1 : -1 })
                         }
                         break;
                 }
@@ -925,7 +924,7 @@ chess.parser.FenParser0x88 = new Class({
                 square += piece.direction;
             }
             if (countPieces === 1 && pinning) {
-                ret[pinning] = {'by': piece.s, 'direction': piece.direction};
+                ret[pinning] = { 'by': piece.s, 'direction': piece.direction };
             }
             i++;
         }
@@ -965,6 +964,10 @@ chess.parser.FenParser0x88 = new Class({
         var king = this.c['k' + color];
         var pieces = this.c[color === 'white' ? 'black' : 'white'];
 
+        var enPassantSquare = this.getEnPassantSquare();
+        if (enPassantSquare) {
+            enPassantSquare = this.bc.mapping[enPassantSquare];
+        }
 
         for (var i = 0; i < pieces.length; i++) {
             var piece = pieces[i];
@@ -972,12 +975,20 @@ chess.parser.FenParser0x88 = new Class({
             switch (piece.t) {
                 case 0x01:
                     if (king.s === piece.s + 15 || king.s === piece.s + 17) {
-                        return [piece.s];
+                        var ret = [piece.s];
+                        if (enPassantSquare == piece.s - 16) {
+                            ret.push(enPassantSquare);
+                        }
+                        return ret;
                     }
                     break;
                 case 0x09:
                     if (king.s === piece.s - 15 || king.s === piece.s - 17) {
-                        return [piece.s];
+                        var ret = [pieces.s];
+                        if (enPassantSquare == piece.s + 16) {
+                            ret.push(enPassantSquare);
+                        }
+                        return ret;
                     }
                     break;
                 // knight
@@ -1022,6 +1033,8 @@ chess.parser.FenParser0x88 = new Class({
                     break;
             }
         }
+
+
         return ret;
     },
 
@@ -1097,7 +1110,7 @@ chess.parser.FenParser0x88 = new Class({
 
     getPiecesInvolvedInMove: function (move) {
         var ret = [
-            {from: move.from, to: move.to}
+            { from: move.from, to: move.to }
         ];
         var square;
         move = {
@@ -1115,7 +1128,7 @@ chess.parser.FenParser0x88 = new Class({
             } else {
                 square = move.to - 16;
             }
-            ret.push({capture: this.bc.numberToSquareMapping[square]})
+            ret.push({ capture: this.bc.numberToSquareMapping[square] })
         }
 
         if (this.isCastleMove(move)) {
@@ -1156,6 +1169,8 @@ chess.parser.FenParser0x88 = new Class({
      Move is an object and requires properties "from" and "to" which is a numeric square(according to a 0x88 board).
      */
     isEnPassantMove: function (from, to) {
+
+
         if ((this.c['board'][from] === 0x01 || this.c['board'][from] == 0x09)) {
             if (
                 !this.c['board'][to] &&
@@ -1254,7 +1269,7 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     getFromAndToByNotation: function (notation) {
-        var ret = {promoteTo: this.getPromoteByNotation(notation)};
+        var ret = { promoteTo: this.getPromoteByNotation(notation) };
         var color = this.getColor();
         var offset = 0;
         if (color === 'black') {
@@ -1486,7 +1501,7 @@ chess.parser.FenParser0x88 = new Class({
     getCopyOfColoredPieces: function (color) {
         var ret = [];
         for (var i = 0; i < this.c[color].length; i++) {
-            ret.push({s: this.c[color][i].s, t: this.c[color][i].t});
+            ret.push({ s: this.c[color][i].s, t: this.c[color][i].t });
         }
         return ret;
     },
@@ -1499,13 +1514,13 @@ chess.parser.FenParser0x88 = new Class({
      */
     makeMove: function (from, to, promoteTo) {
         this.historyCurrentMove = [
-            {key: "white", value: this.getCopyOfColoredPieces('white')},
-            {key: "black", value: this.getCopyOfColoredPieces('black')},
-            {key: "castle", value: this.c.fenParts['castleCode']},
-            {key: "halfMoves", value: this.getHalfMoves()},
-            {key: "fullMoves", value: this.getFullMoves()},
-            {key: "color", value: this.c.fenParts['color']},
-            {key: "enPassant", value: this.c.fenParts['enPassant']}
+            { key: "white", value: this.getCopyOfColoredPieces('white') },
+            { key: "black", value: this.getCopyOfColoredPieces('black') },
+            { key: "castle", value: this.c.fenParts['castleCode'] },
+            { key: "halfMoves", value: this.getHalfMoves() },
+            { key: "fullMoves", value: this.getFullMoves() },
+            { key: "color", value: this.c.fenParts['color'] },
+            { key: "enPassant", value: this.c.fenParts['enPassant'] }
         ];
 
         if (!this.c['board'][to] && (this.c['board'][from] !== 0x01 && this.c['board'][from] !== 0x09)) {
@@ -1542,6 +1557,7 @@ chess.parser.FenParser0x88 = new Class({
                 break;
             case 0x01:
             case 0x09:
+
                 if (this.isEnPassantMove(from, to)) {
                     if (this.bc.numberToColorMapping[this.c['board'][from]] == 'black') {
                         this.deletePiece(to + 16);
@@ -1651,7 +1667,7 @@ chess.parser.FenParser0x88 = new Class({
         var color = this.bc.numberToColorMapping[this.c['board'][from]];
         for (var i = 0; i < this.c[color].length; i++) {
             if (this.c[color][i].s === from) {
-                this.c[color][i] = {s: to, t: this.c[color][i].t};
+                this.c[color][i] = { s: to, t: this.c[color][i].t };
                 return;
             }
         }
@@ -1661,7 +1677,7 @@ chess.parser.FenParser0x88 = new Class({
         var color = this.bc.numberToColorMapping[this.c['board'][square]];
         for (var i = 0; i < this.c[color].length; i++) {
             if (this.c[color][i].s === square) {
-                this.c[color][i] = {s: this.c[color][i].s, t: type};
+                this.c[color][i] = { s: this.c[color][i].s, t: type };
                 return;
             }
         }
@@ -1771,6 +1787,7 @@ chess.parser.FenParser0x88 = new Class({
         switch (type) {
             case 0x01:
             case 0x09:
+
                 if (this.isEnPassantMove(move.from, move.to) || this.c['board'][move.to]) {
                     ret += this.bc.fileMapping[move.from & 15] + 'x';
                 }

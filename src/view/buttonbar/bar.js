@@ -42,7 +42,7 @@ chess.view.buttonbar.Bar = new Class({
 
         this.parent(config);
         this.anchor = [0.5, 0];
-        this.__params(config, ['buttonSize', 'background', 'buttons', 'styles',
+        this.__params(config, ['name', 'buttonSize', 'background', 'buttons', 'styles',
             'spacing', 'anchor', 'imageStyles', 'imageStylesDown', 'imageStylesDisabled', 'imageStylesOver', 'borderRadius']);
 
         this.disabledButtons = [];
@@ -146,9 +146,9 @@ chess.view.buttonbar.Bar = new Class({
         this.els.clipRects = {};
 
         jQuery.each(this.buttons, function (i, btn) {
-            if (btn != 'pause') {
+            if (btn !== 'pause') {
                 this.createButton(btn);
-                if (btn != 'flip' && btn != 'comp') this.disableButton(btn);
+                if (btn !== 'flip' && btn !== 'comp') this.disableButton(btn);
             }
         }.bind(this));
     },
@@ -260,12 +260,12 @@ chess.view.buttonbar.Bar = new Class({
         return false;
     },
 
-    toggleButtonVisibility:function(){
+    toggleButtonVisibility: function () {
         var o = this.controller.compMode ? 0 : 1;
 
-        jQuery.each(this.buttons, function(i, name){
-            if(name !== 'comp' && name !== 'flip')this.els.buttons[name].css({
-                opacity : o
+        jQuery.each(this.buttons, function (i, name) {
+            if (name !== 'comp' && name !== 'flip') this.els.buttons[name].css({
+                opacity: o
 
             });
 
@@ -274,7 +274,7 @@ chess.view.buttonbar.Bar = new Class({
 
     cssButton: function (name, className) {
 
-        if (this.buttons.indexOf(name) === -1)return;
+        if (this.buttons.indexOf(name) === -1) return;
 
         if (name === 'play' && this.autoPlayMode) className = 'Play';
         if (name === 'comp' && this.controller.compMode) className = 'Comp';
@@ -402,10 +402,38 @@ chess.view.buttonbar.Bar = new Class({
     },
 
 
+    boardPath: function () {
+        var size = 9;
+        var s = 6;
+        var w = size / s;
+
+        var counter = 0;
+        var path = [];
+        for (var r = 0; r < s; r++) {
+            for (var c = 0; c < s; c++) {
+                if (counter++ % 2 === 1) {
+                    var x = c * w;
+                    var y = r * w;
+                    path.push('M', x, y);
+                    path.push('L', x + w, y);
+                    path.push('L', x + w, y + w);
+                    path.push('L', x, y + w);
+                    path.push('Z');
+                }
+
+            }
+            counter++;
+        }
+        return path;
+    },
+
     getPath: function (btnName) {
 
 
         switch (btnName) {
+            case 'board':
+                return this.toPath(this.boardPath());
+
             case 'start':
                 return this.toPath(['M',
                     0, 0,
@@ -443,6 +471,21 @@ chess.view.buttonbar.Bar = new Class({
                     9, 7,
                     4, 7,
                     4, 9,
+                    'Z'
+                ]);
+            case 'enter':
+                return this.toPath(['M',
+                    5.5, 1.5,
+                    'L', 9, 1.5,
+                    9, 7,
+                    4, 7,
+                    4, 9,
+                    1, 6,
+                    4, 3,
+                    4, 5,
+                    7, 5,
+                    7, 3.5,
+                    5.5, 3.5,
                     'Z'
                 ]);
             case 'play':
@@ -517,7 +560,6 @@ chess.view.buttonbar.Bar = new Class({
 
     setController: function (controller) {
         this.parent(controller);
-
         this.controller.addEvents({
             startOfGame: this.startOfGame.bind(this),
             notStartOfGame: this.notStartOfBranch.bind(this),
@@ -526,23 +568,23 @@ chess.view.buttonbar.Bar = new Class({
             startAutoplay: this.startAutoPlay.bind(this),
             stopAutoplay: this.stopAutoPlay.bind(this),
             newGame: this.newGame.bind(this),
-            comp : this.toggleButtonVisibility.bind(this)
+            comp: this.toggleButtonVisibility.bind(this)
         });
     },
 
 
     startOfGame: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.disButtons(['start', 'previous']);
 
     },
 
     notStartOfBranch: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.enButtons(['start', 'previous', 'play']);
     },
     endOfBranch: function () {
-        if(this.controller.compMode)return;
+        if (this.controller.compMode) return;
         this.disButtons(['end', 'next', 'play'])
         this.isAtEndOfBranch = true;
         this.autoPlayMode = false;
@@ -580,9 +622,9 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     stopAutoPlay: function () {
-        if (!this.hasButton('play'))return;
+        if (!this.hasButton('play')) return;
         this.els.buttonPaths['play'].set('d', this.getPath('play').join(' '));
-        if (!this.autoPlayMode)return;
+        if (!this.autoPlayMode) return;
         this.autoPlayMode = false;
         this.cssButton('play', '');
 
@@ -601,7 +643,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     disableButton: function (name) {
-        if (!this.hasButton(name))return;
+        if (!this.hasButton(name)) return;
         if (!this.isDisabled(name)) {
             this.disabledButtons.push(name);
             this.cssButton(name, 'Disabled');
@@ -610,7 +652,7 @@ chess.view.buttonbar.Bar = new Class({
     },
 
     enableButton: function (name) {
-        if (!this.hasButton(name))return;
+        if (!this.hasButton(name)) return;
         if (this.isDisabled(name)) {
             var ind = this.disabledButtons.indexOf(name);
             this.disabledButtons.splice(ind, 1);

@@ -22,14 +22,13 @@ chess.WPTactics1 = new Class({
     historyIndexKey: undefined,
     historyIndex: 0,
     loadedFromHistory: false,
-    previousButtonId:undefined,
+    previousButtonId: undefined,
 
     __construct: function (config) {
-
         this.parent(config);
         var r = this.renderTo;
         var w = this.renderWidth();
-        r.css('height', Math.round(w + 130 + this.wpm_h));
+        r.css('height', Math.round(w + 165 + this.wpm_h));
         this.boardSize = w;
         if (config.random !== undefined) this.random = config.random;
         this.previousButtonId = 'dc-' + String.uniqueID();
@@ -41,6 +40,11 @@ chess.WPTactics1 = new Class({
 
         this.showLabels = !this.mobile;
         if (this.renderTo.substr && this.renderTo.substr(0, 1) !== "#") this.renderTo = "#" + this.renderTo;
+
+        var id = String.uniqueID();
+
+        this.colorViewId = 'clr' + id;
+
         this.beforeRender();
     },
 
@@ -60,10 +64,10 @@ chess.WPTactics1 = new Class({
     nextGame: function () {
         this.loadedFromHistory = false;
         if (this.random) {
-            if(this.historyIndex < this.history.length - 1){
+            if (this.historyIndex < this.history.length - 1) {
                 this.historyIndex++;
                 this.loadFromHistory();
-            }else{
+            } else {
                 this.controller.loadRandomGame();
             }
         } else {
@@ -71,7 +75,7 @@ chess.WPTactics1 = new Class({
         }
     },
 
-    loadFromHistory:function(){
+    loadFromHistory: function () {
         this.loadedFromHistory = true;
         this.saveHistoryIndex();
         var id = this.history[this.historyIndex];
@@ -82,7 +86,7 @@ chess.WPTactics1 = new Class({
 
         new chess.view.Chess({
             cls: this.th,
-            theme : this.themeObject,
+            theme: this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 type: 'fill',
@@ -122,19 +126,19 @@ chess.WPTactics1 = new Class({
                                 },
                                 {
                                     module: this.module,
-                                    layout: {width: this.mobile ? 40 : 80},
+                                    layout: { width: this.mobile ? 40 : 80 },
                                     type: 'chess.view.button.TacticHint',
                                     value: this.mobile ? '?' : chess.__('Hint')
                                 },
                                 {
                                     module: this.module,
-                                    hidden:this.mobile,
-                                    layout: {width: 80},
+                                    hidden: this.mobile,
+                                    layout: { width: 80 },
                                     type: 'chess.view.button.TacticSolution',
                                     value: chess.__('Solution')
                                 }, {
                                     module: this.module,
-                                    layout: {width: 80},
+                                    layout: { width: 80 },
                                     type: 'form.Button',
                                     value: chess.__('Next'),
                                     listeners: {
@@ -143,7 +147,7 @@ chess.WPTactics1 = new Class({
                                 }, {
                                     id: this.previousButtonId,
                                     module: this.module,
-                                    layout: {width: 80},
+                                    layout: { width: 80 },
                                     type: 'form.Button',
                                     value: chess.__('Previous'),
                                     listeners: {
@@ -157,6 +161,7 @@ chess.WPTactics1 = new Class({
                         },
                         Object.merge({
                             boardLayout: undefined,
+                            animationDuration: this.animationDuration,
                             id: this.boardId,
                             type: 'chess.view.board.Board',
                             module: this.module,
@@ -189,6 +194,13 @@ chess.WPTactics1 = new Class({
                             type: 'chess.view.notation.TacticPanel'
                         },
                         {
+                            layout: {
+                                height: 34
+                            },
+                            id: this.colorViewId,
+                            type: 'chess.ColorView'
+                        },
+                        {
                             type: 'chess.WPComMessage',
                             hidden: this._p
                         }
@@ -219,9 +231,10 @@ chess.WPTactics1 = new Class({
         this.controller = new chess.controller.TacticControllerGui({
             applyTo: [this.module],
             pgn: this.pgn.id,
-            sound:this.sound,
+            sound: this.sound,
             autoMoveDelay: 400,
-            gameEndHandler: this.nextGame.bind(this),
+            showDialog: false,
+            gameEndHandler: this.gameEndHandler.bind(this),
             listeners: {
                 'loadGame': function () {
                     var id = this.controller.getCurrentModel().model.id;
@@ -231,9 +244,9 @@ chess.WPTactics1 = new Class({
                         this.addToHistory(id);
                     }
 
-                    if(this.random && this.historyIndex == 0){
+                    if (this.random && this.historyIndex == 0) {
                         ludo.$(this.previousButtonId).disable();
-                    }else{
+                    } else {
                         ludo.$(this.previousButtonId).enable();
 
                     }
@@ -245,7 +258,6 @@ chess.WPTactics1 = new Class({
 
         var index = ludo.getLocalStorage().get(storageKey, 0);
 
-
         if (isNaN(index)) index = 0;
         index = Math.max(0, index);
         if (index !== undefined) {
@@ -255,14 +267,28 @@ chess.WPTactics1 = new Class({
         }
 
         if (this.random) {
-            if(this.history.length > 0){
+            if (this.history.length > 0) {
                 this.loadFromHistory();
-            }else{
+            } else {
                 this.controller.loadRandomGame();
             }
         } else {
             this.controller.loadGameFromFile(index);
         }
+    },
+
+    gameEndHandler: function () {
+
+        var cv = ludo.$(this.colorViewId);
+        cv.showView();
+        cv.colorCls('wpc-tactics-solved');
+        cv.icon(this.dr + 'images/solved-icon-white.png');
+
+        var loader = function(){
+            ludo.$(this.colorViewId).hideView();
+            this.nextGame();
+        };
+        loader.delay(1000, this);
     },
 
     addToHistory: function (gameId) {
@@ -278,7 +304,7 @@ chess.WPTactics1 = new Class({
         ludo.getLocalStorage().save(this.historyKey, this.history.join(','));
     },
 
-    saveHistoryIndex:function(){
+    saveHistoryIndex: function () {
         ludo.getLocalStorage().save(this.historyIndexKey, this.historyIndex);
     }
 });

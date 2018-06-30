@@ -30,6 +30,7 @@ chess.WPTacticsGame1 = new Class({
                 {
                     module:this.module,
                     id:this.boardId,
+                    animationDuration: this.animationDuration,
                     type: 'chess.view.board.Board',
                     fen: this.fen,
                     layout: {width: 'matchParent', weight: 1}

@@ -449,10 +449,10 @@ chess.view.board.GUI = new Class({
         }
         var ranks, files;
         if (!this.isFlipped()) {
-            files = 'ABCDEFGH';
+            files = 'abcdefgh';
             ranks = '87654321';
         } else {
-            files = 'HGFEDCBA';
+            files = 'hgfedcba';
             ranks = '12345678';
 
         }

@@ -14,17 +14,17 @@
  */
 chess.parser.Move0x88 = new Class({
 
-    newFen:'',
-    originalFen:'',
-    removedSquares:[],
-	parser:undefined,
-    initialize:function () {
+    newFen: '',
+    originalFen: '',
+    removedSquares: [],
+    parser: undefined,
+    initialize: function () {
         this.parser = new chess.parser.FenParser0x88();
     },
 
-    moveConfig:{
-        added:{},
-        removed:{}
+    moveConfig: {
+        added: {},
+        removed: {}
     },
 
     /**
@@ -33,9 +33,9 @@ chess.parser.Move0x88 = new Class({
      * @param {Array} fens
      * @return {Boolean}
      */
-	hasThreeFoldRepetition:function(fens){
-		return this.parser.hasThreeFoldRepetition(fens);
-	},
+    hasThreeFoldRepetition: function (fens) {
+        return this.parser.hasThreeFoldRepetition(fens);
+    },
 
 	/**
 	 * @method getMoveByNotation
@@ -43,10 +43,10 @@ chess.parser.Move0x88 = new Class({
 	 * @param {String} pos
 	 * @return {chess.model.Move}
 	 */
-	getMoveByNotation:function(notation, pos){
-		this.parser.setFen(pos);
-		return this.parser.getFromAndToByNotation(notation);
-	},
+    getMoveByNotation: function (notation, pos) {
+        this.parser.setFen(pos);
+        return this.parser.getFromAndToByNotation(notation);
+    },
 
 	/**
 	 * Returns true if a move is valid
@@ -55,19 +55,20 @@ chess.parser.Move0x88 = new Class({
 	 * @param fen
 	 * @return {Boolean}
 	 */
-    isValid:function (move, fen) {
+    isValid: function (move, fen) {
         if (move.fen) {
             return true;
         }
         this.parser.setFen(fen);
         var obj = this.parser.getValidMovesAndResult();
 
+
+
         if (obj.result !== 0) {
             return false;
         }
 
         var moves = obj.moves[this.getNumSquare(move.from)];
-
         return moves && moves.indexOf(this.getNumSquare(move.to)) >= 0;
 
     },
@@ -78,7 +79,7 @@ chess.parser.Move0x88 = new Class({
      * @param {String} square
      * @return {Number}
      */
-    getNumSquare:function (square) {
+    getNumSquare: function (square) {
         return Board0x88Config.mapping[square];
     },
 
@@ -90,14 +91,14 @@ chess.parser.Move0x88 = new Class({
      * @return {chess.model.Move}
      * TODO perhaps rename this method
      */
-    getMoveConfig:function (move, fen) {
-        if(move.m !== undefined && move.m && move.m === '--'){
+    getMoveConfig: function (move, fen) {
+        if (move.m !== undefined && move.m && move.m === '--') {
             var newFen = this.getFenWithColorSwitched(fen);
             this.parser.setFen(newFen);
             return {
-                notation : move.m,
-                moves : [],
-                fen : newFen
+                notation: move.m,
+                moves: [],
+                fen: newFen
             }
         }
         this.parser.setFen(fen);
@@ -105,26 +106,26 @@ chess.parser.Move0x88 = new Class({
         var p = this.parser.getPieceOnSquare(Board0x88Config.mapping[move.from]);
 
         this.parser.move(move);
-        
+
         var n = move.m;
         var grade = "";
-        if(/[\!\?]/.test(n)){
+        if (/[\!\?]/.test(n)) {
             grade = n.replace(/.+?([\?\!]{1,2})/, '$1');
         }
         return {
-            fen:move.fen ? move.fen : this.parser.getFen(),
+            fen: move.fen ? move.fen : this.parser.getFen(),
             m: this.parser.getNotation() + grade,
             lm: this.parser.getLongNotation() + grade,
-            moves:this.parser.getPiecesInvolvedInLastMove(),
+            moves: this.parser.getPiecesInvolvedInLastMove(),
             p: p,
-            from:move.from,
-            promoteTo : move.promoteTo,
-            comment : move.comment,
-            clk : move.clk,
-            actions : move.actions,
-            eval : move.eval,
-            to:move.to,
-            variations:move.variations || []
+            from: move.from,
+            promoteTo: move.promoteTo,
+            comment: move.comment,
+            clk: move.clk,
+            actions: move.actions,
+            eval: move.eval,
+            to: move.to,
+            variations: move.variations || []
         };
     },
 
@@ -134,10 +135,10 @@ chess.parser.Move0x88 = new Class({
      * @param {String} fen
      * @return {String}
      */
-    getFenWithColorSwitched : function(fen){
-        if(fen.indexOf(' w ')>=0){
+    getFenWithColorSwitched: function (fen) {
+        if (fen.indexOf(' w ') >= 0) {
             fen = fen.replace(' w ', ' b ');
-        }else{
+        } else {
             fen = fen.replace(' b ', ' w ');
         }
         return fen;
@@ -150,7 +151,7 @@ chess.parser.Move0x88 = new Class({
 	 * @param {String} fen
 	 * @return {Boolean} valid
 	 */
-    isPromotionMove:function (move, fen) {
+    isPromotionMove: function (move, fen) {
         this.parser.setFen(fen);
         var squareFrom = this.getNumSquare(move.from);
         var squareTo = this.getNumSquare(move.to);
@@ -173,12 +174,12 @@ chess.parser.Move0x88 = new Class({
      * @param {String} square
      * @return {Boolean}
      */
-    isPawnOnSquare : function(square) {
+    isPawnOnSquare: function (square) {
         var piece = this.parser.getPieceOnSquare(square);
         return piece.type === 'p';
     },
 
-    getMobility:function(fen){
+    getMobility: function (fen) {
         this.parser.setFen(fen);
         return this.parser.getMobility();
     }

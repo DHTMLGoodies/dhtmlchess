@@ -37,6 +37,7 @@ chess.WPGame6 = new Class({
                 {
                     module:this.module,
                     type: 'chess.view.board.Board',
+                    animationDuration: this.animationDuration,
                     id: this.boardId,
                     fen: this.fen,
                     sideToMove:false,

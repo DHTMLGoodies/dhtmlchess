@@ -650,10 +650,9 @@ chess.wordpress.WordpressController = new Class({
                     var json = response.responseJSON;
                     if (json.success) {
                         if (this.views.docking) {
-                            this.views.docking.getLayout().collapse();
+                           // this.views.docking.getLayout().collapse();
                         }
                         var game = json.response;
-
 
                         this.currentModel.populate(game);
                         this.currentModel.setClean();

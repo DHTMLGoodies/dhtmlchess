@@ -92,6 +92,7 @@ chess.WPViewer3 = new Class({
                                 type: 'chess.view.board.Board',
                                 module: this.module,
                                 overflow: 'hidden',
+                                animationDuration: this.animationDuration,
                                 pieceLayout: 'svg3',
                                 boardCss: {
                                     border: 0

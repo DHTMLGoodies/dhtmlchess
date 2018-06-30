@@ -19,27 +19,11 @@ chess.wordpress.ComputerEval = new Class({
 
     appendBtn: true,
     showNodes: true,
-
+    showBar: true,
 
     __children: function () {
-        return [
-            {
-                name: 'scoreBar',
-                css: {
-                    'margin': 5
-                },
-                type: 'chess.view.score.Bar',
-                layout: {
-                    height: 60
-                },
-                borderRadius: 5,
-                blackColor: '#444444',
-                whiteColor: '#EEEEEE',
-                markerColor: '#B71C1C',
-                markerTextColor: '#FFF',
-                stroke: '#222222',
-                range: 3
-            },
+        var children = [
+
             {
                 name: 'eval',
                 layout: {
@@ -86,7 +70,26 @@ chess.wordpress.ComputerEval = new Class({
                     }
                 ]
             }
-        ]
+        ];
+
+        if(this.showBar)children.unshift({
+            name: 'scoreBar',
+            css: {
+                'margin': 5
+            },
+            type: 'chess.view.score.Bar',
+            layout: {
+                height: 60
+            },
+            borderRadius: 5,
+            blackColor: '#444444',
+            whiteColor: '#EEEEEE',
+            markerColor: '#B71C1C',
+            markerTextColor: '#FFF',
+            stroke: '#222222',
+            range: 3
+        });
+        return children;
     },
 
     hideButton: false,
@@ -94,6 +97,7 @@ chess.wordpress.ComputerEval = new Class({
     __construct: function (config) {
         this.parent(config);
         this.parser = new chess.parser.FenParser0x88();
+        if (config.showBar !== undefined) this.showBar = config.showBar;
         if (config.buttons !== undefined) this.buttons = config.buttons;
         if (config.appendBtn !== undefined) this.appendBtn = config.appendBtn;
         if (config.hideButton !== undefined) this.hideButton = config.hideButton;
@@ -114,10 +118,10 @@ chess.wordpress.ComputerEval = new Class({
 
         if (update.mate) {
             var s = update.mate < 0 ? -100 : 100;
-            this.child['scoreBar'].setScore(s);
+            if(this.child['scoreBar'])this.child['scoreBar'].setScore(s);
             update.score = 'Mate in ' + Math.abs(update.mate);
         } else {
-            this.child['scoreBar'].setScore(update.score);
+            if(this.child['scoreBar'])this.child['scoreBar'].setScore(update.score);
         }
 
         this.currentEval = update.score;
@@ -135,7 +139,7 @@ chess.wordpress.ComputerEval = new Class({
     clearView: function () {
         if (this.child['eval']) {
             this.child['eval'].html('');
-            this.child['scoreBar'].setScore(0);
+            if(this.child['scoreBar'])this.child['scoreBar'].setScore(0);
         }
         this.bestLineString = '';
         this.bestLine = [];

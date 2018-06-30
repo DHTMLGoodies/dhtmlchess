@@ -14,21 +14,12 @@ chess.view.metadata.FenField = new Class({
     label : chess.__('FEN'),
     formCss : { 'font-size' : '10px'},
     labelWidth : 30,
-    selectOnFocus : true,
     setController : function(controller){
         this.parent(controller);
         controller.on('newGame', this.showFen.bind(this));
         controller.on('setPosition', this.showFen.bind(this));
         controller.on('newMove', this.showFen.bind(this));
         controller.on('nextmove', this.showFen.bind(this));
-    },
-
-    __rendered:function(){
-        this.parent();
-        this.getFormEl().on('click', this.selectEl.bind(this));
-    },
-    selectEl:function(){
-        this.getFormEl().select();
     },
 
     showFen : function(model){

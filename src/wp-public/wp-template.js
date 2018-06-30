@@ -16,6 +16,7 @@ chess.WPTemplate = new Class({
     compToggle: false,
     pgn: undefined,
     pgnAll: undefined,
+    animationDuration: .2,
 
     arrowSolution: undefined,
     board: undefined,
@@ -29,7 +30,7 @@ chess.WPTemplate = new Class({
 
     navH: undefined,
     to_end: false,
-    forward : 0,
+    forward: 0,
 
     mobile: undefined,
 
@@ -41,11 +42,13 @@ chess.WPTemplate = new Class({
         var res = window.screen.width;
         this.mobile = ludo.isMobile && (res) < 600;
         this.renderTo = jQuery(config.renderTo);
+        this.animationDuration = .2;
+        if (config.animation_duration !== undefined) this.animationDuration = config.animation_duration;
         this.prep(config);
     },
 
     prep: function (config) {
-        if (this.render === undefined)return;
+        if (this.render === undefined) return;
         var w = this.renderTo.width();
         if (w === 0) {
             this.prep.delay(50, this, config);
@@ -76,7 +79,7 @@ chess.WPTemplate = new Class({
         this.to_end = config.to_end || false;
         this.forward = config.forward || 0;
 
-        if(config.buttons){
+        if (config.buttons) {
             this.buttons = this.configureButtons(config.buttons);
         }
 
@@ -180,19 +183,19 @@ chess.WPTemplate = new Class({
     },
 
 
-    configureButtons:function(buttonString){
+    configureButtons: function (buttonString) {
         var btns = buttonString.split(/,/g);
         var buttons = [];
-        btns.forEach(function(button){
-            button = button.toLowerCase().substr(0,2);
-            switch(button){
-                case "st": buttons.push("start");break;
-                case "pr": buttons.push("previous");break;
-                case "pl": buttons.push("play");break;
-                case "ne": buttons.push("next");break;
-                case "en": buttons.push("end");break;
-                case "fl": buttons.push("flip");break;
-                case "co": buttons.push("comp");break;
+        btns.forEach(function (button) {
+            button = button.toLowerCase().substr(0, 2);
+            switch (button) {
+                case "st": buttons.push("start"); break;
+                case "pr": buttons.push("previous"); break;
+                case "pl": buttons.push("play"); break;
+                case "ne": buttons.push("next"); break;
+                case "en": buttons.push("end"); break;
+                case "fl": buttons.push("flip"); break;
+                case "co": buttons.push("comp"); break;
             }
         });
         return buttons;
@@ -236,7 +239,7 @@ chess.WPTemplate = new Class({
 
     isValidPgn: function (pgnId) {
         for (var i = 0; i < this.pgnAll.length; i++) {
-            if (this.pgnAll[i].id == pgnId)return true;
+            if (this.pgnAll[i].id == pgnId) return true;
         }
         return false;
     },

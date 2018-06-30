@@ -22,6 +22,10 @@ chess.WPManager = new Class({
 
     addKeyEvents: function () {
         jQuery(document).keydown(function (e) {
+            if (e.target) {
+                var t = (e.target.tagName || "").toLowerCase();
+                if (t === "input" || t === "select" || t === "textarea") return;
+            }
             if (this.activeView) {
                 var c = this.activeView.controller;
 

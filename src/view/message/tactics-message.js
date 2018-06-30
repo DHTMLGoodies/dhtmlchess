@@ -53,7 +53,7 @@ chess.view.message.TacticsMessage = new Class({
     },
 
     showCorrectGuess: function () {
-        this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
+        // this.showMessage(chess.__('Good move'), this.autoHideAfterMs);
     },
 
     showMessage: function (message, delayBeforeHide) {

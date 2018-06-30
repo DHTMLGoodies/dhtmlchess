@@ -1,9 +1,11 @@
 chess.WPInstructor = new Class({
     Extends: chess.WPTemplate,
     controller: undefined,
-
+    _pers: true,
     __construct: function (config) {
+
         this.parent(config);
+        if(config.persistent !== undefined)this._pers = config.persistent;
         if (this.canRender()) {
             this.render();
         }
@@ -13,7 +15,7 @@ chess.WPInstructor = new Class({
     render: function () {
 
         var w = this.renderTo.width();
-        this.renderTo.css('height', w + 210);
+        this.renderTo.css('height', w + 200);
 
         new chess.view.Chess({
             cls: this.th,
@@ -51,16 +53,24 @@ chess.WPInstructor = new Class({
                             }
                         },
                         {
+                            name:'fenNav',
                             type: 'chess.view.buttonbar.Bar',
-                            buttons: ['previous', 'next', 'flip', 'comp'],
+                            buttons: ['enter'],
                             module: this.module,
-                            width: 180
+                            width: 60
                         }
                     ]
                 },
                 {
+                    height: 40,
+                    type: 'chess.view.buttonbar.Bar',
+                    buttons: ['board','start','previous', 'next', 'end', 'flip', 'comp'],
+                    module: this.module
+                },
+                {
                     height: 170,
                     module: this.module,
+                    showBar: false,
                     type: 'chess.wordpress.ComputerEval',
                     hideButton: true,
                     showNodes: false
@@ -72,7 +82,8 @@ chess.WPInstructor = new Class({
         this.controller = new chess.controller.DummyController({
             applyTo: [this.module],
             stockfish: ludo.config.getDocumentRoot() + '/stockfish-js/stockfish.js',
-            sound: this.sound
+            sound: this.sound,
+            persistent: this._pers
         });
     }
 

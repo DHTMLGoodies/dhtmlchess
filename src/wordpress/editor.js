@@ -247,7 +247,6 @@ chess.WPEditor = new Class({
                                                     submodule: 'wordpress.standingsbutton',
                                                     listeners: {
                                                         rendered: function () {
-
                                                             if (!this.controller.pgn) {
                                                                 this.hide();
                                                             }

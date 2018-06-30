@@ -8,9 +8,12 @@ chess.controller.DummyController = new Class({
     _moves: undefined,
     _movePointer: undefined,
     _buttonBar: undefined,
-
+    _inited: false,
+    _persistant: true,
     __construct: function (config) {
         this.parent(config);
+
+        if (config.persistent !== undefined) this._persistant = config.persistent !== "0";
         this.circleColors = ["#E53935", "#43A047"]
         this.positionParser = new chess.parser.FenParser0x88();
 
@@ -29,7 +32,16 @@ chess.controller.DummyController = new Class({
             board: b
         });
 
+        this.loadFromLocalStore();
+        this._onNav();
 
+        setTimeout(function () {
+            this._onNav();
+            if(this._flipped && this.views.board){
+                this.views.board.flipToBlack();
+            }
+        }.bind(this), 300);
+        this._inited = true;
     },
 
     resetMoves: function () {
@@ -37,6 +49,30 @@ chess.controller.DummyController = new Class({
             fen: Board0x88Config.fen
         }];
         this._movePointer = 0;
+
+        this.updateLocalStore();
+    },
+
+    updateLocalStore: function () {
+        if (!this._inited || !this._persistant) return;
+        var s = ludo.getLocalStorage();
+        s.save("inst", {
+            moves: this._moves,
+            movePointer: this._movePointer,
+            color: this._colorToMove,
+            flipped: this.views.board.isFlipped()
+        });
+    },
+
+    loadFromLocalStore: function () {
+        if (!this._persistant) return;
+        var data = ludo.getLocalStorage().get("inst");
+        if (data) {
+            this._moves = data.moves;
+            this._movePointer = data.movePointer;
+            this._colorToMove = data.color;
+            this._flipped = data.flipped;
+        }
     },
 
     createView: function (type) {
@@ -174,12 +210,13 @@ chess.controller.DummyController = new Class({
 
     arrowStart: function (square, event) {
 
+        var i = event.altKey ? 0 : 1;
         this._arrow = this.arrowPool.show(
             square,
             square,
             {
-                fill: this.circleColors[1],
-                stroke: this.circleColors[1]
+                fill: this.circleColors[i],
+                stroke: this.circleColors[i]
             }
         )
     },
@@ -204,7 +241,7 @@ chess.controller.DummyController = new Class({
     keyNext: function () {
         if (this._movePointer < this._moves.length - 1) {
             this._movePointer++;
-            this._onNav();
+            this._onNav(true);
 
         }
     },
@@ -212,16 +249,29 @@ chess.controller.DummyController = new Class({
     keyBack: function () {
         if (this._movePointer > 0) {
             this._movePointer--;
-            this._onNav();
+            this._onNav(true);
         }
     },
 
-    _onNav: function () {
-        if (this._movePointer > 0)
-            this.fireEvent("notEndOfBranch");
-        if (this._movePointer < this._moves.length - 1) {
-            this.fireEvent("notStartOfGame");
+    toStart: function () {
+        if (this._movePointer > 0) {
+            this._movePointer = 0;
+            this._onNav(true);
         }
+    },
+
+    toEnd: function () {
+        if (this._movePointer < this._moves.length - 1) {
+            this._movePointer = this._moves.length - 1;
+            this._onNav(true);
+
+        }
+    },
+
+    _onNav: function (updateLocalStorage) {
+        this.fireEvent(this._movePointer === 0 ? "startOfGame" : "notStartOfGame");
+        this.fireEvent(this._movePointer === this._moves.length - 1 ? "endOfBranch" : "notEndOfBranch");
+
         var m = this._moves[this._movePointer];
         this.lastMove = m.move;
         this.fen = m.fen;
@@ -230,11 +280,14 @@ chess.controller.DummyController = new Class({
         this.onFenUpdated();
         this.updateFen(m.move, m.color);
         this.fireEvent("move", m);
+
+        if (updateLocalStorage) {
+            this.updateLocalStore();
+        }
     },
 
     restartEngine: function () {
         if (this._restartTimer) clearTimeout(this._restartTimer);
-        console.log(this.compMode);
         if (!this.compMode) return;
         this.stopEngine();
 
@@ -273,6 +326,8 @@ chess.controller.DummyController = new Class({
 
                     this.fireEvent("move", move);
 
+                    this.updateLocalStore();
+
                     this.restartEngine();
 
                 }.bind(this));
@@ -294,29 +349,47 @@ chess.controller.DummyController = new Class({
 
                 break;
             case 'metadata.FenField':
-
+                this._fenField = view;
                 view.on("change", function (fen, el) {
                     if (this.validateFen(fen)) {
-                        this.views.board.showFen(fen);
                     } else {
-                        el.val('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+                        el.val(this.defFen);
                     }
                 }.bind(this));
                 break;
             case window.chess.Views.buttonbar.bar:
-                this._buttonBar = view;
-                view.on("comp", function () {
-                    this.toggleCompMode();
-                }.bind(this));
-                view.on('flip', function () {
-                    this.views.board.showFen(this.fen);
-                    this.views.board.flip();
-                }.bind(this));
-                view.on("previous", this.keyBack.bind(this));
-                view.on("next", this.keyNext.bind(this));
+
+                if (!view.name) {
+                    this._buttonBar = view;
+                    view.on("comp", function () {
+                        this.toggleCompMode();
+                    }.bind(this));
+                    view.on('flip', function () {
+                        this.views.board.showFen(this.fen);
+                        this.views.board.flip();
+                    }.bind(this));
+                    view.on("previous", this.keyBack.bind(this));
+                    view.on("next", this.keyNext.bind(this));
+                    view.on("start", this.toStart.bind(this));
+                    view.on("end", this.toEnd.bind(this));
+                    view.on("board", function(){
+                        this.views.board.showFen(this.defFen);
+                    }.bind(this));
+                    view.enableButton('board');
+
+                } else {
+                    view.enableButton('enter');
+                    view.on("enter", function () {
+                        var fen = this._fenField.val();
+                        if (this.validateFen(fen)) {
+                            this.views.board.showFen(fen);
+                        }
+                    }.bind(this));
+                }
                 break;
         }
         return true;
-    }
-
+    },
+    _fenField: undefined,
+    defFen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'
 });

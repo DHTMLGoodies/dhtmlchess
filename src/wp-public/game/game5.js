@@ -43,6 +43,7 @@ chess.WPGame5 = new Class({
 
         this.board = Object.merge({
             boardLayout: undefined,
+            animationDuration: this.animationDuration,
             vAlign: top,
             id: this.boardId,
             type: 'chess.view.board.Board',

@@ -36,6 +36,7 @@ chess.WPGame1 = new Class({
             boardLayout: undefined,
             id: this.boardId,
             type: 'chess.view.board.Board',
+            animationDuration: this.animationDuration,
             module: this.module,
             overflow: 'hidden',
             pieceLayout: 'svg3',

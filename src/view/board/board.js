@@ -61,6 +61,8 @@ chess.view.board.Board = new Class({
         this.pieces = [];
         this.__params(config, ['fen', 'pieceLayout', 'animationDuration', 'plugins']);
 
+        if (this.animationDuration) this.animationDuration /= 1;
+
         if (this.plugins && Browser.ie && Browser.version < 9) {
             for (var i = 0; i < this.plugins.length; i++) {
                 if (this.plugins[i].type === 'chess.view.highlight.Arrow') {
@@ -70,10 +72,12 @@ chess.view.board.Board = new Class({
         }
 
 
+
         this.positionParser = new chess.parser.FenParser0x88();
     },
 
     inAltMode: false,
+    shiftMode: false,
     posOnDown: undefined,
 
     __rendered: function () {
@@ -95,14 +99,15 @@ chess.view.board.Board = new Class({
         el.on("mousedown", this.onDown.bind(this));
 
         doc.on("mouseup", function (evt) {
-            if (this.inAltMode) {
+            if (this.inAltMode || this.shiftMode) {
                 this.fireDomEvent("arrowEnd", evt);
                 this.inAltMode = false;
+                this.shiftMode = false;
             }
         }.bind(this));
 
         doc.on("mousemove", function (evt) {
-            if (this.inAltMode) {
+            if (this.inAltMode || this.shiftMode) {
                 this.fireDomEvent("arrowMove", evt);
             }
         }.bind(this));
@@ -110,8 +115,9 @@ chess.view.board.Board = new Class({
 
     onDown: function (evt) {
         this.posOnDown = evt.pageX + evt.pageY;
-        if (evt.altKey) {
-            this.inAltMode = true;
+        if (evt.altKey || evt.shiftKey) {
+            this.inAltMode = evt.altKey;
+            this.shiftMode = evt.shiftKey;
             this.fireDomEvent("arrowStart", evt);
         }
     },
@@ -294,9 +300,8 @@ chess.view.board.Board = new Class({
      { m: 'O-O', moves : [{ from: 'e1', to: 'g1' },{ from:'h1', to: 'f1'}] }
      */
     playChainOfMoves: function (model, move) {
-
         var ca = this.currentAnimation;
-        if (this.animationDuration === 0) {
+        if (!this.animationDuration) {
             this.showMove(model, move);
             return;
         }
@@ -500,7 +505,7 @@ chess.view.board.Board = new Class({
                 return;
             }
 
-            if(type === "p" && /[18]/.test(move.to)){
+            if (type === "p" && /[18]/.test(move.to)) {
                 piece.promote("q");
             }
 

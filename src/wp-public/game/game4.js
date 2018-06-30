@@ -47,6 +47,7 @@ chess.WPGame4 = new Class({
 
                     children: [
                         Object.merge({
+                            animationDuration: this.animationDuration,
                             boardLayout: undefined,
                             id: this.boardId,
                             type: 'chess.view.board.Board',
