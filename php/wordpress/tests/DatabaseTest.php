@@ -202,6 +202,42 @@ class DatabaseTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function shouldBeAbleToGetNextGameFromRandomDatabase(){
+        $this->database->import("fivegames.pgn");
+        $this->database->import("onegame.pgn");
+        
+
+        $game = $this->database->getNextGameFromDatabases(array(1,2), 1);
+
+        $this->assertNotEmpty($game);
+        $this->assertEquals(0, $game["index"]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldBeAbleToIncrementSolvedGames(){
+        $this->database->import("fivegames.pgn");
+        $this->database->import("fivegames.pgn");
+    
+        $elo = new DHTMLChessElo();
+        $elo->incrementNextPuzzleIndex(1,1);
+        $elo->incrementNextPuzzleIndex(1,2);
+
+        $setter = new DHTMLChessKeyValue();
+
+        $this->assertEquals(2, $setter->get("un1_1"));
+
+
+        $game = $this->database->getNextGameFromDatabases(array(1,2), 1);
+        // $this->assertEquals(2, $game["index"]);
+        $this->assertEquals(2, $game["debug"]);
+    }
+
+
+    /**
+     * @test
+     */
     public function shouldBeAbleToMoveGame()
     {
         $this->database->import('fivegames.pgn');

@@ -4,6 +4,7 @@ chess.WPTactics2 = new Class({
     Extends: chess.WPTemplate,
     boardSize: undefined,
     random: false,
+    randomDatabase: false,
 
     gameFinished: false,
 
@@ -29,6 +30,7 @@ chess.WPTactics2 = new Class({
         r.css('height', Math.round(w + 164 + this.wpm_h));
         this.boardSize = w;
         if (config.random !== undefined) this.random = config.random;
+        if (config.random_database !== undefined) this.randomDatabase = config.random_database;
 
         if (this.renderTo.substr && this.renderTo.substr(0, 1) !== "#") this.renderTo = "#" + this.renderTo;
 
@@ -255,17 +257,23 @@ chess.WPTactics2 = new Class({
     },
 
     loadGame: function (index) {
+        
+        var config = {};
+        if (this.pgnAll.length === 1 || !this.randomDatabase) {
+            config.action = 'puzzle_game_by_index_strict';
+            config.pgn = this.pgnId();
+            config.index = index;
+        } else {
+            config.action = 'next_puzzle_from_multiple_databases';
+            config.pgn = this.pgnAll.map(function (pgn) { return pgn.id });
+        }
 
         jQuery.ajax({
             url: this.url,
             method: 'post',
             cache: false,
             dataType: 'json',
-            data: {
-                action: 'puzzle_game_by_index_strict',
-                pgn: this.pgnId(),
-                index: index
-            },
+            data: config,
             complete: function (response, success) {
                 this.gameFinished = false;
                 if (success) {

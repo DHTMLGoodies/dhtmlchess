@@ -184,7 +184,80 @@ class DhtmlChessDatabase
             $fromPgn->deleteGame($gameId);
             $pgn->appendGame($game);
         }
+    }
 
+    public function getNextGameFromDatabases($pgnIds, $userId){
+
+        mt_srand();
+
+        $count = array();
+        $next = array();
+
+        $possibleDatabases = array();
+        $nextIndexInPossible = array();
+
+        $sumGames = 0;
+        
+        foreach($pgnIds as $id){
+            $countInGame = $this->countGames($id);
+            $nextPuzzleIndex = $this->getNextPuzzleIndexForUser($id, $userId);
+
+            $count[] = $countInGame;
+            $next[] = $nextPuzzleIndex;
+            $sumGames += $countInGame;
+
+            if($nextPuzzleIndex < $countInGame){
+                $possibleDatabases[] = $id;
+                $nextIndexInPossible[] = $nextPuzzleIndex;
+            }
+        }
+        
+        if($sumGames === 0){
+            return;
+        }
+        
+
+        if(count($possibleDatabases) === 0){
+            foreach($pgnIds as $id){
+                $this->clearNextPuzzleIndex($id, $userId);
+            }
+            return $this->getNextGameFromDatabases($pgnIds, $userId);
+        }
+
+        $index = mt_rand(0, count($possibleDatabases) -  1);
+
+        $pgnId = $possibleDatabases[$index];
+
+        $gameIndex = $nextIndexInPossible[$index];
+
+        // echo "possible databases: ".implode($possibleDatabases, ",");
+        // echo "next possible indices: " .implode($nextIndexInPossible, ",");
+
+        return array(
+            "game" => $this->puzzleGameByIndexStrict($pgnId, $gameIndex),
+            "index" => $gameIndex,
+            "pgnId" => $pgnId,
+            "debug" => implode($nextIndexInPossible, "_")
+        );
+    }
+    
+    private function getNextPuzzleKey($pgnId, $userId){
+        //echo "pgn id: ".$pgnId. " and userId ". $userId."\n";
+        return "un".$pgnId."_".$userId;
+    }
+
+    public function clearNextPuzzleIndex($pgnId, $userId){
+        $setter = new DhtmlChessKeyValue();
+        $setter->remove($this->getNextPuzzleKey($pgnId, $userId));
+    }
+
+    public function getNextPuzzleIndexForUser($pgnId, $userId){
+
+        $key = $this->getNextPuzzleKey($pgnId, $userId);
+
+        $setter = new DhtmlChessKeyValue();
+
+        return $setter->get($key, 0);
     }
 
     public function gameByIndexStrict($pgnId, $index)

@@ -201,6 +201,7 @@ class DhtmlChessElo
 
         if (!empty($puzzleId)) {
             $this->setLastPuzzleId($userId, $puzzleId);
+            $this->incrementNextPuzzleIndex($userId, $puzzleId);
         }
 
 
@@ -215,10 +216,25 @@ class DhtmlChessElo
         return $elo;
     }
 
+    public function incrementNextPuzzleIndex($userId,$puzzleId){
+        $pgnId = $this->getPgnIdByGameId($puzzleId);
+        $key = "un".$pgnId."_".$userId;
+
+        $setter = new DhtmlChessKeyValue();
+        $setter->increment($key, 1);
+    }
+
+    private function getPgnIdByGameId($gameId){
+
+        global $wpdb;
+        $query = $wpdb->prepare("select " . DhtmlChessDatabase::COL_PGN_ID . " from " . DhtmlChessDatabase::TABLE_GAME
+        . " where " . DhtmlChessDatabase::COL_ID . "= %d  limit 1", $gameId );
+        return $wpdb->get_var($query);
+    }
+
     private function saveMultiplayElo($userId, $elo)
     {
         $this->eloDb->upsertMultiplayer($userId, $elo);
-
     }
 
     private function savePuzzleElo($userId, $elo)

@@ -125,6 +125,8 @@ class DhtmlChessPgn
 
     }
 
+
+
     private function getGames()
     {
         $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_ID . "," . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME

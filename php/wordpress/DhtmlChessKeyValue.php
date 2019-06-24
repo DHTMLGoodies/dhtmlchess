@@ -18,7 +18,6 @@ class DhtmlChessKeyValue {
 	 */
 	private $wpdb;
 
-
 	public function __construct(){
 		global $wpdb;
 		$this->wpdb = $wpdb;
@@ -29,7 +28,6 @@ class DhtmlChessKeyValue {
 		$val = $this->get($key);
 
 		if(isset($val)){
-
 			$val += $increment;
 			$this->update($key, $val);
 		}else{
@@ -44,7 +42,6 @@ class DhtmlChessKeyValue {
 		}else{
 			$this->insert($key, $value, $type);
 		}
-
 	}
 
 	private function update($key, $val){
