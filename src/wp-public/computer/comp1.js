@@ -22,6 +22,7 @@ chess.WPComp1 = new Class({
         this.boardSize = this.mobile ? w : w - 200;
 
         this.boardId = 'dhtml-chess-' + String.uniqueID();
+
         if (this.canRender()) {
             this.render();
         }
@@ -30,7 +31,8 @@ chess.WPComp1 = new Class({
     render: function () {
 
         new chess.view.Chess({
-            theme : this.themeObject,
+            cls: this.th,
+            theme: this.themeObject,
             renderTo: jQuery(this.renderTo),
             layout: {
                 width: 'matchParent',
@@ -63,15 +65,16 @@ chess.WPComp1 = new Class({
                         orientation: 'horizontal'
                     },
                     children: [
-                        {
+                        Object.merge({
                             id: this.boardId,
                             type: 'chess.view.board.Board',
                             animationDuration: this.animationDuration,
-                            pieceLayout: 'svg_egg',
-                            boardLayout: 'wood',
+                            pieceLayout: 'svg3',
+                            boardLayout: undefined,
                             module: this.module,
                             padding: this.mobile ? '1%' : '2.5%',
                             labels: !this.mobile,
+                            labelPos: this.lp, // show labels inside board, default is 'outside'
                             background: {
                                 borderRadius: '1%',
                                 paint: {
@@ -88,7 +91,7 @@ chess.WPComp1 = new Class({
                                 }
                             ]
 
-                        },
+                        }, this.board),
                         {
                             width: 205,
                             hidden: this.mobile,
@@ -160,7 +163,7 @@ chess.WPComp1 = new Class({
                         type: 'linear', orientation: 'horizontal'
                     },
                     children: [
-                        {weight: 1},
+                        { weight: 1 },
                         {
                             type: 'form.Button',
                             module: this.module,
@@ -194,7 +197,7 @@ chess.WPComp1 = new Class({
                                 }.bind(this)
                             }
                         },
-                        {weight: 1}
+                        { weight: 1 }
                     ]
                 },
                 {

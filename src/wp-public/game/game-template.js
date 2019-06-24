@@ -2,12 +2,13 @@ window.chess.isWordPress = true;
 chess.WPGameTemplate = new Class({
     Extends: chess.WPTemplate,
     fen: undefined,
+    start: undefined,
 
     __construct: function (config) {
         //console.time("render");
         this.parent(config);
         this.model = config.model || undefined;
-
+        this.start = config.start;
         this.gameId = config.gameId;
 
         if (config.fen) {
@@ -32,6 +33,11 @@ chess.WPGameTemplate = new Class({
         this.loadGame();
     },
 
+    getGame: function (game) {
+        return game;
+    },
+
+
     loadGame: function () {
 
         if (this.gameId) {
@@ -51,7 +57,7 @@ chess.WPGameTemplate = new Class({
                         if (json.success) {
                             var game = json.response;
                             var model = this.controller.currentModel;
-                            model.populate(game);
+                            model.populate(game, this.start);
                             if (this.to_end) {
                                 model.toEnd();
                             }
@@ -69,7 +75,7 @@ chess.WPGameTemplate = new Class({
 
             });
         } else if (this.model) {
-            this.controller.currentModel.populate(this.model);
+            this.controller.currentModel.populate(this.model, this.start);
         }
     }
 });

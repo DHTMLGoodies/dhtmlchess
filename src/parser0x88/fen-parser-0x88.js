@@ -984,7 +984,7 @@ chess.parser.FenParser0x88 = new Class({
                     break;
                 case 0x09:
                     if (king.s === piece.s - 15 || king.s === piece.s - 17) {
-                        var ret = [pieces.s];
+                        var ret = [piece.s];
                         if (enPassantSquare == piece.s + 16) {
                             ret.push(enPassantSquare);
                         }
@@ -1269,6 +1269,10 @@ chess.parser.FenParser0x88 = new Class({
     },
 
     getFromAndToByNotation: function (notation) {
+        if (notation) {
+            notation = notation.replace(/([a-z])([a-z])([0-8])/g, '$1x$2$3');
+        }
+
         var ret = { promoteTo: this.getPromoteByNotation(notation) };
         var color = this.getColor();
         var offset = 0;

@@ -193,6 +193,11 @@ class DhtmlChessDatabase
         return $pgnId->gameByIndexStrict($index);
     }
 
+    public function puzzleGameByIndexStrict($pgnId, $index){
+        $pgnId = DhtmlChessPgn::instanceById($pgnId);
+        return $pgnId->gameByIndexStrict($index, true);        
+    }
+
     /**
      * @param $pgnId
      * @param $index

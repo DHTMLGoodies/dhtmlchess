@@ -11,6 +11,7 @@ class DhtmlChessEloDb
 
     const KEY_PUZZLES = "puzzles";
     const KEY_MULTIPLAYER = "multiplayer";
+    const KEY_PUZZLE_ELO = "puzzle_elo"; // Elo of a puzzle
 
     /**
      * @var wpdb
@@ -79,6 +80,9 @@ class DhtmlChessEloDb
         return $ret;
     }
 
+    public function upsertEloOfPuzzle($puzzleid, $elo){
+        $this->upsert($puzzleid, self::KEY_PUZZLE_ELO, $elo);
+    }
 
     public function upsertPuzzle($userId, $elo)
     {
@@ -136,6 +140,10 @@ class DhtmlChessEloDb
 
     }
 
+    public function getEloOfPuzzle($puzzleId){
+        return $this->getElo(self::KEY_PUZZLE_ELO, $puzzleId, 1600);
+    }
+
     public function getPuzzleElo($userId)
     {
         return $this->getElo(self::KEY_PUZZLES, $userId);
@@ -146,10 +154,10 @@ class DhtmlChessEloDb
         return $this->getElo(self::KEY_MULTIPLAYER, $userId);
     }
 
-    public function getElo($key, $userId)
+    public function getElo($key, $userId, $defaultElo = 1400)
     {
         $elo = $this->get($key, $userId);
-        return empty($elo) ? 1400 : $elo;
+        return empty($elo) ? $defaultElo : $elo;
     }
 
 

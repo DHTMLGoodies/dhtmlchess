@@ -277,6 +277,9 @@ chess.WPTactics1 = new Class({
         }
     },
 
+    /**
+     * Triggered 1000ms after game end
+     */
     gameEndHandler: function () {
 
         var cv = ludo.$(this.colorViewId);
@@ -284,11 +287,8 @@ chess.WPTactics1 = new Class({
         cv.colorCls('wpc-tactics-solved');
         cv.icon(this.dr + 'images/solved-icon-white.png');
 
-        var loader = function(){
-            ludo.$(this.colorViewId).hideView();
-            this.nextGame();
-        };
-        loader.delay(1000, this);
+        ludo.$(this.colorViewId).hideView();
+        this.nextGame();
     },
 
     addToHistory: function (gameId) {

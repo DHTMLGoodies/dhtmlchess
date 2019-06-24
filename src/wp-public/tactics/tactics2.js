@@ -41,6 +41,7 @@ chess.WPTactics2 = new Class({
         this.clockId = 'clk' + id;
         this.iconId = 'icon' + id;
         this.colorViewId = 'clr' + id;
+        this.opponentElo = 'eloPuzzle' + id;
         this.beforeRender();
     },
 
@@ -72,10 +73,30 @@ chess.WPTactics2 = new Class({
                     children: [
                         {
                             layout: {
-                                height: 34
+                                height: 34,
+                                type: 'relative',
+                                width: 'matchParent'
                             },
-                            id: this.colorViewId,
-                            type: 'chess.ColorView'
+                            children: [
+                                {
+                                    cls: 'wpc-user-info-elo',
+                                    id: this.opponentElo,
+                                    css: {
+                                        'text-align': 'right',
+                                        'line-height': '34px'
+                                    },
+                                    layout: {
+                                        width: 'matchParent', height: 'matchParent'
+                                    }
+                                },
+                                {
+                                    id: this.colorViewId,
+                                    type: 'chess.ColorView',
+                                    layout: {
+                                        width: 'matchParent', height: 'matchParent'
+                                    }
+                                }
+                            ]
                         },
                         Object.merge({
                             boardLayout: undefined,
@@ -202,7 +223,7 @@ chess.WPTactics2 = new Class({
             ]
         });
 
-        this.storageKey = 'wordpresschess_user_tactics'  + this.pgnAll.map(function(pgn){ return pgn.id }).join("_");
+        this.storageKey = 'wordpresschess_user_tactics' + this.pgnAll.map(function (pgn) { return pgn.id }).join("_");
 
         this.controller = new chess.controller.Controller({
             applyTo: [this.module],
@@ -241,7 +262,7 @@ chess.WPTactics2 = new Class({
             cache: false,
             dataType: 'json',
             data: {
-                action: 'game_by_index_strict',
+                action: 'puzzle_game_by_index_strict',
                 pgn: this.pgnId(),
                 index: index
             },
@@ -272,6 +293,13 @@ chess.WPTactics2 = new Class({
         var gameId = model.id;
         var pgnId = model.pgn_id;
         var index = model.index;
+
+        if(model.elo){
+            ludo.$(this.opponentElo).html(model.elo);
+        }else{
+            ludo.$(this.opponentElo).html(model.elo);
+
+        }
 
         this.curModel().populate(model);
 
@@ -333,6 +361,8 @@ chess.WPTactics2 = new Class({
 
         this.curModel().toStart();
 
+        ludo.$(this.colorViewId).hideView();
+        
         ludo.$(this.iconId).animateOut();
 
         var clk = ludo.$(this.clockId);
@@ -430,7 +460,7 @@ chess.WPTactics2 = new Class({
         ludo.$(this.iconId).setIcon(this.dr + 'images/' + src);
 
 
-        if (this.gameFinished)return;
+        if (this.gameFinished) return;
 
         var clk = ludo.$(this.clockId);
         clk.stop();

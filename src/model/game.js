@@ -170,8 +170,8 @@ chess.model.Game = new Class({
      * @param {Object} game
      */
     isModelFor: function (game) {
-        if (game.gameIndex)return game.gameIndex === this.model.gameIndex;
-        if (game.id)return game.id === this.model.id;
+        if (game.gameIndex) return game.gameIndex === this.model.gameIndex;
+        if (game.id) return game.id === this.model.id;
         return false;
     },
 
@@ -223,7 +223,7 @@ chess.model.Game = new Class({
     },
 
     undoRedo: function (data) {
-        if (!data)return;
+        if (!data) return;
         this.populate(data.model);
         this.goToMove(data.currentMove);
     },
@@ -234,7 +234,7 @@ chess.model.Game = new Class({
      * @param {Object} gameData
      * @private
      */
-    populate: function (gameData) {
+    populate: function (gameData, startPos) {
 
         // this.fire('loadGame', gameData);
         this.setDefaultModel();
@@ -252,7 +252,7 @@ chess.model.Game = new Class({
         this.databaseId = gameData.databaseId;
         this.currentBranch = this.model.moves;
         this.currentMove = undefined;
-        this.registerMoves(this.model.moves, this.model.metadata.fen);
+        this.registerMoves(this.model.moves, this.model.metadata.fen, undefined, startPos);
         if (gameData.games != undefined) {
             this.countGames = gameData.games['c'];
             this.gameIndex = gameData.games['i'];
@@ -299,7 +299,7 @@ chess.model.Game = new Class({
 
     hasShortFormat: function (moves) {
         for (var i = 0; i < moves.length; i++) {
-            if (moves[i].n)return true;
+            if (moves[i].n) return true;
         }
         return false;
     },
@@ -313,7 +313,7 @@ chess.model.Game = new Class({
      * @optional
      * @private
      */
-    registerMoves: function (moves, pos, parent) {
+    registerMoves: function (moves, pos, parent, startPos) {
         var move;
         moves = moves || [];
         if (this.hasShortFormat(moves)) {
@@ -347,7 +347,39 @@ chess.model.Game = new Class({
             moves[i] = move;
         }
 
+        if (startPos && !parent) {
+            this.cropMoves(moves, startPos);
 
+        }
+    },
+
+    cropMoves: function(moves, startPos) {
+        var no = startPos.replace(/[^0-9]/g, '');
+        var color = startPos.replace(/[^wb]/gi, '').toLowerCase();
+        if (no.length && color.length === 1) {
+            var noNum = parseInt(no);
+            if (noNum > 0) {
+                var index = (noNum - 1) * 2 + (color === "b" ? 1 : 0);
+
+                if (index < moves.length) {
+                    if (index > 0) {
+                        this.startFen = this.model.metadata.fen = moves[index - 1].fen;
+                    }
+                    moves.splice(0, index);
+
+                    for (var i = 0; i < moves.length; i++) {
+                        var move = moves[i];
+                        move.index = i;
+                        if (i) {
+                            this.registerPreviousMap(move, moves[i - 1]);
+                        } else {
+                            this.registerPreviousMap(move, undefined);
+                        }
+                        this.registerBranchMap(move, moves);
+                    }
+                }
+            }
+        }
     },
 
     toLongFormat: function (moves) {
@@ -468,7 +500,7 @@ chess.model.Game = new Class({
          * @param {chess.model.Game} model
          * @param {Object} metadata, example {key:'white','value':'John'}
          */
-        this.fire('updateMetadata', {key: key, value: value});
+        this.fire('updateMetadata', { key: key, value: value });
 
     },
 
@@ -668,7 +700,7 @@ chess.model.Game = new Class({
         nextOf = nextOf || this.currentMove;
         var nextMove;
 
-        if (this.model.moves.length == 0)return [];
+        if (this.model.moves.length == 0) return [];
 
         if (!nextOf) {
             nextMove = this.model.moves[0];
@@ -703,7 +735,7 @@ chess.model.Game = new Class({
      */
     appendLine: function (lineString, forceVariation) {
         lineString = lineString.trim();
-        if (lineString.length == 0)return undefined;
+        if (lineString.length == 0) return undefined;
         var moves = lineString.split(/\s/g);
         var p = new chess.parser.FenParser0x88(this.getCurrentPosition());
         var valid = true;
@@ -828,7 +860,7 @@ chess.model.Game = new Class({
                      @param {chess.model.Game} model
                      @param {Object} newMove, nextMove
                      */
-                    this.fire('overwriteOrVariation', {newMove: move, oldMove: nextMove});
+                    this.fire('overwriteOrVariation', { newMove: move, oldMove: nextMove });
                     return false;
                 }
             } else {
@@ -1109,8 +1141,8 @@ chess.model.Game = new Class({
         var parent = this.getParentMove(move);
         if (parent !== undefined) {
             var branch = this.getBranch(move);
-            if (branch.length === 0)return true;
-            if (move === branch[0])return true;
+            if (branch.length === 0) return true;
+            if (move === branch[0]) return true;
         }
         return false;
     },
@@ -1170,8 +1202,8 @@ chess.model.Game = new Class({
     },
 
     findMoveByFenAndPosition: function (moveToFind) {
-        if (!moveToFind || !moveToFind.fen || !moveToFind.lm)return null;
-        if (!this.model.moves)return null;
+        if (!moveToFind || !moveToFind.fen || !moveToFind.lm) return null;
+        if (!this.model.moves) return null;
         return this.findInBranchByFenAndPoisiton(moveToFind, this.model.moves);
 
     },
@@ -1179,7 +1211,7 @@ chess.model.Game = new Class({
     findInBranchByFenAndPoisiton: function (moveToFind, branch) {
         for (var i = 0; i < branch.length; i++) {
             var m = branch[i];
-            if (m.fen == moveToFind.fen && m.lm == moveToFind.lm)return m;
+            if (m.fen == moveToFind.fen && m.lm == moveToFind.lm) return m;
 
             if (m.variations && m.variations.length > 0) {
                 for (var j = 0; j < m.variations.length; j++) {
@@ -1231,7 +1263,7 @@ chess.model.Game = new Class({
      * @return {Boolean}
      */
     back: function (numberOfMoves) {
-        if (!this.currentMove)return undefined;
+        if (!this.currentMove) return undefined;
         numberOfMoves = numberOfMoves || 1;
         var branch = this.currentBranch;
         var index = branch.indexOf(this.currentMove);
@@ -1314,7 +1346,7 @@ chess.model.Game = new Class({
      */
     turn: function () {
         var fens = this.getCurrentPosition().split(' ');
-        var colors = {'w': 'white', 'b': 'black'};
+        var colors = { 'w': 'white', 'b': 'black' };
         return colors[fens[1]];
 
     },

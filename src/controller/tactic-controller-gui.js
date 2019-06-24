@@ -15,22 +15,28 @@ chess.controller.TacticControllerGui = new Class({
      *      }
      *  });
      */
-    gameEndHandler:undefined,
+    gameEndHandler: undefined,
     showDialog: undefined,
+    gameEnded: false,
 
-    __construct:function(config){
+    __construct: function (config) {
         this.parent(config);
         this.showDialog = config.showDialog !== undefined ? config.showDialog : true;
     },
 
-    modelEventFired:function(event, model){
+    modelEventFired: function (event, model) {
         this.parent(event, model);
 
-        if (event === 'endOfGame' || event === 'endOfBranch' ) {
-            if(this.showDialog && this.dialog.puzzleComplete){
+        if (!this.gameEnded && (event === 'endOfGame' || event === 'endOfBranch')) {
+            if (this.showDialog && this.dialog.puzzleComplete) {
                 this.dialog.puzzleComplete.show.delay(300, this.dialog.puzzleComplete);
-            }else if(this.gameEndHandler){
-                this.gameEndHandler.apply(this, [this]);
+            } else if (this.gameEndHandler) {
+                this.gameEnded = true;
+                var fn = function () {
+                    this.gameEnded = false;
+                    this.gameEndHandler();
+                };
+                fn.delay(1000, this);
             }
         }
     }

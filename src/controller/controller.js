@@ -25,11 +25,12 @@ chess.controller.Controller = new Class({
 
     sound: false,
     eventHandler: undefined,
+    start: undefined,
 
     __construct: function (config) {
         this.applyTo = config.applyTo || ['eventHandler', 'chess', 'user.menuItemNewGame', 'user.saveGame', 'user.menuItemSaveGame'];
         this.parent(config);
-        this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound']);
+        this.__params(config, ['arrowStylesSec', 'debug', 'pgn', 'theme', 'sound', 'start']);
 
         if (config.applyTo != undefined) {
             this._module = config.applyTo[0];
@@ -420,6 +421,10 @@ chess.controller.Controller = new Class({
     getNewModel: function (game, pgn) {
         game = game || {};
         if (pgn) game.pgn = pgn;
+        if(this.start){
+            game.startPos = this.start;
+        }
+        
         var model = new chess.model.Game(game);
 
         this.addEventsToModel(model);
@@ -517,10 +522,10 @@ chess.controller.Controller = new Class({
     colorToMove: function () {
         return this.currentModel.getColorToMove();
     },
-    keyNext: function(){
+    keyNext: function () {
         this.currentModel.nextMove();
     },
-    keyBack: function(){
+    keyBack: function () {
         this.currentModel.previousMove();
 
     }

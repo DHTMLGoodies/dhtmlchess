@@ -45,6 +45,7 @@ class EloTest extends PHPUnit_Framework_TestCase
         for ($i = 1; $i < 20; $i++) {
             $store->remove(DhtmlChessElo::GAME_KEY_MULTIPLAY_ELO . "_" . $i);
             $store->remove(DhtmlChessElo::GAME_KEY_MULTIPLAY_COUNT . "_" . $i);
+            $store->remove(DhtmlChessElo::GAME_KEY_COUNT_PUZZLE_PLAYED . "_" . $i);
         }
 
         $wpdb->query("delete from " . DhtmlChessDatabase::TABLE_ELO);
@@ -110,6 +111,88 @@ class EloTest extends PHPUnit_Framework_TestCase
         }
 
         $this->assertTrue($found, json_encode($list));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDefaultPuzzleElo(){
+        // given
+        $eloDb = new DhtmlChessEloDb();
+
+        // when
+        $elo = $eloDb->getEloOfPuzzle(1);
+
+        // then
+        $this->assertEquals(1600, $elo);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateEloOfPuzzle(){
+        // given
+        $eloDb = new DhtmlChessEloDb();
+
+        // when
+        $eloDb->upsert(1, DhtmlChessEloDb::KEY_PUZZLE_ELO, 1350);
+        $elo = $eloDb->getEloOfPuzzle(1);
+        // then
+
+        $this->assertEquals(1350, $elo);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateEloOfPuzzleOnLoss(){
+        // given
+        $eloObj =new DhtmlChessElo();
+
+        // when
+        $eloObj->onPuzzleFailedAuto(1, 1, 1, 10000, 0);
+        $eloUser = $eloObj->getPuzzleElo(1);
+        $elo = $eloObj->getEloOfPuzzle(1);
+
+        // then
+        $this->assertEquals(1, $eloObj->countPuzzlePlayedOnSite(1));
+        $this->assertTrue($elo>1600);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdatePuzzleEloWhenPuzzleIsSolved(){
+        // given
+        $eloObj =new DhtmlChessElo();
+
+        // when
+        $eloObj->onPuzzleSolvedAuto(1, 1, 1, 10000);
+        $eloUser = $eloObj->getPuzzleElo(1);
+        $elo = $eloObj->getEloOfPuzzle(1);
+
+        // then
+        $this->assertEquals(1, $eloObj->countPuzzlePlayedOnSite(1));
+        $this->assertTrue($elo>1415);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIncrementPuzzlePlayCount(){
+      // given
+      $eloObj =new DhtmlChessElo();
+
+      // when
+      $eloObj->onPuzzleSolvedAuto(1, 1, 1, 10000);
+      $eloObj->onPuzzleSolvedAuto(2, 1, 1, 10000);
+      $eloObj->onPuzzleSolvedAuto(3, 1, 1, 10000);
+      $eloObj->onPuzzleSolvedAuto(4, 1, 1, 10000);
+      
+      $elo = $eloObj->getEloOfPuzzle(1);
+
+      // then
+      $this->assertEquals(4, $eloObj->countPuzzlePlayedOnSite(1), "Wrong count");
     }
 
     /**
@@ -345,30 +428,6 @@ class EloTest extends PHPUnit_Framework_TestCase
     }
 
 
-    /**
-     * @test
-     */
-    public function shouldDetermineEloFromMovesAndTimeUsedOnPuzzles()
-    {
-        // given
-        $eloObj = new DhtmlChessElo();
-
-        // when
-        $elo = $eloObj->puzzleOppenentElo(5, 0);
-
-        // then
-        $this->assertEquals(2250, $elo);
-
-
-        $elo = $eloObj->puzzleOppenentElo(5, 60000);
-        $this->assertEquals(2010, $elo);
-
-
-        $elo = $eloObj->puzzleOppenentElo(3, 60000);
-        $this->assertEquals(1510, $elo);
-
-
-    }
 
     /**
      * @test

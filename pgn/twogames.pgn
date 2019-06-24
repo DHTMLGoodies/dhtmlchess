@@ -1,0 +1,13 @@
+[Event "-"]
+[Site "?"]
+[Date "????.??.??"]
+[Round "?"]
+[White "?"]
+[Black "?"]
+[Result "1-0"]
+[SetUp "1"]
+[FEN "8/8/4r2p/5r1k/4Pp1p/P6K/4R1PR/8 w - - 0 1"]
+[PlyCount "5"]
+[EventDate ""]
+
+1. exf5 Rxe2 2. g4+ hxg3 3. Rxe2 1-0

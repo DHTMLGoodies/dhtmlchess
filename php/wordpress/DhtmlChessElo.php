@@ -15,6 +15,7 @@ class DhtmlChessElo
     const K = 30;
 
     const GAME_KEY_PUZZLE_COUNT = "puzzle_count";
+    const GAME_KEY_COUNT_PUZZLE_PLAYED = "puzzle_played_count"; // count puzzle played by all users.
     const GAME_KEY_PUZZLE_ELO = "puzzle_elo";
     const GAME_KEY_PUZZLE_LAST_ID = "puzzle_lastid";
 
@@ -154,16 +155,15 @@ class DhtmlChessElo
     public function onPuzzleFailedAuto($userId, $puzzleId = null, $moves, $ms, $movesSolved)
     {
         $moves = max($moves, 1);
-        $elo = $this->puzzleOppenentElo($moves, $ms);
+        $elo = $this->puzzleOppenentElo($puzzleId, false, $movesSolved, $moves, $ms);
         return $this->onPuzzleFailed($userId, $elo, $puzzleId, min($movesSolved, $moves - 1) / $moves);
     }
 
     public function onPuzzleSolvedAuto($userId, $puzzleId = null, $moves, $ms)
     {
-        $elo = $this->puzzleOppenentElo($moves, $ms);
+        $elo = $this->puzzleOppenentElo($puzzleId, true, $moves,$moves, $ms);
         return $this->onPuzzleSolved($userId, $elo, $puzzleId);
     }
-
 
     public function onPuzzleSolved($userId, $againstElo, $puzzleId = null)
     {
@@ -182,6 +182,7 @@ class DhtmlChessElo
         }
 
         $change = $this->eloChange($elo, $againstElo, $result);
+        $puzzleEloChange = $change * -1;
         if ($change < 0 && $ratioSolved) {
             $change -= $change * $ratioSolved;
             if ($change > -1) $change = -1;
@@ -202,6 +203,15 @@ class DhtmlChessElo
             $this->setLastPuzzleId($userId, $puzzleId);
         }
 
+
+        $countPuzzlePlayedOnSite = $this->countPuzzlePlayedOnSite($puzzleId);
+        $eloOfPuzzle = $this->getEloOfPuzzle($puzzleId);
+        if($countPuzzlePlayedOnSite < self::COUNT_PROVISIONAL){
+            $puzzleEloChange*=2;
+        }
+        $this->saveEloOfPuzzle($puzzleId, $eloOfPuzzle + $puzzleEloChange);
+        $this->incrementPuzzlePlayCount($puzzleId);
+
         return $elo;
     }
 
@@ -216,6 +226,9 @@ class DhtmlChessElo
         $this->eloDb->upsertPuzzle($userId, $elo);
     }
 
+    private function saveEloOfPuzzle($puzzleId, $elo){
+        $this->eloDb->upsertEloOfPuzzle($puzzleId, $elo);
+    }
 
     public function getMultiPlayElo($userId)
     {
@@ -231,6 +244,11 @@ class DhtmlChessElo
     private function incrementPuzzles($userId)
     {
         $this->store->increment($this->getKey(self::GAME_KEY_PUZZLE_COUNT, $userId));
+    }
+    
+    private function incrementPuzzlePlayCount($puzzleId){
+        
+        $this->store->increment($this->getKey(self::GAME_KEY_COUNT_PUZZLE_PLAYED, $puzzleId));
     }
 
     private function incrementMultiPlayer($userId)
@@ -249,7 +267,12 @@ class DhtmlChessElo
     {
         return $this->countGames($userId, self::GAME_KEY_PUZZLE_COUNT);
     }
+    
+    public function countPuzzlePlayedOnSite($puzzleId) 
+    {
+        return $this->countGames($puzzleId, self::GAME_KEY_COUNT_PUZZLE_PLAYED);
 
+    }
 
     public function testSetCountPuzzleGames($userId, $count)
     {
@@ -268,19 +291,26 @@ class DhtmlChessElo
         return $prefix . "_" . $userId;
     }
 
-    public function puzzleOppenentElo($moves, $msToSolve = 0)
+    public function getEloOfPuzzle($puzzleId){
+        return $this->eloDb->getEloOfPuzzle($puzzleId);
+    }
+
+    public function puzzleOppenentElo($puzzleId, $solved, $movesSolved, $totalMoves,  $msToSolve = 0)
     {
 
-        $elo = 1000 + ($moves * 250);
+        $elo = $this->getEloOfPuzzle($puzzleId);
 
-        if ($msToSolve) {
+        if(!$solved && $movesSolved){
+            $elo += (50 * $movesSolved);
+        }
+        
+
+        if ($solved && $msToSolve) {
             $sec = round($msToSolve / 1000);
-            $elo -= ($sec * 4);
+            $elo -= ($sec * 1);
         }
 
         return max(800, $elo);
 
     }
-
-
 }

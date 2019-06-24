@@ -158,7 +158,7 @@ class DhtmlChessPgn
     }
 
 
-    public function gameByIndexStrict($index){
+    public function gameByIndexStrict($index, $getElo = false){
 
 	    $index = preg_replace("/[^0-9]/si", "", $index);
 
@@ -166,14 +166,14 @@ class DhtmlChessPgn
 	    if($index >= $count){
 	    	throw new DhtmlChessException("game index outside of range 0 - ". ($count-1));
 	    }
-	    return $this->gameByIndex($index);
+	    return $this->gameByIndex($index, $getElo);
     }
 
     /**
      * @param $index
      * @return string|null
      */
-    public function gameByIndex($index)
+    public function gameByIndex($index, $getElo = false)
     {
 
         $index = preg_replace("/[^0-9]/si", "", $index);
@@ -181,14 +181,29 @@ class DhtmlChessPgn
         $count = $this->countGames();
         $index = $index % max(1, $count);
  
-
-
-        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
+        $query = $this->wpdb->prepare("select " . DhtmlChessDatabase::COL_ID. ", ". DhtmlChessDatabase::COL_GAME . " from " . DhtmlChessDatabase::TABLE_GAME
             . " where " . DhtmlChessDatabase::COL_PGN_ID . "=%d", $this->id);
         $game = $this->wpdb->get_row($query, 'OBJECT', $index);
 
-        return !empty($game) ? $game->{DhtmlChessDatabase::COL_GAME} : null;
+        $ret = !empty($game) ? $game->{DhtmlChessDatabase::COL_GAME} : null;
 
+        if($getElo && !empty($ret)){
+            $elo = $this->getEloOfGame($game->{DhtmlChessDatabase::COL_ID});
+            $ret = json_decode($ret, true);
+            $ret["elo"] = round($elo);
+            $ret = json_encode($ret);
+        }
+
+        return $ret;
+    }
+
+    private $eloDb;
+
+    private function getEloOfGame($gameId){
+        if(!isset($this->eloDb)){
+            $this->eloDb = new DhtmlChessEloDb();
+        }
+        return $this->eloDb->getEloOfPuzzle($gameId);
     }
 
     public function gameById($id)
