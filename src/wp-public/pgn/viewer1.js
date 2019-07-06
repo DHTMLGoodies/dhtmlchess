@@ -153,6 +153,7 @@ chess.WPViewer1 = new Class({
                         },
                         type: 'chess.WPGameGrid',
                         css: {
+                            'padding-top': 5,
                             'overflow-y': 'auto'
                         },
                         cols: ['white', 'black', 'result'],

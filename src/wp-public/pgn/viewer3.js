@@ -70,7 +70,7 @@ chess.WPViewer3 = new Class({
                         },
                         module: this.module,
                         type: 'chess.view.metadata.Game',
-                        tpl: this.heading_tpl || '{white} - {black}',
+                        tpl: this.heading_tpl || '{white} - {black}, {event}',
                         cls: 'metadata',
                         css: {
                             'text-align': 'center',

@@ -18,7 +18,8 @@ chess.WPViewer2 = new Class({
     showLabels: undefined,
     boardSize: undefined,
     sofia:false,
-    width:undefined,
+    width: undefined,
+    showStandings: true,
     __construct: function (config) {
         this.parent(config);
         var r = this.renderTo;
@@ -29,8 +30,6 @@ chess.WPViewer2 = new Class({
 
         if(config.sofia)this.sofia = true;
         this.showLabels = !this.mobile;
-
-
 
         if(!this.buttons)this.buttons = this.mobile ? ['start', 'previous', 'next', 'end'] : ['start', 'previous', 'next', 'end', 'flip'];
         this.adjustButtonArray(this.buttons);
@@ -65,12 +64,89 @@ chess.WPViewer2 = new Class({
         this.createController();
     },
 
-    desktopChildren:function(){
+    desktopChildren: function () {
+        
+        var listChildren = [
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'vertical'
+                },
+                title: chess.__('Games'),
+                children: [
+
+                    {
+                        module: this.module,
+                        layout: {
+                            weight: 1
+                        },
+                        type: 'chess.WPGameGrid',
+                        css: {
+                            'overflow-y': 'auto'
+                        },
+                        cols: ['round', 'white', 'black', 'result'],
+                        dataSource: {
+                            id: this.gameListDsId,
+                            "type": 'chess.wordpress.GameList',
+                            module: this.module,
+                            singleton: false,
+                            autoload: true,
+                            postData: {
+                                pgn: this.pgn.id
+                            },
+                            "listeners": {
+                                "select": function () {
+                                    ludo.$(this.module + '-panel').show();
+                                }.bind(this),
+                                "load": function (data) {
+                                    if (data.length) {
+                                        ludo.$(this.gameListDsId).selectRecord(data[0]);
+                                    }
+                                }.bind(this)
+                            },
+                            shim: {
+                                txt: ''
+                            }
+                        }
+                    },
+                    {
+                        type: 'form.Text',
+                        placeholder: chess.__('Search'),
+                        css: {
+                            'border-top': '1px solid #aeb0b0'
+                        },
+                        layout: {
+                            height: 30
+                        },
+                        listeners: {
+                            key: function (value) {
+                                this.search(value);
+                            }.bind(this)
+                        }
+                    }
+                ]
+            }
+        ];
+
+        if (this.showStandings) {
+            listChildren.push({
+
+                id: this.standingsId,
+                type: 'chess.wordpress.PgnStandings',
+                module: this.module,
+                pgnId: this.pgn.id,
+                layout: {
+                    weight: 1
+                },
+                title: chess.__('Standings')
+            });
+        }
+
         return [
             {
                 layout: {
                     height: 35,
-                    width: this.boardSize
+                    width: "100%"
                 },
                 module: this.module,
                 type: 'chess.view.metadata.Game',
@@ -157,81 +233,7 @@ chess.WPViewer2 = new Class({
                 css: {
                     border: '1px solid #aeb0b0'
                 },
-                children: [
-
-                    {
-                        layout: {
-                            type: 'linear', orientation: 'vertical'
-                        },
-                        title: chess.__('Games'),
-                        children: [
-
-                            {
-                                module: this.module,
-                                layout: {
-                                    weight: 1
-                                },
-                                type: 'chess.WPGameGrid',
-                                css: {
-                                    'overflow-y': 'auto'
-                                },
-                                cols: ['round', 'white', 'black', 'result'],
-                                dataSource: {
-                                    id: this.gameListDsId,
-                                    "type": 'chess.wordpress.GameList',
-                                    module: this.module,
-                                    singleton:false,
-                                    autoload: true,
-                                    postData: {
-                                        pgn: this.pgn.id
-                                    },
-                                    "listeners": {
-                                        "select": function () {
-                                            ludo.$(this.module + '-panel').show();
-                                        }.bind(this),
-                                        "load": function (data) {
-                                            if (data.length) {
-                                                ludo.$(this.gameListDsId).selectRecord(data[0]);
-                                            }
-                                        }.bind(this)
-                                    },
-                                    shim: {
-                                        txt: ''
-                                    }
-                                }
-                            },
-                            {
-                                type: 'form.Text',
-                                placeholder: chess.__('Search'),
-                                css:{
-                                    'border-top' : '1px solid #aeb0b0'
-                                },
-                                layout: {
-                                    height: 30
-                                },
-                                listeners: {
-                                    key: function (value) {
-                                        this.search(value);
-                                    }.bind(this)
-                                }
-                            }
-                        ]
-                    },
-
-                    {
-
-                        id: this.standingsId,
-                        type: 'chess.wordpress.PgnStandings',
-                        module: this.module,
-                        pgnId: this.pgn.id,
-                        layout: {
-                            weight: 1
-                        },
-                        title: chess.__('Standings')
-                    }
-
-
-                ]
+                children: listChildren
 
             },
             {
@@ -243,7 +245,86 @@ chess.WPViewer2 = new Class({
         ];
     },
 
-    mobileChildren:function(){
+    mobileChildren: function () {
+        
+        var listChildren = [
+
+            {
+                layout: {
+                    type: 'linear', orientation: 'vertical'
+                },
+                title: chess.__('Games'),
+                children: [
+
+                    {
+                        module: this.module,
+                        layout: {
+                            weight: 1
+                        },
+                        type: 'chess.WPGameGrid',
+                        css: {
+                            'overflow-y': 'auto'
+                        },
+                        keys: ['white', 'black', 'result'],
+                        dataSource: {
+                            id: this.gameListDsId,
+                            "type": 'chess.wordpress.GameList',
+                            module: this.module,
+                            singleton: false,
+                            autoload: true,
+                            postData: {
+                                pgn: this.pgn.id
+                            },
+                            "listeners": {
+                                "load": function (data) {
+                                    if (data.length) {
+                                        ludo.$(this.gameListDsId).selectRecord(data[0]);
+                                    }
+                                }.bind(this)
+                            },
+                            shim: {
+                                txt: ''
+                            }
+                        }
+                    },
+                    {
+                        type: 'form.Text',
+                        placeholder: chess.__('Search'),
+                        css: {
+                            'border-top': '1px solid #aeb0b0'
+                        },
+                        layout: {
+                            height: 30
+                        },
+                        listeners: {
+                            key: function (value) {
+                                this.search(value);
+                            }.bind(this)
+                        }
+                    }
+                ]
+            }
+
+            
+        ];
+
+        if (this.showStandings) {
+            listChildren.push(
+                {
+
+                    id: this.standingsId,
+                    type: 'chess.wordpress.PgnStandings',
+                    module: this.module,
+                    sofiaRules: this.sofia,
+                    pgnId: this.pgn.id,
+                    keys: ['player', 'score'],
+                    layout: {
+                        weight: 1
+                    },
+                    title: chess.__('Standings')
+                }
+            );
+        }
         return [
             Object.merge({
                 boardLayout: undefined,
@@ -322,78 +403,7 @@ chess.WPViewer2 = new Class({
                 css: {
                     border: '1px solid #aeb0b0'
                 },
-                children: [
-
-                    {
-                        layout: {
-                            type: 'linear', orientation: 'vertical'
-                        },
-                        title: chess.__('Games'),
-                        children: [
-
-                            {
-                                module: this.module,
-                                layout: {
-                                    weight: 1
-                                },
-                                type: 'chess.WPGameGrid',
-                                css: {
-                                    'overflow-y': 'auto'
-                                },
-                                keys:['white','black', 'result'],
-                                dataSource: {
-                                    id: this.gameListDsId,
-                                    "type": 'chess.wordpress.GameList',
-                                    module: this.module,
-                                    singleton:false,
-                                    autoload: true,
-                                    postData: {
-                                        pgn: this.pgn.id
-                                    },
-                                    "listeners": {
-                                        "load": function (data) {
-                                            if (data.length) {
-                                                ludo.$(this.gameListDsId).selectRecord(data[0]);
-                                            }
-                                        }.bind(this)
-                                    },
-                                    shim: {
-                                        txt: ''
-                                    }
-                                }
-                            },
-                            {
-                                type: 'form.Text',
-                                placeholder: chess.__('Search'),
-                                css:{
-                                    'border-top' : '1px solid #aeb0b0'
-                                },
-                                layout: {
-                                    height: 30
-                                },
-                                listeners: {
-                                    key: function (value) {
-                                        this.search(value);
-                                    }.bind(this)
-                                }
-                            }
-                        ]
-                    },
-
-                    {
-
-                        id: this.standingsId,
-                        type: 'chess.wordpress.PgnStandings',
-                        module: this.module,
-                        sofiaRules:this.sofia,
-                        pgnId: this.pgn.id,
-                        keys:['player', 'score'],
-                        layout: {
-                            weight: 1
-                        },
-                        title: chess.__('Standings')
-                    }
-                ]
+                children: listChildren
 
             },
             {
